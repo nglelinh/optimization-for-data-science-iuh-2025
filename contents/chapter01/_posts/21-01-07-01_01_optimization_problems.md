@@ -1,4 +1,6 @@
 ---
+
+---
 layout: post
 title: 01-01 Optimization problems?
 chapter: "01"
@@ -6,10 +8,11 @@ order: 2
 owner: "Kyeongmin Woo"
 ---
 
-최적화 문제(Optimization problems)란 여러개의 선택가능한 후보 중에서 최적의 해(Optimal value) 또는 최적의 해에 근접한 값을 찾는 문제를 일컫는다. 일반적으로 기계학습 분야에서는 비용함수(Cost function)를 최소화 또는 최대화 시키는 모델의 파라미터(parameter)를 구하게 되는데, 이것은 최적화 문제로 정의될 수 있다.
+An optimization problem is a problem in which, among many possible candidates, we seek the optimal solution (optimal value) or a value close to the optimal. In machine learning, for example, we often find the parameters of a model that minimize or maximize a cost function. This is formulated as an optimization problem.
+
 
 ## Mathematical optimization problems
-Mathematical optimization problem은 다음과 같은 형태로 표현될 수 있다.
+A mathematical optimization problem can be expressed as follows:
 
 >$$\begin{align*} 
 >&\min_{x\in D}\ && f(x) \\
@@ -19,47 +22,47 @@ Mathematical optimization problem은 다음과 같은 형태로 표현될 수 �
 
 **Mathematical Optimization Problem in standard form [3]**
 
-* $$x \in R^n$$ is the optimization variable
-* $$f: R^n \rightarrow R$$ is the objective or cost function
-* $$g_i: R^n \rightarrow R, i = 1, ..., m$$ are the inequality constraint functions
-* $$h_j: R^n \rightarrow R, j = 1, ..., r$$ are the equality constraint functions
+* $$x \in \mathbb{R}^n$$ is the optimization variable
+* $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is the objective or cost function
+* $$g_i: \mathbb{R}^n \rightarrow \mathbb{R}, i = 1, ..., m$$ are the inequality constraint functions
+* $$h_j: \mathbb{R}^n \rightarrow \mathbb{R}, j = 1, ..., r$$ are the equality constraint functions
 
-위의 제약조건을 모두 만족하는 정의역(feasible domain)에서 objective function f를 최소로 만드는 벡터 $$x$$를 $$x^*$$로 표시하고 이를 optimal solution이라 부른다. [1]
+The vector $$x$$ that minimizes the objective function $$f$$ over the feasible domain (the set of all points satisfying the constraints) is denoted as $$x^*$$ and called the optimal solution. [1]
 
-제약조건의 경우 다음과 같이 두 가지로 구분될 수 있다. [2]
+Constraints can be classified into two types: [2]
 
-1. Explicit constraints: 말 그대로 optimization problem에 직접적으로 명시된 제약조건을 뜻한다. 위에서 서술한 optimization problem의 standard form에서 함수 $$g_i$$와 $$h_j$$로 표현된 제약조건이 이에 해당한다. 참고로 explicit constraint가 없는 문제를 unconstrained problem이라고 부른다.
-2. Implicit constraints: Optimization problem에 직접적으로 명시되지 않는 제약조건을 말한다. 이는 Objective function과 모든 constraint function들의 정의역에 대한 교집합이다.
+1. Explicit constraints: Constraints that are directly specified in the optimization problem. In the standard form above, the constraints expressed by the functions $$g_i$$ and $$h_j$$ are explicit. If there are no explicit constraints, the problem is called an unconstrained problem.
+2. Implicit constraints: Constraints that are not directly specified, but arise from the intersection of the domains of the objective and constraint functions.
 
 $$D = dom(f) \cap \bigcap_{i=1}^m {\rm dom}(g_i) \cap \bigcap_{j=1}^r dom(h_j)$$<br/>
 
-**Note:** $$dom(f)$$는 함수 $$f$$의 정의역을 의미한다.
+**Note:** $$dom(f)$$ means the domain of the function $$f$$.
 
 >**Example: implicit constraint ↔ explicit constraint**
 >
->최적화 문제가 다음과 같이 주어졌다고 하자.
+>Suppose the optimization problem is given as follows:
 >
 >$$\begin{align*} \text{minimize } & & \log(x) \end{align*}$$
 >
->여기서 objective function인 log함수의 정의역이 $$x > 0$$이므로 $$x > 0$$이 이 문제에서의 implicit constraint가 된다. 이 문제를 explicit constraint가 포함된 형태의 최적화문제로 표현하면 다음과 같다.
+>Here, the domain of the objective function $$\log(x)$$ is $$x > 0$$, so $$x > 0$$ is an implicit constraint. If we write this as an optimization problem with explicit constraints:
 >
 >$$\begin{align*} &\text{minimize } && \log(x) \\ &\text{subject to } &&x > 0 \end{align*}$$
 
 ## Applications
 
-최적화 문제는 다양한 영역에 걸쳐 적용될 수 있다. [2]
+Optimization problems are applied in various fields. [2]
 
 #### Portfolio optimization
-* variables: 각 자산에 대한 투자금
-* constraints: 예산, 자산당 최소/최대 투자가능 금액, 최소 수익
-* objective: 전반적인 위험도 또는 주가 수익률 분산 (return variance)
+* variables: investment amount for each asset
+* constraints: budget, minimum/maximum investment per asset, minimum return
+* objective: overall risk or return variance
 
 #### Device sizing in electronic circuits
-* variables: 각 부품의 너비와 길이
-* constraints: 제조 공정상 제약사항, 최대 면적
-* objective: 전력소비량
+* variables: width and length of each component
+* constraints: manufacturing process limitations, maximum area
+* objective: power consumption
 
 #### Data fitting
-* variables: 모델 파라미터
-* constraints: 사전 정보(e.g. 어떤 파라미터는 non-negative), 파라미터에 대한 제약사항
-* objective: 예측값에 대한 에러
+* variables: model parameters
+* constraints: prior information (e.g., some parameters are non-negative), parameter restrictions
+* objective: error in prediction

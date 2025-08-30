@@ -6,48 +6,46 @@ order: 10
 owner: "Wontak Ryu"
 ---
 
-1차원 실수 공간 $$\mathbb{R}$$에서는 두 개의 숫자 1과 2가 있을 때 1보다 2가 크다고 말할 수 있다. 그러면, n차원 실수 공간 $$\mathbb{R}^n$$에서 두 점 $$x_1$$과 $$x_2$$가 있을 때 두 점 중 어떤 점이 더 크다고 말할 수 있을까? 그렇다고 말하기는 어렵다. 
+In one-dimensional real space $$\mathbb{R}$$, given two numbers 1 and 2, we can say 2 is greater than 1. But in $$n$$-dimensional real space $$\mathbb{R}^n$$, given two points $$x_1$$ and $$x_2$$, can we say which is greater? This is not straightforward.
 
-이 절에서는 n차원 실수 공간 $$\mathbb{R}^n$$에서 두 점의 순서를 비교하기 위한 **generalized inequality**를 살펴보고, set의 minimum과 minimal도 함께 살펴볼 것이다.
+This section introduces **generalized inequalities** for comparing order between two points in $$\mathbb{R}^n$$, and also discusses the concepts of minimum and minimal elements of a set.
 
 ## Proper cone
 
-Convex cone $$K \subseteq \mathbb{R}^n$$가 다음 성질을 만족하면 **proper cone**이라고 한다.
+A convex cone $$K \subseteq \mathbb{R}^n$$ is called a **proper cone** if it satisfies:
 
-* K is closed. (boundary를 포함한다.)
-* K is solid. (interior가 empty가 아니다.)
-* K is pointed. (직선을 포함하지 않는다.) (또는  $$x \in K, − x \in K \implies x = 0$$)
+* K is closed (includes its boundary).
+* K is solid (its interior is nonempty).
+* K is pointed (does not contain any line) (i.e., $$x \in K, -x \in K \implies x = 0$$).
 
-$$n$$차원 공간에서 pointed & closed convex cone이 $$n-1$$차원 이하의 subspace에서 정의된다면 interior가 비게 된다. 왜냐하면, $$n-1$$차원 이하의 cone은 $$n$$ 차원의 open ball을 포함하지 못하기 때문에 interior가 정의되지 않는다. 따라서, cone은 solid하지 않게 되고 proper cone이 될 수 없다. 예를 들어, $$\mathbb{R}^3$$에 정의된 2차원 파이 모양의 pointed & closed convex cone은 proper cone이 아니다.
+If a pointed & closed convex cone is defined in a subspace of dimension $$n-1$$ or less, its interior is empty, since it cannot contain an open ball in $$n$$ dimensions. Thus, it is not solid and cannot be a proper cone. For example, a 2D pie-shaped pointed & closed convex cone in $$\mathbb{R}^3$$ is not a proper cone.
 
-Interior의 정의는 *[Wikipedia 정의](https://en.wikipedia.org/wiki/Interior_(topology))*를 참고하라.
-
+See *[Wikipedia: Interior (topology)](https://en.wikipedia.org/wiki/Interior_(topology))* for the definition of interior.
 
 ## Generalized inequality
 
-Proper cone을 이용하면 $$\mathbb{R}^n$$의 partial ordering인 **generalized inequality**를 다음과 같이 정의할 수 있다. Generalized inequality는 $$R$$의 standard ordering과 비슷한 속성을 갖는다.
+Using a proper cone, we can define a partial ordering in $$\mathbb{R}^n$$ called a **generalized inequality**. It has properties similar to the standard ordering in $$\mathbb{R}$$:
 
->$$x \preceq_{K} y \iff y − x \in K$$
+> $$x \preceq_{K} y \iff y − x \in K$$
 
-비슷하게 strict partial ordering을 다음과 같이 정의할 수 있다.
+Similarly, strict partial ordering is defined as:
 
->$$x \prec_{K} y \iff y − x \in $$ **int** $$K$$
+> $$x \prec_{K} y \iff y − x \in $$ **int** $$K$$
 
-만일 $$K = \mathbb{R}_{+}$$이라면 $$\preceq_{K}$$는 $$\mathbb{R}$$에서의 일반적인 $$\le$$과 같다.
+If $$K = \mathbb{R}_{+}$$, then $$\preceq_{K}$$ is the usual $$\le$$ in $$\mathbb{R}$$.
 
 #### Properties of generalized inequalities
 
-Generalized inequality $$\preceq_{K}$$는 다음과 같은 속성을 만족한다.
+Generalized inequality $$\preceq_{K}$$ satisfies:
 
+* **Preserved under addition**: if $$x \preceq_{K} y$$ and $$u \preceq_{K} v$$, then $$ x+u \preceq_{K} y +v$$.
+* **Transitive**: if $$x \preceq_{K} y$$ and $$y \preceq_{K} z$$ then $$x \preceq_{K}  z$$.
+* **Preserved under nonnegative scaling**: if $$x \preceq_{K} y$$ and $$α \ge 0$$ then $$αx \preceq_{K} αy$$.
+* **Reflexive**: $$x \preceq_{K} x$$.
+* **Antisymmetric**: if $$x \preceq_{K} y$$ and $$y \preceq_{K} x$$, then $$x = y$$.
+* **Preserved under limits**: if $$x_i \preceq_{K}  y_i$$ for $$i = 1, 2, ..., x_i \to x$$ and $$y_i \to y$$ as $$i \to ∞$$, then $$x \preceq_{K} y$$.
 
-* $$\preceq_{K}$$ is **preserved under addition**: if $$x \preceq_{K} y$$ and $$u \preceq_{K} v$$, then $$ x+u \preceq_{K} y +v$$.
-* $$\preceq_{K}$$ is **transitive**: if $$x \preceq_{K} y$$ and $$y \preceq_{K} z$$ then $$x \preceq_{K}  z$$.
-* $$\preceq_{K}$$ is **preserved under nonnegative scaling**: if $$x \preceq_{K} y$$ and $$α ≥ 0$$ then $$αx \preceq_{K} αy$$.
-* $$\preceq_{K}$$ is **reflexive**: $$x \preceq_{K} x$$.
-* $$\preceq_{K}$$ is **antisymmetric**: if $$x \preceq_{K} y$$ and $$y \preceq_{K} x$$, then $$x = y$$.
-* $$\preceq_{K}$$ is **preserved under limits**: if $$x_i \preceq_{K}  y_i$$ for $$i = 1, 2, ..., x_i \to x$$ and $$y_i \to y$$ as $$i \to ∞$$, then $$x \preceq_{K} y$$.
-
-Strict generalized inequality 위의 속성에 대응하는 속성을 갖는다.
+Strict generalized inequalities have corresponding properties.
 
 ## Minimum and minimal elements
 

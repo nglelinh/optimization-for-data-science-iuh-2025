@@ -5,7 +5,8 @@ chapter: "03"
 order: 12
 owner: "Minjoo Lee"
 ---
-이 절에서는 quasiconvexity를 유지하는 연산에 대해 살펴본다.
+
+This section discusses operations that preserve the quasiconvexity of functions.
 
 ## Nonnegative weighted maximum
 

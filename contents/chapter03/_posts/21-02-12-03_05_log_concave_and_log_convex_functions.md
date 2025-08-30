@@ -5,7 +5,8 @@ chapter: "03"
 order: 13
 owner: "Minjoo Lee"
 ---
-Log-concave & log-convex function에 대해 알아보자.
+
+This section introduces log-concave and log-convex functions, which are important in probability, statistics, and optimization.
 
 ## Definition
 

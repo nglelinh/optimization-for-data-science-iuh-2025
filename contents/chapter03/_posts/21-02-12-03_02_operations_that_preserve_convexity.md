@@ -5,17 +5,17 @@ chapter: "03"
 order: 6
 owner: "Minjoo Lee"
 ---
-이 절에서는 convex function 의 convexity를 유지하는 연산에 대해 살펴본다. 
-Convex function의 Convexity를 유지하는 연산에는 다음과 같은 것들이 있다.
 
-* Nonnegative linear combination
-* Composition (Affine/General/Vector) 
-* Pointwise maximum and supremum
-* Minimization function
-* Perspective function
+This section discusses operations that preserve the convexity of convex functions.
+
+- Nonnegative weighted sum
+- Composition with affine functions
+- Pointwise maximum
+- Perspective function
+- Linear-fractional function
 
 
-## Nonnegative linear combination
+## Nonnegative weighted sum
 Convex 함수는 상수곱과 덧셈에 대하여 아래와 같은 성질을 가진다.<br>
 
 • Convex 함수 $$f$$가 존재할 때, 여기에 음수가 아닌 임의의 수를 곱하여도 여전히 함수 $$f$$는 Convex 이다.<br>
@@ -69,7 +69,7 @@ $$n$$차원에서 $$k$$ 차원으로 매핑하는 함수 $$g$$와 다시 $$k$$�
 • $$g_i$$가 convex 이면, $$\log \sum_{i=1}^{m} \exp g_i(x)$$는 convex 이다.
 
 
-## Pointwise maximum and supremum
+## Pointwise maximum
 함수의 Pointwise maximum은 다음과 같이 정의 되며, 이는 convex이다.
 ### 1. Pointwise maximum
 > $$f_1, f_2$$ are convex functions $$\Rightarrow f(x) = \max \{ f_1(x), f_2(x) \}, dom f = dom f_1 \cap dom $$ is convex
@@ -81,25 +81,6 @@ $$n$$차원에서 $$k$$ 차원으로 매핑하는 함수 $$g$$와 다시 $$k$$�
 
 >$$f(x, y)$$ is convex in $$x$$ for each $$y \in  A$$ <br>
 >$$\Rightarrow g(x) = \sup_{y\in A} f(x, y)$$ with $$\text{dom } g = \{x | (x, y) \in \text{dom} f \text{ for all } y \in A, \sup < \infty \}$$ is convex in $$x$$
-
-## Minimization
-Convex function의 임의의 함수족들의 minimum과 infimum은 convex function 이다.
-
-> $$f$$ is convex in $$(x, y) \Rightarrow g(x)=\inf_{y\in C} f(x,y)$$ with $$dom$$ $$g = \{ x | (x, y) \in dom$$ $$f$$ for some $$y \in C \}$$ is convex in $$x$$<br>
-> $$C$$: A convex set
-
-#### Example
->• $$f(x,y)=x^TAx+2x^TBy+y^TCy$$ with<br>
-
->$$\begin{bmatrix}
->A & B \\\
->B^T & C
->\end{bmatrix} \succeq 0,$$ $$C \succ 0$$
-
-> minimizing over $$y$$ gives $$g(x)=\inf_y f(x,y)=x^T(A−BC^{−1}B^T)x$$
-> $$g$$ is convex, hence Schur complement $$A−BC^{−1} B^T \succeq 0$$
-
->• distance to a set : $$dist(x,S)= \inf_{y \in  S} \| x−y \|$$ is convex if $$S$$ is convex
 
 ## Perspective
 함수 $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ 가 convex $$\Rightarrow$$ the perspective of $$ g: \mathbb{R}^{n+1} \mapsto \mathbb{R}$$ 연산은 convexity를 유지 시키는 함수이다.

@@ -6,9 +6,9 @@ order: 5
 owner: "YoungJae Choung"
 ---
 [Reminder: ]({% post_url contents/chapter03/21-02-12-03_02_operations_that_preserve_convexity %})
-$$C$$가 convex set이고 $$f$$가 $$(x,y)$$에 대해 convex일때, $$g(x) = \min_{y \in C} f(x, y)$$는 x에 대해 convex이다.
+If $$C$$ is a convex set and $$f$$ is convex in $$(x,y)$$, then $$g(x) = \min_{y \in C} f(x, y)$$ is convex in $$x$$.
 
-즉, 위의 성질에 의해 다변수 함수로 구성된 convex problem에서의 partial optimization이 가능하며 이 과정에서 convexity가 유지된다.
+Thus, partial optimization in a convex problem constructed with multivariate functions preserves convexity.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -19,7 +19,7 @@ $$C$$가 convex set이고 $$f$$가 $$(x,y)$$에 대해 convex일때, $$g(x) = \m
 <br>
 
 #### Example: hinge form of SVMs
-Non-separable set에 대한 SVM 문제는 다음과 같이 정의된다. 
+For a non-separable set, the SVM problem is defined as:
 >$$
 \begin{aligned}
 &\min_{\beta, \beta_{0}, \xi} &&\frac{1}{2}\|\beta\|_2^2 + C \sum_{i=1}^{n} \xi_{i} \\
@@ -29,17 +29,14 @@ Non-separable set에 대한 SVM 문제는 다음과 같이 정의된다.
 \end{aligned}
 $$
 
-
-위의 제약조건들은 아래의 제약조건 하나로 표현될 수 있다. <br>
+The above constraints can be expressed as a single constraint:
 > $$
 \begin{aligned}
 {\xi}_{i} \ge \max\{0, 1 - y_{i} (x_{i}^T \beta + \beta_{0})\} \\
 \end{aligned}
 $$
 
-
-이때, $$\max\{0, 1 - y_{i} (x_{i}^T \beta + \beta_{0})\}$$는 $${\xi}_{i}$$의 하한임을 이용하여 $$\tilde{f}$$를 얻을 수 있다.<br>
-
+In this case, $$\max\{0, 1 - y_{i} (x_{i}^T \beta + \beta_{0})\}$$ is the minimum value for $$\xi_{i}$$, and we can define $$\tilde{f}$$ as:
 
 > $$
 \begin{aligned}
@@ -50,7 +47,7 @@ $$
 $$
 
 
-그리고 아래와 같이 $$\tilde{f}$$를 objective function으로 사용함으로써 좀 더 간단한 형태로 solution을 얻을 수 있다. 주어진 문제에서 $$\xi$$가 제거되었고, 또한 constrained problem에서 unconstrained problem으로 변환되었다.
+By using the simplified $$\tilde{f}$$ as the objective function, a more straightforward solution can be obtained. In the given problem, $$\xi$$ has been eliminated, and it has also been transformed from a constrained problem to an unconstrained problem.
 
 >$$
 \begin{aligned}

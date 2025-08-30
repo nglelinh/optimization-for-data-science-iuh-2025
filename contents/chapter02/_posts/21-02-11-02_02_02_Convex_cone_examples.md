@@ -6,16 +6,15 @@ order: 8
 owner: "Wontak Ryu"
 ---
 
-
-다음은 convex cone의 예로는 norm cone, normal cone, positive semidefinite cone 등이 있다.
+Examples of convex cones include the norm cone, normal cone, and positive semidefinite cone.
 
 ## Norm cone
 
-**Norm cone**은 반경 $$t$$ 이내인 점들로 이뤄진 cone으로 $$(x,t)$$로 정의되는 $$R^{n+1}$$차원의 convex cone이다. 이때, 반경은  임의의 norm으로 정의된다.
+A **norm cone** is a cone defined by all points $$(x, t)$$ such that $$\| x \| \le t$$ in $$\mathbb{R}^{n+1}$$, where the norm can be arbitrary.
 
->$$C = \{(x, t) : \| x \| \le t\} \subseteq \mathbb{R}^{n+1}$$, for a norm $$\|·\|$$ 
+> $$C = \{(x, t) : \| x \| \le t\} \subseteq \mathbb{R}^{n+1}$$, for a norm $$\|·\|$$
 
-아래 그림에는 $$l_2$$ norm $$\|  · \|_2$$에 대한 norm cone이 그려져 있다. 이를 second-order cone 또는 ice cream cone이라고도 부른다.
+The figure below shows the norm cone for the $$l_2$$ norm $$\|·\|_2$$, also called the second-order cone or ice cream cone.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -26,19 +25,17 @@ owner: "Wontak Ryu"
 
 ## Normal Cone
 
-집합 $$C$$에 대해서 $$x \in C$$일 때, 다음 식을 만족하면 **normal cone**이라고 한다.
-Normal cone은 $$C$$에 상관 없이 항상 convex cone이다.
+For a set $$C$$ and a point $$x \in C$$, the **normal cone** is defined as:
 
+> $$N_C(x) = \{ g: g^T (y - x) \le 0, \text{ for all } y \in C \}$$
 
->$$N_C(x) = \{ g: g^T (y - x) \le 0, \text{ for all } y \in C \}$$
+The normal cone consists of all vectors $$g$$ such that the inner product with $$y-x$$ is always less than or equal to zero for all $$y \in C$$. This means the angle between $$g$$ and $$y-x$$ is between 90 and 270 degrees (i.e., $$\cos\theta < 0$$).
 
-Normal cone은 집합 $$C$$에 속하는 임의의 점 $$x$$와 집합 $$C$$의 모든 점 $$y$$와이 차 벡터인 $$y-x$$와 내적이 항상 0보다 작은 벡터인 $$g$$로 정의되는 cone을 말한다. 벡터 $$g$$와 $$y-x$$의 내적이 0보다 작다는 의미는 두 벡터의 각도가 (즉, $$cos\theta$$가 음수인 구간인) $$ 90 \le \theta \le 270$$이란 것을 의미한다. 
+* If $$x$$ is on the boundary, the only $$g$$ is the normal of the supporting hyperplane.
+* If $$x$$ is a vertex, there are multiple supporting hyperplanes, so $$g$$ forms a pie shape.
+* If $$x$$ is in the interior, the only $$g$$ is the zero vector.
 
-* $$x$$가 boundary에 포함된 점일 경우 모든 $$y-x$$ 벡터와의 각도가 $$ 90 \le \theta \le 270$$인 벡터 $$g$$는 supporting hyperplane의 normal뿐이다. 
-* $$x$$가 꼭지점일 경우 supporting hyperplane이 여러개 존재하기 때문에 벡터 $$g$$는 파이 모양이 된다. 
-* $$x$$가 non-boundary 영역의 점일 경우 $$g$$는 영벡터뿐이다. 
-
-다음 그림에 normal vector이 그려져 있다.
+The figure below shows the normal vector.
 
 <figure class="image" style="align: center;">
 <p align="center">

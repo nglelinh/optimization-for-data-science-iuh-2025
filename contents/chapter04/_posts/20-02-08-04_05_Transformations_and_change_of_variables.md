@@ -5,6 +5,7 @@ chapter: "04"
 order: 6
 owner: "YoungJae Choung"
 ---
+This section discusses transformations and change of variables in convex optimization problems, which are useful for simplifying or reformulating problems.
 
 목적함수 또는 제약함수는 주어진 optimization problem를 유지하는 선에서 변경될 수 있으며, 때로는 이를 이용해 문제의 "hidden convexity"를 찾아낼 수 있다.
 

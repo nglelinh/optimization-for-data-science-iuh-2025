@@ -6,26 +6,23 @@ order: 6
 owner: "Hooncheol Shin"
 ---
 
-General LP에서 inequality constraint가 linear matrix inequality(LMI)로 교체되면, 이는 *Semidefnite Program*(SDP)이다.
+If the inequality constraint in a general LP is replaced by a linear matrix inequality (LMI), the problem is called a *Semidefinite Program* (SDP).
 
 ### Semidefinite Program
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{c^T x + d} \\\\
->    &\text{subject to } &&{xF_1 + \dotsb + x_nF_n + G \preceq 0} \\\\
+>    &\text{subject to } &&{x_1 F_1 + \dotsb + x_n F_n + G \preceq 0} \\\\
 >    & &&{Ax = b},\\\\
->    & \text{where } &&G, F_1, \dotsb, F_n \in \mathbb{S}^{k} \text{ and } A \in \mathbb{R}^{\text{p x n}}.
->\end{align}\\
->$$
+>    & \text{where } &&G, F_1, \dotsb, F_n \in \mathbb{S}^{k} \text{ and } A \in \mathbb{R}^{p \times n}.
+>\end{align}$$
 
-* $$G, F_1, \dotsb, F_n$$가 모두 diagonal matrices면, 위의 inequality constraint는 n개의 linear inequalities와 동일해진다. 이 경우 SDP는 LP와 같다.
-* 복수의 LMI는 다음과 같이 단일의 LMI로 표현된다.
+* If $$G, F_1, \dotsb, F_n$$ are all diagonal matrices, the above inequality constraint is equivalent to $$n$$ linear inequalities, and the SDP reduces to an LP.
+* Multiple LMIs can be represented as a single LMI using block diagonal matrices:
 > $$
-> x_1\hat{F_1} + \dotsb + x_n\hat{F_n} + \hat{G} \preceq 0, \phantom{5} x_1\tilde{F_1} + \dotsb + x_n\tilde{F_n} + \tilde{G} \preceq 0
+> x_1\hat{F_1} + \dotsb + x_n\hat{F_n} + \hat{G} \preceq 0, \quad x_1\tilde{F_1} + \dotsb + x_n\tilde{F_n} + \tilde{G} \preceq 0
 > $$
-> 
-> <center>is equivalent to single LMI: </center>
-> 
+> is equivalent to a single LMI:
 > $$
 > x_1
 > \begin{bmatrix}
@@ -45,31 +42,30 @@ General LP에서 inequality constraint가 linear matrix inequality(LMI)로 교�
 >     0 & \tilde{F_n} \\\\
 > \end{bmatrix} + 
 > \begin{bmatrix}
->     \hat{G_1} & 0 \\\\
->     0 & \tilde{G_1} \\\\
+>     \hat{G} & 0 \\\\
+>     0 & \tilde{G} \\\\
 > \end{bmatrix}
 > \preceq 0
 > $$
 
 ## SDP in Standard form
-다음과 같이 표현될 때, semidefinite program의 standard form이라고 한다.
+When expressed as follows, it is called the standard form of a semidefinite program.
 
 ### Standard form SDP
 >$$
 >\begin{align}
->    &\text{minimize}_{X} &&{tr(CX)} \\\\
->    &\text{subject to } &&{tr(A_iX) = b_i, \phantom{5} i=1,\dotsc,p} \\\\
+>    &\text{minimize}_{X} &&{\mathrm{tr}(CX)} \\\\
+>    &\text{subject to } &&{\mathrm{tr}(A_i X) = b_i, \quad i = 1, \dotsc, m} \\\\
 >    & &&{X \succeq 0},\\\\
->    & \text{where } C, A_1, \dotsc, A_p \in \mathbb{S}^n.
->\end{align}
->$$
+>    & \text{where } &&C, A_i \in \mathbb{S}^n, X \in \mathbb{S}^n.
+>\end{align}$$
 
-* Recall: $$tr(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$
+* Recall: $$\mathrm{tr}(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$
 
-모든 SDP는 아래의 과정에 의해 standard form SDP로 변형될 수 있다.
+All SDPs can be transformed into the standard form SDP through the following process.
 
 ### Converting SDPs to standard form
-**Step1.**  Slack variable S를 이용하여 inequality constraint를 equality constraint로 바꿔준다.
+**Step1.**  Use a slack variable S to convert the inequality constraint into an equality constraint.
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{c^T x + d} \\\\
@@ -79,7 +75,7 @@ General LP에서 inequality constraint가 linear matrix inequality(LMI)로 교�
 >\end{align}
 >$$
 
-**Step2.** step1에서 유도된 equality constraint를 각 component에 대한 식으로 변형한다.
+**Step2.** Transform the equality constraints derived in Step 1 into component-wise equations.
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{c^T x + d} \\\\
@@ -89,19 +85,19 @@ General LP에서 inequality constraint가 linear matrix inequality(LMI)로 교�
 >\end{align}
 >$$
 
-**Step3.** x를 두 개의 nonnegative variables로 치환한다.
-$$x = x^{+}  - x^{-}$$이고, $$x^{+} \text{, } x^{-} \succeq 0.$$
+**Step3.** Replace x with two nonnegative variables.
+$$x = x^{+}  - x^{-}$$, where $$x^{+} \text{ and } x^{-} \succeq 0.$$
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{c^T (x^{+}  - x^{-}) + d} \\\\
 >    &\text{subject to } &&{\sum_{l=1}^n (F_l x^{+} _l)_{ij} - \sum_{l=1}^n (F_l x^{-} _l)_{ij} + S_{ij} = -G_{ij}, i,j = 1, \dotsc, k} \\\\
->    & &&{Ax^{+}  - Ax^{+} = b}\\\\
+>    & &&{Ax^{+}  - Ax^{-} = b}\\\\
 >    & &&{S \succeq 0}\\\\
 >    & &&{x^{+} \text{, } x^{-} \succeq 0}.
 >\end{align}
 >$$
 
-**Step4.** $$X, C, \tilde{A}, \tilde{b}$$를 정의.
+**Step4.** Define $$X, C, \tilde{A}, \tilde{b}$$.
 
 * All the blanks are zero.
 
@@ -164,11 +160,11 @@ $$x = x^{+}  - x^{-}$$이고, $$x^{+} \text{, } x^{-} \succeq 0.$$
 > \dotsc\\\\
 > Q_{p}\\\\
 > \end{bmatrix}
-> -G_{ij} = tr(P_{ij}X)
+> -G_{ij} = \mathrm{tr}(P_{ij}X)
 > ,$$
 >
 > $$
-> b_i = tr(Q_iX)
+> b_i = \mathrm{tr}(Q_iX)
 > $$,
 >
 > $$
@@ -183,18 +179,18 @@ $$x = x^{+}  - x^{-}$$이고, $$x^{+} \text{, } x^{-} \succeq 0.$$
 > \end{bmatrix}
 > $$.
 
-**Step5.** *Step3*의 문제를 $$X, C, \tilde{A}, \tilde{b}$$로 치환.
+**Step5.** Substitute the problem from *Step3* with $$X, C, \tilde{A}, \tilde{b}$$.
 
 >$$
 >\begin{align}
->    &\text{minimize}_{X} &&{tr(CX)} \\\\
->    &\text{subject to } &&{tr(\tilde{A}_iX) = \tilde{b}_i, \phantom{5} i=1,\dotsc,k^2+p} \\\\
+>    &\text{minimize}_{X} &&{\mathrm{tr}(CX)} \\\\
+>    &\text{subject to } &&{\mathrm{tr}(\tilde{A}_iX) = \tilde{b}_i, \quad i=1,\dotsc,k^2+p} \\\\
 >    & &&{X \succeq 0}.
 >\end{align}
 >$$
 
 ## SOCP and equivalent SDP
-Schur complement[[8](https://en.wikipedia.org/wiki/Schur_complement)]를 이용하여 SOCP의 inequality constraint를 표현하면 SOCP는 SDP의 어떤 특수한 경우로 변형된다. 즉, SOCP $$\subseteq$$ SDP의 관계가 성립한다.
+By using the Schur complement[[8](https://en.wikipedia.org/wiki/Schur_complement)], the inequality constraint of SOCP can be expressed in such a way that SOCP is transformed into a special case of SDP. That is, there is a relationship of inclusion: SOCP $$\subseteq$$ SDP.
 
 ### Recall: Second-Order Cone Program
 >$$

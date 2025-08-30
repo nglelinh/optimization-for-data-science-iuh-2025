@@ -6,7 +6,7 @@ order: 3
 owner: "Hooncheol Shin"
 ---
 
-*Quadratic Program*(QP)는 목적함수(objective function)가 이차식(convex quadratic)이고, 제약함수(constraint functions)가 모두 affine인 convex optimization problem이다. General quadratic program은 다음과 같은 형태로 표현될 수 있다.
+A *Quadratic Program* (QP) is a convex optimization problem where the objective function is a convex quadratic and all constraint functions are affine. The general quadratic program is formulated as:
 
 ### Quadratic Program
 >$$
@@ -14,14 +14,13 @@ owner: "Hooncheol Shin"
 >    &\text{minimize}_{x} &&{(1/2)x^T P x + q^T x + r} \\\\
 >    &\text{subject to } &&{Gx \preceq h} \\\\
 >    & &&{Ax = b},\\\\
->    & \text{where } &&P \in \mathbb{S}_{+}^n, G \in \mathbb{R}^{\text{m x n}} \text{, and } A \in \mathbb{R}^{\text{p x n}}.
->\end{align}\\
->$$
+>    & \text{where } &&P \in \mathbb{S}_{+}^n, G \in \mathbb{R}^{m \times n}, \text{ and } A \in \mathbb{R}^{p \times n}.
+>\end{align} $$
 
-* 위 목적함수의 $$+ r$$는 최적화의 과정 및 결과에 영향을 주지 않으므로 생략되어도 무방하다.
-* $$P \in \mathbb{S}_{+}^n$$를 만족하지 않을 경우 위 문제는 더 이상 convex가 아니게 된다.
-* Quadratic program에서 직접 명시되어있지 않더라도 $$P \in \mathbb{S}_{+}^n$$임을 가정한다.
-* 위 문제는 기하학적으로 polyhedron 형태의 feasible set에서 convex quadratic function(ellipsoid) $$(1/2)x^T P x + q^T x + r$$를 최소화시키는 $$x^{*}$$를 찾는 것으로 해석된다.
+* The constant $$+ r$$ in the objective function does not affect the optimization process or result and can be omitted.
+* If $$P \in \mathbb{S}_{+}^n$$ is not satisfied, the problem is not convex.
+* Even if not explicitly stated, QP assumes $$P \in \mathbb{S}_{+}^n$$.
+* The above problem seeks the minimizer $$x^*$$ of the convex quadratic function $$(1/2)x^T P x + q^T x + r$$ over a polyhedral feasible set.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -31,7 +30,7 @@ owner: "Hooncheol Shin"
 </figure>
 
 ## QP in Standard form
-Quadratic program의 standard form은 다음과 같이 표현된다.
+The standard form of a quadratic program is:
 
 ### Standard form QP
 >$$
@@ -42,10 +41,10 @@ Quadratic program의 standard form은 다음과 같이 표현된다.
 >\end{align}
 >$$
 
-General form의 quadratic program은 아래의 과정으로 standard form QP로 변형될 수 있다.
+Any general quadratic program can be converted to standard form using the following steps:
 
 ### Converting QPs to standard form
-**Step1.** Slack variable s를 이용하여 inequality constraint를 equality constraint로 바꿔준다.
+**Step 1.** Use slack variables $$s$$ to convert inequality constraints into equality constraints:
 > $$
 > \begin{align}
 >     &\text{minimize}_{x, s} &&{(1/2)x^T P x + q^T x + r} \\\\
@@ -55,8 +54,8 @@ General form의 quadratic program은 아래의 과정으로 standard form QP로 
 > \end{align}
 > $$
 
-**Step2.** x를 두 개의 nonnegative variables로 치환한다.
-$$x = x^{+}  - x^{-}$$이고, $$x^{+} \text{, } x^{-} \succeq 0.$$
+**Step 2.** Replace $$x$$ with two nonnegative variables:
+$$x = x^{+}  - x^{-}$$, where $$x^{+} \text{ and } x^{-} \succeq 0.$$
 
 > $$
 > \begin{align}
@@ -68,12 +67,12 @@ $$x = x^{+}  - x^{-}$$이고, $$x^{+} \text{, } x^{-} \succeq 0.$$
 > \end{align}
 > $$
 
-**Step3.** 
+**Step 3.** Define 
 $$\tilde{x} $$,
 $$\tilde{q} $$, 
 $$\tilde{b} $$,
 $$\tilde{A} $$, 
-$$\tilde{P} $$를 정의.
+$$\tilde{P} $$:
 
 > $$
 > \tilde{x} =
@@ -106,9 +105,8 @@ $$\tilde{P} $$를 정의.
 > \end{bmatrix}
 > $$
 
-**Step4.** *Step2*의 문제를
-$$\tilde{x}, \tilde{q}, \tilde{b}, \tilde{A}, \tilde{P}$$
-로 치환.
+**Step 4.** Substitute the expressions from Step 2 into the formulations with 
+$$\tilde{x}, \tilde{q}, \tilde{b}, \tilde{A}, \tilde{P}$$:
 
 >$$
 >\begin{align}
@@ -119,7 +117,7 @@ $$\tilde{x}, \tilde{q}, \tilde{b}, \tilde{A}, \tilde{P}$$
 >$$
 
 ## LP and equivalent QP
-Quadratic program의 목적함수에서 이차항을 제거하게 되면 linear program의 형태와 동일해짐을 알 수 있다. 즉, LP는 QP의 한가지 특수한 경우에 해당하며, LP $$ \subseteq $$ QP의 관계가 성립한다.
+If the quadratic term is removed from the objective function of a quadratic program, it takes the form of a linear program. Thus, LP is a special case of QP, denoted as LP $$ \subseteq $$ QP.
 
 ### Recall: General LP
 >$$
@@ -132,7 +130,7 @@ Quadratic program의 목적함수에서 이차항을 제거하게 되면 linear 
 >$$
 
 ### Example 1) Portfolio optimization
-Financial portfolio를 만듦에 있어 performance와 risk를 적절히 조율(trade-off)하는 문제다. 
+This problem involves appropriately trading off performance and risk in creating a financial portfolio. 
 
 >$$
 >\begin{align}

@@ -6,15 +6,15 @@ order: 11
 owner: "Wontak Ryu"
 ---
 
-이 절에서는 convex set의 대표적인 특성을 나타내는 두 theorem인 **separating hyperplane theorem**과 **supporting hyperplane theorem**을 살펴볼 것이다.
+This section introduces two theorems that characterize convex sets: the **separating hyperplane theorem** and the **supporting hyperplane theorem**.
 
 ## Separating hyperplane theorem
 
-서로 교집합을 갖지 않는 disjoint convex set이 여러 개가 있다고 해보자. 이들을 분리하려면 어떻게 하면 좋을까? 가장 간단한 방법은 convex set 사이에 직선을 그어보는 것이다. 실제 이 방법은 classification에서 가장 많이 그리고 기본적으로 사용하는 방법이다. 그리고, 이 방법을 지지하는 이론이 바로 **separating hyperplane theorem**이다. 
+Suppose there are several disjoint convex sets with no intersection. How can we separate them? The simplest way is to draw a line between the sets. This method is widely used in classification and is supported by the **separating hyperplane theorem**.
 
-만일, 두 개의 disjoint convex set $$C$$와 $$D$$가 있다고 해보자. 그러면, $$x \in C$$일 때  $$a^T x \le b$$이고 $$x \in D$$일 때  $$a^T x \ge b$$인 $$a \ne 0$$와 $$b$$가 존재하게 된다. 다시 말하면, affine function $$a^T x -  b$$는 $$C$$에서는 nonpositive이고 $$D$$에서는 nonnegative이다. 이때, hyperplane $$ \{ x \mid a^T x =  b\}$$를 $$C$$와 $$D$$에 대한 **separating hyperplane**이라고 한다.
+If there are two disjoint convex sets $$C$$ and $$D$$, then for $$x \in C$$, $$a^T x \le b$$ and for $$x \in D$$, $$a^T x \ge b$$ for some $$a \ne 0$$ and $$b$$. In other words, the affine function $$a^T x - b$$ is nonpositive on $$C$$ and nonnegative on $$D$$. The hyperplane $$\{ x \mid a^T x = b\}$$ is called a **separating hyperplane** for $$C$$ and $$D$$.
 
-다음 그림은 disjoint convex set인 $$C$$와 $$D$$를 나누는 separating hyperplane을 보여주고 있다.
+The figure below shows a separating hyperplane dividing two disjoint convex sets $$C$$ and $$D$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -23,23 +23,21 @@ owner: "Wontak Ryu"
 </p>
 </figure>
 
-
-Separating hyperplane theorems의 역은 성립하지 않는다. 즉, separating hyperplane이 존재한다고 해서 두 convex set이 (교집합이 없는) disjoint convex set은 아닐 수 있다. 가장 간단한 반례로 두 convex set이 $$C = D = \{0\}\subseteq \mathbb{R}$$와 같더라도 $$x = 0$$은 $$C$$와 $$D$$를 분리한다는 것을 알 수 있다.
+The converse of the separating hyperplane theorem does not hold. That is, the existence of a separating hyperplane does not guarantee that the sets are disjoint. For example, if $$C = D = \{0\} \subseteq \mathbb{R}$$, then $$x = 0$$ separates $$C$$ and $$D$$.
 
 #### Strict separation
 
-만일 separating hyperplane이 더 강한 조건인 $$x \in C$$일 때  $$a^T x \lt b$$이고 $$x \in D$$일 때  $$a^T x \gt b$$를 만족한다면, 이를 $$C$$와 $$D$$에 대한 **strict separation**이라고 한다. Disjoint closed convex set이 strict separation일 필요는 없지만 많은 경우에 이 조건은 성립될 수 있다.
-
+If the separating hyperplane satisfies the stronger condition $$x \in C$$ implies $$a^T x < b$$ and $$x \in D$$ implies $$a^T x > b$$, this is called **strict separation**. Disjoint closed convex sets do not always require strict separation, but in many cases, this condition holds.
 
 ## Supporting hyperplanes theorem
 
-**Supporting hyperplane theorem**은 임의의 nonempty convex set $$C$$와 $$x_0 \in$$ **bd** $$C$$가 있을 때, 점 $$x_0$$에서 $$C$$의 **supporting hyperplane**이 존재하는 것을 말한다. 
+The **supporting hyperplane theorem** states that for any nonempty convex set $$C$$ and any point $$x_0$$ on the boundary **bd** $$C$$, there exists a supporting hyperplane at $$x_0$$.
 
-그렇다면 supporting hyperplane이란 무엇인가? 먼저 점 $$x_0$$가 boundary **bd** $$C$$의 점이라고 하자. 집합 내의 모든 점 $$x \in C$$에 대해  $$a^T x \le a^T x_0$$ ($$a \ne 0$$)을 만족하면, hyperplane $$\{x \mid a^T x = a^T x_0 \}$$은 점 $$x_0$$에서 집합 $$C$$의 **supporting hyperplane**이라고 한다. 
+What is a supporting hyperplane? Suppose $$x_0$$ is a boundary point of $$C$$. If for all $$x \in C$$, $$a^T x \le a^T x_0$$ ($$a \ne 0$$), then the hyperplane $$\{x \mid a^T x = a^T x_0 \}$$ is a **supporting hyperplane** for $$C$$ at $$x_0$$.
 
-[참고] boundary는 $$x_0 \in$$ **bd** $$C = $$ **cl** $$C$$ $$\setminus$$ **int** $$C$$와 같이 전체 set에서 interior를 빼서 정의할 수 있다.
+[Note] The boundary is defined as $$x_0 \in$$ **bd** $$C = $$ **cl** $$C$$ $$\setminus$$ **int** $$C$$, i.e., the closure minus the interior.
 
-기하학적으로 supporting hyperplane $$\{x \mid a^T x = a^T x_0\}$$은 점 $$x_0$$에서 접선으로 공간에서 집합 $$C$$를 분리하며, halfspace $$a^T x \le a^T x_0$$는 집합 $$C$$를 포함한다.
+Geometrically, the supporting hyperplane $$\{x \mid a^T x = a^T x_0\}$$ is tangent to $$C$$ at $$x_0$$ and the halfspace $$a^T x \le a^T x_0$$ contains $$C$$.
 
 <figure class="image" style="align: center;">
 <p align="center">

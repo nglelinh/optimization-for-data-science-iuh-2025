@@ -1,10 +1,15 @@
 ---
 layout: post
-title: 03-04-01 Definition and examples
+title: 03-04-01 Quasiconvex functions: definition and examples
 chapter: "03"
 order: 9
 owner: "Minjoo Lee"
 ---
+
+A function $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ is quasiconvex if all its sublevel sets $$\{x \mid f(x) \leq \alpha\}$$ are convex for every $$\alpha \in \mathbb{R}$$.
+
+Quasiconvex functions generalize convex functions and appear frequently in optimization problems.
+
 ## Definition
 
 함수 $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$가 도메인 $$ \text{dom}f$$와 모든 sublevel set $$S_{\alpha}$$([03-01-03]({% post_url contents/chapter03/21-02-12-03_01_03_key_properties_of_convex_functions %}) 참고)이 convex라면 이 함수를 **quasiconvex** (or **unimodal**)이라고 한다.

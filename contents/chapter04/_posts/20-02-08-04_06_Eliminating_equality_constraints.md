@@ -5,7 +5,7 @@ chapter: "04"
 order: 7
 owner: "YoungJae Choung"
 ---
-변수를 변경함으로써 convex problem에서 equality constraints를 소거하는 방법에 대해 알아보겠다.
+This section explains techniques for eliminating equality constraints in convex optimization problems to simplify the feasible set or problem structure.
 
 >$$
 \begin{aligned}
@@ -15,12 +15,12 @@ owner: "YoungJae Choung"
 \end{aligned}
 $$
 
-임의의 solution $$x_{0}$$에 대해 $$Ax_{0} = b$$이고 $$\text{col}(M) = \text{null}(A)$$이면, equality constraint를 만족하는 임의의 $$x$$를 다음과 같이 표현할 수 있다.
+For an arbitrary solution $$x_{0}$$ satisfying $$Ax_{0} = b$$ and $$\text{col}(M) = \text{null}(A)$$, any $$x$$ that satisfies the equality constraint can be expressed as follows:
 >$$x = My + x_{0}$$
 
-즉, $$Ax = A(My + x_{0}) = AMy + Ax_{0} = 0 + b = b$$이므로, 주어진 문제의 $$x$$를 $$My+x_{0}$$로 치환하면 equality constraint를 소거할 수 있다.
+That is, $$Ax = A(My + x_{0}) = AMy + Ax_{0} = 0 + b = b$$. Therefore, by substituting $$My+x_{0}$$ for $$x$$ in the given problem, we can eliminate the equality constraint.
 
-그러므로 다음의 문제는 최초에 주어진 문제와 동치이다.
+Thus, the following problem is equivalent to the original problem:
 
 >$$
 \begin{aligned}
@@ -29,6 +29,6 @@ $$
 \end{aligned}
 $$
 
-단, 이와 같은 방법은 다음과 같은 이유들로 사용에 주의해야한다.
-1. $$M$$을 계산하는 비용은 대체로 굉장히 크다.
-2. $$x$$가 $$y$$보다 더 희소(sparse)하다면 $$y$$를 써서 계산하는 비용이 더 클 수 있다.
+However, caution is advised when using this method for the following reasons:
+1. The computation of $$M$$ is generally very expensive.
+2. If $$x$$ is sparser than $$y$$, the cost of computation using $$y$$ may be higher.

@@ -5,11 +5,12 @@ chapter: "03"
 order: 7
 owner: "Minjoo Lee"
 ---
-Conjugate 함수에 대해 알아보자
 
-Conjugate function은 뒷장에서 다룰 Lagrange Dual에서 최적화 문제를 상응하는 Dual problem으로 변환하는 데 사용된다. Lagrange Dual에서 미분을 할 때, 직접 미분하지 않고 Conjugate function을 이용해 바로 대입할 수 있다. <br>
+This section introduces the conjugate function, a key concept in convex analysis and duality theory.
 
-함수 $$f$$의 conjugate 는 아래와 같다.
+The conjugate function is used to transform an optimization problem into its corresponding dual problem, which will be discussed in detail in a later section on Lagrange Duality. When differentiating in the context of Lagrange Duality, one can directly substitute using the conjugate function without performing explicit differentiation.
+
+For a given function $$f$$, the conjugate is defined as follows:
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -18,7 +19,9 @@ Conjugate function은 뒷장에서 다룰 Lagrange Dual에서 최적화 문제�
 </p>
 </figure>
 
-•$$f$$가 convex가 아니어도 $$f^∗$$ 는 convex이다.
+Key properties of the conjugate function include:
+
+- If $$f$$ is not convex, its conjugate $$f^∗$$ is still convex.
 
 #### Example
 >• *Negative logarithm* $$f(x)=−\log x$$
@@ -41,5 +44,5 @@ f∗(y)=\sup_{x} (y^Tx−(1/2)x^TQx)
 $$
 
 
-이는 13장에서 좀 더 상세히 다루도록 한다.
+These topics will be covered in more detail in Chapter 13.
 

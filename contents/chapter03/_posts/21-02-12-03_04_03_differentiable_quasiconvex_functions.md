@@ -5,7 +5,8 @@ chapter: "03"
 order: 11
 owner: "Minjoo Lee"
 ---
-Quasiconvex function이 미분가능할 때, First-order conditions, Second-order conditions을 만족하게 된다. 다음을 살펴보자.
+
+This section discusses the properties and characterizations of differentiable quasiconvex functions.
 
 ## First-order conditions
 $$f : \mathbb{R}^n \rightarrow \mathbb{R}$$가 미분 가능 함수라고 하자. $$\text{dom}f$$가 convex 이고, 다음 조건을 만족하면 $$f$$는 quasiconvex 이다.

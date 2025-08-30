@@ -5,8 +5,8 @@ chapter: "04"
 order: 3
 owner: "YoungJae Choung"
 ---
-Convex solution set의 성질에 대해 알아보자. <br>
-$$X_{opt}$$를 다음과 같이 어떤 convex problem에 대한 solution의 집합이라고 하겠다.
+Let's understand the properties of convex solution sets. <br>
+Let $$X_{opt}$$ denote the set of solutions to a convex problem:
 
 >$$
 \begin{aligned}
@@ -17,32 +17,32 @@ X_{opt} =
 \end{aligned}
 $$
 
-## Key property1
->$$X_{opt}$$는 convex set이다.
+## Key property 1
+> $$X_{opt}$$ is a convex set.
 
 #### Proof
->$$x$$, $$y$$가 solution일때,
->1. Domain set $$D$$는 convex set이므로, <br>$$0 \le t \le 1$$에 대해 $$tx+ (1-t)y \in D$$를 만족한다.<br><br>
->2. $$g_i, i=1,\dotsc,m$$와 $$h_j, j=1, \dotsc,r$$은 각각 convex, affine function이므로 아래 제약조건을 만족한다. <br><br>
+> If $$x$$ and $$y$$ are solutions:
+> 1. The domain set $$D$$ is convex, so for $$0 \le t \le 1$$, $$tx+ (1-t)y \in D$$.
+> 2. $$g_i, i=1,\dotsc,m$$ and $$h_j, j=1, \dotsc,r$$ are convex and affine functions, so the following conditions hold:
     $$
     \begin{aligned}
        g_{i}(tx + (1-t)y) \leq tg_i(x) + (1-t)g_i(y) \leq 0, \\
        h_{j}(tx + (1-t)y) = th_j(x) + (1-t)h_j(y) = 0 \\
     \end{aligned}
-    $$<br><br>
->3. $$f$$는 convex function이므로 아래를 만족한다. <br><br>
+    $$
+> 3. $$f$$ is a convex function, so:
     $$
     \begin{aligned}
       f(tx+(1-t)y) &\leq tf(x) + (1-t)f(y) \\
       &= tf^{\star} + (1-t) f^{\star} \\
       &= f^{\star}
     \end{aligned}
-    $$ <br>
-    즉, $$tx + (1-t)y$$ 또한 solution이다.
+    $$
+    Thus, $$tx + (1-t)y$$ is also a solution.
 
 #### Geometric interpretation
-Convex function에서의 local optimum은 곧 global optimum이기 때문에 <br>
-복수의 element를 가진 solution set이 있다면 이는 아래와 같은 모양일 수 밖에 없다.<br>
+In a convex function, any local optimum is also a global optimum. <br>
+If the solution set contains multiple elements, it must look like the following:
 
 <figure class="image" style="align: center;">
 <p align="center">
