@@ -1,6 +1,4 @@
 ---
-
----
 layout: post
 title: 01-01 Optimization problems?
 chapter: "01"
