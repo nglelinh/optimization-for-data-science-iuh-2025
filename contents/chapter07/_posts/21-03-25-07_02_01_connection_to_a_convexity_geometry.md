@@ -7,56 +7,55 @@ owner: "Kyeongmin Woo"
 ---
 
 
-한 볼록집합 (convex set) $$C \subseteq \mathbb{R}^n$$에 대해서, 아래와 같은 indicator 함수 $$I_C: \mathbb{R}^n \to \mathbb{R}$$를 정의했을 때,   
+
+For a convex set $$C \subseteq \mathbb{R}^n$$, consider the indicator function $$I_C: \mathbb{R}^n \to \mathbb{R}$$ defined as:
 
 >
 $$
 I_C(x) = I\{x \in C \} =
 \begin{cases}
-0               &\text{if } x \in C \\\\
+0               &\text{if } x \in C \\
 \infty         &\text{if } x \notin C 
 \end{cases}
 $$
 
-해당 함수의 subdifferential은 다음의 기하학적 의미가 있다.  
+The subdifferential of this function has the following geometric meaning:
 
 #### Lemma
-$$x \in C$$에 대해서, $$I_C(x)$$ 함수의 $$\partial I_C(x)$$는 $$x$$에서의 집합 $$C$$에 대한 normal cone $$\mathcal{N}_C(x)$$과 일치한다. 
+For $$x \in C$$, the subdifferential $$\partial I_C(x)$$ coincides with the normal cone $$\mathcal{N}_C(x)$$ to the set $$C$$ at $$x$$:
 
 >
 \begin{equation}
 \mathcal{N}_C(x) = \{g \in \mathbb{R}^n | g^Tx \geq g^Ty \text{  for all  } y \in C \}
 \end{equation}
 
+#### Proof
 
-#### Proof 
-
-Subgradient는 정의에 의해, 다음의 식이 만족된다. 
+By definition, the subgradient must satisfy:
 >
 \begin{equation}
-I_C(y) \geq I_C(x) + g^T(y-x) \text{ for all $$y$$}
+I_C(y) \geq I_C(x) + g^T(y-x) \text{ for all } y
 \end{equation}
 
-여기서, $$x \in C$$이고 $$I_C(x)=0$$ 이므로, 아래와 같이 된다. 
-
+Here, $$x \in C$$ and $$I_C(x)=0$$, so:
 >
 \begin{equation}
-I_C(y) \geq g^T(y-x) \text{ for all $$y$$}
+I_C(y) \geq g^T(y-x) \text{ for all } y
 \end{equation}
 
-첫째, 모든 $$y \in C$$에 대해서 아래의 식이 성립되어야 하므로,
+First, for all $$y \in C$$, we have:
 >
 \begin{equation}
 I_C(y) = 0 \geq g^T(y-x)
 \end{equation}
 
-subgradient $$g$$는 $$g^Tx \geq g^Ty$$를 만족해야 한다.  
+Thus, the subgradient $$g$$ must satisfy $$g^Tx \geq g^Ty$$.
 
-둘째, 모든 $$y \notin C$$에 대해서, $$I_C(y) = \infty$$ 이므로, $$g$$가 어떤 값이든 관계없이 
+Second, for all $$y \notin C$$, $$I_C(y) = \infty$$, so the inequality holds for any value of $$g$$:
 >
 $$I_C(y)=\infty \geq g^T(y-x)$$
 
-가 항상 성립된다. 
+which is always true.
 
 위 두 조건에 대해, subgradient는 모두 만족시켜야 하므로, 위 함수에 대한 subgradient는 
 >

@@ -1,6 +1,7 @@
 ---
+
 layout: post
-title: 03-04-01 Quasiconvex functions: definition and examples
+title: "03-04-01 Quasiconvex functions: definition and examples"
 chapter: "03"
 order: 9
 owner: "Minjoo Lee"

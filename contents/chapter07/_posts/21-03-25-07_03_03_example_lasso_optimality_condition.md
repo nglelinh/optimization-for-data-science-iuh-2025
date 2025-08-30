@@ -6,26 +6,27 @@ order: 9
 owner: "Kyeongmin Woo"
 ---
 
-아래와 같이 주어진 lasso 문제에 대해,
+
+For the lasso problem given below,
 >
 \begin{equation}
-\min_{\beta} \frac{1}{2}  \vert  \vert y-X\beta \vert  \vert _2^2 + \lambda \vert  \vert \beta \vert  \vert _1
+\min_{\beta} \frac{1}{2}  \| y-X\beta \|_2^2 + \lambda \| \beta \|_1
 \end{equation}
 
-여기서 $$y \in \mathbb{R}^n$$, $$X \in \mathbb{R}^{n \times p}$$, $$\lambda \geq 0$$. 
+where $$y \in \mathbb{R}^n$$, $$X \in \mathbb{R}^{n \times p}$$, $$\lambda \geq 0$$.
 
-위 문제의 subgradient 최적 조건은 아래와 같이 표현될 수 있다.  
+The subgradient optimality condition for this problem can be expressed as:
 >
 $$
 \eqalign{
-0 \in \partial\left(\frac{1}{2} \vert  \vert y-X\beta \vert  \vert _2^2 + \lambda \vert  \vert \beta \vert  \vert _1\right)
-&\quad \Longleftrightarrow \quad 0 \in - X^T (y-X\beta) + \lambda \partial  \vert  \vert \beta \vert  \vert _1 \\
+0 \in \partial\left(\frac{1}{2} \| y-X\beta \|_2^2 + \lambda \| \beta \|_1\right)
+&\quad \Longleftrightarrow \quad 0 \in - X^T (y-X\beta) + \lambda \partial  \| \beta \|_1 \\
 &\quad \Longleftrightarrow \quad X^T (y-X\beta)  = \lambda v \\
-& \quad \text{for some } v \in \partial  \vert  \vert \beta \vert  \vert _1
+& \quad \text{for some } v \in \partial  \| \beta \|_1
 }\\
 $$
 
-여기서, 한 점 $$\beta=(\beta_1,\beta_2,\dots,\beta_p )$$에 대한 subgradient를  $$v=(v_1,v_2,\dots,v_p)$$ 라고 할 때, 
+Here, for a point $$\beta=(\beta_1,\beta_2,\dots,\beta_p )$$, the subgradient $$v=(v_1,v_2,\dots,v_p)$$ is given by:
 
 $$
 v_i = 
@@ -37,18 +38,18 @@ v_i =
 , i \in \{1,2,\dots,p \}
 $$
 
-다음을 만족하는 $$\beta$$를 찾을 수 있으며, 해당 $$\beta$$는 최적해가 된다. 
+Any $$\beta$$ satisfying the following is optimal:
 >
 \begin{equation}
 X^T(y-X\beta) = \lambda v 
 \end{equation}
 
-즉, 위 문제에 대한 최적 $$\beta$$에 대해서 다음의 조건이 성립됨을 알 수 있다. 
+That is, for the optimal $$\beta$$, the following conditions hold:
 >
 $$
 \begin{cases}
 X_i^T(y-X\beta) = \lambda \cdot \text{sign}(\beta_i) &\text{if } \beta_i \neq 0 \\
- \vert X_i^T(y-X\beta) \vert  \leq \lambda &\text{if } \beta_i = 0 
+ |X_i^T(y-X\beta)|  \leq \lambda &\text{if } \beta_i = 0 
 \end{cases}$$
 
-위 식에서 $$X_i, i \in \{1,2,\dots, p \}$$는 주어진 행렬 $$X$$의 $$i$$번째 열(column) 데이터를 의미한다. 
+Here, $$X_i, i \in \{1,2,\dots, p \}$$ denotes the $$i$$th column of the matrix $$X$$.

@@ -8,56 +8,54 @@ owner: "Kyeongmin Woo"
 
 # Subgradient
 
-어떤 볼록함수(convex function) $$f:\mathbb{R}^n \to \mathbb{R}$$의 subgradient는 다음의 조건을 만족하는 $$g \in \mathbb{R}^n$$로 정의된다.  
+For a convex function $$f:\mathbb{R}^n \to \mathbb{R}$$, a subgradient at $$x$$ is any vector $$g \in \mathbb{R}^n$$ that satisfies:
 
 > $$
 \begin{equation}\label{subgradient}
-f(y) \geq f(x) + g^T(y-x), \text{ for all y}
+f(y) \geq f(x) + g^T(y-x), \text{ for all } y
 \end{equation}
 $$
 
-위에서 정의된 subgradient는 
+The subgradient defined above:
 
-- 미분가능한 볼록함수의 gradient를 미분가능하지 않은 볼록함수에도 적용할 수 있도록 일반화한 것이며,
-- 볼록함수에 대해서는 항상 존재하는 값으로서, 만약 $$f$$가 $$x$$에서 미분가능하면 $$\nabla f(x)$$를 유일하게 갖게된다.
-- 비볼록함수(non-convex function) 에 대해서도 동일하게 subgradient가 구해질 수 있으나 이 때는 함수에 따라서 값이 존재하지 않을 수 있다.
+- Generalizes the gradient for convex functions to cases where the function is not differentiable.
+- For convex functions, a subgradient always exists. If $$f$$ is differentiable at $$x$$, then $$\nabla f(x)$$ is the unique subgradient.
+- For non-convex functions, a subgradient may be defined similarly, but it may not always exist depending on the function.
 
-다음은 몇 가지 함수들에 대한 subgradient의 예를 보여준다. 
+Below are examples of subgradients for some functions.
 
-### Example1
+### Example 1
 
 <center>
-$$f:\mathbb{R} \to \mathbb{R}, f(x) =  \vert x \vert $$
+$$f:\mathbb{R} \to \mathbb{R}, f(x) =  |x| $$
 </center>
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl  }}/img/chapter_img/chapter07/07_01_subgrad-1.png" alt="Subgradient1" width="80%" height="80%">
 </p>
-  <figcaption style="text-align: center;">$$\text{[Fig 1] Subgradient of } f(x)= \vert x \vert \text{ [3]}$$</figcaption>
+  <figcaption style="text-align: center;">$$\text{[Fig 1] Subgradient of } f(x)= |x| \text{ [3]}$$</figcaption>
 </figure>
 
-- $$x \neq 0$$에 대해, $$ \vert y \vert \geq \vert x \vert + g^T(y-x)$$를 만족해야 한다. 즉, 
+- For $$x \neq 0$$, $$ |y| \geq |x| + g^T(y-x)$$ must hold. That is,
 
-$$ \vert y \vert -g^Ty \geq  \vert x \vert -g^Tx$$. $$ \vert x \vert -g^Tx = 0$$이면 즉, $$g=\text{sign}(x)$$이면, 모든 $$y$$에 대해 항상 만족됨. 따라서, $$g=\text{sign}(x)$$ 
-[[(Wikipedia) Sign function](https://en.wikipedia.org/wiki/Sign_function)]
-- $$x=0$$에 대해, $$ \vert y \vert  \geq g^Ty$$를 만족해야 함. 따라서, $$g \in [-1,1]$$
+$$ |y| - g^Ty \geq |x| - g^Tx $$. If $$ |x| - g^Tx = 0 $$, i.e., $$g=\text{sign}(x)$$, then the condition holds for all $$y$$. Thus, $$g=\text{sign}(x)$$ ([Wikipedia: Sign function](https://en.wikipedia.org/wiki/Sign_function)).
+- For $$x=0$$, $$ |y| \geq g^Ty $$ must hold. Therefore, $$g \in [-1,1]$$.
 
-
-### Example2
+### Example 2
 
 <center>
-$$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \vert  \vert x \vert  \vert _1$$ 
+$$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \| x \|_1$$ 
 </center>
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl  }}/img/chapter_img/chapter07/07_01_subgrad-3.png" alt="Subgradient2" width="80%" height="80%">
 </p>
-  <figcaption style="text-align: center;">$$\text{[Fig 2] Subgradient of }f(x)= \vert x \vert _1\text{ [3]}$$</figcaption>
+  <figcaption style="text-align: center;">$$\text{[Fig 2] Subgradient of }f(x)= \| x \|_1\text{ [3]}$$</figcaption>
 </figure>
 
-한 점 $$x=(x_1,x_2,\dots,x_n)$$에서,
+At a point $$x=(x_1,x_2,\dots,x_n)$$,
 
 - $$x_i \neq 0, i \in \{1,2,\dots,n\}$$에 대해, $$x_i$$에서 미분가능하므로 $$g_i=\text{sign}(x_i)$$ 
 

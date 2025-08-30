@@ -6,15 +6,16 @@ order: 5
 owner: "Kyeongmin Woo"
 ---
 
-볼록함수의 subdifferential에 대한 다음의 몇가지 기본적인 규칙이 성립된다.
+
+The following basic rules hold for the subdifferential of convex functions:
 
 ### Scaling
 
 >
 $$
 \eqalign{
-\text{if } & a>0, \\
-\text{then } &\partial (af) = a\cdot \partial f
+	ext{if } & a>0, \\
+	ext{then } &\partial (af) = a\cdot \partial f
 }
 $$
 
@@ -23,15 +24,15 @@ $$
 >
 $$\partial(f_1 + f_2) = \partial f_1 + \partial f_2$$
 
-위에서 두집합의 연산 $$A+B= \{a+b:a\in A, b \in B\}$$를 의미함. 
+Here, the sum of two sets $$A+B= \{a+b:a\in A, b \in B\}$$ is defined as the set of all possible sums.
 
-### Affine composition 
+### Affine composition
 
 >
 $$
 \eqalign{
-\text{if } & g(x)=f(Ax+b), \\
-\text{then } & \partial g(x) = A^T \partial f(Ax+b)
+	ext{if } & g(x)=f(Ax+b), \\
+	ext{then } & \partial g(x) = A^T \partial f(Ax+b)
 }
 $$
 
@@ -40,24 +41,23 @@ $$
 >
 $$
 \eqalign{
-\text{if } & f(x)=\max_{i=1,\dots,m} f_i(x), \\
-\text{then } & \partial f(x) = \text{conv}\left(\bigcup_{i:f_i(x)=f(x)} \partial f_i(x)\right)
+	ext{if } & f(x)=\max_{i=1,\dots,m} f_i(x), \\
+	ext{then } & \partial f(x) = \text{conv}\left(\bigcup_{i:f_i(x)=f(x)} \partial f_i(x)\right)
 }
 $$
 
-즉, $$\partial f(x)$$는 $$x$$에서 $$f(x)$$값을 갖는 함수들의 subdifferential의 합집합에 대한 convex hull로 정의된다. 
+That is, $$\partial f(x)$$ is defined as the convex hull of the union of the subdifferentials of the functions attaining the value $$f(x)$$ at $$x$$.
 
 ### General pointwise maximum
 
 >$$
 \eqalign{
-\text{if } & f(x) = \max_{s \in S} f_s(x),\\ 
-\text{then } & \partial f(x) \supseteq cl \left \{ \text{conv} \left(\bigcup_{s:f_s(x)=f(x)} \partial f_s(x)\right) \right\}
+	ext{if } & f(x) = \max_{s \in S} f_s(x),\\ 
+	ext{then } & \partial f(x) \supseteq cl \left \{ \text{conv} \left(\bigcup_{s:f_s(x)=f(x)} \partial f_s(x)\right) \right\}
 }
 $$
 
-
-여기서 $$S$$는 무한집합으로서 무한한 갯수의 집합들의 합집합은 열린집합이 될 수 있으므로, subdifferential이 닫힌집합이 될 수 있도록, closure를 취해주어야 한다. 
+Here, $$S$$ may be an infinite set, so the union of infinitely many sets may not be closed. Therefore, we take the closure to ensure the subdifferential is a closed set.
 
 한편 집합 $$S$$가 컴팩트하고 (closed and bounded), $$f_s$$ 함수들이 $$s$$에 대해서 연속적이면, 등호 관계가 성립된다. 
 

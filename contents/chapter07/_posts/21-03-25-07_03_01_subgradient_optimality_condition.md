@@ -6,9 +6,10 @@ order: 7
 owner: "Kyeongmin Woo"
 ---
 
-### Lemma 
 
-모든 함수 $$f$$에 대해서, 어떤 $$x^*$$에서 함수의 최소값을 갖는 것과 $$x^*$$에서 subgradient가 $$0$$인 것은 서로 필요충분조건이다.   
+### Lemma
+
+For any function $$f$$, the condition that $$x^*$$ is a minimizer of $$f$$ and that $$0$$ is a subgradient at $$x^*$$ are equivalent:
 
 > $$
 \begin{equation}
@@ -27,5 +28,5 @@ $$
 \end{align}
 $$
 
-위 증명에서 함수 $$f$$에 대한 볼록성은 전혀 이용되지 않았으며, 따라서 비볼록함수에서도 예외없이 적용되는 최적 조건이라고 할 수 있다.  
+Note that convexity of $$f$$ is not used in this proof, so this optimality condition applies even to non-convex functions.
 
