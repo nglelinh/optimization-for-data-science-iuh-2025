@@ -7,34 +7,34 @@ owner: "Kyeongmin Woo"
 ---
 
 
-닫힌 컨벡스 집합(closed convex set)들의 교차점을 찾고 싶다고 하자. 
+Suppose we want to find the intersection point of several closed convex sets.
 
-우선, 임의의 점 $$x$$로 부터 집합 $$C_i$$까지의 거리를 나타내는 $$f_i(x)$$와 점 $$x$$에서 모든 집합 $$C_i, i=1,...,m$$에 대해 가장 먼 거리를 나타내는 $$f$$를 정의해보자.
+First, let’s define $$f_i(x)$$ as the distance from a point $$x$$ to the set $$C_i$$, and $$f(x)$$ as the maximum distance from $$x$$ to all sets $$C_i, i=1,...,m$$:
 >
 $$ \begin{align}
 f_i(x) & = \mathbb{dist}(x, C_i), i=1,...,m \\
 f(x) & = \max_{1,...,m}\text{ }f_i(x)
 \end{align} $$
 
-위의 두 함수를 이용하면 다음과 같이 컨벡스 집합들의 교차점을 찾는 최적화 문제로 정의할 수 있다. 
+Using these two functions, the problem of finding the intersection of convex sets can be formulated as the following minimization problem:
 
 >
 $$ \begin{align}
 min_{x}\text{ }f(x)
 \end{align} $$
 
-컨벡스 집합의 교차점을 구하는 문제는 임의의 점 $$x$$와 가장 먼 컨벡스 집합 $$C_i$$의 거리 $$f_i(x)$$를 최소화하는 $$x$$를 구하는 문제로 바뀐다. 이때, 위 문제의 목적 함수인 $$f(x)$$는 컨벡스이다. 만약 모든 집합의 동시적인 교차점이 존재한다면 $$f^* = 0 $$이 될 것이고 optimal point는 $$x^* \in C_1 \cap C_2 \cap ... \cap C_m$$로 표현할 수 있다.
+The problem of finding the intersection point of convex sets is equivalent to finding the point $$x$$ that minimizes the maximum distance $$f(x)$$ to the sets $$C_i$$. In this case, the objective function $$f(x)$$ is convex. If all sets have a common intersection point, then $$f^* = 0$$ and the optimal point is $$x^* \in C_1 \cap C_2 \cap ... \cap C_m$$.
 
 ## Gradient of distance function
 
-[이전 장]({%post_url contents/chapter07/21-03-25-07_03_05_example_distance_to_convex_set %})에서 컨벡스 집합과의 거리를 $$dist(x, C_i) = \min_{y \in C} \lVert y-x \lVert _2$$로 정의했고 이 함수의 gradient는 다음과 같음을 보였다. 
+In [the previous section]({%post_url contents/chapter07/21-03-25-07_03_05_example_distance_to_convex_set %}), we defined the distance to a convex set as $$dist(x, C_i) = \min_{y \in C} \lVert y-x \rVert _2$$, and saw that the gradient of this function is:
 
 >
 $$ \begin{align}
 \partial dist(x,C) = \frac{x-P_C(x)}{ \Vert x-P_C(x) \Vert_2}
 \end{align} $$
 
-여기서 $$P_C(x)$$는 점 $$x$$에서 집합 $$C$$으로의 projection이다. 
+Here, $$P_C(x)$$ is the projection of the point $$x$$ onto the set $$C$$.
 
 ## Subdifferential of finite pointwise maximum
 

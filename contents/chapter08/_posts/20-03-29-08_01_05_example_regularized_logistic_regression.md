@@ -6,26 +6,24 @@ order: 7
 owner: "Kyeongmin Woo"
 ---
 
-만약 $$i=1,...,n$$에 대해서 $$(x_i,y_i) \in R^p × $${$$0, 1$$}가 주어졌을때, logistic regression loss는 다음과 같다.
+Suppose $$(x_i, y_i) \in \mathbb{R}^p \times \{0, 1\}$$ for $$i=1,...,n$$. The logistic regression loss is defined as:
 >
 \begin{align}
-f(\beta) = \sum_{i=1}^n\big(-y_ix_i^T\beta + log(1+exp(x_i^T\beta))\big)
+f(\beta) = \sum_{i=1}^n\big(-y_ix_i^T\beta + \log(1+\exp(x_i^T\beta))\big)
 \end{align}
 
-이 함수는 linear 함수와 log-sum-exp 함수의 finite sum의 형태로서 미분 가능한 컨벡스 함수이다.
+This function is a finite sum of a linear function and a log-sum-exp function, so it is a differentiable convex function.
 
-이때 우리가 $$\beta$$에 대한 regularization problem은 다음과 같이 정리된다. 
+Now, the regularization problem for $$\beta$$ is formulated as:
 
 >
 \begin{align}
-min_{\beta} \text{ } f(\beta) + \lambda ⋅ P(\beta)
+\min_{\beta} \text{ } f(\beta) + \lambda \cdot P(\beta)
 \end{align}
 
-여기서 $$P(\beta)가  \Vert \beta \Vert _2^2$$(ridge penalty) 또는 $$ \Vert \beta \Vert _1$$(lasso penalty)로 정의된다고 해보자.
+Here, $$P(\beta)$$ can be defined as $$\Vert \beta \Vert _2^2$$ (ridge penalty) or $$\Vert \beta \Vert _1$$ (lasso penalty).
 
-Ridge penalty를 적용한 loss 함수는 여전히 미분 가능한 컨벡스 함수이지만 lasso penalty를 적용한 loss 함수는 미분 불가능한 컨벡스 함수가 된다. 
-
-이러한 두 loss 함수에 대해 gradient descent for ridge와 subgradient method for lasso를 적용하여 시행 횟수 $$k$$에 대한 objective function의 값을 출력해보면 두 방정식의 수렴 특징을 관찰할 수 있다.
+The loss function with ridge penalty remains a differentiable convex function, but the loss function with lasso penalty becomes a nondifferentiable convex function. For these two loss functions, we can apply gradient descent for ridge and the subgradient method for lasso, and by plotting the objective function value at iteration $$k$$, we can observe the convergence characteristics of both methods.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -34,4 +32,4 @@ Ridge penalty를 적용한 loss 함수는 여전히 미분 가능한 컨벡스 �
   <figcaption style="text-align: center;">[Fig 1] Gradient descent vs Subgradient method [3]</figcaption>
 </figure>
 
-위 실험은 gradient descent가 subgradient method보다 수렴속도가 훨씬 빠르다는 것을 보여준다. 
+This experiment shows that gradient descent converges much faster than the subgradient method.

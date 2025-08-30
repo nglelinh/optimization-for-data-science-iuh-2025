@@ -6,12 +6,12 @@ order: 3
 owner: "Kyeongmin Woo"
 ---
 
-Subgradient method에서도 다양한 방법으로 **step size**를 선택할 수 있다.  
+There are various ways to choose the **step size** in the subgradient method.
 
-그 중에서도 다음 2가지 방식을 자세히 살펴보도록 하자. 
+Let’s take a closer look at the following two approaches:
 
 - **Fixed step sizes**: $$t_k = t$$, where $$k = 1, 2, 3, ...$$
-- **Diminishing step sizes**: 아래의 조건을 충족하는 $$t_k$$
+- **Diminishing step sizes**: $$t_k$$ that satisfy the following conditions:
 
 >\begin{align}
 > \sum_{k=1}^{\infty} t_k = \infty, \quad \sum_{k=1}^{\infty} t_k^{2} < \infty
@@ -22,7 +22,7 @@ Subgradient method에서도 다양한 방법으로 **step size**를 선택할 �
 > $$\begin{align}
 & t_k = \frac{1}{k}, k = 1,2,3,... \\
 & \sum_{k=1}^{\infty}t_k = \infty \quad \text{(Harmonic  series)} \\
-& \sum_{k=1 }^{\infty}t^2_k ≈ 1.644934 < \infty \quad \text{(Basel problem)} \\
+& \sum_{k=1 }^{\infty}t^2_k \approx 1.644934 < \infty \quad \text{(Basel problem)} \\
 \end{align} $$
 
-Subgradient method에서 사용되는 step size는 gradient descent에서와는 달리 미리 설정 되어야 한다는 것이 특징이다. 다시 말하면 gradient descent의 backtracking line search처럼 subgradient method의 step size는 곡면의 특징에 맞게 바뀌지 않는다.
+A key feature of the step size in the subgradient method is that it must be set in advance, unlike in gradient descent. In other words, unlike the backtracking line search in gradient descent, the step size in the subgradient method does not adapt to the curvature of the function.

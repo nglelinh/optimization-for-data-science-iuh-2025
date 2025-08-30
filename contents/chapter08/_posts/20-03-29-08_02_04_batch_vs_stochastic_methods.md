@@ -6,11 +6,11 @@ order: 15
 owner: "Kyeongmin Woo"
 ---
 
-Batch method와 stochastic method의 수렴은 다음과 같은 성질을 띈다. 
+The convergence properties of batch and stochastic methods are as follows:
 
-일반적으로 stochastic method는 초반에 빠르게 optimal point 근처로 접근하지만, optimal point 근처에서 어느 순간 더 이상의 수렴을 잘하지 못한다. 반면 batch method는 느리지만 비교적 정확하게 optimal point로 점차 수렴해가는 것을 관찰 할 수 있다.
+Generally, the stochastic method quickly approaches the optimal point in the early stages, but may not converge as well near the optimal point. In contrast, the batch method converges more slowly but approaches the optimal point more accurately.
 
-아래는 [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression)을 batch 방식과 stochastic 방식을 사용했을때, 각각의 수렴성을 비교한 그림이다. (regularizaton은 사용하지 않음)
+The figure below compares the convergence of batch and stochastic methods for [logistic regression](https://en.wikipedia.org/wiki/Logistic_regression) (without regularization):
 
 <figure class="image" style="align: center;">
 <p align="center">

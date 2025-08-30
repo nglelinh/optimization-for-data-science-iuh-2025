@@ -6,38 +6,38 @@ order: 5
 owner: "Kyeongmin Woo"
 ---
 
-Gradient descent에서는 $$\nabla f$$가 Lipschitz continous하다고 가정하였지만 subgradient method에서는 $$f$$가 Lipschitz continous하다고 가정한다. (Gradient descent의 convergence theorem [06-03-01]({% post_url contents/chapter06/21-03-20-06_03_01_convergence_analysis_and_proof %}) 절을 참조)
+In gradient descent, it is assumed that $$\nabla f$$ is Lipschitz continuous, but in the subgradient method, we assume that $$f$$ itself is Lipschitz continuous. (See the convergence theorem for gradient descent [06-03-01]({% post_url contents/chapter06/21-03-20-06_03_01_convergence_analysis_and_proof %}) for reference.)
 
-$$f$$는 convex이고 dom $$f = R^n$$이며 $$f$$가 Lipschitz condition을 만족한다고 하자.
+Assume $$f$$ is convex, dom $$f = \mathbb{R}^n$$, and $$f$$ satisfies the Lipschitz condition:
 
 >\begin{align}
 > | f(x) - f(y) | \le G \lVert x - y \rVert_2 \text{ for all } x, y
 \end{align}
 
-다음과 같은 가정이 주어지면 fixed step sizes와 diminishing step sizes의 convergence 공식은 각각 다음과 같다. 
+Given these assumptions, the convergence formulas for fixed and diminishing step sizes are as follows:
 
 ## Convergence theorem for fixed step sizes 
 
-Fixed step sizes는 다음과 같은 수렴성을 가진다.
+Fixed step sizes have the following convergence property:
 >\begin{align}
-> \lim_{k→\infty} f(x^{(k)}_{best}) \le f^* + \frac{G^{2}t}{2}
+> \lim_{k\to\infty} f(x^{(k)}_{best}) \le f^* + \frac{G^{2}t}{2}
 \end{align}
 
 ## Convergence theorem for diminishing step sizes 
 
-Diminishing step sizes method는 다음과 같은 수렴성을 가진다.
+The diminishing step sizes method has the following convergence property:
 
 >\begin{align}
-\lim_{k→\infty}f(x^{(k)}_{best}) = f^*
+\lim_{k\to\infty}f(x^{(k)}_{best}) = f^*
 \end{align}
 
 ## Proofs
 
-Fixed step-sizes와 diminishing step-sizes의 증명은 각각 다음과 같다.
+The proofs for fixed and diminishing step sizes are as follows.
 
 ## Proof of convergence theorem for fixed step sizes
 
-Fixed step size method는 $$\sum_{i=1}^{k}t_{i} = kt$$임을 이용하여 증명한다.  
+The fixed step size method uses $$\sum_{i=1}^{k}t_{i} = kt$$ in its proof.  
 
 >$$\begin{align}
 & f_{best}^{(k)} - f^* \le \frac{R^{2}+G^{2}\sum_{i=1}^{k}t_{i}^{2}}{2\sum_{i=1}^{k}t_{i}} = \frac{R^{2}+G^{2}k t^{2}}{2kt}  = \frac{R^{2}}{2tk} + \frac{G^{2}t}{2} \\
@@ -49,7 +49,7 @@ $$
 
 ## Proof of convergence theorem for diminishing step sizes 
 
-Diminishing step sizes가 만족하는 아래의 성질 (1), (2)를 이용하여 basic inequality에서부터 증명한다. 
+The proof for the diminishing step sizes uses the following properties (1) and (2):
 
 >$$
 \begin{align}

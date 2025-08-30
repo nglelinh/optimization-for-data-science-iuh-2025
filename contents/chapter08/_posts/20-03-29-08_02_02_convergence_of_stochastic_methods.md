@@ -6,25 +6,25 @@ order: 13
 owner: "Kyeongmin Woo"
 ---
 
-각 함수 $$f_i, i = 1,...,m$$는 컨벡스이고 Lipschitz continuous with constant G 하다고 가정하자.
+Assume each function $$f_i, i = 1,...,m$$ is convex and Lipschitz continuous with constant G.
 
-Stochastic subgradient method에서 fixed step sizes와 diminishing step sizes에 대해 각각 다음의 성질을 가진다.
+For the stochastic subgradient method, the following properties hold for fixed and diminishing step sizes:
 
 - **Fixed step sizes** for $$t_k = t$$, $$k = 1, 2, 3, ...$$
 
->$$\text{Cyclic과 randomized method는 fixed step sizes일 경우 아래를 만족한다:} \\
+>$$\text{For cyclic and randomized methods with fixed step sizes, the following holds:} \\
 \begin{align}
-\lim_{k→\infty} f(x_{best}^{(k)}) \le f^{*} + 5m^{2}G^{2}t/2
+\lim_{k\to\infty} f(x_{best}^{(k)}) \le f^{*} + 5m^{2}G^{2}t/2
 \end{align}
 $$
 
-여기서 $$mG$$는 $$\sum_{i=1}^{m} f_i$$의 Lipschitz constant이다.
+Here, $$mG$$ is the Lipschitz constant of $$\sum_{i=1}^{m} f_i$$.
 
 - **Diminishing step sizes**
 
->$$\text{Cyclic과 randomized method는 diminishing step sizes일 경우 모두 아래를 만족한다:} \\
+>$$\text{For cyclic and randomized methods with diminishing step sizes, the following holds:} \\
 \begin{align}
-\lim_{k→\infty} f(x_{best}^{(k)}) = f^{*}
+\lim_{k\to\infty} f(x_{best}^{(k)}) = f^{*}
 \end{align}
 $$
 
