@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Basic Algebra
+title: 00.02 Basic Linear Algebra
 chapter: "00"
-order: 2
+order: 3
 owner: "GitHub Copilot"
 ---
 

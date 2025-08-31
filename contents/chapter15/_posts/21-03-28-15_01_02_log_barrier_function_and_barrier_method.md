@@ -10,10 +10,10 @@ MathJax.Hub.Config({
     displayAlign: "center"
 });
 </script>
-Barrier method를 소개하기 전에 먼저 indicator function을 barrier function으로 어떻게 근사할 수 있는지 살펴보도록 하자.
+Before introducing the barrier method, let's first see how the indicator function can be approximated by a barrier function.
 
 ## Approximation of indicator function
-다음 그림을 보면 indicator function과 barrier function을 확인할 수 있다. 점선은 indicator function인 $$I_C$$이며 실선은 $$t = 0.5, 1, 2$$에 대한 barrier function $$\phi(x) = -1/t\log(-x)$$이다. Barrier function은 indicator function을 smooth하게 근사하고 있으며 $$t=2$$일 때 가장 좋은 근사를 보여주고 있다.
+In the following figure, you can see the indicator function and the barrier function. The dotted line is the indicator function $$I_C$$, and the solid lines are the barrier function $$\phi(x) = -1/t\log(-x)$$ for $$t = 0.5, 1, 2$$. The barrier function smoothly approximates the indicator function, and when $$t=2$$, it provides the best approximation.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -24,18 +24,18 @@ Barrier method를 소개하기 전에 먼저 indicator function을 barrier funct
 
 
 ## Logarithmic barrier function
-$$h_1, \cdots , h_m : \mathbb{R}^n \to \mathbb{R}$$가 convex이고 두번 미분가능하다고 하자.  set $$ \{x : h_i(x) \lt 0, i = 1, \cdots , m \}$$에 대해 다음 함수를 logarithmic barrier function이라고 한다.
+Suppose $$h_1, \cdots , h_m : \mathbb{R}^n \to \mathbb{R}$$ are convex and twice differentiable. For the set $$ \{x : h_i(x) \lt 0, i = 1, \cdots , m \}$$, the following function is called the logarithmic barrier function.
 
 >
 \begin{align}
 \phi(x) = - \sum_{i=1}^{m} \log(-h_i(x))
 \end{align}
 
-여기서 set은 interior of feasible set $$C$$로 non-empty라고 가정한다.
+Here, the set is assumed to be the interior of the feasible set $$C$$ and is non-empty.
 
 ## Barrier method
 
-Barrier function을 사용해서 원래 문제를 다음과 같이 근사할 수 있다. 단, $$t\gt 0$$이다.
+Using the barrier function, the original problem can be approximated as follows. Here, $$t\gt 0$$.
 >
 $$\begin{align}
 &\min_{x}           && f(x) + \frac{1}{t} \phi(x) & \qquad      & \min_{x} && tf(x) + \phi(x) \\

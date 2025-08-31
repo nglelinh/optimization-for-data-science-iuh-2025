@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Taylor Series
+title: 00.04 Taylor Series
 chapter: "00"
 order: 5
 owner: "GitHub Copilot"
