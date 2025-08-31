@@ -6,16 +6,16 @@ order: 1
 owner: kyeongminwoo
 ---
 
-- [목차]({% link index.html %}#목차)
-- [오픈소스 참여가이드]({% link index.html %}#오픈소스-참여가이드)
-- [저자 서문]({% link index.html %}#저자-서문)
-- [옮긴이 서문]({% link index.html %}#옮긴이-서문)
-- [만든 사람들]({% link index.html %}#만든-사람들)
-- [저자 소개]({% link index.html %}#저자-소개)
+- [Table of Contents]({% link index.html %}#table-of-contents)
+- [Open Source Participation Guide]({% link index.html %}#open-source-participation-guide)
+- [Author's Preface]({% link index.html %}#authors-preface)
+- [Translator's Preface]({% link index.html %}#translators-preface)
+- [Makers]({% link index.html %}#makers)
+- [Author Introduction]({% link index.html %}#author-introduction)
 
 -----------------------
 
-## 목차 
+## Table of Contents
 
 
 | idx | Title | Book | Lecture | Slide |

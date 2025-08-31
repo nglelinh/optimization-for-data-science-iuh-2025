@@ -6,10 +6,10 @@ order: 5
 owner: "Wontak Ryu"
 ---
 
-어떤 문제에서 $$f^* = g^*$$를 만족하면 이를 **strong duality**라 한다. **Slater 조건**은 strong duality를  만족하기 위한 충분조건이다. 
+When a problem satisfies $$f^* = g^*$$, this is called **strong duality**. The **Slater condition** is a sufficient condition for strong duality.
 
-## Slater 조건: 
-만약 primal 문제가 convex이고  strictly feasible한 $$x \in \mathbb{R}^n$$가 하나 이상 있으면 strong duality가 만족된다.
+## Slater condition: 
+If the primal problem is convex and there exists at least one strictly feasible $$x \in \mathbb{R}^n$$, then strong duality holds.
 >
 $$
 \begin{equation}
@@ -17,7 +17,7 @@ h_1(x)<0,\dots,h_m(x)<0, \text{ and } l_1(x) = 0,\dots,l_r(x) = 0,
 \end{equation}
 $$
 
-Important Refinement : Strict inequality는 affine인 경우에는 만족하지 않아도 된다.
+Important refinement: Strict inequality need not be satisfied when the function is affine.
 ## Example: Support Vector Machine Dual 
 $$y \in \{-1,1\}^n$$, $$X \in \mathbb{R}^{n \times p}$$ ($$X$$의 열은 $$x_1, ..., x_n$$)라고 할 때, SVM(Support Vector Machine) 문제는 다음과 같이 정의된다.
 
@@ -47,7 +47,7 @@ g(v,w) =
 \end{cases}
 $$
 
-여기서 $$\tilde{X}=\text{diag}(y) X$$임. 따라서, SVM dual 문제는 (slack 변수 $$v$$를 제거하면) 아래와 같이 된다. 
+Here $$\tilde{X}=\text{diag}(y) X$$. Therefore, the SVM dual problem (after eliminating the slack variable $$v$$) becomes the following. 
 >
 $$
 \begin{alignat}{1}
@@ -56,7 +56,7 @@ $$
 \end{alignat}
 $$
 
-Primal 문제가 slater조건을 만족하므로 strong duality가 성립된다. (즉, Objective function이 convex이고 inequality constraint가 $$\beta, \beta_0, \xi$$에 대해 affine이므로 slater 조건을 만족한다.)
+Since the primal problem satisfies the Slater condition, strong duality holds. (That is, the objective is convex and the inequality constraints are affine in $$\beta, \beta_0, \xi$$.)
 
 
 

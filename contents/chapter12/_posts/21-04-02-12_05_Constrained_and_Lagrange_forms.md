@@ -12,27 +12,27 @@ MathJax.Hub.Config({
 });
 </script>
 
-통계학과 기계학습에서는 종종 **constrained form**과 **Lagrange form** 사이를 오가곤 한다. Constrained form과 Lagrangian form을 다음과 같이 정의해보자.
+In statistics and machine learning, we often move between **constrained form** and **Lagrange form**. Let us define the constrained form and Lagrangian form as follows.
 
-#### Constrained Form (이하 (C))
+#### Constrained Form ((C) hereafter)
 >$$ 
 >\min_x \: f(x) \quad \text{ subject to } h(x) \le t,\\\\
 >\text{where } t \in \mathbb{R} \text{ is a tuning parameter.}
 >$$
 
-#### Lagrange Form (이하 (L))
+#### Lagrange Form ((L) hereafter)
 >$$ 
 >\min_x \: f(x) + \lambda \cdot h(x),\\\\
 >\text{where } \lambda \ge 0 \text{ is a tuning parameter.}
 >$$
 
-$$f, h$$가 convex라고 가정할때, 두 문제가 동일한 solution을 도출하는 경우에 대해 알아보도록 하자.
+When $$f, h$$ are convex, let us examine the cases where the two problems yield the same solution.
 
-1. **(C) to (L):** (C)가 strictly feasible (Slater's condition을 만족)하여 strong duality를 만족할 때, (C)의 solution인 $$x^\star$$에 대해 다음의 목적함수를 최소화하는 dual solution $$\lambda^\star \ge 0$$가 존재한다면 $$x^\star$$는 또한 (L)의 solution이다. 
+1. **(C) to (L):** When (C) is strictly feasible (satisfies Slater's condition) and satisfies strong duality, if there exists a dual solution $$\lambda^\star \ge 0$$ that minimizes the following objective function for the solution $$x^\star$$ of (C), then $$x^\star$$ is also a solution of (L). 
 
 $$f(x) + \lambda \cdot (h(x) - t)$$
    
-2. **(L) to (C):** 만약 $$x^\star$$가 (L)의 solution이고, $$t = h(x^\star)$$인 (C)가 KKT conditions를 만족하면, $$x^\star$$는 또한 (C)의 solution이다. (L)의 KKT conditions를 만족하는 $$\lambda^\star, x^\star$$는 $$t = h(x^\star)$$인 (C)의 KKT conditions를 또한 만족하기 때문이다.
+2. **(L) to (C):** If $$x^\star$$ is a solution of (L) and (C) with $$t = h(x^\star)$$ satisfies the KKT conditions, then $$x^\star$$ is also a solution of (C). This is because $$\lambda^\star, x^\star$$ that satisfy the KKT conditions of (L) also satisfy the KKT conditions of (C) with $$t = h(x^\star)$$.
 
 
 >**$$\rightarrow$$ (L)의 KKT conditions:**
@@ -56,7 +56,7 @@ $$f(x) + \lambda \cdot (h(x) - t)$$
 > $$
 
 
-결론적으로 1과 2는 각각 다음과 같은 관계를 보인다.
+In conclusion, 1 and 2 show the following relationships respectively.
 
 
 <figure class="image" style="align: center;">
@@ -67,5 +67,5 @@ $$f(x) + \lambda \cdot (h(x) - t)$$
 </figure>
 
 
-그렇다면 어떤 상황에서 (C)와 (L)이 perfect equivalence를 보이게 될까?<br/>
-가령, $$h(x) \ge 0$$ (예를 들어 norm), $$t = 0$$이고, $$\lambda = \infty$$인 경우에는 perfect equivalence를 보인다. 주어진 조건에 의해 (C)에서의 제약조건은 $$h(x) = 0$$이 되는데, $$\lambda$$를 $$\infty$$으로 설정하게되면 (L)에서 또한 동일한 제약조건($$h(x) = 0$$)을 거는 것과 같은 효과를 보인다. 
+So, under what circumstances do (C) and (L) show perfect equivalence?<br/>
+For example, when $$h(x) \ge 0$$ (such as norm), $$t = 0$$, and $$\lambda = \infty$$, perfect equivalence is shown. Due to the given conditions, the constraint in (C) becomes $$h(x) = 0$$, and by setting $$\lambda$$ to $$\infty$$, (L) also imposes the same constraint ($$h(x) = 0$$). 

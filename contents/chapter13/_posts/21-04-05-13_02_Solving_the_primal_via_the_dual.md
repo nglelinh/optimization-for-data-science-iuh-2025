@@ -17,11 +17,9 @@ Strong duality의 조건하에서 Dual solution $$u^{\star}, v^{\star}$$가 주�
 즉, primal 문제를 직접 풀 때보다 dual 문제로 푸는 것이 더 쉬울 때 매우 유용하다.
 
 
-
 ### Example from B & V page 249:
 > $$ \min_x \sum_{i=1}^n f_i(x_i) \qquad \text{ subject to }\qquad a^Tx = b$$
 
-각각의 $$f_i : \mathbb{R} → \mathbb{R}$$ 가 smooth하고, strictly convex이면 Dual function은 아래와 같다.
 
 > $$\begin{align}
 > g(v) &= \min_x \sum_{i=1}^n f_i(x_i) + v(b−a^Tx) \\\

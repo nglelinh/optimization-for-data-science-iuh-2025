@@ -12,7 +12,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-다음과 같은 컨벡스 최적화 문제가 주어졌다고 하자.
+Suppose we have the following convex optimization problem.
 
 >$$
 >\begin{align}
@@ -22,9 +22,9 @@ MathJax.Hub.Config({
 >\end{align}
 >$$
 
-이 문제는 n개의 communication channels에 전력을 할당하는 문제이며, 정보이론(information theory)에서 대두되었다. 변수 $$x_i$$는 i번째 채널에 할당되는 송신기의 출력을 나타내며, $$\log(\alpha_i + x_i)$$는 해당 채널의 capacity 또는 communication rate를 나타낸다. 즉, 이 문제는 communication rate의 총합을 최대화하기 위해 각 채널에 얼마만큼의 전력을 할당해야 하는지 결정하기 위한 문제이다 [1].
+This problem is about allocating power to n communication channels and arose in information theory. The variable $$x_i$$ represents the output of the transmitter allocated to the i-th channel, and $$\log(\alpha_i + x_i)$$ represents the capacity or communication rate of that channel. That is, this problem is to determine how much power should be allocated to each channel to maximize the total communication rate [1].
 
-Inequality constraint $$x^\star \succeq 0$$와 equality constraint $$1^Tx^\star = 1$$에 대한 Lagrange multipliers를 각각 $$\lambda^\star \in \mathbb{R}^n$$, $$\nu^\star \in \mathbb{R}$$라고 하자. 이때 주어진 문제에 대한 KKT conditions는 다음과 같다.
+Let the Lagrange multipliers for the inequality constraint $$x^\star \succeq 0$$ and equality constraint $$1^Tx^\star = 1$$ be $$\lambda^\star \in \mathbb{R}^n$$ and $$\nu^\star \in \mathbb{R}$$ respectively. The KKT conditions for the given problem are as follows.
 >$$
 >\begin{align}
 >x^\star \succeq 0, \\\\
@@ -35,7 +35,7 @@ Inequality constraint $$x^\star \succeq 0$$와 equality constraint $$1^Tx^\star 
 >\end{align}
 > $$
 
-KKT conditions를 통해 얻은 수식들을 이용하면 $$x^\star, \lambda^\star, \nu^\star$$를 해석적으로(analytically) 구할 수 있다. 일단 $$\lambda^\star$$를 slack variable로 사용하여 위 수식에서 $$\lambda^\star$$를 제거한다.
+Using the equations obtained from KKT conditions, we can find $$x^\star, \lambda^\star, \nu^\star$$ analytically. First, we eliminate $$\lambda^\star$$ from the equations using it as a slack variable.
 >$$
 >\begin{align}
 >x^\star \succeq 0, \\\\
@@ -45,7 +45,7 @@ KKT conditions를 통해 얻은 수식들을 이용하면 $$x^\star, \lambda^\st
 >\end{align}
 > $$
 
-이는 stationarity와 complementary slackness에 의해 다음과 같이 정리된다.
+This is organized as follows by stationarity and complementary slackness.
 > $$
 > x_i^\star = 
 > \begin{cases}
@@ -55,14 +55,14 @@ KKT conditions를 통해 얻은 수식들을 이용하면 $$x^\star, \lambda^\st
 > = \max\{0, 1/\nu^\star - \alpha_i \}, \quad i = 1, \dots, n.
 > $$
 
-또한 조건 $$1^T x^\star = 1$$에 의해 $$x_i^\star, i = 1, \dots, n$$은 합산하여 1이 된다.
+Also, by the condition $$1^T x^\star = 1$$, $$x_i^\star, i = 1, \dots, n$$ sum to 1.
 > $$
 > \sum_{i=1}^n \max\{0, 1/\nu^\star - \alpha_i \} = 1.
 > $$
 
-위 등식의 좌항은 $$1/\nu^\star$$에 대한 piecewise-linear increasing function이므로 이 등식은 고정된 $$\alpha_i$$에 대해 unique solution을 갖는다.
+The left side of the equation is a piecewise-linear increasing function of $$1/\nu^\star$$, so this equation has a unique solution for fixed $$\alpha_i$$.
 
-이 solution method를 일컬어 water-filling이라고 부른다. 이 문제는 $$\alpha_i$$가 patch $$i$$에 대한 ground level이라고 할 때, 아래 그림과 같이 물의 높이가 $$1/\nu^\star$$가 되도록 각 영역에 물을 붓는 것으로 생각할 수 있다. 우리는 전체 물의 양이 1이 될 때까지 물을 붓도록 한다.
+This solution method is called water-filling. When $$\alpha_i$$ is the ground level for patch $$i$$, this problem can be thought of as pouring water into each region so that the water level becomes $$1/\nu^\star$$ as shown in the figure below. We pour water until the total amount of water becomes 1.
 
 <figure class="image" style="align: center;">
 <p align="center">

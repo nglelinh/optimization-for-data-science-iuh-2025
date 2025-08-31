@@ -21,13 +21,11 @@ duality gap이 0일 때 이를 zero duality gap이라 하며 이는 dual 문제�
 > f^{\star} &\ge g(u, v) \\
 > -f^{\star} &\le -g(u, v) \\
 > f(x)-f^{\star} &\le \underbrace{f(x)-g(u, v)}_{\text{dualityh gap}}\\
-> also, \\
 > g^{\star}-g(x) &\le \underbrace{f(x)-g(u, v)}_{\text{dualityh gap}}\\
 > \end{align*}$$
 
 
 그리고, duality gap은 알고리즘의 중지 기준(stopping criterion)으로 사용될 수도 있다. 
-
 • Dual optimal $$u^{\star}, v^{\star}$$이 주어졌을 때 Strong duality의 조건하에서, primal solution은 모든 $$x$$에 대해 라그랑지안 $$L (x, u^{\star}, v^{\star})$$을 최소화 시킨다. (즉, stationarity condition을 만족시킨다).
 
 이를 primal solution 계산에 이용할 수 있다.

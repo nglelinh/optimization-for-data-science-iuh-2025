@@ -1,13 +1,11 @@
 ---
 layout: post
 title: 14-01-01 Newton's method interpretation
-chapter: "14"
 order: 3
 owner: "Minjoo Lee"
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
-    displayAlign: "center"
 });
 </script>
 

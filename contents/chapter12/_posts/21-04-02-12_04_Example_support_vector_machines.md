@@ -12,7 +12,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-Non-separable set에 대한 support vector machine 문제는 다음과 같다.
+The support vector machine problem for non-separable sets is as follows.
 
 >$$
 >\begin{align}
@@ -23,23 +23,23 @@ Non-separable set에 대한 support vector machine 문제는 다음과 같다.
 >\end{align}
 >$$
 
-주어진 문제의 두 inequality constraints에 대한 0 이상의 Lagrange multipliers를 각각 $$v^\star, w^\star$$이라 할때, Lagrangian function은 다음과 같다.
+When the Lagrange multipliers for the two inequality constraints of the given problem are $$v^\star, w^\star \geq 0$$ respectively, the Lagrangian function is as follows.
 >$$L(\beta, \beta-0, \xi, v^\star, w^\star) = \frac{1}{2} \rVert\beta\rVert_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i^\star \xi_i + \sum_{i=1}^n w_i^\star (1 - \xi_i - y_i ( x_i^T \beta + \beta_0))$$
 
-위 Lagrangian function을 이용하여 이 문제가 KKT stationarity condition을 만족하게 하는 다음의 조건들을 구할 수 있다. (Lagrangian function을 $$\beta, \beta_0, \xi$$에 대해 각각 미분하여 0이 되는 조건을 유도)
+Using the above Lagrangian function, we can find the following conditions that make this problem satisfy the KKT stationarity condition. (Derive the conditions where the Lagrangian function becomes 0 when differentiated with respect to $$\beta, \beta_0, \xi$$ respectively)
 >$$
 >0 = \sum_{i=1}^n w_i^\star y_i, \quad \beta = \sum_{i=1}^n w_i^\star y_i x_i, \quad w^\star = C \cdot 1 - v^\star
 >$$
 
-또한 두 개의 inequality constraints에 대한 complementary slackness는 다음과 같다.
+Also, complementary slackness for the two inequality constraints is as follows.
 > $$
 > v_i^\star \xi_i = 0, \quad w_i^\star (1 - \xi_i - y_i (x_i^T \beta + \beta-0)) =0, \quad 1 = 1, \dots, n.
 > $$
 
-즉, 최적점(optimality)에서 $$\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i$$를 만족하며, $$y_i (x_i^T \beta^\star + \beta-0^\star) = 1 - \xi_i^\star$$일때 $$w_i^\star$$는 nonzero가 되는데, 이런 지점  i를 **support points**라고 부른다.
+That is, at optimality, $$\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i$$ is satisfied, and when $$y_i (x_i^T \beta^\star + \beta-0^\star) = 1 - \xi_i^\star$$, $$w_i^\star$$ becomes nonzero, and such point i is called **support points**.
 
-* 어떤 support point i에 대해, $$\xi_i^\star = 0$$이면 $$x_i$$는 hyperplane 위에 위치하게 되며 이때 $$w_i^\star \in (0, C]$$이다.
-* 어떤 support point i에 대해, $$\xi_i^\star \neq 0$$이면 $$x_i$$는  hyperplane의 반대쪽에 위치하게 되며 이때 $$w_i^\star = C$$다.
+* For a support point i where $$\xi_i^\star = 0$$, $$x_i$$ is located on the hyperplane and $$w_i^\star \in (0, C]$$.
+* For a support point i where $$\xi_i^\star \neq 0$$, $$x_i$$ is located on the opposite side of the hyperplane and $$w_i^\star = C$$.
 
 <figure class="image" style="align: center;">
 <p align="center">

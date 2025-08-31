@@ -12,11 +12,11 @@ MathJax.Hub.Config({
 });
 </script>
 
-[10-01]({% post_url contents/chapter10/21-03-22-10_01_Lower_Bounds_in_Linear_Programs %})에서 단일 차원의 변수의 LP 문제에 대한 primal, dual을 살펴보았다. 10-02에서는 general form(일반형)을 가지는 LP에 대한 dual을 살펴보고자 한다.
+In [10-01]({% post_url contents/chapter10/21-03-22-10_01_Lower_Bounds_in_Linear_Programs %}), we examined the primal and dual of LP problems with single-dimensional variables. In 10-02, we want to examine the dual for LPs in general form.
 
-LP의 general form은 다음과 같다.
+The general form of LP is as follows:
 
-$$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, G\in\mathbb{R}^{r\times n},\, h\in\mathbb{R}^{r}$$ 라 주어졌을 때,
+Given $$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, G\in\mathbb{R}^{r\times n},\, h\in\mathbb{R}^{r}$$,
 
 >$$
 >\begin{align}
@@ -26,8 +26,8 @@ $$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, G\in
 >\end{align}
 >$$
 
-앞 10-01의 예시와 동일하게, constraint 개수와 동일한 수의 dual variable $$u, v$$를 정의하고,
-constraint와 각 dual variable의 곱의 합으로 dual 문제의 objective function을 정의하고, constraint를 정의할 수 있다. 
+Similar to the example in 10-01, we define dual variables $$u, v$$ equal in number to the number of constraints,
+and can define the objective function of the dual problem and constraints as the sum of products of constraints and each dual variable. 
 
 >$$
 >\begin{align}
@@ -37,8 +37,8 @@ constraint와 각 dual variable의 곱의 합으로 dual 문제의 objective fun
 >\end{align}
 >$$
 
-등호에 대한 dual variable $$u$$는 조건이 없고, $$v$$는 부등호에 대한 dual variable이기 때문에 양수라는 조건이 추가됨을 기억하자.
-마지막 식을 정리하여 primal LP의 objective function을 나타내면, dual LP가 된다.
+Remember that the dual variable $$u$$ for equality has no constraints, while $$v$$ is a dual variable for inequality and thus has the additional constraint of being positive.
+By organizing the last equation to represent the objective function of the primal LP, we get the dual LP.
 
 >$$
 >\begin{align}
@@ -51,9 +51,9 @@ constraint와 각 dual variable의 곱의 합으로 dual 문제의 objective fun
 >\end{align}
 >$$
 
-즉, $$c = -A^{T}u-G^{T}v$$ 일 때, primal의 optimal value는 $$-b^{T}u-h^{T}v$$의 하한을 가진다.
+That is, when $$c = -A^{T}u-G^{T}v$$, the optimal value of the primal has a lower bound of $$-b^{T}u-h^{T}v$$.
 
-결과적으로, dual LP는 다음과 같이 정의할 수 있다.
+Consequently, the dual LP can be defined as follows.
 
 >$$
 >\begin{align}

@@ -6,27 +6,27 @@ order: 8
 owner: "Wontak Ryu"
 ---
 
-Dual formulation은 목적 함수의 일부와 또 다른 영역 사이의 선형 변환의 shifting으로 도움이 된다.
+The dual formulation helps with shifting linear transformations between parts of the objective function and other domains.
 
-다음을 살펴보자
+Let’s look at the following:
 > $$ \min_x f(x) + g(Ax)$$
 
-아래 수식은 위의 식과 동치 이다.
+The following expression is equivalent:
 > $$min_{x,z} f(x) + g(z) \text { subject to } Ax = z$$
 
-이는 다음의 유도 과정을 거친다.
+This leads to the following dual process:
 > $$\text {g(u)} = \min_{x,z} f(x) + g(z) + u^T(z - Ax)$$
 > $$\qquad  = -\max_{x} (A^T u)^T x - f(x) - \max_{z} (-u)^T z - g(z)  $$
-> $$\qquad = -\ f^{∗} (A^T u) - g^{∗} (-u) $$
+> $$\qquad = -\ f^* (A^T u) - g^* (-u) $$
 
-그리고 dual은 다음과 같다.
-> $$\max_u −f^{∗}(A^Tu) − g^{∗}(−u)$$
+And the dual is:
+> $$\max_u -f^*(A^Tu) - g^*(-u)$$
 
 ##### [Example]
-norm과 그 norm의 dual norm은 다음의 관계에 있다. $$\rVert · \rVert, \rVert · \rVert_{∗}$$, the problems 
+Norms and their dual norms are related as follows: $$\| \cdot \|, \| \cdot \|^*$$, the problems 
 
-> $$ \min_x f(x) +\rVert Ax \rVert$$
+> $$ \min_x f(x) +\| Ax \|$$
 > 
-> $$ \max_u −f^{*}(A^Tu) \text{ subject to } \rVert u \rVert_{∗} ≤ 1$$
+> $$ \max_u -f^*(A^Tu) \text{ subject to } \| u \|^* \leq 1$$
 
-첫번째 수식은 primal이며 두번째 수식은 dual로, 쌍으로 나타내어 질 수 있다.
+The first expression is the primal, and the second is the dual, which can be solved directly.

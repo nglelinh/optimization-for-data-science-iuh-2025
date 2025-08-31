@@ -12,7 +12,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-Linear program의 duality에 대한 예시로 max flow min cut 문제에 대해 살펴보고자 한다.
+As an example of duality in linear programs, we want to examine the max flow min cut problem.
 
 ## Directed Graph, Condition of flow
 
@@ -25,49 +25,49 @@ Linear program의 duality에 대한 예시로 max flow min cut 문제에 대해 
 </figure>
 
 
-위와 같이 방향이 있는(directed) graph $$G = (V, E)$$가 있고, vertex i와 vertex j를 잇는 edge, $$(i,j)\in E$$, 즉 i에서 j로 흐르는 flow(유량)를 $$f_{ij}$$라고 하자. 각 edge에는 capacity, 즉 흐를 수 있는 최대 flow가 정해져있다. 이를 $$c_{ij}$$라 하자.
+There is a directed graph $$G = (V, E)$$ as shown above, and let the edge connecting vertex i and vertex j, $$(i,j)\in E$$, i.e., the flow from i to j, be $$f_{ij}$$. Each edge has a capacity, i.e., the maximum flow that can flow through it. Let this be $$c_{ij}$$.
 
-쉬운 예시로, source(s)에서 나오는 어떤 flow가 sink(t)로 흘러나가는 과정을 그래프로 나타낸 것이라 이해할 수 있다. 도시 배수/송전 계획, 물자 수송 등 다양한 문제에 적용될 수 있는 그래프 형태이다.
+As a simple example, this can be understood as a graph representation of some flow from a source(s) flowing out to a sink(t). It is a graph form that can be applied to various problems such as urban drainage/power transmission planning, material transportation, etc.
 
-여기서 flow는 3가지 조건을 만족한다.
+Here, the flow satisfies three conditions.
 
-1. $$f_{ij}$$는 항상 0과 같거나 큰 양수이다 : $$f_{ij} \geq 0,\, (i,j)\in E$$
-2. $$f_{ij}$$는 edge에 정해져 있는 최대 flow, 즉 capacity(한계 용량) $$c_{ij}$$보다 작아야 한다 : $$f_{ij}<c_{ij}, \, (i,j)\in E$$
-3. source(flow가 나오는 지점, s) 또는 sink(flow가 나가는 지점, t)을 제외한 vertex k에 대해서, k로 들어가는 flow의 총량과 k에서 나오는 flow의 총량은 같다 : $$\sum_{(i,k)\in E}f_{ik} = \sum_{(k,j)\in E}f_{kj}, \, k\in V\backslash{s,t}$$
+1. $$f_{ij}$$ is always a positive number greater than or equal to 0: $$f_{ij} \geq 0,\, (i,j)\in E$$
+2. $$f_{ij}$$ must be less than the maximum flow determined for the edge, i.e., the capacity (limit capacity) $$c_{ij}$$: $$f_{ij}<c_{ij}, \, (i,j)\in E$$
+3. For vertex k excluding the source (the point where flow comes out, s) or sink (the point where flow goes out, t), the total amount of flow entering k equals the total amount of flow leaving k: $$\sum_{(i,k)\in E}f_{ik} = \sum_{(k,j)\in E}f_{kj}, \, k\in V\backslash{s,t}$$
 
 ## Relationship between Max flow and Min cut problem(1)
 
-위처럼 정의된 graph와 flow에 대하여 대표적으로 알려진 두 가지 문제, max flow 문제, min cut 문제와 이 둘의 관계에 대해 살펴볼 것이다.
+For the graph and flow defined above, we will examine two well-known problems, the max flow problem and the min cut problem, and the relationship between them.
 
-결론부터 말하자면, max flow 문제는 LP 문제이고, min cut 문제는 integer program인데, max flow 문제의 dual은 min cut 문제를 LP relaxation한 것과 동일한 문제형태를 갖는다.
+To conclude first, the max flow problem is an LP problem, and the min cut problem is an integer program, where the dual of the max flow problem has the same problem form as the LP relaxation of the min cut problem.
 
 >$$
 >\begin{align}
->\text{Value of max flow} &\leq \text{dual LP of max flow}\\\\
->&= \text{Optimal value for LP relaxed min cut}\\\\
->&\leq \text{Capacity of min cut}\\\\
+>\text{Value of max flow} &\leq \text{dual LP of max flow}\\
+>&= \text{Optimal value for LP relaxed min cut}\\
+>&\leq \text{Capacity of min cut}\\
 >\end{align}
 >$$
 
-이 페이지에서는 dual과 relaxation의 역과정(LP 문제에 제약 조건을 추가하여, integer program으로 변환)으로 다음과 같은 부등호 관계를 보일 것이다, 여기선 다루지 않지만, 실제론 이 세 결과가 모두 같다.
+In this page, we will show the inequality relationship by the reverse process of dual and relaxation (adding constraints to the LP problem to convert it to an integer program). Although not covered here, in reality, all three results are equal.
 
-이를 max flow min cut theorem이라 부르며, 네트워크의 최대 flow는 cut의 최소 capacity와 같다는 정리이다.
+This is called the max flow min cut theorem, which states that the maximum flow in a network is equal to the minimum capacity of a cut.
 
-좀 더 일반화하여 보면, 특정 조건에서 primal 문제와 dual 문제의 optimal value가 동일한 값을 가지는 경우가 있는데 이때를 strong duality 관계에 있다고 한다.
+More generally, under certain conditions, the optimal values of the primal and dual problems are equal, which is called strong duality.
 
-LP 문제에서는 두 primal, dual 문제 모두가 infeasible한 경우를 제외하고는 strong duality를 가진다. 이에 대한 내용은 11장에서 다루게 된다.
+In LP problems, except for the case where both the primal and dual problems are infeasible, strong duality holds. This will be discussed in Chapter 11.
 
-먼저 두 가지 문제에 대하여 살펴보고, max flow 문제에서 dual을 유도하고, 이 dual 문제에서 문제에 특정 조건을 추가함으로써(relaxation의 역과정) min cut 문제로 변환 됨을 보인다.
+First, let's look at the two problems, derive the dual from the max flow problem, and show that by adding specific conditions to the dual problem (reverse of relaxation), it transforms into the min cut problem.
 
 ## Max flow problem
 
-Max flow problem이란 위 조건을 만족하는 그래프에 대해서 s에서 t로 흘러가는 flow의 최댓값을 찾는 문제이다.
+The max flow problem is to find the maximum flow from s to t in a graph that satisfies the above conditions.
 
 >$$
 >\begin{align}
->&\max_{f\in {\mathbb{R}^{|E|}}} &&{\sum_{(s,j)\in E} f_{sj}}\\\\
->&\text{subject to} &&{f_{ij}\geq 0,\,f_{ij}\leq c_{i,j}\,\, \text{for all }(i, j)\in E}\\\\
->&&&{\sum_{(i, k)\in E}f_{ik}=\sum_{(k,j)\in E}f_{kj}}\,\, \text{for all }k\in V \backslash \{s,t\}.\\\\
+>&\max_{f\in {\mathbb{R}^{|E|}}} &&{\sum_{(s,j)\in E} f_{sj}}\\
+>&\text{subject to} &&{f_{ij}\geq 0,\,f_{ij}\leq c_{i,j}\,\, \text{for all }(i, j)\in E}\\
+>&&&{\sum_{(i, k)\in E}f_{ik}=\sum_{(k,j)\in E}f_{kj}}\,\, \text{for all }k\in V \backslash \{s,t\}.\\
 >\end{align}
 >$$
 
@@ -80,43 +80,43 @@ Max flow problem이란 위 조건을 만족하는 그래프에 대해서 s에서
 </p>
 </figure>
 
-  Min cut 문제는 graph의 전체 vertex를 그림에서처럼 색칠된 영역, 색칠되지 않은 영역 두 집합에 나눠서 속하게 하는데, 한 집합에는 source를 포함하고, 나머지 집합에는 sink를 포함하되, 나머지 vertex는 임의로 두 집합 중 하나에 속하게 나눈다(여기서는 source를 포함하는 집합을 A, sink를 포함하는 집합을 B라고 할 것이다),이때 집합 A에서 B로 진행하는 방향의 edge들의 capacity 총합을 cut이라고 정의한다.
+The min cut problem divides all vertices of the graph into two sets: the shaded region and the unshaded region, as shown in the figure. One set contains the source, and the other contains the sink, while the remaining vertices are arbitrarily assigned to either set (here, the set containing the source is called A, and the set containing the sink is called B). The sum of the capacities of the edges going from set A to set B is defined as the cut.
 
-  다시 말해, cut은 source와 sink를 각각 다른 partition에 존재하게 구분하는 graph의 vertex partition이다. min cut은 graph가 주어졌을 때 이 cut의 최솟값을 찾는 문제이다. 일반적으로 정의되는 min cut 문제의 경우 directed graph 상에서 정의되기 때문에, 항상 source $$x_{s}=1$$, sink $$x_{t}=0$$을 만족한다. 아래의 문제 정의에는 이 부분이 생략되어 있다.
+In other words, a cut is a partition of the graph's vertices such that the source and sink are in different partitions. The min cut problem is to find the minimum value of this cut for a given graph. In the general definition of the min cut problem, since it is defined on a directed graph, it always satisfies source $$x_{s}=1$$, sink $$x_{t}=0$$. This part is omitted in the problem definition below.
 
 >$$
 >\begin{align}
->&\min_{b\in {\mathbb{R}^{|E|}},\, x \in {\mathbb{R}^{|V|}} } &&{\sum_{(i,j)\in E} b_{ij}c_{ij}}\\\\
->&\text{subject to} &&{b_{ij} \geq x_{i}-x_{j}}\\\\
->&&&{b_{ij},\,x_{i},\,x_{j}\,\in \{ 0,1 \} }\\\\
->&&&\text{for all }i, j.\\\\
+>&\min_{b\in {\mathbb{R}^{|E|}},\, x \in {\mathbb{R}^{|V|}} } &&{\sum_{(i,j)\in E} b_{ij}c_{ij}}\\
+>&\text{subject to} &&{b_{ij} \geq x_{i}-x_{j}}\\
+>&&&{b_{ij},\,x_{i},\,x_{j}\,\in \{ 0,1 \} }\\
+>&&&\text{for all }i, j.\\
 >\end{align}
 >$$
 
-  직관적으로 생각하면, max flow 문제는 source에서 나오는 flow의 최댓값을 찾는 문제이고, min cut 문제는 source 집합에서 sink 집합으로 보낼 수 있는 전체 capacity의 최솟값을 찾는 문제이므로, 어렴풋이나마 이 둘의 문제가 비슷함을 알 수 있다.
+Intuitively, the max flow problem is to find the maximum flow from the source, and the min cut problem is to find the minimum total capacity that can be sent from the source set to the sink set, so it is clear that these two problems are closely related.
 
 ## Dual of Max flow problem
-Max flow의 최적화 문제에 대하여 dual을 구해보자.
+Let's derive the dual for the max flow optimization problem.
 
-  먼저 constraint에 대하여 dual variable을 순서대로 $$a_{ij}, b_{ij}, x_{k}$$로 정의한다.  max 문제의 dual의 경우 upper bound를 minimize하는 형태가 될 것이므로, 정리한 형태가 primal objective의 upper bound를 가지는 primal objective $$\leq$$ sth의 형태가 되어야 한다. 따라서, constraint에 대하여 $$f_{ij}$$의 upper bound를 찾는 방향으로 식을 정리한다.
-이를 정리하면 다음과 같다.
+First, define the dual variables for the constraints in order as $$a_{ij}, b_{ij}, x_{k}$$. In the dual of the max problem, the upper bound will be minimized, so the organized form should be in the form of primal objective $$\leq$$ something. Therefore, organize the equation to find the upper bound of $$f_{ij}$$ for the constraints.
+This can be organized as follows.
 
 >$$
 >\begin{align}
->\sum_{(i,j)\in E} {\Big(-a_{ij}f_{ij}+b_{ij}(f_{ij}-c_{ij})\Big)} + \sum_{k \in V\backslash \{s,t\}} x_{k}\Big( \sum_{(i,k)\in E} f_{ik} - \sum_{(k,j)\in E } f_{kj} \Big)\leq 0\\\\
+>\sum_{(i,j)\in E} {\Big(-a_{ij}f_{ij}+b_{ij}(f_{ij}-c_{ij})\Big)} + \sum_{k \in V\backslash \{s,t\}} x_{k}\Big( \sum_{(i,k)\in E} f_{ik} - \sum_{(k,j)\in E } f_{kj} \Big)\leq 0\\
 >\text{for any }a_{ij}, b_{ij} \geq 0, (i, j)\in E, \text{ and } x_{k}, k\in V \backslash \{s,t\}.
 >\end{align}
 >$$
 
-primal LP의 목적함수와 관계된 $$f$$항을 좌항으로, 그 나머지는 우항으로 정리한다.
+Organize the $$f$$ terms related to the primal LP objective function on the left, and the rest on the right.
 
-그 다음, 이 과정에서 우리가 원하는 것은 primal LP의  상한(upper bound)이므로, 좌항의 $$f$$ 앞에 곱해져 있는 항들의 결과가 primal LP의 목적함수와 일치하도록 만드는 식을 찾는다.
+Next, since we want the upper bound of the primal LP, find the equation such that the terms multiplied by $$f$$ on the left match the primal LP objective function.
 
-이 식을 만족하도록 하는 조건이 dual LP에서의 constraint가 된다.
+The condition that satisfies this equation becomes the constraint in the dual LP.
 
-즉, $$f_{ij}$$의 식이 $$\sum_{(s,j)\in E}f_{sj}$$에서만 1을 갖고 나머지가 0이 되도록 정리한다.
+That is, organize the equation so that the $$f_{ij}$$ term is 1 only in $$\sum_{(s,j)\in E}f_{sj}$$ and 0 elsewhere.
 
-이 과정을 조금 더 자세히 보면 다음과 같다.
+This process is detailed as follows.
 
 >$$
 >\begin{align}
@@ -124,14 +124,14 @@ primal LP의 목적함수와 관계된 $$f$$항을 좌항으로, 그 나머지�
 >\end{align}
 >$$
 
-여기서, 우리는 $$i=s$$인 경우에 좌항의 결과가 $$\sum_{(s,j)\in E}f_{sj}$$이 되고, 다른 경우에 대해서는 0이 되게 식을 정리하는 것이 목표이다.
+Here, our goal is to make the result of the left side when $$i=s$$ be $$\sum_{(s,j)\in E}f_{sj}$$ and 0 for other cases.
 
-두 번째 시그마의 x항의 k는 source와 sink에 대해서는 포함되지 않음을 유의하면서, $$i=s, j\neq t$$인 경우, $$i\neq s, j=t$$인 경우, $$i\neq s,j\neq t$$가 아닌 경우로 나누어 좌항을 정리할 수 있다.
+The k in the x term of the second sigma does not include the source and sink, and can be divided into three cases: when $$i=s, j\neq t$$, when $$i\neq s, j=t$$, and when $$i\neq s,j\neq t$$.
 
 ### Case 1. $$i = s, j \neq t.$$
 
-$$x_{k}$$에 곱해진 항에 대해서 $$k=j$$인 경우를 제외하고는, flow의 세번째 조건에 의해 소거된다.
-따라서, 두 번째 항의 $$x$$항에 대한 시그마를 다음과 같이 정리할 수 있다.
+For the term multiplied by $$x_{k}$$, it is eliminated by the third condition of flow except for the case of $$k=j$$.
+Therefore, the sigma for the x term of the second term can be organized as follows.
 
 >$$
 >\begin{align}
@@ -141,8 +141,8 @@ $$x_{k}$$에 곱해진 항에 대해서 $$k=j$$인 경우를 제외하고는, fl
 >$$
 
 ### Case 2. $$i \neq s, j = t.$$
-$$x_{k}$$에 곱해진 항에 대해서 $$k=i$$인 경우를 제외하고는, flow의 세 번째 조건에 의해 소거된다.
-따라서, 두 번째 항의 $$x$$항에 대한 시그마를 다음과 같이 정리할 수 있다.
+For the term multiplied by $$x_{k}$$, it is eliminated by the third condition of flow except for the case of $$k=i$$.
+Therefore, the sigma for the x term of the second term can be organized as follows.
 
 >$$
 >\begin{align}
@@ -152,8 +152,8 @@ $$x_{k}$$에 곱해진 항에 대해서 $$k=i$$인 경우를 제외하고는, fl
 >$$
 
 ### Case 3. $$i \neq s, j \neq t.$$
-$$x_{k}$$에 곱해진 항에 대해서 $$k=i, k=j$$인 경우를 제외하고는, flow의 세 번째 조건에 의해 소거된다.
-따라서, 두 번째 항의 $$x$$항에 대한 시그마를 다음과 같이 정리할 수 있다.
+For the term multiplied by $$x_{k}$$, it is eliminated by the third condition of flow except for the cases of $$k=i$$ and $$k=j$$.
+Therefore, the sigma for the x term of the second term can be organized as follows.
 
 >$$
 >\begin{align}
@@ -162,7 +162,7 @@ $$x_{k}$$에 곱해진 항에 대해서 $$k=i, k=j$$인 경우를 제외하고�
 >\end{align}
 >$$
 
-primal LP의 목적함수는 이 세 가지 케이스 중 첫 번째 케이스에 $$b_{sj}-a_{sj}+x_{j}$$ 항이 1이 되는 경우와 일치한다. 또한 나머지 케이스에 대해서는 곱해진 항을 0으로 만들어 주어 primal LP와 해당 식을 일치시켜주어, 좌항이 objective function, 우항이 upper bound인 형태를 완성할 수 있다.
+The objective function of the primal LP matches with the case 1 of the above, where the term is 1 in $$b_{sj}-a_{sj}+x_{j}$$, and for the other cases, it makes the multiplied term 0, completing the form of left side being the objective function and the right side being the upper bound.
 
 >$$
 >\begin{align}
@@ -174,7 +174,7 @@ primal LP의 목적함수는 이 세 가지 케이스 중 첫 번째 케이스�
 >\end{align}
 >$$
 
-따라서, dual 문제는 dual variable $$a, b, x$$에 대하여 위에서 구한 upper bound(dual LP의 목적 함수)의 최소값을 찾는 형태이고, 이 최소값이 가장 좋은 upper bound가 된다. 일종의 dummy variable인 $$a$$를 조건을 유지하며 소거한다. 추가로, directed graph에서의 flow 조건을 추가하여 source에서 sink로 flow가 흘러간다는 조건을 constraint에 명시하면, 식은 다음과 같다.
+Therefore, the dual problem is to find the minimum value of the upper bound (objective function of dual LP) for the dual variables $$a, b, x$$, and this minimum value becomes the best upper bound. A dummy variable $$a$$ is eliminated while maintaining the conditions. Additionally, by adding the condition that flow occurs from source to sink in the directed graph, the equation becomes:
 
 >$$
 >\begin{align}
@@ -185,11 +185,11 @@ primal LP의 목적함수는 이 세 가지 케이스 중 첫 번째 케이스�
 >$$
 
 ## Dual LP to Integer program
-이제 이 dual LP가 min cut 문제의 LP relaxation과 동일해짐을 보이고자 한다.
-따라서 위 문제에 조건을 추가함으로써 integer program으로 바꾸는 과정을 거칠 것이다.
-  위 dual LP 문제에 대해서, $$x$$는 vertex가 s, t일 때를 제외하고 정의되어 있지 않은 형태이다.
-  따라서 문제의 scope를 좁히고자, s, t를 제외한 나머지의 vertex가 s 또는 t의 그룹에 속한다는 조건을 추가하여 문제를 해결해보자.
-  다시 말하면, 모든 vertex가 0 또는 1의 그룹에 속한다고 가정하자. 이는 min cut의 vertex partition을 정하는 것과 동일하다.
+Now, we want to show that this dual LP is the same as the LP relaxation of the min cut problem.
+Therefore, we will go through the process of converting it to an integer program by adding conditions to the above dual LP problem.
+The variable $$x$$ is not defined for vertices other than s and t.
+Therefore, to narrow the scope of the problem, let's add a condition that the remaining vertices except s and t belong to either group s or t.
+In other words, let's assume that all vertices belong to either group 0 or 1. This is equivalent to determining the vertex partition for the min cut.
 
 >$$
 >\begin{align}
@@ -197,11 +197,11 @@ primal LP의 목적함수는 이 세 가지 케이스 중 첫 번째 케이스�
 >\end{align}
 >$$
 
-1에 속하는 그룹을 집합 A로 정의하고, 0에 속하는 그룹을 집합 B로 정의하자. 또한 source(s)는 A에, sink (t)는 B에 속한다고 정하자.
+Let's define the group that belongs to 1 as set A, and the group that belongs to 0 as set B. Also, let's define that the source (s) belongs to A, and the sink (t) belongs to B.
 
-위와 같이 정하면, $$b_{ij}$$는 집합 A에서 집합 B로 향하는 edge에 대해서는 1, 나머지에 대해선 0을 가지는 일종의 on/off의 역할을 한다.
+With the above definitions, $$b_{ij}$$ acts as an on/off switch, being 1 for edges going from set A to set B, and 0 otherwise.
 
-이를 정리하면 다음과 같다.
+This can be organized as follows.
 
 >$$
 >\begin{align}
@@ -216,10 +216,10 @@ primal LP의 목적함수는 이 세 가지 케이스 중 첫 번째 케이스�
 >\end{align}
 >$$
 
-위의 결과는 min cut 문제의 formulation과 동일하다.
+The above result is the same as the formulation of the min cut problem.
 
 ## Relationship between Max flow and Min cut problem(2)
-즉, max flow problem의 dual problem은, min cut 문제에서 $$x$$의 s, t를 제외한 vertex를 0, 1로 포함된다는 조건을 없앤(relaxation)한 결과이다. optimal value of max flow $$\leq$$ dual LP(upper bound)이고, 이 relaxation은 optimization variable의 domain scope를 확장시키므로, optimal value LP relaxed min cut $$\leq$$ capacity of min cut의 관계를 가진다. 이 세 가지 결과를 정리하면 아래의 결과를 얻을 수 있다.
+That is, the dual problem of the max flow problem is the result of removing the condition that the vertices except s and t in the min cut problem are included in 0 or 1 (relaxation). The optimal value of max flow $$\leq$$ dual LP (upper bound), and this relaxation expands the domain scope of the optimization variable, so the optimal value LP relaxed min cut $$\leq$$ capacity of min cut. Summarizing these three results, we get the following result.
 
 >$$
 >\begin{align}
@@ -229,5 +229,4 @@ primal LP의 목적함수는 이 세 가지 케이스 중 첫 번째 케이스�
 >\end{align}
 >$$
 
-이 세 가지 결과가 모두 같음에 대해서는 max-flow min-cut theorem[11]
-에서, max flow min cut 문제를 푸는 대표적인 알고리즘으로는 Ford-Fulkerson algorithm[12]을 참고할 수 있다.
+For the equality of these three results, refer to the max-flow min-cut theorem[11], and for a representative algorithm for solving the max flow min cut problem, refer to the Ford-Fulkerson algorithm[12].

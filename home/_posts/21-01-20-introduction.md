@@ -6,22 +6,22 @@ chapter: home
 owner: kyeongminwoo
 ---
 
-## 저자 서문
+## Author's Preface
 
-기계학습에 세간의 이목이 집중되며 최적화에 대한 관심도도 나날이 상승하고 있습니다. 허나, 입문자를 위한 한글자료가 풍부하지 않아 많은 분들이 그 진입장벽으로 힘들어하는 것에 안타까움을 느꼈습니다. 이에 모두의 연구소의 풀잎스쿨에 Convex Optimization 과정을 개설하였고, 지식 나눔을 실천하고자 하는 참여자분들의 선의의 의지에 힘입어 본 프로젝트를 시작하게 되었습니다. 이 활동을 통해 부디 전국민의 지적 성장과 컨벡스 최적화의 국내 대중화에 힘을 보탤수 있길 기원합니다.
+As public attention is focused on machine learning, interest in optimization is also steadily increasing. However, there is a lack of Korean-language resources for beginners, making it difficult for many to overcome the initial barrier. To address this, the Convex Optimization course was established at the Pulip School of Modu Research Institute, and thanks to the goodwill of participants who wanted to share knowledge, this project was started. Through these activities, I hope to contribute to the intellectual growth of the nation and the popularization of convex optimization in Korea.
 
-이 문서의 전반적인 내용은 [카네기멜론 대학 강의자료](http://www.stat.cmu.edu/~ryantibs/convexopt-F16/)를 참고하였고, 보조 교재로는 [스탠포드 대학 강의자료](https://web.stanford.edu/~boyd/cvxbook/)를 사용하였습니다. 본 ebook을 중심으로 두 강의자료를 레퍼런스로 공부하시면 좋습니다.
+The overall content of this document refers to the [Carnegie Mellon University lecture materials](http://www.stat.cmu.edu/~ryantibs/convexopt-F16/), and the [Stanford University lecture materials](https://web.stanford.edu/~boyd/cvxbook/) were used as supplementary textbooks. It is recommended to study both references with this ebook as the main guide.
 
-www.jwpark.co.kr@gmail.com / 박진우 (컨벡스 최적화 풀잎스쿨, 모두의 연구소)
+www.jwpark.co.kr@gmail.com / 박진우 (Convex Optimization Pulip School, Modu Research Institute)
 
-## 옮긴이 서문
+## Translator's Preface
 
-최근 머신러닝의 지속적인 발전 속에서 다양한 연구들이 진행되고 있고, 이를 현실 문제에 적용하려는 움직임 또한 커지고 있습니다. 하지만 머신러닝의 근간을 이루는 수학에 대한 심도 높은 이해가 없다면 그에 대한 이해와 적용 또한 피상적으로 이뤄질 수 밖에 없습니다.
+With the continuous development of machine learning, various research is being conducted, and there is a growing movement to apply it to real-world problems. However, without a deep understanding of the mathematics underlying machine learning, understanding and application can only be superficial.
 
-Convex Optimization은 머신러닝과 직접적으로 연관이 많을 뿐더러 선형대수, 미적분학, 수치해석과 같이 수학의 다양한 하위 분야들을 포함하고 있다는 점에서 머신러닝을 공부하는 사람들에게 매력적인 학문입니다. 다만 홀로 다루기에는 내용이 적지 않을 뿐더러 학문 자체의 난이도도 높은 편이기에 함께 공부할 사람들을 모아 2021년 Convex Optimization Study를 시작하게 되었습니다. 본 Blog는 함께 진행한 Study의 흔적이자, 후에 혼자 공부하고자 하시는 분들께 도움을 드리고자 만들었습니다.
+Convex Optimization is not only closely related to machine learning, but also encompasses various subfields of mathematics such as linear algebra, calculus, and numerical analysis, making it an attractive discipline for those studying machine learning. However, the content is not easy to handle alone, and the difficulty of the subject itself is quite high, so we gathered people to start the 2021 Convex Optimization Study. This blog is a record of the study and was created to help those who wish to study alone in the future.
 
-본 Blog의 주요 컨텐츠는 [모두를 위한 컨벡스 최적화](<https://wikidocs.net/book/1896>)의 저자 분들의 동의를 구해 Migration한 내용들입니다. 원 컨텐츠는 Convex Optimization에 관한 한국어 컨텐츠 중 가장 잘 알려져 있으면서 내용적으로도 부족함이 없습니다. 
+The main content of this blog is migrated with the consent of the authors of [Convex Optimization for All](<https://wikidocs.net/book/1896>). The original content is the most well-known Korean resource on convex optimization and is also sufficient in terms of content.
 
-기존 WikiDocs 컨텐츠를 이어 받아 본 Blog에서는 이를 Open Source로 만들어 보고자 합니다. 따라서 누구나 컨텐츠에 이슈를 제기하고 직접 Pull Request를 생성하여 기여할 수 있습니다. 이를 통해 [모두를 위한 컨벡스 최적화](<https://wikidocs.net/book/1896>) 저자분들의 뜻이기도 한 '전국민의 지적 성장과 컨벡스 최적화의 국내 대중화'에 작은 보탬이 될 수 있기를 바랍니다.
+By inheriting the existing WikiDocs content, this blog aims to make it open source. Therefore, anyone can raise issues on the content and directly create pull requests to contribute. Through this, I hope to make a small contribution to the authors' wish for 'the intellectual growth of the nation and the popularization of convex optimization in Korea.'
 
-wgm0601@gmail.com / 우경민 (마키나락스)
+wgm0601@gmail.com / 우경민 (MakinaRocks)

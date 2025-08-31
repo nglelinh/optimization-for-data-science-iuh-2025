@@ -12,7 +12,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-이번 장에서는 게임이론에서의 primal LP, dual LP의 예시인 mixed strategies for matrix games에 대해서 살펴본다. 설정은 두명의 player, J와 R, 그리고 payout matrix $$P$$가 있다고 하자.
+In this chapter, we examine mixed strategies for matrix games, which is an example of primal LP and dual LP in game theory. The setup assumes two players, J and R, and a payout matrix $$P$$.
 
 ## Game Setup
 
@@ -23,11 +23,11 @@ MathJax.Hub.Config({
 </p>
 </figure>
 
-payout matrix는 만약 J가 전략 $$i$$를 선택하고(row), R이 전략 $$j$$를 선택했을때(column), J가 R에게 주어야 하는 보상의 크기이다($$P_{ij}$$). 하지만 이 값이 양수라면, J가 R에게 해당 matrix의 크기만큼의 보상을 주고, 음수라면 R이 J에게 해당 matrix의 크기만큼의 보상을 주게 된다. 
+The payout matrix is the amount of reward J must give to R when J chooses strategy $$i$$ (row) and R chooses strategy $$j$$ (column) ($$P_{ij}$$). However, if this value is positive, J gives R a reward equal to the size of the corresponding matrix, and if negative, R gives J a reward equal to the size of the corresponding matrix. 
 
-이러한 setting을 zero-sum setting이라고도 하는데, R이 받게 될 혹은 지불해야할 보상을 $$r_{R}$$, J의 보상을 $$r_{J}$$라 할 때, 매 게임에서 보상의 결과는 $$r_{R} = - r_{J}$$이고, 두 보상의 총합은 항상 0이 된다.  
+This setting is also called a zero-sum setting, where if the reward R will receive or must pay is $$r_{R}$$ and J's reward is $$r_{J}$$, then in each game the result of the rewards is $$r_{R} = - r_{J}$$, and the total sum of the two rewards is always 0.  
 
-또한 두 명의 player가 모두 mixed strategies를 사용한다고 가정한다, mixed strategies는 각자의 선택이 특정한 확률분포를 따른다는(혹은 특정한 확률분포에서 sampling 된다는) 가정이다. 
+Also, we assume that both players use mixed strategies. Mixed strategies is the assumption that each player's choice follows a specific probability distribution (or is sampled from a specific probability distribution). 
 
 >$$
 >\begin{align}
@@ -36,7 +36,7 @@ payout matrix는 만약 J가 전략 $$i$$를 선택하고(row), R이 전략 $$j$
 >\end{align}
 >$$
 
-서로가 서로의 mixed strategy, 즉 확률분포를 알고 있다면, 각자는 각자가 얻을 것으로 기대하는 payout, 즉 expected payout을 계산할 수 있다.
+If they know each other's mixed strategy, i.e., probability distribution, each player can calculate the payout they expect to get, i.e., the expected payout.
 
 >$$
 >\begin{align}
@@ -44,7 +44,7 @@ payout matrix는 만약 J가 전략 $$i$$를 선택하고(row), R이 전략 $$j$
 >\end{align}
 >$$
 
-payout matrix의 부호가 J가 R에게 주는 크기로 정의되어 있음을 생각할 때, J는 R에게 최대한 주지 않으려 하기 때문에, 이 expected payout을 최소화(minimize)하려 할 것이고, R은 J에게서 최대한 받고 싶어하기 떄문에, 이 expected payout을 최대화(maximize)하려 할 것이다.
+Considering that the sign of the payout matrix is defined as the amount J gives to R, J will try to minimize this expected payout because J wants to give as little as possible to R, and R will try to maximize this expected payout because R wants to receive as much as possible from J.
 
 이제 두 player의 입장에서 각자가 상대의 mixed strategy를 고려하여, 이 expected payout을 최대화(R의 입장) 혹은 최소화(J의 입장)하려는 관점을 살펴보고, 서로가 서로를 optimal하게 행동하는 전제하에, 두 입장에서 유도되는 optimal strategy를 구하고, 결과적으론 Von Neumman's minimax theorem에 의해 두 결과가 같다는 것을 확인할 것이다.
 

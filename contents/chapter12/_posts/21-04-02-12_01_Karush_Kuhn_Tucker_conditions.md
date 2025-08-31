@@ -12,7 +12,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-다음과 같은 일반적인 최적화 문제가 주어졌다고 하자.
+Let us consider the following general optimization problem.
 
 >$$
 >\begin{align}
@@ -22,15 +22,15 @@ MathJax.Hub.Config({
 >\end{align}
 >$$
 
-이때 **Karush–Kuhn–Tucker (KKT) conditions** 또는 **KKT conditions**는 다음과 같은 조건들로 구성된다 [3].
+The **Karush–Kuhn–Tucker (KKT) conditions** or **KKT conditions** consist of the following conditions [3].
 
-* $$0 \in \partial \big( f(x) + \sum_{i=1}^{m} \lambda_i h_i(x) + \sum_{j=1}^{r} \nu_j l_j(x) \big)$$ (Stationarity): $$\lambda, \nu$$를 고정했을 때 $$x$$에 대한 subdifferential이 0을 포함하고 있음을 의미한다. 
-* $$\lambda_i \cdot h_i(x) = 0 \text{ for all } i$$ (Complementary Slackness):  $$\lambda_i$$와 $$h_i$$ 중 적어도 하나의 값은 0을 가짐을 의미한다.
-* $$h_i(x) \le 0, l_j(x) = 0 \text{ for all } i, j$$ (Primal Feasibility): Primal problem의 제약조건들에 대한 만족여부를 나타낸다.
-* $$\lambda_i \ge 0 \text{ for all } i$$ (Dual Feasibility): Dual problem의 제약조건들에 대한 만족여부를 나타낸다.
+* $$0 \in \partial \big( f(x) + \sum_{i=1}^{m} \lambda_i h_i(x) + \sum_{j=1}^{r} \nu_j l_j(x) \big)$$ (Stationarity): When $$\lambda, \nu$$ are fixed, the subdifferential with respect to $$x$$ contains 0. 
+* $$\lambda_i \cdot h_i(x) = 0 \text{ for all } i$$ (Complementary Slackness):  At least one of $$\lambda_i$$ and $$h_i$$ has value 0.
+* $$h_i(x) \le 0, l_j(x) = 0 \text{ for all } i, j$$ (Primal Feasibility): Indicates whether the constraints of the primal problem are satisfied.
+* $$\lambda_i \ge 0 \text{ for all } i$$ (Dual Feasibility): Indicates whether the constraints of the dual problem are satisfied.
 
 ## Sufficiency
-Convex인 primal problem에 대해 KKT conditions를 만족하는 $$x^\star, \lambda^\star, \nu^\star$$가 있을때, 다음의 과정은 $$x^\star, \lambda^\star, \nu^\star$$가 zero duality gap의 primal & dual solutions임을 보인다.
+For a convex primal problem, when there exist $$x^\star, \lambda^\star, \nu^\star$$ that satisfy the KKT conditions, the following process shows that $$x^\star, \lambda^\star, \nu^\star$$ are primal & dual solutions with zero duality gap.
 
 >$$
 >\begin{align}
@@ -41,12 +41,12 @@ Convex인 primal problem에 대해 KKT conditions를 만족하는 $$x^\star, \la
 >\end{align}
 >$$
 
-1. $$L(x,\lambda^\star,\nu^\star) = f(x) + \sum_{i=1}^{m} \lambda_i^\star h_i(x) + \sum_{j=1}^{r} \nu_j^\star l_j(x)$$는 convex 함수다. (convex함수들의 합) 
-2. $$0 \in \partial \big( f(x^\star) + \sum_{i=1}^{m} \lambda_i^\star h_i(x^\star) + \sum_{j=1}^{r} \nu_j^\star l_j(x^\star) \big)$$이므로 $$\min_x L(x, \lambda^\star, \nu^\star) = L(x^\star, \lambda^\star, \nu^\star)$$이다.
-3. Complementary slackness와 primal feasibility에 의해 $$f(x^\star) + \sum_{i=1}^m \lambda_i^\star h_i(x^\star) + \sum_{j=1}^r \nu_j^\star l_j(x^\star) = f(x^\star)$$이다.
+1. $$L(x,\lambda^\star,\nu^\star) = f(x) + \sum_{i=1}^{m} \lambda_i^\star h_i(x) + \sum_{j=1}^{r} \nu_j^\star l_j(x)$$ is a convex function. (sum of convex functions) 
+2. $$0 \in \partial \big( f(x^\star) + \sum_{i=1}^{m} \lambda_i^\star h_i(x^\star) + \sum_{j=1}^{r} \nu_j^\star l_j(x^\star) \big)$$therefore $$\min_x L(x, \lambda^\star, \nu^\star) = L(x^\star, \lambda^\star, \nu^\star)$$.
+3. By complementary slackness and primal feasibility, $$f(x^\star) + \sum_{i=1}^m \lambda_i^\star h_i(x^\star) + \sum_{j=1}^r \nu_j^\star l_j(x^\star) = f(x^\star)$$.
 
 ## Necessity
-$$x^\star, \lambda^\star, \nu^\star$$가 zero duality gap(가령, Slater's condition을 만족)의 primal & dual solutions일때, 다음의 부등호들이 전부 등호가 되므로 이 문제에서 $$x^\star, \lambda^\star, \nu^\star$$는 KKT conditions를 만족하게 된다.
+When $$x^\star, \lambda^\star, \nu^\star$$ are primal & dual solutions with zero duality gap (for example, satisfying Slater's condition), all the inequalities below become equalities, so in this problem $$x^\star, \lambda^\star, \nu^\star$$ satisfy the KKT conditions.
 >$$
 >\begin{align}
 >    f(x^\star) &= g(\lambda^\star, \nu^\star) \\\\
@@ -56,17 +56,17 @@ $$x^\star, \lambda^\star, \nu^\star$$가 zero duality gap(가령, Slater's condi
 >\end{align}
 >$$
 
-1. $$f(x^\star) = g(\lambda^\star, \nu^\star)$$는 zero duality gap을 의미한다.
-2. $$f(x^\star) + \sum_{i=1}^m \underbrace{\lambda_i^\star h_i(x^\star)}_{0} + \sum_{j=1}^r \underbrace{\nu_j^\star l_j(x^\star)}_{0} = f(x^\star)$$를 만족하기 위해서는 complementary slackness와 primal feasibility를 만족해야 한다.
-3. $$f(x^\star) + \sum_{i=1}^m \lambda_i^\star h_i(x^\star) + \sum_{j=1}^r \nu_j^\star l_j(x^\star) = f(x^\star)$$를 만족하면 위 전개의 모든 부등호는 등호가 된다.
+1. $$f(x^\star) = g(\lambda^\star, \nu^\star)$$ means zero duality gap.
+2. To satisfy $$f(x^\star) + \sum_{i=1}^m \underbrace{\lambda_i^\star h_i(x^\star)}_{0} + \sum_{j=1}^r \underbrace{\nu_j^\star l_j(x^\star)}_{0} = f(x^\star)$$, complementary slackness and primal feasibility must be satisfied.
+3. If $$f(x^\star) + \sum_{i=1}^m \lambda_i^\star h_i(x^\star) + \sum_{j=1}^r \nu_j^\star l_j(x^\star) = f(x^\star)$$ is satisfied, all inequalities in the above derivation become equalities.
 
 ## Putting it together
-요약하자면 KKT conditions는:
+In summary, KKT conditions are:
 
-* Zero duality gap의 primal & dual solutions에 대한 충분조건이다.
-* Strong duality를 만족한다면 primal & dual solutions에 대한 필요조건이 된다.
+* Sufficient conditions for primal & dual solutions with zero duality gap.
+* If strong duality holds, they become necessary conditions for primal & dual solutions.
 
-즉, strong duality를 만족하는 문제에 대해 다음과 같은 관계가 성립한다.
+That is, for problems that satisfy strong duality, the following relationship holds.
 >$$
 >\begin{align}
 >    x^\star, \lambda^\star, \nu^\star \text{ are primal and dual solutions} \\\\

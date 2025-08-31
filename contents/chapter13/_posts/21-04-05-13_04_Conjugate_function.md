@@ -16,13 +16,11 @@ owner: "Wontak Ryu"
  <img src="{{ site.baseurl }}/img/chapter_img/chapter13/conjugate_function.png" alt="" width="70%" height="70%">
  <figcaption style="text-align: center;">[Fig1] Illustration of conjugate function [1]</figcaption>
 </p>
-</figure>
 
 
 #### [Note] 
 $$f^{∗}$$는 convex(affine) 함수  $$y^Tx - f(x)$$의 pointwise maximum이므로 항상 convex이다.
 (여기서 $$f$$는 반드시 convex일 필요는 없다.)
-
 $$f^{∗}(y)$$는 선형 함수 $$y^Tx$$와 $$f(x)$$ 간의 maximum gap이다.
 (From B & V page 91)
 

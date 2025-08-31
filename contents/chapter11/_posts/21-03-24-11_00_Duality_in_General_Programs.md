@@ -8,7 +8,7 @@ owner: "Wontak Ryu"
 
 ### Review: duality in linear program
 
-$$c \in \mathbb{R}^n$$, $$A \in \mathbb{R}^{m \times n}$$, $$b \in \mathbb{R}^m$$, $$G \in \mathbb{R}^{r \times n}$$, $$h \in \mathbb{R}^r$$ 일 때, 
+Given $$c \in \mathbb{R}^n$$, $$A \in \mathbb{R}^{m \times n}$$, $$b \in \mathbb{R}^m$$, $$G \in \mathbb{R}^{r \times n}$$, $$h \in \mathbb{R}^r$$, 
 
 ##### Primal LP: 
 >
@@ -33,7 +33,7 @@ $$
 
 #### Explanation 1: 
 
-모든 $$u$$와 $$v \geq 0$$, 그리고 primal feasible $$x$$에 대해 다음이 성립된다. 
+For all $$u$$ and $$v \geq 0$$, and for any primal feasible $$x$$, the following holds. 
 >
 $$
 \begin{equation}
@@ -50,12 +50,12 @@ $$
 \end{equation}
 $$
 
-위 관계에 의해, 만약, $$c=-A^Tu - G^Tv$$이면, primal 최적해에 대한 lower bound를 얻을 수 있다. 
+By this relationship, if $$c=-A^Tu - G^Tv$$, we obtain a lower bound on the primal optimum. 
 
 
 #### Explanation 2: 
 
-모든 $$u$$와 $$v \geq 0$$, 그리고 primal feasible $$x$$에 대해,
+For all $$u$$ and $$v \geq 0$$, and for any primal feasible $$x$$,
 
 >
 $$
@@ -64,7 +64,7 @@ c^T x \geq c^T x + u^T (Ax-b) + v^T (Gx -h) := L(x,u,v)
 \end{equation}
 $$
 
-그래서, 만약 $$C$$가 primal feasible set이고, $$f^*$$가 primal 최적해라면, 
+Thus, if $$C$$ is the primal feasible set and $$f^*$$ is the primal optimum, then 
 
 >
 $$
@@ -73,7 +73,7 @@ f^* \geq \min_{x \in C} L(x,u,v) \geq \min_x L(x,u,v) := g(u,v)
 \end{equation}
 $$
 
-다시말해, $$g(u,v)$$는 $$f^*$$에 대한 lower bound이다. 
+In other words, $$g(u,v)$$ is a lower bound on $$f^*$$. 
 
 >
 $$
@@ -84,4 +84,4 @@ g(u,v) =
 \end{cases}
 $$
 
-두번째 설명은 첫번째와 같은 dual을 가져오지만, completely general하고 (convex하지 않은 문제를 포함한) 임의의 모든 최적 문제에 적용된다.
+The second explanation yields the same dual as the first, but it is completely general and applies to arbitrary optimization problems (including nonconvex ones).

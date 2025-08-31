@@ -12,7 +12,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-다음의 $$L1$$ penalized linear regression 문제는 lasso problem이란 이름으로도 잘 알려져 있다.
+The following $$L1$$ penalized linear regression problem is also well known as the lasso problem.
 
 >$$
 >\begin{align}
@@ -23,25 +23,24 @@ MathJax.Hub.Config({
 >\end{align}
 >$$
 
-위 Lasso problem은 $$rank(X) = p$$일 때 strictly convex가 되면서 유일한 solution을 갖는다. 반면, $$rank(X) < p$$일때(strictly convex가 아닐때)는 무수히 많은 solution을 갖을 수도 있게된다 (Reference: [
-Underdetermined system](https://en.wikipedia.org/wiki/Underdetermined_system)). - 참고로 변수(p)의 갯수가 관측(n)의 갯수보다 크다면, $$rank(X)$$는 반드시 $$p$$보다 작아진다.<br/>
-흥미롭게도 어떤 특수한 경우에 대해서는 $$X$$의 차원에 상관없이 Lasso problem이 유일한 해를 가짐이 보장된다 [13].
+The above Lasso problem has a unique solution when it is strictly convex, i.e., when $$rank(X) = p$$. On the other hand, when $$rank(X) < p$$ (when it is not strictly convex), it may have infinitely many solutions (Reference: [Underdetermined system](https://en.wikipedia.org/wiki/Underdetermined_system)). - Note that if the number of variables (p) is greater than the number of observations (n), then $$rank(X)$$ is necessarily less than p.<br/>
+Interestingly, in some special cases, the Lasso problem is guaranteed to have a unique solution regardless of the dimension of $$X$$ [13].
 
->**Theorem:** 함수 $$f$$가 미분가능하며 strictly convex이고, $$\lambda > 0$$이며 $$X \in \mathbb{R}^{n  \text{ x } p}$$가 $$\mathbb{R}^{np}$$에 대한 어떤 continuous probability distribution을 따를 때, 다음 최적화 문제는 항상 유일한(unique) solution을 갖는다. 또한 그 solution은 많아봐야 $$min\{n,p\}$$만큼의 nonzero components로 구성된다. 이때, $$X$$의 차원에 대한 제약은 없다. (즉, p >> n일때도 유효)
+>**Theorem:** When the function $$f$$ is differentiable and strictly convex, $$\lambda > 0$$, and $$X \in \mathbb{R}^{n \times p}$$ follows some continuous probability distribution on $$\mathbb{R}^{np}$$, the following optimization problem always has a unique solution. Moreover, the solution consists of at most $$min\{n,p\}$$ nonzero components. There are no restrictions on the dimension of $$X$$. (That is, it is valid even when p >> n)
 
 ## Basic facts and the KKT conditions
 
-> **Lemma 1.** 임의의 $$y, X, \lambda \ge 0$$에 대해 lasso problem (1)은 다음과 같은 성질을 갖는다.
+> **Lemma 1.** For arbitrary $$y, X, \lambda \ge 0$$, the lasso problem (1) has the following properties.
 > 
-> 1. 유일한 solution을 갖거나 혹은 무한히 많은 수의 solution을 갖는다.
-> 2. 모든 lasso solution $$\hat{\beta}$$는 같은 $$X\hat{\beta}$$값을 갖는다.
->3. $$\lambda > 0$$일때, 모든 lasso solution $$\hat{\beta}$$는 같은 $$l_1$$ norm을 갖는다 ($$\|\hat{\beta}\|_1$$).
+> 1. It has either a unique solution or infinitely many solutions.
+> 2. All lasso solutions $$\hat{\beta}$$ have the same $$X\hat{\beta}$$ value.
+>3. When $$\lambda > 0$$, all lasso solutions $$\hat{\beta}$$ have the same $$l_1$$ norm ($$\|\hat{\beta}\|_1$$).
 
 $$\text{ }$$
 
 > **Proof.**<br/>
-> 1. 만약 (1)이 두 개의 solution $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$를 가질때, 임의의 $$0 < \alpha < 1$$에 대해 $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ 또한 solution이 되므로 무수히 많은 solution이 존재하게 된다.<br/>
-> 2. & 3. 두 개의 solution $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$가 있다고 가정해보자. 이때 optimal value를 $$c^\star$$라고 하면, 어떤 임의의 solution인 $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ ($$0 < \alpha < 1$$)에 대해 아래의 등식을 항상 만족해야만 한다.
+> 1. If (1) has two solutions $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$, then for any $$0 < \alpha < 1$$, $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ is also a solution, so infinitely many solutions exist.<br/>
+> 2. & 3. Suppose there are two solutions $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$. Let the optimal value be $$c^\star$$. Then for any solution $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ ($$0 < \alpha < 1$$), the following equality must always hold.
 > 
 > $$
 >\begin{align}
@@ -50,10 +49,10 @@ $$\text{ }$$
 >\end{align}
 >$$
 >
-> 위 등식을 만족하기 위해서는 임의의 solution $$\hat{\beta}$$에 대해 $$X\hat{\beta}$$은 항상 같은 값을 가져야 하고, $$\lambda > 0$$일때 $$\| \hat{\beta} \|_1$$ 값 또한 항상 같아야 한다.
+> To satisfy this equality, $$X\hat{\beta}$$ must always have the same value for any solution $$\hat{\beta}$$, and when $$\lambda > 0$$, $$\|\hat{\beta}\|_1$$ must also always be the same.
 
 
-다시 처음으로 돌아가, lasso problem (1)에 대한 KKT conditions는 아래와 같다.
+Returning to the beginning, the KKT conditions for the lasso problem (1) are as follows.
 >$$
 >\begin{align}
 >&&X^T (y - X\hat{\beta}) = \lambda \gamma, \qquad \text{ --- (2)} \\\\

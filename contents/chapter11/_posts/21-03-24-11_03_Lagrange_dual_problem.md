@@ -10,8 +10,8 @@ owner: "Wontak Ryu"
 >
 $$
 \begin{alignat}{1}
-\min_x & \quad f(x)  \\\\
-s.t.   & \quad h_i(x) \leq 0, i=1,\dots,m  \\\\
+\min_x & \quad f(x)  \\
+s.t.   & \quad h_i(x) \leq 0, i=1,\dots,m  \\
        & \quad l_j(x) = 0, j=1,\dots,r
 \end{alignat}
 $$
@@ -20,7 +20,7 @@ Dual function $$g(u,v)$$는 모든 $$u\geq 0$$와 $$v$$에 대해 $$f^* \geq g(u
 >
 $$
 \begin{alignat}{1}
-\max_{u,v} & \quad g(u,v)   \\\\
+\max_{u,v} & \quad g(u,v)   \\
            s.t. & \quad u \geq 0
 \end{alignat}
 $$
@@ -28,11 +28,10 @@ $$
 여기서, dual 최적값을 $$g^*$$라고 하면 $$f^* \geq g^*$$이다. 이를 weak duality라 한다. 이 성질은 primal 문제가 convex가 아니어도 항상 성립한다. 또한, dual problem은 primal problem이 convex가 아니더라도 항상 convex optimization problem이 된다.
 
 정의에 의해 $$g$$는 $$(u,v)$$에 대해 concave 하고, $$u>0$$는 convex 제약조건이다. 따라서, dual 문제는 concave maximization 문제에 해당된다. 
-
 >
 \begin{alignat}{1}
-g(u,v) & = \min_x \\{ f(x) + \sum_{i=1}^m u_i h_i(x) + \sum_{j=1}^r v_j l_j(x) \\}  \\\\ 
-        & = - \underbrace{\max_x \\{ -f(x) - \sum_{i=1}^m u_i h_i(x) - \sum_{j=1}^r v_j l_j(x) \\}}_{\text{pointwise maximum of convex functions in $(u,v)$}}
+ g(u,v) & = \min_x \{ f(x) + \sum_{i=1}^m u_i h_i(x) + \sum_{j=1}^r v_j l_j(x) \}  \\ 
+        & = - \underbrace{\max_x \{ -f(x) - \sum_{i=1}^m u_i h_i(x) - \sum_{j=1}^r v_j l_j(x) \}}_{\text{pointwise maximum of convex functions in $(u,v)$}}
 \end{alignat}
 
 
@@ -53,7 +52,7 @@ g(u,v) & = \min_x \\{ f(x) + \sum_{i=1}^m u_i h_i(x) + \sum_{j=1}^r v_j l_j(x) \
 >
 $$
 \begin{equation}
-g(u) = \min_{i=1,2,3} \{F_i^4(u) - 50 F_i^2(u) + 100 F_i(u) \}
+ g(u) = \min_{i=1,2,3} \{F_i^4(u) - 50 F_i^2(u) + 100 F_i(u) \}
 \end{equation}
 $$
 
@@ -61,11 +60,10 @@ $$
 >
 $$
 \begin{alignat}{1}
-F_i(u) = & \frac{- a_i}{12\cdot 2^{1/3}} \left( 432(100-u)-(432^2(100-u)^2 - 4\cdot 1200^3)^{1/2} \right )^{1/3} \\\\ 
+F_i(u) = & \frac{- a_i}{12\cdot 2^{1/3}} \left( 432(100-u)-(432^2(100-u)^2 - 4\cdot 1200^3)^{1/2} \right )^{1/3} \\ 
            & - 100 \cdot 2^{1/3} \frac{1}{\left( 432(100-u)-(432^2(100-u)^2 - 4\cdot 1200^3)^{1/2} \right )^{1/3}}
 \end{alignat}
 $$
 
 그리고, $$a_1=1, a_2 = (-1+i\sqrt{3})/2, a_3 = (-1-i \sqrt{3})/2$$이다.
-
 함수만 보면 $$g$$가 concave인지 알기어렵지만, duality의 convexity 하에  $$g$$가 concave라는 것을 알 수 있다.

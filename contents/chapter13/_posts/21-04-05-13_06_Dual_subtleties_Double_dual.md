@@ -41,12 +41,10 @@ owner: "Wontak Ryu"
 > & \min_x && f(x) \\
 > &\text{ subject to } && h_i(x) ≤ 0, i = 1,...m \\
 > &&&l_j(x) = 0, j = 1,...r
-> \end{align}$$
 
 
 $$f$$와 $$h_1,...h_m$$가 closed이고 convex이고, $$1,...r$$ 은 affine이면, then dual의 dual은 primal이다.
 
 이것은 bifunction의 관점에서 최소화 문제로 제공되어 진다.
-이 프레임 워크에서 dual 함수는이 dual 함수의 conjugate에 해당 한다.
 
 (for more, read Chapters 29 and 30 of Rockafellar)
