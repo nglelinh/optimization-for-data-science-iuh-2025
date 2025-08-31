@@ -1,24 +1,22 @@
----
 layout: post
 title: 15-04 Barrier method v.0 and v.1
 chapter: "15"
 order: 10
 owner: "Minjoo Lee"
----
 ## Barrier method v.0
-**Barrier method v.0**은 $$\epsilon \gt 0$$일 때 $$t = m/\epsilon$$로 선택해서 다음 barrier problem을 풀어서 $$f(x^*(t)) - f(x^*) \le \epsilon $$를 구한다. 
+**Barrier method v.0** chooses $$t = m/\epsilon$$ for $$\epsilon > 0$$ and solves the following barrier problem to obtain $$f(x^*(t)) - f(x^*) \le \epsilon $$.
 >
 $$\begin{align}
  &\min_{x} \ && tf(x) + \phi(x) \\
  &\text{subject to } \ && Ax = b \\
 \end{align}$$
 
-이때, $$m$$은 constraint개수이고 $$t$$는 $$1/\epsilon$$의 배수이기 때문에 $$\epsilon$$이 작을 수록 $$t$$가 매우 커지게 되며 결국 central path의 끝부분이 되므로 문제는 original problem과 같아진다. 따라서, 매우 느리고 구하기 힘든 문제가 될 수 있다.
+Here, $$m$$ is the number of constraints and $$t$$ is a multiple of $$1/\epsilon$$, so as $$\epsilon$$ gets smaller, $$t$$ becomes very large, and eventually the end of the central path is reached, making the problem equivalent to the original problem. Therefore, this can be very slow and difficult to solve.
 
-따라서, central path를 따라 solution을 구하는 것이 더 나은 방법으로 **barrier method v.1**이 정의될 수 있다.
+Thus, a better approach is to follow the central path to find the solution, which leads to the definition of **barrier method v.1**.
 
 ## Barrier method v.1
-**Barrier method v.1**은 $$t$$ 값을 증가시키면서 다음의 barrier problem을 점진적으로 여러번 푸는 방법이다.
+**Barrier method v.1** is a method that gradually increases the value of $$t$$ and solves the following barrier problem multiple times.
 >
 $$\begin{align}
  &\min_{x} \ && tf(x) + \phi(x) \\
@@ -26,18 +24,18 @@ $$\begin{align}
 \end{align}$$
 
 #### Algorithm
-알고리즘을 설명하면 다음과 같다.
+The algorithm can be described as follows.
 
-1. $$t^{(0)} \gt 0$$이고 $$k := 0$$을 선택한다.
-2. $$t = t^{(0)}$$에서 barrier problem을 풀어서 $$x^{(0)} = x^*(t)$$을 구한다.
-3. While $$m/t \gt \epsilon$$ <br>
-  3-1. $$t^{(k+1)} \gt t^{(k)}$$를 선택한다. <br>
-  3-2. Newton's method를 $$x^{(k)}$$로 초기화한다. (warm start)<br>
-        $$t = t^{(k+1)}$$에서 barrier problem을 풀어서 $$x^{(k+1)} = x^*(t)$$을 구한다.<br>
+1. Choose $$t^{(0)} > 0$$ and set $$k := 0$$.
+2. At $$t = t^{(0)}$$, solve the barrier problem to obtain $$x^{(0)} = x^*(t)$$.
+3. While $$m/t > \epsilon$$ <br>
+  3-1. Choose $$t^{(k+1)} > t^{(k)}$$. <br>
+  3-2. Initialize Newton's method with $$x^{(k)}$$. (warm start)<br>
+        At $$t = t^{(k+1)}$$, solve the barrier problem to obtain $$x^{(k+1)} = x^*(t)$$.<br>
   end while<br>
 
 #### Comments
-* **Common update 방법** : $$t^{(k+1)} = \mu t^{(k)}$$, ($$\mu \gt 1$$)
+* **Common update method**: $$t^{(k+1)} = \mu t^{(k)}$$, ($$\mu > 1$$)
 * **Warm start** :  단계 3-2에서는 이전 단계의 solution을 다음 단계의 초기값으로 사용하는데 이를 warm start라고 한다.
 * **Centering step** :  알고리즘에서 barrier problem을 푸는 단계인 2와 3-2를 centering step ( or outer iteration)이라고 한다.
 

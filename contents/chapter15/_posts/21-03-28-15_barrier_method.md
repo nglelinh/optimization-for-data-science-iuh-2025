@@ -1,15 +1,14 @@
----
 layout: post
 title: 15 Barrier Method
 chapter: "15"
 order: 1
 owner: "Minjoo Lee"
----
-이 장에서는 2nd-order method 중 하나인 **Barrier Method**에 대해 살펴보도록 하겠다.
 
-**Barrier Method**는 2nd-order method 문제 중에 가장 어려운 문제라고 할 수 있는 **Inequality constraint와 equality constrained smooth problem**을 풀기 위한 방법이다.
+In this chapter, we will look at one of the 2nd-order methods, the **Barrier Method**.
 
-(참고로, 최적화 문제를 풀 때 gradient를 사용하면 1st-order method라고 하며 hessian을 사용하면 2nd-order method라고 한다.)
+The **Barrier Method** is a technique for solving **inequality constraint and equality constrained smooth problems**, which are considered the most difficult among 2nd-order method problems.
+
+(For reference, using the gradient to solve an optimization problem is called a 1st-order method, and using the Hessian is called a 2nd-order method.)
 
 ## References and further readings
 * S. Boyd and L. Vandenberghe (2004), "Convex optimization", Chapter 11

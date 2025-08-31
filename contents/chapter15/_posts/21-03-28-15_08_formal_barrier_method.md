@@ -1,33 +1,31 @@
----
 layout: post
 title: 15-08 Formal barrier method
 chapter: "15"
 order: 14
 owner: "Minjoo Lee"
----
-Open convex set $$D \subset \mathbb{R}^n$$로 정의되는 convex function $$\phi : D \to \mathbb{R}$$가 다음의 조건을 만족시키면, 그 function은 파라미터 $$\nu$$를 갖는 **self-concordant barrier**이다.
+If a convex function $$\phi : D \to \mathbb{R}$$ defined on an open convex set $$D \subset \mathbb{R}^n$$ satisfies the following conditions, then the function is a **self-concordant barrier** with parameter $$\nu$$.
 
-* $$\phi$$는 self-concordant
-* 모든 $$x \in D$$에 대해 다음과 같이 상수 $$\nu$$에 bound되는  newton decrement를 갖는다.
+* $$\phi$$ is self-concordant
+* For all $$x \in D$$, the Newton decrement is bounded by the constant $$\nu$$ as follows.
 
 > $$\lambda(x)^2 = \nabla \phi(x) (\nabla^2 \phi(x))^{-1} \nabla \phi(x) \le \nu$$
 
-다음 LP 문제를 고려해보자. (여기서 $$\bar{D}$$는 domain $$D$$의 closure이다.)
+Let's consider the following LP problem. (Here, $$\bar{D}$$ is the closure of the domain $$D$$.)
 >
 $$\begin{align}
 &\min_{x} \           && c^Tx \\
 &\text{subject to } \ && x \in \bar{D}  \\
 \end{align}$$
 
-이 문제는 다음과 같은 문제로 근사된다.
+This problem can be approximated as follows.
 >
 $$\begin{align}
 &\min_{x} && tc^Tx + \phi(x) \\
 \end{align}$$
 
-여기서, $$\phi_t(x) := tc^Tx + \phi(x)$$라고 하고 이에 해당하는 newton decrement를 $$\lambda_t(x)$$라고 하자.
+Here, let $$\phi_t(x) := tc^Tx + \phi(x)$$ and let the corresponding Newton decrement be $$\lambda_t(x)$$.
 
-Key observation : $$t^+ \gt t$$의 경우
+Key observation: When $$t^+ > t$$
 >
 $$\begin{align}
 \lambda_t^+(x) \le & \frac{t^+}{t}\lambda_t^+(x) + \left ( \frac{t^+}{t} -1 \right ) \sqrt{\nu}  \\\
@@ -36,7 +34,7 @@ $$\begin{align}
 ## Theorem
 
 >$$\begin{align}
-& \text{if} \quad \lambda_t(x) \le \frac{1}{9} \quad \text{and} \quad \frac{t^+}{t} \le 1 + \frac{1}{8 \sqrt{\nu}} \quad \text{then} \quad \lambda_t^+(x^+) \le \frac{1}{9}  \\\
+& \text{if} \quad \lambda_t(x) \le \frac{1}{9} \quad \text{and} \quad \frac{t^+}{t} \le 1 + \frac{1}{8 \sqrt{\nu}} \quad \text{then} \quad \lambda_t^+(x^+) \le \frac{1}{9}  \\
 & \qquad \qquad \text{for} \quad x^+ = x - (\nabla^2 (\phi_{t^+}(x))^{-1} \nabla (\phi_{t^+}(x)
 \end{align}$$
 

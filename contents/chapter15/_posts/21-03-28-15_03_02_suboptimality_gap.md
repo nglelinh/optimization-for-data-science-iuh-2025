@@ -1,23 +1,21 @@
 ---
 layout: post
 title: 15-03-02 Suboptimality gap
-chapter: "15"
 order: 9
 owner: "Minjoo Lee"
 ---
 앞 절에서 구한 barrier problem과 original problem의 solution인 $$f(x^*(t))$$와 $$f(x^*)$$의 suboptimality gap은 어떻게 될까?
 
-## Convexity of $$f$$ and $$h_i$$
-Convexity가 보장되면 함수가 접선(tangent)보다 항상 크므로 $$f(x^*) \ge f(x^*(t)) + \nabla f(x^*(t))^T (x^* - x^*(t))$$가 성립한다. (Tangent는 Taylor 1차 근사식)
+What is the suboptimality gap between $$f(x^*(t))$$, the solution to the barrier problem, and $$f(x^*)$$, the solution to the original problem, as derived in the previous section?
 따라서, 다음의 식을 구할 수 있다. 
 >$$\begin{align}
-f(x^*(t)) - f(x^*) \le \nabla f(x^*(t))^T (x^*(t) - x^*)
-\end{align}$$
+If convexity is guaranteed, the function is always greater than its tangent, so $$f(x^*) \ge f(x^*(t)) + \nabla f(x^*(t))^T (x^* - x^*(t))$$ holds. (The tangent is the first-order Taylor approximation)
+Therefore, we can derive the following equation:
 
 
 비슷하게 $$h_i(x^*) \ge h_i(x^*(t)) + \nabla h_i(x^*(t))^T (x^* - x^*(t))$$가 성립하므로 다음의 식을 구할 수 있다. 
 
->$$\begin{align}
+Similarly, since $$h_i(x^*) \ge h_i(x^*(t)) + \nabla h_i(x^*(t))^T (x^* - x^*(t))$$ holds, we can derive the following equation:
 h_i(x^*(t)) - h_i(x^*) \le \nabla h_i(x^*(t))^T (x^*(t) - x^*), \quad i = i, \cdots , m
 \end{align}$$
 
@@ -25,7 +23,7 @@ h_i(x^*(t)) - h_i(x^*) \le \nabla h_i(x^*(t))^T (x^*(t) - x^*), \quad i = i, \cd
 ## Derivation of suboptimality gap
 이 두 식에서 suboptimality gap을 유도해 보도록 하겠다. 오른쪽 항은 위의 두 convexity 조건에 의해 도출된다.
 
->$$\begin{align}
+Let's use these two equations to derive the suboptimality gap. The right-hand side is derived from the two convexity conditions above.
 f(x^*(t)) - f(x^*) + \sum_{i=1}^{m}  u_i(t) (h_i(x^*(t)) - h_i(x^*) ) 
     & \le 	\left\langle \nabla  f(x^*(t))  + \sum_{i=1}^{m} u_i(t) \nabla h_i(x^*(t)), \quad x^*(t) - x^* \right\rangle \\\
     & = \left\langle -tA^Tv,  \quad x^*(t) - x^* \right\rangle \\\
@@ -33,8 +31,8 @@ f(x^*(t)) - f(x^*) + \sum_{i=1}^{m}  u_i(t) (h_i(x^*(t)) - h_i(x^*) )
 
 이 식에서 오른쪽 항을 내적해 보면 $$Ax^*(t) = b$$이고 $$Ax^* = b$$이므로 전체가 0이 된다.
 따라서, 첫번째 식의 세번째 항을 오른쪽으로 넘겨서 정리해 보면 다음과 같은 결과를 얻을 수 있다.
-
->$$\begin{align}
+If we look at the right-hand side of this equation as an inner product, since $$Ax^*(t) = b$$ and $$Ax^* = b$$, the whole term becomes zero.
+Therefore, moving the third term of the first equation to the right and simplifying, we get the following result:
 f(x^*(t)) - f(x^*) & \le - \sum_{i=1}^{m}  u_i(t) (h_i(x^*(t)) - h_i(x^*) )  \\\
     & = \frac{m}{t} +  \sum_{i=1}^{m} u_i(t) h_i(x^*) \\\
     & \le \frac{m}{t}   
