@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-02-04 Batch vs Stochastic Methods
-chapter: "08"
+title: '08-02-04 Batch vs Stochastic Methods'
+chapter: '08'
 order: 15
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 The convergence properties of batch and stochastic methods are as follows:

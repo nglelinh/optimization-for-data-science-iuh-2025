@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 12-06 Uniqueness in L1 penalized problems
-chapter: "12"
+chapter: '12'
 order: 7
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter12
+lang: en
 ---
 
 <script type="text/x-mathjax-config">

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-04-04 Operations that preserve quasiconvexity
-chapter: "03"
+chapter: '03'
 order: 12
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section discusses operations that preserve the quasiconvexity of functions.

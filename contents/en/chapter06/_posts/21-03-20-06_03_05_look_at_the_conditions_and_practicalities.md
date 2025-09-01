@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-03-05 A look at the conditions & Practicalities
-chapter: "06"
+chapter: '06'
 order: 12
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 ## Lipschitz continuity & Strong convexity conditions

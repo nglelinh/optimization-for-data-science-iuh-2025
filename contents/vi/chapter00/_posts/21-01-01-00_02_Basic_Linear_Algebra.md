@@ -1,8 +1,13 @@
+---
 layout: post
 title: 00.02 Basic Linear Algebra
-chapter: "00"
+chapter: '00'
 order: 3
-owner: "GitHub Copilot"
+owner: GitHub Copilot
+lang: vi
+categories:
+- chapter00
+---
 
 ### Véc-tơ và Không gian véc-tơ ($$\mathbb{R}^n$$)
 - **Véc-tơ:** Hãy tưởng tượng một véc-tơ như một mũi tên trong không gian, biểu diễn cả hướng và độ lớn (độ dài). Nó là một danh sách các số, giống như tọa độ. Ví dụ, một véc-tơ trong không gian 2 chiều có thể là $$\mathbf{v} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$, nghĩa là 3 đơn vị theo trục x và 4 đơn vị theo trục y.
@@ -41,33 +46,33 @@ Ví dụ, $$\mathbb{R}^2$$ bao gồm tất cả các véc-tơ 2 thành phần (n
 ### Norms of vector 
 
 A norm is a function that assigns a "length" or "size" to a vector. It's a way to measure how "big" a vector is.
-  1. **Non-negativity:** The length is always zero or positive. It's zero only if the vector itself is the zero vector. ($$\\lvert \mathbf{x}\ \rvert \ge 0$$, and $$\\lvert \mathbf{x}\ \rvert = 0$$ if and only if $$\mathbf{x} = \mathbf{0}$$)
-  2. **Homogeneity:** If you scale a vector by a number, its length scales by the absolute value of that number. ($$\\lvert t\mathbf{x}\ \rvert = \lvert t \rvert \\lvert \mathbf{x}\ \rvert$$ for any scalar $$t$$)
-  3. **Triangle Inequality:** The length of the sum of two vectors is less than or equal to the sum of their individual lengths ($$\\lvert \mathbf{x} + \mathbf{y}\ \rvert \le \\lvert \mathbf{x}\ \rvert + \\lvert \mathbf{y}\ \rvert$$)
+  1. **Non-negativity:** The length is always zero or positive. It's zero only if the vector itself is the zero vector. ($$\lvert \mathbf{x}\ \rvert \ge 0$$, and $$\lvert \mathbf{x}\ \rvert = 0$$ if and only if $$\mathbf{x} = \mathbf{0}$$)
+  2. **Homogeneity:** If you scale a vector by a number, its length scales by the absolute value of that number. ($$\lvert t\mathbf{x}\ \rvert = \lvert t \rvert \lvert \mathbf{x}\ \rvert$$ for any scalar $$t$$)
+  3. **Triangle Inequality:** The length of the sum of two vectors is less than or equal to the sum of their individual lengths ($$\lvert \mathbf{x} + \mathbf{y}\ \rvert \le \lvert \mathbf{x}\ \rvert + \lvert \mathbf{y}\ \rvert$$)
 
 ---
 
 **Euclidean Norm (L2 Norm):** This is the most common and intuitively understood norm, representing the standard straight-line distance from the origin to the vector's endpoint in an n-dimensional Euclidean space. 
 
-**Formula:** $$\\lvert \mathbf{x}\ \rvert_2 = \sqrt{\sum_{i=1}^n x_i^2}$$ 
+**Formula:** $$\lvert \mathbf{x}\ \rvert_2 = \sqrt{\sum_{i=1}^n x_i^2}$$ 
 
-**Example:** For a 2D vector $$\mathbf{x} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$, its Euclidean norm is $$\\lvert \mathbf{x}\ \rvert_2 = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5$$. Similarly, for a 3D vector $$\mathbf{y} = \begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix}$$, its L2 norm would be $$\\lvert \mathbf{y}\ \rvert_2 = \sqrt{1^2 + 2^2 + 2^2} = \sqrt{1 + 4 + 4} = \sqrt{9} = 3$$.
+**Example:** For a 2D vector $$\mathbf{x} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$, its Euclidean norm is $$\lvert \mathbf{x}\ \rvert_2 = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5$$. Similarly, for a 3D vector $$\mathbf{y} = \begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix}$$, its L2 norm would be $$\lvert \mathbf{y}\ \rvert_2 = \sqrt{1^2 + 2^2 + 2^2} = \sqrt{1 + 4 + 4} = \sqrt{9} = 3$$.
 
 ---
 
 **Properties and Significance:** The Euclidean norm satisfies the three defining properties of any norm, making it a fundamental concept in linear algebra and functional analysis:
-1.  **Non-negativity:** $$\\lvert \mathbf{x}\ \rvert_2 \ge 0$$, and $$\\lvert \mathbf{x}\ \rvert_2 = 0$$ if and only if $$\mathbf{x} = \mathbf{0}$$ (the zero vector).
-2.  **Absolute Homogeneity:** For any scalar $$c \in \mathbb{R}$$, $$\\lvert c\mathbf{x}\ \rvert_2 = \lvert c \rvert\\lvert \mathbf{x}\ \rvert_2$$.
-3.  **Triangle Inequality:** For any vectors $$\mathbf{x}, \mathbf{y} \in \mathbb{R}^n$$, $$\\lvert \mathbf{x} + \mathbf{y}\ \rvert_2 \le \\lvert \mathbf{x}\ \rvert_2 + \\lvert \mathbf{y}\ \rvert_2$$.
-The L2 norm is particularly important because it is induced by the standard Euclidean inner product (dot product): $$\\lvert \mathbf{x}\ \rvert_2 = \sqrt{\mathbf{x} \cdot \mathbf{x}}$$. This intrinsic connection makes it central to defining concepts like orthogonality, projections, and angles between vectors. It is widely used across various fields, including machine learning (e.g., as a component of Mean Squared Error loss functions, L2 regularization in Ridge Regression to penalize large weights and prevent overfitting), optimization algorithms, signal processing, and physics for calculating vector magnitudes and distances in real-world applications.
+1.  **Non-negativity:** $$\lvert \mathbf{x}\ \rvert_2 \ge 0$$, and $$\lvert \mathbf{x}\ \rvert_2 = 0$$ if and only if $$\mathbf{x} = \mathbf{0}$$ (the zero vector).
+2.  **Absolute Homogeneity:** For any scalar $$c \in \mathbb{R}$$, $$\lvert c\mathbf{x}\ \rvert_2 = \lvert c \rvert\lvert \mathbf{x}\ \rvert_2$$.
+3.  **Triangle Inequality:** For any vectors $$\mathbf{x}, \mathbf{y} \in \mathbb{R}^n$$, $$\lvert \mathbf{x} + \mathbf{y}\ \rvert_2 \le \lvert \mathbf{x}\ \rvert_2 + \lvert \mathbf{y}\ \rvert_2$$.
+The L2 norm is particularly important because it is induced by the standard Euclidean inner product (dot product): $$\lvert \mathbf{x}\ \rvert_2 = \sqrt{\mathbf{x} \cdot \mathbf{x}}$$. This intrinsic connection makes it central to defining concepts like orthogonality, projections, and angles between vectors. It is widely used across various fields, including machine learning (e.g., as a component of Mean Squared Error loss functions, L2 regularization in Ridge Regression to penalize large weights and prevent overfitting), optimization algorithms, signal processing, and physics for calculating vector magnitudes and distances in real-world applications.
 
 ---
 
 **Manhattan Norm (L1 Norm):** Also known as the Taxicab Norm or City Block Distance, the L1 norm represents the sum of the absolute values of the vector's components. Its name derives from the idea of navigating a grid-like city (like Manhattan), where one can only move along horizontal or vertical streets, not diagonally.
 
-**Formula:** $$\\lvert \mathbf{x}\ \rvert_1 = \sum_{i=1}^n \lvert x_i \rvert$$
+**Formula:** $$\lvert \mathbf{x}\ \rvert_1 = \sum_{i=1}^n \lvert x_i \rvert$$
 
-**Example:** For $$\mathbf{x} = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$$, its Manhattan norm is $$\\lvert \mathbf{x}\ \rvert_1 = \lvert 3 \rvert + \lvert -4 \rvert = 3 + 4 = 7$$. For a 3D vector $$\mathbf{y} = \begin{pmatrix} 1 \\ -2 \\ 2 \end{pmatrix}$$, its L1 norm would be $$\\lvert \mathbf{y}\ \rvert_1 = \lvert 1 \rvert + \lvert -2 \rvert + \lvert 2 \rvert = 1 + 2 + 2 = 5$$.
+**Example:** For $$\mathbf{x} = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$$, its Manhattan norm is $$\lvert \mathbf{x}\ \rvert_1 = \lvert 3 \rvert + \lvert -4 \rvert = 3 + 4 = 7$$. For a 3D vector $$\mathbf{y} = \begin{pmatrix} 1 \\ -2 \\ 2 \end{pmatrix}$$, its L1 norm would be $$\lvert \mathbf{y}\ \rvert_1 = \lvert 1 \rvert + \lvert -2 \rvert + \lvert 2 \rvert = 1 + 2 + 2 = 5$$.
 
 **Properties and Significance:** The L1 norm also satisfies the three fundamental properties of a norm (non-negativity, absolute homogeneity, and triangle inequality). Geometrically, the "unit ball" (the set of all vectors with norm 1) in L1 space is a hyperoctahedron (a square in 2D, an octahedron in 3D). This "pointy" shape at the axes is crucial for its applications. The L1 norm is particularly valued in:
 *   **Robustness to Outliers:** Unlike the L2 norm, which squares errors and thus heavily penalizes large deviations, the L1 norm treats all errors linearly, making it less sensitive to outliers.
@@ -78,11 +83,11 @@ The L2 norm is particularly important because it is induced by the standard Eucl
 
 **Maximum Norm (L-infinity Norm):** Also known as the Chebyshev Norm or Uniform Norm, the L-infinity norm defines the magnitude of a vector as the largest absolute value among its components. It represents the maximum deviation of any single component from zero.
 
-**Formula:** $$\\lvert \mathbf{x}\ \rvert_\infty = \max_{i} \lvert x_i \rvert$$
+**Formula:** $$\lvert \mathbf{x}\ \rvert_\infty = \max_{i} \lvert x_i \rvert$$
 
-**Example:** For $$\mathbf{x} = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$$, its maximum norm is $$\\lvert \mathbf{x}\ \rvert_\infty = \max(\lvert 3 \rvert, \lvert -4 \rvert) = \max(3, 4) = 4$$. For a 3D vector $$\mathbf{y} = \begin{pmatrix} 1 \\ -5 \\ 2 \end{pmatrix}$$, its L-infinity norm would be $$\\lvert \mathbf{y}\ \rvert_\infty = \max(\lvert 1 \rvert, \lvert -5 \rvert, \lvert 2 \rvert) = \max(1, 5, 2) = 5$$.
+**Example:** For $$\mathbf{x} = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$$, its maximum norm is $$\lvert \mathbf{x}\ \rvert_\infty = \max(\lvert 3 \rvert, \lvert -4 \rvert) = \max(3, 4) = 4$$. For a 3D vector $$\mathbf{y} = \begin{pmatrix} 1 \\ -5 \\ 2 \end{pmatrix}$$, its L-infinity norm would be $$\lvert \mathbf{y}\ \rvert_\infty = \max(\lvert 1 \rvert, \lvert -5 \rvert, \lvert 2 \rvert) = \max(1, 5, 2) = 5$$.
 
-These three norms (L1, L2, and L-infinity) are specific instances of the more general **Lp-norm**, defined as $$\\lvert \mathbf{x}\ \rvert_p = \left(\sum_{i=1}^n \lvert x_i \rvert^p\right)^{1/p}$$ for $$p \ge 1$$. As $$p \to \infty$$, the Lp-norm converges to the L-infinity norm, demonstrating a continuous spectrum of ways to measure vector magnitude, each with unique geometric interpretations and practical implications.
+These three norms (L1, L2, and L-infinity) are specific instances of the more general **Lp-norm**, defined as $$\lvert \mathbf{x}\ \rvert_p = \left(\sum_{i=1}^n \lvert x_i \rvert^p\right)^{1/p}$$ for $$p \ge 1$$. As $$p \to \infty$$, the Lp-norm converges to the L-infinity norm, demonstrating a continuous spectrum of ways to measure vector magnitude, each with unique geometric interpretations and practical implications.
 
 ---
 ### Inner Products (Dot Product)

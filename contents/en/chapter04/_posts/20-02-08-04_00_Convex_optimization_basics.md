@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 04 Convex optimization basics
-chapter: "04"
+chapter: '04'
 order: 1
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter04
+lang: en
 ---
 ## Convex Optimization Basics
 

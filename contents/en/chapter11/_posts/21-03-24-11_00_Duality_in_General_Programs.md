@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 11 Duality in General Programs
-chapter: "11"
+chapter: '11'
 order: 1
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter11
+lang: en
 ---
 
 ### Review: duality in linear program

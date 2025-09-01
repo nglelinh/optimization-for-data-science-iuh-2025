@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 09-05 Acceleration
-chapter: "09"
+title: '09-05 Acceleration'
+chapter: '09'
 order: 6
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Acceleration

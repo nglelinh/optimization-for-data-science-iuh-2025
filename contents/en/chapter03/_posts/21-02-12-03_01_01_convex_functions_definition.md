@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-01-01 Definition
-chapter: "03"
+chapter: '03'
 order: 3
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 ## Convex function
 

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-02-01 Fixed step size
-chapter: "06"
+chapter: '06'
 order: 4
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 The simplest way to choose the step size in gradient descent is to use a fixed value for all iterations: $$t_k = t$$ for $$k = 1, 2, 3, ...$$. However, the convergence and behavior depend heavily on the choice of $$t$$.

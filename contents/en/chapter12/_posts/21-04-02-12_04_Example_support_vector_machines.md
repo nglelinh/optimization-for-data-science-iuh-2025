@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 12-04 Example support vector machines
-chapter: "12"
+chapter: '12'
 order: 5
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter12
+lang: en
 ---
 
 <script type="text/x-mathjax-config">

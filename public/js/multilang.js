@@ -20,12 +20,51 @@
                     contentWrapper.classList.add('switching');
                 }
                 
+                // Show notification for language switch
+                showLanguageSwitchNotification();
+                
                 // Smooth transition
                 setTimeout(() => {
                     window.location.href = this.href;
-                }, 150);
+                }, 300);
             });
         });
+    }
+    
+    // Show notification when switching languages
+    function showLanguageSwitchNotification() {
+        const currentLang = getCurrentLanguage();
+        const targetLang = currentLang === 'en' ? 'vi' : 'en';
+        const message = currentLang === 'en' ? 
+            'Đang chuyển sang tiếng Việt...' : 
+            'Switching to English...';
+            
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'language-switch-notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #268bd2;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove notification after animation
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 2000);
     }
 
     // Detect current language from URL or page attributes

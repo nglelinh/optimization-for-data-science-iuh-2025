@@ -1,14 +1,17 @@
 ---
 layout: post
-title: "25 Mixed Integer Programming (part II)"
-chapter: "25"
+title: 25 Mixed Integer Programming (part II)
+chapter: '25'
 order: 1
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter25
+lang: en
 ---
 
-이 장에서는 Integer Programming(IP)에서 가장 핵심적인 알고리즘이라고 할 수 있는 cutting plane 알고리즘과 이를 실용적으로 구현한 branch and cut 알고리즘에 대해서 살펴본다. 
+이 장at,는 Integer Programming(IP)at, 가장 핵심적인 algorithm이라고 할 수 있는 cutting plane algorithmand, 이를 실용적with, 구현한 branch and cut algorithmabout,서 살펴본다. 
 
-또한, Integer Programming의 예시로 best subset selection과 Least mean squares에 대해서 살펴보도록 하겠다.
+also,, Integer Programming의 예시to, best subset selectionand, Least mean squaresabout,서 살펴보도록 하겠다.
 
 ## Reference
 * Belotti, Kirches, Leyer, Linderoth, Luedke, and Mahajan (2012), "Mixed-integer nonlinear optimization"

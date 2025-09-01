@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 01-02 Convex optimization problem
-chapter: "01"
+chapter: '01'
 order: 3
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter01
+lang: en
 ---
 
 A convex optimization problem is a type of optimization problem.

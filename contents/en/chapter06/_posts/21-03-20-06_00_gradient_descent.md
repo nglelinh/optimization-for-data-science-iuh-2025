@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06 Gradient Descent
-chapter: "06"
+chapter: '06'
 order: 1
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 In this chapter, we explore **Gradient Descent**, one of the most fundamental and important methods in optimization. 

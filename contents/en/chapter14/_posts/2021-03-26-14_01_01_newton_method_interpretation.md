@@ -2,7 +2,10 @@
 layout: post
 title: 14-01-01 Newton's method interpretation
 order: 3
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

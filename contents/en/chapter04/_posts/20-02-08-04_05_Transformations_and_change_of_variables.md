@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 04-05 Transformations and change of variables
-chapter: "04"
+chapter: '04'
 order: 6
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter04
+lang: en
 ---
 This section discusses transformations and change of variables in convex optimization problems, which are useful for simplifying or reformulating problems.
 

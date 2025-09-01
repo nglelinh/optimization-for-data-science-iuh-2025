@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-03-02 Convex function quadratic upper bound
-chapter: "06"
+chapter: '06'
 order: 9
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 ## Quadratic Upper Bound

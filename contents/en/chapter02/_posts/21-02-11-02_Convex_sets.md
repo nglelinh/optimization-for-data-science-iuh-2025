@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02 Convex Sets
-chapter: "02"
-order: 00
-owner: "Wontak Ryu"
+chapter: '02'
+order: 0
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 In this chapter, we will study the concept of convex sets, which form the foundation of convex optimization.

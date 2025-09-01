@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-02-01 Stochastic Subgradient Method
-chapter: "08"
+title: '08-02-01 Stochastic Subgradient Method'
+chapter: '08'
 order: 12
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 Let’s consider the problem of minimizing the sum of functions as follows:

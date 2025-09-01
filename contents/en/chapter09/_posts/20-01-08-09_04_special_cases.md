@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 09-04 Special cases
-chapter: "09"
+title: '09-04 Special cases'
+chapter: '09'
 order: 5
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Special cases

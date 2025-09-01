@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 04-03 First order optimality condition
-chapter: "04"
+chapter: '04'
 order: 4
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter04
+lang: en
 ---
 >$$
 \begin{aligned}

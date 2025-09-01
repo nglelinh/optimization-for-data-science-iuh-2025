@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-01-01 Step size choices
-chapter: "08"
+title: '08-01-01 Step size choices'
+chapter: '08'
 order: 3
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 There are various ways to choose the **step size** in the subgradient method.

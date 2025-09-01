@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-02-02 Backtracking line search
-chapter: "06"
+chapter: '06'
 order: 5
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 If a fixed step size is used in gradient descent, the convergence speed is always the same, which can be problematic in ill-conditioned regions (where the minimum is missed or progress is slow). To address this, the step size can be adaptively chosen to match the function's curvature. One such method is **backtracking line search**.

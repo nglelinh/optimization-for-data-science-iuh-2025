@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 10-04 Another Perspective on LP duality
-chapter: "10"
+chapter: '10'
 order: 5
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter10
+lang: en
 ---
 
 <script type="text/x-mathjax-config">

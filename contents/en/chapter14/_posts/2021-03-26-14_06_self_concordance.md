@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14-06 Self concordance
-chapter: "14"
+chapter: '14'
 order: 10
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 In the previous convergence analysis of Newton's method, there are two major issues. [1]
 

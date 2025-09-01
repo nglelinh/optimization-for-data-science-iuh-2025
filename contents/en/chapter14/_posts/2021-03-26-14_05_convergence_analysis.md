@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14-05 Convergence analysis
-chapter: "14"
+chapter: '14'
 order: 9
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

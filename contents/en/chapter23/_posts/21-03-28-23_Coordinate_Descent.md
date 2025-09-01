@@ -1,20 +1,23 @@
 ---
 layout: post
-title: "23 Coordinate Descent"
-chapter: "23"
+title: 23 Coordinate Descent
+chapter: '23'
 order: 1
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter23
+lang: en
 ---
 
-Coordinate descent는 반복적으로 각 좌표축을 따라 움직이며 목적함수의 최솟값을 찾는 최적화 알고리즘이다. 각 반복(iteration)에서 좌표 선택 규칙(coordinate selection rule)에 따라 좌표축(coordinate) 또는 좌표축 블록(coordinate block)을 결정한 뒤, 선택되지 않은 좌표축 또는 좌표축 블록은 고정한 채로 축의 방향을 따라 함수를 최소화시킨다 (exact or inexactly). Coordinate descent는 gradient를 이용하는 방식뿐 아니라 gradient를 이용하지 않는 방식으로도 활용할 수 있다. 또한, 경우에 따라 각 축에 대해 적합한 step size를 결정하기 위하여 line search를 이용할 수 있다 [16].
+Coordinate descent는 iteration적with, 각 coordinateaxis을 따라 움직이며 objective function의 최솟값을 찾는 optimization algorithm이다. 각 iteration(iteration)at, coordinate 선택 규칙(coordinate selection rule)according to, coordinateaxis(coordinate) or, coordinateaxis 블록(coordinate block)을 결정한 뒤, 선택되지 않은 coordinateaxis or, coordinateaxis 블록은 고정한 채to, axis의 direction을 따라 function를 minimization시킨다 (exact or inexactly). Coordinate descent는 gradient를 이용하는 방식뿐 아니라 gradient를 이용하지 않는 방식with,도 활용할 수 있다. also,, case,according to, 각 axisabout, 적sum한 step size를 결정하기 for, line search를 이용할 수 있다 [16].
 
-Coordinate descent는 매우 간단하여 구현하기가 쉽고, 적합한 문제에 대해 주의깊게 구현될 경우 아주 좋은 성능을 보인다.
+Coordinate descent는 매우 간단하여 구현하기가 쉽고, 적sum한 problemabout, 주의깊게 구현될 case, 아주 좋은 성능을 보인다.
 
 **Examples:** lasso regression, lasso GLMs (under proximal Newton), SVMs, group lasso, graphical lasso (applied to the dual), additive modeling, matrix completion, regression with nonconvex penalties
 
 ## References and Further readings
 
-**최적화에서의 초기 coordinate descent:**
+**optimizationat,의 초기 coordinate descent:**
 
 * D. Bertsekas and J. Tsitsiklis (1989), “Parallel and distributed domputation: numerical methods”
 * Z. Luo and P. Tseng (1992), “On the convergence of the coordinate descent method for convex differentiable minimization”
@@ -52,7 +55,7 @@ Coordinate descent는 매우 간단하여 구현하기가 쉽고, 적합한 문�
 * D. Witten and J. Friedman and N. Simon (2011), “New insights and faster computations for the graphical lasso”
 
 **Convergence analysis:**<br>
-Coordinate descent의 convergence analysis에 대한 연구 흐름을 간략히 소개하겠다.
+Coordinate descent의 convergence analysisto, about, 연구 흐름을 간략히 소개하겠다.
 
 * Convergence of coordinatewise minimization for solving linear systems, the Gauss-Seidel method, is a classic topic. E.g., see Golub and van Loan (1996), or Ramdas (2014) for a modern twist that looks at randomized coordinate descent
 * Nesterov (2010) considers randomized coordinate descent for smooth functions and shows that it achieves a rate O(1/ε) under a Lipschitz gradient condition, and a rate O(log(1/ε)) under strong convexity

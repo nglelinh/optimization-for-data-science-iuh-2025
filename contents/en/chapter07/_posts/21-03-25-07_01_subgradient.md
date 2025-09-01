@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 07-01 Subgradient
-chapter: "07"
+chapter: '07'
 order: 2
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter07
+lang: en
 ---
 
 # Subgradient

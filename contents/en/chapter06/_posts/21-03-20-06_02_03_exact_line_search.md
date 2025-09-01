@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-02-03 Exact line search
-chapter: "06"
+chapter: '06'
 order: 6
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 Another way to adapt the step size in gradient descent is **exact line search**.

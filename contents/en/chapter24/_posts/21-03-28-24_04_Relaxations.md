@@ -1,18 +1,21 @@
 ---
 layout: post
-title: "24-04 Relaxations"
-chapter: "24"
+title: 24-04 Relaxations
+chapter: '24'
 order: 5
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter24
+lang: en
 ---
 
-Relaxation을 위해서는 특정 조건이 성립이 되어야 하며, Convex relaxation과 Lagrangian relaxation 방법을 활용할 수 있다. 자세한 내용을 살펴보도록 하자.
+Relaxation을 for,서는 특정 condition,이 성립이 되어야 하며, Convex relaxationand, Lagrangian relaxation method을 활용할 수 있다. 자세한 내용을 let's examine.
 
 ## Conditions for Relaxations
-일반적인 optimization problem이 다음과 같이 정의된다면,
+일반적인 optimization problem이 as follows: 정의된다면,
 > $$\min_{x \in X} f(x)$$
 
-이 문제의 relaxation은 임의의 optimization problem으로 나타내었을 때, 다음과 같이 정의된다.
+이 problem의 relaxation은 임의의 optimization problemwith, representing,었을 when,, as follows: 정의된다.
 
 > $$\begin{align}
 > &\min_{x \in Y} \: g(x)\\\\
@@ -21,11 +24,11 @@ Relaxation을 위해서는 특정 조건이 성립이 되어야 하며, Convex r
 > &\text{② } g(x) \leq f(x) \text{ for all } x \in X 
 > \end{align}$$ 
 
-목적함수 $$f(x)$$ 와 $$g(x)$$가 달라지면 두 조건 모두 만족해야 하고, 같다면 조건 ①만 만족해도 될 것이다.
-두 조건에 의하여, relaxation에서의 optimal value는 original problem에서의 optimal value의 lower bound가 된다.
+objective function $$f(x)$$ and, $$g(x)$$가 달라지면 두 condition, 모두 만족solution야 하고, 같다면 condition, ①만 만족solution도 될 것이다.
+두 condition,by,, relaxationat,의 optimal value는 original problemat,의 optimal value의 lower bound가 된다.
 
 ## Convex relaxations
-주어진 문제가 다음과 같을 때,
+주어진 problem가 다음and, 같을 when,,
 > $$
 > \begin{align}
 > &\min_{x} &&f(x) \\\\
@@ -38,7 +41,7 @@ Relaxation을 위해서는 특정 조건이 성립이 되어야 하며, Convex r
 > \end{align}
 > $$
 
-convex relaxation을 아래와 같이 표현할 수 있다.
+convex relaxation을 아래and, 같이 표현할 수 있다.
 > $$
 > \begin{align}
 > &\min_{x} && f(x) \\\\
@@ -52,7 +55,7 @@ convex relaxation을 아래와 같이 표현할 수 있다.
 
 
 ## Lagrangian relaxations
-$$X$$가 convex 그리고 integer constraints를 모두 포함할 때, 다음과 같이 문제를 정의 할 수 있다. 
+$$X$$가 convex and, integer constraints를 모두 포함할 when,, as follows: problem를 정의 할 수 있다. 
 
 > $$
 > \begin{align}
@@ -62,7 +65,7 @@ $$X$$가 convex 그리고 integer constraints를 모두 포함할 때, 다음과
 > \end{align}
 > $$
 
-이 때, constraints를 objective에 더하여, 어떤 $$u \geq 0$$에 대한 Lagrangian relaxation을 하면, 다음과 같다.
+이 when,, constraints를 objectiveto, 더하여, 어떤 $$u \geq 0$$to, about, Lagrangian relaxation을 하면, as follows:.
 
 > $$
 > \begin{align}
@@ -71,9 +74,9 @@ $$X$$가 convex 그리고 integer constraints를 모두 포함할 때, 다음과
 > \end{align}
 > $$
 
-Lagrangian form을 통해서 constraint set이 확장되었고, feasible $$x$$에 대해 $$Ax \leq b$$을 만족하므로, 항상 $$f(x) + u^{\top}(Ax - b) \leq f(x), u \geq 0$$이 성립한다. 따라서 $$L(u)$$는 임의의 $$u \geq 0$$에 대해서 lower bound이고, 최선의 lower bound는 dual problem $$\max_{u \geq 0} L(u)$$을 해결함으로써 얻어낼 수 있다. $$L(u)$$는 convex function의 point-wise minimization이기 때문에 concave optimization problem이 된다는 것을 기억하자.
+Lagrangian form을 through,서 constraint set이 확장되었고, feasible $$x$$about, $$Ax \leq b$$을 만족하므to,, always, $$f(x) + u^{\top}(Ax - b) \leq f(x), u \geq 0$$이 성립한다. therefore, $$L(u)$$는 임의의 $$u \geq 0$$about,서 lower bound이고, 최선의 lower bound는 dual problem $$\max_{u \geq 0} L(u)$$을 solution결함with,써 obtaining,낼 수 있다. $$L(u)$$는 convex function의 point-wise minimization이기 because of, concave optimization problem이 된다는 것을 기억하자.
 
-앞서 언급되었던 Facility location problem에 Lagrangian relaxation을 적용해 보면, unconstrained $$v$$에 대하여 다음 식을 푸는 문제로 변형된다.
+앞서 언급되었던 Facility location problemto, Lagrangian relaxation을 applying, 보면, unconstrained $$v$$about, 다음 식을 푸는 problemto, 변형된다.
 
 > $$
 > \begin{align}
@@ -83,10 +86,10 @@ Lagrangian form을 통해서 constraint set이 확장되었고, feasible $$x$$�
 > \end{align}
 > $$
 
-각각의 $$v$$에 대하여 Lagrange relaxation $$L(v)$$는 쉽게 풀릴 수 있다 :
+각각의 $$v$$about, Lagrange relaxation $$L(v)$$는 쉽게 풀릴 수 있다 :
 > $$ x_{ij}(v) =\begin{cases}1 & \text{if} \quad c_{ij} - v_{i} < 0 \quad \text{and}  \quad \sum_{l} (c_{lj} - v_{l})^{-} + f_{j} < 0 \\\\
 > 0 & \text{otherwise.} \end{cases}$$
 > $$ y_{j}(v) =\begin{cases}1 & \text{if } \quad \sum_{l} (c_{lj} - v_{l})^{-} + f_{j} < 0 \\\\
 > 0 & \text{otherwise.} \end{cases} $$
 
-이는 lower bound $$L(v)$$ 그리고 heuristic primal solution을 도출 할 수 있도록 한다. 또한 $$-L(v)$$의 부분미분(subdifferential)을 사용한다면 계산도 쉬워진다. subgradient method를 사용하여 $$\max_{v} L(v)$$를 $$\min_{v} -L(v)$$ 로 변환시켜서 문제를 풀어갈 수 있다.
+이는 lower bound $$L(v)$$ and, heuristic primal solution을 도출 할 수 있도록 한다. also, $$-L(v)$$의 부분미분(subdifferential)을 사용한다면 computation도 쉬워진다. subgradient method를 using, $$\max_{v} L(v)$$를 $$\min_{v} -L(v)$$ to, transformation시켜서 problem를 풀어갈 수 있다.

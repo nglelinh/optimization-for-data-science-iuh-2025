@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-01 Gradient Descent
-chapter: "06"
+chapter: '06'
 order: 2
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 Gradient descent is the simplest algorithm for solving unconstrained convex and differentiable optimization problems.

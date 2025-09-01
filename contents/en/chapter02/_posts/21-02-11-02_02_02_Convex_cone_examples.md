@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-02-02 Convex Cone examples
-chapter: "02"
+chapter: '02'
 order: 8
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 Examples of convex cones include the norm cone, normal cone, and positive semidefinite cone.

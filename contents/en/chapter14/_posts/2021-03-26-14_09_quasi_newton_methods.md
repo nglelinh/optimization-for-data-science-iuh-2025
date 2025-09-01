@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14-09 Quasi-Newton methods
-chapter: "14"
+chapter: '14'
 order: 15
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 00.04 Taylor Series
-chapter: "00"
+chapter: '00'
 order: 5
-owner: "GitHub Copilot"
+owner: GitHub Copilot
+lang: en
+categories:
+- chapter00
 ---
 
 The Taylor series is a representation of a function as an infinite sum of terms calculated from the values of the function's derivatives at a single point. It is one of the most fundamental concepts in calculus and mathematical analysis, providing a way to approximate complex functions with simpler polynomial functions.

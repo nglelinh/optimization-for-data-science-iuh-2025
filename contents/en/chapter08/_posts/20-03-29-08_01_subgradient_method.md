@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-01 Subgradient Method
-chapter: "08"
+title: '08-01 Subgradient Method'
+chapter: '08'
 order: 2
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 Assume the domain of the function is $${R}^n$$ and there is a convex function $$f$$ that may not be differentiable everywhere.

@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-01-06 Polyak step sizes
-chapter: "08"
+title: '08-01-06 Polyak step sizes'
+chapter: '08'
 order: 8
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 **Polyak step sizes** are a way to set the step size when the optimal value is known. If $$f^*$$ is known, Polyak step sizes can be defined as follows.

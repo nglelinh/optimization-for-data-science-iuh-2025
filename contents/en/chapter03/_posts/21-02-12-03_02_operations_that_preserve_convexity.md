@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-02 Operations that preserve convexity
-chapter: "03"
+chapter: '03'
 order: 6
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section discusses operations that preserve the convexity of convex functions.

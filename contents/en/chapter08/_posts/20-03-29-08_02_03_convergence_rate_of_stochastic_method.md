@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-02-03 Convergence Rate of Stochastic Method
-chapter: "08"
+title: '08-02-03 Convergence Rate of Stochastic Method'
+chapter: '08'
 order: 14
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 There are differences in the convergence rates between cyclic and randomized methods.

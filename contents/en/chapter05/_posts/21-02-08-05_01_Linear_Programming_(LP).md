@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 05-01 Linear Programming (LP)
-chapter: "05"
+chapter: '05'
 order: 2
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter05
+lang: en
 ---
 
 If both the objective function and constraint functions are affine, the optimization problem is called a *linear program* (LP). The general linear program is formulated as:

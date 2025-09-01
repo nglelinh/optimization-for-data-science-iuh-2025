@@ -5,11 +5,14 @@ layout: default
 <h1>{{page.chapter}}. {{page.title}}</h1>
 
 {% assign full_name = page.chapter | prepend: "chapter" %}
-{% assign post_list = site.categories[full_name] | sort_natural %}
+{% assign current_lang = page.lang | default: site.default_lang %}
+{% assign all_posts = site.categories[full_name] | sort_natural %}
+{% assign post_list = all_posts | where: "lang", current_lang %}
 
 {% if page.chapter == "26" %}
   {% assign full_name = "reference" %}
-  {% assign post_list = site.categories[full_name] | sort_natural %}
+  {% assign all_posts = site.categories[full_name] | sort_natural %}
+  {% assign post_list = all_posts | where: "lang", current_lang %}
 {% endif %}
 
 <!-- Get first post and show it -->

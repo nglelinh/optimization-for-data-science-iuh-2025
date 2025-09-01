@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 04-02 Convex solution sets
-chapter: "04"
+chapter: '04'
 order: 3
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter04
+lang: en
 ---
 Let's understand the properties of convex solution sets. <br>
 Let $$X_{opt}$$ denote the set of solutions to a convex problem:

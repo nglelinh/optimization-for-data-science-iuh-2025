@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-05 Log-concave and log-convex functions
-chapter: "03"
+chapter: '03'
 order: 13
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section introduces log-concave and log-convex functions, which are important in probability, statistics, and optimization.

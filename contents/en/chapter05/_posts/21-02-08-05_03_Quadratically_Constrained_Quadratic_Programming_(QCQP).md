@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 05-03 Quadratically Constrained Quadratic Programming (QCQP)
-chapter: "05"
+chapter: '05'
 order: 4
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter05
+lang: en
 ---
 
 If the inequality constraint functions in a quadratic program are replaced with convex quadratic functions, the problem is called a *Quadratically Constrained Quadratic Program* (QCQP).

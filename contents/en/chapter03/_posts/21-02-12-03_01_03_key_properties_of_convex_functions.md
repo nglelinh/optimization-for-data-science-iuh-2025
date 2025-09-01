@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-01-03 Key properties of convex functions
-chapter: "03"
+chapter: '03'
 order: 5
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 ## Epigraph characterization
 As discussed in Section 1.2, $$f$$ is convex if and only if its epigraph is a convex set, and vice versa.

@@ -1,25 +1,28 @@
 ---
 layout: post
 title: 17-01 Barrier method & duality & optimality revisited
-chapter: "17"
+chapter: '17'
 order: 2
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter17
+lang: en
 ---
 
-15장에서 barrier method에 대해, 13장과 16장에서는 duality에 대해 살펴보았다.
-본 장의 내용을 다루기 전에 barrier method와 duality에 대해 간단하게 다시 정리해 보고자 한다.
+In Chapter 15, we examined the barrier method, and in Chapters 13 and 16, we looked at duality.
+Before covering the content of this chapter, we want to briefly review the barrier method and duality.
 
 
 
 ## Barrier method
-아래와  같은 primal 문제가 convex이고 $$f, h_i , i = 1, . . . m$$가 미분가능 할 때,   
+When the following primal problem is convex and $$f, h_i , i = 1, . . . m$$ are differentiable,   
 > $$\begin{align}
 > &\min_{x} && f(x) \\
 > &\text{subject to } &&h_{i}(x) \leq 0, i = 1, \dotsc, m \\
 > &&& Ax = b \\
 > \end{align}$$
 
-Log barrier function을 사용하여 다음과 같이 primal 문제를 barrier 문제로 바꿀 수 있다.
+Using the log barrier function, the primal problem can be transformed into a barrier problem as follows:
 
 > $$\begin{align}
 > & \min_{x} && f(x) + \frac{1}{t} \phi(x) & \qquad & \min_{x} && tf(x) + \phi(x) \\
@@ -27,23 +30,23 @@ Log barrier function을 사용하여 다음과 같이 primal 문제를 barrier �
 > & \text{where } && \phi(x) = - \sum_{i=1}^{m} \log(-h_i(x))
 > \end{align}$$
 
-알고리즘은 $$t > 0$$를 만족하는 $$t = t^{(0)}$$에서 시작해서 $$\frac{m}{t}$$가 $$\epsilon$$보다 작거나 같아질 때까지 증가시킨다. 이때, Newton's method를 이용해 초기값 $$x^{(0)}$$에 대한 $$x^{\star}(t)$$를 구하고 $$k = 1, 2, 3, . . .$$에 대해 각 단계에서  $$x^{(k+1)} = x^{\star}(t)$$를 구하는 과정을 반복 한다.
+The algorithm starts with $$t = t^{(0)}$$ satisfying $$t > 0$$ and increases until $$\frac{m}{t}$$ becomes less than or equal to $$\epsilon$$. At this time, Newton's method is used to find $$x^{\star}(t)$$ for the initial value $$x^{(0)}$$, and the process of finding $$x^{(k+1)} = x^{\star}(t)$$ at each step for $$k = 1, 2, 3, . . .$$ is repeated.
 
-알고리즘을 간략히 정리하면 다음과 같다.
+The algorithm can be briefly summarized as follows:
 
-1. $$t^{(0)} \gt 0$$이고 $$k := 0$$을 선택한다.
-2. $$t = t^{(0)}$$에서 barrier problem을 풀어서 $$x^{(0)} = x^{\star}(t)$$을 구한다.
+1. Choose $$t^{(0)} \gt 0$$ and $$k := 0$$.
+2. Solve the barrier problem at $$t = t^{(0)}$$ to find $$x^{(0)} = x^{\star}(t)$$.
 3. While $$m/t \gt \epsilon$$ <br>
-  3-1. $$t^{(k+1)} = µt$$로 업데이트 한다. $$(µ > 1)$$ <br>
-  3-2. Newton's method를 $$x^{(k)}$$로 초기화한다. (warm start)<br>
-        $$t = t^{(k+1)}$$에서 barrier problem을 풀어서 $$x^{(k+1)} = x^{\star}(t)$$을 구한다.<br>
+  3-1. Update $$t^{(k+1)} = µt$$ where $$(µ > 1)$$ <br>
+  3-2. Initialize Newton's method with $$x^{(k)}$$ (warm start)<br>
+        Solve the barrier problem at $$t = t^{(k+1)}$$ to find $$x^{(k+1)} = x^{\star}(t)$$.<br>
   end while<br>
 
-* 자세한 내용은  [15-01-02 Log barrier function & barrier method]({% multilang_post_url contents/chapter15/21-03-28-15_01_02_log_barrier_function_and_barrier_method %}) 참조
+* For detailed information, see [15-01-02 Log barrier function & barrier method]({% multilang_post_url contents/chapter15/21-03-28-15_01_02_log_barrier_function_and_barrier_method %})
 
 
 ## Duality
-다음과 같은 primal 문제가 주어졌을 때, 
+When the following primal problem is given: 
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad f(x) \\\\
@@ -52,12 +55,12 @@ Log barrier function을 사용하여 다음과 같이 primal 문제를 barrier �
 >\end{align}
 >$$
 
-이를 Lagrangian 형태로 바꾸면 다음과 같이 바꿀 수 있다.
+This can be transformed into Lagrangian form as follows:
 >$$
 >L(x,u,v) = f(x) + u^Th(x) + v^T(Ax - b)
 >$$
 
-이와 같이 정의된 Lagrangian을 이용해서 primal과 dual problem을 다음과 같은 형태로 다시 정의할 수 있다. 자세한 내용은 16장을 다시 살펴보기 바란다.<br>
+Using the Lagrangian defined in this way, primal and dual problems can be redefined in the following form. Please refer to Chapter 16 for detailed information.<br>
 #### Primal Problem
 >$$
 >\min_x \mathop{\max_{u,v}}_{u \geq 0} L(x,u,v)
@@ -70,7 +73,7 @@ Log barrier function을 사용하여 다음과 같이 primal 문제를 barrier �
 
 ## Optimality conditions
 
-$$f,h_1,...h_m$$은 convex 이고 미분 가능하고, 또한 주어진 문제가 strong duality를 만족한다고 가정할 때, 이 문제에 대한 KKT 최적 조건(optimality condition)은 아래와 같다.
+When $$f,h_1,...h_m$$ are convex and differentiable, and the given problem satisfies strong duality, the KKT optimality conditions for this problem are as follows:
 
 > $$
 > \begin{array}{rcl}
@@ -81,13 +84,13 @@ $$f,h_1,...h_m$$은 convex 이고 미분 가능하고, 또한 주어진 문제�
 > \end{array}
 > $$
 
-여기서 $$U$$는 $$\text{diag}(u)$$를 뜻하며, $$∇h(x)$$는 $$ [ ∇h_1(x) ··· ∇h_m(x) ]$$를 의미한다.
+Here, $$U$$ means $$\text{diag}(u)$$, and $$∇h(x)$$ means $$ [ ∇h_1(x) ··· ∇h_m(x) ]$$.
 
-* 자세한 내용은 [12장 KKT conditions]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %}) 참조
+* For detailed information, see [Chapter 12 KKT conditions]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
 
 ## Central path equations
-함수 $$f(x)$$를 barrier 문제로 아래와 같이 재정의 할 수 있다.<br>
-아래 수식에서 $$τ$$는 $$\frac{1}{t}$$이며 $$\tau$$를 점점 0에 가깝게 해서 반복적으로 해를 구함으로써 최종적으로 원래 문제의 해를 구하게 된다.
+The function $$f(x)$$ can be redefined as a barrier problem as follows.<br>
+In the equation below, $$τ$$ is $$\frac{1}{t}$$, and by making $$τ$$ gradually approach 0 and iteratively finding solutions, we ultimately obtain the solution to the original problem.
 
 >$$
 >\begin{align}
@@ -97,9 +100,9 @@ $$f,h_1,...h_m$$은 convex 이고 미분 가능하고, 또한 주어진 문제�
 >\end{align}
 >$$
 
-즉, 위 식에서 $$τ$$에 따라 primal 문제와의 차이가 발생하며, $$τ$$에 따라 생기는 궤적 즉, barrier 문제에 대한 해의 집합을 central path라고 한다.
+That is, in the above equation, differences from the primal problem occur depending on $$τ$$, and the trajectory generated according to $$τ$$, i.e., the set of solutions to the barrier problem, is called the central path.
 
-그리고 이 barrier 문제에 대한 optimality conditions은 다음과 같다.
+And the optimality conditions for this barrier problem are as follows:
 > $$
 > \begin{array}{rcl}
 > ∇f(x) +∇h(x)u + A^Tv  & = & 0 \\\
@@ -109,11 +112,11 @@ $$f,h_1,...h_m$$은 convex 이고 미분 가능하고, 또한 주어진 문제�
 > \end{array}
 > $$
  
-* 자세한 내용은 [16-02 Optimality conditions]({% multilang_post_url contents/chapter16/21-03-31-16_02_optimality_conditions %}) 참조
+* For detailed information, see [16-02 Optimality conditions]({% multilang_post_url contents/chapter16/21-03-31-16_02_optimality_conditions %})
 
-이번 장에서 소개할 **Primal-Dual interior point method**는 위의 처음 세 가지 식을 residual로 정의하고 이를 $$0$$으로 줄이면서 해를 구하는 방식이다.
+The **Primal-Dual interior point method** introduced in this chapter is a method that defines the first three equations above as residuals and finds solutions by reducing them to $$0$$.
 
 ##### Useful fact
-솔루션 $$(x(τ),u(τ),v(τ))$$는 다음의 $$mτ$$ 즉 $$\frac{m}{t}$$ 크기 만큼의 duality gap을 갖는다.
+The solution $$(x(τ),u(τ),v(τ))$$ has a duality gap of size $$mτ$$, i.e., $$\frac{m}{t}$$, as follows:
 > $$f(x(τ))−\min_x L(x,u(τ),v(τ)) = mτ= \frac{m}{t}$$
 

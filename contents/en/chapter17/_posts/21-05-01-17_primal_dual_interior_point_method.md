@@ -1,14 +1,17 @@
 ---
 layout: post
 title: 17 Primal-Dual Interior-Point Methods
-chapter: "17"
+chapter: '17'
 order: 1
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter17
+lang: en
 ---
 
-본 장에서는 앞서 배운 Barrier method의 centering step을 한 단계로 줄여서 성능을 개선한 **Primal-Dual Interior-Point Method**를 살펴볼 것이다. 
+In this chapter, we will examine the **Primal-Dual Interior-Point Method**, which improves performance by reducing the centering step of the Barrier method we learned earlier to a single step.
 
-**Primal-Dual Interior-Point Method**는 centering step에서 반드시 feasible해야 한다는 제약조건을 완화하고  Newton's Method의 root finding 버전을 이용하여 비선형 방정식을 선형 방정식으로 근사하여 해를 구하는 방식으로 Barrier method에 비해 빠르고 정확도가 높다.
+The **Primal-Dual Interior-Point Method** relaxes the constraint that the centering step must be feasible and uses the root finding version of Newton's Method to approximate nonlinear equations with linear equations to find solutions, making it faster and more accurate than the Barrier method.
 
 ## References and further readings
 * S. Boyd and L. Vandenberghe (2004), “Convex optimization,” Chapter 11

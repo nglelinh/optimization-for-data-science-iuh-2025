@@ -1,17 +1,20 @@
 ---
 layout: post
 title: 20-02-01 Dual Decomposition with Equality Constraint
-chapter: "20"
+chapter: '20'
 order: 5
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter20
+lang: en
 ---
 
-다음의 문제를 보자. 
+다음의 problem를 보자. 
 >\begin{equation}
 \min_x \sum_{i=1}^B f_i(x_i) \quad \text{ subject to } \quad Ax = b
 \end{equation}
 
-만약, 변수 $$x$$를 $$B$$개의 블록으로 분할하고, $$x = (x_1,\dots,x_B) \in \mathbb{R}^n, \text{ where } x_i \in \mathbb{R}^{n_i}$$, matrix $$A$$ 역시 $$B$$개의 sub-matrix 블록으로 다음과 같이 분할하면, $$A = [A_1, \dots, A_B], \text{ where } A_i \in \mathbb{R}^{m \times n_i}$$, 위 minimization 문제는 다음과 같이 $$B$$개의 분리된 문제로 분해될 수 있다.  
+if,, variable $$x$$를 $$B$$개의 블록with, 분할하고, $$x = (x_1,\dots,x_B) \in \mathbb{R}^n, \text{ where } x_i \in \mathbb{R}^{n_i}$$, matrix $$A$$ 역시 $$B$$개의 sub-matrix 블록with, as follows: 분할하면, $$A = [A_1, \dots, A_B], \text{ where } A_i \in \mathbb{R}^{m \times n_i}$$, 위 minimization problem는 as follows: $$B$$개의 분리된 problemto, 분solution될 수 있다.  
 > $$
 > \begin{alignat}{1}
 > & \quad x^+ \in \arg\min_x \sum_{i=1}^B f_i(x_i) + u^T Ax  \\
@@ -19,7 +22,7 @@ owner: "Hooncheol Shin"
 > \end{alignat}
 > $$
 
-#### Dual decomposition 알고리즘: 
+#### Dual decomposition algorithm: 
 
 > $$
 > \begin{alignat}{1}
@@ -28,11 +31,11 @@ owner: "Hooncheol Shin"
 > \end{alignat}
 > $$
 
-위 두 단계는 아래와 같이 해석할 수 있다. 
->* 첫번째 수식은 broadcast 단계로서, $$B$$개의 프로세서의 각각에게 $$u$$를 보낸다. 그리고, 프로세서 각각은 병렬로 자신의 최적 $$x_i$$를 찾는다.   
-* 두번째 수식은 gather 단계로서, 각 프로세서로부터 $$A_i x_i$$를 모은다. 그리고 global dual 변수 $$u$$를 업데이트 한다. 
+위 두 step는 아래and, 같이 solution석할 수 있다. 
+>* 첫번째 수식은 broadcast stepto,서, $$B$$개의 프to,세서의 각각to,게 $$u$$를 보낸다. and,, 프to,세서 각각은 병렬to, 자신의 최적 $$x_i$$를 찾는다.   
+* 두번째 수식은 gather stepto,서, 각 프to,세서from, $$A_i x_i$$를 모은다. and, global dual variable $$u$$를 업데이트 한다. 
 
-위 두 단계는 $$k=1,2,3,\dots$$에 대해 계속 반복한다. 
+위 두 step는 $$k=1,2,3,\dots$$about, 계속 iteration한다. 
 
 <figure class="image" style="align: center;">
 <p align="center">

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14-06-01 Definition of self-concordant functions
-chapter: "14"
+chapter: '14'
 order: 11
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

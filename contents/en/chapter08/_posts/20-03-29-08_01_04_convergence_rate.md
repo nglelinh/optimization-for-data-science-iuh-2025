@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-01-04 Convergence rate
-chapter: "08"
+title: '08-01-04 Convergence rate'
+chapter: '08'
 order: 6
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 The convergence rate describes how the number of iterations required to reach an $$\epsilon$$-suboptimal point depends on $$\epsilon$$, using [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation). For example, if $$\epsilon = 10^{-2}$$ and the convergence rate is $$O(1/\epsilon)$$, then about $$1/10^{-2}=10^2$$ iterations are needed.

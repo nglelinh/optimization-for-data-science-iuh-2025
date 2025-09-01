@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 05-05 Semidefinite Programming (SDP)
-chapter: "05"
+chapter: '05'
 order: 6
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter05
+lang: en
 ---
 
 If the inequality constraint in a general LP is replaced by a linear matrix inequality (LMI), the problem is called a *Semidefinite Program* (SDP).

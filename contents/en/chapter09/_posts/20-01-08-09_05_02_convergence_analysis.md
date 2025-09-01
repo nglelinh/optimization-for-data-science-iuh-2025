@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 09-05-02 Convergence analysis
-chapter: "09"
+title: '09-05-02 Convergence analysis'
+chapter: '09'
 order: 8
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Convergence analysis

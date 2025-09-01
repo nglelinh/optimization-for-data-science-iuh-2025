@@ -1,8 +1,13 @@
+---
 layout: post
 title: 00.04 Taylor Series
-chapter: "00"
+chapter: '00'
 order: 5
-owner: "GitHub Copilot"
+owner: GitHub Copilot
+lang: vi
+categories:
+- chapter00
+---
 
 
 Chuỗi Taylor là một cách biểu diễn hàm số dưới dạng tổng vô hạn các số hạng được tính từ các đạo hàm của hàm số tại một điểm duy nhất. Đây là một trong những khái niệm cơ bản nhất của giải tích và phân tích toán học, cung cấp phương pháp xấp xỉ các hàm phức tạp bằng các đa thức đơn giản hơn.

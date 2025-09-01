@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 17-02-02 Surrogate duality gap, residuals
-chapter: "17"
+chapter: '17'
 order: 5
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter17
+lang: en
 ---
 Primal-Dual 알고리즘을 정의하기 위해 먼저 세 가지 residual 종류와 surrogate duality gap을 정의해보자. Residual과 surrogate duality gap은 Primal-Dual 알고리즘에서 최소화해야 할 목표이다.
 

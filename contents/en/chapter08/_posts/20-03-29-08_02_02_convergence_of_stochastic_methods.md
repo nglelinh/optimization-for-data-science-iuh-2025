@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-02-02 Convergence of Stochastic Methods
-chapter: "08"
+title: '08-02-02 Convergence of Stochastic Methods'
+chapter: '08'
 order: 13
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 Assume each function $$f_i, i = 1,...,m$$ is convex and Lipschitz continuous with constant G.

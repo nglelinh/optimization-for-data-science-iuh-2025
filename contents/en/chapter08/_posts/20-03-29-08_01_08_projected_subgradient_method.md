@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-01-08 Projected Subgradient Method
-chapter: "08"
+title: '08-01-08 Projected Subgradient Method'
+chapter: '08'
 order: 10
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 The method described in the previous example is called the projected subgradient method. This algorithm can be used for convex problems with constraints.

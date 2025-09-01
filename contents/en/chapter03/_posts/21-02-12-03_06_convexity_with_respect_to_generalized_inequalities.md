@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-06 Convexity with respect to generalized inequalities
-chapter: "03"
+chapter: '03'
 order: 14
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section discusses convexity with respect to generalized inequalities, extending the concept of convexity beyond standard real-valued functions.

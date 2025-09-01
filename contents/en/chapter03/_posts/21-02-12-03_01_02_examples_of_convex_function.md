@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-01-02 Examples of convex functions
-chapter: "03"
+chapter: '03'
 order: 4
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section reviews representative examples of convex functions, including:

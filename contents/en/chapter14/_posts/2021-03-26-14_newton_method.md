@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14 Newton's Method
-chapter: "14"
+chapter: '14'
 order: 1
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 In this chapter, we look at Newton's Method.
 

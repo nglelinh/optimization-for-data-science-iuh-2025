@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 01-04 Brief history of convex optimization
-chapter: "01"
+chapter: '01'
 order: 5
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter01
+lang: en
 ---
 
 ## Theory (convex analysis)

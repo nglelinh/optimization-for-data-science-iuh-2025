@@ -129,10 +129,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .github-logo__wrapper {
-  position: absolute;
-  top: 0.8rem;
-  right: 1rem;
+  display: flex;
+  align-items: center;
   opacity: 0.8;
+  transition: opacity 0.3s ease;
 }
 .github-logo__wrapper:hover {
   opacity: 1;
@@ -148,9 +148,6 @@ h1, h2, h3, h4, h5, h6 {
   }
   .masthead-title small {
     display: none;
-  }
-  .github-logo__wrapper {
-    top: 1rem;
   }
   .github-logo {
     width: 25px;

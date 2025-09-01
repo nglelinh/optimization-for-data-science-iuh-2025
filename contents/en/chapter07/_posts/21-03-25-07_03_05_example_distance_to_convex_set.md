@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "07-03-05 Example: Distance to a Convex Set"
-chapter: "07"
+title: '07-03-05 Example: Distance to a Convex Set'
+chapter: '07'
 order: 11
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter07
+lang: en
 ---
 
 

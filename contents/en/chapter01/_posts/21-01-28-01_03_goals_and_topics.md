@@ -1,8 +1,12 @@
 ---
 layout: post
 title: 01-03 Goals and Topics
+chapter: '01'
 order: 4
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter01
+lang: en
 ---
 
 ## Goals

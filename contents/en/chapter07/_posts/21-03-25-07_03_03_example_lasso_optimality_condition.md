@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "07-03-03 Example: Lasso Optimality Condition"
-chapter: "07"
+title: '07-03-03 Example: Lasso Optimality Condition'
+chapter: '07'
 order: 9
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter07
+lang: en
 ---
 
 

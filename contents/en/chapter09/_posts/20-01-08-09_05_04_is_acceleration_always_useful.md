@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 09-05-04 Is acceleration always useful?
-chapter: "09"
+title: '09-05-04 Is acceleration always useful?'
+chapter: '09'
 order: 10
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Is acceleration always useful?

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-05 Stochastic gradient descent
-chapter: "06"
+chapter: '06'
 order: 15
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 다음과 같이 함수의 합을 최소화하는 문제를 고려해보자.

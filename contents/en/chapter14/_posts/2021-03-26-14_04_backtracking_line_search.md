@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14-04 Backtracking line search
-chapter: "14"
+chapter: '14'
 order: 8
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

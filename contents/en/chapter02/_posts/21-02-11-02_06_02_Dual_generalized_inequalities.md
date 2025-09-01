@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-06-02 Dual generalized inequalities
-chapter: "02"
+chapter: '02'
 order: 14
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 If we can define a generalized inequality using a proper cone, we can also define a dual generalized inequality using the dual cone, provided the dual cone is proper.

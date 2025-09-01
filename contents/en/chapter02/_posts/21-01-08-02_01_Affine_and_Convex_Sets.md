@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-01 Affine and Convex Sets
-chapter: "02"
+chapter: '02'
 order: 1
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 In this chapter, we will explore the concepts and definitions centered around convex sets. We introduce three types of sets: the most basic is the affine set, and by imposing additional constraints on the affine set, we define the convex set and the cone.

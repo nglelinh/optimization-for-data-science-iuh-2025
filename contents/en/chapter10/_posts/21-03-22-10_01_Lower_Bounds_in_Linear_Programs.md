@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 10-01 Lower Bounds in Linear Programs
-chapter: "10"
+chapter: '10'
 order: 2
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter10
+lang: en
 ---
 
 <script type="text/x-mathjax-config">

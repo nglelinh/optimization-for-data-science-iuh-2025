@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 04-06 Eliminating equality constraints
-chapter: "04"
+chapter: '04'
 order: 7
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter04
+lang: en
 ---
 This section explains techniques for eliminating equality constraints in convex optimization problems to simplify the feasible set or problem structure.
 

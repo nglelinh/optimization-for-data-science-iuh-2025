@@ -1,9 +1,12 @@
 ---
 layout: post
 title: Proximal gradient descent and acceleration
-chapter: "09"
+chapter: '09'
 order: 1
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Proximal gradient descent and acceleration

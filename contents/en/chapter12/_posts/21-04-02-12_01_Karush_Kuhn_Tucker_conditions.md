@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 12-01 Karush-Kuhn-Tucker conditions
-chapter: "12"
+chapter: '12'
 order: 2
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter12
+lang: en
 ---
 
 <script type="text/x-mathjax-config">

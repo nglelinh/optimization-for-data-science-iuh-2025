@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 05-04 Second-Order Cone Programming (SOCP)
-chapter: "05"
+chapter: '05'
 order: 5
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter05
+lang: en
 ---
 
 If the inequality constraints in a general LP are replaced with second-order cone constraints (which are affine functions), the problem is called a *Second-Order Cone Program* (SOCP).

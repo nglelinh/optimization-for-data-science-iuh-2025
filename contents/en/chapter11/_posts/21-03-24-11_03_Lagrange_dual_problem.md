@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 11-3 Lagrange dual problem
-chapter: "11"
+chapter: '11'
 order: 4
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter11
+lang: en
 ---
 
 다음과 같이 문제가 주어졌다고 하자.

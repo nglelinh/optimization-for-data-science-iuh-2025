@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 10-03 Max flow and min cut
-chapter: "10"
+chapter: '10'
 order: 4
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter10
+lang: en
 ---
 
 <script type="text/x-mathjax-config">

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 00.03 Real Analysis And Set Theory
-chapter: "00"
+chapter: '00'
 order: 4
-owner: "GitHub Copilot"
+owner: GitHub Copilot
+lang: en
+categories:
+- chapter00
 ---
 
 **Key Concepts:**

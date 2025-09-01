@@ -1,14 +1,17 @@
 ---
 layout: post
 title: 19 Proximal Newton Method
-chapter: "19"
+chapter: '19'
 order: 1
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter19
+lang: en
 ---
 
-이번 장에서는 **Proximal Newton Method**과 **Proximal quasi-Newton method**, **Projected Newton method**에 대해서 살펴보도록 하겠다.
+In this chapter, **Proximal Newton Method**and, **Proximal quasi-Newton method**, **Projected Newton method**about,서 살펴보도록 하겠다.
 
-#### 참고 논문
+#### reference 논문
 
 Proximal Newton method:
 

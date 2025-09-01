@@ -1,10 +1,12 @@
 ---
 layout: post
-
-title: "09-02 Convergence analysis"
-chapter: "09"
+title: '09-02 Convergence analysis'
+chapter: '09'
 order: 3
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 # Convergence analysis
 In this section, we analyze the convergence of proximal gradient descent. 

@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 17-02-03 Primal-Dual Algorithm 
-chapter: "17"
+title: 17-02-03 Primal-Dual Algorithm
+chapter: '17'
 order: 6
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter17
+lang: en
 ---
 Primal-Dual 알고리즘을 정의하기 위해 먼저 $$\tau(x,u)$$를 다음과 같이 정의하자
 > $$\tau(x,u) := -\frac{h(x)^Tu}{m} \quad \text{with} \quad h (x) \le 0, u \ge 0$$

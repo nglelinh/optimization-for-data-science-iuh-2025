@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 13-04-01 Example lasso dual
-chapter: "13"
+chapter: '13'
 order: 6
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter13
+lang: en
 ---
 
 Let’s look at the lasso problem for $$y \in \mathbb{R}^n, X \in \mathbb{R}^{n\times p}$$:

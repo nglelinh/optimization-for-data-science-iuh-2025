@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-01-01 Line, line segment, ray
-chapter: "02"
+chapter: '02'
 order: 2
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 To define affine sets, convex sets, and cones, let's first look at lines, line segments, and rays.

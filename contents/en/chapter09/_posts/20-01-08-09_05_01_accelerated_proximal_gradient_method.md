@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 09-05-01 Accelerated proximal gradient method
-chapter: "09"
+title: '09-05-01 Accelerated proximal gradient method'
+chapter: '09'
 order: 7
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Accelerated proximal gradient method

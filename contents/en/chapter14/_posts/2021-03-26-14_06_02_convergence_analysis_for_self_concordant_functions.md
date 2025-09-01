@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14-06-02 Convergence analysis for self-concordant functions
-chapter: "14"
+chapter: '14'
 order: 12
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 For self-concordant functions, the result of convergence analysis is as follows:
 

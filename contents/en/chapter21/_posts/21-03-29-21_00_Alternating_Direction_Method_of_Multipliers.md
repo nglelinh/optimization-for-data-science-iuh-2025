@@ -1,14 +1,17 @@
 ---
 layout: post
 title: 21 Alternating Direction Method of Multipliers
-chapter: "21"
+chapter: '21'
 order: 1
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter21
+lang: en
 ---
 
-이 장에서는 [20장]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %})에서 다루었던 ADMM을 조금 더 자세히 다루어보고자 한다. 기본적인 개념은 20장에서 다룬 내용과 깊이에서 큰 차이가 없고, 응용 사례들을 위주로 살펴본다.
+이 장at,는 [20장]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %})at, 다루었던 ADMM을 조금 더 자세히 다루어보고자 한다. 기본적인 개념은 20장at, 다룬 내용and, depthat, 큰 difference이가 없고, 응용 사례들을 위주to, 살펴본다.
 
-#### 참고 논문
+#### reference 논문
 
 * Boyd, Stephen, et al. [BPCPE11] "Distributed optimization and statistical learning via the alternating direction method of multipliers." Foundations and Trends® in Machine learning 3.1 (2011): 1-122.
 * Hong, Mingyi, and Zhi-Quan Luo. [HL12] "On the linear convergence of the alternating direction method of multipliers." Mathematical Programming 162.1-2 (2017): 165-199.
@@ -23,7 +26,7 @@ owner: "Hooncheol Shin"
 * Barbero, Alvaro, and Suvrit Sra. [BS14] "Modular proximal optimization for multidimensional total-variation regularization." arXiv preprint arXiv:1411.0589 (2014).
 
 
-ADMM convergence 관련 : [BPCPE11], [HL12], [DY16], [IBCH14], [NLRPJ15]  
+ADMM convergence relation, : [BPCPE11], [HL12], [DY16], [IBCH14], [NLRPJ15]  
 Sparse subspace estimation : [VCLR13]  
 Sparse plus low rank decomposition : [CLMW09]  
 Consensus ADMM : [BPCPE11], [NB13]  

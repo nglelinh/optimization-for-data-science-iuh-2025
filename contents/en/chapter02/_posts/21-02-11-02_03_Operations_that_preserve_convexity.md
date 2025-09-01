@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-03 Operations that preserve convexity
-chapter: "02"
+chapter: '02'
 order: 9
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 This section discusses operations that preserve the convexity of convex sets. These operations are useful for determining convexity or constructing desired convex sets from simple ones like hyperplanes, halfspaces, and norm balls.

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-04-02 Basic properties of quasiconvex functions
-chapter: "03"
+chapter: '03'
 order: 10
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section covers the basic properties of quasiconvex functions, including their relationship to convex functions and their behavior under various operations.

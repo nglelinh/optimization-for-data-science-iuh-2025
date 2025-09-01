@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 07-03-02 Derivation of First-Order Optimality Condition
-chapter: "07"
+chapter: '07'
 order: 8
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter07
+lang: en
 ---
 
 					  \quad & \Longleftrightarrow & &\quad \nabla f(x^{*})^T(y-x^{*}) \geq 0, \text{ for all } y \in C 

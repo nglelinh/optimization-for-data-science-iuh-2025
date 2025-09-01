@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-01-02 Basic Inequality
-chapter: "08"
+title: '08-01-02 Basic Inequality'
+chapter: '08'
 order: 4
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 The convergence theorem and convergence rate of the subgradient method can be proved using the following basic inequality.

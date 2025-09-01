@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 13-02 Solving the primal via the dual
-chapter: "13"
+chapter: '13'
 order: 3
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter13
+lang: en
 ---
 
 ### An important consequence of stationarity

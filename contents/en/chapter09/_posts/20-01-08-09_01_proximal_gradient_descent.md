@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 09-01 Proximal gradient descent
-chapter: "09"
+title: '09-01 Proximal gradient descent'
+chapter: '09'
 order: 2
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Proximal gradient descent

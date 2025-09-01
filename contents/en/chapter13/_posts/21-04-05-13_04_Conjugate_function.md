@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 13-04 Conjugate function 
-chapter: "13"
+title: 13-04 Conjugate function
+chapter: '13'
 order: 5
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter13
+lang: en
 ---
 
 주어진 함수 $$f : \mathbb{R}^n → \mathbb{R}$$, 에 대하여 conjugate $$f^{∗} : \mathbb{R}^n → \mathbb{R}$$는 다음과 같이 정의 한다.

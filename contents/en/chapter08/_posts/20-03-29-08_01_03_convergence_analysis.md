@@ -1,9 +1,12 @@
 ---
 layout: post
-title: 08-01-03 Convergence analysis
-chapter: "08"
+title: '08-01-03 Convergence analysis'
+chapter: '08'
 order: 5
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 In gradient descent, it is assumed that $$\nabla f$$ is Lipschitz continuous, but in the subgradient method, we assume that $$f$$ itself is Lipschitz continuous. (See the convergence theorem for gradient descent [06-03-01]({% multilang_post_url contents/chapter06/21-03-20-06_03_01_convergence_analysis_and_proof %}) for reference.)

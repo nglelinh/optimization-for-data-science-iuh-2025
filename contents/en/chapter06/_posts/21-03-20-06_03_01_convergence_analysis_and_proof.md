@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-03-01 Convergence analysis & Proof
-chapter: "06"
+chapter: '06'
 order: 8
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 Suppose $$f$$ is convex and differentiable with $$dom(f) = \mathbb{R}^n$$, and $$\nabla f$$ is Lipschitz continuous with constant $$L > 0$$:

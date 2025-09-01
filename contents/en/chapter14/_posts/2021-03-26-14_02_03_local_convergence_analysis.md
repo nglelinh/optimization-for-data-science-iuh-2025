@@ -2,7 +2,10 @@
 layout: post
 title: 14-02-03 Local convergence analyisis
 order: 7
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

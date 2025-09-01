@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-03 The conjugate function
-chapter: "03"
+chapter: '03'
 order: 7
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section introduces the conjugate function, a key concept in convex analysis and duality theory.

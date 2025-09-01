@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-04 Gradient boosting
-chapter: "06"
+chapter: '06'
 order: 14
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 # Gradient boosting

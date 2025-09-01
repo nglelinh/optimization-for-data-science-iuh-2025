@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-03-06 Can we do better?
-chapter: "06"
+chapter: '06'
 order: 13
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 Gradient descent는 Lipschitz gradients를 가지며 convex이고 differentiable한 함수로 표현되는 문제에 대해 $$O(1/\epsilon)$$ 수렴 속도를 갖는다. Gradient descent보다 더 빠른 first-order method가 있을까?

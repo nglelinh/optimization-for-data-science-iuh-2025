@@ -1,10 +1,12 @@
 ---
-
 layout: post
-title: "03-04-01 Quasiconvex functions: definition and examples"
-chapter: "03"
+title: '03-04-01 Quasiconvex functions: definition and examples'
+chapter: '03'
 order: 9
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 A function $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ is quasiconvex if all its sublevel sets $$\{x \mid f(x) \leq \alpha\}$$ are convex for every $$\alpha \in \mathbb{R}$$.

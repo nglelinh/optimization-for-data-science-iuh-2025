@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 06-03-04 Convergence analysis under strong convexity
-chapter: "06"
+chapter: '06'
 order: 11
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter06
+lang: en
 ---
 
 If $$f$$ satisfies the following condition, it is strongly convex (assuming $$f$$ is twice differentiable and $$m > 0$$):

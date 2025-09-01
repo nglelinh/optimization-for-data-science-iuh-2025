@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 10-02 Duality in general LPs
-chapter: "10"
+chapter: '10'
 order: 3
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter10
+lang: en
 ---
 
 <script type="text/x-mathjax-config">

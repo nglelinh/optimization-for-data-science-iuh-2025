@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 05-02 Quadratic Programming (QP)
-chapter: "05"
+chapter: '05'
 order: 3
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter05
+lang: en
 ---
 
 A *Quadratic Program* (QP) is a convex optimization problem where the objective function is a convex quadratic and all constraint functions are affine. The general quadratic program is formulated as:

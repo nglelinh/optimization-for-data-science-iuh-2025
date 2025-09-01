@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 05-06 Conic Programming (CP)
-chapter: "05"
+chapter: '05'
 order: 7
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter05
+lang: en
 ---
 
 If the inequality constraint in a general LP is replaced by a generalized inequality constraint, the problem is called a *Conic Program* (CP).

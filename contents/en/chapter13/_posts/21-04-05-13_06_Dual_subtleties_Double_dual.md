@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 13-06 Dual subtleties & Double dual
-chapter: "13"
-order: 10   
-owner: "Wontak Ryu"
+chapter: '13'
+order: 10
+owner: Wontak Ryu
+categories:
+- chapter13
+lang: en
 ---
 
 ## Dual subtleties

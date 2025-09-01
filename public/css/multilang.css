@@ -1,10 +1,19 @@
 /* Multi-language support styles */
 
-.language-toggle {
+/* Header actions container for language toggle and GitHub link */
+.header-actions {
   position: absolute;
   top: 1rem;
   right: 1rem;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.language-toggle {
+  display: flex;
+  align-items: center;
 }
 
 .language-switch {
@@ -36,12 +45,18 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .language-toggle {
+  .header-actions {
     position: relative;
     top: auto;
     right: auto;
-    text-align: center;
+    justify-content: center;
     margin: 0.5rem 0;
+    gap: 1rem;
+  }
+  
+  .language-toggle {
+    display: flex;
+    align-items: center;
   }
   
   .masthead-title {
@@ -84,6 +99,46 @@
 
 .content-wrapper.switching {
   opacity: 0.7;
+}
+
+.content.switching {
+  opacity: 0.7;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+/* Language switch notification */
+.language-switch-notification {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Sidebar language status */
+.sidebar-nav-item.language-status {
+  font-size: 0.8em;
+  color: #999;
+  font-style: italic;
+  padding: 0.25rem 0;
+}
+
+.sidebar-nav-item.language-link {
+  color: #268bd2 !important;
+  font-weight: 500;
+}
+
+.sidebar-nav-item.language-link:hover {
+  color: #1e6ba8 !important;
+  text-decoration: underline;
 }
 
 /* Language-specific typography adjustments */

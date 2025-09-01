@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 13-01 Uses of duality
-chapter: "13"
+chapter: '13'
 order: 2
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter13
+lang: en
 ---
 
 ### Two key uses of duality

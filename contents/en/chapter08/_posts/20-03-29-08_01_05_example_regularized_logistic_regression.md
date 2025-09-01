@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "08-01-05 Example: Regularized Logistic Regression"
-chapter: "08"
+title: '08-01-05 Example: Regularized Logistic Regression'
+chapter: '08'
 order: 7
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 Suppose $$(x_i, y_i) \in \mathbb{R}^p \times \{0, 1\}$$ for $$i=1,...,n$$. The logistic regression loss is defined as:

@@ -1,14 +1,17 @@
 ---
 layout: post
 title: 17-02 Primal-dual interior-point method
-chapter: "17"
+chapter: '17'
 order: 3
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter17
+lang: en
 ---
-Barrier method와 같이 **primal-dual interior-point method**도 central path 위의 점을 (근사적으로) 계산하는 것을 목표로 한다. 그러나 두 가지 방법은 여러 차이점이 있다.
+Like the barrier method, the **primal-dual interior-point method** also aims to (approximately) compute points on the central path. However, the two methods have several differences.
 
 ## Primal-dual interior-point method와 barrier method의 차이점
-* 일반적으로 iteration 별로 **한 번의 뉴턴 스텝**을 실행한다. (즉, 센터링 스텝을 위한 추가 반복문이 없다.)
-* **반드시 feasible일 필요는 없다**.  (Backtracking line search를 통해 feasible한 곳으로 밀어준다.)
-* 일반적으로 **더 효과적**이다. 특히 적절한 조건 위에서 linear convergence보다 뛰어난 성능을 보인다.
-* Barrier method에 비해 조금은 덜 직관적이다.
+* Generally performs **one Newton step** per iteration. (That is, there is no additional loop for the centering step.)
+* **Does not necessarily need to be feasible**. (Pushes toward feasible regions through backtracking line search.)
+* Generally **more effective**. Particularly shows superior performance compared to linear convergence under appropriate conditions.
+* Somewhat less intuitive compared to the barrier method.

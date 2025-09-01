@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-02 Some important examples
-chapter: "02"
+chapter: '02'
 order: 6
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 This section reviews major examples of convex sets.

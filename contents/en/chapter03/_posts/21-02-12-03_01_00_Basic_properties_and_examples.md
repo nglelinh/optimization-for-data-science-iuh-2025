@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-01 Basic properties and examples
-chapter: "03"
+chapter: '03'
 order: 2
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section covers the definition of convex functions, representative types of convex functions, and their key properties.

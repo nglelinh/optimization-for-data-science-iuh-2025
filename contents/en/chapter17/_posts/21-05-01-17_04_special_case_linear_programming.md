@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 17-04 Special case, linear programming
-chapter: "17"
+chapter: '17'
 order: 8
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter17
+lang: en
 ---
 이 절에서는 LP(linear programming) 문제에 대한 Primer-Dual method의 예시를 살펴보자.
 

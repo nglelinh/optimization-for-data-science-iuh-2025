@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "09-03 Example: matrix completion"
-chapter: "09"
+title: '09-03 Example: matrix completion'
+chapter: '09'
 order: 4
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter09
+lang: en
 ---
 
 # Example: matrix completion

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 03-04-03 Differentiable quasiconvex functions
-chapter: "03"
+chapter: '03'
 order: 11
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter03
+lang: en
 ---
 
 This section discusses the properties and characterizations of differentiable quasiconvex functions.

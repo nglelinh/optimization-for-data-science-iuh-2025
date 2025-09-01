@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-05 Separating and supporting hyperplanes
-chapter: "02"
+chapter: '02'
 order: 11
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 This section introduces two theorems that characterize convex sets: the **separating hyperplane theorem** and the **supporting hyperplane theorem**.

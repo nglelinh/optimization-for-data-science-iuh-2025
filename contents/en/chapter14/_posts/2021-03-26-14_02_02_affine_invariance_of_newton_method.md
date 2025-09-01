@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 14-02-02 Affine invariance of Newton's method
-chapter: "14"
+chapter: '14'
 order: 6
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter14
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

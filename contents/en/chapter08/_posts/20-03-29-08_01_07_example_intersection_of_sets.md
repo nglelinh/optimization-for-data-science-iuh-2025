@@ -1,9 +1,12 @@
 ---
 layout: post
-title: "08-01-07 Example: Intersection of sets"
-chapter: "08"
+title: '08-01-07 Example: Intersection of sets'
+chapter: '08'
 order: 9
-owner: "Kyeongmin Woo"
+owner: Kyeongmin Woo
+categories:
+- chapter08
+lang: en
 ---
 
 

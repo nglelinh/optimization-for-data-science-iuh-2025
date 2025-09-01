@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 15-01-01 Inequality constrained minimization problems
-chapter: "15"
+chapter: '15'
 order: 3
-owner: "Minjoo Lee"
+owner: Minjoo Lee
+categories:
+- chapter15
+lang: en
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

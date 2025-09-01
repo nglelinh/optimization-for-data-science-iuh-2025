@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 13-04-03 Shifting linear transformations
-chapter: "13"
+chapter: '13'
 order: 8
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter13
+lang: en
 ---
 
 The dual formulation helps with shifting linear transformations between parts of the objective function and other domains.

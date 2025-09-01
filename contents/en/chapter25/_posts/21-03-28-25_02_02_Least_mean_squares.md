@@ -1,18 +1,21 @@
 ---
 layout: post
-title: "25-02-02 Least mean squares"
-chapter: "25"
+title: 25-02-02 Least mean squares
+chapter: '25'
 order: 9
-owner: "YoungJae Choung"
+owner: YoungJae Choung
+categories:
+- chapter25
+lang: en
 ---
 
-지금까지는 regression 문제를 residual의 $$l_2$$ norm이나 $$l_1$$ norm을 최소화하는 문제로 풀었었다. 이들 방법보다 좀 더 robust한 방법이 있을까?
+지금to,는 regression problem를 residual의 $$l_2$$ norm이나 $$l_1$$ norm을 minimization하는 problemto, 풀었었다. 이들 method보다 좀 더 robust한 method이 있을까?
 
-Residual의 median을 최소화하도록 regression을 할 경우 좀 더 robust한 regression을 할 수 있다. 이를 **Least Median of Squares**라고 하는데 데이터의 50% 정도가 corrupt되어도 estimator는 corrupt되지 않을 만큼 robust하다. 하지만 이 문제는 NP-Hard 문제이기도 하다!
+Residual의 median을 minimization하도록 regression을 할 case, 좀 더 robust한 regression을 할 수 있다. 이를 **Least Median of Squares**라고 하는데 데이터의 50% 정도가 corrupt되어도 estimator는 corrupt되지 않을 만큼 robust하다. but, 이 problem는 NP-Hard problem이기도 하다!
 
-이 절에서는 Least Median of Squares 문제를 일반화한 **Least Quantile of Square**문제를 Integer programming으로 어떻게 푸는지 소개한다.
+이 절at,는 Least Median of Squares problem를 일반화한 **Least Quantile of Square**problem를 Integer programmingwith, 어떻게 푸는지 소개한다.
 ## Least mean squares
-$$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \mathbb{R}^{n}$$이라고 하자. 그리고 $$\beta \in \mathbb{R}^{p} $$일 때 $$r : = y - X\beta $$이라고 하자.
+$$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \mathbb{R}^{n}$$이라고 하자. and, $$\beta \in \mathbb{R}^{p} $$일 when, $$r : = y - X\beta $$이라고 하자.
 
 #### Observe
 * Least squares (LS) : $$\beta_{LS} : = \underset{\beta}{\text{argmin}} \sum_{i} r^2_i$$
@@ -21,17 +24,17 @@ $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \ma
 >$$\beta_{LMS} : = \underset{\beta}{\text{argmin}} (\text{median} \lvert r_{i} \rvert )$$
 
 ## Least quantile regression
-Least Median of Squares 문제를 일반화한 Least Quantile of Square문제는 다음과 같이 정의할 수 있다. 여기서 $$r_{q}$$는 $$q$$번째 ordered absolute residual이다.
+Least Median of Squares problem를 일반화한 Least Quantile of Squareproblem는 as follows: 정의할 수 있다. 여기서 $$r_{q}$$는 $$q$$번째 ordered absolute residual이다.
 #### Least Quantile of Squares (LQS)
 >$$\beta_{LQS} : = \underset{\beta}{\text{argmin}} (\lvert r_{(q)} \rvert ), \quad 1 \le q \le n, \quad \lvert r_{1} \rvert \le \lvert r_{2} \rvert \le \cdots \le \lvert r_{n} \rvert$$
 
 #### Key step in the formulation
-이제 Least Quantile of Square문제를 Integer Programming으로 재정의해보자. 이때, $$r$$의 각 entry $$i$$에 대해 다음과 같은 binary variable을 사용한다.
+이제 Least Quantile of Squareproblem를 Integer Programmingwith, 재정by,보자. 이when,, $$r$$의 각 entry $$i$$about, 다음and, 같은 binary variable을 사용한다.
 
 >$$ \lvert r_{i} \rvert \le \lvert r_{(q)} \rvert$ or $\lvert r_{i} \rvert \ge \lvert r_{(q)} \rvert $$
 
 #### Integer programming formulation
-$$\bar{\mu_{i}}$$와 $$\mu_{i}$$은 threshold로 각각의 개수는 $$k$$개, $$n-k$$개이다.
+$$\bar{\mu_{i}}$$and, $$\mu_{i}$$은 thresholdto, 각각의 개수는 $$k$$개, $$n-k$$개이다.
 
 > $$
 > \begin{align}
@@ -46,15 +49,15 @@ $$\bar{\mu_{i}}$$와 $$\mu_{i}$$은 threshold로 각각의 개수는 $$k$$개, $
 > \end{align}
 > $$
 
-이 문제에서 첫번째와 두번쨰 제약조건을 보면 residual의 절대값 $$\lvert r_{i} \rvert$$이 포함되어 있어서 convex relaxation으로 풀 수가 없다. 따라서, 첫번째와 두번쨰 제약조건을 convex function으로 변환해 주어야 한다.
+이 problemat, 첫번째and, 두번쨰 constraint을 보면 residual의 절대값 $$\lvert r_{i} \rvert$$이 포함되어 있어서 convex relaxationwith, 풀 수가 없다. therefore,, 첫번째and, 두번쨰 constraint을 convex functionwith, converting, 주어야 한다.
 
 
 ## First-order algorithm
-$$\lvert r_{i} \rvert$$는 다음과 같은 형태로 convex function $$H_{q}(\beta)$$로 재정의할 수 있다.
+$$\lvert r_{i} \rvert$$는 다음and, 같은 형태to, convex function $$H_{q}(\beta)$$to, 재정의할 수 있다.
 >
 $$ \lvert r_{q} \rvert = \lvert y_{(q)} - x^{T}_{(q)} \beta \rvert = H_{q}(\beta) - H_{q+1}(\beta)$$
 
-이때 $$H_{q}(\beta)$$는 다음과 같이 정의된다.
+이when, $$H_{q}(\beta)$$는 as follows: 정의된다.
 
 > $$
 > \begin{align}
@@ -65,13 +68,13 @@ $$ \lvert r_{q} \rvert = \lvert y_{(q)} - x^{T}_{(q)} \beta \rvert = H_{q}(\beta
 > \end{align}
 > $$
 
-$$H_{q}(\beta)$$는 앞서 정의된 $$\lvert r_{i} \rvert$$을 작은것부터 큰 순으로 나열할 때, $$q$$번째 이상의 모든 residual의 합이다. 따라서, $$q$$번째 이상의 residual의 합에서 $$q+1$$번째 이상의 residual의 합을 빼면 $$q$$번째의 residual 된다는 것을 알 수 있다.
+$$H_{q}(\beta)$$는 앞서 정의된 $$\lvert r_{i} \rvert$$을 작은것from, 큰 순with, 나열할 when,, $$q$$번째 이image의 모든 residual의 sum이다. therefore,, $$q$$번째 이image의 residual의 sumat, $$q+1$$번째 이image의 residual의 sum을 빼면 $$q$$번째의 residual 된다는 것을 알 수 있다.
 
-Subgradient 알고리즘으로 $$H_{q}(\beta) - H_{q+1}(\beta)$$의 local minimum을 구할 수 있다.
+Subgradient algorithmwith, $$H_{q}(\beta) - H_{q+1}(\beta)$$의 local minimum을 구할 수 있다.
 
-* 자세한 내용은 논문 [LEAST QUANTILE REGRESSION VIA MODERN OPTIMIZATION](https://arxiv.org/pdf/1310.8625.pdf) 참조
+* For detailed information, see 논문 [LEAST QUANTILE REGRESSION VIA MODERN OPTIMIZATION](https://arxiv.org/pdf/1310.8625.pdf) see
 ## Computational results
-위의 논문에서  Least Quantile of Square문제를 실험한 결과는 다음 그래프에서 볼 수 있다.
+위의 논문at,  Least Quantile of Squareproblem를 실험한 result,는 다음 그래프at, 볼 수 있다.
 
 #### Mixed integer programming gap
 <figure class="image" style="align: center;">

@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 10 Duality in Linear Programs
-chapter: "10"
+chapter: '10'
 order: 1
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter10
+lang: en
 ---
 
 Starting from this chapter, we will examine duality, which plays a significant role in optimization theory.

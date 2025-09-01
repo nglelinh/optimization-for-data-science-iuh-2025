@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 02-02-01 Convex set examples
-chapter: "02"
+chapter: '02'
 order: 7
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter02
+lang: en
 ---
 
 Convex sets include a variety of forms, from trivial ones like points and lines to hyperplanes, halfspaces, balls, ellipsoids, polyhedra, and cones.

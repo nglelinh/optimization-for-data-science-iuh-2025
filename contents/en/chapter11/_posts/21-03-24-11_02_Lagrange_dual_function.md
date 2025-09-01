@@ -1,9 +1,12 @@
 ---
 layout: post
 title: 11-2 Lagrange dual function
-chapter: "11"
+chapter: '11'
 order: 3
-owner: "Wontak Ryu"
+owner: Wontak Ryu
+categories:
+- chapter11
+lang: en
 ---
 
 Let $$C$$ be the primal feasible set and $$f^*$$ the primal optimal value. Minimizing $$L(x,u,v)$$ over all $$x$$ yields the following lower bound.

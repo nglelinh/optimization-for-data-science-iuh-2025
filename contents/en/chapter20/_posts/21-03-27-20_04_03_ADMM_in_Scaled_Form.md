@@ -1,12 +1,15 @@
 ---
 layout: post
 title: 20-04-03 ADMM in Scaled Form
-chapter: "20"
+chapter: '20'
 order: 11
-owner: "Hooncheol Shin"
+owner: Hooncheol Shin
+categories:
+- chapter20
+lang: en
 ---
 
-ADMM은 dual 변수 $$u$$를 $$w=u/\rho$$로 바꾸어서 scaled form으로 표현할 수 있다. 그러면, ADMM step은 다음과 같이 나타낼 수 있다. 
+ADMM은 dual variable $$u$$를 $$w=u/\rho$$to, 바꾸어서 scaled formwith, 표현할 수 있다. 그러면, ADMM step은 as follows: 나타낼 수 있다. 
 > $$
 > \begin{alignat}{1}
 > x^{(k)} & = \arg\min_x f(x) + \frac{\rho}{2} \lVert Ax + Bz^{(k-1)} - c + w^{(k-1)} \rVert_2^2  \\
@@ -15,7 +18,7 @@ ADMM은 dual 변수 $$u$$를 $$w=u/\rho$$로 바꾸어서 scaled form으로 표�
 > \end{alignat}
 > $$
 
-위의 식은 다음의 과정을 통해 원래 식과 같다는 것을 알 수 있다.
+위의 식은 다음의 process을 through, 원래 식and, 같다는 것을 알 수 있다.
 
 > $$
 > \begin{align}
@@ -26,7 +29,7 @@ ADMM은 dual 변수 $$u$$를 $$w=u/\rho$$로 바꾸어서 scaled form으로 표�
 > $$
 
 
-여기서, $$w^{(k)}$$은  $$k$$번째 residual의 합으로 볼 수도 있다.
+여기서, $$w^{(k)}$$은  $$k$$번째 residual의 sumwith, 볼 수도 있다.
 
 > $$
 > \begin{equation}
