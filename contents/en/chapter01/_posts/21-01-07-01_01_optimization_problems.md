@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter01
 lang: en
+lesson_type: required
 ---
 
 An optimization problem is a problem in which, among many possible candidates, we seek the optimal solution (optimal value) or a value close to the optimal. In machine learning, for example, we often find the parameters of a model that minimize or maximize a cost function. This is formulated as an optimization problem.

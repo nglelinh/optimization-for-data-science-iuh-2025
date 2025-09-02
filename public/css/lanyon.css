@@ -605,3 +605,65 @@ a.pagination-item:hover {
 .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
   box-shadow: -.25rem 0 .5rem rgba(0,0,0,.1);
 }
+
+/*
+ * Lesson Type Badges
+ *
+ * Styles for required/optional lesson badges
+ */
+
+.lesson-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  margin-left: 8px;
+  font-size: 0.7em;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 3px;
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+}
+
+.lesson-badge.large {
+  padding: 4px 8px;
+  font-size: 0.6em;
+  margin-left: 12px;
+}
+
+.lesson-badge.required {
+  background-color: #d73527;
+  color: white;
+  border: 1px solid #c23321;
+}
+
+.lesson-badge.optional {
+  background-color: #28a745;
+  color: white;
+  border: 1px solid #1e7e34;
+}
+
+/* Hover effects for badges in sidebar */
+.sidebar-nav-item:hover .lesson-badge.required {
+  background-color: #c23321;
+  box-shadow: 0 1px 3px rgba(215, 53, 39, 0.3);
+}
+
+.sidebar-nav-item:hover .lesson-badge.optional {
+  background-color: #1e7e34;
+  box-shadow: 0 1px 3px rgba(40, 167, 69, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lesson-badge {
+    font-size: 0.6em;
+    padding: 1px 4px;
+    margin-left: 4px;
+  }
+  
+  .lesson-badge.large {
+    font-size: 0.5em;
+    padding: 2px 6px;
+    margin-left: 8px;
+  }
+}

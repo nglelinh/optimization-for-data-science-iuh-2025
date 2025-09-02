@@ -5,6 +5,7 @@ title: 21-06 Faster convergence with subprogram parametrization - example of the
 chapter: '21'
 order: 7
 owner: Hooncheol Shin
+lesson_type: optional
 categories:
 - chapter21
 lang: en

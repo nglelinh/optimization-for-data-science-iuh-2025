@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter01
 lang: en
+lesson_type: required
 ---
 
 A convex optimization problem is a type of optimization problem.

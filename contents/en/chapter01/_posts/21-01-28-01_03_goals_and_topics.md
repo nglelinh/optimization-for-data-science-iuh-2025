@@ -7,9 +7,8 @@ owner: Kyeongmin Woo
 categories:
 - chapter01
 lang: en
+lesson_type: required
 ---
-
-## Goals
 
 ## Goals
 The goal of this course is to develop the following abilities:
