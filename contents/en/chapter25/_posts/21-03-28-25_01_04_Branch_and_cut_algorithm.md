@@ -9,7 +9,7 @@ categories:
 lang: en
 ---
 
-1990년 CMU의 Sebastian Ceria는 cutting plane method를 branch and bound algorithm을 using,서 성공적with, 구현을 하였으며 이를 branch and cut이라고 한다. 이when,from, cutting plane은 image용 optimization solver의 핵심적인 컴포넌트가 되었다.
+In 1990, Sebastian Ceria at CMU successfully implemented the cutting plane method using the branch and bound algorithm, which is called branch and cut. Since then, cutting planes have become a core component of commercial optimization solvers.
 
 ## Branch and cut algorithm
 다음and, 같은 integer programming problem가 있다고 하자. 이when, $$f : \mathbb{R}^{n} \to \mathbb{R}$$이고  $$C \subseteq \mathbb{R}^{n}$$는 convex이며 $$J \subseteq {1, ..., n}$$이다.

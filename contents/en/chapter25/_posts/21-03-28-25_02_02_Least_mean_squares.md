@@ -9,13 +9,13 @@ categories:
 lang: en
 ---
 
-지금to,는 regression problem를 residual의 $$l_2$$ norm이나 $$l_1$$ norm을 minimization하는 problemto, 풀었었다. 이들 method보다 좀 더 robust한 method이 있을까?
+So far, we have solved regression problems by minimizing the $$l_2$$ norm or $$l_1$$ norm of residuals. Is there a more robust method than these methods?
 
-Residual의 median을 minimization하도록 regression을 할 case, 좀 더 robust한 regression을 할 수 있다. 이를 **Least Median of Squares**라고 하는데 데이터의 50% 정도가 corrupt되어도 estimator는 corrupt되지 않을 만큼 robust하다. but, 이 problem는 NP-Hard problem이기도 하다!
+When performing regression to minimize the median of residuals, we can achieve more robust regression. This is called **Least Median of Squares**, and it is robust enough that the estimator does not get corrupted even if about 50% of the data is corrupted. However, this problem is also an NP-Hard problem!
 
-이 절at,는 Least Median of Squares problem를 일반화한 **Least Quantile of Square**problem를 Integer programmingwith, 어떻게 푸는지 소개한다.
+This section introduces how to solve the **Least Quantile of Squares** problem, which generalizes the Least Median of Squares problem, using Integer programming.
 ## Least mean squares
-$$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \mathbb{R}^{n}$$이라고 하자. and, $$\beta \in \mathbb{R}^{p} $$일 when, $$r : = y - X\beta $$이라고 하자.
+Let $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$ and $$y \in \mathbb{R}^{n}$$. And when $$\beta \in \mathbb{R}^{p}$$, let $$r : = y - X\beta$$.
 
 ### Observe
 * Least squares (LS) : $$\beta_{LS} : = \underset{\beta}{\text{argmin}} \sum_{i} r^2_i$$

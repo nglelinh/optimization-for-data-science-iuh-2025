@@ -49,6 +49,7 @@ With adaptive step size, convergence is much faster than with a fixed step size 
 ### Intuition of Backtracking Line Search
 A quadratic approximator for $$f$$ is:
 > $$f(y) \approx f(x) + \nabla f(x)^T(y-x) + \frac{1}{2t} \|y - x\|_2^2$$
+
 For $$y = x - t \nabla f(x)$$:
 > $$
 > \begin{align}

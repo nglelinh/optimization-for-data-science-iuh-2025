@@ -9,37 +9,37 @@ categories:
 lang: en
 ---
 
-Integer programwith, 수식을 변형한 뒤, problem를 solution결하려면 relaxationand, 같은 technique이 필요하다. integer programsat, 나타나는 제약 사항 및 problemabout, 어떤 접근을 하는 지 let's examine.
+After transforming the mathematical formulation of Integer programming, techniques such as relaxation are needed to solve the problem. Let's examine the constraints that appear in integer programs and what approaches are taken to address the problem.
 
 ## Hardness of integer programs
-Integer program problem를 푸는 것은 convex optimization problem를 푸는 것보다 훨씬 어렵다. 일반적인 Integer programming은 풀 수 있는 가능성 조difference도 모르면서 최소 polynomial time이 걸리는 [NP-hard](https://en.wikipedia.org/wiki/NP-hardness) 이기 because,이다. 이 when,, integer constraintto, about, 제약을 없앰with,써 convex relaxation을 하면, optimal valueto, 다가가는 lower bound를 구할 수 있다.<br><br>
-Convex relaxation은 using, problem를 풀면 다음and, 같은 한계가 발생할 수 있다.
+Solving Integer program problems is much more difficult than solving convex optimization problems. General Integer programming is [NP-hard](https://en.wikipedia.org/wiki/NP-hardness), requiring at least polynomial time without even knowing the possibility of solvability. In this case, by removing constraints on integer constraints and performing convex relaxation, we can obtain a lower bound that approaches the optimal value.<br><br>
+When solving problems using convex relaxation, the following limitations may occur:
 
 
- * Feasible integer solution을 구하는 것이 어렵게 될 수 있다.
- * Relaxation condition,at, obtaining,진 optimal solution이 integer programwith, obtaining,지는 optimal solutionand, distance가 있을 수 있다.
- * approximation(Rounding)를 했을 when,의 값이 optimal 값and, 다를 수 있다.
+ * Finding a feasible integer solution can become difficult.
+ * The optimal solution obtained under relaxation conditions may be distant from the optimal solution obtained with integer programming.
+ * The value after approximation (rounding) may differ from the optimal value.
 
 
 ## Algorithmic template for solving integer programs
-$$X$$가 convex 이고 integrality constraints를 포함할 when,, integer program은 as follows:.
+When $$X$$ is convex and includes integrality constraints, the integer program is as follows:
 
 > $$ z : = \min_{x \in X} f(x) $$
 
-Convex optimizationand, 다르게 feasible point $$x* \in X$$가 optimal 이라는 것을 입증하는 직접적인 "optimality conditions"는 존재하지 않는다. instead,, lower bound $$ \underline{z} \leq z$$, and, upper bound $$ \bar{z} \geq z$$ 를 finding,가면서 $$\underline{z} = \bar{z}$$ to, 가까워지도록 optimal의 approximation치를 찾는 method을 사용 할 수 있다.
+Unlike convex optimization, there are no direct "optimality conditions" that prove a feasible point $$x* \in X$$ is optimal. Instead, we can use a method that finds approximations of the optimal by finding lower bound $$ \underline{z} \leq z$$ and upper bound $$ \bar{z} \geq z$$ while approaching $$\underline{z} = \bar{z}$$.
 
 ### Algorithmic template
-Upper bounds의 감소 시퀀스를 관찰하면,
+Observing the decreasing sequence of upper bounds,
 > $$\bar{z_1} \geq \bar{z_2} \geq \dotsc \bar{z_s} \geq z$$
 
-lower bounds의 증가 시퀀스를 관찰하면,
+Observing the increasing sequence of lower bounds,
 > $$\underline{z_1} \leq \underline{z_2} \leq \dotsc \underline{z_t} \leq z $$
 
-임의의 $$\epsilon > 0$$about, $$\bar{z_s} - \underline{z_t} \leq \epsilon $$ 이 되는 범위at, $$z$$의 값이 정solution진다.
+For any $$\epsilon > 0$$, the value of $$z$$ is determined within the range where $$\bar{z_s} - \underline{z_t} \leq \epsilon$$.
 
 ### Primal bounds
-앞선 $$z$$ 공식according to, 임의의 feasible $$x \in X$$at, always, $$f(x) \geq z$$가 성립하고, 이 when,, $$f(x)$$는 upper bound 이다. but, always, feasible $$x$$를 찾을 수는 없기 because of,, $$x$$값이 solution당 셋to, 포함 된다면 problem가 쉽게 풀리지만, 그렇지 않을 수도 있다.
+According to the previous $$z$$ formula, for any feasible $$x \in X$$, $$f(x) \geq z$$ always holds, and in this case, $$f(x)$$ is an upper bound. However, since we cannot always find a feasible $$x$$, if the $$x$$ value is included in the corresponding set, the problem can be solved easily, but this may not always be the case.
 
 
 ### Dual bounds
-usually, lower bounds to,도 불리며, relaxation을 through,서 그 값을 찾게 된다. 다음 장at, 자세한 설명을 덧붙인다.
+Usually also called lower bounds, their values are found through relaxation. Detailed explanations are added in the next section.

@@ -9,7 +9,7 @@ categories:
 lang: en
 ---
 
-이 절at,는 두 가지 Mixed Integer Programming의 예제를 들어보도록 할 예정이다.
+In this section, we will present two examples of Mixed Integer Programming.
 
 * Best subset selection
 * Least mean squares

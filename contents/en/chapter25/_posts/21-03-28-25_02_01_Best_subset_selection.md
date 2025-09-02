@@ -9,10 +9,10 @@ categories:
 lang: en
 ---
 
-Integer Programming의 대표적인 예시 중 하나인 best subset selection은 $$p$$개의 entry 중to, k개의 entry를 선택하는 problem이다.
+Best subset selection, one of the representative examples of Integer Programming, is a problem of selecting k entries from $$p$$ entries.
 
 ## Best subset selection
-$$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \mathbb{R}^{n}$$일 when, best subset selection problem는 as follows:.
+When $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$ and $$y \in \mathbb{R}^{n}$$, the best subset selection problem is as follows:
 
 > $$
 > \begin{align}
@@ -21,13 +21,12 @@ $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \ma
 > \end{align}
 > $$
 
-이when, $$\parallel \beta \parallel_{0}$$는 $$\beta$$의 nonzero entry의 개수이다.
+Here, $$\parallel \beta \parallel_{0}$$ is the number of nonzero entries in $$\beta$$.
 
-지금to, 앞 장at,는 이and, 같은 problem를 Lasso problemwith, 정by,서 $$l_1$$ normwith, $$\beta$$를 sparse하게 만들었었다. 이 problem의 case, $$l_0$$ norm을 using,서 0이 아닌 entry 개수를 제약하는 problemto,
-정의 되었는데 제약 condition,인 $$\parallel \beta \parallel_{0}  \  \leq  k$$가 non-convex라서 지금to, 배운 convex optimization techniquewith,는 problem를 풀 수 없다.
+Previously in earlier chapters, we defined this type of problem as a Lasso problem and made $$\beta$$ sparse using the $$l_1$$ norm. In this problem, it is defined as a problem that constrains the number of non-zero entries using the $$l_0$$ norm, but since the constraint condition $$\parallel \beta \parallel_{0}  \  \leq  k$$ is non-convex, the problem cannot be solved with the convex optimization techniques we have learned so far.
 
 ### Integer programming formulation
-그렇다면 이 problem를 Integer programmingwith, 재정by,보자.
+Then let's reformulate this problem with Integer programming.
 
 > $$
 > \begin{align}

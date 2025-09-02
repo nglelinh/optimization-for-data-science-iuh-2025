@@ -9,10 +9,10 @@ categories:
 lang: en
 ---
 
-In this section, Integer programto, solution당하는 다양한 예시들을 살펴보면서 어떻게 활용되는지 감을 learning,보자.
+In this section, let's examine various examples corresponding to Integer programming and learn how they are utilized.
 
 ## Knapsack problem
-배낭 problem(Knapsack problem)은 배낭to, 넣을 수 있는 volume가 한정되어 있어 배낭 안to, 들어갈 item의 총 magnitude가 제약되어 있을 when,, 최대의 가치(value)를 가지는 item들을 선택하도록 problem를 푸는 전통적인 조sum optimization problem이다. 이 problem는 binary variable $$x$$to, 표현이 가능한데, $$j$$번째 item을 선택했는 지 아닌지according to, $$x_{j}$$가 0 or, 1의 값을 가지게 된다.
+The Knapsack problem is a traditional combinatorial optimization problem where the volume that can be put into the knapsack is limited, constraining the total magnitude of items that can fit inside the knapsack. When this constraint exists, the problem aims to select items with maximum value. This problem can be expressed using binary variables $$x$$, where $$x_{j}$$ takes a value of 0 or 1 depending on whether the $$j$$-th item is selected or not.
 
 > $$
 > \begin{align}
@@ -22,10 +22,10 @@ In this section, Integer programto, solution당하는 다양한 예시들을 살
 > \end{align}
 > $$
 
-$$c_{j}, a_{j}$$ 는 각각 $$j$$번째 item의 가치(value) and, magnitude(volume) 를 나타낸다.
+$$c_{j}, a_{j}$$ represent the value and magnitude (volume) of the $$j$$-th item, respectively.
 
 ## Assignment problem
-$$n$$명의 사람들and, $$n$$개의 업무가 있다고 let's assume. and, 각각의 사람은 정확히 한가지의 업무to,만 배당 가능하다. 여기서  $$c_{ij}$$는 사람 $$i$$가 업무 $$j$$를 수행하는 데 소요되는 비용을 의미하는데, Assignment problem은 가장 적은 비용with, $$n$$명의 사람들을 $$n$$개의 업무를 할당하는 것을 목표to, 한다. 이 when,의 condition,을 optimization 하기 for, 수식with, 표현하면 as follows:.
+Let's assume there are $$n$$ people and $$n$$ tasks. Each person can be assigned to exactly one task. Here, $$c_{ij}$$ represents the cost required for person $$i$$ to perform task $$j$$. The Assignment problem aims to assign $$n$$ people to $$n$$ tasks with the minimum cost. To optimize these conditions, the mathematical formulation is as follows:
 
 > $$
 > \begin{align}
@@ -38,13 +38,13 @@ $$n$$명의 사람들and, $$n$$개의 업무가 있다고 let's assume. and, 각
 
 
 ## Facility location problem
-Facility location problem은 특정 시설from, 고객to, 운송 비용을 minimization하는 것을 목표to, 하는 problem이다.<br>
+The Facility location problem aims to minimize transportation costs from specific facilities to customers.<br>
 
-$$N = \lbrace 1, \dotsc, n \rbrace$$ 의 창고(depot)가 존재하고, $$M = \lbrace 1, \dotsc, m \rbrace$$ 의 고객이 있다고 let's assume.<br>
-고정된 비용 $$f_{j}$$는 창고 $$j$$의 사용and, association,되어 있다.
-운송 비용 $$c_{ij}$$는 고객 $$i$$to,게 배송되는 물품이 창고 $$j$$to, from, 운송될 when, 발생하는 비용이다.<br>
+Let's assume there are depots $$N = \lbrace 1, \dotsc, n \rbrace$$ and customers $$M = \lbrace 1, \dotsc, m \rbrace$$.<br>
+The fixed cost $$f_{j}$$ is associated with using depot $$j$$.
+The transportation cost $$c_{ij}$$ is the cost incurred when goods delivered to customer $$i$$ are transported from depot $$j$$.<br>
 
-여기서 deciding,야 하는 사항은 어떤 창고가 운용가능하며 어떤 고객이 각각의 창고from, 배송을 받을 수 있는지to, about, 것with,, 고정 비용and, 운송 비용을 minimization하는 쪽with, 수식을 유도solution 푸는 것이다.
+The decisions to be made here are which depots should be operational and which customers should receive deliveries from each depot, with the goal of minimizing both fixed costs and transportation costs by deriving and solving the mathematical formulation.
 
 > $$
 > \begin{align}
@@ -56,11 +56,11 @@ $$N = \lbrace 1, \dotsc, n \rbrace$$ 의 창고(depot)가 존재하고, $$M = \l
 > \end{align}
 > $$
 
-첫번째 constraint은, 각각의 고객은 하나의 창고from, 물품을 배송받을 수 있음을 의미한다. 두번째 constraint은 창고  $$j$$가 운영되고 있어야 고객 $$i$$가 그 곳with, from, 물품을 배송받을 수 있다는 것을 말한다. 이 when,, $$x_{ij}$$and, $$y_{j}$$가 모두 binary 이기 because of, $$mn$$ constraint 를 생각할 수 있다. 이는 "marginalized" 형식with, as follows: constraintwith, 표현할 수도 있다.
+The first constraint means that each customer can receive goods from one depot. The second constraint states that depot $$j$$ must be operational for customer $$i$$ to receive goods from there. Since both $$x_{ij}$$ and $$y_{j}$$ are binary, we can consider $$mn$$ constraints. This can also be expressed in a "marginalized" form as the following constraint:
 
 > $$ \sum_{i = 1}^{n} x_{ij} \leq m y_{j}, \quad j = 1 \dotsc n $$
 
-이를 반영하여 다음and, 같은 수식with, 대체할 수 있다.
+Reflecting this, it can be replaced with the following mathematical formulation:
 
 > $$
 > \begin{align}
@@ -74,22 +74,22 @@ $$N = \lbrace 1, \dotsc, n \rbrace$$ 의 창고(depot)가 존재하고, $$M = \l
 
 
 ## K-means and K-medoids clustering
-군집(clustering)은 데이터를 유사한 그룹with, 나누는 것with,, K-means algorithm은 군집 내의 데이터 포인트들 간의 distance를 평균with, $$K$$개의 center값(centroid)을 finding, K개의 군집을 찾는 problemto,,  partition $$S_{1} \cup \dotsc \cup S_{K} = \lbrace 1, \dotsc, n \rbrace$$ 를 주어진 데이터at, 찾는 것을 목표to, 한다. 이 when, 다음 수식을 minimization 한다.
+Clustering is the process of dividing data into similar groups. The K-means algorithm aims to find K clusters by finding $$K$$ center values (centroids) that minimize the average distance between data points within clusters. The goal is to find a partition $$S_{1} \cup \dotsc \cup S_{K} = \lbrace 1, \dotsc, n \rbrace$$ for the given data. In this case, the following formula is minimized:
 
 $$ \sum_{i = 1}^{K} \sum_{j \in S_{i}} \| x^{(j)} - \mu^{(i)} \|^{2} $$
 
 where $$ \mu^{(i)} :  = \frac{1}{| S_{i} |} \sum_{j \in S_{i}} x^{(i)} $$,
-$$ \mu^{(i)} $$ 는 cluster $$i$$의 centroid를 의미한다.
+$$ \mu^{(i)} $$ represents the centroid of cluster $$i$$.
 
-평균을 computationsolution서 centroid를 구하는 것 (K-means) 보다 좀 더 Outlierto, Robust한 method은 K개의 군집의 center값을 산술평균with, 구하는 instead of, 군집의 centerto, 가장 가까운 하나의 데이터 포인트를 center값with, 정하는 method (K-medoids clustering) 이다.
-that is,, 각각의 data point ($$y^{(i)}$$)를 center점with, 생각하고 이를 computation하였을 when, 최소값이 나올 수 있는 data point를 centroidto, 지정하는 method (K-medoids clustering) 이다.
+A method that is more robust to outliers than computing centroids by averaging (K-means) is K-medoids clustering, which sets the center value as the data point closest to the cluster center instead of computing the center values of K clusters using arithmetic mean.
+That is, K-medoids clustering is a method that considers each data point ($$y^{(i)}$$) as a center point and designates the data point that yields the minimum value when computed as the centroid.
 
 >$$\sum_{i = 1}^{K} \sum_{j \in S_{i}} \| x^{(j)} - y^{(i)} \|^{2} $$
 >$$\text{where } y^{(i)} \in \lbrace x^{(j)} : j \in S_{i} \rbrace $$
 
 <br>
-이 problem는 integer programwith, 변형하여 representing, 질 수 있다.
-first,,  $$ d_{ij} = \| x^{(i)} - x^{(j)} \|^2 $$ 를 정의하고, 다음 두 가지의 binary variable을 정의 한다.
+This problem can be transformed and represented as an integer program.
+First, we define $$ d_{ij} = \| x^{(i)} - x^{(j)} \|^2 $$ and define the following two binary variables:
 
 $$\begin{align}
 &w_{i} =\begin{cases}1 && \text{if choose } x^{(i)} \text{ as a centroid} \\\\
@@ -100,7 +100,7 @@ $$\begin{align}
 
 <br>
 
-K-medoids problem는 optimization problemwith, 정의하면 as follows:.
+The K-medoids problem can be defined as an optimization problem as follows:
 
 > $$
 > \begin{align}
@@ -112,10 +112,10 @@ K-medoids problem는 optimization problemwith, 정의하면 as follows:.
 > \end{align}
 > $$
 
-첫번째 constraint은 centroid가 first, 정solution지고 난 후, $x_{i}$to, about, $x_{j}$가 있는 지 없는 지 판별하겠다는 것을 의미한다.
+The first constraint means that after the centroid is first determined, we will determine whether $x_{j}$ belongs to $x_{i}$ or not.
 
 ## Best subset selection
-$$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}, \quad y \in \mathbb{R}^{n}$$ condition,이 주어졌을 when,, Best subset selection problem는 as follows:.
+When the conditions $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}, \quad y \in \mathbb{R}^{n}$$ are given, the Best subset selection problem is as follows:
 
 > $$
 > \begin{align}
@@ -127,7 +127,7 @@ $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}, \quad y \in \mathb
 > \end{align}
 > $$
 
-$$ \| \beta \|_{0} $$는 Non-convex constraint 이기 because of, Integer programming with, 변형solution서 problem를 풀면 좀 더 수월하게 풀 수 있다.
+Since $$ \| \beta \|_{0} $$ is a non-convex constraint, the problem can be solved more easily by transforming it using Integer programming.
 
 > $$
 > \begin{align}
@@ -139,6 +139,6 @@ $$ \| \beta \|_{0} $$는 Non-convex constraint 이기 because of, Integer progra
 > $$
 
 ## Least median of squares regression
-$$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}, \quad y \in \mathbb{R}^{n}$$, and, $$\beta \in \mathbb{R}^{p} $$ condition,이 주어졌을 when,, $$r : = y - X\beta $$ to, 정의하면, Least median of squares regression problem는 as follows:.
+When the conditions $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}, \quad y \in \mathbb{R}^{n}$$, and $$\beta \in \mathbb{R}^{p}$$ are given, if we define $$r : = y - X\beta$$, the Least median of squares regression problem is as follows:
 
 > $$\beta_{LMS} : = \arg\min_{\beta} (median | r_{i} | ).$$

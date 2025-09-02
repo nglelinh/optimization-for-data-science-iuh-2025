@@ -9,16 +9,16 @@ categories:
 lang: en
 ---
 
-이 절at,는 integer linear program을 풀 수 있는 cutting plane algorithmabout, 살펴보도록 하겠다.
+In this section, we will examine the cutting plane algorithm that can solve integer linear programs.
 
 ## Valid Inequality
-Cutting plane을 정의하기 for, first, valid inequality가 무엇인지 let's look at. 
+To define cutting planes, let's first look at what valid inequalities are. 
 
-set $$S$$about, 부등식 $$\pi^{T}x \le \pi_{0}$$이 다음 condition,을 만족한다면 valid하다고 말한다. that is,, 어떤 set $$S$$가 부등식 $$\pi^{T}x \le \pi_{0}$$이 정의하는 halfspaceto, 포함되어 있다면 이 부등식은 $$S$$about, valid하다고 볼 수 있다.
+An inequality $$\pi^{T}x \le \pi_{0}$$ is said to be valid for set $$S$$ if it satisfies the following condition. That is, if a set $$S$$ is contained in the halfspace defined by the inequality $$\pi^{T}x \le \pi_{0}$$, then this inequality can be considered valid for $$S$$.
 
 >$$\pi^{T}x \le \pi_{0}$$ for all $$x \in S$$
 
-부등식이 Validsolution야 cutting plane이 될 수 있다.
+An inequality must be valid to become a cutting plane.
 ## Cutting plane algorithm
 이제 다음and, 같은 integer programming이 있을 when, cutting plane algorithm을 let's examine.
 

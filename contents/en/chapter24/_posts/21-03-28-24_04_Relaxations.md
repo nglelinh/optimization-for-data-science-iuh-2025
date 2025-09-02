@@ -9,13 +9,13 @@ categories:
 lang: en
 ---
 
-Relaxation을 for,서는 특정 condition,이 성립이 되어야 하며, Convex relaxationand, Lagrangian relaxation method을 활용할 수 있다. 자세한 내용을 let's examine.
+For relaxation, specific conditions must be satisfied, and Convex relaxation and Lagrangian relaxation methods can be utilized. Let's examine the detailed content.
 
 ## Conditions for Relaxations
-일반적인 optimization problem이 as follows: 정의된다면,
+If a general optimization problem is defined as follows:
 > $$\min_{x \in X} f(x)$$
 
-이 problem의 relaxation은 임의의 optimization problemwith, representing,었을 when,, as follows: 정의된다.
+The relaxation of this problem is defined as follows when represented as an arbitrary optimization problem:
 
 > $$\begin{align}
 > &\min_{x \in Y} \: g(x)\\\\
@@ -24,11 +24,11 @@ Relaxation을 for,서는 특정 condition,이 성립이 되어야 하며, Convex
 > &\text{② } g(x) \leq f(x) \text{ for all } x \in X 
 > \end{align}$$ 
 
-objective function $$f(x)$$ and, $$g(x)$$가 달라지면 두 condition, 모두 만족solution야 하고, 같다면 condition, ①만 만족solution도 될 것이다.
-두 condition,by,, relaxationat,의 optimal value는 original problemat,의 optimal value의 lower bound가 된다.
+If the objective functions $$f(x)$$ and $$g(x)$$ are different, both conditions must be satisfied, and if they are the same, only condition ① needs to be satisfied.
+By these two conditions, the optimal value of the relaxation becomes a lower bound of the optimal value of the original problem.
 
 ## Convex relaxations
-주어진 problem가 다음and, 같을 when,,
+When the given problem is as follows:
 > $$
 > \begin{align}
 > &\min_{x} &&f(x) \\\\
@@ -41,7 +41,7 @@ objective function $$f(x)$$ and, $$g(x)$$가 달라지면 두 condition, 모두 
 > \end{align}
 > $$
 
-convex relaxation을 아래and, 같이 표현할 수 있다.
+convex relaxation can be expressed as follows:
 > $$
 > \begin{align}
 > &\min_{x} && f(x) \\\\
