@@ -56,18 +56,18 @@ module Jekyll
         
         # Kiểm tra xem trang tương ứng có tồn tại không (tìm trong cả pages và posts)
         target_page = site.pages.find { |p| p.url == potential_url && p.data['lang'] == other_lang }
-        target_post = site.posts.find { |p| p.url == potential_url && p.data['lang'] == other_lang }
+        target_post = site.posts.docs.find { |p| p.url == potential_url && p.data['lang'] == other_lang }
         
         if target_page || target_post
           other_url = potential_url
         else
           # Nếu không tồn tại, tìm bài viết tương ứng bằng cách so sánh chapter và order
           # Tìm bài viết hiện tại để lấy chapter và order
-          current_post = site.posts.find { |p| p.url == current_url }
+          current_post = site.posts.docs.find { |p| p.url == current_url }
           
           if current_post && current_post.data['chapter'] && current_post.data['order']
             # Tìm bài viết có cùng chapter và order trong ngôn ngữ khác
-            matching_post = site.posts.find do |post|
+            matching_post = site.posts.docs.find do |post|
               post.data['lang'] == other_lang && 
               post.data['chapter'] == current_post.data['chapter'] &&
               post.data['order'] == current_post.data['order']

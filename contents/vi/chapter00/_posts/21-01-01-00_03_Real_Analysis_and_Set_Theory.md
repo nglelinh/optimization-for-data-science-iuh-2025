@@ -9,8 +9,6 @@ categories:
 - chapter00
 ---
 
-**Key Concepts:**
-- Sets, subsets $$A \subseteq B$$, union $$(A \cup B)$$, intersection $$(A \cap B)$$
 **Các khái niệm chính:**
 
 - Tập hợp, tập con $$A \subseteq B$$, hợp $$(A \cup B)$$, giao $$(A \cap B)$$

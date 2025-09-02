@@ -29,7 +29,7 @@ Primal problem를 아래and, 같이 transformation한다.
 
 위 dual algorithmat, $$\rho$$는 step size 역할을 한다, that is, $$t_k=\rho$$이다. 이것은 next,서 그 reason,를 알 수 있다. 
 
-#### $$\rho$$가 step size일 when, optimality 증명
+### $$\rho$$가 step size일 when, optimality 증명
 
 $$x^{(k)}$$는 $$f(x) + (u^{(k-1)})^T Ax + \frac{\rho}{2} \lVert Ax - b\rVert _2^2$$ 를 minimization하므to,, 
 원래 primal problemto, about, stationary condition,according to,, $$x^{(k)}$$at, 목적식의 subgradient가 아래and, 같이 $$0$$을 포함solution야 한다. 

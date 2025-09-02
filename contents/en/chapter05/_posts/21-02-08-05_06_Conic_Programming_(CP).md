@@ -11,7 +11,7 @@ lang: en
 
 If the inequality constraint in a general LP is replaced by a generalized inequality constraint, the problem is called a *Conic Program* (CP).
 
-#### Conic Program
+### Conic Program
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{c^T x + d} \\\\

@@ -30,7 +30,7 @@ The dual function of the transformed problem is:
 > \end{align}$$
 > 
 
-##### [Proof]
+#### [Proof]
 > $$\begin{align}
 > g(u) &= \min_{\beta,z} \frac{1}{2} \| y-z \|^2_2 + \lambda \| \beta \|_1 + u^T(z-X\beta) \\
 > &= \underbrace{ \left( \min_z \frac{1}{2} \| y - z \|^2_2 + u^Tz \right)}_{(1)} + \underbrace{\left( \min_\beta  \lambda \| \beta \|_1 + u^TX\beta \right)}_{(2)} \\
@@ -60,13 +60,13 @@ This is equivalent to:
 
 > $$ \min_u \| y-u \|^2_2 \text{ subject to } \| X^Tu \|_\infty \leq \lambda$$
 
-#### [Check]
+### [Check]
 Slater’s condition is satisfied, so strong duality holds.
 > $$ \text{strong duality } \implies (\beta^{\star}, z^{\star})$$
 > 
 > $$ \text{ must minimize  } L( \beta, z, u^{\star} ) \text{ over } -u, \beta, z$$
 
-#### [note]
+### [note]
 The optimal value in the previous problem is not the optimal lasso objective value.
 However, the dual solution $$u$$ and the lasso solution $$\beta$$ satisfy $$X\beta = y-u$$.
 

@@ -10,15 +10,15 @@ lang: en
 ---
 
 ## Secant Equation
-앞서 $$B$$는 $$\nabla^2 f(x)$$를 approximation하는 matrix이라고 했다. matrix $$B$$가 Hessian $$\nabla^2 f(x)$$and, 비슷한 성질을 갖기 for,서는 secant equation이라는 condition,을 만족solution야 한다. $$x^{k+1} = x^k + s^k$$이고 $$f$$가 두 번 이image 미분 가능할 when,, $$\nabla f(x^k + s^k)$$to, about, first-order Taylor expansion은 true Hessian이 다음의 성질을 가짐을 보인다.
+As mentioned earlier, $$B$$ is a matrix that approximates $$\nabla^2 f(x)$$. For matrix $$B$$ to have similar properties to the Hessian $$\nabla^2 f(x)$$, it must satisfy a condition called the secant equation. When $$x^{k+1} = x^k + s^k$$ and $$f$$ is twice differentiable, the first-order Taylor expansion of $$\nabla f(x^k + s^k)$$ shows that the true Hessian has the following property.
 
 >$$\nabla f(x^k + s^k)  \approx \nabla f(x^k) + \nabla^2 f(x^k) s^k$$
 
-이when, $$\nabla^2 f(x^k)$$to, about, approximation matrix을 $$B^{k+1}$$이라 한다. 이 matrix은 다음의 등식을 만족시킨다.
+Here, we call the approximation matrix of $$\nabla^2 f(x^k)$$ as $$B^{k+1}$$. This matrix satisfies the following equation.
 
 >$$\nabla f(x^k + s^k)  = \nabla f(x^k) + B^{k+1} s^k$$
 
-$$x^{k+1} = x^k + s^k, y^k = \nabla f(x^{k + 1})  - \nabla f(x^k)$$이면 위 등식은 아래and, 같이 정리되고, 이를 secant equation이라 부른다.
+If $$x^{k+1} = x^k + s^k, y^k = \nabla f(x^{k + 1})  - \nabla f(x^k)$$, then the above equation can be rearranged as follows, and this is called the secant equation.
 
 >$$
 >B^{k+1} s^k = y^k
@@ -38,14 +38,14 @@ $$x$$axis은 $$x^k$$를, $$y$$axis은 $$\nabla f(x^k)$$를 나타낸다고 할wh
 ## Conditions to Determine $$B^+$$
 matrix $$B$$를 basis,with, computation된 $$B^+$$는 다음의 3가지 condition,을 만족solution야한다.
 
-1. $$B^+$$ is symmetric: Hessianto, about, 추정이기 because,이다.
-2. $$B^+$$  close to $$B$$: 유일한 $$B^+$$를 결정하기 위한 condition,. $$B$$가 이미 유용한 정보를 가지고 있으므to, secant equation을 만족하는 $$B^+$$ 중at, $$B$$and, 최about, 가까운 matrix을 고른다.
-3. $$B$$ is positive definite $$\Rightarrow B^+$$ is positive definite: Global optimum을 보장하기 for,서 problem의 convexity를 유지한다. (reference: [Analyzing the hessian](https://web.stanford.edu/group/sisl/k12/optimization/MO-unit4-pdfs/4.10applicationsofhessians.pdf))
+1. $$B^+$$ is symmetric: Because it is an approximation of the Hessian.
+2. $$B^+$$ close to $$B$$: A condition to determine a unique $$B^+$$. Since $$B$$ already contains useful information, we choose the matrix closest to $$B$$ among those $$B^+$$ that satisfy the secant equation.
+3. $$B$$ is positive definite $$\Rightarrow B^+$$ is positive definite: To guarantee global optimum, we maintain the convexity of the problem. (reference: [Analyzing the hessian](https://web.stanford.edu/group/sisl/k12/optimization/MO-unit4-pdfs/4.10applicationsofhessians.pdf))
 
 ## Curvature Condition
-$$B^+$$가 positive definite이면서 $$B^+ s = y$$라는 것은 다음의 in fact,을 암시한다.
+The fact that $$B^+$$ is positive definite and $$B^+ s = y$$ implies the following fact.
 >$$s^T y = s^T B^+ s > 0.$$
 
 (reference: [positive definite in WikiPedia](https://en.wikipedia.org/wiki/Positive-definite_matrix))
 
-여기서 $$s^T y > 0$$을 curvature condition이라 부른다. Curvature condition을 만족하면, secant equation $$B^+ s = y$$은 always, solution($$B^+$$)을 갖는다.
+Here, $$s^T y > 0$$ is called the curvature condition. If the curvature condition is satisfied, the secant equation $$B^+ s = y$$ always has a solution ($$B^+$$).

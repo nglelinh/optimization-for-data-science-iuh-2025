@@ -22,7 +22,7 @@ $$
 
 Let's explore where this form of problem is derived from.
 
-#### Primal problem
+### Primal problem
 
 > $$
 > \min_{x} \quad f(x) + g(Ax)
@@ -30,7 +30,7 @@ Let's explore where this form of problem is derived from.
 
 The given problem can be redefined with an added equality constraint.
 
-#### Primal problem rewritten
+### Primal problem rewritten
 >
 $$
  \begin{align}
@@ -53,7 +53,7 @@ $$
 \end{align}
 $$
 
-#### Fenchel duality
+### Fenchel duality
 > $$
 > \max_{v} -f^*(A^Tv) - g^*(-v)
 > $$
@@ -62,7 +62,7 @@ $$
 
 ## Example: conic programming
 
-#### Primal problem of CP in standard form
+### Primal problem of CP in standard form
 >$$
 \begin{align}
     \mathop{\text{minimize}}_x &\quad c^Tx \\\\
@@ -81,7 +81,7 @@ The above problem can be redefined using two functions $$f(x) = c^Tx + I_K(x)$$ 
     \end{cases}
   \end{equation}$$
 
-#### Primal problem of CP rewritten
+### Primal problem of CP rewritten
 > $$
 > \begin{align}
 > &\min_{x, z}       \ &&  f(x) + g(z)\\\
@@ -89,7 +89,7 @@ The above problem can be redefined using two functions $$f(x) = c^Tx + I_K(x)$$ 
 > \end{align}
 > $$
 
-#### Deriving dual problem of CP
+### Deriving dual problem of CP
 
 Let's derive the dual problem from the redefined CP primal problem. First, expanding functions $$f$$ and $$g$$ gives us the following:
 > $$
@@ -132,7 +132,7 @@ Since $$I_{\{b\}}^*(-y) = \max_{b} -b^Ty - I_{\{b\}}(b)$$, the problem can be or
 
 Since $$I_{\{b\}}(b) = 0$$, it can be removed from the problem.
 
-#### Dual problem of CP
+### Dual problem of CP
 
 > $$
 > \begin{align}
@@ -148,7 +148,7 @@ Since $$I_{\{b\}}(b) = 0$$, it can be removed from the problem.
 ## Example: semidefinite programming
 Let's examine the forms of primal & dual problems for SDP and the primal & dual problems for SDP's barrier problem.
 
-#### Primal problem of SDP
+### Primal problem of SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{minimize}}_{X} &&{tr(CX)} \\\\
@@ -161,7 +161,7 @@ Let's examine the forms of primal & dual problems for SDP and the primal & dual 
 * **Recall:** $$tr(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$
 * **Note:** Unlike LP, SDP does not always satisfy strong duality.
 
-#### Dual problem of SDP
+### Dual problem of SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{minimize}}_{y} &&{b^Ty} \\\\
@@ -172,7 +172,7 @@ Let's examine the forms of primal & dual problems for SDP and the primal & dual 
 
 * **Note:** The positive semidefinite cone is a self-dual cone. ($$(\mathbb{S}_{+}^n)^* = \mathbb{S}_{+}^n$$)
 
-#### Primal problem of Barrier problem for SDP
+### Primal problem of Barrier problem for SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{minimize}}_{X} &&{tr(CX) - \tau \log \big( det(X) \big)} \\\\
@@ -181,7 +181,7 @@ Let's examine the forms of primal & dual problems for SDP and the primal & dual 
 >
 >$$\text{where } C, A_1, \dotsc, A_p \in \mathbb{S}^n.$$
 
-#### Dual problem of Barrier problem for SDP
+### Dual problem of Barrier problem for SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{minimize}}_{y, S} &&{b^Ty +  \tau \log \big( det(S) \big)} \\\\

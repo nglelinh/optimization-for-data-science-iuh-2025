@@ -21,7 +21,7 @@ In this section, we will examine the KKT optimality conditions for primal proble
 
 Let's review the KKT conditions that we covered in Chapter 12. KKT conditions are used as conditions for determining optimality.
 
-#### Primal problem
+### Primal problem
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad f(x) \\\\
@@ -34,7 +34,7 @@ When the given primal problem is convex, KKT conditions become sufficient condit
 
 * 참고: [12-01 KKT conditions]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
 
-#### KKT conditions for the given primal problem
+### KKT conditions for the given primal problem
 >$$
 >\begin{align}
 >l_i &= 0, \quad i=1, \dots, r\\\\
@@ -48,7 +48,7 @@ When the given primal problem is convex, KKT conditions become sufficient condit
 
 Let's also examine the conditions for determining the optimality of barrier problems.
 
-#### Barrier problem
+### Barrier problem
 
 >$$
 \begin{align}
@@ -61,7 +61,7 @@ Let's also examine the conditions for determining the optimality of barrier prob
 
 By organizing the KKT conditions for barrier problems, we can derive the following optimality conditions. Note the differences in the inequality constraint and complementary slackness conditions compared to the KKT optimality conditions for primal problems examined earlier. (Reference: [15-03-01 Perturbed KKT conditions]({% multilang_post_url contents/chapter15/21-03-28-15_03_01_perturbed_kkt_conditions %}))
 
-#### Optimality conditions for barrier problem (and its dual)
+### Optimality conditions for barrier problem (and its dual)
 
 >$$
 \begin{align}
@@ -76,7 +76,7 @@ $$
 
 ## Special case: linear programming
 
-#### Recall: Primal problem of LP in standard form
+### Recall: Primal problem of LP in standard form
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad c^Tx \\\\
@@ -85,7 +85,7 @@ $$
 >\end{align}
 >$$
 
-#### Recall: Dual problem of LP
+### Recall: Dual problem of LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty \\\\
@@ -108,7 +108,7 @@ Linear programming has the nice property of always satisfying strong duality due
 
 Note that $$X S \mathbb{1} = 0$$ is equivalent to $$Xs^\star=(x_1^\star s_1^\star, \dots, x_n^\star s_n^\star)=0$$. We use $$X, S$$ notation for convenience in algorithms that will be introduced later.
 
-#### Algorithms for linear programming
+### Algorithms for linear programming
 
 We introduce two representative methods for solving LP using optimality conditions.
 
@@ -117,7 +117,7 @@ We introduce two representative methods for solving LP using optimality conditio
 
 ## Central path for linear programming
 
-#### Recall: Barrier problem for LP
+### Recall: Barrier problem for LP
 >$$\begin{align}
     \mathop{\text{minimize}}_x &\quad c^Tx - \tau \sum_{i=1}^n \log(x_i)\\\\
     \text{subject to} &\quad Ax = b, \\\\
@@ -125,7 +125,7 @@ We introduce two representative methods for solving LP using optimality conditio
 \end{align}$$
 
 
-#### Recall: Dual problem of Barrier problem for LP
+### Recall: Dual problem of Barrier problem for LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty + \tau \sum_{i=1}^n log(s_i)\\\\

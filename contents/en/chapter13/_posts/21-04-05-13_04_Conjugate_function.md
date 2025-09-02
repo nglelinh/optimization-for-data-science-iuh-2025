@@ -21,7 +21,7 @@ lang: en
 </p>
 
 
-#### [Note] 
+### [Note] 
 $$f^{∗}$$는 convex(affine) 함수  $$y^Tx - f(x)$$의 pointwise maximum이므로 항상 convex이다.
 (여기서 $$f$$는 반드시 convex일 필요는 없다.)
 $$f^{∗}(y)$$는 선형 함수 $$y^Tx$$와 $$f(x)$$ 간의 maximum gap이다.
@@ -29,7 +29,7 @@ $$f^{∗}(y)$$는 선형 함수 $$y^Tx$$와 $$f(x)$$ 간의 maximum gap이다.
 
 미분 가능한 $$f$$에 대한 conjugation을 Legendre 변환이라고 부른다.
 
-##### Properties: 
+#### Properties: 
 • Fenchel’s inequality: for any $$x,y, f(x) + f^{∗}(y) ≥ x^Ty$$
 > $$f(x) + f^{∗}(y) ≥ x^Ty \iff f^{*}(y) \ge x^Ty - f(x)$$
 > $$ f^{*}(y) = \max_z z^Ty - f(x)$$
@@ -46,7 +46,7 @@ $$f^{∗}(y)$$는 선형 함수 $$y^Tx$$와 $$f(x)$$ 간의 maximum gap이다.
 
 
 
-##### Examples: 
+#### Examples: 
 • $$f(x)$$가 아래와 같은 Simple quadratic일 경우를 살펴보자
 > $$f(x) = \frac{1}{2}x^TQx$$, where $$Q \succ 0$$
 
@@ -54,7 +54,7 @@ $$f^{∗}(y)$$는 선형 함수 $$y^Tx$$와 $$f(x)$$ 간의 maximum gap이다.
 
 
 
-#### [Proof]
+### [Proof]
 > $$\begin{align}
 > f^{*}(y) & =  \max_x \left( y^Tx -\frac{1}{2}x^TQx \right) \\\
 > & = -\min_x \left(\frac{1}{2}x^TQx- y^Tx \right), x^{\star} = Q^{-1}y  \\\

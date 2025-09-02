@@ -17,6 +17,6 @@ problem가 커질수록 Hessian의 computation 비용이 매우 높아진다. **
 
 Quasi-Newton은 Hessian computation이 힘들when, 뿐 아니라 Hessian이 singular이거나 near singular인 ill-conditionat,도 유용하다.
 
-#### reference 논문
+### reference 논문
 * J. Lee and Y. Sun and M. Saunders (2014), "Proximal Newton-type methods for minimizing composite functions"
 * P. Tseng and S. Yun (2009), "A coordinate gradient descent method for nonsmooth separable minimization"

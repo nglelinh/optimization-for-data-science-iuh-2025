@@ -26,7 +26,7 @@ Key properties of the conjugate function include:
 
 - If $$f$$ is not convex, its conjugate $$f^∗$$ is still convex.
 
-#### Example
+### Example
 >• *Negative logarithm* $$f(x)=−\log x$$
 
 > $$f∗(y)=\sup_{x>0} (xy+ \log x)$$ 

@@ -9,9 +9,9 @@ categories:
 lang: en
 ---
 
-Proximal newton method는 언제 using,야 좋은가? 
+When should we use the proximal newton method? 
 
-Proximal newton method의 유용성을 이solution하기 for,  다음 problemabout, proximal newton methodand, proximal gradient descent를 comparing, 보자.
+To understand the usefulness of the proximal newton method, let's compare the proximal newton method and proximal gradient descent on the following problem.
 
 **Problem** : $$\min_x g(x) + h(x)$$
 

@@ -24,7 +24,7 @@ g(x) & = \frac{L}{2} \| x \|^2_2 - f(x) \quad \text{is convex for all } x \text{
 
 ## Proof
 
-#### Monotone Operator
+### Monotone Operator
 If $$f$$ is convex, then $$\nabla f(x)$$ is a monotone operator:
 
 > $$(\nabla f(y) - \nabla f(x))^T (y-x) \ge 0$$
@@ -32,11 +32,11 @@ If $$f$$ is convex, then $$\nabla f(x)$$ is a monotone operator:
 Reference: In vector space $$X$$, operator $$T : X \to X^*$$ is monotone if:
 > $$(Tu - Tv, u-v) \ge 0$$, $$\forall u, v \in X$$
 
-#### Lipschitz Continuity
+### Lipschitz Continuity
 $$\nabla f$$ is Lipschitz continuous with constant $$L$$:
 >$$ \| \nabla f(x) - \nabla f(y) \|_2 \le L \| x - y \|_2 $$ for any $$x, y$$
 
-#### Proof that $$g$$ is convex
+### Proof that $$g$$ is convex
 Let $$g(x) = \frac{L}{2} \| x \|^2_2 - f(x)$$. Using the Cauchy-Schwarz inequality, we can show:
 > $$ \begin{align}
 (\nabla f(x) - \nabla f(y))^T (x-y) & \le \| \nabla f(x) - \nabla f(y) \| \| x - y \| \le L \| x - y \|^2

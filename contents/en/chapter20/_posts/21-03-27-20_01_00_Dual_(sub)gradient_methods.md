@@ -9,24 +9,24 @@ categories:
 lang: en
 ---
 
-Close-form 형태의 dual (conjugate)을 찾을 수 없는 case,to,도 dual basis,의 subgradient or, gradient method를 사용할 수 있다.
+Even in cases where we cannot find a dual (conjugate) in closed-form, we can use subgradient or gradient methods based on the dual.
 
-for example,, 다음의 problem를 보자. 
+For example, consider the following problem. 
 >\begin{equation}
 \min_x f(x) \text{ subject to } Ax = b
 \end{equation}
 
-위 problem의 dual problem는 아래and, 같다. 여기서 $$f^{\ast}$$는 $$f$$의 conjugate이다.
+The dual problem of the above problem is as follows. Here $$f^{\ast}$$ is the conjugate of $$f$$.
 >\begin{equation}
 \max_u -f^{\ast}(-A^T u) - b^T u
 \end{equation}
 
-이when,, $$g(u)$$를 $$-f^{\ast}(-A^Tu)-b^Tu$$to, 정의하면 $$g(u)$$의 subgradient는 as follows:.
+In this case, if we define $$g(u)$$ as $$-f^{\ast}(-A^Tu)-b^Tu$$, then the subgradient of $$g(u)$$ is as follows.
 >\begin{equation}
 \partial g(u) = A \partial f^{\ast}(-A^Tu) - b
 \end{equation}
 
-위 식at, $$\partial f^{\ast}(-A^Tu)$$를 $$x$$to, in summary, 아래and, 같이 표현될 수 있다. 
+In the above expression, $$\partial f^{\ast}(-A^Tu)$$ can be expressed in terms of $$x$$ as follows. 
 
 >\begin{equation}
 \partial g(u) = Ax-b \quad \text{where} \quad x \in \arg\min_z f(z) + u^T A z
@@ -43,7 +43,7 @@ for example,, 다음의 problem를 보자.
 
 여기서 step size $$t_k(k=1,2,3,\dots$$)는 표준적인 방식with, 선택된다. 
 
-#### Strictly Convex인 case,
+### Strictly Convex인 case,
 if, $$f$$가 strictly convex라면 $$f^{\ast}$$는 미분가능solution진다. 
 
 therefore,, algorithm은 $$k=1,2,3,\dots$$about, 다음 step를 iteration하는 **dual gradient ascent**가 된다.

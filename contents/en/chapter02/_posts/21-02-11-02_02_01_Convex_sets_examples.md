@@ -155,7 +155,7 @@ c^T_p
 $$
 
 
-#### Simplexes
+### Simplexes
 
 A simplex is the simplest polygon that can be formed in $$n$$-dimensional space, constructed from $$n+1$$ points.
 

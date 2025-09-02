@@ -9,9 +9,9 @@ categories:
 lang: en
 ---
 
-이 장at,는 Integer Programming(IP)at, 가장 핵심적인 algorithm이라고 할 수 있는 cutting plane algorithmand, 이를 실용적with, 구현한 branch and cut algorithmabout,서 살펴본다. 
+This chapter examines the cutting plane algorithm, which can be considered the most core algorithm in Integer Programming (IP), and the branch and cut algorithm, which is its practical implementation. 
 
-also,, Integer Programming의 예시to, best subset selectionand, Least mean squaresabout,서 살펴보도록 하겠다.
+We will also examine examples of Integer Programming such as best subset selection and Least mean squares.
 
 ## Reference
 * Belotti, Kirches, Leyer, Linderoth, Luedke, and Mahajan (2012), "Mixed-integer nonlinear optimization"

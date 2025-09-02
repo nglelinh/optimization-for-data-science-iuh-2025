@@ -9,20 +9,20 @@ categories:
 lang: en
 ---
 
-이번 장at, 배울 **Proximal newton method**의 살펴보기 전to, first, **Proximal gradient descent**를 복습solution 보자.
+Before examining the **Proximal newton method** that we will learn in this chapter, let's first review **Proximal gradient descent**.
 
 For detailed information, see [09 Proximal Gradient Descent and Acceleration]({% multilang_post_url contents/chapter09/20-01-08-09_proximal_gradient_descent_and_acceleration %}) see.
 
 ## Proximal gradient descent
-**Proximal gradient descent** 다음의 problemabout, 작동한다.
+**Proximal gradient descent** works on the following problem.
 
 >$$f(x) = g(x) + h(x)$$
 
-* $$g$$는 convex이고 differentiable하다. (**dom**$$(g) = \mathbb{R}^n$$)
-* $$h$$는 convex이고 non-differentiable하며 "simple"하다.
+* $$g$$ is convex and differentiable. (**dom**$$(g) = \mathbb{R}^n$$)
+* $$h$$ is convex and non-differentiable and "simple".
 
 
-#### Algorithm
+### Algorithm
 Proximal gradient descent는 시작점 $$x^{(0)}$$at, 시작solution서 다음 process을 iteration한다.
 
 >$$x^{(k)} = \text{prox}_{t_k}(x^{(k-1)} - t_k \nabla g(x^{(k-1)}) ),k=1,2,3,...$$
@@ -39,7 +39,7 @@ Update 식은 generalized gradient $$G_{t}$$를 using,서 표준화된 형태to,
 > x^{(k)} = x^{(k-1)} - t_k \cdot G_{t_k}(x^{(k-1)}), \space \space \text{where} \space G_{t}(x) = \frac{x-\text{prox}_{t} (x - t \nabla g(x))}{t} \\\\
 > \end{align}
 
-#### Performance
+### Performance
 * **Proximal gradient descent**의 성능은 $$h$$according to, 달라질 수 있다. if,, $$h$$가 복잡한 function이고 particularly, closed form이 아니라면 minimize할 when, computation을 많이 solution야 하므to, 성능이 매우 떨어질 수 있다.
 
 * also,, $$g$$function의 convergence rateand, 같은 convergence 속도를 갖는다. 단, iteration할 when,마다 prox operator를 실행하기 because of, prox computation이 효율적인 case,to,만 유용하다.

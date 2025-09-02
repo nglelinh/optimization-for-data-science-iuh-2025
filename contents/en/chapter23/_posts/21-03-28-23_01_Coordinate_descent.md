@@ -9,13 +9,13 @@ categories:
 lang: en
 ---
 
-In this chapter, coordinate descent라 불리는 굉장히 간단하고 효율적이면서도 확장성이 뛰어난 method을 소개한다. 우선 몇 가지 간단한 문답with, 내용을 시작solution보도록 하겠다.
+In this chapter, we introduce a method called coordinate descent that is extremely simple, efficient, and highly scalable. First, let's start with some simple questions and answers.
 
-**Q1. function $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$가 convex이고 미분 가능할 when,, 각 coordinateaxisabout, $$f$$를 minimization시킨 지점이 $$x$$라 한다면 이 $$x$$는 global minimizer인가?**
+**Q1. When function $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is convex and differentiable, if the point where $$f$$ is minimized along each coordinate axis is $$x$$, is this $$x$$ a global minimizer?**
 
-**A1: 그렇다. $$\nabla f(x) = 0$$이므to, $$x$$는 $$f$$to, about, global minimizer이다.**
+**A1: Yes. Since $$\nabla f(x) = 0$$, $$x$$ is a global minimizer of $$f$$.**
 
-위 질문은 $$e_i = (0, \dots, 1, \dots, 0) \in \mathbb{R}^n$$가 $$i$$번째 표준 기저vector(standard basis vector)일when,, 모든 $$\delta, i$$about, $$f(x + \delta e_i) \ge f(x)$$를 만족하는지 묻는 것and,도 같다. that is,, $$x$$at, 어느 coordinateaxis directionwith, 움직이더라도 $$f$$를 더 작게 할 수 없다는 것이므to, 모든 axisdirectionto, about, 편미분은 0이 된다.
+The above question is equivalent to asking whether $$f(x + \delta e_i) \ge f(x)$$ is satisfied for all $$\delta, i$$ when $$e_i = (0, \dots, 1, \dots, 0) \in \mathbb{R}^n$$ is the $$i$$-th standard basis vector. That is, since we cannot make $$f$$ smaller by moving in any coordinate axis direction from $$x$$, the partial derivatives in all axis directions become 0.
 
 $$
 \nabla f(x) = \big( \frac{\partial f}{\partial x_1}(x), \dots, \frac{\partial f}{\partial x_n}(x) \big) = (0, \dots, 0) = 0
@@ -31,11 +31,11 @@ $$
 
 <br/>
 
-**Q2. 그렇다면 $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$가 convex이지만 '미분 불가능한' function일when,, 각 coordinateaxisabout, $$f$$를 minimization시킨 지점 $$x$$는 always, global minimizer인가?**
+**Q2. Then, when $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is convex but 'non-differentiable' function, is the point $$x$$ where $$f$$ is minimized along each coordinate axis always a global minimizer?**
 
-**A2: 아니다. 이 case,to,는 $$x$$가 $$f$$to, about, global minimizer라고 단언할 수 없다. (반례: 아래 Fig2)** 
+**A2: No. In this case, we cannot assert that $$x$$ is a global minimizer of $$f$$. (Counterexample: Fig2 below)** 
 
-아래 반례의 우측 등고선을 보면 표시된 지점이 global minimum이 아님to,도 불구하고 어느 coordinateaxis directionwith, 이동하더라도 $$f$$를 더 작게할 수 없음을 알 수 있다. ($$f$$를 더 작게 만들기 for,서는 등고선 안쪽with, 이동 가능solution야 한다.) 이 positionat,는 coordinateaxisand, 평행한 두 개의 접선 내부to, 등고선의 안쪽 모든 영역이 포함되기 because,이다. 반면 $$f$$가 미분 가능한 convex function인 case,to,는 등고선의 어느 지점at,도 단 하나만의 접선만이 존재하므to, 이런 현image이 발생하지 않는다.
+Looking at the contour lines on the right side of the counterexample below, we can see that although the marked point is not the global minimum, $$f$$ cannot be made smaller by moving in any coordinate axis direction. (To make $$f$$ smaller, one must be able to move inside the contour lines.) This is because at this position, all inner regions of the contour lines are contained within the two tangent lines parallel to the coordinate axes. On the other hand, when $$f$$ is a differentiable convex function, only one tangent line exists at any point on the contour lines, so this phenomenon does not occur.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -45,17 +45,17 @@ $$
 </figure>
 <br/>
 
-**Q3. $$f$$를 미분 가능한 convex function $$g$$and, convex function $$h$$의 sumwith, 표현할 수 있을when,, 각 coordinateaxisabout, $$f$$를 minimization시킨 지점 $$x$$는 always, global minimizer인가? (that is,, $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$)**
+**Q3. When $$f$$ can be expressed as the sum of a differentiable convex function $$g$$ and a convex function $$h$$, is the point $$x$$ where $$f$$ is minimized along each coordinate axis always a global minimizer? (That is, $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$)**
 
-**A3. 그렇다. 임의의(any) $$y$$about, 다음을 만족하기 because,이다. **
+**A3. Yes. This is because it satisfies the following for any $$y$$.**
 $$\begin{align}
 f(y) - f(x) &\ge \nabla g(x)^T (y-x) + \sum_{i=1}^{n} \big[ h_i(y_i) - h_i(x_i) \big] \\\\
 &= \sum_{i=1}^{n} \big[ \underbrace{\nabla_i g(x) (y_i - x_i) + h_i(y_i) - h_i(x_i)}_{\ge 0} \big] \ge 0
 \end{align}$$
 
-**증명:**
+**Proof:**
 
->$$F_i(x_i) = g(x_i ; x_{-i}) + h_i(x_i)$$ 라고 하자. ($$g(x_i ; x_{-i})$$ 는 $$x$$의 $$i$$번째 element만을 variableto, 보고, remainder는 고정된 값with, 본다는 의미이다.)
+>Let $$F_i(x_i) = g(x_i ; x_{-i}) + h_i(x_i)$$. ($$g(x_i ; x_{-i})$$ means viewing only the $$i$$-th element of $$x$$ as a variable, and the rest as fixed values.)
 >
 > $$
 > \begin{align}
@@ -65,7 +65,7 @@ f(y) - f(x) &\ge \nabla g(x)^T (y-x) + \sum_{i=1}^{n} \big[ h_i(y_i) - h_i(x_i) 
 > \end{align}
 > $$
 
-[Subgradient의 정의]({% multilang_post_url contents/chapter07/21-03-25-07_01_subgradient %})by,,
+By the [definition of subgradient]({% multilang_post_url contents/chapter07/21-03-25-07_01_subgradient %}),
 
 > $$
 > \begin{align}
@@ -84,7 +84,7 @@ f(y) - f(x) &\ge \nabla g(x)^T (y-x) + \sum_{i=1}^{n} \big[ h_i(y_i) - h_i(x_i) 
 
 ## Conclusion
 
-$$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$ with $$g$$ convex, differentiable and $$h_i$$ convexto, about, minimizer는 **coordinate descent**를 using, 찾을 수 있다. Coordinate descent는 다음의 cycle을 iteration하는 것이다. (적당한 초기값 $$x^{(0)}$$가 설정되었다고 가정한다.)
+The minimizer of $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$ with $$g$$ convex, differentiable and $$h_i$$ convex can be found using **coordinate descent**. Coordinate descent iterates the following cycle. (Assume that an appropriate initial value $$x^{(0)}$$ is set.)
 
 >**Coordinate Descent:** <br/>
 >$$\:$$ For $$k = 1,2,3,\dots$$,
@@ -99,13 +99,13 @@ $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$ with $$g$$ convex, differentiable and 
 >\end{align}
 >$$
 
-#### Notes:
+### Notes:
 
-* $$x_{i+1}^{(k)}, \dots, x_{n}^{(k)}$$를 구하는 processat,는 $$k$$번째 cycleat, 새to, 구한 $$x_i^{(k)}$$를 사용한다.
-* Cycleat,의 coordinateaxis 순서는 임의to, 지정solution도 무관하다.
-* 두 개 이image의 coordinateaxis을 묶어서 블록with, 처리할 수도 있다.
+* The process of obtaining $$x_{i+1}^{(k)}, \dots, x_{n}^{(k)}$$ uses the newly obtained $$x_i^{(k)}$$ in the $$k$$-th cycle.
+* The order of coordinate axes in the cycle can be arbitrarily specified.
+* Two or more coordinate axes can be grouped together and processed as blocks.
 
-앞서 소개한 coordinate descent는 exact coordinatewise minimizationto, solution당한다. 다른 방식with,는 gradient를 이용한 inexact coordinatewise minimization이 있다. ($$f$$가 미분 가능한 convex function라고 가정)
+The coordinate descent introduced above corresponds to exact coordinatewise minimization. Another approach is inexact coordinatewise minimization using gradients. (Assuming $$f$$ is a differentiable convex function)
 
 >**Coordinate Descent (inexact coordinatewise minimization):** <br/>
 >$$\:$$ For $$k = 1,2,3,\dots$$,

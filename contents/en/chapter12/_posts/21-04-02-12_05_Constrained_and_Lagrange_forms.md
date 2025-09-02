@@ -17,13 +17,13 @@ MathJax.Hub.Config({
 
 In statistics and machine learning, we often move between **constrained form** and **Lagrange form**. Let us define the constrained form and Lagrangian form as follows.
 
-#### Constrained Form ((C) hereafter)
+### Constrained Form ((C) hereafter)
 >$$ 
 >\min_x \: f(x) \quad \text{ subject to } h(x) \le t,\\\\
 >\text{where } t \in \mathbb{R} \text{ is a tuning parameter.}
 >$$
 
-#### Lagrange Form ((L) hereafter)
+### Lagrange Form ((L) hereafter)
 >$$ 
 >\min_x \: f(x) + \lambda \cdot h(x),\\\\
 >\text{where } \lambda \ge 0 \text{ is a tuning parameter.}

@@ -8,10 +8,10 @@ categories:
 - chapter17
 lang: en
 ---
-이 절에서는 SDP(semidefinite programming) 문제에 대한 Primer-Dual method의 예시를 살펴보려고 한다.
+In this section, we want to look at an example of the Primal-Dual method for SDP (semidefinite programming) problems.
 
 ## SDP (semidefinite programming)
-SDP의 primal 문제는 다음과 같이 정의한다.
+The primal problem of SDP is defined as follows.
 >$$
 >\begin{align}
 >    &\min_{x} && {C \cdot X} \\\\
@@ -21,7 +21,7 @@ SDP의 primal 문제는 다음과 같이 정의한다.
 >$$
 
 
-SDP의 dual 문제는 다음과 같이 정의한다.
+The dual problem of SDP is defined as follows.
 >$$
 >\begin{align}
 >    &\max_{y} && {b^Ty} \\\\
@@ -30,11 +30,11 @@ SDP의 dual 문제는 다음과 같이 정의한다.
 >\end{align}
 >$$
 
-참고로 $$\mathbb{S}^n$$의 trace inner product는 다음과 같이 표기한다.
+For reference, the trace inner product of $$\mathbb{S}^n$$ is denoted as follows.
 > $$X \cdot S = \text{trace}(XS)$$
 
 ## Optimality conditions for SDP
-SDP의 primal과 dual 문제는 다음과 같이 linear map을 이용해서 정의할 수 있다.
+The primal and dual problems of SDP can be defined using linear maps as follows.
 
 >$$
 >\begin{align}
@@ -45,9 +45,9 @@ SDP의 primal과 dual 문제는 다음과 같이 linear map을 이용해서 정�
 >$$
 
 
-여기서 $$\mathcal{A}: \mathbb{S}^n → \mathbb{R}^m$$ 는 linear map을 의미한다.
+Here $$\mathcal{A}: \mathbb{S}^n \to \mathbb{R}^m$$ means a linear map.
 
-Strong duality를 만족한다고 가정했을 때,  $$X^{\star}$$ 와 $$(y^{\star}, S^{\star})$$는 $$(X^{\star}, y^{\star}, S^{\star})$$의 솔루션은 primal과 dual의 최적 솔루션이며 그역도 성립한다.
+Assuming strong duality is satisfied, $$X^{\star}$$ and $$(y^{\star}, S^{\star})$$ where $$(X^{\star}, y^{\star}, S^{\star})$$ is a solution are optimal solutions for primal and dual, and vice versa.
 
 > $$
 > \begin{array}{rcl}
@@ -104,7 +104,7 @@ Newton equations
 > $$τX^{−1}\Delta XX^{−1} +\mathcal{A}^∗(\Delta y) = −(\mathcal{A}^∗(y) + \tau X^{−1} −C)$$
 > $$\mathcal{A}(\Delta X) = −(\mathcal{A}(X)−b)$$
 
-Dual에 대한 central path equation과 Newton equation도 $$(y,S)$$를 포함해서 이와 유사하게 정의된다.
+The central path equation and Newton equation for the dual are similarly defined including $$(y,S)$$.
 
 ## Primal-dual Newton step 
 Primal central path equations 

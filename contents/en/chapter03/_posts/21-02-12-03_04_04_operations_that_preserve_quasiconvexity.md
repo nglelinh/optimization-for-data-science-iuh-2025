@@ -13,38 +13,37 @@ This section discusses operations that preserve the quasiconvexity of functions.
 
 ## Nonnegative weighted maximum
 
-$$f$$가 quasiconvex function일 때, nonnegative weighted maximum $$f$$는 quasiconvex 이다.
+When $$f$$ is a quasiconvex function, the nonnegative weighted maximum $$f$$ is quasiconvex.
 >$$f = \max\{w_1f_1, ... ,w_mf_m\}$$ with $$w_i \geq 0$$ is quasiconvex
 
-
-이 개념은 다음과 같이 확장될 수 있다.
+This concept can be extended as follows:
 >$$f(x) = \sup_{y \in C}(w(y)g(x,y))$$ with $$w(y) \geq 0$$, 
->where $$g(x,y)$$ is quasiconvex in $$x$$ for each $$y$$.<br>
+>where $$g(x,y)$$ is quasiconvex in $$x$$ for each $$y$$.
 
 <br>
 
 ## Composition
 
-만약 $$g : \mathbb{R}^n \mpasto \mathbb{R}$$가 quasiconvex이고, $$h : \mathbb{R} \mpasto \mathbb{R}$$이 nondecreasing이면, 합성곱 f는 quasiconvex를 만족한다.
-> $$f = h \circ g$$ is quasiconvex if h is non-decreasing, g is quasiconvex.
+If $$g : \mathbb{R}^n \mapsto \mathbb{R}$$ is quasiconvex and $$h : \mathbb{R} \mapsto \mathbb{R}$$ is nondecreasing, then the composition $$f$$ satisfies quasiconvexity.
+> $$f = h \circ g$$ is quasiconvex if $$h$$ is nondecreasing and $$g$$ is quasiconvex.
  
-Quasiconvex function과 affine 또는 linear-fractional 변환을 합성하면 quasiconvex function이 된다.
-만약 $$f$$가 quasiconvex라면, $$g(x) = f(Ax + b)$$ 역시 quasiconvex가 되고, $$\tilde{g}(x) = f((Ax + b)/(c^Tx + d))$$도 set $$\{x \mid c^Tx + d > 0, (Ax + b)/(c^Tx + d) \in \text{dom}f\}$$에서 quasiconvex가 된다.
+Composing a quasiconvex function with affine or linear-fractional transformations results in a quasiconvex function.
+If $$f$$ is quasiconvex, then $$g(x) = f(Ax + b)$$ is also quasiconvex, and $$\tilde{g}(x) = f((Ax + b)/(c^Tx + d))$$ is also quasiconvex on the set $$\{x \mid c^Tx + d > 0, (Ax + b)/(c^Tx + d) \in \text{dom}f\}$$.
 
 <br>
 
 ## Minimization
 
-만약 $$f(x, y)$$가 quasiconvex를 만족하고, $$C$$가 convex set일 때, 다음 조건이 성립한다.
-> $$g(x) = \inf_{y \in C} f(x,y)$$ is quasiconvex if f is quasiconvex in x, y, and C is convex set.
+If $$f(x, y)$$ satisfies quasiconvexity and $$C$$ is a convex set, then the following condition holds:
+> $$g(x) = \inf_{y \in C} f(x,y)$$ is quasiconvex if $$f$$ is quasiconvex in $$(x,y)$$ and $$C$$ is a convex set.
 
 <br>
 
 ## Representation via family of convex functions
 
-Quasiconvex function f의 sublevel set을 convex function의 부등식으로 표현할 수 있다. Convex function의 family는 $$t \in \mathbb{R}$$에 대해 $$\phi_t : \mathbb{R}^n \mapsto \mathbb{R}$$이고, 다음과 같이 정의된다.
+The sublevel sets of a quasiconvex function $$f$$ can be represented by inequalities of convex functions. A family of convex functions is $$\phi_t : \mathbb{R}^n \mapsto \mathbb{R}$$ for $$t \in \mathbb{R}$$, defined as follows:
 >$$f(x) \leq t \Longleftrightarrow \phi_t(x) \leq 0$$
 
-즉, quasiconvex function $$f(x)$$의 t-sublevel set은 convex function $$\phi_t$$의 0-sublevel set이 된다. 이 때, t는 convex function $$\phi$$ 의 index를 나타낸다. 그리고, 모든 $$x \in R^n$$에 대해 다음을 만족한다.
->$$\phi_t(x) \leq 0 \Longrightarrow \phi_s(x) \leq 0 \text{ for } s \geq t$$
+That is, the $$t$$-sublevel set of quasiconvex function $$f(x)$$ becomes the 0-sublevel set of convex function $$\phi_t$$. Here, $$t$$ represents the index of convex function $$\phi$$. For all $$x \in \mathbb{R}^n$$, the following is satisfied:
+>$$\phi_t(x) \leq 0 \Rightarrow \phi_s(x) \leq 0 \text{ for } s \geq t$$
 

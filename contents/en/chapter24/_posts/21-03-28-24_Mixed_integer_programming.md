@@ -9,4 +9,4 @@ categories:
 lang: en
 ---
 
-이 장at,는 Mixed Integer Programming의 정의, relation, 예제를 소개하고, Integer programming 의 solution를 찾기 for,서 간접적with, relaxation 을 utilizing, optimal solution를 finding,나가는 방식을 소개한다.
+This chapter introduces the definition, relationships, and examples of Mixed Integer Programming, and presents methods for finding optimal solutions by indirectly utilizing relaxation to find solutions for Integer programming.

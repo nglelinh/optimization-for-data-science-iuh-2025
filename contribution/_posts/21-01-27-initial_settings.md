@@ -39,14 +39,14 @@ Jekyll에서 요구하는 규약을 지키지 않은 작업 내용을 저장소�
 
 ### 3-1. (옵션1) Docker 설치
 
-#### A. Docker 설치
+### A. Docker 설치
 
 Docker를 이용하여 로컬에 직접적인 환경설치 없이도 로컬 호스팅을 가능하게 합니다.
 아래 웹사이트에 접속하여 Docker를 설치해주세요.
 
 [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
 
-#### B. 로컬 호스팅
+### B. 로컬 호스팅
 
 터미널에서 다음 명령어를 입력합니다.
 
@@ -56,7 +56,7 @@ $ docker-compose up
 
 ### 3-2. (옵션2) Jekyll 환경 설치
 
-#### A. Jekyll 및 루비 패키지 설치
+### A. Jekyll 및 루비 패키지 설치
 
 - [루비 설치하기](<https://jekyllrb-ko.github.io/docs/installation/>): Jekyll은 루비로 이루어져 있습니다. 따라서 Jekyll을 사용하기 위해서는 루비를 설치해야 합니다.
 - [Jekyll 설치하기](<https://jekyllrb-ko.github.io/docs/>): 루비를 설치했다면 클론한 Repository에 들어가 Jekyll을 설치합니다.
@@ -66,7 +66,7 @@ $ docker-compose up
 $ bundle install
 ```
 
-#### B. 로컬 호스팅
+### B. 로컬 호스팅
 
 
 터미널에서 다음 명령어를 입력합니다.

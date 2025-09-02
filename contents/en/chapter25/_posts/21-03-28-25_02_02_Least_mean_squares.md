@@ -17,23 +17,23 @@ Residual의 median을 minimization하도록 regression을 할 case, 좀 더 robu
 ## Least mean squares
 $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \mathbb{R}^{n}$$이라고 하자. and, $$\beta \in \mathbb{R}^{p} $$일 when, $$r : = y - X\beta $$이라고 하자.
 
-#### Observe
+### Observe
 * Least squares (LS) : $$\beta_{LS} : = \underset{\beta}{\text{argmin}} \sum_{i} r^2_i$$
 * Least absolute deviation (LAD) : $$\beta_{LAD} : = \underset{\beta}{\text{argmin}} \sum_{i} \lvert r_{i} \rvert$$
-#### Least Median of Squares (LMS)
+### Least Median of Squares (LMS)
 >$$\beta_{LMS} : = \underset{\beta}{\text{argmin}} (\text{median} \lvert r_{i} \rvert )$$
 
 ## Least quantile regression
 Least Median of Squares problem를 일반화한 Least Quantile of Squareproblem는 as follows: 정의할 수 있다. 여기서 $$r_{q}$$는 $$q$$번째 ordered absolute residual이다.
-#### Least Quantile of Squares (LQS)
+### Least Quantile of Squares (LQS)
 >$$\beta_{LQS} : = \underset{\beta}{\text{argmin}} (\lvert r_{(q)} \rvert ), \quad 1 \le q \le n, \quad \lvert r_{1} \rvert \le \lvert r_{2} \rvert \le \cdots \le \lvert r_{n} \rvert$$
 
-#### Key step in the formulation
+### Key step in the formulation
 이제 Least Quantile of Squareproblem를 Integer Programmingwith, 재정by,보자. 이when,, $$r$$의 각 entry $$i$$about, 다음and, 같은 binary variable을 사용한다.
 
 >$$ \lvert r_{i} \rvert \le \lvert r_{(q)} \rvert$ or $\lvert r_{i} \rvert \ge \lvert r_{(q)} \rvert $$
 
-#### Integer programming formulation
+### Integer programming formulation
 $$\bar{\mu_{i}}$$and, $$\mu_{i}$$은 thresholdto, 각각의 개수는 $$k$$개, $$n-k$$개이다.
 
 > $$
@@ -76,7 +76,7 @@ Subgradient algorithmwith, $$H_{q}(\beta) - H_{q+1}(\beta)$$의 local minimum을
 ## Computational results
 위의 논문at,  Least Quantile of Squareproblem를 실험한 result,는 다음 그래프at, 볼 수 있다.
 
-#### Mixed integer programming gap
+### Mixed integer programming gap
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter25/25_01_06_LQS_results1.png" alt="[Fig1] Mixed integer programming gap [3]">
@@ -85,7 +85,7 @@ Subgradient algorithmwith, $$H_{q}(\beta) - H_{q+1}(\beta)$$의 local minimum을
 </figure>
 <br>
 
-#### Cold vs Warm Starts
+### Cold vs Warm Starts
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter25/25_01_07_LQS_results2.png" alt="[Fig2] Cold vs Warm Starts [3]">

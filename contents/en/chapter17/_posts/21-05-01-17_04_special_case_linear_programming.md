@@ -8,10 +8,10 @@ categories:
 - chapter17
 lang: en
 ---
-이 절에서는 LP(linear programming) 문제에 대한 Primer-Dual method의 예시를 살펴보자.
+In this section, let's look at an example of the Primal-Dual method for LP (linear programming) problems.
 
 ## Linear programming
-다음과 같은 primal LP 문제가 있다.
+Consider the following primal LP problem.
 >$$
 >\begin{align}
 >    &\min_{x} && {c^Tx} \\\\
@@ -23,7 +23,7 @@ lang: en
 > $$\text{for } c ∈R^n, A ∈R^{m×n}, b ∈R^m$$
 
 
-위 primal LP 문제의 dual 문제는 아래와 같다.
+The dual problem of the above primal LP problem is as follows.
 >$$
 >\begin{align}
 >    &\max_{y,s}  && {b^Ty} \\\\
@@ -34,7 +34,7 @@ lang: en
 
 
 ## Optimality conditions and central path equations
-다음은 이전 LP의 primal-dual problem에 대한 최적 조건(KKT Conditions)을 보여준다.
+The following shows the optimality conditions (KKT Conditions) for the primal-dual problem of the previous LP.
 > $$
 > \begin{array}{rcl}
 > A^Ty + s & = & c \\\
@@ -57,8 +57,8 @@ Central path equations
 
 
 ## Primal-dual method vs. barrier method
-#### Newton steps for primer-dual method
-다음은 LP문제에 대한 primal-dual method의 Newton 방정식이다.
+### Newton steps for primer-dual method
+The following is the Newton equation for the primal-dual method for LP problems.
 
 > $$\begin{bmatrix}
 0 & A^T & I \\\
@@ -76,14 +76,14 @@ Ax−b \\\
 XS\mathbb{1}−τ\mathbb{1} 
 \end{bmatrix}$$
 
-Optimal condition에서 다음 관계를 알 수 있다.
+From the optimal condition, we can know the following relationship.
 
 $$XS\mathbb{1} = \tau \mathbb{1} \iff s = \tau X^{−1}\mathbb{1} \iff x = \tau S^{−1}\mathbb{1}$$
 
-이에 따라 $$s$$를 제거하여 primal barrier problem에 대한 최적 조건을 얻거나, $$x$$를 제거하여 dual barrier problem에 대한 최적 조건을 얻을 수 있다.
+Accordingly, we can obtain optimal conditions for the primal barrier problem by removing $$s$$, or obtain optimal conditions for the dual barrier problem by removing $$x$$.
 
-#### Newton steps for barrier problems
-다음은 barrier problem에 대한 primal과 dual central path equation이다. (왼쪽이 primal 오른쪽이 dual)
+### Newton steps for barrier problems
+The following are the primal and dual central path equations for the barrier problem. (Left is primal, right is dual)
 > $$
 > \begin{array}{rcr}
 > A^Ty + τX^{−1}1 & = & c & \qquad \qquad & A^Ty + s & = & c \\\
@@ -93,7 +93,7 @@ $$XS\mathbb{1} = \tau \mathbb{1} \iff s = \tau X^{−1}\mathbb{1} \iff x = \tau 
 > $$
 > 
 
-위의 central path equation으로 primal과 dual에 대한 Newton step을 구해보면 다음과 같다.
+Using the above central path equations, the Newton steps for primal and dual are as follows.
 
 **Primal Newton step**
 > $$\begin{bmatrix}
@@ -125,11 +125,11 @@ A^Ty + s −c \\\
 
 
 ## Example: barrier versus primal-dual
-#### Standard LP : $$n = 50$$, $$m = 100$$
-Primal-dual method의 성능을 확인하기 위해 변수가 $$n = 50$$이고 equality constraint가 $$m = 100$$인 표준 LP문제에 대한 예시를 살펴보자. (Example from B & V 11.3.2 and 11.7.4)
+### Standard LP : $$n = 50$$, $$m = 100$$
+To verify the performance of the Primal-dual method, let's look at an example of a standard LP problem with $$n = 50$$ variables and $$m = 100$$ equality constraints. (Example from B & V 11.3.2 and 11.7.4)
 
-Barrier method는 다양한  $$\mu$$값(2, 50, 150)을 사용한 반면 primal-dual method에서는 $$\mu$$를 10으로 고정하였다.
-그리고 두 방법 모두 $$\alpha = 0.01, \beta = 0.5$$를 사용했다.
+The Barrier method used various $$\mu$$ values (2, 50, 150) while the primal-dual method fixed $$\mu$$ at 10.
+Both methods used $$\alpha = 0.01, \beta = 0.5$$.
 
 
 <figure class="image" style="align: center;">
@@ -139,13 +139,13 @@ Barrier method는 다양한  $$\mu$$값(2, 50, 150)을 사용한 반면 primal-d
 </p>
 </figure>
 
-그래프에서 보다시피 primal-dual은 빠르게 수렴하면서도 높은 정확도를 보인다.
+As can be seen from the graph, primal-dual converges quickly while showing high accuracy.
 
-#### Sequence of problem : $$n = 2m$$ and $$n$$ growing. 
-이제 $$n = 2m$$이고 $$n$$이 점점 증가하는 일련의 문제에 대해 성능을 살펴보자.
+### Sequence of problem : $$n = 2m$$ and $$n$$ growing. 
+Now let's look at the performance for a series of problems where $$n = 2m$$ and $$n$$ gradually increases.
 
-* Barrier method는 $$\mu = 100$$를 사용하였고 outer loop는 2회 정도만 수행되었다. (duality gap은 $$10^4$$로 감소하였다) 
-* Primal-dual method는 $$\mu = 10$$를 사용하였고 duality gap과 feasibility gap이 거의 $$10^{−8}$$일 때 실행을 중단했다.
+* The Barrier method used $$\mu = 100$$ and the outer loop was performed only about 2 times. (The duality gap was reduced to $$10^4$$) 
+* The Primal-dual method used $$\mu = 10$$ and stopped execution when the duality gap and feasibility gap were approximately $$10^{-8}$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -154,7 +154,7 @@ Barrier method는 다양한  $$\mu$$값(2, 50, 150)을 사용한 반면 primal-d
 </p>
 </figure>
 
-위 그림에서 알 수 있듯이 Primal-dual 방법은 더 높은 정확도를 갖는 솔루션 찾지만 약간의 iteration이 추가적으로 필요하다.
+As can be seen from the above figure, the Primal-dual method finds solutions with higher accuracy but requires some additional iterations.
 
 
 

@@ -136,7 +136,7 @@ Linear transformations have specific properties: they always map the origin to t
 
 Here are some common linear transformations in 2D space and their corresponding matrices:
 
-#### a. Scaling
+### a. Scaling
 Changes the length of the vector along the x and y axes.
 Let $$s_x$$ be the scaling factor for the x-axis and $$s_y$$ for the y-axis.
 **Scaling Matrix:**
@@ -144,14 +144,14 @@ $$ \mathbf{S} = \begin{pmatrix} s_x & 0 \\ 0 & s_y \end{pmatrix} $$
 **Transformation:**
 $$ \mathbf{v}' = \mathbf{Sv} = \begin{pmatrix} s_x & 0 \\ 0 & s_y \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} s_x x \\ s_y y \end{pmatrix} $$
 
-#### b. Rotation
+### b. Rotation
 Rotates the vector around the origin by an angle $$\theta$$ (counter-clockwise).
 **Rotation Matrix:**
 $$ \mathbf{R} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} $$
 **Transformation:**
 $$ \mathbf{v}' = \mathbf{Rv} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} x\cos\theta - y\sin\theta \\ x\sin\theta + y\cos\theta \end{pmatrix} $$
 
-#### c. Reflection
+### c. Reflection
 Reflects the vector across a line or plane.
 **Reflection across the x-axis:**
 $$ \mathbf{F}_x = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} $$
@@ -160,7 +160,7 @@ $$ \mathbf{F}_y = \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix} $$
 **Reflection across the line $$y=x$$:**
 $$ \mathbf{F}_{y=x} = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} $$
 
-#### d. Shear(**Cắt**)
+### d. Shear(**Cắt**)
 
 Skews the vector, shifting points in one direction proportional to their coordinate in another direction.
 **Horizontal Shear (x-shear by factor $$k$$):**
@@ -168,7 +168,7 @@ $$ \mathbf{H}_x = \begin{pmatrix} 1 & k \\ 0 & 1 \end{pmatrix} $$
 **Vertical Shear (y-shear by factor $$k$$):**
 $$ \mathbf{H}_y = \begin{pmatrix} 1 & 0 \\ k & 1 \end{pmatrix} $$
 
-#### e. Projection
+### e. Projection
 Projects the vector onto a subspace (e.g., an axis or a line).
 **Projection onto the x-axis:**
 $$ \mathbf{P}_x = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} $$

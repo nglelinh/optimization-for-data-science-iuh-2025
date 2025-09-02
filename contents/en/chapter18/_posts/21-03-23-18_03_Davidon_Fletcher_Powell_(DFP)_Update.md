@@ -9,22 +9,22 @@ categories:
 lang: en
 ---
 
-DFP update는 rank-2의 symmetric matrixto, $$H (=B^{-1})$$를 업데이트 하는 method이다.
+The DFP update is a method that updates $$H (=B^{-1})$$ with a rank-2 symmetric matrix.
 
 >$$H^+ = H + auu^T + bvv^T.$$
 
-DFP update를 through, computation된 $$H^+$$가 secant equation을 만족한다면, $$s-Hy$$은 $$u$$and, $$v$$의 linear combinationwith, 표현할 수 있다. (reference: secant equationby,, $$B^+ s =y \Leftrightarrow H^+ y = s$$)
+If $$H^+$$ computed through the DFP update satisfies the secant equation, then $$s-Hy$$ can be expressed as a linear combination of $$u$$ and $$v$$. (reference: by the secant equation, $$B^+ s =y \Leftrightarrow H^+ y = s$$)
 
 >$$H^+y = Hy + auu^Ty + bvv^Ty = Hy + (au^Ty)u + (bv^Ty)v = s$$
 >
 >$$\Rightarrow s - Hy = (au^Ty)u + (bv^Ty)v$$
 
-$$u=s, v=Hy$$to, 두고 aand, babout, 풀면 $$H$$to, about, updating formula가 유도된다.
+Setting $$u=s, v=Hy$$ and solving for $$a$$ and $$b$$, we derive the updating formula for $$H$$.
 >$$
 > H^+ = H - \frac{Hyy^TH}{y^THy} + \frac{ss^T}{y^Ts}
 >$$
 
-SR1 updateat,and, 마찬가지to, [Sherman–Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)를 using, $$B$$to, about, updating formula를 유도할 수 있다.
+Similar to the SR1 update, we can derive the updating formula for $$B$$ using the [Sherman–Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula).
 
 >$$
 >\begin{align}
@@ -33,13 +33,13 @@ SR1 updateat,and, 마찬가지to, [Sherman–Morrison formula](https://en.wikipe
 >\end{align}
 >$$
 
-if, $$B$$가 positive definite이면 $$\big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big)$$는 positive semidefinite이 된다. 이when, $$\frac{yy^T}{y^Ts}$$가 positive definite이면 $$B^+ = \big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big) + \frac{yy^T}{y^Ts}$$는 positive definite임이 보장된다. 이to,써 SR1at, 제기 되었던 positive definiteness의 지속성 problem가 solution결된다.
+If $$B$$ is positive definite, then $$\big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big)$$ becomes positive semidefinite. In this case, if $$\frac{yy^T}{y^Ts}$$ is positive definite, then $$B^+ = \big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big) + \frac{yy^T}{y^Ts}$$ is guaranteed to be positive definite. This solves the problem of maintaining positive definiteness that was raised with SR1.
 
 ## DFP Update - Alternate Derivation
 
-Recall: curvature condition($$y^Ts > 0, y,s \in \mathbb{R}^n$$)을 만족하면 secant equation을 만족하는 symmetric positive definite matrix가 존재한다.
+Recall: if the curvature condition ($$y^Ts > 0, y,s \in \mathbb{R}^n$$) is satisfied, then there exists a symmetric positive definite matrix that satisfies the secant equation.
 
-DFP update는 1. symmetry를 만족하고, 2. secant equation을 만족하는 matrix $$B^+$$and, $$B$$의 weighted Frobenius norm을 minimization 시키는 problem를 푸는 것with,도 유도된다. (각각의 다른 matrix norm은 각각의 다른 Quasi-Newton methodand, connection,된다. 그 중at, 이 problem의 solution을 구하기 쉽게 하면서도 scale-invariant optimization methodto, 작동하게끔 하는 norm이 바to, weighted Frobenius norm이다.)
+The DFP update can also be derived by solving the problem of minimizing the weighted Frobenius norm between matrix $$B^+$$ and $$B$$ where $$B^+$$ 1. satisfies symmetry and 2. satisfies the secant equation. (Each different matrix norm corresponds to each different Quasi-Newton method. Among them, the norm that makes it easy to solve this problem while also making it work as a scale-invariant optimization method is the weighted Frobenius norm.)
 
 >Solve
 >$$
@@ -53,12 +53,12 @@ DFP update는 1. symmetry를 만족하고, 2. secant equation을 만족하는 ma
 
 ***reference**:
 
-* Frobenius norm: matrix $$A$$to, about, Frobenius norm은 as follows: 정의된다.
+* Frobenius norm: The Frobenius norm of matrix $$A$$ is defined as follows.
 $$
 \| A \|_{F}  \doteq ( \sum_{i,j} A_{i,j}^2 )^{1/2}
 $$
 
-* Weighted Frobenius norm: 가중치 matrix $$W(W \succ 0)$$to, about, matrix $$A$$의 weighted Frobenius norm은 as follows: 정의된다. 
+* Weighted Frobenius norm: The weighted Frobenius norm of matrix $$A$$ with weight matrix $$W(W \succ 0)$$ is defined as follows. 
 $$
 \|A\|_W \doteq \| W^{1/2} A W^{1/2} \|_F
 $$

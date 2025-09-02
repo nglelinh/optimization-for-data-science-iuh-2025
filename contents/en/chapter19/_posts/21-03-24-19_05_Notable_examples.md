@@ -26,7 +26,7 @@ Lee et al. (2012)논문at, 제시된 예제를 let's look at.
 $$l_1$$ regularized logistic regressionto,대solution 다음 세가지 methodabout,서 성능을 평가하였다.
 1.FISTA : accelerated prox grad 2. spaRSA : spectral projected gradient method 3. PN  : proximal Newton
 
-#### Dense hessian X (n=5000, p=6000) 예시
+### Dense hessian X (n=5000, p=6000) 예시
 데이터 수 n = 5000, feature 개수 p = 6000인 dense feature matrix $$X$$를 갖는 problemabout, 다음and, 같은 성능을 보였다. Hessian이 dense하기 because of, 매우 challenging한 problem라고 할 수 있다.
 
 <figure class="image" style="align: center;">
@@ -40,7 +40,7 @@ $$l_1$$ regularized logistic regressionto,대solution 다음 세가지 methodabo
 
 여기서 비용은 $$g$$and, $$\nabla g$$를 computation하는 시간이 대부분이며 particularly, $$\exp$$and, $$\log$$function를 computation하는 시간이 많이 들었다.
 
-#### Sparse hessian X (n=542,000, p=47,000) 예시
+### Sparse hessian X (n=542,000, p=47,000) 예시
 
 다음의 case,는 $$X$$가 sparse하기 because of, $$g$$and, $$\nabla g$$를 computation하는 시간이 덜 들었다.
 
@@ -56,7 +56,7 @@ Proximal Newton methodat, proximal operation을 computation할 when,  prox opera
 
 Lee (2014)at,는 global convergenceand,  local superlinear convergence를 보장하는 inner problem의 stopping rule을 제안했다.
 
-#### Three stopping rules
+### Three stopping rules
 Graphical lasso estimation problemto, inner optimizations을 위한 세 가지 stopping rules을 비교하였다. 이when,, 데이터 개수는 n = 72이고 feature 개수는 p = 1255이다.
 
 <figure class="image" style="align: center;">
@@ -70,7 +70,7 @@ Graphical lasso estimation problemto, inner optimizations을 위한 세 가지 s
 
 Proximal newton method가 quadratic convergence를 만족하므to, exact는  quadratic convergence를 만족한다고 볼 수 있다. Maxiter=10의 case, 최대 10번의 inner iterationwith,는 quadratic convergence를 만족하지 못but, adaptive의 case, quadratic convergence를 만족하며 세 가지 방식 중 가장 빠르다.
 
-#### Stopping rule of usual newton method
+### Stopping rule of usual newton method
 일반적인 newton's methodat,는 inner problem은 $$x^{(k-1)}$$의 $$g$$to, about, quadratic approximation인 $$\tilde{g}_{k-1}$$를 minimization한다. and,, $$\eta_k, k=1,2,3,...$$를 choosing,서 다음 condition,을 만족할 when, 중지한다. (이를 forcing sequence라고 한다.)
 
 > \begin{align}
@@ -79,7 +79,7 @@ Proximal newton method가 quadratic convergence를 만족하므to, exact는  qua
 
 이 condition,은 다음 positionat,의 gradient가 현재 positionat,의 gradient보다 $$\eta_k$$배 만큼 작다는 것을 의미한다. 이when,, Quadratic approximation은 $$\tilde{g}_{k-1}(z) = \nabla g(x)^T (z-x) + \frac{1}{2t} \parallel  z - x \parallel_2^2$$이다.
 
-#### Stopping rule of proximal gradient method
+### Stopping rule of proximal gradient method
 Lee et al. (2012)at,는 proximal gradientat,는 gradient instead, generalized gradient를 사용하는 방식을 제안하였다.
 
 > $$

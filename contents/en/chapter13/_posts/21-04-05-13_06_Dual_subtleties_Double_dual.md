@@ -12,7 +12,7 @@ lang: en
 ## Dual subtleties
 • 때로는 우리는 dual 문제를 동치의 문제로 바꿀 수 있고 이를 여전히 dual 문제라 부른다. 또한 Strong Duality에서, Primal 솔루션의 특징 분석이나 계산을 위해 변형된 dual 문제의 솔루션을 사용할 수 있다.
 
-##### [주의]
+#### [주의]
 변형된 dual 문제의 최적값은 반드시 primal의 최적값은 아니다.
 
 
@@ -33,7 +33,7 @@ lang: en
 
 > $$ \max_{u,v} −f^∗(−A^Tu−C^Tv)−b^Tu−d^Tv \text{ subject to } u ≥ 0 $$
 
-##### Recall property
+#### Recall property
 만약 $$f$$가 closed이고 convex라면, 이 경우에 dual의 dual은 primal임을 앞서 설명하였다.($$f^{∗∗} = f$$)
 
 실제로, 선형 제약 조건을 넘어(dual과 dual의 conjugate 사이의)연결이 이보다 훨씬 더 깊다.

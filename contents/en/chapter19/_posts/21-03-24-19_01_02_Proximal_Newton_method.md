@@ -9,16 +9,16 @@ categories:
 lang: en
 ---
 
-before, 절at, **proximal newton method**는 **proximal gradient descent** 식at, spherical curvature인 $$\frac{1}{t} I$$ instead, local hessian인 $$\nabla^2 g(x)$$를 사용하고자 하는 method임을 설명했다. Proximal newton method는 오래 전to, 나온 아이디어to, 통계학at,는 local score란 용어to, 연구되고 있다.
+In the previous section, we explained that the **proximal newton method** is a method that wants to use the local hessian $$\nabla^2 g(x)$$ instead of the spherical curvature $$\frac{1}{t} I$$ in the **proximal gradient descent** formula. The proximal newton method is an old idea that is being studied in statistics under the term local score.
 
-이제 **proximal newton method**가 어떻게 formulation될 수 있는지 let's look at.
+Now let's look at how the **proximal newton method** can be formulated.
 
 ## Algorithm
-Proximal gradient descent algorithm은 다음 step의 direction인 $$v$$를 구한 후 step size인 $$t_k$$를 optimization하는 processwith, 이루어져 있다. 
+The Proximal gradient descent algorithm consists of the process of finding the direction $$v$$ of the next step and then optimizing the step size $$t_k$$. 
 
-* 1step : 시작점 $$x^{(0)}$$at, 시작solution서 다음 process을 iteration한다. ($$k=1,2,3,...$$) 
+* Step 1: Starting from the starting point $$x^{(0)}$$, iterate the following process. ($$k=1,2,3,...$$) 
 
-* 2step : 다음 step의 direction인 $$v$$를 구한다.
+* Step 2: Find the direction $$v$$ of the next step.
 
 > \begin{align}
 v^{(k)} & = \underset{v}{\text{argmin}} \ \nabla g(x^{(k-1)})^T v + \frac{1}{2} v^T H^{(k-1)} v + h(x^{(k-1)} + v)
@@ -35,7 +35,7 @@ $$t_k$$는 step sizeto, $$t_k=1$$이면 pure proximal Newton method이다.
 
 Backtracking line search를 through, step size를 optimization하는 process이 있다는 점은 proximal gradient descent methodand, 다른 점이다.
 
-#### Next position view
+### Next position view
 위의 식을 direction $$v$$이 아닌 다음 position인 $$z$$의 관점at, 표현하면 as follows:.
 
 > $$

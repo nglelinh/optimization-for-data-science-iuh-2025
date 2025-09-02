@@ -1,8 +1,13 @@
+---
 layout: post
 title: 15-05 Convergence analysis
 chapter: "15"
 order: 11
+categories:
+- chapter16
 owner: "Minjoo Lee"
+---
+
 Assuming the centering step in the barrier method is solved exactly, we can obtain the following convergence results.
 
 ## Convergence Theorem

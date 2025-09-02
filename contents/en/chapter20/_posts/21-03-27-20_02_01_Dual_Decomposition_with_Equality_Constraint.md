@@ -22,7 +22,7 @@ if,, variable $$x$$를 $$B$$개의 블록with, 분할하고, $$x = (x_1,\dots,x_
 > \end{alignat}
 > $$
 
-#### Dual decomposition algorithm: 
+### Dual decomposition algorithm: 
 
 > $$
 > \begin{alignat}{1}

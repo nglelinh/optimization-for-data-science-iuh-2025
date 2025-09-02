@@ -10,7 +10,7 @@ lang: en
 ---
 
 ## Lipschitz gradients and strong convexity
-$$f$$가 closed convex function라고 let's assume. 그러면 다음 equivalence relationship,가 성립된다. 
+Let's assume $$f$$ is a closed convex function. Then the following equivalence relationship holds. 
 >\begin{equation}
 \text{$$f$$ is strongly convex with parameter $$d$$ $$\Longleftrightarrow \nabla f^{\ast}$$ Lipschitz with parameter $$1/d$$.} 
 \end{equation}

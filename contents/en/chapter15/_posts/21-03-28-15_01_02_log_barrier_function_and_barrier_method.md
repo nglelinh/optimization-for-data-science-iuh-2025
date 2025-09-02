@@ -45,4 +45,4 @@ $$\begin{align}
 &\text{subject to } && Ax = b                     & \iff \qquad & \text{subject to } && Ax = b \\
 \end{align}$$
 
-이와 같이 정의된 문제를 newton's method로 푸는 방법을 **barrier method**라고 한다.
+The method of solving the problem defined in this way using Newton's method is called the **barrier method**.

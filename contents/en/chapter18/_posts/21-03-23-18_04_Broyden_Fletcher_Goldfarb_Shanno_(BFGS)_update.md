@@ -9,9 +9,9 @@ categories:
 lang: en
 ---
 
-BFGS의 아이디어는 DFPand, 동일하다. 다만, Band, H의 역할이 뒤바뀌는 것만이 difference이점이다.
+The idea of BFGS is the same as DFP. The only difference is that the roles of B and H are reversed.
 
-BFGS는 다음 problem를 푸는 것with, 유도된다.
+BFGS is derived by solving the following problem.
 
 >Solve
 >$$
@@ -23,7 +23,7 @@ BFGS는 다음 problem를 푸는 것with, 유도된다.
 >\end{align}\\\\
 >$$
 
-유도되는 $$H$$and, $$B$$ to, about, updating formula는 as follows:.
+The derived updating formulas for $$H$$ and $$B$$ are as follows.
 
 >$$
 > B^+ = B - \frac{Bss^TB}{s^TBs} + \frac{yy^T}{y^Ts}

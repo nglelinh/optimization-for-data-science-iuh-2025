@@ -24,7 +24,7 @@ Here, $$P_C(x)$$ is the projection of the point $$x$$ onto the set $$C$$, i.e., 
 \partial dist(x,C) = \{\frac{x-P_C(x)}{ \| x-P_C(x) \|_2}\}
 \end{equation}
 
-#### Proof
+### Proof
 
 If $$u=P_C(x)$$, then by the first-order optimality condition,
 >

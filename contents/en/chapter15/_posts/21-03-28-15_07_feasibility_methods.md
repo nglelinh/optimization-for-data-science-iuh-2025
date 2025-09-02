@@ -1,8 +1,13 @@
+---
 layout: post
 title: 15-07 Feasibility methods
 chapter: "15"
 order: 13
+categories:
+- chapter16
 owner: "Minjoo Lee"
+---
+
 So far, we have implicitly assumed that the first centering step ($$t = t^{(0)}$$) starts from a strictly feasible point to compute $$x^{(0)} = x^*$$.
 
 This means that $$x$$ is a strictly feasible point satisfying the following conditions:

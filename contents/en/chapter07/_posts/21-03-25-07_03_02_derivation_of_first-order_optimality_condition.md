@@ -13,7 +13,7 @@ lang: en
 
 If $$f$$ is convex and differentiable, the subgradient optimality condition coincides with the first-order optimality condition, as shown below.
 
-#### Proof
+### Proof
 >
 $$
 \begin{alignat}{2}

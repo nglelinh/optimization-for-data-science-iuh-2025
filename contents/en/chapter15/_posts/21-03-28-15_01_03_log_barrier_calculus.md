@@ -1,8 +1,12 @@
+---
 layout: post
 title: 15-01-03 Log barrier calculus
 chapter: "15"
 order: 5
 owner: "Minjoo Lee"
+categories:
+- chapter15
+---
 The gradient and Hessian of the log barrier function are as follows.
 >
 \begin{align}

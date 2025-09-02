@@ -24,14 +24,14 @@ Let the matrix $$Y \in \mathbb{R}^{m\times n}$$ represent the observed data, and
 
 The first term in the objective function aims to minimize the error between matrix $$B$$ and the observed data, while the second term encourages matrix $$B$$ to be low-rank. (It is assumed that matrix B resides on a low-dimensional manifold.) Consequently, matrix $$B$$ fills in the missing entries with the lowest-dimensional values that align with the observed data.
 
-#### [Reference] Trace Norm
+### [Reference] Trace Norm
 The trace norm of a matrix is defined as the sum of its singular values.
 
 > $$\lVert B \rVert_{tr} = \text{trace}(\sqrt{B^* B}) = \sum_{i=1}^r \sigma_i(B), \quad r = rank(B)$$
 
 Here, $$B^* B$$ is positive semi-definite, and the singular values are ordered as $$\sigma_1(X) \ge ... \ge \sigma_r(X) \ge 0$$.
 
-#### [Reference] **L1** Norm Regularizer vs. Trace Norm Regularizer
+### [Reference] **L1** Norm Regularizer vs. Trace Norm Regularizer
 This problem can be interpreted as matrix soft-thresholding, where the vector in the original soft-thresholding is substituted with a matrix. In the regularizer term, the **L1** norm regularizer for vectors ($$\lVert \cdot \rVert_{1}$$) is replaced by the trace norm regularizer ($$\lVert \cdot \rVert_{tr}$$) for matrices, and indeed, the functions of the two regularizers are analogous.
 
 The **L1** norm regularizer induces sparsity in the vector, while the trace norm regularizer similarly induces sparsity in the singular value vector of the matrix. When the matrix is diagonal, the diagonal elements can be viewed as the singular value vector, and the trace norm regularizer minimizes the sum of the singular values, promoting sparsity in the singular value vector.
@@ -40,7 +40,7 @@ In this context, the trace norm $$\lVert B \rVert_{tr}$$ serves as an approximat
 
 ## Proximal gradient descent
 When this problem is framed using a projection operator, proximal gradient descent can be effectively utilized.
-#### Projection Operator
+### Projection Operator
 Let's define the projection operator $$P_\Omega$$ for the observed values as follows:
 
 > $$[ P_\Omega(B) ] _{ij} =
@@ -49,14 +49,14 @@ B_{ij}, & (i,j) ∈ \Omega \\\
 0, & (i,j) \notin \Omega
 > \end{cases}$$
 
-#### Objective Function
+### Objective Function
 Utilizing the projection operator, the objective function is defined as:
 
 >$$f(B) = \underbrace{ \frac{1}{2} \lVert P_\Omega(Y) − P_\Omega(B) \rVert_F^2 }_{g(B)} + \underbrace{ \lambda \lVert B \rVert_{tr} }_{h(B)}$$
 
 Now, the function $$f(B)$$ consists of a differentiable part $$g(B)$$ and a non-differentiable part $$h(B)$$.
 
-#### Proximal Mapping
+### Proximal Mapping
 To apply proximal gradient descent, we need to compute the gradient of the function $$g(B)$$ and define the proximal mapping.
 
 * Gradient of $$g(B)$$: $$\nabla g(B) = −(P_\Omega(Y )−P_\Omega(B))$$
@@ -66,7 +66,7 @@ To apply proximal gradient descent, we need to compute the gradient of the funct
 \text{prox}_t (B) = \underset{Z}{\text{argmin}} \frac{1}{2t} \Vert B−Z \Vert_F^2 + \lambda \Vert Z \Vert_{tr}
 \end{align} $$
 
-#### Matrix SVD & Soft-thresholding
+### Matrix SVD & Soft-thresholding
 The proximal mapping corresponds to matrix soft-thresholding at level $$\lambda$$: $$\text{prox}_t(B) = S_{\lambda t}(B)$$.
 
 Typically, matrix $$B$$ is large, so Singular Vector Decomposition (SVD) is employed to minimize the computational load. If we perform SVD such that $$B = U \Sigma V^T$$, then $$S_\lambda(B)$$ can be defined as:
@@ -78,7 +78,7 @@ Here, $$\Sigma_\lambda$$ is a diagonal matrix defined as follows:
 > $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$
  
 
-#### [Reference] $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$  inducement
+### [Reference] $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$  inducement
 How is this expression derived? Assuming $$\text{prox}_t(B) = Z$$, we have:
 (Differentiating the right-hand side of $$\text{prox}_t(B)$$ with respect to Z yields the following result.)
 
@@ -99,7 +99,7 @@ Thus, we have $$\text{prox}_t(B) = S_\lambda(B) = Z$$, leading to the derivation
 
 > $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$
 
-#### [Reference] Derivative of Trace Norm
+### [Reference] Derivative of Trace Norm
 If $$Z = U \Sigma V^T$$, the derivative of the trace norm is given by: 
 > $$\partial \lVert Z \rVert_{tr} = \{UV^T + W : \lVert W \rVert_{op} ≤ 1, U^TW = 0, WV = 0 \}$$
 
@@ -107,7 +107,7 @@ Here, $$\lVert W \rVert_{op}$$ represents the operator norm, with the largest si
 
 * For proof, refer to [Derivative of the nuclear norm with respect to its argument](https://math.stackexchange.com/questions/701062/derivative-of-the-nuclear-norm-with-respect-to-its-argument)
 
-#### Proximal gradient update
+### Proximal gradient update
 Now, let's define the proximal gradient update equation.
 
 > $$B^+ = S_{\lambda t} ( B + t( P_\Omega(Y) − P_\Omega(B) ) )$$

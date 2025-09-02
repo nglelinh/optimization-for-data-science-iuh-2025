@@ -20,7 +20,7 @@ Let’s take a closer look at the following two approaches:
 > \sum_{k=1}^{\infty} t_k = \infty, \quad \sum_{k=1}^{\infty} t_k^{2} < \infty
 >\end{align}
 
-#### Example of Diminishing step sizes
+### Example of Diminishing step sizes
 
 > $$\begin{align}
 & t_k = \frac{1}{k}, k = 1,2,3,... \\

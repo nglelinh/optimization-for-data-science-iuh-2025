@@ -20,11 +20,13 @@ For a convex problem where the objective function $$f$$ is differentiable, the f
 > $$\nabla f(x)^{T}(y-x) \geq 0 \\
 > \text{ for all } y \in C$$
 
-This is called the *first-order condition for optimality*. <br>
+This is called the *first-order condition for optimality*. 
+
 $$\nabla f(x)^{T}(y-x) = 0$$ defines a hyperplane passing through $$x$$ in set $$C$$, and $$- \nabla f(x)$$ points in the direction of movement toward the optimal point $$x$$. <br><br>
-If the above condition is satisfied, <br>
-set $$C$$ is contained in the half-space opposite to $$- \nabla f(x)$$, <br>
-so $$x$$ is an optimal point.<br>
+
+If the above condition is satisfied, 
+set $$C$$ is contained in the half-space opposite to $$- \nabla f(x)$$, 
+so $$x$$ is an optimal point.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -34,8 +36,8 @@ so $$x$$ is an optimal point.<br>
 </figure>
 <br>
 
-#### Important special case
-When $$C = \mathbb{R}^n$$ (unconstrained optimization), <br>
+### Important special case
+When $$C = \mathbb{R}^n$$ (unconstrained optimization),
 the optimality condition is:
 > $$\nabla f(x) = 0$$
 

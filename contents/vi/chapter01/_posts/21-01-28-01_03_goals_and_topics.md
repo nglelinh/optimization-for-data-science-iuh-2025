@@ -30,7 +30,7 @@ In particular, the main focus will be on algorithms.
 ## Algorithms
 There are many different methods for solving optimization problems. The performance of each method depends on the properties of the problem being solved. To choose the most efficient algorithm, a deep understanding of both the problem and the algorithms is required. Let's look at an example: total variation denoising.
 
-#### Example: Total variation denoising
+### Example: Total variation denoising
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -49,7 +49,7 @@ Suppose you receive a noisy image (middle), and you want to remove the noise to 
 
 The convex optimization problem above can be solved using the [Specialized ADMM](http://stanford.edu/~boyd/admm.html) algorithm, which yields the solution on the right after 20 iterations.
 
-#### Specialized ADMM, 20 iterations
+### Specialized ADMM, 20 iterations
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter01/result1.png" alt="Result1" width="50%">
@@ -57,7 +57,7 @@ The convex optimization problem above can be solved using the [Specialized ADMM]
 </p>
 </figure>
 
-#### Proximal gradient descent, 1000 iterations
+### Proximal gradient descent, 1000 iterations
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter01/result2.png" alt="Result2" width="50%">
@@ -65,7 +65,7 @@ The convex optimization problem above can be solved using the [Specialized ADMM]
 </p>
 </figure>
 
-#### Coordinate descent, 10K cycles
+### Coordinate descent, 10K cycles
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter01/result3.png" alt="Result3" width="50%">

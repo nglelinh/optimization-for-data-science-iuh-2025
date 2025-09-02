@@ -21,7 +21,7 @@ Here, $$\succeq_{K^*}$$ is called the **dual** of $$\succeq_K$$, i.e., the **dua
 
 > $$y \succeq_{K^*} 0 \iff y^T x \ge 0$$ for all $$x \succeq_K 0$$
 
-#### Key properties of generalized and dual inequalities
+### Key properties of generalized and dual inequalities
 
 * $$x \preceq_K y$$ if and only if $$\lambda^T x \le \lambda^T y$$ for all $$\lambda \succeq_{K^*} 0$$.
 * $$x \prec_K y$$ if and only if $$\lambda^T x < \lambda^T y$$ for all $$\lambda \succeq_{K^*} 0, \lambda \ne 0$$.
@@ -34,7 +34,7 @@ For example, $$\lambda \preceq_K^* \mu$$ if and only if $$\lambda^T x \le \mu^T 
 
 For a generalized inequality induced by a proper cone $$K$$, we can use dual generalized inequalities to characterize the minimum and minimal elements of a (possibly nonconvex) set $$S \subseteq \mathbb{R}^m$$.
 
-#### Minimum element
+### Minimum element
 
 For all $$ \lambda \succ_K^* 0$$ and $$z \in S$$,
 
@@ -50,7 +50,7 @@ Geometrically, this means that for some $$ \lambda \succ_K^* 0 $$, the hyperplan
 </p>
 </figure>
 
-#### Minimal element
+### Minimal element
 
 The necessary and sufficient conditions for minimal elements differ slightly.
 
@@ -84,7 +84,7 @@ This converse theorem does not strengthen with $$\lambda_1 \succ_K^* 0$$. In the
 </p>
 </figure>
 
-#### Optimal production frontier
+### Optimal production frontier
 Consider a product that needs to be produced using n resources (labor, electricity, natural gas, water, etc.).
 This product can be produced in several ways. For each production method, there is a resource vector $$x \in \mathbb{R}$$, where $$x_i$$ denotes the amount of resource $$i$$ consumed. It is assumed that the resource consumption $$x_i$$ is nonnegative, and the resources have high value.
 

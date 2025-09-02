@@ -24,7 +24,7 @@ $$
 
 The subdifferential of this function has the following geometric meaning:
 
-#### Lemma
+### Lemma
 For $$x \in C$$, the subdifferential $$\partial I_C(x)$$ coincides with the normal cone $$\mathcal{N}_C(x)$$ to the set $$C$$ at $$x$$:
 
 >
@@ -32,7 +32,7 @@ For $$x \in C$$, the subdifferential $$\partial I_C(x)$$ coincides with the norm
 \mathcal{N}_C(x) = \{g \in \mathbb{R}^n | g^Tx \geq g^Ty \text{  for all  } y \in C \}
 \end{equation}
 
-#### Proof
+### Proof
 
 By definition, the subgradient must satisfy:
 >

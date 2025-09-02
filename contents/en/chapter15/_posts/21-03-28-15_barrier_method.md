@@ -1,8 +1,12 @@
+---
 layout: post
 title: 15 Barrier Method
 chapter: "15"
 order: 1
+categories:
+- chapter16
 owner: "Minjoo Lee"
+---
 
 In this chapter, we will look at one of the 2nd-order methods, the **Barrier Method**.
 

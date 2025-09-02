@@ -1,8 +1,13 @@
+---
 layout: post
 title: 15-04 Barrier method v.0 and v.1
 chapter: "15"
 order: 10
 owner: "Minjoo Lee"
+categories:
+- chapter16
+---
+
 ## Barrier method v.0
 **Barrier method v.0** chooses $$t = m/\epsilon$$ for $$\epsilon > 0$$ and solves the following barrier problem to obtain $$f(x^*(t)) - f(x^*) \le \epsilon $$.
 >
@@ -23,7 +28,7 @@ $$\begin{align}
  &\text{subject to } \ && Ax = b \\
 \end{align}$$
 
-#### Algorithm
+### Algorithm
 The algorithm can be described as follows.
 
 1. Choose $$t^{(0)} > 0$$ and set $$k := 0$$.
@@ -34,25 +39,25 @@ The algorithm can be described as follows.
         At $$t = t^{(k+1)}$$, solve the barrier problem to obtain $$x^{(k+1)} = x^*(t)$$.<br>
   end while<br>
 
-#### Comments
+### Comments
 * **Common update method**: $$t^{(k+1)} = \mu t^{(k)}$$, ($$\mu > 1$$)
-* **Warm start** :  단계 3-2에서는 이전 단계의 solution을 다음 단계의 초기값으로 사용하는데 이를 warm start라고 한다.
-* **Centering step** :  알고리즘에서 barrier problem을 푸는 단계인 2와 3-2를 centering step ( or outer iteration)이라고 한다.
+* **Warm start**: In step 3-2, the solution from the previous step is used as the initial value for the next step, which is called warm start.
+* **Centering step**: Steps 2 and 3-2 in the algorithm, which solve the barrier problem, are called centering steps (or outer iterations).
 
-#### Considerations
-$$\mu$$와 $$t^{(0)}$$의 선택에 있어서, 다음의 trade off를 고려해야 한다.
-###### $$\mu$$의 선택
-* $$\mu$$가 너무 작다면, outer iteration이 많아진다. (이 경우 warm start가 도움이 된다.)<br>
-* $$\mu$$가 너무 크다면, 모든 centering step에서 newton method가 수렴할 때까지 iteration을 많이 해야 한다. 
+### Considerations
+In choosing $$\mu$$ and $$t^{(0)}$$, the following trade-offs must be considered.
+##### $$\mu$$의 선택
+* If $$\mu$$ is too small, the number of outer iterations increases. (In this case, warm start helps.)<br>
+* If $$\mu$$ is too large, many iterations are required for Newton's method to converge in every centering step. 
 
-###### 알고리즘 초기값 선택
-* $$t^{(0)}$$가 너무 작다면, outer iteration이 많아진다.<br>
-* $$t^{(0)}$$가 너무 크다면, v.0과 같은 문제가 된다. 따라서, 첫번째 centering step에서 newton method가 $$x^{(0)}$$을 구하기 위해 iteration을 많이 해야 한다. 
+##### 알고리즘 초기값 선택
+* If $$t^{(0)}$$ is too small, the number of outer iterations increases.<br>
+* If $$t^{(0)}$$ is too large, it becomes the same problem as v.0. Therefore, Newton's method requires many iterations to find $$x^{(0)}$$ in the first centering step. 
 
-다행히도 실제 barrier method의 성능은 $$\mu$$와 $$t^{(0)}$$의 선택에 매우 robust한 편이다. 그리고, 이들 parameter의 적절한 범위는 문제의 크기에 따라 달라진다.
+Fortunately, the performance of the actual barrier method is very robust to the choice of $$\mu$$ and $$t^{(0)}$$. Moreover, the appropriate range of these parameters varies depending on the problem size.
 
 ## Example of small LP
-다음 그릠에는 n=50 dimensions, m=100 inequality constraints 조건의 LP 문제를 barrier method로 실행했을 때 성능을 보여주고 있다. $$\mu = 2$$인 경우 outer iteration이 커지고 $$\mu=150$$인 경우에 centering step이 $$\mu=50$$일 때보다 상대적으로 증가했음을 확인할 수 있다.
+The following figure shows the performance when executing an LP problem with n=50 dimensions and m=100 inequality constraints using the barrier method. It can be confirmed that when $$\mu = 2$$, the outer iterations increase, and when $$\mu=150$$, the centering steps increase relatively compared to when $$\mu=50$$.
 
 <figure class="image" style="align: center;">
 <p align="center">

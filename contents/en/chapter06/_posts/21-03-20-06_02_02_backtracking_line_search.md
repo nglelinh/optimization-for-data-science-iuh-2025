@@ -11,7 +11,7 @@ lang: en
 
 If a fixed step size is used in gradient descent, the convergence speed is always the same, which can be problematic in ill-conditioned regions (where the minimum is missed or progress is slow). To address this, the step size can be adaptively chosen to match the function's curvature. One such method is **backtracking line search**.
 
-#### What is Backtracking Line Search?
+### What is Backtracking Line Search?
 This method tries a step from the current position, and if the step is too large, it backtracks. The figure below shows how backtracking line search determines the step size.
 
 <figure class="image" style="align: center;">
@@ -25,7 +25,7 @@ In a convex function $$f$$, the search region is restricted to a line. The lower
 
 If the step is too large, $$t$$ is reduced until $$f$$ falls below the line. The final $$t$$ is in the interval $$0 \le t \le t_0$$.
 
-#### Backtracking Line Search Algorithm
+### Backtracking Line Search Algorithm
 Summarized as follows (with $$\Delta x = - \nabla f(x)$$):
 
 1. Initialize parameters ($$0 < \beta < 1$$, $$0 < \alpha \le 1/2$$).
@@ -36,7 +36,7 @@ Summarized as follows (with $$\Delta x = - \nabla f(x)$$):
 
 Backtracking line search is simple and effective. The parameter $$\alpha$$ determines the direction, and $$\beta$$ determines how much to backtrack. Typically, $$\alpha = 1/2$$ and $$\beta$$ is chosen close to 1.
 
-#### Backtracking Line Search Example
+### Backtracking Line Search Example
 With adaptive step size, convergence is much faster than with a fixed step size (e.g., 12 steps vs. 100 steps for the same problem). Including backtracking steps, total convergence is achieved in about 40 steps.
 
 <figure class="image" style="align: center;">
@@ -46,7 +46,7 @@ With adaptive step size, convergence is much faster than with a fixed step size 
 </p>
 </figure>
 
-#### Intuition of Backtracking Line Search
+### Intuition of Backtracking Line Search
 A quadratic approximator for $$f$$ is:
 > $$f(y) \approx f(x) + \nabla f(x)^T(y-x) + \frac{1}{2t} \|y - x\|_2^2$$
 For $$y = x - t \nabla f(x)$$:

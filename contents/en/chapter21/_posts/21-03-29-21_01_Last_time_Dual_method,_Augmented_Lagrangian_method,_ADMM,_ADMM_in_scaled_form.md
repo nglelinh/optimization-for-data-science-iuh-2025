@@ -118,7 +118,7 @@ ADMM은 제약식 내의 Aand, B가 full rank라는 가정 없이, $$f$$and, $$g
 Convergence rateabout,서는 아직 generally, informing,지진 않았고, 연구가 이루어지고있다. Convergenceto, about, reference문헌은 [21장 소개파트]({% multilang_post_url contents/chapter21/21-03-29-21_00_Alternating_Direction_Method_of_Multipliers %})to, 서술되어있다.
 
 ## ADMM in scaled form
-ADMM의 dual variable $$u$$를 scale된 variable $$w=u/\rho$$to, 바꾸어서 scaled formwith, 표현할 수 있다. 이를 in summary,, ADMM step은 as follows: 나타낼 수 있다. 
+We can express ADMM in scaled form by changing the dual variable $$u$$ to the scaled variable $$w=u/\rho$$. In summary, the ADMM steps can be represented as follows: 
 >$$
 >\begin{align}
 &x^{(k)} = \underset{x}{\operatorname{argmin}} f(x) + \frac{\rho}{2} ||Ax + Bz^{(k-1)} - c + w^{(k-1)} ||_2^2 \\\\
@@ -127,7 +127,7 @@ ADMM의 dual variable $$u$$를 scale된 variable $$w=u/\rho$$to, 바꾸어서 sc
 \end{align}
 >$$
 
-여기서, $$w^{(k)}$$은 매순간 residual의 $$k$$번째 to,의 sumwith, 아래처럼도 표현 가능하다. 
+Here, $$w^{(k)}$$ can also be expressed as the sum of residuals up to the $$k$$-th iteration as shown below. 
 >$$
 >\begin{align}
 w^{(k)} = w^{(0)} + \sum_{i=1}^k (Ax^{(i)} + Bz^{(i)} - c) 

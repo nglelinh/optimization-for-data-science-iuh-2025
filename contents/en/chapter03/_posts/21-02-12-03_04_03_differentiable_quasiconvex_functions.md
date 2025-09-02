@@ -12,8 +12,8 @@ lang: en
 This section discusses the properties and characterizations of differentiable quasiconvex functions.
 
 ## First-order conditions
-$$f : \mathbb{R}^n \rightarrow \mathbb{R}$$가 미분 가능 함수라고 하자. $$\text{dom}f$$가 convex 이고, 다음 조건을 만족하면 $$f$$는 quasiconvex 이다.
->$$f$$ is quasiconvex $$\iff$$ $$f(y) \preceq f(x) , \nabla f(x)^T(y-x) \leq 0.$$ for all $$x, y \in \text{dom}f$$
+Let $$f : \mathbb{R}^n \rightarrow \mathbb{R}$$ be a differentiable function. If $$\text{dom}f$$ is convex and the following condition is satisfied, then $$f$$ is quasiconvex.
+>$$f$$ is quasiconvex $$\iff$$ $$f(y) \leq f(x) \Rightarrow \nabla f(x)^T(y-x) \leq 0$$ for all $$x, y \in \text{dom}f$$
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -21,24 +21,24 @@ $$f : \mathbb{R}^n \rightarrow \mathbb{R}$$가 미분 가능 함수라고 하자
  <figcaption style="text-align: center;">[Fig1]</figcaption>
 </p>
 </figure>
-**quasiconvex function f 안에서 3개의 level curve를 보여준다. $$\nabla f(x)$$는 $$x$$에서의 sublevel set $$\{z \mid f(z) \leq f(x)\}$$의 supporting hyperplane을 정의하는 normal vector가 된다.**
+**Three level curves of a quasiconvex function $$f$$. $$\nabla f(x)$$ is the normal vector that defines the supporting hyperplane of the sublevel set $$\{z \mid f(z) \leq f(x)\}$$ at $$x$$.**
 
 
-Quasiconvexity의 First-order condition이 convexity의 First-order characterization ([03-01-03 ]({% multilang_post_url contents/chapter03/21-02-12-03_01_03_key_properties_of_convex_functions %})참조)과 유사해 보이지만, 중요한 차이가 존재한다. 예를 들면, $$f$$가 convex이고, $$\nabla f(x) = 0$$이라면, $$x$$는 $$f$$의 global minimizer라는 것이 성립하지만, quasiconvex function에서는 항상 성립하지 않는다.
+The first-order condition for quasiconvexity appears similar to the first-order characterization of convexity (see [03-01-03]({% multilang_post_url contents/chapter03/21-02-12-03_01_03_key_properties_of_convex_functions %})), but there are important differences. For example, if $$f$$ is convex and $$\nabla f(x) = 0$$, then $$x$$ is a global minimizer of $$f$$, but this does not always hold for quasiconvex functions.
 
 <br>
 ## Second-order conditions
 
-$$f$$가 두번 미분 가능할 때, Second-order conditions가 적용된다. 만약 $$f$$가 quasiconvex라면, 모든 $$x \in text{dom}f$$ 그리고 모든 $$y \in \mathbb{R}^n$$에 대하여, 다음 식이 성립한다.
+When $$f$$ is twice differentiable, second-order conditions apply. If $$f$$ is quasiconvex, then for all $$x \in \text{dom}f$$ and all $$y \in \mathbb{R}^n$$, the following holds:
 >$$f$$ is quasiconvex, $$y^T \nabla f(x) = 0 \Longrightarrow y^T \nabla^2 f(x)y \geq 0$$ for all $$x \in \text{dom} f$$, all $$y \in \mathbb{R}^n$$ <br>
 
-$$\mathbb{R}$$에서 quasiconvex일 때,
+For quasiconvex functions on $$\mathbb{R}$$:
 
->$$f$$ is quasiconvex, $$f'(x) = 0 \Longrightarrow f''(x) \geq 0$$
+>$$f$$ is quasiconvex, $$f'(x) = 0 \Rightarrow f''(x) \geq 0$$
 
-즉, zero slope를 갖는 임의의 포인트가 존재한다면, 2차 미분 값은 non-negative가 된다. 다시 $$R^n$$으로 돌아와서, Second-order condition은 다음과 같은 성질 또한 만족한다. <br>
+That is, if there exists any point with zero slope, the second derivative value is non-negative. Returning to $$\mathbb{R}^n$$, the second-order condition also satisfies the following properties:
 
-1) $$ \nabla f(x) = 0$$일 때, 항상 $$\nabla^2f(x) \succeq 0$$이 만족되어야 한다. <br>
-2) $$ \nabla f(x) \neq 0$$이라면, $$y^T \nabla f(x) = 0 \Longrightarrow y^T \nabla^2 f(x)y \geq 0$$ 에서 $$\nabla^2 f(x)$$ 가 헤시안 행렬로 작용하여, $$(n$$-$$1)$$-$$dimensional$$ $$subspace \nabla f(x)^\perp$$에서 positive semidefinite이 된다.
+1) When $$\nabla f(x) = 0$$, we must always have $$\nabla^2f(x) \succeq 0$$.
+2) If $$\nabla f(x) \neq 0$$, then $$y^T \nabla f(x) = 0 \Rightarrow y^T \nabla^2 f(x)y \geq 0$$, where $$\nabla^2 f(x)$$ acts as the Hessian matrix and is positive semidefinite on the $$(n-1)$$-dimensional subspace $$\nabla f(x)^\perp$$.
 
-($(n-1)$-dimensional subspace $$\nabla f(x)^\perp$$은 $$\nabla f(x)$$와 직교하는 $$(n-1)$$ 차원의 subspace를 의미한다. $$(n-1)$$차원인 이유는 $$\nabla f(x)$$가 n차원 함수 $$f$$를 미분했기 떄문에 차원이 하나 줄었기 때문이다.)
+(The $$(n-1)$$-dimensional subspace $$\nabla f(x)^\perp$$ means the $$(n-1)$$-dimensional subspace orthogonal to $$\nabla f(x)$$. It is $$(n-1)$$-dimensional because $$\nabla f(x)$$ is the gradient of an $$n$$-dimensional function $$f$$, reducing the dimension by one.)

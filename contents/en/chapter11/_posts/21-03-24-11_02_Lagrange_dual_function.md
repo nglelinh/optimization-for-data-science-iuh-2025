@@ -37,7 +37,7 @@ For example, in the figure below
 
 
 ## Example: Quadratic Program
-####  1) Positive Definite ($$Q \succ 0$$)
+###  1) Positive Definite ($$Q \succ 0$$)
 
 Consider the following quadratic problem (here $$Q \succ 0$$)
 >
@@ -51,7 +51,7 @@ $$
 
 Then,
 
-##### Lagrangian:
+#### Lagrangian:
 >
 $$
 \begin{equation}
@@ -59,7 +59,7 @@ L(x,u,v) = \frac{1}{2}x^T Q x + c^T x - u^Tx + v^T (Ax-b)
 \end{equation}
 $$
 
-##### Lagrangian dual function:
+#### Lagrangian dual function:
 
 From the expression above, to minimize the Lagrangian function, differentiate with respect to $$x$$ and find $$x^*$$ such that the derivative is zero.
 \begin{equation}
@@ -89,10 +89,10 @@ $$
 
 For all $$u \geq 0$$ and $$v$$, this corresponds to a lower bound on the primal optimum $$f^*$$.
 
-#### 2) Positive Semidefinite ($$Q \succeq 0$$)
+### 2) Positive Semidefinite ($$Q \succeq 0$$)
 위와 같은문제이나, 이번에는 $$Q \succeq 0$$ 이면,
 
-##### Lagrangian:
+#### Lagrangian:
 >
 $$
 \begin{equation}
@@ -100,7 +100,7 @@ L(x,u,v) = \frac{1}{2}x^T Q x + c^T x - u^Tx + v^T (Ax-b)
 \end{equation}
 $$
 
-##### Lagrangian dual function:
+#### Lagrangian dual function:
 $$Q$$가 positive definite 할 때 처럼, 아래 식을 만족하는 $$x^*$$를 찾아야 한다.
 
 $$

@@ -10,7 +10,7 @@ lang: en
 ---
 
 ## Convergence analysis
-Frank-Wolfe method의 convergence 특성을 finding out,기 for,, 아래and, 같이 $$C$$to, about, $$f$$의 곡률 constant를 정의할 필요가 있다.[Jaggi (2011)]
+To find out the convergence characteristics of the Frank-Wolfe method, it is necessary to define the curvature constant of $$f$$ for $$C$$ as follows. [Jaggi (2011)]
 > $$M = \max_{x,s,y∈C, y = (1−γ)x+γs} \frac{2}{γ^2} \Bigl( f(y) − f(x) − ∇f(x)^T(y − x) \Bigr)$$
 > $$γ ∈ [0, 1]$$
 
@@ -31,7 +31,7 @@ Frank-Wolfe convergence 속도를 증명하는 데 사용되는 **key inequality
 
 여기서 $$g(x) = \max_{s∈C} ∇f(x)^T(x − s)$$는 앞서 논의한 duality gap 을 의미하며, 귀납법according to, 이 비율은  inequality를 따르게 된다.
 
-#### [Proof] 
+### [Proof] 
 Basic inequality를 증명하기 for, $$x^+ = x^{(k)}, x = x^{(k−1)}, s = s^{(k−1)}, γ = γ_k$$ 를 지정한다. and, as follows: 정리한다.
 > $$\begin{align}
 > f(x^+) &= f\bigl( x + γ(s − x) \bigr) \\\

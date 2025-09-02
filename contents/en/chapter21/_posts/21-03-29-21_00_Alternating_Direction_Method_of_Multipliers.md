@@ -9,9 +9,9 @@ categories:
 lang: en
 ---
 
-이 장at,는 [20장]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %})at, 다루었던 ADMM을 조금 더 자세히 다루어보고자 한다. 기본적인 개념은 20장at, 다룬 내용and, depthat, 큰 difference이가 없고, 응용 사례들을 위주to, 살펴본다.
+This chapter aims to examine ADMM, which was covered in [Chapter 20]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %}), in more detail. The basic concepts are not significantly different in depth from what was covered in Chapter 20, and we will mainly look at application cases.
 
-#### reference 논문
+### Reference Papers
 
 * Boyd, Stephen, et al. [BPCPE11] "Distributed optimization and statistical learning via the alternating direction method of multipliers." Foundations and Trends® in Machine learning 3.1 (2011): 1-122.
 * Hong, Mingyi, and Zhi-Quan Luo. [HL12] "On the linear convergence of the alternating direction method of multipliers." Mathematical Programming 162.1-2 (2017): 165-199.

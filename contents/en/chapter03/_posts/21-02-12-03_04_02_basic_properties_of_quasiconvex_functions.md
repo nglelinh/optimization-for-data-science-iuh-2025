@@ -12,10 +12,10 @@ lang: en
 This section covers the basic properties of quasiconvex functions, including their relationship to convex functions and their behavior under various operations.
 
 ## Modified Jensen's inequality
-Quasiconvex는 Jensen's inequality 를 통해 다음과 같이 정의된다.
+Quasiconvex functions can be defined through Jensen's inequality as follows:
 >$$f(\theta x + (1 - \theta)y) \leq \max\{f(x), f(y)\}$$ for all $$x, y \in \text{dom}f, 0 \leq \theta \leq 1$$
 
-아래 그림은 함수 $$f$$가 quasiconvex 이면, 두 점에서 그은 선분 사이의 $$f$$값이 각 끝점에서의 $$f$$의 maximum을 넘지 않는다는 것을 보여준다.
+The figure below shows that if function $$f$$ is quasiconvex, then the value of $$f$$ along the line segment between two points does not exceed the maximum of $$f$$ at the endpoints.
 <br><br>
 
 <figure class="image" style="align: center;">
@@ -24,16 +24,16 @@ Quasiconvex는 Jensen's inequality 를 통해 다음과 같이 정의된다.
  <figcaption style="text-align: center;">[Fig1]</figcaption>
 </p>
 </figure>
-**quasiconvex function on $$\mathbb{R}$$. x와 y 사이의 f값은 $$\max\{f(x), f(y)\}$$ 보다 작다.**
+**quasiconvex function on $$\mathbb{R}$$. The values of $$f$$ between $$x$$ and $$y$$ are less than $$\max\{f(x), f(y)\}$$.**
 
 <br>
 
 ## Quasiconvex function on $$\mathbb{R}$$
-연속함수 $$f : \mathbb{R} \mapsto \mathbb{R}$$가 quasiconvex라는 것은 다음과 같은 조건 중 적어도 하나를 만족한다는 것을 의미한다.<br>
+A continuous function $$f : \mathbb{R} \mapsto \mathbb{R}$$ is quasiconvex if and only if it satisfies at least one of the following conditions:
 
-• $$f$$ is nondecreasing<br>
-• $$f$$ is nonincreasing<br>
-• 도메인 상의 특정 한 점, $$c \in \text{dom} f$$을 기준으로, $$t \leq c(t \in \text{dom}f)$$에 대해서, $$f$$는 nonincreasing하고, $$t \geq c(t \in \text{dom}f)$$에 대해서 $$f$$는 nondecreasing하다.<br><br>
+• $$f$$ is nondecreasing
+• $$f$$ is nonincreasing  
+• There exists a point $$c \in \text{dom} f$$ such that $$f$$ is nonincreasing on $$\{t \in \text{dom}f \mid t \leq c\}$$ and nondecreasing on $$\{t \in \text{dom}f \mid t \geq c\}$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -41,4 +41,4 @@ Quasiconvex는 Jensen's inequality 를 통해 다음과 같이 정의된다.
  <figcaption style="text-align: center;">[Fig2]</figcaption>
 </p>
 </figure>
-**quasiconvex function on $$\mathbb{R}$$. $$t leq c(t \in \text{dom} f)$$에서는 nonincreasing, $$t \geq c(t \in \text{dom} f)$$에서는 nondecreasing 하다.**
+**quasiconvex function on $$\mathbb{R}$$. It is nonincreasing for $$t \leq c$$ where $$t \in \text{dom} f$$, and nondecreasing for $$t \geq c$$ where $$t \in \text{dom} f$$.**

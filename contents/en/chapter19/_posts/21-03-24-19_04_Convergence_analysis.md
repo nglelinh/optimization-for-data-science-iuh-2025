@@ -9,38 +9,38 @@ categories:
 lang: en
 ---
 
-Proximal newton method의 convergence을 분석하기 for, Lee (2014) [1] 논문의 증명을 따를 것이다.
+To analyze the convergence of the Proximal Newton method, we will follow the proof from Lee (2014) [1].
 
 [1] J. Lee and Y. Sun and M. Saunders (2014), Proximal Newton-type methods for minimizing
 
-convergence을 증명하기 for, as follows: 가정한다.
+To prove convergence, we make the following assumptions:
 
-* $$f = g + h$$, $$g$$and, $$h$$는 convex이고 $$g$$는 2difference differentiable (smooth)
+* $$f = g + h$$, $$g$$ and $$h$$ are convex and $$g$$ is twice differentiable (smooth)
 * $$mI \preceq \nabla^2 g(x) \preceq LI$$.
-* $$\nabla^2 g(x)$$ Lipschitz with constant $$M$$
-* $$\text{prox}_H(\cdot)$$는 정확히 computation 가능
+* $$\nabla^2 g(x)$$ is Lipschitz with constant $$M$$
+* $$\text{prox}_H(\cdot)$$ can be computed exactly
 
-위to, 세가지 가정은 strictly convex라는 것을 의미하며 $$\text{prox}_H(\cdot)$$가 정확히 computation이 가능하다고 가정한 것은 실제 이렇게 되기가 쉽지 않기 because,이다.
+The above three assumptions imply that the function is strictly convex, and assuming that $$\text{prox}_H(\cdot)$$ can be computed exactly is because this is not easy to achieve in practice.
  
 ## Convergence Theorem
 
-> **Proximal newton method**는 backtracking line search를 using,서 global하게 convergence한다.
+> **Proximal Newton method** converges globally using backtracking line search.
 > \begin{align}
 \parallel x^{(k)} - x^{\star} \parallel_2 \le \frac{M}{2m} \parallel x^{(k-1)} - x^{\star} \parallel_2^2
 \end{align}
 
-이것을 **local quadratic convergence**라고 한다. $$k \ge k_0$$after,to, $$f(x^{(k)}) - f^{\star} \le \epsilon$$을 만족하기 for,서는 $$O(\log \log (1/\epsilon))$$의 iteration이 필요하다. 단, 각 iterationat, scaled prox를 사용한다.
+This is called **local quadratic convergence**. After $$k \ge k_0$$, to satisfy $$f(x^{(k)}) - f^{\star} \le \epsilon$$, $$O(\log \log (1/\epsilon))$$ iterations are needed. However, each iteration uses a scaled prox.
 
 ## Proof sketch
-**Global convergence**를 보이기 for,서는 어떤 stepat,도 다음and, 같은 step size $$t$$about, backtracking exit condition을 만족함을 보일 수 있다.
+To show **global convergence**, we can show that at any step, the backtracking exit condition for step size $$t$$ is satisfied as follows.
 
 > \begin{align}
 t \le \min \left\\{ 1, \frac{2m}{L} (1-\alpha) \right\\} \\\\
 \end{align}
 
-이 식with, global minimumto, 도달했을 when,인  update direction이 0with, convergence한다는 것을 보일 수 있다
+With this equation, we can show that when the global minimum is reached, the update direction converges to 0.
 
-**Local quadratic convergence**를 보이기 for, 충분히 여러번 iteration하게 되면 pure newton step $$t=1$$은 backtracking exit conditions을 만족하여 다음 식이 성립된다.
+To show **local quadratic convergence**, after sufficiently many iterations, the pure Newton step $$t=1$$ satisfies the backtracking exit conditions, and the following equation holds.
 
 > $$
 > \begin{align}
@@ -50,12 +50,12 @@ t \le \min \left\\{ 1, \frac{2m}{L} (1-\alpha) \right\\} \\\\
 > \end{align}
 > $$
 
-이를 정리solution 보면 as follows:.
+Summarizing this, we get the following:
 
 > \begin{align}
 \parallel x^{+} - x^{\star} \parallel_2 \ \le \ \frac{1}{\sqrt(m)} \parallel x^{+} - x^{\star} \parallel_H \  \le \ \frac{M}{2m} \parallel x - x^{\star} \parallel_2^2
 \end{align}
 
-* 첫번째 부등식은 lowest eigenvalue boundabout, 성립하며 등식은 $$x^+$$ 정의and, global minimum $$x^{\star}$$at, $$\text{prox}_H(\cdot)$$이 identity가 된다는 in fact,by, 성립한다.
+* The first inequality holds due to the lowest eigenvalue bound, and the equality holds by the fact that $$\text{prox}_H(\cdot)$$ becomes the identity at the definition of $$x^+$$ and global minimum $$x^{\star}$$.
 
-* 두번째 부등식은 proximal operator의 nonexpansiveness, Lipschitz assumption, largest eigenvalue boundby, 성립한다.
+* The second inequality holds due to the nonexpansiveness of the proximal operator, the Lipschitz assumption, and the largest eigenvalue bound.

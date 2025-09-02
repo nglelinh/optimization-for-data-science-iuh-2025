@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 20-04-02 Converegence Guarantee
+title: 20-04-02 Convergence Guarantee
 chapter: '20'
 order: 10
 owner: Hooncheol Shin
@@ -9,10 +9,14 @@ categories:
 lang: en
 ---
 
-$$f$$and, $$g$$to, about, 적당한 condition, 아래at, (Aand, B가 full rank일 필요는 없다), ADMM은 모든 $$\rho > 0$$about,서 다음을 만족한다. 
+# Convergence Guarantee for ADMM
 
-* **Residual convergence**: $$k$$가 $$\infty$$to, 갈 when,, $$r^{(k)} = A x^{(k)} - B z^{(k)} - c \to 0$$, that is, primal iteration이 feasibilityto, 접근한다.  
-* **Objective convergence**: $$f(x^{(k)} + g(x^{(k)} \to f^{\ast} + g^{\ast}$$, 여기서 $$f^{\ast} + g^{\ast}$$는 최적의 primal objective 값이다. 
-* **Dual convergence**: $$u^{(k)} \to u^{\ast}$$, 여기서 $$u^{\ast}$$는 dual solution 이다. 
+Under appropriate conditions on $$f$$ and $$g$$ (note that $$A$$ and $$B$$ do not need to be full rank), ADMM satisfies the following for all $$\rho > 0$$:
 
-정확한 convergence속도는 아직 informing,지지 않았으며, 현재 많은 연구가 진행중이다. 대략적with,는 first-order method and, 비슷하거나 약간 더 빠르게 동작한다. 
+* **Residual convergence**: As $$k \to \infty$$, $$r^{(k)} = Ax^{(k)} + Bz^{(k)} - c \to 0$$, meaning the primal iterates approach feasibility.
+
+* **Objective convergence**: $$f(x^{(k)}) + g(z^{(k)}) \to f^{\ast} + g^{\ast}$$, where $$f^{\ast} + g^{\ast}$$ is the optimal primal objective value.
+
+* **Dual convergence**: $$u^{(k)} \to u^{\ast}$$, where $$u^{\ast}$$ is the dual solution.
+
+The exact convergence rate is not yet fully understood, and much research is currently ongoing in this area. Roughly speaking, ADMM performs similarly to or slightly better than first-order methods. 

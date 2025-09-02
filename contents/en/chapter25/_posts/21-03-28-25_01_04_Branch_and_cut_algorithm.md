@@ -22,7 +22,7 @@ lang: en
 > \end{align}
 > $$
 
-#### Branch and cut algorithm
+### Branch and cut algorithm
 algorithmat, Convex Problem은 CPto, Integer Program은 IPto, 표기한다.
 
 1. 다음 convex relaxation problem를 푼다.

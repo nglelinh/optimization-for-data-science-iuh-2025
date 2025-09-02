@@ -9,7 +9,7 @@ categories:
 lang: en
 ---
 
-The Broyden class는 BFGS, DFP, SR1을 다음의 공식with, 일반화시킨다.
+The Broyden class generalizes BFGS, DFP, and SR1 with the following formula.
 
 * **Note:** $$B^+_{\text{BFGS}}$$and, $$B^+_{\text{DFP}}$$는 각각 BFGSand, DFPby, 유도되는 $$B^+$$다.
 

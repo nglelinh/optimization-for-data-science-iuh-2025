@@ -9,10 +9,10 @@ categories:
 lang: en
 ---
 
-Integer program을 동일한 convex problemwith, transformation하는 것을 convexification이라고 한다. Convexification을 하게 되면 feasible set이 polyhedron 형태가 되어 cutting plane algorithmat, valid한 cutting plane을 쉽게 찾을 수 있다.
+Transforming an integer program into an equivalent convex problem is called convexification. When convexification is performed, the feasible set becomes a polyhedron, making it easy to find valid cutting planes for the cutting plane algorithm.
 
 ## Convexification
-Integer program을 convexification하려면 objective function이 linearsolution야 한다. 이when,, Integer program의 constraint는 convex set인 $$C$$and, integer set인 $${x_j}$$to, 구성된다.
+To convexify an integer program, the objective function must be linear. In this case, the constraints of the integer program consist of a convex set $$C$$ and an integer set $${x_j}$$.
 
 > $$
 > \begin{align}
@@ -22,7 +22,7 @@ Integer program을 convexification하려면 objective function이 linearsolution
 > \end{align}
 > $$
 
-이when,, feasible set은 convex hull $$S := \text{conv} \left \{ x \in C : x_j \in \mathbb{Z}, j \in J \right \}$$to, 재정의할 수 있다. 이 convex hull $$S$$to, 정의된 feasible set을 using, 원래 problemand, 동일한 convex problem을 as follows: 정의할 수 있다. and,, 이러한 process을 convexification이라고 한다. 
+In this case, the feasible set can be redefined as the convex hull $$S := \text{conv} \left \{ x \in C : x_j \in \mathbb{Z}, j \in J \right \}$$. Using the feasible set defined by this convex hull $$S$$, we can define a convex problem equivalent to the original problem as follows. This process is called convexification. 
 
 > $$
 > \begin{align}
@@ -31,7 +31,7 @@ Integer program을 convexification하려면 objective function이 linearsolution
 > \end{align}
 > $$
 
-아래 그림을 보면 파란색 영역이 $$C$$이고 빨간색 점들이 $${x_j}$$이며, 이 두 setwith, 구성된 convex hull $$S$$는 빨간색 영역이다.
+In the figure below, the blue region is $$C$$, the red points are $${x_j}$$, and the convex hull $$S$$ formed by these two sets is the red region.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -41,10 +41,10 @@ Integer program을 convexification하려면 objective function이 linearsolution
 </figure>
 출처: https://commons.wikimedia.org/wiki/File:Cutting_plane_algorithm2.png <br><br>
 
-이 두 식이 동일한 reason,는 objective function이 linear하기 because,이다. 
+The reason these two formulations are equivalent is because the objective function is linear. 
 
 ## Special case: integer linear programs
-위의 convexification process을 다음and, 같은 integer linear programto, applying,보자.
+Let's apply the above convexification process to the following integer linear program.
 
 > $$
 > \begin{align}
@@ -54,9 +54,9 @@ Integer program을 convexification하려면 objective function이 linearsolution
 > \end{align}
 > $$
 
-Integer linear programat, convex hull $$S$$는 as follows: 정의된다.
+The convex hull $$S$$ of the integer linear program is defined as follows:
 
-> **Theorem** : if, $$A, b$$가 rational number라면 다음 set은 polygon이다.
+> **Theorem**: If $$A, b$$ are rational numbers, then the following set is a polygon.
 $$S := \text{conv} \left \{ x : Ax \le b,  x_j \in \mathbb{Z}, j \in J \right \}$$
 
-그렇다면 integer linear program은 linear program일까? of course, 그렇다. but,, 이when, polyhedron $$S$$의 형태는 부등식이 기하급수적with, 많은 매우 많은 복잡한 다각형이 될 수 있다. therefore,, generally, linear program을 풀기 위한 methodand,는 다른 methodwith, problem를 풀어야 한다.
+So is an integer linear program a linear program? Of course it is. However, in this case, the polyhedron $$S$$ can become a very complex polygon with an exponentially large number of inequalities. Therefore, generally, we need to solve the problem using different methods than those used to solve linear programs.

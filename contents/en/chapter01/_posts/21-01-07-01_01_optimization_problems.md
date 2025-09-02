@@ -21,16 +21,16 @@ A mathematical optimization problem can be expressed as follows:
 >&&& h_j(x) = 0,\ j = 1,\ ..., r
 >\end{align*}$$
 
-**Mathematical Optimization Problem in standard form [3]**
+**Mathematical Optimization Problem in standard form**
 
 * $$x \in \mathbb{R}^n$$ is the optimization variable
 * $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is the objective or cost function
 * $$g_i: \mathbb{R}^n \rightarrow \mathbb{R}, i = 1, ..., m$$ are the inequality constraint functions
 * $$h_j: \mathbb{R}^n \rightarrow \mathbb{R}, j = 1, ..., r$$ are the equality constraint functions
 
-The vector $$x$$ that minimizes the objective function $$f$$ over the feasible domain (the set of all points satisfying the constraints) is denoted as $$x^*$$ and called the optimal solution. [1]
+The vector $$x$$ that minimizes the objective function $$f$$ over the feasible domain (the set of all points satisfying the constraints) is denoted as $$x^*$$ and called the optimal solution.
 
-Constraints can be classified into two types: [2]
+**Constraints can be classified into two types:**
 
 1. Explicit constraints: Constraints that are directly specified in the optimization problem. In the standard form above, the constraints expressed by the functions $$g_i$$ and $$h_j$$ are explicit. If there are no explicit constraints, the problem is called an unconstrained problem.
 2. Implicit constraints: Constraints that are not directly specified, but arise from the intersection of the domains of the objective and constraint functions.
@@ -53,17 +53,17 @@ $$D = dom(f) \cap \bigcap_{i=1}^m {\rm dom}(g_i) \cap \bigcap_{j=1}^r dom(h_j)$$
 
 Optimization problems are applied in various fields. [2]
 
-#### Portfolio optimization
+### Portfolio optimization
 * variables: investment amount for each asset
 * constraints: budget, minimum/maximum investment per asset, minimum return
 * objective: overall risk or return variance
 
-#### Device sizing in electronic circuits
+### Device sizing in electronic circuits
 * variables: width and length of each component
 * constraints: manufacturing process limitations, maximum area
 * objective: power consumption
 
-#### Data fitting
+### Data fitting
 * variables: model parameters
 * constraints: prior information (e.g., some parameters are non-negative), parameter restrictions
 * objective: error in prediction

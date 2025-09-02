@@ -10,13 +10,13 @@ lang: en
 ---
 
 ## What's wrong with projected Newton?
-$$h$$가 convex set $$C$$의 indicator function $$h = I_c(x)$$일 when, problem는 as follows: 정의될 수 있다.
+When $$h$$ is the indicator function $$h = I_c(x)$$ of convex set $$C$$, the problem can be defined as follows:
 
 >$$ \min_{x} \ g(x) \quad  \text{subject to}  \quad  x \in C$$
 
-therefore,,  $$h(x) = I_c(x)$$이면 proximal gradient descent는 **projected gradient descent**가 된다. that is,, projected gradient descent는 proximal gradient descent의 special case이다.
+Therefore, if $$h(x) = I_c(x)$$, then proximal gradient descent becomes **projected gradient descent**. That is, projected gradient descent is a special case of proximal gradient descent.
 
-$$h(x) = I_c(x)$$일 when, proximal Newton의 case,엔 어떠한가? 이 case, update 식은 as follows: 정의된다.
+What about the case of proximal Newton when $$h(x) = I_c(x)$$? In this case, the update equation is defined as follows:
 
 > $$
 > \begin{align}
@@ -25,17 +25,17 @@ $$h(x) = I_c(x)$$일 when, proximal Newton의 case,엔 어떠한가? 이 case, u
 > \end{align}
 > $$
 
-$$H = I$$이면 $$x - \nabla g(x)$$를 set $$C$$to, projection한 result,가 되지만, 일반적인 $$H \neq I$$about,서는 projection이 아니다. ($$H = I$$이면 $$l_2$$-norm이 되기 because of, H-norm이 아닌 $$l_2$$-norm 이었다면 projection이 되었을 것이다.) 
-therefore,, projected Newton method는 proximal Newton method의 special case가 아니다.
+If $$H = I$$, then this becomes the result of projecting $$x - \nabla g(x)$$ onto set $$C$$, but for general $$H \neq I$$, it is not a projection. (If $$H = I$$, it would be the $$l_2$$-norm, so if it were the $$l_2$$-norm instead of the H-norm, it would be a projection.) 
+Therefore, the projected Newton method is not a special case of the proximal Newton method.
 
 ## Projected Newton for box constraints
-특별한 case, box constraint를 갖는 problemabout, projected Newton를 적용할 수 있다. (Bertsekas, 1982; Kim et al., 2010; Schmidt et al., 2011).
+For the special case of problems with box constraints, projected Newton can be applied. (Bertsekas, 1982; Kim et al., 2010; Schmidt et al., 2011).
 
-problem가 as follows:고 하자.
+Let the problem be as follows:
 
 >$$ \min_{x} \ g(x) \quad  \text{subject to}  \quad  l \le x \le u $$
 
-Projected Newton method의 시작 점 $$x^{(0)}$$and, 작은 constant $$\epsilon \gt 0$$라고 할 when,  다음 step를 iteration한다 ($$k = 1, 2, 3, ...$$).
+Starting with the initial point $$x^{(0)}$$ of the Projected Newton method and a small constant $$\epsilon \gt 0$$, we iterate the following steps ($$k = 1, 2, 3, ...$$).
 
 * step1: Binding set을 정의한다.
 

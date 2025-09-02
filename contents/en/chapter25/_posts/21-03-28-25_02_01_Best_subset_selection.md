@@ -26,7 +26,7 @@ $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$이고 $$y \in \ma
 지금to, 앞 장at,는 이and, 같은 problem를 Lasso problemwith, 정by,서 $$l_1$$ normwith, $$\beta$$를 sparse하게 만들었었다. 이 problem의 case, $$l_0$$ norm을 using,서 0이 아닌 entry 개수를 제약하는 problemto,
 정의 되었는데 제약 condition,인 $$\parallel \beta \parallel_{0}  \  \leq  k$$가 non-convex라서 지금to, 배운 convex optimization techniquewith,는 problem를 풀 수 없다.
 
-#### Integer programming formulation
+### Integer programming formulation
 그렇다면 이 problem를 Integer programmingwith, 재정by,보자.
 
 > $$
@@ -49,14 +49,14 @@ $$\min_{\beta} g(\beta) \quad \text{subject to} \quad \parallel \beta \parallel_
 
 Best subset selection의 case, $$g(\beta) = \frac{1}{2} \parallel X\beta - y \parallel^2_2$$이다.
 
-#### Observation
+### Observation
 as follows: 정의된 $$H_k(u)$$ function를 through, $$u \in \mathbb{R}^p$$at, 가장 큰 k개 entry를 구할 수 있다.
 >
 $$ H_k(u) = \underset{\beta : \parallel \beta_{0} \parallel \le k}{\text{argmin}} \parallel \beta - u \parallel^2_2$$
 
 이when,, $$H_k(u)$$ function는 hard thresholding을 한다. also,, $$u$$를 set $$\beta$$to, projection한 것with, 볼 수도 있다.
 
-#### Discrete first-order algorithm
+### Discrete first-order algorithm
 이제 gradient descentand, function $$H_k(u)$$를 using,서 algorithm을 정by,보자.
 
 1. $$\beta^{(0)}$$with, 시작
@@ -70,7 +70,7 @@ $$ \bar{\beta} =  H_k \left(\bar{\beta} - \frac{1}{L} \nabla g(\bar{\beta})\righ
 
 result,적with, 이 algorithm은 proximal gradient algorithmwith, 볼 수 있다. 왜냐하면 function $$H_k(u)$$가 proximal operator 역할을 하고 있기 because,이다.
 ## Computational results
-#### Mixed integer programming gap
+### Mixed integer programming gap
 아래 그림at, Subset selection problem의 실험 result,를 let's look at.
 
 왼쪽 그래프at, upper bound는 바to, optimal이 되었지만 lower bound는 천천히 올라오다가 upper boundand, 만나는 지점at,야 optimal임을 알게 된다. 왜냐하면 linear programat,는 solution이 optimal인지 체크할 method이 없으며 upper boundand, lower bound가 같아졌을 when, optimal임을 알 수 있게 된다.
@@ -86,7 +86,7 @@ result,적with, 이 algorithm은 proximal gradient algorithmwith, 볼 수 있다
 </figure>
 <br>
 
-#### Cold and Warm Starts
+### Cold and Warm Starts
 다음 그림at, warm start가 cold start보다 전체적with, 성능이 매우 우수함을 showing,주고 있다.
 
 <figure class="image" style="align: center;">
@@ -97,7 +97,7 @@ result,적with, 이 algorithm은 proximal gradient algorithmwith, 볼 수 있다
 </figure>
 <br>
 
-#### Sparsity Detection
+### Sparsity Detection
 다음 그림at,는 MIP (Mixed Integer Programming)and, Lasso, Step regression, Sparsenet의 sparsity를 비교하고 있다. result,적with, MIP가 가장 sparse한 result,내고 있음을 알 수 있다.
 
 

@@ -11,7 +11,7 @@ lang: en
 
 Another way to adapt the step size in gradient descent is **exact line search**.
 
-#### What is Exact Line Search?
+### What is Exact Line Search?
 In exact line search, we move in the direction of the negative gradient and choose the best possible step size.
 
 For the following expression, if $$s > 0$$, the next step $$x - s \nabla f(x)$$ moves away from the current position. By varying $$s$$, we find the step size $$t$$ that minimizes $$f$$:

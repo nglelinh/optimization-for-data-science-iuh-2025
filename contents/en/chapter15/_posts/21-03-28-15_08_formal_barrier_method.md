@@ -1,8 +1,13 @@
+---
 layout: post
 title: 15-08 Formal barrier method
 chapter: "15"
+categories:
+- chapter16
 order: 14
 owner: "Minjoo Lee"
+---
+
 If a convex function $$\phi : D \to \mathbb{R}$$ defined on an open convex set $$D \subset \mathbb{R}^n$$ satisfies the following conditions, then the function is a **self-concordant barrier** with parameter $$\nu$$.
 
 * $$\phi$$ is self-concordant
@@ -38,4 +43,4 @@ $$\begin{align}
 & \qquad \qquad \text{for} \quad x^+ = x - (\nabla^2 (\phi_{t^+}(x))^{-1} \nabla (\phi_{t^+}(x)
 \end{align}$$
 
-결론적으로 $$\lambda_{t^{(0)}}(x^{(0)}) \lt \frac{1}{9}$$가 되도록 $$x^{(0)}, t^{(0)}$$으로 시작하고 $$\mu := 1 + \frac{1}{8 \sqrt(\nu)}$$으로 선택한다면, 각 centering step마다 한 newton step이면 충분하다.
+In conclusion, if we start with $$x^{(0)}, t^{(0)}$$ such that $$\lambda_{t^{(0)}}(x^{(0)}) \lt \frac{1}{9}$$ and choose $$\mu := 1 + \frac{1}{8 \sqrt{\nu}}$$, then one Newton step per centering step is sufficient.

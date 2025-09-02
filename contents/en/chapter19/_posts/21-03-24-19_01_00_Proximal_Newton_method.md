@@ -9,6 +9,6 @@ categories:
 lang: en
 ---
 
-이 절at,는 **proximal gradient method**를 복습solution보고 **proximal newton method**가 이from, 어떻게 나오게 되었는지를 살펴볼 것이다. 
+In this section, we will review the **proximal gradient method** and examine how the **proximal newton method** emerged from it.
 
-also,, **proximal newton method**의 정의and, 일반적인 proximal mapto, 비solution uniquenessand, non-expansivenessand, 같은 좋은 성질을 갖는 scaled proximal mapabout,서도 살펴볼 것이다.
+We will also examine the definition of the **proximal newton method** and the scaled proximal map that has good properties such as uniqueness and non-expansiveness compared to the general proximal map.

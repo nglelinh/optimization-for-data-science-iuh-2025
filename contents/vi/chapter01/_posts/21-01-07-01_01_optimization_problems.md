@@ -53,17 +53,17 @@ $$D = dom(f) \cap \bigcap_{i=1}^m {\rm dom}(g_i) \cap \bigcap_{j=1}^r dom(h_j)$$
 
 Optimization problems are applied in various fields. [2]
 
-#### Portfolio optimization
+### Portfolio optimization
 * variables: investment amount for each asset
 * constraints: budget, minimum/maximum investment per asset, minimum return
 * objective: overall risk or return variance
 
-#### Device sizing in electronic circuits
+### Device sizing in electronic circuits
 * variables: width and length of each component
 * constraints: manufacturing process limitations, maximum area
 * objective: power consumption
 
-#### Data fitting
+### Data fitting
 * variables: model parameters
 * constraints: prior information (e.g., some parameters are non-negative), parameter restrictions
 * objective: error in prediction

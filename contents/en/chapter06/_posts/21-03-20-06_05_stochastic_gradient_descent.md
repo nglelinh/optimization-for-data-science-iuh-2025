@@ -9,52 +9,52 @@ categories:
 lang: en
 ---
 
-다음과 같이 함수의 합을 최소화하는 문제를 고려해보자.
+Consider the problem of minimizing the sum of functions as follows.
 >
 $$ \begin{equation}
 \min_x \sum_{i=1}^m f_i(x)
 \end{equation} $$
 
-이 문제에 gradient descent를 적용한다면 각 함수 $$f_i$$에 대해 gradient를 구해서 합산을 해야 한다. (즉,  함수의 합에 대한 gradient는 각 함수의 gradient의 합과 같다.)
+If we apply gradient descent to this problem, we need to compute the gradient for each function $$f_i$$ and sum them up. (That is, the gradient of the sum of functions equals the sum of the gradients of each function.)
 >
 $$\nabla \sum_{i=1}^m f_i(x) = \sum_{i=1}^m \nabla f_i(x)$$
 
-이 결과를 다음 식에 적용해서 다음 위치로 이동한다. 따라서, 한 step을 이동할 때마다 전체 함수에 대해 gradient를 구해야 한다는 것을 알 수 있다.
+We apply this result to the following equation to move to the next position. Therefore, we can see that every time we move one step, we need to compute the gradient for all functions.
 >
 $$ \begin{equation}
 x^{(k)} = x^{(k-1)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k-1)}), \,  k=1,2,3,\dots
 \end{equation} $$
 
-Gradient descent는 모든 함수들의 gradient를 구한 후에 한번에 업데이트를 수행하게 된다. 이런 이유로 gradient descent는 배치 업데이트(batch update) 방식이라고 부른다. 배치 업데이트의 경우 함수의 개수 많아질수록 계산 오버헤드가 크게 증가하는 단점이 있다.
+Gradient descent computes the gradients of all functions and then performs updates all at once. For this reason, gradient descent is called a batch update method. Batch updates have the disadvantage that computational overhead increases significantly as the number of functions increases.
 
 ## Stochastic gradient descent
-이에 반해, **Stochastic gradient descent (SGD)** 방식은 다음 위치를 찾을 때 한 함수의 gradient만을 구해서 찾는다. 다음 식에서와 같이 SGD에서는 $$k$$번째 iteration에서 하나의 함수 인덱스 $$i_k$$를 선택해서 업데이트를 한다.
+In contrast, the **Stochastic gradient descent (SGD)** method finds the next position by computing the gradient of only one function. As shown in the following equation, SGD selects one function index $$i_k$$ at the $$k$$-th iteration to perform the update.
 >
 $$ \begin{equation}
 x^{(k)} = x^{(k-1)} - t_k \cdot \nabla f_{i_k} (x^{(k-1)}), \, i_k \in \{1,2,\dots,m\}
 \end{equation} $$
 
-함수 인덱스 $$i_k$$는 다음 두 가지 방식으로 선택할 수 있다. 
+The function index $$i_k$$ can be selected in the following two ways. 
 
-* **순환 업데이트 (Cyclic rule)**: 모든 함수의 인덱스를 동일한 순서로 주기적으로 반복해서 선택하는 방법 $$i_k = 1,2,\dots,m, 1,2,\dots,m, ... $$
-* **랜덤 업데이트 (Randomized rule)**: 함수의 인덱스를 균등하게 랜덤하게 선택하는 방법 $$i_k \in \{1,2,\dots,m\}$$
+* **Cyclic rule**: A method that periodically repeats all function indices in the same order $$i_k = 1,2,\dots,m, 1,2,\dots,m, ... $$
+* **Randomized rule**: A method that selects function indices uniformly at random $$i_k \in \{1,2,\dots,m\}$$
 
-일반적으로 랜덤 업데이트 방식을 더 많이 사용한다.
+Generally, the randomized update method is used more frequently.
 
 ## Convergence of stochastic gradient descent
 
-**Gradient descent (GD)**와 **Stochastic gradient descent (SGD)** 방식은 어떤 차이가 있을까? 계산적으로 보면 GD는 배치 방식으로 한번에 업데이트를 하는 반면, SGD 방식에서는 $$m$$번의 업데이트를 하게 된다. 즉, m stochastic steps $$\approx$$ one batch step이 된다.
+What are the differences between **Gradient descent (GD)** and **Stochastic gradient descent (SGD)** methods? Computationally, GD performs updates in a batch manner all at once, while the SGD method performs $$m$$ updates. That is, m stochastic steps $$\approx$$ one batch step.
 
-그렇다면 업데이트 진행 과정에서는 어떤 차이가 있을까?
+Then what differences are there in the update process?
 
-SGD의 경우 $$k$$ step에서 $$k+m$$ step으로 m번의 업데이트를 했을 경우 다음과 같이 진행이 된다.
+In the case of SGD, when m updates are made from step $$k$$ to step $$k+m$$, the process proceeds as follows.
 >
 $$ \begin{equation}
 \text{SGD Cycle rule : } \quad x^{(k+m)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k+i-1)})
 \end{equation}
 $$
 
-GD의 경우 $$k$$ step에서 $$k+1$$ step으로 한번의 업데이트를 했을 경우 다음과 같이 진행이 된다.
+In the case of GD, when one update is made from step $$k$$ to step $$k+1$$, the process proceeds as follows.
 
 >
 $$ \begin{equation}
@@ -62,12 +62,12 @@ $$ \begin{equation}
 \end{equation} 
 $$
 
-따라서, 두 업데이트 방식으로 최적값을 탐색할 경우 방향은 아래와 같은 차이를 보이게 된다. 
+Therefore, when searching for the optimal value using these two update methods, the directions show the following difference. 
 >
 $$ \begin{equation}
 \sum_{i=1}^{m}[ \nabla f_i (x^{(k+i-1)}) - \nabla f_i (x^{(k)})]
 \end{equation} $$
 
-만일 각  $$\nabla f_i(x)$$가 $$x$$에 대해서 크게 변하지 않는다면 즉, Lipschitz continuous하다면 SGD는 수렴하게 되며 결과적으로 위의 두 방식은 동일한 최적해로 수렴하게 된다.
+If each $$\nabla f_i(x)$$ does not change significantly with respect to $$x$$, that is, if it is Lipschitz continuous, then SGD converges and consequently the two methods converge to the same optimal solution.
 
-경험적으로 SGD 방식은 최적점에서 멀리 떨어져 있을 때는 효과적으로 동작하지만 최적점에 가깝게 왔을 때는 수렴에 어려움을 겪는 것으로 알려져 있다.
+Empirically, the SGD method is known to work effectively when far from the optimal point, but experiences difficulty in convergence when close to the optimal point.

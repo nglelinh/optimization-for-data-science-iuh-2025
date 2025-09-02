@@ -10,39 +10,39 @@ lang: en
 ---
 
 ## Projected Gradient Descent
-아래and, 같은 constraint을 가진 problem를 고려solution 보자.
+Let's consider a problem with the following constraints.
 
 > $$\min_{x} f(x) \qquad \text{ subject to } x ∈ C $$
 
-$$f$$가 convex이면서 smooth하고, $$C$$ also, convex 이면,  **projected gradient descent** method을 이용할 수 있음을 앞at, 살펴보았다.
-$$P_{C}$$가 set $$C$$to, about, projection operator 일 when,, 선택한 초깃값 $$x^{(0)}$$ and, $$k = 1, 2, 3, . . .$$about,서 다음 식이 성립한다.
+We previously saw that if $$f$$ is convex and smooth, and $$C$$ is also convex, we can use the **projected gradient descent** method.
+When $$P_{C}$$ is the projection operator for set $$C$$, for the chosen initial value $$x^{(0)}$$ and $$k = 1, 2, 3, . . .$$, the following equation holds.
 
 > $$ x^{(k)} = P_{C } \bigl( x^{(k−1)} − t_k∇f(x^{(k−1)} \bigr)$$
 
-Projected Gradient Descent는 본질적with, local quadratic expansion(2nd Taylor Expansion)at,의 $$y$$값이 다음 $$x^{(k)}$$이 된다는 것을 모티브to, 하는, proximal gradient descent의 스페셜 케이스to, as follows: 나타낼 수도 있다.
+Projected Gradient Descent can also be represented as a special case of proximal gradient descent, which is essentially motivated by the fact that the $$y$$ value in the local quadratic expansion (2nd Taylor Expansion) becomes the next $$x^{(k)}$$.
 
 > $$x^{(k)} = P_{C} \Bigl( \arg\min_{y} ∇f(x^{(k−1)})^T(y − x^{(k−1)}) + \frac{1}{2t} \| y − x^{(k−1)} \|^2_ 2 \Bigr) $$
 
-Projected Gradient Descentto, about, 좀 더 For detailed information, see [9-4]({% multilang_post_url contents/chapter09/20-01-08-09_04_special_cases %})를  reference 하기 바란다.
+For more detailed information about Projected Gradient Descent, please reference [9-4]({% multilang_post_url contents/chapter09/20-01-08-09_04_special_cases %}).
 
 
 
 ## Conditional gradient (Frank-Wolfe) method
-여기서 2difference approximation를 minimization 하는 instead of,, 더 간단한 무언가를  시도solution 보자.
-first, set $$C$$at, $$\nabla f(x)$$and, inner product했을 when, 값이 minimization되는 점을 let's examine.
+Instead of minimizing the quadratic approximation here, let's try something simpler.
+First, let's examine the point where the value is minimized when we take the inner product of set $$C$$ with $$\nabla f(x)$$.
 
-근본적with,, Projection instead of, set $$C$$ 안의 점at, 선형function를 minimizing, 더 간편하고 effect,적with, problem를 solution결할 수 있다. 여기서는 현재 포인트at, 최소점 사이to, convex combination을 utilizing, line search method을 applying, 나간다.
+Fundamentally, instead of projection, we can solve problems more conveniently and effectively by minimizing linear functions at points within set $$C$$. Here, we proceed by applying a line search method using convex combinations between the current point and the minimum point.
 
-다음 정형화된 method을 let's look at.
+Let's look at the following formalized method.
 
-초깃값 $$x^{(0)} ∈ C$$를 선택한다. $$k = 1, 2, 3, . . . $$
+Choose initial value $$x^{(0)} ∈ C$$. $$k = 1, 2, 3, . . . $$
 
 > $$\begin{array}{rcl}
 > s^{(k−1)} & ∈ & \arg\min_{s ∈ C} ∇f(x^{(k−1)})^Ts \\\
 > x^{(k)} & = & (1 − γ_k)x^{(k−1)} + γ_ks^{(k−1)}
 > \end{array}$$
 
-#### [reference]
+### [reference]
 > $$f(y) \approx f(x) + \nabla f(x)(y-x)$$
 > $$\arg\min_y = f(x) + \nabla f(x)(y-x)$$
 > $$\equiv \arg\min_y f(x)y$$
@@ -61,7 +61,7 @@ that is,, algorithm 수행됨according to, 선형 minimizer directionwith, 점di
 대부분의 case,, co-ordinate descent의 스페셜 케이스인 Ball L1about,서 sub gradient 방식을 사용하는 것이 projection 방식을 사용하는 것 보다 problem를 solution결하기 더 쉽다.
 
 
-#### [reference]
+### [reference]
 흥미to,운 in fact,은, Frankand, Wolfe는 Tuckerand, 함께 일하던 post-doc 였다고 informing,져 있으며. 그들은 first, 첫번째to, 이 algorithm을 2 difference functionto, 제안했다고 한다. and, 그 algorithm은 1956년to, 출판되고, 후to, 논문with,도 발표되었다. and, 이 후to, 오랫during, 더 이image 이to, about, 후속 논문은 전혀 나오지 못했다. however, 지난 몇년 during, Jaggi의 통찰력to, 힘임어 세imageto, 소개되면서 다시 주목을 받게 되었다.
 
 
@@ -176,7 +176,7 @@ problem [3]</figcaption>
 
 이것은 $$f(x^{(k−1)}) − f^{\star}$$의 upper bound 이다.
 
-##### [Proof]
+#### [Proof]
 convexity의 first-order condition을 using, 증명할 수 있다.
 > $$f(s) ≥ f(x^{(k−1)}) + ∇f(x^{(k−1)})^T(s − x^{(k−1)})$$
 
@@ -186,7 +186,7 @@ convexity의 first-order condition을 using, 증명할 수 있다.
 최종적with,, 다시 정리하여 다음 식은 duality gap이 upper bound임을 showing, 준다.
 > $$\max_{s∈C} ∇f(x^{(k−1)})^T(x^{(k−1)} − s) = ∇f(x^{(k−1)})^T(x^{(k−1)} − s^{(k−1)})$$
 
-##### [Note]
+#### [Note]
 therefore, 이 quantity는 Frank-Wolfe 업데이트at, 직접 나온 것이다.
 왜 우리는 이를 “duality gap”이라 부를까?
 
@@ -198,7 +198,7 @@ original problem을 다시 써보면 아래and, 같이 쓸 수있다.
 
 $$I_C^{*}$$가 $$C$$의 support function을 의미한다. Indicator function의 conjugate는 support function 이 됨을 앞서 살펴보았다.
 
-##### [Recall]
+#### [Recall]
 > $$
 > I_C (X) =  
 > \begin{cases}

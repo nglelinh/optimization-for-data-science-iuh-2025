@@ -9,15 +9,18 @@ categories:
 lang: en
 ---
 
-## Consensus ADMM
-아래and, 같은 problem를 생각solution보자.
+# Consensus ADMM
+
+## Basic Consensus ADMM
+
+Consider the following problem:
 >$$
 >\begin{align}
 >\min_{x}\sum^{B}_{i=1} f_{i}(x)
 >\end{align}
 >$$
 
-위 problemabout, ADMMwith, solution결하기 for,서는, constraint를 introducing,야 했다. 여기서는 update를 병렬적with, operation하기 용이한 형태to, 식을 변형하고자 한다. consensus ADMM이라 불리는 이 접근은 식을 아래and, 같이 reparametrize한다.
+To solve this problem with ADMM, we need to introduce constraints. Here, we want to transform the equation into a form that is easy to operate in parallel. This approach, called consensus ADMM, reparametrizes the equation as follows:
 >$$
 >\begin{align}
 >&\min_{x_{1},...,x_{B},x} &&\sum^{B}_{i=1} f_{i}(x_{i})\\\\
@@ -25,7 +28,9 @@ lang: en
 >\end{align}
 >$$
 
-이를 in summary, decomposable한 ADMM step을 computation할 수 있다.
+## ADMM Algorithm
+
+This allows us to compute decomposable ADMM steps:
 
 >$$
 >\begin{align}
@@ -35,7 +40,9 @@ lang: en
 >\end{align}
 >$$
 
-추가적with, $$\overline{x}=\frac{1}{B}\sum_{i=1}^{B}x_{i}, \overline{w}=\frac{1}{B}\sum_{i=1}^{B}w_{i}$$to, 둘 수 있다. 이렇게 되면, $$k>1$$인 iterationat, $$\overline{w}^{(k)}=0$$임을 쉽게 확인할 수 있고, ADMM update의 두번째 식은 $$x^{(k)}=\overline{x}^{(k)}$$with, 정리된다. therefore, ADMM update식을 아래and, 같이 정리할 수 있다.
+## Simplified Form
+
+Additionally, we can define $$\overline{x}=\frac{1}{B}\sum_{i=1}^{B}x_{i}, \overline{w}=\frac{1}{B}\sum_{i=1}^{B}w_{i}$$. With this, we can easily verify that $$\overline{w}^{(k)}=0$$ for iterations $$k>1$$, and the second equation of the ADMM update simplifies to $$x^{(k)}=\overline{x}^{(k)}$$. Therefore, we can simplify the ADMM update equations as follows:
 
 >$$
 >\begin{align}
@@ -44,11 +51,16 @@ lang: en
 >\end{align}
 >$$
 
-$$i = 1,...B$$to, about, $$x_{i}$$ update는 병렬적with, computation될 수 있다.
-정리된 식을 through, consensus ADMMto, about, 직관을 얻을 수 있다. 각  $$x_{i}$$ updateat,는 $$f_{i}(x_{i})$$를 minimization 하려 하고, 동시to, $$l_{2} regularization$$with, 각 $$x_{i}$$를 평균인 $$\overline{x}$$to, 맞추어 간다. if, $$x_{i}$$가 평균보다 커지면, $$w_{i}$$는 증가한다. therefore, 다음 stepat,의 regularization이 커진 $$x_{i}$$를 낮추게 된다.
+## Intuition
+
+The $$x_{i}$$ updates for $$i = 1,...,B$$ can be computed in parallel.
+
+From the simplified equations, we can gain intuition about consensus ADMM. Each $$x_{i}$$ update tries to minimize $$f_{i}(x_{i})$$ while simultaneously using $$l_{2}$$ regularization to align each $$x_{i}$$ with the average $$\overline{x}$$. If $$x_{i}$$ becomes larger than the average, $$w_{i}$$ increases. Therefore, the regularization in the next step will reduce the enlarged $$x_{i}$$.
 
 ## General consensus ADMM
-Consensus ADMM은 더 일반화된 형태to, creating,질 수 있다. xabout, affine transformationand, 임의의 function $$g$$가 적용된 problem의 형태를 let's look at.
+## General Consensus ADMM
+
+Consensus ADMM can be generalized to a more general form. Let's look at the form of problems with affine transformations of $$x$$ and arbitrary function $$g$$:
 
 >$$
 >\begin{align}
@@ -56,7 +68,7 @@ Consensus ADMM은 더 일반화된 형태to, creating,질 수 있다. xabout, af
 >\end{align}
 >$$
 
-이 식about,서도, constraint를 추가하기 for, reparameterize한다.
+For this equation as well, we reparameterize by adding constraints:
 >$$
 >\begin{align}
 >&\min_{x_{1},..x_{B},x} &&\sum^{B}_{i=1}f_{i}(a_{i}^{T}x+b)+g(x)\\\\
@@ -64,7 +76,7 @@ Consensus ADMM은 더 일반화된 형태to, creating,질 수 있다. xabout, af
 >\end{align}
 >$$ 
 
-이어서 분solution가능한 ADMM update를 유도할 수 있다.
+We can then derive decomposable ADMM updates:
 >$$
 >\begin{align}
 >x_{i}^{(k)} &= \underset{x_{i}}{\operatorname{argmin}}f_{i}(a_{i}^{T}x+b_{i})+\frac{\rho}{2}||x_{i}-x^{(k-1)}+w_{i}^{(k-1)}||^{2}_{2}+g(x)\\\\
@@ -73,12 +85,14 @@ Consensus ADMM은 더 일반화된 형태to, creating,질 수 있다. xabout, af
 >\end{align}
 >$$ 
 
-Generalized consensus ADMMand, 위at, 유도했던 consensus ADMMand,의 difference이를 in summary, as follows:.
+## Key Differences
 
-* ADMM step 식이 정리가 되지 않기 because of,, $$\overline{w}^{(k)}=0$$은 더이image 만족하지 않는다.
-* $$x_{i}, i=1,...,B$$는 병렬하게 업데이트 가능하다.
-*  각각의 $$x_{i}$$ 업데이트는 $$l2$$ 정규화and, 함께 solution당 부분의 loss를 minimization하는 것with, 생각할 수 있다.
-*  $$x$$ 업데이트는 임의의 function $$g$$(generally, regularizer)to, about, proximal operation이다.
-*  reparmeterization을 어떻게 하는가according to, ADMM algorithm이 다르게 도출된다. 
+The differences between generalized consensus ADMM and the consensus ADMM derived above can be summarized as follows:
 
-더 For detailed information, see [reference문헌]({% multilang_post_url contents/chapter21/21-03-29-21_00_Alternating_Direction_Method_of_Multipliers %})을 see한다.
+* Because the ADMM step equations do not simplify, $$\overline{w}^{(k)}=0$$ is no longer satisfied.
+* $$x_{i}, i=1,...,B$$ can be updated in parallel.
+* Each $$x_{i}$$ update can be thought of as minimizing the corresponding partial loss with $$l_2$$ regularization.
+* The $$x$$ update is a proximal operation for the arbitrary function $$g$$ (generally a regularizer).
+* Different ADMM algorithms are derived depending on how the reparameterization is done. 
+
+For more detailed information, see the [reference papers]({% multilang_post_url contents/chapter21/21-03-29-21_00_Alternating_Direction_Method_of_Multipliers %}).

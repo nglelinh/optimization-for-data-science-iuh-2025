@@ -25,7 +25,7 @@ This leads to the following dual process:
 And the dual is:
 > $$\max_u -f^*(A^Tu) - g^*(-u)$$
 
-##### [Example]
+#### [Example]
 Norms and their dual norms are related as follows: $$\| \cdot \|, \| \cdot \|^*$$, the problems 
 
 > $$ \min_x f(x) +\| Ax \|$$

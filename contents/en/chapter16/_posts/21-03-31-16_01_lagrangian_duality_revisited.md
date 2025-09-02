@@ -19,7 +19,7 @@ In this section, we will show that primal and dual problems can be defined using
 <br/>
 First, let's define the primal problem and Lagrangian as follows.
 
-#### Primal problem
+### Primal problem
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad f(x) \\\\
@@ -28,7 +28,7 @@ First, let's define the primal problem and Lagrangian as follows.
 >\end{align}
 >$$
 
-#### Lagrangian
+### Lagrangian
 >$$
 >L(x,u,v) = f(x) + \sum_{i=1}^m u_i h_i (x) + \sum_{j=1}^r v_j l_j (x)
 >$$
@@ -36,7 +36,7 @@ First, let's define the primal problem and Lagrangian as follows.
 <br/>
 At this point, the primal problem and dual problem can be redefined as problems involving the Lagrangian.
 
-#### Rewritten primal problem
+### Rewritten primal problem
 >$$
 >\min_x \mathop{\max_{u,v}}_{u \geq 0} L(x,u,v)
 >$$
@@ -46,7 +46,7 @@ The redefined primal problem does not explicitly state constraints, but it has t
 1. If $$h_i(\hat{x}) \gt 0$$ for some $$i \in [1, m]$$, then $$\hat{x}$$ is an infeasible point. In this case, $$u_i h_i(\hat{x})$$ diverges to $$\infty$$ due to $$\max_{u,v}$$, so it acts as an indicator function for any $$\hat{x}$$ that violates the inequality constraint.
 2. If $$l_i(\hat{x}) \neq 0$$ for some $$i \in [1, r]$$, then $$\hat{x}$$ is an infeasible point. In this case, $$v_i l_i(\hat{x})$$ diverges to $$\infty$$ due to $$\max_{u,v}$$, so it acts as an indicator function for any $$\hat{x}$$ that violates the equality constraint.
 
-#### Rewritten dual problem
+### Rewritten dual problem
 >$$
 >\mathop{\max_{u,v}}_{u \geq 0} \min_x L(x,u,v)
 >$$
@@ -56,7 +56,7 @@ In the dual problem, relaxation of the domain is necessary, so it should not act
 ## Weak and strong duality
 Let's revisit weak duality and strong duality.
 
-#### Theorem: weak duality
+### Theorem: weak duality
 When $$p$$ and $$d$$ are the optimal values for the primal problem and dual problem respectively, the following is always satisfied:
 
 
@@ -64,7 +64,7 @@ $$
 p \ge d
 $$
 
-#### Theorem: strong duality (refined Slater's condition)
+### Theorem: strong duality (refined Slater's condition)
 For the domain set $$D$$, assume that $$f, h_1, \dots, h_p$$ are convex and $$h_{p+1}, \dots, h_m, l_1, \dots, l_r$$ are affine. If there exists $$\hat{x} \in \text{relint}(D)$$ that satisfies the following:
 > $$\begin{align}
 >h_i(\hat{x}) \ & \lt 0, \ && i=1, \dots, p \\
@@ -77,7 +77,7 @@ then $$p = d$$ is guaranteed for the optimal values $$p, d$$ of the primal probl
 ## Example: linear programming
 Let's derive the dual problem of linear programming using the dual problem defined earlier.
 
-#### Primal problem of LP in standard form
+### Primal problem of LP in standard form
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad c^Tx \\\\
@@ -96,7 +96,7 @@ $$\mathop{\max_{s,y}}_{s\ge0} \: (A^Ty + s)^Tx - s^Tx + (b-Ax)^Ty \quad \text{ s
 
 This can be organized as follows:
 
-#### Dual problem of LP
+### Dual problem of LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty \\\\
@@ -109,7 +109,7 @@ This can be organized as follows:
 ## Example: convex quadratic programming
 Now let's derive the dual problem of quadratic programming using the dual problem defined earlier.
 
-#### Primal problem of QP in standard form
+### Primal problem of QP in standard form
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad \frac{1}{2} x^T Q x + c^Tx \\
@@ -139,7 +139,7 @@ $$
 
 This can be organized as follows:
 
-#### Dual problem of QP
+### Dual problem of QP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y,x} &\quad b^Ty - \frac{1}{2} x^T Q x\\\\
@@ -153,7 +153,7 @@ The dual problem of a quadratic problem is also a quadratic problem.
 ## Example: barrier problem for linear programming
 The barrier problem for linear programming is defined as follows:
 
-#### Barrier problem for LP
+### Barrier problem for LP
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad c^Tx - \tau \sum_{i=1}^n \log(x_i)\\
@@ -183,7 +183,7 @@ $$
 
 Since $$n\tau - n\tau\log(\tau)$$ can be omitted from the problem, the dual problem can be organized as follows:
 
-#### Dual problem of Barrier problem for LP
+### Dual problem of Barrier problem for LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty + \tau \sum_{i=1}^n log(s_i)\\\\

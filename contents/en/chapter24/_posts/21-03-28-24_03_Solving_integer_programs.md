@@ -28,7 +28,7 @@ $$X$$가 convex 이고 integrality constraints를 포함할 when,, integer progr
 
 Convex optimizationand, 다르게 feasible point $$x* \in X$$가 optimal 이라는 것을 입증하는 직접적인 "optimality conditions"는 존재하지 않는다. instead,, lower bound $$ \underline{z} \leq z$$, and, upper bound $$ \bar{z} \geq z$$ 를 finding,가면서 $$\underline{z} = \bar{z}$$ to, 가까워지도록 optimal의 approximation치를 찾는 method을 사용 할 수 있다.
 
-#### Algorithmic template
+### Algorithmic template
 Upper bounds의 감소 시퀀스를 관찰하면,
 > $$\bar{z_1} \geq \bar{z_2} \geq \dotsc \bar{z_s} \geq z$$
 
@@ -37,9 +37,9 @@ lower bounds의 증가 시퀀스를 관찰하면,
 
 임의의 $$\epsilon > 0$$about, $$\bar{z_s} - \underline{z_t} \leq \epsilon $$ 이 되는 범위at, $$z$$의 값이 정solution진다.
 
-#### Primal bounds
+### Primal bounds
 앞선 $$z$$ 공식according to, 임의의 feasible $$x \in X$$at, always, $$f(x) \geq z$$가 성립하고, 이 when,, $$f(x)$$는 upper bound 이다. but, always, feasible $$x$$를 찾을 수는 없기 because of,, $$x$$값이 solution당 셋to, 포함 된다면 problem가 쉽게 풀리지만, 그렇지 않을 수도 있다.
 
 
-#### Dual bounds
+### Dual bounds
 usually, lower bounds to,도 불리며, relaxation을 through,서 그 값을 찾게 된다. 다음 장at, 자세한 설명을 덧붙인다.

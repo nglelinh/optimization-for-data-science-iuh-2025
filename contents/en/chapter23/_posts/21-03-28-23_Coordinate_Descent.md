@@ -9,15 +9,15 @@ categories:
 lang: en
 ---
 
-Coordinate descent는 iteration적with, 각 coordinateaxis을 따라 움직이며 objective function의 최솟값을 찾는 optimization algorithm이다. 각 iteration(iteration)at, coordinate 선택 규칙(coordinate selection rule)according to, coordinateaxis(coordinate) or, coordinateaxis 블록(coordinate block)을 결정한 뒤, 선택되지 않은 coordinateaxis or, coordinateaxis 블록은 고정한 채to, axis의 direction을 따라 function를 minimization시킨다 (exact or inexactly). Coordinate descent는 gradient를 이용하는 방식뿐 아니라 gradient를 이용하지 않는 방식with,도 활용할 수 있다. also,, case,according to, 각 axisabout, 적sum한 step size를 결정하기 for, line search를 이용할 수 있다 [16].
+Coordinate descent is an optimization algorithm that iteratively moves along each coordinate axis to find the minimum of the objective function. At each iteration, according to a coordinate selection rule, it determines a coordinate axis (coordinate) or coordinate block, then minimizes the function along the direction of that axis while keeping the unselected coordinate axes or coordinate blocks fixed (exactly or inexactly). Coordinate descent can be utilized not only with gradient-based methods but also with gradient-free methods. Additionally, depending on the case, line search can be used to determine appropriate step sizes for each axis [16].
 
-Coordinate descent는 매우 간단하여 구현하기가 쉽고, 적sum한 problemabout, 주의깊게 구현될 case, 아주 좋은 성능을 보인다.
+Coordinate descent is very simple and easy to implement, and shows very good performance when carefully implemented for appropriate problems.
 
 **Examples:** lasso regression, lasso GLMs (under proximal Newton), SVMs, group lasso, graphical lasso (applied to the dual), additive modeling, matrix completion, regression with nonconvex penalties
 
 ## References and Further readings
 
-**optimizationat,의 초기 coordinate descent:**
+**Early coordinate descent in optimization:**
 
 * D. Bertsekas and J. Tsitsiklis (1989), “Parallel and distributed domputation: numerical methods”
 * Z. Luo and P. Tseng (1992), “On the convergence of the coordinate descent method for convex differentiable minimization”

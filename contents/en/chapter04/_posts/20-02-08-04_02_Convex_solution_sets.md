@@ -23,7 +23,7 @@ $$
 ## Key property 1
 > $$X_{opt}$$ is a convex set.
 
-#### Proof
+### Proof
 > If $$x$$ and $$y$$ are solutions:
 > 1. The domain set $$D$$ is convex, so for $$0 \le t \le 1$$, $$tx+ (1-t)y \in D$$.
 > 2. $$g_i, i=1,\dotsc,m$$ and $$h_j, j=1, \dotsc,r$$ are convex and affine functions, so the following conditions hold:
@@ -34,16 +34,16 @@ $$
     \end{aligned}
     $$
 > 3. $$f$$ is a convex function, so:
-    $$
-    \begin{aligned}
-      f(tx+(1-t)y) &\leq tf(x) + (1-t)f(y) \\
-      &= tf^{\star} + (1-t) f^{\star} \\
-      &= f^{\star}
-    \end{aligned}
-    $$
-    Thus, $$tx + (1-t)y$$ is also a solution.
+    >
+    >\begin{aligned}
+    >  f(tx+(1-t)y) &\leq tf(x) + (1-t)f(y) \\
+    >  = tf^{\star} + (1-t) f^{\star} \\
+    >  = f^{\star}
+    >\end{aligned}
+    >where $$f^{\star} - $$ minimum value.
+    >Thus, $$tx + (1-t)y$$ is also a solution.
 
-#### Geometric interpretation
+### Geometric interpretation
 In a convex function, any local optimum is also a global optimum. <br>
 If the solution set contains multiple elements, it must look like the following:
 
@@ -55,12 +55,12 @@ If the solution set contains multiple elements, it must look like the following:
 </figure>
 <br>
 
-## Key property2
->$$f$$가 strictly convex이라면 solution은 unique하다. 즉, $$X_{opt}$$는 하나의 element만을 갖는다.
+## Key property 2
+>If $$f$$ is strictly convex, then the solution is unique. That is, $$X_{opt}$$ contains only one element.
 
-$$f$$가 strictly convex라는 것은 $$f$$가 다음과 같은 성질을 항상 만족한다는 것과 같다.<br>
->$$f(tx + (1-t)y) < tf(x) + (1-t)f(y), $$
+$$f$$ being strictly convex means that $$f$$ always satisfies the following property:
+>$$f(tx + (1-t)y) < tf(x) + (1-t)f(y),$$
 >
 >$$\text{where } 0 < t < 1, x \neq y, \text{ and } x, y \in \text{dom } f.$$
 
-즉, $$f$$는 평평한 구간이 없는 아래로 볼록한 형태이며 $$f$$의 solution은 오직 하나이다.
+That is, $$f$$ is downward convex with no flat segments, and the solution of $$f$$ is unique.

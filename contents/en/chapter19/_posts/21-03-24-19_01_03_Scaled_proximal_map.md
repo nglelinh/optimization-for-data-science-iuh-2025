@@ -25,7 +25,7 @@ generally, **scaled proximal map**는 usually,의 prox보다 좋은 성질을 �
 * **uniqueness** : solution가 하나만 존재하는 성질 ($$H \succ 0$$이므to, strictly convex optimization problem이기 because of, 만족된다.)
 * **non-expansiveness** :  팽창하지 않는 성질 (scaled proximal map이 non-expansive 성질을 갖는 projection operator의 일반화이기 because of, 만족된다.)
 
-#### [reference] Projection operator의 non-expansiveness
+### [reference] Projection operator의 non-expansiveness
 두 점 $$x$$, $$y$$and, convex set $$C$$to, about, projection operator $$P_c$$about, non-expansiveness란 $$\parallel P_c(x) - P_c(y) \parallel_2 \le \parallel x - y \parallel_2$$를 만족한다는 것을 의미한다. that is,,  $$P_c$$는 Lipschitz-1을 만족하며 $$C$$가 convex일 case,to,만 만족한다.
 
 <figure class="image" style="align: center;">

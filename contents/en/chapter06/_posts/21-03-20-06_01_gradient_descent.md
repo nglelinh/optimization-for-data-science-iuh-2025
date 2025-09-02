@@ -16,7 +16,7 @@ Gradient descent is the simplest algorithm for solving unconstrained convex and 
 
 The optimal value is $$f^* = \min_x f(x)$$, and the optimizer is $$x^*$$.
 
-#### Gradient Descent Method
+### Gradient Descent Method
 Gradient descent starts from an initial point $$x^{(0)} \in \mathbb{R}^n$$ and iteratively updates as follows until a stopping criterion is met:
 > $$x^{(k)} = x^{(k-1)} - t_k \nabla f(x^{(k-1)}), \quad k = 1, 2, 3, ...$$, $$t_k > 0$$
 
@@ -28,7 +28,7 @@ Pseudocode:
 > 3. Update $$x = x + t \Delta x$$. <br>
 > **Until** stopping criterion is satisfied <br>
 
-#### Examples
+### Examples
 
 The figure below shows gradient descent on a convex function. In this case, the local minimum is also the global minimum.
 
@@ -71,7 +71,7 @@ In the illustration below, the blue dot represents the current position $$x$$, a
   <img src="{{ site.baseurl }}/img/chapter_img/chapter06/06_01_gradientdescent3.png" alt="gradientdescent3" width="80%" height="80%">
   <figcaption style="text-align: center;">$$ \text{[Fig 3] Gradient descent algorithm : red dot is } x^+ \text{ and blue dot } x \text{ [3]} $$</figcaption>
 </p>
-</figure}
+</figure>
 
 The proximity of the next position $$y$$ to the current position $$x$$ is influenced by the weight of the proximity term $$\frac{1}{2t}$$. A smaller $$t$$ results in a larger weight for the proximity term, leading to smaller steps. This process can be expressed as:
 

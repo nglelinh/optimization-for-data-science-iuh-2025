@@ -9,9 +9,9 @@ categories:
 lang: en
 ---
 
-In this chapter, **Proximal Newton Method**and, **Proximal quasi-Newton method**, **Projected Newton method**about,서 살펴보도록 하겠다.
+In this chapter, we will examine **Proximal Newton Method**, **Proximal quasi-Newton method**, and **Projected Newton method**.
 
-#### reference 논문
+### Reference Papers
 
 Proximal Newton method:
 

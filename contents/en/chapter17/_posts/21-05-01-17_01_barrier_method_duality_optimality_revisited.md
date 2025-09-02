@@ -61,12 +61,12 @@ This can be transformed into Lagrangian form as follows:
 >$$
 
 Using the Lagrangian defined in this way, primal and dual problems can be redefined in the following form. Please refer to Chapter 16 for detailed information.<br>
-#### Primal Problem
+### Primal Problem
 >$$
 >\min_x \mathop{\max_{u,v}}_{u \geq 0} L(x,u,v)
 >$$
 
-#### Dual problem
+### Dual problem
 >$$
 >\mathop{\max_{u,v}}_{u \geq 0} \min_x L(x,u,v)
 >$$
@@ -116,7 +116,7 @@ And the optimality conditions for this barrier problem are as follows:
 
 The **Primal-Dual interior point method** introduced in this chapter is a method that defines the first three equations above as residuals and finds solutions by reducing them to $$0$$.
 
-##### Useful fact
+#### Useful fact
 The solution $$(x(τ),u(τ),v(τ))$$ has a duality gap of size $$mτ$$, i.e., $$\frac{m}{t}$$, as follows:
 > $$f(x(τ))−\min_x L(x,u(τ),v(τ)) = mτ= \frac{m}{t}$$
 

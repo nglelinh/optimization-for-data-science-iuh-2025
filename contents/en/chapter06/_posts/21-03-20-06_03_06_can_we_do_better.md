@@ -9,19 +9,19 @@ categories:
 lang: en
 ---
 
-Gradient descent는 Lipschitz gradients를 가지며 convex이고 differentiable한 함수로 표현되는 문제에 대해 $$O(1/\epsilon)$$ 수렴 속도를 갖는다. Gradient descent보다 더 빠른 first-order method가 있을까?
+Gradient descent has a convergence rate of $$O(1/\epsilon)$$ for problems represented by functions that have Lipschitz gradients and are convex and differentiable. Are there first-order methods that are faster than gradient descent?
 
-#### First-order method
-First-order method는 $$x^{(k)}$$번째 반복에서 다음과 같이 변경을 표현할 수 있다. 따라서, $$x^{(k)}$$번째 반복에서의 변경은 초기 위치 $$x^{(0)}$$와 $$x^{(0)}$$에서 $$ x^{(k−1)}$$까지의 gradient span으로 표현된다.
+### First-order method
+A first-order method can express changes at the $$x^{(k)}$$-th iteration as follows. Therefore, the change at the $$x^{(k)}$$-th iteration is expressed as the span of gradients from the initial position $$x^{(0)}$$ to $$x^{(k−1)}$$.
 
 > $$x^{(0)} + $$ **span**$$\{∇f(x^{(0)}),∇f(x^{(1)}),...,∇f(x^{(k−1)})\}$$
 
-####  Theorem (Nesterov)
-Nesterov theorem은 first-order method의 수렴에 대한 lower bound를 제시한다.
+###  Theorem (Nesterov)
+Nesterov's theorem provides a lower bound for the convergence of first-order methods.
 
-> **Nesterov Theorem** 임의의 $$k ≤ (n−1)/2$$와 시작점 $$x^{(0)}$$에 대해, 임의의 first-order method가 다음 조건을 만족하게 하는 함수 $$f$$가 존재한다. ($$n$$은 차원을 의미한다.)<br>
+> **Nesterov Theorem** For any $$k ≤ (n−1)/2$$ and starting point $$x^{(0)}$$, there exists a function $$f$$ such that any first-order method satisfies the following condition (where $$n$$ denotes the dimension):<br>
 \begin{align}
 f(x^{(k)})−f^{\star} ≥ \frac{3L \lVert x^{(0)} −x^{\star} \rVert_2^2}{32(k + 1)^2 }\\\
 \end{align}
 
-Nesterov theorem의 lower bound의 분모에 $$k^2$$이 있으므로 수렴 속도 $$O(1/k^2)$$가 된다. 그리고, 반복 회수는 $$O(1/\sqrt{\epsilon})$$가 된다. 이에 대한 내용은 나중에 자세히 살펴볼 것이다.
+Since Nesterov's theorem has $$k^2$$ in the denominator of the lower bound, the convergence rate becomes $$O(1/k^2)$$. Furthermore, the number of iterations becomes $$O(1/\sqrt{\epsilon})$$. We will examine this content in detail later.

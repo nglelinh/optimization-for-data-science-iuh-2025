@@ -32,7 +32,7 @@ set $$S$$about, 부등식 $$\pi^{T}x \le \pi_{0}$$이 다음 condition,을 만�
 
 $$S := \text{conv} \left \{ x \in C : x_j \in \mathbb{Z}, j \in J \right \}$$이다.
 
-#### Cutting plane algorithm
+### Cutting plane algorithm
 다음 algorithmat, Convex Problem은 CPto, Integer Program은 IPto, 표기한다.
 
 1. $$C_{0} := C$$with, 두고 $$x^{(0)} := \text{argmin}_{x} \left\{c^{T}x : x \in C_{0} \right\}$$를 computation

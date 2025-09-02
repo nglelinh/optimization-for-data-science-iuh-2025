@@ -46,11 +46,11 @@ $$
 
 ## Algorithm
 
-#### Outer loop (pathwise strategy):
+### Outer loop (pathwise strategy):
 * $$\lambda_1 > \lambda_2 > \dots > \lambda_r$$의 순서를 따라 optimal solution를 computation한다.
 * Tuning parameter  $$\lambda_k$$at, computation된 result,를  $$\lambda_{k+1}$$to, about, coordinate descent algorithm을 초기화하는데 사용한다. (warm start)
 
-#### Inner loop (active set strategy):
+### Inner loop (active set strategy):
 * 하나 or, 적은 수의 coordinate cycle을 시행한다. and, 0이 아닌 $$\beta$$의 element를 active set $$A$$to, 기록한다.
 * $$A$$to, 기록된 element들about,서만 convergence할 when,to, coordinate cycle을 시행한다.
 * $$\beta$$의 모든 element들about, optimality condition을 확인한다. condition,을 만족하지 않는 element가 있으면 $$A$$to, 추가하고 step 1with, 다시 돌아간다.

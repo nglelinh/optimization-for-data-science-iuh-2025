@@ -28,7 +28,7 @@ The figure below shows a separating hyperplane dividing two disjoint convex sets
 
 The converse of the separating hyperplane theorem does not hold. That is, the existence of a separating hyperplane does not guarantee that the sets are disjoint. For example, if $$C = D = \{0\} \subseteq \mathbb{R}$$, then $$x = 0$$ separates $$C$$ and $$D$$.
 
-#### Strict separation
+### Strict separation
 
 If the separating hyperplane satisfies the stronger condition $$x \in C$$ implies $$a^T x < b$$ and $$x \in D$$ implies $$a^T x > b$$, this is called **strict separation**. Disjoint closed convex sets do not always require strict separation, but in many cases, this condition holds.
 

@@ -7,8 +7,21 @@ layout: default
   {{ content }}
 </div>
 
+<!-- Back to Chapter Home Link -->
+{% if page.chapter %}
+  {% assign chapter_path = page.lang | default: site.default_lang | append: "/chapter" | append: page.chapter | append: "/" %}
+  {% assign chapter_url = "/contents/" | append: chapter_path %}
+  <div style="margin-top: 20px; padding: 10px; background-color: #f8f9fa; border-left: 4px solid #007bff;">
+    <a href="{{ site.baseurl }}{{ chapter_url }}" style="text-decoration: none; color: #007bff; font-weight: bold;">
+      ← {% if page.lang == 'vi' %}Quay lại đầu chương{% else %}Back to Chapter Home{% endif %}
+    </a>
+  </div>
+{% endif %}
+
 {% assign full_name = page.chapter | prepend: "chapter" %}
-{% assign post_list = site.categories[full_name] | sort_natural: "order" %}
+{% assign all_posts = site.categories[full_name] | sort_natural: "order" %}
+{% assign current_lang = page.lang | default: site.default_lang %}
+{% assign post_list = all_posts | where: "lang", current_lang %}
 
 {% assign post_order = page.order%}
 
@@ -46,11 +59,6 @@ layout: default
 </div>
 {% endif %}
 
-<div class="view-counts">
-  <a href="https://hits.seeyoufarm.com">
-    <img class="view-counts__img" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fconvex-optimization-for-all.github.io{{ page.url }}&count_bg=%237A86DE&title_bg=%23646464&icon=&icon_color=%23FFFFFF&title=views&edge_flat=false"/>
-  </a>
-</div>
 
 <script src="https://utteranc.es/client.js"
         repo="convex-optimization-for-all/convex-optimization-for-all.github.io"

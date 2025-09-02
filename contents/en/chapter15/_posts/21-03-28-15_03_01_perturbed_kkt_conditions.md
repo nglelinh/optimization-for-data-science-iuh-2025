@@ -1,8 +1,12 @@
+---
 layout: post
 title: 15-03-01 Perturbed KKT conditions
 chapter: "15"
 order: 8
-owner: "Minjoo Lee"
+categories:
+- chapter16
+---
+
 If we derive the KKT conditions from the barrier problem and the original formulation, we get the following.
 ## KKT conditions for barrier problem
 The second term in the KKT conditions for the barrier problem is derived using the gradient of the log barrier function.

@@ -9,22 +9,22 @@ categories:
 lang: en
 ---
 
-#### Assumption1: 
+### Assumption1: 
 > The Hessian matrix $$G$$ is Lipschitz continuous at $$x^∗$$, that is, 
 > $$\| G(x) − G(x^∗)  \le L \| x − x^∗ \|,$$
 > for all $$x$$ near $$x^∗$$, where $$L$$ is a positive constant.
 
-#### Assumption2: Wolfe conditions
+### Assumption2: Wolfe conditions
 > Assume $$t$$ is chosen (via backtracking) so that
 > $$ f(x + tp) \le f(x) + \alpha_1 t \nabla f(x)^T p$$
 > and
 > $$ \nabla f(x + tp)^T p \ge \alpha_2 \nabla f(x)^T p$$
 > for $$0 < \alpha_1 < \alpha_2 < 1.$$
 
-* Wolfe conditions의 첫 번째 condition,은 너무 큰 $$t$$가 선택되지 않게끔 한다.
-* Wolfe conditions의 두 번째 condition,은 너무 작은 $$t$$가 선택되지 않게끔 한다.
+* The first condition of Wolfe conditions ensures that too large a $$t$$ is not selected.
+* The second condition of Wolfe conditions ensures that too small a $$t$$ is not selected.
 
-DFPand, BFGS는 위 두 가정하to, superlinear convergence를 보인다. (reference: [Rate of convergence in Wikipedia](https://en.wikipedia.org/wiki/Rate_of_convergence))
+DFP and BFGS show superlinear convergence under the above two assumptions. (reference: [Rate of convergence in Wikipedia](https://en.wikipedia.org/wiki/Rate_of_convergence))
 >$$
 >\lim_{k \rightarrow \infty} \frac{ \| x^{k+1} - x^\ast \| }{ \| x^k - x^\ast \| } = 0.
 >$$

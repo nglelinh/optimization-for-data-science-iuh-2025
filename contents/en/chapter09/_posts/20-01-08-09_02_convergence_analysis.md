@@ -17,7 +17,7 @@ For the objective function $$f(x) = g(x) + h(x)$$, we assume the following:
 * $$g$$ is convex, differentiable, and **dom**$$(g) = \mathbb{R}^n$$, and $$\nabla g$$ is Lipschitz continuous ($$L > 0$$).
 * $$h$$ is convex, and $$\text{prox}_{t}(x) = \underset{z} {\text{argmin}} \{ \parallel x - z \parallel_2^2/ (2t) + h(z) \}$$ needs to be computed.
 
-#### Convergence Theorem
+### Convergence Theorem
 > **Proximal gradient descent** satisfies the following equation for a fixed step size $$t \le 1/L$$: 
 >\begin{align}
 f(x^{(k)}) - f^{\*} \le  \frac{ \lVert x^{(0)} - x^{\*} \rVert^2_2 }{2tk}
@@ -39,7 +39,7 @@ If $$G_t(x) = \nabla g(x)$$ in this equation, we can see that $$g(x - t \nabla g
 
 **Note:** For more details on the backtracking of gradient descent, refer to [06-02-02 backtracking line search]({% multilang_post_url contents/chapter06/21-03-20-06_02_02_backtracking_line_search %}).
 
-#### Backtracking line search algorithm
+### Backtracking line search algorithm
 If we summarize this in an algorithm, it is as follows. (However, $$\nabla x = - t G_t(x)$$)
 
 1. Initialize the parameters. ($$0 \lt \beta \lt 1$$, $$0 \lt \alpha \le 1/2$$)
@@ -50,7 +50,7 @@ If we summarize this in an algorithm, it is as follows. (However, $$\nabla x = -
 
 When backtracking in proximal gradient descent, since $$G_t(x)$$ is computed repeatedly, the proximal mapping included in $$G_t(x)$$ is also computed repeatedly. Since the proximal mapping is very costly to compute, the overall computational cost of backtracking can be high.
 
-#### Convergence Theorem
+### Convergence Theorem
 Under the same assumptions as above, the backtracking line search method also satisfies the same performance.
 
 >**Proximal gradient descent** satisfies the following equation for backtracking line search. The step size is $$t_{\text{min}} = \text{min} \{1,\beta /L \}$$.

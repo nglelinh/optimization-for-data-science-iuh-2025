@@ -19,85 +19,85 @@ This section discusses operations that preserve the convexity of convex function
 
 
 ## Nonnegative weighted sum
-Convex 함수는 상수곱과 덧셈에 대하여 아래와 같은 성질을 가진다.<br>
+Convex functions have the following properties with respect to scalar multiplication and addition:
 
-• Convex 함수 $$f$$가 존재할 때, 여기에 음수가 아닌 임의의 수를 곱하여도 여전히 함수 $$f$$는 Convex 이다.<br>
->$$f$$ is convex $$\Rightarrow \alpha f$$ is convex
+• When a convex function $$f$$ exists, multiplying it by any nonnegative number still results in a convex function $$f$$.
+>$$f$$ is convex $$\Rightarrow \alpha f$$ is convex for $$\alpha \ge 0$$
 
-• Convex인 두 함수($$f_1, f_2$$)이 존재할 때, 이 두 함수를 합하여도 그 결과는 여전히 convex 이다.<br>
+• When two convex functions ($$f_1, f_2$$) exist, their sum is also convex.
 >$$f_1, f_2$$ are convex $$\Rightarrow f_1 + f_2$$ is convex
 
-• Convex $$f_1, ..., f_m$$에 음수가 아닌 $$\alpha $$에 대한 선형 조합 $$\alpha_1f_1 + \cdots + \alpha_nf_n $$은 convex 이다.<br>
+• A nonnegative weighted sum of convex functions $$f_1, ..., f_m$$ is convex.
 >$$f_1, ..., f_n$$ are convex $$\Rightarrow \alpha_1f_1 + \cdots + \alpha_nf_n$$ is convex, $$\alpha_1, ..., \alpha_n \ge 0$$
 
 
 ## Composition
-### 1. Affine composition<br>
-함수 $$f$$가 convex 이면 $$f(Ax + b)$$ 또한 convex 이다.
+### 1. Affine composition
+If function $$f$$ is convex, then $$f(Ax + b)$$ is also convex.
 > $$f$$ is convex $$\Rightarrow f(Ax + b)$$ is convex
 
 
-### 2. General composition <br>
-$$n$$차원에서 1차원으로 매핑하는 함수 $$g$$와 1차원에서 1차원으로 매핑하는 함수 $$h$$가 있다고 가정하자. <br>
-이 두 함수의 합성함수 $$f(x)=h(g(x))$$는 다음의 경우 convex이거나 concave 이다.
+### 2. General composition
+Suppose we have function $$g$$ that maps from $$n$$-dimensional to 1-dimensional space and function $$h$$ that maps from 1-dimensional to 1-dimensional space.
+The composition function $$f(x)=h(g(x))$$ is convex or concave in the following cases:
 
-> composition of $$g:\mathbb{R}^n \mapsto \mathbb{R}$$ and $$h:\mathbb{R}\mapsto \mathbb{R}$$: <br>
+> composition of $$g:\mathbb{R}^n \mapsto \mathbb{R}$$ and $$h:\mathbb{R}\mapsto \mathbb{R}$$:
 > $$f(x)=h(g(x))$$
 
-• $$g$$가 convex이고 $$h$$가 convex이며 $$h$$가 감소하지 않으면 (nondecreasing) $$f$$는 convex 이다. <br>
-• $$g$$가 concave이고 $$h$$가 convex이며 $$h$$가 증가하지 않으면 (nonincreasing) $$f$$는 convex 이다. <br>
-• $$g$$가 concave이고 $$h$$가 concave이며 $$h$$가 감소하지 않으면 (nondecreasing) $$f$$는 concave 이다. <br>
-• $$g$$가 convex이고 $$h$$가 concave이며 $$h$$가 증가하지 않으면 (nonincreasing) $$f$$는 concave 이다. <br>
+• If $$g$$ is convex, $$h$$ is convex, and $$h$$ is nondecreasing, then $$f$$ is convex.
+• If $$g$$ is concave, $$h$$ is convex, and $$h$$ is nonincreasing, then $$f$$ is convex.
+• If $$g$$ is concave, $$h$$ is concave, and $$h$$ is nondecreasing, then $$f$$ is concave.
+• If $$g$$ is convex, $$h$$ is concave, and $$h$$ is nonincreasing, then $$f$$ is concave.
 
-#### [note]
-extended-value extension $${h}$$에 대한 단조성(monotonicity)은 반드시 유지되어야 한다. 
+### [Note]
+The monotonicity of the extended-value extension $$\tilde{h}$$ must be preserved. 
 
-#### Example
-• $$g$$가 convex이면, $$\exp g(x)$$는 convex 이다. <br>
-• $$g$$가 concave이고 positive 하면, $$1/g(x)$$는 convex 이다.
-<br><br> 
+### Example
+• If $$g$$ is convex, then $$\exp g(x)$$ is convex.
+• If $$g$$ is concave and positive, then $$1/g(x)$$ is convex. 
 
-### 3. Vector composition <br>
-$$n$$차원에서 $$k$$ 차원으로 매핑하는 함수 $$g$$와 다시 $$k$$차원에서 1차원으로 매핑하는 함수 $$h$$가 있다고 가정하자. <br>
-그러면 이 두 함수의 합성함수 $$f(x)=h(g(x))=h(g_1(x),g_2(x),...,g_k(x))$$는 다음의 경우 convex 이거나 concave 이다.
+### 3. Vector composition
+Suppose we have function $$g$$ that maps from $$n$$-dimensional to $$k$$-dimensional space and function $$h$$ that maps from $$k$$-dimensional to 1-dimensional space.
+Then the composition function $$f(x)=h(g(x))=h(g_1(x),g_2(x),...,g_k(x))$$ is convex or concave in the following cases:
 
->composition of $$g:\mathbb{R}^n\mapsto\mathbb{R}^k$$ and $$h:\mathbb{R}^k\mapsto\mathbb{R}$$: <br>
->$$f(x)=h(g(x))=h(g_1(x),g_2(x),...,g_k(x))$$<br>
+>composition of $$g:\mathbb{R}^n\mapsto\mathbb{R}^k$$ and $$h:\mathbb{R}^k\mapsto\mathbb{R}$$:
+>$$f(x)=h(g(x))=h(g_1(x),g_2(x),...,g_k(x))$$
 
-• $$g$$가 convex이고 $$h$$는 convex 일때, $$h$$가 각 인수에 대해 감소하지 않으면, $$f$$는 convex 이다.<br>
-• $$g$$가 convex이고 $$h$$는 concave 일때, $$h$$가 각 인수에 대해 증가하지 않으면, $$f$$는 concave 이다.<br>
+• If $$g$$ is convex and $$h$$ is convex, and $$h$$ is nondecreasing in each argument, then $$f$$ is convex.
+• If $$g$$ is convex and $$h$$ is concave, and $$h$$ is nonincreasing in each argument, then $$f$$ is concave.
 
-#### Example
-• $$g_i$$가 concave이고 positive 하면, $$\sum_{i=1}^{m} \log g_i(x)$$는 concave 이다.<br>
-• $$g_i$$가 convex 이면, $$\log \sum_{i=1}^{m} \exp g_i(x)$$는 convex 이다.
+### Example
+• If $$g_i$$ are concave and positive, then $$\sum_{i=1}^{m} \log g_i(x)$$ is concave.
+• If $$g_i$$ are convex, then $$\log \sum_{i=1}^{m} \exp g_i(x)$$ is convex.
 
 
 ## Pointwise maximum
-함수의 Pointwise maximum은 다음과 같이 정의 되며, 이는 convex이다.
+The pointwise maximum of functions is defined as follows and is convex:
 ### 1. Pointwise maximum
-> $$f_1, f_2$$ are convex functions $$\Rightarrow f(x) = \max \{ f_1(x), f_2(x) \}, dom f = dom f_1 \cap dom $$ is convex
+> $$f_1, f_2$$ are convex functions $$\Rightarrow f(x) = \max \{ f_1(x), f_2(x) \}$$, $$\text{dom } f = \text{dom } f_1 \cap \text{dom } f_2$$ is convex
 
 
 
-### 2. Pointwise supremum<br>
-만약 $$f (x, y)$$가 각각의 $$y \in A$$ 에 대하여 $$x$$에 볼록하다면, $$g(x) = sup_{y\in A} f(x, y)$$ 는 convex 이다.
+### 2. Pointwise supremum
+If $$f(x, y)$$ is convex in $$x$$ for each $$y \in A$$, then $$g(x) = \sup_{y\in A} f(x, y)$$ is convex.
 
->$$f(x, y)$$ is convex in $$x$$ for each $$y \in  A$$ <br>
+>$$f(x, y)$$ is convex in $$x$$ for each $$y \in A$$
 >$$\Rightarrow g(x) = \sup_{y\in A} f(x, y)$$ with $$\text{dom } g = \{x | (x, y) \in \text{dom} f \text{ for all } y \in A, \sup < \infty \}$$ is convex in $$x$$
 
 ## Perspective
-함수 $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ 가 convex $$\Rightarrow$$ the perspective of $$ g: \mathbb{R}^{n+1} \mapsto \mathbb{R}$$ 연산은 convexity를 유지 시키는 함수이다.
+If function $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is convex, then the perspective operation $$g: \mathbb{R}^{n+1} \mapsto \mathbb{R}$$ preserves convexity.
 
-함수 $$f: \mathbb{R}^n \mapsto \mathbb{R}$$의 perspective 함수 $$g: \mathbb{R}^n×\mathbb{R} \mapsto \mathbb{R}$$는,
+The perspective function $$g: \mathbb{R}^n×\mathbb{R} \mapsto \mathbb{R}$$ of function $$f: \mathbb{R}^n \mapsto \mathbb{R}$$ is:
 
-$$g(x,t) = tf({x \over t}), \text{dom} g = \{(x,t) | {x \over t} \in  \text{dom} f, t>0 \}$$<br>
-일때, 함수 $$f$$가 convex 이면 $$g$$또한 convex 이다.
+$$g(x,t) = tf\left(\frac{x}{t}\right), \quad \text{dom } g = \left\{(x,t) \left| \frac{x}{t} \in \text{dom } f, t>0 \right.\right\}$$
 
-#### Example
-•$$t$$가 양수일때, $$g(x,t)=x^Tx/t$$는 convex면, $$f(x)=x^Tx$$는 convex이다.
+If function $$f$$ is convex, then $$g$$ is also convex.
 
-• Negative logarithm<br>
-Relative entropy $$g(x,t) =t\log t − t\log x$$가 $$\mathbb{R}_{++}^2$$에서 convex 일때, $$f(x)=−\log x$$는 convex 이다.
+### Example
+• When $$t$$ is positive, if $$g(x,t)=x^Tx/t$$ is convex, then $$f(x)=x^Tx$$ is convex.
 
-• $$f$$가 convex이면, $$g(x)=(cTx+d)f((Ax+b)/(cTx+d))$$는 아래와 같은 조건에서 convex이다. <br>
-> $$\{x \vert c^Tx+d>0, (Ax+b)/(c^Tx+d) \in  \text{dom} f\}$$
+• **Negative logarithm**
+When relative entropy $$g(x,t) =t\log t − t\log x$$ is convex on $$\mathbb{R}_{++}^2$$, then $$f(x)=−\log x$$ is convex.
+
+• If $$f$$ is convex, then $$g(x)=(c^Tx+d)f\left(\frac{Ax+b}{c^Tx+d}\right)$$ is convex under the following condition:
+> $$\left\{x \left| c^Tx+d>0, \frac{Ax+b}{c^Tx+d} \in \text{dom } f\right.\right\}$$

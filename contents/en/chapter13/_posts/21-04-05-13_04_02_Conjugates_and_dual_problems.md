@@ -26,7 +26,7 @@ lang: en
 따라서 처음 수식의 dual 문제는 아래와 같이 정의 할 수 있다.
 > $$ \max_u −f^{∗}(u)−g^{∗}(−u)$$
 
-##### [Examples]
+#### [Examples]
 • Indicator function: $$ \min_x f(x) + I_C(x)$$의 dual은 다음과 같다.
 > $$ \max_u −f^{∗}(u)−I^{∗}_C(−u)$$
 > 

@@ -19,7 +19,7 @@ duality gap이 0일 때 이를 zero duality gap이라 하며 이는 dual 문제�
 또한 upper bound인 $$g(u, v)$$는 최적값인 $$f^{\star}$$보다는 항상 작거나 같다. 자세한 이유는 앞의 [[11장]]({% multilang_post_url contents/chapter11/21-03-24-11_00_Duality_in_General_Programs %})의 내용을 참고하기 바란다.
 따라서 아래와 같이 유도가 가능하다.
 
-##### [Proof]
+#### [Proof]
 > $$\begin{align*}
 > f^{\star} &\ge g(u, v) \\
 > -f^{\star} &\le -g(u, v) \\

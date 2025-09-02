@@ -13,7 +13,7 @@ lang: en
 
 Given $$c \in \mathbb{R}^n$$, $$A \in \mathbb{R}^{m \times n}$$, $$b \in \mathbb{R}^m$$, $$G \in \mathbb{R}^{r \times n}$$, $$h \in \mathbb{R}^r$$, 
 
-##### Primal LP: 
+#### Primal LP: 
 >
 $$
 \begin{alignat}{1}
@@ -24,7 +24,7 @@ $$
 $$
 
 
-##### Dual LP: 
+#### Dual LP: 
 >
 $$
 \begin{alignat}{1}
@@ -34,7 +34,7 @@ $$
 \end{alignat}
 $$
 
-#### Explanation 1: 
+### Explanation 1: 
 
 For all $$u$$ and $$v \geq 0$$, and for any primal feasible $$x$$, the following holds. 
 >
@@ -56,7 +56,7 @@ $$
 By this relationship, if $$c=-A^Tu - G^Tv$$, we obtain a lower bound on the primal optimum. 
 
 
-#### Explanation 2: 
+### Explanation 2: 
 
 For all $$u$$ and $$v \geq 0$$, and for any primal feasible $$x$$,
 

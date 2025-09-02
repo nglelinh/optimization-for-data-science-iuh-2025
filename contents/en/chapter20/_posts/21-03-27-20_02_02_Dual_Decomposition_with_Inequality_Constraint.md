@@ -29,7 +29,7 @@ lang: en
 여기서, $$u_{+}$$는 0보다 큰 $$u$$를 의미한다, that is,, $$(u_+)_i = \max \left\{0,u_i \right\}, i=1,\dots,m$$. 
 위  process을 $$k=1,2,3,\dots$$about,서 iteration한다. 
 
-#### Price coordination interpretation
+### Price coordination interpretation
 generally, dual decomposition problem들은 price coordination 관점at, as follows: solution석될 수 있다. (Vandenberghe)
 > * $$B$$개의 독립적인 유닛이 있고, 각 유닛은 자신의 결정 variable $$x_i$$를 결정한다. 
 > * 각 constraint은 $$B$$개의 유닛이 공유하고 있는 자원to, about, 제약을 의미하며, dual variable $$u_j$$는 자원 $$j$$의 가격을 의미한다. 

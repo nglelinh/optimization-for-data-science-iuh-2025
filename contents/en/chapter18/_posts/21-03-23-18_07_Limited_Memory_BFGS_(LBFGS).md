@@ -11,11 +11,11 @@ lang: en
 
 ## Introduction
 
-LBFGS는 Limited-memory quasi-Newton methods의 한 예시to,써, Hessian matrix을 computation하거나 저장하기 위한 비용이 sum리적이지 않을 case, 유용하게 사용된다. 이 method은 밀도가 높은 $$n \times n$$의 Hessian matrix을 저장하는 instead of, $$n$$difference원의 vector 몇 개만을 유지하여 Hessian matrix을 추정(approximation)하는 방식이다. 
+LBFGS is an example of Limited-memory quasi-Newton methods, and is useful when the cost of computing or storing the Hessian matrix is not reasonable. This method estimates (approximates) the Hessian matrix by maintaining only a few $$n$$-dimensional vectors instead of storing a dense $$n \times n$$ Hessian matrix. 
 
-LBFGS의 algorithm은 그 이름이 시사하는 것처럼 BGFS를 basis,with, 한다. 주요한 아이디어는 Hessianto, about, 추정을 하기for, 가장 최근의 iteration들at,의 curvature information을 이용하자는 것이다. 반면 오래된 iteration들의 curvature information은 현재 iteration의 Hessian이 보이는 동향(behavior)and, 다소 distance가 있을 것이므to, 저장space을 아끼는 측면at, 사용하지 않도록 한다.
+The LBFGS algorithm is based on BFGS, as its name suggests. The main idea is to use curvature information from the most recent iterations to estimate the Hessian. On the other hand, curvature information from older iterations is not used to save storage space, as it may be somewhat distant from the behavior shown by the Hessian of the current iteration.
 
-여담with, 동일한 technique을 through, 다른 quasi-Newton algorithm(가령, SR1)의 limited-memory version도 유도 가능하다 [14].
+As a side note, limited-memory versions of other quasi-Newton algorithms (e.g., SR1) can also be derived using the same technique [14].
 
 ## LBFGS
 

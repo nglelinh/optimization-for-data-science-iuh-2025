@@ -11,7 +11,7 @@ lang: en
 
 In the previous algorithm, we generated solutions along the central path, but in reality, the central path is just a means to reach the optimal solution. Therefore, it is not necessary to solve the problem exactly.
 
-#### Algorithm
+### Algorithm
 For this reason, Barrier method v.2 solves the barrier problem approximately.
 
 단, 단계 2의  $$x^{(0)} \approx x^*(t)$$와 단계 3-2의 $$x^{(k+1)} \approx x^*(t)$$ 부분이 approximation으로 바뀌었다.
