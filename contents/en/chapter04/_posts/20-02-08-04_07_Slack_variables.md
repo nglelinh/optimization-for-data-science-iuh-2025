@@ -7,6 +7,7 @@ owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
+lesson_type: required
 ---
 This section introduces slack variables, which are used to convert inequality constraints into equality constraints in convex optimization problems.
 

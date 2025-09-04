@@ -7,6 +7,7 @@ owner: Minjoo Lee
 categories:
 - chapter03
 lang: en
+lesson_type: required
 ---
 
 This section introduces the conjugate function, a key concept in convex analysis and duality theory.

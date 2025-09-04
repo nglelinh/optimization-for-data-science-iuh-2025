@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter11
 lang: en
+lesson_type: required
 ---
 
 ### Review: duality in linear program

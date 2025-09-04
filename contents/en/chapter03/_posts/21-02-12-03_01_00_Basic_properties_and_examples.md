@@ -7,6 +7,7 @@ owner: Minjoo Lee
 categories:
 - chapter03
 lang: en
+lesson_type: required
 ---
 
 This section covers the definition of convex functions, representative types of convex functions, and their key properties.

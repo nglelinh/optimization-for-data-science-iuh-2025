@@ -7,6 +7,7 @@ owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
+lesson_type: required
 ---
 This section explains techniques for eliminating equality constraints in convex optimization problems to simplify the feasible set or problem structure.
 

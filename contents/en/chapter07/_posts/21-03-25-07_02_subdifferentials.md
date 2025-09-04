@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter07
 lang: en
+lesson_type: required
 ---
 
 

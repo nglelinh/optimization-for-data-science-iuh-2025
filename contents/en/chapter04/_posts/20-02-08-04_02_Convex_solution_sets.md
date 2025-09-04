@@ -7,6 +7,7 @@ owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
+lesson_type: required
 ---
 Let's understand the properties of convex solution sets. <br>
 Let $$X_{opt}$$ denote the set of solutions to a convex problem:

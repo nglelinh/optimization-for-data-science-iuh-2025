@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter11
 lang: en
+lesson_type: required
 ---
 
 When a problem satisfies $$f^* = g^*$$, this is called **strong duality**. The **Slater condition** is a sufficient condition for strong duality.

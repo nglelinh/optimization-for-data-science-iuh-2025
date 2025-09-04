@@ -7,6 +7,7 @@ owner: Hooncheol Shin
 categories:
 - chapter05
 lang: en
+lesson_type: required
 ---
 
 A *Quadratic Program* (QP) is a convex optimization problem where the objective function is a convex quadratic and all constraint functions are affine. The general quadratic program is formulated as:
@@ -145,10 +146,10 @@ This problem involves appropriately trading off performance and risk in creating
 
 * $$\mu$$: expected assets' returns.
 * $$P$$: covariance matrix of assets' returns.
-* $$gamma$$: risk aversion (hyper-parameter).
+* $$\gamma$$: risk aversion (hyper-parameter).
 * $$x$$: portfolio holdings (percentages).
 
-$$\mu$$와 $$P$$는 과거의 데이터를 통해서 얻을 수 있으며, 각 종목에 $$x$$만큼 투자했을 때 그 평균을 $$\mu^T x$$, 분산을 $$x^T P x$$로 표현할 수 있다.
+
 
 ### Example 2)  Support vector machines
 [Support vector machines(이하 SVM)](https://ratsgo.github.io/machine%20learning/2017/05/23/SVM/)은 quadratic program의 한 예에 해당한다. 아래는 SVM의 변형인 [C-SVM](https://ratsgo.github.io/machine%20learning/2017/05/29/SVM2/)이다. SVM에 대한 자세한 설명은 본 장의 주제에서 벗어나므로 여기서는 생략하도록 한다.

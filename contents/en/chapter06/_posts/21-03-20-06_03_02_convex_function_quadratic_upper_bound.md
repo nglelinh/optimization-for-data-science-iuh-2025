@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter06
 lang: en
+lesson_type: required
 ---
 
 ## Quadratic Upper Bound

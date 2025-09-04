@@ -19,6 +19,7 @@ categories:
 - Tính liên tục của hàm số
 
 ---
+
 Một **tập mở** là khái niệm cơ bản trong tô-pô và giải tích, đặc trưng bởi tính chất **không chứa bất kỳ điểm biên nào của nó**.
 
 Một tập $$S$$ trong $$\mathbb{R}^n$$ là **mở** nếu với mọi điểm $$x \in S$$, tồn tại một số thực dương $$\epsilon > 0$$ sao cho quả cầu mở $$B(x_{0}, \epsilon) = \{y \in X \mid d(x_{0}, y) < \epsilon\}$$ hoàn toàn nằm trong $$S$$.

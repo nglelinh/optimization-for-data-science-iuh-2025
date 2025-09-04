@@ -7,6 +7,7 @@ owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
+lesson_type: required
 ---
 >$$
 \begin{aligned}

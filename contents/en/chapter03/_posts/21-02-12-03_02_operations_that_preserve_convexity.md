@@ -7,6 +7,7 @@ owner: Minjoo Lee
 categories:
 - chapter03
 lang: en
+lesson_type: required
 ---
 
 This section discusses operations that preserve the convexity of convex functions.

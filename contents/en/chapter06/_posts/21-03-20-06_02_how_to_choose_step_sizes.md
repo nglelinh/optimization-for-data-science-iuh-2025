@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter06
 lang: en
+lesson_type: required
 ---
 
 When performing gradient descent, the **step size** determines how the variable $$x$$ is updated and affects the speed and success of finding the optimal value. This section introduces three main methods for choosing the step size to help gradient descent find the optimum more quickly:

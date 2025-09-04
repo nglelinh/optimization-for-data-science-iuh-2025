@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter02
 lang: en
+lesson_type: required
 ---
 
 In one-dimensional real space $$\mathbb{R}$$, given two numbers 1 and 2, we can say 2 is greater than 1. But in $$n$$-dimensional real space $$\mathbb{R}^n$$, given two points $$x_1$$ and $$x_2$$, can we say which is greater? This is not straightforward.

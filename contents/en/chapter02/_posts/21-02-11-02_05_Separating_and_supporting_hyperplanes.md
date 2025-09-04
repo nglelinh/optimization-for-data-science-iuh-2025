@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter02
 lang: en
+lesson_type: required
 ---
 
 This section introduces two theorems that characterize convex sets: the **separating hyperplane theorem** and the **supporting hyperplane theorem**.

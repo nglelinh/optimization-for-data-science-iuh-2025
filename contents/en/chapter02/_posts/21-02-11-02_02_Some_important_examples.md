@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter02
 lang: en
+lesson_type: required
 ---
 
 This section reviews major examples of convex sets.

@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter02
 lang: en
+lesson_type: required
 ---
 
 In this chapter, we will explore the concepts and definitions centered around convex sets. We introduce three types of sets: the most basic is the affine set, and by imposing additional constraints on the affine set, we define the convex set and the cone.
