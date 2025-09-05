@@ -9,6 +9,9 @@ categories:
 lang: en
 lesson_type: required
 ---
+
+See /contents/en/chapter03/03_01_03_key_properties_of_convex_functions/
+
 >$$
 \begin{aligned}
 &\min_x &&f(x) \\
@@ -16,7 +19,7 @@ lesson_type: required
 \end{aligned}
 $$
 
-For a convex problem where the objective function $$f$$ is differentiable, the following condition is necessary and sufficient for an optimal point $$x$$:
+For a convex problem where the objective function $$f$$ is **differentiable**, the following condition is necessary and sufficient for an optimal point $$x$$:
 
 > $$\nabla f(x)^{T}(y-x) \geq 0 \\
 > \text{ for all } y \in C$$

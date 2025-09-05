@@ -11,7 +11,7 @@ lang: en
 
 A function $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ is quasiconvex if all its sublevel sets $$\{x \mid f(x) \leq \alpha\}$$ are convex for every $$\alpha \in \mathbb{R}$$.
 
-Quasiconvex functions generalize convex functions and appear frequently in optimization problems.
+**Quasiconvex functions generalize convex functions** and appear frequently in optimization problems.
 
 ## Definition
 

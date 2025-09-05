@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter12
 lang: en
+lesson_type: required
 ---
 
 <script type="text/x-mathjax-config">

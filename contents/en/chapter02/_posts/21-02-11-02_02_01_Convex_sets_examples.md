@@ -47,6 +47,19 @@ For the hyperplane $$a^T x = b$$, the halfspace $$a^T x \ge b$$ is in the direct
 Note: The interior of $$\{x : a^T x \le b\}$$, that is $$\{x : a^T x \lt b\}$$, is called an open halfspace.
 
 
+### Key Property: Halfspaces are Convex
+
+Take any two points $x_1$ and $x_2$ in the halfspace:
+- Both satisfy: $a^T x_1 \leq b$ and $a^T x_2 \leq b$
+
+For any convex combination: $x_\theta = \theta x_1 + (1 - \theta)x_2$ where $\theta \in [0, 1]$
+
+Check if this point is in the halfspace:
+$$a^T x_\theta = a^T(\theta x_1 + (1 - \theta)x_2) = \theta(a^T x_1) + (1 - \theta)(a^T x_2) \leq \theta b + (1 - \theta)b = b$$
+
+Since $x_\theta$ satisfies the inequality, all points between $x_1$ and $x_2$ are in the halfspace → halfspace is convex.
+
+
 ## Euclidean balls
 
 A Euclidean ball is another convex set, defined as follows. ($$\| . \|_2$$ is the Euclidean norm, $$\|u\|_2 = (u^T u)^{1/2}$$.) $$x_c$$ is the center and $$r$$ is the radius. Thus, $$B(x_c, r)$$ contains all points within radius $$r$$ from center $$x_c$$.

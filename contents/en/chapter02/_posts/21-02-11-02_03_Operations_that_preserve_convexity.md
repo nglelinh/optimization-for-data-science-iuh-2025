@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 02-03 Operations that preserve convexity
+title: 02-03 Operations that preserve convexity of convex set
 chapter: '02'
 order: 9
 owner: Wontak Ryu

@@ -1,6 +1,6 @@
 # Setup
-title:               "Convex Optimization in Data Science"
-description:         'Convex Optimization in Data Science'
+title:               "Optimization in Data Science"
+description:         'Optimization in Data Science'
 url:                 http://127.0.0.1:4000 #https://nglelinh.github.io/optimization-for-data-science-iuh-2025
 baseurl:             ''
 imgurl:              https://nglelinh.github.io/optimization-for-data-science-iuh-2025/img
@@ -16,8 +16,8 @@ parallel_localization: true
 # Language-specific configurations
 t:
   en:
-    title: "Convex Optimization in Data Science"
-    description: "Convex Optimization in Data Science"
+    title: "Optimization in Data Science"
+    description: "Optimization in Data Science"
     home: "Home"
     chapters: "Chapters"
     language: "Language"
@@ -25,8 +25,8 @@ t:
     required: "Required"
     optional: "Optional"
   vi:
-    title: "Tối ưu hóa lồi trong Khoa học Dữ liệu"
-    description: "Tối ưu hóa lồi trong Khoa học Dữ liệu"
+    title: "Tối ưu hóa trong Khoa học Dữ liệu"
+    description: "Tối ưu hóa trong Khoa học Dữ liệu"
     home: "Trang chủ"
     chapters: "Các chương"
     language: "Ngôn ngữ"

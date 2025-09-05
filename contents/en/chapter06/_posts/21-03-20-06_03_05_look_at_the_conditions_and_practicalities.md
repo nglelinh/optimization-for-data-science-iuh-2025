@@ -34,9 +34,50 @@ Satisfying both conditions for all $$x$$ can be very strong. However, if we thin
 > $$S = \{x : f(x) \leq f(x^{(0)})\}$$
 
 ## Practicalities
-### Stopping rule: Stop when $$\lVert ∇f(x) \rVert_2$$ is small.
+
+### Stopping Criteria for Optimization Algorithms
+
+In practice, optimization algorithms need well-defined stopping criteria to determine when to terminate the iterative process. Here are the most common stopping conditions:
+
+#### 1. **Gradient Magnitude Near Zero:**
+This is the ideal stopping condition for unconstrained optimization problems, based on the fact that the gradient of the objective function equals zero at local extrema.
+$$
+\|\nabla f(\mathbf{x}_k)\| \leq \epsilon_1
+$$
+where $$\mathbf{x}_k$$ is the current point at iteration $$k$$, and $$\epsilon_1$$ is a small positive threshold.
+
 If $$x^{\star}$$ is the solution, then $$\nabla f(x^{\star}) = 0$$. If $$f$$ is strongly convex, then:
-> $$\lVert \nabla f(x) \rVert_2 ≤ \sqrt{2m \epsilon} ⇒ f(x)−f^{\star} ≤ \epsilon$$ </br>
+> $$\lVert \nabla f(x) \rVert_2 ≤ \sqrt{2m \epsilon} ⇒ f(x)−f^{\star} ≤ \epsilon$$
+
+#### 2. **Small Change in Objective Function Value:**
+The algorithm stops when the objective function value no longer changes significantly between consecutive iterations.
+$$
+|f(\mathbf{x}_{k+1}) - f(\mathbf{x}_k)| \leq \epsilon_2
+$$
+where $$\epsilon_2$$ is a small positive threshold.
+
+#### 3. **Small Change in Variables (Parameters):**
+The algorithm stops when the model parameters no longer change significantly between iterations.
+$$
+\|\mathbf{x}_{k+1} - \mathbf{x}_k\| \leq \epsilon_3
+$$
+where $$\epsilon_3$$ is a small positive threshold.
+
+#### 4. **Maximum Number of Iterations:**
+To prevent the algorithm from running indefinitely or for too long, an upper limit on the number of iterations is set.
+$$
+k \geq \text{MaxIterations}
+$$
+This is a safety stopping condition that ensures the algorithm will terminate within a reasonable time, even if it hasn't achieved perfect convergence.
+
+#### 5. **Maximum Runtime:**
+Similar to the maximum iteration limit, the algorithm can be stopped if it has been running for more than an allowed time period.
+$$
+\text{ElapsedTime} \geq \text{MaxTime}
+$$
+
+#### 6. **Combined Conditions:**
+In practice, multiple stopping conditions are often used in combination. For example, the algorithm stops if *any* of the above conditions is satisfied. This helps balance between accuracy and computational efficiency.
 
 ### [Reference] Derivation Process
 The derivation process for the above equation is as follows.

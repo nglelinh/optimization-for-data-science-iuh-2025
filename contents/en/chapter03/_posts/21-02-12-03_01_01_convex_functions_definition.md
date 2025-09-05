@@ -20,10 +20,11 @@ This means that for any two points $$x, y$$, the value of $$f$$ at their convex 
 
 <figure class="image" style="align: center;">
 <p align="center">
- <img src="{{ site.baseurl }}/img/chapter_img/chapter03/convex_function01.png" alt="" width="70%" height="70%">
+ <img src="{{ site.baseurl }}/img/chapter_img/chapter03/convex_function2.png" alt="" width="70%" height="70%">
  <figcaption style="text-align: center;">[Fig1] Convex Function [2]</figcaption>
 </p>
 </figure>
+
 
 ## Strictly convex
 A function $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ is strictly convex if for any two distinct points $$x, y \in \text{dom}f$$ and $$0 < \theta < 1$$:
