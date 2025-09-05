@@ -41,6 +41,9 @@ author:
 # Gems
 plugins:
   - jekyll-paginate
+  - jekyll-feed
+
+plugins_dir: _plugins
 
 # Collections for multilingual content
 collections:
