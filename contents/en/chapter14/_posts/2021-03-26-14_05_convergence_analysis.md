@@ -14,29 +14,29 @@ MathJax.Hub.Config({
     });
 </script>
 
-지금까지 우리는 local convergence 성질 만을 가지는 pure Newton's method와 여기에 backtracking line search를 적용하여, convex일때 global convergence를 보장하는 damped Newton's method(Newton's method with backtracking line search)에 대하여 살펴보았다.
+So far, we have examined pure Newton's method, which only has local convergence properties, and damped Newton's method (Newton's method with backtracking line search), which applies backtracking line search to ensure global convergence when convex.
 
-이 장에서는 damped Newton's method의 수렴속도를 분석(convergence analysis)하고자 한다. damped Newton's method의 경우 backtracking이 적용되는 phase(damped phase : slow progress), backtracking이 더 이상 필요없는 local convergence한 phase(pure phase : quadratic convergence)로 나뉘어 convergence bound를 살펴보게 된다.
+In this chapter, we analyze the convergence rate of damped Newton's method. For damped Newton's method, we examine convergence bounds divided into two phases: the phase where backtracking is applied (damped phase: slow progress) and the locally convergent phase where backtracking is no longer needed (pure phase: quadratic convergence).
 
 ## Conditions of $$f$$ for convergence analysis
-$$f$$는 convex이고, 두 번 미분 가능하며, $$dom(f)=\mathbb{R}^{n}$$을 가지고, 다음 세가지 조건을 만족한다고 가정하자.
+Assume that $$f$$ is convex, twice differentiable, has $$dom(f)=\mathbb{R}^{n}$$, and satisfies the following three conditions:
 
-1. $$\nabla f $$는 parameter L에 대하여 Lipschitz continuous이다.
+1. $$\nabla f$$ is Lipschitz continuous with parameter L.
 >$$\begin{align}
 >\|\nabla f(x) - \nabla f(y)\|_{2} \leq L\|x-y\|_{2} \quad \forall x,y.
 >\end{align}$$
 
-1. $$f$$는 parameter m에 대하여 strongly convex하다. (upper bound $$L$$과 Lipschitz continuous의 관계 : [출처](https://xingyuzhou.org/blog/notes/strong-convexity), [본서 : 06-03-05]({% multilang_post_url contents/chapter06/21-03-20-06_03_05_look_at_the_conditions_and_practicalities %}))
+2. $$f$$ is strongly convex with parameter m. (Relationship between upper bound $$L$$ and Lipschitz continuous: [source](https://xingyuzhou.org/blog/notes/strong-convexity), [this book: 06-03-05]({% multilang_post_url contents/chapter06/21-03-20-06_03_05_look_at_the_conditions_and_practicalities %}))
 >$$\begin{align}
 >mI\preceq\nabla^{2}f(x)\preceq LI.
 >\end{align}$$
-3. $$\nabla^{2} f $$는 parameter M에 대하여 Lipschitz continuous하다.
+3. $$\nabla^{2} f$$ is Lipschitz continuous with parameter M.
 >$$\begin{align}
 >\|\nabla^{2}f(x)-\nabla^{2}f(y)\|_{2} \leq M\|x-y\|_{2} \quad \forall x,y.
 >\end{align}$$
 
 ## Convergence analysis
-위 세가지 조건을 만족하면, $$0<\eta \leq m^{2}/M$$와 $$\gamma>0$$을 만족하는 $$\eta, \gamma$$에 대하여 각각의 phase에 대한 convergence를 아래와 같이 구할 수 있다.
+If the above three conditions are satisfied, for $$\eta, \gamma$$ satisfying $$0<\eta \leq m^{2}/M$$ and $$\gamma>0$$, the convergence for each phase can be obtained as follows:
 
 >Phase I : "Damped" phase, $$\|\nabla f(x^{(k)})\|_{2} \geq \eta$$,
 >
@@ -50,12 +50,12 @@ $$f$$는 convex이고, 두 번 미분 가능하며, $$dom(f)=\mathbb{R}^{n}$$을
 >\frac{M}{2m^{2}}\|\nabla f(x^{(k+1)})\|_{2} \leq \bigg( \frac{M}{2m^{2}}\|\nabla f(x^{(k)})\|_{2} \bigg)^{2}.
 >\end{align}$$
 
-처음의 $$k$$번째 iteration에서 $$\|\nabla f(x^{(k)})\|_{2}<\eta$$를 만족하여 Pure phase에 도달하게 되면, 이 후의 iteration에 대해서는 항상 이 조건을 만족함을 유념하자.
+Note that once the Pure phase is reached when $$\|\nabla f(x^{(k)})\|_{2}<\eta$$ is satisfied at the $$k$$-th iteration for the first time, this condition is always satisfied for subsequent iterations.
 
 ## Convergence analysis : written in optimal value term
-이제 각각의 phase의 convergence를 optimal value와의 차이로 비교해보고자 한다.
+Now we want to compare the convergence of each phase in terms of the difference from the optimal value.
 
-Phase1에서의 경우, $$x^{(0)}$$에서부터 k번의 iteration을 진행했다고 하면, 매 스텝마다의 식을 정리하여 다음과 같이 나타낼 수 있다.
+For Phase 1, if we perform k iterations starting from $$x^{(0)}$$, we can organize the equation for each step and represent it as follows:
 
 >$$\begin{align}
 >\require{cancel}
@@ -66,12 +66,12 @@ Phase1에서의 경우, $$x^{(0)}$$에서부터 k번의 iteration을 진행했�
 >&= &f(x^{(k)})-f(x^{(0)})\leq -k\gamma.
 >\end{align}$$
 
-양변에 $$f^{\star}$$를 빼주면 다음과 같은 결과를 얻을 수 있다. $$\nabla f(x^{(k+1)})\|<\eta$$를 처음 만족하는 $$k$$를 $$k_{0}$$라 하자.
+Subtracting $$f^{\star}$$ from both sides, we can obtain the following result. Let $$k_{0}$$ be the first $$k$$ that satisfies $$\|\nabla f(x^{(k+1)})\|<\eta$$.
 >$$\begin{align}
 >f(x^{(k)})-f^{\star} \geq (f(x^{(0)})-f^{\star})-\gamma k \qquad \text{if }k \geq k_{0}
 >\end{align}$$
 
-Phase 2에서는 $$k_{0}$$에서 iteration을 시작하여, step을 $$k-k_{0}$$번 진행했다고 가정한다. 또한 앞에서 $$\|\nabla f(x^{(k)})\|_2<\eta \leq m^{2}/M$$, 그리고 strong convexity를 활용하여 식을 정리할 수 있다.
+For Phase 2, assume that iteration starts from $$k_{0}$$ and proceeds for $$k-k_{0}$$ steps. Also, using $$\|\nabla f(x^{(k)})\|_2<\eta \leq m^{2}/M$$ from earlier and strong convexity, we can organize the equation as follows:
 >$$\begin{align}
 >& &\frac{M}{2m^{2}}\|\nabla f^{(k_{0}+1)}\|_{2} \leq \big( \frac{M}{2m^{2}}\|\nabla f^{(k_{0})}\|_{2} \big) ^{2}.\\\\
 >&\Leftrightarrow &\frac{M}{2m^{2}}\|\nabla f^{(k_{0}+(k-k_{0}))}\|_{2} \leq \bigg( \big( \frac{M}{2m^{2}}\|\nabla f^{(k_{0}+1)}\|_{2} \big) ^{2} \bigg)^{k-k_{0}} \leq (\frac{1}{2})^{2^{(k-k_{0})}}.\\\\
@@ -79,21 +79,21 @@ Phase 2에서는 $$k_{0}$$에서 iteration을 시작하여, step을 $$k-k_{0}$$�
 >&\Leftrightarrow &f(x^{(k)})-f^{\star} \leq \frac{1}{2m}\|\nabla f(x^{k})\|_{2}^{2}\leq \frac{2m^{3}}{M^{2}}(\frac{1}{2})^{2^{k-k_{0}+1}}.
 >\end{align}$$
 
-따라서 $$k_{0}$$번째를 분기로 step에 따른 convergence를 아래와 같이 정리할 수 있다.
+Therefore, we can organize the convergence according to steps with the $$k_{0}$$-th iteration as the branch point as follows:
 
->Theorem : backtracking line search를 사용하는 Netwon's method는 두 단계의 convergence bounds를 가진다.
+>Theorem: Newton's method using backtracking line search has two-stage convergence bounds.
 >$$\begin{align}
 >&f(x^{(k)})-f^{\star} \leq \begin{cases} (f(x^{(0)})-f^{\star})-\gamma k \qquad &\text{if }k\leq k_{0}\\
 \frac{2m^{3}}{M^{2}}(\frac{1}{2})^{2^{k-k_{0}+1}} \qquad &\text{if }k>k_{0}.
 \end{cases}
 >\end{align}$$
 
->여기서 $$\gamma = \frac{\alpha \beta^{2}\eta^{2}m}{L^{2}}$$, $$\eta = \min\{1, 3(1-2\alpha)\}\frac{m^{2}}{M}$$, $$k_{0}$$는 $$\|\nabla f(x^{k_0+1}))\|_{2}<\eta$$를 만족하기 시작하는 step이다.
+>Here, $$\gamma = \frac{\alpha \beta^{2}\eta^{2}m}{L^{2}}$$, $$\eta = \min\{1, 3(1-2\alpha)\}\frac{m^{2}}{M}$$, and $$k_{0}$$ is the step where $$\|\nabla f(x^{k_0+1}))\|_{2}<\eta$$ starts to be satisfied.
 
 ## Proof 1. Damped phase
-먼저, $$\|\nabla f(x)\|_{2} \geq \eta$$를 만족하는 damped phase 부터 유도한다. 첫째로 backtracking line search 과정으로 결정되는 step size의 lower bound를 통하여 damped phase의 convergence를 유도하게 된다. 증명과정에서 Newton decrement의 관계식이 자주 활용된다.
+First, we derive the damped phase that satisfies $$\|\nabla f(x)\|_{2} \geq \eta$$. We derive the convergence of the damped phase through the lower bound of the step size determined by the backtracking line search process. The Newton decrement relationship is frequently used in the proof process.
 
->$$f$$의 taylor approximation에서 $$y=x+t\Delta x_{nt}$$로 두고, Lipschitz condition의 upper bound로 적용한 아래 식에서부터 시작한다.
+>We start from the following equation where we set $$y=x+t\Delta x_{nt}$$ in the Taylor approximation of $$f$$ and apply the upper bound of the Lipschitz condition.
 >
 >$$\begin{align}
 >f(x+t\Delta x_{nt}) \leq f(x)+t\nabla f(x)^{T}\Delta x_{nt} + \frac{L \|\Delta x_{nt} \|^{2}_{2} }{2}t^{2},

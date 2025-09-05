@@ -7,7 +7,6 @@ owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
-lesson_type: required
 ---
 ## Convex Optimization Basics
 

@@ -16,12 +16,3 @@
     checkbox.checked = false;
   }, false);
 })(document);
-
-
-// Load multilang support
-(function() {
-  var script = document.createElement('script');
-  script.src = '/public/js/multilang.js';
-  script.async = true;
-  document.head.appendChild(script);
-})();

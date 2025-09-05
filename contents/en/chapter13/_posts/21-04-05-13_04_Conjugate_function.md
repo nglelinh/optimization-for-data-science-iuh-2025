@@ -9,7 +9,7 @@ categories:
 lang: en
 ---
 
-주어진 함수 $$f : \mathbb{R}^n → \mathbb{R}$$, 에 대하여 conjugate $$f^{∗} : \mathbb{R}^n → \mathbb{R}$$는 다음과 같이 정의 한다.
+For a given function $$f : \mathbb{R}^n → \mathbb{R}$$, the conjugate $$f^{∗} : \mathbb{R}^n → \mathbb{R}$$ is defined as follows:
 
 > $$f^{∗}(y) = \max_x y^Tx−f(x)$$
 
@@ -22,35 +22,35 @@ lang: en
 
 
 ### [Note] 
-$$f^{∗}$$는 convex(affine) 함수  $$y^Tx - f(x)$$의 pointwise maximum이므로 항상 convex이다.
-(여기서 $$f$$는 반드시 convex일 필요는 없다.)
-$$f^{∗}(y)$$는 선형 함수 $$y^Tx$$와 $$f(x)$$ 간의 maximum gap이다.
+$$f^{∗}$$ is always convex since it is the pointwise maximum of convex (affine) functions $$y^Tx - f(x)$$.
+(Here, $$f$$ does not necessarily need to be convex.)
+$$f^{∗}(y)$$ is the maximum gap between the linear function $$y^Tx$$ and $$f(x)$$.
 (From B & V page 91)
 
-미분 가능한 $$f$$에 대한 conjugation을 Legendre 변환이라고 부른다.
+Conjugation for differentiable $$f$$ is called the Legendre transform.
 
 #### Properties: 
 • Fenchel’s inequality: for any $$x,y, f(x) + f^{∗}(y) ≥ x^Ty$$
 > $$f(x) + f^{∗}(y) ≥ x^Ty \iff f^{*}(y) \ge x^Ty - f(x)$$
 > $$ f^{*}(y) = \max_z z^Ty - f(x)$$
 
-• conjugate의 conjugate은 $$f^{∗∗}$$이므로 $$f^{∗∗} ≤ f$$ 가 성립한다.<br>
-• 여기서 만약$$f$$가 closed이고 convex 이면, $$f^{∗∗} = f$$과 같다. <br>
-•$$f$$가 closed이고 convex 이면, 모든 $$x,y$$에 대해 다음이 성립한다.<br>
+• The conjugate of a conjugate is $$f^{∗∗}$$, so $$f^{∗∗} ≤ f$$ holds.<br>
+• If $$f$$ is closed and convex, then $$f^{∗∗} = f$$. <br>
+• If $$f$$ is closed and convex, then for all $$x,y$$, the following holds:<br>
 > $$\begin{align}
 > x ∈ ∂f^{∗}(y) &\iff y ∈ ∂f(x) \\\
 > &\iff f(x) + f^{∗}(y) = x^Ty \\\
 > \end{align}$$
 
-• $$f(u,v) = f_1(u) + f_2(v)$$이면, $$f^{∗}(w,z) = f_1^{∗}(w) + f_2^{∗}(z)$$이 성립한다. 
+• If $$f(u,v) = f_1(u) + f_2(v)$$, then $$f^{∗}(w,z) = f_1^{∗}(w) + f_2^{∗}(z)$$ holds. 
 
 
 
 #### Examples: 
-• $$f(x)$$가 아래와 같은 Simple quadratic일 경우를 살펴보자
+• Let's examine the case where $$f(x)$$ is a simple quadratic as follows:
 > $$f(x) = \frac{1}{2}x^TQx$$, where $$Q \succ 0$$
 
-그러면 $$y^Tx− \frac{1}{2}x^TQx$$는 $$y$$에 strictly concave이고,  $$x = Q^{−1}y$$ 에서 최대가 된다. 즉 $$f^{∗}(y) = \frac{1}{2}y^TQ^{−1}y$$ 
+Then $$y^Tx− \frac{1}{2}x^TQx$$ is strictly concave in $$y$$ and reaches its maximum at $$x = Q^{−1}y$$. That is, $$f^{∗}(y) = \frac{1}{2}y^TQ^{−1}y$$. 
 
 
 
@@ -65,10 +65,10 @@ $$f^{∗}(y)$$는 선형 함수 $$y^Tx$$와 $$f(x)$$ 간의 maximum gap이다.
 > Fenchel's inequality: for any $$x, y$$
 > $$\frac{1}{2} x^TQx + \frac{1}{2} y^TQ^{-1}y \ge x^Ty$$
 
-• Indicator function: $$f(x) = I_C(x)$$이면, 그 conjugate 은 다음과 같다. 
+• Indicator function: If $$f(x) = I_C(x)$$, then its conjugate is as follows:
 
 > $$f^{∗}(y) = I^{∗}_C(y) = \max_{x ∈ C} y^Tx$$ called the **support function** of $$C$$
 
-• Norm: $$f(x) =  x \rVert$$이면, 그 conjugate은 다음과 같다. 
+• Norm: If $$f(x) = \|x\|$$, then its conjugate is as follows:
 > $$f^{∗}(y) = I_{\\{ z : \rVert z \rVert_{∗} ≤ 1 \\}}(y)$$ where $$\rVert · \rVert_{∗}$$ is the dual norm of $$\rVert · \rVert$$ 
 

@@ -10,14 +10,14 @@ lang: en
 ---
 
 ### An important consequence of stationarity
-Strong duality의 조건하에서 Dual solution $$u^{\star}, v^{\star}$$가 주어졌을 때, primal solution $$x^{\star}$$으로 다음의 라그랑지안을 풀 수 있다.
+Under the condition of strong duality, when dual solution $$u^{\star}, v^{\star}$$ is given, the primal solution $$x^{\star}$$ can be found by solving the following Lagrangian:
 
 > $$ \min_x f(x) + \sum_{i=1}^m u_i^{\star} h_i(x) + \sum_{j=1}^r v^{\star}_i l_j(x)$$
 
-종종 이러한 제약 없는 문제(unconstrained problem)의 솔루션은 dual solution을 통해 primal solution의 특징을 명시적으로 가져다 씀으로써 나타낼 수 있다.
+Often, the solution to such unconstrained problems can be represented by explicitly bringing the characteristics of the primal solution through the dual solution.
 
-게다가, 이 문제의 해가 유일하다면, dual solution이 primal solution $$x^{\star}$$가 된다.
-즉, primal 문제를 직접 풀 때보다 dual 문제로 푸는 것이 더 쉬울 때 매우 유용하다.
+Moreover, if the solution to this problem is unique, the dual solution becomes the primal solution $$x^{\star}$$.
+This is very useful when solving the dual problem is easier than solving the primal problem directly.
 
 
 ### Example from B & V page 249:
@@ -32,19 +32,19 @@ Strong duality의 조건하에서 Dual solution $$u^{\star}, v^{\star}$$가 주�
 > &= bv − \sum_{i=1}^n f^{*}_i (a_iv)
 > \end{align}$$
  
-여기서 $$f^{*}$$는 $$f_i$$의 conjugate를 의미 한다.
+Here $$f^{*}$$ denotes the conjugate of $$f_i$$.
 
-그러므로 dual problem은 다음과 같이 나타낼 수 있다.
+Therefore, the dual problem can be represented as follows:
 > $$ \max_v bv − \sum^n_{i=1} f^{*}_i (a_iv)$$
 
-또한 마이너스(-)를 곱해 maximum 문제를 다음과 minimum 문제로 나타낼 수도 있다.
+Also, by multiplying by minus (-), the maximum problem can be represented as the following minimum problem:
 > $$ \min_v \sum^n_{i=1} f^{*}_i (a_iv) − bv$$
 
-이것은 스칼라 변수의 볼록 최소화 (convex minimization) 문제로 primal 문제보다 훨씬 쉽게 풀 수 있다.
+This is a convex minimization problem in scalar variables that can be solved much more easily than the primal problem.
 
-$$v^{\star}$$가 주어졌을 때 primal solution $$x^{\star}$$은 아래와 같이 풀 수 있다.
+When $$v^{\star}$$ is given, the primal solution $$x^{\star}$$ can be solved as follows:
 > $$ \min_{x} \sum^n_{i=1} (f_i(x_i) − a_iv^{\star}x_i)$$
 
-각 $$f_i$$의 Strict convexity는 이것이 유일한 솔루션을 가진다는 것을 의미한다.
-즉, $$x^{\star}$$는 각 $$i$$에 대해 $$∇f_i(x_i) = a_iv^{\star}$$의 계산을 통해 얻어진다.
+The strict convexity of each $$f_i$$ means that this has a unique solution.
+That is, $$x^{\star}$$ is obtained through the calculation of $$∇f_i(x_i) = a_iv^{\star}$$ for each $$i$$.
 

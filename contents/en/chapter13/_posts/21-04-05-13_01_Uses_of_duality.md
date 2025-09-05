@@ -10,25 +10,25 @@ lang: en
 ---
 
 ### Two key uses of duality
-앞서 11장에서 다룬 duality의 두가지 핵심적인 특징에 대해 다시 살펴보자.
+Let's revisit the two key characteristics of duality covered in Chapter 11.
 
-• $$x$$가 primal feasible 이고 $$u,v$$가 dual feasible 일 때, primal 문제 $$f(x)$$와 dual 문제 $$g(u,v)$$ 간의 차이를 $$x$$와 $$u,v$$간의 **duality gap**이라 부른다. 
+• When $$x$$ is primal feasible and $$u,v$$ are dual feasible, the difference between the primal problem $$f(x)$$ and the dual problem $$g(u,v)$$ is called the **duality gap** between $$x$$ and $$u,v$$.
 > $$f(x)-f^{\star}  \le f(x)-g(u, v)$$
 
-duality gap이 0일 때 이를 zero duality gap이라 하며 이는 dual 문제의 해가 optimal임을 의미 한다.
-또한 upper bound인 $$g(u, v)$$는 최적값인 $$f^{\star}$$보다는 항상 작거나 같다. 자세한 이유는 앞의 [[11장]]({% multilang_post_url contents/chapter11/21-03-24-11_00_Duality_in_General_Programs %})의 내용을 참고하기 바란다.
-따라서 아래와 같이 유도가 가능하다.
+When the duality gap is 0, this is called zero duality gap, which means that the solution to the dual problem is optimal.
+Also, the upper bound $$g(u, v)$$ is always less than or equal to the optimal value $$f^{\star}$$. For detailed reasons, please refer to the content in [[Chapter 11]]({% multilang_post_url contents/chapter11/21-03-24-11_00_Duality_in_General_Programs %}).
+Therefore, the following derivation is possible.
 
 #### [Proof]
 > $$\begin{align*}
 > f^{\star} &\ge g(u, v) \\
 > -f^{\star} &\le -g(u, v) \\
-> f(x)-f^{\star} &\le \underbrace{f(x)-g(u, v)}_{\text{dualityh gap}}\\
-> g^{\star}-g(x) &\le \underbrace{f(x)-g(u, v)}_{\text{dualityh gap}}\\
+> f(x)-f^{\star} &\le \underbrace{f(x)-g(u, v)}_{\text{duality gap}}\\
+> g^{\star}-g(x) &\le \underbrace{f(x)-g(u, v)}_{\text{duality gap}}\\
 > \end{align*}$$
 
 
-그리고, duality gap은 알고리즘의 중지 기준(stopping criterion)으로 사용될 수도 있다. 
-• Dual optimal $$u^{\star}, v^{\star}$$이 주어졌을 때 Strong duality의 조건하에서, primal solution은 모든 $$x$$에 대해 라그랑지안 $$L (x, u^{\star}, v^{\star})$$을 최소화 시킨다. (즉, stationarity condition을 만족시킨다).
+Moreover, the duality gap can be used as a stopping criterion for algorithms.
+• When dual optimal $$u^{\star}, v^{\star}$$ are given, under the condition of strong duality, the primal solution minimizes the Lagrangian $$L (x, u^{\star}, v^{\star})$$ for all $$x$$ (i.e., satisfies the stationarity condition).
 
-이를 primal solution 계산에 이용할 수 있다.
+This can be used for computing the primal solution.

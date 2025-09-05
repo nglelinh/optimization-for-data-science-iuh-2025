@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter11
 lang: en
+lesson_type: required
 ---
 
 Let $$C$$ be the primal feasible set and $$f^*$$ the primal optimal value. Minimizing $$L(x,u,v)$$ over all $$x$$ yields the following lower bound.

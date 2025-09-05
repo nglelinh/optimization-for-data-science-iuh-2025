@@ -39,3 +39,5 @@ Customization: If the user specifies details (e.g., "focus on deep learning appl
 Iteration: If the user asks for revisions or expansions, build on previous notes.
 
 Always respond in a professional, encouraging tone to inspire learning.
+
+Content has multiple languages, in contents/en is English, in contents/vi is Vietnamese

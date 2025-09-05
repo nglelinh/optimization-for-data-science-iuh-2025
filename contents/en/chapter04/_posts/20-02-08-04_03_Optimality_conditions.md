@@ -1,16 +1,56 @@
 ---
 layout: post
-title: 04-09 Second order optimality condition
+title: 04-03 Optimality conditions
 chapter: '04'
-order: 10
-owner: AI Assistant
+order: 4
+owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
 lesson_type: required
 ---
 
-This section extends the first-order optimality conditions by introducing second-order conditions, which provide stronger characterizations of optimal points using second derivatives (Hessian matrix).
+## First order optimality condition
+
+For more background on convex functions, see [Chapter 3: Key Properties of Convex Functions]({% multilang_post_url contents/chapter03/20-02-08-03_01_key_properties_of_convex_functions %}).
+
+>$$
+\begin{aligned}
+&\min_x &&f(x) \\
+&\text{subject to} &&x \in C
+\end{aligned}
+$$
+
+For a convex problem where the objective function $$f$$ is **differentiable**, the following condition is necessary and sufficient for an optimal point $$x$$:
+
+> $$\nabla f(x)^{T}(y-x) \geq 0 \\
+> \text{ for all } y \in C$$
+
+This is called the *first-order condition for optimality*. 
+
+$$\nabla f(x)^{T}(y-x) = 0$$ defines a hyperplane passing through $$x$$ in set $$C$$, and $$- \nabla f(x)$$ points in the direction of movement toward the optimal point $$x$$. <br><br>
+
+If the above condition is satisfied, 
+set $$C$$ is contained in the half-space opposite to $$- \nabla f(x)$$, 
+so $$x$$ is an optimal point.
+
+<figure class="image" style="align: center;">
+<p align="center">
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter04/first-order-condition.png" alt="[Fig1] geometric interpretation of first-order condition for optimality [3]">
+  <figcaption style="text-align: center;">[Fig1] geometric interpretation of first-order condition for optimality [3]</figcaption>
+</p>
+</figure>
+<br>
+
+### Important special case
+When $$C = \mathbb{R}^n$$ (unconstrained optimization),
+the optimality condition is:
+> $$\nabla f(x) = 0$$
+
+In this case, $$-\nabla f(x)$$ points toward the optimal point $$x$$, and $$\nabla f(x) = 0$$ means there is no further direction to move to decrease $$f$$ at $$x$$.
+
+---
+
 
 ## Mathematical Foundation
 
@@ -141,19 +181,6 @@ $$\mathcal{L}(x,\lambda) = f(x) + \sum_{i=1}^m \lambda_i h_i(x)$$
 | **Strength** | Weaker | Stronger |
 | **Computational cost** | $$O(n)$$ | $$O(n^2)$$ |
 | **Distinguishes** | Critical points | Minima, maxima, saddle points |
-
-## Applications in Optimization Algorithms
-
-Second-order conditions are crucial for:
-
-1. **Newton's Method**: Uses Hessian for faster convergence
-   $$x_{k+1} = x_k - [\nabla^2 f(x_k)]^{-1} \nabla f(x_k)$$
-
-2. **Quasi-Newton Methods**: Approximate Hessian (BFGS, L-BFGS)
-
-3. **Trust Region Methods**: Use quadratic models based on Hessian
-
-4. **Convexity Testing**: $$\nabla^2 f(x) \succeq 0$$ everywhere ⟺ $$f$$ is convex
 
 ## Interactive Visualization
 
