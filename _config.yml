@@ -1,8 +1,8 @@
 # Setup
 title:               "Optimization in Data Science"
 description:         'Optimization in Data Science'
-url:                 http://127.0.0.1:4000 #https://nglelinh.github.io/optimization-for-data-science-iuh-2025
-baseurl:             ''
+url:                 https://nglelinh.github.io
+baseurl:             '/optimization-for-data-science-iuh-2025'
 imgurl:              https://nglelinh.github.io/optimization-for-data-science-iuh-2025/img
 paginate:            5
 permalink:           pretty

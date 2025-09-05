@@ -96,8 +96,9 @@ module Jekyll
       end
       
       switch_text = site.config['t'][current_lang]['switch_language']
+      baseurl = site.config['baseurl'] || ''
       
-      return "<a href=\"#{other_url}\" class=\"language-switch\" title=\"#{switch_text}\">#{switch_text}</a>"
+      return "<a href=\"#{baseurl}#{other_url}\" class=\"language-switch\" title=\"#{switch_text}\">#{switch_text}</a>"
     end
   end
 end

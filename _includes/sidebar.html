@@ -55,7 +55,7 @@
       {% assign other_pages = site.pages | where: "lang", other_lang | sort: "chapter" %}
       {% if other_pages.size > 0 %}
         <div class="sidebar-nav-item">
-          <a href="/contents/{{ other_lang }}/chapter00/" style="color: #268bd2;">
+          <a href="{{ '/contents/' | append: other_lang | append: '/chapter00/' | absolute_url }}" style="color: #268bd2;">
             {% if current_lang == 'vi' %}
               → Xem nội dung tiếng Anh
             {% else %}
