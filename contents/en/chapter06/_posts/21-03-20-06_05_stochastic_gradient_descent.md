@@ -171,8 +171,70 @@ $$x^{(k+1)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k)})$$
 **SGD (one epoch with cyclic rule)**:
 $$x^{(k+m)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k+i-1)})$$
 
+### Understanding the SGD Cyclic Rule Formula
+
+Let's break down this formula step by step to understand what happens during one complete epoch of SGD with cyclic rule:
+
+**What is an epoch?** One epoch means we've processed all $$m$$ functions exactly once.
+
+**The cyclic rule process:**
+- Start at position $$x^{(k)}$$
+- **Step 1**: Use function $$f_1$$, compute $$\nabla f_1(x^{(k)})$$, update to $$x^{(k+1)}$$
+- **Step 2**: Use function $$f_2$$, compute $$\nabla f_2(x^{(k+1)})$$, update to $$x^{(k+2)}$$
+- **Step 3**: Use function $$f_3$$, compute $$\nabla f_3(x^{(k+2)})$$, update to $$x^{(k+3)}$$
+- ...
+- **Step m**: Use function $$f_m$$, compute $$\nabla f_m(x^{(k+m-1)})$$, update to $$x^{(k+m)}$$
+
+**Individual SGD updates:**
+$$\begin{align}
+x^{(k+1)} &= x^{(k)} - t_k \nabla f_1(x^{(k)}) \\
+x^{(k+2)} &= x^{(k+1)} - t_k \nabla f_2(x^{(k+1)}) \\
+x^{(k+3)} &= x^{(k+2)} - t_k \nabla f_3(x^{(k+2)}) \\
+&\vdots \\
+x^{(k+m)} &= x^{(k+m-1)} - t_k \nabla f_m(x^{(k+m-1)})
+\end{align}$$
+
+**Telescoping the updates:**
+If we substitute recursively and collect all terms, we get:
+$$x^{(k+m)} = x^{(k)} - t_k \left[ \nabla f_1(x^{(k)}) + \nabla f_2(x^{(k+1)}) + \cdots + \nabla f_m(x^{(k+m-1)}) \right]$$
+
+This can be written compactly as:
+$$x^{(k+m)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k+i-1)})$$
+
+**Key insight:** Each gradient $$\nabla f_i$$ is evaluated at a **different** position $$x^{(k+i-1)}$$, not at the same starting position $$x^{(k)}$$.
+
 **Key difference in update directions**:
 $$\sum_{i=1}^{m}[ \nabla f_i (x^{(k+i-1)}) - \nabla f_i (x^{(k)})]$$
+
+This difference represents how much the SGD path deviates from what batch GD would do. If the functions don't change much locally (Lipschitz continuous gradients), this difference is small and SGD behaves similarly to batch GD.
+
+### Concrete Example with m = 3 Functions
+
+Let's illustrate with $$m = 3$$ functions to make this crystal clear:
+
+**Starting position:** $$x^{(k)} = [1, 2]$$
+
+**SGD Cyclic Rule Process:**
+1. **Use $$f_1$$**: Compute $$\nabla f_1(x^{(k)}) = \nabla f_1([1,2])$$, update:
+   $$x^{(k+1)} = x^{(k)} - t_k \nabla f_1(x^{(k)}) = [1,2] - t_k \nabla f_1([1,2])$$
+   
+2. **Use $$f_2$$**: Compute $$\nabla f_2(x^{(k+1)})$$ at the **new** position, update:
+   $$x^{(k+2)} = x^{(k+1)} - t_k \nabla f_2(x^{(k+1)})$$
+   
+3. **Use $$f_3$$**: Compute $$\nabla f_3(x^{(k+2)})$$ at the **newest** position, update:
+   $$x^{(k+3)} = x^{(k+2)} - t_k \nabla f_3(x^{(k+2)})$$
+
+**Final SGD result after one epoch:**
+$$x^{(k+3)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k+1)}) + \nabla f_3(x^{(k+2)})]$$
+
+**Compare with Batch GD:**
+$$x^{(k+1)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k)}) + \nabla f_3(x^{(k)})]$$
+
+**The crucial difference:** 
+- **Batch GD**: All gradients evaluated at the **same** starting point $$x^{(k)}$$
+- **SGD**: Each gradient evaluated at a **different** point along the optimization path
+
+This is why SGD can make faster initial progress (it's already "exploring" the landscape) but can be noisier near the optimum.
 
 ### Convergence Properties
 
