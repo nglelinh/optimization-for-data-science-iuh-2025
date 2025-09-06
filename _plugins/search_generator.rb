@@ -2,6 +2,7 @@
 # Tạo file JSON chứa tất cả nội dung có thể tìm kiếm
 
 require 'json'
+require 'fileutils'
 
 module Jekyll
   class SearchIndexGenerator < Generator
@@ -56,13 +57,25 @@ module Jekyll
         
         # Tạo file JSON cho ngôn ngữ này
         filename = lang == site.config['default_lang'] ? 'search-index.json' : "search-index-#{lang}.json"
-        File.open(File.join(site.dest, filename), 'w') do |file|
-          file.write(JSON.pretty_generate(search_data))
+        
+        # Đảm bảo thư mục destination tồn tại
+        FileUtils.mkdir_p(site.dest) unless Dir.exist?(site.dest)
+        
+        begin
+          File.open(File.join(site.dest, filename), 'w') do |file|
+            file.write(JSON.pretty_generate(search_data))
+          end
+        rescue => e
+          Jekyll.logger.warn "Search Generator", "Failed to write to #{File.join(site.dest, filename)}: #{e.message}"
         end
         
         # Tạo thêm file trong source để có thể access từ Jekyll
-        File.open(File.join(site.source, filename), 'w') do |file|
-          file.write(JSON.pretty_generate(search_data))
+        begin
+          File.open(File.join(site.source, filename), 'w') do |file|
+            file.write(JSON.pretty_generate(search_data))
+          end
+        rescue => e
+          Jekyll.logger.warn "Search Generator", "Failed to write to #{File.join(site.source, filename)}: #{e.message}"
         end
       end
     end
