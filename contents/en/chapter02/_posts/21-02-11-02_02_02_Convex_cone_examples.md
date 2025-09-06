@@ -50,12 +50,13 @@ The figure below shows the normal vector.
 
 ## Positive semidefinite cone
 
-**Positive semidefinite** $$\mathbb{S}^n_+$$의 정의는 다음과 같다. 이때 $$\mathbb{S}^n$$는  $$n × n$$ symmetric matrix이다.
->$$\mathbb{S}^n_+ =$$ { $$ X \in \mathbb{S}^n : X \succeq 0 $$} 
+The **positive semidefinite cone** $$\mathbb{S}^n_+$$ is defined as follows, where $$\mathbb{S}^n$$ represents $$n \times n$$ symmetric matrices:
 
-$$\mathbb{S}^n_+$$는  $$\theta_1, \theta_2 \ge 0$$, $$A, B \in  \mathbb{S}^n_+$$이면 $$\theta_1 A + \theta_2 B \in  \mathbb{S}^n_+$$를 만족하기 때문에 convex cone이며 **positive semidefinite cone**이라고 부른다.
+> $$\mathbb{S}^n_+ = \{ X \in \mathbb{S}^n : X \succeq 0 \}$$
 
-다음 그림은 $$S^2_+$$에서의 positive semidefinite cone의 boundary를 $$ (x, y, z) \in R^3$$ 상에서 그린 그림이다. 행렬 $$X$$는 positive semidefinite이기 때문에 determinant가 0이상 이어야 한다.
+$$\mathbb{S}^n_+$$ is a convex cone because for $$\theta_1, \theta_2 \ge 0$$ and $$A, B \in \mathbb{S}^n_+$$, we have $$\theta_1 A + \theta_2 B \in \mathbb{S}^n_+$$. This is called the **positive semidefinite cone**.
+
+The following figure shows the boundary of the positive semidefinite cone in $$\mathbb{S}^2_+$$ plotted in $$(x, y, z) \in \mathbb{R}^3$$. Since matrix $$X$$ is positive semidefinite, its determinant must be non-negative.
 
 $$
 X = 

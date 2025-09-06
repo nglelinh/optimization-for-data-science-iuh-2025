@@ -14,8 +14,6 @@ lesson_type: required
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-## Introduction to Linear Programming
-
 Linear Programming (LP) is one of the most fundamental and widely-used optimization techniques in mathematics, economics, and engineering. Imagine you're a factory manager trying to maximize profit while dealing with limited resources - this is exactly the type of problem LP was designed to solve!
 
 ### What makes a problem "Linear"?
@@ -83,20 +81,6 @@ The power of linear programming becomes clear when we visualize it geometrically
 </div>
 
 <div id="geometric-lp-viz" style="margin: 20px 0; text-align: center;"></div>
-
-<div class="content-box exercise-box">
-<strong>Interactive Exploration:</strong> Adjust the objective function direction and see how the optimal point changes!
-
-<div style="margin: 10px 0;">
-  <label for="objective-angle">Objective function angle: <span id="angle-value">45</span>°</label><br>
-  <input type="range" id="objective-angle" min="0" max="180" value="45" style="width: 300px;">
-</div>
-
-<div id="geometric-results" style="margin-top: 15px; font-family: monospace;">
-  <div>Optimal point: (<span id="opt-x">0</span>, <span id="opt-y">0</span>)</div>
-  <div>Optimal value: <span id="opt-value">0</span></div>
-</div>
-</div>
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -188,7 +172,7 @@ $$ x = x^{+}  - x^{-} $$, where $$ x^{+} \text{, } x^{-} \succeq 0 $$.
 >     & &&{\tilde{x} \succeq 0}.
 > \end{align} $$
 
-### Example 1) Diet program
+### Example - Diet program
 
 The diet problem is a classic application of linear programming, first studied during World War II to find the most economical way to feed soldiers while meeting nutritional requirements.
 
@@ -253,129 +237,141 @@ The diet problem is a classic application of linear programming, first studied d
 </ul>
 </div>
 
-### Example 2) Basis pursuit - Finding Sparse Solutions
+## The Simplex Algorithm
 
-**The Problem:** Imagine you have more unknowns than equations - an [underdetermined system](https://en.wikipedia.org/wiki/Underdetermined_system). There are infinitely many solutions! But what if we want the "simplest" solution - one with as few non-zero elements as possible?
+The **Simplex Algorithm**, developed by George Dantzig in 1947, is one of the most important algorithms in optimization history. It revolutionized linear programming by providing an efficient method to solve LP problems systematically.
 
-This is crucial in:
-- **Signal processing:** Compressing audio/images by finding sparse representations
-- **Machine learning:** Feature selection (which variables actually matter?)
-- **Medical imaging:** MRI reconstruction from limited measurements
-
-**The Mathematical Challenge:**
-
-> $$ \begin{align}
->     &\text{minimize}_{\beta} &&{\|\beta\|_0} \\\\
->     &\text{subject to } &&{X\beta = y},\\\\
->     & \text{given } &&y \in \mathbb{R}^n \text{ and } X \in \mathbb{R}^\text{n x p} \text{, where } p > n.\\\\
-> \end{align} \\
-$$
-
-Where $$ {\| \beta \|_0} = \sum_{j=1}^p \mathbf{1}_{\{\beta_j \neq 0\}} $$ counts the number of non-zero elements.
-
-<div class="content-box warning-box">
-<strong>⚠️ Problem:</strong> The L₀ "norm" makes this problem <strong>non-convex</strong> and computationally intractable (NP-hard)!
-</div>
-
-**The Brilliant Solution: L₁ Relaxation**
-
-Instead of counting non-zeros directly, we use the L₁ norm as a "convex proxy" for sparsity:
-
-> $$ \begin{align}
->     &\text{minimize}_{\beta} &&{\|\beta\|_1} \\\\
->     &\text{subject to } &&{X\beta = y},\\\\
->     & \text{given } &&y \in \mathbb{R}^n \text{ and } X \in \mathbb{R}^\text{n x p} \text{, where } p > n.
-> \end{align} \\
-$$
-
-<div class="content-box exercise-box">
-<strong>Interactive Comparison: L₀ vs L₁ Norms</strong>
-
-<div id="norm-comparison-viz" style="margin: 20px 0; text-align: center;"></div>
-
-<div style="margin: 10px 0;">
-  <label for="sparsity-level">Sparsity level: <span id="sparsity-value">70</span>%</label><br>
-  <input type="range" id="sparsity-level" min="10" max="95" value="70" style="width: 300px;">
-</div>
-
-<div id="sparsity-results" style="margin-top: 15px; font-family: monospace;">
-  <div>L₀ norm (# non-zeros): <span id="l0-norm">3</span></div>
-  <div>L₁ norm (sum of |values|): <span id="l1-norm">2.5</span></div>
-  <div>L₂ norm (Euclidean): <span id="l2-norm">1.8</span></div>
-</div>
-</div>
+### Why Simplex Works: The Fundamental Theorem
 
 <div class="content-box insight-box">
-<strong>Why does L₁ promote sparsity?</strong>
-<ul>
-<li>L₁ norm has "sharp corners" at the axes - solutions tend to hit these corners</li>
-<li>L₂ norm is "round" - solutions are typically dense (all non-zero)</li>
-<li>L₁ is the closest convex approximation to L₀</li>
-<li>Under certain conditions, L₁ and L₀ solutions are identical!</li>
-</ul>
+<strong>Fundamental Theorem of Linear Programming:</strong> If a linear program has an optimal solution, then there exists an optimal solution that occurs at a vertex (extreme point) of the feasible region.
 </div>
 
-Basis pursuit can also be expressed as a linear program:
+This theorem is the key insight behind the Simplex algorithm. Instead of searching the entire feasible region (which could be infinite), we only need to check the finite number of vertices!
+
+### How Simplex Works: The Strategy
+
+The Simplex algorithm follows this elegant strategy:
+
+1. **Start** at any vertex of the feasible region
+2. **Check** if the current vertex is optimal  
+3. **Move** to an adjacent vertex that improves the objective function
+4. **Repeat** until no improvement is possible (optimal solution found)
+
+### Simplex Algorithm Steps
+
+Let's walk through the algorithm step by step using our standard form LP:
 
 > $$ \begin{align}
->     &\text{minimize}_{\beta, z} &&{1^Tz} \\\\
->     &\text{subject to } &&{z \succeq \beta}\\\\
->     & &&{z \succeq -\beta}\\\\
->     & &&{X\beta = y}
+>     &\text{minimize}_{x} &&{c^T x} \\\\
+>     &\text{subject to } &&{A x = b} \\\\
+>     & &&{x \succeq 0}.
 > \end{align} $$
 
-* Each component of $$z$$ must be greater than or equal to the absolute value of the corresponding component of $$\beta$$.
-* The optimization process aims to increase the sparsity of both $$ z $$ and $$ \beta $$.
+**Step 1: Initial Setup**
+- Convert the LP to standard form (if not already)
+- Find an initial basic feasible solution (vertex)
+- Set up the simplex tableau
 
-### Example 3)  Dantzig selector
+**Step 2: Optimality Test**
+- Check if the current solution is optimal
+- If all reduced costs are non-negative, we're done!
 
-Consider the case where there is noise in the data (i.e., $$ X\beta \approx y $$). The problem, known as the [Dantzig selector](https://statweb.stanford.edu/~candes/software/l1magic/downloads/papers/DantzigSelector.pdf), is formulated as follows:
+**Step 3: Choose Entering Variable**
+- Select the variable with the most negative reduced cost
+- This determines the direction to move
 
-> $$ \begin{align}
->     &\text{minimize}_{\beta} &&{\|\beta\|_1} \\\\
->     &\text{subject to } &&{\| X^T (y - X \beta) \|_{\infty} \leq \lambda},\\\\
->     &\text{given } &&y \in \mathbb{R}^n \text{ and } X \in \mathbb{R}^\text{n x p} \text{, where } p > n. \ \text{Here } \lambda \geq 0 \text{ is a hyper-parameter. }\\\\
-> \end{align} \\
-$$
+**Step 4: Choose Leaving Variable**  
+- Use the minimum ratio test to avoid infeasibility
+- This determines how far to move
 
-* $$ y - X \beta \in \mathbb{R}^n $$ represents the residuals.
-* The constraint $$ \|y - X \beta\|_{\infty} \leq \lambda $$ ensures that the maximum absolute residual is no greater than $$\lambda$$.
-* This formulation seeks to minimize the residuals while keeping them within the bounds set by $$\lambda$$.
+**Step 5: Pivot Operation**
+- Update the tableau using Gaussian elimination
+- Move to the new vertex
 
-The Dantzig selector can also be transformed into a linear program:
+**Step 6: Repeat**
+- Go back to Step 2 until optimal
 
-> $$
-> \begin{align}
->     &\text{minimize}_{\beta, z} &&{\|\beta\|_1} \\\\
->     &\text{subject to } &&{x_j^T (y - X \beta) \preceq \lambda}, \text{for all } j = 1 \dotsc p\\\\
->     & &&{-x_j^T (y - X \beta) \preceq \lambda}, \text{for all } j = 1 \dotsc p\\\\
->     & && z \succeq -\beta\\\\
->     & && z \succeq \beta,\\\\
->     & \text{given } &&y \in \mathbb{R}^n \text{ and } X \in \mathbb{R}^\text{n x p} \text{, where } p > n. \ \text{Here } x_j \text{ is a jth column of } X.\\\\
-> \end{align}\\
-> $$
+### Interactive Simplex Example
 
-## Summary and Key Takeaways
+Let's solve a simple 2D problem step by step to see how Simplex works in practice:
 
-<div class="content-box summary-box">
-<strong class="emoji-title">🎯 What you've learned:</strong>
+<div class="content-box exercise-box">
+<strong>Interactive Simplex Solver:</strong> Watch the algorithm move from vertex to vertex!
+
+**Problem:**
+$$\begin{align}
+\text{maximize } & 3x_1 + 2x_2 \\
+\text{subject to } & x_1 + x_2 \leq 4 \\
+& 2x_1 + x_2 \leq 6 \\
+& x_1, x_2 \geq 0
+\end{align}$$
+
+<div id="simplex-interactive" style="margin: 20px 0;"></div>
+
+<div style="margin: 15px 0;">
+  <button id="simplex-step" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Next Step</button>
+  <button id="simplex-reset" style="background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Reset</button>
+</div>
+
+<div id="simplex-status" style="margin-top: 15px; font-family: monospace; background-color: #f9f9f9; padding: 15px; border-radius: 4px;">
+  <div><strong>Step 0:</strong> Starting at origin (0, 0)</div>
+  <div>Current objective value: 0</div>
+  <div>Click "Next Step" to begin the Simplex algorithm!</div>
+</div>
+
+<div id="simplex-tableau" style="margin-top: 15px; font-family: monospace; background-color: #f0f8ff; padding: 15px; border-radius: 4px;">
+  <strong>Current Simplex Tableau:</strong>
+  <div id="tableau-content" style="margin-top: 10px;">
+    Click "Next Step" to see the tableau!
+  </div>
+</div>
+</div>
+
+### Why Simplex is Efficient
+
+Despite having potentially exponential worst-case complexity, Simplex is remarkably efficient in practice:
+
+<div class="content-box insight-box">
+<strong>Simplex Efficiency:</strong>
 <ul>
-<li><strong>Linear Programming fundamentals:</strong> Optimizing linear objectives subject to linear constraints</li>
-<li><strong>Geometric intuition:</strong> Optimal solutions occur at vertices of the feasible polyhedron</li>
-<li><strong>Standard form conversion:</strong> Essential for algorithmic implementation</li>
-<li><strong>Real applications:</strong> From diet optimization to sparse signal recovery</li>
-<li><strong>L₁ vs L₀ norms:</strong> How convex relaxation enables tractable sparse solutions</li>
+<li><strong>Average case:</strong> Typically visits only 2-3 times the number of constraints</li>
+<li><strong>Practical problems:</strong> Often solves in polynomial time</li>
+<li><strong>Warm starts:</strong> Can reuse previous solutions when problem changes slightly</li>
+<li><strong>Degeneracy handling:</strong> Modern implementations handle degenerate cases well</li>
 </ul>
 </div>
 
-<div class="content-box question-box">
-<strong class="emoji-title">🧠 Self-Check Questions:</strong>
-<ol>
-<li>Why does the optimal solution of an LP always occur at a vertex of the feasible region?</li>
-<li>What are the three key transformations needed to convert any LP to standard form?</li>
-<li>Why is L₁ norm a good convex proxy for L₀ norm in promoting sparsity?</li>
-<li>Can you think of other real-world problems that could be formulated as linear programs?</li>
-</ol>
+### Simplex Variants and Modern Developments
+
+**Revised Simplex Method:**
+- More numerically stable
+- Better for sparse matrices  
+- Used in most commercial solvers
+
+**Dual Simplex Method:**
+- Starts with dual feasible solution
+- Useful for sensitivity analysis
+- Better for certain problem types
+
+**Interior Point Methods:**
+- Polynomial-time complexity guarantee
+- Better for very large problems
+- Complement rather than replace Simplex
+
+### Impact and Applications
+
+The Simplex algorithm has transformed numerous industries:
+
+<div class="content-box insight-box">
+<strong>Simplex Success Stories:</strong>
+<ul>
+<li><strong>Airlines:</strong> Crew scheduling, route optimization, fleet assignment</li>
+<li><strong>Manufacturing:</strong> Production planning, supply chain optimization</li>
+<li><strong>Finance:</strong> Portfolio optimization, risk management</li>
+<li><strong>Telecommunications:</strong> Network flow optimization, bandwidth allocation</li>
+<li><strong>Energy:</strong> Power grid optimization, resource allocation</li>
+</ul>
 </div>
 
 <script>
@@ -429,103 +425,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize
         updateFarmerResults();
-    }
-    
-    // ==================== GEOMETRIC LP VISUALIZATION ====================
-    
-    function initializeGeometricVisualization() {
-        const angleSlider = document.getElementById('objective-angle');
-        if (!angleSlider) return;
-        
-        // Create SVG for geometric visualization
-        const width = 400, height = 300;
-        const svg = d3.select('#geometric-lp-viz')
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .style('border', '1px solid #ccc');
-        
-        // Define feasible region (simple triangle for demonstration)
-        const feasibleRegion = [
-            [50, 250], [350, 250], [200, 50], [50, 250]
-        ];
-        
-        // Draw feasible region
-        svg.append('path')
-            .datum(feasibleRegion)
-            .attr('d', d3.line())
-            .attr('fill', 'lightblue')
-            .attr('fill-opacity', 0.5)
-            .attr('stroke', 'blue')
-            .attr('stroke-width', 2);
-        
-        // Draw vertices
-        svg.selectAll('.vertex')
-            .data(feasibleRegion.slice(0, -1))
-            .enter()
-            .append('circle')
-            .attr('class', 'vertex')
-            .attr('cx', d => d[0])
-            .attr('cy', d => d[1])
-            .attr('r', 5)
-            .attr('fill', 'red');
-        
-        function updateGeometricVisualization() {
-            const angle = parseFloat(angleSlider.value);
-            document.getElementById('angle-value').textContent = angle;
-            
-            // Remove previous objective lines
-            svg.selectAll('.objective-line').remove();
-            svg.selectAll('.optimal-point').remove();
-            
-            // Calculate objective function direction
-            const radians = (angle * Math.PI) / 180;
-            const dx = Math.cos(radians) * 100;
-            const dy = Math.sin(radians) * 100;
-            
-            // Draw objective function lines (level sets)
-            for (let i = 0; i < 3; i++) {
-                const offset = i * 50;
-                svg.append('line')
-                    .attr('class', 'objective-line')
-                    .attr('x1', 50 + offset * Math.cos(radians + Math.PI/2))
-                    .attr('y1', 150 + offset * Math.sin(radians + Math.PI/2))
-                    .attr('x2', 350 + offset * Math.cos(radians + Math.PI/2))
-                    .attr('y2', 150 + offset * Math.sin(radians + Math.PI/2))
-                    .attr('stroke', 'green')
-                    .attr('stroke-width', 1)
-                    .attr('stroke-dasharray', '5,5')
-                    .attr('opacity', 0.7);
-            }
-            
-            // Find optimal vertex (simplified - just pick based on angle)
-            let optimalVertex;
-            if (angle < 60) {
-                optimalVertex = [350, 250];
-            } else if (angle < 120) {
-                optimalVertex = [200, 50];
-            } else {
-                optimalVertex = [50, 250];
-            }
-            
-            // Highlight optimal point
-            svg.append('circle')
-                .attr('class', 'optimal-point')
-                .attr('cx', optimalVertex[0])
-                .attr('cy', optimalVertex[1])
-                .attr('r', 8)
-                .attr('fill', 'orange')
-                .attr('stroke', 'red')
-                .attr('stroke-width', 3);
-            
-            // Update results
-            document.getElementById('opt-x').textContent = ((optimalVertex[0] - 50) / 10).toFixed(1);
-            document.getElementById('opt-y').textContent = ((250 - optimalVertex[1]) / 10).toFixed(1);
-            document.getElementById('opt-value').textContent = (Math.random() * 100).toFixed(1);
-        }
-        
-        angleSlider.addEventListener('input', updateGeometricVisualization);
-        updateGeometricVisualization();
     }
     
     // ==================== DIET PROBLEM SOLVER ====================
@@ -585,96 +484,462 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // ==================== NORM COMPARISON VISUALIZATION ====================
+    // ==================== SIMPLEX ALGORITHM VISUALIZATION ====================
     
-    function initializeNormComparison() {
-        const sparsitySlider = document.getElementById('sparsity-level');
-        if (!sparsitySlider) return;
+    function initializeSimplexVisualization() {
+        const stepButton = document.getElementById('simplex-step');
+        const resetButton = document.getElementById('simplex-reset');
+        const statusDiv = document.getElementById('simplex-status');
+        const tableauDiv = document.getElementById('tableau-content');
+        const interactiveDiv = document.getElementById('simplex-interactive');
         
-        // Create visualization for norm comparison
-        const width = 500, height = 200;
-        const svg = d3.select('#norm-comparison-viz')
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .style('border', '1px solid #ccc');
+        if (!stepButton || !resetButton || !statusDiv || !tableauDiv || !interactiveDiv) return;
         
-        function updateNormComparison() {
-            const sparsityPercent = parseFloat(sparsitySlider.value);
-            document.getElementById('sparsity-value').textContent = sparsityPercent;
+        // Simplex algorithm state
+        let currentStep = 0;
+        let currentVertex = [0, 0]; // Starting at origin
+        let isOptimal = false;
+        
+        // Problem: maximize 3x1 + 2x2 subject to x1 + x2 <= 4, 2x1 + x2 <= 6, x1,x2 >= 0
+        // In standard form: minimize -3x1 - 2x2 subject to x1 + x2 + s1 = 4, 2x1 + x2 + s2 = 6
+        
+        const vertices = [
+            [0, 0, 4, 6], // (x1, x2, s1, s2) - origin
+            [0, 4, 0, 2], // (0, 4, 0, 2) - intersection with x1 + x2 = 4
+            [2, 2, 0, 0], // (2, 2, 0, 0) - intersection of both constraints
+            [3, 0, 1, 0]  // (3, 0, 1, 0) - intersection with 2x1 + x2 = 6
+        ];
+        
+        const objectiveValues = [0, 8, 10, 9]; // 3x1 + 2x2 at each vertex
+        const simplexPath = [0, 3, 2]; // Path: origin -> (3,0) -> (2,2) optimal
+        
+        function createVisualization() {
+            const width = 400;
+            const height = 300;
+            const margin = {top: 20, right: 20, bottom: 40, left: 40};
             
-            // Generate random sparse vector
-            const vectorSize = 10;
-            const numNonZeros = Math.max(1, Math.floor((100 - sparsityPercent) / 100 * vectorSize));
+            // Clear previous content
+            interactiveDiv.innerHTML = '';
             
-            let vector = new Array(vectorSize).fill(0);
-            const nonZeroIndices = [];
-            while (nonZeroIndices.length < numNonZeros) {
-                const idx = Math.floor(Math.random() * vectorSize);
-                if (!nonZeroIndices.includes(idx)) {
-                    nonZeroIndices.push(idx);
-                    vector[idx] = (Math.random() - 0.5) * 4; // Random value between -2 and 2
-                }
-            }
+            const svg = d3.select('#simplex-interactive')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
             
-            // Calculate norms
-            const l0Norm = vector.filter(x => Math.abs(x) > 1e-10).length;
-            const l1Norm = vector.reduce((sum, x) => sum + Math.abs(x), 0);
-            const l2Norm = Math.sqrt(vector.reduce((sum, x) => sum + x * x, 0));
+            // Scales
+            const xScale = d3.scaleLinear()
+                .domain([0, 4])
+                .range([margin.left, width - margin.right]);
             
-            // Update norm displays
-            document.getElementById('l0-norm').textContent = l0Norm;
-            document.getElementById('l1-norm').textContent = l1Norm.toFixed(2);
-            document.getElementById('l2-norm').textContent = l2Norm.toFixed(2);
+            const yScale = d3.scaleLinear()
+                .domain([0, 6])
+                .range([height - margin.bottom, margin.top]);
             
-            // Clear previous visualization
-            svg.selectAll('*').remove();
+            // Draw feasible region
+            const feasibleRegion = [
+                [0, 0], [0, 4], [2, 2], [3, 0], [0, 0]
+            ];
             
-            // Draw vector components as bars
-            const barWidth = width / vectorSize;
-            const maxHeight = height - 40;
-            const maxValue = Math.max(...vector.map(Math.abs));
+            svg.append('path')
+                .datum(feasibleRegion)
+                .attr('fill', 'lightblue')
+                .attr('fill-opacity', 0.3)
+                .attr('stroke', 'blue')
+                .attr('stroke-width', 2)
+                .attr('d', d3.line()
+                    .x(d => xScale(d[0]))
+                    .y(d => yScale(d[1]))
+                );
             
-            svg.selectAll('.bar')
-                .data(vector)
-                .enter()
-                .append('rect')
-                .attr('class', 'bar')
-                .attr('x', (d, i) => i * barWidth + 5)
-                .attr('y', d => height/2 - (d / maxValue) * maxHeight/2)
-                .attr('width', barWidth - 2)
-                .attr('height', d => Math.abs(d / maxValue) * maxHeight/2)
-                .attr('fill', d => Math.abs(d) > 1e-10 ? 'steelblue' : 'lightgray')
-                .attr('stroke', 'black')
-                .attr('stroke-width', 0.5);
-            
-            // Add zero line
+            // Draw constraint lines
+            // x1 + x2 = 4
             svg.append('line')
-                .attr('x1', 0)
-                .attr('x2', width)
-                .attr('y1', height/2)
-                .attr('y2', height/2)
-                .attr('stroke', 'black')
-                .attr('stroke-width', 1);
+                .attr('x1', xScale(0))
+                .attr('y1', yScale(4))
+                .attr('x2', xScale(4))
+                .attr('y2', yScale(0))
+                .attr('stroke', 'red')
+                .attr('stroke-width', 2)
+                .attr('stroke-dasharray', '5,5');
             
-            // Add labels
+            // 2x1 + x2 = 6
+            svg.append('line')
+                .attr('x1', xScale(0))
+                .attr('y1', yScale(6))
+                .attr('x2', xScale(3))
+                .attr('y2', yScale(0))
+                .attr('stroke', 'green')
+                .attr('stroke-width', 2)
+                .attr('stroke-dasharray', '5,5');
+            
+            // Draw vertices
+            const vertexPoints = [[0,0], [0,4], [2,2], [3,0]];
+            svg.selectAll('.vertex')
+                .data(vertexPoints)
+                .enter()
+                .append('circle')
+                .attr('class', 'vertex')
+                .attr('cx', d => xScale(d[0]))
+                .attr('cy', d => yScale(d[1]))
+                .attr('r', 6)
+                .attr('fill', 'orange')
+                .attr('stroke', 'black')
+                .attr('stroke-width', 2);
+            
+            // Current position indicator
+            svg.append('circle')
+                .attr('id', 'current-position')
+                .attr('cx', xScale(currentVertex[0]))
+                .attr('cy', yScale(currentVertex[1]))
+                .attr('r', 8)
+                .attr('fill', 'red')
+                .attr('stroke', 'darkred')
+                .attr('stroke-width', 3);
+            
+            // Axes
+            svg.append('g')
+                .attr('transform', `translate(0,${height - margin.bottom})`)
+                .call(d3.axisBottom(xScale));
+            
+            svg.append('g')
+                .attr('transform', `translate(${margin.left},0)`)
+                .call(d3.axisLeft(yScale));
+            
+            // Axis labels
             svg.append('text')
-                .attr('x', width/2)
+                .attr('x', width / 2)
                 .attr('y', height - 5)
                 .attr('text-anchor', 'middle')
-                .attr('font-size', '12px')
-                .text('Vector Components');
+                .text('x₁');
+            
+            svg.append('text')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', 15)
+                .attr('text-anchor', 'middle')
+                .text('x₂');
+            
+            // Legend
+            const legend = svg.append('g')
+                .attr('transform', `translate(${width - 150}, 30)`);
+            
+            legend.append('text')
+                .attr('x', 0)
+                .attr('y', 0)
+                .text('Constraints:')
+                .attr('font-weight', 'bold');
+            
+            legend.append('line')
+                .attr('x1', 0)
+                .attr('y1', 15)
+                .attr('x2', 20)
+                .attr('y2', 15)
+                .attr('stroke', 'red')
+                .attr('stroke-width', 2)
+                .attr('stroke-dasharray', '5,5');
+            
+            legend.append('text')
+                .attr('x', 25)
+                .attr('y', 19)
+                .text('x₁ + x₂ ≤ 4')
+                .attr('font-size', '12px');
+            
+            legend.append('line')
+                .attr('x1', 0)
+                .attr('y1', 30)
+                .attr('x2', 20)
+                .attr('y2', 30)
+                .attr('stroke', 'green')
+                .attr('stroke-width', 2)
+                .attr('stroke-dasharray', '5,5');
+            
+            legend.append('text')
+                .attr('x', 25)
+                .attr('y', 34)
+                .text('2x₁ + x₂ ≤ 6')
+                .attr('font-size', '12px');
         }
         
-        sparsitySlider.addEventListener('input', updateNormComparison);
-        updateNormComparison();
+        function updateTableau(step) {
+            let tableauHTML = '';
+            
+            switch(step) {
+                case 0:
+                    tableauHTML = `
+                        <table style="border-collapse: collapse; margin: 10px 0;">
+                            <tr style="background-color: #e0e0e0;">
+                                <th style="border: 1px solid #ccc; padding: 8px;">Basic</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">RHS</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">s₁</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">4</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">s₂</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">2</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">6</td>
+                            </tr>
+                            <tr style="background-color: #fff2cc;">
+                                <td style="border: 1px solid #ccc; padding: 8px;">z</td>
+                                <td style="border: 1px solid #ccc; padding: 8px; color: red;"><strong>-3</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px; color: red;">-2</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 10px;">
+                            <strong>Analysis:</strong> Most negative coefficient is -3 (x₁ column). x₁ enters the basis.
+                        </div>
+                    `;
+                    break;
+                case 1:
+                    tableauHTML = `
+                        <table style="border-collapse: collapse; margin: 10px 0;">
+                            <tr style="background-color: #e0e0e0;">
+                                <th style="border: 1px solid #ccc; padding: 8px;">Basic</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">RHS</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">Ratio</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">s₁</td>
+                                <td style="border: 1px solid #ccc; padding: 8px; background-color: #ffcccc;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">4</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">4/1 = 4</td>
+                            </tr>
+                            <tr style="background-color: #ccffcc;">
+                                <td style="border: 1px solid #ccc; padding: 8px;">s₂</td>
+                                <td style="border: 1px solid #ccc; padding: 8px; background-color: #ffcccc;"><strong>2</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">6</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;"><strong>6/2 = 3</strong></td>
+                            </tr>
+                            <tr style="background-color: #fff2cc;">
+                                <td style="border: 1px solid #ccc; padding: 8px;">z</td>
+                                <td style="border: 1px solid #ccc; padding: 8px; background-color: #ffcccc;">-3</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">-2</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">-</td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 10px;">
+                            <strong>Minimum ratio test:</strong> min{4/1, 6/2} = min{4, 3} = 3. s₂ leaves the basis.
+                        </div>
+                    `;
+                    break;
+                case 2:
+                    tableauHTML = `
+                        <table style="border-collapse: collapse; margin: 10px 0;">
+                            <tr style="background-color: #e0e0e0;">
+                                <th style="border: 1px solid #ccc; padding: 8px;">Basic</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">RHS</th>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">s₁</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px; color: red;"><strong>0.5</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">-0.5</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">x₁</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0.5</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0.5</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">3</td>
+                            </tr>
+                            <tr style="background-color: #fff2cc;">
+                                <td style="border: 1px solid #ccc; padding: 8px;">z</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px; color: red;"><strong>-0.5</strong></td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1.5</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">9</td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 10px;">
+                            <strong>Current solution:</strong> x₁ = 3, x₂ = 0, objective = 9<br>
+                            <strong>Analysis:</strong> x₂ has negative coefficient (-0.5), so x₂ enters the basis.
+                        </div>
+                    `;
+                    break;
+                case 3:
+                    tableauHTML = `
+                        <table style="border-collapse: collapse; margin: 10px 0;">
+                            <tr style="background-color: #e0e0e0;">
+                                <th style="border: 1px solid #ccc; padding: 8px;">Basic</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">x₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₁</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">s₂</th>
+                                <th style="border: 1px solid #ccc; padding: 8px;">RHS</th>
+                            </tr>
+                            <tr style="background-color: #ccffcc;">
+                                <td style="border: 1px solid #ccc; padding: 8px;">x₂</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">2</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">-1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">2</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #ccc; padding: 8px;">x₁</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">-1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">2</td>
+                            </tr>
+                            <tr style="background-color: #ccffcc;">
+                                <td style="border: 1px solid #ccc; padding: 8px;">z</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">0</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">1</td>
+                                <td style="border: 1px solid #ccc; padding: 8px;">10</td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 10px;">
+                            <strong>OPTIMAL SOLUTION FOUND!</strong><br>
+                            x₁ = 2, x₂ = 2, Maximum objective value = 10<br>
+                            All coefficients in the objective row are non-negative.
+                        </div>
+                    `;
+                    break;
+            }
+            
+            tableauDiv.innerHTML = tableauHTML;
+        }
+        
+        function updateStatus(step) {
+            let statusHTML = '';
+            
+            switch(step) {
+                case 0:
+                    statusHTML = `
+                        <div><strong>Step 0:</strong> Initial basic feasible solution</div>
+                        <div>Current vertex: (0, 0)</div>
+                        <div>Current objective value: 0</div>
+                        <div>Basic variables: s₁ = 4, s₂ = 6</div>
+                    `;
+                    currentVertex = [0, 0];
+                    break;
+                case 1:
+                    statusHTML = `
+                        <div><strong>Step 1:</strong> Choose entering variable</div>
+                        <div>Most negative coefficient: -3 (x₁ column)</div>
+                        <div>x₁ enters the basis</div>
+                        <div>Performing minimum ratio test...</div>
+                    `;
+                    break;
+                case 2:
+                    statusHTML = `
+                        <div><strong>Step 2:</strong> First iteration complete</div>
+                        <div>Current vertex: (3, 0)</div>
+                        <div>Current objective value: 9</div>
+                        <div>Basic variables: x₁ = 3, s₁ = 1</div>
+                    `;
+                    currentVertex = [3, 0];
+                    break;
+                case 3:
+                    statusHTML = `
+                        <div><strong>Step 3:</strong> OPTIMAL SOLUTION FOUND!</div>
+                        <div>Current vertex: (2, 2)</div>
+                        <div>Maximum objective value: 10</div>
+                        <div>Basic variables: x₁ = 2, x₂ = 2</div>
+                    `;
+                    currentVertex = [2, 2];
+                    isOptimal = true;
+                    break;
+            }
+            
+            statusDiv.innerHTML = statusHTML;
+            
+            // Update visualization
+            const currentPos = d3.select('#current-position');
+            if (currentPos.node()) {
+                const xScale = d3.scaleLinear().domain([0, 4]).range([40, 360]);
+                const yScale = d3.scaleLinear().domain([0, 6]).range([260, 40]);
+                
+                currentPos
+                    .transition()
+                    .duration(500)
+                    .attr('cx', xScale(currentVertex[0]))
+                    .attr('cy', yScale(currentVertex[1]));
+            }
+        }
+        
+        function nextStep() {
+            if (currentStep < 3) {
+                currentStep++;
+                updateStatus(currentStep);
+                updateTableau(currentStep);
+                
+                if (currentStep === 3) {
+                    stepButton.textContent = 'Algorithm Complete!';
+                    stepButton.disabled = true;
+                    stepButton.style.backgroundColor = '#4CAF50';
+                }
+            }
+        }
+        
+        function reset() {
+            currentStep = 0;
+            currentVertex = [0, 0];
+            isOptimal = false;
+            
+            stepButton.textContent = 'Next Step';
+            stepButton.disabled = false;
+            stepButton.style.backgroundColor = '#2196F3';
+            
+            updateStatus(0);
+            updateTableau(0);
+            createVisualization();
+        }
+        
+        // Event listeners
+        stepButton.addEventListener('click', nextStep);
+        resetButton.addEventListener('click', reset);
+        
+        // Initialize
+        createVisualization();
+        updateStatus(0);
+        updateTableau(0);
     }
     
     // Initialize all interactive elements
     initializeFarmerProblem();
-    initializeGeometricVisualization();
     initializeDietSolver();
-    initializeNormComparison();
+    initializeSimplexVisualization();
     
     // Trigger MathJax re-rendering if needed
     if (window.MathJax) {

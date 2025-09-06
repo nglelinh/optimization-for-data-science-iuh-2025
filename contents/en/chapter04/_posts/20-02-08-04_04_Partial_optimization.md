@@ -7,7 +7,6 @@ owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
-lesson_type: required
 ---
 [Reminder: ]({% multilang_post_url contents/chapter03/21-02-12-03_02_operations_that_preserve_convexity %})
 If $$C$$ is a convex set and $$f$$ is convex in $$(x,y)$$, then $$g(x) = \min_{y \in C} f(x, y)$$ is convex in $$x$$.

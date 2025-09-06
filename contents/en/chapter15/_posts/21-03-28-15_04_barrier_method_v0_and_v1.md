@@ -46,11 +46,11 @@ The algorithm can be described as follows.
 
 ### Considerations
 In choosing $$\mu$$ and $$t^{(0)}$$, the following trade-offs must be considered.
-##### $$\mu$$의 선택
+##### Choice of $$\mu$$
 * If $$\mu$$ is too small, the number of outer iterations increases. (In this case, warm start helps.)<br>
 * If $$\mu$$ is too large, many iterations are required for Newton's method to converge in every centering step. 
 
-##### 알고리즘 초기값 선택
+##### Choice of initial algorithm value
 * If $$t^{(0)}$$ is too small, the number of outer iterations increases.<br>
 * If $$t^{(0)}$$ is too large, it becomes the same problem as v.0. Therefore, Newton's method requires many iterations to find $$x^{(0)}$$ in the first centering step. 
 

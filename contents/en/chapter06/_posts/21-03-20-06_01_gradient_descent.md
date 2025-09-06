@@ -17,6 +17,18 @@ Gradient descent is the simplest algorithm for solving unconstrained convex and 
 
 The optimal value is $$f^* = \min_x f(x)$$, and the optimizer is $$x^*$$.
 
+## Why Gradient Descent Matters in Data Science
+
+**Gradient descent is the workhorse of machine learning!** It's the algorithm behind:
+
+- **Training neural networks**: Backpropagation uses gradient descent to update weights
+- **Linear regression**: Finding optimal coefficients to minimize MSE
+- **Logistic regression**: Optimizing parameters for classification
+- **Deep learning**: Training complex models with millions of parameters
+- **Recommendation systems**: Learning user preferences and item features
+
+**Key insight**: Every time you see "training" or "learning" in ML, gradient descent (or its variants) is likely involved!
+
 
 ## Gradient Descent for Single Variable Functions
 
@@ -41,10 +53,10 @@ The gradient descent update becomes:
 > $$x^{(k)} = x^{(k-1)} - t(x^{(k-1)} - 2)$$
 
 Starting from $$x^{(0)} = 0$$ with step size $$t = 0.1$$:
-- $$x^{(1)} = 0 - 0.1(0 - 2) = 0.2$$
-- $$x^{(2)} = 0.2 - 0.1(0.2 - 2) = 0.38$$
-- $$x^{(3)} = 0.38 - 0.1(0.38 - 2) = 0.542$$
-- ...
+> $$x^{(1)} = 0 - 0.1(0 - 2) = 0.2 \\ $$ 
+> $$x^{(2)} = 0.2 - 0.1(0.2 - 2) = 0.38$$
+> $$x^{(3)} = 0.38 - 0.1(0.38 - 2) = 0.542$$
+> ...
 
 The sequence converges to $$x^* = 2$$, which is the global minimum.
 
@@ -357,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-### Gradient Descent Method
+## Gradient Descent Method for Multivariables function
 
 Gradient descent starts from an initial point $$x^{(0)} \in \mathbb{R}^n$$ and iteratively updates as follows until a stopping criterion is met:
 > $$x^{(k)} = x^{(k-1)} - t_k \nabla f(x^{(k-1)}), \quad k = 1, 2, 3, ...$$, $$t_k > 0$$

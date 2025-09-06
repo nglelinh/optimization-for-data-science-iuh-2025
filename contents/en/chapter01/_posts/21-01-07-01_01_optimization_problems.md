@@ -10,8 +10,16 @@ lang: en
 lesson_type: required
 ---
 
-An optimization problem is a problem in which, among many possible candidates, we seek the optimal solution (optimal value) or a value close to the optimal. In machine learning, for example, we often find the parameters of a model that minimize or maximize a cost function. This is formulated as an optimization problem.
+An optimization problem is a problem in which, among many possible candidates, we seek the optimal solution (optimal value) or a value close to the optimal. 
 
+**In data science and machine learning**, optimization is everywhere:
+- **Training neural networks**: Finding weights that minimize prediction error
+- **Linear regression**: Finding the best-fit line that minimizes squared errors
+- **Clustering**: Optimizing cluster centers to minimize within-cluster variance
+- **Feature selection**: Choosing the best subset of features to maximize model performance
+- **Hyperparameter tuning**: Finding optimal learning rates, regularization parameters, etc.
+
+Every time you train a machine learning model, you're solving an optimization problem!
 
 ## Mathematical optimization problems
 A mathematical optimization problem can be expressed as follows:
@@ -50,21 +58,4 @@ $$D = dom(f) \cap \bigcap_{i=1}^m {\rm dom}(g_i) \cap \bigcap_{j=1}^r dom(h_j)$$
 >
 >$$\begin{align*} &\text{minimize } && \log(x) \\ &\text{subject to } &&x > 0 \end{align*}$$
 
-## Applications
-
-Optimization problems are applied in various fields. [2]
-
-### Portfolio optimization
-* variables: investment amount for each asset
-* constraints: budget, minimum/maximum investment per asset, minimum return
-* objective: overall risk or return variance
-
-### Device sizing in electronic circuits
-* variables: width and length of each component
-* constraints: manufacturing process limitations, maximum area
-* objective: power consumption
-
-### Data fitting
-* variables: model parameters
-* constraints: prior information (e.g., some parameters are non-negative), parameter restrictions
-* objective: error in prediction
+> **💡 Pro Tip**: Start with convex formulations when possible - they're easier to solve and understand. Only move to complex non-convex models when simpler approaches fail to meet your requirements.

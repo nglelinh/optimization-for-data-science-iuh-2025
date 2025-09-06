@@ -7,7 +7,6 @@ owner: YoungJae Choung
 categories:
 - chapter04
 lang: en
-lesson_type: required
 ---
 This section discusses transformations and change of variables in convex optimization problems, which are useful for simplifying or reformulating problems.
 

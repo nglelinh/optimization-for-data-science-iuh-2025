@@ -7,7 +7,6 @@ owner: AI Assistant
 categories:
 - chapter03
 lang: en
-lesson_type: required
 ---
 
 
