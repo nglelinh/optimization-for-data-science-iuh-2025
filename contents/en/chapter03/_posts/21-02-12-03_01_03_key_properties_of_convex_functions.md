@@ -36,6 +36,34 @@ The figure below illustrates the first-order condition for a differentiable conv
 </p>
 </figure>
 
+This condition is known as the **tangent line condition** (or tangent hyperplane condition in higher dimensions). It essentially states that a convex function always lies above or on all of its tangent lines (or hyperplanes). No matter where you draw a tangent to a convex function, the function's actual values will never dip below that tangent.
+
+### Example
+
+Consider the simple convex function $$f(x) = x^2$$. Its derivative (which is its gradient in 1D) is $$f'(x) = 2x$$.
+
+Let's pick an arbitrary point $$x_0$$. The equation of the tangent line to $$f(x)$$ at $$x_0$$ is given by:
+$$L(x) = f(x_0) + f'(x_0)(x - x_0)$$
+
+Substituting $$f(x_0) = x_0^2$$ and $$f'(x_0) = 2x_0$$:
+$$L(x) = x_0^2 + 2x_0(x - x_0)$$
+
+The convexity condition requires that for any $$x$$:
+$$f(x) \geq L(x)$$
+$$x^2 \geq x_0^2 + 2x_0(x - x_0)$$
+
+Let's simplify the right side:
+$$x^2 \geq x_0^2 + 2x_0x - 2x_0^2$$
+$$x^2 \geq 2x_0x - x_0^2$$
+
+Now, move all terms to one side:
+$$x^2 - 2x_0x + x_0^2 \geq 0$$
+
+This expression is a perfect square:
+$$(x - x_0)^2 \geq 0$$
+
+This inequality is always true for any real numbers $$x$$ and $$x_0$$, because the square of any real number is always non-negative. This confirms that $$f(x) = x^2$$ satisfies the tangent line condition and is indeed a convex function.
+
 ## Second-order characterization
 If a function $$f$$ is twice differentiable, it has the following property:
 
