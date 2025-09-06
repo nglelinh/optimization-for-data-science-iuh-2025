@@ -38,7 +38,7 @@ Let's start with an intuitive example. A farmer has 100 acres of land and wants 
 
 <div id="farmer-problem-viz" style="margin: 20px 0;"></div>
 
-<div style="background-color: #f0f8ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box exercise-box">
 <strong>Interactive Exercise:</strong> Use the sliders below to explore different combinations of corn and wheat. Watch how the profit changes and whether constraints are satisfied!
 
 <div style="margin: 10px 0;">
@@ -78,13 +78,13 @@ Now let's formalize this intuition. If both the objective function and constrain
 
 The power of linear programming becomes clear when we visualize it geometrically. Each constraint defines a half-space, and the feasible region is the intersection of all these half-spaces - forming a **polyhedron**.
 
-<div style="background-color: #fff8dc; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box insight-box">
 <strong>Key Insight:</strong> The optimal solution of a linear program always occurs at a <strong>vertex</strong> (corner point) of the feasible region! This is why the simplex method works by moving from vertex to vertex.
 </div>
 
 <div id="geometric-lp-viz" style="margin: 20px 0; text-align: center;"></div>
 
-<div style="background-color: #f0f8ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box exercise-box">
 <strong>Interactive Exploration:</strong> Adjust the objective function direction and see how the optimal point changes!
 
 <div style="margin: 10px 0;">
@@ -121,7 +121,7 @@ Why do we need a standard form? Many LP algorithms (like the simplex method) are
 - **Constraints**: Only equality constraints (inequalities converted using slack variables)
 - **Variables**: All variables must be non-negative
 
-<div style="background-color: #fff8dc; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box insight-box">
 <strong>Why Standard Form?</strong> 
 <ul>
 <li><strong>Algorithmic efficiency:</strong> Simplex method works directly on standard form</li>
@@ -206,7 +206,7 @@ The diet problem is a classic application of linear programming, first studied d
 * $$ D_{ij} $$: Amount of nutrient i in food item j (units of nutrient per unit of food)
 * $$ x_j $$: Amount of food item j in the diet (units/day)
 
-<div style="background-color: #f0f8ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box exercise-box">
 <strong>Interactive Diet Optimizer:</strong> Let's solve a simplified diet problem with 3 foods and 2 nutrients!
 
 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 15px 0;">
@@ -243,7 +243,7 @@ The diet problem is a classic application of linear programming, first studied d
 </div>
 </div>
 
-<div style="background-color: #fff8dc; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box insight-box">
 <strong>Real-world Applications:</strong>
 <ul>
 <li><strong>Military logistics:</strong> Feeding troops cost-effectively</li>
@@ -273,7 +273,7 @@ $$
 
 Where $$ {\| \beta \|_0} = \sum_{j=1}^p \mathbf{1}_{\{\beta_j \neq 0\}} $$ counts the number of non-zero elements.
 
-<div style="background-color: #ffebee; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box warning-box">
 <strong>⚠️ Problem:</strong> The L₀ "norm" makes this problem <strong>non-convex</strong> and computationally intractable (NP-hard)!
 </div>
 
@@ -288,7 +288,7 @@ Instead of counting non-zeros directly, we use the L₁ norm as a "convex proxy"
 > \end{align} \\
 $$
 
-<div style="background-color: #f0f8ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box exercise-box">
 <strong>Interactive Comparison: L₀ vs L₁ Norms</strong>
 
 <div id="norm-comparison-viz" style="margin: 20px 0; text-align: center;"></div>
@@ -305,7 +305,7 @@ $$
 </div>
 </div>
 
-<div style="background-color: #fff8dc; padding: 15px; border-radius: 8px; margin: 20px 0;">
+<div class="content-box insight-box">
 <strong>Why does L₁ promote sparsity?</strong>
 <ul>
 <li>L₁ norm has "sharp corners" at the axes - solutions tend to hit these corners</li>
@@ -357,8 +357,8 @@ The Dantzig selector can also be transformed into a linear program:
 
 ## Summary and Key Takeaways
 
-<div style="background-color: #e8f5e8; padding: 20px; border-radius: 8px; margin: 20px 0;">
-<strong>🎯 What you've learned:</strong>
+<div class="content-box summary-box">
+<strong class="emoji-title">🎯 What you've learned:</strong>
 <ul>
 <li><strong>Linear Programming fundamentals:</strong> Optimizing linear objectives subject to linear constraints</li>
 <li><strong>Geometric intuition:</strong> Optimal solutions occur at vertices of the feasible polyhedron</li>
@@ -368,8 +368,8 @@ The Dantzig selector can also be transformed into a linear program:
 </ul>
 </div>
 
-<div style="background-color: #f0f8ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-<strong>🧠 Self-Check Questions:</strong>
+<div class="content-box question-box">
+<strong class="emoji-title">🧠 Self-Check Questions:</strong>
 <ol>
 <li>Why does the optimal solution of an LP always occur at a vertex of the feasible region?</li>
 <li>What are the three key transformations needed to convert any LP to standard form?</li>

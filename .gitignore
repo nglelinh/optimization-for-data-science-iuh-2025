@@ -45,3 +45,7 @@ bower_components
 # Gemfile.lock
 Gemfile.lock
 
+# Search index files (generated automatically)
+search-index.json
+search-index-vi.json
+
