@@ -38,7 +38,7 @@ Summarized as follows (with $$\Delta x = - \nabla f(x)$$):
 
 1. Initialize parameters ($$0 < \beta < 1$$, $$0 < t \le 1/2$$).
 2. For each iteration, set $$t = t_{init}$$ ($$t_{init} = 1$$).
-3. While $$f(x - t \nabla f(x)) > f(x) - t t \|\nabla f(x)\|_2^2$$, set $$t = \beta t$$.
+3. While $$f(x - t \nabla f(x)) > f(x) - t \|\nabla f(x)\|_2^2$$, set $$t = \beta t$$.
 4. Update $$x^+ = x - t \nabla f(x)$$.
 5. If stopping criterion is not met, repeat from step 2.
 

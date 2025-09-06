@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 06-03-01 Convergence analysis & Proof
+title: 06-03-02 Convergence analysis & Proof
 chapter: '06'
-order: 8
+order: 9
 owner: Kyeongmin Woo
 categories:
 - chapter06

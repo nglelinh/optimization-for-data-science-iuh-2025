@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 06-03-02 Convex function quadratic upper bound
+title: 06-03-01 Convex function quadratic upper bound
 chapter: '06'
-order: 9
+order: 8
 owner: Kyeongmin Woo
 categories:
 - chapter06
@@ -11,6 +11,7 @@ lesson_type: required
 ---
 
 ## Quadratic Upper Bound
+
 If $$f$$ is convex and $$\nabla f$$ is Lipschitz continuous, then $$f$$ has the following quadratic upper bound (where $$L$$ is the Lipschitz constant):
 
 > $$ \begin{align}
