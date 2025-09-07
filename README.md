@@ -1,31 +1,34 @@
-# Convex Optimization for All
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+# Optimization for Data Science - IUH Course Materials
 
-- [Book](<https://convex-optimization-for-all.github.io/>)
-- If you want to contribute to OpenSource
-  - [Initial Settings](<https://convex-optimization-for-all.github.io/contribution/2021/01/27/initial_settings/>)
-  - [Conventions](<https://convex-optimization-for-all.github.io/contribution/2021/02/03/conventions/>)
-  - [How to Contribute](<https://convex-optimization-for-all.github.io/contribution/2021/01/27/how_to_contribute/>)
+Course materials for **Optimization for Data Science** at Industrial University of Ho Chi Minh City (IUH), adapted and modified from the open-source project "Convex Optimization for All".
 
-## Author's Preface
+## Course Introduction
 
-As machine learning attracts public attention, interest in optimization is also rising day by day. However, we felt regret that many people struggle with the entry barrier due to the lack of abundant Korean materials for beginners. Therefore, we established a Convex Optimization course at ModuLabs' Full-Leaf School, and started this project with the goodwill of participants who wanted to practice knowledge sharing. Through this activity, we hope to contribute to the intellectual growth of all citizens and the popularization of convex optimization in Korea.
+This course provides a solid mathematical foundation in optimization for Data Science students. The content is specifically designed to fit the IUH curriculum, focusing on practical applications in machine learning and data science.
 
-The overall content of this document references [Carnegie Mellon University lecture materials](http://www.stat.cmu.edu/~ryantibs/convexopt-F16/), and uses [Stanford University lecture materials](https://web.stanford.edu/~boyd/cvxbook/) as supplementary materials. It would be good to study using these two lecture materials as references centered around this ebook.
+### Course Objectives:
+- Understand fundamental concepts of convex optimization
+- Master common optimization algorithms used in machine learning
+- Apply optimization theory to solve real-world problems
+- Develop skills in algorithm analysis and design
 
-www.jwpark.co.kr@gmail.com / Jinwoo Park (Convex Optimization Full-Leaf School, ModuLabs)
+## Original Source Materials
 
-## Translator's Preface
+This material is developed based on the open-source project **"Convex Optimization for All"** with the consent of the original authors. We express our deep gratitude to:
 
-With the continuous development of machine learning recently, various research is being conducted, and movements to apply this to real-world problems are also growing. However, without a deep understanding of the mathematics that forms the foundation of machine learning, understanding and application can only be superficial.
+- **Original Authors**: Jinwoo Park and the team at ModuLabs
+- **Original Project**: [Convex Optimization for All](https://convex-optimization-for-all.github.io/)
+- **Primary References**: 
+  - [Carnegie Mellon University](http://www.stat.cmu.edu/~ryantibs/convexopt-F16/)
+  - [Stanford University - Boyd & Vandenberghe](https://web.stanford.edu/~boyd/cvxbook/)
 
-Convex Optimization is an attractive field for those studying machine learning because it is not only directly related to machine learning but also includes various sub-fields of mathematics such as linear algebra, calculus, and numerical analysis. However, since the content is substantial to handle alone and the field itself has a high level of difficulty, we gathered people to study together and started the 2021 Convex Optimization Study. This blog is a trace of the study we conducted together and was created to help those who want to study alone later.
+## Adaptations for IUH
 
-The main content of this blog consists of materials migrated with the consent of the authors of [Convex Optimization for All](<https://wikidocs.net/book/1896>). The original content is the most well-known Korean content about Convex Optimization and is also sufficient in terms of content. In this blog, we aim to make it open source by inheriting the existing WikiDocs content. Therefore, anyone can raise issues about the content and contribute by creating pull requests directly. Through this, we hope to make a small contribution to the 'intellectual growth of all citizens and popularization of convex optimization in Korea,' which is also the intention of the authors of [Convex Optimization for All](<https://wikidocs.net/book/1896>).
-
-wgm0601@gmail.com / Kyeongmin Woo (MakinaRocks)
+The materials have been adapted to suit:
+- Data Science curriculum at IUH
+- Learning level and needs of Vietnamese students
+- Course duration and structure according to IUH regulations
+- Additional examples and practical exercises relevant to Vietnamese context
 
 
 ## Contents Covered
