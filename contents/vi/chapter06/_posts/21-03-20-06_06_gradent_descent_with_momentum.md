@@ -6,65 +6,65 @@ order: 15
 owner: Kyeongmin Woo
 categories:
 - chapter06
-lang: en
+lang: vi
 lesson_type: required
 ---
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-## The Problem with Vanilla Gradient Descent
+## Vấn đề với Gradient Descent thuần túy
 
-Imagine you're rolling a ball down a valley. Standard gradient descent is like a ball with no memory - at each step, it only considers the current slope and moves accordingly. This can lead to several problems:
+Hãy tưởng tượng bạn đang lăn một quả bóng xuống thung lũng. Gradient descent tiêu chuẩn giống như một quả bóng không có trí nhớ - tại mỗi bước, nó chỉ xem xét độ dốc hiện tại và di chuyển tương ứng. Điều này có thể dẫn đến một số vấn đề:
 
-1. **Slow convergence in ravines**: When the function has steep gradients in some directions and shallow gradients in others
-2. **Oscillations**: The algorithm may zigzag back and forth across the valley instead of making steady progress
-3. **Getting stuck in poor local minima**: Without momentum, the algorithm may settle in suboptimal solutions
+1. **Hội tụ chậm trong các khe hẹp**: Khi hàm có gradient dốc trong một số hướng và gradient thoải trong các hướng khác
+2. **Dao động**: Thuật toán có thể dao động qua lại trên thung lũng thay vì tiến bộ ổn định
+3. **Bị kẹt trong các cực tiểu địa phương kém**: Không có momentum, thuật toán có thể ổn định ở các nghiệm không tối ưu
 
-**Question**: What if our ball could "remember" its previous direction and maintain some velocity?
+**Câu hỏi**: Điều gì sẽ xảy ra nếu quả bóng của chúng ta có thể "nhớ" hướng trước đó và duy trì một chút vận tốc?
 
-## Momentum: Adding Memory to Gradient Descent
+## Momentum: Thêm bộ nhớ vào Gradient Descent
 
-Gradient descent with momentum is inspired by physics - specifically, the motion of a ball rolling down a hill with friction. The key insight is to accumulate a velocity vector that combines the current gradient with the previous momentum.
+Gradient descent với momentum được lấy cảm hứng từ vật lý - cụ thể là chuyển động của một quả bóng lăn xuống đồi với ma sát. Ý tưởng chính là tích lũy một vector vận tốc kết hợp gradient hiện tại với momentum trước đó.
 
-### The Momentum Algorithm
+### Thuật toán Momentum
 
-**Update rules:**
+**Quy tắc cập nhật:**
 $$ \begin{align}
 v^{(k)} &= \beta v^{(k-1)} + (1-\beta) \nabla f(x^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
-where:
-- $$v^{(k)}$$ is the momentum (velocity) at iteration $$k$$
-- $$\beta \in [0,1)$$ is the momentum coefficient (typically 0.9 or 0.99)
-- $$t > 0$$ is the learning rate
-- $$v^{(0)} = 0$$ (initial velocity is zero)
+trong đó:
+- $$v^{(k)}$$ là momentum (vận tốc) tại lần lặp $$k$$
+- $$\beta \in [0,1)$$ là hệ số momentum (thường là 0.9 hoặc 0.99)
+- $$t > 0$$ là tốc độ học
+- $$v^{(0)} = 0$$ (vận tốc ban đầu bằng không)
 
-### Alternative Formulation (Nesterov-style)
+### Công thức thay thế (kiểu Nesterov)
 
-Some implementations use a slightly different form:
+Một số triển khai sử dụng dạng hơi khác:
 $$ \begin{align}
 v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
-**Key insight**: The momentum term $$v^{(k)}$$ is an exponentially weighted moving average of past gradients.
+**Ý tưởng chính**: Số hạng momentum $$v^{(k)}$$ là trung bình động có trọng số mũ của các gradient trong quá khứ.
 
-## Understanding the Momentum Coefficient $$\beta$$
+## Hiểu hệ số Momentum $$\beta$$
 
-The momentum coefficient $$\beta$$ controls how much "memory" the algorithm has:
+Hệ số momentum $$\beta$$ kiểm soát thuật toán có bao nhiều "bộ nhớ":
 
-- **$$\beta = 0$$**: No momentum, reduces to standard gradient descent
-- **$$\beta = 0.9$$**: Moderate momentum, commonly used in practice
-- **$$\beta = 0.99$$**: High momentum, used in some deep learning applications
-- **$$\beta \to 1$$**: Maximum momentum, but may cause instability
+- **$$\beta = 0$$**: Không có momentum, giảm về gradient descent tiêu chuẩn
+- **$$\beta = 0.9$$**: Momentum trung bình, thường được sử dụng trong thực tế
+- **$$\beta = 0.99$$**: Momentum cao, được sử dụng trong một số ứng dụng deep learning
+- **$$\beta \to 1$$**: Momentum tối đa, nhưng có thể gây bất ổn
 
-### Exponentially Weighted Moving Average
+### Trung bình động có trọng số mũ
 
-The momentum $$v^{(k)}$$ can be expanded as:
+Momentum $$v^{(k)}$$ có thể được mở rộng là:
 $$ v^{(k)} = (1-\beta) \sum_{i=0}^{k-1} \beta^i \nabla f(x^{(k-1-i)}) $$
 
-This shows that momentum gives exponentially decreasing weights to older gradients.
+Điều này cho thấy momentum cho trọng số giảm mũ cho các gradient cũ hơn.
 
 ## Interactive Visualization: Gradient Descent vs Momentum
 
@@ -411,41 +411,41 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-## Advantages of Momentum
+## Ưu điểm của Momentum
 
-### 1. **Faster Convergence**
-Momentum helps the algorithm build up speed in consistent directions, leading to faster convergence especially in:
-- Functions with valleys or ravines
-- Ill-conditioned problems (high condition number)
-- Functions with many local minima
+### 1. **Hội tụ nhanh hơn**
+Momentum giúp thuật toán tăng tốc trong các hướng nhất quán, dẫn đến hội tụ nhanh hơn đặc biệt trong:
+- Các hàm có thung lũng hoặc khe hẹp
+- Các bài toán có điều kiện kém (số điều kiện cao)
+- Các hàm có nhiều cực tiểu địa phương
 
-### 2. **Reduced Oscillations**
-In directions where the gradient changes sign frequently, momentum helps smooth out the oscillations by averaging past gradients.
+### 2. **Giảm dao động**
+Trong các hướng mà gradient thường xuyên đổi dấu, momentum giúp làm mượt các dao động bằng cách lấy trung bình các gradient trong quá khứ.
 
-### 3. **Escape from Local Minima**
-The accumulated momentum can help the algorithm "roll through" small local minima and continue toward better solutions.
+### 3. **Thoát khỏi cực tiểu địa phương**
+Momentum tích lũy có thể giúp thuật toán "lăn qua" các cực tiểu địa phương nhỏ và tiếp tục hướng tới các nghiệm tốt hơn.
 
-## Variants and Extensions
+## Các biến thể và mở rộng
 
 ### 1. **Nesterov Accelerated Gradient (NAG)**
-Instead of computing the gradient at the current position, NAG computes it at the "look-ahead" position:
+Thay vì tính gradient tại vị trí hiện tại, NAG tính nó tại vị trí "nhìn trước":
 
 $$ \begin{align}
 v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)} - \beta v^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
-**Intuition**: "Look before you leap" - check the gradient at where momentum would take you.
+**Trực quan**: "Nhìn trước khi nhảy" - kiểm tra gradient tại nơi momentum sẽ đưa bạn đến.
 
-#### The Problem with Regular Momentum
+#### Vấn đề với Momentum thông thường
 
-While momentum helps the ball overcome local minima, there's a limitation we can observe: when approaching the target, momentum still takes considerable time before stopping. The reason is precisely because of the accumulated velocity.
+Mặc dù momentum giúp quả bóng vượt qua các cực tiểu địa phương, có một hạn chế mà chúng ta có thể quan sát: khi tiến gần đến mục tiêu, momentum vẫn mất khá nhiều thời gian trước khi dừng lại. Lý do chính xác là do vận tốc tích lũy.
 
-#### The Key Insight
+#### Ý tưởng chính
 
-The fundamental idea is to **predict the future direction** - essentially looking ahead one step! Specifically, if we use the momentum term $$\beta v^{(k-1)}$$ for updating, we can approximate the next position as $$x^{(k-1)} - \beta v^{(k-1)}$$ (we don't include the gradient term here as we'll use it in the final step).
+Ý tưởng cơ bản là **dự đoán hướng tương lai** - về cơ bản là nhìn trước một bước! Cụ thể, nếu chúng ta sử dụng số hạng momentum $$\beta v^{(k-1)}$$ để cập nhật, chúng ta có thể xấp xỉ vị trí tiếp theo là $$x^{(k-1)} - \beta v^{(k-1)}$$ (chúng ta không bao gồm số hạng gradient ở đây vì chúng ta sẽ sử dụng nó trong bước cuối).
 
-Instead of using the gradient at the current position, NAG takes a step forward and uses the gradient at the anticipated next position.
+Thay vì sử dụng gradient tại vị trí hiện tại, NAG bước tiến về phía trước và sử dụng gradient tại vị trí dự kiến tiếp theo.
 
 #### Visual Comparison
 
@@ -496,23 +496,23 @@ $$mx'' + \gamma x' + \nabla f(x) = 0$$
 
 This differential equation, when discretized, leads to the momentum update rules.
 
-## Comparison Summary
+## Tóm tắt so sánh
 
-| Aspect | Vanilla GD | Momentum GD |
+| Khía cạnh | Vanilla GD | Momentum GD |
 |--------|------------|-------------|
-| **Memory** | No | Yes (exponential decay) |
-| **Convergence** | Can be slow | Often faster |
-| **Oscillations** | More prone | Reduced |
-| **Local minima** | May get stuck | Better escape |
-| **Hyperparameters** | Learning rate | Learning rate + momentum |
-| **Computational cost** | Low | Slightly higher |
+| **Bộ nhớ** | Không | Có (giảm mũ) |
+| **Hội tụ** | Có thể chậm | Thường nhanh hơn |
+| **Dao động** | Dễ xảy ra hơn | Giảm |
+| **Cực tiểu địa phương** | Có thể bị kẹt | Thoát tốt hơn |
+| **Siêu tham số** | Tốc độ học | Tốc độ học + momentum |
+| **Chi phí tính toán** | Thấp | Hơi cao hơn |
 
-## Key Takeaways
+## Những điểm chính
 
-1. **Momentum adds memory**: It remembers the direction of previous steps
-2. **Faster convergence**: Especially effective for functions with valleys or ravines
-3. **Reduced oscillations**: Smooths out zigzag behavior
-4. **Widely used**: Foundation for many modern optimization algorithms
-5. **Tunable**: The momentum coefficient $$\beta$$ allows fine-tuning for different problems
+1. **Momentum thêm bộ nhớ**: Nó nhớ hướng của các bước trước đó
+2. **Hội tụ nhanh hơn**: Đặc biệt hiệu quả cho các hàm có thung lũng hoặc khe hẹp
+3. **Giảm dao động**: Làm mượt hành vi zigzag
+4. **Được sử dụng rộng rãi**: Nền tảng cho nhiều thuật toán tối ưu hóa hiện đại
+5. **Có thể điều chỉnh**: Hệ số momentum $$\beta$$ cho phép tinh chỉnh cho các bài toán khác nhau
 
-**Bottom line**: Momentum is a simple yet powerful enhancement to gradient descent that has stood the test of time and remains relevant in modern machine learning applications.
+**Kết luận**: Momentum là một cải tiến đơn giản nhưng mạnh mẽ cho gradient descent đã vượt qua thử thách của thời gian và vẫn có liên quan trong các ứng dụng machine learning hiện đại.

@@ -6,7 +6,7 @@ Instructor for Optimization for Data Science course, responsible for adapting an
 
 ---
 
-### Original Authors - "Convex Optimization for All" Project
+### Original Authors - "Convex Optimization for All" Project https://github.com/convex-optimization-for-all/convex-optimization-for-all.github.io
 
 **Jinwoo Park** (www.jwpark.co.kr@gmail.com)<br>
 Initiator of the "Convex Optimization for All" project at ModuLabs' Full-Leaf School. Currently researching synthetic face image generation for multiple people and game agent learning using reinforcement learning. [[LinkedIn](https://www.linkedin.com/in/curt-park/)]

@@ -1,84 +1,82 @@
 ---
 layout: post
-title: 02-04 Generalized inequalities
+title: 02-04 Bất đẳng thức tổng quát
 chapter: '02'
 order: 10
 owner: Wontak Ryu
 categories:
 - chapter02
-lang: en
+lang: vi
 ---
 
-In one-dimensional real space $$\mathbb{R}$$, given two numbers 1 and 2, we can say 2 is greater than 1. But in $$n$$-dimensional real space $$\mathbb{R}^n$$, given two points $$x_1$$ and $$x_2$$, can we say which is greater? This is not straightforward.
+Trong không gian thực một chiều $$\mathbb{R}$$, cho hai số 1 và 2, chúng ta có thể nói 2 lớn hơn 1. Nhưng trong không gian thực $$n$$ chiều $$\mathbb{R}^n$$, cho hai điểm $$x_1$$ và $$x_2$$, liệu chúng ta có thể nói điểm nào lớn hơn? Điều này không đơn giản.
 
-This section introduces **generalized inequalities** for comparing order between two points in $$\mathbb{R}^n$$, and also discusses the concepts of minimum and minimal elements of a set.
+Phần này giới thiệu **bất đẳng thức tổng quát** để so sánh thứ tự giữa hai điểm trong $$\mathbb{R}^n$$, và cũng thảo luận về các khái niệm phần tử cực tiểu và tối tiểu của một tập hợp.
 
-## Proper cone
+## Hình nón thích hợp
 
-A convex cone $$K \subseteq \mathbb{R}^n$$ is called a **proper cone** if it satisfies:
+Một hình nón lồi $$K \subseteq \mathbb{R}^n$$ được gọi là **hình nón thích hợp** nếu nó thỏa mãn:
 
-* K is closed (includes its boundary).
-* K is solid (its interior is nonempty).
-* K is pointed (does not contain any line) (i.e., $$x \in K, -x \in K \implies x = 0$$).
+* K là đóng (bao gồm biên của nó).
+* K là rắn (phần trong của nó không rỗng).
+* K là nhọn (không chứa bất kỳ đường thẳng nào) (tức là $$x \in K, -x \in K \implies x = 0$$).
 
-If a pointed & closed convex cone is defined in a subspace of dimension $$n-1$$ or less, its interior is empty, since it cannot contain an open ball in $$n$$ dimensions. Thus, it is not solid and cannot be a proper cone. For example, a 2D pie-shaped pointed & closed convex cone in $$\mathbb{R}^3$$ is not a proper cone.
+Nếu một hình nón lồi nhọn & đóng được định nghĩa trong một không gian con có chiều $$n-1$$ hoặc ít hơn, phần trong của nó sẽ rỗng, vì nó không thể chứa một hình cầu mở trong $$n$$ chiều. Do đó, nó không rắn và không thể là hình nón thích hợp. Ví dụ, một hình nón lồi nhọn & đóng hình quạt 2D trong $$\mathbb{R}^3$$ không phải là hình nón thích hợp.
 
-See *[Wikipedia: Interior (topology)](https://en.wikipedia.org/wiki/Interior_(topology))* for the definition of interior.
+Xem *[Wikipedia: Interior (topology)](https://en.wikipedia.org/wiki/Interior_(topology))* để biết định nghĩa về phần trong.
 
-## Generalized inequality
+## Bất đẳng thức tổng quát
 
-Using a proper cone, we can define a partial ordering in $$\mathbb{R}^n$$ called a **generalized inequality**. It has properties similar to the standard ordering in $$\mathbb{R}$$:
+Sử dụng một hình nón thích hợp, chúng ta có thể định nghĩa một thứ tự từng phần trong $$\mathbb{R}^n$$ được gọi là **bất đẳng thức tổng quát**. Nó có các tính chất tương tự như thứ tự tiêu chuẩn trong $$\mathbb{R}$$:
 
 > $$x \preceq_{K} y \iff y − x \in K$$
 
-Similarly, strict partial ordering is defined as:
+Tương tự, thứ tự từng phần nghiêm ngặt được định nghĩa như:
 
 > $$x \prec_{K} y \iff y − x \in $$ **int** $$K$$
 
-If $$K = \mathbb{R}_{+}$$, then $$\preceq_{K}$$ is the usual $$\le$$ in $$\mathbb{R}$$.
+Nếu $$K = \mathbb{R}_{+}$$, thì $$\preceq_{K}$$ là $$\le$$ thông thường trong $$\mathbb{R}$$.
 
-### Properties of generalized inequalities
+### Tính chất của bất đẳng thức tổng quát
 
-Generalized inequality $$\preceq_{K}$$ satisfies:
+Bất đẳng thức tổng quát $$\preceq_{K}$$ thỏa mãn:
 
-* **Preserved under addition**: if $$x \preceq_{K} y$$ and $$u \preceq_{K} v$$, then $$ x+u \preceq_{K} y +v$$.
-* **Transitive**: if $$x \preceq_{K} y$$ and $$y \preceq_{K} z$$ then $$x \preceq_{K}  z$$.
-* **Preserved under nonnegative scaling**: if $$x \preceq_{K} y$$ and $$α \ge 0$$ then $$αx \preceq_{K} αy$$.
-* **Reflexive**: $$x \preceq_{K} x$$.
-* **Antisymmetric**: if $$x \preceq_{K} y$$ and $$y \preceq_{K} x$$, then $$x = y$$.
-* **Preserved under limits**: if $$x_i \preceq_{K}  y_i$$ for $$i = 1, 2, ..., x_i \to x$$ and $$y_i \to y$$ as $$i \to ∞$$, then $$x \preceq_{K} y$$.
+* **Bảo toàn dưới phép cộng**: nếu $$x \preceq_{K} y$$ và $$u \preceq_{K} v$$, thì $$ x+u \preceq_{K} y +v$$.
+* **Bắc cầu**: nếu $$x \preceq_{K} y$$ và $$y \preceq_{K} z$$ thì $$x \preceq_{K}  z$$.
+* **Bảo toàn dưới co giãn không âm**: nếu $$x \preceq_{K} y$$ và $$α \ge 0$$ thì $$αx \preceq_{K} αy$$.
+* **Phản xạ**: $$x \preceq_{K} x$$.
+* **Phản đối xứng**: nếu $$x \preceq_{K} y$$ và $$y \preceq_{K} x$$, thì $$x = y$$.
+* **Bảo toàn dưới giới hạn**: nếu $$x_i \preceq_{K}  y_i$$ với $$i = 1, 2, ..., x_i \to x$$ và $$y_i \to y$$ khi $$i \to ∞$$, thì $$x \preceq_{K} y$$.
 
-Strict generalized inequalities have corresponding properties.
+Bất đẳng thức tổng quát nghiêm ngặt có các tính chất tương ứng.
 
-## Minimum and minimal elements
+## Phần tử tối tiểu và cực tiểu
 
-The most significant difference between ordering in $$\mathbb{R}$$ and generalized ordering in $$\mathbb{R}^n$$ is **linear ordering**. In $$\mathbb{R}$$, we can compare any two points with $$x \lt y$$ or $$x \gt y$$, but generalized inequality cannot always do this. Therefore, defining the concepts of maximum and minimum in the context of generalized inequality is expected to be much more complex.
+Sự khác biệt quan trọng nhất giữa thứ tự trong $$\mathbb{R}$$ và thứ tự tổng quát trong $$\mathbb{R}^n$$ là **thứ tự tuyến tính**. Trong $$\mathbb{R}$$, chúng ta có thể so sánh bất kỳ hai điểm nào với $$x \lt y$$ hoặc $$x \gt y$$, nhưng bất đẳng thức tổng quát không thể luôn làm điều này. Do đó, việc định nghĩa các khái niệm cực đại và cực tiểu trong bối cảnh bất đẳng thức tổng quát được dự kiến sẽ phức tạp hơn nhiều.
 
-### Minimum elements
+### Phần tử tối tiểu
 
-If $$x \in S$$ satisfies $$x \preceq_{K} y$$ for all $$y \in S$$, then $$x$$ is a **minimum** element of set $$S$$. Similarly, **maximum** can be defined in the same manner. If a minimum exists in a set, it is unique. That is, there exists only one minimum.
+Nếu $$x \in S$$ thỏa mãn $$x \preceq_{K} y$$ với mọi $$y \in S$$, thì $$x$$ là phần tử **tối tiểu** của tập $$S$$. Tương tự, **tối đại** có thể được định nghĩa theo cách tương tự. Nếu một tối tiểu tồn tại trong một tập hợp, nó là duy nhất. Tức là, chỉ tồn tại một tối tiểu.
 
-If a point $$x \in S$$ is the minimum of $$S$$, then $$S \subseteq x + K$$. Here, $$x + K$$ means that (according to $$\preceq_{K}$$) all points are comparable with $$x$$ and are greater than or equal to $$x$$.
+Nếu một điểm $$x \in S$$ là tối tiểu của $$S$$, thì $$S \subseteq x + K$$. Ở đây, $$x + K$$ có nghĩa là (theo $$\preceq_{K}$$) tất cả các điểm đều có thể so sánh với $$x$$ và lớn hơn hoặc bằng $$x$$.
 
-### Minimal elements
+### Phần tử cực tiểu
 
-A similar concept is **minimal**. If $$x \in S$$ and for all $$y \in S$$, the condition $$y \preceq_{K} x$$ holds only when $$y=x$$, then $$x$$ is a **minimal** element of set $$S$$. Similarly, **maximal** can be defined in the same manner. A set can have multiple minimal elements.
+Một khái niệm tương tự là **cực tiểu**. Nếu $$x \in S$$ và với mọi $$y \in S$$, điều kiện $$y \preceq_{K} x$$ chỉ đúng khi $$y=x$$, thì $$x$$ là phần tử **cực tiểu** của tập $$S$$. Tương tự, **cực đại** có thể được định nghĩa theo cách tương tự. Một tập hợp có thể có nhiều phần tử cực tiểu.
 
-If a point $$x \in S$$ is minimal in $$S$$, then $$(x - K) \cap S = \{x\}$$. Here, $$x - K$$ means that (according to $$\preceq_{K}$$) all points are comparable with $$x$$ and are less than or equal to $$x$$.
+Nếu một điểm $$x \in S$$ là cực tiểu trong $$S$$, thì $$(x - K) \cap S = \{x\}$$. Ở đây, $$x - K$$ có nghĩa là (theo $$\preceq_{K}$$) tất cả các điểm đều có thể so sánh với $$x$$ và nhỏ hơn hoặc bằng $$x$$.
 
-In the case of $$K = \mathbb{R}_{+}$$, minimal and minimum are the same and correspond to the general definition of minimum.
+Trong trường hợp $$K = \mathbb{R}_{+}$$, cực tiểu và tối tiểu là giống nhau và tương ứng với định nghĩa chung của tối tiểu.
 
-### Minimum and minimal in $$\mathbb{R}^2_{+}$$ cone
+### Tối tiểu và cực tiểu trong hình nón $$\mathbb{R}^2_{+}$$
 
-Consider the $$\mathbb{R}^2_{+}$$ cone $$K$$. The inequality $$x \preceq_{K} y$$ means that $$y$$ is to the upper right of $$x$$. When $$x \in S$$, saying that $$x$$ is the minimum means that all points in $$S$$ are to the upper right of $$x$$. Saying that $$x$$ is minimal means that there are no points in $$S$$ to the lower left of $$x$$.
+Xét hình nón $$\mathbb{R}^2_{+}$$ $$K$$. Bất đẳng thức $$x \preceq_{K} y$$ có nghĩa là $$y$$ nằm ở phía trên bên phải của $$x$$. Khi $$x \in S$$, nói rằng $$x$$ là tối tiểu có nghĩa là tất cả các điểm trong $$S$$ đều nằm ở phía trên bên phải của $$x$$. Nói rằng $$x$$ là cực tiểu có nghĩa là không có điểm nào trong $$S$$ nằm ở phía dưới bên trái của $$x$$.
 
-In the figure below, $$S_1$$ has a minimum $$x_1$$. The set $$x + K$$ is shown in light gray, and since $$S_1 \subseteq x + K$$, $$x_1$$ is the minimum. $$S_2$$ has a minimal element $$x_2$$. The set $$x - K$$ is shown in light gray, and since $$(x - K) \cap S = \{x\}$$, $$x_2$$ is minimal.
+Trong hình dưới đây, $$S_1$$ có một tối tiểu $$x_1$$. Tập $$x + K$$ được hiển thị bằng màu xám nhạt, và vì $$S_1 \subseteq x + K$$, $$x_1$$ là tối tiểu. $$S_2$$ có một phần tử cực tiểu $$x_2$$. Tập $$x - K$$ được hiển thị bằng màu xám nhạt, và vì $$(x - K) \cap S = \{x\}$$, $$x_2$$ là cực tiểu.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter02/02.06_01_Minimum_and_minimal.png" alt="[Fig1] Minimum and minimal elements [1]" width="70%">
-  <figcaption style="text-align: center;">[Fig1] Minimum and minimal elements [1]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter02/02.06_01_Minimum_and_minimal.png" alt="[Hình1] Phần tử tối tiểu và cực tiểu [1]" width="70%">
+  <figcaption style="text-align: center;">[Hình1] Phần tử tối tiểu và cực tiểu [1]</figcaption>
 </p>
 </figure>
-
-

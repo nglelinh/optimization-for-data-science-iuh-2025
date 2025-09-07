@@ -6,33 +6,33 @@ order: 14
 owner: Kyeongmin Woo
 categories:
 - chapter06
-lang: en
+lang: vi
 ---
 
 # Gradient boosting
 
-**Gradient boosting** is a method that uses gradient descent to sequentially create trees while compensating for the errors of previous trees when trying to predict results with an ensemble model composed of multiple trees. **Gradient Boosting** can be used for both regression and classification.
+**Gradient boosting** là một phương pháp sử dụng gradient descent để tạo ra các cây một cách tuần tự, đồng thời bù đắp cho các lỗi của các cây trước đó khi cố gắng dự đoán kết quả với một mô hình ensemble bao gồm nhiều cây. **Gradient Boosting** có thể được sử dụng cho cả hồi quy và phân lớp.
 
-* For detailed information, refer to the [Gradient Boosting from scratch](https://medium.com/mlreview/gradient-boosting-from-scratch-1e317ae4587d) blog
+* Để biết thêm thông tin chi tiết, tham khảo blog [Gradient Boosting from scratch](https://medium.com/mlreview/gradient-boosting-from-scratch-1e317ae4587d)
 
 
-### [Reference] Functional gradient descent algorithm
-**Gradient boosting** was introduced as a functional gradient descent algorithm by Llew Mason, Jonathan Baxter, Peter Bartlett and Marcus Frean. The functional gradient descent algorithm optimizes the loss function over function space by repeatedly selecting functions that have the negative direction of the gradient, thus performing gradient descent.
+### [Tham khảo] Thuật toán functional gradient descent
+**Gradient boosting** được giới thiệu như một thuật toán functional gradient descent bởi Llew Mason, Jonathan Baxter, Peter Bartlett và Marcus Frean. Thuật toán functional gradient descent tối ưu hóa hàm mất mát trên không gian hàm bằng cách liên tục lựa chọn các hàm có hướng âm của gradient, do đó thực hiện gradient descent.
 
-* For detailed information, refer to [Gradient Boosting](https://en.wikipedia.org/wiki/Gradient_boosting)
+* Để biết thêm thông tin chi tiết, tham khảo [Gradient Boosting](https://en.wikipedia.org/wiki/Gradient_boosting)
 
-### [Reference] Boosting vs Bagging
-**Boosting** is an ensemble technique that sequentially generates weak learners to predict results. The next stage learner learns from the data that the previous stage learner predicted incorrectly, and the results of sequentially generated learners are combined to create the final result.
+### [Tham khảo] Boosting vs Bagging
+**Boosting** là một kỹ thuật ensemble tạo ra các weak learner một cách tuần tự để dự đoán kết quả. Learner giai đoạn tiếp theo học từ dữ liệu mà learner giai đoạn trước đó đã dự đoán sai, và kết quả của các learner được tạo ra tuần tự được kết hợp để tạo ra kết quả cuối cùng.
 
-**Bagging** is an ensemble technique that generates weak learners independently from each other to predict results. Therefore, each learner runs in parallel and their results are combined to create the final result.
+**Bagging** là một kỹ thuật ensemble tạo ra các weak learner độc lập với nhau để dự đoán kết quả. Do đó, mỗi learner chạy song song và kết quả của chúng được kết hợp để tạo ra kết quả cuối cùng.
 
-* For detailed information, refer to the [What is the difference between Bagging and Boosting?](https://quantdare.com/what-is-the-difference-between-bagging-and-boosting/) blog
+* Để biết thêm thông tin chi tiết, tham khảo blog [What is the difference between Bagging and Boosting?](https://quantdare.com/what-is-the-difference-between-bagging-and-boosting/)
 ## Gradient Boosting
-Let's examine the background of how **Gradient Boosting** came to be developed.
+Hãy xem xét nền tảng về cách **Gradient Boosting** được phát triển.
 
-Suppose there is an ensemble model composed of trees that is used for classification. This model will want to predict results that minimize the error with the observed values. Let the observed values be $$y_i$$, $$i=1,\dots,n$$, the input data be $$x_i, i=1,\dots,n$$, and the predicted values be $$u_i$$, $$i=1,\dots,n$$.
+Giả sử có một mô hình ensemble bao gồm các cây được sử dụng cho phân lớp. Mô hình này sẽ muốn dự đoán kết quả sao cho tối thiểu hóa lỗi với các giá trị quan sát được. Gọi các giá trị quan sát được là $$y_i$$, $$i=1,\dots,n$$, dữ liệu đầu vào là $$x_i, i=1,\dots,n$$, và các giá trị dự đoán là $$u_i$$, $$i=1,\dots,n$$.
 
-As shown in the figure below, each tree belonging to the ensemble receives $$x_i \in R^p$$ as input and outputs results according to the branching conditions in the tree's nodes.
+Như được hiển thị trong hình dưới đây, mỗi cây thuộc ensemble nhận $$x_i \in R^p$$ làm đầu vào và đưa ra kết quả theo các điều kiện phân nhánh trong các nút của cây.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -41,51 +41,51 @@ As shown in the figure below, each tree belonging to the ensemble receives $$x_i
 </p>
 </figure>
 
-The predicted value $$u_i$$ of the ensemble model can be calculated by weighted summation of each tree's results. (Here, $$T_j(x_i)$$ is the result output by tree $$j$$ when it receives $$x_i$$ as input.)
+Giá trị dự đoán $$u_i$$ của mô hình ensemble có thể được tính toán bằng tổng có trọng số của kết quả của mỗi cây. (Ở đây, $$T_j(x_i)$$ là kết quả được đưa ra bởi cây $$j$$ khi nó nhận $$x_i$$ làm đầu vào.)
 
 >
 $$ \begin{equation}
 u_i = \sum_{j=1}^M \beta_j T_j(x_i)
 \end{equation} $$
 
-For the loss function, it can be defined as $$L=(y_i,u_i)=(y_i - u_i)^2$$ in the form of sum of squared errors to minimize the error between observed and predicted values.
+Đối với hàm mất mát, nó có thể được định nghĩa là $$L=(y_i,u_i)=(y_i - u_i)^2$$ dưới dạng tổng bình phương sai số để tối thiểu hóa lỗi giữa các giá trị quan sát và dự đoán.
 >
 $$ \begin{equation}
 \min_{\beta} \sum_{i=1}^n L\left(y_i, \sum_{j=1}^M \beta_j T_j(x_i)\right)
 \end{equation} $$
 
-Generally, when constructing trees in ensemble models, many small trees with fixed depth are created. This is because making trees smaller uses less memory and enables faster prediction, and as the number of trees increases, the performance of the ensemble improves. Generally, the depth of trees is fixed at 5 or less.
+Thông thường, khi xây dựng cây trong các mô hình ensemble, nhiều cây nhỏ với độ sâu cố định được tạo ra. Điều này là bởi vì việc làm cho cây nhỏ hơn sử dụng ít bộ nhớ hơn và cho phép dự đoán nhanh hơn, và khi số lượng cây tăng lên, hiệu suất của ensemble cải thiện. Thông thường, độ sâu của cây được cố định ở mức 5 hoặc ít hơn.
 
-Therefore, in this problem, the node conditions defined in each tree are very diverse and the results of very many trees are linearly combined, making the tree space quite large. Thus, it can be said that this is a very difficult problem to optimize.
+Do đó, trong bài toán này, các điều kiện nút được định nghĩa trong mỗi cây rất đa dạng và kết quả của rất nhiều cây được kết hợp tuyến tính, làm cho không gian cây khá lớn. Vì vậy, có thể nói rằng đây là một bài toán rất khó để tối ưu hóa.
 
-To solve this problem, the optimization problem must be transformed into an easier one. The original optimization problem is to find $$M$$ weights $$\beta_j$$ that minimize the loss function. Let's think of this problem as a minimization problem $$\min_{u} f(u)$$ of function $$f(u)$$ with respect to predicted values $$u$$. If function $$f(u)$$ is the loss function $$L(y,u)$$, then finding $$u$$ that minimizes the loss function can be said to be an easily redefined problem. (Here, $$n$$ is the number of data points.)
+Để giải quyết vấn đề này, bài toán tối ưu hóa phải được chuyển đổi thành một bài toán dễ hơn. Bài toán tối ưu hóa ban đầu là tìm $$M$$ trọng số $$\beta_j$$ để tối thiểu hóa hàm mất mát. Hãy nghĩ về bài toán này như một bài toán tối thiểu hóa $$\min_{u} f(u)$$ của hàm $$f(u)$$ đối với các giá trị dự đoán $$u$$. Nếu hàm $$f(u)$$ là hàm mất mát $$L(y,u)$$, thì việc tìm $$u$$ để tối thiểu hóa hàm mất mát có thể được coi là một bài toán được định nghĩa lại một cách dễ dàng. (Ở đây, $$n$$ là số lượng điểm dữ liệu.)
 
-**Gradient boosting** refers to the technique of solving the redefined minimization problem $$\min_{u} f(u)$$ using gradient descent.
+**Gradient boosting** đề cập đến kỹ thuật giải quyết bài toán tối thiểu hóa được định nghĩa lại $$\min_{u} f(u)$$ sử dụng gradient descent.
 
-## Algorithm
-The **Gradient boosting** algorithm performs gradient descent in the following way to find the optimal solution $$u^*$$ of $$\min_u L(y, u)$$.
+## Thuật toán
+Thuật toán **Gradient boosting** thực hiện gradient descent theo cách sau để tìm ra nghiệm tối ưu $$u^*$$ của $$\min_u L(y, u)$$.
 
-1. Set the initial value as the result of an arbitrary tree: $$u^{(0)}=T_0$$. Then repeat the following steps 2~4.
+1. Đặt giá trị ban đầu là kết quả của một cây tùy ý: $$u^{(0)}=T_0$$. Sau đó lặp lại các bước 2~4 sau đây.
 
-2. Calculate the negative gradient for $$u^{(k-1)}$$, which is the most recent predicted value for $$n$$ data points.
+2. Tính toán gradient âm cho $$u^{(k-1)}$$, là giá trị dự đoán gần nhất cho $$n$$ điểm dữ liệu.
 >
 $$ \begin{equation}
 d_i = - \left . \left[ \frac{\partial L(y_i,u_i)}{\partial u_i} \right] \right|_{u_i = u_i^{(k-1)}}, i=1,\dots,n
 \end{equation} $$
 
-3. Find the tree $$T_k$$ whose results $$T(x_i)$$ are most similar to the gradients $$d_i$$ for $$n$$ data points.
+3. Tìm cây $$T_k$$ có kết quả $$T(x_i)$$ giống nhất với các gradient $$d_i$$ cho $$n$$ điểm dữ liệu.
 >
 $$ \begin{equation}
 \min_{\text{trees } T} \sum_{i=1}^n (d_i-T(x_i))^2
 \end{equation} $$
 
-4. Calculate the step size $$a_k$$ and update the predicted values using the $$T_k$$ found above.
+4. Tính toán kích thước bước $$a_k$$ và cập nhật các giá trị dự đoán sử dụng $$T_k$$ được tìm thấy ở trên.
 >
 $$u^{(k)}=u^{(k-1)} + \alpha_k T_k$$
 
-This algorithm finds the gradient $$d$$ with respect to $$u$$ to find the optimal solution $$u^*$$ through gradient descent, finds $$T_k$$ closest to $$d$$, and substitutes $$T_k$$ instead of gradient in the update equation to find the next position.
+Thuật toán này tìm gradient $$d$$ đối với $$u$$ để tìm nghiệm tối ưu $$u^*$$ thông qua gradient descent, tìm $$T_k$$ gần nhất với $$d$$, và thay thế $$T_k$$ thay vì gradient trong phương trình cập nhật để tìm vị trí tiếp theo.
 
-The final predicted value $$u^*$$ obtained in this way can be seen to be identical to the weighted summation of tree results defined earlier. (That is, if we expand the recursive update equation $$u^{(k)}=u^{(k-1)} + \alpha_k T_k$$ back to $$k=0$$, we get $$u^* = \sum_{k=1}^n \alpha_k T_k$$, which can be made into the form of weighted summation of tree results.)
+Giá trị dự đoán cuối cùng $$u^*$$ thu được theo cách này có thể được thấy là giống hệt với tổng có trọng số của kết quả cây được định nghĩa trước đó. (Tức là, nếu chúng ta mở rộng phương trình cập nhật đệ quy $$u^{(k)}=u^{(k-1)} + \alpha_k T_k$$ trở lại $$k=0$$, chúng ta nhận được $$u^* = \sum_{k=1}^n \alpha_k T_k$$, có thể được biến thành dạng tổng có trọng số của kết quả cây.)
 
 
 

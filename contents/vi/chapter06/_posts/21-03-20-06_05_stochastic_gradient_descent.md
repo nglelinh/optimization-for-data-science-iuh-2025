@@ -6,50 +6,50 @@ order: 15
 owner: Kyeongmin Woo
 categories:
 - chapter06
-lang: en
+lang: vi
 lesson_type: required
 ---
 
 <script src="../../../public/js/script.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-## Motivation: The Big Data Challenge
+## Động lực: Thử thách của Big Data
 
-Imagine you're training a machine learning model on millions of data points. Traditional gradient descent requires computing gradients for **all** data points before making a single update. This becomes computationally expensive and memory-intensive for large datasets.
+Hãy tưởng tượng bạn đang huấn luyện một mô hình machine learning trên hàng triệu điểm dữ liệu. Gradient descent truyền thống yêu cầu tính toán gradient cho **tất cả** các điểm dữ liệu trước khi thực hiện một lần cập nhật duy nhất. Điều này trở nên tốn kém về mặt tính toán và tiêu tốn bộ nhớ đối với các tập dữ liệu lớn.
 
-**Question**: What if we could make progress by looking at just one data point at a time?
+**Câu hỏi**: Điều gì sẽ xảy ra nếu chúng ta có thể tiến bộ bằng cách chỉ xem xét một điểm dữ liệu tại một thời điểm?
 
-## The Mathematical Foundation
+## Nền tảng Toán học
 
-Consider the optimization problem of minimizing a sum of functions:
+Xem xét bài toán tối ưu hóa để tối thiểu hóa một tổng các hàm:
 
 $$ \begin{equation}
 \min_x f(x) = \min_x \sum_{i=1}^m f_i(x)
 \end{equation} $$
 
-**Real-world interpretation**: In machine learning, $$f_i(x)$$ often represents the loss on the $$i$$-th training example, where $$x$$ are the model parameters.
+**Diễn giải thực tế**: Trong machine learning, $$f_i(x)$$ thường đại diện cho mất mát trên ví dụ huấn luyện thứ $$i$$, trong đó $$x$$ là các tham số mô hình.
 
-### Batch Gradient Descent (Traditional Approach)
+### Batch Gradient Descent (Phương pháp Truyền thống)
 
-The gradient of the sum equals the sum of gradients:
+Gradient của tổng bằng tổng các gradient:
 $$\nabla f(x) = \nabla \sum_{i=1}^m f_i(x) = \sum_{i=1}^m \nabla f_i(x)$$
 
-The update rule becomes:
+Quy tắc cập nhật trở thành:
 $$ \begin{equation}
 x^{(k)} = x^{(k-1)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k-1)}), \,  k=1,2,3,\dots
 \end{equation} $$
 
-**Computational cost**: $$O(m)$$ gradient evaluations per iteration, where $$m$$ is the number of functions (or data points).
+**Chi phí tính toán**: $$O(m)$$ lần đánh giá gradient mỗi lần lặp, trong đó $$m$$ là số lượng hàm (hoặc điểm dữ liệu).
 
-## Stochastic Gradient Descent: The Efficient Alternative
+## Stochastic Gradient Descent: Giải pháp thay thế hiệu quả
 
-**Key Insight**: Instead of computing gradients for all $$m$$ functions, SGD uses only **one** function at each iteration.
+**Ý tưởng chính**: Thay vì tính toán gradient cho tất cả $$m$$ hàm, SGD chỉ sử dụng **một** hàm tại mỗi lần lặp.
 
 $$ \begin{equation}
 x^{(k)} = x^{(k-1)} - t_k \cdot \nabla f_{i_k} (x^{(k-1)}), \quad i_k \in \{1,2,\dots,m\}
 \end{equation} $$
 
-**Computational cost**: $$O(1)$$ gradient evaluation per iteration - a massive improvement!
+**Chi phí tính toán**: $$O(1)$$ lần đánh giá gradient mỗi lần lặp - một cải thiện to lớn!
 
 ### Interactive Visualization: GD vs SGD with Step Control
 
@@ -143,49 +143,47 @@ x^{(k)} = x^{(k-1)} - t_k \cdot \nabla f_{i_k} (x^{(k-1)}), \quad i_k \in \{1,2,
     </div>
 </div>
 
-### Selection Strategies for SGD
+### Các chiến lược lựa chọn cho SGD
 
-The function index $$i_k$$ can be selected using different strategies:
+Chỉ số hàm $$i_k$$ có thể được chọn bằng các chiến lược khác nhau:
 
-#### 1. Cyclic Rule
-**Pattern**: $$i_k = 1,2,\dots,m, 1,2,\dots,m, \ldots$$
-- **Advantages**: Deterministic, ensures all functions are visited
-- **Disadvantages**: May get stuck in periodic patterns
+#### 1. Quy tắc vòng tròn (Cyclic Rule)
+**Mẫu**: $$i_k = 1,2,\dots,m, 1,2,\dots,m, \ldots$$
+- **Ưu điểm**: Có tính quyết định, đảm bảo tất cả các hàm đều được thăm
+- **Nhược điểm**: Có thể bị kẹt trong các mẫu tuần hoàn
 
-#### 2. Randomized Rule  
-**Pattern**: $$i_k$$ chosen uniformly at random from $$\{1,2,\dots,m\}$$
-- **Advantages**: Avoids periodic patterns, better theoretical guarantees
-- **Disadvantages**: Some functions may be visited more frequently than others
+#### 2. Quy tắc ngẫu nhiên (Randomized Rule)
+**Mẫu**: $$i_k$$ được chọn ngẫu nhiên đều từ $$\{1,2,\dots,m\}$$
+- **Ưu điểm**: Tránh các mẫu tuần hoàn, đảm bảo lý thuyết tốt hơn
+- **Nhược điểm**: Một số hàm có thể được thăm thường xuyên hơn những hàm khác
 
+**Trong thực tế**: Lựa chọn ngẫu nhiên được ưa chuộng hơn do có tính chất hội tụ tốt hơn và khả năng thoát khỏi các mẫu cục bộ.
 
-**In practice**: Randomized selection is preferred due to better convergence properties and ability to escape local patterns.
+## Phân tích hội tụ: Lý thuyết so với Thực tế
 
+### So sánh Toán học
 
-## Convergence Analysis: Theory vs Practice
-
-### Mathematical Comparison
-
-**Batch GD (one epoch)**: 
+**Batch GD (một epoch)**: 
 $$x^{(k+1)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k)})$$
 
-**SGD (one epoch with cyclic rule)**:
+**SGD (một epoch với quy tắc vòng tròn)**:
 $$x^{(k+m)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k+i-1)})$$
 
-### Understanding the SGD Cyclic Rule Formula
+### Hiểu công thức quy tắc vòng tròn SGD
 
-Let's break down this formula step by step to understand what happens during one complete epoch of SGD with cyclic rule:
+Hãy phân tích công thức này từng bước để hiểu điều gì xảy ra trong một epoch hoàn chỉnh của SGD với quy tắc vòng tròn:
 
-**What is an epoch?** One epoch means we've processed all $$m$$ functions exactly once.
+**Epoch là gì?** Một epoch có nghĩa là chúng ta đã xử lý tất cả $$m$$ hàm đúng một lần.
 
-**The cyclic rule process:**
-- Start at position $$x^{(k)}$$
-- **Step 1**: Use function $$f_1$$, compute $$\nabla f_1(x^{(k)})$$, update to $$x^{(k+1)}$$
-- **Step 2**: Use function $$f_2$$, compute $$\nabla f_2(x^{(k+1)})$$, update to $$x^{(k+2)}$$
-- **Step 3**: Use function $$f_3$$, compute $$\nabla f_3(x^{(k+2)})$$, update to $$x^{(k+3)}$$
+**Quy trình quy tắc vòng tròn:**
+- Bắt đầu tại vị trí $$x^{(k)}$$
+- **Bước 1**: Sử dụng hàm $$f_1$$, tính $$\nabla f_1(x^{(k)})$$, cập nhật thành $$x^{(k+1)}$$
+- **Bước 2**: Sử dụng hàm $$f_2$$, tính $$\nabla f_2(x^{(k+1)})$$, cập nhật thành $$x^{(k+2)}$$
+- **Bước 3**: Sử dụng hàm $$f_3$$, tính $$\nabla f_3(x^{(k+2)})$$, cập nhật thành $$x^{(k+3)}$$
 - ...
-- **Step m**: Use function $$f_m$$, compute $$\nabla f_m(x^{(k+m-1)})$$, update to $$x^{(k+m)}$$
+- **Bước m**: Sử dụng hàm $$f_m$$, tính $$\nabla f_m(x^{(k+m-1)})$$, cập nhật thành $$x^{(k+m)}$$
 
-**Individual SGD updates:**
+**Các cập nhật SGD riêng lẻ:**
 $$\begin{align}
 x^{(k+1)} &= x^{(k)} - t_k \nabla f_1(x^{(k)}) \\
 x^{(k+2)} &= x^{(k+1)} - t_k \nabla f_2(x^{(k+1)}) \\
@@ -194,14 +192,14 @@ x^{(k+3)} &= x^{(k+2)} - t_k \nabla f_3(x^{(k+2)}) \\
 x^{(k+m)} &= x^{(k+m-1)} - t_k \nabla f_m(x^{(k+m-1)})
 \end{align}$$
 
-**Telescoping the updates:**
-If we substitute recursively and collect all terms, we get:
+**Thu gọn các cập nhật:**
+Nếu chúng ta thay thế đệ quy và thu thập tất cả các số hạng, chúng ta được:
 $$x^{(k+m)} = x^{(k)} - t_k \left[ \nabla f_1(x^{(k)}) + \nabla f_2(x^{(k+1)}) + \cdots + \nabla f_m(x^{(k+m-1)}) \right]$$
 
 This can be written compactly as:
 $$x^{(k+m)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k+i-1)})$$
 
-**Key insight:** Each gradient $$\nabla f_i$$ is evaluated at a **different** position $$x^{(k+i-1)}$$, not at the same starting position $$x^{(k)}$$.
+**Ý tưởng chính:** Mỗi gradient $$\nabla f_i$$ được đánh giá tại một vị trí **khác nhau** $$x^{(k+i-1)}$$, không phải tại cùng vị trí bắt đầu $$x^{(k)}$$.
 
 **Key difference in update directions**:
 $$\sum_{i=1}^{m}[ \nabla f_i (x^{(k+i-1)}) - \nabla f_i (x^{(k)})]$$
@@ -318,27 +316,27 @@ where $$\mathcal{B}_k$$ is a mini-batch of $$b$$ randomly selected indices.
     </table>
 </div>
 
-## Key Takeaways and Practical Insights
+## Những điểm chính và Hiểu biết thực tế
 
-### When to Use SGD
-1. **Large datasets** (millions of samples)
-2. **Online learning** scenarios
-3. **Limited memory** environments
-4. **Early training phases** for quick progress
+### Khi nào sử dụng SGD
+1. **Tập dữ liệu lớn** (hàng triệu mẫu)
+2. **Các tình huống học trực tuyến**
+3. **Môi trường bộ nhớ hạn chế**
+4. **Các giai đoạn huấn luyện đầu** để tiến bộ nhanh
 
-### When to Use Batch GD
-1. **Small to medium datasets**
-2. **High precision requirements**
-3. **Stable convergence needed**
-4. **Final fine-tuning phases**
+### Khi nào sử dụng Batch GD
+1. **Tập dữ liệu nhỏ đến trung bình**
+2. **Yêu cầu độ chính xác cao**
+3. **Cần hội tụ ổn định**
+4. **Các giai đoạn tinh chỉnh cuối cùng**
 
-### Best Practices
-- **Learning rate scheduling**: Start high, decay over time
-- **Shuffling**: Randomize data order each epoch
-- **Mini-batches**: Often the best practical choice
-- **Momentum**: Helps SGD overcome noise and accelerate convergence
+### Thực hành tốt nhất
+- **Lập lịch tốc độ học**: Bắt đầu cao, giảm dần theo thời gian
+- **Xáo trộn**: Ngẫu nhiên hóa thứ tự dữ liệu mỗi epoch
+- **Mini-batch**: Thường là lựa chọn thực tế tốt nhất
+- **Momentum**: Giúp SGD vượt qua nhiễu và tăng tốc hội tụ
 
-**Modern reality**: Most deep learning frameworks use mini-batch SGD with sophisticated optimizers (Adam, RMSprop) that adapt the learning rate automatically.
+**Thực tế hiện đại**: Hầu hết các framework deep learning sử dụng mini-batch SGD với các optimizer tinh vi (Adam, RMSprop) tự động điều chỉnh tốc độ học.
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

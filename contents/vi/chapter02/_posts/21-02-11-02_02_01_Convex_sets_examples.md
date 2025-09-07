@@ -99,57 +99,57 @@ Ellipsoid cũng có thể được biểu diễn như:
 
 ## Hình cầu chuẩn
 
-A norm ball is the set of points within radius $$r$$ from center $$x_c$$, defined using an arbitrary norm. While a Euclidean ball uses the Euclidean norm, a norm ball can use any norm. If $$\|.\|$$ is any norm on $$\mathbb{R}^n$$, the norm ball is defined as:
+Hình cầu chuẩn là tập hợp các điểm trong bán kính $$r$$ từ tâm $$x_c$$, được định nghĩa sử dụng một chuẩn tùy ý. Trong khi hình cầu Euclidean sử dụng chuẩn Euclidean, hình cầu chuẩn có thể sử dụng bất kỳ chuẩn nào. Nếu $$\|.\|$$ là bất kỳ chuẩn nào trên $$\mathbb{R}^n$$, hình cầu chuẩn được định nghĩa như:
 
 > $$ \{ x \mid \|x - x_c \| \le r  \} $$
 
-When the p-norm is defined as:
+Khi p-chuẩn được định nghĩa như:
 
-> $$ \| x  \|_{p} = \left( \sum_{i=0}^n |x_i|^{p} \right)^{1/p} \text{ for  } p \ge 1$$
+> $$ \| x  \|_{p} = \left( \sum_{i=0}^n |x_i|^{p} \right)^{1/p} \text{ với  } p \ge 1$$
 
-The shape of the norm ball depends on the value of $$p$$. The figure below shows the shape of the norm ball in 3D for different values of $$p$$. The norm ball is convex if $$p \ge 1$$.
+Hình dạng của hình cầu chuẩn phụ thuộc vào giá trị của $$p$$. Hình dưới đây cho thấy hình dạng của hình cầu chuẩn trong 3D với các giá trị khác nhau của $$p$$. Hình cầu chuẩn là lồi nếu $$p \ge 1$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.07_2_norm_ball.png" alt="[Fig4] Norm ball [1]" width="70%">
-  <figcaption style="text-align: center;">[Fig4] Norm ball [1]</figcaption>
+  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.07_2_norm_ball.png" alt="[Hình4] Hình cầu chuẩn [1]" width="70%">
+  <figcaption style="text-align: center;">[Hình4] Hình cầu chuẩn [1]</figcaption>
 </p>
 </figure>
 
 
-The next figure shows the shape of the norm ball in 2D for different values of $$p$$.
+Hình tiếp theo cho thấy hình dạng của hình cầu chuẩn trong 2D với các giá trị khác nhau của $$p$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.07_3_norm_ball2.png" alt="[Fig4] Norm ball [2]" width="70%">
-  <figcaption style="text-align: center;">[Fig4] Norm ball [2]</figcaption>
+  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.07_3_norm_ball2.png" alt="[Hình4] Hình cầu chuẩn [2]" width="70%">
+  <figcaption style="text-align: center;">[Hình4] Hình cầu chuẩn [2]</figcaption>
 </p>
 </figure>
 
 
 
-## Polyhedra
+## Đa diện
 
-A polyhedron is defined as the intersection of linear inequalities and equalities. Affine sets (subspaces, hyperplanes, lines), rays, line segments, and halfspaces are all polyhedra. Polyhedra are convex sets, and a bounded polyhedron is called a polytope.
+Đa diện được định nghĩa như giao của các bất đẳng thức và đẳng thức tuyến tính. Tập affine (không gian con, siêu phẳng, đường thẳng), tia, đoạn thẳng và nửa không gian đều là đa diện. Đa diện là tập lồi, và một đa diện bị chặn được gọi là polytope.
 
 > $$\mathcal{P} = \{ x \mid a^T_i x \le b_i, i = 1, ..., m, c_j^Tx  = d_j, j = 1, ..., p\}$$
 
-A single equality $$c_j^Tx  = d_j$$ can be represented by two inequalities $$c^T_jx \le d_j$$ and $$c^T_jx \ge d_j$$. Thus, polyhedra can be defined using only inequalities.
+Một đẳng thức đơn $$c_j^Tx  = d_j$$ có thể được biểu diễn bằng hai bất đẳng thức $$c^T_jx \le d_j$$ và $$c^T_jx \ge d_j$$. Do đó, đa diện có thể được định nghĩa chỉ sử dụng các bất đẳng thức.
 
-The figure below shows a pentagonal polyhedron formed by the intersection of five halfspaces, with outward normal vectors $$a_1, ..., a_5$$.
+Hình dưới đây cho thấy một đa diện ngũ giác được hình thành bởi giao của năm nửa không gian, với các vector pháp tuyến hướng ra ngoài $$a_1, ..., a_5$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.09_Polyhedra.png" alt="[Fig5] Polyhedra [1]" width="70%">
-  <figcaption style="text-align: center;">[Fig5] Polyhedra [1]</figcaption>
+  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.09_Polyhedra.png" alt="[Hình5] Đa diện [1]" width="70%">
+  <figcaption style="text-align: center;">[Hình5] Đa diện [1]</figcaption>
 </p>
 </figure>
 
 
-In matrix form, a polyhedron can be defined as:
+Dưới dạng ma trận, một đa diện có thể được định nghĩa như:
 
 > $$\mathcal{P} =  \{ x \mid A^Tx \preceq b, C^Tx  = d \}$$
-where
+trong đó
 $$
 A = 
 \begin{bmatrix}
@@ -168,24 +168,24 @@ c^T_p
 $$
 
 
-### Simplexes
+### Đơn hình
 
-A simplex is the simplest polygon that can be formed in $$n$$-dimensional space, constructed from $$n+1$$ points.
+Đơn hình là đa giác đơn giản nhất có thể được hình thành trong không gian $$n$$ chiều, được xây dựng từ $$n+1$$ điểm.
 
-If there are $$k + 1$$ points $$v_0, ..., v_k \in \mathbb{R}^n$$ that are affinely independent, the simplex is defined as the convex hull of these $$k+1$$ points. Affinely independent means $$v_1 − v_0, ..., v_k − v_0$$ are linearly independent.
+Nếu có $$k + 1$$ điểm $$v_0, ..., v_k \in \mathbb{R}^n$$ độc lập affine, đơn hình được định nghĩa như bao lồi của những $$k+1$$ điểm này. Độc lập affine có nghĩa là $$v_1 − v_0, ..., v_k − v_0$$ độc lập tuyến tính.
 
 > $$C = \mathbb{conv} \{v_0, ... , v_k\} = \{ \theta_0 v_0 + \cdots + \theta_k v_k  \mid \theta \succeq 0, 1^T \theta = 1 \}$$
 
-The figure below shows simplexes from 0 to 3 dimensions: a point in 0D, a line segment in 1D, a triangle in 2D, and a tetrahedron in 3D.
+Hình dưới đây cho thấy các đơn hình từ 0 đến 3 chiều: một điểm trong 0D, một đoạn thẳng trong 1D, một tam giác trong 2D, và một tứ diện trong 3D.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.02_10_Simplex.png" alt="[Fig6] Simplex [source - wikipedia]" width="70%">
-  <figcaption style="text-align: center;">[Fig6] Simplex [source - wikipedia]</figcaption>
+  <img src="{{ site.baseurl  }}/img/chapter_img/chapter02/02.02_10_Simplex.png" alt="[Hình6] Đơn hình [nguồn - wikipedia]" width="70%">
+  <figcaption style="text-align: center;">[Hình6] Đơn hình [nguồn - wikipedia]</figcaption>
 </p>
 </figure>
 
 
-A common example of a simplex is the probability simplex:
+Một ví dụ phổ biến của đơn hình là đơn hình xác suất:
 
 > $$C = \mathbb{conv} \{e_1, ..., e_n \} = \{ \theta \mid \theta \succeq 0, 1^T \theta = 1\}$$

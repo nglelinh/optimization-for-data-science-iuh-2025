@@ -1,50 +1,50 @@
 ---
 layout: post
-title: 02-03 Operations that preserve convexity of convex set
+title: 02-03 Các phép toán bảo toàn tính lồi của tập lồi
 chapter: '02'
 order: 9
 owner: Wontak Ryu
 categories:
 - chapter02
-lang: en
+lang: vi
 ---
 
-This section discusses operations that preserve the convexity of convex sets. These operations are useful for determining convexity or constructing desired convex sets from simple ones like hyperplanes, halfspaces, and norm balls.
+Phần này thảo luận về các phép toán bảo toàn tính lồi của tập lồi. Những phép toán này hữu ích để xác định tính lồi hoặc xây dựng các tập lồi mong muốn từ những tập đơn giản như siêu phẳng, nửa không gian và hình cầu chuẩn.
 
-Operations that preserve convexity include:
+Các phép toán bảo toàn tính lồi bao gồm:
 
-* Intersection
-* Affine functions
-* Perspective function
-* Linear-fractional functions
+* Giao
+* Hàm affine
+* Hàm phối cảnh
+* Hàm tuyến tính-phân thức
 
-## Intersection
+## Giao
 
-The intersection of convex sets is convex. That is, if $$S_1$$ and $$S_2$$ are convex, then $$S_1 \cap S_2$$ is convex. This property holds even for infinitely many sets. (Subspaces, affine sets, and convex cones are also closed under intersection.)
+Giao của các tập lồi là lồi. Tức là, nếu $$S_1$$ và $$S_2$$ là lồi, thì $$S_1 \cap S_2$$ là lồi. Tính chất này đúng ngay cả với vô số tập hợp. (Không gian con, tập affine và hình nón lồi cũng đóng kín dưới phép giao.)
 
-Convexity can be expressed as the intersection of infinitely many halfspaces, and the converse also holds. That is, a closed convex set $$S$$ can be defined as the intersection of all halfspaces containing $$S$$:
+Tính lồi có thể được biểu diễn như giao của vô số nửa không gian, và điều ngược lại cũng đúng. Tức là, một tập lồi đóng $$S$$ có thể được định nghĩa như giao của tất cả các nửa không gian chứa $$S$$:
 
-> $$S = \bigcap \{\mathcal{H} \mid \mathcal{H} \text{ halfspace }, S \subseteq \mathcal{H}\}$$
+> $$S = \bigcap \{\mathcal{H} \mid \mathcal{H} \text{ là nửa không gian }, S \subseteq \mathcal{H}\}$$
 
-## Affine functions
+## Hàm affine
 
-Let $$A \in \mathbb{R}^{m \times n}$$ and $$b \in \mathbb{R}^{m}$$. The function $$f : \mathbb{R}^n \to \mathbb{R}^m$$ defined by $$f(x) = Ax + b$$ is called an affine function.
+Cho $$A \in \mathbb{R}^{m \times n}$$ và $$b \in \mathbb{R}^{m}$$. Hàm $$f : \mathbb{R}^n \to \mathbb{R}^m$$ được định nghĩa bởi $$f(x) = Ax + b$$ được gọi là hàm affine.
 
-If $$C \subseteq \mathbb{R}^n$$ is convex and $$D \subseteq \mathbb{R}^m$$ is convex, then:
+Nếu $$C \subseteq \mathbb{R}^n$$ là lồi và $$D \subseteq \mathbb{R}^m$$ là lồi, thì:
 
-* The affine image $$f(C) = \{f(x) \mid x \in C\}$$ is convex.
-* The affine preimage $$f^{-1}(D) = \{x \mid f(x) \in D\}$$ is convex.
+* Ảnh affine $$f(C) = \{f(x) \mid x \in C\}$$ là lồi.
+* Nghịch ảnh affine $$f^{-1}(D) = \{x \mid f(x) \in D\}$$ là lồi.
 
-Applying affine functions such as scaling and translation, projection, sum of two sets, and partial sum to convex sets results in convex sets.
+Áp dụng các hàm affine như co giãn và tịnh tiến, phép chiếu, tổng của hai tập hợp, và tổng từng phần lên các tập lồi sẽ cho kết quả là các tập lồi.
 
-The solution set of a linear matrix inequality $$\{x \mid x_1 A_1 + \cdots + x_m A_m \preceq B\}$$ (with $$A_i, B \in S^n$$) is also convex.
+Tập nghiệm của một bất đẳng thức ma trận tuyến tính $$\{x \mid x_1 A_1 + \cdots + x_m A_m \preceq B\}$$ (với $$A_i, B \in S^n$$) cũng là lồi.
 
-A hyperbolic cone $$\{x \mid x^T P x < (c^T x)^2, c^T x > 0\}$$ (with $$P \subseteq S^n_+$$, $$c \in \mathbb{R}^n$$) is also convex.
+Một hình nón hyperbolic $$\{x \mid x^T P x < (c^T x)^2, c^T x > 0\}$$ (với $$P \subseteq S^n_+$$, $$c \in \mathbb{R}^n$$) cũng là lồi.
 
-## Perspective function
+## Hàm phối cảnh
 
-The **perspective function** models how objects appear smaller when farther away and larger when closer, similar to how a camera projects images. The object is in $$\mathbb{R}^{n+1}$$ and its image is in $$\mathbb{R}^n$$.
+**Hàm phối cảnh** mô hình hóa cách các vật thể xuất hiện nhỏ hơn khi ở xa và lớn hơn khi ở gần, tương tự như cách máy ảnh chiếu hình ảnh. Vật thể nằm trong $$\mathbb{R}^{n+1}$$ và ảnh của nó nằm trong $$\mathbb{R}^n$$.
 
-The perspective function is defined as $$P : \mathbb{R}^{n+1} \to \mathbb{R}^{n}$$ with **dom** $$P = \mathbb{R}^{n} \times \mathbb{R}_{++}$$ and $$P(z,t) = z/t$$, where $$\mathbb{R}_{++} = \{x \in \mathbb{R} \mid x > 0\}$$. This function normalizes the last coordinate to 1 and drops it, reducing the dimension from $$\mathbb{R}^{n+1}$$ to $$\mathbb{R}^n$$. If $$C \subseteq$$ **dom** $$P$$ is convex, then the image $$P(C) = \{P(x) \mid x \in C\}$$ is also convex.
+Hàm phối cảnh được định nghĩa là $$P : \mathbb{R}^{n+1} \to \mathbb{R}^{n}$$ với **dom** $$P = \mathbb{R}^{n} \times \mathbb{R}_{++}$$ và $$P(z,t) = z/t$$, trong đó $$\mathbb{R}_{++} = \{x \in \mathbb{R} \mid x > 0\}$$. Hàm này chuẩn hóa tọa độ cuối cùng về 1 và bỏ qua nó, giảm chiều từ $$\mathbb{R}^{n+1}$$ xuống $$\mathbb{R}^n$$. Nếu $$C \subseteq$$ **dom** $$P$$ là lồi, thì ảnh $$P(C) = \{P(x) \mid x \in C\}$$ cũng là lồi.
 
-The perspective function works like a pinhole camera: objects farther from the pinhole are projected smaller. The figure below illustrates this principle, showing that objects within the same captured ray are projected identically.
+Hàm phối cảnh hoạt động như một máy ảnh lỗ kim: các vật thể xa hơn từ lỗ kim được chiếu nhỏ hơn. Hình dưới đây minh họa nguyên lý này, cho thấy rằng các vật thể trong cùng một tia bị bắt sẽ được chiếu giống hệt nhau.
