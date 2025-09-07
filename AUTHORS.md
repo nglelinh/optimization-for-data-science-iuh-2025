@@ -1,36 +1,36 @@
-## Author
-**김기범** (astroblasterr@gmail.com)<br>
+## Authors
+**Kibum Kim** (astroblasterr@gmail.com)<br>
 
-**김정훈** (placidus36@gmail.com)<br>
-대학원 석박통합과정으로 재학 중이며, 자율주행차량의 판단 분야에 관심이 많고 이를 연구하고 있습니다. 주변의 차량, 사람들과 interactive하면서도, safe-guaranteed한 자율주행차를 개발하는 것을 목표로 하고 있습니다. 기초적인 딥러닝/강화학습을 공부하면서 해당 분야들의 많은 motivation, proof가 최적화 기반에서 왔다는 것을 깨닫고 컨벡스 최적화 프로젝트에 참여하게 되었습니다.
+**Jeong-Hoon Kim** (placidus36@gmail.com)<br>
+Currently enrolled in a combined master's and doctoral program, with a strong interest in decision-making systems for autonomous vehicles. The goal is to develop autonomous vehicles that can interact safely with surrounding vehicles and people while maintaining safety guarantees. While studying basic deep learning and reinforcement learning, I realized that many motivations and proofs in these fields originate from optimization theory, which led me to participate in the convex optimization project.
 
-**노원종** (wnoh27@naver.com)<br>
-현재 네트워크 시스템 개발 관련 일을 하고 있으며, 최근 많은 분야에서 적용되기 시작하고 있는 머신러닝/딥러닝기술들에 대해 관심을 가지고, 네트워크에서 적용가능한 기법들에 대해 공부하던 중, 그 안에 적용되고 있는 최적화 기법을 좀 더 자세히 이해하기 위해 컨벡스 최적화 프로젝트에 참여하게 되었습니다. 본 책이 머신러닝/딥러닝에 이용되는 최적화 원리를 좀 더 자세히 이해하고자 하시는 분들께 많은 도움이 되었으면 합니다.
+**Won-Jong Roh** (wnoh27@naver.com)<br>
+Currently working in network system development, I have been interested in machine learning and deep learning technologies that are being applied in many fields recently. While studying techniques applicable to networks, I joined the convex optimization project to better understand the optimization techniques used within them. I hope this book will be of great help to those who want to understand the optimization principles used in machine learning and deep learning in more detail.
 
-**박진우** (www.jwpark.co.kr@gmail.com)<br>
-모두의 연구소 풀잎스쿨의 컨벡스 최적화 과정을 기획하였고, 해당 과정에서 facilitator로 활동중입니다. 최적화가 기계학습에서 차지하는 중요도에 비해 참고자료가 너무나도 부족한 작금의 현실에 통탄을 금치 못하고 '모두를 위한 컨벡스 최적화' 프로젝트를 제안하게 되었습니다. 현재는 다중 인물에 대한 합성 얼굴 이미지 생성을 연구중이며, 또한 강화학습을 이용한 game agent 학습에도 큰 관심을 가지고 있습니다. [[LinkedIn](https://www.linkedin.com/in/curt-park/)]
+**Jinwoo Park** (www.jwpark.co.kr@gmail.com)<br>
+Planned the convex optimization course at ModuLabs' Full-Leaf School and currently serves as a facilitator for the program. Feeling frustrated by the severe lack of reference materials compared to the importance of optimization in machine learning, I proposed the 'Convex Optimization for All' project. Currently researching synthetic face image generation for multiple people and also have great interest in game agent learning using reinforcement learning. [[LinkedIn](https://www.linkedin.com/in/curt-park/)]
 
-**윤성진** (sjyoon@gmail.com)<br>
-약 22년 동안 소프트웨어 연구개발 및 제품기획 업무를 해 왔으며 최근 5년에는 데이터 및 미들웨어 소프트웨어, 모듈형 로봇 플랫폼 제품기획을 하였습니다. 현재는 딥러닝 기반의 컴퓨터 비전에 관심을 갖고 있으며 다중 인물에 대한 합성 얼굴 이미지 생성을 연구중입니다. 모두의 연구소 풀잎스쿨에서 컨벡스 최적화를 공부하면서 학문의 중요도에 비해 진입 장벽이 높고 특히 한글 자료가 전무하다는 현실을 깨닫고 '모두를 위한 컨벡스 최적화' 프로젝트에 참여하게 되었습니다. 머신러닝에 관심을 갖고 있는 많은 분들이 본서를 통해 최적화에 좀 더 쉽게 입문할 수 있으면 좋겠습니다.
+**Seong-Jin Yoon** (sjyoon@gmail.com)<br>
+Have been working in software research and development and product planning for about 22 years, with the last 5 years focused on data and middleware software, and modular robot platform product planning. Currently interested in deep learning-based computer vision and researching synthetic face image generation for multiple people. While studying convex optimization at ModuLabs' Full-Leaf School, I realized that despite the importance of the field, the entry barrier is high and Korean materials are virtually non-existent, which led me to participate in the 'Convex Optimization for All' project. I hope many people interested in machine learning can more easily enter the field of optimization through this book.
 
-**이규복** (gyubokl@gmail.com)<br>
-산업공학과 석사과정으로 재학 중이며 자연어 처리, 이상 탐지, 강화학습에 관심이 많습니다. 기계학습을 연구하면서 기계학습과 최적화는 떼려야 뗄 수 없는 관계라는 것을 알게 되어 최적화에 자연스럽게 관심을 가지게 되었습니다. 하지만 공부를 하면서 조금 더 친절한 자료가 있으면 좋겠다는 생각을 끊임없이 하게 되었고, '모두를 위한 컨벡스 최적화' 프로젝트에 참여하게 되었습니다. 최적화의 중요성을 알고 도전하려고 하지만 입문의 장벽이 높아 포기하는 사람들에게 이 책이 조그만 희망이 되길 바랍니다. [[LinkedIn](https://www.linkedin.com/in/gyuboklee/)]
+**Gyu-Bok Lee** (gyubokl@gmail.com)<br>
+Currently enrolled in a master's program in Industrial Engineering with interests in natural language processing, anomaly detection, and reinforcement learning. While researching machine learning, I learned that machine learning and optimization have an inseparable relationship, which naturally led to my interest in optimization. However, while studying, I constantly thought it would be nice to have more user-friendly materials, which led me to participate in the 'Convex Optimization for All' project. I hope this book will provide a small ray of hope for those who recognize the importance of optimization and want to challenge themselves but give up due to the high entry barrier. [[LinkedIn](https://www.linkedin.com/in/gyuboklee/)]
 
-**한영일** (thinkingtoyihan@gmail.com)<br>
-Computer Science와 무선통신을 공부하였으며 인지과학, 진화 심리학 그리고 인공 생명 등에 관심이 있습니다. 호기심에 시작한 최적화라는 거대한 지식의 산 아래에서 경이로움을 느끼며, 위대한 지식 앞에 또 다시 겸손을 배움니다. 본서가 저처럼 최적화라는 거대한 지식의 산 앞에서 오르기를 주저하시는 분들께 좋은 길잡이가 되어주길 바랍니다.
+**Young-Il Han** (thinkingtoyihan@gmail.com)<br>
+Studied Computer Science and wireless communications, with interests in cognitive science, evolutionary psychology, and artificial life. I feel amazed standing at the foot of the vast mountain of knowledge called optimization, which I started out of curiosity, and I learn humility once again before this great knowledge. I hope this book will serve as a good guide for those who, like me, hesitate to climb the vast mountain of knowledge called optimization.
 
-**황혜진** (brillianthhj@gmail.com)<br>
-수학 전공 및 데이터마이닝 석사 과정을 졸업하였으며, 현재 컴퓨터비전 분야 관련 개발자로 일하고 있습니다. 딥러닝 공부를 하는 동안 쉽게 이해되지 않는 수식적 배경에 대해 좀 더 깊게 파헤쳐보고자 컨벡스 최적화 프로젝트에 참여하게 되었고, 공부한 내용들을 깊이 있게 이해하고, 실제 적용 단에서 최적화 된 방법론이 어떻게 사용될 지에 대해 지속적인 관심을 가지고 스터디에 임하고 있습니다.
+**Hye-Jin Hwang** (brillianthhj@gmail.com)<br>
+Graduated with a mathematics major and a master's degree in data mining, currently working as a developer in the computer vision field. During my deep learning studies, I wanted to delve deeper into the mathematical backgrounds that were not easily understood, which led me to participate in the convex optimization project. I am committed to understanding the studied content deeply and maintaining continuous interest in how optimized methodologies will be used in actual applications.
 
-## Reviewer
-**이주희** (juhee1108@gmail.com)<br>
-**現 이화여자대학교 수리과학연구소 연구교수**<br>
-이화여자대학교에서 수학박사 학위를 취득하였습니다. 주 연구 분야는 암호학으로 IoT, 머신러닝 등과 같은 다양한 응용 분야에서의 효율적인 암호 기술 개발 및 그 기반이 되는 수학적 이론을 연구합니다. 머신러닝 / 딥러닝을 활용한 암호 기술 개발을 위해 딥러닝에 관심 두게 되었고 최근 모두의 연구소 Deep Learning College에서 기초수학(선형대수/미적분학/최적화 /확률 및 통계)을 강의하였습니다. 이후 머신러닝 / 딥러닝에서 필요한 수학을 정리하면서 대부분의 문제가 논-컨벡스 최적화(non-convex optimization problem)에 해당하지만, 현재까지의 해결방안은 컨벡스 최적화 문제로 변환하는 방법이 아닐까하는 생각에 컨벡스 최적화를 공부하게 되었고, '모두를 위한 컨벡스 최적화' 프로젝트에 참여하고 있습니다. 수학의 중요성을 체감하고 있는 많은 분께 이 책이 도움이 되기를 바랍니다.
+## Reviewers
+**Juhee Lee** (juhee1108@gmail.com)<br>
+**Current Research Professor at Institute of Mathematical Sciences, Ewha Womans University**<br>
+Obtained a Ph.D. in Mathematics from Ewha Womans University. The main research field is cryptography, focusing on the development of efficient cryptographic technologies in various application areas such as IoT and machine learning, as well as the underlying mathematical theories. Became interested in deep learning for developing cryptographic technologies utilizing machine learning/deep learning, and recently taught foundational mathematics (linear algebra/calculus/optimization/probability and statistics) at ModuLabs' Deep Learning College. While organizing the mathematics needed for machine learning/deep learning, I realized that most problems correspond to non-convex optimization problems, but the current solutions might involve converting them to convex optimization problems, which led me to study convex optimization and participate in the 'Convex Optimization for All' project. I hope this book will be helpful to many people who recognize the importance of mathematics.
 <br>
 
-**장승환** (schang.math@gmail.com)<br>
-**現 이화여자대학교 수리과학연구소 연구교수**<br>
+**Seung-Hwan Jang** (schang.math@gmail.com)<br>
+**Current Research Professor at Institute of Mathematical Sciences, Ewha Womans University**<br>
 
-**정태수** (tcheong@korea.ac.kr) <br>
-**現 고려대학교 산업경영공학부 부교수, 공과대학 연구부학장**<br>
-고려대학교 산업경영공학부 부교수로 재직 중이며, 최적화 기법을 활용한 다양한 연구를 수행하였으며 최근들어서는 머신러닝과 관련된 산학 프로젝트도 진행 중에 있습니다. 본 전공은 마르코브 의사결정 프로세스 (Markov decision process)를 활용한 물류 및 SCM 최적화이며 박사과정 중에서 Optimization 트랙으로 박사자격시험을 준비하면서 다양한 최적화 이론을 공부하였습니다. 머신러닝 관련해서는 [K-MOOC](http://www.kmooc.kr/)의 "Mathematical Fundamentals for Data Science"와 "Machine Learning for Data Science" 강좌 개발 및 촬영에 참여하였습니다. 최적화와 관련하여 부족하지만 조금이나마 기여를 하고자 이렇게 참여하게 되었습니다.
+**Tae-Soo Chung** (tcheong@korea.ac.kr) <br>
+**Current Associate Professor, Department of Industrial and Management Engineering, Korea University & Associate Dean for Research, College of Engineering**<br>
+Currently serving as an Associate Professor in the Department of Industrial and Management Engineering at Korea University, conducting various research using optimization techniques, and recently also working on industry-academia projects related to machine learning. The main specialty is logistics and SCM optimization using Markov decision processes, and studied various optimization theories while preparing for the doctoral qualifying exam in the Optimization track during the doctoral program. Regarding machine learning, participated in the development and filming of [K-MOOC](http://www.kmooc.kr/) courses "Mathematical Fundamentals for Data Science" and "Machine Learning for Data Science." Although lacking in some areas, I joined this project hoping to contribute even a little to optimization-related work.
