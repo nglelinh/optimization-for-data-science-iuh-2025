@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Second-Order Optimality Conditions</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .header h1 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .control-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+        .control-group select, .control-group input {
+            padding: 10px;
+            border: 2px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .control-group select:focus, .control-group input:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .plot-container {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fafbfc;
+        }
+        .plot-container h3 {
+            margin-top: 0;
+            color: #495057;
+            text-align: center;
+        }
+        .analysis-panel {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #e74c3c;
+        }
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .analysis-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .analysis-section h4 {
+            margin-top: 0;
+            color: #e74c3c;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 8px;
+        }
+        .matrix-display {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+            margin: 10px 0;
+        }
+        .eigenvalue-list {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+        }
+        .classification {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        .minimum { background: #d4edda; color: #155724; border: 2px solid #28a745; }
+        .maximum { background: #f8d7da; color: #721c24; border: 2px solid #dc3545; }
+        .saddle { background: #fff3cd; color: #856404; border: 2px solid #ffc107; }
+        .inconclusive { background: #e2e3e5; color: #383d41; border: 2px solid #6c757d; }
+        
+        .formula-box {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #b0d4f1;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Second-Order Optimality Conditions Explorer</h1>
+            <p>Analyze critical points using Hessian matrix and eigenvalue analysis</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="functionType">Select Function:</label>
+                <select id="functionType" onchange="updateAnalysis()">
+                    <option value="quadratic_min">Quadratic (Minimum): f(x,y) = x² + 2y²</option>
+                    <option value="quadratic_max">Quadratic (Maximum): f(x,y) = -x² - y²</option>
+                    <option value="saddle">Saddle Point: f(x,y) = x² - y²</option>
+                    <option value="mixed_quadratic">Mixed Quadratic: f(x,y) = x² + 2y² + xy</option>
+                    <option value="quartic">Quartic: f(x,y) = x⁴ + y⁴ - 2x² - 2y²</option>
+                    <option value="rosenbrock">Rosenbrock: f(x,y) = (1-x)² + 100(y-x²)²</option>
+                    <option value="custom">Custom Parameters</option>
+                </select>
+            </div>
+            
+            <div class="control-group" id="customParams" style="display: none;">
+                <label for="paramA">Parameter a:</label>
+                <input type="range" id="paramA" min="-5" max="5" step="0.1" value="1" oninput="updateCustom()">
+                <span id="paramAValue">1.0</span>
+            </div>
+            
+            <div class="control-group" id="customParams2" style="display: none;">
+                <label for="paramB">Parameter b:</label>
+                <input type="range" id="paramB" min="-5" max="5" step="0.1" value="1" oninput="updateCustom()">
+                <span id="paramBValue">1.0</span>
+            </div>
+
+            <div class="control-group">
+                <label for="criticalPoint">Critical Point:</label>
+                <select id="criticalPoint" onchange="updateAnalysis()">
+                    <option value="0">Point 1: (0, 0)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="plot-container">
+                <h3>3D Surface Plot</h3>
+                <div id="surfacePlot" style="height: 400px;"></div>
+            </div>
+            <div class="plot-container">
+                <h3>Contour Plot with Critical Points</h3>
+                <div id="contourPlot" style="height: 400px;"></div>
+            </div>
+        </div>
+
+        <div class="analysis-panel">
+            <h3>🔍 Second-Order Analysis</h3>
+            <div class="analysis-grid">
+                <div class="analysis-section">
+                    <h4>Mathematical Analysis</h4>
+                    <div id="gradientInfo"></div>
+                    <div id="hessianInfo"></div>
+                    <div id="eigenvalueInfo"></div>
+                </div>
+                <div class="analysis-section">
+                    <h4>Classification Result</h4>
+                    <div id="classificationResult"></div>
+                    <div id="conditionCheck"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="formula-box">
+            <h3>📚 Second-Order Optimality Conditions</h3>
+            <p><strong>Necessary Conditions:</strong> If x* is a local minimum:</p>
+            <p style="text-align: center;">$$\nabla f(x^*) = 0 \text{ and } \nabla^2 f(x^*) \succeq 0$$</p>
+            
+            <p><strong>Sufficient Conditions:</strong> If at point x*:</p>
+            <p style="text-align: center;">$$\nabla f(x^*) = 0 \text{ and } \nabla^2 f(x^*) \succ 0$$</p>
+            <p>Then x* is a <strong>strict local minimum</strong>.</p>
+            
+            <p><strong>Classification by Eigenvalues:</strong></p>
+            <ul>
+                <li><strong>All λᵢ > 0:</strong> Strict local minimum</li>
+                <li><strong>All λᵢ < 0:</strong> Strict local maximum</li>
+                <li><strong>Mixed signs:</strong> Saddle point</li>
+                <li><strong>Some λᵢ = 0:</strong> Test inconclusive</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Function definitions and their properties
+        const functions = {
+            quadratic_min: {
+                name: "Quadratic Minimum",
+                formula: "f(x,y) = x² + 2y²",
+                f: (x, y) => x*x + 2*y*y,
+                gradient: (x, y) => [2*x, 4*y],
+                hessian: (x, y) => [[2, 0], [0, 4]],
+                criticalPoints: [[0, 0]]
+            },
+            quadratic_max: {
+                name: "Quadratic Maximum", 
+                formula: "f(x,y) = -x² - y²",
+                f: (x, y) => -x*x - y*y,
+                gradient: (x, y) => [-2*x, -2*y],
+                hessian: (x, y) => [[-2, 0], [0, -2]],
+                criticalPoints: [[0, 0]]
+            },
+            saddle: {
+                name: "Saddle Point",
+                formula: "f(x,y) = x² - y²", 
+                f: (x, y) => x*x - y*y,
+                gradient: (x, y) => [2*x, -2*y],
+                hessian: (x, y) => [[2, 0], [0, -2]],
+                criticalPoints: [[0, 0]]
+            },
+            mixed_quadratic: {
+                name: "Mixed Quadratic",
+                formula: "f(x,y) = x² + 2y² + xy",
+                f: (x, y) => x*x + 2*y*y + x*y,
+                gradient: (x, y) => [2*x + y, 4*y + x],
+                hessian: (x, y) => [[2, 1], [1, 4]],
+                criticalPoints: [[0, 0]]
+            },
+            quartic: {
+                name: "Quartic Function",
+                formula: "f(x,y) = x⁴ + y⁴ - 2x² - 2y²",
+                f: (x, y) => Math.pow(x, 4) + Math.pow(y, 4) - 2*x*x - 2*y*y,
+                gradient: (x, y) => [4*Math.pow(x, 3) - 4*x, 4*Math.pow(y, 3) - 4*y],
+                hessian: (x, y) => [[12*x*x - 4, 0], [0, 12*y*y - 4]],
+                criticalPoints: [[0, 0], [1, 1], [-1, 1], [1, -1], [-1, -1]]
+            },
+            rosenbrock: {
+                name: "Rosenbrock Function",
+                formula: "f(x,y) = (1-x)² + 100(y-x²)²",
+                f: (x, y) => Math.pow(1-x, 2) + 100*Math.pow(y - x*x, 2),
+                gradient: (x, y) => [
+                    -2*(1-x) + 100*2*(y - x*x)*(-2*x),
+                    100*2*(y - x*x)
+                ],
+                hessian: (x, y) => [
+                    [2 + 100*(-2*(y - x*x) + 4*x*x), -400*x],
+                    [-400*x, 200]
+                ],
+                criticalPoints: [[1, 1]]
+            }
+        };
+
+        let currentFunction = 'quadratic_min';
+        let currentPoint = 0;
+
+        function updateAnalysis() {
+            currentFunction = document.getElementById('functionType').value;
+            
+            // Show/hide custom parameters
+            const customParams = document.getElementById('customParams');
+            const customParams2 = document.getElementById('customParams2');
+            if (currentFunction === 'custom') {
+                customParams.style.display = 'flex';
+                customParams2.style.display = 'flex';
+            } else {
+                customParams.style.display = 'none';
+                customParams2.style.display = 'none';
+            }
+            
+            updateCriticalPointOptions();
+            plotSurface();
+            plotContour();
+            performAnalysis();
+        }
+
+        function updateCustom() {
+            if (currentFunction === 'custom') {
+                const a = parseFloat(document.getElementById('paramA').value);
+                const b = parseFloat(document.getElementById('paramB').value);
+                document.getElementById('paramAValue').textContent = a.toFixed(1);
+                document.getElementById('paramBValue').textContent = b.toFixed(1);
+                
+                // Update custom function
+                functions.custom = {
+                    name: "Custom Function",
+                    formula: `f(x,y) = ${a}x² + ${b}y²`,
+                    f: (x, y) => a*x*x + b*y*y,
+                    gradient: (x, y) => [2*a*x, 2*b*y],
+                    hessian: (x, y) => [[2*a, 0], [0, 2*b]],
+                    criticalPoints: [[0, 0]]
+                };
+                
+                updateAnalysis();
+            }
+        }
+
+        function updateCriticalPointOptions() {
+            const func = functions[currentFunction];
+            const select = document.getElementById('criticalPoint');
+            select.innerHTML = '';
+            
+            func.criticalPoints.forEach((point, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `Point ${index + 1}: (${point[0].toFixed(1)}, ${point[1].toFixed(1)})`;
+                select.appendChild(option);
+            });
+            
+            currentPoint = 0;
+        }
+
+        function plotSurface() {
+            const func = functions[currentFunction];
+            const range = 3;
+            const resolution = 30;
+            
+            const x = [];
+            const y = [];
+            const z = [];
+            
+            for (let i = 0; i <= resolution; i++) {
+                const xi = -range + (2 * range * i) / resolution;
+                x.push(xi);
+                const row = [];
+                for (let j = 0; j <= resolution; j++) {
+                    const yj = -range + (2 * range * j) / resolution;
+                    if (i === 0) y.push(yj);
+                    row.push(func.f(xi, yj));
+                }
+                z.push(row);
+            }
+
+            const trace = {
+                x: x,
+                y: y,
+                z: z,
+                type: 'surface',
+                colorscale: 'Viridis',
+                showscale: true
+            };
+
+            // Add critical points
+            const criticalPoints = {
+                x: func.criticalPoints.map(p => p[0]),
+                y: func.criticalPoints.map(p => p[1]),
+                z: func.criticalPoints.map(p => func.f(p[0], p[1])),
+                mode: 'markers',
+                type: 'scatter3d',
+                marker: {
+                    size: 8,
+                    color: 'red',
+                    symbol: 'diamond'
+                },
+                name: 'Critical Points'
+            };
+
+            const layout = {
+                title: func.formula,
+                scene: {
+                    xaxis: { title: 'x' },
+                    yaxis: { title: 'y' },
+                    zaxis: { title: 'f(x,y)' }
+                },
+                margin: { t: 50, r: 50, b: 50, l: 50 }
+            };
+
+            Plotly.newPlot('surfacePlot', [trace, criticalPoints], layout, {responsive: true});
+        }
+
+        function plotContour() {
+            const func = functions[currentFunction];
+            const range = 3;
+            const resolution = 100;
+            
+            const x = [];
+            const y = [];
+            const z = [];
+            
+            for (let i = 0; i <= resolution; i++) {
+                const xi = -range + (2 * range * i) / resolution;
+                x.push(xi);
+                const row = [];
+                for (let j = 0; j <= resolution; j++) {
+                    const yj = -range + (2 * range * j) / resolution;
+                    if (i === 0) y.push(yj);
+                    row.push(func.f(xi, yj));
+                }
+                z.push(row);
+            }
+
+            const contour = {
+                x: x,
+                y: y,
+                z: z,
+                type: 'contour',
+                colorscale: 'Viridis',
+                contours: {
+                    showlabels: true,
+                    labelfont: { size: 12, color: 'white' }
+                }
+            };
+
+            // Add critical points
+            const criticalPoints = {
+                x: func.criticalPoints.map(p => p[0]),
+                y: func.criticalPoints.map(p => p[1]),
+                mode: 'markers+text',
+                type: 'scatter',
+                marker: {
+                    size: 12,
+                    color: 'red',
+                    symbol: 'diamond',
+                    line: { width: 2, color: 'white' }
+                },
+                text: func.criticalPoints.map((p, i) => `P${i+1}`),
+                textposition: 'top center',
+                name: 'Critical Points'
+            };
+
+            const layout = {
+                title: 'Contour Plot',
+                xaxis: { title: 'x' },
+                yaxis: { title: 'y' },
+                margin: { t: 50, r: 50, b: 50, l: 50 }
+            };
+
+            Plotly.newPlot('contourPlot', [contour, criticalPoints], layout, {responsive: true});
+        }
+
+        function performAnalysis() {
+            const func = functions[currentFunction];
+            currentPoint = parseInt(document.getElementById('criticalPoint').value);
+            const point = func.criticalPoints[currentPoint];
+            
+            const gradient = func.gradient(point[0], point[1]);
+            const hessian = func.hessian(point[0], point[1]);
+            
+            // Calculate eigenvalues
+            const eigenvalues = calculateEigenvalues(hessian);
+            
+            // Display gradient
+            document.getElementById('gradientInfo').innerHTML = `
+                <p><strong>Gradient at (${point[0]}, ${point[1]}):</strong></p>
+                <div class="matrix-display">
+                    ∇f = [${gradient[0].toFixed(3)}, ${gradient[1].toFixed(3)}]
+                </div>
+                <p>First-order condition: ${isZeroVector(gradient) ? '✅ ∇f = 0' : '❌ ∇f ≠ 0'}</p>
+            `;
+            
+            // Display Hessian
+            document.getElementById('hessianInfo').innerHTML = `
+                <p><strong>Hessian Matrix:</strong></p>
+                <div class="matrix-display">
+                    H = [${hessian[0][0].toFixed(3)}  ${hessian[0][1].toFixed(3)}]<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;[${hessian[1][0].toFixed(3)}  ${hessian[1][1].toFixed(3)}]
+                </div>
+                <p>Determinant: ${(hessian[0][0]*hessian[1][1] - hessian[0][1]*hessian[1][0]).toFixed(3)}</p>
+                <p>Trace: ${(hessian[0][0] + hessian[1][1]).toFixed(3)}</p>
+            `;
+            
+            // Display eigenvalues
+            document.getElementById('eigenvalueInfo').innerHTML = `
+                <p><strong>Eigenvalues:</strong></p>
+                <div class="eigenvalue-list">
+                    λ₁ = ${eigenvalues[0].toFixed(3)}<br>
+                    λ₂ = ${eigenvalues[1].toFixed(3)}
+                </div>
+            `;
+            
+            // Classification
+            const classification = classifyPoint(gradient, eigenvalues);
+            document.getElementById('classificationResult').innerHTML = `
+                <div class="classification ${classification.type}">
+                    ${classification.name}
+                </div>
+                <p><strong>Reasoning:</strong> ${classification.reasoning}</p>
+            `;
+            
+            // Condition check
+            const conditions = checkConditions(gradient, eigenvalues);
+            document.getElementById('conditionCheck').innerHTML = `
+                <p><strong>Optimality Conditions:</strong></p>
+                <ul>
+                    <li>First-order necessary: ${conditions.firstOrder ? '✅' : '❌'}</li>
+                    <li>Second-order necessary: ${conditions.secondOrderNecessary ? '✅' : '❌'}</li>
+                    <li>Second-order sufficient: ${conditions.secondOrderSufficient ? '✅' : '❌'}</li>
+                </ul>
+            `;
+        }
+
+        function calculateEigenvalues(matrix) {
+            // For 2x2 matrix [[a,b],[c,d]]
+            const a = matrix[0][0];
+            const b = matrix[0][1];
+            const c = matrix[1][0];
+            const d = matrix[1][1];
+            
+            const trace = a + d;
+            const det = a * d - b * c;
+            const discriminant = trace * trace - 4 * det;
+            
+            if (discriminant < 0) {
+                return [NaN, NaN]; // Complex eigenvalues
+            }
+            
+            const sqrt_disc = Math.sqrt(discriminant);
+            return [
+                (trace + sqrt_disc) / 2,
+                (trace - sqrt_disc) / 2
+            ];
+        }
+
+        function isZeroVector(vec, tolerance = 1e-10) {
+            return Math.abs(vec[0]) < tolerance && Math.abs(vec[1]) < tolerance;
+        }
+
+        function classifyPoint(gradient, eigenvalues) {
+            if (!isZeroVector(gradient)) {
+                return {
+                    type: 'inconclusive',
+                    name: 'Not a Critical Point',
+                    reasoning: 'Gradient is not zero, so this is not a critical point.'
+                };
+            }
+            
+            const [lambda1, lambda2] = eigenvalues;
+            
+            if (lambda1 > 0 && lambda2 > 0) {
+                return {
+                    type: 'minimum',
+                    name: 'Strict Local Minimum',
+                    reasoning: 'Both eigenvalues are positive (Hessian is positive definite).'
+                };
+            } else if (lambda1 < 0 && lambda2 < 0) {
+                return {
+                    type: 'maximum',
+                    name: 'Strict Local Maximum', 
+                    reasoning: 'Both eigenvalues are negative (Hessian is negative definite).'
+                };
+            } else if (lambda1 * lambda2 < 0) {
+                return {
+                    type: 'saddle',
+                    name: 'Saddle Point',
+                    reasoning: 'Eigenvalues have opposite signs (Hessian is indefinite).'
+                };
+            } else {
+                return {
+                    type: 'inconclusive',
+                    name: 'Test Inconclusive',
+                    reasoning: 'At least one eigenvalue is zero. Higher-order analysis needed.'
+                };
+            }
+        }
+
+        function checkConditions(gradient, eigenvalues) {
+            const firstOrder = isZeroVector(gradient);
+            const [lambda1, lambda2] = eigenvalues;
+            
+            return {
+                firstOrder: firstOrder,
+                secondOrderNecessary: firstOrder && lambda1 >= 0 && lambda2 >= 0,
+                secondOrderSufficient: firstOrder && lambda1 > 0 && lambda2 > 0
+            };
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateAnalysis();
+            
+            // Configure MathJax
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                }
+            };
+        });
+    </script>
+</body>
+</html>

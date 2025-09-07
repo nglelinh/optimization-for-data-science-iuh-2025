@@ -34,7 +34,7 @@ The optimal value is $$f^* = \min_x f(x)$$, and the optimizer is $$x^*$$.
 
 For functions of a single variable $$f: \mathbb{R} \to \mathbb{R}$$, gradient descent simplifies significantly. The gradient becomes the derivative, and the update rule becomes:
 
-> $$x^{(k)} = x^{(k-1)} - t_k f'(x^{(k-1)}), \quad k = 1, 2, 3, ...$$
+> $$x^{(k)} = x^{(k-1)} - t f'(x^{(k-1)}), \quad k = 1, 2, 3, ...$$
 
 where $$f'(x)$$ is the derivative of $$f$$ at point $$x$$.
 
@@ -44,6 +44,24 @@ In the single variable case, the derivative $$f'(x)$$ represents the slope of th
 - If $$f'(x) > 0$$, the function is increasing, so we move left (subtract a positive value)
 - If $$f'(x) < 0$$, the function is decreasing, so we move right (subtract a negative value)
 - If $$f'(x) = 0$$, we have reached a critical point (potential minimum)
+
+### Learning rate $$t$$
+
+The learning rate $$t$$ (also called step size) is a crucial hyperparameter that can be set by the algorithm designer. It controls how large steps we take in the direction of the negative gradient.
+
+**Impact of Learning Rate:**
+
+- **Too small ($$t \ll 1$$)**: The algorithm will update very slowly, requiring many iterations to converge to the optimal solution. While this ensures stability, it can be computationally expensive.
+
+- **Too large ($$t \gg 1$$)**: The algorithm may overshoot the minimum and potentially diverge, oscillating around the optimal point or even moving away from it.
+
+- **Just right**: The algorithm converges quickly and smoothly to the optimal solution.
+
+**Common strategies for choosing learning rate:**
+1. **Fixed step size**: Use a constant value throughout the optimization
+2. **Exact line search**: At each iteration, choose $$t$$ to minimize $$f(x^{(k-1)} - t\nabla f(x^{(k-1)}))$$
+3. **Backtracking line search**: Start with a large step size and reduce it until sufficient decrease is achieved
+4. **Adaptive methods**: Adjust the learning rate based on the optimization progress (e.g., Adam, RMSprop)
 
 ### Example: Quadratic Function
 
@@ -372,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ## Gradient Descent Method for Multivariables function
 
 Gradient descent starts from an initial point $$x^{(0)} \in \mathbb{R}^n$$ and iteratively updates as follows until a stopping criterion is met:
-> $$x^{(k)} = x^{(k-1)} - t_k \nabla f(x^{(k-1)}), \quad k = 1, 2, 3, ...$$, $$t_k > 0$$
+> $$x^{(k)} = x^{(k-1)} - t \nabla f(x^{(k-1)}), \quad k = 1, 2, 3, ...$$, $$t > 0$$
 
 Pseudocode:
 > **Given a starting point** $$x \in dom(f)$$ <br>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trực quan Hóa Hàm Liên hợp Tương tác</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+        }
+        .control-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #34495e;
+        }
+        .control-group select, .control-group input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .plot-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .plot-box {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .explanation {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .formula-box {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #b0d4f1;
+        }
+        @media (max-width: 768px) {
+            .plot-container {
+                grid-template-columns: 1fr;
+            }
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Interactive Conjugate Function Visualization</h1>
+            <p>Explore how the conjugate function transforms different types of functions</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="functionType">Select Function Type:</label>
+                <select id="functionType" onchange="updateVisualization()">
+                    <option value="quadratic">Quadratic: f(x) = ½x²</option>
+                    <option value="absolute">Absolute Value: f(x) = |x|</option>
+                    <option value="exponential">Exponential: f(x) = eˣ</option>
+                    <option value="negative_log">Negative Log: f(x) = -log(x)</option>
+                    <option value="custom_quadratic">Custom Quadratic: f(x) = ½ax²</option>
+                </select>
+            </div>
+            
+            <div class="control-group" id="parameterControl" style="display: none;">
+                <label for="parameter">Parameter (a):</label>
+                <input type="range" id="parameter" min="0.1" max="5" step="0.1" value="1" 
+                       oninput="updateVisualization()">
+                <span id="parameterValue">1.0</span>
+            </div>
+
+            <div class="control-group">
+                <label for="ySlope">Slope y for tangent line:</label>
+                <input type="range" id="ySlope" min="-3" max="3" step="0.1" value="1" 
+                       oninput="updateTangentLine()">
+                <span id="ySlopeValue">1.0</span>
+            </div>
+        </div>
+
+        <div class="plot-container">
+            <div class="plot-box">
+                <h3>Original Function f(x)</h3>
+                <div id="originalPlot" style="height: 400px;"></div>
+            </div>
+            <div class="plot-box">
+                <h3>Conjugate Function f*(y)</h3>
+                <div id="conjugatePlot" style="height: 400px;"></div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>Understanding the Conjugate Function</h3>
+            <div class="formula-box">
+                <p><strong>Definition:</strong> For function f(x), the conjugate is:</p>
+                <p style="text-align: center; font-size: 18px;">
+                    $$f^*(y) = \sup_x \{yx - f(x)\}$$
+                </p>
+            </div>
+            
+            <div id="currentFunction">
+                <h4>Current Function Analysis:</h4>
+                <div id="functionDetails"></div>
+            </div>
+
+            <div class="formula-box">
+                <h4>Key Insights:</h4>
+                <ul>
+                    <li><strong>Geometric Meaning:</strong> f*(y) measures the maximum "gap" between the line yx and f(x)</li>
+                    <li><strong>Convexity:</strong> f* is always convex, even if f is not</li>
+                    <li><strong>Fenchel's Inequality:</strong> f(x) + f*(y) ≥ xy for all x, y</li>
+                    <li><strong>Duality:</strong> If f is closed and convex, then f** = f</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mathematical functions and their conjugates
+        const functions = {
+            quadratic: {
+                name: "Quadratic Function",
+                formula: "f(x) = ½x²",
+                conjugateFormula: "f*(y) = ½y²",
+                f: x => 0.5 * x * x,
+                fStar: y => 0.5 * y * y,
+                domain: [-4, 4],
+                conjugateDomain: [-4, 4]
+            },
+            absolute: {
+                name: "Absolute Value",
+                formula: "f(x) = |x|",
+                conjugateFormula: "f*(y) = I_{[-1,1]}(y)",
+                f: x => Math.abs(x),
+                fStar: y => Math.abs(y) <= 1 ? 0 : Infinity,
+                domain: [-3, 3],
+                conjugateDomain: [-2, 2]
+            },
+            exponential: {
+                name: "Exponential Function",
+                formula: "f(x) = eˣ",
+                conjugateFormula: "f*(y) = y log(y) - y (y > 0)",
+                f: x => Math.exp(x),
+                fStar: y => y > 0 ? y * Math.log(y) - y : (y === 0 ? 0 : Infinity),
+                domain: [-2, 2],
+                conjugateDomain: [0.1, 5]
+            },
+            negative_log: {
+                name: "Negative Logarithm",
+                formula: "f(x) = -log(x)",
+                conjugateFormula: "f*(y) = -1 - log(-y) (y < 0)",
+                f: x => x > 0 ? -Math.log(x) : Infinity,
+                fStar: y => y < 0 ? -1 - Math.log(-y) : Infinity,
+                domain: [0.1, 5],
+                conjugateDomain: [-5, -0.1]
+            },
+            custom_quadratic: {
+                name: "Custom Quadratic",
+                formula: "f(x) = ½ax²",
+                conjugateFormula: "f*(y) = ½y²/a",
+                f: (x, a = 1) => 0.5 * a * x * x,
+                fStar: (y, a = 1) => 0.5 * y * y / a,
+                domain: [-4, 4],
+                conjugateDomain: [-4, 4]
+            }
+        };
+
+        let currentFunction = 'quadratic';
+        let currentParameter = 1.0;
+        let currentSlope = 1.0;
+
+        function updateVisualization() {
+            currentFunction = document.getElementById('functionType').value;
+            
+            // Show/hide parameter control
+            const paramControl = document.getElementById('parameterControl');
+            if (currentFunction === 'custom_quadratic') {
+                paramControl.style.display = 'flex';
+                currentParameter = parseFloat(document.getElementById('parameter').value);
+                document.getElementById('parameterValue').textContent = currentParameter.toFixed(1);
+            } else {
+                paramControl.style.display = 'none';
+            }
+
+            plotOriginalFunction();
+            plotConjugateFunction();
+            updateFunctionDetails();
+        }
+
+        function updateTangentLine() {
+            currentSlope = parseFloat(document.getElementById('ySlope').value);
+            document.getElementById('ySlopeValue').textContent = currentSlope.toFixed(1);
+            plotOriginalFunction();
+        }
+
+        function plotOriginalFunction() {
+            const func = functions[currentFunction];
+            const domain = func.domain;
+            const x = [];
+            const y = [];
+            
+            for (let i = domain[0]; i <= domain[1]; i += 0.1) {
+                x.push(i);
+                if (currentFunction === 'custom_quadratic') {
+                    y.push(func.f(i, currentParameter));
+                } else {
+                    const val = func.f(i);
+                    y.push(isFinite(val) ? val : null);
+                }
+            }
+
+            // Create tangent line
+            const tangentX = [];
+            const tangentY = [];
+            for (let i = domain[0]; i <= domain[1]; i += 0.1) {
+                tangentX.push(i);
+                tangentY.push(currentSlope * i);
+            }
+
+            const traces = [
+                {
+                    x: x,
+                    y: y,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: 'f(x)',
+                    line: { color: '#3498db', width: 3 }
+                },
+                {
+                    x: tangentX,
+                    y: tangentY,
+                    type: 'scatter',
+                    mode: 'lines',
+                    name: `y = ${currentSlope.toFixed(1)}x`,
+                    line: { color: '#e74c3c', width: 2, dash: 'dash' }
+                }
+            ];
+
+            const layout = {
+                title: func.formula,
+                xaxis: { title: 'x', gridcolor: '#f0f0f0' },
+                yaxis: { title: 'f(x)', gridcolor: '#f0f0f0' },
+                plot_bgcolor: '#fafafa',
+                paper_bgcolor: 'white',
+                showlegend: true,
+                margin: { t: 50, r: 50, b: 50, l: 50 }
+            };
+
+            Plotly.newPlot('originalPlot', traces, layout, {responsive: true});
+        }
+
+        function plotConjugateFunction() {
+            const func = functions[currentFunction];
+            const domain = func.conjugateDomain;
+            const y = [];
+            const fStar = [];
+            
+            for (let i = domain[0]; i <= domain[1]; i += 0.1) {
+                y.push(i);
+                if (currentFunction === 'custom_quadratic') {
+                    fStar.push(func.fStar(i, currentParameter));
+                } else {
+                    const val = func.fStar(i);
+                    fStar.push(isFinite(val) ? val : null);
+                }
+            }
+
+            const trace = {
+                x: y,
+                y: fStar,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'f*(y)',
+                line: { color: '#2ecc71', width: 3 }
+            };
+
+            const layout = {
+                title: func.conjugateFormula,
+                xaxis: { title: 'y', gridcolor: '#f0f0f0' },
+                yaxis: { title: 'f*(y)', gridcolor: '#f0f0f0' },
+                plot_bgcolor: '#fafafa',
+                paper_bgcolor: 'white',
+                showlegend: true,
+                margin: { t: 50, r: 50, b: 50, l: 50 }
+            };
+
+            Plotly.newPlot('conjugatePlot', [trace], layout, {responsive: true});
+        }
+
+        function updateFunctionDetails() {
+            const func = functions[currentFunction];
+            let details = `
+                <p><strong>Function:</strong> ${func.formula}</p>
+                <p><strong>Conjugate:</strong> ${func.conjugateFormula}</p>
+            `;
+
+            if (currentFunction === 'quadratic') {
+                details += `
+                    <p><strong>Key Property:</strong> For quadratic functions, the conjugate has the same form!</p>
+                    <p><strong>Verification:</strong> Both f(x) = ½x² and f*(y) = ½y² are identical.</p>
+                `;
+            } else if (currentFunction === 'absolute') {
+                details += `
+                    <p><strong>Key Property:</strong> The conjugate is an indicator function.</p>
+                    <p><strong>Meaning:</strong> f*(y) = 0 if |y| ≤ 1, otherwise f*(y) = ∞</p>
+                `;
+            } else if (currentFunction === 'exponential') {
+                details += `
+                    <p><strong>Key Property:</strong> The conjugate involves the entropy function.</p>
+                    <p><strong>Connection:</strong> This appears in information theory and statistical mechanics.</p>
+                `;
+            } else if (currentFunction === 'negative_log') {
+                details += `
+                    <p><strong>Key Property:</strong> Defined only for negative y values.</p>
+                    <p><strong>Application:</strong> Common in barrier methods for optimization.</p>
+                `;
+            } else if (currentFunction === 'custom_quadratic') {
+                details += `
+                    <p><strong>Parameter Effect:</strong> As 'a' increases, f(x) becomes steeper and f*(y) becomes flatter.</p>
+                    <p><strong>Relationship:</strong> f*(y) = ½y²/a shows inverse relationship with parameter 'a'.</p>
+                `;
+            }
+
+            document.getElementById('functionDetails').innerHTML = details;
+        }
+
+        // Initialize visualization
+        document.addEventListener('DOMContentLoaded', function() {
+            updateVisualization();
+            
+            // Configure MathJax
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                }
+            };
+        });
+    </script>
+</body>
+</html>

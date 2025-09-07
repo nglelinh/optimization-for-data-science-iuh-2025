@@ -1,0 +1,50 @@
+---
+layout: post
+title: 15-01-01 Inequality constrained minimization problems
+chapter: '15'
+order: 3
+owner: Minjoo Lee
+categories:
+- chapter15
+lang: en
+---
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    displayAlign: "center"
+});
+</script>
+Let's consider the following convex optimization problem.
+>
+$$\begin{align}
+&\min_{x}           && f(x) \\ 
+&\text{subject to } && Ax = b \\
+                    &&& h_{i}(x) \leq 0, i = 1, \dotsc, m
+\end{align}$$
+
+In problems that include inequalities like this, it is difficult to distinguish between binding and non-binding constraints, especially at the boundary of the feasible region. Binding constraints refer to the constraints that affect the solution.
+
+Therefore, the **interior method** is an approach that tries to solve the problem from the interior of the feasible region, not at the boundary.
+
+## Background of interior method
+The **interior method** for general problems was proposed in the 1960s by Anthony V. Fiacco and Garth P. McCormick. At the time, it was overshadowed by popular methods like sequential quadratic programming and the active set method, and only gained attention in the 1980s.
+
+The active set method is a theory for determining which constraints affect the optimization result. In the active set method, a constraint is considered active if it is zero, and such constraints are called the active set. However, to find the active set, you need to compute the boundary of the feasible region, and as the number of constraints increases, the computational cost increases.
+
+Recognizing these issues, the interior point method was developed to solve problems from the interior rather than the boundary. For example, in LP, if there are $$m$$ constraints, calculating the boundary requires $$O(m^2)$$ computations, but with the interior method, even for large $$m$$, the solution can be found within 20–30 Newton steps. More details on performance will be discussed later.
+
+* Reference: [Interior point method](https://en.wikipedia.org/wiki/Interior-point_method)
+* Reference: [Active set method](https://en.wikipedia.org/wiki/Active_set_method)
+
+## Reducing equality constrained minimization problem
+The above problem can be rewritten as $$C := \{x : h_i(x) \le 0, i = 1, \cdots , m \}$$. Inequality constraints can be included in the objective function as an indicator function.
+
+>$$\begin{align}
+&\min_{x} \ && f(x) + I_C(x) \\
+&\text{subject to }\  && Ax = b \\
+\end{align}$$
+
+In this way, the problem can be transformed into an equality constrained minimization problem. However, since the indicator function still includes the boundary, it still has the difficulty of boundary computation from the original problem, and since it is not differentiable, it is difficult to apply Newton's method.
+
+What if we approximate the indicator function $$I_C$$ with a **barrier function**? In that case, the boundary would not be included and since it is differentiable, Newton's method can be applied. 
+
+The method of solving problems redefined with barrier functions in this way is called the barrier method, which is introduced in detail in the next section.
