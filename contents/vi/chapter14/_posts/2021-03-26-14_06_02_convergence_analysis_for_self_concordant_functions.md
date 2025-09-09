@@ -1,19 +1,19 @@
 ---
 layout: post
-title: 14-06-02 Convergence analysis for self-concordant functions
+title: 14-06-02 Phân tích hội tụ cho các hàm tự hài hòa
 chapter: '14'
 order: 12
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
-For self-concordant functions, the result of convergence analysis is as follows:
+Đối với các hàm tự hài hòa, kết quả phân tích hội tụ như sau:
 
->Theorem (Nesterov and Nemirovskii): Newton's method with backtracking line search requires the following number of iterations to achieve $$f(x^{(k)})-f^{\star}\leq \epsilon$$:
+>Định lý (Nesterov và Nemirovskii): Phương pháp Newton với tìm kiếm đường backtracking yêu cầu số lần lặp sau để đạt được $$f(x^{(k)})-f^{\star}\leq \epsilon$$:
 >\begin{align}
 >C(\alpha, \beta)\big( f(x^{(0)}-f^{\star} \big) + \log\log{(1/\epsilon)},
 >\end{align}
->where $$C(\alpha, \beta)$$ is a constant depending on $$\alpha, \beta$$.
+>trong đó $$C(\alpha, \beta)$$ là một hằng số phụ thuộc vào $$\alpha, \beta$$.
 
-The proof above is similar to the convergence analysis for Newton's method, but uses the properties of self-concordant functions to organize the steps. (See [1], p.503)
+Chứng minh trên tương tự như phân tích hội tụ cho phương pháp Newton, nhưng sử dụng các tính chất của các hàm tự hài hòa để sắp xếp các bước. (Xem [1], tr.503)

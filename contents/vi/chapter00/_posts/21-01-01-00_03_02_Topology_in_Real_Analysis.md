@@ -1,32 +1,32 @@
 ---
 layout: post
-title: 00-03-02 Topology in Real Analysis
+title: 00-03-02 Tôpô trong Giải tích thực
 chapter: '00'
 order: 13
 owner: GitHub Copilot
-lang: en
+lang: vi
 categories:
 - chapter00
 lesson_type: required
 ---
 
-This lesson covers essential topological concepts from real analysis that are crucial for understanding the structure of feasible regions, continuity, and the existence of optimal solutions in optimization problems.
+Bài học này bao gồm các khái niệm tôpô cần thiết từ giải tích thực, rất quan trọng để hiểu cấu trúc của các vùng khả thi, tính liên tục và sự tồn tại của nghiệm tối ưu trong các bài toán tối ưu hóa.
 
 ---
 
-## Introduction to Topology
+## Giới thiệu về Tôpô
 
-Topology studies the properties of space that are preserved under continuous deformations. In optimization, topological concepts help us understand the structure of feasible regions and the behavior of functions, particularly regarding the existence and characterization of optimal solutions.
+Tôpô nghiên cứu các tính chất của không gian được bảo toàn dưới các biến dạng liên tục. Trong tối ưu hóa, các khái niệm tôpô giúp chúng ta hiểu cấu trúc của các vùng khả thi và hành vi của các hàm số, đặc biệt liên quan đến sự tồn tại và đặc trưng của nghiệm tối ưu.
 
-### Metric Spaces and Distance
+### Không gian metric và Khoảng cách
 
-Before discussing topology, we need the concept of distance. In $$\mathbb{R}^n$$, the standard **Euclidean distance** between points $$\mathbf{x}$$ and $$\mathbf{y}$$ is:
+Trước khi thảo luận về tôpô, chúng ta cần khái niệm khoảng cách. Trong $$\mathbb{R}^n$$, **khoảng cách Euclid** chuẩn giữa các điểm $$\mathbf{x}$$ và $$\mathbf{y}$$ là:
 
 $$d(\mathbf{x}, \mathbf{y}) = \|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}$$
 
-### Open Balls and Neighborhoods
+### Hình cầu mở và Lân cận
 
-An **open ball** centered at $$\mathbf{x}_0$$ with radius $$\epsilon > 0$$ is:
+Một **hình cầu mở** có tâm tại $$\mathbf{x}_0$$ với bán kính $$\epsilon > 0$$ là:
 
 $$B(\mathbf{x}_0, \epsilon) = \{\mathbf{y} \in \mathbb{R}^n : d(\mathbf{x}_0, \mathbf{y}) < \epsilon\}$$
 

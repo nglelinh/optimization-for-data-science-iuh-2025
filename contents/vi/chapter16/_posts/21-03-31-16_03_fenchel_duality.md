@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 16-03 Fenchel duality
+title: 16-03 Tính đối ngẫu Fenchel
 chapter: '16'
 order: 4
 owner: Minjoo Lee
 categories:
 - chapter16
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,23 +14,23 @@ MathJax.Hub.Config({
 });
 </script>
 
-In [13-04 Conjugate function]({% multilang_post_url contents/chapter13/21-04-05-13_04_Conjugate_function %}), we learned how to derive dual problems using conjugate functions. Fenchel duality refers to dual problems derived from conjugate functions that have the following form:
+Trong [13-04 Hàm liên hợp]({% multilang_post_url contents/chapter13/21-04-05-13_04_Conjugate_function %}), chúng ta đã học cách suy ra các bài toán đối ngẫu bằng cách sử dụng các hàm liên hợp. Tính đối ngẫu Fenchel đề cập đến các bài toán đối ngẫu được suy ra từ các hàm liên hợp có dạng sau:
 
 $$
 \max_{v} -f^*(A^Tv) - g^*(-v)
 $$
 
-Let's explore where this form of problem is derived from.
+Hãy khám phá xem dạng bài toán này được suy ra từ đâu.
 
-### Primal problem
+### Bài toán nguyên thủy
 
 > $$
 > \min_{x} \quad f(x) + g(Ax)
 > $$
 
-The given problem can be redefined with an added equality constraint.
+Bài toán đã cho có thể được định nghĩa lại với một ràng buộc đẳng thức được thêm vào.
 
-### Primal problem rewritten
+### Bài toán nguyên thủy được viết lại
 >
 $$
  \begin{align}
@@ -39,9 +39,9 @@ $$
  \end{align}
  $$
 
-Let's derive the dual problem of the redefined primal problem using conjugate functions. <br/>
+Hãy suy ra bài toán đối ngẫu của bài toán nguyên thủy được định nghĩa lại bằng cách sử dụng các hàm liên hợp. <br/>
 
-* **Recall:** $$f^*(s) \doteq  \max_{x} \big( s^Tx - f(x) \big) = \min_{x} \big( f(x) - s^Tx \big)$$
+* **Nhắc lại:** $$f^*(s) \doteq  \max_{x} \big( s^Tx - f(x) \big) = \min_{x} \big( f(x) - s^Tx \big)$$
 
 <br/>
 $$
@@ -53,16 +53,16 @@ $$
 \end{align}
 $$
 
-### Fenchel duality
+### Tính đối ngẫu Fenchel
 > $$
 > \max_{v} -f^*(A^Tv) - g^*(-v)
 > $$
 
-* **Nice Property:** If $$f, g$$ are convex and closed, the dual of the dual becomes the primal again. (Symmetric)
+* **Tính chất tốt:** Nếu $$f, g$$ là lồi và đóng, đối ngẫu của đối ngẫu lại trở thành nguyên thủy. (Đối xứng)
 
-## Example: conic programming
+## Ví dụ: quy hoạch cônic
 
-### Primal problem of CP in standard form
+### Bài toán nguyên thủy của CP dạng chuẩn
 >$$
 \begin{align}
     \mathop{\text{minimize}}_x &\quad c^Tx \\\\
@@ -71,17 +71,17 @@ $$
 \end{align}
 $$
 
-The above problem can be redefined using two functions $$f(x) = c^Tx + I_K(x)$$ and $$g(z) = I_{\{b\}}(z)$$.<br/>
+Bài toán trên có thể được định nghĩa lại bằng cách sử dụng hai hàm $$f(x) = c^Tx + I_K(x)$$ và $$g(z) = I_{\{b\}}(z)$$.<br/>
 
-* **Note:** $$\begin{equation}
+* **Lưu ý:** $$\begin{equation}
     f(x) + g(Ax) = 
     \begin{cases}
-      0, & \text{if}\ Ax=b, x \in K \\\\
-      \infty, & \text{otherwise}
+      0, & \text{nếu}\ Ax=b, x \in K \\\\
+      \infty, & \text{trường hợp khác}
     \end{cases}
   \end{equation}$$
 
-### Primal problem of CP rewritten
+### Bài toán nguyên thủy của CP được viết lại
 > $$
 > \begin{align}
 > &\min_{x, z}       \ &&  f(x) + g(z)\\\
@@ -89,9 +89,9 @@ The above problem can be redefined using two functions $$f(x) = c^Tx + I_K(x)$$ 
 > \end{align}
 > $$
 
-### Deriving dual problem of CP
+### Suy ra bài toán đối ngẫu của CP
 
-Let's derive the dual problem from the redefined CP primal problem. First, expanding functions $$f$$ and $$g$$ gives us the following:
+Hãy suy ra bài toán đối ngẫu từ bài toán nguyên thủy CP được định nghĩa lại. Đầu tiên, mở rộng các hàm $$f$$ và $$g$$ cho chúng ta:
 > $$
 > \begin{align}
 > & \min_{x, z} && \; c^Tx + I_K(x) + I_{\{b\}}(z)  \\\
@@ -99,7 +99,7 @@ Let's derive the dual problem from the redefined CP primal problem. First, expan
 > \end{align}
 > $$
 
-Let's expand the problem using conjugate functions from the definition of the dual problem.
+Hãy mở rộng bài toán bằng cách sử dụng các hàm liên hợp từ định nghĩa của bài toán đối ngẫu.
 
 > $$
 > \begin{align}
@@ -112,7 +112,7 @@ Let's expand the problem using conjugate functions from the definition of the du
 > \end{align}
 > $$
 
-$$I_{-K^*}(A^Ty - c)$$ can be expressed as a constraint.
+$$I_{-K^*}(A^Ty - c)$$ có thể được biểu diễn như một ràng buộc.
 
 > $$
 > \begin{align}
@@ -121,7 +121,7 @@ $$I_{-K^*}(A^Ty - c)$$ can be expressed as a constraint.
 > \end{align}
 > $$
 
-Since $$I_{\{b\}}^*(-y) = \max_{b} -b^Ty - I_{\{b\}}(b)$$, the problem can be organized as follows:
+Vì $$I_{\{b\}}^*(-y) = \max_{b} -b^Ty - I_{\{b\}}(b)$$, bài toán có thể được tổ chức như sau:
 > $$
 > \begin{align}
 > &\max_{y, s} \ && -(-b^Ty - I_{\{b\}}(b)) \\\
@@ -130,9 +130,9 @@ Since $$I_{\{b\}}^*(-y) = \max_{b} -b^Ty - I_{\{b\}}(b)$$, the problem can be or
 > \end{align}
 > $$
 
-Since $$I_{\{b\}}(b) = 0$$, it can be removed from the problem.
+Vì $$I_{\{b\}}(b) = 0$$, nó có thể được loại bỏ khỏi bài toán.
 
-### Dual problem of CP
+### Bài toán đối ngẫu của CP
 
 > $$
 > \begin{align}
@@ -142,13 +142,13 @@ Since $$I_{\{b\}}(b) = 0$$, it can be removed from the problem.
 > \end{align}
 > $$ 
 
-* If either the primal problem or dual problem is strictly feasible, then strong duality is satisfied.
-* If both the primal problem and dual problem are strictly feasible, then strong duality is satisfied and primal & dual optima exist.
+* Nếu bài toán nguyên thủy hoặc bài toán đối ngẫu khả thi nghiêm ngặt, thì tính đối ngẫu mạnh được thỏa mãn.
+* Nếu cả bài toán nguyên thủy và bài toán đối ngẫu đều khả thi nghiêm ngặt, thì tính đối ngẫu mạnh được thỏa mãn và tồn tại nghiệm tối ưu nguyên thủy & đối ngẫu.
 
-## Example: semidefinite programming
-Let's examine the forms of primal & dual problems for SDP and the primal & dual problems for SDP's barrier problem.
+## Ví dụ: quy hoạch nửa xác định
+Hãy xem xét các dạng của bài toán nguyên thủy & đối ngẫu cho SDP và các bài toán nguyên thủy & đối ngẫu cho bài toán barrier của SDP.
 
-### Primal problem of SDP
+### Bài toán nguyên thủy của SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{minimize}}_{X} &&{tr(CX)} \\\\
@@ -156,35 +156,35 @@ Let's examine the forms of primal & dual problems for SDP and the primal & dual 
 >    & &&{X \succeq 0},\\\\
 >\end{align}$$
 >
-> $$\text{where } C, A_1, \dotsc, A_p \in \mathbb{S}^n.$$
+> $$\text{trong đó } C, A_1, \dotsc, A_p \in \mathbb{S}^n.$$
 
-* **Recall:** $$tr(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$
-* **Note:** Unlike LP, SDP does not always satisfy strong duality.
+* **Nhắc lại:** $$tr(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$
+* **Lưu ý:** Không giống như LP, SDP không luôn thỏa mãn tính đối ngẫu mạnh.
 
-### Dual problem of SDP
+### Bài toán đối ngẫu của SDP
 >$$
 >\begin{align}
->    &\mathop{\text{minimize}}_{y} &&{b^Ty} \\\\
+>    &\mathop{\text{maximize}}_{y} &&{b^Ty} \\\\
 >    &\text{subject to } &&{\sum_{i=1}^m y_i A_i + S = C} \\\\
 >    & &&{S \succeq 0}.\\\\
 >\end{align}
 >$$
 
-* **Note:** The positive semidefinite cone is a self-dual cone. ($$(\mathbb{S}_{+}^n)^* = \mathbb{S}_{+}^n$$)
+* **Lưu ý:** Nón nửa xác định dương là một nón tự đối ngẫu. ($$(\mathbb{S}_{+}^n)^* = \mathbb{S}_{+}^n$$)
 
-### Primal problem of Barrier problem for SDP
+### Bài toán nguyên thủy của bài toán Barrier cho SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{minimize}}_{X} &&{tr(CX) - \tau \log \big( det(X) \big)} \\\\
 >    &\text{subject to } &&{tr(A_iX) = b_i, \phantom{5} i=1,\dotsc,p} \\\\
 >\end{align}$$
 >
->$$\text{where } C, A_1, \dotsc, A_p \in \mathbb{S}^n.$$
+>$$\text{trong đó } C, A_1, \dotsc, A_p \in \mathbb{S}^n.$$
 
-### Dual problem of Barrier problem for SDP
+### Bài toán đối ngẫu của bài toán Barrier cho SDP
 >$$
 >\begin{align}
->    &\mathop{\text{minimize}}_{y, S} &&{b^Ty +  \tau \log \big( det(S) \big)} \\\\
+>    &\mathop{\text{maximize}}_{y, S} &&{b^Ty +  \tau \log \big( det(S) \big)} \\\\
 >    &\text{subject to } &&{\sum_{i=1}^m y_i A_i + S = C}.
 >\end{align}
 >$$

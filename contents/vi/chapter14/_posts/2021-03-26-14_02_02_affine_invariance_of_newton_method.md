@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 14-02-02 Affine invariance of Newton's method
+title: 14-02-02 Tính bất biến affine của phương pháp Newton
 chapter: '14'
 order: 6
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,14 +14,14 @@ MathJax.Hub.Config({
 });
 </script>
 
-One of the important properties of Newton's method is that it is affine invariant. This means that the direction of the update is independent of affine transformations of the coordinate system. For example, gradient descent is variant to affine transformations, so the convergence speed differs depending on the coordinate space.
+Một trong những tính chất quan trọng của phương pháp Newton là nó bất biến affine. Điều này có nghĩa là hướng của việc cập nhật không phụ thuộc vào các phép biến đổi affine của hệ tọa độ. Ví dụ, gradient descent biến thiên theo các phép biến đổi affine, do đó tốc độ hội tụ khác nhau tùy thuộc vào không gian tọa độ.
 
-This page derives the affine invariance property.
+Trang này dẫn xuất tính chất bất biến affine.
 
-## Affine invariance : proof
-Let $$f:\mathbb{R}^{n}\rightarrow \mathbb{R}$$ be twice differentiable, and let $$A\in \mathbb{R}^{n\times n}$$ be nonsingular. Also, define $$g(y)$$ as $$f(Ay)$$. $$g(y):=f(Ay)$$. This means that some function $$g$$ that takes $$y$$ as input has the same output as function $$f$$ that takes $$Ay$$ (affine transformed by $$A$$ with respect to $$y$$) as input. To reduce confusion about notation and gradient arguments, we define $$x:=Ay$$.
+## Tính bất biến affine : chứng minh
+Cho $$f:\mathbb{R}^{n}\rightarrow \mathbb{R}$$ khả vi hai lần, và cho $$A\in \mathbb{R}^{n\times n}$$ không suy biến. Cũng định nghĩa $$g(y)$$ là $$f(Ay)$$. $$g(y):=f(Ay)$$. Điều này có nghĩa là một hàm $$g$$ nào đó nhận $$y$$ làm đầu vào có cùng đầu ra như hàm $$f$$ nhận $$Ay$$ (biến đổi affine bởi $$A$$ đối với $$y$$) làm đầu vào. Để giảm thiểu sự nhầm lẫn về ký hiệu và đối số gradient, chúng ta định nghĩa $$x:=Ay$$.
 
-Using the chain rule to differentiate both sides once and twice, we get the following results:
+Sử dụng quy tắc chuỗi để lấy đạo hàm cả hai vế một lần và hai lần, chúng ta nhận được các kết quả sau:
 
 >$$
 >\begin{align}
@@ -30,7 +30,7 @@ Using the chain rule to differentiate both sides once and twice, we get the foll
 >\end{align}
 >$$
 
-The Newton step of $$g$$ with respect to $$y$$ is as follows:
+Bước Newton của $$g$$ đối với $$y$$ như sau:
 
 >$$
 >\begin{align}
@@ -38,7 +38,7 @@ The Newton step of $$g$$ with respect to $$y$$ is as follows:
 >\end{align}
 >$$
 
-Here, instead of function $$g$$, if we transform and organize it in terms of function $$f$$ with respect to $$x$$, we can derive the Newton step for $$x$$ and $$f$$.
+Ở đây, thay vì hàm $$g$$, nếu chúng ta biến đổi và sắp xếp nó theo hàm $$f$$ đối với $$x$$, chúng ta có thể dẫn xuất bước Newton cho $$x$$ và $$f$$.
 
 >$$
 >\begin{align}
@@ -49,9 +49,9 @@ Here, instead of function $$g$$, if we transform and organize it in terms of fun
 >\end{align}
 >$$
 
-This means that the Newton step is affine invariant, i.e., the updates in coordinate systems transformed by affine transformations represented by non-singular matrices are identical to each other.
+Điều này có nghĩa là bước Newton là bất biến affine, tức là, các cập nhật trong các hệ tọa độ được biến đổi bởi các phép biến đổi affine được biểu diễn bởi các ma trận không suy biến là giống hệt nhau.
 
-Using the same method to check the affine invariance of gradient descent by deriving the step update, we can obtain the following result:
+Sử dụng cùng phương pháp để kiểm tra tính bất biến affine của gradient descent bằng cách dẫn xuất cập nhật bước, chúng ta có thể thu được kết quả sau:
 
 >$$
 >\begin{align}
@@ -61,4 +61,4 @@ Using the same method to check the affine invariance of gradient descent by deri
 >\end{align}
 >$$
 
-In the case of gradient descent, since the Hessian matrix is approximated as $$\frac{1}{t}I$$ for updates, we can see that the direction of the update changes for affine transformed coordinates.
+Trong trường hợp của gradient descent, vì ma trận Hessian được xấp xỉ là $$\frac{1}{t}I$$ cho các cập nhật, chúng ta có thể thấy rằng hướng của cập nhật thay đổi đối với các tọa độ được biến đổi affine.

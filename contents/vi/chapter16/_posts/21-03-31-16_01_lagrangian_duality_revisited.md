@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 16-01 Lagrangian duality revisited
+title: 16-01 Tính đối ngẫu Lagrangian - nhìn lại
 chapter: '16'
 order: 2
 owner: Minjoo Lee
 categories:
 - chapter16
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,12 +14,12 @@ MathJax.Hub.Config({
 });
 </script>
 
-In this section, we will show that primal and dual problems can be defined using the Lagrangian, and use this definition to derive dual problems for standard form linear programming and quadratic programming. Furthermore, we will derive the dual problem for linear programming with barrier problems applied, showing that its form is the same as the barrier problem for the dual problem of linear programming.
+Trong phần này, chúng ta sẽ cho thấy rằng các bài toán nguyên thủy và đối ngẫu có thể được định nghĩa bằng cách sử dụng Lagrangian, và sử dụng định nghĩa này để suy ra các bài toán đối ngẫu cho quy hoạch tuyến tính dạng chuẩn và quy hoạch bậc hai. Hơn nữa, chúng ta sẽ suy ra bài toán đối ngẫu cho quy hoạch tuyến tính với bài toán barrier được áp dụng, cho thấy rằng dạng của nó giống với bài toán barrier cho bài toán đối ngẫu của quy hoạch tuyến tính.
 
 <br/>
-First, let's define the primal problem and Lagrangian as follows.
+Đầu tiên, hãy định nghĩa bài toán nguyên thủy và Lagrangian như sau.
 
-### Primal problem
+### Bài toán nguyên thủy
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad f(x) \\\\
@@ -34,50 +34,50 @@ First, let's define the primal problem and Lagrangian as follows.
 >$$
 
 <br/>
-At this point, the primal problem and dual problem can be redefined as problems involving the Lagrangian.
+Tại thời điểm này, bài toán nguyên thủy và bài toán đối ngẫu có thể được định nghĩa lại thành các bài toán liên quan đến Lagrangian.
 
-### Rewritten primal problem
+### Bài toán nguyên thủy được viết lại
 >$$
 >\min_x \mathop{\max_{u,v}}_{u \geq 0} L(x,u,v)
 >$$
 
-The redefined primal problem does not explicitly state constraints, but it has the effect of acting like an indicator function for any infeasible $$x$$ that violates the constraints.
+Bài toán nguyên thủy được định nghĩa lại không nêu rõ ràng các ràng buộc, nhưng nó có tác dụng như một hàm chỉ thị cho bất kỳ $$x$$ không khả thi nào vi phạm các ràng buộc.
 
-1. If $$h_i(\hat{x}) \gt 0$$ for some $$i \in [1, m]$$, then $$\hat{x}$$ is an infeasible point. In this case, $$u_i h_i(\hat{x})$$ diverges to $$\infty$$ due to $$\max_{u,v}$$, so it acts as an indicator function for any $$\hat{x}$$ that violates the inequality constraint.
-2. If $$l_i(\hat{x}) \neq 0$$ for some $$i \in [1, r]$$, then $$\hat{x}$$ is an infeasible point. In this case, $$v_i l_i(\hat{x})$$ diverges to $$\infty$$ due to $$\max_{u,v}$$, so it acts as an indicator function for any $$\hat{x}$$ that violates the equality constraint.
+1. Nếu $$h_i(\hat{x}) \gt 0$$ cho một số $$i \in [1, m]$$, thì $$\hat{x}$$ là một điểm không khả thi. Trong trường hợp này, $$u_i h_i(\hat{x})$$ phân kỳ về $$\infty$$ do $$\max_{u,v}$$, vì vậy nó hoạt động như một hàm chỉ thị cho bất kỳ $$\hat{x}$$ nào vi phạm ràng buộc bất đẳng thức.
+2. Nếu $$l_i(\hat{x}) \neq 0$$ cho một số $$i \in [1, r]$$, thì $$\hat{x}$$ là một điểm không khả thi. Trong trường hợp này, $$v_i l_i(\hat{x})$$ phân kỳ về $$\infty$$ do $$\max_{u,v}$$, vì vậy nó hoạt động như một hàm chỉ thị cho bất kỳ $$\hat{x}$$ nào vi phạm ràng buộc đẳng thức.
 
-### Rewritten dual problem
+### Bài toán đối ngẫu được viết lại
 >$$
 >\mathop{\max_{u,v}}_{u \geq 0} \min_x L(x,u,v)
 >$$
 
-In the dual problem, relaxation of the domain is necessary, so it should not act as an indicator function for the constraints of the primal problem. Since taking $$\min_x$$ for fixed $$u, v$$ cannot enforce the constraints of the primal problem, the redefined dual problem also has the effect of relaxing the domain. (Reference: [11-02 Lagrange dual function]({% multilang_post_url contents/chapter11/21-03-24-11_02_Lagrange_dual_function %}))
+Trong bài toán đối ngẫu, việc nới lỏng miền là cần thiết, vì vậy nó không nên hoạt động như một hàm chỉ thị cho các ràng buộc của bài toán nguyên thủy. Vì việc lấy $$\min_x$$ cho $$u, v$$ cố định không thể thực thi các ràng buộc của bài toán nguyên thủy, bài toán đối ngẫu được định nghĩa lại cũng có tác dụng nới lỏng miền. (Tham khảo: [11-02 Hàm đối ngẫu Lagrange]({% multilang_post_url contents/chapter11/21-03-24-11_02_Lagrange_dual_function %}))
 
-## Weak and strong duality
-Let's revisit weak duality and strong duality.
+## Tính đối ngẫu yếu và mạnh
+Hãy xem xét lại tính đối ngẫu yếu và tính đối ngẫu mạnh.
 
-### Theorem: weak duality
-When $$p$$ and $$d$$ are the optimal values for the primal problem and dual problem respectively, the following is always satisfied:
+### Định lý: tính đối ngẫu yếu
+Khi $$p$$ và $$d$$ là các giá trị tối ưu cho bài toán nguyên thủy và bài toán đối ngẫu tương ứng, điều sau luôn được thỏa mãn:
 
 
 $$
 p \ge d
 $$
 
-### Theorem: strong duality (refined Slater's condition)
-For the domain set $$D$$, assume that $$f, h_1, \dots, h_p$$ are convex and $$h_{p+1}, \dots, h_m, l_1, \dots, l_r$$ are affine. If there exists $$\hat{x} \in \text{relint}(D)$$ that satisfies the following:
+### Định lý: tính đối ngẫu mạnh (điều kiện Slater được làm tế)
+Đối với tập miền $$D$$, giả sử rằng $$f, h_1, \dots, h_p$$ là lồi và $$h_{p+1}, \dots, h_m, l_1, \dots, l_r$$ là affine. Nếu tồn tại $$\hat{x} \in \text{relint}(D)$$ thỏa mãn điều sau:
 > $$\begin{align}
 >h_i(\hat{x}) \ & \lt 0, \ && i=1, \dots, p \\
 >h_i(\hat{x}) \ & \le 0, \ && i=p+1, \dots, m \\
 >l_j(\hat{x}) \ & = 0, \ && j = 1, \dots, r
 \end{align}$$
 
-then $$p = d$$ is guaranteed for the optimal values $$p, d$$ of the primal problem and dual problem.
+thì $$p = d$$ được đảm bảo cho các giá trị tối ưu $$p, d$$ của bài toán nguyên thủy và bài toán đối ngẫu.
 
-## Example: linear programming
-Let's derive the dual problem of linear programming using the dual problem defined earlier.
+## Ví dụ: quy hoạch tuyến tính
+Hãy suy ra bài toán đối ngẫu của quy hoạch tuyến tính bằng cách sử dụng bài toán đối ngẫu đã định nghĩa trước đó.
 
-### Primal problem of LP in standard form
+### Bài toán nguyên thủy của LP dạng chuẩn
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad c^Tx \\\\
@@ -86,30 +86,30 @@ Let's derive the dual problem of linear programming using the dual problem defin
 >\end{align}
 >$$
 
-According to the previous definition, the dual problem of the above problem is as follows:
+Theo định nghĩa trước đó, bài toán đối ngẫu của bài toán trên như sau:
 
 $$\mathop{\max_{s,y}}_{s\ge0} \min_{x} \: L(x,s,y) = \mathop{\max_{s,y}}_{s\ge0} \min_{x} \: c^Tx - s^Tx + (b-Ax)^T y$$
 
-We substitute the relationship $$c=A^Ty +s$$ obtained by solving $$\nabla_x L = 0$$ into the dual problem.
+Chúng ta thay thế mối quan hệ $$c=A^Ty +s$$ thu được bằng cách giải $$\nabla_x L = 0$$ vào bài toán đối ngẫu.
 
 $$\mathop{\max_{s,y}}_{s\ge0} \: (A^Ty + s)^Tx - s^Tx + (b-Ax)^Ty \quad \text{ s.t. } c=A^Ty +s$$
 
-This can be organized as follows:
+Điều này có thể được tổ chức như sau:
 
-### Dual problem of LP
+### Bài toán đối ngẫu của LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty \\\\
->    \text{subject to} &\quad A^Ty +  s = 0 \\\\
+>    \text{subject to} &\quad A^Ty +  s = c \\\\
 >    &\quad s \ge 0
 >\end{align}
 >$$
 
 
-## Example: convex quadratic programming
-Now let's derive the dual problem of quadratic programming using the dual problem defined earlier.
+## Ví dụ: quy hoạch bậc hai lồi
+Bây giờ hãy suy ra bài toán đối ngẫu của quy hoạch bậc hai bằng cách sử dụng bài toán đối ngẫu đã định nghĩa trước đó.
 
-### Primal problem of QP in standard form
+### Bài toán nguyên thủy của QP dạng chuẩn
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad \frac{1}{2} x^T Q x + c^Tx \\
@@ -118,15 +118,15 @@ Now let's derive the dual problem of quadratic programming using the dual proble
 >
 >\end{align}$$
 >
->$$\text{where } Q \text{ is symmetric and positive semidefinite.}$$
+>$$\text{trong đó } Q \text{ là đối xứng và nửa xác định dương.}$$
 
 
-According to the previous definition, the dual problem of the above problem is as follows:
+Theo định nghĩa trước đó, bài toán đối ngẫu của bài toán trên như sau:
 
 $$\mathop{\max_{s,y}}_{s\ge0} \min_{x} \: L(x,s,y) = \mathop{\max_{s,y}}_{s\ge0} \min_{x} \:  \frac{1}{2} x^T Q x + c^Tx - s^Tx + (b-Ax)^T y$$
 
 
-We substitute the relationship $$Qx = A^Ty +s - c$$ obtained by solving $$\nabla_x L = 0$$ into the dual problem.
+Chúng ta thay thế mối quan hệ $$Qx = A^Ty +s - c$$ thu được bằng cách giải $$\nabla_x L = 0$$ vào bài toán đối ngẫu.
 
 $$
 \begin{align}
@@ -137,9 +137,9 @@ $$
 \end{align}
 $$
 
-This can be organized as follows:
+Điều này có thể được tổ chức như sau:
 
-### Dual problem of QP
+### Bài toán đối ngẫu của QP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y,x} &\quad b^Ty - \frac{1}{2} x^T Q x\\\\
@@ -148,22 +148,22 @@ This can be organized as follows:
 >\end{align}
 >$$
 
-The dual problem of a quadratic problem is also a quadratic problem.
+Bài toán đối ngẫu của một bài toán bậc hai cũng là một bài toán bậc hai.
 
-## Example: barrier problem for linear programming
-The barrier problem for linear programming is defined as follows:
+## Ví dụ: bài toán barrier cho quy hoạch tuyến tính
+Bài toán barrier cho quy hoạch tuyến tính được định nghĩa như sau:
 
-### Barrier problem for LP
+### Bài toán barrier cho LP
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad c^Tx - \tau \sum_{i=1}^n \log(x_i)\\
 >    \text{subject to} &\quad Ax = b, \\
 >\end{align}$$
 >
->$$\text{where }\tau > 0.$$
+>$$\text{trong đó }\tau > 0.$$
 
 
-According to the previous definition, the dual problem of the above problem is as follows:
+Theo định nghĩa trước đó, bài toán đối ngẫu của bài toán trên như sau:
 $$
 \begin{align}
 \max_{y} \min_{x} \: L(x,y) &= \max_{y} \min_{x} \:  c^Tx - \tau \sum_{i=1}^n \log(x_i) + (b-Ax)^T y\\\\
@@ -172,7 +172,7 @@ $$
 \end{align}
 $$
 
-Here, $$\sum_{i=1}^n \big( s_i^Tx_i - \tau  \log(x_i) \big) + b^Ty$$ will be minimized when $$x_i = \frac{\tau}{s_i}$$. Therefore, let's substitute $$\frac{\tau}{s_i}$$ for $$x_i$$ in the dual problem.
+Ở đây, $$\sum_{i=1}^n \big( s_i^Tx_i - \tau  \log(x_i) \big) + b^Ty$$ sẽ được tối thiểu hóa khi $$x_i = \frac{\tau}{s_i}$$. Do đó, hãy thay thế $$\frac{\tau}{s_i}$$ cho $$x_i$$ trong bài toán đối ngẫu.
 
 $$
 \begin{align}
@@ -181,9 +181,9 @@ $$
 \end{align}
 $$
 
-Since $$n\tau - n\tau\log(\tau)$$ can be omitted from the problem, the dual problem can be organized as follows:
+Vì $$n\tau - n\tau\log(\tau)$$ có thể được bỏ qua khỏi bài toán, bài toán đối ngẫu có thể được tổ chức như sau:
 
-### Dual problem of Barrier problem for LP
+### Bài toán đối ngẫu của bài toán Barrier cho LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty + \tau \sum_{i=1}^n log(s_i)\\\\
@@ -191,4 +191,4 @@ Since $$n\tau - n\tau\log(\tau)$$ can be omitted from the problem, the dual prob
 >\end{align}
 >$$
 
-We can see that this problem is identical to the barrier problem for the dual problem of linear programming.
+Chúng ta có thể thấy rằng bài toán này giống hệt với bài toán barrier cho bài toán đối ngẫu của quy hoạch tuyến tính.

@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 14-07 Comparison to first-order method
+title: 14-07 So sánh với phương pháp bậc nhất
 chapter: '14'
 order: 13
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,7 +14,7 @@ MathJax.Hub.Config({
     });
 </script>
 
-In this chapter, we compare Newton's method and gradient descent from a general perspective. Let the dimension of the domain be $$n$$.
+Trong chương này, chúng ta so sánh phương pháp Newton và gradient descent từ góc nhìn tổng quát. Giả sử chiều của miền là $$n$$.
 
 | Item | Newton's method | Gradient descent |
 | -------- | -------- | -------- |

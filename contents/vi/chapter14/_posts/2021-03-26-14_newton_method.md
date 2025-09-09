@@ -1,18 +1,18 @@
 ---
 layout: post
-title: 14 Newton's Method
+title: 14 Phương pháp Newton
 chapter: '14'
 order: 1
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
-In this chapter, we look at Newton's Method.
+Trong chương này, chúng ta sẽ tìm hiểu về Phương pháp Newton.
 
-Newton's method is an approach for finding the minimum of a function with a twice differentiable function using the second-order Taylor expansion. It finds the minimum by approximating the function and iteratively updating the solution. Near the optimum, it achieves quadratic convergence and is much faster than gradient descent.
+Phương pháp Newton là một cách tiếp cận để tìm giá trị nhỏ nhất của một hàm số có đạo hàm bậc hai bằng cách sử dụng khai triển Taylor bậc hai. Phương pháp này tìm giá trị tối ưu bằng cách xấp xỉ hàm số và cập nhật nghiệm một cách lặp đi lặp lại. Gần điểm tối ưu, nó đạt được sự hội tụ bậc hai và nhanh hơn nhiều so với phương pháp gradient descent.
 
-## References and further readings
+## Tài liệu tham khảo và đọc thêm
 * S. Boyd and L. Vandenberghe (2004), "Convex optimization", Chapter 9 and 10
 * Y. Nesterov (1998), "Introductory lectures on convex optimization: a basic course", Chapter 2
 * Y. Nesterov and A. Nemirovskii (1994), "Interior-point polynomial methods in convex programming", Chapter 2

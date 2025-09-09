@@ -1,52 +1,52 @@
 ---
 layout: post
-title: 00-02-03 Eigenvalues and Eigenvectors
+title: 00-02-03 Giá trị riêng và Vector riêng
 chapter: '00'
 order: 10
 owner: GitHub Copilot
-lang: en
+lang: vi
 categories:
 - chapter00
 lesson_type: required
 ---
 
-This lesson covers eigenvalues and eigenvectors, which are crucial for understanding the behavior of linear transformations and quadratic functions in optimization.
+Bài học này bao gồm giá trị riêng và vector riêng, rất quan trọng để hiểu hành vi của các phép biến đổi tuyến tính và hàm bậc hai trong tối ưu hóa.
 
 ---
 
-## Definition and Intuition
+## Định nghĩa và Trực giác
 
-When a matrix transforms a vector, it usually changes both the vector's direction and its length. However, **eigenvectors** are special vectors that, when transformed by a given matrix, only get scaled but do not change their direction.
+Khi một ma trận biến đổi một vector, nó thường thay đổi cả hướng và độ dài của vector. Tuy nhiên, **vector riêng** là những vector đặc biệt mà khi được biến đổi bởi một ma trận cho trước, chỉ bị thay đổi tỉ lệ nhưng không thay đổi hướng.
 
-### Mathematical Definition
+### Định nghĩa Toán học
 
-For a square matrix $$\mathbf{A}$$ and a non-zero vector $$\mathbf{v}$$:
+Với một ma trận vuông $$\mathbf{A}$$ và một vector khác không $$\mathbf{v}$$:
 
-- $$\mathbf{v}$$ is an **eigenvector** of $$\mathbf{A}$$
-- $$\lambda$$ is the corresponding **eigenvalue**
+- $$\mathbf{v}$$ là một **vector riêng** của $$\mathbf{A}$$
+- $$\lambda$$ là **giá trị riêng** tương ứng
 
-if they satisfy the **eigenvalue equation**:
+nếu chúng thỏa mãn **phương trình giá trị riêng**:
 
 $$\mathbf{A}\mathbf{v} = \lambda\mathbf{v}$$
 
-### Geometric Interpretation
+### Giải thích Hình học
 
-- **Eigenvectors:** Non-zero vectors that maintain their direction under the transformation $$\mathbf{A}$$
-- **Eigenvalues:** The scalar factors by which the eigenvectors are scaled
+- **Vector riêng:** Các vector khác không duy trì hướng của chúng dưới phép biến đổi $$\mathbf{A}$$
+- **Giá trị riêng:** Các hệ số vô hướng mà các vector riêng được nhân với
 
-**Visual Understanding:**
-- If $$\lambda > 1$$: The eigenvector is stretched
-- If $$0 < \lambda < 1$$: The eigenvector is shrunk
-- If $$\lambda < 0$$: The eigenvector is scaled and flipped
-- If $$\lambda = 0$$: The eigenvector is mapped to the zero vector
+**Hiểu biết Trực quan:**
+- Nếu $$\lambda > 1$$: Vector riêng bị kéo dài
+- Nếu $$0 < \lambda < 1$$: Vector riêng bị co lại
+- Nếu $$\lambda < 0$$: Vector riêng bị nhân tỉ lệ và đảo ngược
+- Nếu $$\lambda = 0$$: Vector riêng được ánh xạ thành vector không
 
 ---
 
-## Finding Eigenvalues and Eigenvectors
+## Tìm Giá trị riêng và Vector riêng
 
-### Step 1: Find Eigenvalues
+### Bước 1: Tìm Giá trị riêng
 
-Rearrange the eigenvalue equation:
+Sắp xếp lại phương trình giá trị riêng:
 $$\mathbf{A}\mathbf{v} = \lambda\mathbf{v}$$
 $$\mathbf{A}\mathbf{v} - \lambda\mathbf{v} = \mathbf{0}$$
 $$(\mathbf{A} - \lambda\mathbf{I})\mathbf{v} = \mathbf{0}$$

@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 14-02 Interpretation & Properties
+title: 14-02 Giải thích và Tính chất
 chapter: '14'
 order: 4
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,6 +14,6 @@ MathJax.Hub.Config({
 });
 </script>
 
-In this chapter, before examining the properties of Newton's method, we learn about applying Newton's method to root finding problems of objective functions.
+Trong chương này, trước khi xem xét các tính chất của phương pháp Newton, chúng ta tìm hiểu về việc áp dụng phương pháp Newton vào các bài toán tìm nghiệm của các hàm mục tiêu.
 
-Subsequently, we will examine two important properties of Newton's method: Affine invariance and Local convergence.
+Tiếp theo, chúng ta sẽ xem xét hai tính chất quan trọng của phương pháp Newton: Bất biến affine và Hội tụ cục bộ.

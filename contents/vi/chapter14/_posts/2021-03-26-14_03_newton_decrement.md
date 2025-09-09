@@ -6,7 +6,7 @@ order: 7
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,9 +14,9 @@ MathJax.Hub.Config({
 });
 </script>
 
-In this chapter, we define the Newton decrement and examine its meaning.
+Trong chương này, chúng ta định nghĩa Newton decrement và xem xét ý nghĩa của nó.
 
-For the optimization problem below, the Newton decrement at $$x$$ is defined as $$\lambda(x)$$:
+Đối với bài toán tối ưu hóa dưới đây, Newton decrement tại $$x$$ được định nghĩa là $$\lambda(x)$$:
 
 >\begin{align}
 >\min_{x} \quad f(x),\\\\
@@ -25,23 +25,23 @@ For the optimization problem below, the Newton decrement at $$x$$ is defined as 
 >\lambda(x) = (\nabla f(x)^{T}(\nabla^{2}f(x))^{-1}\nabla f(x))^{1/2}.
 >\end{align}
 
-## Characteristics of Newton decrement
-First, the Newton decrement is related to the difference between the function $$f(x)$$ and the minimum of its quadratic approximation. Calculating this difference gives:
+## Đặc điểm của Newton decrement
+Thứ nhất, Newton decrement liên quan đến sự khác biệt giữa hàm $$f(x)$$ và giá trị tối thiểu của xấp xỉ bậc hai của nó. Tính toán sự khác biệt này cho:
 >$$\begin{align}
 >f(x)-&\min_{y} \big( f(x)+\nabla f(x)^{T}(y-x)+\frac{1}{2}(y-x)^{T}\nabla^{2}f(x)(y-x)\big),\\\\
 >f(x)-&\bigg( f(x) + \nabla^{T}f(x)\big( -(\nabla^{2} f(x) )^{-1} \nabla f(x)\big) + \frac{1}{2}\big( -(\nabla^{2}f(x))^{-1} \nabla f(x) \big)^{T} \nabla ^{2}f(x) \big( -(\nabla^{2}f(x))^{-1}\nabla f(x) \big) \bigg) \\\\ 
 >&= \frac{1}{2}\nabla f(x)^{T}(\nabla^{2} f(x) )^{-1}\nabla f(x) = \frac{1}{2}\lambda(x)^{2}.
 >\end{align}$$
 
-Thus, $$\frac{1}{2}\lambda^{2}(x)$$ can be considered an approximate bound for the suboptimality gap $$f(x)-f^{\star}$$.
+Do đó, $$\frac{1}{2}\lambda^{2}(x)$$ có thể được coi là một cận xấp xỉ cho khoảng cách tối ưu $$f(x)-f^{\star}$$.
 
-Second, the Newton direction in Newton's method for each iteration is $$v = -(\nabla^{2}f(x))^{-1}\nabla f(x)$$, and the Newton decrement is the length of the Newton step in the norm defined by the Hessian $$\nabla^{2}f(x)$$.
+Thứ hai, hướng Newton trong phương pháp Newton cho mỗi lần lặp là $$v = -(\nabla^{2}f(x))^{-1}\nabla f(x)$$, và Newton decrement là độ dài của bước Newton trong chuẩn được định nghĩa bởi Hessian $$\nabla^{2}f(x)$$.
 
-Alternatively, this can be viewed as a type of Mahalanobis distance [[Wikipedia](https://en.wikipedia.org/wiki/Mahalanobis_distance)], where the new step $$y$$ is the observation, the current position $$x$$ is the mean, and the Hessian of $$f(x)$$ is the covariance. The Mahalanobis distance measures the distance from a point to the mean in the direction of the covariance of the distribution.
+Ngoài ra, điều này có thể được xem là một loại khoảng cách Mahalanobis [[Wikipedia](https://en.wikipedia.org/wiki/Mahalanobis_distance)], trong đó bước mới $$y$$ là quan sát, vị trí hiện tại $$x$$ là giá trị trung bình, và Hessian của $$f(x)$$ là hiệp phương sai. Khoảng cách Mahalanobis đo khoảng cách từ một điểm đến giá trị trung bình theo hướng của hiệp phương sai của phân phối.
 
-If we consider the definition of Mahalanobis distance as the distance between a point and the mean of a distribution divided by the standard deviation in that direction, the Newton decrement represents the distance of the new step from the current position, with the Hessian serving as the covariance of the distribution.
+Nếu chúng ta xem xét định nghĩa khoảng cách Mahalanobis là khoảng cách giữa một điểm và giá trị trung bình của một phân phối chia cho độ lệch chuẩn theo hướng đó, Newton decrement biểu diễn khoảng cách của bước mới từ vị trí hiện tại, với Hessian đóng vai trò là hiệp phương sai của phân phối.
 
-Third, the Newton decrement can be expressed in terms of the increment and the Hessian. Starting from the step update in Newton's method, we have:
+Thứ ba, Newton decrement có thể được biểu diễn theo số gia và Hessian. Bắt đầu từ cập nhật bước trong phương pháp Newton, chúng ta có:
 >\begin{align}
 >x^{+} &= x-\big(\nabla^{2} f(x) \big)^{-1} \nabla f(x) &\\ 
 >\end{align}
@@ -52,10 +52,10 @@ Third, the Newton decrement can be expressed in terms of the increment and the H
 >\nabla f(x)^{T} \Delta x_{nt} &= -\lambda (x)^{2}
 >\end{align}
 
-Utilizing these relations, the Newton decrement can also be expressed as:
+Sử dụng các mối quan hệ này, Newton decrement cũng có thể được biểu diễn là:
 >\begin{align}
 >\lambda(x) = (\Delta x_{nt}^{T}\nabla^{2} f(x) \Delta x_{nt})^{1/2}.
 >\end{align}
 
 
-Finally, like the Newton step, the Newton decrement is also affine invariant. In other words, for any nonsingular matrix, if the function $$g(y) = f(Ay)$$ is defined, then at $$x = Ay$$, it holds that $$\lambda_{g(y)} = \lambda_{f(x)}$$.
+Cuối cùng, giống như bước Newton, Newton decrement cũng bất biến affine. Nói cách khác, đối với bất kỳ ma trận không suy biến nào, nếu hàm $$g(y) = f(Ay)$$ được định nghĩa, thì tại $$x = Ay$$, ta có $$\lambda_{g(y)} = \lambda_{f(x)}$$.

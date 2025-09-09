@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 14-09 Quasi-Newton methods
+title: 14-09 Các phương pháp Quasi-Newton
 chapter: '14'
 order: 15
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,14 +14,14 @@ MathJax.Hub.Config({
     });
 </script>
 
-If the computation of the Hessian is too expensive or the Hessian is singular, we use quasi-Newton methods to approximate the Hessian matrix, i.e., $$\nabla^{2}f(x)$$ is replaced by $$H>0$$, and we use $$H$$ for the update:
+Nếu việc tính toán Hessian quá đắt hoặc Hessian là suy biến, chúng ta sử dụng các phương pháp quasi-Newton để xấp xỉ ma trận Hessian, tức là, $$\nabla^{2}f(x)$$ được thay thế bởi $$H>0$$, và chúng ta sử dụng $$H$$ cho cập nhật:
 
 >\begin{align}
 >x^{+} = x - tH^{-1}\nabla f(x)
 >\end{align}
 
-Some features of quasi-Newton methods are as follows. For more details, see [Chapter 18]({% multilang_post_url contents/chapter18/21-03-23-18_00_Quasi_Newton_methods %}).
+Một số đặc điểm của các phương pháp quasi-Newton như sau. Để biết thêm chi tiết, xem [Chương 18]({% multilang_post_url contents/chapter18/21-03-23-18_00_Quasi_Newton_methods %}).
 
-* The approximate Hessian $$H$$ is updated at each step. The goal is to use a relatively cheap computation for $$H^{-1}$$.
-* The convergence rate is superlinear, but not as fast as Newton's method. Typically, $$n$$ steps of quasi-Newton are equivalent to one step of Newton in terms of progress.
-* Many quasi-Newton methods update $$H$$ at each iteration using propagation techniques.
+* Hessian xấp xỉ $$H$$ được cập nhật ở mỗi bước. Mục tiêu là sử dụng tính toán tương đối rẻ cho $$H^{-1}$$.
+* Tốc độ hội tụ là siêu tuyến tính, nhưng không nhanh bằng phương pháp Newton. Thông thường, $$n$$ bước của quasi-Newton tương đương với một bước của Newton về tiến bộ.
+* Nhiều phương pháp quasi-Newton cập nhật $$H$$ ở mỗi lần lặp sử dụng các kỹ thuật truyền.

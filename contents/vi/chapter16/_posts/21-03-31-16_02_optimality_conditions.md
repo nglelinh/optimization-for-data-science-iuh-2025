@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 16-02 Optimality conditions
+title: 16-02 Điều kiện tối ưu
 chapter: '16'
 order: 3
 owner: Minjoo Lee
 categories:
 - chapter16
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,14 +14,14 @@ MathJax.Hub.Config({
 });
 </script>
 
-In this section, we will examine the KKT optimality conditions for primal problems and barrier problems respectively, and then compare their differences.
+Trong phần này, chúng ta sẽ xem xét các điều kiện tối ưu KKT cho các bài toán nguyên thủy và các bài toán barrier tương ứng, và sau đó so sánh sự khác biệt của chúng.
 <br/>
 
-## KKT optimality conditions
+## Điều kiện tối ưu KKT
 
-Let's review the KKT conditions that we covered in Chapter 12. KKT conditions are used as conditions for determining optimality.
+Hãy xem lại các điều kiện KKT mà chúng ta đã đề cập trong Chương 12. Điều kiện KKT được sử dụng như các điều kiện để xác định tính tối ưu.
 
-### Primal problem
+### Bài toán nguyên thủy
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad f(x) \\\\
@@ -30,11 +30,11 @@ Let's review the KKT conditions that we covered in Chapter 12. KKT conditions ar
 >\end{align}
 >$$
 
-When the given primal problem is convex, KKT conditions become sufficient conditions for primal & dual optimality. That is, when $$f, h_1, \dots, h_m$$ are convex and $$l_1, \dots, l_r$$ are affine, if $$x^\star, u^\star, v^\star$$ satisfy the following KKT conditions, then $$x^\star$$ and $$(u^\star, v^\star)$$ are primal & dual optimal with zero duality gap. (We assume that $$f, h_1, \dots, h_m, l_1, \dots, l_r$$ are differentiable.) <br>
+Khi bài toán nguyên thủy đã cho là lồi, các điều kiện KKT trở thành điều kiện đủ cho tính tối ưu nguyên thủy & đối ngẫu. Có nghĩa là, khi $$f, h_1, \dots, h_m$$ là lồi và $$l_1, \dots, l_r$$ là affine, nếu $$x^\star, u^\star, v^\star$$ thỏa mãn các điều kiện KKT sau, thì $$x^\star$$ và $$(u^\star, v^\star)$$ là tối ưu nguyên thủy & đối ngẫu với khoảng cách đối ngẫu bằng không. (Chúng ta giả sử rằng $$f, h_1, \dots, h_m, l_1, \dots, l_r$$ có thể vi phân.) <br>
 
-* 참고: [12-01 KKT conditions]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
+* Tham khảo: [12-01 Điều kiện KKT]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
 
-### KKT conditions for the given primal problem
+### Điều kiện KKT cho bài toán nguyên thủy đã cho
 >$$
 >\begin{align}
 >l_i &= 0, \quad i=1, \dots, r\\\\
@@ -44,11 +44,11 @@ When the given primal problem is convex, KKT conditions become sufficient condit
 >\end{align}
 >$$
 
-## Central path equations
+## Phương trình đường dẫn trung tâm
 
-Let's also examine the conditions for determining the optimality of barrier problems.
+Hãy cũng xem xét các điều kiện để xác định tính tối ưu của các bài toán barrier.
 
-### Barrier problem
+### Bài toán barrier
 
 >$$
 \begin{align}
@@ -56,12 +56,12 @@ Let's also examine the conditions for determining the optimality of barrier prob
     &\quad l_j(x) = 0, j = 1, \ldots, r  \\\\
 \end{align}$$
 >
->$$ \text{where } \phi(x) = - \sum_{i=1}^m \log \big( -h_i(x) \big).$$
+>$$ \text{trong đó } \phi(x) = - \sum_{i=1}^m \log \big( -h_i(x) \big).$$
 
 
-By organizing the KKT conditions for barrier problems, we can derive the following optimality conditions. Note the differences in the inequality constraint and complementary slackness conditions compared to the KKT optimality conditions for primal problems examined earlier. (Reference: [15-03-01 Perturbed KKT conditions]({% multilang_post_url contents/chapter15/21-03-28-15_03_01_perturbed_kkt_conditions %}))
+Bằng cách tổ chức các điều kiện KKT cho các bài toán barrier, chúng ta có thể suy ra các điều kiện tối ưu sau. Lưu ý sự khác biệt trong ràng buộc bất đẳng thức và các điều kiện bổ sung so với các điều kiện tối ưu KKT cho các bài toán nguyên thủy đã xem xét trước đó. (Tham khảo: [15-03-01 Điều kiện KKT bị nhiễu]({% multilang_post_url contents/chapter15/21-03-28-15_03_01_perturbed_kkt_conditions %}))
 
-### Optimality conditions for barrier problem (and its dual)
+### Điều kiện tối ưu cho bài toán barrier (và đối ngẫu của nó)
 
 >$$
 \begin{align}
@@ -72,11 +72,11 @@ u_i(t) h_i(x^\star(t)) &= -\tau, \quad i=1, \dots, m\\\\
 \end{align} \\\\
 $$
 >
->$$\text{where } \tau = \frac{1}{t}, u_i(t) = - \frac{1}{t h_i(x^\star(t))}, \quad \hat{v} = \frac{1}{t}v.$$
+>$$\text{trong đó } \tau = \frac{1}{t}, u_i(t) = - \frac{1}{t h_i(x^\star(t))}, \quad \hat{v} = \frac{1}{t}v.$$
 
-## Special case: linear programming
+## Trường hợp đặc biệt: quy hoạch tuyến tính
 
-### Recall: Primal problem of LP in standard form
+### Nhắc lại: Bài toán nguyên thủy của LP dạng chuẩn
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad c^Tx \\\\
@@ -85,7 +85,7 @@ $$
 >\end{align}
 >$$
 
-### Recall: Dual problem of LP
+### Nhắc lại: Bài toán đối ngẫu của LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty \\\\
@@ -94,7 +94,7 @@ $$
 >\end{align}
 >$$
 
-Linear programming has the nice property of always satisfying strong duality due to the refined Slater's condition, since the inequality constraints are affine. The optimality conditions for LP are as follows:
+Quy hoạch tuyến tính có tính chất tốt là luôn thỏa mãn tính đối ngẫu mạnh do điều kiện Slater được làm tế, vì các ràng buộc bất đẳng thức là affine. Các điều kiện tối ưu cho LP như sau:
 
 >$$
 >\begin{align}
@@ -104,28 +104,28 @@ Linear programming has the nice property of always satisfying strong duality due
 >x^\star, s^\star &\ge 0,\\\\
 >\end{align}$$
 > 
->$$text{where }X = Diag(x^\star), S = Diag(s^\star)$$
+>$$\text{trong đó }X = Diag(x^\star), S = Diag(s^\star)$$
 
-Note that $$X S \mathbb{1} = 0$$ is equivalent to $$Xs^\star=(x_1^\star s_1^\star, \dots, x_n^\star s_n^\star)=0$$. We use $$X, S$$ notation for convenience in algorithms that will be introduced later.
+Lưu ý rằng $$X S \mathbb{1} = 0$$ tương đương với $$Xs^\star=(x_1^\star s_1^\star, \dots, x_n^\star s_n^\star)=0$$. Chúng ta sử dụng ký hiệu $$X, S$$ để thuận tiện trong các thuật toán sẽ được giới thiệu sau này.
 
-### Algorithms for linear programming
+### Thuật toán cho quy hoạch tuyến tính
 
-We introduce two representative methods for solving LP using optimality conditions.
+Chúng ta giới thiệu hai phương pháp đại diện để giải LP bằng cách sử dụng các điều kiện tối ưu.
 
-1. Simplex: A method that maintains conditions 1, 2, and 3 while gradually satisfying condition 4.
-2. Interior-point methods: A method that maintains condition 4 while gradually satisfying conditions 1, 2, and 3. This will be covered in the next chapter.
+1. Simplex: Một phương pháp duy trì các điều kiện 1, 2, và 3 trong khi dần dần thỏa mãn điều kiện 4.
+2. Phương pháp điểm trong: Một phương pháp duy trì điều kiện 4 trong khi dần dần thỏa mãn các điều kiện 1, 2, và 3. Điều này sẽ được đề cập trong chương tiếp theo.
 
-## Central path for linear programming
+## Đường dẫn trung tâm cho quy hoạch tuyến tính
 
-### Recall: Barrier problem for LP
+### Nhắc lại: Bài toán barrier cho LP
 >$$\begin{align}
     \mathop{\text{minimize}}_x &\quad c^Tx - \tau \sum_{i=1}^n \log(x_i)\\\\
     \text{subject to} &\quad Ax = b, \\\\
-    \text{where}  &\quad \tau > 0
+    \text{trong đó}  &\quad \tau > 0
 \end{align}$$
 
 
-### Recall: Dual problem of Barrier problem for LP
+### Nhắc lại: Bài toán đối ngẫu của bài toán Barrier cho LP
 >$$
 >\begin{align}
 >    \mathop{\text{maximize}}_{s,y} &\quad b^Ty + \tau \sum_{i=1}^n log(s_i)\\\\
@@ -133,7 +133,7 @@ We introduce two representative methods for solving LP using optimality conditio
 >\end{align}
 >$$
 
-The optimality conditions for the barrier problem of LP are as follows:
+Các điều kiện tối ưu cho bài toán barrier của LP như sau:
 
 >$$
 \begin{align}
@@ -141,7 +141,7 @@ A^T y^\star + s^\star &= c\\\\
 Ax^\star &= b\\\\
 X S \mathbb{1} &= \tau \mathbb{1}\\\\
 x^\star, s^\star &\gt 0,\\\\
-\text{where} &\quad X = Diag(x^\star), S = Diag(s^\star)
+\text{trong đó} &\quad X = Diag(x^\star), S = Diag(s^\star)
 \end{align}$$
 
-Conditions 3 and 4 show differences from the KKT conditions of the primal LP.
+Các điều kiện 3 và 4 cho thấy sự khác biệt so với các điều kiện KKT của LP nguyên thủy.

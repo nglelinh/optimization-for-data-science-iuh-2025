@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 14-05 Convergence analysis
+title: 14-05 Phân tích hội tụ
 chapter: '14'
 order: 9
 owner: Minjoo Lee
 categories:
 - chapter14
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -14,9 +14,9 @@ MathJax.Hub.Config({
     });
 </script>
 
-So far, we have examined pure Newton's method, which only has local convergence properties, and damped Newton's method (Newton's method with backtracking line search), which applies backtracking line search to ensure global convergence when convex.
+Cho đến nay, chúng ta đã xem xét phương pháp Newton thuần túy, chỉ có tính chất hội tụ cục bộ, và phương pháp Newton có giảm chấn (phương pháp Newton với tìm kiếm đường backtracking), áp dụng tìm kiếm đường backtracking để đảm bảo hội tụ toàn cục khi lồi.
 
-In this chapter, we analyze the convergence rate of damped Newton's method. For damped Newton's method, we examine convergence bounds divided into two phases: the phase where backtracking is applied (damped phase: slow progress) and the locally convergent phase where backtracking is no longer needed (pure phase: quadratic convergence).
+Trong chương này, chúng ta phân tích tốc độ hội tụ của phương pháp Newton có giảm chấn. Đối với phương pháp Newton có giảm chấn, chúng ta xem xét các cận hội tụ được chia thành hai giai đoạn: giai đoạn mà backtracking được áp dụng (giai đoạn giảm chấn: tiến bộ chậm) và giai đoạn hội tụ cục bộ mà backtracking không còn cần thiết (giai đoạn thuần túy: hội tụ bậc hai).
 
 ## Conditions of $$f$$ for convergence analysis
 Assume that $$f$$ is convex, twice differentiable, has $$dom(f)=\mathbb{R}^{n}$$, and satisfies the following three conditions:
