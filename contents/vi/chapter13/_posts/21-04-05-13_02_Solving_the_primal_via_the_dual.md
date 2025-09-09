@@ -1,27 +1,27 @@
 ---
 layout: post
-title: 13-02 Solving the primal via the dual
+title: 13-02 Giải bài toán nguyên thủy thông qua đối ngẫu
 chapter: '13'
 order: 3
 owner: Wontak Ryu
 categories:
 - chapter13
-lang: en
+lang: vi
 ---
 
-### An important consequence of stationarity
-Under the condition of strong duality, when dual solution $$u^{\star}, v^{\star}$$ is given, the primal solution $$x^{\star}$$ can be found by solving the following Lagrangian:
+### Một hệ quả quan trọng của điều kiện dừng
+Trong điều kiện đối ngẫu mạnh, khi nghiệm đối ngẫu $$u^{\star}, v^{\star}$$ được cho, nghiệm nguyên thủy $$x^{\star}$$ có thể được tìm bằng cách giải Lagrangian sau:
 
 > $$ \min_x f(x) + \sum_{i=1}^m u_i^{\star} h_i(x) + \sum_{j=1}^r v^{\star}_i l_j(x)$$
 
-Often, the solution to such unconstrained problems can be represented by explicitly bringing the characteristics of the primal solution through the dual solution.
+Thông thường, nghiệm của các bài toán không ràng buộc như vậy có thể được biểu diễn bằng cách thể hiện rõ ràng các đặc điểm của nghiệm nguyên thủy thông qua nghiệm đối ngẫu.
 
-Moreover, if the solution to this problem is unique, the dual solution becomes the primal solution $$x^{\star}$$.
-This is very useful when solving the dual problem is easier than solving the primal problem directly.
+Hơn nữa, nếu nghiệm của bài toán này là duy nhất, nghiệm đối ngẫu trở thành nghiệm nguyên thủy $$x^{\star}$$.
+Điều này rất hữu ích khi việc giải bài toán đối ngẫu dễ dàng hơn việc giải trực tiếp bài toán nguyên thủy.
 
 
-### Example from B & V page 249:
-> $$ \min_x \sum_{i=1}^n f_i(x_i) \qquad \text{ subject to }\qquad a^Tx = b$$
+### Ví dụ từ B & V trang 249:
+> $$ \min_x \sum_{i=1}^n f_i(x_i) \qquad \text{ với điều kiện }\qquad a^Tx = b$$
 
 
 > $$\begin{align}
@@ -32,19 +32,19 @@ This is very useful when solving the dual problem is easier than solving the pri
 > &= bv − \sum_{i=1}^n f^{*}_i (a_iv)
 > \end{align}$$
  
-Here $$f^{*}$$ denotes the conjugate of $$f_i$$.
+Ở đây $$f^{*}$$ biểu thị hàm liên hợp của $$f_i$$.
 
-Therefore, the dual problem can be represented as follows:
+Do đó, bài toán đối ngẫu có thể được biểu diễn như sau:
 > $$ \max_v bv − \sum^n_{i=1} f^{*}_i (a_iv)$$
 
-Also, by multiplying by minus (-), the maximum problem can be represented as the following minimum problem:
+Ngoài ra, bằng cách nhân với dấu âm (-), bài toán cực đại có thể được biểu diễn thành bài toán cực tiểu sau:
 > $$ \min_v \sum^n_{i=1} f^{*}_i (a_iv) − bv$$
 
-This is a convex minimization problem in scalar variables that can be solved much more easily than the primal problem.
+Đây là một bài toán tối ưu hóa lồi với các biến vô hướng có thể được giải dễ dàng hơn nhiều so với bài toán nguyên thủy.
 
-When $$v^{\star}$$ is given, the primal solution $$x^{\star}$$ can be solved as follows:
+Khi $$v^{\star}$$ được cho, nghiệm nguyên thủy $$x^{\star}$$ có thể được giải như sau:
 > $$ \min_{x} \sum^n_{i=1} (f_i(x_i) − a_iv^{\star}x_i)$$
 
-The strict convexity of each $$f_i$$ means that this has a unique solution.
-That is, $$x^{\star}$$ is obtained through the calculation of $$∇f_i(x_i) = a_iv^{\star}$$ for each $$i$$.
+Tính lồi chặt của mỗi $$f_i$$ có nghĩa là bài toán này có nghiệm duy nhất.
+Tức là, $$x^{\star}$$ được thu được thông qua tính toán $$∇f_i(x_i) = a_iv^{\star}$$ cho mỗi $$i$$.
 

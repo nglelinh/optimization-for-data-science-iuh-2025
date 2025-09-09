@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 10-03 Max flow and min cut
+title: 10-03 Luồng cực đại và cắt cực tiểu
 chapter: '10'
 order: 4
 owner: Wontak Ryu
 categories:
 - chapter10
-lang: en
+lang: vi
 ---
 
 <script type="text/x-mathjax-config">
@@ -15,109 +15,109 @@ MathJax.Hub.Config({
 });
 </script>
 
-As an example of duality in linear programs, we want to examine the max flow min cut problem.
+Như một ví dụ về tính đối ngẫu trong chương trình tuyến tính, chúng ta muốn xem xét bài toán luồng cực đại cắt cực tiểu.
 
-## Directed Graph, Condition of flow
+## Đồ thị có hướng, Điều kiện của luồng
 
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter10/max_flow.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Fig 1] Directed Graph[3]</figcaption>
+ <figcaption style="text-align: center;">[Hình 1] Đồ thị có hướng[3]</figcaption>
 </p>
 </figure>
 
 
-There is a directed graph $$G = (V, E)$$ as shown above, and let the edge connecting vertex i and vertex j, $$(i,j)\in E$$, i.e., the flow from i to j, be $$f_{ij}$$. Each edge has a capacity, i.e., the maximum flow that can flow through it. Let this be $$c_{ij}$$.
+Có một đồ thị có hướng $$G = (V, E)$$ như được hiển thị ở trên, và đặt cạnh nối đỉnh i và đỉnh j, $$(i,j)\in E$$, tức là luồng từ i đến j, là $$f_{ij}$$. Mỗi cạnh có một công suất, tức là luồng tối đa có thể chảy qua nó. Đặt đây là $$c_{ij}$$.
 
-As a simple example, this can be understood as a graph representation of some flow from a source(s) flowing out to a sink(t). It is a graph form that can be applied to various problems such as urban drainage/power transmission planning, material transportation, etc.
+Như một ví dụ đơn giản, điều này có thể được hiểu như một biểu diễn đồ thị của một luồng nào đó từ một nguồn(s) chảy ra đến một đích(t). Đây là một dạng đồ thị có thể được áp dụng cho nhiều bài toán khác nhau như quy hoạch thoát nước đô thị/truyền tải điện, vận chuyển vật liệu, v.v.
 
-Here, the flow satisfies three conditions.
+Ở đây, luồng thỏa mãn ba điều kiện.
 
-1. $$f_{ij}$$ is always a positive number greater than or equal to 0: $$f_{ij} \geq 0,\, (i,j)\in E$$
-2. $$f_{ij}$$ must be less than the maximum flow determined for the edge, i.e., the capacity (limit capacity) $$c_{ij}$$: $$f_{ij}<c_{ij}, \, (i,j)\in E$$
-3. For vertex k excluding the source (the point where flow comes out, s) or sink (the point where flow goes out, t), the total amount of flow entering k equals the total amount of flow leaving k: $$\sum_{(i,k)\in E}f_{ik} = \sum_{(k,j)\in E}f_{kj}, \, k\in V\backslash{s,t}$$
+1. $$f_{ij}$$ luôn là một số dương lớn hơn hoặc bằng 0: $$f_{ij} \geq 0,\, (i,j)\in E$$
+2. $$f_{ij}$$ phải nhỏ hơn luồng tối đa được xác định cho cạnh, tức là công suất (giới hạn công suất) $$c_{ij}$$: $$f_{ij}<c_{ij}, \, (i,j)\in E$$
+3. Đối với đỉnh k không bao gồm nguồn (điểm mà luồng ra, s) hoặc đích (điểm mà luồng vào, t), tổng lượng luồng vào k bằng tổng lượng luồng ra khỏi k: $$\sum_{(i,k)\in E}f_{ik} = \sum_{(k,j)\in E}f_{kj}, \, k\in V\backslash{s,t}$$
 
-## Relationship between Max flow and Min cut problem(1)
+## Mối quan hệ giữa bài toán Luồng cực đại và Cắt cực tiểu(1)
 
-For the graph and flow defined above, we will examine two well-known problems, the max flow problem and the min cut problem, and the relationship between them.
+Đối với đồ thị và luồng được định nghĩa ở trên, chúng ta sẽ xem xét hai bài toán nổi tiếng, bài toán luồng cực đại và bài toán cắt cực tiểu, và mối quan hệ giữa chúng.
 
-To conclude first, the max flow problem is an LP problem, and the min cut problem is an integer program, where the dual of the max flow problem has the same problem form as the LP relaxation of the min cut problem.
+Để kết luận trước, bài toán luồng cực đại là một bài toán LP, và bài toán cắt cực tiểu là một chương trình nguyên, trong đó đối ngẫu của bài toán luồng cực đại có cùng dạng bài toán như việc nới lỏng LP của bài toán cắt cực tiểu.
 
 >$$
 >\begin{align}
->\text{Value of max flow} &\leq \text{dual LP of max flow}\\
->&= \text{Optimal value for LP relaxed min cut}\\
->&\leq \text{Capacity of min cut}\\
+>\text{Giá trị luồng cực đại} &\leq \text{LP đối ngẫu của luồng cực đại}\\
+>&= \text{Giá trị tối ưu cho cắt cực tiểu nới lỏng LP}\\
+>&\leq \text{Công suất của cắt cực tiểu}\\
 >\end{align}
 >$$
 
-In this page, we will show the inequality relationship by the reverse process of dual and relaxation (adding constraints to the LP problem to convert it to an integer program). Although not covered here, in reality, all three results are equal.
+Trong trang này, chúng ta sẽ chỉ ra mối quan hệ bất đẳng thức bằng quá trình ngược của đối ngẫu và nới lỏng (thêm ràng buộc vào bài toán LP để chuyển đổi nó thành chương trình nguyên). Mặc dù không được đề cập ở đây, trên thực tế, cả ba kết quả đều bằng nhau.
 
-This is called the max flow min cut theorem, which states that the maximum flow in a network is equal to the minimum capacity of a cut.
+Điều này được gọi là định lý luồng cực đại cắt cực tiểu, nói rằng luồng tối đa trong một mạng bằng công suất tối thiểu của một cắt.
 
-More generally, under certain conditions, the optimal values of the primal and dual problems are equal, which is called strong duality.
+Tổng quát hơn, dưới một số điều kiện nhất định, các giá trị tối ưu của các bài toán nguyên thủy và đối ngẫu bằng nhau, điều này được gọi là tính đối ngẫu mạnh.
 
-In LP problems, except for the case where both the primal and dual problems are infeasible, strong duality holds. This will be discussed in Chapter 11.
+Trong các bài toán LP, ngoại trừ trường hợp mà cả bài toán nguyên thủy và đối ngẫu đều không khả thi, tính đối ngẫu mạnh được giữ. Điều này sẽ được thảo luận trong Chương 11.
 
-First, let's look at the two problems, derive the dual from the max flow problem, and show that by adding specific conditions to the dual problem (reverse of relaxation), it transforms into the min cut problem.
+Đầu tiên, hãy xem xét hai bài toán, suy ra đối ngẫu từ bài toán luồng cực đại, và chỉ ra rằng bằng cách thêm các điều kiện cụ thể vào bài toán đối ngẫu (ngược lại của nới lỏng), nó biến đổi thành bài toán cắt cực tiểu.
 
-## Max flow problem
+## Bài toán luồng cực đại
 
-The max flow problem is to find the maximum flow from s to t in a graph that satisfies the above conditions.
+Bài toán luồng cực đại là tìm luồng tối đa từ s đến t trong một đồ thị thỏa mãn các điều kiện trên.
 
 >$$
 >\begin{align}
 >&\max_{f\in {\mathbb{R}^{|E|}}} &&{\sum_{(s,j)\in E} f_{sj}}\\
->&\text{subject to} &&{f_{ij}\geq 0,\,f_{ij}\leq c_{i,j}\,\, \text{for all }(i, j)\in E}\\
->&&&{\sum_{(i, k)\in E}f_{ik}=\sum_{(k,j)\in E}f_{kj}}\,\, \text{for all }k\in V \backslash \{s,t\}.\\
+>&\text{với điều kiện} &&{f_{ij}\geq 0,\,f_{ij}\leq c_{i,j}\,\, \text{với mọi }(i, j)\in E}\\
+>&&&{\sum_{(i, k)\in E}f_{ik}=\sum_{(k,j)\in E}f_{kj}}\,\, \text{với mọi }k\in V \backslash \{s,t\}.\\
 >\end{align}
 >$$
 
-## Min cut problem
+## Bài toán cắt cực tiểu
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter10/min_cut.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Fig 2] Graph Cut Example[3]</figcaption>
+ <figcaption style="text-align: center;">[Hình 2] Ví dụ Cắt Đồ thị[3]</figcaption>
 </p>
 </figure>
 
-The min cut problem divides all vertices of the graph into two sets: the shaded region and the unshaded region, as shown in the figure. One set contains the source, and the other contains the sink, while the remaining vertices are arbitrarily assigned to either set (here, the set containing the source is called A, and the set containing the sink is called B). The sum of the capacities of the edges going from set A to set B is defined as the cut.
+Bài toán cắt cực tiểu chia tất cả các đỉnh của đồ thị thành hai tập hợp: vùng có bóng và vùng không có bóng, như được hiển thị trong hình. Một tập hợp chứa nguồn, và tập hợp khác chứa đích, trong khi các đỉnh còn lại được gán tùy ý vào một trong hai tập hợp (ở đây, tập hợp chứa nguồn được gọi là A, và tập hợp chứa đích được gọi là B). Tổng các công suất của các cạnh đi từ tập hợp A đến tập hợp B được định nghĩa là cắt.
 
-In other words, a cut is a partition of the graph's vertices such that the source and sink are in different partitions. The min cut problem is to find the minimum value of this cut for a given graph. In the general definition of the min cut problem, since it is defined on a directed graph, it always satisfies source $$x_{s}=1$$, sink $$x_{t}=0$$. This part is omitted in the problem definition below.
+Nói cách khác, một cắt là một phân hoạch các đỉnh của đồ thị sao cho nguồn và đích ở các phân hoạch khác nhau. Bài toán cắt cực tiểu là tìm giá trị tối thiểu của cắt này cho một đồ thị cho trước. Trong định nghĩa tổng quát của bài toán cắt cực tiểu, vì nó được định nghĩa trên một đồ thị có hướng, nó luôn thỏa mãn nguồn $$x_{s}=1$$, đích $$x_{t}=0$$. Phần này được bỏ qua trong định nghĩa bài toán dưới đây.
 
 >$$
 >\begin{align}
 >&\min_{b\in {\mathbb{R}^{|E|}},\, x \in {\mathbb{R}^{|V|}} } &&{\sum_{(i,j)\in E} b_{ij}c_{ij}}\\
->&\text{subject to} &&{b_{ij} \geq x_{i}-x_{j}}\\
+>&\text{với điều kiện} &&{b_{ij} \geq x_{i}-x_{j}}\\
 >&&&{b_{ij},\,x_{i},\,x_{j}\,\in \{ 0,1 \} }\\
->&&&\text{for all }i, j.\\
+>&&&\text{với mọi }i, j.\\
 >\end{align}
 >$$
 
-Intuitively, the max flow problem is to find the maximum flow from the source, and the min cut problem is to find the minimum total capacity that can be sent from the source set to the sink set, so it is clear that these two problems are closely related.
+Trực quan, bài toán luồng cực đại là tìm luồng tối đa từ nguồn, và bài toán cắt cực tiểu là tìm tổng công suất tối thiểu có thể được gửi từ tập nguồn đến tập đích, vì vậy rõ ràng rằng hai bài toán này có liên quan chặt chẽ.
 
-## Dual of Max flow problem
-Let's derive the dual for the max flow optimization problem.
+## Đối ngẫu của bài toán Luồng cực đại
+Hãy suy ra đối ngẫu cho bài toán tối ưu luồng cực đại.
 
-First, define the dual variables for the constraints in order as $$a_{ij}, b_{ij}, x_{k}$$. In the dual of the max problem, the upper bound will be minimized, so the organized form should be in the form of primal objective $$\leq$$ something. Therefore, organize the equation to find the upper bound of $$f_{ij}$$ for the constraints.
-This can be organized as follows.
+Đầu tiên, định nghĩa các biến đối ngẫu cho các ràng buộc theo thứ tự là $$a_{ij}, b_{ij}, x_{k}$$. Trong đối ngẫu của bài toán max, cận trên sẽ được tối thiểu hóa, vì vậy dạng được tổ chức phải ở dạng mục tiêu nguyên thủy $$\leq$$ một cái gì đó. Do đó, tổ chức phương trình để tìm cận trên của $$f_{ij}$$ cho các ràng buộc.
+Điều này có thể được tổ chức như sau.
 
 >$$
 >\begin{align}
 >\sum_{(i,j)\in E} {\Big(-a_{ij}f_{ij}+b_{ij}(f_{ij}-c_{ij})\Big)} + \sum_{k \in V\backslash \{s,t\}} x_{k}\Big( \sum_{(i,k)\in E} f_{ik} - \sum_{(k,j)\in E } f_{kj} \Big)\leq 0\\
->\text{for any }a_{ij}, b_{ij} \geq 0, (i, j)\in E, \text{ and } x_{k}, k\in V \backslash \{s,t\}.
+>\text{với bất kỳ }a_{ij}, b_{ij} \geq 0, (i, j)\in E, \text{ và } x_{k}, k\in V \backslash \{s,t\}.
 >\end{align}
 >$$
 
-Organize the $$f$$ terms related to the primal LP objective function on the left, and the rest on the right.
+Tổ chức các số hạng $$f$$ liên quan đến hàm mục tiêu LP nguyên thủy ở bên trái, và phần còn lại ở bên phải.
 
-Next, since we want the upper bound of the primal LP, find the equation such that the terms multiplied by $$f$$ on the left match the primal LP objective function.
+Tiếp theo, vì chúng ta muốn cận trên của LP nguyên thủy, tìm phương trình sao cho các số hạng được nhân với $$f$$ ở bên trái khớp với hàm mục tiêu LP nguyên thủy.
 
-The condition that satisfies this equation becomes the constraint in the dual LP.
+Điều kiện thỏa mãn phương trình này trở thành ràng buộc trong LP đối ngẫu.
 
-That is, organize the equation so that the $$f_{ij}$$ term is 1 only in $$\sum_{(s,j)\in E}f_{sj}$$ and 0 elsewhere.
+Tức là, tổ chức phương trình sao cho số hạng $$f_{ij}$$ chỉ là 1 trong $$\sum_{(s,j)\in E}f_{sj}$$ và 0 ở nơi khác.
 
 This process is detailed as follows.
 

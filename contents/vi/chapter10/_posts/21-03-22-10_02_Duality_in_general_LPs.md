@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 10-02 Duality in general LPs
+title: 10-02 Tính đối ngẫu trong LP tổng quát
 chapter: '10'
 order: 3
 owner: Wontak Ryu
 categories:
 - chapter10
-lang: en
+lang: vi
 lesson_type: required
 ---
 
@@ -16,22 +16,22 @@ MathJax.Hub.Config({
 });
 </script>
 
-In [10-01]({% multilang_post_url contents/chapter10/21-03-22-10_01_Lower_Bounds_in_Linear_Programs %}), we examined the primal and dual of LP problems with single-dimensional variables. In 10-02, we want to examine the dual for LPs in general form.
+Trong [10-01]({% multilang_post_url contents/chapter10/21-03-22-10_01_Lower_Bounds_in_Linear_Programs %}), chúng ta đã xem xét nguyên thủy và đối ngẫu của các bài toán LP với các biến một chiều. Trong 10-02, chúng ta muốn xem xét đối ngẫu cho LP ở dạng tổng quát.
 
-The general form of LP is as follows:
+Dạng tổng quát của LP như sau:
 
-Given $$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, G\in\mathbb{R}^{r\times n},\, h\in\mathbb{R}^{r}$$,
+Cho $$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, G\in\mathbb{R}^{r\times n},\, h\in\mathbb{R}^{r}$$,
 
 >$$
 >\begin{align}
 >&\min_{x} &&c^{T}x\\\\
->&\text{subject to} &&Ax = b\\\\
+>&\text{với điều kiện} &&Ax = b\\\\
 >& &&Gx \leq h.\\\\
 >\end{align}
 >$$
 
-Similar to the example in 10-01, we define dual variables $$u, v$$ equal in number to the number of constraints,
-and can define the objective function of the dual problem and constraints as the sum of products of constraints and each dual variable. 
+Tương tự như ví dụ trong 10-01, chúng ta định nghĩa các biến đối ngẫu $$u, v$$ có số lượng bằng số lượng ràng buộc,
+và có thể định nghĩa hàm mục tiêu của bài toán đối ngẫu và các ràng buộc như tổng của các tích của ràng buộc và mỗi biến đối ngẫu.
 
 >$$
 >\begin{align}
@@ -41,28 +41,28 @@ and can define the objective function of the dual problem and constraints as the
 >\end{align}
 >$$
 
-Remember that the dual variable $$u$$ for equality has no constraints, while $$v$$ is a dual variable for inequality and thus has the additional constraint of being positive.
-By organizing the last equation to represent the objective function of the primal LP, we get the dual LP.
+Nhớ rằng biến đối ngẫu $$u$$ cho đẳng thức không có ràng buộc, trong khi $$v$$ là biến đối ngẫu cho bất đẳng thức và do đó có ràng buộc bổ sung là phải dương.
+Bằng cách sắp xếp phương trình cuối để biểu diễn hàm mục tiêu của LP nguyên thủy, chúng ta có được LP đối ngẫu.
 
 >$$
 >\begin{align}
 >u^{T}(Ax-b) + v^{T}(Gx-h)\leq 0 \\\\
 >\underbrace{(-A^{T}u-G^{T}v)^{T}}_{=c^{T}}x\geq-b^{T}u-h^{T}v \\\\
->\text{Lower bound is} -b^{T}u-h^{T}v \\\\ 
->\text{for } x \text{ primal feasible, and any u, v satisfies,} \\\\
+>\text{Cận dưới là} -b^{T}u-h^{T}v \\\\ 
+>\text{với } x \text{ khả thi nguyên thủy, và bất kỳ u, v thỏa mãn,} \\\\
 >c = -A^{T}u-G^{T}v \\\\
 >v\geq 0. \\\\
 >\end{align}
 >$$
 
-That is, when $$c = -A^{T}u-G^{T}v$$, the optimal value of the primal has a lower bound of $$-b^{T}u-h^{T}v$$.
+Tức là, khi $$c = -A^{T}u-G^{T}v$$, giá trị tối ưu của nguyên thủy có cận dưới là $$-b^{T}u-h^{T}v$$.
 
-Consequently, the dual LP can be defined as follows.
+Do đó, LP đối ngẫu có thể được định nghĩa như sau.
 
 >$$
 >\begin{align}
 >&\max_{u,v} &&-b^{T}u-h^{T}v \\\\
->&\text{subject to} &&c = -A^{T}u-G^{T}v \\\\
+>&\text{với điều kiện} &&c = -A^{T}u-G^{T}v \\\\
 >& &&v\geq 0.
 >\end{align}
 >$$

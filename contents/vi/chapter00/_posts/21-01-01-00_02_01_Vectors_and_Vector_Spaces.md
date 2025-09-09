@@ -1,78 +1,78 @@
 ---
 layout: post
-title: 00-02-01 Vectors and Vector Spaces
+title: 00-02-01 Vector và Không gian Vector
 chapter: '00'
 order: 8
 owner: GitHub Copilot
-lang: en
+lang: vi
 categories:
 - chapter00
 lesson_type: required
 ---
 
-This lesson introduces vectors, vector spaces, and fundamental concepts that form the foundation for understanding linear algebra in optimization contexts.
+Bài học này giới thiệu vector, không gian vector, và các khái niệm cơ bản tạo nền tảng để hiểu đại số tuyến tính trong ngữ cảnh tối ưu hóa.
 
 ---
 
-## Vectors and Vector Spaces ($$\mathbb{R}^n$$)
+## Vector và Không gian Vector ($$\mathbb{R}^n$$)
 
-### What is a Vector?
+### Vector là gì?
 
-- **Vectors:** Think of a vector as an arrow in space, representing both a direction and a magnitude (length). Mathematically, it's an ordered list of numbers, like coordinates. For example, a vector in 2D space could be $$\mathbf{v} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$, meaning 3 units along the x-axis and 4 units along the y-axis.
+- **Vector:** Hãy nghĩ về vector như một mũi tên trong không gian, biểu diễn cả hướng và độ lớn (độ dài). Về mặt toán học, nó là một danh sách có thứ tự các số, giống như tọa độ. Ví dụ, một vector trong không gian 2D có thể là $$\mathbf{v} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$, có nghĩa là 3 đơn vị dọc theo trục x và 4 đơn vị dọc theo trục y.
 
-- **Geometric vs Algebraic View:**
-  - **Geometric:** Vectors are arrows with direction and magnitude
-  - **Algebraic:** Vectors are ordered lists of real numbers
+- **Góc nhìn Hình học vs Đại số:**
+  - **Hình học:** Vector là mũi tên có hướng và độ lớn
+  - **Đại số:** Vector là danh sách có thứ tự các số thực
 
-### Vector Spaces
+### Không gian Vector
 
-- **Vector Space ($$\mathbb{R}^n$$):** This is the collection of all possible vectors that have $$n$$ components (numbers). For instance, $$\mathbb{R}^2$$ includes all 2-component vectors, representing all points or arrows in a 2D plane.
+- **Không gian Vector ($$\mathbb{R}^n$$):** Đây là tập hợp tất cả các vector có thể có $$n$$ thành phần (số). Ví dụ, $$\mathbb{R}^2$$ bao gồm tất cả vector 2 thành phần, biểu diễn tất cả các điểm hoặc mũi tên trong mặt phẳng 2D.
 
-- **Examples:**
-  - $$\mathbb{R}^2 = \left\{\begin{pmatrix} x \\ y \end{pmatrix} : x, y \in \mathbb{R}\right\}$$ (the plane)
-  - $$\mathbb{R}^3 = \left\{\begin{pmatrix} x \\ y \\ z \end{pmatrix} : x, y, z \in \mathbb{R}\right\}$$ (3D space)
+- **Ví dụ:**
+  - $$\mathbb{R}^2 = \left\{\begin{pmatrix} x \\ y \end{pmatrix} : x, y \in \mathbb{R}\right\}$$ (mặt phẳng)
+  - $$\mathbb{R}^3 = \left\{\begin{pmatrix} x \\ y \\ z \end{pmatrix} : x, y, z \in \mathbb{R}\right\}$$ (không gian 3D)
 
-### Vector Operations
+### Các Phép toán Vector
 
-**Vector Addition:**
+**Phép Cộng Vector:**
 $$\mathbf{u} + \mathbf{v} = \begin{pmatrix} u_1 \\ u_2 \\ \vdots \\ u_n \end{pmatrix} + \begin{pmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{pmatrix} = \begin{pmatrix} u_1 + v_1 \\ u_2 + v_2 \\ \vdots \\ u_n + v_n \end{pmatrix}$$
 
-**Scalar Multiplication:**
+**Phép Nhân Vô hướng:**
 $$c\mathbf{v} = c \begin{pmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{pmatrix} = \begin{pmatrix} cv_1 \\ cv_2 \\ \vdots \\ cv_n \end{pmatrix}$$
 
 ---
 
-## Linear Independence, Basis, and Dimension
+## Độc lập Tuyến tính, Cơ sở, và Chiều
 
-### Linear Independence
+### Độc lập Tuyến tính
 
-A set of vectors $$\{\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k\}$$ is **linearly independent** if the only solution to:
+Một tập hợp vector $$\{\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k\}$$ là **độc lập tuyến tính** nếu nghiệm duy nhất của:
 
 $$c_1\mathbf{v}_1 + c_2\mathbf{v}_2 + \cdots + c_k\mathbf{v}_k = \mathbf{0}$$
 
-is $$c_1 = c_2 = \cdots = c_k = 0$$.
+là $$c_1 = c_2 = \cdots = c_k = 0$$.
 
-**Intuitive Understanding:** A set of vectors is "linearly independent" if no vector in the set can be created by scaling and adding the other vectors in the set. They all point in "different enough" directions.
+**Hiểu biết Trực quan:** Một tập hợp vector "độc lập tuyến tính" nếu không có vector nào trong tập có thể được tạo ra bằng cách chia tỷ lệ và cộng các vector khác trong tập. Tất cả chúng đều chỉ theo các hướng "đủ khác nhau".
 
-**Example in $$\mathbb{R}^2$$:**
-- $$\mathbf{v}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$$ and $$\mathbf{v}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$ are linearly independent
-- $$\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$$ and $$\mathbf{v}_2 = \begin{pmatrix} 2 \\ 4 \end{pmatrix}$$ are linearly dependent (since $$\mathbf{v}_2 = 2\mathbf{v}_1$$)
+**Ví dụ trong $$\mathbb{R}^2$$:**
+- $$\mathbf{v}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$$ và $$\mathbf{v}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$ là độc lập tuyến tính
+- $$\mathbf{v}_1 = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$$ và $$\mathbf{v}_2 = \begin{pmatrix} 2 \\ 4 \end{pmatrix}$$ là phụ thuộc tuyến tính (vì $$\mathbf{v}_2 = 2\mathbf{v}_1$$)
 
-### Basis
+### Cơ sở
 
-A **basis** for a vector space is a minimal set of linearly independent vectors that can be combined (scaled and added) to create *any* other vector in that space. It's like a fundamental set of building blocks.
+Một **cơ sở** cho một không gian vector là một tập hợp tối thiểu các vector độc lập tuyến tính có thể được kết hợp (chia tỷ lệ và cộng) để tạo ra *bất kỳ* vector nào khác trong không gian đó. Nó giống như một tập hợp các khối xây dựng cơ bản.
 
-**Properties of a Basis:**
-1. The vectors are linearly independent
-2. They span the entire vector space
-3. Every vector in the space can be written uniquely as a linear combination of basis vectors
+**Tính chất của một Cơ sở:**
+1. Các vector độc lập tuyến tính
+2. Chúng sinh ra toàn bộ không gian vector
+3. Mọi vector trong không gian có thể được viết duy nhất như một tổ hợp tuyến tính của các vector cơ sở
 
-**Standard Basis for $$\mathbb{R}^n$$:**
+**Cơ sở Chuẩn cho $$\mathbb{R}^n$$:**
 $$\mathbf{e}_1 = \begin{pmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{pmatrix}, \mathbf{e}_2 = \begin{pmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{pmatrix}, \ldots, \mathbf{e}_n = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 1 \end{pmatrix}$$
 
-### Dimension
+### Chiều
 
-The **dimension** of a vector space is simply the number of vectors in any of its bases. It tells you how many independent directions are needed to describe the space.
+**Chiều** của một không gian vector đơn giản là số lượng vector trong bất kỳ cơ sở nào của nó. Nó cho bạn biết cần bao nhiêu hướng độc lập để mô tả không gian.
 
 - $$\dim(\mathbb{R}^2) = 2$$
 - $$\dim(\mathbb{R}^3) = 3$$
@@ -80,92 +80,92 @@ The **dimension** of a vector space is simply the number of vectors in any of it
 
 ---
 
-## Norms of Vectors
+## Chuẩn của Vector
 
-A **norm** is a function that assigns a "length" or "size" to a vector. It generalizes the concept of distance from the origin.
+**Chuẩn** là một hàm gán "độ dài" hoặc "kích thước" cho một vector. Nó tổng quát hóa khái niệm khoảng cách từ gốc tọa độ.
 
-### Properties of Norms
+### Tính chất của Chuẩn
 
-Any norm $$\|\cdot\|$$ must satisfy three properties:
+Bất kỳ chuẩn $$\|\cdot\|$$ nào cũng phải thỏa mãn ba tính chất:
 
-1. **Non-negativity:** $$\|\mathbf{x}\| \geq 0$$, and $$\|\mathbf{x}\| = 0$$ if and only if $$\mathbf{x} = \mathbf{0}$$
-2. **Homogeneity:** $$\|t\mathbf{x}\| = |t| \|\mathbf{x}\|$$ for any scalar $$t$$
-3. **Triangle Inequality:** $$\|\mathbf{x} + \mathbf{y}\| \leq \|\mathbf{x}\| + \|\mathbf{y}\|$$
+1. **Không âm:** $$\|\mathbf{x}\| \geq 0$$, và $$\|\mathbf{x}\| = 0$$ khi và chỉ khi $$\mathbf{x} = \mathbf{0}$$
+2. **Đồng nhất:** $$\|t\mathbf{x}\| = |t| \|\mathbf{x}\|$$ với bất kỳ vô hướng $$t$$
+3. **Bất đẳng thức Tam giác:** $$\|\mathbf{x} + \mathbf{y}\| \leq \|\mathbf{x}\| + \|\mathbf{y}\|$$
 
-### Common Norms
+### Các Chuẩn Thông dụng
 
-**Euclidean Norm (L2 Norm):**
+**Chuẩn Euclid (Chuẩn L2):**
 $$\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2} = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2}$$
 
-This is the "ordinary" distance we're familiar with.
+Đây là khoảng cách "thông thường" mà chúng ta quen thuộc.
 
-**Manhattan Norm (L1 Norm):**
+**Chuẩn Manhattan (Chuẩn L1):**
 $$\|\mathbf{x}\|_1 = \sum_{i=1}^n |x_i| = |x_1| + |x_2| + \cdots + |x_n|$$
 
-Also called "taxicab norm" - the distance a taxi would travel in a city with a grid layout.
+Còn được gọi là "chuẩn taxi" - khoảng cách mà một chiếc taxi sẽ đi trong thành phố có bố cục dạng lưới.
 
-**Maximum Norm (L∞ Norm):**
+**Chuẩn Tối đa (Chuẩn L∞):**
 $$\|\mathbf{x}\|_\infty = \max_{i} |x_i|$$
 
-The largest component in absolute value.
+Thành phần lớn nhất theo giá trị tuyệt đối.
 
-**Example:** For $$\mathbf{x} = \begin{pmatrix} 3 \\ -4 \\ 1 \end{pmatrix}$$:
+**Ví dụ:** Với $$\mathbf{x} = \begin{pmatrix} 3 \\ -4 \\ 1 \end{pmatrix}$$:
 - $$\|\mathbf{x}\|_2 = \sqrt{3^2 + (-4)^2 + 1^2} = \sqrt{26} \approx 5.1$$
 - $$\|\mathbf{x}\|_1 = |3| + |-4| + |1| = 8$$
 - $$\|\mathbf{x}\|_\infty = \max\{|3|, |-4|, |1|\} = 4$$
 
 ---
 
-## Inner Products (Dot Product)
+## Tích Vô hướng (Tích Chấm)
 
-The **dot product** (or inner product) is the most common way to multiply two vectors, producing a scalar result.
+**Tích chấm** (hoặc tích vô hướng) là cách phổ biến nhất để nhân hai vector, tạo ra kết quả vô hướng.
 
-### Definition
+### Định nghĩa
 
-For two vectors $$\mathbf{x}$$ and $$\mathbf{y}$$ in $$\mathbb{R}^n$$:
+Với hai vector $$\mathbf{x}$$ và $$\mathbf{y}$$ trong $$\mathbb{R}^n$$:
 
 $$\mathbf{x}^T \mathbf{y} = \mathbf{x} \cdot \mathbf{y} = \sum_{i=1}^n x_i y_i = x_1 y_1 + x_2 y_2 + \cdots + x_n y_n$$
 
-### Geometric Interpretation
+### Diễn giải Hình học
 
 $$\mathbf{x} \cdot \mathbf{y} = \|\mathbf{x}\| \|\mathbf{y}\| \cos \theta$$
 
-where $$\theta$$ is the angle between the vectors.
+trong đó $$\theta$$ là góc giữa các vector.
 
-### Properties
+### Tính chất
 
-1. **Commutative:** $$\mathbf{x} \cdot \mathbf{y} = \mathbf{y} \cdot \mathbf{x}$$
-2. **Distributive:** $$\mathbf{x} \cdot (\mathbf{y} + \mathbf{z}) = \mathbf{x} \cdot \mathbf{y} + \mathbf{x} \cdot \mathbf{z}$$
-3. **Homogeneous:** $$(c\mathbf{x}) \cdot \mathbf{y} = c(\mathbf{x} \cdot \mathbf{y})$$
+1. **Giao hoán:** $$\mathbf{x} \cdot \mathbf{y} = \mathbf{y} \cdot \mathbf{x}$$
+2. **Phân phối:** $$\mathbf{x} \cdot (\mathbf{y} + \mathbf{z}) = \mathbf{x} \cdot \mathbf{y} + \mathbf{x} \cdot \mathbf{z}$$
+3. **Đồng nhất:** $$(c\mathbf{x}) \cdot \mathbf{y} = c(\mathbf{x} \cdot \mathbf{y})$$
 
-### Special Cases
+### Trường hợp Đặc biệt
 
-- **Orthogonal vectors:** $$\mathbf{x} \cdot \mathbf{y} = 0$$ (perpendicular)
-- **Parallel vectors:** $$\mathbf{x} \cdot \mathbf{y} = \pm \|\mathbf{x}\| \|\mathbf{y}\|$$
-- **Self dot product:** $$\mathbf{x} \cdot \mathbf{x} = \|\mathbf{x}\|_2^2$$
+- **Vector trực giao:** $$\mathbf{x} \cdot \mathbf{y} = 0$$ (vuông góc)
+- **Vector song song:** $$\mathbf{x} \cdot \mathbf{y} = \pm \|\mathbf{x}\| \|\mathbf{y}\|$$
+- **Tích chấm bản thân:** $$\mathbf{x} \cdot \mathbf{x} = \|\mathbf{x}\|_2^2$$
 
-### Example
+### Ví dụ
 
-For $$\mathbf{x} = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$$ and $$\mathbf{y} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$:
+Với $$\mathbf{x} = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$$ và $$\mathbf{y} = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$:
 
 $$\mathbf{x}^T \mathbf{y} = (1)(3) + (2)(4) = 3 + 8 = 11$$
 
 ---
 
-## Applications in Optimization
+## Ứng dụng trong Tối ưu hóa
 
-Understanding vectors and vector spaces is crucial for optimization because:
+Hiểu về vector và không gian vector là rất quan trọng cho tối ưu hóa vì:
 
-1. **Decision Variables:** Optimization problems often involve finding the best values for multiple variables, naturally represented as vectors.
+1. **Biến Quyết định:** Các bài toán tối ưu hóa thường liên quan đến việc tìm giá trị tốt nhất cho nhiều biến, được biểu diễn tự nhiên như vector.
 
-2. **Gradients:** The gradient of a function is a vector pointing in the direction of steepest increase.
+2. **Gradient:** Gradient của một hàm là một vector chỉ theo hướng tăng dốc nhất.
 
-3. **Constraints:** Linear constraints in optimization can be expressed using dot products: $$\mathbf{a}^T \mathbf{x} \leq b$$.
+3. **Ràng buộc:** Ràng buộc tuyến tính trong tối ưu hóa có thể được biểu diễn bằng tích chấm: $$\mathbf{a}^T \mathbf{x} \leq b$$.
 
-4. **Distance and Similarity:** Different norms provide different ways to measure distances between solutions or the size of changes.
+4. **Khoảng cách và Độ tương tự:** Các chuẩn khác nhau cung cấp các cách khác nhau để đo khoảng cách giữa các nghiệm hoặc kích thước của các thay đổi.
 
-5. **Orthogonality:** Many optimization concepts rely on perpendicularity, such as the relationship between gradients and level curves.
+5. **Tính trực giao:** Nhiều khái niệm tối ưu hóa dựa vào tính vuông góc, chẳng hạn như mối quan hệ giữa gradient và đường mức.
 
-6. **Linear Combinations:** Feasible regions are often defined as linear combinations of vectors (convex hulls, cones, etc.).
+6. **Tổ hợp Tuyến tính:** Vùng khả thi thường được định nghĩa như tổ hợp tuyến tính của vector (bao lồi, hình nón, v.v.).
 
-The vector space framework provides the mathematical foundation for formulating and solving optimization problems systematically.
+Khung không gian vector cung cấp nền tảng toán học để xây dựng và giải quyết các bài toán tối ưu hóa một cách có hệ thống.

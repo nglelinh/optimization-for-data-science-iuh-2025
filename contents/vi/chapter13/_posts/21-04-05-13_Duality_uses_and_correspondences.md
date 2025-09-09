@@ -1,17 +1,17 @@
 ---
 layout: post
-title: 13 Duality uses and correspondences
+title: 13 Ứng dụng của đối ngẫu và các tương ứng
 chapter: "13"
 order: 1
 owner: "Wontak Ryu"
 categories:
 - chapter13
-lang: en
+lang: vi
 ---
 
 
-In this chapter, we will learn about the uses of Duality and related correspondences through examples.
+Trong chương này, chúng ta sẽ học về các ứng dụng của Đối ngẫu (Duality) và các tương ứng liên quan thông qua các ví dụ.
 
-### [Notice]
+### [Lưu ý]
 
-In this chapter, the optimal solution $$x^{\star}$$ and the conjugate $$x^{*}$$ of $$x$$ are distinguished and denoted as such.
+Trong chương này, nghiệm tối ưu $$x^{\star}$$ và hàm liên hợp $$x^{*}$$ của $$x$$ được phân biệt và ký hiệu như vậy.

@@ -1,15 +1,15 @@
 ---
 layout: post
-title: 13-04 Conjugate function
+title: 13-04 Hàm liên hợp
 chapter: '13'
 order: 5
 owner: Wontak Ryu
 categories:
 - chapter13
-lang: en
+lang: vi
 ---
 
-For a given function $$f : \mathbb{R}^n → \mathbb{R}$$, the conjugate $$f^{∗} : \mathbb{R}^n → \mathbb{R}$$ is defined as follows:
+Với một hàm cho trước $$f : \mathbb{R}^n → \mathbb{R}$$, hàm liên hợp $$f^{∗} : \mathbb{R}^n → \mathbb{R}$$ được định nghĩa như sau:
 
 > $$f^{∗}(y) = \max_x y^Tx−f(x)$$
 
@@ -21,40 +21,40 @@ For a given function $$f : \mathbb{R}^n → \mathbb{R}$$, the conjugate $$f^{∗
 </p>
 
 
-### [Note] 
-$$f^{∗}$$ is always convex since it is the pointwise maximum of convex (affine) functions $$y^Tx - f(x)$$.
-(Here, $$f$$ does not necessarily need to be convex.)
-$$f^{∗}(y)$$ is the maximum gap between the linear function $$y^Tx$$ and $$f(x)$$.
-(From B & V page 91)
+### [Lưu ý] 
+$$f^{∗}$$ luôn là hàm lồi vì nó là cực đại điểm của các hàm lồi (affine) $$y^Tx - f(x)$$.
+(Ở đây, $$f$$ không nhất thiết phải là hàm lồi.)
+$$f^{∗}(y)$$ là khoảng cách cực đại giữa hàm tuyến tính $$y^Tx$$ và $$f(x)$$.
+(Từ B & V trang 91)
 
-Conjugation for differentiable $$f$$ is called the Legendre transform.
+Phép liên hợp cho $$f$$ khả vi được gọi là biến đổi Legendre.
 
-#### Properties: 
-• Fenchel’s inequality: for any $$x,y, f(x) + f^{∗}(y) ≥ x^Ty$$
+#### Tính chất: 
+• Bất đẳng thức Fenchel: với mọi $$x,y, f(x) + f^{∗}(y) ≥ x^Ty$$
 > $$f(x) + f^{∗}(y) ≥ x^Ty \iff f^{*}(y) \ge x^Ty - f(x)$$
 > $$ f^{*}(y) = \max_z z^Ty - f(x)$$
 
-• The conjugate of a conjugate is $$f^{∗∗}$$, so $$f^{∗∗} ≤ f$$ holds.<br>
-• If $$f$$ is closed and convex, then $$f^{∗∗} = f$$. <br>
-• If $$f$$ is closed and convex, then for all $$x,y$$, the following holds:<br>
+• Hàm liên hợp của hàm liên hợp là $$f^{∗∗}$$, do đó $$f^{∗∗} ≤ f$$ luôn đúng.<br>
+• Nếu $$f$$ đóng và lồi, thì $$f^{∗∗} = f$$. <br>
+• Nếu $$f$$ đóng và lồi, thì với mọi $$x,y$$, điều sau đây đúng:<br>
 > $$\begin{align}
 > x ∈ ∂f^{∗}(y) &\iff y ∈ ∂f(x) \\\
 > &\iff f(x) + f^{∗}(y) = x^Ty \\\
 > \end{align}$$
 
-• If $$f(u,v) = f_1(u) + f_2(v)$$, then $$f^{∗}(w,z) = f_1^{∗}(w) + f_2^{∗}(z)$$ holds. 
+• Nếu $$f(u,v) = f_1(u) + f_2(v)$$, thì $$f^{∗}(w,z) = f_1^{∗}(w) + f_2^{∗}(z)$$ đúng. 
 
 
 
-#### Examples: 
-• Let's examine the case where $$f(x)$$ is a simple quadratic as follows:
-> $$f(x) = \frac{1}{2}x^TQx$$, where $$Q \succ 0$$
+#### Ví dụ: 
+• Hãy xem xét trường hợp $$f(x)$$ là một hàm bậc hai đơn giản như sau:
+> $$f(x) = \frac{1}{2}x^TQx$$, trong đó $$Q \succ 0$$
 
-Then $$y^Tx− \frac{1}{2}x^TQx$$ is strictly concave in $$y$$ and reaches its maximum at $$x = Q^{−1}y$$. That is, $$f^{∗}(y) = \frac{1}{2}y^TQ^{−1}y$$. 
+Khi đó $$y^Tx− \frac{1}{2}x^TQx$$ là hàm lõm chặt theo $$y$$ và đạt cực đại tại $$x = Q^{−1}y$$. Tức là, $$f^{∗}(y) = \frac{1}{2}y^TQ^{−1}y$$. 
 
 
 
-### [Proof]
+### [Chứng minh]
 > $$\begin{align}
 > f^{*}(y) & =  \max_x \left( y^Tx -\frac{1}{2}x^TQx \right) \\\
 > & = -\min_x \left(\frac{1}{2}x^TQx- y^Tx \right), x^{\star} = Q^{-1}y  \\\
@@ -62,13 +62,13 @@ Then $$y^Tx− \frac{1}{2}x^TQx$$ is strictly concave in $$y$$ and reaches its m
 > & = \frac{1}{2}y^TQ^{-1}y  \\\
 > \end{align}$$
 
-> Fenchel's inequality: for any $$x, y$$
+> Bất đẳng thức Fenchel: với mọi $$x, y$$
 > $$\frac{1}{2} x^TQx + \frac{1}{2} y^TQ^{-1}y \ge x^Ty$$
 
-• Indicator function: If $$f(x) = I_C(x)$$, then its conjugate is as follows:
+• Hàm chỉ thị: Nếu $$f(x) = I_C(x)$$, thì hàm liên hợp của nó như sau:
 
-> $$f^{∗}(y) = I^{∗}_C(y) = \max_{x ∈ C} y^Tx$$ called the **support function** of $$C$$
+> $$f^{∗}(y) = I^{∗}_C(y) = \max_{x ∈ C} y^Tx$$ được gọi là **hàm hỗ trợ** của $$C$$
 
-• Norm: If $$f(x) = \|x\|$$, then its conjugate is as follows:
-> $$f^{∗}(y) = I_{\\{ z : \rVert z \rVert_{∗} ≤ 1 \\}}(y)$$ where $$\rVert · \rVert_{∗}$$ is the dual norm of $$\rVert · \rVert$$ 
+• Chuẩn: Nếu $$f(x) = \|x\|$$, thì hàm liên hợp của nó như sau:
+> $$f^{∗}(y) = I_{\\{ z : \rVert z \rVert_{∗} ≤ 1 \\}}(y)$$ trong đó $$\rVert · \rVert_{∗}$$ là chuẩn đối ngẫu của $$\rVert · \rVert$$ 
 

@@ -1,22 +1,22 @@
 ---
 layout: post
-title: 00-02-02 Matrices and Linear Transformations
+title: 00-02-02 Ma trận và Phép biến đổi Tuyến tính
 chapter: '00'
 order: 9
 owner: GitHub Copilot
-lang: en
+lang: vi
 categories:
 - chapter00
 lesson_type: required
 ---
 
-This lesson covers matrices, matrix operations, and linear transformations, which are fundamental tools for representing and solving optimization problems.
+Bài học này bao gồm ma trận, các phép toán ma trận, và phép biến đổi tuyến tính, là những công cụ cơ bản để biểu diễn và giải quyết các bài toán tối ưu hóa.
 
 ---
 
-## Matrices and Matrix Operations
+## Ma trận và Các Phép toán Ma trận
 
-### What is a Matrix?
+### Ma trận là gì?
 
 A **matrix** is a rectangular grid of numbers arranged in rows and columns. Matrices represent data, transformations, systems of equations, and relationships between variables.
 

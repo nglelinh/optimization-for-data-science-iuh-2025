@@ -1,53 +1,53 @@
 ---
 layout: post
-title: 13-06 Dual subtleties & Double dual
+title: 13-06 Tinh tế đối ngẫu & Đối ngẫu kép
 chapter: '13'
 order: 10
 owner: Wontak Ryu
 categories:
 - chapter13
-lang: en
+lang: vi
 ---
 
-## Dual subtleties
-• Sometimes we can transform dual problems into equivalent problems and still call them dual problems. Also, in strong duality, we can use solutions of transformed dual problems for analyzing or computing characteristics of primal solutions.
+## Tinh tế đối ngẫu
+• Đôi khi chúng ta có thể biến đổi các bài toán đối ngẫu thành các bài toán tương đương và vẫn gọi chúng là bài toán đối ngẫu. Ngoài ra, trong đối ngẫu mạnh, chúng ta có thể sử dụng nghiệm của các bài toán đối ngẫu đã biến đổi để phân tích hoặc tính toán các đặc trưng của nghiệm nguyên thủy.
 
-#### [Note]
-The optimal value of a transformed dual problem is not necessarily the optimal value of the primal.
-
-
-• A common way to derive dual problems for unconstrained problems is to first transform the primal by adding dummy variables and equality constraints.
-
-Generally, how to do this is ambiguous. Different choices can lead to different dual problems.
+#### [Lưu ý]
+Giá trị tối ưu của một bài toán đối ngẫu đã biến đổi không nhất thiết là giá trị tối ưu của nguyên thủy.
 
 
-## Double dual
-Let's consider a general minimization problem with linear constraints:
+• Một cách phổ biến để suy dẫn các bài toán đối ngẫu cho các bài toán không ràng buộc là đầu tiên biến đổi nguyên thủy bằng cách thêm các biến giả và ràng buộc đẳng thức.
 
-> $$ \min_x f(x) \text{ subject to } Ax ≤ b, Cx = d$$
+Nói chung, cách thực hiện điều này là mơ hồ. Các lựa chọn khác nhau có thể dẫn đến các bài toán đối ngẫu khác nhau.
 
-The Lagrangian is as follows:
+
+## Đối ngẫu kép
+Hãy xem xét một bài toán tối thiểu hóa tổng quát với ràng buộc tuyến tính:
+
+> $$ \min_x f(x) \text{ với điều kiện } Ax ≤ b, Cx = d$$
+
+Lagrangian như sau:
 > $$L(x,u,v) = f(x) + (A^Tu + C^Tv)^Tx−b^Tu−d^Tv$$
 
-Therefore, the dual problem is as follows:
+Do đó, bài toán đối ngẫu như sau:
 
-> $$ \max_{u,v} −f^∗(−A^Tu−C^Tv)−b^Tu−d^Tv \text{ subject to } u ≥ 0 $$
+> $$ \max_{u,v} −f^∗(−A^Tu−C^Tv)−b^Tu−d^Tv \text{ với điều kiện } u ≥ 0 $$
 
-#### Recall property
-If $$f$$ is closed and convex, we explained earlier that the dual of the dual is the primal in this case ($$f^{∗∗} = f$$).
+#### Nhắc lại tính chất
+Nếu $$f$$ đóng và lồi, chúng ta đã giải thích trước đó rằng đối ngẫu của đối ngẫu là nguyên thủy trong trường hợp này ($$f^{∗∗} = f$$).
 
-In fact, the connection (between dual and dual conjugate) goes much deeper beyond linear constraints.
-Consider the following:
+Trên thực tế, mối liên hệ (giữa đối ngẫu và liên hợp đối ngẫu) đi sâu hơn nhiều ngoài các ràng buộc tuyến tính.
+Xem xét điều sau:
 
 > $$ 
 >\begin{align}
 > & \min_x && f(x) \\
-> &\text{ subject to } && h_i(x) ≤ 0, i = 1,...m \\
+> &\text{ với điều kiện } && h_i(x) ≤ 0, i = 1,...m \\
 > &&&l_j(x) = 0, j = 1,...r
 >\end{align}$$
 
-If $$f$$ and $$h_1,...h_m$$ are closed and convex, and $$l_1,...l_r$$ are affine, then the dual of the dual is the primal.
+Nếu $$f$$ và $$h_1,...h_m$$ đóng và lồi, và $$l_1,...l_r$$ là affine, thì đối ngẫu của đối ngẫu là nguyên thủy.
 
-This is provided as a minimization problem from the perspective of bifunctions.
+Điều này được cung cấp như một bài toán tối thiểu hóa từ góc độ của các hàm hai biến.
 
-(for more, read Chapters 29 and 30 of Rockafellar)
+(để biết thêm, đọc Chương 29 và 30 của Rockafellar)
