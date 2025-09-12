@@ -1,20 +1,20 @@
 ---
 layout: post
-title: 11 Duality in General Programs
+title: 11 Tính đối ngẫu trong chương trình tổng quát
 chapter: '11'
 order: 1
 owner: Wontak Ryu
 categories:
 - chapter11
-lang: en
+lang: vi
 lesson_type: required
 ---
 
-### Review: duality in linear program
+### Ôn tập: Tính đối ngẫu trong quy hoạch tuyến tính
 
-Given $$c \in \mathbb{R}^n$$, $$A \in \mathbb{R}^{m \times n}$$, $$b \in \mathbb{R}^m$$, $$G \in \mathbb{R}^{r \times n}$$, $$h \in \mathbb{R}^r$$, 
+Cho $$c \in \mathbb{R}^n$$, $$A \in \mathbb{R}^{m \times n}$$, $$b \in \mathbb{R}^m$$, $$G \in \mathbb{R}^{r \times n}$$, $$h \in \mathbb{R}^r$$, 
 
-#### Primal LP: 
+#### Bài toán gốc (Primal LP): 
 >
 $$
 \begin{alignat}{1}
@@ -25,19 +25,19 @@ $$
 $$
 
 
-#### Dual LP: 
+#### Bài toán đối ngẫu (Dual LP): 
 >
 $$
 \begin{alignat}{1}
-\max_{u,b} & \quad -b^T u - h^T v   \\\\
+\max_{u,v} & \quad -b^T u - h^T v   \\\\
          s.t. & \quad - A^T u - G^T v = c  \\\\
              & \quad v \geq 0 
 \end{alignat}
 $$
 
-### Explanation 1: 
+### Giải thích 1: 
 
-For all $$u$$ and $$v \geq 0$$, and for any primal feasible $$x$$, the following holds. 
+Với mọi $$u$$ và $$v \geq 0$$, và với bất kỳ $$x$$ khả thi của bài toán gốc nào, ta có: 
 >
 $$
 \begin{equation}
@@ -45,7 +45,7 @@ u^T (Ax-b) + v^T(Gx-h) \leq 0
 \end{equation}
 $$
 
-즉,
+Tức là,
 
 >
 $$
@@ -54,12 +54,12 @@ $$
 \end{equation}
 $$
 
-By this relationship, if $$c=-A^Tu - G^Tv$$, we obtain a lower bound on the primal optimum. 
+Từ mối quan hệ này, nếu $$c=-A^Tu - G^Tv$$, ta thu được một cận dưới cho giá trị tối ưu của bài toán gốc. 
 
 
-### Explanation 2: 
+### Giải thích 2: 
 
-For all $$u$$ and $$v \geq 0$$, and for any primal feasible $$x$$,
+Với mọi $$u$$ và $$v \geq 0$$, và với bất kỳ $$x$$ khả thi của bài toán gốc nào,
 
 >
 $$
@@ -68,7 +68,7 @@ c^T x \geq c^T x + u^T (Ax-b) + v^T (Gx -h) := L(x,u,v)
 \end{equation}
 $$
 
-Thus, if $$C$$ is the primal feasible set and $$f^*$$ is the primal optimum, then 
+Do đó, nếu $$C$$ là tập khả thi của bài toán gốc và $$f^*$$ là giá trị tối ưu của bài toán gốc, thì 
 
 >
 $$
@@ -77,15 +77,15 @@ f^* \geq \min_{x \in C} L(x,u,v) \geq \min_x L(x,u,v) := g(u,v)
 \end{equation}
 $$
 
-In other words, $$g(u,v)$$ is a lower bound on $$f^*$$. 
+Nói cách khác, $$g(u,v)$$ là một cận dưới của $$f^*$$. 
 
 >
 $$
 g(u,v) =
 \begin{cases}
--b^T u - h^T v & \text{if $c=-A^Tu - G^T v$} \\\\
--\infty            & \text{otherwise} 
+-b^T u - h^T v & \text{nếu $c=-A^Tu - G^T v$} \\\\
+-\infty            & \text{trường hợp khác} 
 \end{cases}
 $$
 
-The second explanation yields the same dual as the first, but it is completely general and applies to arbitrary optimization problems (including nonconvex ones).
+Giải thích thứ hai cho ra cùng một bài toán đối ngẫu như giải thích thứ nhất, nhưng nó hoàn toàn tổng quát và áp dụng được cho các bài toán tối ưu bất kỳ (bao gồm cả những bài toán không lồi).

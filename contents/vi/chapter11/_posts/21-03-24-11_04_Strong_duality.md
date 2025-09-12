@@ -1,19 +1,19 @@
 ---
 layout: post
-title: 11-4 Strong duality
+title: 11-4 Tính đối ngẫu mạnh
 chapter: '11'
 order: 5
 owner: Wontak Ryu
 categories:
 - chapter11
-lang: en
+lang: vi
 lesson_type: required
 ---
 
-When a problem satisfies $$f^* = g^*$$, this is called **strong duality**. The **Slater condition** is a sufficient condition for strong duality.
+Khi một bài toán thỏa mãn $$f^* = g^*$$, điều này được gọi là **tính đối ngẫu mạnh**. **Điều kiện Slater** là một điều kiện đủ cho tính đối ngẫu mạnh.
 
-## Slater condition: 
-If the primal problem is convex and there exists at least one strictly feasible $$x \in \mathbb{R}^n$$, then strong duality holds.
+## Điều kiện Slater: 
+Nếu bài toán gốc là lồi và tồn tại ít nhất một $$x \in \mathbb{R}^n$$ khả thi nghiêm ngặt, thì tính đối ngẫu mạnh xảy ra.
 >
 $$
 \begin{equation}
@@ -21,9 +21,9 @@ h_1(x)<0,\dots,h_m(x)<0, \text{ and } l_1(x) = 0,\dots,l_r(x) = 0,
 \end{equation}
 $$
 
-Important refinement: Strict inequality need not be satisfied when the function is affine.
-## Example: Support Vector Machine Dual 
-$$y \in \{-1,1\}^n$$, $$X \in \mathbb{R}^{n \times p}$$ ($$X$$의 열은 $$x_1, ..., x_n$$)라고 할 때, SVM(Support Vector Machine) 문제는 다음과 같이 정의된다.
+Lưu ý quan trọng: Bất đẳng thức nghiêm ngặt không cần được thỏa mãn khi hàm là affine.
+## Ví dụ: Bài toán đối ngẫu Support Vector Machine 
+Cho $$y \in \{-1,1\}^n$$, $$X \in \mathbb{R}^{n \times p}$$ (các cột của $$X$$ là $$x_1, ..., x_n$$), bài toán SVM(Support Vector Machine) được định nghĩa như sau:
 
 >
 $$
@@ -34,14 +34,14 @@ $$
 \end{alignat}
 $$
 
-Dual 변수, $$v, w \geq 0$$를 사용하여 Lagrangian을 정의해보자.
+Sử dụng các biến đối ngẫu $$v, w \geq 0$$, hãy định nghĩa hàm Lagrangian:
 >
 \begin{equation}
 L(\beta,\beta_0,\xi,v,w) = \frac{1}{2} \parallel\beta\parallel\_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i +  \sum_{i=1}^n w_i (1-\xi_i - y_i(x_i^T\beta + \beta_o))
 \end{equation}
 
 
-$$\beta, \beta_0, \xi$$에 대해 최소화해서 다음과 같은 Lagrangian dual function을 구할 수 있다.
+Tối thiểu hóa theo $$\beta, \beta_0, \xi$$, ta có thể tìm được hàm đối ngẫu Lagrangian như sau:
 >
 $$
 g(v,w) = 
@@ -51,7 +51,7 @@ g(v,w) =
 \end{cases}
 $$
 
-Here $$\tilde{X}=\text{diag}(y) X$$. Therefore, the SVM dual problem (after eliminating the slack variable $$v$$) becomes the following. 
+Ở đây $$\tilde{X}=\text{diag}(y) X$$. Do đó, bài toán đối ngẫu SVM (sau khi loại bỏ biến slack $$v$$) trở thành: 
 >
 $$
 \begin{alignat}{1}
@@ -60,7 +60,7 @@ $$
 \end{alignat}
 $$
 
-Since the primal problem satisfies the Slater condition, strong duality holds. (That is, the objective is convex and the inequality constraints are affine in $$\beta, \beta_0, \xi$$.)
+Vì bài toán gốc thỏa mãn điều kiện Slater, tính đối ngẫu mạnh xảy ra. (Đó là, hàm mục tiêu là lồi và các ràng buộc bất đẳng thức là affine theo $$\beta, \beta_0, \xi$$.)
 
 
 

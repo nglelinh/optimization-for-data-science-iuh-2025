@@ -60,11 +60,11 @@ $$I_C(y)=\infty \geq g^T(y-x)$$
 
 which is always true.
 
-위 두 조건에 대해, subgradient는 모두 만족시켜야 하므로, 위 함수에 대한 subgradient는 
+Since the subgradient must satisfy both conditions above, the subgradient for this function becomes:
 >
 $$\{g \in \mathbb{R}^n | g^Tx \geq g^Ty\}$$
 
-가 된다. 
+This completes the proof. 
 
 <figure class="image" style="align: center;">
 <p align="center">

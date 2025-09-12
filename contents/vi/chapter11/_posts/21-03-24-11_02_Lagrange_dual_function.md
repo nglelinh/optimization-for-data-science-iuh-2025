@@ -1,16 +1,16 @@
 ---
 layout: post
-title: 11-2 Lagrange dual function
+title: 11-2 Hàm đối ngẫu Lagrange
 chapter: '11'
 order: 3
 owner: Wontak Ryu
 categories:
 - chapter11
-lang: en
+lang: vi
 lesson_type: required
 ---
 
-Let $$C$$ be the primal feasible set and $$f^*$$ the primal optimal value. Minimizing $$L(x,u,v)$$ over all $$x$$ yields the following lower bound.
+Gọi $$C$$ là tập khả thi của bài toán gốc và $$f^*$$ là giá trị tối ưu của bài toán gốc. Tối thiểu hóa $$L(x,u,v)$$ trên tất cả $$x$$ cho ta cận dưới sau đây.
 
 >
 $$
@@ -19,28 +19,28 @@ f^* \geq \min_{x \in C} L(x,u,v) \geq \min_x L(x,u,v) := g(u,v)
 \end{equation}
 $$
 
-Here, $$g(u,v)$$ is called the Lagrange dual function and provides a lower bound on $$f^*$$ for any dual feasible $$u\geq 0$$, $$v$$.
+Ở đây, $$g(u,v)$$ được gọi là hàm đối ngẫu Lagrange và cung cấp một cận dưới cho $$f^*$$ với bất kỳ $$u\geq 0$$, $$v$$ khả thi đối ngẫu nào.
 
-For example, in the figure below
+Ví dụ, trong hình dưới đây
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter11/dual-gen_7.png" width="70%">
-  <figcaption style="text-align: center;">[Fig 2] Example of Lagrangian dual function[1]</figcaption>
+  <figcaption style="text-align: center;">[Hình 2] Ví dụ về hàm đối ngẫu Lagrangian[1]</figcaption>
 </p>
 </figure>
 
 
-* The dashed horizontal line indicates the function $$f^*$$.
-* The dual variable is $$\lambda$$.
-* The solid line indicates $$g(\lambda)$$.
+* Đường nằm ngang đứt nét biểu thị hàm $$f^*$$.
+* Biến đối ngẫu là $$\lambda$$.
+* Đường liền nét biểu thị $$g(\lambda)$$.
 
 
 
-## Example: Quadratic Program
-###  1) Positive Definite ($$Q \succ 0$$)
+## Ví dụ: Chương trình bậc hai
+###  1) Xác định dương ($$Q \succ 0$$)
 
-Consider the following quadratic problem (here $$Q \succ 0$$)
+Xem xét bài toán bậc hai sau đây (ở đây $$Q \succ 0$$)
 >
 $$
 \begin{alignat}{1}
@@ -50,9 +50,9 @@ $$
 \end{alignat}
 $$
 
-Then,
+Khi đó,
 
-#### Lagrangian:
+#### Hàm Lagrangian:
 >
 $$
 \begin{equation}
@@ -60,17 +60,17 @@ L(x,u,v) = \frac{1}{2}x^T Q x + c^T x - u^Tx + v^T (Ax-b)
 \end{equation}
 $$
 
-#### Lagrangian dual function:
+#### Hàm đối ngẫu Lagrangian:
 
-From the expression above, to minimize the Lagrangian function, differentiate with respect to $$x$$ and find $$x^*$$ such that the derivative is zero.
+Từ biểu thức trên, để tối thiểu hóa hàm Lagrangian, ta lấy đạo hàm theo $$x$$ và tìm $$x^*$$ sao cho đạo hàm bằng không.
 \begin{equation}
 Qx - (c-u+A^T v) = 0,
 \end{equation}
-즉,
+Tức là,
 \begin{equation}
 Qx = (c-u+A^T v)
 \end{equation}
-이 때, $$Q$$는 positive definite하므로 역행렬이 존재하므로, $$x^*$$를 찾으면, $$x^* = Q^{-1}(c - u + A^Tv)$$ 임을 알 수 있다. 따라서, $$x^*$$를 Lagrangian 함수에 대입을 하면, 아래를 얻을 수 있다.
+Lúc này, vì $$Q$$ là positive definite nên tồn tại ma trận nghịch đảo, do đó khi tìm $$x^*$$, ta có $$x^* = Q^{-1}(c - u + A^Tv)$$. Vậy nên, khi thay $$x^*$$ vào hàm Lagrangian, ta được kết quả dưới đây.
 
 $$
 \begin{alignat}{1}
@@ -80,7 +80,7 @@ $$
 \end{alignat}
 $$
 
-따라서,
+Do đó,
 >
 $$
 \begin{equation}
@@ -88,12 +88,12 @@ g(u,v) = \min_x L(x,u,v) = -\frac{1}{2} (c-u+A^Tv)^T Q^{-1} (c-u+A^T v) - b^T v
 \end{equation}
 $$
 
-For all $$u \geq 0$$ and $$v$$, this corresponds to a lower bound on the primal optimum $$f^*$$.
+Với mọi $$u \geq 0$$ và $$v$$, điều này tương ứng với một cận dưới của giá trị tối ưu gốc $$f^*$$.
 
-### 2) Positive Semidefinite ($$Q \succeq 0$$)
-위와 같은문제이나, 이번에는 $$Q \succeq 0$$ 이면,
+### 2) Nửa xác định dương ($$Q \succeq 0$$)
+Cùng bài toán như trên, nhưng lần này nếu $$Q \succeq 0$$,
 
-#### Lagrangian:
+#### Hàm Lagrangian:
 >
 $$
 \begin{equation}
@@ -101,20 +101,20 @@ L(x,u,v) = \frac{1}{2}x^T Q x + c^T x - u^Tx + v^T (Ax-b)
 \end{equation}
 $$
 
-#### Lagrangian dual function:
-$$Q$$가 positive definite 할 때 처럼, 아래 식을 만족하는 $$x^*$$를 찾아야 한다.
+#### Hàm đối ngẫu Lagrangian:
+Giống như khi $$Q$$ là positive definite, ta cần tìm $$x^*$$ thỏa mãn phương trình dưới đây.
 
 $$
 \begin{equation}
 Qx = (c-u+A^T v)
 \end{equation}
 $$
-이 때, $$Q$$는 positive semi-definite이므로 역행렬이 존재하지 않을 수 있다. 따라서, 다음의 두가지 경우를 고려해야 한다.
+Lúc này, vì $$Q$$ là positive semi-definite nên có thể không tồn tại ma trận nghịch đảo. Do đó, ta cần xem xét hai trường hợp sau:
 
-(1) $$c-u+A^T v \in col(Q)$$. In this case, there exists $$x^*$$ satisfying $$Qx = (c-u+A^T v)$$, which can be found using the generalized inverse $$Q^+$$ (the Moore-Penrose pseudo-inverse, $$Q^+ = (Q^TQ)^{-1}Q^T$$).
-(2) $$c-u+A^T v \notin col(Q)$$. In this case, there is no $$x^*$$ satisfying $$Qx = (c-u+A^T v)$$, meaning there is no $$x^*$$ that minimizes $$L(x,u,v)$$, and the minimum of $$L(x,u,v)$$ is $$-\infty$$.
+(1) $$c-u+A^T v \in col(Q)$$. Trong trường hợp này, tồn tại $$x^*$$ thỏa mãn $$Qx = (c-u+A^T v)$$, có thể tìm được bằng cách sử dụng nghịch đảo tổng quát $$Q^+$$ (nghịch đảo giả Moore-Penrose, $$Q^+ = (Q^TQ)^{-1}Q^T$$).
+(2) $$c-u+A^T v \notin col(Q)$$. Trong trường hợp này, không tồn tại $$x^*$$ thỏa mãn $$Qx = (c-u+A^T v)$$, nghĩa là không có $$x^*$$ nào tối thiểu hóa $$L(x,u,v)$$, và giá trị tối thiểu của $$L(x,u,v)$$ là $$-\infty$$.
 
-From these two cases, the Lagrangian dual function can be summarized as follows.
+Từ hai trường hợp này, hàm đối ngẫu Lagrangian có thể được tóm tắt như sau:
 >
 $$
 g(u,v) =
@@ -124,19 +124,19 @@ g(u,v) =
 \end{cases}
 $$
 
-For all $$u\geq 0$$, $$v$$ with $$c-u+A^Tv \perp \text{null}(Q)$$, $$g(u,v)$$ is a nontrivial lower bound on $$f^*$$.
+Với mọi $$u\geq 0$$, $$v$$ thỏa mãn $$c-u+A^Tv \perp \text{null}(Q)$$, $$g(u,v)$$ là một cận dưới không tầm thường của $$f^*$$.
 
-## Example: Quadratic Program in 2D
+## Ví dụ: Chương trình bậc hai trong 2D
 
-For example, in the following figure, $$f(x_1,x_2)$$ is a quadratic function over variables greater than 0 ($$x\ge0$$), and the dual function $$g(u_1,u_2)$$ is a quadratic function over variables greater than 0 ($$u\ge0$$).
+Ví dụ, trong hình sau đây, $$f(x_1,x_2)$$ là một hàm bậc hai trên các biến lớn hơn 0 ($$x\ge0$$), và hàm đối ngẫu $$g(u_1,u_2)$$ là một hàm bậc hai trên các biến lớn hơn 0 ($$u\ge0$$).
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter11/dual-gen_10.png" width="70%">
-  <figcaption style="text-align: center;">[Fig 3] Example of quadratic program in 2D</figcaption>
+  <figcaption style="text-align: center;">[Hình 3] Ví dụ về chương trình bậc hai trong 2D</figcaption>
 </p>
 </figure>
 
-* The blue point is the optimal dual value, and the red point is the optimal primal value.
-* For all $$u>0$$, the dual function $$g(u)$$ provides a lower bound on $$f^*$$.
-* The maximum of the dual function $$g(u)$$ matches exactly the value $$f^*$$.
+* Điểm màu xanh là giá trị tối ưu đối ngẫu, và điểm màu đỏ là giá trị tối ưu gốc.
+* Với mọi $$u>0$$, hàm đối ngẫu $$g(u)$$ cung cấp một cận dưới cho $$f^*$$.
+* Giá trị tối đa của hàm đối ngẫu $$g(u)$$ trùng khớp chính xác với giá trị $$f^*$$.

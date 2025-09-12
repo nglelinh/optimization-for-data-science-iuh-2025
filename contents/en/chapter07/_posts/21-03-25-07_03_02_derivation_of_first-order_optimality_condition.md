@@ -9,9 +9,11 @@ categories:
 lang: en
 ---
 
-					  \quad & \Longleftrightarrow & &\quad \nabla f(x^{*})^T(y-x^{*}) \geq 0, \text{ for all } y \in C 
+### **First-order optimality condition:**
 
 If $$f$$ is convex and differentiable, the subgradient optimality condition coincides with the first-order optimality condition, as shown below.
+
+$$x^* \text{ is optimal} \quad \Longleftrightarrow \quad \nabla f(x^*)^T(y - x^*) \geq 0, \text{ for all } y \in C$$
 
 ### Proof
 >

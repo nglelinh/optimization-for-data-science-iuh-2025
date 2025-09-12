@@ -31,20 +31,20 @@ Dưới đây là các ví dụ về gradient dưới cho một số hàm.
 ### Ví dụ 1
 
 <center>
-$$f:\mathbb{R} \to \mathbb{R}, f(x) =  |x| $$
+$$f:\mathbb{R} \to \mathbb{R}, f(x) =  \vert x \vert $$
 </center>
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl  }}/img/chapter_img/chapter07/07_01_subgrad-1.png" alt="Subgradient1" width="80%" height="80%">
 </p>
-  <figcaption style="text-align: center;">$$\text{[Hình 1] Gradient dưới của } f(x)= |x| \text{ [3]}$$</figcaption>
+  <figcaption style="text-align: center;">$$\text{[Hình 1] Gradient dưới của } f(x)= \vert x \vert \text{ [3]}$$</figcaption>
 </figure>
 
-- Với $$x \neq 0$$, $$ |y| \geq |x| + g^T(y-x)$$ phải được thỏa mãn. Tức là,
+- Với $$x \neq 0$$, $$ \vert y \vert \geq \vert x \vert + g^T(y-x)$$ phải được thỏa mãn. Tức là,
 
-$$ |y| - g^Ty \geq |x| - g^Tx $$. Nếu $$ |x| - g^Tx = 0 $$, tức là $$g=\text{sign}(x)$$, thì điều kiện này được thỏa mãn với mọi $$y$$. Do đó, $$g=\text{sign}(x)$$ ([Wikipedia: Hàm dấu](https://en.wikipedia.org/wiki/Sign_function)).
-- Với $$x=0$$, $$ |y| \geq g^Ty $$ phải được thỏa mãn. Do đó, $$g \in [-1,1]$$.
+$$ \vert y \vert - g^Ty \geq \vert x \vert - g^Tx $$. Nếu $$ \vert x \vert - g^Tx = 0 $$, tức là $$g=\text{sign}(x)$$, thì điều kiện này được thỏa mãn với mọi $$y$$. Do đó, $$g=\text{sign}(x)$$ ([Wikipedia: Hàm dấu](https://en.wikipedia.org/wiki/Sign_function)).
+- Với $$x=0$$, $$ \vert y \vert \geq g^Ty $$ phải được thỏa mãn. Do đó, $$g \in [-1,1]$$.
 
 ### Ví dụ 2
 
@@ -69,7 +69,7 @@ Tại một điểm $$x=(x_1,x_2,\dots,x_n)$$,
 ### Ví dụ 3
 
 <center>
-$$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \vert  \vert x \vert  \vert _2$$
+$$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \vert x \vert _2$$
 </center>
 
 <figure class="image" style="align: center;">
@@ -79,9 +79,9 @@ $$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \vert  \vert x \vert  \vert _2$$
   <figcaption style="text-align: center;">$$\text{[Hình 3] Gradient dưới của }f(x)= \vert x \vert _2\text{ [3]}$$</figcaption>
 </figure>
 
-- Với $$x \neq 0$$, vì hàm khả vi, ta có $$g=\nabla \sqrt{x^Tx} = \frac{1}{2}(x^Tx)^{-\frac{1}{2}} (2x) = \frac{x}{ \vert  \vert x \vert  \vert _2}$$
+- Với $$x \neq 0$$, vì hàm khả vi, ta có $$g=\nabla \sqrt{x^Tx} = \frac{1}{2}(x^Tx)^{-\frac{1}{2}} (2x) = \frac{x}{\vert x \vert _2}$$
 
-- Với $$x=0$$, ta có $$ \vert  \vert y \vert  \vert _2 \geq g^Ty \Longrightarrow  \vert  \vert y \vert  \vert _2 \geq  \vert  \vert g \vert  \vert _2 \vert  \vert y \vert  \vert _2 \cos \theta$$. Do đó, $$g \in \{z: \vert  \vert z \vert  \vert _2 \leq 1 \}$$
+- Với $$x=0$$, ta có $$ \vert y \vert _2 \geq g^Ty \Longrightarrow  \vert y \vert _2 \geq  \vert g \vert _2 \vert y \vert _2 \cos \theta$$. Do đó, $$g \in \{z: \vert z \vert _2 \leq 1 \}$$
 
 
 ### Ví dụ 4

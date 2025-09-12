@@ -11,6 +11,9 @@ lang: vi
 
 Nếu $$f$$ lồi và khả vi, điều kiện tối ưu gradient dưới trùng với điều kiện tối ưu bậc một, như được chỉ ra dưới đây.
 
+**Điều kiện tối ưu bậc một:**
+$$x^* \text{ là tối ưu} \quad \Longleftrightarrow \quad \nabla f(x^*)^T(y - x^*) \geq 0, \text{ với mọi } y \in C$$
+
 ### Chứng minh
 >
 $$

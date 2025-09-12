@@ -31,20 +31,20 @@ Below are examples of subgradients for some functions.
 ### Example 1
 
 <center>
-$$f:\mathbb{R} \to \mathbb{R}, f(x) =  |x| $$
+$$f:\mathbb{R} \to \mathbb{R}, f(x) =  \vert x \vert $$
 </center>
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl  }}/img/chapter_img/chapter07/07_01_subgrad-1.png" alt="Subgradient1" width="80%" height="80%">
 </p>
-  <figcaption style="text-align: center;">$$\text{[Fig 1] Subgradient of } f(x)= |x| \text{ [3]}$$</figcaption>
+  <figcaption style="text-align: center;">$$\text{[Fig 1] Subgradient of } f(x)= \vert x \vert \text{ [3]}$$</figcaption>
 </figure>
 
-- For $$x \neq 0$$, $$ |y| \geq |x| + g^T(y-x)$$ must hold. That is,
+- For $$x \neq 0$$, $$ \vert y \vert \geq \vert x \vert + g^T(y-x)$$ must hold. That is,
 
-$$ |y| - g^Ty \geq |x| - g^Tx $$. If $$ |x| - g^Tx = 0 $$, i.e., $$g=\text{sign}(x)$$, then the condition holds for all $$y$$. Thus, $$g=\text{sign}(x)$$ ([Wikipedia: Sign function](https://en.wikipedia.org/wiki/Sign_function)).
-- For $$x=0$$, $$ |y| \geq g^Ty $$ must hold. Therefore, $$g \in [-1,1]$$.
+$$ \vert y \vert - g^Ty \geq \vert x \vert - g^Tx $$. If $$ \vert x \vert - g^Tx = 0 $$, i.e., $$g=\text{sign}(x)$$, then the condition holds for all $$y$$. Thus, $$g=\text{sign}(x)$$ ([Wikipedia: Sign function](https://en.wikipedia.org/wiki/Sign_function)).
+- For $$x=0$$, $$ \vert y \vert \geq g^Ty $$ must hold. Therefore, $$g \in [-1,1]$$.
 
 ### Example 2
 
@@ -69,7 +69,7 @@ At a point $$x=(x_1,x_2,\dots,x_n)$$,
 ### Example3
 
 <center>
-$$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \vert  \vert x \vert  \vert _2$$
+$$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \vert x \vert _2$$
 </center>
 
 <figure class="image" style="align: center;">
@@ -79,9 +79,9 @@ $$f:\mathbb{R}^n \to \mathbb{R}, f(x) =  \vert  \vert x \vert  \vert _2$$
   <figcaption style="text-align: center;">$$\text{[Fig 3] Subgradient of }f(x)= \vert x \vert _2\text{ [3]}$$</figcaption>
 </figure>
 
-- For $$x \neq 0$$, since it is differentiable, we have $$g=\nabla \sqrt{x^Tx} = \frac{1}{2}(x^Tx)^{-\frac{1}{2}} (2x) = \frac{x}{ \vert  \vert x \vert  \vert _2}$$
+- For $$x \neq 0$$, since it is differentiable, we have $$g=\nabla \sqrt{x^Tx} = \frac{1}{2}(x^Tx)^{-\frac{1}{2}} (2x) = \frac{x}{\vert x \vert _2}$$
 
-- For $$x=0$$, we have $$ \vert  \vert y \vert  \vert _2 \geq g^Ty \Longrightarrow  \vert  \vert y \vert  \vert _2 \geq  \vert  \vert g \vert  \vert _2 \vert  \vert y \vert  \vert _2 \cos \theta$$. Therefore, $$g \in \{z: \vert  \vert z \vert  \vert _2 \leq 1 \}$$
+- For $$x=0$$, we have $$ \vert y \vert _2 \geq g^Ty \Longrightarrow  \vert y \vert _2 \geq  \vert g \vert _2 \vert y \vert _2 \cos \theta$$. Therefore, $$g \in \{z: \vert z \vert _2 \leq 1 \}$$
 
 
 ### Example4
