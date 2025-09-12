@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '08-02-01 Stochastic Subgradient Method'
+title: '08-02-01 Phương pháp Subgradient Ngẫu nhiên'
 chapter: '08'
 order: 12
 owner: Kyeongmin Woo
@@ -9,7 +9,7 @@ categories:
 lang: vi
 ---
 
-Let’s consider the problem of minimizing the sum of functions as follows:
+Hãy xem xét bài toán tối thiểu hóa tổng các hàm như sau:
 
 >$$
 \begin{equation}
@@ -17,9 +17,9 @@ Let’s consider the problem of minimizing the sum of functions as follows:
 \end{equation}
 $$
 
-If we apply the subgradient method to this problem, we need to compute the subgradient for each function $$f_i$$ and sum them. (This is similar to the method introduced in [stochastic gradient descent]({% multilang_post_url contents/chapter06/21-03-20-06_05_stochastic_gradient_descent %})).
+Nếu chúng ta áp dụng phương pháp subgradient cho bài toán này, chúng ta cần tính subgradient cho mỗi hàm $$f_i$$ và cộng chúng lại. (Điều này tương tự như phương pháp được giới thiệu trong [stochastic gradient descent]({% multilang_post_url contents/chapter06/21-03-20-06_05_stochastic_gradient_descent %})).
 
-In summary, the stochastic subgradient method takes the following form:
+Tóm lại, phương pháp subgradient ngẫu nhiên có dạng như sau:
 
 >$$
 \begin{align}
@@ -27,6 +27,6 @@ x^{(k)} = x^{(k-1)} - t_k \cdot g_{i_k}^{(k-1)}, \quad k = 1, 2, 3, . . .
 \end{align}
 $$
 
-Here, $$i_k \in \{1,...,m\}$$ is the index chosen at the $$k$$-th iteration. As will be discussed in the next section on the convergence rate of the stochastic subgradient method, the choice of cyclic or random method affects the result. $$g_{i}^{(k-1)} \in \partial f_{i}(x^{k-1})$$, and this update direction is different from the usual [subgradient method]({% multilang_post_url contents/chapter08/20-03-29-08_01_subgradient_method %}) (also called batch subgradient method or full batch subgradient method), where $$\sum_{i=1}^{m} g_i^{(k-1)}$$ is used.
+Ở đây, $$i_k \in \{1,...,m\}$$ là chỉ số được chọn tại lần lặp thứ $$k$$. Như sẽ được thảo luận trong phần tiếp theo về tốc độ hội tụ của phương pháp subgradient ngẫu nhiên, việc lựa chọn phương pháp tuần hoàn hoặc ngẫu nhiên ảnh hưởng đến kết quả. $$g_{i}^{(k-1)} \in \partial f_{i}(x^{k-1})$$, và hướng cập nhật này khác với [phương pháp subgradient]({% multilang_post_url contents/chapter08/20-03-29-08_01_subgradient_method %}) thông thường (còn được gọi là phương pháp subgradient batch hoặc phương pháp subgradient full batch), nơi sử dụng $$\sum_{i=1}^{m} g_i^{(k-1)}$$.
 
-If each $$f_i, i = 1,...,m$$ is differentiable, this algorithm becomes stochastic gradient descent. (The stochastic subgradient method is a more general form)
+Nếu mỗi $$f_i, i = 1,...,m$$ khả vi, thuật toán này trở thành stochastic gradient descent. (Phương pháp subgradient ngẫu nhiên là một dạng tổng quát hơn)

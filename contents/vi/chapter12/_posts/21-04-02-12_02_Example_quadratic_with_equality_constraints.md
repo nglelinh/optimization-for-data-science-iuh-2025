@@ -1,12 +1,13 @@
 ---
 layout: post
-title: 12-02 Example quadratic with equality constraints
+title: 12-02 Ví dụ bài toán bậc hai với ràng buộc đẳng thức
 chapter: '12'
 order: 3
 owner: Wontak Ryu
 categories:
 - chapter12
 lang: vi
+lesson_type: required
 ---
 
 <script type="text/x-mathjax-config">
@@ -15,22 +16,22 @@ MathJax.Hub.Config({
 });
 </script>
 
-A [quadratic program]() with only equality constraints is as follows.
+Một [chương trình bậc hai]() chỉ với các ràng buộc đẳng thức như sau.
 >$$
 >\begin{align}
 >    &\min_{x} &&{(1/2)x^T P x + q^T x + r} \\\\
->    &\text{subject to} &&{Ax = b},\\\\
->&\text{where } &&P \in \mathbb{S}_{+}^n \text{ and } A \in \mathbb{R}^{\text{p x n}}.
+>    &\text{với điều kiện} &&{Ax = b},\\\\
+>&\text{trong đó } &&P \in \mathbb{S}_{+}^n \text{ và } A \in \mathbb{R}^{\text{p x n}}.
 >\end{align}
 >$$
 
-This problem is convex and has no inequality constraints, so it satisfies Slater's condition (Strong duality). If the primal & dual solutions are $$x^\star, \nu^\star$$, then by KKT conditions they satisfy the following conditions [1].
+Bài toán này là lồi và không có ràng buộc bất đẳng thức, vì vậy nó thỏa mãn điều kiện Slater (Tính đối ngẫu mạnh). Nếu các nghiệm nguyên thủy & đối ngẫu là $$x^\star, \nu^\star$$, thì theo các điều kiện KKT, chúng thỏa mãn các điều kiện sau [1].
 
-* Stationarity: $$Px^\star + q + A^T\nu^\star = 0$$
-* Complementary Slackness: Since there are no inequality constraints, this does not need to be considered.
-* Primal & dual feasibility: $$Ax^\star = b$$
+* Tính dừng: $$Px^\star + q + A^T\nu^\star = 0$$
+* Bù yếu: Vì không có ràng buộc bất đẳng thức, điều này không cần được xem xét.
+* Tính khả thi nguyên thủy & đối ngẫu: $$Ax^\star = b$$
 
-These conditions can be concisely expressed using a block matrix, which is called the KKT matrix [3].
+Những điều kiện này có thể được biểu diễn một cách ngắn gọn bằng cách sử dụng ma trận khối, được gọi là ma trận KKT [3].
 > $$
 > \begin{bmatrix}
 >     P       & A^T  \\\\
@@ -47,7 +48,7 @@ These conditions can be concisely expressed using a block matrix, which is calle
 > \end{bmatrix}
 > $$
 
-Solving this matrix equation gives the primal & dual solutions for the given problem.
+Giải phương trình ma trận này cho ta các nghiệm nguyên thủy & đối ngẫu cho bài toán đã cho.
 
-An interesting fact is that this problem can also be seen as computing the Newton step for an equality constrained problem [3]. For the problem $$min_x f(x) \text{ subject to } Ax = b$$, if we set P, q, r as follows, then the objective function of the quadratic program becomes identical to the second-order Taylor expansion of $$f(x)$$.<br/>
+Một sự thật thú vị là bài toán này cũng có thể được xem như việc tính toán bước Newton cho một bài toán có ràng buộc đẳng thức [3]. Đối với bài toán $$min_x f(x) \text{ với điều kiện } Ax = b$$, nếu chúng ta đặt P, q, r như sau, thì hàm mục tiêu của chương trình bậc hai trở nên giống hệt với khai triển Taylor bậc hai của $$f(x)$$.<br/>
 > $$P = \nabla^2 f(x^{(k-1)})$$, $$q = \nabla f(x^{(k-1)})$$, $$r = f(x^{(k-1)})$$

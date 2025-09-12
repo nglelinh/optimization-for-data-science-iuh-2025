@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '08-02-03 Convergence Rate of Stochastic Method'
+title: '08-02-03 Tốc độ Hội tụ của Phương pháp Ngẫu nhiên'
 chapter: '08'
 order: 14
 owner: Kyeongmin Woo
@@ -9,12 +9,12 @@ categories:
 lang: vi
 ---
 
-There are differences in the convergence rates between cyclic and randomized methods.
+Có sự khác biệt về tốc độ hội tụ giữa phương pháp tuần hoàn và phương pháp ngẫu nhiên.
 
-The [convergence rate]({% multilang_post_url contents/chapter08/20-03-29-08_01_04_convergence_rate %}) of the batch subgradient method is $$O(G_{batch}^{2}/\epsilon^{2})$$, where $$G_{batch}$$ is the Lipschitz constant of $$\sum f_i$$.
+[Tốc độ hội tụ]({% multilang_post_url contents/chapter08/20-03-29-08_01_04_convergence_rate %}) của phương pháp subgradient batch là $$O(G_{batch}^{2}/\epsilon^{2})$$, trong đó $$G_{batch}$$ là hằng số Lipschitz của $$\sum f_i$$.
 
-- **Cyclic method**: The iteration complexity of the cyclic method is $$O(m^{3}G^{2}/\epsilon^{2})$$. If one cycle of the cyclic stochastic subgradient method is considered equivalent to one batch subgradient method, then each cycle requires $$O(m^{2}G^{2}/\epsilon^{2})$$ iterations. ($$G$$ is the Lipschitz constant of a single function $$f_i$$)
+- **Phương pháp tuần hoàn**: Độ phức tạp lặp của phương pháp tuần hoàn là $$O(m^{3}G^{2}/\epsilon^{2})$$. Nếu một chu kỳ của phương pháp subgradient ngẫu nhiên tuần hoàn được coi là tương đương với một phương pháp subgradient batch, thì mỗi chu kỳ cần $$O(m^{2}G^{2}/\epsilon^{2})$$ lần lặp. ($$G$$ là hằng số Lipschitz của một hàm đơn $$f_i$$)
 
-- **Randomized method**: The iteration complexity of the randomized method is $$O(m^{2}G^{2}/\epsilon^{2})$$. That is, the randomized method requires $$O(mG^{2}/\epsilon^2)$$ iterations, which is $$m$$ times faster than the batch and cyclic methods with $$O(m^2G^2/\epsilon^2)$$. In terms of Big-O notation, if $$m$$ is large, the randomized method has a faster convergence rate.
+- **Phương pháp ngẫu nhiên**: Độ phức tạp lặp của phương pháp ngẫu nhiên là $$O(m^{2}G^{2}/\epsilon^{2})$$. Tức là, phương pháp ngẫu nhiên cần $$O(mG^{2}/\epsilon^2)$$ lần lặp, nhanh hơn $$m$$ lần so với phương pháp batch và tuần hoàn với $$O(m^2G^2/\epsilon^2)$$. Về mặt ký hiệu Big-O, nếu $$m$$ lớn, phương pháp ngẫu nhiên có tốc độ hội tụ nhanh hơn.
 
-Although the Big-O bounds for randomized and cyclic methods differ by a factor of $$m$$, note that the cyclic method's Big-O bound is worst-case, while the randomized method's is average-case. In practice, the difference may not be as large as the Big-O notation suggests.
+Mặc dù các cận Big-O cho phương pháp ngẫu nhiên và tuần hoàn khác nhau một hệ số $$m$$, lưu ý rằng cận Big-O của phương pháp tuần hoàn là trường hợp xấu nhất, trong khi của phương pháp ngẫu nhiên là trường hợp trung bình. Trong thực tế, sự khác biệt có thể không lớn như ký hiệu Big-O gợi ý.

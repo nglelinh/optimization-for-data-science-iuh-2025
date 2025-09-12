@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 12-06 Uniqueness in L1 penalized problems
+title: 12-06 Tính duy nhất trong các bài toán phạt L1
 chapter: '12'
 order: 7
 owner: Wontak Ryu
@@ -15,35 +15,35 @@ MathJax.Hub.Config({
 });
 </script>
 
-The following $$L1$$ penalized linear regression problem is also well known as the lasso problem.
+Bài toán hồi quy tuyến tính có phạt $$L1$$ sau đây cũng được biết đến rộng rãi như bài toán lasso.
 
 >$$
 >\begin{align}
 >&&&\hat{\beta} \in \text{argmin}_{\beta \in \mathbb{R}^p} \frac{1}{2} \| y - X\beta \|^2_2 + \lambda \|\beta\|_1, \qquad \\\\
->&& \text{ --- (1) } &\text{given } y \in \mathbb{R}^n, \\\\
->&&& \text{ a matrix } X \in \mathbb{R}^{n \text{ x } p} \ \text{ of predictor variables,} \\\\
->&&& \text{and a tuning parameter} \lambda \ge 0.
+>&& \text{ --- (1) } &\text{cho trước } y \in \mathbb{R}^n, \\\\
+>&&& \text{ một ma trận } X \in \mathbb{R}^{n \text{ x } p} \ \text{ của các biến dự đoán,} \\\\
+>&&& \text{và tham số điều chỉnh} \lambda \ge 0.
 >\end{align}
 >$$
 
-The above Lasso problem has a unique solution when it is strictly convex, i.e., when $$rank(X) = p$$. On the other hand, when $$rank(X) < p$$ (when it is not strictly convex), it may have infinitely many solutions (Reference: [Underdetermined system](https://en.wikipedia.org/wiki/Underdetermined_system)). - Note that if the number of variables (p) is greater than the number of observations (n), then $$rank(X)$$ is necessarily less than p.<br/>
-Interestingly, in some special cases, the Lasso problem is guaranteed to have a unique solution regardless of the dimension of $$X$$ [13].
+Bài toán Lasso ở trên có một nghiệm duy nhất khi nó là lồi chặt chẽ, tức là, khi $$rank(X) = p$$. Mặt khác, khi $$rank(X) < p$$ (khi nó không lồi chặt chẽ), nó có thể có vô số nghiệm (Tham khảo: [Hệ thống thiếu xác định](https://en.wikipedia.org/wiki/Underdetermined_system)). - Lưu ý rằng nếu số biến (p) lớn hơn số quan sát (n), thì $$rank(X)$$ nhất thiết nhỏ hơn p.<br/>
+Thú vị là, trong một số trường hợp đặc biệt, bài toán Lasso được đảm bảo có một nghiệm duy nhất bất kể chiều của $$X$$ [13].
 
->**Theorem:** When the function $$f$$ is differentiable and strictly convex, $$\lambda > 0$$, and $$X \in \mathbb{R}^{n \times p}$$ follows some continuous probability distribution on $$\mathbb{R}^{np}$$, the following optimization problem always has a unique solution. Moreover, the solution consists of at most $$min\{n,p\}$$ nonzero components. There are no restrictions on the dimension of $$X$$. (That is, it is valid even when p >> n)
+>**Định lý:** Khi hàm $$f$$ khả vi và lồi chặt chẽ, $$\lambda > 0$$, và $$X \in \mathbb{R}^{n \times p}$$ tuân theo một phân phối xác suất liên tục nào đó trên $$\mathbb{R}^{np}$$, bài toán tối ưu hóa sau luôn có một nghiệm duy nhất. Hơn nữa, nghiệm bao gồm nhiều nhất $$min\{n,p\}$$ thành phần khác không. Không có hạn chế nào về chiều của $$X$$. (Tức là, nó hợp lệ ngay cả khi p >> n)
 
-## Basic facts and the KKT conditions
+## Các sự thật cơ bản và các điều kiện KKT
 
-> **Lemma 1.** For arbitrary $$y, X, \lambda \ge 0$$, the lasso problem (1) has the following properties.
+> **Bổ đề 1.** Đối với $$y, X, \lambda \ge 0$$ tùy ý, bài toán lasso (1) có các tính chất sau.
 > 
-> 1. It has either a unique solution or infinitely many solutions.
-> 2. All lasso solutions $$\hat{\beta}$$ have the same $$X\hat{\beta}$$ value.
->3. When $$\lambda > 0$$, all lasso solutions $$\hat{\beta}$$ have the same $$l_1$$ norm ($$\|\hat{\beta}\|_1$$).
+> 1. Nó có hoặc một nghiệm duy nhất hoặc vô số nghiệm.
+> 2. Tất cả các nghiệm lasso $$\hat{\beta}$$ có cùng giá trị $$X\hat{\beta}$$.
+>3. Khi $$\lambda > 0$$, tất cả các nghiệm lasso $$\hat{\beta}$$ có cùng chuẩn $$l_1$$ ($$\|\hat{\beta}\|_1$$).
 
 $$\text{ }$$
 
-> **Proof.**<br/>
-> 1. If (1) has two solutions $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$, then for any $$0 < \alpha < 1$$, $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ is also a solution, so infinitely many solutions exist.<br/>
-> 2. & 3. Suppose there are two solutions $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$. Let the optimal value be $$c^\star$$. Then for any solution $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ ($$0 < \alpha < 1$$), the following equality must always hold.
+> **Chứng minh.**<br/>
+> 1. Nếu (1) có hai nghiệm $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$, thì với bất kỳ $$0 < \alpha < 1$$, $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ cũng là một nghiệm, vì vậy tồn tại vô số nghiệm.<br/>
+> 2. & 3. Giả sử có hai nghiệm $$\hat{\beta}^{(1)}$$, $$\hat{\beta}^{(2)}$$. Gọi giá trị tối ưu là $$c^\star$$. Khi đó với bất kỳ nghiệm $$\alpha \hat{\beta}^{(1)} + (1 - \alpha) \hat{\beta}^{(2)}$$ ($$0 < \alpha < 1$$), đẳng thức sau phải luôn được giữ.
 > 
 > $$
 >\begin{align}
@@ -52,25 +52,25 @@ $$\text{ }$$
 >\end{align}
 >$$
 >
-> To satisfy this equality, $$X\hat{\beta}$$ must always have the same value for any solution $$\hat{\beta}$$, and when $$\lambda > 0$$, $$\|\hat{\beta}\|_1$$ must also always be the same.
+> Để thỏa mãn đẳng thức này, $$X\hat{\beta}$$ phải luôn có cùng giá trị cho bất kỳ nghiệm $$\hat{\beta}$$, và khi $$\lambda > 0$$, $$\|\hat{\beta}\|_1$$ cũng phải luôn giống nhau.
 
 
-Returning to the beginning, the KKT conditions for the lasso problem (1) are as follows.
+Trở lại ban đầu, các điều kiện KKT cho bài toán lasso (1) như sau.
 >$$
 >\begin{align}
 >&&X^T (y - X\hat{\beta}) = \lambda \gamma, \qquad \text{ --- (2)} \\\\
 >&&\gamma_i \in 
 > \begin{cases}
-> \{ sign(\hat{\beta_i}) \} & if \hat{\beta_i} \neq 0 \\\\
-> [-1, 1] & if \hat{\beta_i} = 0,
+> \{ sign(\hat{\beta_i}) \} & \text{nếu } \hat{\beta_i} \neq 0 \\\\
+> [-1, 1] & \text{nếu } \hat{\beta_i} = 0,
 > \end{cases} \\\\
-> &&\text{for } i = 1, \dots, p. \text{ --- (3)} \\\\
-> &&\text{Here } \gamma \in \mathbb{R}^p \text{ is called a subgradient of the function } \\
-> &&f(x) = \| x \|_1 \text{ evaluated at } x = \hat{\beta}.
+> &&\text{với } i = 1, \dots, p. \text{ --- (3)} \\\\
+> &&\text{Ở đây } \gamma \in \mathbb{R}^p \text{ được gọi là subgradient của hàm } \\
+> &&f(x) = \| x \|_1 \text{ được đánh giá tại } x = \hat{\beta}.
 >\end{align}
 >$$
 
-즉, (1)의 solution인 $$\hat{\beta}$$는 어떤 $$\gamma$$에 대해 (2) 와 (3)을 만족한다. 
+Tức là, nghiệm $$\hat{\beta}$$ của (1) thỏa mãn (2) và (3) cho một $$\gamma$$ nào đó. 
 
 위에서 얻은 KKT conditions를 이용하여 lasso solution에 대한 조건을 좀 더 명시적인 형태로 변환해보도록 하자. 이후의 진행에서는 유도의 간결함을 위해 $$\lambda > 0$$를 가정하도록 한다. 우선 equicorrelation set $$\mathcal{E}$$을 다음과 같이 정의한다. $$\mathcal{E}$$는 $$\hat{\beta}_i \neq 0$$인 모든 인덱스 $$i$$와 $$\hat{\beta}_j = 0$$이면서 $$\vert\gamma_j\vert = 1$$인 모든 인덱스 $$j$$를 원소로 가진 집합이다.
 

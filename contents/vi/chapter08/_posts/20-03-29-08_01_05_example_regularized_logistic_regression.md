@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '08-01-05 Example: Regularized Logistic Regression'
+title: '08-01-05 Ví dụ: Hồi quy Logistic có Regularization'
 chapter: '08'
 order: 7
 owner: Kyeongmin Woo
@@ -9,30 +9,30 @@ categories:
 lang: vi
 ---
 
-Suppose $$(x_i, y_i) \in \mathbb{R}^p \times \{0, 1\}$$ for $$i=1,...,n$$. The logistic regression loss is defined as:
+Giả sử $$(x_i, y_i) \in \mathbb{R}^p \times \{0, 1\}$$ với $$i=1,...,n$$. Hàm mất mát hồi quy logistic được định nghĩa như sau:
 >
 \begin{align}
 f(\beta) = \sum_{i=1}^n\big(-y_ix_i^T\beta + \log(1+\exp(x_i^T\beta))\big)
 \end{align}
 
-This function is a finite sum of a linear function and a log-sum-exp function, so it is a differentiable convex function.
+Hàm này là tổng hữu hạn của một hàm tuyến tính và một hàm log-sum-exp, vì vậy nó là một hàm lồi khả vi.
 
-Now, the regularization problem for $$\beta$$ is formulated as:
+Bây giờ, bài toán regularization cho $$\beta$$ được công thức hóa như sau:
 
 >
 \begin{align}
 \min_{\beta} \text{ } f(\beta) + \lambda \cdot P(\beta)
 \end{align}
 
-Here, $$P(\beta)$$ can be defined as $$\Vert \beta \Vert _2^2$$ (ridge penalty) or $$\Vert \beta \Vert _1$$ (lasso penalty).
+Ở đây, $$P(\beta)$$ có thể được định nghĩa là $$\Vert \beta \Vert _2^2$$ (phạt ridge) hoặc $$\Vert \beta \Vert _1$$ (phạt lasso).
 
-The loss function with ridge penalty remains a differentiable convex function, but the loss function with lasso penalty becomes a nondifferentiable convex function. For these two loss functions, we can apply gradient descent for ridge and the subgradient method for lasso, and by plotting the objective function value at iteration $$k$$, we can observe the convergence characteristics of both methods.
+Hàm mất mát với phạt ridge vẫn là một hàm lồi khả vi, nhưng hàm mất mát với phạt lasso trở thành một hàm lồi không khả vi. Đối với hai hàm mất mát này, chúng ta có thể áp dụng gradient descent cho ridge và phương pháp subgradient cho lasso, và bằng cách vẽ đồ thị giá trị hàm mục tiêu tại lần lặp $$k$$, chúng ta có thể quan sát đặc điểm hội tụ của cả hai phương pháp.
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter08/08_01_grad_vs_subgrad.png" alt="grad_vs_subgrad" width="90%" height="90%">
 </p>
-  <figcaption style="text-align: center;">[Fig 1] Gradient descent vs Subgradient method [3]</figcaption>
+  <figcaption style="text-align: center;">[Fig 1] Gradient descent so với phương pháp Subgradient [3]</figcaption>
 </figure>
 
-This experiment shows that gradient descent converges much faster than the subgradient method.
+Thí nghiệm này cho thấy rằng gradient descent hội tụ nhanh hơn nhiều so với phương pháp subgradient.

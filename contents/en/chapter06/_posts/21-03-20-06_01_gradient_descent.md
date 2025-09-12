@@ -424,6 +424,9 @@ The next figure shows gradient descent on a non-convex function. Here, the initi
 Gradient descent can be interpreted as choosing the next point by minimizing a quadratic approximation of the function.
 
 For a function $$f$$, the second-order Taylor expansion around $$x$$ is:
+
+>$$f(y) = f(x) + \nabla f(x)^T (y - x) + \frac{1}{2} (y - x)^T \nabla^2 f(x) (y - x) + \text{higher-order terms}.$$
+
 >$$f(y) \approx f(x) + \nabla f(x)^T (y - x) +  \frac{1}{2} \nabla^2 f(x)  \|y - x\|_2^2$$
 
 If we approximate the Hessian $$\nabla^2 f(x)$$ by $$\frac{1}{t}I$$, then:

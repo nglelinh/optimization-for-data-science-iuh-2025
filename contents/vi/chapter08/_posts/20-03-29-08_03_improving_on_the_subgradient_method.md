@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '08-03 Improving on the Subgradient Method'
+title: '08-03 Cải tiến Phương pháp Subgradient'
 chapter: '08'
 order: 16
 owner: Kyeongmin Woo
@@ -9,6 +9,6 @@ categories:
 lang: vi
 ---
 
-The subgradient method is advantageous because it can be used for nondifferentiable convex functions, making it more general. However, its convergence rate is $$O(1/\epsilon^{2})$$, which is much slower than the convergence rate of gradient descent, $$O(1/\epsilon)$$.
+Phương pháp subgradient có lợi thế vì có thể được sử dụng cho các hàm lồi không khả vi, làm cho nó tổng quát hơn. Tuy nhiên, tốc độ hội tụ của nó là $$O(1/\epsilon^{2})$$, chậm hơn nhiều so với tốc độ hội tụ của gradient descent là $$O(1/\epsilon)$$.
 
-Is there a way to combine the strengths of gradient descent and the subgradient method? In the next section, we will learn about the proximal gradient descent method, which combines the advantages of both algorithms.
+Có cách nào để kết hợp điểm mạnh của gradient descent và phương pháp subgradient không? Trong phần tiếp theo, chúng ta sẽ tìm hiểu về phương pháp proximal gradient descent, kết hợp ưu điểm của cả hai thuật toán.

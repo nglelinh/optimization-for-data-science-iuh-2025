@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '08-01-08 Projected Subgradient Method'
+title: '08-01-08 Phương pháp Subgradient có Chiếu'
 chapter: '08'
 order: 10
 owner: Kyeongmin Woo
@@ -9,28 +9,28 @@ categories:
 lang: vi
 ---
 
-The method described in the previous example is called the projected subgradient method. This algorithm can be used for convex problems with constraints.
+Phương pháp được mô tả trong ví dụ trước được gọi là phương pháp subgradient có chiếu. Thuật toán này có thể được sử dụng cho các bài toán lồi có ràng buộc.
 
-If we denote the domain that satisfies the constraints as the set $$C$$, then a constrained convex problem is defined as follows:
+Nếu chúng ta ký hiệu miền thỏa mãn các ràng buộc là tập $$C$$, thì bài toán lồi có ràng buộc được định nghĩa như sau:
 
 >
 $$ \begin{align}
-\min_x \text{ }f(x) \quad \text{subject to } x \in C
+\min_x \text{ }f(x) \quad \text{với điều kiện } x \in C
 \end{align} $$
 
-By using the projected subgradient method, such problems can be solved relatively easily. The projected subgradient method is similar to the standard subgradient method, but at each iteration, the result is projected onto the set $$C$$.
+Bằng cách sử dụng phương pháp subgradient có chiếu, các bài toán như vậy có thể được giải tương đối dễ dàng. Phương pháp subgradient có chiếu tương tự như phương pháp subgradient chuẩn, nhưng ở mỗi lần lặp, kết quả được chiếu lên tập $$C$$.
 
 >
 $$ \begin{align}
 x^{(k)} = P_c(x^{(k-1)} - t_k \cdot g^{(k-1)}), \quad k = 1,2,3,...
 \end{align} $$
 
-If projection is possible, this method has the same convergence properties and rate as the subgradient method.
+Nếu phép chiếu có thể thực hiện được, phương pháp này có cùng tính chất hội tụ và tốc độ như phương pháp subgradient.
 
-One thing to note about the projected subgradient method is that even if $$C$$ is a simple convex set, if the projection operation $$P_c$$ is difficult, the overall problem also becomes hard to solve. Typically, the following sets $$C$$ are relatively easy to project onto:
+Một điều cần lưu ý về phương pháp subgradient có chiếu là ngay cả khi $$C$$ là một tập lồi đơn giản, nếu phép toán chiếu $$P_c$$ khó thực hiện, thì bài toán tổng thể cũng trở nên khó giải. Thông thường, các tập $$C$$ sau đây tương đối dễ chiếu lên:
 
-- Affine images: {$$Ax=b : x \in \mathbb{R}^{n}$$}
-- Solution set of linear system: {$$x: Ax=b$$}
-- Nonnegative orthant: $$\mathbb{R}_+^{n} =  $${$$x: x\ge 0$$}
-- Some norm balls: {$$x: \lVert x \rVert _p \le 1 $$} for $$p=1,2,\infty$$
-- Some simple polyhedra and simple cones
+- Ảnh affine: {$$Ax=b : x \in \mathbb{R}^{n}$$}
+- Tập nghiệm của hệ tuyến tính: {$$x: Ax=b$$}
+- Trực giao không âm: $$\mathbb{R}_+^{n} =  $${$$x: x\ge 0$$}
+- Một số quả cầu chuẩn: {$$x: \lVert x \rVert _p \le 1 $$} với $$p=1,2,\infty$$
+- Một số đa diện đơn giản và hình nón đơn giản

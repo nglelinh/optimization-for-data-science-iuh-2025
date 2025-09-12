@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '08-01-06 Polyak step sizes'
+title: '08-01-06 Kích thước bước Polyak'
 chapter: '08'
 order: 8
 owner: Kyeongmin Woo
@@ -9,16 +9,16 @@ categories:
 lang: vi
 ---
 
-**Polyak step sizes** are a way to set the step size when the optimal value is known. If $$f^*$$ is known, Polyak step sizes can be defined as follows.
+**Kích thước bước Polyak** là một cách để thiết lập kích thước bước khi giá trị tối ưu được biết. Nếu $$f^*$$ được biết, kích thước bước Polyak có thể được định nghĩa như sau.
 
-## Convergence theorem for Polyak step-sizes
+## Định lý hội tụ cho kích thước bước Polyak
 >
 $$ \begin{align}
 t_k = \frac{f^{(k-1)}-f^*}{ \Vert g^{(k-1)} \Vert_2^{2}}, \quad k = 1,2,3...
 \end{align} $$
 
-## Proof of convergence theorem for Polyak step-sizes
-The proof can be derived from the [basic inequality]({% multilang_post_url contents/chapter08/20-03-29-08_01_02_basic_inequality %}) and the sequence of inequalities used there.
+## Chứng minh định lý hội tụ cho kích thước bước Polyak
+Chứng minh có thể được suy ra từ [bất đẳng thức cơ bản]({% multilang_post_url contents/chapter08/20-03-29-08_01_02_basic_inequality %}) và chuỗi bất đẳng thức được sử dụng ở đó.
 
 >
 $$ \begin{align}

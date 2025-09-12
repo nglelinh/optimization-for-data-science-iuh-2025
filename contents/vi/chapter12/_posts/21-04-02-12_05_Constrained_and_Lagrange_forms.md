@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 12-05 Constrained and Lagrange forms
+title: 12-05 Dạng ràng buộc và dạng Lagrange
 chapter: '12'
 order: 6
 owner: Wontak Ryu
@@ -15,27 +15,27 @@ MathJax.Hub.Config({
 });
 </script>
 
-In statistics and machine learning, we often move between **constrained form** and **Lagrange form**. Let us define the constrained form and Lagrangian form as follows.
+Trong thống kê và học máy, chúng ta thường chuyển đổi giữa **dạng ràng buộc** và **dạng Lagrange**. Hãy định nghĩa dạng ràng buộc và dạng Lagrangian như sau.
 
-### Constrained Form ((C) hereafter)
+### Dạng Ràng buộc ((C) sau đây)
 >$$ 
->\min_x \: f(x) \quad \text{ subject to } h(x) \le t,\\\\
->\text{where } t \in \mathbb{R} \text{ is a tuning parameter.}
+>\min_x \: f(x) \quad \text{ với điều kiện } h(x) \le t,\\\\
+>\text{trong đó } t \in \mathbb{R} \text{ là tham số điều chỉnh.}
 >$$
 
-### Lagrange Form ((L) hereafter)
+### Dạng Lagrange ((L) sau đây)
 >$$ 
 >\min_x \: f(x) + \lambda \cdot h(x),\\\\
->\text{where } \lambda \ge 0 \text{ is a tuning parameter.}
+>\text{trong đó } \lambda \ge 0 \text{ là tham số điều chỉnh.}
 >$$
 
-When $$f, h$$ are convex, let us examine the cases where the two problems yield the same solution.
+Khi $$f, h$$ là lồi, hãy xem xét các trường hợp mà hai bài toán cho cùng một nghiệm.
 
-1. **(C) to (L):** When (C) is strictly feasible (satisfies Slater's condition) and satisfies strong duality, if there exists a dual solution $$\lambda^\star \ge 0$$ that minimizes the following objective function for the solution $$x^\star$$ of (C), then $$x^\star$$ is also a solution of (L). 
+1. **(C) đến (L):** Khi (C) là khả thi chặt chẽ (thỏa mãn điều kiện Slater) và thỏa mãn tính đối ngẫu mạnh, nếu tồn tại một nghiệm đối ngẫu $$\lambda^\star \ge 0$$ tối thiểu hóa hàm mục tiêu sau đây cho nghiệm $$x^\star$$ của (C), thì $$x^\star$$ cũng là nghiệm của (L). 
 
 $$f(x) + \lambda \cdot (h(x) - t)$$
    
-2. **(L) to (C):** If $$x^\star$$ is a solution of (L) and (C) with $$t = h(x^\star)$$ satisfies the KKT conditions, then $$x^\star$$ is also a solution of (C). This is because $$\lambda^\star, x^\star$$ that satisfy the KKT conditions of (L) also satisfy the KKT conditions of (C) with $$t = h(x^\star)$$.
+2. **(L) đến (C):** Nếu $$x^\star$$ là nghiệm của (L) và (C) với $$t = h(x^\star)$$ thỏa mãn các điều kiện KKT, thì $$x^\star$$ cũng là nghiệm của (C). Điều này là vì $$\lambda^\star, x^\star$$ thỏa mãn các điều kiện KKT của (L) cũng thỏa mãn các điều kiện KKT của (C) với $$t = h(x^\star)$$.
 
 
 >**$$\rightarrow$$ (L)의 KKT conditions:**
@@ -59,16 +59,16 @@ $$f(x) + \lambda \cdot (h(x) - t)$$
 > $$
 
 
-In conclusion, 1 and 2 show the following relationships respectively.
+Tóm lại, 1 và 2 lần lượt cho thấy các mối quan hệ sau.
 
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter12/conclusion.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Fig1] Conclusion [3]</figcaption>
+ <figcaption style="text-align: center;">[Fig1] Kết luận [3]</figcaption>
 </p>
 </figure>
 
 
-So, under what circumstances do (C) and (L) show perfect equivalence?<br/>
-For example, when $$h(x) \ge 0$$ (such as norm), $$t = 0$$, and $$\lambda = \infty$$, perfect equivalence is shown. Due to the given conditions, the constraint in (C) becomes $$h(x) = 0$$, and by setting $$\lambda$$ to $$\infty$$, (L) also imposes the same constraint ($$h(x) = 0$$). 
+Vậy, trong những hoàn cảnh nào (C) và (L) thể hiện sự tương đương hoàn hảo?<br/>
+Ví dụ, khi $$h(x) \ge 0$$ (như chuẩn), $$t = 0$$, và $$\lambda = \infty$$, sự tương đương hoàn hảo được thể hiện. Do các điều kiện đã cho, ràng buộc trong (C) trở thành $$h(x) = 0$$, và bằng cách đặt $$\lambda$$ thành $$\infty$$, (L) cũng áp đặt cùng một ràng buộc ($$h(x) = 0$$). 

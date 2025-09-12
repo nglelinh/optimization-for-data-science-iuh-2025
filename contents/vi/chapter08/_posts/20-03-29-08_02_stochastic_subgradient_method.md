@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '08-02 Stochastic Subgradient Method'
+title: '08-02 Phương pháp Subgradient Ngẫu nhiên'
 chapter: '08'
 order: 11
 owner: Kyeongmin Woo
@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-The stochastic subgradient method is similar to stochastic gradient descent, but replaces the gradient with a subgradient.
+Phương pháp subgradient ngẫu nhiên tương tự như stochastic gradient descent, nhưng thay thế gradient bằng subgradient.
