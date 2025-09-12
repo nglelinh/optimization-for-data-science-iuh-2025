@@ -6,7 +6,7 @@ order: 10
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 # Convergence Guarantee for ADMM

@@ -6,7 +6,7 @@ order: 1
 owner: YoungJae Choung
 categories:
 - chapter25
-lang: en
+lang: vi
 ---
 
 This chapter examines the cutting plane algorithm, which can be considered the most core algorithm in Integer Programming (IP), and the branch and cut algorithm, which is its practical implementation. 

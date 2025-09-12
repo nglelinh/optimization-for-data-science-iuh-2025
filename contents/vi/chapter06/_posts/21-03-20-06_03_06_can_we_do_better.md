@@ -6,7 +6,7 @@ order: 13
 owner: Kyeongmin Woo
 categories:
 - chapter06
-lang: en
+lang: vi
 ---
 
 Gradient descent has a convergence rate of $$O(1/\epsilon)$$ for problems represented by functions that have Lipschitz gradients and are convex and differentiable. Are there first-order methods that are faster than gradient descent?

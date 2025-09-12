@@ -6,7 +6,7 @@ order: 9
 owner: Kyeongmin Woo
 categories:
 - chapter06
-lang: en
+lang: vi
 lesson_type: required
 ---
 

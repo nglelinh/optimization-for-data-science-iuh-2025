@@ -6,7 +6,7 @@ order: 1
 owner: YoungJae Choung
 categories:
 - chapter22
-lang: en
+lang: vi
 ---
 
 This chapter will examine the Frank-Wolfe algorithm proposed by Marguerite Frank and Philip Wolfe in 1956.

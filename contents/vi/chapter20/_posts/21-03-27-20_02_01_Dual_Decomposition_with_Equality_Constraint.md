@@ -6,7 +6,7 @@ order: 5
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 다음의 problem를 보자. 

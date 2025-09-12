@@ -6,7 +6,7 @@ order: 2
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 
 In Chapter 15, we examined the barrier method, and in Chapters 13 and 16, we looked at duality.

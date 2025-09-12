@@ -6,7 +6,7 @@ order: 3
 owner: Hooncheol Shin
 categories:
 - chapter18
-lang: en
+lang: vi
 ---
 
 The SR1 update is a method that updates $$B$$ with a rank-1 symmetric matrix so that $$B^+$$ maintains symmetry and continues to satisfy the secant equation. If a rank-1 symmetric matrix is decomposed as a product of $$a \in \left\{-1, 1\right\}$$ and $$u \in \mathbb{R^n}$$, the update form would be as follows.

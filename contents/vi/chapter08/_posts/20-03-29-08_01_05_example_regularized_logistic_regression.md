@@ -6,7 +6,7 @@ order: 7
 owner: Kyeongmin Woo
 categories:
 - chapter08
-lang: en
+lang: vi
 ---
 
 Suppose $$(x_i, y_i) \in \mathbb{R}^p \times \{0, 1\}$$ for $$i=1,...,n$$. The logistic regression loss is defined as:

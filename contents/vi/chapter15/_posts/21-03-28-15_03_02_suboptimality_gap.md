@@ -5,7 +5,7 @@ order: 9
 owner: Minjoo Lee
 categories:
 - chapter15
-lang: en
+lang: vi
 ---
 앞 절에서 구한 barrier problem과 original problem의 solution인 $$f(x^*(t))$$와 $$f(x^*)$$의 suboptimality gap은 어떻게 될까?
 

@@ -6,7 +6,7 @@ order: 14
 owner: Kyeongmin Woo
 categories:
 - chapter08
-lang: en
+lang: vi
 ---
 
 There are differences in the convergence rates between cyclic and randomized methods.

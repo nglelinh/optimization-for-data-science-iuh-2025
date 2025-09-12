@@ -6,7 +6,7 @@ order: 9
 owner: YoungJae Choung
 categories:
 - chapter25
-lang: en
+lang: vi
 ---
 
 So far, we have solved regression problems by minimizing the $$l_2$$ norm or $$l_1$$ norm of residuals. Is there a more robust method than these methods?

@@ -6,7 +6,7 @@ order: 4
 owner: YoungJae Choung
 categories:
 - chapter24
-lang: en
+lang: vi
 ---
 
 After transforming the mathematical formulation of Integer programming, techniques such as relaxation are needed to solve the problem. Let's examine the constraints that appear in integer programs and what approaches are taken to address the problem.

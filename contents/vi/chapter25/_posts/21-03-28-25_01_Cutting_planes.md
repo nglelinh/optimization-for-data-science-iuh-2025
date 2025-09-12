@@ -6,7 +6,7 @@ order: 2
 owner: YoungJae Choung
 categories:
 - chapter25
-lang: en
+lang: vi
 ---
 
 The cutting plane method is an approach that changes an integer linear program to a convex problem and finds a solution. If this solution is not included in the original feasible set, it uses cuts to progressively guide the newly obtained solution to be included in the original feasible set by cutting out the region where the solution exists. Here, a cut is a line (or hyperplane) that cuts the feasible set, also called a cutting plane.

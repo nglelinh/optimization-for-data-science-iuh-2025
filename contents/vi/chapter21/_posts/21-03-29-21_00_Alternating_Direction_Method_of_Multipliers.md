@@ -6,7 +6,7 @@ order: 1
 owner: Hooncheol Shin
 categories:
 - chapter21
-lang: en
+lang: vi
 ---
 
 This chapter aims to examine ADMM, which was covered in [Chapter 20]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %}), in more detail. The basic concepts are not significantly different in depth from what was covered in Chapter 20, and we will mainly look at application cases.

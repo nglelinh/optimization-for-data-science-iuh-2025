@@ -6,7 +6,7 @@ order: 10
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 problem가 커질수록 Hessian의 computation 비용이 매우 높아진다. **Proximal quasi-Newton method**는 각 stepat, Hessian $$H^{(k-1)} = \nabla^2 g(x^{(k-1)})$$를 computation하지 않는 방식with, superlinear or, linear convergence의 convergence 속도를 제공한다.

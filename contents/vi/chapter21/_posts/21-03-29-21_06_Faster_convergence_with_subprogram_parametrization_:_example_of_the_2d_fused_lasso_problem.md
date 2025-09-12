@@ -8,7 +8,7 @@ owner: Hooncheol Shin
 lesson_type: optional
 categories:
 - chapter21
-lang: en
+lang: vi
 ---
 
 # Faster Convergence with Subprogram Parametrization

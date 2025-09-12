@@ -6,7 +6,7 @@ order: 2
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 Even in cases where we cannot find a dual (conjugate) in closed-form, we can use subgradient or gradient methods based on the dual.

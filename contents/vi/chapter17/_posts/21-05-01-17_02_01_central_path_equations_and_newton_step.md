@@ -6,7 +6,7 @@ order: 4
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 The **Primal-dual interior-point method** is a method that finds solutions by finding the central path, similar to the barrier method. To do this, it defines perturbed KKT conditions as residual functions and finds solutions that make them zero. This section aims to explain this approach.
 

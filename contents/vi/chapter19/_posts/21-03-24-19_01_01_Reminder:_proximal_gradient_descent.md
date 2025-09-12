@@ -6,7 +6,7 @@ order: 3
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 Before examining the **Proximal newton method** that we will learn in this chapter, let's first review **Proximal gradient descent**.

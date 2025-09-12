@@ -6,7 +6,7 @@ order: 3
 owner: YoungJae Choung
 categories:
 - chapter25
-lang: en
+lang: vi
 ---
 
 Transforming an integer program into an equivalent convex problem is called convexification. When convexification is performed, the feasible set becomes a polyhedron, making it easy to find valid cutting planes for the cutting plane algorithm.

@@ -6,7 +6,7 @@ order: 2
 owner: Hooncheol Shin
 categories:
 - chapter18
-lang: en
+lang: vi
 ---
 
 ## Secant Equation

@@ -6,7 +6,7 @@ order: 13
 owner: Kyeongmin Woo
 categories:
 - chapter08
-lang: en
+lang: vi
 ---
 
 Assume each function $$f_i, i = 1,...,m$$ is convex and Lipschitz continuous with constant G.

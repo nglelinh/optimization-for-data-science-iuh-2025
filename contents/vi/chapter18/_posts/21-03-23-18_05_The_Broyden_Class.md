@@ -6,7 +6,7 @@ order: 6
 owner: Hooncheol Shin
 categories:
 - chapter18
-lang: en
+lang: vi
 ---
 
 The Broyden class generalizes BFGS, DFP, and SR1 with the following formula.

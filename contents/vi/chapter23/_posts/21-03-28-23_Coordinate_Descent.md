@@ -6,7 +6,7 @@ order: 1
 owner: YoungJae Choung
 categories:
 - chapter23
-lang: en
+lang: vi
 ---
 
 Coordinate descent is an optimization algorithm that iteratively moves along each coordinate axis to find the minimum of the objective function. At each iteration, according to a coordinate selection rule, it determines a coordinate axis (coordinate) or coordinate block, then minimizes the function along the direction of that axis while keeping the unselected coordinate axes or coordinate blocks fixed (exactly or inexactly). Coordinate descent can be utilized not only with gradient-based methods but also with gradient-free methods. Additionally, depending on the case, line search can be used to determine appropriate step sizes for each axis [16].

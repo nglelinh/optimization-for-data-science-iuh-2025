@@ -6,7 +6,7 @@ order: 6
 owner: Minjoo Lee
 categories:
 - chapter15
-lang: en
+lang: vi
 ---
 
 If we denote the solution to the following barrier problem ($$t > 0$$) as $$x^*(t)$$, then the **central path** is the set $$\{x^*(t) | t > 0 \}$$.

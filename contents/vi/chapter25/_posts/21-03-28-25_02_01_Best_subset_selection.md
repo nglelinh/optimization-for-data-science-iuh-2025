@@ -6,7 +6,7 @@ order: 8
 owner: YoungJae Choung
 categories:
 - chapter25
-lang: en
+lang: vi
 ---
 
 Best subset selection, one of the representative examples of Integer Programming, is a problem of selecting k entries from $$p$$ entries.

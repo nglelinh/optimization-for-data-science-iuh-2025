@@ -6,7 +6,7 @@ order: 5
 owner: Hooncheol Shin
 categories:
 - chapter18
-lang: en
+lang: vi
 ---
 
 The idea of BFGS is the same as DFP. The only difference is that the roles of B and H are reversed.

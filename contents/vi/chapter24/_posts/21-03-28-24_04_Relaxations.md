@@ -6,7 +6,7 @@ order: 5
 owner: YoungJae Choung
 categories:
 - chapter24
-lang: en
+lang: vi
 ---
 
 For relaxation, specific conditions must be satisfied, and Convex relaxation and Lagrangian relaxation methods can be utilized. Let's examine the detailed content.

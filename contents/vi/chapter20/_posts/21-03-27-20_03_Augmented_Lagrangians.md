@@ -6,7 +6,7 @@ order: 7
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 Dual ascent의 단점은 convergence을 보장하기 for, 강한 condition,이 필요하다는 것이다. (convergence을 보장하려면 $$f$$가 strongly convexsolution야 했다.) 이런 단점은 **Augmented Lagrangian method** (or, **Method of multipliers**)by, 개선될 수 있다. 

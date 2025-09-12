@@ -6,7 +6,7 @@ order: 6
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 다음의 problem를 생각solution 보자. 앞의 problemand, 다른점은 제약식이 부등식의 relationship,를 갖는 것이다. 

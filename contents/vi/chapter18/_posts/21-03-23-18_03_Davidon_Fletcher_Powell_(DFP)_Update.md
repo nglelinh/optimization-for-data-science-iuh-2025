@@ -6,7 +6,7 @@ order: 4
 owner: Hooncheol Shin
 categories:
 - chapter18
-lang: en
+lang: vi
 ---
 
 The DFP update is a method that updates $$H (=B^{-1})$$ with a rank-2 symmetric matrix.

@@ -6,7 +6,7 @@ order: 11
 owner: Kyeongmin Woo
 categories:
 - chapter06
-lang: en
+lang: vi
 ---
 
 If $$f$$ satisfies the following condition, it is strongly convex (assuming $$f$$ is twice differentiable and $$m > 0$$):

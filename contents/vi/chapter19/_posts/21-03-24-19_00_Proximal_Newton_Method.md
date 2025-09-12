@@ -6,7 +6,7 @@ order: 1
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 In this chapter, we will examine **Proximal Newton Method**, **Proximal quasi-Newton method**, and **Projected Newton method**.

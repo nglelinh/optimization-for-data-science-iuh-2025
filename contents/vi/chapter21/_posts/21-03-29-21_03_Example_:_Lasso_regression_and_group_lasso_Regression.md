@@ -6,7 +6,7 @@ order: 4
 owner: Hooncheol Shin
 categories:
 - chapter21
-lang: en
+lang: vi
 ---
 
 ## Lasso regression

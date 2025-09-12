@@ -6,7 +6,7 @@ order: 2
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 In this section, we will review the **proximal gradient method** and examine how the **proximal newton method** emerged from it.

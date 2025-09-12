@@ -6,7 +6,7 @@ order: 15
 owner: Kyeongmin Woo
 categories:
 - chapter08
-lang: en
+lang: vi
 ---
 
 The convergence properties of batch and stochastic methods are as follows:

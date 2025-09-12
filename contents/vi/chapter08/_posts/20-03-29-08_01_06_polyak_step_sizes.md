@@ -6,7 +6,7 @@ order: 8
 owner: Kyeongmin Woo
 categories:
 - chapter08
-lang: en
+lang: vi
 ---
 
 **Polyak step sizes** are a way to set the step size when the optimal value is known. If $$f^*$$ is known, Polyak step sizes can be defined as follows.

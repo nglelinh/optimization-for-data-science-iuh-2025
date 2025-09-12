@@ -6,7 +6,7 @@ order: 5
 owner: YoungJae Choung
 categories:
 - chapter23
-lang: en
+lang: vi
 ---
 
 In this section, Pathwise coordinate descent for lassoto, about, 개요를 간단히 소개하도록 한다 [[Friedman et al. (2007)](https://arxiv.org/pdf/0708.1485.pdf)] [[Friedman et al. (2009)](https://www.jstatsoft.org/article/view/v033i01/v33i01.pdf)]. 

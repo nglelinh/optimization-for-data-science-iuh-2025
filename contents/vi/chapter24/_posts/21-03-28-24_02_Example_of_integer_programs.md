@@ -6,7 +6,7 @@ order: 3
 owner: YoungJae Choung
 categories:
 - chapter24
-lang: en
+lang: vi
 ---
 
 In this section, let's examine various examples corresponding to Integer programming and learn how they are utilized.

@@ -6,7 +6,7 @@ order: 5
 owner: Wontak Ryu
 categories:
 - chapter12
-lang: en
+lang: vi
 lesson_type: required
 ---
 

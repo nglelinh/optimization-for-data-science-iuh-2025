@@ -6,7 +6,7 @@ order: 8
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 To analyze the convergence of the Proximal Newton method, we will follow the proof from Lee (2014) [1].

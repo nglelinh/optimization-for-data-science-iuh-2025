@@ -6,7 +6,7 @@ order: 6
 owner: Hooncheol Shin
 categories:
 - chapter21
-lang: en
+lang: vi
 ---
 
 # Consensus ADMM

@@ -6,7 +6,7 @@ order: 2
 owner: YoungJae Choung
 categories:
 - chapter23
-lang: en
+lang: vi
 ---
 
 In this chapter, we introduce a method called coordinate descent that is extremely simple, efficient, and highly scalable. First, let's start with some simple questions and answers.

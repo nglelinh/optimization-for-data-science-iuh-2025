@@ -6,7 +6,7 @@ order: 1
 owner: Wontak Ryu
 categories:
 - chapter10
-lang: en
+lang: vi
 ---
 
 Starting from this chapter, we will examine duality, which plays a significant role in optimization theory.

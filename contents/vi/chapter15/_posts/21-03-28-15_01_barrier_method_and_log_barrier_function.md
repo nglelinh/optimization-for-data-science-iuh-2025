@@ -6,7 +6,7 @@ order: 2
 owner: Minjoo Lee
 categories:
 - chapter15
-lang: en
+lang: vi
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({

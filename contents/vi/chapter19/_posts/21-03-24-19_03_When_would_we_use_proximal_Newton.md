@@ -6,7 +6,7 @@ order: 7
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 When should we use the proximal newton method? 

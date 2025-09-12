@@ -6,7 +6,7 @@ order: 3
 owner: Hooncheol Shin
 categories:
 - chapter21
-lang: en
+lang: vi
 ---
 
 # Connection to Proximal Operators

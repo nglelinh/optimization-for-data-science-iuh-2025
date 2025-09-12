@@ -6,7 +6,7 @@ order: 3
 owner: Jinwoo Park
 categories:
 - chapter23
-lang: en
+lang: vi
 ---
 
 Let's define the linear regression problem as follows.

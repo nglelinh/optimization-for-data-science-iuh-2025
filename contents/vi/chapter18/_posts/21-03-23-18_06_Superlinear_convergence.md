@@ -6,7 +6,7 @@ order: 7
 owner: Hooncheol Shin
 categories:
 - chapter18
-lang: en
+lang: vi
 ---
 
 ### Assumption1: 

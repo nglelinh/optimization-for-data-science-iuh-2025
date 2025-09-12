@@ -6,7 +6,7 @@ order: 8
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 In this section, let's look at an example of the Primal-Dual method for LP (linear programming) problems.
 

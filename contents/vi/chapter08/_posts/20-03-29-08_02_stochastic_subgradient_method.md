@@ -6,7 +6,7 @@ order: 11
 owner: Kyeongmin Woo
 categories:
 - chapter08
-lang: en
+lang: vi
 ---
 
 The stochastic subgradient method is similar to stochastic gradient descent, but replaces the gradient with a subgradient.

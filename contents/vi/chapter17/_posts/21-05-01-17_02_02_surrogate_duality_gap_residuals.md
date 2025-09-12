@@ -6,7 +6,7 @@ order: 5
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 To define the Primal-Dual algorithm, let's first define three types of residuals and the surrogate duality gap. Residuals and surrogate duality gap are the objectives to be minimized in the Primal-Dual algorithm.
 

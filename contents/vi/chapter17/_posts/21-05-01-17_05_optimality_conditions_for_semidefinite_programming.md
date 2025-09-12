@@ -6,7 +6,7 @@ order: 9
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 In this section, we want to look at an example of the Primal-Dual method for SDP (semidefinite programming) problems.
 

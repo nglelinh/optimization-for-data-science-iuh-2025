@@ -6,7 +6,7 @@ order: 4
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 In the previous section, we explained that the **proximal newton method** is a method that wants to use the local hessian $$\nabla^2 g(x)$$ instead of the spherical curvature $$\frac{1}{t} I$$ in the **proximal gradient descent** formula. The proximal newton method is an old idea that is being studied in statistics under the term local score.

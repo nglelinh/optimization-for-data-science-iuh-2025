@@ -6,7 +6,7 @@ order: 6
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 To define the Primal-Dual algorithm, let's first define $$\tau(x,u)$$ as follows
 > $$\tau(x,u) := -\frac{h(x)^Tu}{m} \quad \text{with} \quad h (x) \le 0, u \ge 0$$

@@ -6,7 +6,7 @@ order: 4
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 In this section, we examine techniques for decomposing problems using duality.

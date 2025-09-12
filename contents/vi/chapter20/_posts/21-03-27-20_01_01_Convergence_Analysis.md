@@ -6,7 +6,7 @@ order: 3
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 ## Lipschitz gradients and strong convexity

@@ -6,7 +6,7 @@ order: 5
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 **Proximal newton method**를 **proximal gradient descent**and, 같은 형식with, 다시 작성solution 볼 수 있다.

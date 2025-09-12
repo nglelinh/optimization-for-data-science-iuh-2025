@@ -6,7 +6,7 @@ order: 12
 owner: Kyeongmin Woo
 categories:
 - chapter08
-lang: en
+lang: vi
 ---
 
 Let’s consider the problem of minimizing the sum of functions as follows:

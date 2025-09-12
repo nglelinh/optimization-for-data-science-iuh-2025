@@ -6,7 +6,7 @@ order: 7
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 Generally, modern state-of-the-art LP Solvers use both Simplex method and interior-point method.
 

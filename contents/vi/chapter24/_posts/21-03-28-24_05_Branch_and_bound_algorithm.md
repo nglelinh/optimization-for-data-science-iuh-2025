@@ -6,7 +6,7 @@ order: 6
 owner: YoungJae Choung
 categories:
 - chapter24
-lang: en
+lang: vi
 ---
 
 Let's find out the method of solving Integer programs through Branch and bound algorithm and Convex relaxation.

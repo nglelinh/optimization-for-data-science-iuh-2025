@@ -6,7 +6,7 @@ order: 6
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 **Proximal newton method** may not converge in cases with pure step size $$t_k=1, k=1,2,3, \cdots$$ like newton's method. Therefore, we need to optimize the step size through backtracking line search.

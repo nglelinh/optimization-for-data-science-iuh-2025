@@ -6,7 +6,7 @@ order: 4
 owner: YoungJae Choung
 categories:
 - chapter25
-lang: en
+lang: vi
 ---
 
 In this section, we will examine the cutting plane algorithm that can solve integer linear programs.

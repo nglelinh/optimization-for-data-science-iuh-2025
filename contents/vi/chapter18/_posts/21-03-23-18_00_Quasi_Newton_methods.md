@@ -6,7 +6,7 @@ order: 1
 owner: Hooncheol Shin
 categories:
 - chapter18
-lang: en
+lang: vi
 ---
 
 In the mid-1950s, physicist W.C. Davidon, who was working at Argonne National Laboratory, was solving optimization problems with large computational requirements using coordinate descent methods. Unfortunately, due to the instability of computers at the time, system crashes frequently occurred before computations could be completed, and frustrated by this, Davidon decided to find methods that could improve computational speed. This led to the birth of the first Quasi-Newton algorithm. This became a catalyst for dramatic progress in nonlinear optimization, and subsequently, various follow-up studies on this method emerged over the next 20 years.

@@ -6,7 +6,7 @@ order: 1
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 
 In this chapter, we will examine the **Primal-Dual Interior-Point Method**, which improves performance by reducing the centering step of the Barrier method we learned earlier to a single step.

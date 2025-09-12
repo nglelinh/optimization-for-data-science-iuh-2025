@@ -6,7 +6,7 @@ order: 3
 owner: Minjoo Lee
 categories:
 - chapter17
-lang: en
+lang: vi
 ---
 Like the barrier method, the **primal-dual interior-point method** also aims to (approximately) compute points on the central path. However, the two methods have several differences.
 

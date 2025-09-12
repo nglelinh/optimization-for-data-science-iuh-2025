@@ -6,7 +6,7 @@ order: 5
 owner: Wontak Ryu
 categories:
 - chapter10
-lang: en
+lang: vi
 ---
 
 <script type="text/x-mathjax-config">

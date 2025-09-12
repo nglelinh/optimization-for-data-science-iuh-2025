@@ -6,7 +6,7 @@ order: 7
 owner: YoungJae Choung
 categories:
 - chapter25
-lang: en
+lang: vi
 ---
 
 In this section, we will present two examples of Mixed Integer Programming.

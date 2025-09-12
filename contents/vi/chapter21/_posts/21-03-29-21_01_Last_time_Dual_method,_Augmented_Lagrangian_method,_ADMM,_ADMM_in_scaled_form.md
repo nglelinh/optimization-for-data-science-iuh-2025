@@ -7,7 +7,7 @@ order: 2
 owner: Hooncheol Shin
 categories:
 - chapter21
-lang: en
+lang: vi
 ---
 
 before, 20장at, 우리는 Dual methods, ADMMabout, 살펴보았다. 여기선 ADMM의 응용을 살펴보기to, 앞서, Dual methodsand, Augmented Lagrangian method, ADMM, ADMM in scaled formabout, 정리하고자 한다.

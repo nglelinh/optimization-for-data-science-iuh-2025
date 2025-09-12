@@ -6,7 +6,7 @@ order: 11
 owner: Hooncheol Shin
 categories:
 - chapter19
-lang: en
+lang: vi
 ---
 
 ## What's wrong with projected Newton?

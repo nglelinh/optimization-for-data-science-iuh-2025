@@ -6,7 +6,7 @@ order: 1
 owner: Hooncheol Shin
 categories:
 - chapter20
-lang: en
+lang: vi
 ---
 
 In this chapter, we will examine methods for solving problems using duality, including dual subgradient method, dual decomposition method, augmented Lagrangian method, and briefly introduce the concept of Alternating Direction Method of Multipliers (ADMM). 
