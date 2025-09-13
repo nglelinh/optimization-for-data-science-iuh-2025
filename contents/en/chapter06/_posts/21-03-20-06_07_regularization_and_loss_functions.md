@@ -7,7 +7,6 @@ owner: Kyeongmin Woo
 categories:
 - chapter06
 lang: en
-lesson_type: required
 ---
 
 <script src="../../../public/js/script.js"></script>
