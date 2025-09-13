@@ -7,7 +7,6 @@ owner: Kyeongmin Woo
 categories:
 - chapter06
 lang: en
-lesson_type: required
 ---
 
 Suppose $$f$$ is convex and differentiable with $$dom(f) = \mathbb{R}^n$$, and $$\nabla f$$ is Lipschitz continuous with constant $$L > 0$$:
