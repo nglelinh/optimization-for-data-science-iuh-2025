@@ -52,4 +52,4 @@ That is, at optimality, $$\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i$$ is sati
 </p>
 </figure>
 
-SVM문제를 최적화 하기 전, non-support points를 걸러내는데 위 방법을 이용할 수 있다 (non-support points를 걸러냄으로써 계산 효율을 높일 수 있다). 사실 KKT conditions는 이 문제의 solution을 도출하기 위한 직접적인 역할을 하지는 않지만, 우리는 이를 통해 SVM 문제를 더 잘 이해하기 위한 직관을 얻을 수 있다 [3].
+Before optimizing the SVM problem, the above method can be used to filter out non-support points (filtering out non-support points can improve computational efficiency). In fact, KKT conditions do not play a direct role in deriving the solution to this problem, but we can gain intuition to better understand the SVM problem through them [3].

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 00-01-03 Gradient và Đạo hàm Hướng
+title: 00-01-03 Gradient và Đạo Hàm Theo Hướng
 chapter: '00'
 order: 5
 owner: GitHub Copilot
@@ -10,118 +10,118 @@ categories:
 lesson_type: required
 ---
 
-Bài học này khám phá vector gradient và đạo hàm hướng, những khái niệm trung tâm trong tối ưu hóa để hiểu cách các hàm số thay đổi theo các hướng khác nhau.
+This lesson explores the gradient vector and directional derivatives, which are central concepts in optimization for understanding how functions change in different directions.
 
 ---
 
-## Vector Gradient
+## Gradient Vector
 
-Gradient $$\nabla f$$ là một vector gồm các đạo hàm riêng của hàm số $$f$$ theo từng biến của nó. Nó chỉ ra hướng tăng dốc nhất của hàm số tại một điểm cho trước.
+The gradient $$\nabla f$$ is a vector composed of the partial derivatives of the function $$f$$ with respect to each of its variables. It indicates the direction of the steepest ascent of the function at a given point.
 
-### Định nghĩa và Tính toán
+### Definition and Computation
 
-Với hàm hai biến $$f(x, y)$$, gradient của nó là:
+For a function of two variables, $$f(x, y)$$, its gradient is:
 
 $$ \nabla f = \begin{pmatrix} \frac{\partial f}{\partial x} \\ \frac{\partial f}{\partial y} \end{pmatrix} $$
 
-Với hàm $$n$$ biến $$f(x_1, x_2, \ldots, x_n)$$:
+For a function of $$n$$ variables, $$f(x_1, x_2, \ldots, x_n)$$:
 
 $$ \nabla f = \begin{pmatrix} \frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \\ \vdots \\ \frac{\partial f}{\partial x_n} \end{pmatrix} $$
 
-### Ví dụ: Tính Gradient
+### Example: Computing a Gradient
 
-Với $$f(x, y) = x^2 + 3xy + y^2$$:
+For $$f(x, y) = x^2 + 3xy + y^2$$:
 
 $$\frac{\partial f}{\partial x} = 2x + 3y$$
 $$\frac{\partial f}{\partial y} = 3x + 2y$$
 
-Do đó: $$\nabla f = \begin{pmatrix} 2x + 3y \\ 3x + 2y \end{pmatrix}$$
+Therefore: $$\nabla f = \begin{pmatrix} 2x + 3y \\ 3x + 2y \end{pmatrix}$$
 
-Tại điểm $$(1, 2)$$: $$\nabla f(1, 2) = \begin{pmatrix} 2(1) + 3(2) \\ 3(1) + 2(2) \end{pmatrix} = \begin{pmatrix} 8 \\ 7 \end{pmatrix}$$
+At the point $$(1, 2)$$: $$\nabla f(1, 2) = \begin{pmatrix} 2(1) + 3(2) \\ 3(1) + 2(2) \end{pmatrix} = \begin{pmatrix} 8 \\ 7 \end{pmatrix}$$
 
 ---
 
-## Đạo hàm Hướng
+## Directional Derivatives
 
-**Đạo hàm hướng** đo tốc độ thay đổi của $$f$$ khi chúng ta di chuyển theo bất kỳ hướng nào được chọn $$\mathbf{u}$$. Ở đây $$\mathbf{u}$$ phải là vector đơn vị (có độ dài bằng 1).
+The **directional derivative** measures the rate of change of $$f$$ when we move in any chosen direction $$\mathbf{u}$$. Here $$\mathbf{u}$$ must be a unit vector (length 1).
 
-### Định nghĩa
+### Definition
 
-Với hàm số $$f(\mathbf{x})$$ và vector đơn vị $$\mathbf{u} = \langle u_1, u_2, \ldots, u_n \rangle$$:
+For a function $$f(\mathbf{x})$$ and unit vector $$\mathbf{u} = \langle u_1, u_2, \ldots, u_n \rangle$$:
 
 $$D_{\mathbf{u}}f(\mathbf{x}) = \nabla f(\mathbf{x}) \cdot \mathbf{u} = \sum_{i=1}^{n} \frac{\partial f}{\partial x_i} u_i$$
 
-### Giải thích Hình học
+### Geometric Interpretation
 
-Đạo hàm hướng có thể được viết như:
+The directional derivative can be written as:
 
 $$D_{\mathbf{u}}f = \lvert \nabla f \rvert \cos \theta$$
 
-nơi $$\theta$$ là góc giữa $$\nabla f$$ và $$\mathbf{u}$$, và $$\lvert \nabla f \rvert$$ là độ lớn của gradient.
+where $$\theta$$ is the angle between $$\nabla f$$ and $$\mathbf{u}$$, and $$\lvert \nabla f \rvert$$ is the magnitude of the gradient.
 
-### Ví dụ: Tính Đạo hàm Hướng
+### Example: Computing Directional Derivatives
 
-Sử dụng ví dụ trước $$f(x, y) = x^2 + 3xy + y^2$$ tại điểm $$(1, 2)$$ nơi $$\nabla f(1, 2) = \begin{pmatrix} 8 \\ 7 \end{pmatrix}$$:
+Using our previous example $$f(x, y) = x^2 + 3xy + y^2$$ at point $$(1, 2)$$ where $$\nabla f(1, 2) = \begin{pmatrix} 8 \\ 7 \end{pmatrix}$$:
 
-**Hướng 1:** $$\mathbf{u}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$$ (hướng x dương)
+**Direction 1:** $$\mathbf{u}_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$$ (positive x-direction)
 $$D_{\mathbf{u}_1}f(1, 2) = 8 \cdot 1 + 7 \cdot 0 = 8$$
 
-**Hướng 2:** $$\mathbf{u}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$ (hướng y dương)
+**Direction 2:** $$\mathbf{u}_2 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$ (positive y-direction)
 $$D_{\mathbf{u}_2}f(1, 2) = 8 \cdot 0 + 7 \cdot 1 = 7$$
 
-**Hướng 3:** $$\mathbf{u}_3 = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ 1 \end{pmatrix}$$ (đường chéo 45°)
+**Direction 3:** $$\mathbf{u}_3 = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ 1 \end{pmatrix}$$ (45° diagonal)
 $$D_{\mathbf{u}_3}f(1, 2) = 8 \cdot \frac{1}{\sqrt{2}} + 7 \cdot \frac{1}{\sqrt{2}} = \frac{15}{\sqrt{2}} \approx 10.61$$
 
 ---
 
-## Tốc độ Thay đổi Tối đa và Tối thiểu
+## Maximum and Minimum Rates of Change
 
-### Các Tính chất Chính
+### Key Properties
 
-Từ công thức $$D_{\mathbf{u}}f = \lvert \nabla f \rvert \cos \theta$$, chúng ta có thể xác định:
+From the formula $$D_{\mathbf{u}}f = \lvert \nabla f \rvert \cos \theta$$, we can determine:
 
-1. **Tốc độ Thay đổi Tối đa**: Xảy ra khi $$\cos \theta = 1$$ (tức là $$\theta = 0°$$)
-   - Hướng: $$\mathbf{u} = \frac{\nabla f}{\lvert \nabla f \rvert}$$ (cùng hướng với gradient)
-   - Tốc độ tối đa: $$D_{\max}f = \lvert \nabla f \rvert$$
+1. **Maximum Rate of Change**: Occurs when $$\cos \theta = 1$$ (i.e., $$\theta = 0°$$)
+   - Direction: $$\mathbf{u} = \frac{\nabla f}{\lvert \nabla f \rvert}$$ (same direction as gradient)
+   - Maximum rate: $$D_{\max}f = \lvert \nabla f \rvert$$
 
-2. **Tốc độ Thay đổi Tối thiểu**: Xảy ra khi $$\cos \theta = -1$$ (tức là $$\theta = 180°$$)
-   - Hướng: $$\mathbf{u} = -\frac{\nabla f}{\lvert \nabla f \rvert}$$ (ngược với gradient)
-   - Tốc độ tối thiểu: $$D_{\min}f = -\lvert \nabla f \rvert$$
+2. **Minimum Rate of Change**: Occurs when $$\cos \theta = -1$$ (i.e., $$\theta = 180°$$)
+   - Direction: $$\mathbf{u} = -\frac{\nabla f}{\lvert \nabla f \rvert}$$ (opposite to gradient)
+   - Minimum rate: $$D_{\min}f = -\lvert \nabla f \rvert$$
 
-3. **Tốc độ Thay đổi Bằng Không**: Xảy ra khi $$\cos \theta = 0$$ (tức là $$\theta = 90°$$)
-   - Hướng: Bất kỳ vector nào vuông góc với $$\nabla f$$
+3. **Zero Rate of Change**: Occurs when $$\cos \theta = 0$$ (i.e., $$\theta = 90°$$)
+   - Direction: Any vector perpendicular to $$\nabla f$$
 
-### Tóm tắt Các Tính chất của Gradient
+### Summary of Gradient Properties
 
-- Gradient $$\nabla f$$ chỉ theo hướng **tăng dốc nhất**
-- Hướng $$-\nabla f$$ chỉ theo hướng **giảm dốc nhất**
-- Độ lớn $$\lvert \nabla f \rvert$$ cho **tốc độ thay đổi tối đa**
-- Khi $$\nabla f = \mathbf{0}$$, điểm đó là **điểm tới hạn** (tối ưu tiềm năng)
+- The gradient $$\nabla f$$ points in the direction of **steepest increase**
+- The direction $$-\nabla f$$ points in the direction of **steepest decrease**
+- The magnitude $$\lvert \nabla f \rvert$$ gives the **maximum rate of change**
+- When $$\nabla f = \mathbf{0}$$, the point is a **critical point** (potential optimum)
 
 ---
 
-## Mối quan hệ với Đường đồng mức
+## Relation to Level Curves
 
-Tại bất kỳ điểm nào trên đường mức $$f(x, y) = c$$, vector gradient $$\nabla f$$ **trực giao (vuông góc)** với đường tiếp tuyến của đường mức tại điểm đó.
+At any point on a level curve $$f(x, y) = c$$, the gradient vector $$\nabla f$$ is **orthogonal (perpendicular)** to the tangent line of the level curve at that point.
 
-### Tại sao Điều này Quan trọng
+### Why This Matters
 
-Tính chất trực giao này rất cơ bản vì:
+This orthogonality property is fundamental because:
 
-1. **Đường mức biểu diễn giá trị hàm hằng số**: Di chuyển dọc theo đường mức không thay đổi giá trị hàm, nên đạo hàm hướng bằng không.
+1. **Level curves represent constant function values**: Moving along a level curve doesn't change the function value, so the directional derivative is zero.
 
-2. **Gradient chỉ hướng tăng dốc nhất**: Hướng tăng giá trị hàm nhanh nhất phải vuông góc với hướng không thay đổi giá trị chút nào.
+2. **Gradient points to steepest increase**: The direction that increases the function value most rapidly must be perpendicular to the direction that doesn't change it at all.
 
-3. **Thông đạt tối ưu hóa**: Để tìm cực trị, chúng ta tìm các điểm nơi gradient bằng không (điểm tới hạn) hoặc nơi gradient vuông góc với biên ràng buộc.
+3. **Optimization insight**: To find extrema, we look for points where the gradient is zero (critical points) or where the gradient is perpendicular to the constraint boundary.
 
-### Ứng dụng trong Tối ưu hóa
+### Applications in Optimization
 
-Hiểu gradient và đạo hàm hướng rất quan trọng cho:
+Understanding gradients and directional derivatives is crucial for:
 
-1. **Gradient Descent**: Di chuyển theo hướng $$-\nabla f$$ để tối thiểu hóa $$f$$
-2. **Gradient Ascent**: Di chuyển theo hướng $$+\nabla f$$ để tối đa hóa $$f$$
-3. **Tối ưu hóa có Ràng buộc**: Sử dụng mối quan hệ giữa gradient và đường mức
-4. **Phân tích Hội tụ**: Hiểu khi nào thuật toán sẽ hội tụ đến nghiệm tối ưu
-5. **Lựa chọn Kích thước Bước**: Xác định di chuyển bao xa theo hướng gradient
+1. **Gradient Descent**: Moving in the direction $$-\nabla f$$ to minimize $$f$$
+2. **Gradient Ascent**: Moving in the direction $$+\nabla f$$ to maximize $$f$$
+3. **Constrained Optimization**: Using the relationship between gradients and level curves
+4. **Convergence Analysis**: Understanding when algorithms will converge to optimal solutions
+5. **Step Size Selection**: Determining how far to move in the gradient direction
 
-Gradient cung cấp cả hướng di chuyển và thông tin về tốc độ thay đổi của hàm, làm cho nó trở thành nền tảng cho hầu hết các thuật toán tối ưu hóa.
+The gradient provides both the direction to move and information about how quickly the function is changing, making it the foundation for most optimization algorithms.

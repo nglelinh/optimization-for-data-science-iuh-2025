@@ -99,26 +99,26 @@ First, we derive the damped phase that satisfies $$\|\nabla f(x)\|_{2} \geq \eta
 >f(x+t\Delta x_{nt}) \leq f(x)+t\nabla f(x)^{T}\Delta x_{nt} + \frac{L \|\Delta x_{nt} \|^{2}_{2} }{2}t^{2},
 >\end{align}$$
 >
-Newton decrement, 증분과 hessian matrix와의 관계와 Strong convexity의 관계를 이용하여 다음과 같이 전개할 수 있다.
+Using the relationship between Newton decrement, increment and Hessian matrix, and the relationship with strong convexity, we can develop as follows.
 >
 >$$\begin{align}
 >&\text{ Since, }\lambda(x)^{2}=\Delta x_{nt}^{T} \nabla^{2} f(x) \geq m\|\Delta x_{nt}\|^{2}_{2},\\\\
 >&f(x)+t\nabla f(x)^{T}\Delta x_{nt} + \frac{L \|\Delta x_{nt} \|^{2}_{2} }{2}t^{2} \leq f(x)-t\lambda(x)^{2} + \frac{L}{2m}t^{2}\lambda(x)^{2},
 >\end{align}$$
 >
->이 때, backtracking line search의 조건을 만족하기 위해서는 아래를 만족해야 한다.
+>At this time, to satisfy the conditions of backtracking line search, the following must be satisfied.
 >
 >$$\begin{align}
 >f(x+t\Delta x_{nt}) \leq f(x)-(1-\frac{L}{2m}t)t \lambda(x)^{2}, \qquad \text{ where, }0<1-\frac{L}{2m}t \leq \frac{1}{2}
 >\end{align}$$
 >
->위를 만족하는 t의 최소값을 $$\hat{t}$$라 할 때, $$\hat{t} = \frac{m}{L}$$이 되고, 이를 원 식에 대입하면 다음과 같다.
+>When the minimum value of t that satisfies the above is $$\hat{t}$$, we have $$\hat{t} = \frac{m}{L}$$, and substituting this into the original equation gives the following.
 >
 >$$\begin{align}
 >f(x+\hat{t}\Delta x_{nt})\leq f(x)-\frac{m}{2L}\lambda(x)^{2} \leq f(x) -\alpha \hat{t} \lambda(x)^{2},
 >\end{align}$$
 >
->backtracking line search에서 $$0<\beta\leq 1$$이므로, $$t\geq \beta \frac{m}{L}$$를 만족하고, 이를 정리하여 최종 결과를 유도할 수 있다.
+>In backtracking line search, since $$0<\beta\leq 1$$, we satisfy $$t\geq \beta \frac{m}{L}$$, and by organizing this, we can derive the final result.
 >
 >$$\begin{align}
 >f(x^{+})-f(x) &\leq -\alpha t \lambda(x)^{2}\\
@@ -131,28 +131,28 @@ Newton decrement, 증분과 hessian matrix와의 관계와 Strong convexity의 �
 
 
 ## Proof 2. Pure phase
-이제 $$\|\nabla f(x)\|_{2} < \eta$$일 때를 가정하고, Damped phase(quadratically convergent phase)를 살펴본다. 증명은 두가지 과정으로 나뉜다. backtracking line search의 t 업데이트가 필요하지 않음을 보이고, 수렴속도가 quadratic함을 보이게 된다.
+Now assume $$\|\nabla f(x)\|_{2} < \eta$$ and examine the Damped phase (quadratically convergent phase). The proof is divided into two processes. We show that the t update in backtracking line search is not necessary, and that the convergence rate is quadratic.
 
->Backtracking line search로 부터 다음과 같은 식이 유도된다.
+>The following equation is derived from backtracking line search.
 >
 >$$\begin{align}
 >\eta \leq 3(1-2\alpha)\frac{m^{2}}{M}.
 >\end{align}$$
 >
->또한, Lipschitz condition에 따라 $$t \geq 0$$에 대하여, 다음 조건을 만족한다.
+>Also, according to the Lipschitz condition, for $$t \geq 0$$, the following condition is satisfied.
 >
 >$$\begin{align}
 >\|\nabla^{2}f(x+t\Delta x_{nt})-\nabla^{2}f(x)\|_{2} \leq tM \|\Delta x_{nt} \|_{2},\\
 >| \Delta x_{nt}^{T} \big( \nabla^{2}f(x+t\Delta x_{nt})-\nabla^{2}f(x) \big) \Delta x_{nt}| \leq tM \|\Delta x_{nt} \|_{2}^{3}.
 >\end{align}$$
 >
->$$\tilde{f} = f(x+t\Delta x_{nt}$$)라 두면, $$\tilde{f}''(t) = \Delta x_{nt}^{T} \nabla^{2}f(x+t\Delta x_{nt})\Delta x_{nt}$$이고, 이를 대입한다.
+>Let $$\tilde{f} = f(x+t\Delta x_{nt}$$), then $$\tilde{f}''(t) = \Delta x_{nt}^{T} \nabla^{2}f(x+t\Delta x_{nt})\Delta x_{nt}$$, and substitute this.
 >
 >$$\begin{align}
 >\tilde{f}''(t) \leq \tilde{f}''(0)+tM\|\Delta x_{nt}\|^{3}_{2} \leq tM\|\Delta x_{nt} \|^{3}_{2}
 >\end{align}$$
 >
->$$\tilde{f}''(0) = \lambda(x)^{2}$$이고, $$\lambda(x)^{2} \geq m\|\nabla x_{nt}\|_{2}^{2}$$ 임을 이용하고, 부등식을 합친다. $$\tilde{f}'(0) = -\lambda(x)^{2}$$이므로 다음과 같이 정리할 수 있다.
+>Using $$\tilde{f}''(0) = \lambda(x)^{2}$$ and $$\lambda(x)^{2} \geq m\|\nabla x_{nt}\|_{2}^{2}$$, we combine the inequalities. Since $$\tilde{f}'(0) = -\lambda(x)^{2}$$, we can organize as follows.
 >
 >$$\begin{align}
 >\tilde{f}''(t) &\leq \tilde{f}''(0) + tM \| \Delta x_{nt} \| ^{3}_{2} \leq \lambda(x)^{2} + t\frac{M}{m^{3/2}}\lambda(x)^{3}, \\
@@ -160,19 +160,19 @@ Newton decrement, 증분과 hessian matrix와의 관계와 Strong convexity의 �
 >&= -\lambda(x)^{2}+t\lambda(x)^{2} + t^{2}\frac{L}{2m^{3/2}}\lambda(x)^{3}.
 >\end{align}$$
 >
->이제 양변을 적분한다.
+>Now integrate both sides.
 >
 >$$\begin{align}
 >\tilde{f}(t) \leq \tilde{f}(0) - t\lambda(x)^{2} + t^{2} \frac{1}{2}\lambda(x)^{2} + t^{3}\frac{M}{6m^{3/2}}\lambda(x)^{3}.
 >\end{align}$$
 >
->t = 1로 두면, 아래와 같은 결과를 얻을 수 있다.
+>Setting t = 1, we can obtain the following result.
 >
 >$$\begin{align}
 >f(x+\Delta x_{nt}) \leq f(x) -\frac{1}{2}\lambda(x)^{2} + \frac{M}{6m^{3/2}}\lambda(x)^{3}.
 >\end{align}$$
 >
->이제 $$\|\nabla f(x)\|_{2}\leq \eta \leq 3(1-2\alpha)\frac{m^{2}}{M}$$이라 가정하면, strong convexity 조건에 의해 $$\lambda(x) \leq 3(1-2\alpha)m^{3/2}/L$$이다. 이를 위에 부등식에 대입하면 아래와 같은 결과를 유도할 수 있다.
+>Now assuming $$\|\nabla f(x)\|_{2}\leq \eta \leq 3(1-2\alpha)\frac{m^{2}}{M}$$, by the strong convexity condition, $$\lambda(x) \leq 3(1-2\alpha)m^{3/2}/L$$. Substituting this into the above inequality, we can derive the following result.
 >
 >$$\begin{align}
 >f(x+\Delta x_{nt}) &\leq f(x) - \lambda(x)^{2}( \frac{1}{2}- \frac{M\lambda(x)}{6m^{3/2}} ) \\
@@ -180,10 +180,10 @@ Newton decrement, 증분과 hessian matrix와의 관계와 Strong convexity의 �
 > &= f(x) + \alpha \nabla f(x)^{T} \Delta x_{nt},
 >\end{align}$$
 >
->이 결과는 $$t=1$$일때 backtracking line search를 수행하더라도 항상 조건을 만족하기 때문에, $$t$$를 감소시키지 않음을 의미한다.
+>This result means that when $$t=1$$, even if backtracking line search is performed, the condition is always satisfied, so $$t$$ is not decreased.
 
-이제 우리는 수렴속도가 quadratic하게 줄어듬을 증명해본다.
->$$x_{nt} = -(\nabla^{2}f(x))^{-1}\nabla f(x)$$임을 이용한 뒤, 적분의 성질 중 하나인 $$f(t, u) - f(t, v) = \int^{u}_{v}{\frac{\partial f}{\partial x}(t, x) dx} $$를 이용하여 정리하고, Hessian의 Lipschitz 조건을 적분식에 적용하고 정리한다. 마지막으로 strong convexity 조건을 적용하면 증명이 완료된다. 과정을 수식으로 나타내면 아래와 같다.
+Now we prove that the convergence rate decreases quadratically.
+>Using $$x_{nt} = -(\nabla^{2}f(x))^{-1}\nabla f(x)$$, we organize using one of the properties of integration: $$f(t, u) - f(t, v) = \int^{u}_{v}{\frac{\partial f}{\partial x}(t, x) dx}$$, apply the Lipschitz condition of the Hessian to the integral equation and organize. Finally, applying the strong convexity condition completes the proof. The process can be expressed mathematically as follows.
 >
 >$$\begin{align}
 >\| \nabla f(x^{+}) \| _{2} &= \| \nabla f(x+\Delta x_{nt}) - \nabla f(x) - \nabla^{2}f(x)\Delta x_{nt} \|_{2}\\\\
@@ -193,32 +193,32 @@ Newton decrement, 증분과 hessian matrix와의 관계와 Strong convexity의 �
 > & \leq \frac{M}{2m^{2}}\|\nabla f(x)\|^{2}_{2}.
 >\end{align}$$
 
-결론을 다시 정리하면, $$\eta = \min \{1, 3(1-2\alpha)\}\frac{m^{2}}{M}$$ 일 때, $$\|\nabla f(x^{(k)}) \|_{2}<\eta$$를 만족하는 조건에서는 Newton's method는 backtracing line search에서의 업데이트가 더이상 필요하지 않고, quadratic하게 converge 한다.
+To summarize the conclusion, when $$\eta = \min \{1, 3(1-2\alpha)\}\frac{m^{2}}{M}$$, under the condition that $$\|\nabla f(x^{(k)}) \|_{2}<\eta$$ is satisfied, Newton's method no longer requires updates in backtracking line search and converges quadratically.
 
 ## Estimating total complexity
-이제, 우리는 전체 과정에서의 complexity, 달리 말해 초기 값으로부터 최적값까지 도달하는데 걸리는 iteration 횟수에 대한 bound를 추정할 수 있다.
-우선, 위의 damped Newton phase에서 $$f$$는 매 iteration마다 $$\gamma$$를 넘지 않는 선에서 값이 감소하므로, damped Newton step의 전체 step 수는 다음의 식의 결과값을 넘지 못한다.
+Now, we can estimate the bound on the complexity of the entire process, in other words, the number of iterations required to reach the optimal value from the initial value.
+First, in the damped Newton phase above, since $$f$$ decreases by no more than $$\gamma$$ at each iteration, the total number of damped Newton steps cannot exceed the result of the following equation.
 >$$\begin{align}
 >\frac{f(x^{(0)})-p^{\star}}{\gamma}.
 >\end{align}$$
 
-pure Newton phase에서의 iteration 횟수의 bound 또한 계산할 수 있다. 위의 식을 $$f(x)-p^{\star}\leq \epsilon$$, $$\epsilon_{0} = \frac{2m^{3}}{M^{2}}$$로 두고, iteration 횟수로 식을 정리하면 다음과 같은 값을 계산할 수 있다.
+The bound on the number of iterations in the pure Newton phase can also be calculated. Setting the above equation as $$f(x)-p^{\star}\leq \epsilon$$, $$\epsilon_{0} = \frac{2m^{3}}{M^{2}}$$, and organizing the equation by the number of iterations, we can calculate the following value.
 >$$\begin{align}
 >& &\epsilon = \epsilon_{0} (\frac{1}{2})^{2^{k-k_{0}+1}}\\\\
 >&\Leftrightarrow &\frac{\epsilon_{0}}{\epsilon} = 2^{2^{k-k_{0}+1}}\\\\
 >&\Leftrightarrow &k-k_{0}+1 = log_{2}log_{2}(\frac{\epsilon_{0}}{\epsilon})
 >\end{align}$$
 
-따라서 pure Newton phase에서 iteration 횟수는 $$\log \log(\frac{\epsilon_{0}}{\epsilon})$$로 bound 된다.
+Therefore, the number of iterations in the pure Newton phase is bounded by $$\log \log(\frac{\epsilon_{0}}{\epsilon})$$.
 
-이 두 결과를 더하면, Newton method를 통하여 원하는 정밀도의 해를 얻는데 필요한 iteration 횟수의 upper bound를 정의할 수 있다.
+Adding these two results, we can define the upper bound on the number of iterations required to obtain a solution with the desired precision through Newton method.
 >$$\begin{align}
 >\frac{f(x^{(0)})-p^{\star}}{\gamma} + \log \log (\frac{\epsilon_{0}}{\epsilon}).
 >\end{align}$$
 
-문제를 해결할때 요구되는 정밀도 $$\epsilon$$의 변화에 비해 우변의 두번째 항은 매우 작은 변화를 보이므로, 실제 응용에서는 이를 상수로 두고 추정을 하게 된다. 일반적으로 6번의 iteration은 $$\epsilon \approx 5\cdot 10^{-20}\epsilon_{0}$$의 정밀도를 보인다고 알려져 있다.
+Since the second term on the right side shows very small changes compared to the changes in precision $$\epsilon$$ required when solving problems, in practical applications, this is treated as a constant for estimation. Generally, it is known that 6 iterations show precision of $$\epsilon \approx 5\cdot 10^{-20}\epsilon_{0}$$.
 
-일반적으로 말해서, 목적함수 $$f$$를 최소화하는데 있어서 필요한 iteration 횟수는 다음과 같다.
+Generally speaking, the number of iterations required to minimize the objective function $$f$$ is as follows.
 >$$\begin{align}
 >\frac{f(x^{(0)})-p^{\star}}{\gamma} + 6.
 >\end{align}$$

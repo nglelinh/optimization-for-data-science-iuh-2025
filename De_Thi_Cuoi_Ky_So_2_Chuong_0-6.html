@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Thi Cuối Kỳ Số 2 - Tối Ưu Hóa Lồi (Chương 0-6)</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            max-width: 100%;
+            margin: 0;
+            padding: 12mm;
+            background-color: white;
+            font-size: 14px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 6px 0;
+            text-transform: uppercase;
+        }
+        
+        .header h2 {
+            font-size: 14px;
+            margin: 3px 0;
+        }
+        
+        .exam-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        
+        .student-info {
+            border: 1px solid #000;
+            padding: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        
+        .instructions {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 8px;
+            margin: 10px 0;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        .instructions h3 {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        .page-1, .page-2 {
+            page-break-after: always;
+        }
+        
+        .page-2:last-child {
+            page-break-after: auto;
+        }
+        
+        .question {
+            margin: 12px 0;
+            padding: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        .question-text {
+            margin: 8px 0;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .options {
+            margin: 8px 0;
+            padding-left: 10px;
+        }
+        
+        .option {
+            margin: 6px 0;
+            display: flex;
+            align-items: flex-start;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .option-letter {
+            font-weight: bold;
+            margin-right: 8px;
+            min-width: 20px;
+        }
+        
+        /* Layout 2 cột cho từng trang */
+        .questions-page-1, .questions-page-2 {
+            column-count: 2;
+            column-gap: 20px;
+            column-rule: 1px solid #ddd;
+            column-fill: balance;
+        }
+        
+        .question {
+            break-inside: avoid;
+            margin: 8px 0;
+        }
+        
+        
+        
+        @media print {
+            @page {
+                size: A4;
+                margin: 8mm;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                font-size: 11px;
+                line-height: 1.3;
+            }
+            
+            .header {
+                margin-bottom: 8px;
+                padding-bottom: 6px;
+            }
+            
+            .header h1 {
+                font-size: 14px;
+                margin: 3px 0;
+            }
+            
+            .header h2 {
+                font-size: 11px;
+                margin: 2px 0;
+            }
+            
+            
+            .question {
+                page-break-inside: avoid;
+                margin: 4px 0;
+                padding: 4px;
+                font-size: 11px;
+                line-height: 1.3;
+            }
+            
+            .question-number {
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+            
+            .question-text {
+                font-size: 11px;
+                margin: 3px 0;
+                line-height: 1.3;
+            }
+            
+            .option {
+                font-size: 10px;
+                margin: 2px 0;
+                line-height: 1.2;
+            }
+            
+            .options {
+                margin: 3px 0;
+                padding-left: 8px;
+            }
+            
+            /* Layout 2 cột tối ưu cho từng trang */
+            .questions-page-1, .questions-page-2 {
+                column-count: 2;
+                column-gap: 10mm;
+                column-rule: 1px solid #ddd;
+                column-fill: balance;
+                orphans: 2;
+                widows: 2;
+            }
+            
+            .page-1 {
+                page-break-after: always;
+                height: auto;
+                min-height: 250mm;
+            }
+            
+            .page-2 {
+                page-break-before: always;
+                height: auto;
+                min-height: 250mm;
+            }
+            
+            .question {
+                orphans: 2;
+                widows: 2;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-column-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ĐỀ KIỂM TRA THƯỜNG KỲ SỐ 2 MÔN: TỐI ƯU HÓA LỒI</h1>
+        <h2>CHƯƠNG 0 - 6: CƠ SỞ TOÁN HỌC ĐẾN GRADIENT DESCENT</h2>
+    </div>
+
+    <!-- TRANG 1: CÂU 1-17 -->
+    <div class="page-1">
+    <div class="questions-page-1">
+    <!-- CHƯƠNG 0: KHÁI NIỆM CƠ BẢN -->
+        
+        <div class="question">
+            <div class="question-number">Câu 1:</div>
+            <div class="question-text">Đạo hàm bậc hai của hàm $f(x) = 2x^4 - 3x^2 + x$ là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$f''(x) = 24x^2 - 6$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$f''(x) = 8x^3 - 6x + 1$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$f''(x) = 24x^2 - 3$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$f''(x) = 2x^2 - 6$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 2:</div>
+            <div class="question-text">Tích vô hướng của hai vector $u = (1, 2, 3)$ và $v = (4, 5, 6)$ là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$32$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$21$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$15$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$(4, 10, 18)$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 3:</div>
+            <div class="question-text">Hạng của ma trận $A = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 1 & 2 & 3 \end{pmatrix}$ là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$1$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$2$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$3$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 4:</div>
+            <div class="question-text">Hàm $f(x,y) = x^2 + y^2$ có gradient tại điểm $(2,3)$ là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$(4, 6)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$(2, 3)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$(1, 1)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$(0, 0)$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 5:</div>
+            <div class="question-text">Hàm $f(x,y) = x^2 + y^2$ có ma trận Hessian là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$\begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$\begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}$</span>
+                </div>
+            </div>
+        </div>
+
+    <!-- CHƯƠNG 1: BÀI TOÁN TỐI ƯU HÓA -->
+        
+        <div class="question">
+            <div class="question-number">Câu 6:</div>
+            <div class="question-text">Bài toán tối ưu hóa tổng quát có dạng:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\min f(x)$ với $x \in \mathcal{D}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$\max f(x)$ với $x \in \mathbb{R}^n$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$f(x) = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\nabla f(x) = 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 7:</div>
+            <div class="question-text">Trong bài toán tối ưu không ràng buộc, điểm tối ưu địa phương $x^*$ thỏa mãn:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$f(x^*) \leq f(x)$ với mọi $x$ trong lân cận của $x^*$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$f(x^*) \geq f(x)$ với mọi $x$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$f(x^*) = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$x^* = 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 8:</div>
+            <div class="question-text">Cho ma trận $A = \begin{pmatrix} 2 & -1 \\ -1 & 2 \end{pmatrix}$. Hàm $f(x) = \frac{1}{2}x^T A x$ có tính chất:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Lồi vì $A$ là ma trận positive definite</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Lõm vì det$(A) = 3 > 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Không lồi vì có phần tử âm</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Lồi chỉ khi $x \geq 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 9:</div>
+            <div class="question-text">Tập khả thi (feasible set) là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Tập tất cả điểm thỏa mãn ràng buộc</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Tập tất cả điểm tối ưu</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Hàm mục tiêu</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Gradient của hàm mục tiêu</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 10:</div>
+            <div class="question-text">Trong bài toán tối ưu có ràng buộc bất đẳng thức $g(x) \leq 0$, ràng buộc tích cực tại $x^*$ là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Ràng buộc thỏa mãn $g(x^*) = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Ràng buộc thỏa mãn $g(x^*) < 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Ràng buộc thỏa mãn $g(x^*) > 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Tất cả ràng buộc</span>
+                </div>
+            </div>
+        </div>
+
+    <!-- CHƯƠNG 2: TẬP LỒI -->
+        
+        <div class="question">
+            <div class="question-number">Câu 11:</div>
+            <div class="question-text">Tổ hợp lồi của các điểm $x_1, x_2, \ldots, x_k$ có dạng:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\sum_{i=1}^k \theta_i x_i$ với $\theta_i \geq 0, \sum_{i=1}^k \theta_i = 1$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$\sum_{i=1}^k \theta_i x_i$ với $\theta_i \geq 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$\sum_{i=1}^k x_i$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\max_i x_i$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 12:</div>
+            <div class="question-text">Nửa không gian trong $\mathbb{R}^n$ có dạng:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\{x : a^T x \leq b\}$ với $a \neq 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$\{x : a^T x = b\}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$\{x : \|x\| \leq r\}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\{x : x = 0\}$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 13:</div>
+            <div class="question-text">Giao của hai tập lồi có tính chất:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Luôn lồi</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Có thể lồi hoặc không</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Luôn không lồi</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Luôn rỗng</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 14:</div>
+            <div class="question-text">Hình cầu đơn vị trong $\mathbb{R}^n$ được định nghĩa là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\{x : \|x\|_2 \leq 1\}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$\{x : \|x\|_2 = 1\}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$\{x : \|x\|_2 \geq 1\}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\{x : x^T x = 0\}$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 15:</div>
+            <div class="question-text">Điểm cực trị (extreme point) của tập lồi $C$ là điểm:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Không thể biểu diễn bằng tổ hợp lồi của hai điểm khác trong $C$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Ở giữa của $C$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Ở tâm của $C$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Có tọa độ lớn nhất</span>
+                </div>
+            </div>
+        </div>
+
+    <!-- CHƯƠNG 3: HÀM LỒI -->
+        
+        <div class="question">
+            <div class="question-number">Câu 16:</div>
+            <div class="question-text">Hàm lồi $f$ trên tập lồi $C$ thỏa mãn:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$f(\theta x + (1-\theta) y) \leq \theta f(x) + (1-\theta) f(y)$ với $x,y \in C, \theta \in [0,1]$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$f(\theta x + (1-\theta) y) \geq \theta f(x) + (1-\theta) f(y)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$f(\theta x + (1-\theta) y) = \theta f(x) + (1-\theta) f(y)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$f(x) = f(y)$ với mọi $x,y \in C$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 17:</div>
+            <div class="question-text">Hàm $f(x) = e^x$ có tính chất:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Lồi trên $\mathbb{R}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Lõm trên $\mathbb{R}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Tuyến tính</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Không lồi cũng không lõm</span>
+                </div>
+            </div>
+        </div>
+    </div> <!-- Kết thúc questions-page-1 -->
+    </div> <!-- Kết thúc page-1 -->
+
+    <!-- TRANG 2: CÂU 18-35 -->
+    <div class="page-2">
+        <div style="text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 14px; color: #666;">
+            --- TRANG 2 ---
+        </div>
+    <div class="questions-page-2">
+
+        <div class="question">
+            <div class="question-number">Câu 18:</div>
+            <div class="question-text">Hàm lồi khả vi có tính chất đặc trưng:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$f(y) \geq f(x) + \nabla f(x)^T (y-x)$ với mọi $x,y$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$f(y) \leq f(x) + \nabla f(x)^T (y-x)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$f(y) = f(x) + \nabla f(x)^T (y-x)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\nabla f(x) = 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 19:</div>
+            <div class="question-text">Hàm hai lần khả vi $f$ là lồi khi và chỉ khi:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\nabla^2 f(x) \succeq 0$ (bán xác định dương) với mọi $x$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$\nabla^2 f(x) \preceq 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$\nabla^2 f(x) = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\nabla f(x) = 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 20:</div>
+            <div class="question-text">Hàm $f(x) = \log x$ trên $(0, +\infty)$ có tính chất:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Lõm</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Lồi</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Tuyến tính</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Không xác định</span>
+                </div>
+            </div>
+        </div>
+
+    <!-- CHƯƠNG 4: CƠ BẢN TỐI ƯU HÓA LỒI -->
+        
+        <div class="question">
+            <div class="question-number">Câu 21:</div>
+            <div class="question-text">Trong bài toán tối ưu lồi, mọi điểm tối ưu địa phương đều là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Điểm tối ưu toàn cục</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Điểm không khả thi</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Điểm yên ngựa</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Điểm cực đại</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 22:</div>
+            <div class="question-text">Trong bài toán tối ưu lồi $\min f(x)$ với $x \in C$ (tập lồi), nghiệm tối ưu có tính chất:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Là nghiệm tối ưu toàn cục</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Chỉ là nghiệm tối ưu địa phương</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Có thể không tồn tại</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Luôn duy nhất</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 23:</div>
+            <div class="question-text">Trong bài toán lồi không ràng buộc, điều kiện tối ưu bậc nhất là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\nabla f(x^*) = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$\nabla f(x^*) > 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$\nabla f(x^*) < 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$f(x^*) = 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 24:</div>
+            <div class="question-text">Tìm giá trị nhỏ nhất của hàm $f(x,y) = x^2 + y^2$ với ràng buộc $x + y = 4$:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$8$ tại $(2, 2)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$16$ tại $(4, 0)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$4$ tại $(1, 3)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$0$ tại $(0, 0)$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 25:</div>
+            <div class="question-text">Trong bài toán QP có ràng buộc: $\min \frac{1}{2}x^T P x + q^T x$ với $Ax = b$, điều kiện tối ưu là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$Px + q + A^T \lambda = 0$ và $Ax = b$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$Px + q = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$Ax = b$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$P = 0$</span>
+                </div>
+            </div>
+        </div>
+
+    <!-- CHƯƠNG 5: CÁC BÀI TOÁN TỐI ƯU KINH ĐIỂN -->
+        
+        <div class="question">
+            <div class="question-number">Câu 26:</div>
+            <div class="question-text">Trong quy hoạch tuyến tính, nghiệm tối ưu (nếu tồn tại) luôn nằm tại:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Đỉnh của vùng khả thi</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Tâm của vùng khả thi</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Biên của vùng khả thi</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Bất kỳ điểm nào trong vùng khả thi</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 27:</div>
+            <div class="question-text">Trong quy hoạch tuyến tính dạng chuẩn $\min c^T x$ với $Ax = b, x \geq 0$, số biến cơ sở là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Bằng số ràng buộc độc lập tuyến tính</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Bằng số biến</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Luôn bằng 1</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Không xác định</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 28:</div>
+            <div class="question-text">Trong bài toán bình phương tối thiểu $\min \|Ax - b\|_2^2$, sai số residual là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$r = Ax^* - b$ với $x^*$ là nghiệm tối ưu</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$r = x^* - b$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$r = A - b$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$r = 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 29:</div>
+            <div class="question-text">Trong bài toán hồi quy tuyến tính $y = a_0 + a_1 x_1 + a_2 x_2$, để tìm các hệ số $a_0, a_1, a_2$, ta cần tối thiểu hóa:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Tổng bình phương sai số</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Tổng sai số tuyệt đối</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Sai số lớn nhất</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Số lượng sai số</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 30:</div>
+            <div class="question-text">Trong bài toán phân loại tuyến tính, biên quyết định (decision boundary) là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Siêu phẳng $w^T x + b = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Điểm $w^T x + b = 1$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Vùng $w^T x + b > 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Vector $w$</span>
+                </div>
+            </div>
+        </div>
+
+    <!-- CHƯƠNG 6: GRADIENT DESCENT -->
+        
+        <div class="question">
+            <div class="question-number">Câu 31:</div>
+            <div class="question-text">Gradient descent với momentum có công thức cập nhật:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$v_{k+1} = \beta v_k + \alpha \nabla f(x_k)$, $x_{k+1} = x_k - v_{k+1}$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$x_{k+1} = x_k - \alpha \nabla f(x_k)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$x_{k+1} = x_k + \alpha \nabla f(x_k)$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$x_{k+1} = \alpha x_k$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 32:</div>
+            <div class="question-text">Tốc độ hội tụ của gradient descent phụ thuộc vào:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Condition number của ma trận Hessian</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Giá trị hàm mục tiêu</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Số chiều của bài toán</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Điểm khởi tạo</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 33:</div>
+            <div class="question-text">Trong gradient descent, step size quá lớn có thể dẫn đến:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>Dao động hoặc phân kỳ</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>Hội tụ nhanh hơn</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>Không ảnh hưởng gì</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>Luôn tốt hơn</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 34:</div>
+            <div class="question-text">Trong bài toán tối ưu hóa $\min f(x)$ với $x \in \mathbb{R}^n$, điều kiện cần thiết bậc nhất là:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$\nabla f(x^*) = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$f(x^*) = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$x^* = 0$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$\nabla^2 f(x^*) = 0$</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <div class="question-number">Câu 35:</div>
+            <div class="question-text">Cho hàm $f(x) = x^2 - 4x + 5$. Sau một bước gradient descent với step size $\alpha = 0.1$ từ điểm $x_0 = 3$, ta được:</div>
+            <div class="options">
+                <div class="option">
+                    <span class="option-letter">A.</span>
+                    <span>$x_1 = 2.8$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">B.</span>
+                    <span>$x_1 = 3.2$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">C.</span>
+                    <span>$x_1 = 2.5$</span>
+                </div>
+                <div class="option">
+                    <span class="option-letter">D.</span>
+                    <span>$x_1 = 3.5$</span>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- Kết thúc questions-page-2 -->
+    </div> <!-- Kết thúc page-2 -->
+</body>
+</html>

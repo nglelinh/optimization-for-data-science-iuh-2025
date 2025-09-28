@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter07
 lang: vi
+lesson_type: required
 ---
 
 Nếu $$f$$ lồi và khả vi, điều kiện tối ưu gradient dưới trùng với điều kiện tối ưu bậc một, như được chỉ ra dưới đây.

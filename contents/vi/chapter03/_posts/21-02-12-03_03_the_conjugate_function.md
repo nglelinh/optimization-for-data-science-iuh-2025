@@ -42,6 +42,31 @@ Hàm liên hợp được sử dụng để:
 </p>
 </figure>
 
+### Giải thích trực quan:
+
+1. **Ý tưởng về hàm tuyến tính và tính lồi**
+
+Một hàm tuyến tính (dạng $$y \mapsto \langle y, x \rangle - f(x)$$) luôn vừa lồi vừa lõm.
+
+Nếu ta lấy supremum (giá trị lớn nhất) của nhiều hàm tuyến tính, kết quả sẽ là một bao trên của các hàm này.
+
+2. **Sup của hàm tuyến tính tạo ra mặt cong lồi**
+
+Hãy tưởng tượng trong 2D:
+
+Mỗi hàm tuyến tính là một đường thẳng.
+
+Nếu ta lấy supremum của tất cả các đường thẳng này, ta sẽ "nâng" một lớp màng cao su bao phủ phía trên các đường.
+
+Kết quả bề mặt này không thể bị lõm xuống, mà luôn lồi ra ngoài.
+
+<figure class="image" style="align: center;">
+<p align="center">
+ <img src="{{ site.baseurl }}/img/chapter_img/chapter03/conjugate_function_2.png" alt="" width="70%" height="70%">
+ <figcaption style="text-align: center;">[Hình 2] Giải thích trực quan hàm liên hợp [2]</figcaption>
+</p>
+</figure>
+
 ## Các Tính chất Cơ bản
 
 Hàm liên hợp có nhiều tính chất đáng chú ý khiến nó trở thành một công cụ phân tích mạnh mẽ:

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 24-05 Branch and bound algorithm (B&B)
+title: 24-05 Thuật Toán Nhánh và Cận (B&B)
 chapter: '24'
 order: 6
 owner: YoungJae Choung

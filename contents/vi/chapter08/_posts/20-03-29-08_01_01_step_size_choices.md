@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter08
 lang: vi
+lesson_type: required
 ---
 
 Có nhiều cách khác nhau để chọn **kích thước bước** trong phương pháp subgradient.
@@ -24,7 +25,11 @@ Hãy xem xét kỹ hơn hai phương pháp sau:
 
 > $$\begin{align}
 & t_k = \frac{1}{k}, k = 1,2,3,... 
-& \sum_{k=1}^{\infty}t_k = \infty \quad 	ext{(Chuỗi điều hòa)} 
+& \sum_{k=1}^{\infty}t_k = \infty \quad \\
+\end{align} $$
+
+> $$\begin{align}
+& ext{(Chuỗi điều hòa)} 
 & \sum_{k=1 }^{\infty}t^2_k \approx 1.644934 < \infty \quad 	ext{(Bài toán Basel)} 
 \end{align} $$
 

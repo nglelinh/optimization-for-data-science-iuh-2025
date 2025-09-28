@@ -7,7 +7,6 @@ owner: AI Assistant
 categories:
 - chapter05
 lang: vi
-lesson_type: required
 ---
 
 ## Hồi Quy Tuyến Tính từ Góc Nhìn Thống Kê
@@ -25,7 +24,7 @@ $$y_i = \mathbf{w}^\top \mathbf{x}_i + \epsilon_i$$
 trong đó $\epsilon_i$ đại diện cho sai số ngẫu nhiên mà bất kỳ phương trình nào cũng có. Đây là những yếu tố không thể giải thích bởi mô hình. Do ước lượng của chúng ta là không chệch, sai số ngẫu nhiên này được giả định thỏa mãn các tính chất theo giả thuyết của Gauss-Markov:
 
 #### Giả Thuyết 1: Sai Số Có Kỳ Vọng Bằng Không
-Các sai số $\epsilon_i$ là đại lượng ngẫu nhiên có kỳ vọng bằng 0:
+Các sai số $$\epsilon_i$$ là đại lượng ngẫu nhiên có kỳ vọng bằng 0:
 
 $$\mathbb{E}(\epsilon_i) = 0$$
 

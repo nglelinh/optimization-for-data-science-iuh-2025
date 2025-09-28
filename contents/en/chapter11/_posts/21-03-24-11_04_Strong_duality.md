@@ -23,7 +23,7 @@ $$
 
 Important refinement: Strict inequality need not be satisfied when the function is affine.
 ## Example: Support Vector Machine Dual 
-$$y \in \{-1,1\}^n$$, $$X \in \mathbb{R}^{n \times p}$$ ($$X$$의 열은 $$x_1, ..., x_n$$)라고 할 때, SVM(Support Vector Machine) 문제는 다음과 같이 정의된다.
+Given $$y \in \{-1,1\}^n$$, $$X \in \mathbb{R}^{n \times p}$$ (where the columns of $$X$$ are $$x_1, ..., x_n$$), the SVM (Support Vector Machine) problem is defined as follows.
 
 >
 $$
@@ -34,14 +34,14 @@ $$
 \end{alignat}
 $$
 
-Dual 변수, $$v, w \geq 0$$를 사용하여 Lagrangian을 정의해보자.
+Using dual variables $$v, w \geq 0$$, let us define the Lagrangian:
 >
 \begin{equation}
 L(\beta,\beta_0,\xi,v,w) = \frac{1}{2} \parallel\beta\parallel\_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i +  \sum_{i=1}^n w_i (1-\xi_i - y_i(x_i^T\beta + \beta_o))
 \end{equation}
 
 
-$$\beta, \beta_0, \xi$$에 대해 최소화해서 다음과 같은 Lagrangian dual function을 구할 수 있다.
+By minimizing with respect to $$\beta, \beta_0, \xi$$, we can obtain the following Lagrangian dual function:
 >
 $$
 g(v,w) = 

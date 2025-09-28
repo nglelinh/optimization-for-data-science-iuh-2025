@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 24-04 Relaxations
+title: 24-04 Nới Lỏng
 chapter: '24'
 order: 5
 owner: YoungJae Choung

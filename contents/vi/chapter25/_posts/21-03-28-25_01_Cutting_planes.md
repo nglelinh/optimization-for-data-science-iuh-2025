@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 25-01 Cutting Planes
+title: 25-01 Mặt Phẳng Cắt
 chapter: '25'
 order: 2
 owner: YoungJae Choung

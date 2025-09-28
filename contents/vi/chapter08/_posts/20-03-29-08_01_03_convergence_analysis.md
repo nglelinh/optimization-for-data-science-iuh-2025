@@ -7,6 +7,7 @@ owner: Kyeongmin Woo
 categories:
 - chapter08
 lang: vi
+lesson_type: required
 ---
 
 Trong gradient descent, ta giả định rằng $$\nabla f$$ liên tục Lipschitz, nhưng trong phương pháp subgradient, ta giả định rằng chính $$f$$ là liên tục Lipschitz. (Xem định lý hội tụ cho gradient descent [06-03-01]({% multilang_post_url contents/chapter06/21-03-20-06_03_01_convergence_analysis_and_proof %}) để tham khảo.)

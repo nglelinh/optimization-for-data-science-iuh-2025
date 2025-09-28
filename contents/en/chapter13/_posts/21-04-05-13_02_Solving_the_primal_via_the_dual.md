@@ -7,6 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter13
 lang: en
+lesson_type: required
 ---
 
 ### An important consequence of stationarity

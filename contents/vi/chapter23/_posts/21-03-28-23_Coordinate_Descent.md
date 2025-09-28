@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 23 Coordinate Descent
+title: 23 Phương Pháp Coordinate Descent
 chapter: '23'
 order: 1
 owner: YoungJae Choung

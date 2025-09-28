@@ -1,12 +1,13 @@
 ---
 layout: post
-title: '08-01-05 Ví dụ: Hồi quy Logistic có Regularization'
+title: '08-01-05 Ví dụ: Hồi quy Logistic có Điều Chuẩn'
 chapter: '08'
 order: 7
 owner: Kyeongmin Woo
 categories:
 - chapter08
 lang: vi
+lesson_type: required
 ---
 
 Giả sử $$(x_i, y_i) \in \mathbb{R}^p \times \{0, 1\}$$ với $$i=1,...,n$$. Hàm mất mát hồi quy logistic được định nghĩa như sau:

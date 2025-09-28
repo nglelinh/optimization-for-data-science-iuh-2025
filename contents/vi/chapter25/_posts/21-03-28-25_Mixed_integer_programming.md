@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 25 Mixed Integer Programming (part II)
+title: 25 Quy Hoạch Số Nguyên Hỗn Hợp (Phần II)
 chapter: '25'
 order: 1
 owner: YoungJae Choung

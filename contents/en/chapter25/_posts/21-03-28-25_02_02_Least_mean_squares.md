@@ -24,17 +24,17 @@ Let $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$ and $$y \in \
 >$$\beta_{LMS} : = \underset{\beta}{\text{argmin}} (\text{median} \lvert r_{i} \rvert )$$
 
 ## Least quantile regression
-Least Median of Squares problem를 일반화한 Least Quantile of Squareproblem는 as follows: 정의할 수 있다. 여기서 $$r_{q}$$는 $$q$$번째 ordered absolute residual이다.
+The Least Quantile of Squares problem, which generalizes the Least Median of Squares problem, can be defined as follows. Here $$r_{q}$$ is the $$q$$-th ordered absolute residual.
 ### Least Quantile of Squares (LQS)
 >$$\beta_{LQS} : = \underset{\beta}{\text{argmin}} (\lvert r_{(q)} \rvert ), \quad 1 \le q \le n, \quad \lvert r_{1} \rvert \le \lvert r_{2} \rvert \le \cdots \le \lvert r_{n} \rvert$$
 
 ### Key step in the formulation
-이제 Least Quantile of Squareproblem를 Integer Programmingwith, 재정by,보자. 이when,, $$r$$의 각 entry $$i$$about, 다음and, 같은 binary variable을 사용한다.
+Now let's reformulate the Least Quantile of Squares problem as Integer Programming. Here, for each entry $$i$$ of $$r$$, we use the following binary variables.
 
 >$$ \lvert r_{i} \rvert \le \lvert r_{(q)} \rvert$ or $\lvert r_{i} \rvert \ge \lvert r_{(q)} \rvert $$
 
 ### Integer programming formulation
-$$\bar{\mu_{i}}$$and, $$\mu_{i}$$은 thresholdto, 각각의 개수는 $$k$$개, $$n-k$$개이다.
+$$\bar{\mu_{i}}$$ and $$\mu_{i}$$ are thresholds, with $$k$$ and $$n-k$$ of each respectively.
 
 > $$
 > \begin{align}
@@ -49,15 +49,15 @@ $$\bar{\mu_{i}}$$and, $$\mu_{i}$$은 thresholdto, 각각의 개수는 $$k$$개, 
 > \end{align}
 > $$
 
-이 problemat, 첫번째and, 두번쨰 constraint을 보면 residual의 절대값 $$\lvert r_{i} \rvert$$이 포함되어 있어서 convex relaxationwith, 풀 수가 없다. therefore,, 첫번째and, 두번쨰 constraint을 convex functionwith, converting, 주어야 한다.
+Looking at the first and second constraints of this problem, the absolute value of residuals $$\lvert r_{i} \rvert$$ is included, so it cannot be solved with convex relaxation. Therefore, the first and second constraints must be converted to convex functions.
 
 
 ## First-order algorithm
-$$\lvert r_{i} \rvert$$는 다음and, 같은 형태to, convex function $$H_{q}(\beta)$$to, 재정의할 수 있다.
+$$\lvert r_{i} \rvert$$ can be redefined as a convex function $$H_{q}(\beta)$$ in the following form.
 >
 $$ \lvert r_{q} \rvert = \lvert y_{(q)} - x^{T}_{(q)} \beta \rvert = H_{q}(\beta) - H_{q+1}(\beta)$$
 
-이when, $$H_{q}(\beta)$$는 as follows: 정의된다.
+Here, $$H_{q}(\beta)$$ is defined as follows.
 
 > $$
 > \begin{align}
@@ -68,13 +68,13 @@ $$ \lvert r_{q} \rvert = \lvert y_{(q)} - x^{T}_{(q)} \beta \rvert = H_{q}(\beta
 > \end{align}
 > $$
 
-$$H_{q}(\beta)$$는 앞서 정의된 $$\lvert r_{i} \rvert$$을 작은것from, 큰 순with, 나열할 when,, $$q$$번째 이image의 모든 residual의 sum이다. therefore,, $$q$$번째 이image의 residual의 sumat, $$q+1$$번째 이image의 residual의 sum을 빼면 $$q$$번째의 residual 된다는 것을 알 수 있다.
+$$H_{q}(\beta)$$ is the sum of all residuals from the $$q$$-th position when the previously defined $$\lvert r_{i} \rvert$$ are arranged in ascending order. Therefore, we can see that subtracting the sum of residuals from the $$q+1$$-th position from the sum of residuals from the $$q$$-th position gives the $$q$$-th residual.
 
-Subgradient algorithmwith, $$H_{q}(\beta) - H_{q+1}(\beta)$$의 local minimum을 구할 수 있다.
+Using the subgradient algorithm, we can find the local minimum of $$H_{q}(\beta) - H_{q+1}(\beta)$$.
 
-* For detailed information, see 논문 [LEAST QUANTILE REGRESSION VIA MODERN OPTIMIZATION](https://arxiv.org/pdf/1310.8625.pdf) see
+* For detailed information, see the paper [LEAST QUANTILE REGRESSION VIA MODERN OPTIMIZATION](https://arxiv.org/pdf/1310.8625.pdf)
 ## Computational results
-위의 논문at,  Least Quantile of Squareproblem를 실험한 result,는 다음 그래프at, 볼 수 있다.
+The experimental results of the Least Quantile of Squares problem from the above paper can be seen in the following graphs.
 
 ### Mixed integer programming gap
 <figure class="image" style="align: center;">

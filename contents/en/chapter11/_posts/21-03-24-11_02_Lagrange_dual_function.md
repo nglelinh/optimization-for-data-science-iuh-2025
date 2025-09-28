@@ -66,11 +66,11 @@ From the expression above, to minimize the Lagrangian function, differentiate wi
 \begin{equation}
 Qx - (c-u+A^T v) = 0,
 \end{equation}
-즉,
+That is,
 \begin{equation}
 Qx = (c-u+A^T v)
 \end{equation}
-이 때, $$Q$$는 positive definite하므로 역행렬이 존재하므로, $$x^*$$를 찾으면, $$x^* = Q^{-1}(c - u + A^Tv)$$ 임을 알 수 있다. 따라서, $$x^*$$를 Lagrangian 함수에 대입을 하면, 아래를 얻을 수 있다.
+Since $$Q$$ is positive definite, its inverse exists, so we can find $$x^*$$ as $$x^* = Q^{-1}(c - u + A^Tv)$$. Therefore, substituting $$x^*$$ into the Lagrangian function, we obtain the following.
 
 $$
 \begin{alignat}{1}
@@ -80,7 +80,7 @@ $$
 \end{alignat}
 $$
 
-따라서,
+Therefore,
 >
 $$
 \begin{equation}
@@ -91,7 +91,7 @@ $$
 For all $$u \geq 0$$ and $$v$$, this corresponds to a lower bound on the primal optimum $$f^*$$.
 
 ### 2) Positive Semidefinite ($$Q \succeq 0$$)
-위와 같은문제이나, 이번에는 $$Q \succeq 0$$ 이면,
+For the same problem as above, but this time if $$Q \succeq 0$$,
 
 #### Lagrangian:
 >
@@ -102,14 +102,14 @@ L(x,u,v) = \frac{1}{2}x^T Q x + c^T x - u^Tx + v^T (Ax-b)
 $$
 
 #### Lagrangian dual function:
-$$Q$$가 positive definite 할 때 처럼, 아래 식을 만족하는 $$x^*$$를 찾아야 한다.
+As in the case when $$Q$$ is positive definite, we need to find $$x^*$$ that satisfies the following equation.
 
 $$
 \begin{equation}
 Qx = (c-u+A^T v)
 \end{equation}
 $$
-이 때, $$Q$$는 positive semi-definite이므로 역행렬이 존재하지 않을 수 있다. 따라서, 다음의 두가지 경우를 고려해야 한다.
+At this point, since $$Q$$ is positive semi-definite, its inverse may not exist. Therefore, we need to consider the following two cases.
 
 (1) $$c-u+A^T v \in col(Q)$$. In this case, there exists $$x^*$$ satisfying $$Qx = (c-u+A^T v)$$, which can be found using the generalized inverse $$Q^+$$ (the Moore-Penrose pseudo-inverse, $$Q^+ = (Q^TQ)^{-1}Q^T$$).
 (2) $$c-u+A^T v \notin col(Q)$$. In this case, there is no $$x^*$$ satisfying $$Qx = (c-u+A^T v)$$, meaning there is no $$x^*$$ that minimizes $$L(x,u,v)$$, and the minimum of $$L(x,u,v)$$ is $$-\infty$$.

@@ -22,6 +22,7 @@ Thus, partial optimization in a convex problem constructed with multivariate fun
 <br>
 
 ### Example: hinge form of SVMs
+
 For a non-separable set, the SVM problem is defined as:
 >$$
 \begin{aligned}

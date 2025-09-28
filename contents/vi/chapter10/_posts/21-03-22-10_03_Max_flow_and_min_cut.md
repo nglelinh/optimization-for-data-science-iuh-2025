@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 10-03 Luồng cực đại và cắt cực tiểu
+title: 10-03 Luồng cực đại và lát cắt cực tiểu
 chapter: '10'
 order: 4
 owner: Wontak Ryu
@@ -15,7 +15,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-Như một ví dụ về tính đối ngẫu trong chương trình tuyến tính, chúng ta muốn xem xét bài toán luồng cực đại cắt cực tiểu.
+Như một ví dụ về tính đối ngẫu trong chương trình tuyến tính, chúng ta muốn xem xét bài toán luồng cực đại lát cắt cực tiểu.
 
 ## Đồ thị có hướng, Điều kiện của luồng
 
@@ -74,7 +74,7 @@ Bài toán luồng cực đại là tìm luồng tối đa từ s đến t trong
 >\end{align}
 >$$
 
-## Bài toán cắt cực tiểu
+## Bài toán lát cắt cực tiểu
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -83,7 +83,7 @@ Bài toán luồng cực đại là tìm luồng tối đa từ s đến t trong
 </p>
 </figure>
 
-Bài toán cắt cực tiểu chia tất cả các đỉnh của đồ thị thành hai tập hợp: vùng có bóng và vùng không có bóng, như được hiển thị trong hình. Một tập hợp chứa nguồn, và tập hợp khác chứa đích, trong khi các đỉnh còn lại được gán tùy ý vào một trong hai tập hợp (ở đây, tập hợp chứa nguồn được gọi là A, và tập hợp chứa đích được gọi là B). Tổng các công suất của các cạnh đi từ tập hợp A đến tập hợp B được định nghĩa là cắt.
+Bài toán lát cắt cực tiểu chia tất cả các đỉnh của đồ thị thành hai tập hợp: vùng có bóng và vùng không có bóng, như được hiển thị trong hình. Một tập hợp chứa nguồn, và tập hợp khác chứa đích, trong khi các đỉnh còn lại được gán tùy ý vào một trong hai tập hợp (ở đây, tập hợp chứa nguồn được gọi là A, và tập hợp chứa đích được gọi là B). Tổng các công suất của các cạnh đi từ tập hợp A đến tập hợp B được định nghĩa là cắt.
 
 Nói cách khác, một cắt là một phân hoạch các đỉnh của đồ thị sao cho nguồn và đích ở các phân hoạch khác nhau. Bài toán cắt cực tiểu là tìm giá trị tối thiểu của cắt này cho một đồ thị cho trước. Trong định nghĩa tổng quát của bài toán cắt cực tiểu, vì nó được định nghĩa trên một đồ thị có hướng, nó luôn thỏa mãn nguồn $$x_{s}=1$$, đích $$x_{t}=0$$. Phần này được bỏ qua trong định nghĩa bài toán dưới đây.
 
@@ -119,7 +119,7 @@ Tiếp theo, vì chúng ta muốn cận trên của LP nguyên thủy, tìm phư
 
 Tức là, tổ chức phương trình sao cho số hạng $$f_{ij}$$ chỉ là 1 trong $$\sum_{(s,j)\in E}f_{sj}$$ và 0 ở nơi khác.
 
-This process is detailed as follows.
+Quá trình này được chi tiết hóa như sau.
 
 >$$
 >\begin{align}
@@ -127,14 +127,14 @@ This process is detailed as follows.
 >\end{align}
 >$$
 
-Here, our goal is to make the result of the left side when $$i=s$$ be $$\sum_{(s,j)\in E}f_{sj}$$ and 0 for other cases.
+Ở đây, mục tiêu của chúng ta là làm cho kết quả của vế trái khi $$i=s$$ là $$\sum_{(s,j)\in E}f_{sj}$$ và bằng 0 cho các trường hợp khác.
 
-The k in the x term of the second sigma does not include the source and sink, and can be divided into three cases: when $$i=s, j\neq t$$, when $$i\neq s, j=t$$, and when $$i\neq s,j\neq t$$.
+Biến k trong số hạng x của sigma thứ hai không bao gồm nguồn và đích, và có thể được chia thành ba trường hợp: khi $$i=s, j\neq t$$, khi $$i\neq s, j=t$$, và khi $$i\neq s,j\neq t$$.
 
-### Case 1. $$i = s, j \neq t.$$
+### Trường hợp 1. $$i = s, j \neq t.$$
 
-For the term multiplied by $$x_{k}$$, it is eliminated by the third condition of flow except for the case of $$k=j$$.
-Therefore, the sigma for the x term of the second term can be organized as follows.
+Đối với số hạng được nhân với $$x_{k}$$, nó bị loại bỏ bởi điều kiện thứ ba của luồng trừ trường hợp $$k=j$$.
+Do đó, sigma cho số hạng x của số hạng thứ hai có thể được tổ chức như sau.
 
 >$$
 >\begin{align}
@@ -143,9 +143,9 @@ Therefore, the sigma for the x term of the second term can be organized as follo
 >\end{align}
 >$$
 
-### Case 2. $$i \neq s, j = t.$$
-For the term multiplied by $$x_{k}$$, it is eliminated by the third condition of flow except for the case of $$k=i$$.
-Therefore, the sigma for the x term of the second term can be organized as follows.
+### Trường hợp 2. $$i \neq s, j = t.$$
+Đối với số hạng được nhân với $$x_{k}$$, nó bị loại bỏ bởi điều kiện thứ ba của luồng trừ trường hợp $$k=i$$.
+Do đó, sigma cho số hạng x của số hạng thứ hai có thể được tổ chức như sau.
 
 >$$
 >\begin{align}
@@ -154,9 +154,9 @@ Therefore, the sigma for the x term of the second term can be organized as follo
 >\end{align}
 >$$
 
-### Case 3. $$i \neq s, j \neq t.$$
-For the term multiplied by $$x_{k}$$, it is eliminated by the third condition of flow except for the cases of $$k=i$$ and $$k=j$$.
-Therefore, the sigma for the x term of the second term can be organized as follows.
+### Trường hợp 3. $$i \neq s, j \neq t.$$
+Đối với số hạng được nhân với $$x_{k}$$, nó bị loại bỏ bởi điều kiện thứ ba của luồng trừ các trường hợp $$k=i$$ và $$k=j$$.
+Do đó, sigma cho số hạng x của số hạng thứ hai có thể được tổ chức như sau.
 
 >$$
 >\begin{align}
@@ -165,7 +165,7 @@ Therefore, the sigma for the x term of the second term can be organized as follo
 >\end{align}
 >$$
 
-The objective function of the primal LP matches with the case 1 of the above, where the term is 1 in $$b_{sj}-a_{sj}+x_{j}$$, and for the other cases, it makes the multiplied term 0, completing the form of left side being the objective function and the right side being the upper bound.
+Hàm mục tiêu của LP nguyên thủy khớp với trường hợp 1 ở trên, trong đó số hạng bằng 1 trong $$b_{sj}-a_{sj}+x_{j}$$, và đối với các trường hợp khác, nó làm cho số hạng được nhân bằng 0, hoàn thành dạng vế trái là hàm mục tiêu và vế phải là cận trên.
 
 >$$
 >\begin{align}
@@ -177,7 +177,7 @@ The objective function of the primal LP matches with the case 1 of the above, wh
 >\end{align}
 >$$
 
-Therefore, the dual problem is to find the minimum value of the upper bound (objective function of dual LP) for the dual variables $$a, b, x$$, and this minimum value becomes the best upper bound. A dummy variable $$a$$ is eliminated while maintaining the conditions. Additionally, by adding the condition that flow occurs from source to sink in the directed graph, the equation becomes:
+Do đó, bài toán đối ngẫu là tìm giá trị tối thiểu của cận trên (hàm mục tiêu của LP đối ngẫu) cho các biến đối ngẫu $$a, b, x$$, và giá trị tối thiểu này trở thành cận trên tốt nhất. Biến giả $$a$$ được loại bỏ trong khi vẫn duy trì các điều kiện. Ngoài ra, bằng cách thêm điều kiện rằng luồng xảy ra từ nguồn đến đích trong đồ thị có hướng, phương trình trở thành:
 
 >$$
 >\begin{align}
@@ -187,12 +187,12 @@ Therefore, the dual problem is to find the minimum value of the upper bound (obj
 >\end{align}
 >$$
 
-## Dual LP to Integer program
-Now, we want to show that this dual LP is the same as the LP relaxation of the min cut problem.
-Therefore, we will go through the process of converting it to an integer program by adding conditions to the above dual LP problem.
-The variable $$x$$ is not defined for vertices other than s and t.
-Therefore, to narrow the scope of the problem, let's add a condition that the remaining vertices except s and t belong to either group s or t.
-In other words, let's assume that all vertices belong to either group 0 or 1. This is equivalent to determining the vertex partition for the min cut.
+## Từ LP đối ngẫu đến chương trình nguyên
+Bây giờ, chúng ta muốn chỉ ra rằng LP đối ngẫu này giống với việc nới lỏng LP của bài toán cắt cực tiểu.
+Do đó, chúng ta sẽ trải qua quá trình chuyển đổi nó thành một chương trình nguyên bằng cách thêm các điều kiện vào bài toán LP đối ngẫu ở trên.
+Biến $$x$$ không được định nghĩa cho các đỉnh khác ngoài s và t.
+Do đó, để thu hẹp phạm vi của bài toán, hãy thêm điều kiện rằng các đỉnh còn lại ngoại trừ s và t thuộc về nhóm s hoặc nhóm t.
+Nói cách khác, hãy giả sử rằng tất cả các đỉnh thuộc về nhóm 0 hoặc 1. Điều này tương đương với việc xác định phân hoạch đỉnh cho cắt cực tiểu.
 
 >$$
 >\begin{align}
@@ -200,11 +200,11 @@ In other words, let's assume that all vertices belong to either group 0 or 1. Th
 >\end{align}
 >$$
 
-Let's define the group that belongs to 1 as set A, and the group that belongs to 0 as set B. Also, let's define that the source (s) belongs to A, and the sink (t) belongs to B.
+Hãy định nghĩa nhóm thuộc về 1 là tập hợp A, và nhóm thuộc về 0 là tập hợp B. Ngoài ra, hãy định nghĩa rằng nguồn (s) thuộc về A, và đích (t) thuộc về B.
 
-With the above definitions, $$b_{ij}$$ acts as an on/off switch, being 1 for edges going from set A to set B, and 0 otherwise.
+Với các định nghĩa trên, $$b_{ij}$$ hoạt động như một công tắc bật/tắt, bằng 1 cho các cạnh đi từ tập hợp A đến tập hợp B, và bằng 0 trong các trường hợp khác.
 
-This can be organized as follows.
+Điều này có thể được tổ chức như sau.
 
 >$$
 >\begin{align}
@@ -219,10 +219,10 @@ This can be organized as follows.
 >\end{align}
 >$$
 
-The above result is the same as the formulation of the min cut problem.
+Kết quả trên giống với công thức của bài toán cắt cực tiểu.
 
-## Relationship between Max flow and Min cut problem(2)
-That is, the dual problem of the max flow problem is the result of removing the condition that the vertices except s and t in the min cut problem are included in 0 or 1 (relaxation). The optimal value of max flow $$\leq$$ dual LP (upper bound), and this relaxation expands the domain scope of the optimization variable, so the optimal value LP relaxed min cut $$\leq$$ capacity of min cut. Summarizing these three results, we get the following result.
+## Mối quan hệ giữa bài toán Luồng cực đại và Cắt cực tiểu(2)
+Tức là, bài toán đối ngẫu của bài toán luồng cực đại là kết quả của việc loại bỏ điều kiện rằng các đỉnh ngoại trừ s và t trong bài toán cắt cực tiểu được bao gồm trong 0 hoặc 1 (nới lỏng). Giá trị tối ưu của luồng cực đại $$\leq$$ LP đối ngẫu (cận trên), và việc nới lỏng này mở rộng phạm vi miền của biến tối ưu hóa, do đó giá trị tối ưu của cắt cực tiểu nới lỏng LP $$\leq$$ công suất của cắt cực tiểu. Tóm tắt ba kết quả này, chúng ta có kết quả sau.
 
 >$$
 >\begin{align}
@@ -232,4 +232,4 @@ That is, the dual problem of the max flow problem is the result of removing the 
 >\end{align}
 >$$
 
-For the equality of these three results, refer to the max-flow min-cut theorem[11], and for a representative algorithm for solving the max flow min cut problem, refer to the Ford-Fulkerson algorithm[12].
+Để biết về tính bằng nhau của ba kết quả này, tham khảo định lý luồng cực đại cắt cực tiểu[11], và đối với thuật toán đại diện để giải bài toán luồng cực đại cắt cực tiểu, tham khảo thuật toán Ford-Fulkerson[12].

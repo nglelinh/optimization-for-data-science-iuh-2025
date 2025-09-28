@@ -32,7 +32,7 @@ Let's review the KKT conditions that we covered in Chapter 12. KKT conditions ar
 
 When the given primal problem is convex, KKT conditions become sufficient conditions for primal & dual optimality. That is, when $$f, h_1, \dots, h_m$$ are convex and $$l_1, \dots, l_r$$ are affine, if $$x^\star, u^\star, v^\star$$ satisfy the following KKT conditions, then $$x^\star$$ and $$(u^\star, v^\star)$$ are primal & dual optimal with zero duality gap. (We assume that $$f, h_1, \dots, h_m, l_1, \dots, l_r$$ are differentiable.) <br>
 
-* 참고: [12-01 KKT conditions]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
+* reference: [12-01 KKT conditions]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
 
 ### KKT conditions for the given primal problem
 >$$

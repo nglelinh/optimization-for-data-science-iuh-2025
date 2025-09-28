@@ -42,6 +42,44 @@ The conjugate function is used to:
 </p>
 </figure>
 
+### giải thích trực giác nhé:
+
+1. Ý tưởng về hàm tuyến tính và tính lồi
+
+Một hàm tuyến tính (dạng 
+𝑦
+↦
+⟨
+𝑦
+,
+𝑥
+⟩
+−
+𝑓
+(
+𝑥
+)
+y↦⟨y,x⟩−f(x)) luôn vừa lồi vừa lõm.
+
+Nếu ta lấy supremum (giá trị lớn nhất) của nhiều hàm tuyến tính, kết quả sẽ là một bao trên của các hàm này.
+
+2. Sup của hàm tuyến tính tạo ra mặt cong lồi
+
+Hãy tưởng tượng trong 2D:
+
+Mỗi hàm tuyến tính là một đường thẳng.
+
+Nếu ta lấy supremum của tất cả các đường thẳng này, ta sẽ “nâng” một lớp màng cao su bao phủ phía trên các đường.
+
+Kết quả bề mặt này không thể bị lõm xuống, mà luôn lồi ra ngoài.
+
+<figure class="image" style="align: center;">
+<p align="center">
+ <img src="{{ site.baseurl }}/img/chapter_img/chapter03/conjugate_function_2" alt="" width="70%" height="70%">
+ <figcaption style="text-align: center;">[Fig1] Conjugate function [2]</figcaption>
+</p>
+</figure>
+
 ## Fundamental Properties
 
 The conjugate function has several remarkable properties that make it a powerful analytical tool:

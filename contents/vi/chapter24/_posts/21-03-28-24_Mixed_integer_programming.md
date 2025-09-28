@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 24 Mixed Integer Programming (part I)
+title: 24 Quy Hoạch Số Nguyên Hỗn Hợp (Phần I)
 chapter: '24'
 order: 1
 owner: YoungJae Choung

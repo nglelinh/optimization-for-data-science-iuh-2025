@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 12-04 Ví dụ máy vector hỗ trợ
+title: 12-04 Ví dụ máy vector hỗ trợ (SVM)
 chapter: '12'
 order: 5
 owner: Wontak Ryu
@@ -16,7 +16,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-Bài toán máy vector hỗ trợ cho các tập không tách được như sau.
+Bài toán máy vector hỗ trợ (SVM) cho các tập không tách được như sau.
 
 >$$
 >\begin{align}

@@ -7,11 +7,12 @@ owner: Kyeongmin Woo
 categories:
 - chapter07
 lang: vi
+lesson_type: required
 ---
 
 ### Bổ đề
 
-Đối với bất kỳ hàm $$f$$ nào, điều kiện $$x^*$$ là một điểm cực tiểu của $$f$$ và điều kiện $$0$$ là một gradient dưới tại $$x^*$$ là tương đương:
+Đối với bất kỳ hàm $$f$$ nào, điều kiện $$x^*$$ là một điểm cực tiểu của $$f$$ và điều kiện vector $$0$$ là một gradient dưới tại $$x^*$$ là tương đương:
 
 > $$
 \begin{equation}

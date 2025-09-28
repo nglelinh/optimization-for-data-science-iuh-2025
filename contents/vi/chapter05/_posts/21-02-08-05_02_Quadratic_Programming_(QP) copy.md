@@ -234,7 +234,7 @@ $$
 
 
 
-### Ví dụ 2: Máy Vector Hỗ trợ
+### Ví dụ 2: Máy Vector Hỗ trợ (SVM)
 
 Máy Vector Hỗ trợ (SVM) là một ví dụ của chương trình bậc hai. Dưới đây là C-SVM, một biến thể của SVM. Giải thích chi tiết về SVM nằm ngoài phạm vi của chương này và do đó sẽ được bỏ qua.
 

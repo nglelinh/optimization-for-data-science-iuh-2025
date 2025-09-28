@@ -34,7 +34,7 @@ The dual problem of the above primal LP problem is as follows.
 
 
 ## Optimality conditions and central path equations
-The following shows the optimality conditions (KKT Conditions) for the primal-dual problem of the previous LP.
+Sau đây là các điều kiện tối ưu (Điều Kiện KKT) cho bài toán nguyên thủy-đối ngẫu của LP trước đó.
 > $$
 > \begin{array}{rcl}
 > A^Ty + s & = & c \\\

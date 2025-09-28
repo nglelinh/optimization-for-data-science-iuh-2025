@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 06-07 Regularization và Loss Functions
+title: 06-07 Điều Chuẩn và Hàm Mất Mát
 chapter: '06'
 order: 16
 owner: Kyeongmin Woo

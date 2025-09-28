@@ -45,7 +45,7 @@ u^T (Ax-b) + v^T(Gx-h) \leq 0
 \end{equation}
 $$
 
-즉,
+That is,
 
 >
 $$

@@ -1,12 +1,13 @@
 ---
 layout: post
-title: 10-04 Another Perspective on LP duality
+title: 10-04 Góc nhìn khác về tính đối ngẫu LP
 chapter: '10'
 order: 5
 owner: Wontak Ryu
 categories:
 - chapter10
 lang: vi
+lesson_type: required
 ---
 
 <script type="text/x-mathjax-config">
@@ -14,8 +15,9 @@ MathJax.Hub.Config({
     displayAlign: "center"
 });
 </script>
-In the case of duality discussed earlier, for LP, we multiplied the constraints of the primal problem by dual variables, obtained their linear combination, and then organized it to separate out the primal's objective function to obtain a bound. The separated remaining terms (something in the formula below) served as the bound for the primal problem. That is, they became the objective function of the dual problem, and the conditions created during the formula development process became the constraints of the dual problem.
-Writing this partial process (the part of the above content that separates out the primal objective function to obtain a bound) as a formula, it looks like this:
+Trong trường hợp tính đối ngẫu được thảo luận trước đó, đối với LP, chúng ta đã nhân các ràng buộc của bài toán nguyên thủy với các biến đối ngẫu, thu được tổ hợp tuyến tính của chúng, và sau đó tổ chức nó để tách ra hàm mục tiêu của bài toán nguyên thủy nhằm có được một cận. Các số hạng còn lại được tách ra (một cái gì đó trong công thức dưới đây) đóng vai trò là cận cho bài toán nguyên thủy. Tức là, chúng trở thành hàm mục tiêu của bài toán đối ngẫu, và các điều kiện được tạo ra trong quá trình phát triển công thức trở thành các ràng buộc của bài toán đối ngẫu.
+
+Viết quá trình một phần này (phần của nội dung trên tách ra hàm mục tiêu nguyên thủy để có được một cận) dưới dạng công thức, nó trông như thế này:
 
 >$$
 >\begin{align}
@@ -35,19 +37,19 @@ Writing this partial process (the part of the above content that separates out t
 >\end{align}
 >$$
 
-However, for optimization problems that are not linear programs, most cannot express the objective function as a linear combination of constraints. 
+Tuy nhiên, đối với các bài toán tối ưu hóa không phải là chương trình tuyến tính, hầu hết không thể biểu diễn hàm mục tiêu như một tổ hợp tuyến tính của các ràng buộc.
 
-In this chapter, we examine the perspective of duality that is applicable to more universally common problems (all convex, most non-convex). We will find the duality of LP using this method called Lagrangian, and examine more detailed discussions in Chapter 11.
+Trong chương này, chúng ta xem xét góc nhìn về tính đối ngẫu có thể áp dụng cho các bài toán phổ biến hơn (tất cả bài toán lồi, hầu hết bài toán không lồi). Chúng ta sẽ tìm tính đối ngẫu của LP bằng phương pháp này được gọi là Lagrangian, và xem xét các thảo luận chi tiết hơn trong Chương 11.
 
-Looking at the equations up to the linear combination form for the primal LP problem described above, we can understand the following relationship:
+Nhìn vào các phương trình cho đến dạng tổ hợp tuyến tính cho bài toán LP nguyên thủy được mô tả ở trên, chúng ta có thể hiểu mối quan hệ sau:
 >$$
 >\begin{align}
 >c^{T}x\geq c^{T}x+\overbrace{u^{T} \underbrace{(Ax-b)} _ {=0}+\underbrace{v^{T}} _ {\geq 0} \underbrace{(Gx-h)} _ {\leq 0}} ^ {\leq 0} := L(x,u,v).
 >\end{align}
 >$$
 
-The right side of the inequality has a value less than or equal to the left side according to the conditions. Also, we define this expression as a function $$L(x, u, v)$$ for x, u, v.
-Here, if we call the set satisfying the constraints of the primal LP (primal feasible set) C, we can understand the following relationship:
+Vế phải của bất đẳng thức có giá trị nhỏ hơn hoặc bằng vế trái theo các điều kiện. Ngoài ra, chúng ta định nghĩa biểu thức này là một hàm $$L(x, u, v)$$ cho x, u, v.
+Ở đây, nếu chúng ta gọi tập hợp thỏa mãn các ràng buộc của LP nguyên thủy (tập khả thi nguyên thủy) là C, chúng ta có thể hiểu mối quan hệ sau:
 
 >$$
 >\begin{align}
@@ -60,8 +62,8 @@ Here, if we call the set satisfying the constraints of the primal LP (primal fea
 >\end{align}
 >$$
 
-In other words, $$g(u,v)$$ becomes a lower bound of $$f^{*}$$ for any u or $$v$$ satisfying $$v\geq0$$.
-Let's examine the lower bound value determined by $$g(u,v)$$.
+Nói cách khác, $$g(u,v)$$ trở thành cận dưới của $$f^{*}$$ cho bất kỳ u hoặc $$v$$ nào thỏa mãn $$v\geq0$$.
+Hãy xem xét giá trị cận dưới được xác định bởi $$g(u,v)$$.
 
 >$$
 >\begin{align}
@@ -74,8 +76,8 @@ g(u,v) = min_{x} c^{T}x+u^{T}(Ax-b) + v^{T}(Gx-h) \\\\
 >$$
 
 
-As can be seen from the equation, when $$c = -A^{T}u-G^{T}v$$ is not satisfied, it has a value of $$-\infty$$ due to the $$x$$ term.
-Since we want to find the lower bound closest to $$f^{*}$$, we want to find the value that maximizes $$g(u, v)$$. This is $$-b^{T}u-h^{T}v$$, the value when $$c = -A^{T}u-G^{T}v$$ is satisfied, and this matches the Dual LP we obtained with the first method.
+Như có thể thấy từ phương trình, khi $$c = -A^{T}u-G^{T}v$$ không được thỏa mãn, nó có giá trị $$-\infty$$ do số hạng $$x$$.
+Vì chúng ta muốn tìm cận dưới gần nhất với $$f^{*}$$, chúng ta muốn tìm giá trị làm tối đa hóa $$g(u, v)$$. Đây là $$-b^{T}u-h^{T}v$$, giá trị khi $$c = -A^{T}u-G^{T}v$$ được thỏa mãn, và điều này khớp với LP đối ngẫu mà chúng ta thu được bằng phương pháp đầu tiên.
 
 >$$
 >\begin{align}
@@ -86,4 +88,4 @@ Since we want to find the lower bound closest to $$f^{*}$$, we want to find the 
 >\end{align}
 >$$
 
-This method is also applicable to other types of optimization problems that are not in LP form.
+Phương pháp này cũng có thể áp dụng cho các loại bài toán tối ưu hóa khác không ở dạng LP.

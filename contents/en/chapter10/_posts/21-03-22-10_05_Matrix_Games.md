@@ -49,10 +49,10 @@ If they know each other's mixed strategy, i.e., probability distribution, each p
 
 Considering that the sign of the payout matrix is defined as the amount J gives to R, J will try to minimize this expected payout because J wants to give as little as possible to R, and R will try to maximize this expected payout because R wants to receive as much as possible from J.
 
-이제 두 player의 입장에서 각자가 상대의 mixed strategy를 고려하여, 이 expected payout을 최대화(R의 입장) 혹은 최소화(J의 입장)하려는 관점을 살펴보고, 서로가 서로를 optimal하게 행동하는 전제하에, 두 입장에서 유도되는 optimal strategy를 구하고, 결과적으론 Von Neumman's minimax theorem에 의해 두 결과가 같다는 것을 확인할 것이다.
+Now we will examine the perspective where each player considers the opponent's mixed strategy to maximize (from R's perspective) or minimize (from J's perspective) this expected payout. Under the assumption that both players act optimally against each other, we will derive the optimal strategies from both perspectives and ultimately confirm that the two results are equal according to Von Neumann's minimax theorem.
 
 ## Minimizing Expected Payout : J's Perspective
-먼저 R이 J의 strategy $$x$$를 알고 있다고 가정하자. R은 expected payout $$x^{T}Py$$를 maximize하고자 할 것이다. 
+First, assume that R knows J's strategy $$x$$. R will want to maximize the expected payout $$x^{T}Py$$. 
 
 >$$
 >\begin{align}
@@ -60,9 +60,9 @@ Considering that the sign of the payout matrix is defined as the amount J gives 
 >\end{align}
 >$$
 
-이때 R은 식의 내용처럼 $$(P^{T}x)_{i}$$ 중 가장 큰 값을 갖는 i(row index)를 찾게되고, 이 i에 대응되는 $$y_{i}$$를 1로 가지고 나머지의 row index에 대해선 0을 가지는 strategy가 R에게 있어서 expected payout을 maximize하는 strategy일 것이다.
+At this point, R will find the i (row index) that has the largest value among $$(P^{T}x)_{i}$$ as shown in the equation, and the strategy that sets the corresponding $$y_{i}$$ to 1 and sets 0 for the remaining row indices will be the strategy that maximizes the expected payout for R.
 
-R이 위처럼 최적으로 행동할 것을 알고 있을 때, J의 최적의 strategy는 밑의 식을 만족하는 distribution $$x$$일 것이다.
+Knowing that R will act optimally as described above, J's optimal strategy will be the distribution $$x$$ that satisfies the following equation.
 
 >$$
 >\begin{align}
@@ -73,10 +73,10 @@ R이 위처럼 최적으로 행동할 것을 알고 있을 때, J의 최적의 s
 >\end{align}
 >$$
 
-Convex function의 maximization 또한 convex function이 된다.  이를 첫 번째 관점의 문제 정의라고 칭할 것이다. 또한 이 최적화 문제의 해를 optimal expected payout $$f^{*}_{1}$$이라고 정하자. 또 하나 유념할 점은 게임참가자, 즉 player들이 모두 최적으로 행동한다는 가정이 기본적인 형태의 게임이론 formulation에서 가정이 된다.
+The maximization of a convex function is also a convex function. We will call this the problem definition from the first perspective. Also, let's define the solution to this optimization problem as the optimal expected payout $$f^{*}_{1}$$. Another point to note is that the assumption that all game participants, i.e., players, act optimally is a fundamental assumption in basic game theory formulations.
 
 ## Maximizing Expected Payout : R's Perspective
-두 번째 관점으로 J가 R의 strategy $$y$$를 알고 있다고 가정하자. J는 expected payout을 minimize하고자 할 것이다.
+From the second perspective, assume that J knows R's strategy $$y$$. J will want to minimize the expected payout.
 
 >$$
 >\begin{align}
@@ -84,7 +84,7 @@ Convex function의 maximization 또한 convex function이 된다.  이를 첫 �
 >\end{align}
 >$$
 
-같은 논리로, J가 위처럼 최적으로 행동할 것을 알고 있을 때 R의 최적의 strategy는 밑의 식을 만족하는 distribution $$y$$이다.
+By the same logic, knowing that J will act optimally as described above, R's optimal strategy is the distribution $$y$$ that satisfies the following equation.
 
 >$$
 >\begin{align}
@@ -95,10 +95,10 @@ Convex function의 maximization 또한 convex function이 된다.  이를 첫 �
 >\end{align}
 >$$
 
-위와 마찬가지로 이를 두 번째 관점의 문제 정의라고 칭하고, 이 최적화 문제의 해를 $$f^{*}_{2}$$ 라고 하자. player R이 이 expected payout을 maximize하고자 하기 때문에, 첫 번째, 즉, R이 J의 strategy를 미리 알고 있다는 가정 하에 결정되는 expected payout $$f^{*}_{1} $$이 두 번째 가정보다 더 크거나 같은 값을 가질 것이라 쉽게 예상할 수 있다. ($$f^{*}_{1}\geq f^{*}_{2}$$)
+Similarly, we will call this the problem definition from the second perspective, and let the solution to this optimization problem be $$f^{*}_{2}$$. Since player R wants to maximize this expected payout, we can easily expect that the expected payout $$f^{*}_{1}$$ determined under the first assumption, i.e., that R knows J's strategy in advance, will have a value greater than or equal to the second assumption. ($$f^{*}_{1}\geq f^{*}_{2}$$)
   
 ## Von Neumann's minimax theorem
-  하지만,  Von Neumann's minimax theorem에 따르면 $$f^{*}_{1} = f^{*}_{2}$$가 된다. 실제 minimax theorem은 다음과 같다. 
+However, according to Von Neumann's minimax theorem, $$f^{*}_{1} = f^{*}_{2}$$. The actual minimax theorem is as follows. 
   
 >$$
 >\begin{align}
@@ -111,12 +111,12 @@ Convex function의 maximization 또한 convex function이 된다.  이를 첫 �
 >\end{align}
 >$$
 
-해당 내용의 증명은 생략한다.
+The proof of this content is omitted.
 
 ## Proof of each perspective having Primal and Dual relationship
-  이제 위 두 가지 관점의 경우에 대한 expected payout이 LP 문제로써 서로 primal, dual 관계이고, Von Neumman's minimax theorem에 의하여 두 결과가 같다는 점을 이용하여, strong duality를 만족함을 보이고자 한다.
+Now we want to show that the expected payouts for the above two perspectives have a primal-dual relationship as LP problems, and that strong duality is satisfied by using the fact that the two results are equal according to Von Neumann's minimax theorem.
   
-먼저 첫 번째 관점의 문제를 다음과 같이 reformulate 할 수 있다.
+First, the problem from the first perspective can be reformulated as follows.
 
 >$$
 >\begin{align}
@@ -137,9 +137,9 @@ Convex function의 maximization 또한 convex function이 된다.  이를 첫 �
 >\end{align}
 >$$
 
-$$t$$를 $$P^{T}x$$의 항들 중 가장 큰 값과 같게 만들어주는 문제로 reformulate 하였다.
+We have reformulated the problem to make $$t$$ equal to the largest value among the terms of $$P^{T}x$$.
 
-이제 여기에 앞서 배운 duality의 두 번째 방법인 Lagrangian을 구하고,  Lagrange dual function $$g$$를 구하면, 
+Now, applying the second method of duality we learned earlier, we construct the Lagrangian and obtain the Lagrange dual function $$g$$: 
 
 >$$
 >\begin{align}
@@ -150,7 +150,7 @@ $$t$$를 $$P^{T}x$$의 항들 중 가장 큰 값과 같게 만들어주는 문�
 >\end{align}
 >$$
 
-$$u$$는 slack variable이므로, 이를 제거하고 식을 정리하면 다음과 같다.
+Since $$u$$ is a slack variable, removing it and organizing the equation gives us the following.
 
 >$$
 >\begin{align}
@@ -160,6 +160,6 @@ $$u$$는 slack variable이므로, 이를 제거하고 식을 정리하면 다음
 >\end{align}
 >$$
 
-이는 두 번째 관점의 문제의 primal LP이다. 따라서 두 관점은 dual 관계에 있고 두 문제의 optimal value는 같으므로, strong duality가 성립한다.
+This is the primal LP of the problem from the second perspective. Therefore, the two perspectives are in a dual relationship and since the optimal values of the two problems are equal, strong duality holds.
 
-일반적으로 LP문제에서는, 향 후의 내용에서 다루지만, primal과 dual 중 하나만 feasible하다면 strong duality가 성립한다.
+In general, for LP problems, as we will cover in future content, strong duality holds if only one of the primal and dual is feasible.

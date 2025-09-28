@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 06-03-02 Convergence analysis & Proof
+title: 06-03-02 Phân Tích Hội Tụ & Chứng Minh
 chapter: '06'
 order: 9
 owner: Kyeongmin Woo
