@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 23-04 Example: Pathwise coordinate descent for lasso
+title: 23-04 Example - Pathwise coordinate descent for lasso
 chapter: '23'
 order: '5'
 owner: YoungJae Choung

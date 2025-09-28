@@ -118,7 +118,7 @@ với $$H(x) = \text{diag}(h(x))$$, $$U = \text{diag}(u)$$
    - **Compute Newton step:** Solve for $$(\Delta x, \Delta u, \Delta v)$$
    - **Backtracking line search:** Find step size $$\theta_k$$
    - **Update:** $$(x^{k+1}, u^{k+1}, v^{k+1}) = (x^k, u^k, v^k) + \theta_k(\Delta x, \Delta u, \Delta v)$$
-4. **Termination:** Stop when $$-h(x)^T u \le \epsilon$$ và $$\|r_{\text{prim}}\|^2 + \|r_{\text{dual}}\|^2 \le \epsilon^2$$
+4. **Termination:** Stop when $$-h(x)^T u \le \epsilon$$ và $$\lVert r_{\text{prim}} \rVert^2 + \lVert r_{\text{dual}} \rVert^2 \le \epsilon^2$$
 
 ### 🎯 **Multi-Stage Backtracking Line Search**
 
@@ -266,7 +266,7 @@ XS - \tau I
 
 #### **Stopping criteria**
 - **Duality gap:** $$-h(x)^T u \le \epsilon$$
-- **Feasibility:** $$\|r_{\text{prim}}\|^2 + \|r_{\text{dual}}\|^2 \le \epsilon^2$$
+- **Feasibility:** $$\lVert r_{\text{prim}} \rVert^2 + \lVert r_{\text{dual}} \rVert^2 \le \epsilon^2$$
 - **Relative criteria:** Scale by problem data
 - **Multiple conditions:** All must be satisfied
 
@@ -639,12 +639,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
 
         <!-- Câu hỏi 2: Central path equations -->
         <div class="question" id="q2" style="display: none;">
-            <h3>Câu 2: Central path equations cho inequality constraints \(g_i(x) \leq 0\) là:</h3>
+            <h3>Câu 2: Central path equations cho inequality constraints $$g_i(x) \leq 0$$ là:</h3>
             <div class="options">
-                <label><input type="radio" name="q2" value="a"> A) \(\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = -\frac{1}{t}\)</label>
-                <label><input type="radio" name="q2" value="b"> B) \(\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = 0\)</label>
-                <label><input type="radio" name="q2" value="c"> C) \(\nabla f(x) = 0, g_i(x) = 0\)</label>
-                <label><input type="radio" name="q2" value="d"> D) \(\lambda_i = \frac{1}{t}, g_i(x) = -1\)</label>
+                <label><input type="radio" name="q2" value="a"> A) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = -\frac{1}{t}$$</label>
+                <label><input type="radio" name="q2" value="b"> B) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = 0$$</label>
+                <label><input type="radio" name="q2" value="c"> C) $$\nabla f(x) = 0, g_i(x) = 0$$</label>
+                <label><input type="radio" name="q2" value="d"> D) $$\lambda_i = \frac{1}{t}, g_i(x) = -1$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = -\frac{1}{t}$$</strong><br>
@@ -656,10 +656,10 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
         <div class="question" id="q3" style="display: none;">
             <h3>Câu 3: Newton system trong primal-dual method solve cho:</h3>
             <div class="options">
-                <label><input type="radio" name="q3" value="a"> A) \((\Delta x, \Delta \lambda, \Delta \nu)\) - directions cho cả primal và dual</label>
-                <label><input type="radio" name="q3" value="b"> B) Chỉ \(\Delta x\) - primal direction</label>
-                <label><input type="radio" name="q3" value="c"> C) Chỉ \(\Delta \lambda\) - dual direction</label>
-                <label><input type="radio" name="q3" value="d"> D) Parameter \(t\)</label>
+                <label><input type="radio" name="q3" value="a"> A) $$(\Delta x, \Delta \lambda, \Delta \nu)$$ - directions cho cả primal và dual</label>
+                <label><input type="radio" name="q3" value="b"> B) Chỉ $$\Delta x$$ - primal direction</label>
+                <label><input type="radio" name="q3" value="c"> C) Chỉ $$\Delta \lambda$$ - dual direction</label>
+                <label><input type="radio" name="q3" value="d"> D) Parameter $$t$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$(\Delta x, \Delta \lambda, \Delta \nu)$$ - directions cho cả primal và dual</strong><br>
@@ -671,7 +671,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
         <div class="question" id="q4" style="display: none;">
             <h3>Câu 4: Surrogate duality gap trong primal-dual method là:</h3>
             <div class="options">
-                <label><input type="radio" name="q4" value="a"> A) \(\eta = -\sum_{i=1}^m \lambda_i g_i(x)\)</label>
+                <label><input type="radio" name="q4" value="a"> A) $$\eta = -\sum_{i=1}^m \lambda_i g_i(x)$$</label>
                 <label><input type="radio" name="q4" value="b"> B) \(\eta = f(x) - g(\lambda, \nu)\)</label>
                 <label><input type="radio" name="q4" value="c"> C) \(\eta = \|\nabla f(x)\|\)</label>
                 <label><input type="radio" name="q4" value="d"> D) \(\eta = \sum_{i=1}^m |\lambda_i|\)</label>

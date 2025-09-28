@@ -34,6 +34,7 @@ Do đó, bài toán đối ngẫu như sau:
 > $$ \max_{u,v} −f^∗(−A^Tu−C^Tv)−b^Tu−d^Tv \text{ với điều kiện } u ≥ 0 $$
 
 #### Nhắc lại tính chất
+
 Nếu $$f$$ đóng và lồi, chúng ta đã giải thích trước đó rằng đối ngẫu của đối ngẫu là nguyên thủy trong trường hợp này ($$f^{∗∗} = f$$).
 
 Trên thực tế, mối liên hệ (giữa đối ngẫu và liên hợp đối ngẫu) đi sâu hơn nhiều ngoài các ràng buộc tuyến tính.

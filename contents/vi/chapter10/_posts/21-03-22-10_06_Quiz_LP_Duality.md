@@ -443,12 +443,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
     <div id="quiz-content">
         <!-- Câu hỏi 1: Primal LP form -->
         <div class="question" id="q1" style="display: block;">
-            <h3>Câu 1: Cho bài toán LP primal: \(\min c^T x\) s.t. \(Ax = b, Gx \leq h\). Bài toán dual có dạng:</h3>
+            <h3>Câu 1: Cho bài toán LP primal: $$\min c^T x$$ s.t. $$Ax = b, Gx \leq h$$. Bài toán dual có dạng:</h3>
             <div class="options">
-                <label><input type="radio" name="q1" value="a"> A) \(\max b^T u + h^T v\) s.t. \(A^T u + G^T v = c, v \geq 0\)</label>
-                <label><input type="radio" name="q1" value="b"> B) \(\min b^T u + h^T v\) s.t. \(A^T u + G^T v = c, v \geq 0\)</label>
-                <label><input type="radio" name="q1" value="c"> C) \(\max b^T u + h^T v\) s.t. \(A^T u + G^T v \leq c, v \geq 0\)</label>
-                <label><input type="radio" name="q1" value="d"> D) \(\max c^T x\) s.t. \(Ax \geq b, Gx = h\)</label>
+                <label><input type="radio" name="q1" value="a"> A) $$\max b^T u + h^T v$$ s.t. $$A^T u + G^T v = c, v \geq 0$$</label>
+                <label><input type="radio" name="q1" value="b"> B) $$\min b^T u + h^T v$$ s.t. $$A^T u + G^T v = c, v \geq 0$$</label>
+                <label><input type="radio" name="q1" value="c"> C) $$\max b^T u + h^T v$$ s.t. $$A^T u + G^T v \leq c, v \geq 0$$</label>
+                <label><input type="radio" name="q1" value="d"> D) $$\max c^T x$$ s.t. $$Ax \geq b, Gx = h$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\max b^T u + h^T v$$ s.t. $$A^T u + G^T v = c, v \geq 0$$</strong><br>
@@ -475,9 +475,9 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
         <div class="question" id="q3" style="display: none;">
             <h3>Câu 3: Strong duality xảy ra khi:</h3>
             <div class="options">
-                <label><input type="radio" name="q3" value="a"> A) \(p^* < d^*\)</label>
-                <label><input type="radio" name="q3" value="b"> B) \(p^* = d^*\)</label>
-                <label><input type="radio" name="q3" value="c"> C) \(p^* > d^*\)</label>
+                <label><input type="radio" name="q3" value="a"> A) $$p^* < d^*$$</label>
+                <label><input type="radio" name="q3" value="b"> B) $$p^* = d^*$$</label>
+                <label><input type="radio" name="q3" value="c"> C) $$p^* > d^*$$</label>
                 <label><input type="radio" name="q3" value="d"> D) Primal không có nghiệm</label>
             </div>
             <div class="explanation" style="display: none;">
@@ -490,10 +490,10 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
         <div class="question" id="q4" style="display: none;">
             <h3>Câu 4: Complementary slackness conditions phát biểu rằng:</h3>
             <div class="options">
-                <label><input type="radio" name="q4" value="a"> A) \(x_i > 0 \Rightarrow (A^T u + G^T v)_i = c_i\) và \(v_j > 0 \Rightarrow (Gx)_j = h_j\)</label>
-                <label><input type="radio" name="q4" value="b"> B) \(x_i = 0\) và \(v_j = 0\) với mọi \(i, j\)</label>
+                <label><input type="radio" name="q4" value="a"> A) $$x_i > 0 \Rightarrow (A^T u + G^T v)_i = c_i$$ và $$v_j > 0 \Rightarrow (Gx)_j = h_j$$</label>
+                <label><input type="radio" name="q4" value="b"> B) $$x_i = 0$$ và $$v_j = 0$$ với mọi $$i, j$$</label>
                 <label><input type="radio" name="q4" value="c"> C) Primal và dual cùng feasible</label>
-                <label><input type="radio" name="q4" value="d"> D) \(Ax = b\) và \(Gx \leq h\)</label>
+                <label><input type="radio" name="q4" value="d"> D) $$Ax = b$$ và $$Gx \leq h$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$x_i > 0 \Rightarrow (A^T u + G^T v)_i = c_i$$ và $$v_j > 0 \Rightarrow (Gx)_j = h_j$$</strong><br>
@@ -505,10 +505,10 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
         <div class="question" id="q5" style="display: none;">
             <h3>Câu 5: Duality gap được định nghĩa là:</h3>
             <div class="options">
-                <label><input type="radio" name="q5" value="a"> A) \(d^* - p^*\)</label>
-                <label><input type="radio" name="q5" value="b"> B) \(p^* - d^*\)</label>
-                <label><input type="radio" name="q5" value="c"> C) \(p^* + d^*\)</label>
-                <label><input type="radio" name="q5" value="d"> D) \(|p^* - d^*|\)</label>
+                <label><input type="radio" name="q5" value="a"> A) $$d^* - p^*$$</label>
+                <label><input type="radio" name="q5" value="b"> B) $$p^* - d^*$$</label>
+                <label><input type="radio" name="q5" value="c"> C) $$p^* + d^*$$</label>
+                <label><input type="radio" name="q5" value="d"> D) $$|p^* - d^*|$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$p^* - d^*$$</strong><br>
@@ -518,12 +518,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
 
         <!-- Câu hỏi 6: Standard form LP dual -->
         <div class="question" id="q6" style="display: none;">
-            <h3>Câu 6: Cho LP ở dạng chuẩn: \(\min c^T x\) s.t. \(Ax = b, x \geq 0\). Bài toán dual là:</h3>
+            <h3>Câu 6: Cho LP ở dạng chuẩn: $$\min c^T x$$ s.t. $$Ax = b, x \geq 0$$. Bài toán dual là:</h3>
             <div class="options">
-                <label><input type="radio" name="q6" value="a"> A) \(\max b^T y\) s.t. \(A^T y \leq c\)</label>
-                <label><input type="radio" name="q6" value="b"> B) \(\max b^T y\) s.t. \(A^T y = c\)</label>
-                <label><input type="radio" name="q6" value="c"> C) \(\min b^T y\) s.t. \(A^T y \geq c\)</label>
-                <label><input type="radio" name="q6" value="d"> D) \(\max b^T y\) s.t. \(A^T y \geq c\)</label>
+                <label><input type="radio" name="q6" value="a"> A) $$\max b^T y$$ s.t. $$A^T y \leq c$$</label>
+                <label><input type="radio" name="q6" value="b"> B) $$\max b^T y$$ s.t. $$A^T y = c$$</label>
+                <label><input type="radio" name="q6" value="c"> C) $$\min b^T y$$ s.t. $$A^T y \geq c$$</label>
+                <label><input type="radio" name="q6" value="d"> D) $$\max b^T y$$ s.t. $$A^T y \geq c$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\max b^T y$$ s.t. $$A^T y \leq c$$</strong><br>
@@ -578,7 +578,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
 
         <!-- Câu hỏi 10: Matrix games -->
         <div class="question" id="q10" style="display: none;">
-            <h3>Câu 10: Trong matrix game với payout matrix \(P\), player J muốn:</h3>
+            <h3>Câu 10: Trong matrix game với payout matrix $$P$$, player J muốn:</h3>
             <div class="options">
                 <label><input type="radio" name="q10" value="a"> A) Tối đa hóa expected payout</label>
                 <label><input type="radio" name="q10" value="b"> B) Tối thiểu hóa maximum loss (minimax)</label>

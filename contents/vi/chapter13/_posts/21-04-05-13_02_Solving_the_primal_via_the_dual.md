@@ -7,7 +7,7 @@ owner: Wontak Ryu
 categories:
 - chapter13
 lang: vi
-lesso_type: required
+lesson_type: required
 ---
 
 ### Một hệ quả quan trọng của điều kiện dừng

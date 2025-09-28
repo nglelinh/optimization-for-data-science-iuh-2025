@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 23-03 Example: lasso regression
+title: 23-03 Example - lasso regression
 chapter: '23'
 order: '4'
 owner: YoungJae Choung

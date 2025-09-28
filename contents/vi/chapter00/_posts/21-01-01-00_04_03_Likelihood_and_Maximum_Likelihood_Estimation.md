@@ -516,3 +516,4 @@ $$\ell(\beta_0, \beta_1) = \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1-y_i) \log(1-
 </div>
 
 
+

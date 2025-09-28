@@ -51,45 +51,45 @@ Khi có $$v^*$$, solve: $$\nabla f_i(x_i^*) = a_i v^*$$ cho mỗi $$i$$
 ### 📏 **Dual Norms (Chuẩn Đối Ngẫu)**
 
 #### **Định nghĩa**
-Cho norm $$\|x\|$$, **dual norm** $$\|x\|_*$$ được định nghĩa:
-$$\|z\|_* = \max_{\|x\| \le 1} z^T x$$
+Cho norm $$\lVert x \rVert$$, **dual norm** $$\lVert x \rVert_*$$ được định nghĩa:
+$$\lVert z \rVert_* = \max_{\lVert x \rVert \le 1} z^T x$$
 
 #### **Tính chất cơ bản**
-- **Generalized Cauchy-Schwarz:** $$|z^T x| \le \|z\|_* \|x\|$$
-- **Double dual:** $$\|x\|_{**} = \|x\|$$
-- **Always a norm:** $$\|\cdot\|_*$$ luôn là norm ngay cả khi $$\|\cdot\|$$ không convex
+- **Generalized Cauchy-Schwarz:** $$\lvert z^T x \rvert \le \lVert z \rVert_* \lVert x \rVert$$
+- **Double dual:** $$\lVert x \rVert_{**} = \lVert x \rVert$$
+- **Always a norm:** $$\lVert \cdot \rVert_*$$ luôn là norm ngay cả khi $$\lVert \cdot \rVert$$ không convex
 
 #### **Ví dụ quan trọng**
-- **$$\ell_p$$ norms:** $$(\|x\|_p)_* = \|x\|_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$
-  - $$(\|x\|_1)_* = \|x\|_\infty$$
-  - $$(\|x\|_2)_* = \|x\|_2$$
-  - $$(\|x\|_\infty)_* = \|x\|_1$$
-- **Matrix norms:** $$(\|X\|_{tr})_* = \|X\|_{op} = \sigma_1(X)$$ (largest singular value)
+- **$$\ell_p$$ norms:** $$(\lVert x \rVert_p)_* = \lVert x \rVert_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$
+  - $$(\lVert x \rVert_1)_* = \lVert x \rVert_\infty$$
+  - $$(\lVert x \rVert_2)_* = \lVert x \rVert_2$$
+  - $$(\lVert x \rVert_\infty)_* = \lVert x \rVert_1$$
+- **Matrix norms:** $$(\lVert X \rVert_{tr})_* = \lVert X \rVert_{op} = \sigma_1(X)$$ (largest singular value)
 
 #### **Dual norm characterization**
-**Bài toán:** $$\min_y \|y\| \quad \text{s.t.} \quad y = x$$
+**Bài toán:** $$\min_y \lVert y \rVert \quad \text{s.t.} \quad y = x$$
 
-**Dual problem:** $$\max_{\|u\|_* \le 1} u^T x$$
+**Dual problem:** $$\max_{\lVert u \rVert_* \le 1} u^T x$$
 
-**Kết quả:** $$\|x\| = \max_{\|u\|_* \le 1} u^T x$$
+**Kết quả:** $$\lVert x \rVert = \max_{\lVert u \rVert_* \le 1} u^T x$$
 
 ### 🎯 **Ví Dụ: LASSO Dual**
 
 #### **Primal LASSO**
-$$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$
+$$\min_\beta \frac{1}{2}\lVert y - X\beta \rVert_2^2 + \lambda \lVert \beta \rVert_1$$
 
 #### **Reformulation**
-$$\min_{\beta,z} \frac{1}{2}\|y - z\|_2^2 + \lambda \|\beta\|_1 \quad \text{s.t.} \quad z = X\beta$$
+$$\min_{\beta,z} \frac{1}{2}\lVert y - z \rVert_2^2 + \lambda \lVert \beta \rVert_1 \quad \text{s.t.} \quad z = X\beta$$
 
 #### **Dual derivation**
 **Lagrangian:**
-$$L(\beta,z,u) = \frac{1}{2}\|y - z\|_2^2 + \lambda \|\beta\|_1 + u^T(z - X\beta)$$
+$$L(\beta,z,u) = \frac{1}{2}\lVert y - z \rVert_2^2 + \lambda \lVert \beta \rVert_1 + u^T(z - X\beta)$$
 
 **Dual function:**
-$$g(u) = \frac{1}{2}\|y\|_2^2 - \frac{1}{2}\|y - u\|_2^2 - I_{\{\|X^T v\|_\infty \le \lambda\}}(u)$$
+$$g(u) = \frac{1}{2}\lVert y \rVert_2^2 - \frac{1}{2}\lVert y - u \rVert_2^2 - I_{\{\lVert X^T v \rVert_\infty \le \lambda\}}(u)$$
 
 #### **LASSO dual problem**
-$$\min_u \|y - u\|_2^2 \quad \text{s.t.} \quad \|X^T u\|_\infty \le \lambda$$
+$$\min_u \lVert y - u \rVert_2^2 \quad \text{s.t.} \quad \lVert X^T u \rVert_\infty \le \lambda$$
 
 #### **Primal-dual relationship**
 - **Strong duality:** Slater's condition satisfied
@@ -122,7 +122,7 @@ $$\min_x f(x) + I_C(x) \Rightarrow \max_u -f^*(u) - I_C^*(-u)$$
 với $$I_C^*$$ là support function của $$C$$
 
 **2. Norm regularization:**
-$$\min_x f(x) + \|x\| \Rightarrow \max_{\|u\|_* \le 1} -f^*(u)$$
+$$\min_x f(x) + \lVert x \rVert \Rightarrow \max_{\lVert u \rVert_* \le 1} -f^*(u)$$
 
 ### 🔺 **Dual Cones (Nón Đối Ngẫu)**
 
@@ -142,8 +142,8 @@ $$K^* = \{y : y^T x \ge 0 \quad \forall x \in K\}$$
 - **Row space:** $$(row(A))^* = null(A)$$
 
 **2. Norm cones:**
-- **Norm cone:** $$K = \{(x,t) : \|x\| \le t\}$$
-- **Dual:** $$K^* = \{(y,s) : \|y\|_* \le s\}$$
+- **Norm cone:** $$K = \{(x,t) : \lVert x \rVert \le t\}$$
+- **Dual:** $$K^* = \{(y,s) : \lVert y \rVert_* \le s\}$$
 
 **3. Positive semidefinite cone:**
 - **Self-dual:** $$(\mathbb{S}_+^n)^* = \mathbb{S}_+^n$$
@@ -160,7 +160,7 @@ $$\max_u -f^*(A^T u) \quad \text{s.t.} \quad u \in K^*$$
 **Derivation:** Sử dụng support function $$I_K^*(y) = \max_{z \in K} z^T y$$
 
 #### **Ví dụ: Second-Order Cone Programming (SOCP)**
-**Primal:** $$\min c^T x \quad \text{s.t.} \quad \|A_i x + b_i\|_2 \le c_i^T x + d_i$$
+**Primal:** $$\min c^T x \quad \text{s.t.} \quad \lVert A_i x + b_i \rVert_2 \le c_i^T x + d_i$$
 
 **Equivalent conic form:** $$Ax \in K$$ với $$K$$ là product của second-order cones
 
@@ -189,7 +189,7 @@ $$\max_u -f^*(A^T u) \quad \text{s.t.} \quad u \in K^*$$
 ### 💡 **Ví Dụ Minh Họa**
 
 #### **Simple norm minimization:**
-**Problem:** $$\min_x \|x\|_2 \quad \text{s.t.} \quad Ax = b$$
+**Problem:** $$\min_x \lVert x \rVert_2 \quad \text{s.t.} \quad Ax = b$$
 
 **Dual:** $$\max_{A^T u = 0} -b^T u$$
 
@@ -198,9 +198,9 @@ $$\max_u -f^*(A^T u) \quad \text{s.t.} \quad u \in K^*$$
 **Solution:** $$u^* = -A^+ b$$ (pseudoinverse)
 
 #### **$$\ell_1$$ minimization:**
-**Problem:** $$\min_x \|x\|_1 \quad \text{s.t.} \quad Ax = b$$
+**Problem:** $$\min_x \lVert x \rVert_1 \quad \text{s.t.} \quad Ax = b$$
 
-**Dual:** $$\max_{\|A^T u\|_\infty \le 1} b^T u$$
+**Dual:** $$\max_{\lVert A^T u \rVert_\infty \le 1} b^T u$$
 
 **Geometric interpretation:** Find $$u$$ trong dual feasible set maximizing $$b^T u$$
 
@@ -507,12 +507,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
     <div id="quiz-content">
         <!-- Câu hỏi 1: Conjugate function definition -->
         <div class="question" id="q1" style="display: block;">
-            <h3>Câu 1: Conjugate function \(f^*(y)\) được định nghĩa là:</h3>
+            <h3>Câu 1: Conjugate function $$f^*(y)$$ được định nghĩa là:</h3>
             <div class="options">
-                <label><input type="radio" name="q1" value="a"> A) \(f^*(y) = \max_x (y^T x - f(x))\)</label>
-                <label><input type="radio" name="q1" value="b"> B) \(f^*(y) = \min_x (y^T x - f(x))\)</label>
-                <label><input type="radio" name="q1" value="c"> C) \(f^*(y) = \max_x (y^T x + f(x))\)</label>
-                <label><input type="radio" name="q1" value="d"> D) \(f^*(y) = f(y)\)</label>
+                <label><input type="radio" name="q1" value="a"> A) $$f^*(y) = \max_x (y^T x - f(x))$$</label>
+                <label><input type="radio" name="q1" value="b"> B) $$f^*(y) = \min_x (y^T x - f(x))$$</label>
+                <label><input type="radio" name="q1" value="c"> C) $$f^*(y) = \max_x (y^T x + f(x))$$</label>
+                <label><input type="radio" name="q1" value="d"> D) $$f^*(y) = f(y)$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f^*(y) = \max_x (y^T x - f(x))$$</strong><br>
@@ -522,11 +522,11 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
 
         <!-- Câu hỏi 2: Conjugate properties -->
         <div class="question" id="q2" style="display: none;">
-            <h3>Câu 2: Conjugate function \(f^*\) có tính chất:</h3>
+            <h3>Câu 2: Conjugate function $$f^*$$ có tính chất:</h3>
             <div class="options">
                 <label><input type="radio" name="q2" value="a"> A) Luôn convex</label>
                 <label><input type="radio" name="q2" value="b"> B) Luôn concave</label>
-                <label><input type="radio" name="q2" value="c"> C) Có cùng tính lồi với \(f\)</label>
+                <label><input type="radio" name="q2" value="c"> C) Có cùng tính lồi với $$f$$</label>
                 <label><input type="radio" name="q2" value="d"> D) Không xác định được</label>
             </div>
             <div class="explanation" style="display: none;">
@@ -537,12 +537,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
 
         <!-- Câu hỏi 3: Double conjugate -->
         <div class="question" id="q3" style="display: none;">
-            <h3>Câu 3: Nếu \(f\) là convex và lower semicontinuous, thì \(f^{**}\) bằng:</h3>
+            <h3>Câu 3: Nếu $$f$$ là convex và lower semicontinuous, thì $$f^{**}$$ bằng:</h3>
             <div class="options">
-                <label><input type="radio" name="q3" value="a"> A) \(f\)</label>
-                <label><input type="radio" name="q3" value="b"> B) \(-f\)</label>
-                <label><input type="radio" name="q3" value="c"> C) \(f^*\)</label>
-                <label><input type="radio" name="q3" value="d"> D) \(0\)</label>
+                <label><input type="radio" name="q3" value="a"> A) $$f$$</label>
+                <label><input type="radio" name="q3" value="b"> B) $$-f$$</label>
+                <label><input type="radio" name="q3" value="c"> C) $$f^*$$</label>
+                <label><input type="radio" name="q3" value="d"> D) $$0$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f$$</strong><br>
@@ -552,12 +552,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
 
         <!-- Câu hỏi 4: Dual norm definition -->
         <div class="question" id="q4" style="display: none;">
-            <h3>Câu 4: Dual norm \(\|x\|_*\) được định nghĩa là:</h3>
+            <h3>Câu 4: Dual norm $$\lVert x \rVert_*$$ được định nghĩa là:</h3>
             <div class="options">
-                <label><input type="radio" name="q4" value="a"> A) \(\|x\|_* = \max_{\|z\| \leq 1} z^T x\)</label>
-                <label><input type="radio" name="q4" value="b"> B) \(\|x\|_* = \min_{\|z\| \leq 1} z^T x\)</label>
-                <label><input type="radio" name="q4" value="c"> C) \(\|x\|_* = \max_{\|z\| = 1} z^T x\)</label>
-                <label><input type="radio" name="q4" value="d"> D) \(\|x\|_* = \|x\|\)</label>
+                <label><input type="radio" name="q4" value="a"> A) $$\lVert x \rVert_* = \max_{\lVert z \rVert \leq 1} z^T x$$</label>
+                <label><input type="radio" name="q4" value="b"> B) $$\lVert x \rVert_* = \min_{\lVert z \rVert \leq 1} z^T x$$</label>
+                <label><input type="radio" name="q4" value="c"> C) $$\lVert x \rVert_* = \max_{\lVert z \rVert = 1} z^T x$$</label>
+                <label><input type="radio" name="q4" value="d"> D) $$\lVert x \rVert_* = \lVert x \rVert$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\|x\|_* = \max_{\|z\| \leq 1} z^T x$$</strong><br>
@@ -567,10 +567,10 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
 
         <!-- Câu hỏi 5: Lp dual norm -->
         <div class="question" id="q5" style="display: none;">
-            <h3>Câu 5: Dual norm của \(\ell_p\) norm là:</h3>
+            <h3>Câu 5: Dual norm của $$\ell_p$$ norm là:</h3>
             <div class="options">
-                <label><input type="radio" name="q5" value="a"> A) \(\ell_p\) norm</label>
-                <label><input type="radio" name="q5" value="b"> B) \(\ell_q\) norm với \(1/p + 1/q = 1\)</label>
+                <label><input type="radio" name="q5" value="a"> A) $$\ell_p$$ norm</label>
+                <label><input type="radio" name="q5" value="b"> B) $$\ell_q$$ norm với $$1/p + 1/q = 1$$</label>
                 <label><input type="radio" name="q5" value="c"> C) \(\ell_\infty\) norm</label>
                 <label><input type="radio" name="q5" value="d"> D) \(\ell_1\) norm</label>
             </div>

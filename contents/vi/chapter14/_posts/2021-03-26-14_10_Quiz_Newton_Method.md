@@ -65,7 +65,7 @@ $$\lambda(x) = (\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x))^{1/2}$$
    - $$\hat{f}(y)$$: quadratic approximation của $$f$$ tại $$x$$
    - $$\frac{1}{2}\lambda^2(x)$$: upper bound cho $$f(x) - f^*$$
 
-2. **Step length:** $$\lambda(x) = \|\Delta x_{nt}\|_{\nabla^2 f(x)}$$ (Hessian norm)
+2. **Step length:** $$\lambda(x) = \lVert \Delta x_{nt} \rVert_{\nabla^2 f(x)}$$ (Hessian norm)
 
 3. **Mahalanobis distance:** Distance từ current point đến Newton step
 
@@ -101,16 +101,16 @@ với $$\nabla f(x)^T v = -\lambda^2(x) < 0$$
 ### 📊 **Convergence Analysis**
 
 #### **Assumptions**
-1. **$$\nabla f$$ Lipschitz:** $$\|\nabla f(x) - \nabla f(y)\|_2 \le L\|x-y\|_2$$
+1. **$$\nabla f$$ Lipschitz:** $$\lVert \nabla f(x) - \nabla f(y) \rVert_2 \le L \lVert x-y \rVert_2$$
 2. **Strong convexity:** $$mI \preceq \nabla^2 f(x) \preceq LI$$
-3. **$$\nabla^2 f$$ Lipschitz:** $$\|\nabla^2 f(x) - \nabla^2 f(y)\|_2 \le M\|x-y\|_2$$
+3. **$$\nabla^2 f$$ Lipschitz:** $$\lVert \nabla^2 f(x) - \nabla^2 f(y) \rVert_2 \le M \lVert x-y \rVert_2$$
 
 #### **Two-phase convergence**
-**Phase I - Damped phase:** $$\|\nabla f(x^{(k)})\|_2 \ge \eta$$
+**Phase I - Damped phase:** $$\lVert \nabla f(x^{(k)}) \rVert_2 \ge \eta$$
 $$f(x^{(k+1)}) - f(x^{(k)}) \le -\gamma$$
 
-**Phase II - Pure phase:** $$\|\nabla f(x^{(k)})\|_2 < \eta$$
-$$\frac{M}{2m^2}\|\nabla f(x^{(k+1)})\|_2 \le \left(\frac{M}{2m^2}\|\nabla f(x^{(k)})\|_2\right)^2$$
+**Phase II - Pure phase:** $$\lVert \nabla f(x^{(k)}) \rVert_2 < \eta$$
+$$\frac{M}{2m^2} \lVert \nabla f(x^{(k+1)}) \rVert_2 \le \left(\frac{M}{2m^2} \lVert \nabla f(x^{(k)}) \rVert_2\right)^2$$
 
 #### **Convergence rates**
 **Phase I:** Linear decrease trong function value
@@ -191,7 +191,7 @@ $$|f'''(x)| \le 2(f''(x))^{3/2}$$ (univariate case)
 
 #### **Stopping criteria**
 1. **Newton decrement:** $$\lambda^2(x)/2 < \epsilon$$
-2. **Gradient norm:** $$\|\nabla f(x)\|_2 < \epsilon$$
+2. **Gradient norm:** $$\lVert \nabla f(x) \rVert_2 < \epsilon$$
 3. **Function decrease:** $$|f(x^{(k)}) - f(x^{(k-1)})| < \epsilon$$
 
 ### 🎯 **Special Cases và Extensions**
@@ -209,7 +209,7 @@ với $$s_k = x_{k+1} - x_k$$, $$y_k = \nabla f(x_{k+1}) - \nabla f(x_k)$$
 #### **Trust region methods**
 **Alternative to line search:**
 $$\min_p f(x) + \nabla f(x)^T p + \frac{1}{2}p^T \nabla^2 f(x) p$$
-subject to $$\|p\| \le \Delta$$
+subject to $$\lVert p \rVert \le \Delta$$
 
 ### 💡 **Ví Dụ Minh Họa**
 
@@ -587,7 +587,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: C) Quadratic</strong><br>
-                Newton method có quadratic convergence khi gần optimal point: $$\|x^{(k+1)} - x^*\| \leq C \|x^{(k)} - x^*\|^2$$.
+                Newton method có quadratic convergence khi gần optimal point: $$\lVert x^{(k+1)} - x^* \rVert \leq C \lVert x^{(k)} - x^* \rVert^2$$.
             </div>
         </div>
 
@@ -597,8 +597,8 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
             <div class="options">
                 <label><input type="radio" name="q5" value="a"> A) \(\lambda(x) = \sqrt{\nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)}\)</label>
                 <label><input type="radio" name="q5" value="b"> B) \(\lambda(x) = \nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)\)</label>
-                <label><input type="radio" name="q5" value="c"> C) \(\lambda(x) = \|\nabla f(x)\|\)</label>
-                <label><input type="radio" name="q5" value="d"> D) \(\lambda(x) = \|\nabla^2 f(x)\|\)</label>
+                <label><input type="radio" name="q5" value="c"> C) $$\lambda(x) = \lVert \nabla f(x) \rVert$$</label>
+                <label><input type="radio" name="q5" value="d"> D) $$\lambda(x) = \lVert \nabla^2 f(x) \rVert$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\lambda(x) = \sqrt{\nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)}$$</strong><br>

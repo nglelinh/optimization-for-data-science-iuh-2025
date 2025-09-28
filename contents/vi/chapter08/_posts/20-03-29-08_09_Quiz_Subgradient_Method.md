@@ -207,7 +207,7 @@ $$\partial f(x) = \partial |x - 2| + \partial |x + 1|$$
 ### 💡 **Mẹo Thực Hành**
 
 #### **Khi nào sử dụng Subgradient Method:**
-- Hàm mục tiêu không khả vi (chứa $$|\cdot|$$, $$\max\{\cdot\}$$)
+- Hàm mục tiêu không khả vi (chứa $$\lvert \cdot \rvert$$, $$\max\{\cdot\}$$)
 - Regularization với L1 norm
 - Constraint optimization với indicator functions
 - Large-scale problems với stochastic variants

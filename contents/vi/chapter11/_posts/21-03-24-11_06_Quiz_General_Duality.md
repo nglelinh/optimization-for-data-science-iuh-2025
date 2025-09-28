@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 11-06 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Chương Trình Tổng Quát
+title: 11-6 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Chương Trình Tổng Quát
 chapter: '11'
 order: 7
 owner: GitHub Copilot
