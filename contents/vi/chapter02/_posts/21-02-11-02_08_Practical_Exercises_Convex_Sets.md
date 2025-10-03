@@ -59,16 +59,16 @@ Vì $$P \succeq 0$$, quadratic form là convex function, nên sublevel set conve
 
 Cartesian product của convex sets (intervals) là convex.
 
-**Bước 2: Operations preserving convexity**
-- **a, b:** Sublevel sets của convex functions (norms)
-- **c:** Sublevel set của convex quadratic form
-- **d:** Cartesian product của convex intervals
+**Bước 2: Các phép toán bảo toàn tính lồi**
+- **a, b:** Tập mức dưới của hàm lồi (chuẩn)
+- **c:** Tập mức dưới của dạng toàn phương lồi
+- **d:** Tích Descartes của các khoảng lồi
 
-**Bước 3: Extreme points**
-- **a:** Boundary $$\{x : \lVert x \rVert_2 = 1\}$$ (infinite extreme points)
-- **b:** Vertices $$\{\pm e_i : i = 1,\ldots,n\}$$ ($$2n$$ extreme points)
-- **c:** Depends on $$P$$; if $$P \succ 0$$, boundary ellipse
-- **d:** Vertices $$\{(\pm a_1, \ldots, \pm a_n)\}$$ ($$2^n$$ extreme points)
+**Bước 3: Điểm cực biên**
+- **a:** Biên $$\{x : \lVert x \rVert_2 = 1\}$$ (vô số điểm cực biên)
+- **b:** Các đỉnh $$\{\pm e_i : i = 1,\ldots,n\}$$ ($$2n$$ điểm cực biên)
+- **c:** Phụ thuộc vào $$P$$; nếu $$P \succ 0$$, ellipse biên
+- **d:** Các đỉnh $$\{(\pm a_1, \ldots, \pm a_n)\}$$ ($$2^n$$ điểm cực biên)
 
 </details>
 
@@ -98,39 +98,39 @@ e) **Affine transformation:** $$f(C_1) = \{Ax + b : x \in C_1\}$$
 <details>
 <summary><strong>💡 Lời giải chi tiết</strong></summary>
 
-**Bước 1: Intersection - CONVEX**
+**Bước 1: Giao - LỒI**
 
-**Proof:** Với $$x, y \in C_1 \cap C_2$$ và $$\theta \in [0,1]$$:
-- $$x, y \in C_1 \Rightarrow \theta x + (1-\theta) y \in C_1$$ (vì $$C_1$$ convex)
-- $$x, y \in C_2 \Rightarrow \theta x + (1-\theta) y \in C_2$$ (vì $$C_2$$ convex)
+**Chứng minh:** Với $$x, y \in C_1 \cap C_2$$ và $$\theta \in [0,1]$$:
+- $$x, y \in C_1 \Rightarrow \theta x + (1-\theta) y \in C_1$$ (vì $$C_1$$ lồi)
+- $$x, y \in C_2 \Rightarrow \theta x + (1-\theta) y \in C_2$$ (vì $$C_2$$ lồi)
 - $$\Rightarrow \theta x + (1-\theta) y \in C_1 \cap C_2$$
 
-**Generalization:** $$\bigcap_{i \in I} C_i$$ convex nếu mỗi $$C_i$$ convex.
+**Tổng quát hóa:** $$\bigcap_{i \in I} C_i$$ lồi nếu mỗi $$C_i$$ lồi.
 
-**Bước 2: Union - NOT CONVEX**
+**Bước 2: Hợp - KHÔNG LỒI**
 
-**Counterexample:** $$C_1 = \{(x,0) : x \geq 0\}$$, $$C_2 = \{(0,y) : y \geq 0\}$$
+**Phản ví dụ:** $$C_1 = \{(x,0) : x \geq 0\}$$, $$C_2 = \{(0,y) : y \geq 0\}$$
 
-Cả hai đều convex, nhưng $$C_1 \cup C_2$$ không convex:
+Cả hai đều lồi, nhưng $$C_1 \cup C_2$$ không lồi:
 - $$(1,0) \in C_1 \cup C_2$$, $$(0,1) \in C_1 \cup C_2$$
 - $$\frac{1}{2}(1,0) + \frac{1}{2}(0,1) = (\frac{1}{2}, \frac{1}{2}) \notin C_1 \cup C_2$$
 
-**Bước 3: Minkowski sum - CONVEX**
+**Bước 3: Tổng Minkowski - LỒI**
 
-**Proof:** Với $$z_1, z_2 \in C_1 + C_2$$:
+**Chứng minh:** Với $$z_1, z_2 \in C_1 + C_2$$:
 - $$z_1 = x_1 + y_1$$, $$z_2 = x_2 + y_2$$ với $$x_i \in C_1, y_i \in C_2$$
 - $$\theta z_1 + (1-\theta) z_2 = \theta(x_1 + y_1) + (1-\theta)(x_2 + y_2)$$
 - $$= (\theta x_1 + (1-\theta) x_2) + (\theta y_1 + (1-\theta) y_2)$$
-- $$\in C_1 + C_2$$ (vì $$C_1, C_2$$ convex)
+- $$\in C_1 + C_2$$ (vì $$C_1, C_2$$ lồi)
 
-**Bước 4: Cartesian product - CONVEX**
+**Bước 4: Tích Descartes - LỒI**
 
-**Proof:** $$(x_1, y_1), (x_2, y_2) \in C_1 \times C_2$$:
+**Chứng minh:** $$(x_1, y_1), (x_2, y_2) \in C_1 \times C_2$$:
 $$\theta(x_1, y_1) + (1-\theta)(x_2, y_2) = (\theta x_1 + (1-\theta) x_2, \theta y_1 + (1-\theta) y_2) \in C_1 \times C_2$$
 
-**Bước 5: Affine transformation - CONVEX**
+**Bước 5: Biến đổi affine - LỒI**
 
-**Proof:** Với $$z_1, z_2 \in f(C_1)$$:
+**Chứng minh:** Với $$z_1, z_2 \in f(C_1)$$:
 - $$z_i = Ax_i + b$$ với $$x_i \in C_1$$
 - $$\theta z_1 + (1-\theta) z_2 = A(\theta x_1 + (1-\theta) x_2) + b \in f(C_1)$$
 
@@ -695,6 +695,43 @@ $$C = \{x : \lVert x \rVert_2 \leq 1\}$$
 - Nhớ definition: $$K^* = \{y : y^T x \geq 0, \forall x \in K\}$$
 - Exploit self-duality của important cones
 - Sử dụng trong generalized inequalities
+
+---
+
+## 💡 **Tổng kết**
+
+### **Các Tập Convex Quan trọng:**
+
+| Tập | Định nghĩa | Ví dụ |
+|-----|------------|-------|
+| **Affine set** | $$\{x : Ax = b\}$$ | Không gian con, hyperplane |
+| **Convex hull** | $$\text{conv}(S) = \{\sum \theta_i x_i : \sum \theta_i = 1, \theta_i \geq 0\}$$ | Smallest convex set chứa $$S$$ |
+| **Cone** | $$\theta x \in C$$ $$\forall x \in C, \theta \geq 0$$ | Nonnegative orthant |
+| **Polyhedron** | $$\{x : Ax \leq b, Cx = d\}$$ | Intersection của halfspaces |
+| **Ellipsoid** | $$\{x : (x-x_c)^TP^{-1}(x-x_c) \leq 1\}$$ | $$P \succ 0$$ |
+| **Norm ball** | $$\{x : \|\|x - x_c\|\| \leq r\}$$ | $$\ell_1, \ell_2, \ell_\infty$$ balls |
+
+### **Operations bảo toàn Convexity:**
+
+| Operation | Ví dụ |
+|-----------|-------|
+| **Intersection** | $$C_1 \cap C_2$$ convex nếu $$C_1, C_2$$ convex |
+| **Affine map** | $$f(C) = \{Ax + b : x \in C\}$$ |
+| **Perspective** | $$P(x, t) = x/t$$ |
+| **Linear fractional** | $$f(x) = \frac{Ax + b}{c^Tx + d}$$ |
+
+### **Separation & Support:**
+
+- **Separating hyperplane:** Tồn tại $$a$$ sao cho $$a^Tx \leq b$$ $$\forall x \in C_1$$ và $$a^Tx \geq b$$ $$\forall x \in C_2$$
+- **Supporting hyperplane:** $$\{x : a^Tx = a^Tx_0\}$$ tại boundary point $$x_0$$
+- **Dual cone:** $$K^* = \{y : y^Tx \geq 0, \forall x \in K\}$$
+- **Self-dual cones:** $$K^* = K$$ (e.g., nonnegative orthant, PSD cone)
+
+### **Key Theorems:**
+
+- **Carathéodory:** Mọi điểm trong $$\text{conv}(S) \subset \mathbb{R}^n$$ là combination của $$\leq n+1$$ points
+- **Radon:** Mọi tập $$n+2$$ points trong $$\mathbb{R}^n$$ có thể partition thành 2 disjoint sets với convex hulls giao nhau
+- **Helly:** Nếu $$C_1, \ldots, C_m$$ convex trong $$\mathbb{R}^n$$ ($$m \geq n+1$$), và mọi $$n+1$$ sets có intersection, thì $$\bigcap_{i=1}^m C_i \neq \emptyset$$
 
 ---
 

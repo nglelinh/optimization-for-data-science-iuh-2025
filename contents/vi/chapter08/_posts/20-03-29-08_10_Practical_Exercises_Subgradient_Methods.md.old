@@ -1,0 +1,1614 @@
+---
+layout: post
+title: 8-10 Bài Tập Thực Hành - Phương Pháp Subgradient
+chapter: '8'
+order: 18
+owner: GitHub Copilot
+lang: vi
+categories:
+- chapter08
+lesson_type: required
+---
+
+# Bài Tập Thực Hành - Phương Pháp Subgradient
+
+## 📝 **Bài tập 1: Step Size Analysis và Tuning**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Chapter 8)
+Phân tích và so sánh các quy tắc kích thước bước khác nhau cho phương pháp subgradient:
+
+a) **Kích thước bước hằng số:** $$t_k = t > 0$$
+b) **Kích thước bước giảm dần:** $$t_k = \frac{a}{k}$$ với $$a > 0$$
+c) **Tổng bình phương hội tụ:** $$t_k = \frac{a}{\sqrt{k}}$$
+d) **Kích thước bước Polyak:** $$t_k = \frac{f(x^{(k)}) - f^*}{\|g^{(k)}\|_2^2}$$
+
+**Hàm kiểm tra:** $$f(x) = |x - 2| + |x + 1|$$
+
+**Yêu cầu:**
+1. Lập trình các quy tắc kích thước bước
+2. So sánh hành vi hội tụ
+3. Phân tích hiệu năng lý thuyết so với thực tế
+4. Xác định các tham số tối ưu
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Problem setup**
+$$f(x) = |x - 2| + |x + 1|$$
+
+**Analytical solution:** $$x^* \in [-1, 2]$$, $$f^* = 3$$
+
+**Subgradient calculation:**
+```python
+def f(x):
+    return abs(x - 2) + abs(x + 1)
+
+def subgradient_f(x):
+    g1 = 1 if x > 2 else (-1 if x < 2 else np.random.uniform(-1, 1))
+    g2 = 1 if x > -1 else (-1 if x < -1 else np.random.uniform(-1, 1))
+    return g1 + g2
+
+def f_optimal():
+    return 3.0
+```
+
+**Bước 2: Step size implementations**
+
+```python
+class StepSizeRules:
+    def __init__(self, params=None):
+        self.params = params or {}
+    
+    def constant(self, k):
+        return self.params.get('t', 0.1)
+    
+    def diminishing(self, k):
+        a = self.params.get('a', 1.0)
+        return a / (k + 1)
+    
+    def square_summable(self, k):
+        a = self.params.get('a', 1.0)
+        return a / np.sqrt(k + 1)
+    
+    def polyak(self, k, f_val, g_norm):
+        f_star = self.params.get('f_star', f_optimal())
+        if g_norm == 0:
+            return 0.01  # Fallback
+        return max(0.001, (f_val - f_star) / (g_norm**2))
+
+def subgradient_method_comparison(x0, max_iter=1000):
+    results = {}
+    
+    # Different step size rules
+    rules = {
+        'Constant (t=0.1)': StepSizeRules({'t': 0.1}),
+        'Constant (t=0.01)': StepSizeRules({'t': 0.01}),
+        'Diminishing (a=1)': StepSizeRules({'a': 1.0}),
+        'Diminishing (a=0.1)': StepSizeRules({'a': 0.1}),
+        'Square Summable (a=1)': StepSizeRules({'a': 1.0}),
+        'Polyak': StepSizeRules({'f_star': f_optimal()})
+    }
+    
+    for rule_name, step_rule in rules.items():
+        x = x0
+        f_history = []
+        x_history = []
+        step_history = []
+        
+        for k in range(max_iter):
+            f_val = f(x)
+            f_history.append(f_val)
+            x_history.append(x)
+            
+            g = subgradient_f(x)
+            
+            # Choose step size based on rule
+            if 'Constant' in rule_name:
+                t = step_rule.constant(k)
+            elif 'Diminishing' in rule_name:
+                t = step_rule.diminishing(k)
+            elif 'Square Summable' in rule_name:
+                t = step_rule.square_summable(k)
+            elif 'Polyak' in rule_name:
+                t = step_rule.polyak(k, f_val, abs(g))
+            
+            step_history.append(t)
+            x = x - t * g
+        
+        results[rule_name] = {
+            'f_history': f_history,
+            'x_history': x_history,
+            'step_history': step_history,
+            'final_gap': min(f_history) - f_optimal(),
+            'convergence_rate': analyze_convergence_rate(f_history)
+        }
+    
+    return results
+
+def analyze_convergence_rate(f_history):
+    """Estimate convergence rate from function values"""
+    f_star = f_optimal()
+    gaps = [max(1e-10, f_val - f_star) for f_val in f_history]
+    
+    # Fit log(gap) vs log(k) to estimate rate
+    k_values = np.arange(1, len(gaps) + 1)
+    valid_indices = [i for i, gap in enumerate(gaps) if gap > 1e-8]
+    
+    if len(valid_indices) < 10:
+        return None
+    
+    log_k = np.log(np.array(k_values)[valid_indices])
+    log_gaps = np.log(np.array(gaps)[valid_indices])
+    
+    # Linear regression
+    slope, intercept = np.polyfit(log_k, log_gaps, 1)
+    return slope  # Negative slope indicates convergence rate
+```
+
+**Bước 3: Theoretical analysis**
+
+**Constant step size:**
+- **Convergence:** $$\liminf f(x_{\text{best}}^{(k)}) \leq f^* + \frac{G^2 t}{2}$$
+- **Trade-off:** Smaller $$t$$ → better accuracy, slower initial progress
+
+**Diminishing step size:**
+- **Convergence:** $$\lim f(x_{\text{best}}^{(k)}) = f^*$$ if $$\sum t_k = \infty$$, $$\sum t_k^2 < \infty$$
+- **Rate:** $$O(1/\sqrt{k})$$
+
+**Polyak step size:**
+- **Optimal** when $$f^*$$ is known exactly
+- **Convergence:** Finite convergence possible
+
+**Bước 4: Numerical experiments**
+
+```python
+# Run experiments
+x0 = 5.0  # Starting point
+results = subgradient_method_comparison(x0)
+
+# Visualization
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(15, 10))
+
+# Plot 1: Function value convergence
+plt.subplot(2, 3, 1)
+for rule_name, result in results.items():
+    f_vals = result['f_history']
+    plt.semilogy(f_vals, label=rule_name, alpha=0.8)
+plt.axhline(y=f_optimal(), color='red', linestyle='--', label='f*')
+plt.xlabel('Iteration')
+plt.ylabel('Function Value')
+plt.title('Function Value Convergence')
+plt.legend()
+plt.grid(True)
+
+# Plot 2: Optimality gap
+plt.subplot(2, 3, 2)
+for rule_name, result in results.items():
+    gaps = [max(1e-10, f_val - f_optimal()) for f_val in result['f_history']]
+    plt.loglog(gaps, label=rule_name, alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Optimality Gap')
+plt.title('Optimality Gap (Log-Log)')
+plt.legend()
+plt.grid(True)
+
+# Plot 3: Step size evolution
+plt.subplot(2, 3, 3)
+for rule_name, result in results.items():
+    if 'step_history' in result:
+        plt.semilogy(result['step_history'], label=rule_name, alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Step Size')
+plt.title('Step Size Evolution')
+plt.legend()
+plt.grid(True)
+
+# Plot 4: Trajectory in x-space
+plt.subplot(2, 3, 4)
+for rule_name, result in results.items():
+    x_vals = result['x_history'][:100]  # First 100 iterations
+    plt.plot(x_vals, label=rule_name, alpha=0.8)
+plt.axhspan(-1, 2, alpha=0.2, color='green', label='Optimal region')
+plt.xlabel('Iteration')
+plt.ylabel('x value')
+plt.title('Trajectory (First 100 iterations)')
+plt.legend()
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Performance summary
+print("Performance Summary:")
+print("-" * 50)
+for rule_name, result in results.items():
+    final_gap = result['final_gap']
+    rate = result['convergence_rate']
+    print(f"{rule_name:25s}: Gap = {final_gap:.6f}, Rate = {rate:.3f}" if rate else f"{rule_name:25s}: Gap = {final_gap:.6f}")
+```
+
+**Bước 5: Parameter tuning guidelines**
+
+```python
+def tune_step_size_parameters():
+    """Grid search for optimal parameters"""
+    x0 = 5.0
+    max_iter = 500
+    
+    # Constant step size tuning
+    constant_values = [0.001, 0.01, 0.1, 0.5, 1.0]
+    constant_results = {}
+    
+    for t in constant_values:
+        rule = StepSizeRules({'t': t})
+        x = x0
+        f_history = []
+        
+        for k in range(max_iter):
+            f_history.append(f(x))
+            g = subgradient_f(x)
+            x = x - t * g
+        
+        final_gap = min(f_history) - f_optimal()
+        constant_results[t] = final_gap
+    
+    # Diminishing step size tuning
+    a_values = [0.1, 0.5, 1.0, 2.0, 5.0]
+    diminishing_results = {}
+    
+    for a in a_values:
+        rule = StepSizeRules({'a': a})
+        x = x0
+        f_history = []
+        
+        for k in range(max_iter):
+            f_history.append(f(x))
+            g = subgradient_f(x)
+            t = a / (k + 1)
+            x = x - t * g
+        
+        final_gap = min(f_history) - f_optimal()
+        diminishing_results[a] = final_gap
+    
+    return constant_results, diminishing_results
+
+# Find optimal parameters
+const_results, dim_results = tune_step_size_parameters()
+
+print("Optimal Constant Step Size:")
+best_t = min(const_results.keys(), key=lambda t: const_results[t])
+print(f"t = {best_t}, Final Gap = {const_results[best_t]:.6f}")
+
+print("\nOptimal Diminishing Parameter:")
+best_a = min(dim_results.keys(), key=lambda a: dim_results[a])
+print(f"a = {best_a}, Final Gap = {dim_results[best_a]:.6f}")
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 2: Convergence Analysis và Rates**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Section 8.1)
+Chứng minh và kiểm chứng tốc độ hội tụ cho các quy tắc kích thước bước khác nhau:
+
+a) Chứng minh bất đẳng thức cơ bản: $$f_{\text{best}}^{(k)} - f^* \leq \frac{R^2 + G^2\sum_{i=1}^k t_i^2}{2\sum_{i=1}^k t_i}$$
+
+b) Xây dựng tốc độ hội tụ cho kích thước bước hằng số và giảm dần
+
+c) Lập trình kiểm chứng số
+
+d) So sánh với các chặn lý thuyết
+
+**Yêu cầu:**
+1. Hoàn thành các chứng minh toán học
+2. Kiểm chứng số với các ví dụ tổng hợp
+3. Phân tích độ chặt của các chặn
+4. Nghiên cứu ảnh hưởng của các tham số bài toán
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Basic inequality proof**
+
+**Theorem:** Cho subgradient method với $$\|g^{(k)}\| \leq G$$ và $$\|x^{(0)} - x^*\| \leq R$$:
+
+$$f_{\text{best}}^{(k)} - f^* \leq \frac{R^2 + G^2\sum_{i=1}^k t_i^2}{2\sum_{i=1}^k t_i}$$
+
+**Proof:**
+
+**Step 1:** Distance recursion
+$$\|x^{(k+1)} - x^*\|^2 = \|x^{(k)} - t_k g^{(k)} - x^*\|^2$$
+$$= \|x^{(k)} - x^*\|^2 - 2t_k g^{(k)T}(x^{(k)} - x^*) + t_k^2 \|g^{(k)}\|^2$$
+
+**Step 2:** Subgradient inequality
+$$f(x^*) \geq f(x^{(k)}) + g^{(k)T}(x^* - x^{(k)})$$
+$$\Rightarrow g^{(k)T}(x^{(k)} - x^*) \geq f(x^{(k)}) - f^*$$
+
+**Step 3:** Combine inequalities
+$$\|x^{(k+1)} - x^*\|^2 \leq \|x^{(k)} - x^*\|^2 - 2t_k(f(x^{(k)}) - f^*) + t_k^2 G^2$$
+
+**Step 4:** Rearrange và sum
+$$f(x^{(k)}) - f^* \leq \frac{\|x^{(k)} - x^*\|^2 - \|x^{(k+1)} - x^*\|^2 + t_k^2 G^2}{2t_k}$$
+
+Summing over $$k = 1, \ldots, K$$:
+$$\sum_{k=1}^K t_k(f(x^{(k)}) - f^*) \leq \frac{R^2 + G^2\sum_{k=1}^K t_k^2}{2}$$
+
+Since $$f_{\text{best}}^{(K)} \leq f(x^{(k)})$$ for all $$k$$:
+$$f_{\text{best}}^{(K)} - f^* \leq \frac{R^2 + G^2\sum_{k=1}^K t_k^2}{2\sum_{k=1}^K t_k}$$
+
+**Bước 2: Convergence rate derivation**
+
+**Constant step size:** $$t_k = t$$
+$$f_{\text{best}}^{(k)} - f^* \leq \frac{R^2 + G^2 kt^2}{2kt} = \frac{R^2}{2kt} + \frac{G^2 t}{2}$$
+
+As $$k \to \infty$$: $$f_{\text{best}}^{(k)} - f^* \leq \frac{G^2 t}{2}$$
+
+**Diminishing step size:** $$t_k = \frac{a}{\sqrt{k}}$$
+$$\sum_{k=1}^K t_k = a\sum_{k=1}^K \frac{1}{\sqrt{k}} \sim a \cdot 2\sqrt{K}$$
+$$\sum_{k=1}^K t_k^2 = a^2\sum_{k=1}^K \frac{1}{k} \sim a^2 \log K$$
+
+$$f_{\text{best}}^{(K)} - f^* \leq \frac{R^2 + a^2 G^2 \log K}{4a\sqrt{K}} = O\left(\frac{\log K}{\sqrt{K}}\right)$$
+
+**Bước 3: Numerical verification**
+
+```python
+def verify_convergence_bounds():
+    """Verify theoretical bounds numerically"""
+    
+    # Test problem: f(x) = |x - 1| + |x + 2|
+    def f_test(x):
+        return abs(x - 1) + abs(x + 2)
+    
+    def subgrad_test(x):
+        g1 = 1 if x > 1 else (-1 if x < 1 else 0)
+        g2 = 1 if x > -2 else (-1 if x < -2 else 0)
+        return g1 + g2
+    
+    f_star = 3.0  # Optimal value
+    x_star = 0.0  # Any point in [-2, 1]
+    G = 2.0       # Subgradient bound
+    
+    # Test different starting points
+    starting_points = [-5, 0, 5, 10]
+    results = {}
+    
+    for x0 in starting_points:
+        R = abs(x0 - x_star)
+        
+        # Constant step size
+        t = 0.1
+        x = x0
+        f_history = []
+        theoretical_bounds = []
+        
+        for k in range(1, 1001):
+            f_val = f_test(x)
+            f_history.append(f_val)
+            
+            # Theoretical bound
+            bound = R**2 / (2*k*t) + G**2 * t / 2
+            theoretical_bounds.append(f_star + bound)
+            
+            # Update
+            g = subgrad_test(x)
+            x = x - t * g
+        
+        # Compute actual gaps
+        f_best_history = [min(f_history[:k+1]) for k in range(len(f_history))]
+        actual_gaps = [f_best - f_star for f_best in f_best_history]
+        theoretical_gaps = [bound - f_star for bound in theoretical_bounds]
+        
+        results[x0] = {
+            'actual_gaps': actual_gaps,
+            'theoretical_gaps': theoretical_gaps,
+            'R': R
+        }
+    
+    return results
+
+# Run verification
+verification_results = verify_convergence_bounds()
+
+# Plot results
+plt.figure(figsize=(12, 8))
+
+for i, (x0, result) in enumerate(verification_results.items()):
+    plt.subplot(2, 2, i+1)
+    
+    actual = result['actual_gaps']
+    theoretical = result['theoretical_gaps']
+    
+    plt.loglog(actual, label='Actual Gap', linewidth=2)
+    plt.loglog(theoretical, label='Theoretical Bound', linestyle='--', linewidth=2)
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Optimality Gap')
+    plt.title(f'Starting Point x₀ = {x0} (R = {result["R"]:.1f})')
+    plt.legend()
+    plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Analyze bound tightness
+print("Bound Tightness Analysis:")
+print("-" * 40)
+for x0, result in verification_results.items():
+    actual = np.array(result['actual_gaps'][-100:])  # Last 100 iterations
+    theoretical = np.array(result['theoretical_gaps'][-100:])
+    
+    # Compute ratio of actual to theoretical
+    ratios = actual / theoretical
+    avg_ratio = np.mean(ratios)
+    
+    print(f"x₀ = {x0:3d}: Average ratio = {avg_ratio:.3f}")
+```
+
+**Bước 4: Effect của problem parameters**
+
+```python
+def analyze_parameter_effects():
+    """Study how G and R affect convergence"""
+    
+    # Base problem: f(x) = c|x - a|
+    def create_problem(a, c):
+        def f(x):
+            return c * abs(x - a)
+        def subgrad(x):
+            return c * (1 if x > a else -1 if x < a else 0)
+        return f, subgrad, 0.0, a  # f, subgrad, f_star, x_star
+    
+    # Different problem instances
+    problems = {
+        'Small G': create_problem(0, 0.5),    # G = 0.5
+        'Medium G': create_problem(0, 1.0),   # G = 1.0
+        'Large G': create_problem(0, 2.0),    # G = 2.0
+    }
+    
+    # Different starting distances
+    distances = [1, 5, 10, 20]  # R values
+    
+    results = {}
+    
+    for prob_name, (f, subgrad, f_star, x_star) in problems.items():
+        G = float(prob_name.split()[-1]) if prob_name != 'Medium G' else 1.0
+        results[prob_name] = {}
+        
+        for R in distances:
+            x0 = x_star + R  # Starting point
+            
+            # Run subgradient method
+            t = 0.1  # Constant step size
+            x = x0
+            f_history = []
+            
+            for k in range(500):
+                f_history.append(f(x))
+                g = subgrad(x)
+                x = x - t * g
+            
+            # Compute convergence rate
+            f_best = [min(f_history[:k+1]) for k in range(len(f_history))]
+            final_gap = f_best[-1] - f_star
+            
+            results[prob_name][R] = {
+                'final_gap': final_gap,
+                'convergence': f_best
+            }
+    
+    return results
+
+# Analyze parameter effects
+param_results = analyze_parameter_effects()
+
+# Visualization
+plt.figure(figsize=(15, 5))
+
+# Plot 1: Effect of G
+plt.subplot(1, 3, 1)
+for prob_name in param_results.keys():
+    R = 5  # Fixed distance
+    convergence = param_results[prob_name][R]['convergence']
+    plt.semilogy(convergence, label=prob_name)
+
+plt.xlabel('Iteration')
+plt.ylabel('Best Function Value')
+plt.title('Effect of Subgradient Bound G (R=5)')
+plt.legend()
+plt.grid(True)
+
+# Plot 2: Effect of R
+plt.subplot(1, 3, 2)
+prob_name = 'Medium G'
+for R in [1, 5, 10, 20]:
+    convergence = param_results[prob_name][R]['convergence']
+    plt.semilogy(convergence, label=f'R={R}')
+
+plt.xlabel('Iteration')
+plt.ylabel('Best Function Value')
+plt.title('Effect of Initial Distance R (G=1)')
+plt.legend()
+plt.grid(True)
+
+# Plot 3: Final gap vs parameters
+plt.subplot(1, 3, 3)
+G_values = [0.5, 1.0, 2.0]
+R_values = [1, 5, 10, 20]
+
+for i, G in enumerate(G_values):
+    prob_name = ['Small G', 'Medium G', 'Large G'][i]
+    final_gaps = [param_results[prob_name][R]['final_gap'] for R in R_values]
+    plt.loglog(R_values, final_gaps, 'o-', label=f'G={G}')
+
+plt.xlabel('Initial Distance R')
+plt.ylabel('Final Optimality Gap')
+plt.title('Final Gap vs R and G')
+plt.legend()
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+```
+
+**Bước 5: Practical implications**
+
+```python
+def practical_guidelines():
+    """Generate practical guidelines for step size selection"""
+    
+    guidelines = {
+        'Constant Step Size': {
+            'When to use': 'When you need fast initial progress and can tolerate final error',
+            'How to choose': 'Start with t = 0.1, decrease if oscillating, increase if too slow',
+            'Final accuracy': 'Limited by G²t/2',
+            'Pros': 'Simple, fast initial convergence',
+            'Cons': 'Cannot converge exactly to optimum'
+        },
+        
+        'Diminishing Step Size': {
+            'When to use': 'When you need exact convergence and have time',
+            'How to choose': 'Use t_k = a/√k with a ∈ [0.1, 2.0]',
+            'Final accuracy': 'Converges to optimum',
+            'Pros': 'Exact convergence, theoretical guarantees',
+            'Cons': 'Slow convergence, requires parameter tuning'
+        },
+        
+        'Polyak Step Size': {
+            'When to use': 'When optimal value f* is known or can be estimated',
+            'How to choose': 'Use exact formula, add small regularization',
+            'Final accuracy': 'Can achieve finite convergence',
+            'Pros': 'Optimal when f* known, adaptive',
+            'Cons': 'Requires knowledge of f*, sensitive to errors'
+        }
+    }
+    
+    return guidelines
+
+# Print guidelines
+guidelines = practical_guidelines()
+for method, info in guidelines.items():
+    print(f"\n{method}:")
+    print("=" * (len(method) + 1))
+    for key, value in info.items():
+        print(f"{key:15s}: {value}")
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 3: Projected Subgradient Method**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Section 8.1.8)
+Lập trình và phân tích phương pháp subgradient có chiếu cho tối ưu có ràng buộc:
+
+a) $$\min_{x \in C} \|x - a\|_2^2$$ với $$C = \{x : \|x\|_1 \leq 1\}$$
+
+b) $$\min_{x \in C} \sum_{i=1}^n |x_i - a_i|$$ với $$C = \{x : \sum x_i = 1, x_i \geq 0\}$$
+
+c) **Giao của các tập hợp:** $$\min_x \frac{1}{2}\|x\|_2^2$$ với $$x \in \bigcap_{i=1}^m C_i$$
+
+d) **Hoàn thiện ma trận:** $$\min_X \|X\|_F^2$$ với $$X_{ij} = M_{ij}$$ cho $$(i,j) \in \Omega$$
+
+**Yêu cầu:**
+1. Xây dựng các toán tử chiếu
+2. Lập trình các thuật toán hiệu quả
+3. So sánh với các phương pháp không ràng buộc
+4. Phân tích tính chất hội tụ
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Projection onto L1 ball**
+$$\min_{x \in C} \|x - a\|_2^2$$ với $$C = \{x : \|x\|_1 \leq 1\}$$
+
+**Projection operator derivation:**
+KKT conditions cho $$\min_x \frac{1}{2}\|x - a\|_2^2$$ s.t. $$\|x\|_1 \leq 1$$:
+
+$$L(x, \lambda) = \frac{1}{2}\|x - a\|_2^2 + \lambda(\|x\|_1 - 1)$$
+
+**Case 1:** $$\|a\|_1 \leq 1$$ → $$P_C(a) = a$$
+
+**Case 2:** $$\|a\|_1 > 1$$ → Find threshold $$\theta$$
+
+```python
+def project_l1_ball(a, radius=1.0):
+    """Project onto L1 ball using efficient algorithm"""
+    
+    if np.sum(np.abs(a)) <= radius:
+        return a.copy()
+    
+    # Sort by absolute value (descending)
+    u = np.abs(a)
+    indices = np.argsort(-u)
+    u_sorted = u[indices]
+    
+    # Find threshold using cumulative sum
+    cumsum = np.cumsum(u_sorted)
+    k_values = np.arange(1, len(u) + 1)
+    
+    # Find largest k such that u_sorted[k-1] > (cumsum[k-1] - radius) / k
+    valid = u_sorted > (cumsum - radius) / k_values
+    if np.any(valid):
+        k = np.max(np.where(valid)[0]) + 1
+        theta = (cumsum[k-1] - radius) / k
+    else:
+        theta = (cumsum[-1] - radius) / len(u)
+    
+    # Apply soft thresholding
+    x_proj = np.sign(a) * np.maximum(np.abs(a) - theta, 0)
+    
+    return x_proj
+
+def test_l1_projection():
+    """Test L1 ball projection"""
+    # Test problem: minimize ||x - a||² subject to ||x||₁ ≤ 1
+    a = np.array([2.0, -1.5, 0.5, -0.8])
+    
+    def f(x):
+        return 0.5 * np.sum((x - a)**2)
+    
+    def subgrad_f(x):
+        return x - a
+    
+    # Projected subgradient method
+    x = np.zeros_like(a)  # Starting point
+    f_history = []
+    
+    for k in range(1000):
+        f_history.append(f(x))
+        
+        g = subgrad_f(x)
+        t = 0.01  # Step size
+        
+        # Subgradient step + projection
+        x_temp = x - t * g
+        x = project_l1_ball(x_temp, radius=1.0)
+    
+    # Analytical solution
+    x_analytical = project_l1_ball(a, radius=1.0)
+    
+    return x, x_analytical, f_history
+
+# Run test
+x_numerical, x_analytical, f_hist = test_l1_projection()
+print(f"Numerical solution: {x_numerical}")
+print(f"Analytical solution: {x_analytical}")
+print(f"Difference: {np.linalg.norm(x_numerical - x_analytical):.6f}")
+```
+
+**Bước 2: Projection onto probability simplex**
+$$\min_{x \in C} \sum_{i=1}^n |x_i - a_i|$$ với $$C = \{x : \sum x_i = 1, x_i \geq 0\}$$
+
+```python
+def project_simplex(a):
+    """Project onto probability simplex using efficient algorithm"""
+    
+    # Sort in descending order
+    u = np.sort(a)[::-1]
+    n = len(u)
+    
+    # Find threshold
+    cumsum = np.cumsum(u)
+    k_values = np.arange(1, n + 1)
+    
+    # Find largest k such that u[k-1] > (cumsum[k-1] - 1) / k
+    condition = u > (cumsum - 1) / k_values
+    if np.any(condition):
+        k = np.max(np.where(condition)[0]) + 1
+        theta = (cumsum[k-1] - 1) / k
+    else:
+        theta = (cumsum[-1] - 1) / n
+    
+    # Apply thresholding
+    x_proj = np.maximum(a - theta, 0)
+    
+    return x_proj
+
+def solve_simplex_l1_problem():
+    """Solve L1 minimization on simplex"""
+    a = np.array([0.8, -0.3, 0.6, -0.1, 0.4])
+    
+    def f(x):
+        return np.sum(np.abs(x - a))
+    
+    def subgrad_f(x):
+        return np.sign(x - a)
+    
+    # Projected subgradient method
+    x = np.ones(len(a)) / len(a)  # Start at center of simplex
+    f_history = []
+    
+    for k in range(1000):
+        f_history.append(f(x))
+        
+        g = subgrad_f(x)
+        t = 0.1 / np.sqrt(k + 1)  # Diminishing step size
+        
+        # Projected step
+        x_temp = x - t * g
+        x = project_simplex(x_temp)
+    
+    return x, f_history
+
+# Solve simplex problem
+x_simplex, f_hist_simplex = solve_simplex_l1_problem()
+print(f"Simplex solution: {x_simplex}")
+print(f"Sum constraint: {np.sum(x_simplex):.6f}")
+print(f"Non-negativity: {np.all(x_simplex >= -1e-10)}")
+```
+
+**Bước 3: Intersection of sets (Cyclic projections)**
+
+```python
+def cyclic_projections_method():
+    """Find point in intersection of sets using cyclic projections"""
+    
+    # Define multiple constraint sets
+    def project_l2_ball(x, center, radius):
+        """Project onto L2 ball"""
+        diff = x - center
+        norm_diff = np.linalg.norm(diff)
+        if norm_diff <= radius:
+            return x.copy()
+        else:
+            return center + radius * diff / norm_diff
+    
+    def project_halfspace(x, a, b):
+        """Project onto halfspace a^T x <= b"""
+        if np.dot(a, x) <= b:
+            return x.copy()
+        else:
+            return x - ((np.dot(a, x) - b) / np.dot(a, a)) * a
+    
+    def project_box(x, lower, upper):
+        """Project onto box constraints"""
+        return np.clip(x, lower, upper)
+    
+    # Define constraint sets
+    sets = [
+        lambda x: project_l2_ball(x, np.array([1, 1]), 1.5),      # ||x - (1,1)||₂ ≤ 1.5
+        lambda x: project_halfspace(x, np.array([1, 1]), 2),      # x₁ + x₂ ≤ 2
+        lambda x: project_box(x, np.array([-2, -2]), np.array([3, 3]))  # Box constraints
+    ]
+    
+    # Cyclic projections algorithm
+    x = np.array([0.0, 0.0])  # Starting point
+    history = [x.copy()]
+    
+    for iteration in range(1000):
+        x_old = x.copy()
+        
+        # Cycle through all sets
+        for project_set in sets:
+            x = project_set(x)
+        
+        history.append(x.copy())
+        
+        # Check convergence
+        if np.linalg.norm(x - x_old) < 1e-8:
+            break
+    
+    return x, history
+
+# Run cyclic projections
+x_intersection, history = cyclic_projections_method()
+print(f"Intersection point: {x_intersection}")
+
+# Verify constraints
+center = np.array([1, 1])
+print(f"L2 ball constraint: ||x - center||₂ = {np.linalg.norm(x_intersection - center):.6f} ≤ 1.5")
+print(f"Halfspace constraint: x₁ + x₂ = {np.sum(x_intersection):.6f} ≤ 2")
+print(f"Box constraints: x ∈ [{x_intersection[0]:.3f}, {x_intersection[1]:.3f}]")
+```
+
+**Bước 4: Matrix completion với projection**
+
+```python
+def matrix_completion_projected():
+    """Matrix completion using projected subgradient"""
+    
+    # Create test problem
+    np.random.seed(42)
+    m, n = 10, 8
+    rank = 3
+    
+    # Generate low-rank matrix
+    U = np.random.randn(m, rank)
+    V = np.random.randn(rank, n)
+    M_true = U @ V
+    
+    # Observe subset of entries
+    observe_prob = 0.3
+    Omega = np.random.rand(m, n) < observe_prob
+    M_observed = M_true * Omega
+    
+    def project_observed_entries(X, M_obs, mask):
+        """Project onto observed entries constraint"""
+        X_proj = X.copy()
+        X_proj[mask] = M_obs[mask]
+        return X_proj
+    
+    def f(X):
+        """Objective: Frobenius norm squared"""
+        return 0.5 * np.sum(X**2)
+    
+    def subgrad_f(X):
+        """Subgradient of Frobenius norm squared"""
+        return X
+    
+    # Projected subgradient method
+    X = np.random.randn(m, n) * 0.1  # Initialize
+    X = project_observed_entries(X, M_observed, Omega)  # Satisfy constraints
+    
+    f_history = []
+    error_history = []
+    
+    for k in range(2000):
+        f_history.append(f(X))
+        error_history.append(np.linalg.norm(X - M_true, 'fro'))
+        
+        g = subgrad_f(X)
+        t = 0.01 / np.sqrt(k + 1)  # Step size
+        
+        # Projected step
+        X_temp = X - t * g
+        X = project_observed_entries(X_temp, M_observed, Omega)
+    
+    return X, M_true, f_history, error_history
+
+# Run matrix completion
+X_recovered, M_true, f_hist_mc, error_hist = matrix_completion_projected()
+
+print(f"Original matrix rank: {np.linalg.matrix_rank(M_true)}")
+print(f"Recovered matrix rank: {np.linalg.matrix_rank(X_recovered, tol=1e-10)}")
+print(f"Recovery error: {np.linalg.norm(X_recovered - M_true, 'fro'):.6f}")
+print(f"Relative error: {np.linalg.norm(X_recovered - M_true, 'fro') / np.linalg.norm(M_true, 'fro'):.6f}")
+```
+
+**Bước 5: Convergence analysis và comparison**
+
+```python
+def compare_projected_methods():
+    """Compare different projected subgradient approaches"""
+    
+    # Test problem: minimize ||x||₂² subject to ||x||₁ ≤ 1
+    a = np.array([2.0, -1.5, 0.8, -0.3])
+    
+    def f(x):
+        return 0.5 * np.sum(x**2)
+    
+    def subgrad_f(x):
+        return x
+    
+    methods = {
+        'Constant Step (t=0.01)': 0.01,
+        'Constant Step (t=0.1)': 0.1,
+        'Diminishing (1/k)': 'diminishing',
+        'Square Summable (1/√k)': 'square_summable'
+    }
+    
+    results = {}
+    
+    for method_name, step_rule in methods.items():
+        x = a.copy()  # Start outside feasible set
+        f_history = []
+        constraint_violation = []
+        
+        for k in range(1000):
+            f_history.append(f(x))
+            constraint_violation.append(max(0, np.sum(np.abs(x)) - 1))
+            
+            g = subgrad_f(x)
+            
+            # Step size
+            if isinstance(step_rule, float):
+                t = step_rule
+            elif step_rule == 'diminishing':
+                t = 1.0 / (k + 1)
+            elif step_rule == 'square_summable':
+                t = 1.0 / np.sqrt(k + 1)
+            
+            # Projected step
+            x_temp = x - t * g
+            x = project_l1_ball(x_temp, radius=1.0)
+        
+        results[method_name] = {
+            'f_history': f_history,
+            'constraint_violation': constraint_violation,
+            'final_x': x
+        }
+    
+    return results
+
+# Compare methods
+comparison_results = compare_projected_methods()
+
+# Visualization
+plt.figure(figsize=(15, 5))
+
+# Plot 1: Objective value
+plt.subplot(1, 3, 1)
+for method_name, result in comparison_results.items():
+    plt.semilogy(result['f_history'], label=method_name)
+plt.xlabel('Iteration')
+plt.ylabel('Objective Value')
+plt.title('Objective Convergence')
+plt.legend()
+plt.grid(True)
+
+# Plot 2: Constraint violation
+plt.subplot(1, 3, 2)
+for method_name, result in comparison_results.items():
+    violations = result['constraint_violation']
+    plt.semilogy(np.maximum(violations, 1e-16), label=method_name)
+plt.xlabel('Iteration')
+plt.ylabel('Constraint Violation')
+plt.title('Constraint Satisfaction')
+plt.legend()
+plt.grid(True)
+
+# Plot 3: Final solutions
+plt.subplot(1, 3, 3)
+method_names = list(comparison_results.keys())
+final_objectives = [comparison_results[name]['f_history'][-1] for name in method_names]
+
+plt.bar(range(len(method_names)), final_objectives)
+plt.xticks(range(len(method_names)), [name.split('(')[0] for name in method_names], rotation=45)
+plt.ylabel('Final Objective Value')
+plt.title('Final Performance')
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Print final solutions
+print("Final Solutions:")
+print("-" * 50)
+for method_name, result in comparison_results.items():
+    x_final = result['final_x']
+    obj_final = result['f_history'][-1]
+    l1_norm = np.sum(np.abs(x_final))
+    print(f"{method_name:25s}: obj = {obj_final:.6f}, ||x||₁ = {l1_norm:.6f}")
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 4: Stochastic Subgradient Method**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Section 8.2)
+Lập trình và phân tích các phương pháp subgradient ngẫu nhiên:
+
+a) **Bài toán tổng hữu hạn:** $$\min_x \frac{1}{m}\sum_{i=1}^m f_i(x)$$
+
+b) **LASSO với tập dữ liệu lớn:** $$\min_\beta \frac{1}{n}\sum_{i=1}^n (y_i - x_i^T\beta)^2 + \lambda \|\beta\|_1$$
+
+c) **Hồi quy bền vững:** $$\min_\beta \frac{1}{n}\sum_{i=1}^n |y_i - x_i^T\beta| + \lambda \|\beta\|_2^2$$
+
+d) **So sánh batch, ngẫu nhiên và mini-batch**
+
+**Yêu cầu:**
+1. Lập trình các biến thể khác nhau
+2. Phân tích tính chất hội tụ
+3. Nghiên cứu ảnh hưởng của kích thước batch
+4. So sánh hiệu quả tính toán
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Stochastic subgradient framework**
+
+```python
+class StochasticSubgradientMethod:
+    def __init__(self, functions, step_size_rule='diminishing'):
+        self.functions = functions  # List of functions f_i
+        self.m = len(functions)
+        self.step_size_rule = step_size_rule
+        
+    def compute_full_subgradient(self, x):
+        """Compute full batch subgradient"""
+        total_subgrad = np.zeros_like(x)
+        for f_i, subgrad_i in self.functions:
+            total_subgrad += subgrad_i(x)
+        return total_subgrad / self.m
+    
+    def compute_stochastic_subgradient(self, x, indices=None):
+        """Compute stochastic subgradient"""
+        if indices is None:
+            # Sample single index
+            i = np.random.randint(0, self.m)
+            indices = [i]
+        
+        batch_subgrad = np.zeros_like(x)
+        for i in indices:
+            f_i, subgrad_i = self.functions[i]
+            batch_subgrad += subgrad_i(x)
+        
+        return batch_subgrad / len(indices)
+    
+    def get_step_size(self, k, initial_step=1.0):
+        """Get step size based on rule"""
+        if self.step_size_rule == 'constant':
+            return initial_step
+        elif self.step_size_rule == 'diminishing':
+            return initial_step / (k + 1)
+        elif self.step_size_rule == 'square_summable':
+            return initial_step / np.sqrt(k + 1)
+        else:
+            return initial_step
+    
+    def solve(self, x0, max_iter=1000, batch_size=1, initial_step=1.0):
+        """Solve using stochastic subgradient method"""
+        x = x0.copy()
+        history = {
+            'x': [x.copy()],
+            'f_vals': [],
+            'subgrad_norms': []
+        }
+        
+        for k in range(max_iter):
+            # Compute full objective (for monitoring)
+            f_val = sum(f_i(x) for f_i, _ in self.functions) / self.m
+            history['f_vals'].append(f_val)
+            
+            # Sample batch
+            if batch_size == self.m:
+                # Full batch
+                g = self.compute_full_subgradient(x)
+            else:
+                # Stochastic/mini-batch
+                indices = np.random.choice(self.m, size=batch_size, replace=False)
+                g = self.compute_stochastic_subgradient(x, indices)
+            
+            history['subgrad_norms'].append(np.linalg.norm(g))
+            
+            # Update
+            t = self.get_step_size(k, initial_step)
+            x = x - t * g
+            history['x'].append(x.copy())
+        
+        return x, history
+```
+
+**Bước 2: LASSO với large datasets**
+
+```python
+def create_lasso_problem(n_samples=1000, n_features=50, noise_level=0.1):
+    """Create synthetic LASSO problem"""
+    np.random.seed(42)
+    
+    # Generate sparse true coefficients
+    beta_true = np.zeros(n_features)
+    n_nonzero = n_features // 5
+    nonzero_indices = np.random.choice(n_features, n_nonzero, replace=False)
+    beta_true[nonzero_indices] = np.random.randn(n_nonzero)
+    
+    # Generate data
+    X = np.random.randn(n_samples, n_features)
+    y = X @ beta_true + noise_level * np.random.randn(n_samples)
+    
+    return X, y, beta_true
+
+def solve_lasso_stochastic():
+    """Solve LASSO using stochastic subgradient"""
+    X, y, beta_true = create_lasso_problem()
+    n, p = X.shape
+    lambda_reg = 0.1
+    
+    # Create individual functions f_i(β) = (1/2)(y_i - x_i^T β)² + λ||β||₁
+    functions = []
+    for i in range(n):
+        def create_function(idx):
+            def f_i(beta):
+                residual = y[idx] - X[idx] @ beta
+                return 0.5 * residual**2 + lambda_reg * np.sum(np.abs(beta))
+            
+            def subgrad_i(beta):
+                residual = y[idx] - X[idx] @ beta
+                grad_smooth = -residual * X[idx]
+                subgrad_l1 = lambda_reg * np.sign(beta)
+                # Handle zero components
+                subgrad_l1[beta == 0] = lambda_reg * np.random.uniform(-1, 1, np.sum(beta == 0))
+                return grad_smooth + subgrad_l1
+            
+            return f_i, subgrad_i
+        
+        functions.append(create_function(i))
+    
+    # Compare different methods
+    methods = {
+        'Full Batch': {'batch_size': n, 'step_rule': 'diminishing'},
+        'Stochastic (SGD)': {'batch_size': 1, 'step_rule': 'square_summable'},
+        'Mini-batch (32)': {'batch_size': 32, 'step_rule': 'square_summable'},
+        'Mini-batch (128)': {'batch_size': 128, 'step_rule': 'square_summable'}
+    }
+    
+    results = {}
+    beta0 = np.zeros(p)
+    
+    for method_name, params in methods.items():
+        solver = StochasticSubgradientMethod(functions, params['step_rule'])
+        beta_final, history = solver.solve(
+            beta0, 
+            max_iter=1000, 
+            batch_size=params['batch_size'],
+            initial_step=0.01
+        )
+        
+        results[method_name] = {
+            'beta_final': beta_final,
+            'history': history,
+            'error': np.linalg.norm(beta_final - beta_true)
+        }
+    
+    return results, beta_true
+
+# Solve LASSO problem
+lasso_results, beta_true = solve_lasso_stochastic()
+
+# Visualization
+plt.figure(figsize=(15, 10))
+
+# Plot 1: Objective convergence
+plt.subplot(2, 3, 1)
+for method_name, result in lasso_results.items():
+    f_vals = result['history']['f_vals']
+    plt.semilogy(f_vals, label=method_name, alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Objective Value')
+plt.title('Objective Convergence')
+plt.legend()
+plt.grid(True)
+
+# Plot 2: Parameter error
+plt.subplot(2, 3, 2)
+for method_name, result in lasso_results.items():
+    x_history = result['history']['x']
+    errors = [np.linalg.norm(x - beta_true) for x in x_history]
+    plt.semilogy(errors, label=method_name, alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Parameter Error')
+plt.title('Parameter Convergence')
+plt.legend()
+plt.grid(True)
+
+# Plot 3: Subgradient norms
+plt.subplot(2, 3, 3)
+for method_name, result in lasso_results.items():
+    subgrad_norms = result['history']['subgrad_norms']
+    plt.semilogy(subgrad_norms, label=method_name, alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Subgradient Norm')
+plt.title('Subgradient Norms')
+plt.legend()
+plt.grid(True)
+
+# Plot 4: True vs estimated coefficients
+plt.subplot(2, 3, 4)
+x_pos = np.arange(len(beta_true))
+plt.bar(x_pos - 0.2, beta_true, 0.4, label='True', alpha=0.7)
+plt.bar(x_pos + 0.2, lasso_results['Mini-batch (32)']['beta_final'], 0.4, label='Estimated', alpha=0.7)
+plt.xlabel('Coefficient Index')
+plt.ylabel('Coefficient Value')
+plt.title('True vs Estimated Coefficients')
+plt.legend()
+plt.grid(True)
+
+# Plot 5: Final errors comparison
+plt.subplot(2, 3, 5)
+method_names = list(lasso_results.keys())
+final_errors = [lasso_results[name]['error'] for name in method_names]
+plt.bar(range(len(method_names)), final_errors)
+plt.xticks(range(len(method_names)), [name.split('(')[0] for name in method_names], rotation=45)
+plt.ylabel('Final Parameter Error')
+plt.title('Final Performance Comparison')
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Print results
+print("LASSO Results:")
+print("-" * 50)
+for method_name, result in lasso_results.items():
+    error = result['error']
+    final_obj = result['history']['f_vals'][-1]
+    print(f"{method_name:20s}: Error = {error:.4f}, Final Obj = {final_obj:.4f}")
+```
+
+**Bước 3: Robust regression**
+
+```python
+def solve_robust_regression():
+    """Solve robust regression using stochastic subgradient"""
+    # Generate data with outliers
+    np.random.seed(123)
+    n_samples = 500
+    n_features = 20
+    
+    # True coefficients
+    beta_true = np.random.randn(n_features)
+    
+    # Generate clean data
+    X = np.random.randn(n_samples, n_features)
+    y_clean = X @ beta_true
+    
+    # Add outliers
+    n_outliers = n_samples // 10
+    outlier_indices = np.random.choice(n_samples, n_outliers, replace=False)
+    y = y_clean.copy()
+    y[outlier_indices] += 10 * np.random.randn(n_outliers)  # Large outliers
+    
+    lambda_reg = 0.01
+    
+    # Individual functions: f_i(β) = |y_i - x_i^T β| + λ||β||₂²
+    functions = []
+    for i in range(n_samples):
+        def create_robust_function(idx):
+            def f_i(beta):
+                residual = y[idx] - X[idx] @ beta
+                return abs(residual) + lambda_reg * np.sum(beta**2)
+            
+            def subgrad_i(beta):
+                residual = y[idx] - X[idx] @ beta
+                if residual > 0:
+                    subgrad_l1 = -X[idx]
+                elif residual < 0:
+                    subgrad_l1 = X[idx]
+                else:
+                    subgrad_l1 = np.random.uniform(-1, 1) * X[idx]
+                
+                grad_l2 = 2 * lambda_reg * beta
+                return subgrad_l1 + grad_l2
+            
+            return f_i, subgrad_i
+        
+        functions.append(create_robust_function(i))
+    
+    # Solve with different batch sizes
+    batch_sizes = [1, 10, 50, n_samples]
+    results = {}
+    
+    for batch_size in batch_sizes:
+        solver = StochasticSubgradientMethod(functions, 'square_summable')
+        beta_final, history = solver.solve(
+            np.zeros(n_features),
+            max_iter=2000,
+            batch_size=batch_size,
+            initial_step=0.001
+        )
+        
+        # Compute final residuals
+        residuals = y - X @ beta_final
+        
+        results[f'Batch {batch_size}'] = {
+            'beta': beta_final,
+            'history': history,
+            'residuals': residuals,
+            'error': np.linalg.norm(beta_final - beta_true),
+            'robust_loss': np.sum(np.abs(residuals))
+        }
+    
+    # Compare with least squares (non-robust)
+    beta_ls = np.linalg.solve(X.T @ X + lambda_reg * np.eye(n_features), X.T @ y)
+    results['Least Squares'] = {
+        'beta': beta_ls,
+        'residuals': y - X @ beta_ls,
+        'error': np.linalg.norm(beta_ls - beta_true),
+        'robust_loss': np.sum(np.abs(y - X @ beta_ls))
+    }
+    
+    return results, X, y, beta_true, outlier_indices
+
+# Solve robust regression
+robust_results, X, y, beta_true, outlier_indices = solve_robust_regression()
+
+# Analysis and visualization
+plt.figure(figsize=(15, 10))
+
+# Plot 1: Convergence comparison
+plt.subplot(2, 3, 1)
+for method_name, result in robust_results.items():
+    if 'history' in result:
+        f_vals = result['history']['f_vals']
+        plt.semilogy(f_vals, label=method_name, alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Objective Value')
+plt.title('Robust Regression Convergence')
+plt.legend()
+plt.grid(True)
+
+# Plot 2: Residual analysis
+plt.subplot(2, 3, 2)
+normal_indices = np.setdiff1d(np.arange(len(y)), outlier_indices)
+
+for i, (method_name, result) in enumerate(robust_results.items()):
+    if method_name == 'Least Squares':
+        color = 'red'
+        marker = 's'
+    else:
+        color = f'C{i}'
+        marker = 'o'
+    
+    residuals = result['residuals']
+    plt.scatter(normal_indices, residuals[normal_indices], 
+               alpha=0.6, s=20, color=color, marker=marker, label=f'{method_name} (normal)')
+    plt.scatter(outlier_indices, residuals[outlier_indices], 
+               alpha=0.8, s=40, color=color, marker='x', label=f'{method_name} (outliers)')
+
+plt.xlabel('Sample Index')
+plt.ylabel('Residual')
+plt.title('Residual Analysis')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.grid(True)
+
+# Plot 3: Parameter comparison
+plt.subplot(2, 3, 3)
+x_pos = np.arange(len(beta_true))
+width = 0.15
+
+plt.bar(x_pos - 2*width, beta_true, width, label='True', alpha=0.8)
+for i, (method_name, result) in enumerate(robust_results.items()):
+    if method_name != 'Least Squares':
+        plt.bar(x_pos + (i-1)*width, result['beta'], width, 
+               label=method_name, alpha=0.8)
+
+plt.bar(x_pos + 2*width, robust_results['Least Squares']['beta'], width, 
+       label='Least Squares', alpha=0.8, color='red')
+
+plt.xlabel('Coefficient Index')
+plt.ylabel('Coefficient Value')
+plt.title('Parameter Estimates')
+plt.legend()
+plt.grid(True)
+
+# Plot 4: Performance metrics
+plt.subplot(2, 3, 4)
+methods = list(robust_results.keys())
+errors = [robust_results[method]['error'] for method in methods]
+robust_losses = [robust_results[method]['robust_loss'] for method in methods]
+
+x_pos = np.arange(len(methods))
+plt.bar(x_pos - 0.2, errors, 0.4, label='Parameter Error', alpha=0.8)
+plt.bar(x_pos + 0.2, np.array(robust_losses)/max(robust_losses), 0.4, 
+       label='Robust Loss (normalized)', alpha=0.8)
+
+plt.xticks(x_pos, [m.replace('Batch ', 'B') for m in methods], rotation=45)
+plt.ylabel('Error/Loss')
+plt.title('Performance Metrics')
+plt.legend()
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Print summary
+print("Robust Regression Results:")
+print("-" * 60)
+print(f"{'Method':<20} {'Param Error':<12} {'Robust Loss':<12}")
+print("-" * 60)
+for method_name, result in robust_results.items():
+    error = result['error']
+    loss = result['robust_loss']
+    print(f"{method_name:<20} {error:<12.4f} {loss:<12.2f}")
+```
+
+**Bước 4: Computational efficiency analysis**
+
+```python
+def analyze_computational_efficiency():
+    """Compare computational efficiency of different methods"""
+    import time
+    
+    # Create large-scale problem
+    n_samples = 5000
+    n_features = 100
+    
+    X, y, beta_true = create_lasso_problem(n_samples, n_features)
+    lambda_reg = 0.1
+    
+    # Create functions
+    functions = []
+    for i in range(n_samples):
+        def create_function(idx):
+            def f_i(beta):
+                residual = y[idx] - X[idx] @ beta
+                return 0.5 * residual**2 + lambda_reg * np.sum(np.abs(beta))
+            
+            def subgrad_i(beta):
+                residual = y[idx] - X[idx] @ beta
+                grad_smooth = -residual * X[idx]
+                subgrad_l1 = lambda_reg * np.sign(beta)
+                subgrad_l1[beta == 0] = lambda_reg * np.random.uniform(-1, 1, np.sum(beta == 0))
+                return grad_smooth + subgrad_l1
+            
+            return f_i, subgrad_i
+        
+        functions.append(create_function(i))
+    
+    # Test different configurations
+    configs = [
+        {'name': 'SGD', 'batch_size': 1, 'max_iter': 10000},
+        {'name': 'Mini-batch 32', 'batch_size': 32, 'max_iter': 2000},
+        {'name': 'Mini-batch 128', 'batch_size': 128, 'max_iter': 1000},
+        {'name': 'Full batch', 'batch_size': n_samples, 'max_iter': 500}
+    ]
+    
+    efficiency_results = {}
+    
+    for config in configs:
+        print(f"Running {config['name']}...")
+        
+        solver = StochasticSubgradientMethod(functions, 'square_summable')
+        
+        start_time = time.time()
+        beta_final, history = solver.solve(
+            np.zeros(n_features),
+            max_iter=config['max_iter'],
+            batch_size=config['batch_size'],
+            initial_step=0.01
+        )
+        end_time = time.time()
+        
+        # Compute metrics
+        runtime = end_time - start_time
+        final_error = np.linalg.norm(beta_final - beta_true)
+        final_obj = history['f_vals'][-1]
+        
+        # Compute iterations per second
+        iter_per_sec = config['max_iter'] / runtime
+        
+        # Compute samples processed per second
+        samples_per_iter = config['batch_size']
+        samples_per_sec = samples_per_iter * iter_per_sec
+        
+        efficiency_results[config['name']] = {
+            'runtime': runtime,
+            'final_error': final_error,
+            'final_obj': final_obj,
+            'iter_per_sec': iter_per_sec,
+            'samples_per_sec': samples_per_sec,
+            'convergence': history['f_vals']
+        }
+    
+    return efficiency_results
+
+# Run efficiency analysis
+print("Analyzing computational efficiency...")
+efficiency_results = analyze_computational_efficiency()
+
+# Visualization
+plt.figure(figsize=(15, 10))
+
+# Plot 1: Runtime comparison
+plt.subplot(2, 3, 1)
+methods = list(efficiency_results.keys())
+runtimes = [efficiency_results[method]['runtime'] for method in methods]
+plt.bar(methods, runtimes)
+plt.ylabel('Runtime (seconds)')
+plt.title('Total Runtime')
+plt.xticks(rotation=45)
+plt.grid(True)
+
+# Plot 2: Final error vs runtime
+plt.subplot(2, 3, 2)
+for method in methods:
+    result = efficiency_results[method]
+    plt.scatter(result['runtime'], result['final_error'], s=100, label=method)
+plt.xlabel('Runtime (seconds)')
+plt.ylabel('Final Parameter Error')
+plt.title('Accuracy vs Speed Trade-off')
+plt.legend()
+plt.grid(True)
+
+# Plot 3: Convergence curves (time-based)
+plt.subplot(2, 3, 3)
+for method in methods:
+    result = efficiency_results[method]
+    convergence = result['convergence']
+    runtime = result['runtime']
+    time_points = np.linspace(0, runtime, len(convergence))
+    plt.semilogy(time_points, convergence, label=method, linewidth=2)
+plt.xlabel('Time (seconds)')
+plt.ylabel('Objective Value')
+plt.title('Convergence vs Time')
+plt.legend()
+plt.grid(True)
+
+# Plot 4: Throughput comparison
+plt.subplot(2, 3, 4)
+samples_per_sec = [efficiency_results[method]['samples_per_sec'] for method in methods]
+plt.bar(methods, samples_per_sec)
+plt.ylabel('Samples/second')
+plt.title('Throughput')
+plt.xticks(rotation=45)
+plt.grid(True)
+
+# Plot 5: Efficiency metric (accuracy per unit time)
+plt.subplot(2, 3, 5)
+efficiency_metric = []
+for method in methods:
+    result = efficiency_results[method]
+    # Higher is better: 1/(error * time)
+    metric = 1.0 / (result['final_error'] * result['runtime'])
+    efficiency_metric.append(metric)
+
+plt.bar(methods, efficiency_metric)
+plt.ylabel('Efficiency (1/(error × time))')
+plt.title('Overall Efficiency')
+plt.xticks(rotation=45)
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+# Print detailed results
+print("\nComputational Efficiency Results:")
+print("-" * 80)
+print(f"{'Method':<15} {'Runtime':<10} {'Error':<10} {'Obj':<10} {'Samples/sec':<12}")
+print("-" * 80)
+for method, result in efficiency_results.items():
+    print(f"{method:<15} {result['runtime']:<10.2f} {result['final_error']:<10.4f} " +
+          f"{result['final_obj']:<10.4f} {result['samples_per_sec']:<12.0f}")
+```
+
+</details>
+
+---
+
+## 💡 Mẹo Thực Hành
+
+#### **Khi chọn kích thước bước:**
+- **Hằng số:** Tốt cho phát triển nhanh, cần điều chỉnh cẩn thận
+- **Giảm dần:** Đảm bảo hội tụ, có thể chậm
+- **Polyak:** Tối ưu khi biết $$f^*$$, cần điều chuẩn
+- **Thích nghi:** Giám sát tiến trình và điều chỉnh phù hợp
+
+#### **Khi lập trình các phương pháp có chiếu:**
+- Kiểm chứng các toán tử chiếu là đúng
+- Sử dụng các thuật toán hiệu quả cho các tập hợp phổ biến
+- Xem xét các phép chiếu xen kẽ cho bài toán giao tập hợp
+- Giám sát việc thỏa mãn ràng buộc
+
+#### **Khi sử dụng các phương pháp ngẫu nhiên:**
+- Bắt đầu với kích thước mini-batch ≈ 32-128
+- Sử dụng kích thước bước giảm dần để hội tụ
+- Giám sát cả hàm mục tiêu và sự hội tụ của tham số
+- Xem xét các kỹ thuật giảm phương sai
+
+---
+
+## 📚 Tài liệu tham khảo
+
+1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.
+   - Chapter 8: Subgradient Method
+
+2. **Bertsekas, D. P.** (2015). *Convex Optimization Algorithms*. Athena Scientific.
+
+3. **Bubeck, S.** (2015). *Convex Optimization: Algorithms and Complexity*. Foundations and Trends in Machine Learning.

@@ -1,0 +1,1695 @@
+---
+layout: post
+title: 9-11 Bài Tập Thực Hành - Phương Pháp Proximal Gradient
+chapter: '9'
+order: 12
+owner: GitHub Copilot
+lang: vi
+categories:
+- chapter09
+lesson_type: required
+---
+
+# Bài Tập Thực Hành - Phương Pháp Proximal Gradient
+
+## 📝 **Bài tập 1: Proximal Operators cơ bản**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Chapter 9)
+Tính proximal operators cho các hàm sau:
+
+a) $$h(x) = \lambda |x|$$ (L1 norm)
+b) $$h(x) = \frac{\lambda}{2} x^2$$ (L2 regularization)
+c) $$h(x) = I_C(x)$$ với $$C = \{x : a \leq x \leq b\}$$ (box constraints)
+d) $$h(x) = \lambda \|x\|_1$$ (vector L1 norm)
+e) $$h(x) = \lambda \|x\|_2$$ (vector L2 norm)
+
+**Yêu cầu:**
+1. Xây dựng các biểu thức dạng đóng
+2. Kiểm chứng điều kiện tối ưu
+3. Lập trình các thuật toán hiệu quả
+4. Trực quan hóa các ánh xạ proximal
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: L1 norm (Soft-thresholding)**
+$$\text{prox}_t(x) = \arg\min_z \left\{\frac{1}{2t}(x - z)^2 + \lambda |z|\right\}$$
+
+**Optimality condition:** $$0 \in \frac{z - x}{t} + \lambda \partial |z|$$
+
+**Case analysis:**
+- **Case 1:** $$z > 0$$ → $$\frac{z - x}{t} + \lambda = 0$$ → $$z = x - \lambda t$$
+  Valid if $$x - \lambda t > 0$$ → $$x > \lambda t$$
+
+- **Case 2:** $$z < 0$$ → $$\frac{z - x}{t} - \lambda = 0$$ → $$z = x + \lambda t$$
+  Valid if $$x + \lambda t < 0$$ → $$x < -\lambda t$$
+
+- **Case 3:** $$z = 0$$ → $$\frac{-x}{t} \in \lambda[-1, 1]$$ → $$|x| \leq \lambda t$$
+
+**Soft-thresholding operator:**
+$$\text{prox}_{\lambda t}(x) = \text{soft}(x, \lambda t) = \begin{cases}
+x - \lambda t & \text{if } x > \lambda t \\
+0 & \text{if } |x| \leq \lambda t \\
+x + \lambda t & \text{if } x < -\lambda t
+\end{cases}$$
+
+**Compact form:** $$\text{soft}(x, \lambda t) = \text{sign}(x) \max\{|x| - \lambda t, 0\}$$
+
+**Bước 2: L2 regularization**
+$$\text{prox}_t(x) = \arg\min_z \left\{\frac{1}{2t}(x - z)^2 + \frac{\lambda}{2} z^2\right\}$$
+
+**Optimality:** $$\frac{z - x}{t} + \lambda z = 0$$
+$$z(1/t + \lambda) = x/t$$
+$$z = \frac{x}{1 + \lambda t}$$
+
+**Result:** $$\text{prox}_{\lambda t}(x) = \frac{x}{1 + \lambda t}$$
+
+**Bước 3: Box constraints**
+$$\text{prox}_t(x) = \arg\min_z \left\{\frac{1}{2t}(x - z)^2 + I_C(z)\right\}$$
+
+với $$C = [a, b]$$
+
+**This is projection onto $$[a, b]$$:**
+$$\text{prox}_t(x) = P_C(x) = \begin{cases}
+a & \text{if } x < a \\
+x & \text{if } a \leq x \leq b \\
+b & \text{if } x > b
+\end{cases}$$
+
+**Compact form:** $$P_C(x) = \max\{a, \min\{x, b\}\}$$
+
+**Bước 4: Vector L1 norm**
+$$\text{prox}_t(x) = \arg\min_z \left\{\frac{1}{2t}\|x - z\|_2^2 + \lambda \|z\|_1\right\}$$
+
+**Component-wise separable:**
+$$[\text{prox}_{\lambda t}(x)]_i = \text{soft}(x_i, \lambda t)$$
+
+**Triển khai:**
+```python
+def prox_l1(x, lam_t):
+    """Proximal operator for L1 norm (soft-thresholding)"""
+    return np.sign(x) * np.maximum(np.abs(x) - lam_t, 0)
+
+def prox_l2_reg(x, lam_t):
+    """Proximal operator for L2 regularization"""
+    return x / (1 + lam_t)
+
+def prox_box(x, a, b):
+    """Proximal operator for box constraints (projection)"""
+    return np.clip(x, a, b)
+
+def prox_l1_vector(x, lam_t):
+    """Proximal operator for vector L1 norm"""
+    return prox_l1(x, lam_t)
+
+def prox_l2_vector(x, lam_t):
+    """Proximal operator for vector L2 norm"""
+    norm_x = np.linalg.norm(x)
+    if norm_x <= lam_t:
+        return np.zeros_like(x)
+    else:
+        return (1 - lam_t / norm_x) * x
+```
+
+**Bước 5: Vector L2 norm**
+$$\text{prox}_t(x) = \arg\min_z \left\{\frac{1}{2t}\|x - z\|_2^2 + \lambda \|z\|_2\right\}$$
+
+**Optimality condition:** $$\frac{z - x}{t} + \lambda \frac{z}{\|z\|_2} = 0$$ (if $$z \neq 0$$)
+
+**Case analysis:**
+- **Case 1:** $$z = 0$$ → Valid if $$\|x\| \leq \lambda t$$
+- **Case 2:** $$z \neq 0$$ → $$z = \frac{x}{1/t + \lambda/\|z\|}$$
+
+**Solving:** Let $$\|z\| = r$$, then $$r = \frac{\|x\|}{1/t + \lambda/r}$$
+$$r(1/t + \lambda/r) = \|x\|$$
+$$r/t + \lambda = \|x\|$$
+$$r = t(\|x\| - \lambda)$$
+
+**Result:** $$\text{prox}_{\lambda t}(x) = \begin{cases}
+0 & \text{if } \|x\| \leq \lambda t \\
+\left(1 - \frac{\lambda t}{\|x\|}\right) x & \text{if } \|x\| > \lambda t
+\end{cases}$$
+
+**Verification và visualization:**
+```python
+def test_proximal_operators():
+    """Test and visualize proximal operators"""
+    
+    # Test data
+    x_vals = np.linspace(-3, 3, 1000)
+    lam_t = 1.0
+    
+    # Tính toán proximal operators
+    prox_l1_vals = prox_l1(x_vals, lam_t)
+    prox_l2_reg_vals = prox_l2_reg(x_vals, lam_t)
+    prox_box_vals = prox_box(x_vals, -1.5, 1.5)
+    
+    # Visualization
+    plt.figure(figsize=(15, 5))
+    
+    # L1 proximal (soft-thresholding)
+    plt.subplot(1, 3, 1)
+    plt.plot(x_vals, x_vals, 'k--', alpha=0.5, label='Identity')
+    plt.plot(x_vals, prox_l1_vals, 'b-', linewidth=2, label='Soft-thresholding')
+    plt.axhline(y=0, color='gray', alpha=0.3)
+    plt.axvline(x=0, color='gray', alpha=0.3)
+    plt.axvline(x=lam_t, color='red', linestyle=':', alpha=0.7, label=f'±λt = ±{lam_t}')
+    plt.axvline(x=-lam_t, color='red', linestyle=':', alpha=0.7)
+    plt.xlabel('x')
+    plt.ylabel('prox(x)')
+    plt.title('L1 Proximal (Soft-thresholding)')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # L2 regularization
+    plt.subplot(1, 3, 2)
+    plt.plot(x_vals, x_vals, 'k--', alpha=0.5, label='Identity')
+    plt.plot(x_vals, prox_l2_reg_vals, 'g-', linewidth=2, label='L2 regularization')
+    plt.xlabel('x')
+    plt.ylabel('prox(x)')
+    plt.title('L2 Regularization Proximal')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Box constraints
+    plt.subplot(1, 3, 3)
+    plt.plot(x_vals, x_vals, 'k--', alpha=0.5, label='Identity')
+    plt.plot(x_vals, prox_box_vals, 'r-', linewidth=2, label='Box projection')
+    plt.axhline(y=-1.5, color='red', linestyle=':', alpha=0.7, label='Box bounds')
+    plt.axhline(y=1.5, color='red', linestyle=':', alpha=0.7)
+    plt.xlabel('x')
+    plt.ylabel('prox(x)')
+    plt.title('Box Constraints Proximal')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+
+# Run tests
+test_proximal_operators()
+
+# Verify optimality conditions
+def verify_optimality_l1():
+    """Verify optimality conditions for L1 proximal"""
+    x = 2.0
+    lam_t = 1.0
+    z = prox_l1(x, lam_t)
+    
+    print(f"Input: x = {x}")
+    print(f"Output: z = {z}")
+    print(f"Expected: {x - lam_t}")
+    
+    # Kiểm tra tối ưu: 0 ∈ (z-x)/t + λ∂|z|
+    residual = (z - x) / 1.0  # t = 1
+    subgrad_z = np.sign(z) if z != 0 else 0  # ∂|z|
+    optimality_residual = residual + lam_t * subgrad_z
+    
+    print(f"Optimality residual: {optimality_residual:.10f}")
+    print(f"Should be close to 0: {abs(optimality_residual) < 1e-10}")
+
+verify_optimality_l1()
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 2: LASSO với Proximal Gradient**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Example 9.1)
+Giải bài toán LASSO sử dụng phương pháp proximal gradient:
+
+$$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$
+
+a) **Lập trình ISTA** (Thuật toán Soft-Thresholding Lặp)
+b) **Lập trình FISTA** (ISTA Nhanh với tăng tốc)
+c) **So sánh tốc độ hội tụ**
+d) **Phân tích đường điều chuẩn**
+
+**Yêu cầu:**
+1. Lập trình cả hai thuật toán một cách hiệu quả
+2. So sánh với hạ tọa độ
+3. Nghiên cứu ảnh hưởng của việc chọn kích thước bước
+4. Trực quan hóa hành vi hội tụ
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Problem setup**
+
+**LASSO decomposition:**
+- $$g(\beta) = \frac{1}{2}\|y - X\beta\|_2^2$$ (smooth)
+- $$h(\beta) = \lambda \|\beta\|_1$$ (non-smooth)
+
+**Gradient của $$g$$:**
+$$\nabla g(\beta) = X^T(X\beta - y)$$
+
+**Lipschitz constant:**
+$$L = \lambda_{\max}(X^T X)$$ (largest eigenvalue)
+
+**Proximal operator:**
+$$\text{prox}_t(\beta) = \text{soft}(\beta, \lambda t)$$
+
+```python
+def create_lasso_problem(n_samples=100, n_features=50, sparsity=0.1, noise_level=0.1):
+    """Create synthetic LASSO problem"""
+    np.random.seed(42)
+    
+    # Generate sparse true coefficients
+    beta_true = np.zeros(n_features)
+    n_nonzero = int(sparsity * n_features)
+    nonzero_indices = np.random.choice(n_features, n_nonzero, replace=False)
+    beta_true[nonzero_indices] = np.random.randn(n_nonzero)
+    
+    # Generate design matrix
+    X = np.random.randn(n_samples, n_features)
+    X = X / np.sqrt(n_samples)  # Normalize
+    
+    # Generate response
+    y = X @ beta_true + noise_level * np.random.randn(n_samples)
+    
+    return X, y, beta_true
+
+def lasso_objective(beta, X, y, lam):
+    """Compute LASSO objective"""
+    residual = y - X @ beta
+    return 0.5 * np.sum(residual**2) + lam * np.sum(np.abs(beta))
+
+def lasso_gradient(beta, X, y):
+    """Compute gradient of smooth part"""
+    return X.T @ (X @ beta - y)
+
+def compute_lipschitz_constant(X):
+    """Compute Lipschitz constant L = λ_max(X^T X)"""
+    return np.linalg.norm(X, ord=2)**2
+```
+
+**Bước 2: ISTA Implementation**
+
+```python
+def ista(X, y, lam, max_iter=1000, tol=1e-6, step_size=None):
+    """Iterative Soft-Thresholding Algorithm (ISTA)"""
+    
+    n_samples, n_features = X.shape
+    
+    # Khởi tạo
+    beta = np.zeros(n_features)
+    
+    # Tính step size
+    if step_size is None:
+        L = compute_lipschitz_constant(X)
+        step_size = 1.0 / L
+    
+    # Storage
+    history = {
+        'objective': [],
+        'beta': [],
+        'gradient_norm': []
+    }
+    
+    for k in range(max_iter):
+        # Store current state
+        history['objective'].append(lasso_objective(beta, X, y, lam))
+        history['beta'].append(beta.copy())
+        
+        # Gradient step
+        grad = lasso_gradient(beta, X, y)
+        history['gradient_norm'].append(np.linalg.norm(grad))
+        
+        # Proximal gradient update
+        beta_temp = beta - step_size * grad
+        beta = prox_l1(beta_temp, lam * step_size)
+        
+        # Check convergence
+        if k > 0:
+            obj_change = abs(history['objective'][-1] - history['objective'][-2])
+            if obj_change < tol:
+                break
+    
+    return beta, history
+
+# Test ISTA
+X, y, beta_true = create_lasso_problem()
+lam = 0.1
+
+beta_ista, hist_ista = ista(X, y, lam)
+print(f"ISTA converged in {len(hist_ista['objective'])} iterations")
+print(f"Final objective: {hist_ista['objective'][-1]:.6f}")
+print(f"Recovery error: {np.linalg.norm(beta_ista - beta_true):.6f}")
+```
+
+**Bước 3: FISTA Implementation**
+
+```python
+def fista(X, y, lam, max_iter=1000, tol=1e-6, step_size=None):
+    """Fast Iterative Soft-Thresholding Algorithm (FISTA)"""
+    
+    n_samples, n_features = X.shape
+    
+    # Khởi tạo
+    beta = np.zeros(n_features)
+    beta_prev = beta.copy()
+    t = 1.0  # Momentum parameter
+    
+    # Tính step size
+    if step_size is None:
+        L = compute_lipschitz_constant(X)
+        step_size = 1.0 / L
+    
+    # Storage
+    history = {
+        'objective': [],
+        'beta': [],
+        'momentum_weight': []
+    }
+    
+    for k in range(max_iter):
+        # Store current state
+        history['objective'].append(lasso_objective(beta, X, y, lam))
+        history['beta'].append(beta.copy())
+        
+        # Momentum update
+        t_new = (1 + np.sqrt(1 + 4 * t**2)) / 2
+        momentum_weight = (t - 1) / t_new
+        history['momentum_weight'].append(momentum_weight)
+        
+        # Extrapolated point
+        v = beta + momentum_weight * (beta - beta_prev)
+        
+        # Gradient step at extrapolated point
+        grad_v = lasso_gradient(v, X, y)
+        
+        # Proximal gradient update
+        beta_prev = beta.copy()
+        beta_temp = v - step_size * grad_v
+        beta = prox_l1(beta_temp, lam * step_size)
+        
+        # Update momentum parameter
+        t = t_new
+        
+        # Check convergence
+        if k > 0:
+            obj_change = abs(history['objective'][-1] - history['objective'][-2])
+            if obj_change < tol:
+                break
+    
+    return beta, history
+
+# Test FISTA
+beta_fista, hist_fista = fista(X, y, lam)
+print(f"FISTA converged in {len(hist_fista['objective'])} iterations")
+print(f"Final objective: {hist_fista['objective'][-1]:.6f}")
+print(f"Recovery error: {np.linalg.norm(beta_fista - beta_true):.6f}")
+```
+
+**Bước 4: Comparison và analysis**
+
+```python
+def compare_ista_fista():
+    """Compare ISTA and FISTA performance"""
+    
+    # Create problem
+    X, y, beta_true = create_lasso_problem(n_samples=200, n_features=100)
+    lam = 0.05
+    
+    # Run both algorithms
+    print("Running ISTA...")
+    beta_ista, hist_ista = ista(X, y, lam, max_iter=2000)
+    
+    print("Running FISTA...")
+    beta_fista, hist_fista = fista(X, y, lam, max_iter=2000)
+    
+    # Coordinate descent for comparison
+    print("Running Coordinate Descent...")
+    from sklearn.linear_model import Lasso
+    lasso_sklearn = Lasso(alpha=lam, max_iter=2000, tol=1e-6)
+    lasso_sklearn.fit(X, y)
+    beta_cd = lasso_sklearn.coef_
+    
+    # Analysis
+    results = {
+        'ISTA': {
+            'beta': beta_ista,
+            'history': hist_ista,
+            'iterations': len(hist_ista['objective']),
+            'final_obj': hist_ista['objective'][-1],
+            'error': np.linalg.norm(beta_ista - beta_true)
+        },
+        'FISTA': {
+            'beta': beta_fista,
+            'history': hist_fista,
+            'iterations': len(hist_fista['objective']),
+            'final_obj': hist_fista['objective'][-1],
+            'error': np.linalg.norm(beta_fista - beta_true)
+        },
+        'Coordinate Descent': {
+            'beta': beta_cd,
+            'final_obj': lasso_objective(beta_cd, X, y, lam),
+            'error': np.linalg.norm(beta_cd - beta_true)
+        }
+    }
+    
+    return results, beta_true
+
+# Run comparison
+results, beta_true = compare_ista_fista()
+
+# Visualization
+plt.figure(figsize=(15, 10))
+
+# Plot 1: Objective convergence
+plt.subplot(2, 3, 1)
+plt.semilogy(results['ISTA']['history']['objective'], 'b-', label='ISTA', linewidth=2)
+plt.semilogy(results['FISTA']['history']['objective'], 'r-', label='FISTA', linewidth=2)
+plt.axhline(y=results['Coordinate Descent']['final_obj'], color='green', 
+           linestyle='--', label='Coordinate Descent', alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Objective Value')
+plt.title('Objective Convergence')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 2: Parameter error
+plt.subplot(2, 3, 2)
+ista_errors = [np.linalg.norm(beta - beta_true) for beta in results['ISTA']['history']['beta']]
+fista_errors = [np.linalg.norm(beta - beta_true) for beta in results['FISTA']['history']['beta']]
+
+plt.semilogy(ista_errors, 'b-', label='ISTA', linewidth=2)
+plt.semilogy(fista_errors, 'r-', label='FISTA', linewidth=2)
+plt.axhline(y=results['Coordinate Descent']['error'], color='green', 
+           linestyle='--', label='Coordinate Descent', alpha=0.8)
+plt.xlabel('Iteration')
+plt.ylabel('Parameter Error')
+plt.title('Parameter Recovery Error')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 3: True vs estimated coefficients
+plt.subplot(2, 3, 3)
+x_pos = np.arange(len(beta_true))
+width = 0.25
+
+plt.bar(x_pos - width, beta_true, width, label='True', alpha=0.8)
+plt.bar(x_pos, results['ISTA']['beta'], width, label='ISTA', alpha=0.8)
+plt.bar(x_pos + width, results['FISTA']['beta'], width, label='FISTA', alpha=0.8)
+
+plt.xlabel('Coefficient Index')
+plt.ylabel('Coefficient Value')
+plt.title('Coefficient Comparison')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 4: Convergence rate analysis
+plt.subplot(2, 3, 4)
+# Theoretical rates
+ista_iter = np.arange(1, len(results['ISTA']['history']['objective']) + 1)
+fista_iter = np.arange(1, len(results['FISTA']['history']['objective']) + 1)
+
+# Normalize objectives
+ista_obj = np.array(results['ISTA']['history']['objective'])
+fista_obj = np.array(results['FISTA']['history']['objective'])
+optimal_obj = min(ista_obj[-1], fista_obj[-1])
+
+ista_gap = ista_obj - optimal_obj
+fista_gap = fista_obj - optimal_obj
+
+# Theoretical O(1/k) and O(1/k²) rates
+theoretical_1_k = ista_gap[0] / ista_iter
+theoretical_1_k2 = fista_gap[0] / (fista_iter**2)
+
+plt.loglog(ista_iter, ista_gap, 'b-', label='ISTA actual', linewidth=2)
+plt.loglog(fista_iter, fista_gap, 'r-', label='FISTA actual', linewidth=2)
+plt.loglog(ista_iter, theoretical_1_k, 'b--', alpha=0.7, label='O(1/k) theory')
+plt.loglog(fista_iter, theoretical_1_k2, 'r--', alpha=0.7, label='O(1/k²) theory')
+
+plt.xlabel('Iteration')
+plt.ylabel('Optimality Gap')
+plt.title('Convergence Rate Analysis')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 5: Momentum weights (FISTA)
+plt.subplot(2, 3, 5)
+momentum_weights = results['FISTA']['history']['momentum_weight']
+plt.plot(momentum_weights, 'r-', linewidth=2)
+plt.axhline(y=1.0, color='black', linestyle='--', alpha=0.5, label='Asymptotic value')
+plt.xlabel('Iteration')
+plt.ylabel('Momentum Weight')
+plt.title('FISTA Momentum Evolution')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 6: Performance summary
+plt.subplot(2, 3, 6)
+methods = ['ISTA', 'FISTA', 'Coordinate Descent']
+iterations = [results['ISTA']['iterations'], results['FISTA']['iterations'], 0]
+errors = [results['ISTA']['error'], results['FISTA']['error'], results['Coordinate Descent']['error']]
+
+x_pos = np.arange(len(methods))
+plt.bar(x_pos - 0.2, iterations, 0.4, label='Iterations', alpha=0.8)
+plt.bar(x_pos + 0.2, np.array(errors) * 1000, 0.4, label='Error × 1000', alpha=0.8)
+
+plt.xticks(x_pos, methods)
+plt.ylabel('Count / Error')
+plt.title('Performance Summary')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Print summary
+print("\nPerformance Summary:")
+print("-" * 60)
+print(f"{'Method':<20} {'Iterations':<12} {'Final Obj':<12} {'Error':<12}")
+print("-" * 60)
+for method, result in results.items():
+    if 'iterations' in result:
+        print(f"{method:<20} {result['iterations']:<12} {result['final_obj']:<12.6f} {result['error']:<12.6f}")
+    else:
+        print(f"{method:<20} {'N/A':<12} {result['final_obj']:<12.6f} {result['error']:<12.6f}")
+```
+
+**Bước 5: Regularization path analysis**
+
+```python
+def compute_lasso_path():
+    """Compute LASSO regularization path"""
+    
+    X, y, beta_true = create_lasso_problem(n_samples=100, n_features=50)
+    
+    # Range of lambda values
+    lambda_max = np.max(np.abs(X.T @ y))
+    lambda_values = np.logspace(np.log10(0.01 * lambda_max), np.log10(lambda_max), 50)
+    
+    # Compute solutions
+    beta_path_ista = []
+    beta_path_fista = []
+    objectives_ista = []
+    objectives_fista = []
+    
+    for lam in lambda_values:
+        print(f"λ = {lam:.4f}")
+        
+        # ISTA
+        beta_ista, _ = ista(X, y, lam, max_iter=1000, tol=1e-8)
+        beta_path_ista.append(beta_ista)
+        objectives_ista.append(lasso_objective(beta_ista, X, y, lam))
+        
+        # FISTA
+        beta_fista, _ = fista(X, y, lam, max_iter=1000, tol=1e-8)
+        beta_path_fista.append(beta_fista)
+        objectives_fista.append(lasso_objective(beta_fista, X, y, lam))
+    
+    return lambda_values, beta_path_ista, beta_path_fista, beta_true
+
+# Compute paths
+lambda_vals, path_ista, path_fista, beta_true = compute_lasso_path()
+
+# Convert to arrays
+path_ista = np.array(path_ista)
+path_fista = np.array(path_fista)
+
+# Visualization
+plt.figure(figsize=(15, 5))
+
+# ISTA path
+plt.subplot(1, 3, 1)
+for j in range(path_ista.shape[1]):
+    if np.any(np.abs(path_ista[:, j]) > 1e-6):  # Only plot non-zero coefficients
+        plt.semilogx(lambda_vals, path_ista[:, j], alpha=0.8)
+
+plt.xlabel('λ (regularization parameter)')
+plt.ylabel('Coefficient value')
+plt.title('ISTA Regularization Path')
+plt.grid(True, alpha=0.3)
+
+# FISTA path
+plt.subplot(1, 3, 2)
+for j in range(path_fista.shape[1]):
+    if np.any(np.abs(path_fista[:, j]) > 1e-6):
+        plt.semilogx(lambda_vals, path_fista[:, j], alpha=0.8)
+
+plt.xlabel('λ (regularization parameter)')
+plt.ylabel('Coefficient value')
+plt.title('FISTA Regularization Path')
+plt.grid(True, alpha=0.3)
+
+# Sparsity analysis
+plt.subplot(1, 3, 3)
+sparsity_ista = [np.sum(np.abs(beta) > 1e-6) for beta in path_ista]
+sparsity_fista = [np.sum(np.abs(beta) > 1e-6) for beta in path_fista]
+
+plt.semilogx(lambda_vals, sparsity_ista, 'b-o', label='ISTA', markersize=4)
+plt.semilogx(lambda_vals, sparsity_fista, 'r-s', label='FISTA', markersize=4)
+plt.axhline(y=np.sum(np.abs(beta_true) > 1e-6), color='green', 
+           linestyle='--', label='True sparsity')
+
+plt.xlabel('λ (regularization parameter)')
+plt.ylabel('Number of non-zero coefficients')
+plt.title('Sparsity vs Regularization')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 3: Matrix Completion với Proximal Gradient**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Example 9.3)
+Giải bài toán hoàn thiện ma trận sử dụng proximal gradient:
+
+$$\min_X \frac{1}{2}\|P_\Omega(X - M)\|_F^2 + \lambda \|X\|_*$$
+
+với $$\|X\|_*$$ là chuẩn hạt nhân (chuẩn vết).
+
+**Yêu cầu:**
+1. Lập trình soft-thresholding ma trận
+2. Phát triển thuật toán Soft-Impute
+3. So sánh với cực tiểu hóa xen kẽ
+4. Phân tích tính chất khôi phục hạng
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Matrix completion setup**
+
+**Problem decomposition:**
+- $$g(X) = \frac{1}{2}\|P_\Omega(X - M)\|_F^2$$ (smooth)
+- $$h(X) = \lambda \|X\|_*$$ (non-smooth)
+
+**Gradient của $$g$$:**
+$$\nabla g(X) = P_\Omega(X - M)$$
+
+**Proximal operator cho nuclear norm:**
+$$\text{prox}_{\lambda t}(X) = S_{\lambda t}(X)$$ (matrix soft-thresholding)
+
+```python
+def create_matrix_completion_problem(m=50, n=40, rank=5, observe_prob=0.3, noise_level=0.01):
+    """Create synthetic matrix completion problem"""
+    np.random.seed(42)
+    
+    # Generate low-rank matrix
+    U = np.random.randn(m, rank)
+    V = np.random.randn(rank, n)
+    M_true = U @ V
+    
+    # Add noise
+    M_true += noise_level * np.random.randn(m, n)
+    
+    # Generate observation mask
+    Omega = np.random.rand(m, n) < observe_prob
+    M_observed = M_true * Omega
+    
+    return M_true, M_observed, Omega
+
+def nuclear_norm(X):
+    """Compute nuclear norm (sum of singular values)"""
+    return np.sum(np.linalg.svd(X, compute_uv=False))
+
+def matrix_soft_threshold(X, threshold):
+    """Matrix soft-thresholding operator"""
+    U, s, Vt = np.linalg.svd(X, full_matrices=False)
+    s_thresh = np.maximum(s - threshold, 0)
+    return U @ np.diag(s_thresh) @ Vt
+
+def projection_omega(X, Omega):
+    """Project onto observed entries"""
+    return X * Omega
+
+def matrix_completion_objective(X, M_obs, Omega, lam):
+    """Compute matrix completion objective"""
+    residual = projection_omega(X - M_obs, Omega)
+    return 0.5 * np.sum(residual**2) + lam * nuclear_norm(X)
+
+def matrix_completion_gradient(X, M_obs, Omega):
+    """Compute gradient of smooth part"""
+    return projection_omega(X - M_obs, Omega)
+```
+
+**Bước 2: Soft-Impute algorithm**
+
+```python
+def soft_impute(M_obs, Omega, lam, max_iter=100, tol=1e-6, step_size=1.0):
+    """Soft-Impute algorithm for matrix completion"""
+    
+    m, n = M_obs.shape
+    
+    # Khởi tạo with observed entries
+    X = M_obs.copy()
+    
+    # Storage
+    history = {
+        'objective': [],
+        'rank': [],
+        'frobenius_error': []
+    }
+    
+    for k in range(max_iter):
+        X_old = X.copy()
+        
+        # Compute objective (if M_true available for monitoring)
+        obj = matrix_completion_objective(X, M_obs, Omega, lam)
+        history['objective'].append(obj)
+        history['rank'].append(np.linalg.matrix_rank(X, tol=1e-10))
+        
+        # Gradient step
+        grad = matrix_completion_gradient(X, M_obs, Omega)
+        X_temp = X - step_size * grad
+        
+        # Proximal step (matrix soft-thresholding)
+        X = matrix_soft_threshold(X_temp, lam * step_size)
+        
+        # Ensure observed entries remain fixed
+        X = M_obs + projection_omega(X - M_obs, ~Omega)
+        
+        # Check convergence
+        change = np.linalg.norm(X - X_old, 'fro')
+        if change < tol:
+            break
+    
+    return X, history
+
+# Alternative implementation: Direct Soft-Impute
+def soft_impute_direct(M_obs, Omega, lam, max_iter=100, tol=1e-6):
+    """Direct Soft-Impute implementation"""
+    
+    m, n = M_obs.shape
+    X = M_obs.copy()
+    
+    history = {'objective': [], 'rank': []}
+    
+    for k in range(max_iter):
+        X_old = X.copy()
+        
+        # Fill unobserved entries with current estimates
+        X_filled = M_obs + (1 - Omega) * X
+        
+        # Apply matrix soft-thresholding
+        X = matrix_soft_threshold(X_filled, lam)
+        
+        # Compute objective and rank
+        obj = matrix_completion_objective(X, M_obs, Omega, lam)
+        history['objective'].append(obj)
+        history['rank'].append(np.linalg.matrix_rank(X, tol=1e-10))
+        
+        # Check convergence
+        if np.linalg.norm(X - X_old, 'fro') < tol:
+            break
+    
+    return X, history
+
+# Test both implementations
+M_true, M_obs, Omega = create_matrix_completion_problem()
+lam = 0.1
+
+print("Running Soft-Impute (Proximal Gradient)...")
+X_pg, hist_pg = soft_impute(M_obs, Omega, lam)
+
+print("Running Soft-Impute (Direct)...")
+X_direct, hist_direct = soft_impute_direct(M_obs, Omega, lam)
+
+print(f"True rank: {np.linalg.matrix_rank(M_true)}")
+print(f"Recovered rank (PG): {np.linalg.matrix_rank(X_pg, tol=1e-10)}")
+print(f"Recovered rank (Direct): {np.linalg.matrix_rank(X_direct, tol=1e-10)}")
+print(f"Recovery error (PG): {np.linalg.norm(X_pg - M_true, 'fro'):.6f}")
+print(f"Recovery error (Direct): {np.linalg.norm(X_direct - M_true, 'fro'):.6f}")
+```
+
+**Bước 3: Accelerated matrix completion (FISTA)**
+
+```python
+def fista_matrix_completion(M_obs, Omega, lam, max_iter=100, tol=1e-6):
+    """FISTA for matrix completion"""
+    
+    m, n = M_obs.shape
+    
+    # Khởi tạo
+    X = M_obs.copy()
+    X_prev = X.copy()
+    t = 1.0
+    
+    history = {'objective': [], 'rank': []}
+    
+    for k in range(max_iter):
+        # Momentum update
+        t_new = (1 + np.sqrt(1 + 4 * t**2)) / 2
+        momentum_weight = (t - 1) / t_new
+        
+        # Extrapolated point
+        Y = X + momentum_weight * (X - X_prev)
+        
+        # Gradient step at extrapolated point
+        grad_Y = matrix_completion_gradient(Y, M_obs, Omega)
+        Y_temp = Y - grad_Y  # step_size = 1
+        
+        # Proximal step
+        X_prev = X.copy()
+        X = matrix_soft_threshold(Y_temp, lam)
+        
+        # Ensure observed entries remain fixed
+        X = M_obs + projection_omega(X - M_obs, ~Omega)
+        
+        # Update momentum parameter
+        t = t_new
+        
+        # Compute objective and rank
+        obj = matrix_completion_objective(X, M_obs, Omega, lam)
+        history['objective'].append(obj)
+        history['rank'].append(np.linalg.matrix_rank(X, tol=1e-10))
+        
+        # Check convergence
+        if k > 0:
+            obj_change = abs(history['objective'][-1] - history['objective'][-2])
+            if obj_change < tol:
+                break
+    
+    return X, history
+
+# Test FISTA
+print("Running FISTA Matrix Completion...")
+X_fista, hist_fista = fista_matrix_completion(M_obs, Omega, lam)
+print(f"Recovered rank (FISTA): {np.linalg.matrix_rank(X_fista, tol=1e-10)}")
+print(f"Recovery error (FISTA): {np.linalg.norm(X_fista - M_true, 'fro'):.6f}")
+```
+
+**Bước 4: Comparison và analysis**
+
+```python
+def compare_matrix_completion_methods():
+    """Compare different matrix completion methods"""
+    
+    # Create larger problem
+    M_true, M_obs, Omega = create_matrix_completion_problem(m=80, n=60, rank=8, observe_prob=0.4)
+    lam = 0.05
+    
+    methods = {
+        'Soft-Impute (PG)': lambda: soft_impute(M_obs, Omega, lam, max_iter=200),
+        'Soft-Impute (Direct)': lambda: soft_impute_direct(M_obs, Omega, lam, max_iter=200),
+        'FISTA': lambda: fista_matrix_completion(M_obs, Omega, lam, max_iter=200)
+    }
+    
+    results = {}
+    
+    for method_name, method_func in methods.items():
+        print(f"Running {method_name}...")
+        X_recovered, history = method_func()
+        
+        results[method_name] = {
+            'X': X_recovered,
+            'history': history,
+            'error': np.linalg.norm(X_recovered - M_true, 'fro'),
+            'rank': np.linalg.matrix_rank(X_recovered, tol=1e-10),
+            'iterations': len(history['objective'])
+        }
+    
+    return results, M_true, M_obs, Omega
+
+# Run comparison
+results, M_true, M_obs, Omega = compare_matrix_completion_methods()
+
+# Visualization
+plt.figure(figsize=(15, 10))
+
+# Plot 1: Objective convergence
+plt.subplot(2, 3, 1)
+for method_name, result in results.items():
+    plt.semilogy(result['history']['objective'], label=method_name, linewidth=2)
+plt.xlabel('Iteration')
+plt.ylabel('Objective Value')
+plt.title('Objective Convergence')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 2: Rank evolution
+plt.subplot(2, 3, 2)
+true_rank = np.linalg.matrix_rank(M_true)
+for method_name, result in results.items():
+    plt.plot(result['history']['rank'], 'o-', label=method_name, markersize=3)
+plt.axhline(y=true_rank, color='black', linestyle='--', label=f'True rank ({true_rank})')
+plt.xlabel('Iteration')
+plt.ylabel('Estimated Rank')
+plt.title('Rank Evolution')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 3: Original vs recovered matrices
+methods_to_plot = list(results.keys())[:2]  # Plot first 2 methods
+for i, method_name in enumerate(methods_to_plot):
+    plt.subplot(2, 3, 3 + i)
+    X_recovered = results[method_name]['X']
+    
+    # Show difference from true matrix
+    diff = X_recovered - M_true
+    im = plt.imshow(diff, cmap='RdBu', vmin=-np.max(np.abs(diff)), vmax=np.max(np.abs(diff)))
+    plt.colorbar(im)
+    plt.title(f'{method_name}\nRecovery Error')
+
+# Plot 4: Performance summary
+plt.subplot(2, 3, 5)
+method_names = list(results.keys())
+errors = [results[name]['error'] for name in method_names]
+iterations = [results[name]['iterations'] for name in method_names]
+
+x_pos = np.arange(len(method_names))
+plt.bar(x_pos - 0.2, errors, 0.4, label='Recovery Error', alpha=0.8)
+plt.bar(x_pos + 0.2, np.array(iterations) / 10, 0.4, label='Iterations / 10', alpha=0.8)
+
+plt.xticks(x_pos, [name.split('(')[0] for name in method_names], rotation=45)
+plt.ylabel('Error / Iterations')
+plt.title('Performance Summary')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 5: Singular value comparison
+plt.subplot(2, 3, 6)
+s_true = np.linalg.svd(M_true, compute_uv=False)
+s_recovered = np.linalg.svd(results['FISTA']['X'], compute_uv=False)
+
+plt.semilogy(s_true, 'o-', label='True', markersize=6)
+plt.semilogy(s_recovered, 's-', label='Recovered (FISTA)', markersize=6)
+plt.xlabel('Index')
+plt.ylabel('Singular Value')
+plt.title('Singular Value Comparison')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Print detailed results
+print("\nMatrix Completion Results:")
+print("-" * 70)
+print(f"{'Method':<20} {'Error':<12} {'Rank':<8} {'True Rank':<10} {'Iterations':<12}")
+print("-" * 70)
+true_rank = np.linalg.matrix_rank(M_true)
+for method_name, result in results.items():
+    print(f"{method_name:<20} {result['error']:<12.6f} {result['rank']:<8} {true_rank:<10} {result['iterations']:<12}")
+```
+
+**Bước 5: Regularization path và rank selection**
+
+```python
+def matrix_completion_regularization_path():
+    """Study effect of regularization parameter on rank"""
+    
+    M_true, M_obs, Omega = create_matrix_completion_problem(m=60, n=50, rank=6, observe_prob=0.5)
+    
+    # Range of lambda values
+    lambda_values = np.logspace(-3, 0, 20)
+    
+    results = []
+    
+    for lam in lambda_values:
+        print(f"λ = {lam:.4f}")
+        X_recovered, _ = soft_impute_direct(M_obs, Omega, lam, max_iter=100)
+        
+        error = np.linalg.norm(X_recovered - M_true, 'fro')
+        rank = np.linalg.matrix_rank(X_recovered, tol=1e-10)
+        objective = matrix_completion_objective(X_recovered, M_obs, Omega, lam)
+        
+        results.append({
+            'lambda': lam,
+            'error': error,
+            'rank': rank,
+            'objective': objective
+        })
+    
+    return results, M_true
+
+# Compute regularization path
+path_results, M_true = matrix_completion_regularization_path()
+
+# Extract data
+lambdas = [r['lambda'] for r in path_results]
+errors = [r['error'] for r in path_results]
+ranks = [r['rank'] for r in path_results]
+objectives = [r['objective'] for r in path_results]
+
+# Visualization
+plt.figure(figsize=(15, 5))
+
+# Plot 1: Error vs lambda
+plt.subplot(1, 3, 1)
+plt.loglog(lambdas, errors, 'bo-', markersize=6)
+plt.xlabel('λ (regularization parameter)')
+plt.ylabel('Recovery Error')
+plt.title('Recovery Error vs λ')
+plt.grid(True, alpha=0.3)
+
+# Plot 2: Rank vs lambda
+plt.subplot(1, 3, 2)
+true_rank = np.linalg.matrix_rank(M_true)
+plt.semilogx(lambdas, ranks, 'ro-', markersize=6)
+plt.axhline(y=true_rank, color='black', linestyle='--', label=f'True rank ({true_rank})')
+plt.xlabel('λ (regularization parameter)')
+plt.ylabel('Estimated Rank')
+plt.title('Rank vs λ')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 3: Objective vs lambda
+plt.subplot(1, 3, 3)
+plt.loglog(lambdas, objectives, 'go-', markersize=6)
+plt.xlabel('λ (regularization parameter)')
+plt.ylabel('Objective Value')
+plt.title('Objective vs λ')
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Find optimal lambda (minimum error)
+optimal_idx = np.argmin(errors)
+optimal_lambda = lambdas[optimal_idx]
+optimal_error = errors[optimal_idx]
+optimal_rank = ranks[optimal_idx]
+
+print(f"\nOptimal regularization:")
+print(f"λ* = {optimal_lambda:.4f}")
+print(f"Recovery error = {optimal_error:.6f}")
+print(f"Estimated rank = {optimal_rank}")
+print(f"True rank = {np.linalg.matrix_rank(M_true)}")
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 4: Acceleration Analysis và FISTA**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Section 9.5)
+Phân tích các kỹ thuật tăng tốc cho proximal gradient:
+
+a) **Lập trình FISTA** với các sơ đồ động lượng khác nhau
+b) **So sánh tốc độ hội tụ** về mặt lý thuyết và thực nghiệm
+c) **Nghiên cứu các chiến lược khởi động lại**
+d) **Phân tích khi nào tăng tốc có hiệu quả**
+
+**Yêu cầu:**
+1. Lập trình nhiều biến thể tăng tốc
+2. Phân tích hội tụ lý thuyết
+3. Kiểm chứng tốc độ thực nghiệm
+4. So sánh chiến lược khởi động lại
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: FISTA variants implementation**
+
+```python
+def fista_variant1(f, grad_f, prox_h, x0, L, max_iter=1000, tol=1e-6):
+    """FISTA with Nesterov momentum (Beck-Teboulle 2009)"""
+    
+    x = x0.copy()
+    y = x.copy()
+    t = 1.0
+    step_size = 1.0 / L
+    
+    history = {'f_vals': [], 'x_vals': [], 't_vals': []}
+    
+    for k in range(max_iter):
+        history['f_vals'].append(f(x))
+        history['x_vals'].append(x.copy())
+        history['t_vals'].append(t)
+        
+        # Gradient step at y
+        grad_y = grad_f(y)
+        x_new = prox_h(y - step_size * grad_y, step_size)
+        
+        # Update momentum parameter
+        t_new = (1 + np.sqrt(1 + 4 * t**2)) / 2
+        
+        # Momentum update
+        y = x_new + ((t - 1) / t_new) * (x_new - x)
+        
+        # Update
+        x = x_new
+        t = t_new
+        
+        # Check convergence
+        if k > 0 and abs(history['f_vals'][-1] - history['f_vals'][-2]) < tol:
+            break
+    
+    return x, history
+
+def fista_variant2(f, grad_f, prox_h, x0, L, max_iter=1000, tol=1e-6):
+    """FISTA with fixed momentum weight"""
+    
+    x = x0.copy()
+    x_prev = x.copy()
+    step_size = 1.0 / L
+    
+    history = {'f_vals': [], 'x_vals': []}
+    
+    for k in range(max_iter):
+        history['f_vals'].append(f(x))
+        history['x_vals'].append(x.copy())
+        
+        # Momentum weight (approaches 1 as k increases)
+        if k == 0:
+            momentum_weight = 0
+        else:
+            momentum_weight = (k - 1) / (k + 2)
+        
+        # Extrapolated point
+        y = x + momentum_weight * (x - x_prev)
+        
+        # Proximal gradient step
+        grad_y = grad_f(y)
+        x_new = prox_h(y - step_size * grad_y, step_size)
+        
+        # Update
+        x_prev = x.copy()
+        x = x_new
+        
+        # Check convergence
+        if k > 0 and abs(history['f_vals'][-1] - history['f_vals'][-2]) < tol:
+            break
+    
+    return x, history
+
+def fista_with_restart(f, grad_f, prox_h, x0, L, max_iter=1000, tol=1e-6, restart_rule='gradient'):
+    """FISTA with adaptive restart"""
+    
+    x = x0.copy()
+    y = x.copy()
+    t = 1.0
+    step_size = 1.0 / L
+    
+    history = {'f_vals': [], 'x_vals': [], 'restarts': []}
+    
+    for k in range(max_iter):
+        history['f_vals'].append(f(x))
+        history['x_vals'].append(x.copy())
+        
+        # Gradient step at y
+        grad_y = grad_f(y)
+        x_new = prox_h(y - step_size * grad_y, step_size)
+        
+        # Check restart condition
+        restart = False
+        if restart_rule == 'gradient':
+            # Restart if gradient and momentum direction are not aligned
+            if k > 0:
+                momentum_dir = y - x
+                grad_dir = -grad_y
+                if np.dot(momentum_dir, grad_dir) < 0:
+                    restart = True
+        elif restart_rule == 'function':
+            # Restart if function value increases
+            if k > 0 and f(x_new) > history['f_vals'][-1]:
+                restart = True
+        
+        if restart:
+            history['restarts'].append(k)
+            t = 1.0
+            y = x.copy()
+        
+        # Update momentum parameter
+        t_new = (1 + np.sqrt(1 + 4 * t**2)) / 2
+        
+        # Momentum update
+        y = x_new + ((t - 1) / t_new) * (x_new - x)
+        
+        # Update
+        x = x_new
+        t = t_new
+        
+        # Check convergence
+        if k > 0 and abs(history['f_vals'][-1] - history['f_vals'][-2]) < tol:
+            break
+    
+    return x, history
+
+# Test problem setup
+def create_test_problem():
+    """Create test problem for acceleration analysis"""
+    np.random.seed(42)
+    
+    # Quadratic + L1 problem: min (1/2)||Ax - b||² + λ||x||₁
+    m, n = 100, 50
+    A = np.random.randn(m, n)
+    x_true = np.random.randn(n)
+    x_true[np.abs(x_true) < 0.5] = 0  # Make sparse
+    b = A @ x_true + 0.1 * np.random.randn(m)
+    lam = 0.1
+    
+    def f(x):
+        residual = A @ x - b
+        return 0.5 * np.sum(residual**2) + lam * np.sum(np.abs(x))
+    
+    def grad_f(x):
+        return A.T @ (A @ x - b)
+    
+    def prox_h(x, t):
+        return prox_l1(x, lam * t)
+    
+    L = np.linalg.norm(A, ord=2)**2
+    x0 = np.zeros(n)
+    
+    return f, grad_f, prox_h, x0, L, x_true
+
+# Run comparison
+f, grad_f, prox_h, x0, L, x_true = create_test_problem()
+
+print("Running acceleration variants...")
+x_ista, hist_ista = ista_general(f, grad_f, prox_h, x0, L)
+x_fista1, hist_fista1 = fista_variant1(f, grad_f, prox_h, x0, L)
+x_fista2, hist_fista2 = fista_variant2(f, grad_f, prox_h, x0, L)
+x_restart, hist_restart = fista_with_restart(f, grad_f, prox_h, x0, L)
+
+def ista_general(f, grad_f, prox_h, x0, L, max_iter=1000, tol=1e-6):
+    """General ISTA implementation"""
+    x = x0.copy()
+    step_size = 1.0 / L
+    history = {'f_vals': [], 'x_vals': []}
+    
+    for k in range(max_iter):
+        history['f_vals'].append(f(x))
+        history['x_vals'].append(x.copy())
+        
+        grad = grad_f(x)
+        x = prox_h(x - step_size * grad, step_size)
+        
+        if k > 0 and abs(history['f_vals'][-1] - history['f_vals'][-2]) < tol:
+            break
+    
+    return x, history
+```
+
+**Bước 2: Convergence rate analysis**
+
+```python
+def analyze_convergence_rates():
+    """Analyze theoretical vs empirical convergence rates"""
+    
+    f, grad_f, prox_h, x0, L, x_true = create_test_problem()
+    
+    # Run algorithms
+    methods = {
+        'ISTA': lambda: ista_general(f, grad_f, prox_h, x0, L, max_iter=2000),
+        'FISTA (Variant 1)': lambda: fista_variant1(f, grad_f, prox_h, x0, L, max_iter=2000),
+        'FISTA (Variant 2)': lambda: fista_variant2(f, grad_f, prox_h, x0, L, max_iter=2000),
+        'FISTA + Restart': lambda: fista_with_restart(f, grad_f, prox_h, x0, L, max_iter=2000)
+    }
+    
+    results = {}
+    for method_name, method_func in methods.items():
+        print(f"Running {method_name}...")
+        x_final, history = method_func()
+        results[method_name] = {
+            'x_final': x_final,
+            'history': history,
+            'error': np.linalg.norm(x_final - x_true)
+        }
+    
+    # Find approximate optimal value
+    f_star = min(min(result['history']['f_vals']) for result in results.values())
+    
+    # Analyze convergence rates
+    plt.figure(figsize=(15, 10))
+    
+    # Plot 1: Function value convergence
+    plt.subplot(2, 3, 1)
+    for method_name, result in results.items():
+        f_vals = result['history']['f_vals']
+        plt.semilogy(f_vals, label=method_name, linewidth=2)
+    
+    plt.axhline(y=f_star, color='black', linestyle='--', alpha=0.5, label='f*')
+    plt.xlabel('Iteration')
+    plt.ylabel('Function Value')
+    plt.title('Function Value Convergence')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 2: Optimality gap with theoretical rates
+    plt.subplot(2, 3, 2)
+    for method_name, result in results.items():
+        f_vals = np.array(result['history']['f_vals'])
+        gaps = f_vals - f_star
+        gaps = np.maximum(gaps, 1e-16)  # Avoid log(0)
+        iterations = np.arange(1, len(gaps) + 1)
+        
+        plt.loglog(iterations, gaps, label=f'{method_name} (actual)', linewidth=2)
+        
+        # Theoretical rates
+        if 'ISTA' in method_name and 'FISTA' not in method_name:
+            # O(1/k) rate for ISTA
+            theoretical = gaps[0] / iterations
+            plt.loglog(iterations, theoretical, '--', alpha=0.7, 
+                      label=f'{method_name} O(1/k)')
+        elif 'FISTA' in method_name:
+            # O(1/k²) rate for FISTA
+            theoretical = gaps[0] / (iterations**2)
+            plt.loglog(iterations, theoretical, '--', alpha=0.7, 
+                      label=f'{method_name} O(1/k²)')
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Optimality Gap')
+    plt.title('Convergence Rate Analysis')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 3: Parameter error
+    plt.subplot(2, 3, 3)
+    for method_name, result in results.items():
+        x_vals = result['history']['x_vals']
+        errors = [np.linalg.norm(x - x_true) for x in x_vals]
+        plt.semilogy(errors, label=method_name, linewidth=2)
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Parameter Error')
+    plt.title('Parameter Convergence')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 4: Momentum weights (for FISTA variants)
+    plt.subplot(2, 3, 4)
+    if 't_vals' in results['FISTA (Variant 1)']['history']:
+        t_vals = results['FISTA (Variant 1)']['history']['t_vals']
+        momentum_weights = [(t - 1) / ((1 + np.sqrt(1 + 4 * t**2)) / 2) for t in t_vals[1:]]
+        plt.plot(momentum_weights, label='FISTA Variant 1', linewidth=2)
+    
+    # Fixed momentum for variant 2
+    k_vals = np.arange(1, len(results['FISTA (Variant 2)']['history']['f_vals']))
+    fixed_momentum = (k_vals - 1) / (k_vals + 2)
+    plt.plot(fixed_momentum, label='FISTA Variant 2', linewidth=2)
+    
+    plt.axhline(y=1.0, color='black', linestyle='--', alpha=0.5, label='Asymptotic value')
+    plt.xlabel('Iteration')
+    plt.ylabel('Momentum Weight')
+    plt.title('Momentum Weight Evolution')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 5: Restart analysis
+    plt.subplot(2, 3, 5)
+    if 'restarts' in results['FISTA + Restart']['history']:
+        restarts = results['FISTA + Restart']['history']['restarts']
+        f_vals = results['FISTA + Restart']['history']['f_vals']
+        
+        plt.semilogy(f_vals, 'b-', label='FISTA + Restart', linewidth=2)
+        for restart_iter in restarts:
+            plt.axvline(x=restart_iter, color='red', linestyle=':', alpha=0.7)
+        
+        # Compare with regular FISTA
+        plt.semilogy(results['FISTA (Variant 1)']['history']['f_vals'], 
+                    'g--', label='FISTA (no restart)', linewidth=2)
+        
+        plt.xlabel('Iteration')
+        plt.ylabel('Function Value')
+        plt.title(f'Restart Strategy ({len(restarts)} restarts)')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+    
+    # Plot 6: Final performance comparison
+    plt.subplot(2, 3, 6)
+    method_names = list(results.keys())
+    final_errors = [results[name]['error'] for name in method_names]
+    iterations = [len(results[name]['history']['f_vals']) for name in method_names]
+    
+    x_pos = np.arange(len(method_names))
+    plt.bar(x_pos - 0.2, final_errors, 0.4, label='Final Error', alpha=0.8)
+    plt.bar(x_pos + 0.2, np.array(iterations) / 100, 0.4, label='Iterations / 100', alpha=0.8)
+    
+    plt.xticks(x_pos, [name.replace('FISTA ', 'F').replace('(Variant ', '(V') for name in method_names], 
+               rotation=45)
+    plt.ylabel('Error / Iterations')
+    plt.title('Performance Summary')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return results
+
+# Run analysis
+results = analyze_convergence_rates()
+
+# Print summary
+print("\nConvergence Analysis Results:")
+print("-" * 70)
+print(f"{'Method':<20} {'Final Error':<15} {'Iterations':<12} {'Final Obj':<15}")
+print("-" * 70)
+for method_name, result in results.items():
+    error = result['error']
+    iterations = len(result['history']['f_vals'])
+    final_obj = result['history']['f_vals'][-1]
+    print(f"{method_name:<20} {error:<15.6f} {iterations:<12} {final_obj:<15.6f}")
+```
+
+**Bước 3: When acceleration helps analysis**
+
+```python
+def study_acceleration_effectiveness():
+    """Study when acceleration is most effective"""
+    
+    # Test different problem types
+    problems = {
+        'Well-conditioned': create_well_conditioned_problem(),
+        'Ill-conditioned': create_ill_conditioned_problem(),
+        'Sparse': create_sparse_problem(),
+        'Dense': create_dense_problem()
+    }
+    
+    results = {}
+    
+    for problem_name, (f, grad_f, prox_h, x0, L, x_true) in problems.items():
+        print(f"Testing {problem_name} problem...")
+        
+        # Run ISTA and FISTA
+        x_ista, hist_ista = ista_general(f, grad_f, prox_h, x0, L, max_iter=1000)
+        x_fista, hist_fista = fista_variant1(f, grad_f, prox_h, x0, L, max_iter=1000)
+        
+        # Compute speedup
+        ista_iters = len(hist_ista['f_vals'])
+        fista_iters = len(hist_fista['f_vals'])
+        speedup = ista_iters / fista_iters if fista_iters > 0 else 1
+        
+        results[problem_name] = {
+            'ista_iters': ista_iters,
+            'fista_iters': fista_iters,
+            'speedup': speedup,
+            'ista_error': np.linalg.norm(x_ista - x_true),
+            'fista_error': np.linalg.norm(x_fista - x_true),
+            'condition_number': L / 1.0  # Assuming strong convexity parameter = 1
+        }
+    
+    return results
+
+def create_well_conditioned_problem():
+    """Create well-conditioned problem"""
+    np.random.seed(42)
+    m, n = 50, 30
+    A = np.random.randn(m, n)
+    # Make well-conditioned
+    U, s, Vt = np.linalg.svd(A, full_matrices=False)
+    s = np.linspace(1, 2, len(s))  # Condition number = 2
+    A = U @ np.diag(s) @ Vt
+    
+    x_true = np.random.randn(n)
+    b = A @ x_true + 0.01 * np.random.randn(m)
+    lam = 0.01
+    
+    def f(x):
+        return 0.5 * np.sum((A @ x - b)**2) + lam * np.sum(np.abs(x))
+    def grad_f(x):
+        return A.T @ (A @ x - b)
+    def prox_h(x, t):
+        return prox_l1(x, lam * t)
+    
+    L = np.linalg.norm(A, ord=2)**2
+    x0 = np.zeros(n)
+    
+    return f, grad_f, prox_h, x0, L, x_true
+
+def create_ill_conditioned_problem():
+    """Create ill-conditioned problem"""
+    np.random.seed(42)
+    m, n = 50, 30
+    A = np.random.randn(m, n)
+    # Make ill-conditioned
+    U, s, Vt = np.linalg.svd(A, full_matrices=False)
+    s = np.logspace(0, -2, len(s))  # Condition number = 100
+    A = U @ np.diag(s) @ Vt
+    
+    x_true = np.random.randn(n)
+    b = A @ x_true + 0.01 * np.random.randn(m)
+    lam = 0.01
+    
+    def f(x):
+        return 0.5 * np.sum((A @ x - b)**2) + lam * np.sum(np.abs(x))
+    def grad_f(x):
+        return A.T @ (A @ x - b)
+    def prox_h(x, t):
+        return prox_l1(x, lam * t)
+    
+    L = np.linalg.norm(A, ord=2)**2
+    x0 = np.zeros(n)
+    
+    return f, grad_f, prox_h, x0, L, x_true
+
+def create_sparse_problem():
+    """Create problem with sparse solution"""
+    np.random.seed(42)
+    m, n = 80, 100
+    A = np.random.randn(m, n) / np.sqrt(m)
+    
+    x_true = np.zeros(n)
+    x_true[:10] = np.random.randn(10)  # Only first 10 components nonzero
+    
+    b = A @ x_true + 0.1 * np.random.randn(m)
+    lam = 0.1  # Strong regularization
+    
+    def f(x):
+        return 0.5 * np.sum((A @ x - b)**2) + lam * np.sum(np.abs(x))
+    def grad_f(x):
+        return A.T @ (A @ x - b)
+    def prox_h(x, t):
+        return prox_l1(x, lam * t)
+    
+    L = np.linalg.norm(A, ord=2)**2
+    x0 = np.zeros(n)
+    
+    return f, grad_f, prox_h, x0, L, x_true
+
+def create_dense_problem():
+    """Create problem with dense solution"""
+    np.random.seed(42)
+    m, n = 80, 60
+    A = np.random.randn(m, n) / np.sqrt(m)
+    
+    x_true = np.random.randn(n)  # Dense solution
+    
+    b = A @ x_true + 0.1 * np.random.randn(m)
+    lam = 0.01  # Weak regularization
+    
+    def f(x):
+        return 0.5 * np.sum((A @ x - b)**2) + lam * np.sum(np.abs(x))
+    def grad_f(x):
+        return A.T @ (A @ x - b)
+    def prox_h(x, t):
+        return prox_l1(x, lam * t)
+    
+    L = np.linalg.norm(A, ord=2)**2
+    x0 = np.zeros(n)
+    
+    return f, grad_f, prox_h, x0, L, x_true
+
+# Run effectiveness study
+effectiveness_results = study_acceleration_effectiveness()
+
+# Visualization
+plt.figure(figsize=(12, 8))
+
+# Plot 1: Speedup comparison
+plt.subplot(2, 2, 1)
+problem_names = list(effectiveness_results.keys())
+speedups = [effectiveness_results[name]['speedup'] for name in problem_names]
+
+plt.bar(problem_names, speedups)
+plt.axhline(y=1.0, color='red', linestyle='--', alpha=0.7, label='No speedup')
+plt.ylabel('Speedup (ISTA iters / FISTA iters)')
+plt.title('Acceleration Effectiveness')
+plt.xticks(rotation=45)
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 2: Condition number vs speedup
+plt.subplot(2, 2, 2)
+condition_numbers = [effectiveness_results[name]['condition_number'] for name in problem_names]
+plt.scatter(condition_numbers, speedups, s=100)
+for i, name in enumerate(problem_names):
+    plt.annotate(name, (condition_numbers[i], speedups[i]), 
+                xytext=(5, 5), textcoords='offset points')
+
+plt.xlabel('Condition Number')
+plt.ylabel('Speedup')
+plt.title('Condition Number vs Speedup')
+plt.grid(True, alpha=0.3)
+
+# Plot 3: Iterations comparison
+plt.subplot(2, 2, 3)
+ista_iters = [effectiveness_results[name]['ista_iters'] for name in problem_names]
+fista_iters = [effectiveness_results[name]['fista_iters'] for name in problem_names]
+
+x_pos = np.arange(len(problem_names))
+plt.bar(x_pos - 0.2, ista_iters, 0.4, label='ISTA', alpha=0.8)
+plt.bar(x_pos + 0.2, fista_iters, 0.4, label='FISTA', alpha=0.8)
+
+plt.xticks(x_pos, problem_names, rotation=45)
+plt.ylabel('Iterations to Convergence')
+plt.title('Iterations Comparison')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 4: Error comparison
+plt.subplot(2, 2, 4)
+ista_errors = [effectiveness_results[name]['ista_error'] for name in problem_names]
+fista_errors = [effectiveness_results[name]['fista_error'] for name in problem_names]
+
+x_pos = np.arange(len(problem_names))
+plt.bar(x_pos - 0.2, ista_errors, 0.4, label='ISTA', alpha=0.8)
+plt.bar(x_pos + 0.2, fista_errors, 0.4, label='FISTA', alpha=0.8)
+
+plt.xticks(x_pos, problem_names, rotation=45)
+plt.ylabel('Final Parameter Error')
+plt.title('Accuracy Comparison')
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Print detailed results
+print("\nAcceleration Effectiveness Analysis:")
+print("-" * 80)
+print(f"{'Problem':<15} {'ISTA Iters':<12} {'FISTA Iters':<13} {'Speedup':<10} {'Condition #':<12}")
+print("-" * 80)
+for problem_name, result in effectiveness_results.items():
+    print(f"{problem_name:<15} {result['ista_iters']:<12} {result['fista_iters']:<13} " +
+          f"{result['speedup']:<10.2f} {result['condition_number']:<12.2f}")
+```
+
+</details>
+
+---
+
+## 💡 Mẹo Thực Hành
+
+#### **Khi lập trình các toán tử proximal:**
+- Kiểm chứng điều kiện tối ưu một cách cẩn thận
+- Sử dụng các triển khai hiệu quả (vector hóa)
+- Xử lý các trường hợp biên (đầu vào bằng 0, v.v.)
+- Kiểm tra với các nghiệm giải tích đã biết
+
+#### **Khi sử dụng FISTA:**
+- Giám sát cả giá trị hàm và sự hội tụ của tham số
+- Xem xét các chiến lược khởi động lại cho bài toán không lồi
+- Điều chỉnh kích thước bước cẩn thận (sử dụng quay lui nếu cần)
+- So sánh với proximal gradient thường trước
+
+#### **Khi giải các bài toán tổ hợp:**
+- Đảm bảo phân rã đúng $$f = g + h$$
+- Kiểm chứng $$g$$ trơn với gradient Lipschitz
+- Kiểm tra xem toán tử proximal của $$h$$ có dạng đóng không
+- Xem xét cấu trúc bài toán cho các thuật toán chuyên biệt
+
+---
+
+## 📚 Tài liệu tham khảo
+
+1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.
+   - Chapter 9: Proximal Gradient Method
+
+2. **Beck, A., & Teboulle, M.** (2009). *A Fast Iterative Shrinkage-Thresholding Algorithm*. SIAM Journal on Imaging Sciences.
+
+3. **Parikh, N., & Boyd, S.** (2014). *Proximal Algorithms*. Foundations and Trends in Optimization.

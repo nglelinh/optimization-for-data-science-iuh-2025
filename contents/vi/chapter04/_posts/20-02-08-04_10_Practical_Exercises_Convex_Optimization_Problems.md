@@ -850,6 +850,70 @@ với $$\text{soft}(x, \tau) = \text{sign}(x) \max(|x| - \tau, 0)$$
 
 ---
 
+## 💡 **Tổng kết**
+
+### **Dạng Chuẩn Convex Optimization:**
+
+$$
+\begin{align}
+\min_{x} \quad & f_0(x) \\
+\text{s.t.} \quad & f_i(x) \leq 0, \quad i = 1, \ldots, m \\
+& h_i(x) = 0, \quad i = 1, \ldots, p
+\end{align}
+$$
+
+với $$f_0, \ldots, f_m$$ convex, $$h_i$$ affine.
+
+### **Optimality Conditions:**
+
+| Điều kiện | Công thức | Khi nào đủ |
+|-----------|-----------|------------|
+| **Unconstrained** | $$\nabla f(x^*) = 0$$ | $$f$$ differentiable |
+| **Equality constraints** | $$\nabla f(x^*) + \sum \nu_i^* \nabla h_i(x^*) = 0$$ | Affine $$h_i$$ |
+| **KKT (general)** | Stationarity, primal/dual feasibility, complementary slackness | Slater's condition |
+| **Convex** | Local optimum = Global optimum | Convexity |
+
+### **Duality:**
+
+| Concept | Định nghĩa | Ý nghĩa |
+|---------|------------|---------|
+| **Lagrangian** | $$L(x, \lambda, \nu) = f_0(x) + \sum \lambda_i f_i(x) + \sum \nu_i h_i(x)$$ | Augmented objective |
+| **Dual function** | $$g(\lambda, \nu) = \inf_x L(x, \lambda, \nu)$$ | Lower bound |
+| **Dual problem** | $$\max g(\lambda, \nu)$$ s.t. $$\lambda \geq 0$$ | Best lower bound |
+| **Weak duality** | $$d^* \leq p^*$$ | Luôn đúng |
+| **Strong duality** | $$d^* = p^*$$ | Slater → zero gap |
+| **Complementary slackness** | $$\lambda_i^* f_i(x^*) = 0$$ | Active constraints |
+
+### **Quasiconvex Optimization:**
+
+- **Definition:** $$f$$ quasiconvex nếu sublevel sets $$\{x : f(x) \leq \alpha\}$$ convex
+- **Không cộng:** $$f_1 + f_2$$ không necessarily quasiconvex
+- **Fractional programming:** $$\min \frac{f(x)}{g(x)}$$ có thể giải bằng bisection
+
+### **Vector Optimization:**
+
+- **Pareto optimal:** Không tồn tại $$y$$ khác sao cho $$f(y) \preceq_{K^*} f(x)$$ và $$f(y) \neq f(x)$$
+- **Scalarization:** $$\min \lambda^T f(x)$$ với $$\lambda \succ_{K^*} 0$$
+- **$$\epsilon$$-constraint method:** Fix $$m-1$$ objectives, optimize 1
+
+### **Stochastic & Robust Optimization:**
+
+| Method | Formulation | Trade-off |
+|--------|-------------|-----------|
+| **Expected value** | $$\min \mathbb{E}[f(x, \xi)]$$ | Average performance |
+| **Worst-case** | $$\min \max_{\xi \in \mathcal{U}} f(x, \xi)$$ | Conservative |
+| **Chance constraint** | $$\mathbb{P}[f(x, \xi) \leq 0] \geq 1 - \epsilon$$ | Probabilistic guarantee |
+| **Sample average** | $$\min \frac{1}{N}\sum f(x, \xi_i)$$ | Tractable approximation |
+
+### **Relaxation Techniques:**
+
+- **LP relaxation:** $$x \in \{0,1\}^n \to x \in [0,1]^n$$
+- **SDP relaxation:** $$xx^T \to X \succeq 0$$, $$X_{ii} = 1$$
+- **Lagrangian relaxation:** Dualize hard constraints
+- **Randomized rounding:** Convert fractional solution to integer
+
+---
+
 ## 📚 Tài liệu tham khảo
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.

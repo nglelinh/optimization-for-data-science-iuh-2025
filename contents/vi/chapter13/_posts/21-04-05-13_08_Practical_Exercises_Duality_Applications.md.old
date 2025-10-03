@@ -1,0 +1,1687 @@
+---
+layout: post
+title: 13-8 Bài Tập Thực Hành - Ứng Dụng Tính Đối Ngẫu
+chapter: '13'
+order: 9
+owner: GitHub Copilot
+lang: vi
+categories:
+- chapter13
+lesson_type: required
+---
+
+# Bài Tập Thực Hành - Ứng Dụng Tính Đối Ngẫu
+
+## 📝 **Bài tập 1: Dual Norms và Conjugate Functions**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Chapter 13)
+Lập trình khung hệ thống để làm việc với chuẩn đối ngẫu và hàm liên hợp:
+
+a) **Tính toán chuẩn đối ngẫu** cho các chuẩn khác nhau
+b) **Tính toán hàm liên hợp** cho các hàm phổ biến
+c) **Ứng dụng đối ngẫu Fenchel**
+d) **Giải thích hình học** và trực quan hóa
+
+**Yêu cầu:**
+1. Khung tính toán chuẩn đối ngẫu
+2. Thư viện hàm liên hợp
+3. Công cụ giải đối ngẫu Fenchel
+4. Công cụ trực quan hóa hình học
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Dual Norms Framework**
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import minimize, linprog
+import cvxpy as cp
+from mpl_toolkits.mplot3d import Axes3D
+
+class DualNormsFramework:
+    def __init__(self):
+        self.norm_pairs = {}
+        self.unit_balls = {}
+        
+    def compute_dual_norm(self, norm_type, p=2):
+        """
+        Compute dual norm for given norm type
+        
+        Dual norm: ||z||* = sup{z^T x : ||x|| ≤ 1}
+        """
+        
+        print(f"Dual Norm Computation: {norm_type}")
+        print("=" * 40)
+        
+        if norm_type == "lp":
+            # For ℓp norm, dual is ℓq where 1/p + 1/q = 1
+            if p == 1:
+                q = np.inf
+                dual_name = "ℓ∞"
+            elif p == np.inf:
+                q = 1
+                dual_name = "ℓ1"
+            elif p == 2:
+                q = 2
+                dual_name = "ℓ2"
+            else:
+                q = p / (p - 1)
+                dual_name = f"ℓ{q:.2f}"
+            
+            print(f"ℓ{p} norm → {dual_name} norm")
+            print(f"Relationship: 1/{p} + 1/{q} = 1")
+            
+            return q, dual_name
+            
+        elif norm_type == "matrix_spectral":
+            print("Matrix spectral norm → Nuclear norm")
+            print("||A||₂ = σ_max(A) ↔ ||A||* = Σσᵢ(A)")
+            return "nuclear", "Nuclear norm"
+            
+        elif norm_type == "matrix_frobenius":
+            print("Matrix Frobenius norm → Self-dual")
+            print("||A||_F ↔ ||A||_F")
+            return "frobenius", "Frobenius norm"
+    
+    def visualize_unit_balls(self, dimensions=2):
+        """Visualize unit balls and their duals"""
+        
+        if dimensions == 2:
+            self._visualize_2d_unit_balls()
+        elif dimensions == 3:
+            self._visualize_3d_unit_balls()
+    
+    def _visualize_2d_unit_balls(self):
+        """Visualize 2D unit balls for different norms"""
+        
+        fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+        
+        # Generate points for unit circles
+        theta = np.linspace(0, 2*np.pi, 1000)
+        
+        norm_pairs = [
+            (1, np.inf, "ℓ1", "ℓ∞"),
+            (2, 2, "ℓ2", "ℓ2"), 
+            (4, 4/3, "ℓ4", "ℓ4/3")
+        ]
+        
+        for idx, (p, q, p_name, q_name) in enumerate(norm_pairs):
+            # Primal unit ball
+            ax_primal = axes[0, idx]
+            
+            if p == 1:
+                # ℓ1 unit ball (diamond)
+                x = np.array([1, 0, -1, 0, 1])
+                y = np.array([0, 1, 0, -1, 0])
+            elif p == 2:
+                # ℓ2 unit ball (circle)
+                x = np.cos(theta)
+                y = np.sin(theta)
+            elif p == np.inf:
+                # ℓ∞ unit ball (square)
+                x = np.array([1, 1, -1, -1, 1])
+                y = np.array([1, -1, -1, 1, 1])
+            else:
+                # General ℓp unit ball
+                t = np.linspace(0, 2*np.pi, 1000)
+                r = (np.abs(np.cos(t))**p + np.abs(np.sin(t))**p)**(-1/p)
+                x = r * np.cos(t)
+                y = r * np.sin(t)
+            
+            ax_primal.plot(x, y, 'b-', linewidth=2, label=f'{p_name} unit ball')
+            ax_primal.fill(x, y, alpha=0.3, color='blue')
+            ax_primal.set_xlim(-1.5, 1.5)
+            ax_primal.set_ylim(-1.5, 1.5)
+            ax_primal.set_aspect('equal')
+            ax_primal.grid(True, alpha=0.3)
+            ax_primal.set_title(f'Primal: {p_name} Unit Ball')
+            ax_primal.legend()
+            
+            # Dual unit ball
+            ax_dual = axes[1, idx]
+            
+            if q == 1:
+                # ℓ1 unit ball (diamond)
+                x_dual = np.array([1, 0, -1, 0, 1])
+                y_dual = np.array([0, 1, 0, -1, 0])
+            elif q == 2:
+                # ℓ2 unit ball (circle)
+                x_dual = np.cos(theta)
+                y_dual = np.sin(theta)
+            elif q == np.inf:
+                # ℓ∞ unit ball (square)
+                x_dual = np.array([1, 1, -1, -1, 1])
+                y_dual = np.array([1, -1, -1, 1, 1])
+            else:
+                # General ℓq unit ball
+                t = np.linspace(0, 2*np.pi, 1000)
+                r = (np.abs(np.cos(t))**q + np.abs(np.sin(t))**q)**(-1/q)
+                x_dual = r * np.cos(t)
+                y_dual = r * np.sin(t)
+            
+            ax_dual.plot(x_dual, y_dual, 'r-', linewidth=2, label=f'{q_name} unit ball')
+            ax_dual.fill(x_dual, y_dual, alpha=0.3, color='red')
+            ax_dual.set_xlim(-1.5, 1.5)
+            ax_dual.set_ylim(-1.5, 1.5)
+            ax_dual.set_aspect('equal')
+            ax_dual.grid(True, alpha=0.3)
+            ax_dual.set_title(f'Dual: {q_name} Unit Ball')
+            ax_dual.legend()
+        
+        plt.tight_layout()
+        plt.show()
+        
+        print("Dual Norm Relationships:")
+        print("• ℓ1 ↔ ℓ∞: Diamond ↔ Square")
+        print("• ℓ2 ↔ ℓ2: Circle ↔ Circle (self-dual)")
+        print("• ℓp ↔ ℓq where 1/p + 1/q = 1")
+    
+    def verify_dual_norm_property(self, x, z, p=2):
+        """
+        Verify dual norm property: ||z||* = sup{z^T y : ||y||_p ≤ 1}
+        """
+        
+        print(f"Dual Norm Property Verification")
+        print("=" * 35)
+        
+        # Compute dual norm analytically
+        if p == 1:
+            dual_norm_analytical = np.linalg.norm(z, ord=np.inf)
+        elif p == 2:
+            dual_norm_analytical = np.linalg.norm(z, ord=2)
+        elif p == np.inf:
+            dual_norm_analytical = np.linalg.norm(z, ord=1)
+        else:
+            q = p / (p - 1)
+            dual_norm_analytical = np.linalg.norm(z, ord=q)
+        
+        print(f"Analytical dual norm ||z||* = {dual_norm_analytical:.6f}")
+        
+        # Compute via optimization: max z^T y s.t. ||y||_p ≤ 1
+        n = len(z)
+        y = cp.Variable(n)
+        
+        if p == 1:
+            constraint = [cp.norm(y, 'inf') <= 1]
+        elif p == 2:
+            constraint = [cp.norm(y, 2) <= 1]
+        elif p == np.inf:
+            constraint = [cp.norm(y, 1) <= 1]
+        else:
+            # General p-norm constraint (approximation)
+            constraint = [cp.norm(y, 2) <= 1]  # Simplified
+        
+        objective = cp.Maximize(z.T @ y)
+        prob = cp.Problem(objective, constraint)
+        prob.solve()
+        
+        if prob.status == 'optimal':
+            dual_norm_optimization = prob.value
+            y_optimal = y.value
+            
+            print(f"Optimization dual norm = {dual_norm_optimization:.6f}")
+            print(f"Optimal y = {y_optimal}")
+            print(f"Verification error = {abs(dual_norm_analytical - dual_norm_optimization):.8f}")
+            
+            return dual_norm_analytical, dual_norm_optimization, y_optimal
+        else:
+            print("Optimization failed")
+            return dual_norm_analytical, None, None
+
+# Example usage
+def example_dual_norms():
+    """Example: Dual norms computation and visualization"""
+    
+    framework = DualNormsFramework()
+    
+    # Compute dual norms
+    print("Dual Norm Examples:")
+    framework.compute_dual_norm("lp", p=1)
+    framework.compute_dual_norm("lp", p=2)
+    framework.compute_dual_norm("lp", p=np.inf)
+    framework.compute_dual_norm("matrix_spectral")
+    
+    # Visualize unit balls
+    framework.visualize_unit_balls(dimensions=2)
+    
+    # Verify dual norm property
+    z = np.array([3, 4])
+    x = np.array([1, 1])
+    
+    print(f"\nVerification for z = {z}:")
+    framework.verify_dual_norm_property(x, z, p=1)
+    framework.verify_dual_norm_property(x, z, p=2)
+    framework.verify_dual_norm_property(x, z, p=np.inf)
+    
+    return framework
+
+# Run example
+dual_framework = example_dual_norms()
+```
+
+**Bước 2: Conjugate Functions Library**
+
+```python
+class ConjugateFunctionLibrary:
+    def __init__(self):
+        self.conjugates = {}
+        self._build_library()
+    
+    def _build_library(self):
+        """Build library of common conjugate functions"""
+        
+        self.conjugates = {
+            'quadratic': {
+                'function': lambda x, Q, c: 0.5 * x.T @ Q @ x + c.T @ x,
+                'conjugate': lambda y, Q, c: 0.5 * (y - c).T @ np.linalg.inv(Q) @ (y - c),
+                'domain': 'Q positive definite',
+                'description': 'f(x) = (1/2)x^T Q x + c^T x'
+            },
+            
+            'norm': {
+                'function': lambda x, p: np.linalg.norm(x, ord=p),
+                'conjugate': lambda y, q: 0 if np.linalg.norm(y, ord=q) <= 1 else np.inf,
+                'domain': f'||y||_q ≤ 1 where 1/p + 1/q = 1',
+                'description': 'f(x) = ||x||_p'
+            },
+            
+            'indicator': {
+                'function': lambda x, C: 0 if self._in_set(x, C) else np.inf,
+                'conjugate': lambda y, C: self._support_function(y, C),
+                'domain': 'All y',
+                'description': 'f(x) = I_C(x) (indicator function)'
+            },
+            
+            'exponential': {
+                'function': lambda x: np.exp(x),
+                'conjugate': lambda y: y * np.log(y) - y if y > 0 else (0 if y == 0 else np.inf),
+                'domain': 'y ≥ 0',
+                'description': 'f(x) = e^x'
+            },
+            
+            'log_sum_exp': {
+                'function': lambda x: np.log(np.sum(np.exp(x))),
+                'conjugate': lambda y: np.sum(y * np.log(y)) if np.all(y >= 0) and np.abs(np.sum(y) - 1) < 1e-10 else np.inf,
+                'domain': 'y ≥ 0, sum(y) = 1',
+                'description': 'f(x) = log(sum(exp(x)))'
+            }
+        }
+    
+    def _in_set(self, x, C):
+        """Check if x is in set C (simplified)"""
+        if C == 'unit_ball':
+            return np.linalg.norm(x) <= 1
+        elif C == 'positive_orthant':
+            return np.all(x >= 0)
+        elif C == 'simplex':
+            return np.all(x >= 0) and np.abs(np.sum(x) - 1) < 1e-10
+        return True
+    
+    def _support_function(self, y, C):
+        """Compute support function of set C"""
+        if C == 'unit_ball':
+            return np.linalg.norm(y)
+        elif C == 'positive_orthant':
+            return 0 if np.all(y <= 0) else np.inf
+        elif C == 'simplex':
+            return np.max(y)
+        return 0
+    
+    def compute_conjugate(self, function_name, y, **params):
+        """Compute conjugate function value"""
+        
+        if function_name not in self.conjugates:
+            raise ValueError(f"Function {function_name} not in library")
+        
+        conjugate_func = self.conjugates[function_name]['conjugate']
+        
+        try:
+            if function_name == 'quadratic':
+                Q = params.get('Q', np.eye(len(y)))
+                c = params.get('c', np.zeros(len(y)))
+                return conjugate_func(y, Q, c)
+            elif function_name == 'norm':
+                q = params.get('q', 2)
+                return conjugate_func(y, q)
+            elif function_name == 'indicator':
+                C = params.get('C', 'unit_ball')
+                return conjugate_func(y, C)
+            else:
+                return conjugate_func(y)
+        except:
+            return np.inf
+    
+    def verify_fenchel_inequality(self, function_name, x, y, **params):
+        """
+        Verify Fenchel inequality: f(x) + f*(y) ≥ x^T y
+        """
+        
+        print(f"Fenchel Inequality Verification: {function_name}")
+        print("=" * 45)
+        
+        # Compute f(x)
+        func = self.conjugates[function_name]['function']
+        
+        if function_name == 'quadratic':
+            Q = params.get('Q', np.eye(len(x)))
+            c = params.get('c', np.zeros(len(x)))
+            f_x = func(x, Q, c)
+        elif function_name == 'norm':
+            p = params.get('p', 2)
+            f_x = func(x, p)
+        elif function_name == 'indicator':
+            C = params.get('C', 'unit_ball')
+            f_x = func(x, C)
+        else:
+            f_x = func(x)
+        
+        # Compute f*(y)
+        f_star_y = self.compute_conjugate(function_name, y, **params)
+        
+        # Compute inner product
+        inner_product = np.dot(x, y)
+        
+        # Check Fenchel inequality
+        lhs = f_x + f_star_y
+        rhs = inner_product
+        inequality_satisfied = lhs >= rhs - 1e-10
+        
+        print(f"f(x) = {f_x:.6f}")
+        print(f"f*(y) = {f_star_y:.6f}")
+        print(f"x^T y = {inner_product:.6f}")
+        print(f"f(x) + f*(y) = {lhs:.6f}")
+        print(f"Fenchel inequality: {lhs:.6f} ≥ {rhs:.6f}")
+        print(f"Satisfied: {'✓' if inequality_satisfied else '✗'}")
+        
+        return inequality_satisfied, lhs - rhs
+    
+    def plot_function_and_conjugate(self, function_name, x_range=(-3, 3), **params):
+        """Plot function and its conjugate"""
+        
+        if function_name not in ['exponential']:  # Only for scalar functions
+            print("Plotting only available for scalar functions")
+            return
+        
+        x_vals = np.linspace(x_range[0], x_range[1], 1000)
+        y_vals = np.linspace(x_range[0], x_range[1], 1000)
+        
+        # Compute function values
+        f_vals = []
+        for x in x_vals:
+            try:
+                f_val = self.conjugates[function_name]['function'](x)
+                f_vals.append(f_val if f_val < 10 else np.nan)
+            except:
+                f_vals.append(np.nan)
+        
+        # Compute conjugate values
+        f_star_vals = []
+        for y in y_vals:
+            try:
+                f_star_val = self.compute_conjugate(function_name, y)
+                f_star_vals.append(f_star_val if f_star_val < 10 else np.nan)
+            except:
+                f_star_vals.append(np.nan)
+        
+        plt.figure(figsize=(12, 5))
+        
+        plt.subplot(1, 2, 1)
+        plt.plot(x_vals, f_vals, 'b-', linewidth=2, label=f'f(x)')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.title(f'Function: {self.conjugates[function_name]["description"]}')
+        plt.grid(True, alpha=0.3)
+        plt.legend()
+        
+        plt.subplot(1, 2, 2)
+        plt.plot(y_vals, f_star_vals, 'r-', linewidth=2, label=f'f*(y)')
+        plt.xlabel('y')
+        plt.ylabel('f*(y)')
+        plt.title(f'Conjugate Function')
+        plt.grid(True, alpha=0.3)
+        plt.legend()
+        
+        plt.tight_layout()
+        plt.show()
+
+# Example usage
+def example_conjugate_functions():
+    """Example: Conjugate functions computation"""
+    
+    library = ConjugateFunctionLibrary()
+    
+    print("Conjugate Function Library:")
+    print("=" * 30)
+    
+    for name, info in library.conjugates.items():
+        print(f"{name}: {info['description']}")
+        print(f"  Domain: {info['domain']}")
+        print()
+    
+    # Test quadratic function
+    print("Testing Quadratic Function:")
+    Q = np.array([[2, 1], [1, 2]])
+    c = np.array([1, -1])
+    x = np.array([1, 0])
+    y = np.array([2, 1])
+    
+    satisfied, gap = library.verify_fenchel_inequality('quadratic', x, y, Q=Q, c=c)
+    
+    # Test norm function
+    print("\nTesting Norm Function:")
+    x = np.array([3, 4])
+    y = np.array([0.6, 0.8])  # Unit vector
+    
+    satisfied, gap = library.verify_fenchel_inequality('norm', x, y, p=2, q=2)
+    
+    # Plot exponential function and conjugate
+    print("\nPlotting Exponential Function:")
+    library.plot_function_and_conjugate('exponential', x_range=(-2, 3))
+    
+    return library
+
+# Run example
+conjugate_library = example_conjugate_functions()
+```
+
+**Bước 3: Fenchel Duality Solver**
+
+```python
+class FenchelDualitySolver:
+    def __init__(self):
+        self.problems = {}
+    
+    def solve_fenchel_dual(self, f_conjugate, g_conjugate, A, b, problem_name="Fenchel"):
+        """
+        Solve Fenchel dual problem:
+        Primal: min f(x) + g(Ax - b)
+        Dual: max -f*(-A^T y) - g*(y) + b^T y
+        """
+        
+        print(f"Fenchel Duality Problem: {problem_name}")
+        print("=" * 40)
+        print("Primal: min f(x) + g(Ax - b)")
+        print("Dual: max -f*(-A^T y) - g*(y) + b^T y")
+        
+        # This is a framework - specific implementation depends on f and g
+        # For demonstration, we'll solve a specific case
+        
+        return self._solve_specific_fenchel_example(A, b)
+    
+    def _solve_specific_fenchel_example(self, A, b):
+        """Solve specific Fenchel dual example"""
+        
+        # Example: min (1/2)||x||² + ||Ax - b||₁
+        # f(x) = (1/2)||x||², g(z) = ||z||₁
+        # f*(y) = (1/2)||y||², g*(w) = I_{||w||∞≤1}
+        
+        n = A.shape[1]  # Number of variables
+        m = A.shape[0]  # Number of constraints
+        
+        print(f"Specific Example: min (1/2)||x||² + ||Ax - b||₁")
+        print(f"Variables: {n}, Constraints: {m}")
+        
+        # Solve primal using CVXPY
+        x = cp.Variable(n)
+        primal_obj = cp.Minimize(0.5 * cp.sum_squares(x) + cp.norm(A @ x - b, 1))
+        primal_prob = cp.Problem(primal_obj)
+        primal_prob.solve()
+        
+        primal_optimal = primal_prob.value
+        x_optimal = x.value
+        
+        print(f"Primal optimal value: {primal_optimal:.6f}")
+        print(f"Primal optimal x: {x_optimal}")
+        
+        # Solve dual: max -f*(-A^T y) - g*(y) + b^T y
+        # = max -(1/2)||A^T y||² + b^T y s.t. ||y||∞ ≤ 1
+        y = cp.Variable(m)
+        dual_obj = cp.Maximize(-0.5 * cp.sum_squares(A.T @ y) + b.T @ y)
+        dual_constraints = [cp.norm(y, 'inf') <= 1]
+        dual_prob = cp.Problem(dual_obj, dual_constraints)
+        dual_prob.solve()
+        
+        dual_optimal = dual_prob.value
+        y_optimal = y.value
+        
+        print(f"Dual optimal value: {dual_optimal:.6f}")
+        print(f"Dual optimal y: {y_optimal}")
+        print(f"Duality gap: {primal_optimal - dual_optimal:.8f}")
+        
+        # Verify strong duality
+        strong_duality = abs(primal_optimal - dual_optimal) < 1e-6
+        print(f"Strong duality: {'✓' if strong_duality else '✗'}")
+        
+        return {
+            'primal_optimal': primal_optimal,
+            'dual_optimal': dual_optimal,
+            'x_optimal': x_optimal,
+            'y_optimal': y_optimal,
+            'duality_gap': primal_optimal - dual_optimal
+        }
+    
+    def demonstrate_conjugate_duality(self):
+        """Demonstrate conjugate duality with visualization"""
+        
+        print("Conjugate Duality Demonstration")
+        print("=" * 35)
+        
+        # Simple 1D example: min (1/2)x² + |x - 1|
+        x_vals = np.linspace(-2, 4, 1000)
+        
+        # Primal function
+        f_vals = 0.5 * x_vals**2 + np.abs(x_vals - 1)
+        
+        # Find minimum
+        min_idx = np.argmin(f_vals)
+        x_min = x_vals[min_idx]
+        f_min = f_vals[min_idx]
+        
+        print(f"Primal minimum: x* = {x_min:.4f}, f* = {f_min:.4f}")
+        
+        # Solve using Fenchel duality
+        # f(x) = (1/2)x², g(z) = |z|, A = 1, b = 1
+        # Dual: max -(1/2)y² + y s.t. |y| ≤ 1
+        
+        y_vals = np.linspace(-1, 1, 1000)
+        dual_vals = -0.5 * y_vals**2 + y_vals
+        
+        max_idx = np.argmax(dual_vals)
+        y_max = y_vals[max_idx]
+        g_max = dual_vals[max_idx]
+        
+        print(f"Dual maximum: y* = {y_max:.4f}, g* = {g_max:.4f}")
+        print(f"Duality gap: {f_min - g_max:.8f}")
+        
+        # Visualization
+        plt.figure(figsize=(15, 5))
+        
+        # Plot primal function
+        plt.subplot(1, 3, 1)
+        plt.plot(x_vals, f_vals, 'b-', linewidth=2, label='f(x) = (1/2)x² + |x-1|')
+        plt.plot(x_min, f_min, 'ro', markersize=10, label=f'Minimum: ({x_min:.3f}, {f_min:.3f})')
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.title('Primal Function')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        # Plot dual function
+        plt.subplot(1, 3, 2)
+        plt.plot(y_vals, dual_vals, 'r-', linewidth=2, label='g(y) = -(1/2)y² + y')
+        plt.plot(y_max, g_max, 'bo', markersize=10, label=f'Maximum: ({y_max:.3f}, {g_max:.3f})')
+        plt.axvline(x=-1, color='gray', linestyle='--', alpha=0.5, label='Constraint: |y| ≤ 1')
+        plt.axvline(x=1, color='gray', linestyle='--', alpha=0.5)
+        plt.xlabel('y')
+        plt.ylabel('g(y)')
+        plt.title('Dual Function')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        # Plot duality gap
+        plt.subplot(1, 3, 3)
+        gap_history = [abs(f_min - g_max)]
+        plt.bar(['Duality Gap'], gap_history, color='green', alpha=0.7)
+        plt.ylabel('Gap Value')
+        plt.title('Duality Gap')
+        plt.yscale('log')
+        plt.grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+        
+        return x_min, y_max, f_min, g_max
+
+# Example usage
+def example_fenchel_duality():
+    """Example: Fenchel duality solver"""
+    
+    solver = FenchelDualitySolver()
+    
+    # Create test problem
+    np.random.seed(42)
+    A = np.random.randn(5, 3)
+    b = np.random.randn(5)
+    
+    # Solve Fenchel dual
+    result = solver.solve_fenchel_dual(None, None, A, b, "Test Problem")
+    
+    # Demonstrate conjugate duality
+    x_min, y_max, f_min, g_max = solver.demonstrate_conjugate_duality()
+    
+    return solver, result
+
+# Run example
+fenchel_solver, fenchel_result = example_fenchel_duality()
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 2: LASSO Dual và Sparse Optimization**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Section 13.4)
+Lập trình công thức đối ngẫu LASSO và các phương pháp tối ưu thưa:
+
+a) **Xây dựng đối ngẫu LASSO** và nghiệm
+b) **Ứng dụng khôi phục tín hiệu thưa**
+c) **Phân tích đường điều chuẩn**
+d) **So sánh với các phương pháp primal**
+
+**Yêu cầu:**
+1. Lập trình công cụ giải đối ngẫu LASSO
+2. Các thuật toán khôi phục thưa
+3. Tính toán đường điều chuẩn
+4. Phân tích so sánh hiệu năng
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: LASSO Dual Implementation**
+
+```python
+class LASSODualSolver:
+    def __init__(self):
+        self.solutions = {}
+        self.regularization_path = {}
+    
+    def derive_lasso_dual(self, A, b, lambda_reg):
+        """
+        Derive LASSO dual problem
+        
+        Primal: min (1/2)||Ax - b||² + λ||x||₁
+        Dual: min (1/2)||b - Aν||² s.t. ||A^T ν||∞ ≤ λ
+        """
+        
+        print("LASSO Dual Derivation")
+        print("=" * 25)
+        print("Primal: min (1/2)||Ax - b||² + λ||x||₁")
+        print("Dual: min (1/2)||b - Aν||² s.t. ||A^T ν||∞ ≤ λ")
+        print()
+        
+        m, n = A.shape
+        print(f"Problem size: {m} samples, {n} features")
+        print(f"Regularization parameter: λ = {lambda_reg}")
+        
+        # Solve primal LASSO
+        x_primal = cp.Variable(n)
+        primal_obj = cp.Minimize(0.5 * cp.sum_squares(A @ x_primal - b) + 
+                                lambda_reg * cp.norm(x_primal, 1))
+        primal_prob = cp.Problem(primal_obj)
+        primal_prob.solve()
+        
+        primal_optimal = primal_prob.value
+        x_optimal = x_primal.value
+        
+        print(f"\nPrimal Solution:")
+        print(f"Optimal value: {primal_optimal:.6f}")
+        print(f"Sparsity: {np.sum(np.abs(x_optimal) > 1e-6)}/{n}")
+        print(f"||x||₁: {np.linalg.norm(x_optimal, 1):.6f}")
+        
+        # Solve dual LASSO
+        nu_dual = cp.Variable(m)
+        dual_obj = cp.Minimize(0.5 * cp.sum_squares(b - A @ nu_dual))
+        dual_constraints = [cp.norm(A.T @ nu_dual, 'inf') <= lambda_reg]
+        dual_prob = cp.Problem(dual_obj, dual_constraints)
+        dual_prob.solve()
+        
+        dual_optimal = dual_prob.value
+        nu_optimal = nu_dual.value
+        
+        print(f"\nDual Solution:")
+        print(f"Optimal value: {dual_optimal:.6f}")
+        print(f"||A^T ν||∞: {np.linalg.norm(A.T @ nu_optimal, ord=np.inf):.6f}")
+        print(f"Constraint satisfied: {np.linalg.norm(A.T @ nu_optimal, ord=np.inf) <= lambda_reg + 1e-6}")
+        
+        # Verify duality
+        duality_gap = primal_optimal - dual_optimal
+        print(f"\nDuality Gap: {duality_gap:.8f}")
+        print(f"Strong duality: {'✓' if abs(duality_gap) < 1e-6 else '✗'}")
+        
+        # Recover primal from dual
+        x_recovered = self._recover_primal_from_dual(A, b, nu_optimal, lambda_reg)
+        recovery_error = np.linalg.norm(x_optimal - x_recovered)
+        print(f"Primal recovery error: {recovery_error:.8f}")
+        
+        return {
+            'primal_optimal': primal_optimal,
+            'dual_optimal': dual_optimal,
+            'x_optimal': x_optimal,
+            'nu_optimal': nu_optimal,
+            'duality_gap': duality_gap,
+            'x_recovered': x_recovered
+        }
+    
+    def _recover_primal_from_dual(self, A, b, nu_optimal, lambda_reg):
+        """Recover primal solution from dual solution"""
+        
+        # From KKT conditions:
+        # x_j = 0 if |(A^T ν)|_j < λ
+        # x_j has sign of (A^T ν)_j if |(A^T ν)|_j = λ
+        
+        dual_gradient = A.T @ nu_optimal
+        x_recovered = np.zeros(A.shape[1])
+        
+        # Identify active set (where dual constraint is tight)
+        active_indices = np.abs(dual_gradient) >= lambda_reg - 1e-6
+        
+        if np.any(active_indices):
+            # For active indices, solve least squares
+            A_active = A[:, active_indices]
+            
+            # Solve: min ||A_active x_active - b||² s.t. sign(x_active) = sign(dual_gradient_active)
+            # This is a simplified recovery - full implementation would be more complex
+            x_active = np.linalg.lstsq(A_active, b, rcond=None)[0]
+            x_recovered[active_indices] = x_active
+        
+        return x_recovered
+    
+    def compute_regularization_path(self, A, b, lambda_max=None, n_lambdas=50):
+        """Compute LASSO regularization path"""
+        
+        print("Computing LASSO Regularization Path")
+        print("=" * 40)
+        
+        m, n = A.shape
+        
+        # Determine lambda_max (smallest λ that gives zero solution)
+        if lambda_max is None:
+            lambda_max = np.linalg.norm(A.T @ b, ord=np.inf)
+        
+        # Create lambda grid (log scale)
+        lambdas = np.logspace(np.log10(lambda_max), np.log10(lambda_max * 1e-4), n_lambdas)
+        
+        print(f"Lambda range: [{lambdas[-1]:.6f}, {lambdas[0]:.6f}]")
+        print(f"Number of lambda values: {n_lambdas}")
+        
+        solutions = []
+        sparsity_levels = []
+        
+        for i, lam in enumerate(lambdas):
+            # Solve LASSO for current lambda
+            x = cp.Variable(n)
+            objective = cp.Minimize(0.5 * cp.sum_squares(A @ x - b) + lam * cp.norm(x, 1))
+            prob = cp.Problem(objective)
+            prob.solve()
+            
+            if prob.status == 'optimal':
+                x_sol = x.value
+                sparsity = np.sum(np.abs(x_sol) > 1e-6)
+                
+                solutions.append(x_sol)
+                sparsity_levels.append(sparsity)
+                
+                if i % 10 == 0:
+                    print(f"λ = {lam:.6f}: sparsity = {sparsity}/{n}")
+            else:
+                solutions.append(np.zeros(n))
+                sparsity_levels.append(0)
+        
+        self.regularization_path = {
+            'lambdas': lambdas,
+            'solutions': solutions,
+            'sparsity_levels': sparsity_levels
+        }
+        
+        return lambdas, solutions, sparsity_levels
+    
+    def plot_regularization_path(self, feature_names=None):
+        """Plot LASSO regularization path"""
+        
+        if not self.regularization_path:
+            print("No regularization path computed. Run compute_regularization_path first.")
+            return
+        
+        lambdas = self.regularization_path['lambdas']
+        solutions = self.regularization_path['solutions']
+        sparsity_levels = self.regularization_path['sparsity_levels']
+        
+        n_features = len(solutions[0])
+        
+        plt.figure(figsize=(15, 10))
+        
+        # Plot 1: Coefficient paths
+        plt.subplot(2, 2, 1)
+        
+        for j in range(n_features):
+            coeff_path = [sol[j] for sol in solutions]
+            label = feature_names[j] if feature_names else f'Feature {j}'
+            plt.plot(lambdas, coeff_path, linewidth=2, label=label if j < 10 else "")
+        
+        plt.xscale('log')
+        plt.xlabel('Regularization Parameter λ')
+        plt.ylabel('Coefficient Value')
+        plt.title('LASSO Regularization Path')
+        if n_features <= 10:
+            plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        # Plot 2: Sparsity vs lambda
+        plt.subplot(2, 2, 2)
+        plt.plot(lambdas, sparsity_levels, 'ro-', linewidth=2, markersize=4)
+        plt.xscale('log')
+        plt.xlabel('Regularization Parameter λ')
+        plt.ylabel('Number of Non-zero Coefficients')
+        plt.title('Sparsity vs Regularization')
+        plt.grid(True, alpha=0.3)
+        
+        # Plot 3: L1 norm vs lambda
+        plt.subplot(2, 2, 3)
+        l1_norms = [np.linalg.norm(sol, 1) for sol in solutions]
+        plt.plot(lambdas, l1_norms, 'go-', linewidth=2, markersize=4)
+        plt.xscale('log')
+        plt.xlabel('Regularization Parameter λ')
+        plt.ylabel('||x||₁')
+        plt.title('L1 Norm vs Regularization')
+        plt.grid(True, alpha=0.3)
+        
+        # Plot 4: Cross-validation curve (simulated)
+        plt.subplot(2, 2, 4)
+        # Simulate CV error (would be computed from actual cross-validation)
+        cv_errors = []
+        for i, lam in enumerate(lambdas):
+            # Simulate: error decreases then increases (typical CV curve)
+            optimal_lambda_idx = len(lambdas) // 3
+            distance_from_optimal = abs(i - optimal_lambda_idx)
+            cv_error = 1.0 + 0.1 * distance_from_optimal + 0.01 * np.random.randn()
+            cv_errors.append(cv_error)
+        
+        plt.plot(lambdas, cv_errors, 'bo-', linewidth=2, markersize=4, label='CV Error')
+        optimal_idx = np.argmin(cv_errors)
+        plt.axvline(x=lambdas[optimal_idx], color='red', linestyle='--', 
+                   label=f'Optimal λ = {lambdas[optimal_idx]:.4f}')
+        plt.xscale('log')
+        plt.xlabel('Regularization Parameter λ')
+        plt.ylabel('Cross-Validation Error')
+        plt.title('Model Selection')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+    
+    def compare_primal_dual_methods(self, A, b, lambda_reg):
+        """Compare primal and dual LASSO methods"""
+        
+        print("Primal vs Dual LASSO Comparison")
+        print("=" * 35)
+        
+        import time
+        
+        # Time primal method
+        start_time = time.time()
+        x_primal = cp.Variable(A.shape[1])
+        primal_obj = cp.Minimize(0.5 * cp.sum_squares(A @ x_primal - b) + 
+                                lambda_reg * cp.norm(x_primal, 1))
+        primal_prob = cp.Problem(primal_obj)
+        primal_prob.solve()
+        primal_time = time.time() - start_time
+        
+        # Time dual method
+        start_time = time.time()
+        nu_dual = cp.Variable(A.shape[0])
+        dual_obj = cp.Minimize(0.5 * cp.sum_squares(b - A @ nu_dual))
+        dual_constraints = [cp.norm(A.T @ nu_dual, 'inf') <= lambda_reg]
+        dual_prob = cp.Problem(dual_obj, dual_constraints)
+        dual_prob.solve()
+        dual_time = time.time() - start_time
+        
+        print(f"Primal method:")
+        print(f"  Time: {primal_time:.4f} seconds")
+        print(f"  Objective: {primal_prob.value:.6f}")
+        print(f"  Variables: {A.shape[1]}")
+        
+        print(f"\nDual method:")
+        print(f"  Time: {dual_time:.4f} seconds")
+        print(f"  Objective: {dual_prob.value:.6f}")
+        print(f"  Variables: {A.shape[0]}")
+        
+        print(f"\nComparison:")
+        print(f"  Speedup: {primal_time/dual_time:.2f}x {'(dual faster)' if dual_time < primal_time else '(primal faster)'}")
+        print(f"  Duality gap: {abs(primal_prob.value - dual_prob.value):.8f}")
+        
+        return {
+            'primal_time': primal_time,
+            'dual_time': dual_time,
+            'primal_objective': primal_prob.value,
+            'dual_objective': dual_prob.value
+        }
+
+# Example usage
+def example_lasso_dual():
+    """Example: LASSO dual solver"""
+    
+    # Generate synthetic sparse data
+    np.random.seed(42)
+    m, n = 100, 50  # More samples than features
+    
+    # Create sparse true solution
+    x_true = np.zeros(n)
+    true_support = np.random.choice(n, size=10, replace=False)
+    x_true[true_support] = np.random.randn(10)
+    
+    # Generate data
+    A = np.random.randn(m, n)
+    A = A / np.linalg.norm(A, axis=0)  # Normalize columns
+    b = A @ x_true + 0.1 * np.random.randn(m)
+    
+    print("Synthetic Data Generation:")
+    print(f"True sparsity: {len(true_support)}/{n}")
+    print(f"Noise level: 0.1")
+    print(f"True ||x||₁: {np.linalg.norm(x_true, 1):.4f}")
+    
+    # Create solver
+    solver = LASSODualSolver()
+    
+    # Test different lambda values
+    lambda_reg = 0.1
+    result = solver.derive_lasso_dual(A, b, lambda_reg)
+    
+    # Compute regularization path
+    lambdas, solutions, sparsity = solver.compute_regularization_path(A, b)
+    
+    # Plot regularization path
+    solver.plot_regularization_path()
+    
+    # Compare methods
+    comparison = solver.compare_primal_dual_methods(A, b, lambda_reg)
+    
+    # Analyze recovery performance
+    x_recovered = result['x_optimal']
+    recovery_error = np.linalg.norm(x_true - x_recovered)
+    support_recovery = np.sum((np.abs(x_true) > 1e-6) & (np.abs(x_recovered) > 1e-6))
+    
+    print(f"\nRecovery Analysis:")
+    print(f"Recovery error: {recovery_error:.6f}")
+    print(f"Support recovery: {support_recovery}/{len(true_support)}")
+    print(f"False positives: {np.sum((np.abs(x_true) < 1e-6) & (np.abs(x_recovered) > 1e-6))}")
+    
+    return solver, result
+
+# Run example
+lasso_solver, lasso_result = example_lasso_dual()
+```
+
+**Bước 2: Sparse Signal Recovery Applications**
+
+```python
+def compressed_sensing_application():
+    """Demonstrate compressed sensing using LASSO dual"""
+    
+    print("Compressed Sensing Application")
+    print("=" * 35)
+    
+    # Signal parameters
+    n = 256  # Signal length
+    k = 20   # Sparsity level
+    m = 80   # Number of measurements (m < n, undersampled)
+    
+    # Generate sparse signal
+    np.random.seed(42)
+    x_true = np.zeros(n)
+    support = np.random.choice(n, size=k, replace=False)
+    x_true[support] = np.random.randn(k)
+    
+    # Measurement matrix (Gaussian random)
+    A = np.random.randn(m, n) / np.sqrt(m)
+    
+    # Measurements
+    b = A @ x_true
+    
+    print(f"Signal length: {n}")
+    print(f"Sparsity level: {k}")
+    print(f"Number of measurements: {m}")
+    print(f"Compression ratio: {m/n:.2f}")
+    
+    # Solve using LASSO
+    lambda_reg = 0.01
+    
+    x_lasso = cp.Variable(n)
+    objective = cp.Minimize(0.5 * cp.sum_squares(A @ x_lasso - b) + 
+                           lambda_reg * cp.norm(x_lasso, 1))
+    prob = cp.Problem(objective)
+    prob.solve()
+    
+    x_recovered = x_lasso.value
+    
+    # Analyze recovery
+    recovery_error = np.linalg.norm(x_true - x_recovered)
+    relative_error = recovery_error / np.linalg.norm(x_true)
+    
+    # Support recovery
+    true_support = np.abs(x_true) > 1e-6
+    recovered_support = np.abs(x_recovered) > 1e-6
+    
+    true_positives = np.sum(true_support & recovered_support)
+    false_positives = np.sum(~true_support & recovered_support)
+    false_negatives = np.sum(true_support & ~recovered_support)
+    
+    precision = true_positives / (true_positives + false_positives) if (true_positives + false_positives) > 0 else 0
+    recall = true_positives / (true_positives + false_negatives) if (true_positives + false_negatives) > 0 else 0
+    f1_score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+    
+    print(f"\nRecovery Results:")
+    print(f"Recovery error: {recovery_error:.6f}")
+    print(f"Relative error: {relative_error:.4f}")
+    print(f"Support precision: {precision:.4f}")
+    print(f"Support recall: {recall:.4f}")
+    print(f"Support F1-score: {f1_score:.4f}")
+    
+    # Visualization
+    plt.figure(figsize=(15, 10))
+    
+    # Plot 1: Original signal
+    plt.subplot(2, 3, 1)
+    plt.stem(range(n), x_true, basefmt=' ')
+    plt.title('Original Sparse Signal')
+    plt.xlabel('Index')
+    plt.ylabel('Amplitude')
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 2: Measurements
+    plt.subplot(2, 3, 2)
+    plt.plot(b, 'o-', markersize=3)
+    plt.title(f'Measurements (m={m})')
+    plt.xlabel('Measurement Index')
+    plt.ylabel('Value')
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 3: Recovered signal
+    plt.subplot(2, 3, 3)
+    plt.stem(range(n), x_recovered, basefmt=' ')
+    plt.title('Recovered Signal (LASSO)')
+    plt.xlabel('Index')
+    plt.ylabel('Amplitude')
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 4: Comparison
+    plt.subplot(2, 3, 4)
+    plt.plot(x_true, 'b-', linewidth=2, label='Original')
+    plt.plot(x_recovered, 'r--', linewidth=2, label='Recovered')
+    plt.title('Signal Comparison')
+    plt.xlabel('Index')
+    plt.ylabel('Amplitude')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 5: Recovery error
+    plt.subplot(2, 3, 5)
+    error = x_true - x_recovered
+    plt.stem(range(n), error, basefmt=' ')
+    plt.title(f'Recovery Error (||error||₂ = {recovery_error:.4f})')
+    plt.xlabel('Index')
+    plt.ylabel('Error')
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 6: Support comparison
+    plt.subplot(2, 3, 6)
+    support_comparison = np.zeros(n)
+    support_comparison[true_support & recovered_support] = 1  # True positives
+    support_comparison[true_support & ~recovered_support] = 0.5  # False negatives
+    support_comparison[~true_support & recovered_support] = -0.5  # False positives
+    
+    colors = ['red' if x == 0.5 else 'orange' if x == -0.5 else 'green' if x == 1 else 'white' for x in support_comparison]
+    plt.bar(range(n), np.ones(n), color=colors, alpha=0.7)
+    plt.title('Support Recovery (Green=TP, Red=FN, Orange=FP)')
+    plt.xlabel('Index')
+    plt.ylabel('Support')
+    plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return {
+        'x_true': x_true,
+        'x_recovered': x_recovered,
+        'recovery_error': recovery_error,
+        'precision': precision,
+        'recall': recall,
+        'f1_score': f1_score
+    }
+
+# Run compressed sensing example
+cs_result = compressed_sensing_application()
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 3: Dual Cones và Conic Programming**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Section 13.5)
+Lập trình tính toán nón đối ngẫu và ứng dụng quy hoạch nón:
+
+a) **Tính toán nón đối ngẫu** cho các nón khác nhau
+b) **Công thức hóa quy hoạch nón**
+c) **Đối ngẫu quy hoạch nửa xác định**
+d) **Ứng dụng quy hoạch nón bậc hai**
+
+**Yêu cầu:**
+1. Khung tính toán nón đối ngẫu
+2. Công cụ giải quy hoạch nón
+3. Triển khai đối ngẫu SDP
+4. Ứng dụng SOCP
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Dual Cones Framework**
+
+```python
+class DualConesFramework:
+    def __init__(self):
+        self.cone_pairs = {}
+        self._initialize_cone_library()
+    
+    def _initialize_cone_library(self):
+        """Initialize library of common cone pairs"""
+        
+        self.cone_pairs = {
+            'positive_orthant': {
+                'primal': 'R+^n = {x : x ≥ 0}',
+                'dual': 'R+^n = {y : y ≥ 0}',
+                'self_dual': True,
+                'description': 'Non-negative orthant'
+            },
+            
+            'second_order': {
+                'primal': 'SOC = {(t,x) : ||x||₂ ≤ t}',
+                'dual': 'SOC = {(s,y) : ||y||₂ ≤ s}',
+                'self_dual': True,
+                'description': 'Second-order cone (ice cream cone)'
+            },
+            
+            'psd_cone': {
+                'primal': 'S+^n = {X : X ⪰ 0}',
+                'dual': 'S+^n = {Y : Y ⪰ 0}',
+                'self_dual': True,
+                'description': 'Positive semidefinite cone'
+            },
+            
+            'exponential': {
+                'primal': 'Exp = {(x,y,z) : ye^(x/y) ≤ z, y > 0}',
+                'dual': 'Exp* = {(u,v,w) : -ue^(v/u-1) ≤ w, u < 0}',
+                'self_dual': False,
+                'description': 'Exponential cone'
+            },
+            
+            'power': {
+                'primal': 'P_α = {(x,y,z) : |z|^(2/(1-α)) ≤ (x^α)(y^(1-α)), x,y ≥ 0}',
+                'dual': 'P_α* = P_(1-α)',
+                'self_dual': False,
+                'description': 'Power cone'
+            }
+        }
+    
+    def compute_dual_cone(self, cone_type, **params):
+        """Compute dual cone for given cone type"""
+        
+        print(f"Dual Cone Computation: {cone_type}")
+        print("=" * 40)
+        
+        if cone_type not in self.cone_pairs:
+            print(f"Cone type {cone_type} not in library")
+            return None
+        
+        cone_info = self.cone_pairs[cone_type]
+        
+        print(f"Description: {cone_info['description']}")
+        print(f"Primal cone: {cone_info['primal']}")
+        print(f"Dual cone: {cone_info['dual']}")
+        print(f"Self-dual: {'Yes' if cone_info['self_dual'] else 'No'}")
+        
+        return cone_info
+    
+    def verify_dual_cone_property(self, cone_type, x, y):
+        """
+        Verify dual cone property: y ∈ K* ⟺ x^T y ≥ 0 ∀x ∈ K
+        """
+        
+        print(f"\nDual Cone Property Verification: {cone_type}")
+        print("=" * 45)
+        
+        if cone_type == 'positive_orthant':
+            # K = R+^n, K* = R+^n
+            x_in_cone = np.all(x >= -1e-10)
+            y_in_dual_cone = np.all(y >= -1e-10)
+            inner_product = np.dot(x, y)
+            
+            print(f"x = {x}")
+            print(f"y = {y}")
+            print(f"x ∈ R+^n: {x_in_cone}")
+            print(f"y ∈ R+^n: {y_in_dual_cone}")
+            print(f"x^T y = {inner_product:.6f}")
+            print(f"Property satisfied: {inner_product >= -1e-10}")
+            
+        elif cone_type == 'second_order':
+            # K = {(t,x) : ||x|| ≤ t}, K* = K (self-dual)
+            t_x, x_vec = x[0], x[1:]
+            s_y, y_vec = y[0], y[1:]
+            
+            x_in_cone = np.linalg.norm(x_vec) <= t_x + 1e-10
+            y_in_dual_cone = np.linalg.norm(y_vec) <= s_y + 1e-10
+            inner_product = np.dot(x, y)
+            
+            print(f"x = (t={t_x:.4f}, x_vec={x_vec})")
+            print(f"y = (s={s_y:.4f}, y_vec={y_vec})")
+            print(f"||x_vec|| = {np.linalg.norm(x_vec):.4f}, t = {t_x:.4f}")
+            print(f"||y_vec|| = {np.linalg.norm(y_vec):.4f}, s = {s_y:.4f}")
+            print(f"x ∈ SOC: {x_in_cone}")
+            print(f"y ∈ SOC: {y_in_dual_cone}")
+            print(f"x^T y = {inner_product:.6f}")
+            print(f"Property satisfied: {inner_product >= -1e-10}")
+        
+        elif cone_type == 'psd_cone':
+            # K = S+^n, K* = S+^n (self-dual)
+            n = int(np.sqrt(len(x)))
+            X = x.reshape(n, n)
+            Y = y.reshape(n, n)
+            
+            # Check if matrices are symmetric and PSD
+            X_symmetric = np.allclose(X, X.T)
+            Y_symmetric = np.allclose(Y, Y.T)
+            
+            if X_symmetric and Y_symmetric:
+                X_eigs = np.linalg.eigvals(X)
+                Y_eigs = np.linalg.eigvals(Y)
+                
+                X_psd = np.all(X_eigs >= -1e-10)
+                Y_psd = np.all(Y_eigs >= -1e-10)
+                
+                inner_product = np.trace(X @ Y)
+                
+                print(f"X symmetric: {X_symmetric}")
+                print(f"Y symmetric: {Y_symmetric}")
+                print(f"X ⪰ 0: {X_psd} (min eig: {np.min(X_eigs):.6f})")
+                print(f"Y ⪰ 0: {Y_psd} (min eig: {np.min(Y_eigs):.6f})")
+                print(f"⟨X,Y⟩ = tr(XY) = {inner_product:.6f}")
+                print(f"Property satisfied: {inner_product >= -1e-10}")
+            else:
+                print("Matrices are not symmetric")
+    
+    def visualize_cone_pairs(self, cone_type='second_order'):
+        """Visualize cone and its dual"""
+        
+        if cone_type == 'second_order':
+            self._visualize_second_order_cone()
+        elif cone_type == 'positive_orthant':
+            self._visualize_positive_orthant()
+    
+    def _visualize_second_order_cone(self):
+        """Visualize second-order cone in 3D"""
+        
+        fig = plt.figure(figsize=(15, 6))
+        
+        # Create cone surface
+        theta = np.linspace(0, 2*np.pi, 50)
+        t = np.linspace(0, 2, 50)
+        T, THETA = np.meshgrid(t, theta)
+        
+        X = T * np.cos(THETA)
+        Y = T * np.sin(THETA)
+        Z = T
+        
+        # Plot primal cone
+        ax1 = fig.add_subplot(121, projection='3d')
+        ax1.plot_surface(X, Y, Z, alpha=0.6, color='blue')
+        ax1.plot_surface(X, Y, -Z, alpha=0.6, color='blue')
+        
+        # Add some points in the cone
+        points_in_cone = np.array([
+            [0, 0, 1],
+            [0.5, 0, 1],
+            [0, 0.5, 1],
+            [0.3, 0.4, 1]
+        ])
+        
+        ax1.scatter(points_in_cone[:, 0], points_in_cone[:, 1], points_in_cone[:, 2], 
+                   c='red', s=50, label='Points in cone')
+        
+        ax1.set_xlabel('x₁')
+        ax1.set_ylabel('x₂')
+        ax1.set_zlabel('t')
+        ax1.set_title('Second-Order Cone\n{(t,x) : ||x||₂ ≤ t}')
+        ax1.legend()
+        
+        # Plot dual cone (same as primal since self-dual)
+        ax2 = fig.add_subplot(122, projection='3d')
+        ax2.plot_surface(X, Y, Z, alpha=0.6, color='red')
+        ax2.plot_surface(X, Y, -Z, alpha=0.6, color='red')
+        
+        # Add dual points
+        ax2.scatter(points_in_cone[:, 0], points_in_cone[:, 1], points_in_cone[:, 2], 
+                   c='blue', s=50, label='Points in dual cone')
+        
+        ax2.set_xlabel('y₁')
+        ax2.set_ylabel('y₂')
+        ax2.set_zlabel('s')
+        ax2.set_title('Dual Second-Order Cone\n{(s,y) : ||y||₂ ≤ s}')
+        ax2.legend()
+        
+        plt.tight_layout()
+        plt.show()
+    
+    def _visualize_positive_orthant(self):
+        """Visualize positive orthant in 2D"""
+        
+        fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+        
+        # Primal cone
+        ax1 = axes[0]
+        x = np.linspace(0, 3, 100)
+        y = np.linspace(0, 3, 100)
+        X, Y = np.meshgrid(x, y)
+        
+        ax1.fill_between([0, 3], [0, 0], [3, 3], alpha=0.3, color='blue', label='R+²')
+        ax1.plot([0, 3], [0, 0], 'b-', linewidth=2)
+        ax1.plot([0, 0], [0, 3], 'b-', linewidth=2)
+        
+        # Add some points
+        points = np.array([[1, 1], [2, 0.5], [0.5, 2], [1.5, 1.5]])
+        ax1.scatter(points[:, 0], points[:, 1], c='red', s=50, zorder=5)
+        
+        ax1.set_xlim(-0.5, 3)
+        ax1.set_ylim(-0.5, 3)
+        ax1.set_xlabel('x₁')
+        ax1.set_ylabel('x₂')
+        ax1.set_title('Positive Orthant\n{x : x ≥ 0}')
+        ax1.grid(True, alpha=0.3)
+        ax1.legend()
+        
+        # Dual cone (same as primal)
+        ax2 = axes[1]
+        ax2.fill_between([0, 3], [0, 0], [3, 3], alpha=0.3, color='red', label='R+²')
+        ax2.plot([0, 3], [0, 0], 'r-', linewidth=2)
+        ax2.plot([0, 0], [0, 3], 'r-', linewidth=2)
+        
+        ax2.scatter(points[:, 0], points[:, 1], c='blue', s=50, zorder=5)
+        
+        ax2.set_xlim(-0.5, 3)
+        ax2.set_ylim(-0.5, 3)
+        ax2.set_xlabel('y₁')
+        ax2.set_ylabel('y₂')
+        ax2.set_title('Dual Positive Orthant\n{y : y ≥ 0}')
+        ax2.grid(True, alpha=0.3)
+        ax2.legend()
+        
+        plt.tight_layout()
+        plt.show()
+
+# Example usage
+def example_dual_cones():
+    """Example: Dual cones computation and verification"""
+    
+    framework = DualConesFramework()
+    
+    # Compute dual cones
+    print("Dual Cone Examples:")
+    framework.compute_dual_cone('positive_orthant')
+    framework.compute_dual_cone('second_order')
+    framework.compute_dual_cone('psd_cone')
+    
+    # Verify dual cone properties
+    print("\n" + "="*60)
+    
+    # Positive orthant
+    x = np.array([1, 2])
+    y = np.array([0.5, 1.5])
+    framework.verify_dual_cone_property('positive_orthant', x, y)
+    
+    # Second-order cone
+    x_soc = np.array([2, 1, 1])  # (t=2, x=[1,1]), ||x|| = √2 < 2
+    y_soc = np.array([1.5, 0.5, 0.5])  # (s=1.5, y=[0.5,0.5]), ||y|| = √0.5 < 1.5
+    framework.verify_dual_cone_property('second_order', x_soc, y_soc)
+    
+    # Visualize cones
+    framework.visualize_cone_pairs('second_order')
+    framework.visualize_cone_pairs('positive_orthant')
+    
+    return framework
+
+# Run example
+dual_cones_framework = example_dual_cones()
+```
+
+**Bước 2: Conic Programming Applications**
+
+```python
+def semidefinite_programming_dual():
+    """Demonstrate SDP dual formulation"""
+    
+    print("Semidefinite Programming Dual")
+    print("=" * 35)
+    
+    # Example SDP: Matrix completion problem
+    # min tr(X) s.t. X_ij = M_ij for (i,j) ∈ Ω, X ⪰ 0
+    
+    n = 4  # Matrix size
+    
+    # Create partially observed matrix
+    np.random.seed(42)
+    M_true = np.random.randn(n, n)
+    M_true = M_true @ M_true.T  # Make PSD
+    
+    # Observe some entries
+    observed_fraction = 0.6
+    mask = np.random.rand(n, n) < observed_fraction
+    mask = np.triu(mask) + np.triu(mask, 1).T  # Make symmetric
+    
+    print(f"Matrix size: {n}×{n}")
+    print(f"Observed entries: {np.sum(mask)}/{n*n}")
+    print(f"Observation fraction: {np.sum(mask)/(n*n):.2f}")
+    
+    # Solve primal SDP
+    X = cp.Variable((n, n), symmetric=True)
+    
+    constraints = [X >> 0]  # PSD constraint
+    for i in range(n):
+        for j in range(n):
+            if mask[i, j]:
+                constraints.append(X[i, j] == M_true[i, j])
+    
+    primal_obj = cp.Minimize(cp.trace(X))
+    primal_prob = cp.Problem(primal_obj, constraints)
+    primal_prob.solve()
+    
+    if primal_prob.status == 'optimal':
+        X_optimal = X.value
+        primal_optimal = primal_prob.value
+        
+        print(f"\nPrimal SDP Solution:")
+        print(f"Optimal value: {primal_optimal:.6f}")
+        print(f"Rank of solution: {np.linalg.matrix_rank(X_optimal, tol=1e-6)}")
+        print(f"Min eigenvalue: {np.min(np.linalg.eigvals(X_optimal)):.8f}")
+        
+        # Compute recovery error
+        recovery_error = np.linalg.norm(X_optimal - M_true, 'fro')
+        relative_error = recovery_error / np.linalg.norm(M_true, 'fro')
+        
+        print(f"Recovery error: {recovery_error:.6f}")
+        print(f"Relative error: {relative_error:.4f}")
+        
+        # Visualize results
+        plt.figure(figsize=(15, 5))
+        
+        plt.subplot(1, 3, 1)
+        plt.imshow(M_true, cmap='RdBu')
+        plt.colorbar()
+        plt.title('True Matrix')
+        
+        plt.subplot(1, 3, 2)
+        observed_matrix = M_true * mask
+        plt.imshow(observed_matrix, cmap='RdBu')
+        plt.colorbar()
+        plt.title(f'Observed Entries ({np.sum(mask)} entries)')
+        
+        plt.subplot(1, 3, 3)
+        plt.imshow(X_optimal, cmap='RdBu')
+        plt.colorbar()
+        plt.title(f'Recovered Matrix (error: {relative_error:.3f})')
+        
+        plt.tight_layout()
+        plt.show()
+        
+        return X_optimal, M_true, recovery_error
+    
+    else:
+        print("SDP failed to solve")
+        return None, None, None
+
+def second_order_cone_programming():
+    """Demonstrate SOCP applications"""
+    
+    print("Second-Order Cone Programming")
+    print("=" * 35)
+    
+    # Example: Robust least squares
+    # min ||Ax - b||₂ + λ||x||₂
+    # Equivalent SOCP: min t + λs s.t. ||Ax - b||₂ ≤ t, ||x||₂ ≤ s
+    
+    np.random.seed(42)
+    m, n = 20, 10
+    A = np.random.randn(m, n)
+    x_true = np.random.randn(n)
+    b = A @ x_true + 0.1 * np.random.randn(m)
+    
+    lambda_reg = 0.1
+    
+    print(f"Problem size: {m} equations, {n} variables")
+    print(f"Regularization: λ = {lambda_reg}")
+    
+    # Solve as SOCP
+    x = cp.Variable(n)
+    t = cp.Variable()
+    s = cp.Variable()
+    
+    objective = cp.Minimize(t + lambda_reg * s)
+    constraints = [
+        cp.norm(A @ x - b, 2) <= t,
+        cp.norm(x, 2) <= s
+    ]
+    
+    prob = cp.Problem(objective, constraints)
+    prob.solve()
+    
+    if prob.status == 'optimal':
+        x_socp = x.value
+        t_opt = t.value
+        s_opt = s.value
+        
+        print(f"\nSOCP Solution:")
+        print(f"Optimal value: {prob.value:.6f}")
+        print(f"||Ax - b||₂: {np.linalg.norm(A @ x_socp - b):.6f}")
+        print(f"||x||₂: {np.linalg.norm(x_socp):.6f}")
+        print(f"t (residual bound): {t_opt:.6f}")
+        print(f"s (regularization bound): {s_opt:.6f}")
+        
+        # Compare with direct solution
+        x_direct = cp.Variable(n)
+        direct_obj = cp.Minimize(cp.norm(A @ x_direct - b, 2) + lambda_reg * cp.norm(x_direct, 2))
+        direct_prob = cp.Problem(direct_obj)
+        direct_prob.solve()
+        
+        print(f"\nComparison with direct formulation:")
+        print(f"SOCP solution norm: {np.linalg.norm(x_socp):.6f}")
+        print(f"Direct solution norm: {np.linalg.norm(x_direct.value):.6f}")
+        print(f"Difference: {np.linalg.norm(x_socp - x_direct.value):.8f}")
+        
+        # Visualize
+        plt.figure(figsize=(12, 4))
+        
+        plt.subplot(1, 3, 1)
+        plt.plot(x_true, 'bo-', label='True x')
+        plt.plot(x_socp, 'r^-', label='SOCP solution')
+        plt.xlabel('Variable index')
+        plt.ylabel('Value')
+        plt.title('Solution Comparison')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        plt.subplot(1, 3, 2)
+        residual = A @ x_socp - b
+        plt.plot(residual, 'go-')
+        plt.axhline(y=t_opt, color='red', linestyle='--', label=f't = {t_opt:.3f}')
+        plt.axhline(y=-t_opt, color='red', linestyle='--')
+        plt.xlabel('Residual index')
+        plt.ylabel('Residual value')
+        plt.title('Residuals vs Bound')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        plt.subplot(1, 3, 3)
+        # Visualize second-order cone constraint
+        theta = np.linspace(0, 2*np.pi, 100)
+        circle_x = s_opt * np.cos(theta)
+        circle_y = s_opt * np.sin(theta)
+        
+        plt.plot(circle_x, circle_y, 'r-', linewidth=2, label=f'||x||₂ ≤ {s_opt:.3f}')
+        plt.plot(x_socp[0], x_socp[1], 'bo', markersize=8, label='Solution (x₁, x₂)')
+        plt.axis('equal')
+        plt.xlabel('x₁')
+        plt.ylabel('x₂')
+        plt.title('Regularization Constraint')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+        
+        return x_socp, t_opt, s_opt
+    
+    else:
+        print("SOCP failed to solve")
+        return None, None, None
+
+# Run examples
+print("Running SDP example:")
+sdp_result = semidefinite_programming_dual()
+
+print("\n" + "="*60)
+print("Running SOCP example:")
+socp_result = second_order_cone_programming()
+```
+
+</details>
+
+---
+
+## 💡 Mẹo Thực Hành
+
+#### **Khi làm việc với chuẩn đối ngẫu:**
+- Nhớ mối quan hệ liên hợp: ℓp ↔ ℓq với 1/p + 1/q = 1
+- Sử dụng tính chất chuẩn đối ngẫu: ||z||* = sup{z^T x : ||x|| ≤ 1}
+- Trực quan hóa các hình cầu đơn vị để hiểu quan hệ hình học
+- Kiểm chứng tính chất đối ngẫu bằng số
+
+#### **Khi lập trình hàm liên hợp:**
+- Xây dựng thư viện có hệ thống các hàm liên hợp phổ biến
+- Sử dụng bất đẳng thức Fenchel để kiểm chứng tính đúng
+- Áp dụng quy tắc giải tích liên hợp cho hàm tổ hợp
+- Lập trình tính toán hàm liên hợp bằng số
+
+#### **Khi giải đối ngẫu LASSO:**
+- Khai thác cấu trúc thưa trong nghiệm
+- Sử dụng đường điều chuẩn để hiểu hành vi
+- So sánh hiệu quả tính toán primal vs dual
+- Áp dụng vào cảm biến nén và khôi phục thưa
+
+#### **Khi làm việc với quy hoạch nón:**
+- Hiểu mối quan hệ đối ngẫu nón
+- Sử dụng các nón tự đối ngẫu (PSD, SOC) khi có thể
+- Lập trình các thuật toán chiếu nón hiệu quả
+- Áp dụng vào hoàn thiện ma trận và tối ưu bền vững
+
+---
+
+## 📚 Tài liệu tham khảo
+
+1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.
+   - Chapter 13: Duality Uses and Correspondences
+
+2. **Rockafellar, R. T.** (1970). *Convex Analysis*. Princeton University Press.
+
+3. **Ben-Tal, A., & Nemirovski, A.** (2001). *Lectures on Modern Convex Optimization*. SIAM.

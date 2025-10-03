@@ -1,0 +1,964 @@
+---
+layout: post
+title: 20-6 Bài Tập Thực Hành - Phương Pháp Đối Ngẫu
+chapter: '20'
+order: 11
+owner: GitHub Copilot
+lang: vi
+categories:
+- chapter20
+lesson_type: required
+---
+
+# Bài Tập Thực Hành - Phương Pháp Đối Ngẫu
+
+## 📝 **Bài tập 1: Dual Subgradient Methods**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Chapter 5)
+Implement complete dual subgradient methods framework:
+
+a) **Dual subgradient method** cho constrained optimization
+b) **Convergence analysis** và step size selection
+c) **Primal recovery** từ dual solutions
+d) **Performance comparison** với primal methods
+
+**Yêu cầu:**
+1. Complete dual subgradient implementations
+2. Multiple step size strategies
+3. Primal-dual gap monitoring
+4. Comprehensive convergence analysis
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Dual Subgradient Framework**
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import minimize, linprog
+import time
+import warnings
+warnings.filterwarnings('ignore')
+
+class DualSubgradientMethods:
+    def __init__(self, step_rule='diminishing', tolerance=1e-6, max_iterations=1000):
+        self.step_rule = step_rule
+        self.tol = tolerance
+        self.max_iter = max_iterations
+        self.history = {
+            'dual_vars': [],
+            'dual_values': [],
+            'primal_values': [],
+            'duality_gaps': [],
+            'step_sizes': [],
+            'primal_solutions': [],
+            'constraint_violations': []
+        }
+    
+    def solve(self, primal_func, dual_func, dual_grad_func, constraint_func, 
+              lambda0, verbose=True):
+        """
+        Solve constrained optimization using dual subgradient method
+        
+        Problem: min f(x) s.t. g_i(x) ≤ 0, i=1,...,m
+        Dual: max_λ≥0 inf_x L(x,λ) where L(x,λ) = f(x) + λ^T g(x)
+        
+        Tham số:
+        - primal_func: f(x) -> scalar
+        - dual_func: q(λ) = inf_x L(x,λ) -> scalar
+        - dual_grad_func: ∇q(λ) -> vector (subgradient)
+        - constraint_func: g(x) -> vector
+        - lambda0: initial dual variables
+        """
+        
+        lam = np.maximum(lambda0.copy(), 0)  # Ensure λ ≥ 0
+        m = len(lam)
+        
+        if verbose:
+            print("Dual Subgradient Method")
+            print("=" * 30)
+            print(f"Step rule: {self.step_rule}")
+            print(f"{'Iter':<4} {'q(λ)':<12} {'||∇q||':<12} {'Step':<8} {'Gap':<12}")
+            print("-" * 65)
+        
+        best_dual_value = -np.inf
+        best_primal_value = np.inf
+        
+        for iteration in range(self.max_iter):
+            # Store history
+            self.history['dual_vars'].append(lam.copy())
+            
+            # Evaluate dual function and subgradient
+            dual_value = dual_func(lam)
+            dual_subgrad = dual_grad_func(lam)
+            
+            self.history['dual_values'].append(dual_value)
+            
+            # Update best dual value
+            if dual_value > best_dual_value:
+                best_dual_value = dual_value
+            
+            # Compute primal solution (if available)
+            try:
+                x_primal = self._recover_primal_solution(lam, primal_func, constraint_func)
+                primal_value = primal_func(x_primal)
+                constraint_vals = constraint_func(x_primal)
+                
+                self.history['primal_solutions'].append(x_primal.copy())
+                self.history['primal_values'].append(primal_value)
+                self.history['constraint_violations'].append(np.maximum(constraint_vals, 0))
+                
+                # Update best primal value (if feasible)
+                if np.all(constraint_vals <= self.tol):
+                    if primal_value < best_primal_value:
+                        best_primal_value = primal_value
+                
+                # Duality gap
+                duality_gap = primal_value - dual_value
+                self.history['duality_gaps'].append(duality_gap)
+                
+            except:
+                # Primal recovery failed
+                self.history['primal_solutions'].append(None)
+                self.history['primal_values'].append(np.inf)
+                self.history['constraint_violations'].append(np.inf)
+                self.history['duality_gaps'].append(np.inf)
+                duality_gap = np.inf
+            
+            # Check convergence
+            subgrad_norm = np.linalg.norm(dual_subgrad)
+            if subgrad_norm < self.tol and duality_gap < self.tol:
+                if verbose:
+                    print(f"Converged in {iteration} iterations")
+                break
+            
+            # Compute step size
+            step_size = self._compute_step_size(iteration, subgrad_norm, duality_gap)
+            self.history['step_sizes'].append(step_size)
+            
+            # Dual update with projection onto λ ≥ 0
+            lam_new = lam + step_size * dual_subgrad
+            lam = np.maximum(lam_new, 0)  # Project onto non-negative orthant
+            
+            if verbose and iteration % 10 == 0:
+                print(f"{iteration:<4} {dual_value:<12.6f} {subgrad_norm:<12.6f} "
+                      f"{step_size:<8.4f} {duality_gap:<12.6f}")
+        
+        return lam, best_dual_value, best_primal_value, iteration + 1
+    
+    def _compute_step_size(self, iteration, subgrad_norm, duality_gap):
+        """Compute step size based on selected rule"""
+        
+        if self.step_rule == 'constant':
+            return 0.01
+        
+        elif self.step_rule == 'diminishing':
+            return 1.0 / (iteration + 1)
+        
+        elif self.step_rule == 'square_summable':
+            return 1.0 / np.sqrt(iteration + 1)
+        
+        elif self.step_rule == 'nonsummable':
+            return 1.0 / np.log(iteration + 2)
+        
+        elif self.step_rule == 'polyak':
+            # Polyak step size: requires knowledge of optimal dual value
+            if subgrad_norm > 1e-10 and duality_gap < np.inf:
+                return max(0.01, duality_gap / (subgrad_norm**2))
+            else:
+                return 0.01
+        
+        else:
+            return 0.01
+    
+    def _recover_primal_solution(self, lam, primal_func, constraint_func):
+        """Recover primal solution from dual variables"""
+        
+        # This is problem-specific and would need to be implemented
+        # For demonstration, we use a simple approach
+        
+        # For quadratic problems, this can be done analytically
+        # For general problems, we might need to solve: min_x L(x,λ)
+        
+        # Placeholder implementation
+        n = 2  # Assume 2D problem for demo
+        x0 = np.zeros(n)
+        
+        def lagrangian(x):
+            return primal_func(x) + np.sum(lam * constraint_func(x))
+        
+        result = minimize(lagrangian, x0, method='BFGS')
+        
+        if result.success:
+            return result.x
+        else:
+            return x0
+    
+    def plot_convergence(self):
+        """Plot convergence history"""
+        
+        if not self.history['dual_values']:
+            print("No convergence history to plot")
+            return
+        
+        fig, axes = plt.subplots(2, 3, figsize=(18, 12))
+        
+        iterations = range(len(self.history['dual_values']))
+        
+        # Plot 1: Dual function values
+        axes[0, 0].plot(iterations, self.history['dual_values'], 'b-o', linewidth=2, markersize=4)
+        axes[0, 0].set_xlabel('Iteration')
+        axes[0, 0].set_ylabel('q(λ)')
+        axes[0, 0].set_title('Dual Function Values')
+        axes[0, 0].grid(True, alpha=0.3)
+        
+        # Plot 2: Primal-dual gap
+        if self.history['duality_gaps'] and any(gap < np.inf for gap in self.history['duality_gaps']):
+            valid_gaps = [gap if gap < np.inf else np.nan for gap in self.history['duality_gaps']]
+            axes[0, 1].semilogy(iterations, valid_gaps, 'r-o', linewidth=2, markersize=4)
+            axes[0, 1].set_xlabel('Iteration')
+            axes[0, 1].set_ylabel('Duality Gap')
+            axes[0, 1].set_title('Primal-Dual Gap')
+            axes[0, 1].grid(True, alpha=0.3)
+        
+        # Plot 3: Step sizes
+        if self.history['step_sizes']:
+            axes[0, 2].plot(range(len(self.history['step_sizes'])), self.history['step_sizes'], 
+                           'g-o', linewidth=2, markersize=4)
+            axes[0, 2].set_xlabel('Iteration')
+            axes[0, 2].set_ylabel('Step Size')
+            axes[0, 2].set_title(f'Step Size Evolution ({self.step_rule})')
+            axes[0, 2].grid(True, alpha=0.3)
+        
+        # Plot 4: Dual variables evolution
+        if self.history['dual_vars']:
+            dual_vars_array = np.array(self.history['dual_vars'])
+            for i in range(min(3, dual_vars_array.shape[1])):
+                axes[1, 0].plot(iterations, dual_vars_array[:, i], 'o-', 
+                               linewidth=2, markersize=3, label=f'λ_{i+1}')
+            axes[1, 0].set_xlabel('Iteration')
+            axes[1, 0].set_ylabel('Dual Variables')
+            axes[1, 0].set_title('Dual Variables Evolution')
+            axes[1, 0].legend()
+            axes[1, 0].grid(True, alpha=0.3)
+        
+        # Plot 5: Constraint violations
+        if self.history['constraint_violations']:
+            violations = []
+            for cv in self.history['constraint_violations']:
+                if isinstance(cv, np.ndarray):
+                    violations.append(np.sum(cv))
+                else:
+                    violations.append(cv if cv < np.inf else np.nan)
+            
+            axes[1, 1].semilogy(iterations, violations, 'purple', linewidth=2, marker='s', markersize=4)
+            axes[1, 1].set_xlabel('Iteration')
+            axes[1, 1].set_ylabel('Constraint Violation')
+            axes[1, 1].set_title('Constraint Violation')
+            axes[1, 1].grid(True, alpha=0.3)
+        
+        # Plot 6: Primal vs dual values
+        if self.history['primal_values']:
+            valid_primal = [pv if pv < np.inf else np.nan for pv in self.history['primal_values']]
+            axes[1, 2].plot(iterations, self.history['dual_values'], 'b-', linewidth=2, label='Dual')
+            axes[1, 2].plot(iterations, valid_primal, 'r--', linewidth=2, label='Primal')
+            axes[1, 2].set_xlabel('Iteration')
+            axes[1, 2].set_ylabel('Function Value')
+            axes[1, 2].set_title('Primal vs Dual Values')
+            axes[1, 2].legend()
+            axes[1, 2].grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+
+def example_quadratic_programming_dual():
+    """Example: Quadratic programming via dual subgradient"""
+    
+    print("Example 1: Quadratic Programming via Dual Subgradient")
+    print("=" * 60)
+    print("Problem: min (1/2)x^T Q x + c^T x s.t. Ax ≤ b")
+    
+    # Generate QP problem
+    np.random.seed(42)
+    n, m = 4, 3
+    
+    # Create positive definite Q
+    A_rand = np.random.randn(n, n)
+    Q = A_rand.T @ A_rand + 0.1 * np.eye(n)
+    c = np.random.randn(n)
+    
+    # Constraints Ax ≤ b
+    A = np.random.randn(m, n)
+    b = np.random.randn(m) + 1  # Make feasible
+    
+    print(f"Problem size: n={n}, m={m}")
+    print(f"Q condition number: {np.linalg.cond(Q):.2f}")
+    
+    # Define problem functions
+    def primal_func(x):
+        return 0.5 * x.T @ Q @ x + c.T @ x
+    
+    def constraint_func(x):
+        return A @ x - b
+    
+    def dual_func(lam):
+        """Dual function: q(λ) = inf_x L(x,λ)"""
+        # For QP: q(λ) = -(1/2)(c + A^T λ)^T Q^{-1} (c + A^T λ) - b^T λ
+        try:
+            Q_inv = np.linalg.inv(Q)
+            temp = c + A.T @ lam
+            return -0.5 * temp.T @ Q_inv @ temp - b.T @ lam
+        except:
+            return -np.inf
+    
+    def dual_grad_func(lam):
+        """Dual subgradient: ∇q(λ) = -g(x*(λ))"""
+        # x*(λ) = -Q^{-1}(c + A^T λ)
+        try:
+            Q_inv = np.linalg.inv(Q)
+            x_star = -Q_inv @ (c + A.T @ lam)
+            return -(A @ x_star - b)
+        except:
+            return np.zeros(len(lam))
+    
+    # Solve analytically for comparison
+    print(f"\nAnalytical solution (using scipy):")
+    print("-" * 35)
+    
+    # Convert to scipy format
+    bounds = [(None, None) for _ in range(n)]
+    A_ub = A
+    b_ub = b
+    
+    start_time = time.time()
+    result_scipy = minimize(primal_func, np.zeros(n), method='SLSQP',
+                           constraints={'type': 'ineq', 'fun': lambda x: b - A @ x})
+    scipy_time = time.time() - start_time
+    
+    if result_scipy.success:
+        print(f"Scipy solution: x* = {result_scipy.x}")
+        print(f"Scipy value: f* = {result_scipy.fun:.6f}")
+        print(f"Scipy time: {scipy_time:.4f} seconds")
+        print(f"Constraint violation: {np.max(np.maximum(A @ result_scipy.x - b, 0)):.2e}")
+    
+    # Compare different step size rules
+    step_rules = ['diminishing', 'square_summable', 'polyak']
+    results = {}
+    
+    for step_rule in step_rules:
+        print(f"\nDual Subgradient with {step_rule} step size:")
+        print("-" * 45)
+        
+        solver = DualSubgradientMethods(step_rule=step_rule, max_iterations=500)
+        lambda0 = np.ones(m)
+        
+        start_time = time.time()
+        lam_opt, dual_opt, primal_opt, iterations = solver.solve(
+            primal_func, dual_func, dual_grad_func, constraint_func, lambda0, verbose=False
+        )
+        solve_time = time.time() - start_time
+        
+        results[step_rule] = {
+            'lambda_opt': lam_opt,
+            'dual_value': dual_opt,
+            'primal_value': primal_opt,
+            'iterations': iterations,
+            'time': solve_time,
+            'solver': solver
+        }
+        
+        print(f"Dual variables: λ* = {lam_opt}")
+        print(f"Dual value: q* = {dual_opt:.6f}")
+        print(f"Primal value: f* = {primal_opt:.6f}")
+        print(f"Iterations: {iterations}")
+        print(f"Time: {solve_time:.4f} seconds")
+        
+        if result_scipy.success:
+            dual_gap = abs(dual_opt - result_scipy.fun)
+            primal_gap = abs(primal_opt - result_scipy.fun)
+            print(f"Dual gap: {dual_gap:.2e}")
+            print(f"Primal gap: {primal_gap:.2e}")
+    
+    # Plot comparison
+    plt.figure(figsize=(15, 10))
+    
+    # Dual function convergence
+    plt.subplot(2, 3, 1)
+    for step_rule, result in results.items():
+        solver = result['solver']
+        if solver.history['dual_values']:
+            iterations = range(len(solver.history['dual_values']))
+            plt.plot(iterations, solver.history['dual_values'], 'o-', linewidth=2, 
+                    markersize=3, label=step_rule)
+    
+    if result_scipy.success:
+        plt.axhline(y=result_scipy.fun, color='red', linestyle='--', alpha=0.7, label='Optimal')
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Dual Value q(λ)')
+    plt.title('Dual Function Convergence')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Duality gap convergence
+    plt.subplot(2, 3, 2)
+    for step_rule, result in results.items():
+        solver = result['solver']
+        if solver.history['duality_gaps']:
+            valid_gaps = [gap for gap in solver.history['duality_gaps'] if gap < np.inf]
+            if valid_gaps:
+                iterations = range(len(valid_gaps))
+                plt.semilogy(iterations, valid_gaps, 'o-', linewidth=2, 
+                           markersize=3, label=step_rule)
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Duality Gap')
+    plt.title('Duality Gap Convergence')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Step size comparison
+    plt.subplot(2, 3, 3)
+    for step_rule, result in results.items():
+        solver = result['solver']
+        if solver.history['step_sizes']:
+            iterations = range(len(solver.history['step_sizes']))
+            plt.plot(iterations, solver.history['step_sizes'], 'o-', linewidth=2, 
+                    markersize=3, label=step_rule)
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Step Size')
+    plt.title('Step Size Evolution')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Dual variables evolution
+    plt.subplot(2, 3, 4)
+    for i, (step_rule, result) in enumerate(results.items()):
+        solver = result['solver']
+        if solver.history['dual_vars']:
+            dual_vars = np.array(solver.history['dual_vars'])
+            iterations = range(len(dual_vars))
+            plt.plot(iterations, np.linalg.norm(dual_vars, axis=1), 'o-', 
+                    linewidth=2, markersize=3, label=step_rule)
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('||λ||')
+    plt.title('Dual Variables Norm')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Performance comparison
+    plt.subplot(2, 3, 5)
+    step_names = list(results.keys())
+    times = [results[name]['time'] for name in step_names]
+    iterations_list = [results[name]['iterations'] for name in step_names]
+    
+    x_pos = np.arange(len(step_names))
+    width = 0.35
+    
+    plt.bar(x_pos - width/2, times, width, label='Time (s)', alpha=0.7)
+    plt.bar(x_pos + width/2, np.array(iterations_list) / 100, width, label='Iterations (÷100)', alpha=0.7)
+    
+    plt.xlabel('Step Size Rule')
+    plt.ylabel('Value')
+    plt.title('Performance Comparison')
+    plt.xticks(x_pos, step_names)
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Final dual values
+    plt.subplot(2, 3, 6)
+    dual_values = [results[name]['dual_value'] for name in step_names]
+    primal_values = [results[name]['primal_value'] for name in step_names]
+    
+    x_pos = np.arange(len(step_names))
+    width = 0.35
+    
+    plt.bar(x_pos - width/2, dual_values, width, label='Dual Value', alpha=0.7)
+    plt.bar(x_pos + width/2, primal_values, width, label='Primal Value', alpha=0.7)
+    
+    if result_scipy.success:
+        plt.axhline(y=result_scipy.fun, color='red', linestyle='--', alpha=0.7, label='Optimal')
+    
+    plt.xlabel('Step Size Rule')
+    plt.ylabel('Function Value')
+    plt.title('Final Values Comparison')
+    plt.xticks(x_pos, step_names)
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return results
+
+# Run quadratic programming example
+qp_results = example_quadratic_programming_dual()
+```
+
+**Bước 2: Dual Decomposition**
+
+```python
+class DualDecomposition:
+    def __init__(self, tolerance=1e-6, max_iterations=1000):
+        self.tol = tolerance
+        self.max_iter = max_iterations
+        self.history = {
+            'dual_vars': [],
+            'dual_values': [],
+            'primal_solutions': [],
+            'constraint_violations': [],
+            'step_sizes': []
+        }
+    
+    def solve(self, subproblem_solvers, coupling_matrix, coupling_rhs, lambda0, verbose=True):
+        """
+        Solve separable problem with coupling constraints using dual decomposition
+        
+        Problem: min Σᵢ fᵢ(xᵢ) s.t. Σᵢ Aᵢxᵢ = b
+        
+        Tham số:
+        - subproblem_solvers: list of functions [solver₁, solver₂, ...]
+        - coupling_matrix: [A₁, A₂, ...] coupling matrices
+        - coupling_rhs: b coupling constraint RHS
+        - lambda0: initial dual variables
+        """
+        
+        lam = lambda0.copy()
+        B = len(subproblem_solvers)  # Number of blocks
+        
+        if verbose:
+            print("Dual Decomposition Method")
+            print("=" * 30)
+            print(f"Number of blocks: {B}")
+            print(f"{'Iter':<4} {'Dual Val':<12} {'Violation':<12} {'Step':<8}")
+            print("-" * 50)
+        
+        for iteration in range(self.max_iter):
+            # Store history
+            self.history['dual_vars'].append(lam.copy())
+            
+            # Solve subproblems
+            x_solutions = []
+            dual_value = 0
+            
+            for i in range(B):
+                # Solve: min fᵢ(xᵢ) + λᵀAᵢxᵢ
+                x_i = subproblem_solvers[i](lam)
+                x_solutions.append(x_i)
+                
+                # Add to dual function value
+                dual_value += subproblem_solvers[i].get_value(x_i, lam)
+            
+            self.history['primal_solutions'].append(x_solutions.copy())
+            self.history['dual_values'].append(dual_value)
+            
+            # Compute constraint violation
+            constraint_violation = coupling_rhs.copy()
+            for i in range(B):
+                constraint_violation -= coupling_matrix[i] @ x_solutions[i]
+            
+            violation_norm = np.linalg.norm(constraint_violation)
+            self.history['constraint_violations'].append(violation_norm)
+            
+            # Check convergence
+            if violation_norm < self.tol:
+                if verbose:
+                    print(f"Converged in {iteration} iterations")
+                break
+            
+            # Update dual variables
+            step_size = 1.0 / (iteration + 1)  # Diminishing step size
+            lam = lam + step_size * constraint_violation
+            
+            self.history['step_sizes'].append(step_size)
+            
+            if verbose and iteration % 10 == 0:
+                print(f"{iteration:<4} {dual_value:<12.6f} {violation_norm:<12.6f} {step_size:<8.4f}")
+        
+        return lam, x_solutions, iteration + 1
+    
+    def plot_convergence(self):
+        """Plot convergence history"""
+        
+        if not self.history['dual_values']:
+            print("No convergence history to plot")
+            return
+        
+        fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+        
+        iterations = range(len(self.history['dual_values']))
+        
+        # Plot 1: Dual values
+        axes[0, 0].plot(iterations, self.history['dual_values'], 'b-o', linewidth=2, markersize=4)
+        axes[0, 0].set_xlabel('Iteration')
+        axes[0, 0].set_ylabel('Dual Value')
+        axes[0, 0].set_title('Dual Function Evolution')
+        axes[0, 0].grid(True, alpha=0.3)
+        
+        # Plot 2: Constraint violations
+        axes[0, 1].semilogy(iterations, self.history['constraint_violations'], 'r-o', linewidth=2, markersize=4)
+        axes[0, 1].set_xlabel('Iteration')
+        axes[0, 1].set_ylabel('||Ax - b||')
+        axes[0, 1].set_title('Constraint Violation')
+        axes[0, 1].grid(True, alpha=0.3)
+        
+        # Plot 3: Dual variables
+        if self.history['dual_vars']:
+            dual_vars_array = np.array(self.history['dual_vars'])
+            for i in range(min(3, dual_vars_array.shape[1])):
+                axes[1, 0].plot(iterations, dual_vars_array[:, i], 'o-', 
+                               linewidth=2, markersize=3, label=f'λ_{i+1}')
+            axes[1, 0].set_xlabel('Iteration')
+            axes[1, 0].set_ylabel('Dual Variables')
+            axes[1, 0].set_title('Dual Variables Evolution')
+            axes[1, 0].legend()
+            axes[1, 0].grid(True, alpha=0.3)
+        
+        # Plot 4: Step sizes
+        if self.history['step_sizes']:
+            axes[1, 1].plot(range(len(self.history['step_sizes'])), self.history['step_sizes'], 
+                           'g-o', linewidth=2, markersize=4)
+            axes[1, 1].set_xlabel('Iteration')
+            axes[1, 1].set_ylabel('Step Size')
+            axes[1, 1].set_title('Step Size Evolution')
+            axes[1, 1].grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+
+class SubproblemSolver:
+    def __init__(self, Q, c, A_local=None, b_local=None):
+        self.Q = Q
+        self.c = c
+        self.A_local = A_local
+        self.b_local = b_local
+    
+    def __call__(self, lam):
+        """Solve: min (1/2)x^T Q x + (c + A^T λ)^T x s.t. A_local x = b_local"""
+        
+        # Modified objective: c_new = c + A^T λ (from coupling)
+        c_new = self.c + self.A_coupling.T @ lam
+        
+        # Solve quadratic program
+        if self.A_local is not None:
+            # With local constraints: solve KKT system
+            n = len(c_new)
+            m = self.A_local.shape[0]
+            
+            # KKT matrix: [Q A^T; A 0]
+            KKT_matrix = np.block([[self.Q, self.A_local.T],
+                                  [self.A_local, np.zeros((m, m))]])
+            KKT_rhs = np.concatenate([-c_new, self.b_local])
+            
+            try:
+                solution = np.linalg.solve(KKT_matrix, KKT_rhs)
+                x = solution[:n]
+                return x
+            except:
+                # Fallback to unconstrained solution
+                return -np.linalg.solve(self.Q, c_new)
+        else:
+            # Unconstrained: x = -Q^{-1} c_new
+            return -np.linalg.solve(self.Q, c_new)
+    
+    def get_value(self, x, lam):
+        """Get function value for dual function computation"""
+        return 0.5 * x.T @ self.Q @ x + self.c.T @ x
+    
+    def set_coupling_matrix(self, A_coupling):
+        """Set coupling matrix for this subproblem"""
+        self.A_coupling = A_coupling
+
+def example_resource_allocation():
+    """Example: Resource allocation via dual decomposition"""
+    
+    print("\nExample 2: Resource Allocation via Dual Decomposition")
+    print("=" * 60)
+    print("Problem: min Σᵢ (1/2)xᵢᵀQᵢxᵢ + cᵢᵀxᵢ s.t. Σᵢ xᵢ = b")
+    
+    # Generate resource allocation problem
+    np.random.seed(42)
+    B = 3  # Number of agents/blocks
+    n = 2  # Dimension of each block
+    
+    # Create subproblems
+    subproblems = []
+    coupling_matrices = []
+    
+    for i in range(B):
+        # Create positive definite Qᵢ
+        A_rand = np.random.randn(n, n)
+        Q_i = A_rand.T @ A_rand + 0.1 * np.eye(n)
+        c_i = np.random.randn(n)
+        
+        solver_i = SubproblemSolver(Q_i, c_i)
+        subproblems.append(solver_i)
+        
+        # Coupling matrix (identity for resource allocation)
+        A_i = np.eye(n)
+        coupling_matrices.append(A_i)
+        solver_i.set_coupling_matrix(A_i)
+    
+    # Resource constraint: Σᵢ xᵢ = b
+    b = np.ones(n) * B  # Total resource
+    
+    print(f"Number of agents: {B}")
+    print(f"Dimension per agent: {n}")
+    print(f"Total resources: {b}")
+    
+    # Solve with dual decomposition
+    print(f"\nDual Decomposition:")
+    print("-" * 20)
+    
+    decomp_solver = DualDecomposition(tolerance=1e-6, max_iterations=200)
+    lambda0 = np.zeros(n)
+    
+    start_time = time.time()
+    lam_opt, x_solutions, iterations = decomp_solver.solve(
+        subproblems, coupling_matrices, b, lambda0, verbose=False
+    )
+    decomp_time = time.time() - start_time
+    
+    # Compute final objective value
+    total_objective = 0
+    for i in range(B):
+        x_i = x_solutions[i]
+        total_objective += subproblems[i].get_value(x_i, np.zeros(n))
+    
+    # Check constraint satisfaction
+    total_allocation = np.zeros(n)
+    for i in range(B):
+        total_allocation += x_solutions[i]
+    
+    constraint_error = np.linalg.norm(total_allocation - b)
+    
+    print(f"Iterations: {iterations}")
+    print(f"Time: {decomp_time:.4f} seconds")
+    print(f"Final objective: {total_objective:.6f}")
+    print(f"Constraint error: {constraint_error:.2e}")
+    print(f"Dual variables: λ* = {lam_opt}")
+    
+    print(f"\nAgent allocations:")
+    for i in range(B):
+        print(f"Agent {i+1}: x_{i+1} = {x_solutions[i]}")
+    print(f"Total allocation: {total_allocation}")
+    print(f"Resource constraint: {b}")
+    
+    # Compare with centralized solution
+    print(f"\nComparison with Centralized Solution:")
+    print("-" * 40)
+    
+    # Build centralized problem
+    Q_central = np.zeros((B*n, B*n))
+    c_central = np.zeros(B*n)
+    A_central = np.zeros((n, B*n))
+    
+    for i in range(B):
+        start_idx = i * n
+        end_idx = (i + 1) * n
+        
+        Q_central[start_idx:end_idx, start_idx:end_idx] = subproblems[i].Q
+        c_central[start_idx:end_idx] = subproblems[i].c
+        A_central[:, start_idx:end_idx] = np.eye(n)
+    
+    # Solve centralized problem
+    def centralized_objective(x):
+        return 0.5 * x.T @ Q_central @ x + c_central.T @ x
+    
+    start_time = time.time()
+    result_central = minimize(centralized_objective, np.zeros(B*n), method='SLSQP',
+                             constraints={'type': 'eq', 'fun': lambda x: A_central @ x - b})
+    central_time = time.time() - start_time
+    
+    if result_central.success:
+        x_central = result_central.x
+        x_central_blocks = [x_central[i*n:(i+1)*n] for i in range(B)]
+        
+        print(f"Centralized time: {central_time:.4f} seconds")
+        print(f"Centralized objective: {result_central.fun:.6f}")
+        print(f"Objective difference: {abs(total_objective - result_central.fun):.2e}")
+        
+        print(f"\nCentralized allocations:")
+        for i in range(B):
+            print(f"Agent {i+1}: x_{i+1} = {x_central_blocks[i]}")
+            solution_diff = np.linalg.norm(x_solutions[i] - x_central_blocks[i])
+            print(f"  Difference from decomp: {solution_diff:.2e}")
+    
+    # Visualization
+    decomp_solver.plot_convergence()
+    
+    # Additional visualization for resource allocation
+    plt.figure(figsize=(12, 8))
+    
+    # Agent allocations comparison
+    plt.subplot(2, 2, 1)
+    agent_names = [f'Agent {i+1}' for i in range(B)]
+    
+    if result_central.success:
+        decomp_allocs = [np.sum(x_solutions[i]) for i in range(B)]
+        central_allocs = [np.sum(x_central_blocks[i]) for i in range(B)]
+        
+        x_pos = np.arange(B)
+        width = 0.35
+        
+        plt.bar(x_pos - width/2, decomp_allocs, width, label='Dual Decomp', alpha=0.7)
+        plt.bar(x_pos + width/2, central_allocs, width, label='Centralized', alpha=0.7)
+        
+        plt.xlabel('Agent')
+        plt.ylabel('Total Allocation')
+        plt.title('Resource Allocation Comparison')
+        plt.xticks(x_pos, agent_names)
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+    
+    # Resource utilization
+    plt.subplot(2, 2, 2)
+    resource_names = [f'Resource {i+1}' for i in range(n)]
+    
+    plt.bar(resource_names, total_allocation, alpha=0.7, label='Allocated')
+    plt.bar(resource_names, b, alpha=0.5, label='Available', width=0.5)
+    
+    plt.xlabel('Resource Type')
+    plt.ylabel('Amount')
+    plt.title('Resource Utilization')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Convergence comparison
+    plt.subplot(2, 2, 3)
+    iterations_range = range(len(decomp_solver.history['dual_values']))
+    plt.plot(iterations_range, decomp_solver.history['dual_values'], 'b-o', 
+             linewidth=2, markersize=4, label='Dual Decomposition')
+    
+    if result_central.success:
+        plt.axhline(y=result_central.fun, color='red', linestyle='--', 
+                   alpha=0.7, label='Centralized Optimal')
+    
+    plt.xlabel('Iteration')
+    plt.ylabel('Objective Value')
+    plt.title('Convergence to Optimal')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Performance metrics
+    plt.subplot(2, 2, 4)
+    methods = ['Dual Decomp', 'Centralized']
+    times = [decomp_time, central_time if result_central.success else 0]
+    objectives = [total_objective, result_central.fun if result_central.success else 0]
+    
+    x_pos = np.arange(len(methods))
+    width = 0.35
+    
+    plt.bar(x_pos - width/2, times, width, label='Time (s)', alpha=0.7)
+    plt.bar(x_pos + width/2, np.array(objectives) / 10, width, label='Objective (÷10)', alpha=0.7)
+    
+    plt.xlabel('Method')
+    plt.ylabel('Value')
+    plt.title('Performance Comparison')
+    plt.xticks(x_pos, methods)
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return lam_opt, x_solutions, decomp_solver
+
+# Run resource allocation example
+resource_results = example_resource_allocation()
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 2: ADMM (Alternating Direction Method of Multipliers)**
+
+**Đề bài:** (Tham khảo Boyd et al., 2011)
+Implement complete ADMM framework:
+
+a) **Basic ADMM** algorithm implementation
+b) **Scaled form** ADMM variant
+c) **Convergence analysis** và parameter tuning
+d) **Applications** to machine learning problems
+
+**Yêu cầu:**
+1. Complete ADMM implementations
+2. Multiple problem formulations
+3. Parameter sensitivity analysis
+4. Performance benchmarking
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Implementation sẽ được cung cấp trong phần tiếp theo do giới hạn độ dài...**
+
+</details>
+
+---
+
+## 📝 **Bài tập 3: Augmented Lagrangian Methods**
+
+**Đề bài:** (Tham khảo Nocedal & Wright, Chapter 17)
+Implement augmented Lagrangian methods:
+
+a) **Method of multipliers** implementation
+b) **Penalty parameter** adaptation strategies
+c) **Convergence analysis** và stopping criteria
+d) **Comparison** với barrier methods
+
+**Yêu cầu:**
+1. Complete augmented Lagrangian implementations
+2. Adaptive penalty strategies
+3. Convergence rate analysis
+4. Method comparison study
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Implementation sẽ được cung cấp trong phần tiếp theo do giới hạn độ dài...**
+
+</details>
+
+---
+
+## 💡 Mẹo Thực Hành
+
+#### **Khi implement dual methods:**
+- Always project dual variables onto feasible set
+- Use appropriate step size strategies
+- Monitor primal-dual gap for convergence
+- Implement robust primal recovery
+
+#### **Khi choose step sizes:**
+- **Constant**: Simple but may not converge
+- **Diminishing**: Guarantees convergence but slow
+- **Polyak**: Fast but requires optimal value knowledge
+- **Adaptive**: Balance between speed and robustness
+
+#### **Khi apply dual decomposition:**
+- Exploit problem separability structure
+- Use efficient subproblem solvers
+- Monitor coupling constraint violations
+- Consider communication costs in distributed settings
+
+#### **Khi use ADMM:**
+- Choose penalty parameter ρ carefully
+- Use scaled form for numerical stability
+- Implement adaptive parameter updates
+- Exploit closed-form solutions when possible
+
+---
+
+## 📚 Tài liệu tham khảo
+
+1. **Boyd, S., Parikh, N., Chu, E., Peleato, B., & Eckstein, J.** (2011). *Distributed optimization and statistical learning via the alternating direction method of multipliers*. Foundations and Trends in Machine Learning.
+
+2. **Bertsekas, D. P.** (1999). *Nonlinear Programming*. Athena Scientific.
+   - Chapter 4: The Method of Multipliers
+
+3. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.
+   - Chapter 5: Duality

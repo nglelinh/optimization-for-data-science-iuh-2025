@@ -1,0 +1,1504 @@
+---
+layout: post
+title: 11-9 Bài Tập Thực Hành Nâng Cao - Tính Đối Ngẫu Tổng Quát
+chapter: '11'
+order: 10
+owner: GitHub Copilot
+lang: vi
+categories:
+- chapter11
+lesson_type: required
+---
+
+# Bài Tập Thực Hành Nâng Cao - Tính Đối Ngẫu Tổng Quát
+
+## 📝 **Bài tập 1: Lagrangian Construction và Dual Function**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Chapter 11)
+Lập trình phương pháp có hệ thống để xây dựng Lagrangian và tính hàm đối ngẫu:
+
+a) **QP đơn giản:** $$\min_x \frac{1}{2}x^T Q x + c^T x$$ s.t. $$Ax \leq b$$, $$x \geq 0$$
+b) **Tối ưu danh mục đầu tư:** $$\min_x \frac{1}{2}x^T \Sigma x$$ s.t. $$\mu^T x \geq r$$, $$\mathbf{1}^T x = 1$$, $$x \geq 0$$
+c) **Xây dựng đối ngẫu SVM:** $$\min_w \frac{1}{2}\|w\|^2$$ s.t. $$y_i(w^T x_i + b) \geq 1$$
+
+**Yêu cầu:**
+1. Xây dựng Lagrangian có hệ thống
+2. Tính toán hàm đối ngẫu
+3. Kiểm chứng tính đối ngẫu mạnh
+4. Lập trình số và trực quan hóa
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Framework cho Lagrangian construction**
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import minimize, linprog
+import cvxpy as cp
+
+class DualityAnalyzer:
+    def __init__(self, problem_name):
+        self.problem_name = problem_name
+        self.primal_optimal = None
+        self.dual_optimal = None
+        self.duality_gap = None
+        
+    def construct_lagrangian(self, objective, eq_constraints=None, ineq_constraints=None):
+        """
+        Construct Lagrangian symbolically
+        """
+        print(f"Lagrangian Construction for {self.problem_name}")
+        print("=" * 50)
+        
+        print("L(x, ν, λ) = f(x)", end="")
+        
+        if eq_constraints:
+            print(" + Σ νⱼ lⱼ(x)", end="")
+            
+        if ineq_constraints:
+            print(" + Σ λᵢ hᵢ(x)", end="")
+            
+        print()
+        print("where:")
+        print("- ν ∈ ℝʳ (unrestricted for equality constraints)")
+        print("- λ ∈ ℝᵐ, λ ≥ 0 (non-negative for inequality constraints)")
+        
+    def solve_simple_qp(self):
+        """Solve simple QP and its dual"""
+        
+        # Problem: min (1/2)x^T Q x + c^T x s.t. Ax ≤ b, x ≥ 0
+        Q = np.array([[2, 1], [1, 2]])
+        c = np.array([1, 1])
+        A = np.array([[1, 1], [1, -1]])
+        b = np.array([1, 0])
+        
+        print("\nSimple QP Problem:")
+        print("min (1/2)x^T Q x + c^T x")
+        print("s.t. Ax ≤ b, x ≥ 0")
+        print(f"Q = \n{Q}")
+        print(f"c = {c}")
+        print(f"A = \n{A}")
+        print(f"b = {b}")
+        
+        # Solve primal using CVXPY
+        x = cp.Variable(2)
+        objective = cp.Minimize(0.5 * cp.quad_form(x, Q) + c.T @ x)
+        constraints = [A @ x <= b, x >= 0]
+        
+        prob = cp.Problem(objective, constraints)
+        prob.solve()
+        
+        x_primal = x.value
+        f_primal = prob.value
+        
+        print(f"\nPrimal Solution:")
+        print(f"x* = {x_primal}")
+        print(f"f* = {f_primal:.6f}")
+        
+        # Construct dual manually
+        print(f"\nDual Construction:")
+        print("L(x,λ,μ) = (1/2)x^T Q x + c^T x + λ^T(Ax - b) - μ^T x")
+        print("g(λ,μ) = min_x L(x,λ,μ)")
+        
+        # For QP: ∇_x L = Qx + c + A^T λ - μ = 0
+        # So x*(λ,μ) = Q^(-1)(μ - c - A^T λ)
+        
+        def dual_function(lam, mu):
+            """Compute dual function value"""
+            if np.any(lam < 0) or np.any(mu < 0):
+                return -np.inf
+                
+            # x*(λ,μ) = Q^(-1)(μ - c - A^T λ)
+            Q_inv = np.linalg.inv(Q)
+            x_star = Q_inv @ (mu - c - A.T @ lam)
+            
+            # g(λ,μ) = L(x*(λ,μ), λ, μ)
+            g_val = (0.5 * x_star.T @ Q @ x_star + c.T @ x_star + 
+                    lam.T @ (A @ x_star - b) - mu.T @ x_star)
+            
+            return g_val
+        
+        # Solve dual problem: max g(λ,μ) s.t. λ,μ ≥ 0
+        def neg_dual_objective(vars):
+            lam = vars[:2]
+            mu = vars[2:]
+            return -dual_function(lam, mu)
+        
+        # Initial guess
+        x0 = np.array([0.1, 0.1, 0.1, 0.1])
+        bounds = [(0, None)] * 4
+        
+        result_dual = minimize(neg_dual_objective, x0, bounds=bounds, method='L-BFGS-B')
+        
+        if result_dual.success:
+            lam_dual = result_dual.x[:2]
+            mu_dual = result_dual.x[2:]
+            g_dual = -result_dual.fun
+            
+            print(f"\nDual Solution:")
+            print(f"λ* = {lam_dual}")
+            print(f"μ* = {mu_dual}")
+            print(f"g* = {g_dual:.6f}")
+            print(f"Duality gap = {f_primal - g_dual:.8f}")
+        
+        return x_primal, f_primal, lam_dual, mu_dual, g_dual
+
+# Run QP example
+analyzer = DualityAnalyzer("Simple QP")
+analyzer.construct_lagrangian("(1/2)x^T Q x + c^T x", 
+                             ineq_constraints=["Ax - b ≤ 0", "-x ≤ 0"])
+x_opt, f_opt, lam_opt, mu_opt, g_opt = analyzer.solve_simple_qp()
+```
+
+**Bước 2: Portfolio optimization**
+
+```python
+def solve_portfolio_optimization():
+    """Solve portfolio optimization and analyze duality"""
+    
+    # Generate synthetic data
+    np.random.seed(42)
+    n_assets = 4
+    
+    # Expected returns
+    mu = np.array([0.1, 0.12, 0.14, 0.08])
+    
+    # Covariance matrix (positive definite)
+    A = np.random.randn(n_assets, n_assets)
+    Sigma = A.T @ A + 0.1 * np.eye(n_assets)
+    
+    # Target return
+    r_target = 0.11
+    
+    print("Portfolio Optimization Problem:")
+    print("min (1/2) x^T Σ x")
+    print("s.t. μ^T x ≥ r, 1^T x = 1, x ≥ 0")
+    print(f"μ = {mu}")
+    print(f"r_target = {r_target}")
+    
+    # Solve primal
+    x = cp.Variable(n_assets)
+    objective = cp.Minimize(0.5 * cp.quad_form(x, Sigma))
+    constraints = [
+        mu.T @ x >= r_target,  # Return constraint
+        np.ones(n_assets).T @ x == 1,  # Budget constraint
+        x >= 0  # Long-only
+    ]
+    
+    prob = cp.Problem(objective, constraints)
+    prob.solve()
+    
+    x_portfolio = x.value
+    risk_primal = prob.value
+    
+    print(f"\nPrimal Solution:")
+    print(f"Optimal portfolio: {x_portfolio}")
+    print(f"Portfolio risk: {risk_primal:.6f}")
+    print(f"Portfolio return: {mu.T @ x_portfolio:.6f}")
+    
+    # Analyze dual
+    print(f"\nDual Analysis:")
+    print("L(x,λ,ν,μ) = (1/2)x^T Σ x - λ(μ^T x - r) + ν(1^T x - 1) - μ^T x")
+    print("Optimality: Σx* - λμ + ν1 - μ = 0")
+    print("So: x* = Σ^(-1)(λμ - ν1 + μ)")
+    
+    # Get dual variables from CVXPY
+    lambda_dual = constraints[0].dual_value  # Return constraint
+    nu_dual = constraints[1].dual_value      # Budget constraint
+    mu_dual = constraints[2].dual_value      # Non-negativity
+    
+    print(f"λ* (return price) = {lambda_dual:.6f}")
+    print(f"ν* (budget price) = {nu_dual:.6f}")
+    print(f"μ* (non-negativity) = {mu_dual}")
+    
+    # Economic interpretation
+    print(f"\nEconomic Interpretation:")
+    print(f"- λ* = {lambda_dual:.6f}: Marginal cost of increasing return requirement")
+    print(f"- ν* = {nu_dual:.6f}: Marginal cost of budget constraint")
+    
+    return x_portfolio, risk_primal, lambda_dual, nu_dual
+
+# Run portfolio example
+portfolio_result = solve_portfolio_optimization()
+```
+
+**Bước 3: SVM dual derivation**
+
+```python
+def derive_svm_dual():
+    """Derive and solve SVM dual problem"""
+    
+    # Generate synthetic 2D data
+    np.random.seed(42)
+    n_samples = 20
+    
+    # Class 1: centered at (-1, -1)
+    X1 = np.random.randn(n_samples//2, 2) * 0.5 + np.array([-1, -1])
+    y1 = np.ones(n_samples//2)
+    
+    # Class 2: centered at (1, 1)  
+    X2 = np.random.randn(n_samples//2, 2) * 0.5 + np.array([1, 1])
+    y2 = -np.ones(n_samples//2)
+    
+    X = np.vstack([X1, X2])
+    y = np.hstack([y1, y2])
+    
+    print("SVM Problem:")
+    print("Primal: min (1/2)||w||² s.t. yᵢ(w^T xᵢ + b) ≥ 1")
+    print("Dual: max Σαᵢ - (1/2)ΣΣαᵢαⱼyᵢyⱼxᵢ^T xⱼ s.t. Σαᵢyᵢ = 0, αᵢ ≥ 0")
+    
+    # Solve using CVXPY
+    # Primal formulation
+    w = cp.Variable(2)
+    b = cp.Variable()
+    
+    objective = cp.Minimize(0.5 * cp.sum_squares(w))
+    constraints = [cp.multiply(y, X @ w + b) >= 1]
+    
+    prob_primal = cp.Problem(objective, constraints)
+    prob_primal.solve()
+    
+    w_primal = w.value
+    b_primal = b.value
+    primal_obj = prob_primal.value
+    
+    print(f"\nPrimal Solution:")
+    print(f"w* = {w_primal}")
+    print(f"b* = {b_primal:.6f}")
+    print(f"Primal objective = {primal_obj:.6f}")
+    
+    # Dual formulation
+    alpha = cp.Variable(n_samples)
+    
+    # Gram matrix
+    K = X @ X.T
+    
+    dual_obj = cp.Maximize(cp.sum(alpha) - 0.5 * cp.quad_form(cp.multiply(y, alpha), K))
+    dual_constraints = [
+        cp.sum(cp.multiply(y, alpha)) == 0,
+        alpha >= 0
+    ]
+    
+    prob_dual = cp.Problem(dual_obj, dual_constraints)
+    prob_dual.solve()
+    
+    alpha_dual = alpha.value
+    dual_objective = prob_dual.value
+    
+    print(f"\nDual Solution:")
+    print(f"α* = {alpha_dual}")
+    print(f"Dual objective = {dual_objective:.6f}")
+    print(f"Duality gap = {abs(primal_obj - dual_objective):.8f}")
+    
+    # Recover primal variables from dual
+    w_recovered = np.sum((alpha_dual * y)[:, np.newaxis] * X, axis=0)
+    
+    # Find support vectors (α > 0)
+    support_vectors = alpha_dual > 1e-6
+    sv_indices = np.where(support_vectors)[0]
+    
+    print(f"\nSupport Vectors:")
+    print(f"Number of SVs: {len(sv_indices)}")
+    print(f"SV indices: {sv_indices}")
+    print(f"α values for SVs: {alpha_dual[support_vectors]}")
+    
+    # Visualization
+    plt.figure(figsize=(12, 5))
+    
+    # Plot 1: Data and decision boundary
+    plt.subplot(1, 2, 1)
+    
+    # Plot data points
+    plt.scatter(X[y == 1, 0], X[y == 1, 1], c='red', marker='o', label='Class +1')
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], c='blue', marker='s', label='Class -1')
+    
+    # Highlight support vectors
+    plt.scatter(X[sv_indices, 0], X[sv_indices, 1], 
+               s=200, facecolors='none', edgecolors='black', linewidth=2, label='Support Vectors')
+    
+    # Plot decision boundary
+    if w_primal is not None:
+        x_min, x_max = plt.xlim()
+        y_min, y_max = plt.ylim()
+        
+        xx = np.linspace(x_min, x_max, 100)
+        yy = -(w_primal[0] * xx + b_primal) / w_primal[1]
+        
+        plt.plot(xx, yy, 'k-', linewidth=2, label='Decision Boundary')
+        
+        # Plot margins
+        yy_margin_pos = -(w_primal[0] * xx + b_primal - 1) / w_primal[1]
+        yy_margin_neg = -(w_primal[0] * xx + b_primal + 1) / w_primal[1]
+        
+        plt.plot(xx, yy_margin_pos, 'k--', alpha=0.5, label='Margin')
+        plt.plot(xx, yy_margin_neg, 'k--', alpha=0.5)
+    
+    plt.xlabel('x₁')
+    plt.ylabel('x₂')
+    plt.title('SVM Classification')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    # Plot 2: Dual variables
+    plt.subplot(1, 2, 2)
+    plt.bar(range(n_samples), alpha_dual, alpha=0.7)
+    plt.axhline(y=0, color='black', linestyle='-', alpha=0.3)
+    plt.xlabel('Sample Index')
+    plt.ylabel('α value')
+    plt.title('Dual Variables (Lagrange Multipliers)')
+    plt.grid(True, alpha=0.3)
+    
+    # Highlight support vectors
+    for idx in sv_indices:
+        plt.bar(idx, alpha_dual[idx], color='red', alpha=0.8)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    return w_primal, b_primal, alpha_dual, sv_indices
+
+# Run SVM example
+svm_result = derive_svm_dual()
+```
+
+**Bước 4: General framework cho duality analysis**
+
+```python
+class GeneralDualityFramework:
+    def __init__(self):
+        self.problems = {}
+        
+    def add_problem(self, name, primal_solver, dual_solver=None):
+        """Add a problem to analyze"""
+        self.problems[name] = {
+            'primal': primal_solver,
+            'dual': dual_solver
+        }
+    
+    def analyze_strong_duality(self, problem_name):
+        """Check strong duality conditions"""
+        print(f"\nStrong Duality Analysis for {problem_name}:")
+        print("=" * 40)
+        
+        print("Conditions for Strong Duality:")
+        print("1. Primal problem is convex")
+        print("2. Slater's condition: ∃ x such that hᵢ(x) < 0 ∀i, lⱼ(x) = 0 ∀j")
+        print("3. Alternative: Linear constraints (LICQ)")
+        print("4. Alternative: Quadratic with positive definite Hessian")
+        
+    def visualize_duality_gap(self, primal_values, dual_values, iterations):
+        """Visualize convergence of duality gap"""
+        
+        gaps = np.array(primal_values) - np.array(dual_values)
+        
+        plt.figure(figsize=(12, 4))
+        
+        plt.subplot(1, 3, 1)
+        plt.semilogy(iterations, primal_values, 'b-', label='Primal', linewidth=2)
+        plt.semilogy(iterations, dual_values, 'r-', label='Dual', linewidth=2)
+        plt.xlabel('Iteration')
+        plt.ylabel('Objective Value')
+        plt.title('Primal-Dual Convergence')
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        
+        plt.subplot(1, 3, 2)
+        plt.semilogy(iterations, gaps, 'g-', linewidth=2)
+        plt.xlabel('Iteration')
+        plt.ylabel('Duality Gap')
+        plt.title('Duality Gap Convergence')
+        plt.grid(True, alpha=0.3)
+        
+        plt.subplot(1, 3, 3)
+        plt.loglog(iterations[1:], gaps[1:], 'purple', linewidth=2)
+        plt.xlabel('Iteration')
+        plt.ylabel('Duality Gap')
+        plt.title('Convergence Rate (Log-Log)')
+        plt.grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+        
+        # Estimate convergence rate
+        if len(gaps) > 10:
+            log_gaps = np.log(gaps[-10:])
+            log_iters = np.log(iterations[-10:])
+            rate = np.polyfit(log_iters, log_gaps, 1)[0]
+            print(f"Estimated convergence rate: O(k^{rate:.2f})")
+
+# Create framework and analyze
+framework = GeneralDualityFramework()
+framework.analyze_strong_duality("Quadratic Programming")
+
+# Dữ liệu hội tụ mẫu
+iterations = np.arange(1, 101)
+primal_vals = 10 * np.exp(-0.1 * iterations) + 5
+dual_vals = 5 - 8 * np.exp(-0.15 * iterations)
+
+framework.visualize_duality_gap(primal_vals, dual_vals, iterations)
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 2: Strong Duality và Slater's Condition**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Section 11.4)
+Phân tích điều kiện đối ngẫu mạnh và lập trình kiểm chứng:
+
+a) **Kiểm chứng điều kiện Slater** cho các bài toán khác nhau
+b) **Ví dụ phản chứng** khi đối ngẫu mạnh không thỏa mãn
+c) **Phân tích điều kiện đủ ràng buộc**
+d) **Giải thích hình học** của khe đối ngẫu
+
+**Yêu cầu:**
+1. Kiểm tra điều kiện Slater có hệ thống
+2. Xây dựng các ví dụ phản chứng
+3. Trực quan hóa hình học
+4. Hàm ý thực tiễn
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Slater's condition verification framework**
+
+```python
+class SlaterConditionChecker:
+    def __init__(self):
+        self.problems = []
+        
+    def check_slater_condition(self, ineq_constraints, eq_constraints=None, 
+                              domain=None, problem_name="Unknown"):
+        """
+        Check Slater's condition for a given problem
+        """
+        print(f"Slater's Condition Analysis: {problem_name}")
+        print("=" * 50)
+        
+        print("Slater's Condition Requirements:")
+        print("1. Problem must be convex")
+        print("2. ∃ x ∈ relint(dom f) such that:")
+        print("   - hᵢ(x) < 0 for all i (strict inequality)")
+        print("   - lⱼ(x) = 0 for all j (equality constraints)")
+        
+        # Try to find a Slater point
+        return self._find_slater_point(ineq_constraints, eq_constraints, domain)
+    
+    def _find_slater_point(self, ineq_constraints, eq_constraints, domain):
+        """Attempt to find a point satisfying Slater's condition"""
+        
+        # This is a simplified implementation
+        # In practice, this would involve solving a feasibility problem
+        
+        print("\nSearching for Slater point...")
+        
+        # Ví dụ: thử các điểm ngẫu nhiên trong miền
+        n_trials = 1000
+        found_slater = False
+        
+        for trial in range(n_trials):
+            # Generate random point (problem-specific)
+            if domain == "R2":
+                x = np.random.randn(2) * 2
+            elif domain == "R+":
+                x = np.random.rand(2) * 5
+            else:
+                x = np.random.randn(2)
+            
+            # Check constraints
+            ineq_satisfied = True
+            eq_satisfied = True
+            
+            # Check inequality constraints (need strict satisfaction)
+            for constraint in ineq_constraints:
+                if constraint(x) >= 0:  # Should be < 0
+                    ineq_satisfied = False
+                    break
+            
+            # Check equality constraints
+            if eq_constraints:
+                for constraint in eq_constraints:
+                    if abs(constraint(x)) > 1e-6:  # Should be = 0
+                        eq_satisfied = False
+                        break
+            
+            if ineq_satisfied and eq_satisfied:
+                print(f"✓ Slater point found: x = {x}")
+                print(f"  Constraint values:")
+                for i, constraint in enumerate(ineq_constraints):
+                    print(f"    h_{i}(x) = {constraint(x):.6f} < 0")
+                found_slater = True
+                break
+        
+        if not found_slater:
+            print("✗ No Slater point found in random search")
+            print("  This suggests Slater's condition may not hold")
+        
+        return found_slater
+
+# Ví dụ 1: QP đơn giản (điều kiện Slater thỏa mãn)
+def example_slater_holds():
+    """Ví dụ khi điều kiện Slater thỏa mãn"""
+    
+    print("Example 1: QP with Slater's Condition")
+    print("min (1/2)(x₁² + x₂²) s.t. x₁ + x₂ ≤ 1, x₁ ≥ 0, x₂ ≥ 0")
+    
+    # Define constraints: hᵢ(x) ≤ 0
+    def h1(x): return x[0] + x[1] - 1      # x₁ + x₂ ≤ 1
+    def h2(x): return -x[0]                # x₁ ≥ 0
+    def h3(x): return -x[1]                # x₂ ≥ 0
+    
+    constraints = [h1, h2, h3]
+    
+    checker = SlaterConditionChecker()
+    slater_holds = checker.check_slater_condition(constraints, domain="R+", 
+                                                 problem_name="Simple QP")
+    
+    # Solve the problem to verify strong duality
+    x = cp.Variable(2)
+    objective = cp.Minimize(0.5 * cp.sum_squares(x))
+    cvx_constraints = [x[0] + x[1] <= 1, x >= 0]
+    
+    prob = cp.Problem(objective, cvx_constraints)
+    prob.solve()
+    
+    primal_opt = prob.value
+    
+    # Check duality gap
+    dual_vars = [c.dual_value for c in cvx_constraints]
+    print(f"\nPrimal optimal: {primal_opt:.6f}")
+    print(f"Dual variables: {dual_vars}")
+    print(f"Strong duality verified: {prob.status == 'optimal'}")
+    
+    return slater_holds
+
+# Example 2: Problem where Slater's condition fails
+def example_slater_fails():
+    """Example where Slater's condition fails"""
+    
+    print("\n" + "="*60)
+    print("Example 2: Problem without Slater's Condition")
+    print("min x s.t. x² ≤ 0")
+    print("(Only feasible point is x = 0, no strict feasibility)")
+    
+    def h1(x): return x[0]**2  # x² ≤ 0
+    
+    constraints = [h1]
+    
+    checker = SlaterConditionChecker()
+    slater_holds = checker.check_slater_condition(constraints, domain="R", 
+                                                 problem_name="Degenerate Problem")
+    
+    # This problem has duality gap
+    print("\nAnalysis:")
+    print("- Primal optimal: x* = 0, f* = 0")
+    print("- Dual problem: max g(λ) = min_x {x + λx²}")
+    print("- If λ > 0: g(λ) = -∞ (unbounded below)")
+    print("- If λ = 0: g(λ) = -∞ (unbounded below)")  
+    print("- If λ < 0: g(λ) = -1/(4λ)")
+    print("- Dual optimal: g* = 0 (taking λ → 0⁻)")
+    print("- Duality gap: f* - g* = 0 (actually no gap in this case)")
+    
+    return slater_holds
+
+# Example 3: Geometric interpretation
+def geometric_duality_interpretation():
+    """Visualize geometric interpretation of duality"""
+    
+    print("\n" + "="*60)
+    print("Geometric Interpretation of Duality")
+    
+    # Problem: min x₁ s.t. x₁² + x₂² ≤ 1
+    
+    # Create visualization
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    
+    # Plot 1: Feasible region and optimal point
+    ax1 = axes[0]
+    theta = np.linspace(0, 2*np.pi, 100)
+    x1_circle = np.cos(theta)
+    x2_circle = np.sin(theta)
+    
+    ax1.fill(x1_circle, x2_circle, alpha=0.3, color='lightblue', label='Feasible region')
+    ax1.plot(x1_circle, x2_circle, 'b-', linewidth=2)
+    
+    # Optimal point
+    ax1.plot(-1, 0, 'ro', markersize=10, label='Optimal point')
+    
+    # Objective function contours
+    x1_range = np.linspace(-1.5, 1.5, 100)
+    for c in [-1, -0.5, 0, 0.5]:
+        ax1.axvline(x=c, color='green', alpha=0.5, linestyle='--')
+    
+    ax1.set_xlim(-1.5, 1.5)
+    ax1.set_ylim(-1.5, 1.5)
+    ax1.set_xlabel('x₁')
+    ax1.set_ylabel('x₂')
+    ax1.set_title('Primal Problem')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    ax1.set_aspect('equal')
+    
+    # Plot 2: Dual function
+    ax2 = axes[1]
+    lambda_vals = np.linspace(0.01, 2, 100)
+    
+    # Dual function: g(λ) = min_x {x₁ + λ(x₁² + x₂² - 1)}
+    # = min_x {x₁ + λx₁² + λx₂² - λ}
+    # Minimizing over x₂: optimal x₂ = 0
+    # Minimizing over x₁: optimal x₁ = -1/(2λ)
+    # g(λ) = -1/(2λ) + λ(-1/(2λ))² - λ = -1/(2λ) - 1/(4λ) - λ = -3/(4λ) - λ
+    
+    g_vals = -3/(4*lambda_vals) - lambda_vals
+    
+    ax2.plot(lambda_vals, g_vals, 'r-', linewidth=2, label='g(λ)')
+    ax2.axhline(y=-1, color='blue', linestyle='--', label='Primal optimal')
+    
+    # Find dual optimal
+    optimal_idx = np.argmax(g_vals)
+    ax2.plot(lambda_vals[optimal_idx], g_vals[optimal_idx], 'ro', markersize=8, label='Dual optimal')
+    
+    ax2.set_xlabel('λ')
+    ax2.set_ylabel('g(λ)')
+    ax2.set_title('Dual Function')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    
+    # Plot 3: Duality gap evolution
+    ax3 = axes[2]
+    
+    # Show how duality gap closes as we approach optimal λ
+    lambda_range = np.linspace(0.1, 2, 50)
+    primal_val = -1  # Known optimal value
+    dual_vals = -3/(4*lambda_range) - lambda_range
+    gaps = primal_val - dual_vals
+    
+    ax3.semilogy(lambda_range, np.maximum(gaps, 1e-10), 'purple', linewidth=2)
+    ax3.set_xlabel('λ')
+    ax3.set_ylabel('Duality Gap')
+    ax3.set_title('Duality Gap vs λ')
+    ax3.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    # Analytical solution
+    optimal_lambda = np.sqrt(3/4)
+    optimal_dual = -3/(4*optimal_lambda) - optimal_lambda
+    
+    print(f"Analytical Results:")
+    print(f"Optimal λ* = √(3/4) = {optimal_lambda:.6f}")
+    print(f"Dual optimal g* = {optimal_dual:.6f}")
+    print(f"Primal optimal f* = -1")
+    print(f"Duality gap = {-1 - optimal_dual:.8f}")
+
+# Run examples
+example1_result = example_slater_holds()
+example2_result = example_slater_fails()
+geometric_duality_interpretation()
+```
+
+**Bước 2: Constraint qualifications analysis**
+
+```python
+def analyze_constraint_qualifications():
+    """Analyze different constraint qualifications"""
+    
+    print("Constraint Qualifications Analysis")
+    print("=" * 40)
+    
+    qualifications = {
+        "Slater's Condition": {
+            "description": "∃ x: hᵢ(x) < 0 ∀i, lⱼ(x) = 0 ∀j",
+            "applies_to": "Convex problems",
+            "strength": "Sufficient for strong duality"
+        },
+        
+        "LICQ (Linear Independence CQ)": {
+            "description": "∇hᵢ(x*), ∇lⱼ(x*) are linearly independent",
+            "applies_to": "Smooth problems",
+            "strength": "Necessary for KKT conditions"
+        },
+        
+        "MFCQ (Mangasarian-Fromovitz CQ)": {
+            "description": "∇lⱼ(x*) lin. indep., ∃d: ∇hᵢ(x*)ᵀd < 0",
+            "applies_to": "Smooth problems",
+            "strength": "Weaker than LICQ"
+        },
+        
+        "CPLD (Constant Positive Linear Dependence)": {
+            "description": "Technical condition on constraint gradients",
+            "applies_to": "General smooth problems", 
+            "strength": "Very weak"
+        }
+    }
+    
+    for name, info in qualifications.items():
+        print(f"\n{name}:")
+        print(f"  Description: {info['description']}")
+        print(f"  Applies to: {info['applies_to']}")
+        print(f"  Strength: {info['strength']}")
+    
+    # Example: LICQ failure
+    print(f"\nExample: LICQ Failure")
+    print("Problem: min x₁ s.t. (x₁ - 1)³ ≤ 0, x₂ = 0")
+    print("At x* = (1, 0):")
+    print("∇h(x*) = ∇((x₁-1)³) = (0, 0) - not linearly independent!")
+    print("∇l(x*) = ∇(x₂) = (0, 1)")
+    print("LICQ fails, but KKT conditions may still hold")
+
+analyze_constraint_qualifications()
+```
+
+**Bước 3: Practical implications**
+
+```python
+def practical_duality_implications():
+    """Demonstrate practical implications of duality theory"""
+    
+    print("Practical Implications of Duality Theory")
+    print("=" * 45)
+    
+    implications = [
+        {
+            "area": "Algorithm Design",
+            "examples": [
+                "Primal-dual interior point methods",
+                "Dual decomposition for distributed optimization",
+                "Augmented Lagrangian methods"
+            ]
+        },
+        {
+            "area": "Sensitivity Analysis", 
+            "examples": [
+                "Shadow prices from dual variables",
+                "Perturbation analysis",
+                "Parametric optimization"
+            ]
+        },
+        {
+            "area": "Problem Reformulation",
+            "examples": [
+                "Dual problem may be easier to solve",
+                "Better numerical properties",
+                "Parallel computation opportunities"
+            ]
+        },
+        {
+            "area": "Bounds and Approximation",
+            "examples": [
+                "Dual provides lower bounds",
+                "Early stopping criteria",
+                "Approximation quality assessment"
+            ]
+        }
+    ]
+    
+    for impl in implications:
+        print(f"\n{impl['area']}:")
+        for example in impl['examples']:
+            print(f"  • {example}")
+    
+    # Demonstrate sensitivity analysis
+    print(f"\nSensitivity Analysis Example:")
+    print("Consider: min x₁² + x₂² s.t. x₁ + x₂ ≥ c")
+    
+    c_values = np.linspace(0, 2, 21)
+    optimal_values = []
+    dual_variables = []
+    
+    for c in c_values:
+        x = cp.Variable(2)
+        objective = cp.Minimize(cp.sum_squares(x))
+        constraint = [x[0] + x[1] >= c]
+        
+        prob = cp.Problem(objective, constraint)
+        prob.solve()
+        
+        if prob.status == 'optimal':
+            optimal_values.append(prob.value)
+            dual_variables.append(constraint[0].dual_value)
+        else:
+            optimal_values.append(np.inf)
+            dual_variables.append(0)
+    
+    plt.figure(figsize=(12, 4))
+    
+    plt.subplot(1, 3, 1)
+    plt.plot(c_values, optimal_values, 'b-', linewidth=2)
+    plt.xlabel('c (RHS parameter)')
+    plt.ylabel('Optimal Value')
+    plt.title('Optimal Value vs Parameter')
+    plt.grid(True, alpha=0.3)
+    
+    plt.subplot(1, 3, 2)
+    plt.plot(c_values, dual_variables, 'r-', linewidth=2)
+    plt.xlabel('c (RHS parameter)')
+    plt.ylabel('Dual Variable (Shadow Price)')
+    plt.title('Shadow Price vs Parameter')
+    plt.grid(True, alpha=0.3)
+    
+    plt.subplot(1, 3, 3)
+    # Numerical derivative of optimal value
+    numerical_derivative = np.gradient(optimal_values, c_values)
+    plt.plot(c_values, numerical_derivative, 'g-', linewidth=2, label='∂f*/∂c')
+    plt.plot(c_values, dual_variables, 'r--', linewidth=2, label='λ* (dual var)')
+    plt.xlabel('c (RHS parameter)')
+    plt.ylabel('Derivative / Shadow Price')
+    plt.title('Envelope Theorem Verification')
+    plt.legend()
+    plt.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.show()
+    
+    print("Envelope Theorem: ∂f*/∂c = λ* (shadow price)")
+    print("The dual variable gives the sensitivity of optimal value to parameter changes")
+
+practical_duality_implications()
+```
+
+</details>
+
+---
+
+## 📝 **Bài tập 3: Primal-Dual Algorithms**
+
+**Đề bài:** (Tham khảo Boyd & Vandenberghe, Applications)
+Lập trình các thuật toán primal-dual và phân tích hội tụ:
+
+a) **Phương pháp điểm trong primal-dual**
+b) **ADMM (Phương pháp nhân tử hướng xen kẽ)**
+c) **Phân rã đối ngẫu** cho tối ưu phân tán
+d) **Phân tích hội tụ** và so sánh
+
+**Yêu cầu:**
+1. Lập trình thuật toán
+2. Phân tích tốc độ hội tụ
+3. Thí nghiệm số
+4. Ứng dụng thực tiễn
+
+<details>
+<summary><strong>💡 Lời giải chi tiết</strong></summary>
+
+**Bước 1: Primal-dual interior point method**
+
+```python
+class PrimalDualInteriorPoint:
+    def __init__(self, tolerance=1e-6, max_iterations=100):
+        self.tol = tolerance
+        self.max_iter = max_iterations
+        self.history = {
+            'primal_obj': [],
+            'dual_obj': [],
+            'duality_gap': [],
+            'primal_residual': [],
+            'dual_residual': []
+        }
+    
+    def solve_qp(self, Q, c, A, b):
+        """
+        Solve QP: min (1/2)x^T Q x + c^T x s.t. Ax ≤ b
+        using primal-dual interior point method
+        """
+        
+        n = len(c)  # Number of variables
+        m = len(b)  # Number of constraints
+        
+        # Initialize variables
+        x = np.ones(n)
+        s = np.ones(m)  # Slack variables
+        y = np.ones(m)  # Dual variables
+        
+        # Ensure initial point is feasible
+        residual = A @ x + s - b
+        if np.any(residual > 0):
+            s = s + np.maximum(0, residual) + 0.1
+        
+        mu = 0.1  # Barrier parameter
+        sigma = 0.1  # Centering parameter
+        
+        print("Primal-Dual Interior Point Method")
+        print("=" * 40)
+        print(f"{'Iter':<4} {'Primal Obj':<12} {'Dual Obj':<12} {'Gap':<12} {'μ':<10}")
+        print("-" * 60)
+        
+        for iteration in range(self.max_iter):
+            # Compute residuals
+            rd = Q @ x + c - A.T @ y  # Dual residual
+            rp = A @ x + s - b        # Primal residual
+            rc = s * y                # Complementarity residual
+            
+            # Compute objectives
+            primal_obj = 0.5 * x.T @ Q @ x + c.T @ x
+            dual_obj = -0.5 * x.T @ Q @ x + b.T @ y
+            gap = primal_obj - dual_obj
+            
+            # Store history
+            self.history['primal_obj'].append(primal_obj)
+            self.history['dual_obj'].append(dual_obj)
+            self.history['duality_gap'].append(gap)
+            self.history['primal_residual'].append(np.linalg.norm(rp))
+            self.history['dual_residual'].append(np.linalg.norm(rd))
+            
+            print(f"{iteration:<4} {primal_obj:<12.6f} {dual_obj:<12.6f} {gap:<12.6f} {mu:<10.6f}")
+            
+            # Check convergence
+            if (np.linalg.norm(rd) < self.tol and 
+                np.linalg.norm(rp) < self.tol and 
+                gap < self.tol):
+                print(f"Converged in {iteration} iterations")
+                break
+            
+            # Update barrier parameter
+            mu = sigma * np.dot(s, y) / m
+            
+            # Solve Newton system
+            # [Q   -A^T  0 ] [Δx]   [-rd]
+            # [A    0    I ] [Δy] = [-rp]
+            # [0    S    Y ] [Δs]   [-rc + σμe]
+            
+            S = np.diag(s)
+            Y = np.diag(y)
+            
+            # Form KKT matrix
+            KKT = np.block([
+                [Q, -A.T, np.zeros((n, m))],
+                [A, np.zeros((m, m)), np.eye(m)],
+                [np.zeros((m, n)), S, Y]
+            ])
+            
+            rhs = np.concatenate([
+                -rd,
+                -rp, 
+                -rc + sigma * mu * np.ones(m)
+            ])
+            
+            # Solve system
+            try:
+                delta = np.linalg.solve(KKT, rhs)
+                dx = delta[:n]
+                dy = delta[n:n+m]
+                ds = delta[n+m:]
+                
+                # Line search
+                alpha_primal = self._line_search_primal(s, ds)
+                alpha_dual = self._line_search_dual(y, dy)
+                alpha = 0.99 * min(alpha_primal, alpha_dual)
+                
+                # Update variables
+                x += alpha * dx
+                y += alpha * dy
+                s += alpha * ds
+                
+            except np.linalg.LinAlgError:
+                print("Singular KKT matrix, stopping")
+                break
+        
+        return x, y, s
+    
+    def _line_search_primal(self, s, ds):
+        """Find maximum step size maintaining s > 0"""
+        negative_indices = ds < 0
+        if not np.any(negative_indices):
+            return 1.0
+        return min(1.0, np.min(-s[negative_indices] / ds[negative_indices]))
+    
+    def _line_search_dual(self, y, dy):
+        """Find maximum step size maintaining y > 0"""
+        negative_indices = dy < 0
+        if not np.any(negative_indices):
+            return 1.0
+        return min(1.0, np.min(-y[negative_indices] / dy[negative_indices]))
+    
+    def plot_convergence(self):
+        """Plot convergence history"""
+        
+        fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+        
+        iterations = range(len(self.history['primal_obj']))
+        
+        # Objective values
+        axes[0, 0].semilogy(iterations, self.history['primal_obj'], 'b-', label='Primal')
+        axes[0, 0].semilogy(iterations, self.history['dual_obj'], 'r-', label='Dual')
+        axes[0, 0].set_xlabel('Iteration')
+        axes[0, 0].set_ylabel('Objective Value')
+        axes[0, 0].set_title('Objective Convergence')
+        axes[0, 0].legend()
+        axes[0, 0].grid(True, alpha=0.3)
+        
+        # Duality gap
+        axes[0, 1].semilogy(iterations, self.history['duality_gap'], 'g-')
+        axes[0, 1].set_xlabel('Iteration')
+        axes[0, 1].set_ylabel('Duality Gap')
+        axes[0, 1].set_title('Duality Gap Convergence')
+        axes[0, 1].grid(True, alpha=0.3)
+        
+        # Primal residual
+        axes[1, 0].semilogy(iterations, self.history['primal_residual'], 'purple')
+        axes[1, 0].set_xlabel('Iteration')
+        axes[1, 0].set_ylabel('Primal Residual')
+        axes[1, 0].set_title('Primal Feasibility')
+        axes[1, 0].grid(True, alpha=0.3)
+        
+        # Dual residual
+        axes[1, 1].semilogy(iterations, self.history['dual_residual'], 'orange')
+        axes[1, 1].set_xlabel('Iteration')
+        axes[1, 1].set_ylabel('Dual Residual')
+        axes[1, 1].set_title('Dual Feasibility')
+        axes[1, 1].grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+
+# Test primal-dual interior point
+def test_interior_point():
+    """Test interior point method on QP"""
+    
+    # Problem: min (1/2)(x₁² + x₂²) + x₁ + x₂ s.t. x₁ + x₂ ≤ 1, x₁,x₂ ≥ 0
+    Q = np.array([[1, 0], [0, 1]])
+    c = np.array([1, 1])
+    A = np.array([
+        [1, 1],   # x₁ + x₂ ≤ 1
+        [-1, 0],  # -x₁ ≤ 0 (x₁ ≥ 0)
+        [0, -1]   # -x₂ ≤ 0 (x₂ ≥ 0)
+    ])
+    b = np.array([1, 0, 0])
+    
+    solver = PrimalDualInteriorPoint()
+    x_opt, y_opt, s_opt = solver.solve_qp(Q, c, A, b)
+    
+    print(f"\nOptimal solution: x* = {x_opt}")
+    print(f"Optimal dual variables: y* = {y_opt}")
+    print(f"Optimal slack variables: s* = {s_opt}")
+    
+    solver.plot_convergence()
+    
+    return x_opt, y_opt
+
+# Run test
+x_optimal, y_optimal = test_interior_point()
+```
+
+**Bước 2: ADMM implementation**
+
+```python
+class ADMM:
+    def __init__(self, rho=1.0, tolerance=1e-6, max_iterations=1000):
+        self.rho = rho
+        self.tol = tolerance
+        self.max_iter = max_iterations
+        self.history = {
+            'primal_residual': [],
+            'dual_residual': [],
+            'objective': []
+        }
+    
+    def solve_lasso(self, A, b, lambda_reg):
+        """
+        Solve LASSO: min (1/2)||Ax - b||² + λ||x||₁
+        using ADMM with splitting x = z
+        """
+        
+        m, n = A.shape
+        
+        # Initialize variables
+        x = np.zeros(n)
+        z = np.zeros(n)
+        u = np.zeros(n)  # Scaled dual variable
+        
+        # Precompute for x-update
+        AtA = A.T @ A
+        Atb = A.T @ b
+        L = AtA + self.rho * np.eye(n)
+        L_inv = np.linalg.inv(L)
+        
+        print("ADMM for LASSO")
+        print("=" * 30)
+        print(f"{'Iter':<4} {'Objective':<12} {'Primal Res':<12} {'Dual Res':<12}")
+        print("-" * 50)
+        
+        for iteration in range(self.max_iter):
+            # x-update: minimize (1/2)||Ax - b||² + (ρ/2)||x - z + u||²
+            x = L_inv @ (Atb + self.rho * (z - u))
+            
+            # z-update: minimize λ||z||₁ + (ρ/2)||x - z + u||²
+            z_old = z.copy()
+            z = self._soft_threshold(x + u, lambda_reg / self.rho)
+            
+            # u-update: u := u + x - z
+            u = u + x - z
+            
+            # Compute residuals
+            primal_residual = np.linalg.norm(x - z)
+            dual_residual = self.rho * np.linalg.norm(z - z_old)
+            
+            # Compute objective
+            objective = 0.5 * np.linalg.norm(A @ x - b)**2 + lambda_reg * np.linalg.norm(z, 1)
+            
+            # Store history
+            self.history['primal_residual'].append(primal_residual)
+            self.history['dual_residual'].append(dual_residual)
+            self.history['objective'].append(objective)
+            
+            if iteration % 10 == 0:
+                print(f"{iteration:<4} {objective:<12.6f} {primal_residual:<12.6f} {dual_residual:<12.6f}")
+            
+            # Check convergence
+            if primal_residual < self.tol and dual_residual < self.tol:
+                print(f"Converged in {iteration} iterations")
+                break
+        
+        return x, z
+    
+    def _soft_threshold(self, x, threshold):
+        """Soft thresholding operator"""
+        return np.sign(x) * np.maximum(np.abs(x) - threshold, 0)
+    
+    def solve_consensus_optimization(self, local_objectives, A_global, b_global):
+        """
+        Solve consensus optimization:
+        min Σᵢ fᵢ(xᵢ) s.t. xᵢ = z ∀i
+        """
+        
+        N = len(local_objectives)  # Number of agents
+        n = len(A_global[0])       # Dimension
+        
+        # Initialize variables
+        x = [np.zeros(n) for _ in range(N)]
+        z = np.zeros(n)
+        u = [np.zeros(n) for _ in range(N)]
+        
+        print("ADMM Consensus Optimization")
+        print("=" * 35)
+        
+        for iteration in range(self.max_iter):
+            # x-updates (can be done in parallel)
+            for i in range(N):
+                x[i] = self._solve_local_subproblem(i, z, u[i], local_objectives[i])
+            
+            # z-update: z := (1/N) Σᵢ (xᵢ + uᵢ)
+            z = np.mean([x[i] + u[i] for i in range(N)], axis=0)
+            
+            # u-updates
+            for i in range(N):
+                u[i] = u[i] + x[i] - z
+            
+            # Check convergence
+            primal_residual = np.sqrt(sum(np.linalg.norm(x[i] - z)**2 for i in range(N)))
+            
+            if iteration % 50 == 0:
+                print(f"Iteration {iteration}: Primal residual = {primal_residual:.6f}")
+            
+            if primal_residual < self.tol:
+                print(f"Converged in {iteration} iterations")
+                break
+        
+        return x, z
+    
+    def _solve_local_subproblem(self, agent_id, z, u, local_objective):
+        """Solve local subproblem for agent i"""
+        # This is problem-specific and would be implemented based on fᵢ
+        # For quadratic: min (1/2)xᵢᵀ Qᵢ xᵢ + cᵢᵀ xᵢ + (ρ/2)||xᵢ - z + uᵢ||²
+        
+        # Simplified implementation for quadratic case
+        Q_i = local_objective['Q']
+        c_i = local_objective['c']
+        
+        # Solve: (Qᵢ + ρI) xᵢ = -cᵢ + ρ(z - uᵢ)
+        L = Q_i + self.rho * np.eye(len(c_i))
+        rhs = -c_i + self.rho * (z - u)
+        
+        return np.linalg.solve(L, rhs)
+    
+    def plot_convergence(self):
+        """Plot ADMM convergence"""
+        
+        fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+        
+        iterations = range(len(self.history['objective']))
+        
+        # Objective
+        axes[0].semilogy(iterations, self.history['objective'], 'b-', linewidth=2)
+        axes[0].set_xlabel('Iteration')
+        axes[0].set_ylabel('Objective Value')
+        axes[0].set_title('Objective Convergence')
+        axes[0].grid(True, alpha=0.3)
+        
+        # Primal residual
+        axes[1].semilogy(iterations, self.history['primal_residual'], 'r-', linewidth=2)
+        axes[1].set_xlabel('Iteration')
+        axes[1].set_ylabel('Primal Residual')
+        axes[1].set_title('Primal Residual')
+        axes[1].grid(True, alpha=0.3)
+        
+        # Dual residual
+        axes[2].semilogy(iterations, self.history['dual_residual'], 'g-', linewidth=2)
+        axes[2].set_xlabel('Iteration')
+        axes[2].set_ylabel('Dual Residual')
+        axes[2].set_title('Dual Residual')
+        axes[2].grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+
+# Test ADMM on LASSO
+def test_admm_lasso():
+    """Test ADMM on LASSO problem"""
+    
+    # Generate synthetic data
+    np.random.seed(42)
+    m, n = 100, 50
+    A = np.random.randn(m, n)
+    x_true = np.zeros(n)
+    x_true[:5] = np.random.randn(5)  # Sparse true solution
+    b = A @ x_true + 0.1 * np.random.randn(m)
+    
+    lambda_reg = 0.1
+    
+    # Solve with ADMM
+    admm = ADMM(rho=1.0)
+    x_admm, z_admm = admm.solve_lasso(A, b, lambda_reg)
+    
+    print(f"\nTrue solution (first 10): {x_true[:10]}")
+    print(f"ADMM solution (first 10): {x_admm[:10]}")
+    print(f"Recovery error: {np.linalg.norm(x_admm - x_true):.6f}")
+    
+    admm.plot_convergence()
+    
+    # Compare with CVXPY
+    x_cvx = cp.Variable(n)
+    objective = cp.Minimize(0.5 * cp.sum_squares(A @ x_cvx - b) + lambda_reg * cp.norm(x_cvx, 1))
+    prob = cp.Problem(objective)
+    prob.solve()
+    
+    print(f"CVXPY solution (first 10): {x_cvx.value[:10]}")
+    print(f"ADMM vs CVXPY error: {np.linalg.norm(x_admm - x_cvx.value):.6f}")
+    
+    return x_admm, x_cvx.value
+
+# Run ADMM test
+x_admm_result, x_cvx_result = test_admm_lasso()
+```
+
+**Bước 3: Dual decomposition**
+
+```python
+class DualDecomposition:
+    def __init__(self, step_size=0.01, max_iterations=1000):
+        self.step_size = step_size
+        self.max_iter = max_iterations
+        self.history = {
+            'dual_objective': [],
+            'primal_objective': [],
+            'constraint_violation': []
+        }
+    
+    def solve_resource_allocation(self, utilities, capacities, demands):
+        """
+        Solve resource allocation problem:
+        max Σᵢ Uᵢ(xᵢ) s.t. Σᵢ xᵢ ≤ C, xᵢ ≥ 0
+        
+        Using dual decomposition on coupling constraint
+        """
+        
+        N = len(utilities)  # Number of agents
+        
+        # Initialize dual variable (price)
+        price = 1.0
+        
+        print("Dual Decomposition for Resource Allocation")
+        print("=" * 45)
+        print(f"{'Iter':<4} {'Price':<10} {'Dual Obj':<12} {'Constraint':<12}")
+        print("-" * 50)
+        
+        for iteration in range(self.max_iter):
+            # Solve local problems (can be done in parallel)
+            local_solutions = []
+            total_demand = 0
+            
+            for i in range(N):
+                # Solve: max Uᵢ(xᵢ) - price × xᵢ
+                x_i = self._solve_local_utility(utilities[i], price, demands[i])
+                local_solutions.append(x_i)
+                total_demand += x_i
+            
+            # Compute dual objective
+            dual_obj = sum(utilities[i](local_solutions[i]) - price * local_solutions[i] 
+                          for i in range(N)) + price * capacities
+            
+            # Compute primal objective (if feasible)
+            if total_demand <= capacities:
+                primal_obj = sum(utilities[i](local_solutions[i]) for i in range(N))
+            else:
+                primal_obj = -np.inf  # Infeasible
+            
+            # Constraint violation
+            constraint_viol = max(0, total_demand - capacities)
+            
+            # Store history
+            self.history['dual_objective'].append(dual_obj)
+            self.history['primal_objective'].append(primal_obj if primal_obj > -np.inf else np.nan)
+            self.history['constraint_violation'].append(constraint_viol)
+            
+            if iteration % 50 == 0:
+                print(f"{iteration:<4} {price:<10.4f} {dual_obj:<12.4f} {constraint_viol:<12.4f}")
+            
+            # Update price (subgradient step)
+            subgradient = capacities - total_demand
+            price = max(0, price - self.step_size * subgradient)
+            
+            # Check convergence
+            if constraint_viol < 1e-6:
+                print(f"Converged in {iteration} iterations")
+                break
+        
+        return local_solutions, price
+    
+    def _solve_local_utility(self, utility_func, price, max_demand):
+        """Solve local utility maximization problem"""
+        
+        # For quadratic utility: U(x) = ax - (b/2)x²
+        # max ax - (b/2)x² - price × x
+        # Optimal: x* = (a - price) / b, clipped to [0, max_demand]
+        
+        if hasattr(utility_func, 'a') and hasattr(utility_func, 'b'):
+            # Quadratic utility
+            x_unconstrained = (utility_func.a - price) / utility_func.b
+            return np.clip(x_unconstrained, 0, max_demand)
+        else:
+            # General case: use numerical optimization
+            from scipy.optimize import minimize_scalar
+            
+            def neg_utility(x):
+                return -(utility_func(x) - price * x)
+            
+            result = minimize_scalar(neg_utility, bounds=(0, max_demand), method='bounded')
+            return result.x
+    
+    def plot_convergence(self):
+        """Plot dual decomposition convergence"""
+        
+        fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+        
+        iterations = range(len(self.history['dual_objective']))
+        
+        # Dual objective
+        axes[0].plot(iterations, self.history['dual_objective'], 'b-', linewidth=2)
+        axes[0].set_xlabel('Iteration')
+        axes[0].set_ylabel('Dual Objective')
+        axes[0].set_title('Dual Objective')
+        axes[0].grid(True, alpha=0.3)
+        
+        # Primal objective (when feasible)
+        primal_vals = [val for val in self.history['primal_objective'] if not np.isnan(val)]
+        if primal_vals:
+            axes[1].plot(range(len(primal_vals)), primal_vals, 'r-', linewidth=2)
+        axes[1].set_xlabel('Iteration')
+        axes[1].set_ylabel('Primal Objective')
+        axes[1].set_title('Primal Objective (when feasible)')
+        axes[1].grid(True, alpha=0.3)
+        
+        # Constraint violation
+        axes[2].semilogy(iterations, np.maximum(self.history['constraint_violation'], 1e-10), 'g-', linewidth=2)
+        axes[2].set_xlabel('Iteration')
+        axes[2].set_ylabel('Constraint Violation')
+        axes[2].set_title('Constraint Violation')
+        axes[2].grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        plt.show()
+
+# Test dual decomposition
+def test_dual_decomposition():
+    """Test dual decomposition on resource allocation"""
+    
+    # Define quadratic utilities: Uᵢ(x) = aᵢx - (bᵢ/2)x²
+    class QuadraticUtility:
+        def __init__(self, a, b):
+            self.a = a
+            self.b = b
+        
+        def __call__(self, x):
+            return self.a * x - 0.5 * self.b * x**2
+    
+    # Create utilities for 5 agents
+    utilities = [
+        QuadraticUtility(10, 1),   # High value, low curvature
+        QuadraticUtility(8, 1.5),  # Medium value, medium curvature
+        QuadraticUtility(12, 2),   # High value, high curvature
+        QuadraticUtility(6, 0.8),  # Low value, low curvature
+        QuadraticUtility(9, 1.2)   # Medium value, medium curvature
+    ]
+    
+    capacities = 25  # Total resource capacity
+    demands = [15, 12, 10, 18, 14]  # Maximum demand for each agent
+    
+    # Solve using dual decomposition
+    decomp = DualDecomposition(step_size=0.1)
+    solutions, final_price = decomp.solve_resource_allocation(utilities, capacities, demands)
+    
+    print(f"\nFinal allocations: {solutions}")
+    print(f"Total allocation: {sum(solutions):.4f}")
+    print(f"Capacity: {capacities}")
+    print(f"Final price: {final_price:.4f}")
+    
+    decomp.plot_convergence()
+    
+    # Verify optimality conditions
+    print(f"\nOptimality Verification:")
+    for i, (sol, util) in enumerate(zip(solutions, utilities)):
+        marginal_utility = util.a - util.b * sol
+        print(f"Agent {i}: allocation = {sol:.4f}, marginal utility = {marginal_utility:.4f}")
+    
+    print(f"All marginal utilities should equal the price: {final_price:.4f}")
+    
+    return solutions, final_price
+
+# Run dual decomposition test
+solutions_result, price_result = test_dual_decomposition()
+```
+
+</details>
+
+---
+
+## 💡 Mẹo Thực Hành
+
+#### **Khi lập trình Lagrangian:**
+- Theo dõi cẩn thận dấu ràng buộc (≤ 0 cho bất đẳng thức)
+- Kiểm chứng điều kiện không âm của biến đối ngẫu
+- Sử dụng tính toán ký hiệu cho đạo hàm phức tạp
+- Kiểm tra điều kiện bậc hai cho tính lồi
+
+#### **Khi phân tích đối ngẫu mạnh:**
+- Luôn kiểm tra điều kiện Slater trước
+- Tìm kiếm các điều kiện đủ ràng buộc
+- Kiểm chứng tính lồi của bài toán primal
+- Xem xét giải thích hình học
+
+#### **Khi lập trình thuật toán primal-dual:**
+- Giám sát cả phần dư primal và dual
+- Sử dụng kích thước bước và tham số rào cản phù hợp
+- Lập trình các phép toán đại số tuyến tính hiệu quả
+- Thêm kiểm tra ổn định số
+
+#### **Khi áp dụng vào bài toán thực tế:**
+- Khai thác cấu trúc bài toán để tăng hiệu quả
+- Xem xét lập trình phân tán
+- Sử dụng chiến lược khởi động ấm
+- Kiểm chứng kết quả với nghiệm đã biết
+
+---
+
+## 📚 Tài liệu tham khảo
+
+1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.
+   - Chapter 11: General Duality Theory
+
+2. **Bertsekas, D. P.** (1999). *Nonlinear Programming*. Athena Scientific.
+
+3. **Boyd, S., et al.** (2011). *Distributed Optimization and Statistical Learning via ADMM*. Foundations and Trends in Machine Learning.

@@ -12,7 +12,7 @@ lesson_type: required
 
 # Bài Tập Thực Hành - Hàm Convex
 
-## 📝 **Bài tập 1: Verification of convex functions**
+## 📝 **Bài tập 1: Xác minh hàm lồi**
 
 **Đề bài:** (Bài 3.1 từ Boyd & Vandenberghe)
 Xác định tính convex của các hàm sau trên domain tương ứng:
@@ -40,11 +40,11 @@ f) $$f(x) = |x|^p$$ với $$p \geq 1$$ trên $$\mathbb{R}$$
 
 **Bước 1: $$f(x) = x^2$$**
 
-**Second-order condition:** $$f''(x) = 2 > 0$$ $$\forall x \in \mathbb{R}$$
+**Điều kiện bậc hai:** $$f''(x) = 2 > 0$$ $$\forall x \in \mathbb{R}$$
 
-$$\Rightarrow$$ Strictly convex trên $$\mathbb{R}$$
+$$\Rightarrow$$ Lồi chặt trên $$\mathbb{R}$$
 
-**Definition verification:** 
+**Xác minh bằng định nghĩa:** 
 $$f(\theta x + (1-\theta) y) = (\theta x + (1-\theta) y)^2 = \theta^2 x^2 + 2\theta(1-\theta)xy + (1-\theta)^2 y^2$$
 
 $$\theta f(x) + (1-\theta) f(y) = \theta x^2 + (1-\theta) y^2$$
@@ -53,45 +53,45 @@ $$f(\theta x + (1-\theta) y) - [\theta f(x) + (1-\theta) f(y)] = -\theta(1-\thet
 
 **Bước 2: $$f(x) = e^{ax}$$**
 
-**Second-order condition:** $$f''(x) = a^2 e^{ax} \geq 0$$ $$\forall x$$
+**Điều kiện bậc hai:** $$f''(x) = a^2 e^{ax} \geq 0$$ $$\forall x$$
 
-$$\Rightarrow$$ Convex trên $$\mathbb{R}$$ (strictly convex nếu $$a \neq 0$$)
+$$\Rightarrow$$ Lồi trên $$\mathbb{R}$$ (lồi chặt nếu $$a \neq 0$$)
 
 **Bước 3: $$f(x) = x \log x$$**
 
-**Domain:** $$\mathbb{R}_{++}$$ ($$x > 0$$)
+**Miền xác định:** $$\mathbb{R}_{++}$$ ($$x > 0$$)
 
-**First derivative:** $$f'(x) = \log x + 1$$
+**Đạo hàm bậc nhất:** $$f'(x) = \log x + 1$$
 
-**Second derivative:** $$f''(x) = \frac{1}{x} > 0$$ for $$x > 0$$
+**Đạo hàm bậc hai:** $$f''(x) = \frac{1}{x} > 0$$ với $$x > 0$$
 
-$$\Rightarrow$$ Strictly convex trên $$\mathbb{R}_{++}$$
+$$\Rightarrow$$ Lồi chặt trên $$\mathbb{R}_{++}$$
 
 **Bước 4: $$f(x) = -\log x$$**
 
-**Second derivative:** $$f''(x) = \frac{1}{x^2} > 0$$ for $$x > 0$$
+**Đạo hàm bậc hai:** $$f''(x) = \frac{1}{x^2} > 0$$ với $$x > 0$$
 
-$$\Rightarrow$$ Strictly convex trên $$\mathbb{R}_{++}$$
+$$\Rightarrow$$ Lồi chặt trên $$\mathbb{R}_{++}$$
 
 **Bước 5: $$f(x) = x^p$$ với $$p \geq 1$$**
 
-**Case $$p = 1$$:** $$f(x) = x$$ linear $$\Rightarrow$$ convex
+**Trường hợp $$p = 1$$:** $$f(x) = x$$ tuyến tính $$\Rightarrow$$ lồi
 
-**Case $$p > 1$$:** $$f''(x) = p(p-1)x^{p-2} \geq 0$$ for $$x \geq 0$$
+**Trường hợp $$p > 1$$:** $$f''(x) = p(p-1)x^{p-2} \geq 0$$ với $$x \geq 0$$
 
-$$\Rightarrow$$ Convex trên $$\mathbb{R}_+$$
+$$\Rightarrow$$ Lồi trên $$\mathbb{R}_+$$
 
 **Bước 6: $$f(x) = |x|^p$$ với $$p \geq 1$$**
 
-**Symmetry:** $$f(-x) = f(x)$$, chỉ cần xét $$x \geq 0$$
+**Tính đối xứng:** $$f(-x) = f(x)$$, chỉ cần xét $$x \geq 0$$
 
-**For $$x \geq 0$$:** $$f(x) = x^p$$ convex (từ bước 5)
+**Với $$x \geq 0$$:** $$f(x) = x^p$$ lồi (từ bước 5)
 
-**For $$x < 0$$:** $$f(x) = |x|^p = (-x)^p$$ cũng convex
+**Với $$x < 0$$:** $$f(x) = |x|^p = (-x)^p$$ cũng lồi
 
-**Tại $$x = 0$$:** Subdifferential analysis shows convexity
+**Tại $$x = 0$$:** Phân tích subdifferential cho thấy tính lồi
 
-$$\Rightarrow$$ Convex trên $$\mathbb{R}$$
+$$\Rightarrow$$ Lồi trên $$\mathbb{R}$$
 
 </details>
 
@@ -125,7 +125,7 @@ e) $$h(x) = \int_0^\infty f(x, t) dt$$ (nếu integral tồn tại)
 
 **Theorem:** Nếu $$f, g$$ convex và $$\alpha, \beta \geq 0$$, thì $$h(x) = \alpha f(x) + \beta g(x)$$ convex.
 
-**Proof:**
+**Chứng minh:**
 $$h(\theta x + (1-\theta) y) = \alpha f(\theta x + (1-\theta) y) + \beta g(\theta x + (1-\theta) y)$$
 $$\leq \alpha[\theta f(x) + (1-\theta) f(y)] + \beta[\theta g(x) + (1-\theta) g(y)]$$
 $$= \theta[\alpha f(x) + \beta g(x)] + (1-\theta)[\alpha f(y) + \beta g(y)]$$
@@ -135,7 +135,7 @@ $$= \theta h(x) + (1-\theta) h(y)$$
 
 **Theorem:** $$h(x) = \max\{f(x), g(x)\}$$ convex nếu $$f, g$$ convex.
 
-**Proof:**
+**Chứng minh:**
 $$h(\theta x + (1-\theta) y) = \max\{f(\theta x + (1-\theta) y), g(\theta x + (1-\theta) y)\}$$
 $$\leq \max\{\theta f(x) + (1-\theta) f(y), \theta g(x) + (1-\theta) g(y)\}$$
 $$\leq \theta \max\{f(x), g(x)\} + (1-\theta) \max\{f(y), g(y)\}$$
@@ -147,7 +147,7 @@ $$= \theta h(x) + (1-\theta) h(y)$$
 
 **Theorem:** $$h(x) = f(Ax + b)$$ convex nếu $$f$$ convex.
 
-**Proof:**
+**Chứng minh:**
 $$h(\theta x + (1-\theta) y) = f(A(\theta x + (1-\theta) y) + b)$$
 $$= f(\theta(Ax + b) + (1-\theta)(Ay + b))$$
 $$\leq \theta f(Ax + b) + (1-\theta) f(Ay + b)$$
@@ -157,7 +157,7 @@ $$= \theta h(x) + (1-\theta) h(y)$$
 
 **Theorem:** $$h(x) = \inf_{y \in C} f(x, y)$$ convex trong $$x$$ nếu $$f(x, y)$$ convex trong $$(x, y)$$ và $$C$$ convex.
 
-**Proof:** Với mọi $$y \in C$$:
+**Chứng minh:** Với mọi $$y \in C$$:
 $$h(\theta x_1 + (1-\theta) x_2) \leq f(\theta x_1 + (1-\theta) x_2, y)$$
 $$\leq \theta f(x_1, y) + (1-\theta) f(x_2, y)$$
 
@@ -168,7 +168,7 @@ $$h(\theta x_1 + (1-\theta) x_2) \leq \theta h(x_1) + (1-\theta) h(x_2)$$
 
 **Theorem:** $$h(x) = \int_0^\infty f(x, t) dt$$ convex nếu $$f(x, t)$$ convex trong $$x$$ for each $$t$$.
 
-**Proof:** Monotone convergence theorem + convexity preservation under limits.
+**Chứng minh:** Monotone convergence theorem + convexity preservation under limits.
 
 </details>
 
@@ -203,7 +203,7 @@ $$f(x) = \frac{1}{2}x^T Q x$$ với $$Q \succ 0$$
 
 **Optimization:** $$\max_x (y^T x - \frac{1}{2}x^T Q x)$$
 
-**First-order condition:** $$y - Qx = 0 \Rightarrow x^* = Q^{-1} y$$
+**Điều kiện bậc nhất:** $$y - Qx = 0 \Rightarrow x^* = Q^{-1} y$$
 
 **Conjugate:**
 $$f^*(y) = y^T Q^{-1} y - \frac{1}{2}y^T Q^{-1} Q Q^{-1} y = \frac{1}{2}y^T Q^{-1} y$$
@@ -215,7 +215,7 @@ $$f(x) = \lVert x \rVert_2$$
 
 **Optimization:** $$\max_x (y^T x - \lVert x \rVert_2)$$
 
-**Case analysis:**
+**Phân tích các trường hợp:**
 - Nếu $$\lVert y \rVert_2 \leq 1$$: supremum achieved tại $$x^* = \frac{y}{\lVert y \rVert_2}$$ với value $$\lVert y \rVert_2$$
 - Nếu $$\lVert y \rVert_2 > 1$$: supremum = $$+\infty$$
 
@@ -241,7 +241,7 @@ $$f(x) = \log \sum_{i=1}^n e^{x_i}$$
 
 **Optimization:** $$\max_x \left(\sum_{i=1}^n y_i x_i - \log \sum_{i=1}^n e^{x_i}\right)$$
 
-**First-order conditions:** $$y_i = \frac{e^{x_i}}{\sum_j e^{x_j}}$$
+**Điều kiện bậc nhất:** $$y_i = \frac{e^{x_i}}{\sum_j e^{x_j}}$$
 
 **Interpretation:** $$y$$ must be probability vector: $$y \geq 0$$, $$\sum y_i = 1$$
 
@@ -365,9 +365,9 @@ c) Derive log-sum inequality
 
 **Bước 1: Jensen's inequality proof**
 
-**Base case ($$n = 2$$):** Definition của convexity
+**Trường hợp cơ sở ($$n = 2$$):** Định nghĩa tính lồi
 
-**Inductive step:** Assume true for $$n-1$$, prove for $$n$$.
+**Bước quy nạp:** Giả sử đúng với $$n-1$$, chứng minh cho $$n$$.
 
 Với $$\sum_{i=1}^n \lambda_i = 1$$, đặt $$\mu = \sum_{i=1}^{n-1} \lambda_i < 1$$.
 
@@ -407,7 +407,7 @@ $$\sum |x_i y_i| \leq \left(\sum |x_i|^p\right)^{1/p} \left(\sum |y_i|^q\right)^
 
 **Statement:** $$\sum_{i=1}^n a_i \log \frac{a_i}{b_i} \geq \left(\sum_{i=1}^n a_i\right) \log \frac{\sum_{i=1}^n a_i}{\sum_{i=1}^n b_i}$$
 
-**Proof:** Sử dụng Jensen với $$f(x) = x \log x$$ convex và appropriate weights.
+**Chứng minh:** Sử dụng Jensen với $$f(x) = x \log x$$ convex và appropriate weights.
 
 </details>
 
@@ -539,7 +539,7 @@ $$\Rightarrow \det(X)$$ log-concave
 
 **Products:** Nếu $$f, g$$ log-concave, thì $$fg$$ log-concave
 
-**Proof:** $$\log(fg) = \log f + \log g$$ (sum của concave functions)
+**Chứng minh:** $$\log(fg) = \log f + \log g$$ (sum của concave functions)
 
 **Powers:** Nếu $$f$$ log-concave và $$\alpha \geq 0$$, thì $$f^\alpha$$ log-concave
 
@@ -592,7 +592,7 @@ c) Epigraph characterization của convexity
 
 **Theorem:** Nếu $$f$$ convex, thì $$g(x,t) = tf(x/t)$$ convex trên $$\text{dom}(g) = \{(x,t) : x/t \in \text{dom}(f), t > 0\}$$
 
-**Proof:** Với $$(x_1, t_1), (x_2, t_2) \in \text{dom}(g)$$ và $$\theta \in [0,1]$$:
+**Chứng minh:** Với $$(x_1, t_1), (x_2, t_2) \in \text{dom}(g)$$ và $$\theta \in [0,1]$$:
 
 $$g(\theta(x_1, t_1) + (1-\theta)(x_2, t_2)) = g(\theta x_1 + (1-\theta) x_2, \theta t_1 + (1-\theta) t_2)$$
 
@@ -798,19 +798,75 @@ $$\log \frac{x_i}{y_i} + 1 + (A^T \lambda)_i + \mu_i = 0$$
 ## 💡 Mẹo Thực Hành
 
 #### **Khi verify convexity:**
-- **Second-order conditions:** $$f''(x) \geq 0$$ hoặc $$\nabla^2 f \succeq 0$$
+- **Điều kiện bậc hai:** $$f''(x) \geq 0$$ hoặc $$\nabla^2 f \succeq 0$$
 - **Definition:** Check $$f(\theta x + (1-\theta) y) \leq \theta f(x) + (1-\theta) f(y)$$
 - **Composition rules:** Sử dụng operations preserving convexity
 
 #### **Khi tính conjugate functions:**
 - **Optimization approach:** $$f^*(y) = \sup_x (y^T x - f(x))$$
-- **First-order conditions:** $$y \in \partial f(x^*)$$
+- **Điều kiện bậc nhất:** $$y \in \partial f(x^*)$$
 - **Geometric interpretation:** Supporting hyperplanes
 
 #### **Khi work với subdifferentials:**
 - **Differentiable case:** $$\partial f(x) = \{\nabla f(x)\}$$
 - **Non-differentiable:** Use definition hoặc calculus rules
 - **Optimality:** $$0 \in \partial f(x^*)$$
+
+---
+
+## 💡 **Tổng kết**
+
+### **Định nghĩa và Kiểm tra Convexity:**
+
+| Method | Điều kiện | Khi nào dùng |
+|--------|-----------|--------------|
+| **Definition** | $$f(\theta x + (1-\theta)y) \leq \theta f(x) + (1-\theta)f(y)$$ | Proof trực tiếp |
+| **First-order** | $$f(y) \geq f(x) + \nabla f(x)^T(y-x)$$ | Differentiable functions |
+| **Second-order** | $$\nabla^2 f(x) \succeq 0$$ | Twice differentiable |
+| **Epigraph** | $$\text{epi}(f)$$ convex | Geometric view |
+
+### **Convexity-preserving Operations:**
+
+| Operation | Kết quả |
+|-----------|---------|
+| **Nonnegative weighted sum** | $$\sum \alpha_i f_i$$ với $$\alpha_i \geq 0$$ |
+| **Composition với affine** | $$f(Ax + b)$$ |
+| **Pointwise maximum** | $$f(x) = \max\{f_1(x), \ldots, f_m(x)\}$$ |
+| **Pointwise supremum** | $$g(x) = \sup_{y \in \mathcal{A}} f(x, y)$$ |
+| **Composition rules** | $$h \circ g$$ (cần $$h$$ increasing convex, $$g$$ convex) |
+| **Minimization** | $$g(x) = \inf_y f(x, y)$$ nếu $$f$$ convex in $$(x,y)$$ |
+| **Perspective** | $$g(x, t) = tf(x/t)$$ |
+
+### **Ví dụ Hàm Convex:**
+
+| Function | Domain | Convex? |
+|----------|--------|---------|
+| **Exponential** | $$e^{ax}$$ | $$\mathbb{R}$$ | ✓ |
+| **Powers** | $$x^a$$ | $$\mathbb{R}_{++}$$ | ✓ ($$a \geq 1$$ or $$a \leq 0$$) |
+| **Logarithm** | $$-\log x$$ | $$\mathbb{R}_{++}$$ | ✓ |
+| **Norms** | $$\|\|x\|\|_p$$ | $$\mathbb{R}^n$$ | ✓ |
+| **Max** | $$\max\{x_1, \ldots, x_n\}$$ | $$\mathbb{R}^n$$ | ✓ |
+| **Quadratic** | $$x^TQx$$ | $$\mathbb{R}^n$$ | ✓ (if $$Q \succeq 0$$) |
+| **Log-sum-exp** | $$\log(\sum e^{x_i})$$ | $$\mathbb{R}^n$$ | ✓ |
+
+### **Conjugate Functions:**
+
+- **Definition:** $$f^*(y) = \sup_x (y^Tx - f(x))$$
+- **Fenchel inequality:** $$f(x) + f^*(y) \geq x^Ty$$
+- **Conjugate của conjugate:** $$f^{**} = f$$ (nếu $$f$$ closed convex)
+- **Ví dụ:**
+  - $$(x^2/2)^* = y^2/2$$
+  - $$(\|\|x\|\|)^* = I_{\|\|y\|\|^* \leq 1}$$ (indicator dual norm ball)
+  - $$(-\log x)^* = -\log(-y) - 1$$
+
+### **Subdifferential:**
+
+- **Definition:** $$g \in \partial f(x)$$ nếu $$f(y) \geq f(x) + g^T(y-x)$$ $$\forall y$$
+- **Optimality:** $$x^*$$ optimal $$\Leftrightarrow$$ $$0 \in \partial f(x^*)$$
+- **Calculus rules:**
+  - $$\partial(\alpha f) = \alpha \partial f$$
+  - $$\partial(f_1 + f_2) = \partial f_1 + \partial f_2$$
+  - $$\partial \max\{f_1, f_2\} = \text{conv}\{\partial f_i : f_i(x) = f(x)\}$$
 
 ---
 

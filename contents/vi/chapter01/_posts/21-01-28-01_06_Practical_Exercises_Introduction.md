@@ -34,30 +34,30 @@ c) $$\min_{x \in \mathbb{R}^n} \lVert Ax - b \rVert_2 \quad \text{s.t.} \quad \l
 
 **Bước 1: Phân loại**
 
-**a) Linear Programming (LP)**
-- Objective function: linear ($$c^T x$$)
-- Constraints: linear inequalities ($$Ax \leq b$$)
+**a) Quy hoạch tuyến tính (LP)**
+- Hàm mục tiêu: tuyến tính ($$c^T x$$)
+- Ràng buộc: bất đẳng thức tuyến tính ($$Ax \leq b$$)
 - Đây là dạng chuẩn của LP
 
-**b) Quadratic Programming (QP)**
-- Objective function: quadratic ($$x^T P x + q^T x$$)
-- Constraints: linear ($$Ax = b, x \geq 0$$)
-- Convex nếu $$P \succeq 0$$
+**b) Quy hoạch bậc hai (QP)**
+- Hàm mục tiêu: bậc hai ($$x^T P x + q^T x$$)
+- Ràng buộc: tuyến tính ($$Ax = b, x \geq 0$$)
+- Lồi khi $$P \succeq 0$$
 
-**c) Second-Order Cone Programming (SOCP)**
-- Objective function: norm ($$\lVert Ax - b \rVert_2$$)
-- Constraints: norm constraint ($$\lVert x \rVert_2 \leq 1$$)
-- Có thể reformulate thành SOCP standard form
+**c) Quy hoạch nón bậc hai (SOCP)**
+- Hàm mục tiêu: chuẩn ($$\lVert Ax - b \rVert_2$$)
+- Ràng buộc: ràng buộc chuẩn ($$\lVert x \rVert_2 \leq 1$$)
+- Có thể biến đổi thành dạng chuẩn SOCP
 
-**Bước 2: Điều kiện convexity**
-- **a)** Luôn convex (linear functions)
-- **b)** Convex khi $$P \succeq 0$$ (positive semidefinite)
-- **c)** Luôn convex (norm functions và norm constraints)
+**Bước 2: Điều kiện tính lồi**
+- **a)** Luôn lồi (hàm tuyến tính)
+- **b)** Lồi khi $$P \succeq 0$$ (nửa xác định dương)
+- **c)** Luôn lồi (hàm chuẩn và ràng buộc chuẩn)
 
 **Bước 3: Phương pháp giải**
-- **a)** Simplex method, Interior point methods
-- **b)** Active set methods, Interior point methods
-- **c)** Interior point methods cho SOCP
+- **a)** Phương pháp đơn hình (Simplex), phương pháp điểm trong
+- **b)** Phương pháp tập hoạt động (Active set), phương pháp điểm trong
+- **c)** Phương pháp điểm trong cho SOCP
 
 </details>
 
@@ -104,16 +104,16 @@ Không có closed form, cần numerical methods.
 **a-c)** Quadratic functions với positive definite Hessian
 **d)** $$\phi(u)$$ là convex function (piecewise quadratic với non-decreasing derivative)
 
-**Bước 3: Ý nghĩa geometric**
-- **Regularization:** Shrinkage towards origin, prevents overfitting
-- **$$\lambda$$** controls bias-variance tradeoff
-- Equivalent to Bayesian prior $$x \sim \mathcal{N}(0, \sigma^2/\lambda I)$$
+**Bước 3: Ý nghĩa hình học**
+- **Regularization:** Co lại về gốc tọa độ, ngăn ngừa overfitting
+- **$$\lambda$$** kiểm soát sự cân bằng giữa độ chệch và phương sai
+- Tương đương với tiên nghiệm Bayesian $$x \sim \mathcal{N}(0, \sigma^2/\lambda I)$$
 
-**Bước 4: Robustness comparison**
-- **OLS:** Sensitive to outliers (quadratic penalty)
-- **Weighted:** Can downweight outliers if $$W$$ chosen appropriately  
-- **Regularized:** Reduces overfitting, improves generalization
-- **Robust:** Huber loss reduces outlier sensitivity
+**Bước 4: So sánh tính bền vững**
+- **OLS:** Nhạy cảm với ngoại lai (hàm phạt bậc hai)
+- **Có trọng số:** Có thể giảm trọng số cho ngoại lai nếu chọn $$W$$ phù hợp  
+- **Có regularization:** Giảm overfitting, cải thiện khả năng tổng quát hóa
+- **Bền vững:** Hàm mất mát Huber giảm độ nhạy với ngoại lai
 
 </details>
 
@@ -141,11 +141,11 @@ c) $$\min_x \lVert c^T x - d \rVert_\infty \quad \text{s.t.} \quad Ax \leq b$$
 
 **Bước 1: Chuyển đổi bài toán a)**
 
-**Xử lý free variable:** $$y = y^+ - y^-$$ với $$y^+, y^- \geq 0$$
+**Xử lý biến tự do:** $$y = y^+ - y^-$$ với $$y^+, y^- \geq 0$$
 
-**Xử lý inequality:** $$x + 2y \geq 5 \Rightarrow x + 2y - s = 5$$ với $$s \geq 0$$
+**Xử lý bất đẳng thức:** $$x + 2y \geq 5 \Rightarrow x + 2y - s = 5$$ với $$s \geq 0$$
 
-**Standard form:**
+**Dạng chuẩn:**
 $$\min_{x,y^+,y^-,s} 2x + 3y^+ - 3y^- \quad \text{s.t.} \quad \begin{bmatrix} 1 & 2 & -2 & -1 \\ 1 & -1 & 1 & 0 \end{bmatrix} \begin{bmatrix} x \\ y^+ \\ y^- \\ s \end{bmatrix} = \begin{bmatrix} 5 \\ 2 \end{bmatrix}$$
 
 với $$x, y^+, y^-, s \geq 0$$.
@@ -154,16 +154,16 @@ với $$x, y^+, y^-, s \geq 0$$.
 
 **Chuyển max thành min:** $$\max c^T x = -\min (-c^T x)$$
 
-**Chuyển inequality thành equality:** $$Ax \leq b \Rightarrow Ax + s = b$$ với $$s \geq 0$$
+**Chuyển bất đẳng thức thành đẳng thức:** $$Ax \leq b \Rightarrow Ax + s = b$$ với $$s \geq 0$$
 
-**Standard form:**
+**Dạng chuẩn:**
 $$\min_{x,s} (-c^T x + 0^T s) \quad \text{s.t.} \quad [A \quad I] \begin{bmatrix} x \\ s \end{bmatrix} = b, \quad x,s \geq 0$$
 
 **Bước 3: Chuyển đổi bài toán c)**
 
-**Reformulate $$\ell_\infty$$ norm:** $$\min t \text{ s.t. } -t \leq c^T x - d \leq t$$
+**Biến đổi chuẩn $$\ell_\infty$$:** $$\min t \text{ s.t. } -t \leq c^T x - d \leq t$$
 
-**Standard form:**
+**Dạng chuẩn:**
 $$\min_{x,t,s_1,s_2} t \quad \text{s.t.} \quad \begin{bmatrix} A & 0 & I & 0 \\ c^T & -1 & 0 & I \\ -c^T & -1 & 0 & 0 \end{bmatrix} \begin{bmatrix} x \\ t \\ s_1 \\ s_2 \end{bmatrix} = \begin{bmatrix} b \\ d \\ -d \end{bmatrix}$$
 
 </details>
@@ -215,10 +215,10 @@ $$\begin{bmatrix} A & B \\ B & C \end{bmatrix} \begin{bmatrix} \lambda^* \\ -\nu
 
 với $$A = \mu^T \Sigma^{-1} \mu, B = \mu^T \Sigma^{-1} \mathbf{1}, C = \mathbf{1}^T \Sigma^{-1} \mathbf{1}$$
 
-**Bước 4: Efficient frontier**
+**Bước 4: Biên hiệu quả**
 $$\sigma^2(r) = \frac{Ar^2 - 2Br + C}{AC - B^2}$$
 
-Đây là hyperbola trong không gian $$(r, \sigma)$$.
+Đây là đường hyperbola trong không gian $$(r, \sigma)$$.
 
 </details>
 
@@ -247,7 +247,7 @@ $$\min_{x,y,z} \frac{1}{xyz} \quad \text{s.t.} \quad \frac{x}{y} + \frac{y}{z} \
 
 $$\Rightarrow$$ Đây là GP trong standard form.
 
-**Bước 2: Log transformation**
+**Bước 2: Biến đổi logarit**
 Đặt $$u = \log x, v = \log y, w = \log z$$:
 
 $$\min_{u,v,w} -u - v - w \quad \text{s.t.} \quad \log(e^{u-v} + e^{v-w}) \leq 0$$
@@ -255,17 +255,17 @@ $$\min_{u,v,w} -u - v - w \quad \text{s.t.} \quad \log(e^{u-v} + e^{v-w}) \leq 0
 Tương đương:
 $$\min_{u,v,w} -u - v - w \quad \text{s.t.} \quad e^{u-v} + e^{v-w} \leq 1$$
 
-**Bước 3: Convex formulation**
+**Bước 3: Công thức lồi**
 $$\min_{u,v,w,t} -u - v - w \quad \text{s.t.} \quad e^{u-v} + e^{v-w} \leq t, \quad t \leq 1$$
 
-Đây là convex program (log-sum-exp constraint).
+Đây là bài toán lồi (ràng buộc log-sum-exp).
 
-**Bước 4: Solution method**
-Sử dụng interior point methods hoặc specialized GP solvers.
+**Bước 4: Phương pháp giải**
+Sử dụng phương pháp điểm trong hoặc các bộ giải GP chuyên dụng.
 
-Optimal solution sẽ có dạng:
+Nghiệm tối ưu sẽ có dạng:
 - $$x^* = e^{u^*}, y^* = e^{v^*}, z^* = e^{w^*}$$
-- Constraint thường active: $$\frac{x^*}{y^*} + \frac{y^*}{z^*} = 1$$
+- Ràng buộc thường hoạt động: $$\frac{x^*}{y^*} + \frac{y^*}{z^*} = 1$$
 
 </details>
 
@@ -357,17 +357,17 @@ $$\min_x c^T x \quad \text{s.t.} \quad (a_i^{nom})^T x + \lVert P_i^T x \rVert_2
 
 Đây là Second-Order Cone Program (SOCP).
 
-**Bước 3: Complexity comparison**
-- **Box:** LP với $$O(mn)$$ variables và constraints
-- **Ellipsoidal:** SOCP với $$n + m$$ variables và $$m$$ SOC constraints
-- **Nominal:** LP với $$n$$ variables và $$m$$ constraints
+**Bước 3: So sánh độ phức tạp**
+- **Box:** LP với $$O(mn)$$ biến và ràng buộc
+- **Ellipsoidal:** SOCP với $$n + m$$ biến và $$m$$ ràng buộc SOC
+- **Nominal:** LP với $$n$$ biến và $$m$$ ràng buộc
 
-**Bước 4: Conservatism analysis**
-- **Box:** Most conservative (worst-case trong tất cả directions)
-- **Ellipsoidal:** Moderate conservatism (directional uncertainty)
-- **Nominal:** Least conservative (no uncertainty)
+**Bước 4: Phân tích tính bảo thủ**
+- **Box:** Bảo thủ nhất (trường hợp xấu nhất theo mọi hướng)
+- **Ellipsoidal:** Bảo thủ vừa phải (bất định theo hướng)
+- **Nominal:** Ít bảo thủ nhất (không có bất định)
 
-Price of robustness = $$\frac{\text{Robust optimal value}}{\text{Nominal optimal value}} - 1$$
+Giá của tính bền vững = $$\frac{\text{Giá trị tối ưu bền vững}}{\text{Giá trị tối ưu danh nghĩa}} - 1$$
 
 </details>
 
@@ -554,19 +554,50 @@ Strong duality holds cho LP khi cả primal và dual đều feasible (fundamenta
 ## 💡 Mẹo Thực Hành
 
 #### **Khi phân loại bài toán tối ưu hóa:**
-- Kiểm tra dạng objective function (linear, quadratic, general)
-- Xác định loại constraints (linear, quadratic, conic)
-- Verify tính convex của từng component
+- Kiểm tra dạng hàm mục tiêu (tuyến tính, bậc hai, tổng quát)
+- Xác định loại ràng buộc (tuyến tính, bậc hai, nón)
+- Xác minh tính lồi của từng thành phần
 
-#### **Khi chuyển đổi về standard form:**
-- Xử lý free variables: $$x = x^+ - x^-$$
-- Chuyển inequalities: thêm slack variables
-- Chuyển max thành min: đổi dấu objective
+#### **Khi chuyển đổi về dạng chuẩn:**
+- Xử lý biến tự do: $$x = x^+ - x^-$$
+- Chuyển bất đẳng thức: thêm biến slack
+- Chuyển max thành min: đổi dấu hàm mục tiêu
 
-#### **Khi verify convexity:**
-- Sử dụng second-order conditions khi có thể
-- Áp dụng composition rules và operations preserving convexity
-- Kiểm tra definition trực tiếp nếu cần
+#### **Khi xác minh tính lồi:**
+- Sử dụng điều kiện bậc hai khi có thể
+- Áp dụng quy tắc kết hợp và các phép toán bảo toàn tính lồi
+- Kiểm tra định nghĩa trực tiếp nếu cần
+
+---
+
+## 💡 **Tổng kết**
+
+### **Phân loại Bài toán Tối ưu:**
+
+| Loại | Hàm mục tiêu | Ràng buộc | Ví dụ |
+|------|--------------|-----------|-------|
+| **LP** | Tuyến tính | Tuyến tính | $$\min c^Tx$$, $$Ax \leq b$$ |
+| **QP** | Bậc hai | Tuyến tính | $$\min \frac{1}{2}x^TQx + c^Tx$$ |
+| **QCQP** | Bậc hai | Bậc hai | Portfolio với risk constraints |
+| **SOCP** | Tuyến tính | Chuẩn $$\ell_2$$ | $$\|\|Ax-b\|\|_2 \leq c^Tx$$ |
+| **SDP** | Tuyến tính | Ma trận PSD | $$\min \text{tr}(CX)$$, $$X \succeq 0$$ |
+
+### **Least Squares Variants:**
+
+| Method | Objective | Đặc điểm |
+|--------|-----------|----------|
+| Ordinary LS | $$\|\|Ax-b\|\|_2^2$$ | Nghiệm closed-form |
+| Weighted LS | $$(Ax-b)^TW(Ax-b)$$ | Weights cho observations |
+| Regularized LS | $$\|\|Ax-b\|\|_2^2 + \lambda\|\|x\|\|_2^2$$ | Ridge regression |
+| Robust LS | $$\sum \phi((Ax-b)_i)$$ | Resistant to outliers |
+| LASSO | $$\|\|Ax-b\|\|_2^2 + \lambda\|\|x\|\|_1$$ | Sparse solutions |
+
+### **Duality Concepts:**
+
+- **Weak duality:** $$d^* \leq p^*$$ (luôn đúng)
+- **Strong duality:** $$d^* = p^*$$ (cần điều kiện, e.g., Slater)
+- **Shadow price:** $$\nu_i^*$$ = marginal value của constraint $$i$$
+- **Complementary slackness:** $$\lambda_i^* (g_i(x^*)) = 0$$
 
 ---
 
