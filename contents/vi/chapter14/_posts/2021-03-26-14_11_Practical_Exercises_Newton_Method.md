@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 14-11 Bài Tập Thực Hành - Phương Pháp Newton
-chapter: '14'
+title: "14-11 Bài Tập Thực Hành - Phương Pháp Newton"
+chapter: "14"
 order: 18
-owner: GitHub Copilot
+owner: "GitHub Copilot"
 lang: vi
 categories:
-- chapter14
+  - chapter14
 lesson_type: required
 ---
 
@@ -16,7 +16,7 @@ Các bài tập được tham khảo từ Boyd & Vandenberghe (2004), Nocedal & 
 
 ---
 
-## 📝 **Phần I: Newton Method Cơ bản**
+## **Phần I: Newton Method Cơ bản**
 
 ### **Bài tập 1: Newton Step Computation (Boyd & Vandenberghe, Ex. 9.1)**
 
@@ -34,8 +34,8 @@ b) Tại $$x = (1, 2)^T$$, tính Newton step $$\Delta x_{nt}$$
 c) Tính Newton decrement $$\lambda(x) = \sqrt{\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x)}$$  
 d) Với $$Q = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$, $$c = \begin{bmatrix} -1 \\ -1 \end{bmatrix}$$, tính tất cả các giá trị trên
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **a) Gradient và Hessian:**
 
@@ -172,8 +172,8 @@ d) Với dữ liệu $$m=3$$, $$n=2$$:
    
    Tính Newton step tại $$x = (0, 0)^T$$
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **a) Gradient:**
 
@@ -275,7 +275,7 @@ $$
 
 ---
 
-## 📝 **Phần II: Backtracking Line Search**
+## **Phần II: Backtracking Line Search**
 
 ### **Bài tập 3: Armijo Condition (Boyd & Vandenberghe, Ex. 9.3)**
 
@@ -292,8 +292,8 @@ $$
 
 d) Vẽ đồ thị minh họa
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **a) Gradient và Hessian:**
 
@@ -398,7 +398,7 @@ Armijo line: $$y = 4 - 2.4t$$ (đường tiếp tuyến thu nhỏ với slope $$
 
 ---
 
-## 📝 **Phần III: Convergence Analysis**
+## **Phần III: Convergence Analysis**
 
 ### **Bài tập 4: Quadratic Convergence (Nocedal & Wright, Theorem 3.5)**
 
@@ -411,8 +411,8 @@ a) Chứng minh Newton method có quadratic convergence khi gần nghiệm
 b) Tính toán cụ thể với $$f(x) = \frac{1}{2}x^T Q x$$ với $$Q = \begin{bmatrix} 4 & 0 \\ 0 & 1 \end{bmatrix}$$  
 c) So sánh với gradient descent
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **a) Chứng minh quadratic convergence:**
 
@@ -516,7 +516,7 @@ Newton **nhanh hơn rất nhiều**!
 
 ---
 
-## 📝 **Phần IV: Affine Invariance**
+## **Phần IV: Affine Invariance**
 
 ### **Bài tập 5: Affine Invariance Property (Boyd & Vandenberghe, Ex. 9.20)**
 
@@ -526,8 +526,8 @@ Tính bất biến affine của Newton method: Nếu $$f$$ được thay đổi 
 a) Chứng minh: Nếu $$\tilde{x} = Ax + b$$ với $$A$$ khả nghịch, và $$\tilde{f}(\tilde{x}) = f(A^{-1}(\tilde{x} - b))$$, thì Newton step không đổi  
 b) Minh họa với ví dụ cụ thể
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **a) Chứng minh affine invariance:**
 
@@ -622,7 +622,7 @@ $$
 
 ---
 
-## 📝 **Phần V: Bài toán Thực tế**
+## **Phần V: Bài toán Thực tế**
 
 ### **Bài tập 6: Optimal Control (Bertsekas, Ex. 2.3.5)**
 
@@ -643,8 +643,8 @@ a) Viết bài toán dưới dạng QP không ràng buộc
 b) Tính gradient và Hessian  
 c) Áp dụng Newton method với $$N = 3$$, $$Q = I$$, $$R = I$$, $$Q_f = I$$, $$A = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}$$, $$B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$, $$\bar{x} = (1, 0)^T$$
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **a) Formulation:**
 
@@ -744,7 +744,7 @@ Newton method hội tụ trong 1 iteration vì QP.
 
 ---
 
-## 💡 **Tổng kết và Chiến lược**
+## **Tổng kết và Chiến lược**
 
 ### **Newton Method:**
 - **Newton step:** $$\Delta x = -(\nabla^2 f(x))^{-1} \nabla f(x)$$
@@ -774,7 +774,7 @@ Newton method hội tụ trong 1 iteration vì QP.
 
 ---
 
-## 📚 **Tài liệu Tham khảo**
+## **Tài liệu Tham khảo**
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press. Chapter 9.
 

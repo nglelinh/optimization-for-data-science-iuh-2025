@@ -1,20 +1,20 @@
 ---
 layout: post
-title: 10-06 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính
-chapter: '10'
+title: "10-06 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính"
+chapter: "10"
 order: 7
-owner: GitHub Copilot
+owner: "GitHub Copilot"
 lang: vi
 categories:
-- chapter10
+  - chapter10
 lesson_type: quiz
 ---
 
-## 📚 Ôn tập lý thuyết
+## Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
 
-### ⚡ **Tính Đối Ngẫu trong Linear Programming (LP Duality)**
+### **Tính Đối Ngẫu trong Linear Programming (LP Duality)**
 
 #### **Ý tưởng cơ bản**
 Tính đối ngẫu trong LP xuất phát từ việc tìm **cận dưới** cho giá trị tối ưu của bài toán nguyên thủy (primal).
@@ -93,7 +93,7 @@ $$\text{Max Flow Value} \le \text{Dual LP} = \text{LP Relaxed Min Cut} \le \text
 
 **Định lý Max-Flow Min-Cut:** Cả ba giá trị đều bằng nhau!
 
-### 🎯 **Lagrangian Approach**
+### **Lagrangian Approach**
 
 #### **Hàm Lagrangian**
 Cho bài toán tối ưu tổng quát:
@@ -148,7 +148,7 @@ $$\min_x \max_y x^T P y = \max_y \min_x x^T P y$$
 
 **Điều kiện:** $$P$$ convex-concave, tập khả thi compact và convex.
 
-### 📊 **Weak vs Strong Duality**
+### **Weak vs Strong Duality**
 
 #### **Weak Duality**
 **Luôn đúng:** Giá trị dual ≤ Giá trị primal
@@ -206,7 +206,7 @@ $$\max -b^T u - h^T v \quad \text{s.t.} \quad -A^T u - G^T v = c, \quad v \ge 0$
 - **Economics:** Market equilibrium, resource allocation
 - **Machine learning:** SVM dual formulation
 
-### 💡 **Ví Dụ Minh Họa**
+### **Ví Dụ Minh Họa**
 
 #### **Bài toán đơn giản:**
 **Primal:**
@@ -225,7 +225,7 @@ $$\max u \quad \text{s.t.} \quad u \le 2, \quad u \le 3, \quad u \ge 0$$
 - $$x_2^* = 0 \Rightarrow u^* \le 3$$ (slack OK)
 - $$x_1^* + x_2^* = 1 \Rightarrow u^* > 0$$ (tight)
 
-### 🎯 **Kết Nối Với Các Chương Khác**
+### **Kết Nối Với Các Chương Khác**
 
 #### **Từ chương trước:**
 - **Chương 05:** LP như canonical problem
@@ -243,7 +243,7 @@ $$\max u \quad \text{s.t.} \quad u \le 2, \quad u \le 3, \quad u \ge 0$$
 - **Chương 12:** KKT conditions
 - **Applications:** Constrained optimization, game theory
 
-### 🌟 **Ý Nghĩa Lý Thuyết**
+### **Ý Nghĩa Lý Thuyết**
 
 #### **Duality như công cụ phân tích:**
 - **Bounds:** Cận trên và cận dưới cho optimal value
@@ -261,7 +261,7 @@ $$\max u \quad \text{s.t.} \quad u \le 2, \quad u \le 3, \quad u \ge 0$$
 - **Dual:** Price-based market mechanism
 - **Equilibrium:** Primal-dual optimal solutions
 
-### 💡 **Mẹo Thực Hành**
+### **Mẹo Thực Hành**
 
 #### **Nhận biết khi nào dùng duality:**
 1. **Primal khó giải:** Dual có thể đơn giản hơn

@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 08-10 Bài Tập Thực Hành - Phương pháp Subgradient
-chapter: '08'
+title: "08-10 Bài Tập Thực Hành - Phương pháp Subgradient"
+chapter: "08"
 order: 11
-owner: GitHub Copilot
+owner: "GitHub Copilot"
 lang: vi
 categories:
-- chapter08
+  - chapter08
 lesson_type: required
 ---
 
@@ -16,7 +16,7 @@ Các bài tập được tham khảo từ Boyd et al. (2003) và Nesterov (2009)
 
 ---
 
-## 📝 **Bài tập 1: Dual Subgradient cho LP**
+## **Bài tập 1: Dual Subgradient cho LP**
 
 Cho bài toán LP: $$\min c^Tx$$ s.t. $$Ax = b$$, $$x \geq 0$$ với $$c = (1,2)^T$$, $$A = [1,1]$$, $$b = 3$$.
 
@@ -24,8 +24,8 @@ Cho bài toán LP: $$\min c^Tx$$ s.t. $$Ax = b$$, $$x \geq 0$$ với $$c = (1,2)
 **b)** Tính subgradient  
 **c)** Thực hiện dual subgradient iterations
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **Dual:** $$\max -3\nu$$ s.t. $$\nu \leq 1$$
 
@@ -37,15 +37,15 @@ Iterations với $$\alpha = 0.1$$ từ $$\nu^{(0)} = 0$$ hội tụ đến $$\nu
 
 ---
 
-## 📝 **Bài tập 2: Stochastic Subgradient**
+## **Bài tập 2: Stochastic Subgradient**
 
 Cho $$\min \frac{1}{n}\sum_i \max(0, 1 - y_i w^T x_i)$$ với 3 điểm dữ liệu.
 
 **a)** Viết stochastic update  
 **b)** So sánh với batch method
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 Stochastic chọn ngẫu nhiên 1 sample mỗi iteration:
 
@@ -59,15 +59,15 @@ với $$g_i = -y_i x_i$$ nếu margin violated.
 
 ---
 
-## 📝 **Bài tập 3: Polyak-Ruppert Averaging**
+## **Bài tập 3: Polyak-Ruppert Averaging**
 
 Cho $$f(x) = \max\{2x, -x+3\}$$.
 
 **a)** Tìm $$x^*$$  
 **b)** So sánh $$x^{(k)}$$ vs averaged $$\bar{x}^{(k)}$$
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **$$x^* = 1$$** (intersection point)
 
@@ -79,15 +79,15 @@ Smooths oscillations và converges faster đến $$x^*$$.
 
 ---
 
-## 📝 **Bài tập 4: Mirror Descent trên Simplex**
+## **Bài tập 4: Mirror Descent trên Simplex**
 
 Cho $$f(x) = c^Tx$$ trên simplex $$\Delta_3$$.
 
 **a)** Sử dụng entropic mirror map $$\psi(x) = \sum x_i \log x_i$$  
 **b)** Derive update rule
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 **Update:**
 
@@ -101,15 +101,15 @@ Normalize để $$\sum x_i = 1$$.
 
 ---
 
-## 📝 **Bài tập 5: Cutting Plane Method**
+## **Bài tập 5: Cutting Plane Method**
 
 Cho $$f(x) = \max\{x^2, (x-2)^2\}$$.
 
 **a)** Build cutting planes $$\ell_k(x) = f(x^{(k)}) + g^{(k)}(x - x^{(k)})$$  
 **b)** Minimize lower bound $$\hat{f}(x) = \max_k \ell_k(x)$$
 
-<details>
-<summary><strong>💡 Lời giải</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải</strong></summary>
 
 Từ $$x^{(0)} = 0$$:
 
@@ -127,7 +127,7 @@ Iterate until gap closes.
 
 ---
 
-## 💡 **Tổng kết**
+## **Tổng kết**
 
 | Method | Convergence | Best for |
 |--------|-------------|----------|
@@ -139,7 +139,7 @@ Iterate until gap closes.
 
 ---
 
-## 📚 **Tài liệu Tham khảo**
+## **Tài liệu Tham khảo**
 
 1. Boyd, S., et al. (2003). "Subgradient Methods". Stanford.
 2. Nesterov, Y. (2009). "Primal-dual subgradient methods".

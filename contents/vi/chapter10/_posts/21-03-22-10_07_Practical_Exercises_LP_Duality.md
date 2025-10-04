@@ -1,22 +1,20 @@
 ---
 layout: post
-title: 10-7 Bài Tập Thực Hành - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính  
-chapter: '10'
+title: "10-07 Bài Tập Thực Hành - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính"
+chapter: "10"
 order: 8
-owner: GitHub Copilot
+owner: "GitHub Copilot"
 lang: vi
 categories:
-- chapter10
+  - chapter10
 lesson_type: required
 ---
-
-# Bài Tập Thực Hành - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính
 
 Các bài tập sau được tham khảo từ Boyd & Vandenberghe (2004), Bertsimas & Tsitsiklis (1997), và Dantzig (1963), giúp sinh viên nắm vững các khái niệm về tính đối ngẫu trong LP.
 
 ---
 
-## 📝 **Phần I: Xây dựng Bài toán Đối ngẫu**
+## **Phần I: Xây dựng Bài toán Đối ngẫu**
 
 ### **Bài tập 1: Các dạng LP cơ bản (Boyd & Vandenberghe, Ex. 5.1)**
 
@@ -56,8 +54,8 @@ $$
 \end{align}
 $$
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bài a) Dạng chuẩn:**
 
@@ -143,8 +141,8 @@ b) Xây dựng bài toán đối ngẫu
 c) Giải thích ý nghĩa kinh tế của biến đối ngẫu    
 d) Nếu có thêm 1 giờ lao động, lợi nhuận tăng tối đa bao nhiêu?
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Bài toán Primal:**
 
@@ -208,8 +206,8 @@ a) Lập bài toán LP minimize rủi ro
 b) Xây dựng bài toán đối ngẫu  
 c) Giải thích ý nghĩa của biến đối ngẫu
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Bài toán Primal:**
 
@@ -245,7 +243,7 @@ $$
 
 ---
 
-## 📝 **Phần II: Tính Đối Ngẫu Yếu và Mạnh**
+## **Phần II: Tính Đối Ngẫu Yếu và Mạnh**
 
 ### **Bài tập 4: Weak Duality (Boyd & Vandenberghe, Ex. 5.5)**
 
@@ -265,8 +263,8 @@ $$
 **c)** Kiểm tra $$c^Tx \geq b^Tu$$ (weak duality)    
 **d)** Chứng minh $$x^* = (2, 2)$$ là nghiệm tối ưu
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Bài toán đối ngẫu:**
 
@@ -346,8 +344,8 @@ $$
 **c)** Tính khoảng cách đối ngẫu    
 **d)** Giải thích tại sao strong duality đúng
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Giải Primal:**
 
@@ -403,7 +401,7 @@ Trong LP, strong duality luôn đúng khi:
 
 ---
 
-## 📝 **Phần III: Điều kiện Bù (Complementary Slackness)**
+## **Phần III: Điều kiện Bù (Complementary Slackness)**
 
 ### **Bài tập 6: Applying CS (Bertsimas & Tsitsiklis, Ex. 4.3)**
 
@@ -425,8 +423,8 @@ $$
 
 **Yêu cầu:** Kiểm tra cặp nào tối ưu bằng điều kiện bù.
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Dual:**
 
@@ -501,8 +499,8 @@ Bài toán sản xuất có nghiệm tối ưu $$x^* = (40, 20)$$ với:
 **b)** Nếu mua thêm 1 giờ lao động với giá 12 nghìn, có nên mua không?    
 **c)** Phân tích độ nhạy khi lao động tăng lên 105 giờ
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Tính shadow price:**
 
@@ -554,7 +552,7 @@ Lợi nhuận mới: $$2200 + 83.35 = 2283.35$$ nghìn đồng
 
 ---
 
-## 📝 **Phần IV: Max Flow và Min Cut**
+## **Phần IV: Max Flow và Min Cut**
 
 ### **Bài tập 8: Max Flow Problem (Bertsimas & Tsitsiklis, Ex. 7.2)**
 
@@ -575,8 +573,8 @@ Cho mạng với dung lượng:
 **c)** Tìm một lát cắt và tính công suất    
 **d)** Kiểm chứng: giá trị luồng $$\leq$$ công suất cắt
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Max Flow LP:**
 
@@ -629,7 +627,7 @@ Theo định lý Max-Flow Min-Cut: Đây là luồng cực đại và lát cắt
 
 ---
 
-## 📝 **Phần V: Matrix Games**
+## **Phần V: Matrix Games**
 
 ### **Bài tập 9: Zero-Sum Game (Dantzig, Ex. 8.1)**
 
@@ -648,8 +646,8 @@ $$
 **c)** Viết LP đối ngẫu (người chơi cột)    
 **d)** Giải thích giá trị trò chơi
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Nash equilibrium thuần túy:**
 
@@ -722,7 +720,7 @@ Min = 1, vậy $$v^* \geq 1$$
 
 ---
 
-## 📝 **Phần VI: Bài tập Nâng cao từ Boyd & Vandenberghe**
+## **Phần VI: Bài tập Nâng cao từ Boyd & Vandenberghe**
 
 ### **Bài tập 10: Robust LP (Boyd & Vandenberghe, Ex. 5.11)**
 
@@ -743,8 +741,8 @@ a) Viết bài toán robust tương đương
 b) Chứng minh đây vẫn là bài toán LP    
 c) Xây dựng bài toán đối ngẫu
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Robust formulation:**
 
@@ -803,8 +801,8 @@ a) Viết bài toán tối ưu
 b) Chứng minh đây là bài toán LP    
 c) Giải cho polyhedron cụ thể
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **a) Formulation:**
 
@@ -863,7 +861,7 @@ Giải (bằng tay hoặc solver): $$x_c = (0, 1)$$, $$r = \frac{3}{\sqrt{2}} \a
 
 ---
 
-## 💡 **Tổng kết và Chiến lược**
+## **Tổng kết và Chiến lược**
 
 ### **Xây dựng đối ngẫu:**
 - Xác định dạng bài toán (min/max, ràng buộc)
@@ -893,7 +891,7 @@ Giải (bằng tay hoặc solver): $$x_c = (0, 1)$$, $$r = \frac{3}{\sqrt{2}} \a
 
 ---
 
-## 📚 **Tài liệu Tham khảo**
+## **Tài liệu Tham khảo**
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press. Chapter 5: Duality.
 

@@ -1,18 +1,18 @@
 ---
 layout: post
-title: 2-8 Bài Tập Thực Hành - Tập Convex
-chapter: '2'
+title: "2-8 Bài Tập Thực Hành - Tập Convex"
+chapter: "2"
 order: 9
-owner: GitHub Copilot
+owner: "GitHub Copilot"
 lang: vi
 categories:
-- chapter02
+  - chapter02
 lesson_type: required
 ---
 
 # Bài Tập Thực Hành - Tập Convex
 
-## 📝 **Bài tập 1: Verification of convex sets**
+## **Bài tập 1: Verification of convex sets**
 
 **Đề bài:** (Bài 2.1 từ Boyd & Vandenberghe)
 Xác định tính convex của các tập hợp sau:
@@ -31,8 +31,8 @@ d) $$S_4 = \{x \in \mathbb{R}^n : \lVert x_i \rVert  \leq a_i, i = 1,\ldots,n\}$
 3. Visualize trong $$\mathbb{R}^2$$
 4. Tìm extreme points của mỗi tập
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Chứng minh bằng definition**
 
@@ -74,7 +74,7 @@ Cartesian product của convex sets (intervals) là convex.
 
 ---
 
-## 📝 **Bài tập 2: Operations preserving convexity**
+## **Bài tập 2: Operations preserving convexity**
 
 **Đề bài:** (Bài 2.2 từ Boyd & Vandenberghe)
 Cho các tập convex $$C_1, C_2 \subseteq \mathbb{R}^n$$. Chứng minh hoặc phản chứng tính convex của:
@@ -95,8 +95,8 @@ e) **Affine transformation:** $$f(C_1) = \{Ax + b : x \in C_1\}$$
 3. Visualize bằng examples cụ thể
 4. Generalize cho arbitrary collections
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Giao - LỒI**
 
@@ -138,7 +138,7 @@ $$\theta(x_1, y_1) + (1-\theta)(x_2, y_2) = (\theta x_1 + (1-\theta) x_2, \theta
 
 ---
 
-## 📝 **Bài tập 3: Separating hyperplanes**
+## **Bài tập 3: Separating hyperplanes**
 
 **Đề bài:** (Bài 2.3 từ Boyd & Vandenberghe)
 Cho hai convex sets $$C, D \subset \mathbb{R}^n$$ disjoint ($$C \cap D = \emptyset$$).
@@ -154,8 +154,8 @@ b) Tìm separating hyperplane cho:
 3. Visualize separation
 4. Analyze case khi sets touch at boundary
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Separating hyperplane theorem**
 
@@ -198,7 +198,7 @@ Hyperplane: $$x_1 + x_2 = 1.5$$
 
 ---
 
-## 📝 **Bài tập 4: Convex hull computations**
+## **Bài tập 4: Convex hull computations**
 
 **Đề bài:** (Bài 2.4 từ Boyd & Vandenberghe)
 Tính convex hull của các tập hợp sau:
@@ -215,8 +215,8 @@ c) $$S_3 = \{(t, t^2) : t \in [-1,1]\}$$ trong $$\mathbb{R}^2$$
 3. Describe bằng inequalities khi possible
 4. Visualize results
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Finite point set**
 $$S_1 = \{(0,0), (1,0), (0,1), (1,1)\}$$
@@ -253,7 +253,7 @@ $$\text{conv}(S_3) = \{(x_1, x_2) : x_2 \geq x_1^2, -1 \leq x_1 \leq 1\}$$
 
 ---
 
-## 📝 **Bài tập 5: Dual cones**
+## **Bài tập 5: Dual cones**
 
 **Đề bài:** (Bài 2.5 từ Boyd & Vandenberghe)
 Tìm dual cone của các cones sau:
@@ -272,8 +272,8 @@ d) $$K_4 = \{X \in \mathbb{S}^n : X \succeq 0\}$$ (positive semidefinite cone)
 3. Establish duality relationships
 4. Geometric interpretation
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Non-negative orthant**
 $$K_1^* = \{y : y^T x \geq 0, \forall x \in \mathbb{R}_+^n\}$$
@@ -313,7 +313,7 @@ $$K_4 = \{X \in \mathbb{S}^n : X \succeq 0\}$$
 
 ---
 
-## 📝 **Bài tập 6: Projection onto convex sets**
+## **Bài tập 6: Projection onto convex sets**
 
 **Đề bài:** (Bài 2.6 từ Boyd & Vandenberghe)
 Tính projection của point $$x_0$$ onto convex set $$C$$:
@@ -334,8 +334,8 @@ d) $$C = \{x : \lVert x \rVert_\infty \leq r\}$$ ($$\ell_\infty$$ ball)
 3. Analyze uniqueness
 4. Implement algorithms
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Projection onto hyperplane**
 $$C = \{x : a^T x = b\}$$
@@ -389,7 +389,7 @@ r \cdot \text{sign}(x_{0i}) & \text{if } |x_{0i}| > r
 
 ---
 
-## 📝 **Bài tập 7: Extreme points và vertices**
+## **Bài tập 7: Extreme points và vertices**
 
 **Đề bài:** (Bài 2.7 từ Boyd & Vandenberghe)
 Cho polytope $$P = \{x : Ax \leq b\}$$ trong $$\mathbb{R}^n$$.
@@ -408,8 +408,8 @@ c) Verify Krein-Milman theorem: $$P = \text{conv}(\text{extreme points})$$
 3. Geometric visualization
 4. Computational algorithms
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Characterization theorem**
 
@@ -454,7 +454,7 @@ $$P_2 = \text{conv}\{(0,0,0), (1,0,0), (0,1,0), (0,0,1)\}$$
 
 ---
 
-## 📝 **Bài tập 8: Generalized inequalities**
+## **Bài tập 8: Generalized inequalities**
 
 **Đề bài:** (Bài 2.8 từ Boyd & Vandenberghe)
 Cho proper cone $$K \subseteq \mathbb{R}^n$$ và generalized inequality $$\preceq_K$$.
@@ -474,8 +474,8 @@ b) Cho $$K = \mathbb{S}_+^n$$, verify:
 3. Applications trong optimization
 4. Dual cone relationships
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Properties của generalized inequality**
 
@@ -528,7 +528,7 @@ b) Cho $$K = \mathbb{S}_+^n$$, verify:
 
 ---
 
-## 📝 **Bài tập 9: Convex combinations và Carathéodory theorem**
+## **Bài tập 9: Convex combinations và Carathéodory theorem**
 
 **Đề bài:** (Bài 2.9 từ Boyd & Vandenberghe)
 a) Chứng minh Carathéodory theorem: Mọi point trong $$\text{conv}(S)$$ có thể biểu diễn bằng convex combination của tối đa $$n+1$$ points từ $$S$$.
@@ -545,8 +545,8 @@ c) Construct algorithm để find minimal representation
 3. Algorithmic implementation
 4. Geometric interpretation
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Carathéodory theorem proof**
 
@@ -602,7 +602,7 @@ Output: Minimal convex combination
 
 ---
 
-## 📝 **Bài tập 10: Facial structure của convex sets**
+## **Bài tập 10: Facial structure của convex sets**
 
 **Đề bài:** (Bài 2.10 từ Boyd & Vandenberghe)
 Cho convex set $$C$$ và supporting hyperplane $$H = \{x : a^T x = \alpha\}$$ với $$\sup_{x \in C} a^T x = \alpha$$.
@@ -622,8 +622,8 @@ c) Establish face lattice structure
 3. Dimension analysis
 4. Lattice structure visualization
 
-<details>
-<summary><strong>💡 Lời giải chi tiết</strong></summary>
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
 
 **Bước 1: Face characterization**
 
@@ -679,7 +679,7 @@ $$C = \{x : \lVert x \rVert_2 \leq 1\}$$
 
 ---
 
-## 💡 Mẹo Thực Hành
+## Mẹo Thực Hành
 
 #### **Khi verify tính convex:**
 - Sử dụng definition trực tiếp: $$\theta x + (1-\theta) y \in C$$
@@ -698,7 +698,7 @@ $$C = \{x : \lVert x \rVert_2 \leq 1\}$$
 
 ---
 
-## 💡 **Tổng kết**
+## **Tổng kết**
 
 ### **Các Tập Convex Quan trọng:**
 
@@ -735,7 +735,7 @@ $$C = \{x : \lVert x \rVert_2 \leq 1\}$$
 
 ---
 
-## 📚 Tài liệu tham khảo
+## Tài liệu tham khảo
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.
    - Chapter 2: Convex Sets
