@@ -915,84 +915,6 @@ Với $$y \in \{-1, 1\}^n$$ và $$X \in \mathbb{R}^{n \times p}$$.
 })();
 </script>
 
----
-
-## 6. Điều kiện KKT cho SVM
-
-### 6.1. Hàm Lagrangian
-
-Với nhân tử Lagrange $$v \geq 0$$ (cho $$\xi_i \geq 0$$) và $$w \geq 0$$ (cho ràng buộc margin):
-
-$$
-\begin{align}
-L(\beta, \beta_0, \xi, v, w) = &\frac{1}{2} \|\beta\|_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i \\
-&+ \sum_{i=1}^n w_i (1 - \xi_i - y_i (\beta^T x_i + \beta_0))
-\end{align}
-$$
-
-### 6.2. Điều kiện Stationarity
-
-**1) Đạo hàm theo $$\beta$$:**
-$$
-\frac{\partial L}{\partial \beta} = \beta - \sum_{i=1}^n w_i y_i x_i = 0
-$$
-
-$$
-\Rightarrow \boxed{\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i}
-$$
-
-**Ý nghĩa quan trọng:** Nghiệm tối ưu là tổ hợp tuyến tính của các điểm dữ liệu!
-
-**2) Đạo hàm theo $$\beta_0$$:**
-$$
-\boxed{\sum_{i=1}^n w_i^\star y_i = 0}
-$$
-
-**3) Đạo hàm theo $$\xi_i$$:**
-$$
-C - v_i - w_i = 0 \Rightarrow \boxed{v_i^\star = C - w_i^\star}
-$$
-
-**Suy ra:** $$0 \leq w_i^\star \leq C$$ (vì $$v_i^\star \geq 0$$)
-
-### 6.3. Complementary Slackness
-
-**1) Cho $$\xi_i \geq 0$$:**
-$$
-v_i^\star \xi_i^\star = 0, \quad i = 1, \ldots, n
-$$
-
-**2) Cho ràng buộc margin:**
-$$
-w_i^\star (1 - \xi_i^\star - y_i (\beta^{\star T} x_i + \beta_0^\star)) = 0, \quad i = 1, \ldots, n
-$$
-
-### 6.4. Phân tích các trường hợp
-
-#### **Trường hợp 1: $$w_i^\star = 0$$ (Non-support vector)**
-
-- Từ $$v_i^\star = C > 0$$ → $$\xi_i^\star = 0$$ (CS 1)
-- Từ CS 2: Ràng buộc margin không chặt
-- **Kết luận:** $$y_i(\beta^{\star T} x_i + \beta_0^\star) > 1$$ 
-- Điểm nằm **ngoài margin**, phân loại đúng, không ảnh hưởng đến nghiệm
-
-#### **Trường hợp 2: $$0 < w_i^\star < C$$ (Support vector trên margin)**
-
-- Cả $$v_i^\star$$ và $$w_i^\star$$ đều dương
-- Từ CS: $$\xi_i^\star = 0$$ và $$y_i(\beta^{\star T} x_i + \beta_0^\star) = 1$$
-- **Kết luận:** Điểm nằm **đúng trên margin boundary**
-- Quan trọng nhất trong xác định siêu phẳng!
-
-#### **Trường hợp 3: $$w_i^\star = C$$ (Support vector vi phạm margin)**
-
-- Từ $$v_i^\star = 0$$: không ràng buộc $$\xi_i^\star$$
-- Từ CS 2: $$y_i(\beta^{\star T} x_i + \beta_0^\star) = 1 - \xi_i^\star$$
-
-**Phân loại con:**
-- $$\xi_i^\star = 0$$: Trên margin (giống trường hợp 2)
-- $$0 < \xi_i^\star < 1$$: Trong margin zone, phân loại đúng
-- $$\xi_i^\star \geq 1$$: Bị phân loại sai (misclassified)
-
 ## 7. Support Vectors
 
 ### Định nghĩa
@@ -1030,21 +952,6 @@ $$
 - Bị phân loại sai
 - Đóng góp nhiều vào penalty $$C\sum \xi_i$$
 
-### Ý nghĩa thực tiễn
-
-1. **Hiệu quả tính toán:**
-   - Chỉ cần lưu trữ $$s$$ support vectors (thường $$s \ll n$$)
-   - Prediction: $$\hat{y} = \text{sign}(\sum_{SV} w_i y_i \langle x_i, x \rangle + \beta_0)$$
-
-2. **Ổn định của mô hình:**
-   - Chỉ phụ thuộc support vectors
-   - Các điểm xa margin không ảnh hưởng
-   - Robust với outliers (nếu $$C$$ phù hợp)
-
-3. **Sparsity:**
-   - Nhiều $$w_i = 0$$ (non-support vectors)
-   - Mô hình "sparse" và dễ giải thích
-
 ## 8. Ví dụ Chi tiết
 
 ### Ví dụ 1D: Dữ liệu đơn giản
@@ -1052,6 +959,256 @@ $$
 **Dữ liệu:**
 - Lớp $$+1$$: $$x_1 = 3, x_2 = 4$$
 - Lớp $$-1$$: $$x_3 = 1, x_4 = 2$$
+
+<div id="svm1d-demo" style="margin: 20px 0;">
+    <canvas id="svm1dCanvas" width="700" height="300" style="border: 1px solid #ccc; display: block; margin: 0 auto;"></canvas>
+    <div style="text-align: center; margin-top: 15px;">
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; display: inline-block;">
+            <p style="margin: 5px; font-size: 14px;"><strong>Nghiệm tối ưu:</strong></p>
+            <p style="margin: 5px; font-size: 14px;">Siêu phẳng: $$x = 2.5$$</p>
+            <p style="margin: 5px; font-size: 14px;">$$\beta = 2, \quad \beta_0 = -5$$</p>
+            <p style="margin: 5px; font-size: 14px;">Margin width: $$\frac{2}{\lvert\beta\rvert} = 1$$</p>
+            <p style="margin: 5px; font-size: 14px; color: #f39c12;"><strong>Support Vectors:</strong> $$x = 2$$ và $$x = 3$$</p>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    const canvas = document.getElementById('svm1dCanvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    // Dữ liệu
+    const points = [
+        {x: 3, label: 1, name: 'x₁'},
+        {x: 4, label: 1, name: 'x₂'},
+        {x: 1, label: -1, name: 'x₃'},
+        {x: 2, label: -1, name: 'x₄'}
+    ];
+    
+    // Nghiệm: β = 2, β₀ = -5
+    // Hyperplane: 2x - 5 = 0 => x = 2.5
+    const hyperplane = 2.5;
+    const margin = 0.5; // margin = 1/β = 1/2
+    
+    // Scaling cho visualization
+    const scale = 100;
+    const offsetX = 150;
+    const centerY = height / 2;
+    
+    function xToScreen(x) {
+        return offsetX + x * scale;
+    }
+    
+    function draw() {
+        // Clear
+        ctx.clearRect(0, 0, width, height);
+        
+        // Background
+        ctx.fillStyle = '#fafafa';
+        ctx.fillRect(0, 0, width, height);
+        
+        // Vẽ trục x
+        ctx.strokeStyle = '#34495e';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(50, centerY);
+        ctx.lineTo(width - 50, centerY);
+        ctx.stroke();
+        
+        // Vẽ mũi tên trục x
+        ctx.beginPath();
+        ctx.moveTo(width - 50, centerY);
+        ctx.lineTo(width - 60, centerY - 5);
+        ctx.lineTo(width - 60, centerY + 5);
+        ctx.closePath();
+        ctx.fillStyle = '#34495e';
+        ctx.fill();
+        
+        // Vẽ các điểm trên trục
+        for (let i = 0; i <= 5; i++) {
+            const x = xToScreen(i);
+            ctx.strokeStyle = '#95a5a6';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(x, centerY - 5);
+            ctx.lineTo(x, centerY + 5);
+            ctx.stroke();
+            
+            ctx.fillStyle = '#7f8c8d';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(i.toString(), x, centerY + 20);
+        }
+        
+        // Vẽ margin boundaries (đường đứt nét)
+        ctx.strokeStyle = '#95a5a6';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        
+        // Left margin boundary (x = 2)
+        const leftMargin = xToScreen(hyperplane - margin);
+        ctx.beginPath();
+        ctx.moveTo(leftMargin, 50);
+        ctx.lineTo(leftMargin, height - 50);
+        ctx.stroke();
+        
+        // Right margin boundary (x = 3)
+        const rightMargin = xToScreen(hyperplane + margin);
+        ctx.beginPath();
+        ctx.moveTo(rightMargin, 50);
+        ctx.lineTo(rightMargin, height - 50);
+        ctx.stroke();
+        
+        ctx.setLineDash([]);
+        
+        // Vẽ margin zone (vùng màu nhạt)
+        ctx.fillStyle = 'rgba(52, 152, 219, 0.1)';
+        ctx.fillRect(leftMargin, 50, rightMargin - leftMargin, height - 100);
+        
+        // Vẽ hyperplane (đường đậm)
+        const hyperX = xToScreen(hyperplane);
+        ctx.strokeStyle = '#2c3e50';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(hyperX, 50);
+        ctx.lineTo(hyperX, height - 50);
+        ctx.stroke();
+        
+        // Label cho hyperplane
+        ctx.fillStyle = '#2c3e50';
+        ctx.font = 'bold 14px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('x = 2.5', hyperX, 40);
+        ctx.font = '12px Arial';
+        ctx.fillText('Siêu phẳng', hyperX, 25);
+        
+        // Labels cho margins
+        ctx.fillStyle = '#7f8c8d';
+        ctx.font = '12px Arial';
+        ctx.fillText('x = 2', leftMargin, height - 35);
+        ctx.fillText('x = 3', rightMargin, height - 35);
+        
+        // Vẽ data points
+        points.forEach(p => {
+            const x = xToScreen(p.x);
+            
+            // Điểm
+            ctx.fillStyle = p.label === 1 ? '#e74c3c' : '#2ecc71';
+            ctx.beginPath();
+            ctx.arc(x, centerY, 12, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Viền
+            ctx.strokeStyle = '#34495e';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Highlight support vectors
+            if (p.x === 2 || p.x === 3) {
+                ctx.strokeStyle = '#f39c12';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.arc(x, centerY, 18, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+            
+            // Label điểm
+            ctx.fillStyle = '#34495e';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(p.name, x, centerY - 30);
+            
+            // Hiển thị class
+            ctx.font = '12px Arial';
+            const classLabel = p.label === 1 ? 'y = +1' : 'y = -1';
+            ctx.fillStyle = p.label === 1 ? '#e74c3c' : '#2ecc71';
+            ctx.fillText(classLabel, x, centerY + 40);
+        });
+        
+        // Vẽ khoảng cách margin (mũi tên hai chiều)
+        const arrowY = 80;
+        ctx.strokeStyle = '#3498db';
+        ctx.lineWidth = 2;
+        
+        // Đường kẻ
+        ctx.beginPath();
+        ctx.moveTo(leftMargin, arrowY);
+        ctx.lineTo(hyperX, arrowY);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.moveTo(hyperX, arrowY);
+        ctx.lineTo(rightMargin, arrowY);
+        ctx.stroke();
+        
+        // Mũi tên trái
+        ctx.beginPath();
+        ctx.moveTo(leftMargin + 5, arrowY - 5);
+        ctx.lineTo(leftMargin, arrowY);
+        ctx.lineTo(leftMargin + 5, arrowY + 5);
+        ctx.stroke();
+        
+        // Mũi tên phải
+        ctx.beginPath();
+        ctx.moveTo(rightMargin - 5, arrowY - 5);
+        ctx.lineTo(rightMargin, arrowY);
+        ctx.lineTo(rightMargin - 5, arrowY + 5);
+        ctx.stroke();
+        
+        // Label margin
+        ctx.fillStyle = '#3498db';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('margin = 0.5', (leftMargin + hyperX) / 2, arrowY - 10);
+        ctx.fillText('margin = 0.5', (hyperX + rightMargin) / 2, arrowY - 10);
+        
+        // Legend
+        const legendX = width - 180;
+        const legendY = 100;
+        
+        // Class +1
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.arc(legendX, legendY, 8, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = '#34495e';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#34495e';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText('Class +1', legendX + 15, legendY + 4);
+        
+        // Class -1
+        ctx.fillStyle = '#2ecc71';
+        ctx.beginPath();
+        ctx.arc(legendX, legendY + 25, 8, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = '#34495e';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#34495e';
+        ctx.fillText('Class -1', legendX + 15, legendY + 29);
+        
+        // Support Vector
+        ctx.strokeStyle = '#f39c12';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(legendX, legendY + 50, 8, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = '#34495e';
+        ctx.fillText('Support Vector', legendX + 15, legendY + 54);
+    }
+    
+    // Initial draw
+    draw();
+})();
+</script>
 
 **Bài toán hard-margin:**
 $$
@@ -1062,24 +1219,11 @@ $$
 \end{align}
 $$
 
-**Giải pháp hình học:**
-- Siêu phẳng tối ưu nằm giữa $$x = 2$$ và $$x = 3$$
-- Điểm gần nhất: $$x_2 = 4$$ và $$x_4 = 2$$
+**Phân tích nghiệm:**
+
+Support vectors là các điểm gần nhất với siêu phẳng: $$x = 3$$ (lớp +1) và $$x = 2$$ (lớp -1).
 
 **Điều kiện margin chặt:**
-$$
-\begin{cases}
-4\beta + \beta_0 = 1 \\
-2\beta + \beta_0 = -1
-\end{cases}
-\Rightarrow \beta = 1, \quad \beta_0 = -3
-$$
-
-**Nghiệm:**
-- Siêu phẳng: $$x - 3 = 0$$ hay $$x = 3$$ (sai! phải là $$x=2.5$$)
-- Hãy kiểm tra lại...
-
-**Sửa lại:** Điểm gần nhất phải là $$x = 3$$ (lớp +1) và $$x = 2$$ (lớp -1):
 $$
 \begin{cases}
 3\beta + \beta_0 = 1 \\
@@ -1088,9 +1232,11 @@ $$
 \Rightarrow \beta = 2, \quad \beta_0 = -5
 $$
 
+**Kết quả:**
 - Siêu phẳng: $$2x - 5 = 0$$ hay $$x = 2.5$$ ✓
-- Margin: $$\frac{2}{\lvert\beta\rvert} = \frac{2}{2} = 1$$
-- Support vectors: $$x = 3$$ và $$x = 2$$
+- Margin width: $$\frac{2}{\lvert\beta\rvert} = \frac{2}{2} = 1$$
+- Support vectors: $$x = 2$$ và $$x = 3$$
+- Các điểm $$x = 1$$ và $$x = 4$$ không phải support vectors vì chúng nằm xa margin hơn
 
 ## 9. Bài toán Đối ngẫu
 
@@ -1112,35 +1258,6 @@ $$
 2. **Ít ràng buộc hơn**: Chỉ 1 ràng buộc đẳng thức + box constraints
 3. **Solver hiệu quả**: SMO, LIBSVM
 
-## 10. Ứng dụng KKT trong SVM
-
-### 10.1. Kiểm tra tính tối ưu
-
-Dùng điều kiện KKT để verify nghiệm:
-1. Primal/Dual feasibility
-2. Stationarity
-3. Complementary slackness
-
-### 10.2. Tính $$\beta_0$$
-
-Từ support vectors trên margin ($$0 < w_i < C$$):
-$$
-\beta_0 = y_i - \beta^T x_i = y_i - \sum_{j} w_j y_j \langle x_j, x_i \rangle
-$$
-
-**Thực tế:** Lấy trung bình trên tất cả SV trên margin:
-$$
-\beta_0 = \frac{1}{\lvert S\rvert} \sum_{i \in S} \left( y_i - \sum_{j} w_j y_j \langle x_j, x_i \rangle \right)
-$$
-
-### 10.3. Lọc Support Vectors
-
-Trước khi giải, loại bỏ điểm chắc chắn không phải SV:
-$$
-y_i(\beta_{\text{init}}^T x_i + \beta_{0,\text{init}}) \gg 1
-$$
-
-→ Tăng hiệu quả cho datasets lớn
 
 ## 11. Bài tập Thực hành
 
