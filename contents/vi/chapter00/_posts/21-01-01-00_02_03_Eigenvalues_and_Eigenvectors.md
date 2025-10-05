@@ -121,6 +121,90 @@ For any eigenvalue: geometric multiplicity ≤ algebraic multiplicity
 
 ---
 
+## Phân Tích Eigendecomposition
+
+### Ma Trận Đối Xứng (Symmetric Matrices)
+
+Ma trận đối xứng $$\mathbf{A} = \mathbf{A}^T$$ có những tính chất đặc biệt quan trọng:
+
+1. **Tất cả giá trị riêng đều là số thực**
+2. **Các vector riêng tương ứng với giá trị riêng khác nhau là trực giao**
+3. **Luôn có thể chéo hóa được với ma trận trực giao**
+
+Với ma trận đối xứng, ta có phân tích đặc biệt:
+
+$$\mathbf{A} = \mathbf{Q}\mathbf{\Lambda}\mathbf{Q}^T$$
+
+trong đó:
+- $$\mathbf{Q}$$ là ma trận trực giao ($$\mathbf{Q}^T\mathbf{Q} = \mathbf{I}$$) với các cột là vector riêng chuẩn hóa
+- $$\mathbf{\Lambda}$$ là ma trận chéo chứa các giá trị riêng
+
+### Các Phép Toán Trên Eigendecomposition
+
+Eigendecomposition cho phép thực hiện nhiều phép toán phức tạp một cách hiệu quả:
+
+**1. Lũy thừa ma trận:**
+
+$$\mathbf{A}^k = \mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}$$
+
+Điều này đặc biệt hữu ích khi $$k$$ lớn, vì việc lũy thừa ma trận chéo rất đơn giản:
+
+$$\mathbf{D}^k = \begin{pmatrix} \lambda_1^k & 0 & \cdots & 0 \\ 0 & \lambda_2^k & \cdots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \cdots & \lambda_n^k \end{pmatrix}$$
+
+**2. Ma trận nghịch đảo:**
+
+Nếu tất cả giá trị riêng khác 0:
+
+$$\mathbf{A}^{-1} = \mathbf{P}\mathbf{D}^{-1}\mathbf{P}^{-1}$$
+
+với $$\mathbf{D}^{-1}$$ có các phần tử chéo là $$1/\lambda_i$$.
+
+**3. Ma trận hàm mũ:**
+
+$$e^{\mathbf{A}} = \mathbf{P}e^{\mathbf{D}}\mathbf{P}^{-1}$$
+
+với $$e^{\mathbf{D}} = \text{diag}(e^{\lambda_1}, e^{\lambda_2}, \ldots, e^{\lambda_n})$$
+
+**4. Định thức và vết (trace):**
+
+- $$\det(\mathbf{A}) = \prod_i \lambda_i$$ (tích các giá trị riêng)
+- $$\text{tr}(\mathbf{A}) = \sum_i \lambda_i$$ (tổng các giá trị riêng)
+
+---
+
+## Định Lý Gershgorin Circle
+
+Định lý Gershgorin Circle cung cấp một cách đơn giản để ước lượng vị trí của các giá trị riêng mà không cần tính toán chính xác.
+
+### Phát Biểu Định Lý
+
+Cho ma trận $$\mathbf{A} = [a_{ij}]_{n \times n}$$. Định nghĩa:
+- **Tâm (center):** $$a_{ii}$$ (phần tử chéo thứ $$i$$)
+- **Bán kính (radius):** $$r_i = \sum_{j \neq i} |a_{ij}|$$ (tổng giá trị tuyệt đối các phần tử ngoài đường chéo ở hàng $$i$$)
+
+**Định lý:** Mọi giá trị riêng của $$\mathbf{A}$$ nằm trong hợp của các đĩa Gershgorin:
+
+$$D_i = \{z \in \mathbb{C} : |z - a_{ii}| \leq r_i\}$$
+
+### Ví Dụ
+
+Xét ma trận: $$\mathbf{A} = \begin{pmatrix} 4 & 0.3 & 0.2 \\ 0.3 & 5 & 0.1 \\ 0.2 & 0.1 & 3 \end{pmatrix}$$
+
+Các đĩa Gershgorin:
+- $$D_1$$: tâm = 4, bán kính = 0.5, nên $$3.5 \leq \lambda \leq 4.5$$
+- $$D_2$$: tâm = 5, bán kính = 0.4, nên $$4.6 \leq \lambda \leq 5.4$$
+- $$D_3$$: tâm = 3, bán kính = 0.3, nên $$2.7 \leq \lambda \leq 3.3$$
+
+**Kết luận:** Tất cả giá trị riêng phải nằm trong $$[2.7, 5.4]$$.
+
+### Ứng Dụng Thực Tế
+
+1. **Kiểm tra nhanh tính positive definite:** Nếu tất cả đĩa Gershgorin nằm bên phải trục tưởng, ma trận có thể là positive definite
+2. **Ước lượng condition number:** Giúp đánh giá độ ổn định số học
+3. **Thiết kế ma trận:** Đảm bảo các thuộc tính mong muốn bằng cách điều chỉnh phần tử chéo và ngoài đường chéo
+
+---
+
 ## Diagonalization
 
 A matrix $$\mathbf{A}$$ is **diagonalizable** if it can be written as:
@@ -135,6 +219,87 @@ where:
 
 1. **Easy computation of powers:** $$\mathbf{A}^k = \mathbf{P}\mathbf{D}^k\mathbf{P}^{-1}$$
 2. **Understanding behavior:** The eigenvalues determine the transformation's behavior along each eigenvector direction
+
+---
+
+## Ứng Dụng: Hành Vi của Phép Nhân Ma Trận Lặp
+
+Một ứng dụng quan trọng của eigenvalues là hiểu hành vi của việc nhân ma trận lặp lại: $$\mathbf{A}\mathbf{x}, \mathbf{A}^2\mathbf{x}, \mathbf{A}^3\mathbf{x}, \ldots$$
+
+### Vector Riêng và Hành Vi Dài Hạn
+
+Giả sử ma trận $$\mathbf{A}$$ có eigendecomposition:
+
+$$\mathbf{A} = \mathbf{P}\mathbf{D}\mathbf{P}^{-1}$$
+
+Khi đó:
+
+$$\mathbf{A}^k = \mathbf{P}\mathbf{D}^k\mathbf{P}^{-1} = \mathbf{P}\begin{pmatrix} \lambda_1^k & 0 & \cdots \\ 0 & \lambda_2^k & \cdots \\ \vdots & \vdots & \ddots \end{pmatrix}\mathbf{P}^{-1}$$
+
+**Quan sát quan trọng:**
+
+1. **Nếu $$|\lambda_{\max}| > 1$$:** Vector sẽ tăng theo cấp số nhân (explode)
+2. **Nếu $$|\lambda_{\max}| < 1$$:** Vector sẽ giảm dần về 0 (vanish)
+3. **Nếu $$|\lambda_{\max}| = 1$$:** Vector sẽ ổn định hoặc dao động
+
+### Ví Dụ: Ma Trận Ngẫu Nhiên
+
+Xét ma trận ngẫu nhiên $$5 \times 5$$ với các phần tử tuân theo phân phối Gaussian chuẩn (mean = 0, variance = 1).
+
+Nếu ta áp dụng ma trận này lên một vector ngẫu nhiên nhiều lần, ta quan sát:
+- Độ dài của vector tăng theo cấp số nhân
+- Tốc độ tăng được chi phối bởi giá trị riêng lớn nhất $$\lambda_{\max}$$
+
+**Định luật Circular Law:** Đối với ma trận ngẫu nhiên lớn $$n \times n$$ với các phần tử độc lập, mean = 0, variance = 1, giá trị riêng lớn nhất trung bình xấp xỉ $$\sqrt{n}$$.
+
+### Chuẩn Hóa Ma Trận
+
+Để kiểm soát hành vi này, ta có thể chuẩn hóa ma trận:
+
+$$\mathbf{A}_{\text{normalized}} = \frac{\mathbf{A}}{\lambda_{\max}}$$
+
+Sau khi chuẩn hóa:
+- Giá trị riêng lớn nhất = 1
+- Vector không tăng hoặc giảm theo cấp số nhân
+- Hành vi ổn định, hội tụ về trạng thái cân bằng
+
+### Ý Nghĩa Trong Deep Learning
+
+Hiện tượng này có ý nghĩa quan trọng trong neural networks:
+
+1. **Vanishing/Exploding Gradients:** 
+   - Nếu các trọng số (weights) có eigenvalues quá lớn → gradients explode
+   - Nếu eigenvalues quá nhỏ → gradients vanish
+   
+2. **Khởi Tạo Trọng Số (Weight Initialization):**
+   - Cần khởi tạo sao cho eigenvalues gần 1
+   - Các phương pháp như Xavier/He initialization dựa trên nguyên lý này
+   
+3. **Batch Normalization:**
+   - Giúp kiểm soát phân phối của activations
+   - Ngăn chặn exploding/vanishing trong quá trình training
+
+4. **Residual Connections (ResNet):**
+   - Thêm skip connections giúp gradient flow tốt hơn
+   - Tương đương với việc thêm ma trận đơn vị, đảm bảo eigenvalue = 1
+
+### Phân Tích Hội Tụ Của Thuật Toán
+
+Trong các thuật toán lặp (như gradient descent, power iteration):
+
+**Tốc độ hội tụ** phụ thuộc vào tỷ số của các eigenvalues:
+
+$$\text{Convergence rate} \propto \left|\frac{\lambda_2}{\lambda_1}\right|$$
+
+- Nếu $$|\lambda_2| \ll |\lambda_1|$$: Hội tụ nhanh
+- Nếu $$|\lambda_2| \approx |\lambda_1|$$: Hội tụ chậm
+
+**Power Iteration Algorithm:**
+1. Bắt đầu với vector ngẫu nhiên $$\mathbf{v}_0$$
+2. Lặp: $$\mathbf{v}_{k+1} = \frac{\mathbf{A}\mathbf{v}_k}{\|\mathbf{A}\mathbf{v}_k\|}$$
+3. Vector sẽ hội tụ về eigenvector tương ứng với $$|\lambda_{\max}|$$
+
+Đây là cơ sở cho nhiều thuật toán tính eigenvalues/eigenvectors hiệu quả.
 
 ---
 

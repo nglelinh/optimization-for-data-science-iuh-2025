@@ -1,43 +1,41 @@
 ---
 layout: post
-title: 18-04 Broyden-Fletcher-Goldfarb-Shanno (BFGS) update
+title: 18-04 Cập nhật Broyden-Fletcher-Goldfarb-Shanno (BFGS)
 chapter: '18'
-order: 5
+order: '5'
 owner: Hooncheol Shin
 categories:
 - chapter18
 lang: vi
 ---
 
-The idea of BFGS is the same as DFP. The only difference is that the roles of B and H are reversed.
+Ý tưởng của BFGS giống như DFP. Sự khác biệt duy nhất là vai trò của B và H được đảo ngược. BFGS được suy ra bằng cách giải bài toán sau.
 
-BFGS is derived by solving the following problem.
-
->Solve
+>Giải
 >$$
 >\begin{align}
 >& \min_{H^+} \: \: && {\|W^{1/2} (H^+ - H) W^{1/2} \|_F} \\\\
->& \text{subject to } && {H^+ = (H^+)^T} \\\\
->&&& {H^+s = y}  \\\\
->& \text{where } && W \in \mathbb{R}^{n \; \times \;n} \text{ is nonsingular and such that } Ws_k = y_k.
+>& \text{thỏa mãn } && {H^+ = (H^+)^T} \\\\
+>    &&& {H^+y = s}  \\\\
+>& \text{trong đó } && W \in \mathbb{R}^{n \; \times \;n} \text{ là ma trận khả nghịch và } Ws_k = y_k.
 >\end{align}\\\\
 >$$
 
-The derived updating formulas for $$H$$ and $$B$$ are as follows.
+Các công thức cập nhật được suy ra cho $$H$$ và $$B$$ như sau.
 
 >$$
-> B^+ = B - \frac{Bss^TB}{s^TBs} + \frac{yy^T}{y^Ts}
+>B^+ = B - \frac{Bss^TB}{s^TBs} + \frac{yy^T}{y^Ts}
 >$$
 
-and
+và
 
 >$$
 >\begin{align}
 >H^+ &= H + \frac{(s-Hy)s^T}{y^Ts} + \frac{s(s-Hy)^T}{y^Ts} - \frac{(s-Hy)^Ty}{(y^Ts)^2} ss^T\\\\
-> &= \big( I - \frac{sy^T}{y^Ts} \big) H \big( I - \frac{ys^T}{y^Ts} \big) + \frac{ss^T}{y^Ts} 
+> &= \big( I - \frac{sy^T}{y^Ts} \big) H \big( I - \frac{ys^T}{y^Ts} \big) + \frac{ss^T}{y^Ts}
 >\end{align}
 >$$
 
-BFGS also, DFP처럼 positive definiteness를 유지한다. (if, $$B$$가 positive definite이고 $$s^Ty > 0$$이면 $$B^+$$는 positive definite이다.)
+BFGS cũng duy trì tính xác định dương giống như DFP. (Nếu $$B$$ là xác định dương và $$s^Ty > 0$$, thì $$B^+$$ là xác định dương.)
 
-BFGS의 특장점은 self-correcting property를 지니고 있다는 것이다. if, matrix $$H$$가 부정확하게 추정되어 iteration의 속도가 느려지게 되면 Hessian approximation이 단 몇 step 만to, 이를 바to,잡는 경향성을 보인다. 반면 DFP는 잘못된 Hessian approximation의 추정about, effect,적with, 바to,잡지 못하므to, 실전at,는 usually, BFGS의 성능이 더 좋은 편이다 [14].
+Ưu điểm của BFGS là có tính chất tự hi교chỉnh. Nếu ma trận $$H$$ trong một vòng lặp là một xấp xỉ kém của Hessian nghịch đảo, thì $$H$$ có thể được điều chỉnh trong một vài bước tiếp theo. DFP không có khả năng tự hiệu chỉnh trong trường hợp xấp xỉ sai về Hessian, do đó hiệu suất của BFGS thường tốt hơn [14].

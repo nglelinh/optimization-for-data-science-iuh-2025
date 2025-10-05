@@ -1,59 +1,64 @@
 ---
 layout: post
-title: 18-07 Limited Memory BFGS (LBFGS)
+title: 18-07 BFGS Bộ nhớ Hạn chế (LBFGS)
 chapter: '18'
-order: 8
+order: '8'
 owner: Hooncheol Shin
 categories:
 - chapter18
 lang: vi
 ---
 
-## Introduction
+# Giới thiệu
 
-LBFGS is an example of Limited-memory quasi-Newton methods, and is useful when the cost of computing or storing the Hessian matrix is not reasonable. This method estimates (approximates) the Hessian matrix by maintaining only a few $$n$$-dimensional vectors instead of storing a dense $$n \times n$$ Hessian matrix. 
+LBFGS là một ví dụ của các phương pháp quasi-Newton bộ nhớ hạn chế, và rất hữu ích khi chi phí tính toán hoặc lưu trữ ma trận Hessian là không hợp lý. Phương pháp này ước lượng (xấp xỉ) ma trận Hessian bằng cách chỉ duy trì một vài vector $$n$$-chiều thay vì lưu trữ một ma trận Hessian dày đặc $$n \times n$$.
 
-The LBFGS algorithm is based on BFGS, as its name suggests. The main idea is to use curvature information from the most recent iterations to estimate the Hessian. On the other hand, curvature information from older iterations is not used to save storage space, as it may be somewhat distant from the behavior shown by the Hessian of the current iteration.
+Thuật toán LBFGS dựa trên BFGS, như tên gọi của nó. Ý tưởng chính là sử dụng thông tin độ cong từ các vòng lặp gần nhất để ước lượng Hessian. Mặt khác, thông tin độ cong từ các vòng lặp cũ hơn không được sử dụng để tiết kiệm không gian lưu trữ, vì nó có thể khá xa với hành vi được thể hiện bởi Hessian của vòng lặp hiện tại.
 
-As a side note, limited-memory versions of other quasi-Newton algorithms (e.g., SR1) can also be derived using the same technique [14].
+Lưu ý phụ, các phiên bản bộ nhớ hạn chế của các thuật toán quasi-Newton khác (ví dụ: SR1) cũng có thể được suy ra bằng cách sử dụng cùng kỹ thuật [14].
 
-## LBFGS
+# LBFGS
 
-LBFGS를 본격적with, 설명하기to, 앞서 BFGS methodabout, 다시 let's look at. 각 stepat, BFGS는 as follows: $$x$$를 업데이트 한다.
+Để giải thích LBFGS, trước tiên hãy xem xét phương pháp BFGS. Tại mỗi bước, BFGS cập nhật $$x$$ như sau:
+
 >$$
 >x^+ = x - t H \nabla f, \\\\
->\text{where } t \text{ is the step length and } H \text{ is updated at every iteration by means of the formula, }\\\\
->\text{     }\\\\
->H^+ =  \big( I - \frac{sy^T}{y^Ts} \big) H \big( I - \frac{ys^T}{y^Ts} \big) + \frac{ss^T}{y^Ts}.\\\\
+>\text{trong đó } t \text{ là độ dài bước và } H \text{ được cập nhật tại mỗi vòng lặp bằng công thức, }\\\\
+>\text{ }\\\\
+>H^+ = \big( I - \frac{sy^T}{y^Ts} \big) H \big( I - \frac{ys^T}{y^Ts} \big) + \frac{ss^T}{y^Ts}. \\\\
 >$$
 
-$$H$$to, about, 업데이트 식을 이용하면 $$H^+q, q \in \mathbb{R}^n$$를 임의의 scalar $$\alpha, \beta \in \mathbb{R}$$and, 임의의 vector $$p, s \in \mathbb{R}^n$$를 using, 표현할 수 있다. 
+Với $$H$$ như trên, $$H^+q, q \in \mathbb{R}^n$$ có thể được biểu diễn bằng các số vô hướng $$\alpha, \beta \in \mathbb{R}$$ và các vector $$p, s \in \mathbb{R}^n$$.
 
 >$$
 >\begin{align}
->H^+q &=  \big( I - \frac{sy^T}{y^Ts} \big) H \big( I - \frac{ys^T}{y^Ts} \big)q + \frac{ss^Tq}{y^Ts}\\\\
-> &= \big( I - \frac{sy^T}{y^Ts} \big) \underbrace{H \\big( q - \frac{s^T q}{y^Ts} y \big)}_{p} + \underbrace{\frac{s^Tq}{y^Ts}}_{\alpha} s\\\\
+>H^+q &= \big( I - \frac{sy^T}{y^Ts} \big) H \big( I - \frac{ys^T}{y^Ts} \big)q + \frac{ss^Tq}{y^Ts}\\\\
+> &= \big( I - \frac{sy^T}{y^Ts} \big) \underbrace{H \big( q - \frac{s^T q}{y^Ts} y \big)}_{p} + \underbrace{\frac{s^Tq}{y^Ts}}_{\alpha} s\\\\
 > &= \big( I - \frac{sy^T}{y^Ts} \big) p + \alpha s\\\\
 > &= p - \underbrace{\frac{y^Tp}{y^Ts}}_{\beta}s + \alpha s \\\\
-> &= p + (\alpha - \beta) s,\\\\
->& \text{where } \alpha = \frac{s^Tq}{y^Ts}, q^+ = q - \alpha y, p = Hq, \beta = \frac{y^Tp}{y^Ts}.
->\end{align}\\\\
+> &= p + (\alpha - \beta) s, \\\\
+>& \text{trong đó } \alpha = \frac{s^Tq}{y^Ts}, q^+ = q - \alpha y, p = Hq^+, \beta = \frac{y^Tp}{y^Ts}.
+>\end{align} \\\\
 >$$
 
-$$H$$가 k번의 BFGS update를 through, 얻이진다고 할when,, $$Hq= -H\nabla f(x)$$는 length k의 iteration문 2개to, computation할 수 있다 (아래 algorithm reference). 단, 메모리의 효율적인 사용을 for, 가장 최근 $m$개 iterationsat,의 curvature information만을 이용한다. ($$k \ge m$$)
+Khi $$H$$ được cập nhật qua k lần cập nhật BFGS, thì $$Hq= -H\nabla f(x)$$ có thể được tính toán trong độ phức tạp $$O(kn)$$ (xem thuật toán bên dưới). Để sử dụng bộ nhớ hiệu quả, chúng ta chỉ sử dụng thông tin độ cong từ $$m$$ vòng lặp gần nhất. (với $$k \ge m$$)
 
-## Algorithm
+# Thuật toán
+
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter18/algorithm_quasi-newton.png" alt="[Fig1] The algorithm of LBFGS [3]" width="90%">
-  <figcaption style="text-align: center;">[Fig1] The algorithm of LBFGS [3]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter18/algorithm_quasi-newton.png" alt="[Fig1] Thuật toán LBFGS [3]" width="90%">
+  <figcaption style="text-align: center;">[Fig1] Thuật toán LBFGS [3]</figcaption>
 </p>
 </figure>
 
-usually, inverse Hessian approximation $$H_k$$는 dense하며, variable의 개수가 많은 case, 저장 및 operation 비용이 매우 높아지게 된다. 반면 LBFGS는 $$H_k \nabla f_k$$을 연속한 vectorsumand, vectorproductwith, obtaining,냄with,써 $$H_k$$의 computation 및 유지를 위한 비용problem를 완화시킬 수 있다. 뿐만 아니라 이 computationto, 사용되는 initial Hessian approximation $$H^{0,k}$$는 usually, (실전at, 매우 effect,적with, 작동한다고 검증된) identity matrixto, 어떤 constant를 product한 형태($$H^{0,k} = \gamma_k I$$)를 띄기 because of, 유지 및 computationto, 그다지 큰 비용이 발생하지 않는다 ([14]의 7.2).
-> $$
-> H^{0,k} = \gamma_k I, \\\\
-> \text{where } \: \gamma_k = \frac{s^T_{k-1}y_{k-1}}{y^T_{k-1}y_{k-1}}.
-> $$
+Thông thường, xấp xỉ Hessian nghịch đảo $$H_k$$ là dày đặc, và trong trường hợp có nhiều biến, phép toán trở nên rất nặng. LBFGS thu được $$H_k \nabla f_k$$ bằng tổng và tích của các vector liên tiếp, giải quyết vấn đề tính toán của $$H_k$$.
 
-* **Note:** $$H^{0,k}$$는 매 iteration마다 다르게 선택될 수 있다.
+Trong tính toán, xấp xỉ Hessian ban đầu $$H^{0, k}$$ thường (và đã được xác minh là rất hiệu quả) là tích của ma trận đơn vị với một số hằng số ($$H^{0, k} = \gamma_k I$$), do đó việc tính toán không quá lớn ([14] mục 7.2).
+
+>$$
+H^{0, k} = \gamma_k I, \\\\
+>\text{trong đó } \: \gamma_k = \frac{s^T_{k-1}y_{k-1}}{y^T_{k-1}y_{k-1}}.
+>$$
+
+* **Lưu ý:** $$H^{0, k}$$ thay đổi theo mỗi vòng lặp.

@@ -1,48 +1,51 @@
 ---
 layout: post
-title: 18-06 Superlinear convergence
+title: 18-06 Hội tụ Siêu tuyến tính
 chapter: '18'
-order: 7
+order: '7'
 owner: Hooncheol Shin
 categories:
 - chapter18
 lang: vi
 ---
 
-### Assumption1: 
-> The Hessian matrix $$G$$ is Lipschitz continuous at $$x^∗$$, that is, 
-> $$\| G(x) − G(x^∗)  \le L \| x − x^∗ \|,$$
-> for all $$x$$ near $$x^∗$$, where $$L$$ is a positive constant.
+# Giả thiết 1:
+> Ma trận Hessian $$G$$ là liên tục Lipschitz tại $$x^∗$$, nghĩa là,
+> $$\| G(x) − G(x^∗) \| \le L \| x − x^∗ \|,
+>$$
+với mọi $$x$$ gần $$x^∗$$, trong đó $$L$$ là một hằng số dương.
 
-### Assumption2: Wolfe conditions
-> Assume $$t$$ is chosen (via backtracking) so that
-> $$ f(x + tp) \le f(x) + \alpha_1 t \nabla f(x)^T p$$
-> and
-> $$ \nabla f(x + tp)^T p \ge \alpha_2 \nabla f(x)^T p$$
-> for $$0 < \alpha_1 < \alpha_2 < 1.$$
+# Giả thiết 2: Điều kiện Wolfe
+> Giả sử $$t$$ được chọn (thông qua backtracking) sao cho
+> $$
+f(x + tp) \le f(x) + \alpha_1 t \nabla f(x)^T p
+>$$
+và
+> $$
+\nabla f(x + tp)^T p \ge \alpha_2 \nabla f(x)^T p
+>$$
+với $$0 < \alpha_1 < \alpha_2 < 1.$$
 
-* The first condition of Wolfe conditions ensures that too large a $$t$$ is not selected.
-* The second condition of Wolfe conditions ensures that too small a $$t$$ is not selected.
+* Điều kiện đầu tiên của điều kiện Wolfe đảm bảo rằng $$t$$ không được chọn quá lớn.
+* Điều kiện thứ hai của điều kiện Wolfe đảm bảo rằng $$t$$ không được chọn quá nhỏ.
 
-DFP and BFGS show superlinear convergence under the above two assumptions. (reference: [Rate of convergence in Wikipedia](https://en.wikipedia.org/wiki/Rate_of_convergence))
+DFP và BFGS cho thấy hội tụ siêu tuyến tính dưới hai giả thiết trên. (tham khảo: [Tốc độ hội tụ trên Wikipedia](https://en.wikipedia.org/wiki/Rate_of_convergence))
+
 >$$
 >\lim_{k \rightarrow \infty} \frac{ \| x^{k+1} - x^\ast \| }{ \| x^k - x^\ast \| } = 0.
 >$$
 
+# Định lý Dennis-Moré
 
+Khi hướng tìm kiếm của phương pháp Quasi-Newton xấp xỉ đủ tốt hướng Newton tại nghiệm và độ dài bước thỏa mãn điều kiện Wolfe trong quá trình hội tụ, thì tồn tại điều kiện đủ cho hướng tìm kiếm để có hội tụ siêu tuyến tính [14].
 
-
-
-## Theorem (Dennis-Moré)
-
-다음은 Quasi-Newton method의 search direction이 Newton direction을 충분히 잘 approximation하고 있을when,, solutionwith, convergence하는 processat, step length가 Wolfe conditions를 만족함을 보인다. Superlinear convergence를 보이기 for, search direction이 만족solution야하는 condition,이라고도 할 수 있다 [14].
-
->$$f$$가 두 번 미분 가능하고 $$x^k \rightarrow x^\ast$$ s.t. $$\nabla f(x^\ast) = 0$$이며 $$\nabla^2 f(x^\ast)$$가 positive definite이라고 let's assume. 
+>Giả sử $$f$$ khả vi, $$x^k \rightarrow x^\ast$$ sao cho $$\nabla f(x^\ast) = 0$$ và $$\nabla^2 f(x^\ast)$$ là xác định dương.
 >
->$$\lim_{k \rightarrow \infty} \frac{\| \nabla f(x^k) + \nabla^2 f(x^k) p^k \| }{\| p^k \|} = 0.$$
+>$$
+\lim_{k \rightarrow \infty} \frac{\| \nabla f(x^k) + \nabla^2 f(x^k) p^k \| }{\| p^k \|} = 0.
+>$$
 >
->if, search direction $$p^k$$가 위 condition,을 만족하면, 다음 두 가지 항목을 만족하는 $$k_0$$가 존재한다.
-> 
-> 1. $$k \ge k_0$$about, step length $$t_k=1$$은 Wolfe conditions를 만족한다.
-> 2. if, $$k \ge k_0$$about, $$t_k = 1$$이면 $$x^k \rightarrow x^\ast$$는 superlinear convergence를 보인다.
- 
+>Nếu hướng tìm kiếm $$p^k$$ thỏa mãn điều kiện trên, thì tồn tại $$k_0$$ sao cho:
+>
+> 1. Với $$k \ge k_0$$, độ dài bước $$t_k=1$$ thỏa mãn điều kiện Wolfe.
+> 2. Nếu vậy, với $$k \ge k_0$$ và $$t_k = 1$$, thì $$x^k \rightarrow x^\ast$$ với hội tụ siêu tuyến tính.

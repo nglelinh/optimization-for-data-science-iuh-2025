@@ -1,51 +1,61 @@
 ---
 layout: post
-title: 18-01 Secant Equation and Curvature Condition
+title: 18-01 Phương trình Secant và Điều kiện Độ cong
 chapter: '18'
-order: 2
+order: '2'
 owner: Hooncheol Shin
 categories:
 - chapter18
 lang: vi
 ---
 
-## Secant Equation
-As mentioned earlier, $$B$$ is a matrix that approximates $$\nabla^2 f(x)$$. For matrix $$B$$ to have similar properties to the Hessian $$\nabla^2 f(x)$$, it must satisfy a condition called the secant equation. When $$x^{k+1} = x^k + s^k$$ and $$f$$ is twice differentiable, the first-order Taylor expansion of $$\nabla f(x^k + s^k)$$ shows that the true Hessian has the following property.
+# Phương trình Secant
 
->$$\nabla f(x^k + s^k)  \approx \nabla f(x^k) + \nabla^2 f(x^k) s^k$$
+Như đã đề cập trước đó, $$B$$ là một ma trận xấp xỉ $$\nabla^2 f(x)$$. Để ma trận $$B$$ có các tính chất tương tự như Hessian $$\nabla^2 f(x)$$, nó phải thỏa mãn một điều kiện gọi là phương trình secant.
 
-Here, we call the approximation matrix of $$\nabla^2 f(x^k)$$ as $$B^{k+1}$$. This matrix satisfies the following equation.
-
->$$\nabla f(x^k + s^k)  = \nabla f(x^k) + B^{k+1} s^k$$
-
-If $$x^{k+1} = x^k + s^k, y^k = \nabla f(x^{k + 1})  - \nabla f(x^k)$$, then the above equation can be rearranged as follows, and this is called the secant equation.
+Khi $$x^{k+1} = x^k + s^k$$ và $$f$$ khả vi hai lần, khai triển Taylor bậc nhất của $$\nabla f(x^k + s^k)$$ cho thấy Hessian thực có tính chất sau.
 
 >$$
->B^{k+1} s^k = y^k
+\nabla f(x^k + s^k) \approx \nabla f(x^k) + \nabla^2 f(x^k) s^k$$
+
+Ở đây, chúng ta gọi ma trận xấp xỉ của $$\nabla^2 f(x^k)$$ là $$B^{k+1}$$. Ma trận này thỏa mãn phương trình sau.
+
 >$$
+\nabla f(x^k + s^k) = \nabla f(x^k) + B^{k+1} s^k$$
 
-## The Intuition of Secant Equation
+Nếu $$x^{k+1} = x^k + s^k, y^k = \nabla f(x^{k + 1}) - \nabla f(x^k)$$, thì phương trình trên có thể được viết lại như sau, và đây được gọi là phương trình secant.
 
-$$x$$axis은 $$x^k$$를, $$y$$axis은 $$\nabla f(x^k)$$를 나타낸다고 할when, $$B^{k+1}$$은 $$(x^k, \nabla f(x^k))$$and, $$(x^{k+1}, \nabla f(x^{k+1}))$$를 통and,하는 직선의 기울기and, 같다. 
+>$$
+B^{k+1} s^k = y^k
+$$
+
+# Trực quan về Phương trình Secant
+
+Khi $$x$$ là trục hoành và $$\nabla f(x)$$ là trục tung, $$B^{k+1}$$ bằng hệ số góc của đường thẳng đi qua hai điểm $$(x^k, \nabla f(x^k))$$ và $$(x^{k+1}, \nabla f(x^{k+1}))$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter18/intuition_of_secant_eq.png" alt="[Fig1] The intuition of secant equation" width="70%">
-  <figcaption style="text-align: center;">[Fig1] The intuition of secant equation</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter18/intuition_of_secant_eq.png" alt="[Fig1] Trực quan về phương trình secant" width="70%">
+  <figcaption style="text-align: center;">[Fig1] Trực quan về phương trình secant</figcaption>
 </p>
 </figure>
 
-## Conditions to Determine $$B^+$$
-matrix $$B$$를 basis,with, computation된 $$B^+$$는 다음의 3가지 condition,을 만족solution야한다.
+# Các điều kiện để xác định $$B^+$$
 
-1. $$B^+$$ is symmetric: Because it is an approximation of the Hessian.
-2. $$B^+$$ close to $$B$$: A condition to determine a unique $$B^+$$. Since $$B$$ already contains useful information, we choose the matrix closest to $$B$$ among those $$B^+$$ that satisfy the secant equation.
-3. $$B$$ is positive definite $$\Rightarrow B^+$$ is positive definite: To guarantee global optimum, we maintain the convexity of the problem. (reference: [Analyzing the hessian](https://web.stanford.edu/group/sisl/k12/optimization/MO-unit4-pdfs/4.10applicationsofhessians.pdf))
+Dựa trên ma trận $$B$$ hiện tại, có ba điều kiện để tính toán $$B^+$$ tiếp theo.
 
-## Curvature Condition
-The fact that $$B^+$$ is positive definite and $$B^+ s = y$$ implies the following fact.
->$$s^T y = s^T B^+ s > 0.$$
+1. $$B^+$$ là ma trận đối xứng: Vì nó là một xấp xỉ của Hessian.
+2. $$B^+$$ gần với $$B$$: Một điều kiện để xác định duy nhất $$B^+$$. Vì $$B$$ đã chứa thông tin hữu ích, chúng ta chọn ma trận gần nhất với $$B$$ trong số các $$B^+$$ thỏa mãn phương trình secant.
+3. $$B$$ là xác định dương $$\Rightarrow B^+$$ là xác định dương: Để đảm bảo tối ưu toàn cục, chúng ta duy trì tính lồi của bài toán. (tham khảo: [Phân tích hessian](https://web.stanford.edu/group/sisl/k12/optimization/MO-unit4-pdfs/4.10applicationsofhessians.pdf))
 
-(reference: [positive definite in WikiPedia](https://en.wikipedia.org/wiki/Positive-definite_matrix))
+# Điều kiện Độ cong
 
-Here, $$s^T y > 0$$ is called the curvature condition. If the curvature condition is satisfied, the secant equation $$B^+ s = y$$ always has a solution ($$B^+$$).
+Việc $$B^+$$ là xác định dương và $$B^+ s = y$$ hàm ý sự thật sau.
+
+>$$
+s^T y = s^T B^+ s > 0.
+$$
+
+(tham khảo: [Ma trận xác định dương trên WikiPedia](https://en.wikipedia.org/wiki/Positive-definite_matrix))
+
+Ở đây, $$s^T y > 0$$ được gọi là điều kiện độ cong. Nếu điều kiện độ cong được thỏa mãn, phương trình secant $$B^+ s = y$$ luôn có nghiệm ($$B^+$$).

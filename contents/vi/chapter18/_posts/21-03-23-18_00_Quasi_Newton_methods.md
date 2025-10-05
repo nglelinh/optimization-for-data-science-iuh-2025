@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 18-00 Quasi-Newton methods
+title: 18-00 Phương pháp Quasi-Newton
 chapter: '18'
 order: 1
 owner: Hooncheol Shin
@@ -9,53 +9,53 @@ categories:
 lang: vi
 ---
 
-In the mid-1950s, physicist W.C. Davidon, who was working at Argonne National Laboratory, was solving optimization problems with large computational requirements using coordinate descent methods. Unfortunately, due to the instability of computers at the time, system crashes frequently occurred before computations could be completed, and frustrated by this, Davidon decided to find methods that could improve computational speed. This led to the birth of the first Quasi-Newton algorithm. This became a catalyst for dramatic progress in nonlinear optimization, and subsequently, various follow-up studies on this method emerged over the next 20 years.
+Vào giữa những năm 1950, nhà vật lý W.C. Davidon, người đang làm việc tại Phòng thí nghiệm Quốc gia Argonne, đã giải quyết các bài toán tối ưu với yêu cầu tính toán lớn bằng phương pháp coordinate descent. Không may, do sự bất ổn của máy tính vào thời điểm đó, hệ thống thường xuyên bị sập trước khi các tính toán có thể được hoàn thành, và bực bội với điều này, Davidon quyết định tìm các phương pháp có thể cải thiện tốc độ tính toán. Điều này dẫn đến sự ra đời của thuật toán Quasi-Newton đầu tiên. Đây trở thành chất xúc tác cho sự tiến bộ đáng kể trong tối ưu phi tuyến, và sau đó, nhiều nghiên cứu tiếp theo về phương pháp này đã xuất hiện trong 20 năm tiếp theo.
 
-Ironically, [Davidon's research](http://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf) was not published at the time and remained as a technical report for more than 30 years. It was finally published in the [first issue of SIAM Journal on Optimization](https://epubs.siam.org/toc/sjope8/1/1) in 1991.
+Một cách trớ trêu, [nghiên cứu của Davidon](http://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf) không được công bố vào thời điểm đó và vẫn là một báo cáo kỹ thuật trong hơn 30 năm. Nó cuối cùng đã được xuất bản trong [số đầu tiên của SIAM Journal on Optimization](https://epubs.siam.org/toc/sjope8/1/1) vào năm 1991.
 
-Quasi-Newton methods require only the gradient of the objective function at each iteration. This has much less computational burden than Newton methods that require second derivatives, and moreover shows superlinear convergence, making it a sufficiently attractive method [14]. 
+Các phương pháp Quasi-Newton chỉ yêu cầu gradient của hàm mục tiêu tại mỗi vòng lặp. Điều này có gánh nặng tính toán ít hơn nhiều so với phương pháp Newton yêu cầu đạo hàm bậc hai, và hơn nữa còn cho thấy sự hội tụ siêu tuyến tính, khiến nó trở thành một phương pháp đủ hấp dẫn [14]. 
 
-## Motivation for Quasi-Newton methods
+## Động lực cho phương pháp Quasi-Newton
 
-Consider the following unconstrained, smooth optimization problem:
+Xét bài toán tối ưu trơn không ràng buộc sau:
 > $$
 > \min_x \: f(x), \\\\
-> \text{where } f \text{ is twice differentiable, and } dom \; f = \mathbb{R}^n.
+> \text{trong đó } f \text{ khả vi hai lần, và } dom \; f = \mathbb{R}^n.
 > $$
 
-The update methods for x in Gradient descent method and Newton's method for the above problem are as follows:
->**Gradient descent method:**
+Các phương pháp cập nhật cho x trong phương pháp Gradient descent và phương pháp Newton cho bài toán trên như sau:
+>**Phương pháp Gradient descent:**
 >$$
 >x^+ = x - t \nabla f(x)
 >$$
 
->**Newton's method:**
+>**Phương pháp Newton:**
 >$$
 >x^+ = x - t \nabla^2 f(x)^{-1} \nabla f(x)
 >$$
 
-Newton's method has the advantage of showing quadratic convergence rate ($$O(\log \log 1/ \epsilon)$$), but there are problems with significantly high computational costs in the following two processes: 
+Phương pháp Newton có ưu điểm là cho thấy tốc độ hội tụ bậc hai ($$O(\log \log 1/ \epsilon)$$), nhưng có vấn đề với chi phí tính toán cao đáng kể trong hai quá trình sau: 
 
-* Computing the Hessian $$\nabla^2 f(x)$$: Computing and storing the Hessian matrix requires $$O(n^2)$$ memory. This is not suitable performance for handling high-dimensional functions. (reference: [Hessian matrix](https://en.wikipedia.org/wiki/Hessian_matrix#Use_in_optimization) in Wikipedia)
-* Solving the equation $$\nabla^2 f(x) p = -\nabla f(x)$$: To solve this equation, we must compute the inverse matrix of the Hessian $$\nabla^2 f(x)$$. (reference: [Computational complexity of Matrix algebra](https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations#Matrix_algebra) in Wikipedia)
+* Tính toán Hessian $$\nabla^2 f(x)$$: Việc tính toán và lưu trữ ma trận Hessian yêu cầu bộ nhớ $$O(n^2)$$. Đây không phải là hiệu suất phù hợp để xử lý các hàm có chiều cao. (tham khảo: [Ma trận Hessian](https://en.wikipedia.org/wiki/Hessian_matrix#Use_in_optimization) trên Wikipedia)
+* Giải phương trình $$\nabla^2 f(x) p = -\nabla f(x)$$: Để giải phương trình này, chúng ta phải tính ma trận nghịch đảo của Hessian $$\nabla^2 f(x)$$. (tham khảo: [Độ phức tạp tính toán của Đại số Ma trận](https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations#Matrix_algebra) trên Wikipedia)
 
-Quasi-Newton methods use an approximation $$B$$ instead of $$\nabla^2 f(x)$$.
->**Quasi-Newton method:**
+Các phương pháp Quasi-Newton sử dụng một xấp xỉ $$B$$ thay vì $$\nabla^2 f(x)$$.
+>**Phương pháp Quasi-Newton:**
 >$$
 >x^+ = x + tp \\\\
->\text{where } Bp = -\nabla f(x).
+>\text{trong đó } Bp = -\nabla f(x).
 >$$
 
-Here, B should be easy to compute, and it should also be easy to solve the equation $$Bp = g$$. 
+Ở đây, B nên dễ tính toán, và cũng nên dễ giải phương trình $$Bp = g$$. 
 
-## Quasi-Newton Algorithm
-The Quasi-Newton algorithm is as follows:
+## Thuật toán Quasi-Newton
+Thuật toán Quasi-Newton như sau:
 
-* Pick initial $$x^0$$ and $$B^0$$
-* For $$k = 0, 1, \dots$$
-    * Solve $$B^k p^k = - \nabla f(x^k)$$
-    * Pick $$t_k$$ and let $$x^{k+1} = x^{k} + t_k p^k$$
-    * Update $$B^k$$ to $$B^{k+1}$$
-* End for
+* Chọn $$x^0$$ và $$B^0$$ ban đầu
+* Với $$k = 0, 1, \dots$$
+    * Giải $$B^k p^k = - \nabla f(x^k)$$
+    * Chọn $$t_k$$ và đặt $$x^{k+1} = x^{k} + t_k p^k$$
+    * Cập nhật $$B^k$$ thành $$B^{k+1}$$
+* Kết thúc
 
-A major characteristic of this method is updating $$B$$ so that we can gradually approach the optimal point. That is, the method of obtaining the next step $$B^+$$ from $$B$$ will be the main topic of discussion in this chapter. (**Note:** For convenience, we will use the two notations $$B^{k+1}, B^k$$ and $$B^+, B$$ interchangeably.)
+Một đặc điểm chính của phương pháp này là cập nhật $$B$$ để chúng ta có thể dần dần tiếp cận điểm tối ưu. Nghĩa là, phương pháp thu được bước tiếp theo $$B^+$$ từ $$B$$ sẽ là chủ đề thảo luận chính trong chương này. (**Lưu ý:** Để thuận tiện, chúng ta sẽ sử dụng hai ký hiệu $$B^{k+1}, B^k$$ và $$B^+, B$$ thay thế cho nhau.)

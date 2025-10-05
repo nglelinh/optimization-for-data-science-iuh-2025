@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 18-03 Davidon-Fletcher-Powell (DFP) Update
+title: 18-03 Cập nhật Davidon-Fletcher-Powell (DFP)
 chapter: '18'
 order: 4
 owner: Hooncheol Shin
@@ -9,22 +9,22 @@ categories:
 lang: vi
 ---
 
-The DFP update is a method that updates $$H (=B^{-1})$$ with a rank-2 symmetric matrix.
+Cập nhật DFP là một phương pháp cập nhật $$H (=B^{-1})$$ với một ma trận đối xứng hạng-2.
 
 >$$H^+ = H + auu^T + bvv^T.$$
 
-If $$H^+$$ computed through the DFP update satisfies the secant equation, then $$s-Hy$$ can be expressed as a linear combination of $$u$$ and $$v$$. (reference: by the secant equation, $$B^+ s =y \Leftrightarrow H^+ y = s$$)
+Nếu $$H^+$$ được tính thông qua cập nhật DFP thỏa mãn phương trình secant, thì $$s-Hy$$ có thể được biểu diễn dưới dạng tổ hợp tuyến tính của $$u$$ và $$v$$. (tham khảo: theo phương trình secant, $$B^+ s =y \Leftrightarrow H^+ y = s$$)
 
 >$$H^+y = Hy + auu^Ty + bvv^Ty = Hy + (au^Ty)u + (bv^Ty)v = s$$
 >
 >$$\Rightarrow s - Hy = (au^Ty)u + (bv^Ty)v$$
 
-Setting $$u=s, v=Hy$$ and solving for $$a$$ and $$b$$, we derive the updating formula for $$H$$.
+Đặt $$u=s, v=Hy$$ và giải cho $$a$$ và $$b$$, chúng ta suy ra công thức cập nhật cho $$H$$.
 >$$
 > H^+ = H - \frac{Hyy^TH}{y^THy} + \frac{ss^T}{y^Ts}
 >$$
 
-Similar to the SR1 update, we can derive the updating formula for $$B$$ using the [Sherman–Morrison formula](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula).
+Tương tự như cập nhật SR1, chúng ta có thể suy ra công thức cập nhật cho $$B$$ bằng cách sử dụng [công thức Sherman–Morrison](https://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula).
 
 >$$
 >\begin{align}
@@ -33,32 +33,32 @@ Similar to the SR1 update, we can derive the updating formula for $$B$$ using th
 >\end{align}
 >$$
 
-If $$B$$ is positive definite, then $$\big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big)$$ becomes positive semidefinite. In this case, if $$\frac{yy^T}{y^Ts}$$ is positive definite, then $$B^+ = \big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big) + \frac{yy^T}{y^Ts}$$ is guaranteed to be positive definite. This solves the problem of maintaining positive definiteness that was raised with SR1.
+Nếu $$B$$ là xác định dương, thì $$\big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big)$$ trở thành nửa xác định dương. Trong trường hợp này, nếu $$\frac{yy^T}{y^Ts}$$ là xác định dương, thì $$B^+ = \big( I - \frac{ys^T}{y^Ts} \big) B \big( I - \frac{sy^T}{y^Ts} \big) + \frac{yy^T}{y^Ts}$$ được đảm bảo là xác định dương. Điều này giải quyết vấn đề duy trì tính xác định dương đã được nêu ra với SR1.
 
-## DFP Update - Alternate Derivation
+## Cập nhật DFP - Suy luận Thay thế
 
-Recall: if the curvature condition ($$y^Ts > 0, y,s \in \mathbb{R}^n$$) is satisfied, then there exists a symmetric positive definite matrix that satisfies the secant equation.
+Nhớ lại: nếu điều kiện độ cong ($$y^Ts > 0, y,s \in \mathbb{R}^n$$) được thỏa mãn, thì tồn tại một ma trận đối xứng xác định dương thỏa mãn phương trình secant.
 
-The DFP update can also be derived by solving the problem of minimizing the weighted Frobenius norm between matrix $$B^+$$ and $$B$$ where $$B^+$$ 1. satisfies symmetry and 2. satisfies the secant equation. (Each different matrix norm corresponds to each different Quasi-Newton method. Among them, the norm that makes it easy to solve this problem while also making it work as a scale-invariant optimization method is the weighted Frobenius norm.)
+Cập nhật DFP cũng có thể được suy ra bằng cách giải bài toán cực tiểu hóa chuẩn Frobenius có trọng số giữa ma trận $$B^+$$ và $$B$$ trong đó $$B^+$$ 1. thỏa mãn tính đối xứng và 2. thỏa mãn phương trình secant. (Mỗi chuẩn ma trận khác nhau tương ứng với mỗi phương pháp Quasi-Newton khác nhau. Trong số đó, chuẩn làm cho việc giải quyết bài toán này dễ dàng đồng thời cũng làm cho nó hoạt động như một phương pháp tối ưu bất biến tỷ lệ là chuẩn Frobenius có trọng số.)
 
->Solve
+>Giải
 >$$
 >\begin{align}
 >& \min_{B^+} \: \: && {\|W^{1/2} (B^+ - B) W^{1/2} \|_F} \\\\
->& \text{subject to } && {B^+ = (B^+)^T} \\\\
+>& \text{thỏa mãn } && {B^+ = (B^+)^T} \\\\
 >    &&& {B^+s = y}  \\\\
->& \text{where } && W \in \mathbb{R}^{n \; \times \;n} \text{ is nonsingular and such that } Wy_k = s_k.
+>& \text{trong đó } && W \in \mathbb{R}^{n \; \times \;n} \text{ là ma trận khả nghịch và } Wy_k = s_k.
 >\end{align}\\\\
 >$$
 
-***reference**:
+***Tham khảo**:
 
-* Frobenius norm: The Frobenius norm of matrix $$A$$ is defined as follows.
+* Chuẩn Frobenius: Chuẩn Frobenius của ma trận $$A$$ được định nghĩa như sau.
 $$
 \| A \|_{F}  \doteq ( \sum_{i,j} A_{i,j}^2 )^{1/2}
 $$
 
-* Weighted Frobenius norm: The weighted Frobenius norm of matrix $$A$$ with weight matrix $$W(W \succ 0)$$ is defined as follows. 
+* Chuẩn Frobenius có trọng số: Chuẩn Frobenius có trọng số của ma trận $$A$$ với ma trận trọng số $$W(W \succ 0)$$ được định nghĩa như sau. 
 $$
 \|A\|_W \doteq \| W^{1/2} A W^{1/2} \|_F
 $$

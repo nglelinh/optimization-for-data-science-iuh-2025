@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '09-01 Phương pháp gradient gần kề'
+title: '09-01 Phương pháp gradient gần kề (Proximal gradient descent)'
 chapter: '09'
 order: 2
 owner: Kyeongmin Woo
@@ -8,8 +8,6 @@ categories:
 - chapter09
 lang: vi
 ---
-
-# Phương pháp gradient gần kề (Proximal gradient descent)
 
 **Phương pháp gradient gần kề** là một phương pháp tìm điểm tối ưu bằng cách phân tách hàm mục tiêu thành một phần khả vi và một phần không khả vi. Trong phần này, chúng ta sẽ tìm hiểu cách định nghĩa các hàm và tìm điểm tối ưu trong phương pháp gradient gần kề.
 
