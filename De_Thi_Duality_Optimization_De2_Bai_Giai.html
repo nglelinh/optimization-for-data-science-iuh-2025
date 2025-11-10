@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giải - Đề Thi Duality Optimization - Đề 2</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 15mm;
+            background-color: white;
+            font-size: 14px;
+        }
+        
+        .question {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #2c3e50;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        
+        .question-number {
+            font-weight: bold;
+            font-size: 16px;
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            background-color: #e8f4f8;
+            padding: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .solution {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: white;
+            border-left: 3px solid #27ae60;
+        }
+        
+        .sub-solution {
+            margin: 10px 0 10px 15px;
+        }
+        
+        .step {
+            margin: 8px 0;
+            padding-left: 15px;
+        }
+        
+        .answer-box {
+            background-color: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                font-size: 13px;
+            }
+            
+            .question {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 18px; font-weight: bold;">BÀI GIẢI ĐỀ THI - ĐỀ 2</div>
+        <div style="font-size: 16px; margin: 5px 0;">TỐI ƯU HÓA LỒI - DUALITY OPTIMIZATION</div>
+    </div>
+
+    <!-- BÀI 1 -->
+    <div class="question">
+        <div class="question-number">BÀI 1: Chuyển bài toán Primal sang Dual</div>
+        
+        <div style="margin: 10px 0;">
+            <strong>Đề bài:</strong> Cho bài toán tối ưu (Primal):
+            $$
+            \begin{align}
+            \text{maximize} \quad & 5x_1 + 6x_2 \\
+            \text{subject to} \quad & x_1 + 2x_2 \leq 80 \\
+            & 3x_1 + x_2 \leq 120 \\
+            & x_1, x_2 \geq 0
+            \end{align}
+            $$
+        </div>
+
+        <div class="solution">
+            <strong>a) Viết dạng ma trận và bài toán Dual:</strong>
+            
+            <div class="step">
+                <strong>Bước 1:</strong> Xác định các thành phần của bài toán Primal dạng ma trận $\max \{c^T x : Ax \leq b, x \geq 0\}$
+                
+                <div style="margin: 10px 0;">
+                    Vector biến: $x = \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Vector hệ số hàm mục tiêu: $c = \begin{pmatrix} 5 \\ 6 \end{pmatrix}$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Ma trận ràng buộc: $A = \begin{pmatrix} 1 & 2 \\ 3 & 1 \end{pmatrix}$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Vector vế phải: $b = \begin{pmatrix} 80 \\ 120 \end{pmatrix}$
+                </div>
+            </div>
+            
+            <div class="step">
+                <strong>Bước 2:</strong> Áp dụng quy tắc chuyển đổi Primal-Dual cho bài toán maximize với ràng buộc "$\leq$"
+                
+                <div style="margin: 10px 0;">
+                    <strong>Quy tắc:</strong>
+                    <ul>
+                        <li>Primal maximize $\rightarrow$ Dual minimize</li>
+                        <li>Ràng buộc Primal "$\leq$" $\rightarrow$ Biến Dual "$\geq 0$"</li>
+                        <li>Biến Primal "$\geq 0$" $\rightarrow$ Ràng buộc Dual "$\geq$"</li>
+                        <li>Vector $c$ của Primal $\rightarrow$ Vector $b$ của Dual</li>
+                        <li>Vector $b$ của Primal $\rightarrow$ Vector $c$ của Dual</li>
+                        <li>Ma trận $A$ $\rightarrow$ Ma trận $A^T$</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong> Bài toán Dual là:
+                $$
+                \begin{align}
+                \text{minimize} \quad & 80y_1 + 120y_2 \\
+                \text{subject to} \quad & y_1 + 3y_2 \geq 5 \\
+                & 2y_1 + y_2 \geq 6 \\
+                & y_1, y_2 \geq 0
+                \end{align}
+                $$
+                
+                Dạng ma trận: $\min \{b^T y : A^T y \geq c, y \geq 0\}$ với:
+                <ul>
+                    <li>$y = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}$</li>
+                    <li>Hệ số mục tiêu: $b^T = \begin{pmatrix} 80 & 120 \end{pmatrix}$</li>
+                    <li>Ma trận ràng buộc: $A^T = \begin{pmatrix} 1 & 3 \\ 2 & 1 \end{pmatrix}$</li>
+                    <li>Vế phải: $c = \begin{pmatrix} 5 \\ 6 \end{pmatrix}$</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="solution">
+            <strong>b) Giá trị tối ưu của Dual:</strong>
+            
+            <div class="step">
+                Theo <strong>định lý Strong Duality</strong> cho bài toán quy hoạch tuyến tính:
+                
+                <div style="margin: 10px 0;">
+                    Nếu bài toán Primal và Dual đều có nghiệm khả thi và bị chặn, thì:
+                    $$p^* = d^*$$
+                    trong đó $p^*$ là giá trị tối ưu của Primal và $d^*$ là giá trị tối ưu của Dual.
+                </div>
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong> Vì $p^* = 260$, nên giá trị tối ưu của Dual là $d^* = 260$.
+                
+                <div style="margin-top: 10px;">
+                    <strong>Giải thích:</strong> Strong Duality luôn đúng với bài toán quy hoạch tuyến tính khi cả hai bài toán đều khả thi. 
+                    Do đó giá trị tối ưu của bài toán maximize Primal bằng giá trị tối ưu của bài toán minimize Dual.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BÀI 2 -->
+    <div class="question">
+        <div class="question-number">BÀI 2: Chuyển bài toán Primal sang Dual</div>
+        
+        <div style="margin: 10px 0;">
+            <strong>Đề bài:</strong> Cho bài toán tối ưu (Primal):
+            $$
+            \begin{align}
+            \text{minimize} \quad & 6x_1 + 10x_2 \\
+            \text{subject to} \quad & 2x_1 + 3x_2 \geq 48 \\
+            & x_1 + 2x_2 \geq 20 \\
+            & x_1, x_2 \geq 0
+            \end{align}
+            $$
+        </div>
+
+        <div class="solution">
+            <strong>a) Viết dạng ma trận và bài toán Dual:</strong>
+            
+            <div class="step">
+                <strong>Bước 1:</strong> Xác định các thành phần của bài toán Primal dạng ma trận $\min \{c^T x : Ax \geq b, x \geq 0\}$
+                
+                <div style="margin: 10px 0;">
+                    Vector biến: $x = \begin{pmatrix} x_1 \\ x_2 \end{pmatrix}$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Vector hệ số hàm mục tiêu: $c = \begin{pmatrix} 6 \\ 10 \end{pmatrix}$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Ma trận ràng buộc: $A = \begin{pmatrix} 2 & 3 \\ 1 & 2 \end{pmatrix}$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Vector vế phải: $b = \begin{pmatrix} 48 \\ 20 \end{pmatrix}$
+                </div>
+            </div>
+            
+            <div class="step">
+                <strong>Bước 2:</strong> Áp dụng quy tắc chuyển đổi Primal-Dual cho bài toán minimize với ràng buộc "$\geq$"
+                
+                <div style="margin: 10px 0;">
+                    <strong>Quy tắc:</strong>
+                    <ul>
+                        <li>Primal minimize $\rightarrow$ Dual maximize</li>
+                        <li>Ràng buộc Primal "$\geq$" $\rightarrow$ Biến Dual "$\geq 0$"</li>
+                        <li>Biến Primal "$\geq 0$" $\rightarrow$ Ràng buộc Dual "$\leq$"</li>
+                        <li>Vector $c$ của Primal $\rightarrow$ Vector $b$ của Dual</li>
+                        <li>Vector $b$ của Primal $\rightarrow$ Vector $c$ của Dual</li>
+                        <li>Ma trận $A$ $\rightarrow$ Ma trận $A^T$</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong> Bài toán Dual là:
+                $$
+                \begin{align}
+                \text{maximize} \quad & 48y_1 + 20y_2 \\
+                \text{subject to} \quad & 2y_1 + y_2 \leq 6 \\
+                & 3y_1 + 2y_2 \leq 10 \\
+                & y_1, y_2 \geq 0
+                \end{align}
+                $$
+                
+                Dạng ma trận: $\max \{b^T y : A^T y \leq c, y \geq 0\}$ với:
+                <ul>
+                    <li>$y = \begin{pmatrix} y_1 \\ y_2 \end{pmatrix}$</li>
+                    <li>Hệ số mục tiêu: $b^T = \begin{pmatrix} 48 & 20 \end{pmatrix}$</li>
+                    <li>Ma trận ràng buộc: $A^T = \begin{pmatrix} 2 & 1 \\ 3 & 2 \end{pmatrix}$</li>
+                    <li>Vế phải: $c = \begin{pmatrix} 6 \\ 10 \end{pmatrix}$</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="solution">
+            <strong>b) Giá trị tối ưu của Primal:</strong>
+            
+            <div class="step">
+                Theo <strong>định lý Strong Duality</strong> cho bài toán quy hoạch tuyến tính:
+                $$p^* = d^*$$
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong> Vì $d^* = 132$, nên giá trị tối ưu của Primal là $p^* = 132$.
+                
+                <div style="margin-top: 10px;">
+                    <strong>Giải thích:</strong> Do Strong Duality, giá trị tối ưu của bài toán minimize Primal bằng 
+                    giá trị tối ưu của bài toán maximize Dual. Vì vậy $p^* = d^* = 132$.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BÀI 3 -->
+    <div class="question">
+        <div class="question-number">BÀI 3: Lagrange Duality</div>
+        
+        <div style="margin: 10px 0;">
+            <strong>Đề bài:</strong> Cho bài toán tối ưu (Primal):
+            $$
+            \begin{align}
+            \text{minimize} \quad & f(x_1, x_2) = x_1^2 + 2x_2^2 \\
+            \text{subject to} \quad & x_1 + x_2 - 3 \leq 0 \\
+            & x_1, x_2 \geq 0
+            \end{align}
+            $$
+        </div>
+
+        <div class="solution">
+            <strong>a) Viết hàm Lagrangian:</strong>
+            
+            <div class="step">
+                Hàm Lagrangian có dạng:
+                $$L(x, \lambda, \mu) = f(x) + \lambda g(x) + \mu^T(-x)$$
+                
+                với $\lambda \geq 0$ là nhân tử cho ràng buộc bất đẳng thức, $\mu \geq 0$ là nhân tử cho ràng buộc không âm.
+            </div>
+            
+            <div class="step">
+                <strong>Xác định các thành phần:</strong>
+                <ul>
+                    <li>Hàm mục tiêu: $f(x_1, x_2) = x_1^2 + 2x_2^2$</li>
+                    <li>Ràng buộc $g(x_1, x_2) = x_1 + x_2 - 3 \leq 0$ với nhân tử $\lambda$</li>
+                    <li>Ràng buộc $x_1 \geq 0 \Leftrightarrow -x_1 \leq 0$ với nhân tử $\mu_1$</li>
+                    <li>Ràng buộc $x_2 \geq 0 \Leftrightarrow -x_2 \leq 0$ với nhân tử $\mu_2$</li>
+                </ul>
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong>
+                $$
+                \begin{align}
+                L(x_1, x_2, \lambda, \mu_1, \mu_2) &= x_1^2 + 2x_2^2 + \lambda(x_1 + x_2 - 3) + \mu_1(-x_1) + \mu_2(-x_2) \\
+                &= x_1^2 + 2x_2^2 + \lambda x_1 + \lambda x_2 - 3\lambda - \mu_1 x_1 - \mu_2 x_2 \\
+                &= x_1^2 + 2x_2^2 + (\lambda - \mu_1)x_1 + (\lambda - \mu_2)x_2 - 3\lambda
+                \end{align}
+                $$
+            </div>
+        </div>
+
+        <div class="solution">
+            <strong>b) Tìm hàm Dual và viết bài toán Dual:</strong>
+            
+            <div class="step">
+                <strong>Bước 1:</strong> Tìm $g(\lambda, \mu_1, \mu_2) = \inf_{x_1, x_2} L(x_1, x_2, \lambda, \mu_1, \mu_2)$
+                
+                <div style="margin: 10px 0;">
+                    Để tìm infimum, ta tính đạo hàm riêng theo $x_1$ và $x_2$:
+                    $$
+                    \begin{align}
+                    \frac{\partial L}{\partial x_1} &= 2x_1 + \lambda - \mu_1 = 0 \\
+                    \frac{\partial L}{\partial x_2} &= 4x_2 + \lambda - \mu_2 = 0
+                    \end{align}
+                    $$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Giải hệ phương trình:
+                    $$
+                    \begin{align}
+                    x_1^* &= \frac{\mu_1 - \lambda}{2} \\
+                    x_2^* &= \frac{\mu_2 - \lambda}{4}
+                    \end{align}
+                    $$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    <strong>Điều kiện:</strong> Để $x_1^*, x_2^* \geq 0$, cần $\mu_1 \geq \lambda$ và $\mu_2 \geq \lambda$. 
+                    Nếu không, $\inf L = -\infty$.
+                </div>
+            </div>
+            
+            <div class="step">
+                <strong>Bước 2:</strong> Thay $x_1^*, x_2^*$ vào $L$ để tìm $g(\lambda, \mu_1, \mu_2)$
+                
+                <div style="margin: 10px 0;">
+                    $$
+                    \begin{align}
+                    g(\lambda, \mu_1, \mu_2) &= (x_1^*)^2 + 2(x_2^*)^2 + (\lambda - \mu_1)x_1^* + (\lambda - \mu_2)x_2^* - 3\lambda \\
+                    &= \left(\frac{\mu_1 - \lambda}{2}\right)^2 + 2\left(\frac{\mu_2 - \lambda}{4}\right)^2 \\
+                    &\quad + (\lambda - \mu_1)\frac{\mu_1 - \lambda}{2} + (\lambda - \mu_2)\frac{\mu_2 - \lambda}{4} - 3\lambda
+                    \end{align}
+                    $$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Sử dụng $(\lambda - \mu_1) = -2x_1^*$ và $(\lambda - \mu_2) = -4x_2^*$:
+                    $$
+                    \begin{align}
+                    g(\lambda, \mu_1, \mu_2) &= (x_1^*)^2 + 2(x_2^*)^2 - 2(x_1^*)^2 - 4(x_2^*)^2 - 3\lambda \\
+                    &= -(x_1^*)^2 - 2(x_2^*)^2 - 3\lambda \\
+                    &= -\frac{(\mu_1 - \lambda)^2}{4} - \frac{(\mu_2 - \lambda)^2}{8} - 3\lambda
+                    \end{align}
+                    $$
+                </div>
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong>
+                
+                Hàm Dual:
+                $$
+                g(\lambda, \mu_1, \mu_2) = \begin{cases}
+                -\frac{(\mu_1 - \lambda)^2}{4} - \frac{(\mu_2 - \lambda)^2}{8} - 3\lambda & \text{nếu } \mu_1 \geq \lambda, \mu_2 \geq \lambda \\
+                -\infty & \text{nếu ngược lại}
+                \end{cases}
+                $$
+                
+                <div style="margin-top: 10px;">
+                    <strong>Bài toán Dual:</strong>
+                    $$
+                    \begin{align}
+                    \text{maximize} \quad & g(\lambda, \mu_1, \mu_2) = -\frac{(\mu_1 - \lambda)^2}{4} - \frac{(\mu_2 - \lambda)^2}{8} - 3\lambda \\
+                    \text{subject to} \quad & \lambda \geq 0 \\
+                    & \mu_1 \geq \lambda \\
+                    & \mu_2 \geq \lambda
+                    \end{align}
+                    $$
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BÀI 4 -->
+    <div class="question">
+        <div class="question-number">BÀI 4: Lagrange Duality</div>
+        
+        <div style="margin: 10px 0;">
+            <strong>Đề bài:</strong> Cho bài toán tối ưu (Primal):
+            $$
+            \begin{align}
+            \text{minimize} \quad & f(x_1, x_2) = \frac{1}{2}(2x_1^2 + x_2^2) - 2x_1 - x_2 \\
+            \text{subject to} \quad & 2x_1 + x_2 - 6 \leq 0 \\
+            & x_1, x_2 \geq 0
+            \end{align}
+            $$
+        </div>
+
+        <div class="solution">
+            <strong>a) Viết hàm Lagrangian:</strong>
+            
+            <div class="step">
+                <strong>Xác định các thành phần:</strong>
+                <ul>
+                    <li>Hàm mục tiêu: $f(x_1, x_2) = \frac{1}{2}(2x_1^2 + x_2^2) - 2x_1 - x_2 = x_1^2 + \frac{1}{2}x_2^2 - 2x_1 - x_2$</li>
+                    <li>Ràng buộc $g(x_1, x_2) = 2x_1 + x_2 - 6 \leq 0$ với nhân tử $\lambda$</li>
+                    <li>Ràng buộc $x_1 \geq 0 \Leftrightarrow -x_1 \leq 0$ với nhân tử $\mu_1$</li>
+                    <li>Ràng buộc $x_2 \geq 0 \Leftrightarrow -x_2 \leq 0$ với nhân tử $\mu_2$</li>
+                </ul>
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong>
+                $$
+                \begin{align}
+                L(x_1, x_2, \lambda, \mu_1, \mu_2) &= x_1^2 + \frac{1}{2}x_2^2 - 2x_1 - x_2 + \lambda(2x_1 + x_2 - 6) - \mu_1 x_1 - \mu_2 x_2 \\
+                &= x_1^2 + \frac{1}{2}x_2^2 + (2\lambda - \mu_1 - 2)x_1 + (\lambda - \mu_2 - 1)x_2 - 6\lambda
+                \end{align}
+                $$
+            </div>
+        </div>
+
+        <div class="solution">
+            <strong>b) Tìm hàm Dual và viết bài toán Dual:</strong>
+            
+            <div class="step">
+                <strong>Bước 1:</strong> Tìm $g(\lambda, \mu_1, \mu_2) = \inf_{x_1, x_2} L(x_1, x_2, \lambda, \mu_1, \mu_2)$
+                
+                <div style="margin: 10px 0;">
+                    Tính gradient và cho bằng 0:
+                    $$
+                    \begin{align}
+                    \frac{\partial L}{\partial x_1} &= 2x_1 + 2\lambda - \mu_1 - 2 = 0 \\
+                    \frac{\partial L}{\partial x_2} &= x_2 + \lambda - \mu_2 - 1 = 0
+                    \end{align}
+                    $$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Giải hệ phương trình:
+                    $$
+                    \begin{align}
+                    x_1^* &= \frac{\mu_1 + 2 - 2\lambda}{2} = \frac{\mu_1 - 2\lambda + 2}{2} \\
+                    x_2^* &= \mu_2 + 1 - \lambda
+                    \end{align}
+                    $$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    <strong>Điều kiện:</strong> Để $x_1^*, x_2^* \geq 0$, cần:
+                    <ul>
+                        <li>$\mu_1 \geq 2\lambda - 2$</li>
+                        <li>$\mu_2 \geq \lambda - 1$</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <strong>Bước 2:</strong> Thay $x_1^*, x_2^*$ vào $L$
+                
+                <div style="margin: 10px 0;">
+                    $$
+                    \begin{align}
+                    g(\lambda, \mu_1, \mu_2) &= (x_1^*)^2 + \frac{1}{2}(x_2^*)^2 + (2\lambda - \mu_1 - 2)x_1^* + (\lambda - \mu_2 - 1)x_2^* - 6\lambda
+                    \end{align}
+                    $$
+                </div>
+                
+                <div style="margin: 10px 0;">
+                    Sử dụng $(2\lambda - \mu_1 - 2) = -2x_1^*$ và $(\lambda - \mu_2 - 1) = -x_2^*$:
+                    $$
+                    \begin{align}
+                    g(\lambda, \mu_1, \mu_2) &= (x_1^*)^2 + \frac{1}{2}(x_2^*)^2 - 2(x_1^*)^2 - (x_2^*)^2 - 6\lambda \\
+                    &= -(x_1^*)^2 - \frac{1}{2}(x_2^*)^2 - 6\lambda \\
+                    &= -\frac{(\mu_1 - 2\lambda + 2)^2}{4} - \frac{(\mu_2 - \lambda + 1)^2}{2} - 6\lambda
+                    \end{align}
+                    $$
+                </div>
+            </div>
+            
+            <div class="answer-box">
+                <strong>Đáp án:</strong>
+                
+                Hàm Dual:
+                $$
+                g(\lambda, \mu_1, \mu_2) = \begin{cases}
+                -\frac{(\mu_1 - 2\lambda + 2)^2}{4} - \frac{(\mu_2 - \lambda + 1)^2}{2} - 6\lambda & \text{nếu điều kiện thỏa} \\
+                -\infty & \text{nếu ngược lại}
+                \end{cases}
+                $$
+                
+                <div style="margin-top: 10px;">
+                    <strong>Bài toán Dual:</strong>
+                    $$
+                    \begin{align}
+                    \text{maximize} \quad & -\frac{(\mu_1 - 2\lambda + 2)^2}{4} - \frac{(\mu_2 - \lambda + 1)^2}{2} - 6\lambda \\
+                    \text{subject to} \quad & \lambda \geq 0 \\
+                    & \mu_1 \geq 2\lambda - 2 \\
+                    & \mu_2 \geq \lambda - 1
+                    \end{align}
+                    $$
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 15px; background-color: #e8f4f8; border-left: 4px solid #3498db;">
+        <strong>Ghi chú quan trọng:</strong>
+        <ul>
+            <li><strong>Strong Duality:</strong> Luôn đúng với LP. Với bài toán convex, cần thêm điều kiện Slater.</li>
+            <li><strong>Weak Duality:</strong> Luôn có $d^* \leq p^*$ (minimize) hoặc $p^* \leq d^*$ (maximize).</li>
+            <li><strong>Complementary Slackness:</strong> Nếu strong duality xảy ra: $\lambda_i^* g_i(x^*) = 0$.</li>
+            <li><strong>Hàm Dual:</strong> Luôn là hàm concave (maximize) dù bài toán gốc có convex hay không.</li>
+        </ul>
+    </div>
+
+</body>
+</html>
+

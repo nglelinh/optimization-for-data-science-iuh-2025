@@ -159,7 +159,7 @@ Trong bài học này, chúng ta sẽ khám phá một câu hỏi quan trọng t
 
 ### So sánh với Gradient Descent
 
-- **Gradient Descent**: Luôn di chuyển theo hướng $-\nabla f$, vuông góc với đường đồng mức
+- **Gradient Descent**: Luôn di chuyển theo hướng $$-\nabla f$$, vuông góc với đường đồng mức
 - **Newton's Method**: Sử dụng thông tin bậc hai (Hessian) để "điều chỉnh" hướng di chuyển, không còn vuông góc trong không gian gốc
 
 ## 2. Giải Thích Toán Học
@@ -175,11 +175,11 @@ Hướng di chuyển trong Newton's method:
 $$\mathbf{d}_{Newton} = -[\nabla^2 f(\mathbf{x})]^{-1} \nabla f(\mathbf{x})$$
 
 <div class="math-explanation">
-<strong>Giải thích:</strong> Hessian $\nabla^2 f$ "biến đổi" không gian, làm cho hướng di chuyển không còn vuông góc với đường đồng mức trong tọa độ gốc. Newton tối ưu hóa theo "hướng dốc nhất" trong không gian được biến đổi bởi Hessian.
+<strong>Giải thích:</strong> Hessian $$\nabla^2 f$$ "biến đổi" không gian, làm cho hướng di chuyển không còn vuông góc với đường đồng mức trong tọa độ gốc. Newton tối ưu hóa theo "hướng dốc nhất" trong không gian được biến đổi bởi Hessian.
 </div>
 
 ### Khi nào Newton vuông góc?
-Chỉ khi Hessian là bội số của ma trận đơn vị: $\nabla^2 f = cI$ (với $c$ là hằng số), Newton trùng với GD và di chuyển vuông góc.
+Chỉ khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (với $$c$$ là hằng số), Newton trùng với GD và di chuyển vuông góc.
 
 ## 3. Minh Họa Tương Tác
 
@@ -257,8 +257,8 @@ Chỉ khi Hessian là bội số của ma trận đơn vị: $\nabla^2 f = cI$ (
     <tbody>
         <tr>
             <td><strong>Hướng di chuyển</strong></td>
-            <td>$-\nabla f$ (vuông góc với đường đồng mức)</td>
-            <td>$-H^{-1}\nabla f$ (không vuông góc)</td>
+            <td>$$-\nabla f$$ (vuông góc với đường đồng mức)</td>
+            <td>$$-H^{-1}\nabla f$$ (không vuông góc)</td>
         </tr>
         <tr>
             <td><strong>Thông tin sử dụng</strong></td>
@@ -285,12 +285,12 @@ Chỉ khi Hessian là bội số của ma trận đơn vị: $\nabla^2 f = cI$ (
 
 ## 5. Ví Dụ Cụ Thể
 
-Xét hàm $f(x,y) = x^2 + 10y^2$ với đường đồng mức là các ellipse dẹt.
+Xét hàm $$f(x,y) = x^2 + 10y^2$$ với đường đồng mức là các ellipse dẹt.
 
 **Tại điểm (1,1):**
-- **Gradient**: $\nabla f = (2, 20)$ - vuông góc với ellipse
-- **Hessian**: $H = \begin{pmatrix} 2 & 0 \\ 0 & 20 \end{pmatrix}$
-- **Newton direction**: $\mathbf{d} = -H^{-1}\nabla f = -\begin{pmatrix} 1/2 & 0 \\ 0 & 1/20 \end{pmatrix} \begin{pmatrix} 2 \\ 20 \end{pmatrix} = (-1, -1)$
+- **Gradient**: $$\nabla f = (2, 20)$$ - vuông góc với ellipse
+- **Hessian**: $$H = \begin{pmatrix} 2 & 0 \\ 0 & 20 \end{pmatrix}$$
+- **Newton direction**: $$\mathbf{d} = -H^{-1}\nabla f = -\begin{pmatrix} 1/2 & 0 \\ 0 & 1/20 \end{pmatrix} \begin{pmatrix} 2 \\ 20 \end{pmatrix} = (-1, -1)$$
 
 <div class="key-insight">
 <strong>Quan sát:</strong> Gradient descent đi theo hướng (-2, -20) (vuông góc), trong khi Newton đi theo (-1, -1) (cắt chéo qua ellipse).

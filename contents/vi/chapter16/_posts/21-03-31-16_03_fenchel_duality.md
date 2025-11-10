@@ -7,6 +7,7 @@ owner: Minjoo Lee
 categories:
 - chapter16
 lang: vi
+published: false
 ---
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
