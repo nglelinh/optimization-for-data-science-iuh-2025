@@ -52,7 +52,7 @@ collections:
     permalink: /:categories/:title/
 
 # Custom vars
-version:             0.0.1
+version:             0.2.0-2026
 markdown: kramdown
 
 # Analytics

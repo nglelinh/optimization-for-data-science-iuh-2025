@@ -45,6 +45,10 @@ bower_components
 # Gemfile.lock
 Gemfile.lock
 
+# Local Jekyll gem installs (bundle config path vendor/bundle)
+.bundle/
+vendor/bundle/
+
 # Search index files (generated automatically)
 search-index.json
 search-index-vi.json

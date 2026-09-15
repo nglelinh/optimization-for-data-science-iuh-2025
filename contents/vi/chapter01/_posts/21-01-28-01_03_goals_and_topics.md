@@ -22,7 +22,8 @@ Mục tiêu của khóa học này là phát triển các khả năng sau:
 
 * Tập lồi, hàm số, bài toán tối ưu hóa
 * Ví dụ và ứng dụng
-* Thuật toán
+* Thuật toán (gradient, proximal, Newton, điểm trong, ADMM, …)
+* Lộ trình hiện đại 2026 trên site này: SGD / Adam / AdamW (Ch.26), autodiff (Ch.27), phong cảnh không lồi (Ch.28), SGD song song dữ liệu và FedAvg (Ch.29)
 
 Đặc biệt, trọng tâm chính sẽ là thuật toán.
 

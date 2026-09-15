@@ -1,1 +1,4 @@
 requests==2.24.0
+# Mini-lab (Ch.05 DCP/CVXPY): pip install cvxpy numpy
+cvxpy>=1.5
+numpy>=1.24
