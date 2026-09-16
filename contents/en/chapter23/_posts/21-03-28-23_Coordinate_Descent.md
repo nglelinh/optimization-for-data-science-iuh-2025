@@ -68,3 +68,7 @@ Here is a brief introduction to the research flow of coordinate descent converge
 * Nutini et al. (2015) analyze greedy coordinate descent (called Gauss-Southwell rule), and show it achieves a faster rate than randomized coordinate descent for certain problems
 * Wright (2015) provides some unification and a great summary. Also covers parallel versions (even asynchronous ones)
 * General theory is still not complete; still unanswered questions (e.g., are descent and minimization strategies the same?)
+
+## 2026 applications (optional)
+
+Pathwise CD is still how glmnet and `sklearn.linear_model.lasso_path` fit sparse GLMs. The 2023 JSS paper extends glmnet to *every* GLM family; skglm (NeurIPS 2022) adds working sets and nonconvex penalties at a million features; LIBLINEAR dual CD still trains linear SVMs. See [23-05 Modern applications of coordinate descent]({% multilang_post_url contents/chapter23/2026-09-16-23_05_modern_applications %}) after the Lasso / pathwise examples.

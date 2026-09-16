@@ -26,5 +26,6 @@ Open [loss_function_landscapes.html](https://nglelinh.github.io/interactive_math
 1. Critical points and saddles
 2. Escaping saddles and landscape geometry
 3. Overparameterization (and a pointer to the PL condition)
+4. Modern landscape case studies (optional) — mode connectivity, grokking, double descent, flat minima
 
-Further reading: Karimi, Nutini, Schmidt, *Linear Convergence … under the Polyak–Łojasiewicz condition*, [arXiv:1608.04636](https://arxiv.org/abs/1608.04636) — the simplest bridge from the strongly convex proofs you already know to some nonconvex ERMs.
+Further reading: Karimi, Nutini, Schmidt, *Linear Convergence … under the Polyak–Łojasiewicz condition*, [arXiv:1608.04636](https://arxiv.org/abs/1608.04636) — the simplest bridge from the strongly convex proofs you already know to some nonconvex ERMs. The 2022–2026 phenomena sit in [28-04]({% multilang_post_url contents/chapter28/2026-09-16-28_04_modern_landscapes %}).

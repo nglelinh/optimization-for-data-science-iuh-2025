@@ -34,5 +34,6 @@ Giáo trình đồng cấp coi đây là lõi, không phải chú thích: MIT 6.
 3. Từ AdaGrad đến Adam — tiền điều kiện đường chéo
 4. AdamW và thực hành huấn luyện — weight decay tách, lịch, clipping
 5. Giảm phương sai (khảo sát) — SVRG / SAGA, và khi nào mini-batch Adam vẫn thắng
+6. Bộ tối ưu thích nghi hiện đại (khảo sát tùy chọn) — SAM, Sophia, Muon so với baseline AdamW
 
-Hoạt họa SGD nằm trong [`interactive_math/optimization`](https://github.com/nglelinh/interactive_math/tree/main/optimization). SAM, Muon, Sophia chỉ là **đọc thêm** — không kiểm tra kỳ này.
+Hoạt họa SGD nằm trong [`interactive_math/optimization`](https://github.com/nglelinh/interactive_math/tree/main/optimization). SAM, Muon, Sophia vẫn là **đọc thêm** — không kiểm tra kỳ này — nhưng nay có bài tùy chọn riêng: [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}).
