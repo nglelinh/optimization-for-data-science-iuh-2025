@@ -25,3 +25,7 @@ This chapter introduces proximal gradient descent and acceleration techniques fo
 - Section 5: Acceleration methods
 
 Refer to each section for details and mathematical formulations.
+
+## Modern applications (2022–2026)
+
+An optional companion lesson follows the same proximal-gradient / FISTA template into PnP imaging, FISTA-Net / pFISTA-DR unrolling, and production elastic-net paths. See [09-06 Modern applications of proximal GD and acceleration]({% multilang_post_url contents/chapter09/2026-09-16-09_06_modern_applications %}).
