@@ -24,5 +24,6 @@ Chương này là phần mở đầu. Ta không đi sâu robustness Byzantine ha
 1. SGD song song dữ liệu và all-reduce
 2. FedAvg
 3. ADMM so với phương pháp song song dữ liệu / federated
+4. Ứng dụng liên federated hiện đại (tùy chọn) — FedProx, SCAFFOLD, FedAdam, y tế
 
-Đọc chính: McMahan et al., [PMLR v54](https://proceedings.mlr.press/v54/mcmahan17a.html). Xem lại Boyd et al., ADMM.
+Đọc chính: McMahan et al., [PMLR v54](https://proceedings.mlr.press/v54/mcmahan17a.html). Xem lại Boyd et al., ADMM. Lớp ứng dụng 2020–2026 là [29-04]({% multilang_post_url contents/chapter29/2026-09-16-29_04_modern_federated %}).

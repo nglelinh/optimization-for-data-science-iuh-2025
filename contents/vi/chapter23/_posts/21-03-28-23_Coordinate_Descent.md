@@ -65,3 +65,7 @@ Coordinate descent의 convergence analysisto, about, 연구 흐름을 간략히 
 * Nutini et al. (2015) analyze greedy coordinate descent (called Gauss-Southwell rule), and show it achieves a faster rate than randomized coordinate descent for certain problems
 * Wright (2015) provides some unification and a great summary. Also covers parallel versions (even asynchronous ones)
 * General theory is still not complete; still unanswered questions (e.g., are descent and minimization strategies the same?)
+
+## Ứng dụng 2026 (tùy chọn)
+
+CD theo đường vẫn là cách glmnet và `sklearn.linear_model.lasso_path` khớp GLM thưa. Bài JSS 2023 mở glmnet tới *mọi* họ GLM; skglm (NeurIPS 2022) thêm working set và penalty không lồi ở triệu đặc trưng; CD đối ngẫu LIBLINEAR vẫn huấn luyện SVM tuyến tính. Xem [23-05 Ứng dụng hiện đại của hạ theo tọa độ]({% multilang_post_url contents/chapter23/2026-09-16-23_05_modern_applications %}) sau các ví dụ Lasso / pathwise.

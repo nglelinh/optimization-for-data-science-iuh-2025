@@ -24,5 +24,6 @@ This chapter is an introduction. We will not treat Byzantine robustness or gradi
 1. Data-parallel SGD and all-reduce
 2. FedAvg
 3. ADMM vs data-parallel / federated methods
+4. Modern federated applications (optional) — FedProx, SCAFFOLD, FedAdam, healthcare
 
-Primary reading: McMahan et al., *Communication-Efficient Learning of Deep Networks from Decentralized Data*, [PMLR v54](https://proceedings.mlr.press/v54/mcmahan17a.html). Revisit Boyd et al., *Distributed Optimization and Statistical Learning via ADMM*.
+Primary reading: McMahan et al., *Communication-Efficient Learning of Deep Networks from Decentralized Data*, [PMLR v54](https://proceedings.mlr.press/v54/mcmahan17a.html). Revisit Boyd et al., *Distributed Optimization and Statistical Learning via ADMM*. The 2020–2026 application layer is [29-04]({% multilang_post_url contents/chapter29/2026-09-16-29_04_modern_federated %}).

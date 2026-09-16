@@ -23,4 +23,11 @@ This chapter answers three questions:
 
 The survey to keep on your desk is Baydin, Pearlmutter, Radul, Siskind, *Automatic Differentiation in Machine Learning: a Survey*, JMLR 18(153), 2018, [jmlr.org/papers/v18/17-468.html](https://www.jmlr.org/papers/v18/17-468.html). Nocedal & Wright already treated “calculating derivatives” as part of numerical optimization; AD is that chapter after software caught up.
 
-Manual reverse mode on a three-node net versus `torch.autograd` is the lab: if they disagree, your graph or your `detach` is wrong — not the definition of a derivative.
+## Lessons
+
+1. Computational graphs
+2. Forward mode
+3. Reverse mode and backpropagation
+4. Autodiff frameworks and scientific ML (optional) — PyTorch, JAX, Enzyme, PINNs
+
+Manual reverse mode on a three-node net versus `torch.autograd` is the lab: if they disagree, your graph or your `detach` is wrong — not the definition of a derivative. The optional software map is [27-04]({% multilang_post_url contents/chapter27/2026-09-16-27_04_autodiff_frameworks %}).

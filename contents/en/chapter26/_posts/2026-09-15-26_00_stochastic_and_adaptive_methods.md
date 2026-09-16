@@ -34,5 +34,6 @@ Peer syllabi that treat this as core rather than a remark: MIT 6.7220 (S25), EPF
 3. AdaGrad to Adam — diagonal preconditioning
 4. AdamW and training practice — decoupled weight decay, schedules, clipping
 5. Variance reduction (survey) — SVRG / SAGA, and when mini-batch Adam still wins
+6. Modern adaptive optimizers (optional survey) — SAM, Sophia, Muon against the AdamW baseline
 
-Interactive SGD cartoons sit in [`interactive_math/optimization`](https://github.com/nglelinh/interactive_math/tree/main/optimization). SAM, Muon, and Sophia are **further reading** only — not assessed this term.
+Interactive SGD cartoons sit in [`interactive_math/optimization`](https://github.com/nglelinh/interactive_math/tree/main/optimization). SAM, Muon, and Sophia stay **further reading** — not assessed this term — but they now have a dedicated optional lesson: [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}).

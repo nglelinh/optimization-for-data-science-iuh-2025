@@ -26,5 +26,6 @@ Mở [loss_function_landscapes.html](https://nglelinh.github.io/interactive_math
 1. Điểm tới hạn và yên ngựa
 2. Thoát yên ngựa và hình học phong cảnh
 3. Quá tham số (và con trỏ tới điều kiện PL)
+4. Nghiên cứu tình huống phong cảnh hiện đại (tùy chọn) — liên thông mode, grokking, double descent, cực tiểu phẳng
 
-Đọc thêm: Karimi, Nutini, Schmidt, [arXiv:1608.04636](https://arxiv.org/abs/1608.04636) — cầu đơn giản nhất từ các chứng minh lồi mạnh bạn đã biết tới một số ERM không lồi.
+Đọc thêm: Karimi, Nutini, Schmidt, [arXiv:1608.04636](https://arxiv.org/abs/1608.04636) — cầu đơn giản nhất từ các chứng minh lồi mạnh bạn đã biết tới một số ERM không lồi. Các hiện tượng 2022–2026 nằm ở [28-04]({% multilang_post_url contents/chapter28/2026-09-16-28_04_modern_landscapes %}).
