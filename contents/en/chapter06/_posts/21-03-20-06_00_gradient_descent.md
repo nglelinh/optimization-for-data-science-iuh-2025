@@ -16,3 +16,5 @@ In optimization algorithms, choosing the search direction and step size is cruci
 For gradient descent to converge, certain preconditions must be met. If these conditions are satisfied, we can analyze how quickly gradient descent converges. If strong convexity holds, convergence is even faster, and we will examine the convergence rate in such cases.
 
 We will also look at applications of gradient descent, including gradient boosting and stochastic gradient descent.
+
+A later optional lesson, [06-08 Applications and recent developments]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}), contrasts the Lipschitz theory with the edge of stability, Lion, and schedule-free averaging (2021–2024).

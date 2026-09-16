@@ -39,3 +39,5 @@ Các chương trình **lồi** — $$f$$ lồi trên $$\mathcal{C}$$ lồi — �
 4. **Lược sử** — từ quy hoạch tuyến tính đến học sâu dẫn dắt bởi autodiff.
 
 Đọc bài tiếp theo về dạng chuẩn với ràng buộc bất đẳng thức và đẳng thức; rồi thử quyết định, với một bài bạn đã biết (bình phương tối thiểu, hồi quy logistic, *k*-means), phần nào là lồi.
+
+Bài tùy chọn kết chương, [01-05 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter01/2026-09-16-01_05_Applications_Recent %}), áp dụng cùng khuôn mẫu cho LLM tối ưu tính toán, predict-then-optimize, và ràng buộc công bằng.
