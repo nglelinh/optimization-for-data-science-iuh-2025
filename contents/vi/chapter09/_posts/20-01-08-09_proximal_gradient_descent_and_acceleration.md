@@ -25,3 +25,7 @@ Chương này giới thiệu phương pháp gradient gần kề và các kỹ th
 - Phần 5: Các phương pháp tăng tốc
 
 Tham khảo từng phần để biết chi tiết và các công thức toán học.
+
+## Ứng dụng hiện đại (2022–2026)
+
+Một bài tùy chọn đi kèm theo cùng khuôn proximal-gradient / FISTA sang tạo ảnh PnP, unrolling FISTA-Net / pFISTA-DR, và đường elastic net sản xuất. Xem [09-06 Ứng dụng hiện đại của proximal GD và tăng tốc]({% multilang_post_url contents/chapter09/2026-09-16-09_06_modern_applications %}).
