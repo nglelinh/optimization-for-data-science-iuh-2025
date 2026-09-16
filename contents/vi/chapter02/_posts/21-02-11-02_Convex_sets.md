@@ -20,3 +20,5 @@ Tập lồi có liên quan chặt chẽ với hàm lồi theo hai cách chính:
 
 ### Nội dung
 Trong chương này, chúng ta sẽ đề cập đến định nghĩa và ví dụ về tập lồi, các tính chất chính của chúng, và các phép toán bảo toàn tính lồi.
+
+Xem thêm bài tùy chọn [02-07 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter02/2026-09-16-02_07_Applications_Recent %}) về đơn hình, quả cầu Wasserstein và polytope công bằng.

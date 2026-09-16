@@ -39,3 +39,5 @@ with $$\ell$$ a loss and $$R$$ a regularizer. Feature selection, portfolio weigh
 4. **A brief history** — from linear programming to autodiff-driven deep learning.
 
 Read the next lesson for the standard form with inequality and equality constraints; then decide, for a problem you already know (least squares, logistic regression, *k*-means), which pieces are convex.
+
+An optional close-out, [01-05 Applications and recent developments]({% multilang_post_url contents/chapter01/2026-09-16-01_05_Applications_Recent %}), applies the same template to compute-optimal LLMs, predict-then-optimize, and fairness constraints.

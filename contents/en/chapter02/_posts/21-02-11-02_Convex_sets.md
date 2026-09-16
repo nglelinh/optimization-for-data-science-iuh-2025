@@ -20,3 +20,5 @@ Convex sets are closely related to convex functions in two main ways:
 
 ### Content
 In this chapter, we will cover the definition and examples of convex sets, their main properties, and operations that preserve convexity.
+
+See also the optional [02-07 Applications and recent developments]({% multilang_post_url contents/chapter02/2026-09-16-02_07_Applications_Recent %}) on simplices, Wasserstein balls, and fairness polytopes.

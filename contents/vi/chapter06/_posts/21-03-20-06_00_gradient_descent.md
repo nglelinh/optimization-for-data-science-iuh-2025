@@ -16,3 +16,5 @@ Trong các thuật toán tối ưu hóa, việc lựa chọn hướng tìm kiế
 Để gradient descent hội tụ, một số điều kiện tiên quyết phải được đáp ứng. Nếu những điều kiện này được thỏa mãn, chúng ta có thể phân tích gradient descent hội tụ nhanh như thế nào. Nếu tính lồi mạnh được thỏa mãn, sự hội tụ thậm chí còn nhanh hơn, và chúng ta sẽ xem xét tốc độ hội tụ trong những trường hợp như vậy.
 
 Chúng ta cũng sẽ xem xét các ứng dụng của gradient descent, bao gồm gradient boosting và stochastic gradient descent.
+
+Bài tùy chọn sau, [06-08 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}), đối chiếu lý thuyết Lipschitz với mép ổn định, Lion và trung bình không lịch bước (2021–2024).
