@@ -98,3 +98,5 @@ The convergence rate $$O(c^k)$$ appears linear on a semi-log plot, as shown belo
 
 Here, the constant $$c$$ in $$O(c^k)$$ is given by $$1 - \frac{m}{L}$$ and depends on the condition number $$L/m$$. A larger condition number results in slower convergence (where the condition number is the ratio of the largest eigenvalue to the smallest eigenvalue).
 
+Đại số của chứng minh này — bổ đề xuống cộng một cận dưới biến $$\|\nabla f\|^2$$ thành khe giá trị hàm — vẫn chạy nếu lồi mạnh được nới thành bất đẳng thức Polyak–Łojasiewicz. Câu chuyện tốc độ hiện đại tùy chọn đó, và ví dụ bình phương tối thiểu quá tham số nơi cực tiểu không duy nhất, là [28-05 Điều kiện PL và câu chuyện tốc độ hiện đại]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).
+

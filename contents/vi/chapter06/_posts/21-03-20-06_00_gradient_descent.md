@@ -17,4 +17,4 @@ Trong các thuật toán tối ưu hóa, việc lựa chọn hướng tìm kiế
 
 Chúng ta cũng sẽ xem xét các ứng dụng của gradient descent, bao gồm gradient boosting và stochastic gradient descent.
 
-Bài tùy chọn sau, [06-08 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}), đối chiếu lý thuyết Lipschitz với mép ổn định, Lion và trung bình không lịch bước (2021–2024).
+Bài tùy chọn sau, [06-08 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}), đối chiếu lý thuyết Lipschitz với mép ổn định, Lion và trung bình không lịch bước (2021–2024). Tốc độ tuyến tính của 06-03-04 có thể tái sử dụng trên một số ERM *không lồi* dưới điều kiện Polyak–Łojasiewicz; cây cầu đó là ghi chú tùy chọn [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).

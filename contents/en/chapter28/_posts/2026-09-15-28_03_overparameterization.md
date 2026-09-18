@@ -23,6 +23,6 @@ $$
 \tfrac12 \|\nabla F(w)\|_2^2 \ge \mu \bigl(F(w)-F^\star\bigr)
 $$
 
-for some $$\mu>0$$, then gradient descent enjoys a linear rate *without convexity*. Some overparameterized least-squares and certain wide-net regimes satisfy PL locally. Karimi, Nutini, Schmidt ([arXiv:1608.04636](https://arxiv.org/abs/1608.04636)) is the note to read when you want to reuse a Chapter 06 proof on a nonconvex ERM.
+for some $$\mu>0$$, then gradient descent enjoys a linear rate *without convexity*. Some overparameterized least-squares and certain wide-net regimes satisfy PL locally. The optional lesson [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}) reuses the Chapter 06 proof on that inequality (Karimi, Nutini, Schmidt, [arXiv:1608.04636](https://arxiv.org/abs/1608.04636)); this page only needs the slogan.
 
 **Exercise.** Fit $$n=20$$ scalar points with a degree-$$50$$ polynomial by (i) the numpy least-squares min-norm solution and (ii) GD from two random starts. Compare test error on a smooth underlying function. Same train loss, different interpolators.

@@ -17,7 +17,7 @@ You will learn to recognize convex structure, formulate canonical programs, run 
 - **English:** [`contents/en/chapter00/`](contents/en/chapter00/) … [`contents/en/chapter29/`](contents/en/chapter29/)
 - **Tiếng Việt:** [`contents/vi/chapter00/`](contents/vi/chapter00/) … [`contents/vi/chapter29/`](contents/vi/chapter29/)
 - Each chapter folder has a landing page (`index.html`) plus dated lesson posts in `_posts/`.
-- Interactive HTML demos (gradient descent, proximal maps, Newton, KKT, …) are mapped in [INTERACTIVE_DEMOS.md](INTERACTIVE_DEMOS.md).
+- Interactive HTML demos (gradient descent, proximal maps, Newton, KKT, …) are mapped in [INTERACTIVE_DEMOS.md](INTERACTIVE_DEMOS.md). A short done-versus-remaining note against the 2026 sprint list is [IMPROVEMENT_STATUS.md](IMPROVEMENT_STATUS.md).
 
 ## Contents on this site
 
@@ -58,16 +58,16 @@ Chapters 00–25 keep the classical convex spine (sets and functions → first-o
 
 | Ch | Title | Why it is here | Lesson (this site) |
 |:--:|:------|:---------------|:-------------------|
-| 26 | Stochastic and adaptive methods for ML | SGD / minibatch, momentum and Nesterov, AdaGrad → Adam → AdamW | [EN](contents/en/chapter26/) · [VI](contents/vi/chapter26/) |
-| 27 | Automatic differentiation | Forward / reverse mode, computational graphs, backpropagation | [EN](contents/en/chapter27/) · [VI](contents/vi/chapter27/) |
-| 28 | Nonconvex landscapes for deep learning | Critical points, saddles, overparameterization | [EN](contents/en/chapter28/) · [VI](contents/vi/chapter28/) |
+| 26 | Stochastic and adaptive methods for ML | SGD / minibatch, Distill-style momentum / Nesterov, AdaGrad → Adam → AdamW, SVRG / SAGA | [EN](contents/en/chapter26/) · [VI](contents/vi/chapter26/) |
+| 27 | Automatic differentiation | Forward / reverse mode, computational graphs, backpropagation; optional bilevel / hypergrad | [EN](contents/en/chapter27/) · [VI](contents/vi/chapter27/) |
+| 28 | Nonconvex landscapes for deep learning | Critical points, saddles, overparameterization; optional PL rate bridge | [EN](contents/en/chapter28/) · [VI](contents/vi/chapter28/) |
 | 29 | Distributed and federated optimization | Data-parallel SGD, FedAvg, and how they differ from ADMM in Ch.21 | [EN](contents/en/chapter29/) · [VI](contents/vi/chapter29/) |
 
-These are starter modules: enough mathematics and code to sit in lecture, not a full rewrite of chapters 00–25. Advanced optimizer geometry (SAM, Muon, Sophia) is further reading only.
+These are starter modules: enough mathematics and code to sit in lecture, not a full rewrite of chapters 00–25. Advanced optimizer geometry (SAM, Muon, Sophia) is an optional seminar in [26-06](contents/en/chapter26/), not assessed.
 
 A short **CVXPY / DCP modeling lab** (Lasso or hard-margin SVM) lives in [Chapter 05](contents/en/chapter05/) next to the canonical-problem taxonomy.
 
-Interactive demos that pair with Chapters 06, 09, 12, 14, 18 (and the SGD story in 08 / 26) are listed in [INTERACTIVE_DEMOS.md](INTERACTIVE_DEMOS.md).
+Interactive demos that pair with Chapters 05–09, 12, 14, 18, 26, 28, and 29 are listed in [INTERACTIVE_DEMOS.md](INTERACTIVE_DEMOS.md); those chapter landings carry an “Interactive demos” box.
 
 ## Course objectives
 

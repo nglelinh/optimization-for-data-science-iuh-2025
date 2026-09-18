@@ -22,7 +22,7 @@ Chương này giới thiệu phương pháp gradient gần kề và các kỹ th
 - Phần 2: Phân tích hội tụ
 - Phần 3: Ví dụ hoàn thiện ma trận
 - Phần 4: Các trường hợp đặc biệt
-- Phần 5: Các phương pháp tăng tốc
+- Phần 5: Các phương pháp tăng tốc — bắt đầu từ bức tranh kiểu Distill ở [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}), rồi đại số FISTA ở 09-05-01; họ hàng ngẫu nhiên / $$\beta$$ hằng là [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %})
 
 Tham khảo từng phần để biết chi tiết và các công thức toán học.
 

@@ -29,5 +29,6 @@ Khảo sát để để trên bàn là Baydin, Pearlmutter, Radul, Siskind, *Aut
 2. Chế độ thuận
 3. Chế độ nghịch và lan truyền ngược
 4. Khung vi phân tự động và ML khoa học (tùy chọn) — PyTorch, JAX, Enzyme, PINN
+5. Tối ưu hai mức và siêu gradient (tùy chọn) — HPO / meta như một khuôn lồng
 
-Lab: reverse mode thủ công trên mạng ba nút so với `torch.autograd` — nếu chúng lệch, đồ thị hoặc `detach` của bạn sai, không phải định nghĩa đạo hàm. Bản đồ phần mềm tùy chọn là [27-04]({% multilang_post_url contents/chapter27/2026-09-16-27_04_autodiff_frameworks %}).
+Lab: reverse mode thủ công trên mạng ba nút so với `torch.autograd` — nếu chúng lệch, đồ thị hoặc `detach` của bạn sai, không phải định nghĩa đạo hàm. Bản đồ phần mềm tùy chọn là [27-04]({% multilang_post_url contents/chapter27/2026-09-16-27_04_autodiff_frameworks %}). Khuôn HPO / MAML lồng nhau — tháo cuộn so với vi phân ẩn — là [27-05]({% multilang_post_url contents/chapter27/2026-09-18-27_05_bilevel_hypergrad %}).
