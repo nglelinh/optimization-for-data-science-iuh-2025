@@ -12,6 +12,8 @@ lesson_type: required
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
+The animation on this page is the full-batch, constant-$$\beta$$ picture. The Distill-style spectral story — characteristic polynomial, optimal $$\beta^\star$$, look-ahead versus heavy ball, and why `nesterov=True` is not FISTA — is the modern-track lesson [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}); the proximal / scheduled sibling is [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}).
+
 ## The Problem with Vanilla Gradient Descent
 
 Imagine you're rolling a ball down a valley. Standard gradient descent is like a ball with no memory - at each step, it only considers the current slope and moves accordingly. This can lead to several problems:

@@ -19,7 +19,7 @@ $$
 \min_w F(w) = \frac{1}{n}\sum_{i=1}^n f_i(w), \qquad f_i(w) = \ell\bigl(h_w(x_i), y_i\bigr).
 $$
 
-Bạn đã gặp họ hàng trong [06-05 Stochastic gradient descent]({% multilang_post_url contents/chapter06/21-03-20-06_05_stochastic_gradient_descent %}) và các ghi chú subgradient ngẫu nhiên ở Chương 08. Ở đây SGD và minibatch là *thuật toán*, rồi ta thêm hai thành phần mọi thư viện học sâu đều chuyển: **momentum / Nesterov** và **co giãn thích nghi theo tọa độ** (AdaGrad → trực giác RMSProp → Adam → AdamW). Bài cuối khảo sát giảm phương sai (SVRG / SAGA) để biết khi nào lý thuyết lồi sắc hơn Adam.
+Bạn đã gặp họ hàng trong [06-05 Stochastic gradient descent]({% multilang_post_url contents/chapter06/21-03-20-06_05_stochastic_gradient_descent %}) và các ghi chú subgradient ngẫu nhiên ở Chương 08. Ở đây SGD và minibatch là *thuật toán*, rồi ta thêm hai thành phần mọi thư viện học sâu đều chuyển: **momentum / Nesterov** và **co giãn thích nghi theo tọa độ** (AdaGrad → trực giác RMSProp → Adam → AdamW). Bài bắt buộc cuối phát triển giảm phương sai (SVRG / SAGA) để biết khi nào lý thuyết lồi sắc hơn Adam.
 
 ## Vì sao tách chương
 
@@ -33,7 +33,7 @@ Giáo trình đồng cấp coi đây là lõi, không phải chú thích: MIT 6.
 2. Momentum và Nesterov — heavy ball so với nhìn trước; trực giác kiểu Distill
 3. Từ AdaGrad đến Adam — tiền điều kiện đường chéo
 4. AdamW và thực hành huấn luyện — weight decay tách, lịch, clipping
-5. Giảm phương sai (khảo sát) — SVRG / SAGA, và khi nào mini-batch Adam vẫn thắng
-6. Bộ tối ưu thích nghi hiện đại (khảo sát tùy chọn) — SAM, Sophia, Muon so với baseline AdamW
+5. Giảm phương sai — SVRG và SAGA như phương pháp tổng hữu hạn hạng nhất, và khi nào mini-batch Adam vẫn thắng
+6. Bộ tối ưu thích nghi hiện đại (seminar tùy chọn) — SAM, Sophia, Muon so với baseline AdamW
 
-Hoạt họa SGD nằm trong [`interactive_math/optimization`](https://github.com/nglelinh/interactive_math/tree/main/optimization). SAM, Muon, Sophia vẫn là **đọc thêm** — không kiểm tra kỳ này — nhưng nay có bài tùy chọn riêng: [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}).
+Hoạt họa SGD nằm trong [`interactive_math/optimization`](https://github.com/nglelinh/interactive_math/tree/main/optimization). Bài momentum kiểu Distill là [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}) (ghép với bức tranh FISTA ở [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %})). SAM, Muon, Sophia vẫn là **đọc thêm** — không kiểm tra kỳ này — nhưng nay có seminar tùy chọn riêng: [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}).

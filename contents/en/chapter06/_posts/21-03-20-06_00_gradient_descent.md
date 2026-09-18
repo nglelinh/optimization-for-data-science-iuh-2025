@@ -17,4 +17,4 @@ For gradient descent to converge, certain preconditions must be met. If these co
 
 We will also look at applications of gradient descent, including gradient boosting and stochastic gradient descent.
 
-A later optional lesson, [06-08 Applications and recent developments]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}), contrasts the Lipschitz theory with the edge of stability, Lion, and schedule-free averaging (2021–2024).
+A later optional lesson, [06-08 Applications and recent developments]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}), contrasts the Lipschitz theory with the edge of stability, Lion, and schedule-free averaging (2021–2024). The linear rate of 06-03-04 can be reused on some *nonconvex* ERMs under the Polyak–Łojasiewicz condition; that bridge is the optional note [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).

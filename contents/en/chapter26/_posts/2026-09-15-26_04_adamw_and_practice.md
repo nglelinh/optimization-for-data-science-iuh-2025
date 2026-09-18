@@ -28,6 +28,6 @@ Weight decay is now a true pull toward the origin in parameter space, independen
 - **Batch size vs $$\eta$$**. Linear scaling rules (Goyal et al.) treat a larger batch as a smaller-noise estimator that can bear a larger $$\eta$$, up to a breakdown regime.
 - **Coupled vs decoupled decay.** If you report a “weight decay $$\lambda$$” in a paper, say whether it was AdamW-style.
 
-Further reading (not core): SAM (Foret et al., ICLR 2021) asks for *flat* minima via a local max; Muon and Sophia are 2023–2025 optimizer-zoo case studies. The optional survey [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}) is the one-page map; they are not assessed this term.
+Further reading (not core): SAM (Foret et al., ICLR 2021) asks for *flat* minima via a local max; Muon and Sophia are 2023–2025 optimizer-zoo case studies. The optional seminar [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}) writes each update on the board (without repeating the Sophia-as-Newton reading in 14-10); they are not assessed this term.
 
 **Exercise.** Train a tiny MLP on a 2-D two-moons set with Adam and AdamW at the same $$\lambda$$. Plot $$\|w\|_2$$ over epochs. You should see different parameter-norm trajectories even when training loss looks similar.

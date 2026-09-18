@@ -65,4 +65,4 @@ The `-vo` suffix marks the voice-over / student-facing encode. Keep the `optimiz
 
 ## Where links appear on the site
 
-Chapter landings **06, 09, 12, 14, 18** include a short “Interactive demos” box. This file is the full map, including Ch.05, 07–08, 26, 28, and 29.
+Chapter landings **05, 06, 07, 08, 09, 12, 14, 18, 26, 28, 29** include a short “Interactive demos” box that matches the rows above. This file remains the full map.

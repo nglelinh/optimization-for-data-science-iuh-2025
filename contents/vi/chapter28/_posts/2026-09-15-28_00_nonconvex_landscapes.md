@@ -27,5 +27,6 @@ Mở [loss_function_landscapes.html](https://nglelinh.github.io/interactive_math
 2. Thoát yên ngựa và hình học phong cảnh
 3. Quá tham số (và con trỏ tới điều kiện PL)
 4. Nghiên cứu tình huống phong cảnh hiện đại (tùy chọn) — liên thông mode, grokking, double descent, cực tiểu phẳng
+5. Điều kiện PL và câu chuyện tốc độ hiện đại (tùy chọn) — Karimi et al.; tái sử dụng tốc độ tuyến tính Chương 06 không cần lồi
 
-Đọc thêm: Karimi, Nutini, Schmidt, [arXiv:1608.04636](https://arxiv.org/abs/1608.04636) — cầu đơn giản nhất từ các chứng minh lồi mạnh bạn đã biết tới một số ERM không lồi. Các hiện tượng 2022–2026 nằm ở [28-04]({% multilang_post_url contents/chapter28/2026-09-16-28_04_modern_landscapes %}).
+Cầu PL từ các chứng minh lồi mạnh của 06-03-04 tới một số ERM không lồi nay là một bài, không chỉ một con trỏ arXiv: [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}). Các hiện tượng 2022–2026 nằm ở [28-04]({% multilang_post_url contents/chapter28/2026-09-16-28_04_modern_landscapes %}).

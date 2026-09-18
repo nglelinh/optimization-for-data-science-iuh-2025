@@ -28,6 +28,6 @@ Weight decay giờ là một lực kéo về gốc trên không gian tham số, 
 - **Batch size và $$\eta$$**. Quy tắc scale tuyến tính (Goyal et al.) xem batch lớn hơn như ước lượng ít nhiễu hơn, chịu được $$\eta$$ lớn hơn, cho đến một ngưỡng gãy.
 - **Decay ghép hay tách.** Nếu báo cáo “weight decay $$\lambda$$” trong bài, hãy nói đó có phải kiểu AdamW.
 
-Đọc thêm (không thuộc lõi): SAM (Foret et al., ICLR 2021) tìm cực tiểu *phẳng* qua max địa phương; Muon và Sophia là case study zoo tối ưu 2023–2025. Khảo sát tùy chọn [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}) là bản đồ một trang; chúng không được kiểm tra kỳ này.
+Đọc thêm (không thuộc lõi): SAM (Foret et al., ICLR 2021) tìm cực tiểu *phẳng* qua max địa phương; Muon và Sophia là case study zoo tối ưu 2023–2025. Seminar tùy chọn [26-06]({% multilang_post_url contents/chapter26/2026-09-16-26_06_modern_optimizers %}) viết từng cập nhật lên bảng (không lặp phần Sophia-như-Newton ở 14-10); chúng không được kiểm tra kỳ này.
 
 **Bài tập.** Huấn luyện MLP nhỏ trên two-moons 2-D với Adam và AdamW cùng $$\lambda$$. Vẽ $$\|w\|_2$$ theo epoch. Bạn sẽ thấy quỹ đạo chuẩn tham số khác nhau dù loss huấn luyện trông giống.

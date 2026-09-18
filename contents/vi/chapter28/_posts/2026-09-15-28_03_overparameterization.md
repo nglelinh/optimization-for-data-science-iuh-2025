@@ -23,6 +23,6 @@ $$
 \tfrac12 \|\nabla F(w)\|_2^2 \ge \mu \bigl(F(w)-F^\star\bigr)
 $$
 
-với $$\mu>0$$ nào đó, thì gradient descent có tốc độ tuyến tính *không cần lồi*. Một số bình phương tối thiểu quá tham số và một số chế độ mạng rộng thỏa PL địa phương. Karimi, Nutini, Schmidt ([arXiv:1608.04636](https://arxiv.org/abs/1608.04636)) là ghi chú để đọc khi muốn tái sử dụng chứng minh Chương 06 trên ERM không lồi.
+với $$\mu>0$$ nào đó, thì gradient descent có tốc độ tuyến tính *không cần lồi*. Một số bình phương tối thiểu quá tham số và một số chế độ mạng rộng thỏa PL địa phương. Bài tùy chọn [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}) tái sử dụng chứng minh Chương 06 trên bất đẳng thức đó (Karimi, Nutini, Schmidt, [arXiv:1608.04636](https://arxiv.org/abs/1608.04636)); trang này chỉ cần khẩu hiệu.
 
 **Bài tập.** Khớp $$n=20$$ điểm vô hướng bằng đa thức bậc $$50$$ theo (i) nghiệm chuẩn-min của numpy và (ii) GD từ hai khởi tạo ngẫu nhiên. So lỗi kiểm trên một hàm gốc trơn. Cùng train loss, khác bộ nội suy.

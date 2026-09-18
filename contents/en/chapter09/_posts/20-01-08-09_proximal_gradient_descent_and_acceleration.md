@@ -22,7 +22,7 @@ This chapter introduces proximal gradient descent and acceleration techniques fo
 - Section 2: Convergence analysis
 - Section 3: Matrix completion example
 - Section 4: Special cases
-- Section 5: Acceleration methods
+- Section 5: Acceleration methods — start at the Distill-style picture in [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}), then the FISTA algebra in 09-05-01; the stochastic / constant-$$\beta$$ cousin is [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %})
 
 Refer to each section for details and mathematical formulations.
 

@@ -29,5 +29,6 @@ The survey to keep on your desk is Baydin, Pearlmutter, Radul, Siskind, *Automat
 2. Forward mode
 3. Reverse mode and backpropagation
 4. Autodiff frameworks and scientific ML (optional) — PyTorch, JAX, Enzyme, PINNs
+5. Bilevel optimization and hypergradients (optional) — HPO / meta as one nested template
 
-Manual reverse mode on a three-node net versus `torch.autograd` is the lab: if they disagree, your graph or your `detach` is wrong — not the definition of a derivative. The optional software map is [27-04]({% multilang_post_url contents/chapter27/2026-09-16-27_04_autodiff_frameworks %}).
+Manual reverse mode on a three-node net versus `torch.autograd` is the lab: if they disagree, your graph or your `detach` is wrong — not the definition of a derivative. The optional software map is [27-04]({% multilang_post_url contents/chapter27/2026-09-16-27_04_autodiff_frameworks %}). The nested HPO / MAML template — unrolling versus implicit differentiation — is [27-05]({% multilang_post_url contents/chapter27/2026-09-18-27_05_bilevel_hypergrad %}).
