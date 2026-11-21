@@ -8,7 +8,6 @@ lang: vi
 categories:
 - chapter16
 lesson_type: quiz
-published: false
 ---
 
 ## 📚 Ôn tập lý thuyết

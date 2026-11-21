@@ -8,7 +8,6 @@ lang: en
 categories:
 - chapter16
 lesson_type: required
-published: false
 ---
 
 # Practical Exercises - Duality Revisited

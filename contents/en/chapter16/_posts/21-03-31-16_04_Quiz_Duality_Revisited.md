@@ -8,7 +8,6 @@ lang: en
 categories:
 - chapter16
 lesson_type: quiz
-published: false
 ---
 
 ## 📚 Theory Review
