@@ -43,6 +43,8 @@ module Jekyll
     end
 
     def create_redirect_page(site, from_path, to_url)
+      # Thêm baseurl để redirect đúng khi site chạy dưới thư mục con (GitHub Pages project site)
+      to_url = site.baseurl.to_s.chomp('/') + to_url unless to_url.start_with?('http')
       # Tạo nội dung redirect page
       redirect_content = <<~HTML
         <!DOCTYPE html>
