@@ -42,6 +42,7 @@ author:
 plugins:
   - jekyll-paginate
   - jekyll-feed
+  - jekyll-redirect-from
 
 plugins_dir: _plugins
 
