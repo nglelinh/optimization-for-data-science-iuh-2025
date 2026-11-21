@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 13-04-01 Ví dỡ đối ngẫu lasso
+title: 13-04-01 Ví dụ đối ngẫu lasso
 chapter: '13'
 order: 6
 owner: Wontak Ryu
