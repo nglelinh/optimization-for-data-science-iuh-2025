@@ -858,6 +858,91 @@ Solving (by hand or with a solver): $$r\sqrt{2} = 2$$, i.e. $$r = \sqrt{2} \appr
 
 ---
 
+### **Exercise 12: Resource Allocation**
+
+A company makes 3 products:
+
+| Product | Profit | Labor | Machine | Material |
+|---------|--------|-------|---------|----------|
+| A       | 5      | 2     | 1       | 3        |
+| B       | 4      | 1     | 2       | 2        |
+| C       | 6      | 3     | 2       | 1        |
+
+Resources: 100 labor hours, 80 machine hours, 90 kg of material. At the optimal plan all three products are produced and all three resources are used up.
+
+**a)** Write the LP and its dual.  
+**b)** Find the optimal production plan and the shadow price of each resource.  
+**c)** Is it worth buying 10 more labor hours (1.5 million per hour) or 10 more kg of material (1 million per kg)?
+
+<details markdown="1">
+<summary><strong>Detailed solution</strong></summary>
+
+**a) LP:**
+
+$$
+\begin{align}
+\max_{x} \quad & 5x_1 + 4x_2 + 6x_3 \\
+\text{s.t.} \quad & 2x_1 + x_2 + 3x_3 \leq 100 \\
+& x_1 + 2x_2 + 2x_3 \leq 80 \\
+& 3x_1 + 2x_2 + x_3 \leq 90 \\
+& x_1, x_2, x_3 \geq 0
+\end{align}
+$$
+
+**Dual:**
+
+$$
+\begin{align}
+\min_{u} \quad & 100u_1 + 80u_2 + 90u_3 \\
+\text{s.t.} \quad & 2u_1 + u_2 + 3u_3 \geq 5 \\
+& u_1 + 2u_2 + 2u_3 \geq 4 \\
+& 3u_1 + 2u_2 + u_3 \geq 6 \\
+& u_1, u_2, u_3 \geq 0
+\end{align}
+$$
+
+**b) Optimal plan and shadow prices:**
+
+All three resource constraints are tight, so $$x^*$$ solves $$Ax = b$$:
+
+$$
+x^* = \left(\tfrac{160}{11}, \tfrac{150}{11}, \tfrac{210}{11}\right) \approx (14.55,\ 13.64,\ 19.09), \qquad 5x_1 + 4x_2 + 6x_3 = \tfrac{2660}{11} \approx 241.82
+$$
+
+Labor check: $$2 \cdot 160 + 150 + 3 \cdot 210 = 1100$$, divided by 11 gives 100 ✓.
+
+Since $$x_1, x_2, x_3 > 0$$, complementary slackness makes all three dual constraints tight:
+
+$$
+\begin{cases}
+2u_1 + u_2 + 3u_3 = 5 \\
+u_1 + 2u_2 + 2u_3 = 4 \\
+3u_1 + 2u_2 + u_3 = 6
+\end{cases}
+\quad\Longrightarrow\quad
+u^* = \left(\tfrac{14}{11}, \tfrac{9}{11}, \tfrac{6}{11}\right) \approx (1.27,\ 0.82,\ 0.55)
+$$
+
+Check: $$100u_1 + 80u_2 + 90u_3 = \tfrac{1400 + 720 + 540}{11} = \tfrac{2660}{11}$$, equal to the primal optimum ✓ (strong duality). All $$u_i \ge 0$$, so $$u^*$$ is feasible.
+
+Meaning: one more labor hour adds about 1.27 to profit, one more machine hour about 0.82, one more kg of material about 0.55.
+
+**c) Decision:**
+
+Shadow prices are valid only while the optimal basis stays the same. With $$A^{-1} = \tfrac{1}{11}\begin{pmatrix} 2 & -5 & 4 \\ -5 & 7 & 1 \\ 4 & 1 & -3 \end{pmatrix}$$:
+- 10 more labor hours: $$x = A^{-1}(110, 80, 90) = \left(\tfrac{180}{11}, \tfrac{100}{11}, \tfrac{250}{11}\right) > 0$$, same basis.
+- 10 more kg of material: $$x = A^{-1}(100, 80, 100) = \left(\tfrac{200}{11}, \tfrac{160}{11}, \tfrac{180}{11}\right) > 0$$, same basis.
+
+**Option 1 (labor):** profit rises by $$10 \cdot \tfrac{14}{11} \approx 12.7$$ million at a cost of 15 million, **a loss of about 2.3 million**.
+
+**Option 2 (material):** profit rises by $$10 \cdot \tfrac{6}{11} \approx 5.5$$ million at a cost of 10 million, **a loss of about 4.5 million**.
+
+**Conclusion:** both purchase prices exceed the shadow prices, so neither purchase is worth it. If one must be chosen, option 1 loses less.
+
+</details>
+
+---
+
 ## **Summary and Strategy**
 
 ### **Constructing the dual:**

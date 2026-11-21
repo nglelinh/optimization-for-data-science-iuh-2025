@@ -858,6 +858,91 @@ Giải (bằng tay hoặc solver): $$r\sqrt{2} = 2$$, tức $$r = \sqrt{2} \appr
 
 ---
 
+### **Bài tập 12: Phân bổ tài nguyên**
+
+Công ty sản xuất 3 sản phẩm:
+
+| Sản phẩm | Lợi nhuận | Lao động | Máy | Nguyên liệu |
+|----------|-----------|----------|-----|-------------|
+| A        | 5         | 2        | 1   | 3           |
+| B        | 4         | 1        | 2   | 2           |
+| C        | 6         | 3        | 2   | 1           |
+
+Tài nguyên: 100 giờ lao động, 80 giờ máy, 90 kg nguyên liệu. Biết rằng ở phương án tối ưu cả ba sản phẩm đều được sản xuất và cả ba tài nguyên đều được dùng hết.
+
+**a)** Lập bài toán LP và bài toán đối ngẫu.  
+**b)** Tìm phương án sản xuất tối ưu và shadow price của mỗi tài nguyên.  
+**c)** Có nên mua thêm 10 giờ lao động (giá 1,5 triệu/giờ) hay 10 kg nguyên liệu (giá 1 triệu/kg) không?
+
+<details markdown="1">
+<summary><strong>Lời giải chi tiết</strong></summary>
+
+**a) LP:**
+
+$$
+\begin{align}
+\max_{x} \quad & 5x_1 + 4x_2 + 6x_3 \\
+\text{s.t.} \quad & 2x_1 + x_2 + 3x_3 \leq 100 \\
+& x_1 + 2x_2 + 2x_3 \leq 80 \\
+& 3x_1 + 2x_2 + x_3 \leq 90 \\
+& x_1, x_2, x_3 \geq 0
+\end{align}
+$$
+
+**Đối ngẫu:**
+
+$$
+\begin{align}
+\min_{u} \quad & 100u_1 + 80u_2 + 90u_3 \\
+\text{s.t.} \quad & 2u_1 + u_2 + 3u_3 \geq 5 \\
+& u_1 + 2u_2 + 2u_3 \geq 4 \\
+& 3u_1 + 2u_2 + u_3 \geq 6 \\
+& u_1, u_2, u_3 \geq 0
+\end{align}
+$$
+
+**b) Phương án tối ưu và shadow price:**
+
+Ba ràng buộc tài nguyên đều chặt, nên $$x^*$$ là nghiệm của hệ $$Ax = b$$:
+
+$$
+x^* = \left(\tfrac{160}{11}, \tfrac{150}{11}, \tfrac{210}{11}\right) \approx (14{,}55;\ 13{,}64;\ 19{,}09), \qquad 5x_1 + 4x_2 + 6x_3 = \tfrac{2660}{11} \approx 241{,}82
+$$
+
+Kiểm tra lao động: $$2 \cdot 160 + 150 + 3 \cdot 210 = 1100$$, chia 11 được 100 ✓.
+
+Vì $$x_1, x_2, x_3 > 0$$, theo điều kiện bù (complementary slackness) cả ba ràng buộc đối ngẫu đều chặt:
+
+$$
+\begin{cases}
+2u_1 + u_2 + 3u_3 = 5 \\
+u_1 + 2u_2 + 2u_3 = 4 \\
+3u_1 + 2u_2 + u_3 = 6
+\end{cases}
+\quad\Longrightarrow\quad
+u^* = \left(\tfrac{14}{11}, \tfrac{9}{11}, \tfrac{6}{11}\right) \approx (1{,}27;\ 0{,}82;\ 0{,}55)
+$$
+
+Kiểm tra: $$100u_1 + 80u_2 + 90u_3 = \tfrac{1400 + 720 + 540}{11} = \tfrac{2660}{11}$$, bằng giá trị tối ưu của bài toán gốc ✓ (đối ngẫu mạnh). Mọi $$u_i \ge 0$$ nên $$u^*$$ khả thi.
+
+Ý nghĩa: thêm 1 giờ lao động tăng lợi nhuận khoảng 1,27; thêm 1 giờ máy khoảng 0,82; thêm 1 kg nguyên liệu khoảng 0,55.
+
+**c) Quyết định:**
+
+Shadow price chỉ đúng khi cơ sở tối ưu không đổi. Với $$A^{-1} = \tfrac{1}{11}\begin{pmatrix} 2 & -5 & 4 \\ -5 & 7 & 1 \\ 4 & 1 & -3 \end{pmatrix}$$:
+- Thêm 10 giờ lao động: $$x = A^{-1}(110, 80, 90) = \left(\tfrac{180}{11}, \tfrac{100}{11}, \tfrac{250}{11}\right) > 0$$, cơ sở giữ nguyên.
+- Thêm 10 kg nguyên liệu: $$x = A^{-1}(100, 80, 100) = \left(\tfrac{200}{11}, \tfrac{160}{11}, \tfrac{180}{11}\right) > 0$$, cơ sở giữ nguyên.
+
+**Phương án 1 (lao động):** lợi nhuận tăng $$10 \cdot \tfrac{14}{11} \approx 12{,}7$$ triệu, chi phí 15 triệu, **lỗ khoảng 2,3 triệu**.
+
+**Phương án 2 (nguyên liệu):** lợi nhuận tăng $$10 \cdot \tfrac{6}{11} \approx 5{,}5$$ triệu, chi phí 10 triệu, **lỗ khoảng 4,5 triệu**.
+
+**Kết luận:** giá mua của cả hai tài nguyên đều cao hơn shadow price, nên không nên mua thêm. Nếu buộc phải chọn một, phương án 1 lỗ ít hơn.
+
+</details>
+
+---
+
 ## **Tổng kết và Chiến lược**
 
 ### **Xây dựng đối ngẫu:**
