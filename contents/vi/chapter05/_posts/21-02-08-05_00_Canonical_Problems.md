@@ -42,3 +42,5 @@ $$ LP \subseteq QP \subseteq QCQP \subseteq SOCP \subseteq SDP \subseteq CP $$
   <figcaption style="text-align: center;">[Fig2] Các Bài Toán Chuẩn</figcaption>
 </p>
 </figure>
+
+Sau phân loại và lab DCP, bài tùy chọn [05-08 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter05/2026-09-16-05_08_Applications_Recent %}) chỉ tới Clarabel, QP danh mục, kiểm chứng SDP, và khôi phục thưa đã bung.

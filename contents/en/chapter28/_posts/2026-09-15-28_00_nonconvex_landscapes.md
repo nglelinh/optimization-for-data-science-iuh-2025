@@ -1,0 +1,32 @@
+---
+layout: post
+title: 28 Nonconvex landscapes for deep learning
+chapter: '28'
+order: 1
+owner: Nguyen Le Linh
+categories:
+- chapter28
+lang: en
+lesson_type: required
+---
+
+
+# Nonconvex landscapes for deep learning
+
+Convexity was the safety rail of Chapters 02–25: local minima are global, and first-order conditions certify optimality. A deep network’s training loss $$F(w)$$ is **nonconvex**. This chapter does not throw the rail away; it asks what *kind* of nonconvexity practitioners actually meet.
+
+We will distinguish **critical points** ($$\nabla F(w)=0$$) by the inertia of the Hessian: minima, maxima, and **saddles**. We will see why high-dimensional saddles, not swampy local minima, are the usual obstruction, and why **overparameterization** (more parameters than data constraints) can make almost all minima interpolate — the modern “why does SGD work?” story at IUH depth.
+
+EPFL CS-439 and USC CSCI 599 treat this as an advanced but expected module. We stay at the level of precise definitions plus pictures, not mean-field PDE limits.
+
+Open [loss_function_landscapes.html](https://nglelinh.github.io/interactive_math/optimization/loss_function_landscapes.html) while you read.
+
+## Lessons
+
+1. Critical points and saddles
+2. Escaping saddles and landscape geometry
+3. Overparameterization (and a pointer to the PL condition)
+4. Modern landscape case studies (optional) — mode connectivity, grokking, double descent, flat minima
+5. The PL condition and modern rates (optional) — Karimi et al.; reuse of the Chapter 06 linear rate without convexity
+
+The PL bridge from the strongly convex proofs of 06-03-04 to some nonconvex ERMs is now a lesson, not only an arXiv pointer: [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}). The 2022–2026 phenomena sit in [28-04]({% multilang_post_url contents/chapter28/2026-09-16-28_04_modern_landscapes %}).

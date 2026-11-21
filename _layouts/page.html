@@ -9,7 +9,7 @@ layout: default
 {% assign all_posts = site.categories[full_name] | sort_natural %}
 {% assign post_list = all_posts | where: "lang", current_lang %}
 
-{% if page.chapter == "26" %}
+{% if page.chapter == "99" %}
   {% assign full_name = "reference" %}
   {% assign all_posts = site.categories[full_name] | sort_natural %}
   {% assign post_list = all_posts | where: "lang", current_lang %}
@@ -18,6 +18,9 @@ layout: default
 <!-- Get first post and show it -->
 {% assign first_post = post_list | first %}
 {{first_post.content}}
+
+<!-- Optional landing-page notes (interactive demos, track banners) -->
+{{ content }}
 
 <!-- Remove first element from post_list which is already shown above. -->
 {% assign post_list = post_list | shift %}  

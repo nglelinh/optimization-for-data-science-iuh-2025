@@ -21,3 +21,5 @@ Hình dưới đây so sánh sự hội tụ của phương pháp batch và ng�
 </p>
   <figcaption style="text-align: center;">[Fig 3] So sánh Batch vs Stochastic Gradient Descent [2]</figcaption>
 </figure>
+
+Khi mỗi $$f_i$$ trơn, phần rung sót của đường ngẫu nhiên gần tối ưu chính là sàn nhiễu mà [26-05 SVRG và SAGA]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %}) gỡ — mà không trả một gradient cả lô mỗi bước.

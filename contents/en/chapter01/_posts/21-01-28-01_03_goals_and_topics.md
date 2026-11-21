@@ -22,7 +22,8 @@ To achieve these goals, the following topics will be covered:
 
 * Convex sets, functions, optimization problems
 * Examples and applications
-* Algorithms
+* Algorithms (gradient, proximal, Newton, interior-point, ADMM, …)
+* 2026 modern track on this site: SGD / Adam / AdamW (Ch.26), autodiff (Ch.27), nonconvex landscapes (Ch.28), data-parallel SGD and FedAvg (Ch.29)
 
 In particular, the main focus will be on algorithms.
 
@@ -72,4 +73,4 @@ The convex optimization problem above can be solved using the [Specialized ADMM]
 </p>
 </figure>
 
-As shown above, for the 2D fused lasso problem, Specialized ADMM performs best among the three methods. However, for other problems, the other two methods may outperform Specialized ADMM. In later chapters, we will analyze various algorithms and problems to learn how to select the most appropriate algorithm.
+As shown above, for the 2D fused lasso problem, Specialized ADMM performs best among the three methods. However, for other problems, the other two methods may outperform Specialized ADMM. In later chapters, we will analyze various algorithms and problems to learn how to select the most appropriate algorithm — including, after the classical spine, the 2026 modern-track chapters on this site.

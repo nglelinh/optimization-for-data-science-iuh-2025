@@ -31,3 +31,7 @@ Sparse subspace estimation : [VCLR13]
 Sparse plus low rank decomposition : [CLMW09]  
 Consensus ADMM : [BPCPE11], [NB13]  
 Subprogram parameterization : [RT16], [WSK14], [BS14]
+
+## 2026 applications (optional)
+
+The classical examples above (Lasso, sparse-plus-low-rank, consensus, fused lasso) are still the right first pass. A 2022–2026 optional lesson maps the *same* consensus / proximal split onto federated deep learning (**FedADMM**), plug-and-play imaging with CNN denoisers, and online distributed optimal power flow. Start at [21-08 Modern applications of ADMM]({% multilang_post_url contents/chapter21/2026-09-16-21_08_modern_applications %}). It does not replace Boyd et al.; it tells you where the residuals are being monitored in production.

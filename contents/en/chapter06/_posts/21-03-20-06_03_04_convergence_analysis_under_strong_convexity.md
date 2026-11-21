@@ -98,3 +98,5 @@ The convergence rate $$O(c^k)$$ appears linear on a semi-log plot, as shown belo
 
 Here, the constant $$c$$ in $$O(c^k)$$ is given by $$1 - \frac{m}{L}$$ and depends on the condition number $$L/m$$. A larger condition number results in slower convergence (where the condition number is the ratio of the largest eigenvalue to the smallest eigenvalue).
 
+The *algebra* of this proof — descent lemma plus a lower bound that turns $$\|\nabla f\|^2$$ into a function-value gap — still works if strong convexity is weakened to the Polyak–Łojasiewicz inequality. That optional modern-rate story, and the overparameterized least-squares example where minimizers are not unique, is [28-05 The PL condition and modern rates]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).
+

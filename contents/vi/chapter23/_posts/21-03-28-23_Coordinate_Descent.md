@@ -65,3 +65,7 @@ Xin giới thiệu ngắn gọn các hướng nghiên cứu về phân tích h�
 * Nutini et al. (2015) phân tích coordinate descent tham lam (quy tắc Gauss-Southwell), và chỉ ra nó đạt tốc độ nhanh hơn coordinate descent ngẫu nhiên đối với một số bài toán.
 * Wright (2015) đưa ra sự thống nhất và một bản tóm tắt tuyệt vời. Cũng bao gồm các phiên bản song song (thậm chí bất đồng bộ).
 * Lý thuyết tổng quát vẫn chưa hoàn chỉnh; vẫn còn các câu hỏi chưa có lời đáp (ví dụ: chiến lược descent và chiến lược minimization có giống nhau không?)
+
+## Ứng dụng 2026 (tùy chọn)
+
+CD theo đường vẫn là cách glmnet và `sklearn.linear_model.lasso_path` khớp GLM thưa. Bài JSS 2023 mở glmnet tới *mọi* họ GLM; skglm (NeurIPS 2022) thêm working set và penalty không lồi ở triệu đặc trưng; CD đối ngẫu LIBLINEAR vẫn huấn luyện SVM tuyến tính. Xem [23-05 Ứng dụng hiện đại của hạ theo tọa độ]({% multilang_post_url contents/chapter23/2026-09-16-23_05_modern_applications %}) sau các ví dụ Lasso / pathwise.

@@ -21,3 +21,5 @@ The figure below compares the convergence of batch and stochastic methods for [l
 </p>
   <figcaption style="text-align: center;">[Fig 3] Batch vs Stochastic Gradient Descent [2]</figcaption>
 </figure>
+
+When each $$f_i$$ is smooth, the leftover jitter of the stochastic curve near the optimum is exactly the noise floor that [26-05 SVRG and SAGA]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %}) removes — without paying a full-batch gradient at every step.

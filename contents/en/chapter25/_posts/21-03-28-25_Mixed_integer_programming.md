@@ -19,3 +19,7 @@ We will also examine examples of Integer Programming such as best subset selecti
 * Bertsimas, King, and Mazumder (2014), "Least quantile regression via modern optimization"
 * Conforti, Cornuejols, and Zambelli (2014), "Integer programming"
 * Wolsey (1998), "Integer programming"
+
+## 2026 applications (optional)
+
+Best-subset MIP is still the statistical poster child; the same big-$$M$$ / ReLU encoding now selects pixels for a trained net, *certifies* robustness, and grows optimal classification trees. Learning to pick Gomory-style cuts (2024) turns 25-01 into training data. Optional lesson: [25-03 Modern applications of MIP in data science]({% multilang_post_url contents/chapter25/2026-09-16-25_03_modern_applications %}).

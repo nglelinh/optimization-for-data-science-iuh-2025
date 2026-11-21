@@ -6,7 +6,7 @@ order: 1
 owner: kyeongminwoo
 ---
 
-An introduction to convex optimization problems, concepts in convex analysis, convex optimization algorithms, duality theory, optimality conditions, and applications of convex optimization in statistics and machine learning.
+An introduction to convex optimization problems, concepts in convex analysis, convex optimization algorithms, duality theory, optimality conditions, and applications of convex optimization in statistics and machine learning. The **2026 modern track** (Chapters 26–29 on this site) adds SGD and adaptive methods, automatic differentiation, nonconvex deep-learning landscapes, and a first look at data-parallel / federated optimization.
 
 # Course Objectives
 

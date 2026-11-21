@@ -89,3 +89,7 @@ g(u,v) =
 $$
 
 The second explanation yields the same dual as the first, but it is completely general and applies to arbitrary optimization problems (including nonconvex ones).
+
+## Modern applications (2022–2026)
+
+An optional companion lesson uses the same Lagrangian dual as a training signal or certificate in DRO, AC-OPF networks (DC3 / OPF-DNN), Fairlearn reductions, and kernel SVMs. See [11-10 Modern applications of Lagrangian duality]({% multilang_post_url contents/chapter11/2026-09-16-11_10_modern_applications %}).

@@ -42,3 +42,5 @@ $$ LP \subseteq QP \subseteq QCQP \subseteq SOCP \subseteq SDP \subseteq CP $$
   <figcaption style="text-align: center;">[Fig2] Canonical Problems</figcaption>
 </p>
 </figure>
+
+After the taxonomy and the DCP lab, the optional [05-08 Applications and recent developments]({% multilang_post_url contents/chapter05/2026-09-16-05_08_Applications_Recent %}) points at Clarabel, portfolio QPs, SDP verification, and unrolled sparse recovery.

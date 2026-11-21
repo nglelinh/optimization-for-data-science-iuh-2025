@@ -12,6 +12,8 @@ lesson_type: required
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
+Hoạt họa trên trang này là bức tranh cả lô, $$\beta$$ hằng. Câu chuyện phổ kiểu Distill — đa thức đặc trưng, $$\beta^\star$$ tối ưu, nhìn trước đối heavy ball, và vì sao `nesterov=True` không phải FISTA — là bài mạch hiện đại [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}); anh em proximal / lên lịch là [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}).
+
 ## Vấn đề với Gradient Descent thuần túy
 
 Hãy tưởng tượng bạn đang lăn một quả bóng xuống thung lũng. Gradient descent tiêu chuẩn giống như một quả bóng không có trí nhớ - tại mỗi bước, nó chỉ xem xét độ dốc hiện tại và di chuyển tương ứng. Điều này có thể dẫn đến một số vấn đề:
