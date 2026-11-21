@@ -2,7 +2,7 @@
 layout: post
 title: 14-02-03 Phân tích hội tụ cục bộ
 chapter: '14'
-order: 7
+order: 8
 owner: Minjoo Lee
 categories:
 - chapter14

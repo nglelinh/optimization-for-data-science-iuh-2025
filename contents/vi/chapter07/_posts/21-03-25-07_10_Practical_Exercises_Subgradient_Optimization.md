@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 07-9 Bài Tập Thực Hành - Tối ưu Subgradient
+title: 07-10 Bài Tập Thực Hành - Tối ưu Subgradient
 chapter: '07'
-order: 10
+order: 14
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter07
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter07/07_09_Practical_Exercises_Subgradient_Optimization/
 ---
 
 # Bài Tập Thực Hành - Tối ưu Subgradient (Subgradient Optimization)

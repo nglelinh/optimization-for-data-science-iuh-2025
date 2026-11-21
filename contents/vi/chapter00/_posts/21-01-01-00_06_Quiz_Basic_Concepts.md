@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 00-05 Bài tập trắc nghiệm - Khái niệm cơ bản
+title: 00-06 Bài tập trắc nghiệm - Khái niệm cơ bản
 chapter: '00'
-order: 15
+order: 19
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter00
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter00/00_05_Quiz_Basic_Concepts/
 ---
 
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các khái niệm cơ bản trong giải tích và đại số tuyến tính, là nền tảng cho tối ưu hóa.

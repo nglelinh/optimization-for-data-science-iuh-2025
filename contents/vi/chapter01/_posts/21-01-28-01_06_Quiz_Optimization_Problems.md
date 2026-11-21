@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 01-05 Bài tập trắc nghiệm - Bài toán tối ưu hóa
+title: 01-06 Bài tập trắc nghiệm - Bài toán tối ưu hóa
 chapter: '01'
-order: 6
+order: 7
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter01
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter01/01_05_Quiz_Optimization_Problems/
 ---
 
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các khái niệm cơ bản trong bài toán tối ưu hóa và tối ưu hóa lồi.

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 21-7 Bài Tập Thực Hành - ADMM Applications
+title: 21-08 Bài Tập Thực Hành - ADMM Applications
 chapter: '21'
-order: 8
+order: 9
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter21
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter21/21_07_Practical_Exercises_ADMM_Applications/
 ---
 
 # Bài Tập Thực Hành - ADMM Applications

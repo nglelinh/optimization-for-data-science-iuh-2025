@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 10-09 Ứng dụng hiện đại của đối ngẫu LP
+title: 10-07 Ứng dụng hiện đại của đối ngẫu LP
 chapter: '10'
-order: 10
+order: 8
 owner: Nguyen Le Linh
 categories:
 - chapter10
 lang: vi
 lesson_type: optional
+redirect_from:
+  - /contents/vi/chapter10/10_09_modern_applications/
 ---
 
 # Ứng dụng hiện đại của đối ngẫu LP

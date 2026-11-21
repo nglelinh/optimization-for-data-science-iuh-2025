@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 11-10 Ứng dụng hiện đại của đối ngẫu Lagrange
+title: 11-08 Ứng dụng hiện đại của đối ngẫu Lagrange
 chapter: '11'
-order: 11
+order: 9
 owner: Nguyen Le Linh
 categories:
 - chapter11
 lang: vi
 lesson_type: optional
+redirect_from:
+  - /contents/vi/chapter11/11_10_modern_applications/
 ---
 
 # Ứng dụng hiện đại của đối ngẫu Lagrange

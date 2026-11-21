@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 19-8 Bài Tập Thực Hành - Proximal Newton Methods
+title: 19-09 Bài Tập Thực Hành - Proximal Newton Methods
 chapter: '19'
-order: 9
+order: 13
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter19
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter19/19_08_Practical_Exercises_Proximal_Newton_Methods/
 ---
 
 # Bài Tập Thực Hành - Proximal Newton Methods

@@ -2,7 +2,7 @@
 layout: post
 title: '09-10 Multiple-Choice Quiz - Proximal Gradient Method'
 chapter: '09'
-order: 11
+order: 12
 owner: GitHub Copilot
 lang: en
 categories:

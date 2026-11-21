@@ -2,7 +2,7 @@
 layout: post
 title: 06-03-02 Phân Tích Hội Tụ & Chứng Minh
 chapter: '06'
-order: 9
+order: 11
 owner: Kyeongmin Woo
 categories:
 - chapter06

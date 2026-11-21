@@ -2,7 +2,7 @@
 layout: post
 title: 09-06 Modern applications of proximal GD and acceleration
 chapter: '09'
-order: 13
+order: 11
 owner: Nguyen Le Linh
 categories:
 - chapter09

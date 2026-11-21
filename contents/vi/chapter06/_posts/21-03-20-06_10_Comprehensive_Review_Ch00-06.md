@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 06-09 Ôn tập tổng hợp - Nền tảng Tối ưu hóa Lồi (Chương 00-06)
+title: 06-10 Ôn tập tổng hợp - Nền tảng Tối ưu hóa Lồi (Chương 00-06)
 chapter: '06'
-order: 17
+order: 22
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter06
 lesson_type: review
+redirect_from:
+  - /contents/vi/chapter06/06_09_Comprehensive_Review_Ch00-06/
 ---
 
 <script>

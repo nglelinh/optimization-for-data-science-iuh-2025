@@ -34,4 +34,4 @@ Tham số hóa bài toán con: [RT16], [WSK14], [BS14]
 
 ## Ứng dụng 2026 (tùy chọn)
 
-Các ví dụ cổ điển ở trên (Lasso, thưa-cộng-hạng-thấp, đồng thuận, fused lasso) vẫn là lượt đầu đúng. Một bài tùy chọn 2022–2026 ánh xạ *cùng* tách đồng thuận / proximal sang học sâu liên federated (**FedADMM**), tạo ảnh plug-and-play với bộ khử nhiễu CNN, và OPF phân tán trực tuyến. Bắt đầu tại [21-08 Ứng dụng hiện đại của ADMM]({% multilang_post_url contents/chapter21/2026-09-16-21_08_modern_applications %}). Bài đó không thay Boyd et al.; nó nói phần dư đang được theo dõi ở đâu trong sản xuất.
+Các ví dụ cổ điển ở trên (Lasso, thưa-cộng-hạng-thấp, đồng thuận, fused lasso) vẫn là lượt đầu đúng. Một bài tùy chọn 2022–2026 ánh xạ *cùng* tách đồng thuận / proximal sang học sâu liên federated (**FedADMM**), tạo ảnh plug-and-play với bộ khử nhiễu CNN, và OPF phân tán trực tuyến. Bắt đầu tại [21-07 Ứng dụng hiện đại của ADMM]({% multilang_post_url contents/chapter21/2026-09-16-21_07_modern_applications %}). Bài đó không thay Boyd et al.; nó nói phần dư đang được theo dõi ở đâu trong sản xuất.

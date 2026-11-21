@@ -2,7 +2,7 @@
 layout: post
 title: 14-03 Newton decrement
 chapter: '14'
-order: 7
+order: 9
 owner: Minjoo Lee
 categories:
 - chapter14

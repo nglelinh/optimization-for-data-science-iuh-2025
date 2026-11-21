@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 15-10 Bài Tập Thực Hành - Phương Pháp Rào Cản
+title: 15-11 Bài Tập Thực Hành - Phương Pháp Rào Cản
 chapter: '15'
-order: 19
+order: 17
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter15
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter15/15_10_Practical_Exercises_Barrier_Method/
 ---
 
 # Bài Tập Thực Hành - Phương Pháp Rào Cản (Barrier Method)

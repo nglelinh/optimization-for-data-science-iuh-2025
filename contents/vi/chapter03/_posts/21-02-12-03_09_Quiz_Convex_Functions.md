@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 03-08 Bài tập trắc nghiệm - Hàm lồi
+title: 03-09 Bài tập trắc nghiệm - Hàm lồi
 chapter: '03'
-order: 15
+order: 17
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter03
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter03/03_08_Quiz_Convex_Functions/
 ---
 
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về hàm lồi, các tính chất cơ bản, phép toán bảo toàn tính lồi và hàm liên hợp.

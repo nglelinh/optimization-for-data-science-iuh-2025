@@ -2,7 +2,7 @@
 layout: post
 title: 06-02-01 Kích thước bước cố định
 chapter: '06'
-order: 4
+order: 6
 owner: Kyeongmin Woo
 categories:
 - chapter06

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '00-05 Multiple-Choice Quiz - Basic Concepts'
+title: '00-06 Multiple-Choice Quiz - Basic Concepts'
 chapter: '00'
-order: 15
+order: 19
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter00
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter00/00_05_Quiz_Basic_Concepts/
 ---
 
 This multiple-choice quiz tests your understanding of the basic concepts of calculus and linear algebra that form the foundation of optimization.

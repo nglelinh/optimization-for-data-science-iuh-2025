@@ -2,7 +2,7 @@
 layout: post
 title: 06-06 Gradient descent with momentum
 chapter: '06'
-order: 15
+order: 18
 owner: Kyeongmin Woo
 categories:
 - chapter06

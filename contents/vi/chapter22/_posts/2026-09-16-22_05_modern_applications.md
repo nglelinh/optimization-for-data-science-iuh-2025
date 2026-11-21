@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 22-06 Ứng dụng hiện đại của Frank–Wolfe
+title: 22-05 Ứng dụng hiện đại của Frank–Wolfe
 chapter: '22'
-order: 7
+order: 6
 owner: Nguyen Le Linh
 categories:
 - chapter22
 lang: vi
 lesson_type: optional
+redirect_from:
+  - /contents/vi/chapter22/22_06_modern_applications/
 ---
 
 

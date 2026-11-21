@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 03-01-04 Chuẩn Euclidean - L2 - là Lồi
+title: 03-07 Chuẩn Euclidean - L2 - là Lồi
 chapter: '03'
 order: 15
 owner: AI Assistant

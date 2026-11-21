@@ -92,4 +92,4 @@ Giải thích thứ hai cho ra cùng một bài toán đối ngẫu như giải 
 
 ## Ứng dụng hiện đại (2022–2026)
 
-Một bài tùy chọn đi kèm dùng cùng đối ngẫu Lagrange như tín hiệu huấn luyện hoặc chứng chỉ trong DRO, mạng AC-OPF (DC3 / OPF-DNN), reduction Fairlearn, và SVM kernel. Xem [11-10 Ứng dụng hiện đại của đối ngẫu Lagrange]({% multilang_post_url contents/chapter11/2026-09-16-11_10_modern_applications %}).
+Một bài tùy chọn đi kèm dùng cùng đối ngẫu Lagrange như tín hiệu huấn luyện hoặc chứng chỉ trong DRO, mạng AC-OPF (DC3 / OPF-DNN), reduction Fairlearn, và SVM kernel. Xem [11-08 Ứng dụng hiện đại của đối ngẫu Lagrange]({% multilang_post_url contents/chapter11/2026-09-16-11_08_modern_applications %}).

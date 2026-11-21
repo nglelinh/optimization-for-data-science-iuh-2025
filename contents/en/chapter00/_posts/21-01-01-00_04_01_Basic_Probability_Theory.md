@@ -2,7 +2,7 @@
 layout: post
 title: 00-04-01 Basic Probability Theory
 chapter: '00'
-order: 14
+order: 15
 owner: AI Assistant
 categories:
 - chapter00

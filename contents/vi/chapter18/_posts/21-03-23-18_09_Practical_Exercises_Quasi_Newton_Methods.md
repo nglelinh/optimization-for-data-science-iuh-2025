@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 18-8 Bài Tập Thực Hành - Quasi-Newton Methods
+title: 18-09 Bài Tập Thực Hành - Quasi-Newton Methods
 chapter: '18'
-order: 9
+order: 10
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter18
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter18/18_08_Practical_Exercises_Quasi_Newton_Methods/
 ---
 
 # Bài Tập Thực Hành - Quasi-Newton Methods

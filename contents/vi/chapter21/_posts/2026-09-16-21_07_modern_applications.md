@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 21-08 Ứng dụng hiện đại của ADMM
+title: 21-07 Ứng dụng hiện đại của ADMM
 chapter: '21'
-order: 9
+order: 8
 owner: Nguyen Le Linh
 categories:
 - chapter21
 lang: vi
 lesson_type: optional
+redirect_from:
+  - /contents/vi/chapter21/21_08_modern_applications/
 ---
 
 

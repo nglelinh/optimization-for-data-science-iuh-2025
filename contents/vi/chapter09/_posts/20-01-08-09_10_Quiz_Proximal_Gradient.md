@@ -2,7 +2,7 @@
 layout: post
 title: 09-10 Bài tập trắc nghiệm - Phương Pháp Proximal Gradient
 chapter: '09'
-order: 11
+order: 12
 owner: GitHub Copilot
 lang: vi
 categories:

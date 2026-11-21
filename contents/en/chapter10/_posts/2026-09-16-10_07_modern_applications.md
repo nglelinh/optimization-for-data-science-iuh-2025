@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 10-09 Modern applications of LP duality
+title: 10-07 Modern applications of LP duality
 chapter: '10'
-order: 10
+order: 8
 owner: Nguyen Le Linh
 categories:
 - chapter10
 lang: en
 lesson_type: optional
+redirect_from:
+  - /contents/en/chapter10/10_09_modern_applications/
 ---
 
 # Modern applications of LP duality

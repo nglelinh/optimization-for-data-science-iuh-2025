@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 06-10 Bài Tập Thực Hành - Thuật toán Tối ưu
+title: 06-11 Bài Tập Thực Hành - Thuật toán Tối ưu
 chapter: '06'
-order: 11
+order: 23
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter06
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter06/06_10_Practical_Exercises_Optimization_Algorithms/
 ---
 
 # Bài Tập Thực Hành - Thuật toán Tối ưu (Optimization Algorithms)

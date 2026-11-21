@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '12-07 Multiple-Choice Quiz - KKT Conditions'
+title: '12-08 Multiple-Choice Quiz - KKT Conditions'
 chapter: '12'
-order: 8
+order: 9
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter12
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter12/12_07_Quiz_KKT_Conditions/
 ---
 
 ## 📚 Theory Review

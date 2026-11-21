@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '14-10 Multiple-Choice Quiz - Newton''s Method'
+title: '14-11 Multiple-Choice Quiz - Newton''s Method'
 chapter: '14'
-order: 17
+order: 19
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter14
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter14/14_10_Quiz_Newton_Method/
 ---
 
 ## 📚 Theory Review

@@ -2,7 +2,7 @@
 layout: post
 title: 14-09 Các phương pháp Quasi-Newton
 chapter: '14'
-order: 15
+order: 17
 owner: Minjoo Lee
 categories:
 - chapter14

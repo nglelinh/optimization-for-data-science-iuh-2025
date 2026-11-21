@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 12-09 Modern applications of the KKT conditions
+title: 12-07 Modern applications of the KKT conditions
 chapter: '12'
-order: 10
+order: 8
 owner: Nguyen Le Linh
 categories:
 - chapter12
 lang: en
 lesson_type: optional
+redirect_from:
+  - /contents/en/chapter12/12_09_modern_applications/
 ---
 
 # Modern applications of the KKT conditions

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '2-8 Practical Exercises - Convex Sets'
+title: '02-09 Practical Exercises - Convex Sets'
 chapter: "2"
-order: 9
+order: 19
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter02
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter02/02_08_Practical_Exercises_Convex_Sets/
 ---
 
 # Practical Exercises - Convex Sets

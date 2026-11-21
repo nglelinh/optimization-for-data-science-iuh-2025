@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 05-07 Bài tập trắc nghiệm - Các bài toán tối ưu kinh điển
+title: 05-09 Bài tập trắc nghiệm - Các bài toán tối ưu kinh điển
 chapter: '05'
-order: 11
+order: 15
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter05
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter05/05_07_Quiz_Canonical_Problems/
 ---
 
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các bài toán tối ưu kinh điển, bao gồm quy hoạch tuyến tính, quy hoạch bậc hai, bình phương tối thiểu và hồi quy tuyến tính.

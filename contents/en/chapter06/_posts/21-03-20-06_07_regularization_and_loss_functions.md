@@ -2,7 +2,7 @@
 layout: post
 title: 06-07 Regularization and Loss Functions
 chapter: '06'
-order: 16
+order: 19
 owner: Kyeongmin Woo
 categories:
 - chapter06

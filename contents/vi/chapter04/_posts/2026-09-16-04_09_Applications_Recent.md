@@ -2,7 +2,7 @@
 layout: post
 title: 04-09 Ứng dụng và phát triển gần đây
 chapter: '04'
-order: 12
+order: 10
 owner: Nguyen Le Linh
 categories:
 - chapter04

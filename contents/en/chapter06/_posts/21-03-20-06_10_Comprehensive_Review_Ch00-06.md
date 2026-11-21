@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '06-09 Comprehensive Review - Foundations of Convex Optimization (Chapters 00-06)'
+title: '06-10 Comprehensive Review - Foundations of Convex Optimization (Chapters 00-06)'
 chapter: '06'
-order: 17
+order: 22
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter06
 lesson_type: review
+redirect_from:
+  - /contents/en/chapter06/06_09_Comprehensive_Review_Ch00-06/
 ---
 
 <script>

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 13-07 Bài tập trắc nghiệm - Ứng Dụng và Tương Ứng của Tính Đối Ngẫu
+title: 13-08 Bài tập trắc nghiệm - Ứng Dụng và Tương Ứng của Tính Đối Ngẫu
 chapter: '13'
-order: 8
+order: 12
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter13
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter13/13_07_Quiz_Duality_Uses/
 ---
 
 ## 📚 Ôn tập lý thuyết

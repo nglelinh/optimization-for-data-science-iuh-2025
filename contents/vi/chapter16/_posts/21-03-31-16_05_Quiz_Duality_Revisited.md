@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 16-04 Bài tập trắc nghiệm - Tính Đối Ngẫu Tái Xét
+title: 16-05 Bài tập trắc nghiệm - Tính Đối Ngẫu Tái Xét
 chapter: '16'
-order: 5
+order: 6
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter16
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter16/16_04_Quiz_Duality_Revisited/
 ---
 
 ## 📚 Ôn tập lý thuyết

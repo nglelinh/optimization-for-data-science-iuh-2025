@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 11-10 Modern applications of Lagrangian duality
+title: 11-08 Modern applications of Lagrangian duality
 chapter: '11'
-order: 11
+order: 9
 owner: Nguyen Le Linh
 categories:
 - chapter11
 lang: en
 lesson_type: optional
+redirect_from:
+  - /contents/en/chapter11/11_10_modern_applications/
 ---
 
 # Modern applications of Lagrangian duality

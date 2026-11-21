@@ -2,7 +2,7 @@
 layout: post
 title: 02 Tập Lồi
 chapter: '02'
-order: 0
+order: 1
 owner: Wontak Ryu
 categories:
 - chapter02

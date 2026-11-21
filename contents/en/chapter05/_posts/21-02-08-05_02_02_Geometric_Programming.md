@@ -2,7 +2,7 @@
 layout: post
 title: 05-02-02 Geometric Programming
 chapter: '05'
-order: 9
+order: 6
 owner: Copilot
 categories:
 - chapter05

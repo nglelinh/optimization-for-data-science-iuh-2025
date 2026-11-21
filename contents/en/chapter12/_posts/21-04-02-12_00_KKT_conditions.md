@@ -15,4 +15,4 @@ When the primal problem is convex, the Karush–Kuhn–Tucker (KKT) conditions b
 
 ## Modern applications (2022–2026)
 
-An optional companion lesson reads the same KKT system in cvxpylayers / Theseus, SVM support vectors, electricity LMPs, and binding fairness constraints. See [12-09 Modern applications of the KKT conditions]({% multilang_post_url contents/chapter12/2026-09-16-12_09_modern_applications %}).
+An optional companion lesson reads the same KKT system in cvxpylayers / Theseus, SVM support vectors, electricity LMPs, and binding fairness constraints. See [12-07 Modern applications of the KKT conditions]({% multilang_post_url contents/chapter12/2026-09-16-12_07_modern_applications %}).

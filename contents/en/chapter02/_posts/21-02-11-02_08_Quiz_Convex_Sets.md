@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '02-07 Multiple-Choice Quiz - Convex Sets'
+title: '02-08 Multiple-Choice Quiz - Convex Sets'
 chapter: '02'
-order: 12
+order: 18
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter02
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter02/02_07_Quiz_Convex_Sets/
 ---
 
 This multiple-choice quiz tests your understanding of affine sets, convex sets and important examples in convex geometry.

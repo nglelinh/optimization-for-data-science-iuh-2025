@@ -2,7 +2,7 @@
 layout: post
 title: 09-11 Bài Tập Thực Hành - Proximal Gradient
 chapter: '09'
-order: 12
+order: 13
 owner: GitHub Copilot
 lang: vi
 categories:

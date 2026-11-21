@@ -2,7 +2,7 @@
 layout: post
 title: 05-02 Quy Hoạch Bậc Hai (QP)
 chapter: '05'
-order: 3
+order: 4
 owner: Hooncheol Shin
 categories:
 - chapter05

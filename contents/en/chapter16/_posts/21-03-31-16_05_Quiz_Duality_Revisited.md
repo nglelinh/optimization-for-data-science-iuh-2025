@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '16-04 Multiple-Choice Quiz - Duality Revisited'
+title: '16-05 Multiple-Choice Quiz - Duality Revisited'
 chapter: '16'
-order: 5
+order: 6
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter16
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter16/16_04_Quiz_Duality_Revisited/
 ---
 
 ## 📚 Theory Review

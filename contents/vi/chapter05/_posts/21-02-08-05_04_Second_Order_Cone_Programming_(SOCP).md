@@ -2,7 +2,7 @@
 layout: post
 title: 05-04 Quy Hoạch Nón Bậc Hai (SOCP)
 chapter: '05'
-order: 5
+order: 10
 owner: Hooncheol Shin
 categories:
 - chapter05

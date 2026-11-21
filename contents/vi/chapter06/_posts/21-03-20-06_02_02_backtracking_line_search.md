@@ -2,7 +2,7 @@
 layout: post
 title: 06-02-02 Tìm kiếm đường lùi
 chapter: '06'
-order: 5
+order: 7
 owner: Kyeongmin Woo
 categories:
 - chapter06

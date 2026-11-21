@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '11-08 Practical Exercises - General Duality'
+title: '11-10 Practical Exercises - General Duality'
 chapter: "11"
-order: 9
+order: 11
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter11
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter11/11_08_Practical_Exercises_General_Duality/
 ---
 
 # Practical Exercises - General Duality

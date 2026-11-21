@@ -1,12 +1,14 @@
 ---
 layout: post
-title: 11-7 Trực Quan về Lagrange Duality
+title: 11-06 Trực Quan về Lagrange Duality
 chapter: '11'
-order: 8
+order: 7
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter11
+redirect_from:
+  - /contents/vi/chapter11/11_07_Lagrange_Duality_Intuition/
 ---
 
 # Trực Quan về Lagrange Duality

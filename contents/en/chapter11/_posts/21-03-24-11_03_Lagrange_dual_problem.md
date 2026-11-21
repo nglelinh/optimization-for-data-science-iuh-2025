@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 11-3 Lagrange dual problem
+title: 11-03 Lagrange dual problem
 chapter: '11'
 order: 4
 owner: Wontak Ryu

@@ -2,7 +2,7 @@
 layout: post
 title: 14-02-02 Tính bất biến affine của phương pháp Newton
 chapter: '14'
-order: 6
+order: 7
 owner: Minjoo Lee
 categories:
 - chapter14

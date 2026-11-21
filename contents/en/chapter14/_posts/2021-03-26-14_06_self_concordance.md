@@ -2,7 +2,7 @@
 layout: post
 title: 14-06 Self concordance
 chapter: '14'
-order: 10
+order: 12
 owner: Minjoo Lee
 categories:
 - chapter14

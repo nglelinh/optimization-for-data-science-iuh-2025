@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 11-4 Tính đối ngẫu mạnh
+title: 11-04 Tính đối ngẫu mạnh
 chapter: '11'
 order: 5
 owner: Wontak Ryu

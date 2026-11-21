@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '17-7 Practical Exercises - Primal-Dual Interior Point'
+title: '17-08 Practical Exercises - Primal-Dual Interior Point'
 chapter: '17'
-order: 8
+order: 12
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter17
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter17/17_07_Practical_Exercises_Primal_Dual_Interior_Point/
 ---
 
 # Practical Exercises - Primal-Dual Interior Point Methods

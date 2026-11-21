@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 07-10 Modern applications of the subgradient
+title: 07-08 Modern applications of the subgradient
 chapter: '07'
-order: 17
+order: 12
 owner: Nguyen Le Linh
 categories:
 - chapter07
 lang: en
 lesson_type: optional
+redirect_from:
+  - /contents/en/chapter07/07_10_modern_applications/
 ---
 
 # Modern applications of the subgradient

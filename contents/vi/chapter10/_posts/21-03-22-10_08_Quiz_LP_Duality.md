@@ -1,13 +1,15 @@
 ---
 layout: post
-title: "10-06 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính"
+title: "10-08 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính"
 chapter: "10"
-order: 7
+order: 9
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter10
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter10/10_06_Quiz_LP_Duality/
 ---
 
 ## Ôn tập lý thuyết

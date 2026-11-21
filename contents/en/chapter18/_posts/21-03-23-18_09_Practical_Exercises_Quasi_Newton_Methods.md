@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '18-8 Practical Exercises - Quasi-Newton Methods'
+title: '18-09 Practical Exercises - Quasi-Newton Methods'
 chapter: '18'
-order: 9
+order: 10
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter18
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter18/18_08_Practical_Exercises_Quasi_Newton_Methods/
 ---
 
 # Practical Exercises - Quasi-Newton Methods

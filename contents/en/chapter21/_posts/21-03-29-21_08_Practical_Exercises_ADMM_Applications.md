@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '21-7 Practical Exercises - ADMM Applications'
+title: '21-08 Practical Exercises - ADMM Applications'
 chapter: '21'
-order: 8
+order: 9
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter21
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter21/21_07_Practical_Exercises_ADMM_Applications/
 ---
 
 # Practical Exercises - ADMM Applications

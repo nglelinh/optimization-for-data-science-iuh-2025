@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '11-6 Multiple-Choice Quiz - Duality in General Programs'
+title: '11-09 Multiple-Choice Quiz - Duality in General Programs'
 chapter: '11'
-order: 7
+order: 10
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter11
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter11/11_06_Quiz_General_Duality/
 ---
 
 ## 📚 Theory Review

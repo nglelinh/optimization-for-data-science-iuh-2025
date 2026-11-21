@@ -2,7 +2,7 @@
 layout: post
 title: 00-05 Applications and recent developments
 chapter: '00'
-order: 17
+order: 18
 owner: Nguyen Le Linh
 categories:
 - chapter00

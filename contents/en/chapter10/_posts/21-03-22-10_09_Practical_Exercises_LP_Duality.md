@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '10-07 Practical Exercises - Duality in Linear Programming'
+title: '10-09 Practical Exercises - Duality in Linear Programming'
 chapter: "10"
-order: 8
+order: 10
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter10
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter10/10_07_Practical_Exercises_LP_Duality/
 ---
 
 The following exercises are adapted from Boyd & Vandenberghe (2004), Bertsimas & Tsitsiklis (1997), and Dantzig (1963), and help students master the concepts of duality in LP.

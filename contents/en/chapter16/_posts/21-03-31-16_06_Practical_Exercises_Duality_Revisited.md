@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '16-5 Practical Exercises - Duality Revisited'
+title: '16-06 Practical Exercises - Duality Revisited'
 chapter: '16'
-order: 6
+order: 7
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter16
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter16/16_05_Practical_Exercises_Duality_Revisited/
 ---
 
 # Practical Exercises - Duality Revisited

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 12-07 Bài tập trắc nghiệm - Điều Kiện KKT
+title: 12-08 Bài tập trắc nghiệm - Điều Kiện KKT
 chapter: '12'
-order: 8
+order: 9
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter12
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter12/12_07_Quiz_KKT_Conditions/
 ---
 
 ## 📚 Ôn tập lý thuyết

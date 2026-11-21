@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 08-11 Modern applications of the subgradient method
+title: 08-09 Modern applications of the subgradient method
 chapter: '08'
-order: 18
+order: 17
 owner: Nguyen Le Linh
 categories:
 - chapter08
 lang: en
 lesson_type: optional
+redirect_from:
+  - /contents/en/chapter08/08_11_modern_applications/
 ---
 
 # Modern applications of the subgradient method

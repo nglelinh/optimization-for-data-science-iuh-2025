@@ -2,7 +2,7 @@
 layout: post
 title: 02-04 Bất đẳng thức tổng quát
 chapter: '02'
-order: 10
+order: 12
 owner: Wontak Ryu
 categories:
 - chapter02

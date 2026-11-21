@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "10-08 Tính Chất Đối Ngẫu Kép - Dual của Dual là Primal"
+title: "10-06 Tính Chất Đối Ngẫu Kép - Dual của Dual là Primal"
 chapter: "10"
-order: 9
+order: 7
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter10
+redirect_from:
+  - /contents/vi/chapter10/10_08_Dual_of_Dual_Property/
 ---
 
 Trong quy hoạch tuyến tính (Linear Programming), một tính chất toán học đẹp và quan trọng là: **đối ngẫu của bài toán đối ngẫu chính là bài toán gốc (primal)**. Tính chất này được gọi là **"involution" của đối ngẫu** hay **"định lý dual của dual"**.

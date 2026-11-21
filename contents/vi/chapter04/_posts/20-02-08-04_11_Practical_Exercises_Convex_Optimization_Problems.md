@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 4-10 Bài Tập Thực Hành - Bài Toán Tối Ưu Convex
+title: 04-11 Bài Tập Thực Hành - Bài Toán Tối Ưu Convex
 chapter: '4'
-order: 11
+order: 12
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter04
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter04/04_10_Practical_Exercises_Convex_Optimization_Problems/
 ---
 
 # Bài Tập Thực Hành - Bài Toán Tối Ưu Convex

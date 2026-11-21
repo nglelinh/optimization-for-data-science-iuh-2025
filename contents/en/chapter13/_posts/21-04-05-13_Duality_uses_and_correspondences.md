@@ -18,4 +18,4 @@ In this chapter, the optimal solution $$x^{\star}$$ and the conjugate $$x^{*}$$ 
 
 ## Modern applications (2022–2026)
 
-An optional companion lesson attaches 2022–2026 uses to the same correspondences: dual norms in RobustBench, the Lasso dual in skglm screening, conjugates in Clarabel / CVXPY, and dual cones in α,β-CROWN. See [13-09 Modern uses of conjugates, dual norms, and dual cones]({% multilang_post_url contents/chapter13/2026-09-16-13_09_modern_applications %}).
+An optional companion lesson attaches 2022–2026 uses to the same correspondences: dual norms in RobustBench, the Lasso dual in skglm screening, conjugates in Clarabel / CVXPY, and dual cones in α,β-CROWN. See [13-07 Modern uses of conjugates, dual norms, and dual cones]({% multilang_post_url contents/chapter13/2026-09-16-13_07_modern_applications %}).

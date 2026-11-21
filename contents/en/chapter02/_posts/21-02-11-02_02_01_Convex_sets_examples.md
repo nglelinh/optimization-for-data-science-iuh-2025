@@ -2,7 +2,7 @@
 layout: post
 title: 02-02-01 Convex set examples
 chapter: '02'
-order: 7
+order: 9
 owner: Wontak Ryu
 categories:
 - chapter02

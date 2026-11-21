@@ -2,7 +2,7 @@
 layout: post
 title: 06-02 Cách chọn kích thước bước
 chapter: '06'
-order: 3
+order: 5
 owner: Kyeongmin Woo
 categories:
 - chapter06

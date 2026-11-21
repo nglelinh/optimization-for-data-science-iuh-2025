@@ -2,7 +2,7 @@
 layout: post
 title: 02-06-02 Bất đẳng thức tổng quát đối ngẫu
 chapter: '02'
-order: 14
+order: 16
 owner: Wontak Ryu
 categories:
 - chapter02

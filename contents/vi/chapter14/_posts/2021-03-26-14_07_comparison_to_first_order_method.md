@@ -2,7 +2,7 @@
 layout: post
 title: 14-07 So sánh với phương pháp bậc nhất
 chapter: '14'
-order: 13
+order: 15
 owner: Minjoo Lee
 categories:
 - chapter14

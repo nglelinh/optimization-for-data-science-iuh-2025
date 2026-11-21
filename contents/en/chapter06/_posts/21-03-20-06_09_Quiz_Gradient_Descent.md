@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '06-08 Multiple-Choice Quiz - Gradient Descent'
+title: '06-09 Multiple-Choice Quiz - Gradient Descent'
 chapter: '06'
-order: 16
+order: 21
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter06
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter06/06_08_Quiz_Gradient_Descent/
 ---
 
 ## 📚 Theory Review

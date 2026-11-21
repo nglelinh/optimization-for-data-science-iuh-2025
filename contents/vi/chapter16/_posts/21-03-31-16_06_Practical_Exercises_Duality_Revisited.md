@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 16-5 Bài Tập Thực Hành - Duality Revisited
+title: 16-06 Bài Tập Thực Hành - Duality Revisited
 chapter: '16'
-order: 6
+order: 7
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter16
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter16/16_05_Practical_Exercises_Duality_Revisited/
 ---
 
 # Bài Tập Thực Hành - Duality Revisited

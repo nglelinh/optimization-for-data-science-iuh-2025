@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 14-10 Bài tập trắc nghiệm - Phương Pháp Newton
+title: 14-11 Bài tập trắc nghiệm - Phương Pháp Newton
 chapter: '14'
-order: 17
+order: 19
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter14
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter14/14_10_Quiz_Newton_Method/
 ---
 
 ## 📚 Ôn tập lý thuyết

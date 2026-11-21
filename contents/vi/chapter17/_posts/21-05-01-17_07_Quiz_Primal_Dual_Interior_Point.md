@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 17-06 Bài tập trắc nghiệm - Phương Pháp Điểm Trong Nguyên Thủy-Đối Ngẫu
+title: 17-07 Bài tập trắc nghiệm - Phương Pháp Điểm Trong Nguyên Thủy-Đối Ngẫu
 chapter: '17'
-order: 10
+order: 11
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter17
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter17/17_06_Quiz_Primal_Dual_Interior_Point/
 ---
 
 ## 📚 Ôn tập lý thuyết

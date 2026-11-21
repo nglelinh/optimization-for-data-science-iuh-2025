@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '03-08 Multiple-Choice Quiz - Convex Functions'
+title: '03-09 Multiple-Choice Quiz - Convex Functions'
 chapter: '03'
-order: 15
+order: 17
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter03
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter03/03_08_Quiz_Convex_Functions/
 ---
 
 This multiple-choice quiz tests your understanding of convex functions, their basic properties, convexity-preserving operations and conjugate functions.

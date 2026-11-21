@@ -2,7 +2,7 @@
 layout: post
 title: 06-03 Phân tích hội tụ
 chapter: '06'
-order: 7
+order: 9
 owner: Kyeongmin Woo
 categories:
 - chapter06

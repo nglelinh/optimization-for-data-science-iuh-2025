@@ -1,12 +1,14 @@
 ---
 layout: post
-title: '11-09 The Dual of the Dual in General Convex Optimization'
+title: '11-07 The Dual of the Dual in General Convex Optimization'
 chapter: "11"
-order: 10
+order: 8
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter11
+redirect_from:
+  - /contents/en/chapter11/11_09_Dual_of_Dual_General_Case/
 ---
 
 In the previous chapter, we saw that for Linear Programming the property "the dual of the dual is the primal" always holds. Does this property still hold for general convex optimization problems? This lesson clarifies the question.

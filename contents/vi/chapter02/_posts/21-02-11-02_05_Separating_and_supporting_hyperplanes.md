@@ -2,7 +2,7 @@
 layout: post
 title: 02-05 Siêu phẳng phân tách và hỗ trợ
 chapter: '02'
-order: 11
+order: 13
 owner: Wontak Ryu
 categories:
 - chapter02

@@ -2,7 +2,7 @@
 layout: post
 title: 14-07 Comparison to first-order method
 chapter: '14'
-order: 13
+order: 15
 owner: Minjoo Lee
 categories:
 - chapter14

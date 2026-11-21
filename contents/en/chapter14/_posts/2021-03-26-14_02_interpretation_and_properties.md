@@ -2,7 +2,7 @@
 layout: post
 title: 14-02 Interpretation & Properties
 chapter: '14'
-order: 4
+order: 5
 owner: Minjoo Lee
 categories:
 - chapter14

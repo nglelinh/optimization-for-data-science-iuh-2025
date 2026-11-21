@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 13-09 Modern uses of conjugates, dual norms, and dual cones
+title: 13-07 Modern uses of conjugates, dual norms, and dual cones
 chapter: '13'
 order: 11
 owner: Nguyen Le Linh
@@ -8,6 +8,8 @@ categories:
 - chapter13
 lang: en
 lesson_type: optional
+redirect_from:
+  - /contents/en/chapter13/13_09_modern_applications/
 ---
 
 # Modern uses of conjugates, dual norms, and dual cones

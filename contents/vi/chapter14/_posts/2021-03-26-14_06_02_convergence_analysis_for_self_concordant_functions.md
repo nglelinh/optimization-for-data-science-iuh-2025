@@ -2,7 +2,7 @@
 layout: post
 title: 14-06-02 Phân tích hội tụ cho các hàm tự hài hòa
 chapter: '14'
-order: 12
+order: 14
 owner: Minjoo Lee
 categories:
 - chapter14

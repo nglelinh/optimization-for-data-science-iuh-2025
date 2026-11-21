@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '08-09 Multiple-Choice Quiz - Subgradient Method'
+title: '08-10 Multiple-Choice Quiz - Subgradient Method'
 chapter: '08'
-order: 17
+order: 18
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter08
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter08/08_09_Quiz_Subgradient_Method/
 ---
 
 ## 📚 Theory Review

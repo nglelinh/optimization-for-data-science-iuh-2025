@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '06-01-05 Exercises: Step Size and Curvature'
+title: '06-01-06 Exercises: Step Size and Curvature'
 chapter: '06'
-order: 7
+order: 4
 owner: AI Assistant
 categories:
 - chapter06
 lang: en
 lesson_type: exercises
+redirect_from:
+  - /contents/en/chapter06/06_01_05_hessian_exercises/
 ---
 
 <script type="text/x-mathjax-config">

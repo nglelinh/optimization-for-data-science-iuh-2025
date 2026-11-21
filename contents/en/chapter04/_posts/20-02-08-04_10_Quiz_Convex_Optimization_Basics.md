@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '04-09 Multiple-Choice Quiz - Convex Optimization Basics'
+title: '04-10 Multiple-Choice Quiz - Convex Optimization Basics'
 chapter: '04'
-order: 10
+order: 11
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter04
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter04/04_09_Quiz_Convex_Optimization_Basics/
 ---
 
 This multiple-choice quiz tests your understanding of the basic concepts of convex optimization, including terminology, optimality conditions and transformation techniques.

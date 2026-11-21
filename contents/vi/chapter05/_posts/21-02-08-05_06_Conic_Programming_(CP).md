@@ -2,7 +2,7 @@
 layout: post
 title: 05-06 Quy Hoạch Nón (CP)
 chapter: '05'
-order: 7
+order: 12
 owner: Hooncheol Shin
 categories:
 - chapter05

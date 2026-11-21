@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '05-07 Multiple-Choice Quiz - Canonical Optimization Problems'
+title: '05-09 Multiple-Choice Quiz - Canonical Optimization Problems'
 chapter: '05'
-order: 11
+order: 15
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter05
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter05/05_07_Quiz_Canonical_Problems/
 ---
 
 This multiple-choice quiz tests your understanding of the canonical optimization problems, including linear programming, quadratic programming, least squares and linear regression.

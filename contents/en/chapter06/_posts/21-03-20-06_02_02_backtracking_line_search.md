@@ -2,7 +2,7 @@
 layout: post
 title: 06-02-02 Backtracking line search
 chapter: '06'
-order: 5
+order: 7
 owner: Kyeongmin Woo
 categories:
 - chapter06

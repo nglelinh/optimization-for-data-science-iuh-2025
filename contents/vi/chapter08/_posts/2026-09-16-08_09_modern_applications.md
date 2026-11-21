@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 08-11 Ứng dụng hiện đại của phương pháp subgradient
+title: 08-09 Ứng dụng hiện đại của phương pháp subgradient
 chapter: '08'
-order: 18
+order: 17
 owner: Nguyen Le Linh
 categories:
 - chapter08
 lang: vi
 lesson_type: optional
+redirect_from:
+  - /contents/vi/chapter08/08_11_modern_applications/
 ---
 
 # Ứng dụng hiện đại của phương pháp subgradient

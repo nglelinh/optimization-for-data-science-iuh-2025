@@ -2,7 +2,7 @@
 layout: post
 title: '06-01-05 Why Does the Step Size Matter?'
 chapter: '06'
-order: 6
+order: 3
 owner: AI Assistant
 categories:
 - chapter06

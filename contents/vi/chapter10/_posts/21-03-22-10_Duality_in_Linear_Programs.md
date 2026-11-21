@@ -17,4 +17,4 @@ Thay vì áp dụng trực tiếp vào các bài toán lồi tổng quát, chún
 
 ## Ứng dụng hiện đại (2022–2026)
 
-Một bài tùy chọn đi kèm đọc cùng đối ngẫu LP như một chứng chỉ trong kiểm chứng mạng nơ-ron (α,β-CROWN), LMP điện, cắt max-flow, và vận chuyển tối ưu Kantorovich. Xem [10-09 Ứng dụng hiện đại của đối ngẫu LP]({% multilang_post_url contents/chapter10/2026-09-16-10_09_modern_applications %}). 
+Một bài tùy chọn đi kèm đọc cùng đối ngẫu LP như một chứng chỉ trong kiểm chứng mạng nơ-ron (α,β-CROWN), LMP điện, cắt max-flow, và vận chuyển tối ưu Kantorovich. Xem [10-07 Ứng dụng hiện đại của đối ngẫu LP]({% multilang_post_url contents/chapter10/2026-09-16-10_07_modern_applications %}). 

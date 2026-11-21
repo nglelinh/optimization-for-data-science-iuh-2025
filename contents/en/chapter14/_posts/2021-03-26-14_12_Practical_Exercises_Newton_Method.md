@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '14-11 Practical Exercises - Newton''s Method'
+title: '14-12 Practical Exercises - Newton''s Method'
 chapter: "14"
-order: 18
+order: 20
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter14
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter14/14_11_Practical_Exercises_Newton_Method/
 ---
 
 # Practical Exercises - Newton's Method

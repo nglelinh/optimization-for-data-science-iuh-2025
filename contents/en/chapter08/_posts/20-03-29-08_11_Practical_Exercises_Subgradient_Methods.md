@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 'Practical Exercises - Subgradient Methods'
+title: '08-11 Practical Exercises - Subgradient Methods'
 chapter: "08"
-order: 11
+order: 19
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter08
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter08/08_10_Practical_Exercises_Subgradient_Methods/
 ---
 
 # Practical Exercises - Subgradient Methods

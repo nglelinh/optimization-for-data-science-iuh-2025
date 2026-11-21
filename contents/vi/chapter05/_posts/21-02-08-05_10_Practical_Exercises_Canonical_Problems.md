@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 05-8 Bài Tập Thực Hành - Các Bài Toán Chuẩn
+title: 05-10 Bài Tập Thực Hành - Các Bài Toán Chuẩn
 chapter: '05'
-order: 9
+order: 16
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter05
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter05/05_08_Practical_Exercises_Canonical_Problems/
 ---
 
 # Bài Tập Thực Hành - Các Bài Toán Chuẩn (Canonical Problems)

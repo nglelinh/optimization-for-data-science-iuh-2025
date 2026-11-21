@@ -2,7 +2,7 @@
 layout: post
 title: 06-08 Ứng dụng và phát triển gần đây
 chapter: '06'
-order: 18
+order: 20
 owner: Nguyen Le Linh
 categories:
 - chapter06

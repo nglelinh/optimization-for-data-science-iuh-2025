@@ -2,7 +2,7 @@
 layout: post
 title: 00-04-01 Lý Thuyết Xác Suất Cơ Bản
 chapter: '00'
-order: 14
+order: 15
 owner: AI Assistant
 categories:
 - chapter00

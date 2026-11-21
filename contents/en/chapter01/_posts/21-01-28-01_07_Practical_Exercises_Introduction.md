@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '1-6 Practical Exercises - Introduction to Optimization'
+title: '01-07 Practical Exercises - Introduction to Optimization'
 chapter: '1'
-order: 7
+order: 8
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter01
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter01/01_06_Practical_Exercises_Introduction/
 ---
 
 # Practical Exercises - Introduction to Optimization

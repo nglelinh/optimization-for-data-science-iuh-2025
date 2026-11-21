@@ -2,7 +2,7 @@
 layout: post
 title: 00-04-02 Các Phân Phối Xác Suất Thông Dụng
 chapter: '00'
-order: 15
+order: 16
 owner: AI Assistant
 categories:
 - chapter00

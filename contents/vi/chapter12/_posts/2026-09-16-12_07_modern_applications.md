@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 12-09 Ứng dụng hiện đại của điều kiện KKT
+title: 12-07 Ứng dụng hiện đại của điều kiện KKT
 chapter: '12'
-order: 10
+order: 8
 owner: Nguyen Le Linh
 categories:
 - chapter12
 lang: vi
 lesson_type: optional
+redirect_from:
+  - /contents/vi/chapter12/12_09_modern_applications/
 ---
 
 # Ứng dụng hiện đại của điều kiện KKT

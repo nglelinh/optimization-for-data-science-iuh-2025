@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '4-10 Practical Exercises - Convex Optimization Problems'
+title: '04-11 Practical Exercises - Convex Optimization Problems'
 chapter: '4'
-order: 11
+order: 12
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter04
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter04/04_10_Practical_Exercises_Convex_Optimization_Problems/
 ---
 
 # Practical Exercises - Convex Optimization Problems

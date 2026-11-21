@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 'Practical Exercises - Proximal Gradient'
+title: '09-11 Practical Exercises - Proximal Gradient'
 chapter: '09'
-order: 12
+order: 13
 owner: GitHub Copilot
 lang: en
 categories:

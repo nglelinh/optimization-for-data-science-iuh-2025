@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '07-08 Multiple-Choice Quiz - Subgradient'
+title: '07-09 Multiple-Choice Quiz - Subgradient'
 chapter: '07'
-order: 16
+order: 13
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter07
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter07/07_08_Quiz_Subgradient/
 ---
 
 ## 📚 Theory Review

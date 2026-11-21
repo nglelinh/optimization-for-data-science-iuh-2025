@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 11-4 Strong duality
+title: 11-04 Strong duality
 chapter: '11'
 order: 5
 owner: Wontak Ryu

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 3-9 Bài Tập Thực Hành - Hàm Convex
+title: 03-10 Bài Tập Thực Hành - Hàm Convex
 chapter: '3'
-order: 10
+order: 18
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter03
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter03/03_09_Practical_Exercises_Convex_Functions/
 ---
 
 # Bài Tập Thực Hành - Hàm Convex

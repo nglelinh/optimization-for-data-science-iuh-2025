@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '20-6 Practical Exercises - Dual Methods'
+title: '20-07 Practical Exercises - Dual Methods'
 chapter: '20'
-order: 7
+order: 15
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter20
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter20/20_06_Practical_Exercises_Dual_Methods/
 ---
 
 # Practical Exercises - Dual Methods

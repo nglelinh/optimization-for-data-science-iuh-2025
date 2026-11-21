@@ -2,7 +2,7 @@
 layout: post
 title: 16-04 Ứng dụng hiện đại của tính đối ngẫu (2022–2026)
 chapter: '16'
-order: 7
+order: 5
 owner: Nguyen Le Linh
 categories:
 - chapter16

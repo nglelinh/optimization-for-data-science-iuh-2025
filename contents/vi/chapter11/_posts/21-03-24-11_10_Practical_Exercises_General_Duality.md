@@ -1,13 +1,15 @@
 ---
 layout: post
-title: "11-08 Bài Tập Thực Hành - Tính Đối Ngẫu Tổng Quát"
+title: "11-10 Bài Tập Thực Hành - Tính Đối Ngẫu Tổng Quát"
 chapter: "11"
-order: 9
+order: 11
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter11
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter11/11_08_Practical_Exercises_General_Duality/
 ---
 
 # Bài Tập Thực Hành - Tính Đối Ngẫu Tổng Quát

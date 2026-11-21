@@ -2,7 +2,7 @@
 layout: post
 title: 14-02 Giải thích và Tính chất
 chapter: '14'
-order: 4
+order: 5
 owner: Minjoo Lee
 categories:
 - chapter14

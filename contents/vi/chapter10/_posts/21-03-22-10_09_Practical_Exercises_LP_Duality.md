@@ -1,13 +1,15 @@
 ---
 layout: post
-title: "10-07 Bài Tập Thực Hành - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính"
+title: "10-09 Bài Tập Thực Hành - Tính Đối Ngẫu trong Quy Hoạch Tuyến Tính"
 chapter: "10"
-order: 8
+order: 10
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter10
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter10/10_07_Practical_Exercises_LP_Duality/
 ---
 
 Các bài tập sau được tham khảo từ Boyd & Vandenberghe (2004), Bertsimas & Tsitsiklis (1997), và Dantzig (1963), giúp sinh viên nắm vững các khái niệm về tính đối ngẫu trong LP.

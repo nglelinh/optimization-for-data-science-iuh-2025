@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '01-05 Multiple-Choice Quiz - Optimization Problems'
+title: '01-06 Multiple-Choice Quiz - Optimization Problems'
 chapter: '01'
-order: 6
+order: 7
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter01
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter01/01_05_Quiz_Optimization_Problems/
 ---
 
 This multiple-choice quiz tests your understanding of the basic concepts of optimization problems and convex optimization.

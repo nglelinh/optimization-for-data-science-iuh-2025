@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '15-09 Multiple-Choice Quiz - Barrier Method'
+title: '15-10 Multiple-Choice Quiz - Barrier Method'
 chapter: '15'
-order: 18
+order: 16
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter15
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter15/15_09_Quiz_Barrier_Method/
 ---
 
 ## 📚 Theory Review

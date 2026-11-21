@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 12-8 Bài Tập Thực Hành - Điều Kiện KKT
+title: 12-09 Bài Tập Thực Hành - Điều Kiện KKT
 chapter: '12'
-order: 9
+order: 10
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter12
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter12/12_08_Practical_Exercises_KKT_Conditions/
 ---
 
 # Bài Tập Thực Hành - Điều Kiện KKT (Karush-Kuhn-Tucker)

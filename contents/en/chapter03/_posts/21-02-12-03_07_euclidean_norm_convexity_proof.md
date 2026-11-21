@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 03-01-04 Euclidean Norm - L2 - is Convex
+title: 03-07 Euclidean Norm - L2 - is Convex
 chapter: '03'
 order: 15
 owner: AI Assistant

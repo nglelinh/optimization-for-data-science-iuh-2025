@@ -2,7 +2,7 @@
 layout: post
 title: 06-03-05 A look at the conditions & Practicalities
 chapter: '06'
-order: 12
+order: 14
 owner: Kyeongmin Woo
 categories:
 - chapter06

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 13-8 Bài Tập Thực Hành - Ứng Dụng Tính Đối Ngẫu
+title: 13-09 Bài Tập Thực Hành - Ứng Dụng Tính Đối Ngẫu
 chapter: '13'
-order: 9
+order: 13
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter13
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter13/13_08_Practical_Exercises_Duality_Applications/
 ---
 
 # Bài Tập Thực Hành - Ứng Dụng Tính Đối Ngẫu

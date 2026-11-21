@@ -2,7 +2,7 @@
 layout: post
 title: 14-04 Tìm kiếm đường backtracking
 chapter: '14'
-order: 8
+order: 10
 owner: Minjoo Lee
 categories:
 - chapter14

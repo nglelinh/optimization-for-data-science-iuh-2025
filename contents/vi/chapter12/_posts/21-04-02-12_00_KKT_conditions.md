@@ -17,4 +17,4 @@ Các điều kiện KKT giữ một vị trí rất quan trọng trong tối ưu
 
 ## Ứng dụng hiện đại (2022–2026)
 
-Một bài tùy chọn đi kèm đọc cùng hệ KKT trong cvxpylayers / Theseus, vector hỗ trợ SVM, LMP điện, và ràng buộc công bằng đang chặt. Xem [12-09 Ứng dụng hiện đại của điều kiện KKT]({% multilang_post_url contents/chapter12/2026-09-16-12_09_modern_applications %}).
+Một bài tùy chọn đi kèm đọc cùng hệ KKT trong cvxpylayers / Theseus, vector hỗ trợ SVM, LMP điện, và ràng buộc công bằng đang chặt. Xem [12-07 Ứng dụng hiện đại của điều kiện KKT]({% multilang_post_url contents/chapter12/2026-09-16-12_07_modern_applications %}).

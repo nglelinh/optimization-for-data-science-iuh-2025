@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '10-06 Multiple-Choice Quiz - Duality in Linear Programming'
+title: '10-08 Multiple-Choice Quiz - Duality in Linear Programming'
 chapter: "10"
-order: 7
+order: 9
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter10
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter10/10_06_Quiz_LP_Duality/
 ---
 
 ## Theory Review

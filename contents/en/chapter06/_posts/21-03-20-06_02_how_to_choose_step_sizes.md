@@ -2,7 +2,7 @@
 layout: post
 title: 06-02 How to choose step sizes
 chapter: '06'
-order: 3
+order: 5
 owner: Kyeongmin Woo
 categories:
 - chapter06

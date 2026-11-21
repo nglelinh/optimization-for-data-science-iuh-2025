@@ -2,7 +2,7 @@
 layout: post
 title: 14-06-01 Definition of self-concordant functions
 chapter: '14'
-order: 11
+order: 13
 owner: Minjoo Lee
 categories:
 - chapter14

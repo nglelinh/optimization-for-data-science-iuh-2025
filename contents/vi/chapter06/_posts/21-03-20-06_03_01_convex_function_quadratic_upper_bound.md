@@ -2,7 +2,7 @@
 layout: post
 title: 06-03-01 Cận trên bậc hai của hàm lồi
 chapter: '06'
-order: 8
+order: 10
 owner: Kyeongmin Woo
 categories:
 - chapter06

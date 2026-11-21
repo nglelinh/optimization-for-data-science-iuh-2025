@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '17-06 Multiple-Choice Quiz - Primal-Dual Interior Point Method'
+title: '17-07 Multiple-Choice Quiz - Primal-Dual Interior Point Method'
 chapter: '17'
-order: 10
+order: 11
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter17
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter17/17_06_Quiz_Primal_Dual_Interior_Point/
 ---
 
 ## 📚 Theory Review

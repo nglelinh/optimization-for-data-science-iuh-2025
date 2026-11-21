@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '15-10 Practical Exercises - Barrier Method'
+title: '15-11 Practical Exercises - Barrier Method'
 chapter: '15'
-order: 19
+order: 17
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter15
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter15/15_10_Practical_Exercises_Barrier_Method/
 ---
 
 # Practical Exercises - The Barrier Method

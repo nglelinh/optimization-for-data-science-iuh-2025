@@ -2,7 +2,7 @@
 layout: post
 title: 02-01-01 Đường thẳng, đoạn thẳng, tia
 chapter: '02'
-order: 2
+order: 3
 owner: Wontak Ryu
 categories:
 - chapter02

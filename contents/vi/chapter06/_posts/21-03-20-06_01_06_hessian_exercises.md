@@ -2,12 +2,14 @@
 layout: post
 title: '06-01-06 Bài tập: Hiểu về Kích thước Bước và Độ cong'
 chapter: '06'
-order: 7
+order: 4
 owner: AI Assistant
 categories:
 - chapter06
 lang: vi
 lesson_type: exercises
+redirect_from:
+  - /contents/vi/chapter06/06_01_05_hessian_exercises/
 ---
 
 <script type="text/x-mathjax-config">

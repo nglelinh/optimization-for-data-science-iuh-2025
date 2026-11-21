@@ -1,13 +1,15 @@
 ---
 layout: post
-title: "08-10 Bài Tập Thực Hành - Phương pháp Subgradient"
+title: "08-11 Bài Tập Thực Hành - Phương pháp Subgradient"
 chapter: "08"
-order: 11
+order: 19
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter08
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter08/08_10_Practical_Exercises_Subgradient_Methods/
 ---
 
 # Bài Tập Thực Hành - Phương pháp Subgradient

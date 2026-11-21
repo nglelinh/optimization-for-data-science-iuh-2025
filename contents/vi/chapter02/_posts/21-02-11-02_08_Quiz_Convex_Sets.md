@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 02-07 Bài tập trắc nghiệm - Tập lồi
+title: 02-08 Bài tập trắc nghiệm - Tập lồi
 chapter: '02'
-order: 12
+order: 18
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter02
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter02/02_07_Quiz_Convex_Sets/
 ---
 
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tập affine, tập lồi và các ví dụ quan trọng trong hình học lồi.

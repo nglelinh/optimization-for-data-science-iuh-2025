@@ -2,7 +2,7 @@
 layout: post
 title: 02-02-01 Ví dụ về tập lồi
 chapter: '02'
-order: 7
+order: 9
 owner: Wontak Ryu
 categories:
 - chapter02

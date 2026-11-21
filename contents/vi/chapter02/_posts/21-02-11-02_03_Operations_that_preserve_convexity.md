@@ -2,7 +2,7 @@
 layout: post
 title: 02-03 Các phép toán bảo toàn tính lồi của tập lồi
 chapter: '02'
-order: 9
+order: 11
 owner: Wontak Ryu
 categories:
 - chapter02

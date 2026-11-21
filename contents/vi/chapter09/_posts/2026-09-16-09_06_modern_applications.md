@@ -2,7 +2,7 @@
 layout: post
 title: 09-06 Ứng dụng hiện đại của proximal GD và tăng tốc
 chapter: '09'
-order: 13
+order: 11
 owner: Nguyen Le Linh
 categories:
 - chapter09

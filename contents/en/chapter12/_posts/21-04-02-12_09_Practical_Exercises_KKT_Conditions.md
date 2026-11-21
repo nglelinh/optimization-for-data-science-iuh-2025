@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '12-8 Practical Exercises - KKT Conditions'
+title: '12-09 Practical Exercises - KKT Conditions'
 chapter: '12'
-order: 9
+order: 10
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter12
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter12/12_08_Practical_Exercises_KKT_Conditions/
 ---
 
 # Practical Exercises - KKT Conditions (Karush-Kuhn-Tucker)

@@ -1,12 +1,14 @@
 ---
 layout: post
-title: '10-08 The Double Duality Property: The Dual of the Dual Is the Primal'
+title: '10-06 The Double Duality Property: The Dual of the Dual Is the Primal'
 chapter: "10"
-order: 9
+order: 7
 owner: "GitHub Copilot"
 lang: en
 categories:
   - chapter10
+redirect_from:
+  - /contents/en/chapter10/10_08_Dual_of_Dual_Property/
 ---
 
 In Linear Programming, a beautiful and important mathematical property is that **the dual of the dual problem is the original (primal) problem**. This property is called the **"involution" of duality** or the **"dual-of-the-dual theorem"**.

@@ -2,7 +2,7 @@
 layout: post
 title: 14-05 Convergence analysis
 chapter: '14'
-order: 9
+order: 11
 owner: Minjoo Lee
 categories:
 - chapter14

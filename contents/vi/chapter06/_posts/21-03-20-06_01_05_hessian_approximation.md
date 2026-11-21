@@ -2,7 +2,7 @@
 layout: post
 title: '06-01-05 Tại sao Kích thước Bước lại Quan trọng?'
 chapter: '06'
-order: 6
+order: 3
 owner: AI Assistant
 categories:
 - chapter06

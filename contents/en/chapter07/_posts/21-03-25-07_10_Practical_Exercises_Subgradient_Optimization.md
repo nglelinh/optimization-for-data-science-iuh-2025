@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '07-9 Practical Exercises - Subgradient Optimization'
+title: '07-10 Practical Exercises - Subgradient Optimization'
 chapter: '07'
-order: 10
+order: 14
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter07
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter07/07_09_Practical_Exercises_Subgradient_Optimization/
 ---
 
 # Practical Exercises - Subgradient Optimization

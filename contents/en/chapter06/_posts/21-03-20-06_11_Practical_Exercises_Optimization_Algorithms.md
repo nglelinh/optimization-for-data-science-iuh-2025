@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '06-10 Practical Exercises - Optimization Algorithms'
+title: '06-11 Practical Exercises - Optimization Algorithms'
 chapter: '06'
-order: 11
+order: 23
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter06
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter06/06_10_Practical_Exercises_Optimization_Algorithms/
 ---
 
 # Practical Exercises - Optimization Algorithms

@@ -2,7 +2,7 @@
 layout: post
 title: 14-10 Modern applications of Newton's method (2022–2026)
 chapter: '14'
-order: 16
+order: 18
 owner: Nguyen Le Linh
 categories:
 - chapter14

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 17-7 Bài Tập Thực Hành - Primal-Dual Interior Point
+title: 17-08 Bài Tập Thực Hành - Primal-Dual Interior Point
 chapter: '17'
-order: 8
+order: 12
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter17
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter17/17_07_Practical_Exercises_Primal_Dual_Interior_Point/
 ---
 
 # Bài Tập Thực Hành - Primal-Dual Interior Point Methods

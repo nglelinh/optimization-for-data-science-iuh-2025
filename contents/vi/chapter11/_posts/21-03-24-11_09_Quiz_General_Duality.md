@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 11-6 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Chương Trình Tổng Quát
+title: 11-09 Bài tập trắc nghiệm - Tính Đối Ngẫu trong Chương Trình Tổng Quát
 chapter: '11'
-order: 7
+order: 10
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter11
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter11/11_06_Quiz_General_Duality/
 ---
 
 ## 📚 Ôn tập lý thuyết

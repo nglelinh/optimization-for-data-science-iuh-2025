@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 06-08 Bài tập trắc nghiệm - Gradient Descent
+title: 06-09 Bài tập trắc nghiệm - Gradient Descent
 chapter: '06'
-order: 16
+order: 21
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter06
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter06/06_08_Quiz_Gradient_Descent/
 ---
 
 ## 📚 Ôn tập lý thuyết

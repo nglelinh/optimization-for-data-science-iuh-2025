@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 11-3 Bài toán đối ngẫu Lagrange
+title: 11-03 Bài toán đối ngẫu Lagrange
 chapter: '11'
 order: 4
 owner: Wontak Ryu

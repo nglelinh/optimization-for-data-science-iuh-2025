@@ -2,7 +2,7 @@
 layout: post
 title: 06-07 Điều Chuẩn và Hàm Mất Mát
 chapter: '06'
-order: 16
+order: 19
 owner: Kyeongmin Woo
 categories:
 - chapter06

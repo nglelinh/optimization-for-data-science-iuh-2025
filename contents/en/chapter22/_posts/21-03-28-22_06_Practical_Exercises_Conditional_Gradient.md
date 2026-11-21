@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '22-5 Practical Exercises - Conditional Gradient (Frank-Wolfe)'
+title: '22-06 Practical Exercises - Conditional Gradient (Frank-Wolfe)'
 chapter: '22'
-order: 6
+order: 7
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter22
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter22/22_05_Practical_Exercises_Conditional_Gradient/
 ---
 
 # Practical Exercises - Conditional Gradient (Frank-Wolfe)

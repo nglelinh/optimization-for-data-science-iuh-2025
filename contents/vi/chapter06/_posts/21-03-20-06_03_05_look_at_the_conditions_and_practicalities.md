@@ -2,7 +2,7 @@
 layout: post
 title: 06-03-05 Xem xét điều kiện & Tính thực tiễn
 chapter: '06'
-order: 12
+order: 14
 owner: Kyeongmin Woo
 categories:
 - chapter06

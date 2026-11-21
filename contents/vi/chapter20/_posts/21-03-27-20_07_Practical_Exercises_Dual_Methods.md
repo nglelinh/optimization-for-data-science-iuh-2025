@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 20-6 Bài Tập Thực Hành - Dual Methods
+title: 20-07 Bài Tập Thực Hành - Dual Methods
 chapter: '20'
-order: 7
+order: 15
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter20
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter20/20_06_Practical_Exercises_Dual_Methods/
 ---
 
 # Bài Tập Thực Hành - Dual Methods

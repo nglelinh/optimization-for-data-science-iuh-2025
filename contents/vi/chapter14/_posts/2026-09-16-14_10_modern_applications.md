@@ -2,7 +2,7 @@
 layout: post
 title: 14-10 Ứng dụng hiện đại của phương pháp Newton (2022–2026)
 chapter: '14'
-order: 19
+order: 18
 owner: Nguyen Le Linh
 categories:
 - chapter14

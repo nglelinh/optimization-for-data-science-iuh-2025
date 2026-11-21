@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 11-2 Hàm đối ngẫu Lagrange
+title: 11-02 Hàm đối ngẫu Lagrange
 chapter: '11'
 order: 3
 owner: Wontak Ryu

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '13-07 Multiple-Choice Quiz - Uses and Correspondences of Duality'
+title: '13-08 Multiple-Choice Quiz - Uses and Correspondences of Duality'
 chapter: '13'
-order: 8
+order: 12
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter13
 lesson_type: quiz
+redirect_from:
+  - /contents/en/chapter13/13_07_Quiz_Duality_Uses/
 ---
 
 ## 📚 Theory Review

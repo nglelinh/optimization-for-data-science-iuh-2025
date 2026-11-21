@@ -1,12 +1,14 @@
 ---
 layout: post
-title: '11-7 Intuition Behind Lagrange Duality'
+title: '11-06 Intuition Behind Lagrange Duality'
 chapter: '11'
-order: 8
+order: 7
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter11
+redirect_from:
+  - /contents/en/chapter11/11_07_Lagrange_Duality_Intuition/
 ---
 
 # Intuition Behind Lagrange Duality

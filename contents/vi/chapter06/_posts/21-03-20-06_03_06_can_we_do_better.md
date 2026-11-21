@@ -2,7 +2,7 @@
 layout: post
 title: 06-03-06 Can we do better?
 chapter: '06'
-order: 13
+order: 15
 owner: Kyeongmin Woo
 categories:
 - chapter06

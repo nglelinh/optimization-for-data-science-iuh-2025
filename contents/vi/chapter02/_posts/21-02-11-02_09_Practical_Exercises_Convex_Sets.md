@@ -1,13 +1,15 @@
 ---
 layout: post
-title: "2-8 Bài Tập Thực Hành - Tập Convex"
+title: "02-09 Bài Tập Thực Hành - Tập Convex"
 chapter: "2"
-order: 9
+order: 19
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter02
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter02/02_08_Practical_Exercises_Convex_Sets/
 ---
 
 # Bài Tập Thực Hành - Tập Convex

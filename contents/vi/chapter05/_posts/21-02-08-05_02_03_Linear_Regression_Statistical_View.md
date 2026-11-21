@@ -2,7 +2,7 @@
 layout: post
 title: 05-02-03 Hồi Quy Tuyến Tính từ Góc Nhìn Thống Kê
 chapter: '05'
-order: 10
+order: 7
 owner: AI Assistant
 categories:
 - chapter05

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 04-09 Bài tập trắc nghiệm - Cơ bản tối ưu hóa lồi
+title: 04-10 Bài tập trắc nghiệm - Cơ bản tối ưu hóa lồi
 chapter: '04'
-order: 10
+order: 11
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter04
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter04/04_09_Quiz_Convex_Optimization_Basics/
 ---
 
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các khái niệm cơ bản trong tối ưu hóa lồi, bao gồm thuật ngữ, điều kiện tối ưu và các kỹ thuật biến đổi.

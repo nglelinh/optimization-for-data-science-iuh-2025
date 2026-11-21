@@ -2,7 +2,7 @@
 layout: post
 title: 17-06 Ứng dụng hiện đại của phương pháp điểm trong nguyên thủy–đối ngẫu (2022–2026)
 chapter: '17'
-order: 11
+order: 10
 owner: Nguyen Le Linh
 categories:
 - chapter17

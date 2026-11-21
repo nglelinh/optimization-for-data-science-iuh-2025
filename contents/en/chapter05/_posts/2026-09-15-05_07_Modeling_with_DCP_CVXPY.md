@@ -2,7 +2,7 @@
 layout: post
 title: 05-07 Modeling with DCP and CVXPY
 chapter: '05'
-order: 12
+order: 13
 owner: Nguyen Le Linh
 categories:
 - chapter05

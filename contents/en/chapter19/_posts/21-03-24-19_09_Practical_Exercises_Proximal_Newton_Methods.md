@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '19-8 Practical Exercises - Proximal Newton Methods'
+title: '19-09 Practical Exercises - Proximal Newton Methods'
 chapter: '19'
-order: 9
+order: 13
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter19
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter19/19_08_Practical_Exercises_Proximal_Newton_Methods/
 ---
 
 # Practical Exercises - Proximal Newton Methods

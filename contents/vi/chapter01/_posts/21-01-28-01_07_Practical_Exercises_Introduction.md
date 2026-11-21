@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 1-6 Bài Tập Thực Hành - Giới Thiệu Tối Ưu Hóa
+title: 01-07 Bài Tập Thực Hành - Giới Thiệu Tối Ưu Hóa
 chapter: '1'
-order: 7
+order: 8
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter01
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter01/01_06_Practical_Exercises_Introduction/
 ---
 
 # Bài Tập Thực Hành - Giới Thiệu Tối Ưu Hóa

@@ -1,12 +1,14 @@
 ---
 layout: post
-title: "11-09 Dual của Dual trong Tối Ưu Convex Tổng Quát"
+title: "11-07 Dual của Dual trong Tối Ưu Convex Tổng Quát"
 chapter: "11"
-order: 10
+order: 8
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter11
+redirect_from:
+  - /contents/vi/chapter11/11_09_Dual_of_Dual_General_Case/
 ---
 
 Trong chương trước, chúng ta đã thấy rằng đối với Linear Programming, tính chất "dual của dual là primal" luôn đúng. Vậy tính chất này có còn đúng với bài toán tối ưu convex tổng quát không? Bài học này sẽ làm rõ điều đó.

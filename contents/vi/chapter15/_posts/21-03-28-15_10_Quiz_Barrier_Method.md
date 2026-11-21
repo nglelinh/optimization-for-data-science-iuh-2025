@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 15-09 Bài tập trắc nghiệm - Phương Pháp Rào Cản
+title: 15-10 Bài tập trắc nghiệm - Phương Pháp Rào Cản
 chapter: '15'
-order: 18
+order: 16
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter15
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter15/15_09_Quiz_Barrier_Method/
 ---
 
 ## 📚 Ôn tập lý thuyết

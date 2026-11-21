@@ -2,7 +2,7 @@
 layout: post
 title: '00-04-03 Likelihood and Maximum Likelihood Estimation (MLE)'
 chapter: '00'
-order: 16
+order: 17
 owner: AI Assistant
 categories:
 - chapter00

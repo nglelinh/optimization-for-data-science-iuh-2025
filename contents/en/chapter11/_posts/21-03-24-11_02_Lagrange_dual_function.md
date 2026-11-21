@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 11-2 Lagrange dual function
+title: 11-02 Lagrange dual function
 chapter: '11'
 order: 3
 owner: Wontak Ryu

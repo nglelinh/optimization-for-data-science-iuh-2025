@@ -2,7 +2,7 @@
 layout: post
 title: 02-06 Hình nón đối ngẫu và bất đẳng thức tổng quát
 chapter: '02'
-order: 12
+order: 14
 owner: Wontak Ryu
 categories:
 - chapter02

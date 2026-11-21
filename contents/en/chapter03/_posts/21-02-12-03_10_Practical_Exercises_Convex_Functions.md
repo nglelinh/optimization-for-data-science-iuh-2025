@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '3-9 Practical Exercises - Convex Functions'
+title: '03-10 Practical Exercises - Convex Functions'
 chapter: '3'
-order: 10
+order: 18
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter03
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter03/03_09_Practical_Exercises_Convex_Functions/
 ---
 
 # Practical Exercises - Convex Functions

@@ -1,13 +1,15 @@
 ---
 layout: post
-title: '13-8 Practical Exercises - Duality Applications'
+title: '13-09 Practical Exercises - Duality Applications'
 chapter: '13'
-order: 9
+order: 13
 owner: GitHub Copilot
 lang: en
 categories:
 - chapter13
 lesson_type: required
+redirect_from:
+  - /contents/en/chapter13/13_08_Practical_Exercises_Duality_Applications/
 ---
 
 # Practical Exercises - Applications of Duality

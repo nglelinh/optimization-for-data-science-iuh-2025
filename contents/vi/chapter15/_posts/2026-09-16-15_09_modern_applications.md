@@ -2,7 +2,7 @@
 layout: post
 title: 15-09 Ứng dụng hiện đại của phương pháp rào chắn (2022–2026)
 chapter: '15'
-order: 20
+order: 15
 owner: Nguyen Le Linh
 categories:
 - chapter15

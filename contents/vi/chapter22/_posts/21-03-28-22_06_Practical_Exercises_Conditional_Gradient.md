@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 22-5 Bài Tập Thực Hành - Conditional Gradient (Frank-Wolfe)
+title: 22-06 Bài Tập Thực Hành - Conditional Gradient (Frank-Wolfe)
 chapter: '22'
-order: 6
+order: 7
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter22
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter22/22_05_Practical_Exercises_Conditional_Gradient/
 ---
 
 # Bài Tập Thực Hành - Conditional Gradient (Frank-Wolfe)

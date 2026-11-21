@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 08-09 Bài tập trắc nghiệm - Phương Pháp Subgradient
+title: 08-10 Bài tập trắc nghiệm - Phương Pháp Subgradient
 chapter: '08'
-order: 17
+order: 18
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter08
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter08/08_09_Quiz_Subgradient_Method/
 ---
 
 ## 📚 Ôn tập lý thuyết

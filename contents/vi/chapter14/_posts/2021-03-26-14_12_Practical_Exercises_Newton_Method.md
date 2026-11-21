@@ -1,13 +1,15 @@
 ---
 layout: post
-title: "14-11 Bài Tập Thực Hành - Phương Pháp Newton"
+title: "14-12 Bài Tập Thực Hành - Phương Pháp Newton"
 chapter: "14"
-order: 18
+order: 20
 owner: "GitHub Copilot"
 lang: vi
 categories:
   - chapter14
 lesson_type: required
+redirect_from:
+  - /contents/vi/chapter14/14_11_Practical_Exercises_Newton_Method/
 ---
 
 # Bài Tập Thực Hành - Phương Pháp Newton

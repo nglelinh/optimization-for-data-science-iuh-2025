@@ -17,4 +17,4 @@ Rather than directly applying it to general convex problems, we will derive the 
 
 ## Modern applications (2022–2026)
 
-An optional companion lesson reads the same LP dual as a certificate in neural-network verification (α,β-CROWN), electricity LMPs, max-flow cuts, and Kantorovich optimal transport. See [10-09 Modern applications of LP duality]({% multilang_post_url contents/chapter10/2026-09-16-10_09_modern_applications %}). 
+An optional companion lesson reads the same LP dual as a certificate in neural-network verification (α,β-CROWN), electricity LMPs, max-flow cuts, and Kantorovich optimal transport. See [10-07 Modern applications of LP duality]({% multilang_post_url contents/chapter10/2026-09-16-10_07_modern_applications %}). 

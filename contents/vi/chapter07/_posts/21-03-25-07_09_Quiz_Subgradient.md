@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 07-08 Bài tập trắc nghiệm - Subgradient
+title: 07-09 Bài tập trắc nghiệm - Subgradient
 chapter: '07'
-order: 16
+order: 13
 owner: GitHub Copilot
 lang: vi
 categories:
 - chapter07
 lesson_type: quiz
+redirect_from:
+  - /contents/vi/chapter07/07_08_Quiz_Subgradient/
 ---
 
 ## 📚 Ôn tập lý thuyết

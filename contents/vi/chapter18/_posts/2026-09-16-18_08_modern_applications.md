@@ -2,7 +2,7 @@
 layout: post
 title: 18-08 Ứng dụng hiện đại của phương pháp quasi-Newton (2022–2026)
 chapter: '18'
-order: 10
+order: 9
 owner: Nguyen Le Linh
 categories:
 - chapter18

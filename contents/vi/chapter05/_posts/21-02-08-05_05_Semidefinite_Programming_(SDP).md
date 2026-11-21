@@ -2,7 +2,7 @@
 layout: post
 title: 05-05 Quy Hoạch Bán Xác Định (SDP)
 chapter: '05'
-order: 6
+order: 11
 owner: Hooncheol Shin
 categories:
 - chapter05
