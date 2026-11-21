@@ -54,3 +54,7 @@ layout: default
   {% endif %}
 {% endfor %}
 </ul>
+
+{% assign opx_chapters = ',06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,' %}{% capture opx_cc %},{{ page.chapter }},{% endcapture %}{% if opx_chapters contains opx_cc %}
+<script src="{{ site.baseurl }}/public/js/opt-explainers.js" defer></script>
+{% endif %}
