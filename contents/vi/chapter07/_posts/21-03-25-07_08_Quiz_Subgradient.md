@@ -228,22 +228,6 @@ $$0 \in \partial f(x^*) \Rightarrow x^* \in [-1, 2]$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -468,7 +452,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về gradie
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Tập hợp đóng và lồi</strong><br>
-                Subdifferential của hàm lồi luôn là tập hợp đóng, lồi và compact (nếu hàm hữu hạn tại điểm đó).
+                Subdifferential của hàm lồi luôn là tập hợp đóng, lồi và compact và khác rỗng (nếu $$x$$ thuộc phần trong của $$\text{dom} f$$).
             </div>
         </div>
 
@@ -498,7 +482,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về gradie
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) \(\partial f(x) + \partial g(x)\)</strong><br>
-                Quy tắc tổng: subdifferential của tổng bằng tổng Minkowski của các subdifferential.
+                Quy tắc tổng: subdifferential của tổng bằng tổng Minkowski của các subdifferential (đúng khi, chẳng hạn, $$\text{relint}\,\text{dom} f \cap \text{relint}\,\text{dom} g \neq \emptyset$$, ví dụ khi cả hai hàm hữu hạn trên toàn $$\mathbb{R}^n$$).
             </div>
         </div>
 
@@ -732,13 +716,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về gradie
             <h3>Câu 24: Trong thuật toán subgradient method, hướng cập nhật được chọn là:</h3>
             <div class="options">
                 <label><input type="radio" name="q24" value="a"> A) Gradient \(\nabla f(x)\)</label>
-                <label><input type="radio" name="q24" value="b"> B) Bất kỳ subgradient \(g \in \partial f(x)\)</label>
+                <label><input type="radio" name="q24" value="b"> B) Âm của một subgradient bất kỳ: \(-g\) với \(g \in \partial f(x)\)</label>
                 <label><input type="radio" name="q24" value="c"> C) Vector ngẫu nhiên</label>
                 <label><input type="radio" name="q24" value="d"> D) Hướng Newton</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Bất kỳ subgradient \(g \in \partial f(x)\)</strong><br>
-                Subgradient method sử dụng bất kỳ subgradient nào tại điểm hiện tại để cập nhật.
+                <strong>Đáp án đúng: B) Âm của một subgradient bất kỳ: \(-g\) với \(g \in \partial f(x)\)</strong><br>
+                Subgradient method chọn bất kỳ subgradient $$g$$ nào tại điểm hiện tại và cập nhật $$x^{+} = x - t g$$. Lưu ý $$-g$$ không nhất thiết là hướng giảm.
             </div>
         </div>
 
@@ -746,7 +730,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về gradie
         <div class="question" id="q25" style="display: none;">
             <h3>Câu 25: Về mặt hình học, subgradient \(g \in \partial f(x)\) định nghĩa:</h3>
             <div class="options">
-                <label><input type="radio" name="q25" value="a"> A) Siêu phẳng tiếp xúc với đồ thị hàm</label>
+                <label><input type="radio" name="q25" value="a"> A) Siêu phẳng nằm trên đồ thị hàm</label>
                 <label><input type="radio" name="q25" value="b"> B) Siêu phẳng nằm dưới đồ thị hàm</label>
                 <label><input type="radio" name="q25" value="c"> C) Siêu phẳng cắt đồ thị hàm</label>
                 <label><input type="radio" name="q25" value="d"> D) Siêu phẳng vuông góc với đồ thị hàm</label>
@@ -812,8 +796,8 @@ function showQuestion(n) {
     currentQuestion = n;
     
     // Re-render MathJax cho câu hỏi hiện tại
-    if (window.MathJax) {
-        MathJax.typesetPromise([document.getElementById(`q${n}`)]).then(() => {
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise([document.getElementById(`q${n}`)])).then(() => {
             // MathJax rendering complete
         });
     }
@@ -907,8 +891,8 @@ function submitQuiz() {
     document.getElementById('reset-btn').style.display = 'inline-block';
     
     // Re-render MathJax cho tất cả nội dung
-    if (window.MathJax) {
-        MathJax.typesetPromise().then(() => {
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise()).then(() => {
             // MathJax rendering complete
         });
     }
@@ -969,8 +953,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise().then(() => {
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise()).then(() => {
             // MathJax rendering complete
         });
     }

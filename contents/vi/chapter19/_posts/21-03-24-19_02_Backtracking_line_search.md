@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 19-02 Backtracking line search
+title: '19-02 Backtracking line search'
 chapter: '19'
 order: 6
 owner: Hooncheol Shin
@@ -9,25 +9,25 @@ categories:
 lang: vi
 ---
 
-**Proximal newton method** may not converge in cases with pure step size $$t_k=1, k=1,2,3, \cdots$$ like newton's method. Therefore, we need to optimize the step size through backtracking line search.
+**Phương pháp Newton proximal** có thể không hội tụ trong các trường hợp dùng kích thước bước thuần túy $$t_k=1, k=1,2,3, \cdots$$ giống như phương pháp Newton. Do đó, ta cần tối ưu kích thước bước thông qua backtracking line search.
 
-## Backtracking line search algorithm
+## Thuật toán backtracking line search
 
-1. Initialize parameters. ($$0 \lt \alpha \le 1/2, 0 \lt \beta \lt 1$$)
-2. At each iteration, compute the Proximal newton direction as $$v = \text{prox}_{H} ( x - H^{-1} \nabla g (x) ) - x$$.
-3. Initialize $$t=1$$.
-4. If the condition $$f(x + tv) \gt f(x) + \alpha t \nabla g(x)^T v + \alpha (h(x + tv) - h(x))$$ is satisfied, reduce $$t=\beta t$$. Iterate step 4 while this condition is satisfied. ($$f = g + h$$)
-5. Execute the Proximal newton update $$x^+ = x + tv$$.
-6. If the termination condition is not satisfied, go to step 2.
+1. Khởi tạo các tham số. ($$0 \lt \alpha \le 1/2, 0 \lt \beta \lt 1$$)
+2. Ở mỗi vòng lặp, tính hướng Newton proximal $$v = \text{prox}_{H} ( x - H^{-1} \nabla g (x) ) - x$$.
+3. Khởi tạo $$t=1$$.
+4. Nếu điều kiện $$f(x + tv) \gt f(x) + \alpha t \nabla g(x)^T v + \alpha (h(x + tv) - h(x))$$ được thỏa mãn, giảm $$t=\beta t$$. Lặp lại bước 4 chừng nào điều kiện này còn thỏa mãn. ($$f = g + h$$)
+5. Thực hiện cập nhật Newton proximal $$x^+ = x + tv$$.
+6. Nếu điều kiện dừng chưa thỏa mãn, quay lại bước 2.
 
-Intuitively, we find a step size $$t$$ such that we move along direction $$v$$ to a position where the linear approximation of function $$f$$ at $$x$$ is reduced by a factor of $$\alpha$$. Since the $$h$$ part of $$f$$ is not differentiable, we use the discrete derivative $$h(x + tv) - h(x)$$.
+Một cách trực quan, ta tìm kích thước bước $$t$$ sao cho khi di chuyển theo hướng $$v$$ đến một vị trí mà xấp xỉ tuyến tính của hàm $$f$$ tại $$x$$ giảm đi một hệ số $$\alpha$$. Vì phần $$h$$ của $$f$$ không khả vi, ta dùng đạo hàm rời rạc $$h(x + tv) - h(x)$$.
 
-## Efficiency of algorithm
-There are many methods for performing backtracking line search, and here we have introduced one of them. 
+## Hiệu quả của thuật toán
+Có nhiều cách thực hiện backtracking line search, và ở đây chúng tôi giới thiệu một trong số đó.
 
-In this method, when computing $$v$$, the prox operator is computed only once. In the case of proximal gradient descent, the prox operator had to be computed iteratively in the inner loop, which is a distinctly different characteristic. Therefore, this method can perform backtracking line search very efficiently when the computation of the prox operator is complex.
+Trong phương pháp này, khi tính $$v$$, toán tử prox chỉ được tính một lần. Trong trường hợp proximal gradient descent, toán tử prox phải được tính lặp đi lặp lại trong vòng lặp bên trong, đây là một đặc điểm khác biệt rõ rệt. Do đó, phương pháp này có thể thực hiện backtracking line search rất hiệu quả khi việc tính toán tử prox phức tạp.
 
-### [reference] Method 별  backtracking line search
+### [tham khảo] Backtracking line search theo từng phương pháp
 * Gradient descent [06-02-02 Backtracking line search]({% multilang_post_url contents/chapter06/21-03-20-06_02_02_backtracking_line_search %})
-* Proximal gradient descent [09-02 Convergence analysis]({% multilang_post_url contents/chapter09/20-01-08-09_02_convergence_analysis %})
-* Newton's method [14-04 Backtracking line search]({% multilang_post_url contents/chapter14/2021-03-26-14_04_backtracking_line_search %})
+* Proximal gradient descent [09-02 Phân tích hội tụ]({% multilang_post_url contents/chapter09/20-01-08-09_02_convergence_analysis %})
+* Phương pháp Newton [14-04 Backtracking line search]({% multilang_post_url contents/chapter14/2021-03-26-14_04_backtracking_line_search %})

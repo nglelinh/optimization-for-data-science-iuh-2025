@@ -37,7 +37,7 @@ $$\begin{align}
 **Đặc điểm chính:**
 - Hàm mục tiêu và ràng buộc đều **affine** (tuyến tính)
 - Tập khả thi là **đa diện** (polyhedron)
-- Nghiệm tối ưu luôn tại **đỉnh** của đa diện
+- Nếu có nghiệm tối ưu (và đa diện có đỉnh), luôn tồn tại một nghiệm tối ưu tại **đỉnh** của đa diện
 - Có thể giải hiệu quả bằng **thuật toán Simplex**
 
 **Chuyển đổi về dạng chuẩn:**
@@ -114,8 +114,8 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 **Giải thích:**
 - **LP → QP:** Đặt $$P = 0$$ trong QP
 - **QP → QCQP:** Ràng buộc tuyến tính là trường hợp đặc biệt của ràng buộc bậc hai
-- **SOCP → SDP:** Nón bậc hai là trường hợp đặc biệt của nón bán xác định dương
-- **QCQP → SDP:** Có thể biểu diễn qua SDP với kỹ thuật Schur complement
+- **SOCP → SDP:** Nón bậc hai biểu diễn được bằng ràng buộc nửa xác định dương (LMI)
+- **QCQP → SDP:** QCQP (lồi) có thể biểu diễn qua SDP với kỹ thuật Schur complement
 
 ### 🛠️ **Thuật Toán Giải**
 
@@ -169,7 +169,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 
 | Bài toán | Độ phức tạp | Ghi chú |
 |----------|-------------|---------|
-| **LP** | Đa thức (thực tế) | Simplex: tốt trung bình |
+| **LP** | Đa thức (interior point); Simplex nhanh trong thực tế | Simplex: tốt trung bình |
 | **QP** | Đa thức | Interior point methods |
 | **Least Squares** | $$O(n^3)$$ | Normal equation |
 | **SOCP** | Đa thức | Tương tự SDP |
@@ -242,12 +242,12 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
             <h3>Câu 4: Định lý cơ bản của quy hoạch tuyến tính nói rằng:</h3>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) Nghiệm tối ưu luôn duy nhất</label>
-                <label><input type="radio" name="q4" value="b"> B) Nghiệm tối ưu luôn tồn tại tại một đỉnh của vùng khả thi</label>
+                <label><input type="radio" name="q4" value="b"> B) Nếu LP có nghiệm tối ưu và vùng khả thi có đỉnh, thì luôn có một nghiệm tối ưu tại một đỉnh</label>
                 <label><input type="radio" name="q4" value="c"> C) Vùng khả thi luôn bị chặn</label>
                 <label><input type="radio" name="q4" value="d"> D) Hàm mục tiêu luôn có cực tiểu toàn cục</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Nghiệm tối ưu luôn tồn tại tại một đỉnh của vùng khả thi</strong><br>
+                <strong>Đáp án đúng: B) Nếu LP có nghiệm tối ưu và vùng khả thi có đỉnh, thì luôn có một nghiệm tối ưu tại một đỉnh</strong><br>
                 Đây là cơ sở cho thuật toán Simplex: nghiệm tối ưu của LP luôn có thể tìm thấy tại một đỉnh.
             </div>
         </div>
@@ -338,7 +338,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$x^* = (A^T A)^{-1} A^T b$$</strong><br>
-                Đây là nghiệm dạng đóng của phương trình chuẩn $$A^T A x = A^T b$$.
+                Đây là nghiệm dạng đóng của phương trình chuẩn $$A^T A x = A^T b$$ (khi $$A$$ có hạng cột đầy đủ).
             </div>
         </div>
 
@@ -368,7 +368,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Sai số phân phối đều</strong><br>
-                Giả thuyết Gauss-Markov yêu cầu sai số phân phối chuẩn (Gaussian), không phải phân phối đều.
+                Giả thuyết Gauss-Markov chỉ yêu cầu sai số có kỳ vọng 0, không tương quan và có phương sai đồng nhất; nó không giả định phân phối cụ thể nào (không cần chuẩn, càng không cần đều). Giả định phân phối chuẩn chỉ cần thêm cho suy luận (kiểm định, khoảng tin cậy) hoặc để OLS trùng với MLE.
             </div>
         </div>
 
@@ -464,7 +464,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 
         <!-- Câu hỏi 19: Độ phức tạp Simplex -->
         <div class="question" id="q19" style="display: none;">
-            <h3>Câu 19: Độ phức tạp trung bình của thuật toán Simplex là:</h3>
+            <h3>Câu 19: Độ phức tạp của thuật toán Simplex là:</h3>
             <div class="options">
                 <label><input type="radio" name="q19" value="a"> A) Đa thức</label>
                 <label><input type="radio" name="q19" value="b"> B) Mũ trong trường hợp xấu nhất nhưng hiệu quả trong thực tế</label>
@@ -473,7 +473,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Mũ trong trường hợp xấu nhất nhưng hiệu quả trong thực tế</strong><br>
-                Simplex có độ phức tạp mũ trong trường hợp xấu nhất nhưng thường chỉ cần 2-3 lần số ràng buộc trong thực tế.
+                Simplex có độ phức tạp mũ trong trường hợp xấu nhất (ví dụ Klee-Minty) nhưng trong thực tế số vòng lặp thường chỉ khoảng 2-3 lần số ràng buộc.
             </div>
         </div>
 
@@ -947,8 +947,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

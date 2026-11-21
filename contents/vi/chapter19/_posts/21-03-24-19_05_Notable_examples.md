@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 19-05 Notable examples
+title: '19-05 Các ví dụ đáng chú ý'
 chapter: '19'
 order: 9
 owner: Hooncheol Shin
@@ -9,78 +9,78 @@ categories:
 lang: vi
 ---
 
-## Glmnet and QUIC
-Proximal newton method의 매우 유명한 패키지가 두 가지가 있다.
+## Glmnet và QUIC
+Có hai gói phần mềm rất nổi tiếng được xây dựng trên phương pháp Newton proximal.
 
-* **glmnet** (Friedman et al., 2009): $$l_1$$ penalized generalized linear modelsto, about, prox Newton를 구현한 패키지. Coordinate descent를 using,서 inner problem을 푼다.
+* **glmnet** (Friedman et al., 2009): cài đặt prox Newton cho các mô hình tuyến tính tổng quát (generalized linear models) có phạt $$l_1$$. Bài toán bên trong được giải bằng coordinate descent.
 
-* **QUIC**  (Hsiesh et al., 2011): graphical lasso problemto, about, prox Newton을 구현한 패키지. Factorization trick을 사용하고 coordinate descent를 using,서 inner problem을 푼다.
+* **QUIC** (Hsieh et al., 2011): cài đặt prox Newton cho bài toán graphical lasso. Nó dùng một mẹo phân rã (factorization trick) và giải bài toán bên trong bằng coordinate descent.
 
-두 구현 패키지는 각자의 용도to, 맞춰서 매우 광범위하게 사용되고 있으며 state-of-the-art라고 할 수 있다.
+Cả hai gói đều được sử dụng rộng rãi cho các mục đích tương ứng và có thể coi là hiện đại nhất (state of the art).
 
-Proximal Newton method는  proximal gradient보다 $$g$$의 gradient을 덜 자주 computation한다. therefore,, computation 비용이 커질수록 proximal newton이 유리하다. also,, inner solver를 신중하게 선택할수록 좋은 성능을 얻을 수 있다.
+Phương pháp Newton proximal tính gradient của $$g$$ ít thường xuyên hơn proximal gradient descent. Do đó, $$g$$ càng đắt để tính thì Newton proximal càng có lợi. Việc chọn bộ giải bên trong cẩn thận cũng giúp đạt hiệu năng tốt hơn.
 
-## Example: lasso logistic regression
-Lee et al. (2012)논문at, 제시된 예제를 let's look at.
+## Ví dụ: hồi quy logistic lasso
+Hãy xem ví dụ trong Lee et al. (2012).
 
-$$l_1$$ regularized logistic regressionto,대solution 다음 세가지 methodabout,서 성능을 평가하였다.
-1.FISTA : accelerated prox grad 2. spaRSA : spectral projected gradient method 3. PN  : proximal Newton
+Với hồi quy logistic chính quy hóa $$l_1$$, ba phương pháp sau được so sánh:
+1. FISTA: proximal gradient tăng tốc 2. spaRSA: phương pháp gradient chiếu phổ (spectral projected gradient) 3. PN: Newton proximal
 
-### Dense hessian X (n=5000, p=6000) 예시
-데이터 수 n = 5000, feature 개수 p = 6000인 dense feature matrix $$X$$를 갖는 problemabout, 다음and, 같은 성능을 보였다. Hessian이 dense하기 because of, 매우 challenging한 problem라고 할 수 있다.
-
-<figure class="image" style="align: center;">
-<p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.05_Lasso_Example1.png" alt="[Fig 1] Dense hessian X (n=5000, p=6000) [2]" width="70%">
-  <figcaption style="text-align: center;">[Fig 1] Dense hessian X (n=5000, p=6000) [2]</figcaption>
-</p>
-</figure>
-
-오른쪽은 function 호출 기준with,, 왼쪽은 시간 기준with, 평가한 것with,서, function 호출 기준with, 봤을 when,가 PN의 성능이 매우 우세함을 알 수 있다.
-
-여기서 비용은 $$g$$and, $$\nabla g$$를 computation하는 시간이 대부분이며 particularly, $$\exp$$and, $$\log$$function를 computation하는 시간이 많이 들었다.
-
-### Sparse hessian X (n=542,000, p=47,000) 예시
-
-다음의 case,는 $$X$$가 sparse하기 because of, $$g$$and, $$\nabla g$$를 computation하는 시간이 덜 들었다.
+#### Hessian dày đặc (n=5000, p=6000)
+Bài toán đầu tiên có ma trận đặc trưng dày đặc $$X$$ với n = 5000 mẫu và p = 6000 đặc trưng. Vì Hessian dày đặc nên đây là bài toán rất thách thức. Hiệu năng quan sát được như sau.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.05_Lasso_Example-sparse.png" alt="[Fig 2] Sparse hessian X (n=542,000, p=47,000) [2]" width="70%">
-  <figcaption style="text-align: center;">[Fig 2] Sparse hessian X (n=542,000, p=47,000) [2]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.05_Lasso_Example1.png" alt="[Hình 1] Hessian dày đặc X (n=5000, p=6000) [2]" width="70%">
+  <figcaption style="text-align: center;">[Hình 1] Hessian dày đặc X (n=5000, p=6000) [2]</figcaption>
 </p>
 </figure>
 
-## Inexact prox evaluations
-Proximal Newton methodat, proximal operation을 computation할 when,  prox operator가 closed form이 아니기 because of, 정확히 computation하지 못한다. 그럼to,도 불구하고, 매우 높은 정확도를 갖는다면 매우 좋은 성질이 될 수 있다.
+Đồ thị bên phải đo hiệu năng theo số lần gọi hàm và đồ thị bên trái đo theo thời gian. Xét theo số lần gọi hàm, PN rõ ràng vượt trội.
 
-Lee (2014)at,는 global convergenceand,  local superlinear convergence를 보장하는 inner problem의 stopping rule을 제안했다.
+Ở đây phần lớn chi phí dành cho việc tính $$g$$ và $$\nabla g$$, đặc biệt là việc tính các hàm $$\exp$$ và $$\log$$.
 
-### Three stopping rules
-Graphical lasso estimation problemto, inner optimizations을 위한 세 가지 stopping rules을 비교하였다. 이when,, 데이터 개수는 n = 72이고 feature 개수는 p = 1255이다.
+#### Hessian thưa (n=542,000, p=47,000)
+
+Trong trường hợp tiếp theo $$X$$ thưa nên việc tính $$g$$ và $$\nabla g$$ tốn ít thời gian hơn.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.05_Inexact_prox.png" alt="[Fig 3] Three stopping rules [2]" width="70%">
-  <figcaption style="text-align: center;">[Fig 3] Three stopping rules [2]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.05_Lasso_Example-sparse.png" alt="[Hình 2] Hessian thưa X (n=542,000, p=47,000) [2]" width="70%">
+  <figcaption style="text-align: center;">[Hình 2] Hessian thưa X (n=542,000, p=47,000) [2]</figcaption>
 </p>
 </figure>
 
-세 가지 stopping rule은 adaptive, maxiter = 10, exact이다. Maxiter는 inner iteration을 최대 10번to,만 하는 방식이고 exact는 정확한 solution를 구할 when,to, iteration하는 방식이다.
+## Tính prox không chính xác
+Khi phương pháp Newton proximal tính toán tử proximal, prox nói chung không có dạng đóng nên không thể tính chính xác. Tuy vậy, nếu prox được tính với độ chính xác cao thì đó là một tính chất rất tốt.
 
-Proximal newton method가 quadratic convergence를 만족하므to, exact는  quadratic convergence를 만족한다고 볼 수 있다. Maxiter=10의 case, 최대 10번의 inner iterationwith,는 quadratic convergence를 만족하지 못but, adaptive의 case, quadratic convergence를 만족하며 세 가지 방식 중 가장 빠르다.
+Lee (2014) đã đề xuất các quy tắc dừng cho bài toán bên trong, đảm bảo hội tụ toàn cục và hội tụ siêu tuyến tính cục bộ.
 
-### Stopping rule of usual newton method
-일반적인 newton's methodat,는 inner problem은 $$x^{(k-1)}$$의 $$g$$to, about, quadratic approximation인 $$\tilde{g}_{k-1}$$를 minimization한다. and,, $$\eta_k, k=1,2,3,...$$를 choosing,서 다음 condition,을 만족할 when, 중지한다. (이를 forcing sequence라고 한다.)
+#### Ba quy tắc dừng
+Ba quy tắc dừng cho tối ưu bên trong được so sánh trên bài toán ước lượng graphical lasso với n = 72 mẫu và p = 1255 đặc trưng.
+
+<figure class="image" style="align: center;">
+<p align="center">
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.05_Inexact_prox.png" alt="[Hình 3] Ba quy tắc dừng [2]" width="70%">
+  <figcaption style="text-align: center;">[Hình 3] Ba quy tắc dừng [2]</figcaption>
+</p>
+</figure>
+
+Ba quy tắc dừng là adaptive, maxiter = 10 và exact. Maxiter thực hiện tối đa 10 vòng lặp bên trong; exact lặp cho đến khi tìm được nghiệm chính xác.
+
+Vì phương pháp Newton proximal hội tụ bậc hai, quy tắc exact thể hiện hội tụ bậc hai. Với maxiter = 10, tối đa 10 vòng lặp bên trong là không đủ để giữ hội tụ bậc hai, trong khi quy tắc adaptive đạt được hội tụ bậc hai và là nhanh nhất trong ba quy tắc.
+
+#### Quy tắc dừng của phương pháp Newton thông thường
+Trong phương pháp Newton thông thường, bài toán bên trong cực tiểu hóa xấp xỉ bậc hai $$\tilde{g}_{k-1}$$ của $$g$$ tại $$x^{(k-1)}$$. Ta chọn một dãy $$\eta_k, k=1,2,3,...$$ (gọi là dãy cưỡng bức, forcing sequence) và dừng khi điều kiện sau được thỏa mãn.
 
 > \begin{align}
 \parallel \nabla \tilde{g}_{k-1}(x^{(k)}) \parallel_2 & \le \eta_k \parallel  \nabla g(x^{(k-1)})  \parallel_2 \\\\
 \end{align}
 
-이 condition,은 다음 positionat,의 gradient가 현재 positionat,의 gradient보다 $$\eta_k$$배 만큼 작다는 것을 의미한다. 이when,, Quadratic approximation은 $$\tilde{g}_{k-1}(z) = \nabla g(x)^T (z-x) + \frac{1}{2t} \parallel  z - x \parallel_2^2$$이다.
+Điều kiện này nói rằng gradient của mô hình tại điểm tiếp theo nhỏ hơn gradient tại điểm hiện tại tối đa $$\eta_k$$ lần. Ở đây xấp xỉ bậc hai là $$\tilde{g}_{k-1}(z) = \nabla g(x^{(k-1)})^T (z-x^{(k-1)}) + \frac{1}{2} (z - x^{(k-1)})^T \nabla^2 g(x^{(k-1)}) (z - x^{(k-1)})$$.
 
-### Stopping rule of proximal gradient method
-Lee et al. (2012)at,는 proximal gradientat,는 gradient instead, generalized gradient를 사용하는 방식을 제안하였다.
+#### Quy tắc dừng của phương pháp Newton proximal
+Lee et al. (2012) đề xuất dùng gradient tổng quát thay cho gradient trong trường hợp proximal.
 
 > $$
 > \begin{align}
@@ -88,9 +88,9 @@ Lee et al. (2012)at,는 proximal gradientat,는 gradient instead, generalized gr
 \end{align}
 > $$
 
-여기서 $$\tilde{f}_{k-1} = \tilde{g}_{k-1} + h$$이고 $$mI \preceq \nabla^2 g \preceq MI$$이다.
+Ở đây $$\tilde{f}_{k-1} = \tilde{g}_{k-1} + h$$ và $$mI \preceq \nabla^2 g \preceq MI$$.
 
-and,, as follows: $$\eta_k$$를 설정하여 inexact proximal newton이 local superlinear rate를 갖는다는 것을 증명하였다.
+Sau đó họ chứng minh rằng nếu $$\eta_k$$ được chọn như sau thì phương pháp Newton proximal không chính xác có tốc độ siêu tuyến tính cục bộ.
 
 > $$
 > \begin{align}

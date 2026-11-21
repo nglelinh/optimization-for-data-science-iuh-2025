@@ -39,7 +39,7 @@ DFP và BFGS cho thấy hội tụ siêu tuyến tính dưới hai giả thiết
 
 Khi hướng tìm kiếm của phương pháp Quasi-Newton xấp xỉ đủ tốt hướng Newton tại nghiệm và độ dài bước thỏa mãn điều kiện Wolfe trong quá trình hội tụ, thì tồn tại điều kiện đủ cho hướng tìm kiếm để có hội tụ siêu tuyến tính [14].
 
->Giả sử $$f$$ khả vi, $$x^k \rightarrow x^\ast$$ sao cho $$\nabla f(x^\ast) = 0$$ và $$\nabla^2 f(x^\ast)$$ là xác định dương.
+>Giả sử $$f$$ khả vi liên tục hai lần, $$x^k \rightarrow x^\ast$$ sao cho $$\nabla f(x^\ast) = 0$$ và $$\nabla^2 f(x^\ast)$$ là xác định dương.
 >
 >$$
 \lim_{k \rightarrow \infty} \frac{\| \nabla f(x^k) + \nabla^2 f(x^k) p^k \| }{\| p^k \|} = 0.

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 22-03 Convergence analysis
+title: '22-03 Phân tích hội tụ'
 chapter: '22'
 order: 4
 owner: YoungJae Choung
@@ -9,111 +9,106 @@ categories:
 lang: vi
 ---
 
-## Convergence analysis
-To find out the convergence characteristics of the Frank-Wolfe method, it is necessary to define the curvature constant of $$f$$ for $$C$$ as follows. [Jaggi (2011)]
+## Phân tích hội tụ
+Để tìm hiểu các đặc tính hội tụ của phương pháp Frank-Wolfe, cần định nghĩa hằng số độ cong (curvature constant) của $$f$$ đối với $$C$$ như sau. [Jaggi (2011)]
 > $$M = \max_{x,s,y∈C, y = (1−γ)x+γs} \frac{2}{γ^2} \Bigl( f(y) − f(x) − ∇f(x)^T(y − x) \Bigr)$$
 > $$γ ∈ [0, 1]$$
 
-M을 through,서 actually, function가 선형 approximation(linear approximation)from, 얼마나 먼 경향을 가지고 있는지를 측정할 수도 있다.
-여기서 $$M = 0$$은 $$f$$가 선형임을 나타낸다. $$f (y) - f (x) - ∇f (x)^T(y - x)$$는 $$f$$by, 정의 된 Bregman divergence 라 부른다.
+Thông qua $$M$$, ta có thể đo mức độ mà hàm $$f$$ lệch khỏi xấp xỉ tuyến tính (linear approximation) của nó.
+Ở đây $$M = 0$$ nghĩa là $$f$$ tuyến tính. Đại lượng $$f (y) - f (x) - ∇f (x)^T(y - x)$$ được gọi là độ phân kỳ Bregman (Bregman divergence) xác định bởi $$f$$.
 
-> Theorem: 고정 스텝 사이즈 $$γk = 2 / (k + 1), k = 1,2,3, ...$$를 이용한 condition,부 그레디언드 method(conditional gradient method)은 다음을 만족한다.
+> Định lý: Phương pháp gradient có điều kiện (conditional gradient method) với kích thước bước cố định $$γ_k = 2 / (k + 1), k = 1,2,3, ...$$ thỏa mãn
 >  $$f(x^{(k)}) − f^{\star} ≤ \frac{2M}{k + 2}$$
 
+Do đó, số vòng lặp cần thiết để đạt $$f(x^{(k)}) − f^{\star} ≤ \epsilon$$ là $$O(1/\epsilon)$$.
 
-$$f(x^{(k)}) − f^{\star} ≤ \epsilon$$를 만족하기 for, 필요한 iteration 횟수는 $$O(1/\epsilon)$$이다.
+Ta sẽ chứng minh định lý này bằng quy nạp. Tuy nhiên, trước khi vào chứng minh, cần giới thiệu một khái niệm.
 
-이제 이 이론은 귀납법with, proving,보고자 한다. however, 바to, 증명with, 넘어가기전 짚고 넘어가야 할 개념을 하나 소개하고자 한다.
-
-## Basic inequality
-Frank-Wolfe convergence 속도를 증명하는 데 사용되는 **key inequality**는 as follows:.
+## Bất đẳng thức cơ bản
+**Bất đẳng thức then chốt** dùng để chứng minh tốc độ hội tụ của Frank-Wolfe như sau:
 > $$f(x^{(k)}) ≤  f(x^{(k−1)}) − γ_kg(x^{(k−1)}) + \frac{γ^2_k}{2}M$$
 
-여기서 $$g(x) = \max_{s∈C} ∇f(x)^T(x − s)$$는 앞서 논의한 duality gap 을 의미하며, 귀납법according to, 이 비율은  inequality를 따르게 된다.
+Ở đây $$g(x) = \max_{s∈C} ∇f(x)^T(x − s)$$ là khoảng cách đối ngẫu (duality gap) đã thảo luận trước đó; ta sẽ dùng bất đẳng thức này trong chứng minh quy nạp.
 
-### [Proof] 
-Basic inequality를 증명하기 for, $$x^+ = x^{(k)}, x = x^{(k−1)}, s = s^{(k−1)}, γ = γ_k$$ 를 지정한다. and, as follows: 정리한다.
+### [Chứng minh]
+Để chứng minh bất đẳng thức cơ bản, đặt $$x^+ = x^{(k)}, x = x^{(k−1)}, s = s^{(k−1)}, γ = γ_k$$. Khi đó ta có:
 > $$\begin{align}
-> f(x^+) &= f\bigl( x + γ(s − x) \bigr) \\\
-> &≤ f(x) + γ∇f(x)^T(s − x) + \frac{γ^2}{2}M \\\
+> f(x^+) &= f\bigl( x + γ(s − x) \bigr) \\\\
+> &≤ f(x) + γ∇f(x)^T(s − x) + \frac{γ^2}{2}M \\\\
 > &= f(x) − γg(x) + \frac{γ^2}{2}M
 > \end{align}$$
 
-위 수식at, 두 번째 줄은 $$M$$의 정의를 사용했고, 세 번째 줄은 $$g$$의 정의를 사용하였다.
+Trong phương trình trên, dòng thứ hai dùng định nghĩa của $$M$$, còn dòng thứ ba dùng định nghĩa của $$g$$.
 
-이제, basic inequality를 using,, 우리는 convergence rate theorem을 증명하기 for, 귀납법을 사용한다.
+Bây giờ, dùng bất đẳng thức cơ bản, ta chứng minh định lý về tốc độ hội tụ bằng quy nạp.
 
-$$k=1$$의 case,, theorem이 만족함을 쉽게 확인할 수 있다.
-and, 임의의 $$k > 1$$일 case,, $$f(x^{(k−1)}) − f^{\star} ≤ 2M/(k + 1)$$를 만족함을 가정한다.
+Với $$k=1$$, dễ dàng kiểm tra định lý thỏa mãn.
+Với $$k > 1$$ bất kỳ, giả sử $$f(x^{(k−1)}) − f^{\star} ≤ 2M/(k + 1)$$.
 
-
-앞서 언급한 duality gap $$g(x)$$를 다시 떠올려 보자. 
-> $$g(x^{(k−1)}) ≤ f(x^{(k−1)}) − f^{\star}$$
+Hãy nhớ lại khoảng cách đối ngẫu $$g(x)$$ nói trên.
+> $$g(x^{(k−1)}) ≥ f(x^{(k−1)}) − f^{\star}$$
 > $$γ_k = 2/(k + 1)$$
 
-and, 이제 basic inequalityto, applying, 보자.
-> $$f(x^{(k)}) ≤ f(x^{(k−1)}) − 2(f(x^{(k−1)}) − f^{\star})/(k + 1) + 4M/2(k + 1)^2$$
-> $$f(x^{(k)}) − f^{\star} ≤ (1 − 2/(k + 1))(f(x^{(k−1)}) − f^{\star}) + 2M/(k + 1)^2$$
-> $$f(x^{(k)}) − f^{\star} ≤ (k − 1/k + 1) × 2M/(k + 1) + 2M/(k + 1)^2 ≤ 2M/(k + 2) $$
+Bây giờ áp dụng bất đẳng thức cơ bản.
+> $$f(x^{(k)}) ≤ f(x^{(k−1)}) − \frac{2}{k + 1}\bigl(f(x^{(k−1)}) − f^{\star}\bigr) + \frac{2M}{(k + 1)^2}$$
+> $$f(x^{(k)}) − f^{\star} ≤ \Bigl(1 − \frac{2}{k + 1}\Bigr)\bigl(f(x^{(k−1)}) − f^{\star}\bigr) + \frac{2M}{(k + 1)^2}$$
+> $$f(x^{(k)}) − f^{\star} ≤ \frac{k − 1}{k + 1} · \frac{2M}{k + 1} + \frac{2M}{(k + 1)^2} = \frac{2Mk}{(k + 1)^2} ≤ \frac{2M}{k + 2} $$
 
-이 증명 된 convergence 속도는 ∇f가 립시츠 (Lipschitz) 일 when, projected gradient descent의 informing,진 속helping, 일치한다.
+(Ở đây ta dùng $$g(x) ≥ f(x) − f^{\star}$$, nên $$-γ_k g(x^{(k-1)}) ≤ -γ_k (f(x^{(k-1)}) - f^{\star})$$, và bất đẳng thức cuối đúng vì $$k(k+2) ≤ (k+1)^2$$.)
 
-이제 이 가정 들을 comparing, 보자.
-in fact, if, $$∇f$$가 constant $$L$$을 가지는 Lipschitz라면 $$diam^2(C) = max_{x,s∈C} ||x − s||^2$$일 when, $$M ≤ diam^2(C) · L$$이다.
+Tốc độ hội tụ đã chứng minh này khớp với tốc độ đã biết của projected gradient descent khi $$∇f$$ là Lipschitz.
 
-이를 확인하기 for, constant $$L$$을 가지는 $$∇f$$ Lipschitz 아래and, 같다는 것을 image기할 필요가 있다.
+Bây giờ hãy so sánh các giả thiết này.
+Thật vậy, nếu $$∇f$$ là Lipschitz với hằng số $$L$$ thì $$M ≤ diam^2(C) · L$$, trong đó $$diam^2(C) = max_{x,s∈C} ||x − s||^2$$.
+
+Để kiểm tra điều này, cần nhớ rằng $$∇f$$ Lipschitz với hằng số $$L$$ tương đương với bất đẳng thức sau.
 > $$f(y) − f(x) − ∇f(x)^T(y − x) ≤ \frac{L}{2} \| y − x \|^2_2$$
 
-모든 $$y = (1-γ) x + γs$$를 maximizing, $$\frac{2}{γ^2}$$를 product하면 as follows:.
+Lấy cực đại trên mọi $$y = (1-γ) x + γs$$ và nhân với $$\frac{2}{γ^2}$$ ta được:
 > $$M ≤ \max_{x,s,y∈C, y=(1−γ)x+γs} \frac{2}{γ^2}·\frac{L}{2} \| y − x \|^2_2 = \max_{x,s∈C} L \| x − s \|^2_2$$
 
-M의 경계가 결정되었다. 기본적with, 경계가 있는 곡률이 proximal gradientabout, 가정한 곡률보다 크지 않다고 가정한다.
+Như vậy ta đã có một cận cho $$M$$. Về cơ bản, độ cong bị chặn ở đây không lớn hơn độ cong được giả định cho proximal gradient.
 
-
-## Affine invariance
-앞서 배운 개념들을 다시 생각solution 보자.
+## Tính bất biến affine
+Hãy nhớ lại các khái niệm đã học.
 
 * Gradient Descent: $$x^+ = x − t∇f(x)$$
-* Pure Newton’s Method: $$x^+ = x − ∇^2f(x)^{−1}∇f(x)$$
+* Phương pháp Newton thuần túy: $$x^+ = x − ∇^2f(x)^{−1}∇f(x)$$
 
-Gradient descent는 affine invariant하지 않다. that is,, coordinate들을 스케일링 함with, gradient descent의 성능은 향image 된다. 반면, Newton’s method는 affine invariant하다. that is,, 이 algorithm은 variable의 모든 affine transformationat, 동일하게 동작한다.
+Gradient descent không bất biến affine (affine invariant). Nghĩa là, hiệu năng của gradient descent có thể được cải thiện bằng cách co giãn các tọa độ. Ngược lại, phương pháp Newton bất biến affine. Nghĩa là thuật toán này hoạt động như nhau dưới mọi phép biến đổi affine của biến.
 
-and, Conditional gradient method는 gradient descentand, 비슷but, affine invariant 하다.
+Phương pháp gradient có điều kiện tương tự gradient descent nhưng bất biến affine.
 
-Frank-Wolfe의 중요한 속성 : 업데이트는 **affine invariant** 하다.
-Nonsingular $$A : \mathbb{R}^n → \mathbb{R}^n$$가 주어지면, $$x = Ax', h(x') = f(Ax')$$를 정의할 수 있다.
-그러면 $$h(x')$$at,의 Frank-Wolfe는 아래and, 같이 computation 가능하다.
+Tính chất quan trọng của Frank-Wolfe: bước cập nhật **bất biến affine**.
+Cho ma trận không suy biến $$A : \mathbb{R}^n → \mathbb{R}^n$$, ta có thể định nghĩa $$x = Ax', h(x') = f(Ax')$$.
+Khi đó Frank-Wolfe trên $$h(x')$$ có thể được tính như sau.
 
 > $$\begin{array}{rcl}
-> s' & = & \arg\min_{z∈A^{−1}C} ∇h(x')^Tz \\\
+> s' & = & \arg\min_{z∈A^{−1}C} ∇h(x')^Tz \\\\
 > (x')^+ & = & (1 − γ)x' + γs'
 > \end{array}$$
 
-$$A$$to, product하면 $$f (x)$$at, 수행되는 것and, 동일한 Frank-Wolfe 업데이트가 나타난다.
-심지어 convergence analysis은 affine invariant이다.
+Nhân với $$A$$ ta được đúng bước cập nhật Frank-Wolfe thực hiện trên $$f (x)$$.
+Thậm chí phân tích hội tụ cũng bất biến affine.
 
-$$h$$의 곡률 constant $$M$$은 as follows:.
+Hằng số độ cong $$M$$ của $$h$$ như sau.
 > $$M = \max_{x',s',y'∈A^{−1}C, y'=(1−γ)x'+γs'} \frac{2}{γ^2} \Bigl( h(y') − h(x') − ∇h(x')^T(y' − x') \Bigr)$$
 
-$$∇h(x')T(y' − x') = ∇f(x)^T(y − x)$$이기 because of, $$f$$and, 일치한다.
+Nó trùng với của $$f$$ vì $$∇h(x')^T(y' − x') = ∇f(x)^T(y − x)$$.
 
-
-however,, affine invariance는 M의 경계at, 직관적이지 않다.
-
+Tuy nhiên, tính bất biến affine không hiển nhiên trong cận của $$M$$.
 > $$M ≤ \max_{x,s∈C} L||x − s||^2_2$$
 
-주어진 C의 diameter이  affine invariance이 아니라면, 이것은 고민solution 볼 가치가 있다.
+Vì đường kính của $$C$$ không bất biến affine, đây là điều đáng suy ngẫm thêm.
 
-
-
-## Inexact updates
-정확하지 않은 Frank-Wolfe 업데이트를 분석하였다.[Jaggi (2011)]</br>
-$$s^{(k−1)}$$를 선택한다. 
+## Cập nhật không chính xác
+Các cập nhật Frank-Wolfe không chính xác cũng đã được phân tích. [Jaggi (2011)]</br>
+Chọn $$s^{(k−1)}$$ sao cho
 > $$∇f(x^{(k−1)})^Ts^{(k−1)} ≤ \min_{s∈C} ∇f(x^{(k−1)})^Ts + \frac{Mγ_k}{2} · δ$$
 
-$$δ ≥ 0$$는 부정확한 파라미터이다. 이를 using,  기본적with, 다음and, 같은 비율을 얻게 된다.
+trong đó $$δ ≥ 0$$ là tham số không chính xác. Dùng điều này, ta thu được tốc độ như sau.
 
-> Theorem: 고정 스텝 magnitude $$γk=2/(k+1),k=1,2,3, ... $$ 및 부정확한 파라미터 δ≥0을 이용한 Conditional gradient method을 using,, 다음을 만족한다.
+> Định lý: Phương pháp gradient có điều kiện với kích thước bước cố định $$γ_k=2/(k+1),k=1,2,3, ... $$ và tham số không chính xác $$δ≥0$$ thỏa mãn
 > $$f(x^{(k)}) − f^{\star} ≤ \frac{2M}{k + 2} (1 + δ)$$
 
-Note: $$k$$ step의 optimization 오difference는 $$\frac{Mγ_k}{2} · δ.$$ 이다. 여기서 $$γ_k → 0$$이므to, 시간이 지날수록 오difference가 사라지는 것을 의도to, 한다.
+Lưu ý: Sai số tối ưu hóa ở bước $$k$$ là $$\frac{Mγ_k}{2} · δ.$$ Vì $$γ_k → 0$$, ý đồ là sai số biến mất dần theo thời gian.

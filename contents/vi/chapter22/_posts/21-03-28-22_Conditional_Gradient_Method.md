@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 22 Conditional Gradient (Frank-Wolfe) Method
+title: '22 Phương pháp Gradient có điều kiện (Frank-Wolfe)'
 chapter: '22'
 order: 1
 owner: YoungJae Choung
@@ -9,10 +9,10 @@ categories:
 lang: vi
 ---
 
-This chapter will examine the Frank-Wolfe algorithm proposed by Marguerite Frank and Philip Wolfe in 1956.
+Chương này sẽ xem xét thuật toán Frank-Wolfe do Marguerite Frank và Philip Wolfe đề xuất năm 1956.
 
-The Frank-Wolfe algorithm is an iterative first-order optimization algorithm for constrained convex optimization, also called the conditional gradient method, reduced gradient method, and convex combination algorithm.
+Thuật toán Frank-Wolfe là một thuật toán tối ưu bậc nhất lặp cho tối ưu lồi có ràng buộc, còn được gọi là phương pháp gradient có điều kiện, phương pháp gradient rút gọn (reduced gradient method) và thuật toán tổ hợp lồi (convex combination algorithm).
 
-This method was originally proposed by Marguerite Frank and Philip Wolfe in 1956. The Frank-Wolfe algorithm considers a linear approximation of the objective function at each iteration and moves toward the minimizer of this linear function.
+Phương pháp này ban đầu do Marguerite Frank và Philip Wolfe đề xuất năm 1956. Thuật toán Frank-Wolfe xét một xấp xỉ tuyến tính của hàm mục tiêu tại mỗi vòng lặp và di chuyển về phía điểm cực tiểu của hàm tuyến tính này.
 
 [15] Wikipedia. [Frank–Wolfe algorithm](https://en.wikipedia.org/wiki/Frank%E2%80%93Wolfe_algorithm)

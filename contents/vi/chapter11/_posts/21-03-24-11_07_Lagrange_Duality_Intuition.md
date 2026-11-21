@@ -80,7 +80,7 @@ $$g(\lambda) = \frac{\lambda^2}{4} - \lambda \cdot \frac{\lambda}{2} - \lambda =
 **Bài toán dual:**
 $$\max_{\lambda} g(\lambda) \quad \text{s.t. } \lambda \geq 0$$
 
-Nghiệm dual: $$d^* = -1$$ với $$\lambda = -2$$ (nhưng $$\lambda \geq 0$$, nên $$d^* = 0$$ với $$\lambda = 0$$)
+Điểm cực đại không ràng buộc của $$g$$ là $$\lambda = -2$$ (với $$g(-2) = 1$$), nhưng điều này không được phép vì $$\lambda \geq 0$$. Trên miền $$\lambda \geq 0$$, $$g$$ giảm dần nên nghiệm dual là $$\lambda = 0$$ với $$d^* = g(0) = 0 = p^*$$ (strong duality)
 
 <div id="lagrangian-visualization" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
     <canvas id="lagrangianCanvas" width="900" height="500" style="border: 2px solid #dee2e6; display: block; margin: 0 auto; background: white; border-radius: 5px;"></canvas>
@@ -285,8 +285,8 @@ Nghiệm dual: $$d^* = -1$$ với $$\lambda = -2$$ (nhưng $$\lambda \geq 0$$, n
                 dualValueSpan.textContent = `g(${lambda.toFixed(2)}) = ${minY.toFixed(3)}`;
                 
                 // Update lower bound info
-                if (minY <= 1) {
-                    lowerBoundInfo.textContent = `✓ g(λ) = ${minY.toFixed(3)} ≤ p* = 1 (cận dưới hợp lệ)`;
+                if (minY <= 0) {
+                    lowerBoundInfo.textContent = `✓ g(λ) = ${minY.toFixed(3)} ≤ p* = 0 (cận dưới hợp lệ)`;
                     lowerBoundInfo.style.color = '#28a745';
                 } else {
                     lowerBoundInfo.textContent = `⚠ Cận dưới không chặt`;
@@ -386,7 +386,7 @@ Nghiệm dual: $$d^* = -1$$ với $$\lambda = -2$$ (nhưng $$\lambda \geq 0$$, n
             ctx.arc(legendX + 25, yPos, 6, 0, 2 * Math.PI);
             ctx.fill();
             ctx.fillStyle = '#dc3545';
-            ctx.fillText('Nghiệm tối ưu: p* = 1', legendX + 50, yPos + 5);
+            ctx.fillText('Nghiệm tối ưu: p* = 0', legendX + 50, yPos + 5);
         }
         
         // Debounce function for smoother performance
@@ -1177,7 +1177,7 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
                 <span style="color: #dc3545; font-weight: bold;">⊥ Đường đỏ đứt:</span> Ràng buộc x ≤ 1
             </div>
             <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #ff0000;">
-                <span style="color: #ff0000; font-weight: bold;">◉ Điểm đỏ lớn:</span> Nghiệm tối ưu p* = 1
+                <span style="color: #ff0000; font-weight: bold;">◉ Điểm đỏ lớn:</span> Nghiệm tối ưu p* = 0
             </div>
             <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff;">
                 <span style="color: #007bff; font-weight: bold;">◉ Điểm xanh:</span> Min của L(x,λ) → g(λ)
@@ -1188,8 +1188,8 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
         </div>
         <div style="margin-top: 15px; padding: 12px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
             <p style="margin: 0; color: #856404; font-size: 14px;">
-                <strong>💡 Quan sát chính:</strong> Khi λ tăng, điểm minimum của Lagrangian (xanh) di chuyển sang trái, 
-                và giá trị g(λ) giảm xuống (cận dưới chặt hơn). Giá trị lớn nhất của g(λ) cho ta nghiệm dual tốt nhất!
+                <strong>💡 Quan sát chính:</strong> Khi λ tăng từ 0, điểm minimum của Lagrangian (xanh) di chuyển sang trái, 
+                và giá trị g(λ) giảm xuống (cận dưới kém chặt hơn). Giá trị lớn nhất của g(λ) trên λ ≥ 0 (ở đây là tại λ = 0) cho ta cận dưới tốt nhất!
             </p>
         </div>
     </div>
@@ -1400,7 +1400,7 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
             ctx.shadowColor = '#ff0000';
         ctx.fillStyle = '#ff0000';
         ctx.beginPath();
-            ctx.arc(centerX + scale, centerY - scale / 2, 10, 0, 2 * Math.PI);
+            ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
         ctx.fill();
             ctx.shadowBlur = 0;
             
@@ -1408,7 +1408,7 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
             ctx.fillStyle = '#ff0000';
             ctx.font = 'bold 14px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('p* = 1', centerX + scale, centerY - scale / 2 - 20);
+            ctx.fillText('p* = 0', centerX, centerY - 20);
             
             // Legend
             const legendX = panel.x + 15;
@@ -1582,11 +1582,11 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
                 ctx.shadowBlur = 0;
             }
             
-            // Show p* = 1 reference line
+            // Show p* = 0 reference line
             ctx.strokeStyle = '#ff0000';
             ctx.lineWidth = 2;
             ctx.setLineDash([8, 4]);
-            const pStarY = centerY - 1 * scaleY;
+            const pStarY = centerY - 0 * scaleY;
             ctx.beginPath();
             ctx.moveTo(centerX, pStarY);
             ctx.lineTo(panel.x + panel.width - 20, pStarY);
@@ -1596,7 +1596,7 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
             ctx.fillStyle = '#ff0000';
             ctx.font = 'bold 13px Arial';
             ctx.textAlign = 'left';
-            ctx.fillText('p* = 1', panel.x + panel.width - 70, pStarY - 5);
+            ctx.fillText('p* = 0', panel.x + panel.width - 70, pStarY - 5);
     }
     
     function animate() {

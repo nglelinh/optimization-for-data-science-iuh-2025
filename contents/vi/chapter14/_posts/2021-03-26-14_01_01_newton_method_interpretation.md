@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 14-01-01 Giải thích phương pháp Newton
+chapter: '14'
 order: 3
 owner: Minjoo Lee
 categories:
@@ -71,3 +72,11 @@ Làm ví dụ, đối với hàm số $$f = (10x_{1}^{2}+x_{2}^{2})/2+5log(1+e^{
 </figure>
 
 Như có thể thấy trong Hình 1, gradient descent giả sử số hạng đạo hàm bậc hai là một hằng số nhân với ma trận đơn vị khi tính toán gradient, do đó nó hội tụ vuông góc với hướng tiếp tuyến của các đường đồng mức, và cho thấy tốc độ hội tụ chậm hơn so với phương pháp Newton. Các chương còn lại sẽ đề cập đến các tính chất, đặc điểm, sự hội tụ, ví dụ, v.v. của phương pháp Newton.
+
+### Phương pháp Newton trong một chiều
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/newton-parabola_vi.mp4"></video>
+</div>
+
+Mỗi bước cực tiểu hóa mô hình bậc hai $$f(x_k)+f'(x_k)(x-x_k)+\tfrac12 f''(x_k)(x-x_k)^2$$, nên $$x_{k+1}=x_k-f'(x_k)/f''(x_k)$$.

@@ -150,7 +150,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             <h3>Câu 4: Cho gradient $$\nabla f = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$ và vector đơn vị $$\mathbf{u} = \begin{pmatrix} 0.6 \\ 0.8 \end{pmatrix}$$. Đạo hàm có hướng $$D_{\mathbf{u}}f$$ là:</h3>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) $$5$$</label>
-                <label><input type="radio" name="q4" value="b"> B) $$5.0$$</label>
+                <label><input type="radio" name="q4" value="b"> B) $$4.8$$</label>
                 <label><input type="radio" name="q4" value="c"> C) $$3.2$$</label>
                 <label><input type="radio" name="q4" value="d"> D) $$7$$</label>
             </div>
@@ -240,9 +240,9 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             <h3>Câu 10: Tích của hai ma trận $$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} \begin{pmatrix} 2 & 0 \\ 1 & 3 \end{pmatrix}$$ là:</h3>
             <div class="options">
                 <label><input type="radio" name="q10" value="a"> A) $$\begin{pmatrix} 4 & 6 \\ 10 & 12 \end{pmatrix}$$</label>
-                <label><input type="radio" name="q10" value="b"> B) $$\begin{pmatrix} 4 & 6 \\ 10 & 12 \end{pmatrix}$$</label>
+                <label><input type="radio" name="q10" value="b"> B) $$\begin{pmatrix} 2 & 4 \\ 10 & 14 \end{pmatrix}$$</label>
                 <label><input type="radio" name="q10" value="c"> C) $$\begin{pmatrix} 2 & 0 \\ 3 & 12 \end{pmatrix}$$</label>
-                <label><input type="radio" name="q10" value="d"> D) $$\begin{pmatrix} 4 & 6 \\ 10 & 12 \end{pmatrix}$$</label>
+                <label><input type="radio" name="q10" value="d"> D) $$\begin{pmatrix} 3 & 2 \\ 4 & 7 \end{pmatrix}$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\begin{pmatrix} 4 & 6 \\ 10 & 12 \end{pmatrix}$$</strong><br>
@@ -377,7 +377,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
 
         <!-- Câu hỏi 19: Đường mức -->
         <div class="question" id="q19" style="display: none;">
-            <h3>Câu 19: Gradient của hàm số tại một điểm luôn:</h3>
+            <h3>Câu 19: Gradient (khác 0) của hàm số tại một điểm luôn:</h3>
             <div class="options">
                 <label><input type="radio" name="q19" value="a"> A) Vuông góc với đường mức tại điểm đó</label>
                 <label><input type="radio" name="q19" value="b"> B) Song song với đường mức tại điểm đó</label>
@@ -443,7 +443,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             <div class="options">
                 <label><input type="radio" name="q23" value="a"> A) $$5$$</label>
                 <label><input type="radio" name="q23" value="b"> B) $$7$$</label>
-                <label><input type="radio" name="q23" value="c"> C) $$\sqrt{25}$$</label>
+                <label><input type="radio" name="q23" value="c"> C) $$25$$</label>
                 <label><input type="radio" name="q23" value="d"> D) $$3$$</label>
             </div>
             <div class="explanation" style="display: none;">
@@ -457,7 +457,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             <h3>Câu 24: Ma trận $$A = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix}$$ có eigenvalue là:</h3>
             <div class="options">
                 <label><input type="radio" name="q24" value="a"> A) $$\lambda_1 = 3, \lambda_2 = 2$$</label>
-                <label><input type="radio" name="q24" value="b"> B) $$\lambda_1 = 2, \lambda_2 = 3$$</label>
+                <label><input type="radio" name="q24" value="b"> B) $$\lambda_1 = 3, \lambda_2 = 1$$</label>
                 <label><input type="radio" name="q24" value="c"> C) $$\lambda_1 = 1, \lambda_2 = 5$$</label>
                 <label><input type="radio" name="q24" value="d"> D) $$\lambda_1 = 0, \lambda_2 = 5$$</label>
             </div>
@@ -860,8 +860,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

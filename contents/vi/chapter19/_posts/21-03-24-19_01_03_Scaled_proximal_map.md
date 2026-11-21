@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 19-01-03 Scaled proximal map
+title: '19-01-03 Ánh xạ proximal có tỉ lệ (Scaled proximal map)'
 chapter: '19'
 order: 5
 owner: Hooncheol Shin
@@ -9,43 +9,43 @@ categories:
 lang: vi
 ---
 
-**Proximal newton method**를 **proximal gradient descent**and, 같은 형식with, 다시 작성solution 볼 수 있다.
+**Phương pháp Newton proximal** có thể được viết lại theo cùng dạng với **proximal gradient descent**.
 
-## Scaled proximal map
-if, $$H \succ 0$$라고 하면 **scaled proximal map**은 as follows: 정의된다.
+## Ánh xạ proximal có tỉ lệ
+Nếu $$H \succ 0$$, **ánh xạ proximal có tỉ lệ (scaled proximal map)** được định nghĩa như sau.
 
 > \begin{align}
-\text{prox}_{t}(x) = \underset{z}{\text{argmin}}  \frac{1}{2} \parallel x - z \parallel_H^2 + h(z)
+\text{prox}_{H}(x) = \underset{z}{\text{argmin}}  \frac{1}{2} \parallel x - z \parallel_H^2 + h(z)
 \end{align}
 
-여기서 $$\parallel x\parallel_H^2 = x^THx$$with, $$H\text{-norm}$$이다.  $$H = \frac{1}{t} I$$일 when, 일반적인 **unscaled proximal map**이 된다.
+Ở đây $$\parallel x\parallel_H^2 = x^THx$$ là bình phương chuẩn $$H$$. Khi $$H = \frac{1}{t} I$$, ta thu được **ánh xạ proximal không tỉ lệ** thông thường.
 
-generally, **scaled proximal map**는 usually,의 prox보다 좋은 성질을 갖고 있다.
+Nói chung, **ánh xạ proximal có tỉ lệ** có các tính chất tốt giống như prox thông thường.
 
-* **uniqueness** : solution가 하나만 존재하는 성질 ($$H \succ 0$$이므to, strictly convex optimization problem이기 because of, 만족된다.)
-* **non-expansiveness** :  팽창하지 않는 성질 (scaled proximal map이 non-expansive 성질을 갖는 projection operator의 일반화이기 because of, 만족된다.)
+* **tính duy nhất**: nghiệm là duy nhất (điều này đúng vì $$H \succ 0$$ làm bài toán lồi chặt).
+* **tính không giãn (non-expansiveness)**: ánh xạ không làm giãn khoảng cách (điều này đúng vì ánh xạ proximal có tỉ lệ là tổng quát hóa của toán tử chiếu, vốn không giãn).
 
-### [reference] Projection operator의 non-expansiveness
-두 점 $$x$$, $$y$$and, convex set $$C$$to, about, projection operator $$P_c$$about, non-expansiveness란 $$\parallel P_c(x) - P_c(y) \parallel_2 \le \parallel x - y \parallel_2$$를 만족한다는 것을 의미한다. that is,,  $$P_c$$는 Lipschitz-1을 만족하며 $$C$$가 convex일 case,to,만 만족한다.
+#### [Ghi chú] Tính không giãn của toán tử chiếu
+Với hai điểm $$x$$, $$y$$ và toán tử chiếu $$P_C$$ lên tập lồi $$C$$, tính không giãn nghĩa là $$\parallel P_C(x) - P_C(y) \parallel_2 \le \parallel x - y \parallel_2$$. Nói cách khác, $$P_C$$ là 1-Lipschitz, điều này đúng bất cứ khi nào $$C$$ lồi.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.01_03_projection_operator.png" alt="[Fig 1] Projection onto a convex set C [3]" width="70%">
-  <figcaption style="text-align: center;">[Fig 1] Projection onto a convex set C [3]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.01_03_projection_operator.png" alt="[Hình 1] Phép chiếu lên tập lồi C [3]" width="70%">
+  <figcaption style="text-align: center;">[Hình 1] Phép chiếu lên tập lồi C [3]</figcaption>
 </p>
 </figure>
 
-## Proximal newton update
-**Scaled proximal map**을 using,서 Proximal newton update를 다시 expressing,보면 as follows:.
+## Cập nhật Newton proximal
+Sử dụng **ánh xạ proximal có tỉ lệ**, cập nhật Newton proximal có thể được viết lại như sau.
 
 > $$
 > \begin{align}
-> z^{+} & = \underset{z}{\text{argmin}} \nabla g(x)^T (z - x)^T v + \frac{1}{2} (z - x)^T H (z - x) + h(z) \\\\
+> z^{+} & = \underset{z}{\text{argmin}} \ \nabla g(x)^T (z - x) + \frac{1}{2} (z - x)^T H (z - x) + h(z) \\\\
 > & =\underset{z}{\text{argmin}} \ \frac{1}{2} \parallel x - H^{-1} \nabla g(x) - z \parallel_H^2 + h(z)
 > \end{align}
 > $$
 
-다르게 표현하면 as follows:.
+Tương đương:
 
 > $$
 > \begin{align}
@@ -54,12 +54,12 @@ generally, **scaled proximal map**는 usually,의 prox보다 좋은 성질을 �
 > \end{align}
 > $$
 
-직관적with, $$g$$about,서 newton step을 수행하고, $$H^{(k-1)}$$about, scaled prox operator를 applying,서 그 directionwith, 이동한다는 것을 의미한다.
+Một cách trực quan, ta thực hiện một bước Newton trên $$g$$, áp dụng toán tử prox có tỉ lệ theo $$H^{(k-1)}$$, rồi di chuyển theo hướng đó.
 
-이from, 다음and, 같은 사항을 알 수 있다.
+Từ đây ta thấy:
 
-* $$h(z) = 0$$일when, proximal operator는 identity function가 되여 일반적인 Newton update가 된다.
-* $$H^{(k+1)}$$를 $$\frac{1}{r_k} I$$to, 대체하고 $$t_k = 1$$to, 두면 step size $$r_k$$about, proximal gradient update를 구할 수 있다.
-* Prox의 어려움은 $$h$$뿐만 아니라 $$g$$의 hessian의 구조according to, 달라진다. for example, $$H$$가 diagonal이거나 banded이면 dense한 $$H$$일 case,to, 비solution problem가 매우 쉬워진다.
+* Khi $$h(z) = 0$$, toán tử proximal là phép đồng nhất và ta thu lại cập nhật Newton thông thường.
+* Nếu thay $$H^{(k-1)}$$ bằng $$\frac{1}{r_k} I$$ và đặt $$t_k = 1$$, ta thu được cập nhật proximal gradient với kích thước bước $$r_k$$.
+* Độ khó của prox không chỉ phụ thuộc vào $$h$$ mà còn phụ thuộc vào cấu trúc Hessian của $$g$$. Ví dụ, nếu $$H$$ là ma trận đường chéo hoặc dải (banded) thì bài toán dễ hơn nhiều so với khi $$H$$ dày đặc (dense).
 
-therefore,,  proximal Newton method는 proximal gradient descentand, Newton's method를 둘 다 일반화한 것임을 알 수 있다.
+Như vậy, phương pháp Newton proximal tổng quát hóa cả proximal gradient descent lẫn phương pháp Newton.

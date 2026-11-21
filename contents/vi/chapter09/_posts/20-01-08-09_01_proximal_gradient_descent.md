@@ -115,3 +115,15 @@ Trong hình dưới đây, bạn có thể thấy rõ sự khác biệt về hi�
   <figcaption style="text-align: center;">[Hình 1] Ví dụ về tốc độ hội tụ của gradient gần kề (ISTA) so với phương pháp subgradient [3]</figcaption>
 </p>
 </figure>
+
+### Co ngưỡng mềm trong 15 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/prox-shrink_vi.mp4"></video>
+</div>
+
+Prox của $$\lambda\|x\|_1$$ đưa các thành phần nhỏ về đúng 0 và co các thành phần còn lại một đoạn $$\lambda$$: $$\operatorname{sign}(y)\max(|y|-\lambda,0)$$.
+
+### Tự tay thử: ISTA trên một bài lasso nhỏ
+
+<div class="opx-explainer" data-opx="ista" data-lang="vi"></div>

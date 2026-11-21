@@ -87,9 +87,9 @@ $$\Rightarrow$$ Lồi trên $$\mathbb{R}_+$$
 
 **Với $$x \geq 0$$:** $$f(x) = x^p$$ lồi (từ bước 5)
 
-**Với $$x < 0$$:** $$f(x) = |x|^p = (-x)^p$$ cũng lồi
+**Lưu ý:** lồi trên từng nửa trục chưa đủ để kết luận lồi trên $$\mathbb{R}$$. Lập luận đúng: $$f(x) = g(|x|)$$ với $$g(t) = t^p$$ lồi và **không giảm** trên $$\mathbb{R}_+$$, còn $$|x|$$ lồi.
 
-**Tại $$x = 0$$:** Phân tích subdifferential cho thấy tính lồi
+**Quy tắc hợp:** hàm lồi không giảm của một hàm lồi là hàm lồi, nên $$|x|^p$$ lồi.
 
 $$\Rightarrow$$ Lồi trên $$\mathbb{R}$$
 
@@ -157,18 +157,18 @@ $$= \theta h(x) + (1-\theta) h(y)$$
 
 **Theorem:** $$h(x) = \inf_{y \in C} f(x, y)$$ convex trong $$x$$ nếu $$f(x, y)$$ convex trong $$(x, y)$$ và $$C$$ convex.
 
-**Chứng minh:** Với mọi $$y \in C$$:
-$$h(\theta x_1 + (1-\theta) x_2) \leq f(\theta x_1 + (1-\theta) x_2, y)$$
-$$\leq \theta f(x_1, y) + (1-\theta) f(x_2, y)$$
-
-Taking infimum over $$y$$:
+**Chứng minh:** Cho $$\epsilon > 0$$, chọn $$y_1, y_2 \in C$$ với $$f(x_k, y_k) \leq h(x_k) + \epsilon$$ ($$k = 1, 2$$). Vì $$C$$ lồi, $$\bar{y} = \theta y_1 + (1-\theta) y_2 \in C$$, nên:
+$$h(\theta x_1 + (1-\theta) x_2) \leq f(\theta x_1 + (1-\theta) x_2, \bar{y})$$
+$$\leq \theta f(x_1, y_1) + (1-\theta) f(x_2, y_2) \leq \theta h(x_1) + (1-\theta) h(x_2) + \epsilon$$
+Cho $$\epsilon \to 0$$:
 $$h(\theta x_1 + (1-\theta) x_2) \leq \theta h(x_1) + (1-\theta) h(x_2)$$
+(Lưu ý: phải dùng hai điểm $$y_1, y_2$$ khác nhau và tính lồi **đồng thời** theo $$(x, y)$$; dùng chung một $$y$$ không chứng minh được.)
 
 **Bước 5: Integration - CONVEX**
 
 **Theorem:** $$h(x) = \int_0^\infty f(x, t) dt$$ convex nếu $$f(x, t)$$ convex trong $$x$$ for each $$t$$.
 
-**Chứng minh:** Monotone convergence theorem + convexity preservation under limits.
+**Chứng minh:** Với mỗi $$t$$: $$f(\theta x + (1-\theta) y, t) \leq \theta f(x, t) + (1-\theta) f(y, t)$$. Lấy tích phân hai vế theo $$t$$ (tích phân bảo toàn bất đẳng thức và tuyến tính) ta được $$h(\theta x + (1-\theta) y) \leq \theta h(x) + (1-\theta) h(y)$$.
 
 </details>
 
@@ -216,7 +216,7 @@ $$f(x) = \lVert x \rVert_2$$
 **Optimization:** $$\max_x (y^T x - \lVert x \rVert_2)$$
 
 **Phân tích các trường hợp:**
-- Nếu $$\lVert y \rVert_2 \leq 1$$: supremum achieved tại $$x^* = \frac{y}{\lVert y \rVert_2}$$ với value $$\lVert y \rVert_2$$
+- Nếu $$\lVert y \rVert_2 \leq 1$$: theo Cauchy-Schwarz $$y^T x - \lVert x \rVert_2 \leq (\lVert y \rVert_2 - 1)\lVert x \rVert_2 \leq 0$$, nên supremum $$= 0$$, đạt tại $$x = 0$$
 - Nếu $$\lVert y \rVert_2 > 1$$: supremum = $$+\infty$$
 
 **Conjugate:**
@@ -395,12 +395,9 @@ $$\Rightarrow \frac{x_1 + \cdots + x_n}{n} \geq \sqrt[n]{x_1 \cdots x_n}$$
 
 **Key function:** $$f(t) = e^t$$ convex
 
-**Application:** $$|x_i y_i| = |x_i|^{1/p} |x_i|^{1/q} |y_i|^{1/p} |y_i|^{1/q}$$
-
-**Jensen application với weights:**
-$$\log|x_i y_i| \leq \frac{1}{p}\log|x_i|^p + \frac{1}{q}\log|y_i|^q$$
-
-**Summing và exponentiating:**
+**Bất đẳng thức Young:** với $$a, b > 0$$, Jensen cho hàm lồi $$e^t$$ với trọng số $$\frac{1}{p}, \frac{1}{q}$$:
+$$ab = e^{\frac{1}{p}\log a^p + \frac{1}{q}\log b^q} \leq \frac{1}{p}a^p + \frac{1}{q}b^q$$
+**Chuẩn hóa rồi cộng lại:** đặt $$a_i = \frac{|x_i|}{\lVert x \rVert_p}$$, $$b_i = \frac{|y_i|}{\lVert y \rVert_q}$$, ta có $$\sum_i a_i b_i \leq \frac{1}{p}\sum_i a_i^p + \frac{1}{q}\sum_i b_i^q = \frac{1}{p} + \frac{1}{q} = 1$$, tức là:
 $$\sum |x_i y_i| \leq \left(\sum |x_i|^p\right)^{1/p} \left(\sum |y_i|^q\right)^{1/q}$$
 
 **Bước 4: Log-sum inequality**
@@ -497,7 +494,7 @@ $$\Rightarrow f(\theta x + (1-\theta) y) \leq \alpha = \max\{f(x), f(y)\}$$
 **Đề bài:** (Bài 3.7 từ Boyd & Vandenberghe)
 a) Verify log-concavity của:
    - Gaussian density: $$f(x) = e^{-\frac{1}{2}(x-\mu)^T \Sigma^{-1} (x-\mu)}$$
-   - Gamma function: $$\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt$$
+   - Gamma function: $$\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt$$ (lưu ý: $$\Gamma$$ thực ra **log-convex**, không log-concave, trên $$x > 0$$: mỗi hàm $$x \mapsto t^{x-1}e^{-t} = e^{(x-1)\log t - t}$$ là log-affine, và tích phân của các hàm log-convex là log-convex)
    - Determinant: $$\det(X)$$ trên $$\mathbb{S}_{++}^n$$
 
 b) Applications trong probability và statistics
@@ -619,7 +616,7 @@ $$g(x,t) = t \lVert x/t \rVert_2 = \lVert x \rVert_2$$
 **Example 2:** $$f(x) = x^2$$
 $$g(x,t) = t(x/t)^2 = x^2/t$$
 
-**Second-order cone:** $$\{(x,t) : x^2/t \leq s, t > 0\} = \{(x,t,s) : \lVert (x,s-t) \rVert_2 \leq s+t\}$$
+**Second-order cone:** $$\{(x,t,s) : x^2/t \leq s, t > 0\} = \{(x,t,s) : \lVert (2x,\ s-t) \rVert_2 \leq s+t,\ t > 0\}$$ (vì $$(2x)^2 + (s-t)^2 \leq (s+t)^2 \Leftrightarrow x^2 \leq st$$)
 
 **Example 3:** $$f(x) = e^x$$
 $$g(x,t) = te^{x/t}$$
@@ -782,7 +779,7 @@ $$\Rightarrow x_i^* = e^{-1 - \sum_j \lambda_j a_{ij}}$$
 **Convexity:** KL divergence convex trong first argument
 
 **Optimality conditions:**
-$$\log \frac{x_i}{y_i} + 1 + (A^T \lambda)_i + \mu_i = 0$$
+$$\log \frac{x_i}{y_i} + 1 + (A^T \lambda)_i - \mu_i = 0$$ (với $$\mu \geq 0$$ là nhân tử của $$x \geq 0$$; vì nghiệm có $$x_i > 0$$ nên $$\mu_i = 0$$)
 
 **Solution form:** $$x_i^* = y_i e^{-(A^T \lambda^*)_i - 1}$$
 

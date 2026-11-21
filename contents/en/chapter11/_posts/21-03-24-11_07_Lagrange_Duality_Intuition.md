@@ -1,0 +1,1677 @@
+---
+layout: post
+title: '11-7 Intuition Behind Lagrange Duality'
+chapter: '11'
+order: 8
+owner: GitHub Copilot
+lang: en
+categories:
+- chapter11
+---
+
+# Intuition Behind Lagrange Duality
+
+## 🔍 The General Optimization Problem
+
+Suppose we need to solve the optimization problem:
+
+$$\begin{align}
+\min_x f(x) \\
+\text{s.t. } h_i(x) \leq 0, \quad i=1,\ldots,m \\
+\mathcal{D} = \text{dom } f \cap \bigcap_{i=1}^{m} \text{dom } h_i
+\end{align}$$
+
+*Note: For simplicity, we only consider inequality constraints. Equality constraints can be expressed as two inequality constraints.*
+
+## 🎭 The "Mystery" of the Dual
+
+Following the standard procedure, we construct the Lagrangian function:
+
+$$L(x, \lambda) = f(x) + \lambda^T h(x), \quad \lambda \succeq 0$$
+
+Then we define the "mysterious" dual function:
+
+$$\begin{align}
+g(\lambda) &= \inf_{x \in \mathcal{D}} L(x, \lambda) \\
+&= \inf_{x \in \mathcal{D}} (f(x) + \lambda^T h(x))
+\end{align}$$
+
+*Note: To find the infimum, $$x$$ still ranges over the domain $$\mathcal{D}$$, not over the feasible region defined by the constraints.*
+
+Finally, by solving the dual problem:
+
+$$\max_{\lambda} g(\lambda) \quad \text{s.t. } \lambda \succeq 0$$
+
+we can find a good lower bound for the primal problem.
+
+## 🤔 Why Do We Need the Lagrangian?
+
+> **Question:** Why do we need to construct this Lagrangian function?
+> 
+> **Answer:** Because of the issue of **perturbation**
+
+We cannot solve the primal problem by simply computing $$\frac{\partial f(x)}{\partial x} = 0$$, because the constraints define a feasible region. One feasible approach is to add the constraints as perturbation terms, and then estimate the best lower bound.
+
+### 💡 Illustrative Example
+
+Consider the optimization problem:
+
+$$\begin{align}
+\min_x x^2 \\
+\text{s.t. } x - 1 \leq 0 \\
+\mathcal{D} = \mathbb{R}
+\end{align}$$
+
+The optimal solution is easy to guess: $$p^* = 0$$ at $$x = 0$$.
+
+**The Lagrangian:**
+$$L(x, \lambda) = x^2 + \lambda(x - 1), \quad \lambda \geq 0$$
+
+**The dual function:**
+$$g(\lambda) = \inf_{x \in \mathcal{D}} (x^2 + \lambda(x - 1)), \quad \lambda \geq 0$$
+
+To find $$\inf_{x \in \mathcal{D}} (x^2 + \lambda(x - 1))$$, we need $$\frac{\partial L(x,\lambda)}{\partial x} = 0$$.
+
+Therefore: $$2x + \lambda = 0 \Rightarrow x = -\frac{\lambda}{2}$$
+
+Substituting back into the dual function:
+$$g(\lambda) = \frac{\lambda^2}{4} - \lambda \cdot \frac{\lambda}{2} - \lambda = -\frac{\lambda^2}{4} - \lambda, \quad \lambda \geq 0$$
+
+**The dual problem:**
+$$\max_{\lambda} g(\lambda) \quad \text{s.t. } \lambda \geq 0$$
+
+The unconstrained maximizer of $$g$$ is $$\lambda = -2$$ (with $$g(-2) = 1$$), but this is not allowed because $$\lambda \geq 0$$. On the domain $$\lambda \geq 0$$, $$g$$ is decreasing, so the dual solution is $$\lambda = 0$$ with $$d^* = g(0) = 0 = p^*$$ (strong duality)
+
+<div id="lagrangian-visualization" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+    <canvas id="lagrangianCanvas" width="900" height="500" style="border: 2px solid #dee2e6; display: block; margin: 0 auto; background: white; border-radius: 5px;"></canvas>
+    <div style="text-align: center; margin: 15px 0;">
+        <div style="display: inline-block; padding: 10px 20px; background: white; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <label style="font-size: 18px; font-weight: bold;">λ = <span id="lambdaValue" style="color: #007bff;">0.0</span></label><br>
+            <input type="range" id="lambdaSlider" min="0" max="4" step="0.05" value="0" style="width: 400px; margin-top: 10px;">
+            <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                <span>Drag the slider to change the Lagrange multiplier</span>
+            </div>
+        </div>
+    </div>
+    <div id="lagrangianInfo" style="text-align: center; margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+        <p ><strong>Dual value:</strong> <span id="dualValue" >g(0) = 0</span></p>
+        <p ><span id="lowerBoundInfo">Lower bound of the problem</span></p>
+    </div>
+</div>
+
+<script>
+(function() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLagrangianViz);
+    } else {
+        initLagrangianViz();
+    }
+    
+    function initLagrangianViz() {
+    const canvas = document.getElementById('lagrangianCanvas');
+        if (!canvas) return;
+        
+    const ctx = canvas.getContext('2d');
+    const slider = document.getElementById('lambdaSlider');
+    const valueSpan = document.getElementById('lambdaValue');
+        const dualValueSpan = document.getElementById('dualValue');
+        const lowerBoundInfo = document.getElementById('lowerBoundInfo');
+        
+        // Animation state
+        let animationFrame = null;
+        
+        function drawGrid(centerX, centerY, scale) {
+            ctx.strokeStyle = '#e9ecef';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            
+            // Vertical grid lines
+            for (let x = -8; x <= 8; x++) {
+                if (x === 0) continue;
+                const screenX = centerX + x * scale;
+                ctx.beginPath();
+                ctx.moveTo(screenX, 0);
+                ctx.lineTo(screenX, canvas.height);
+                ctx.stroke();
+            }
+            
+            // Horizontal grid lines
+            for (let y = -4; y <= 4; y++) {
+                if (y === 0) continue;
+                const screenY = centerY - y * scale;
+                ctx.beginPath();
+                ctx.moveTo(0, screenY);
+                ctx.lineTo(canvas.width, screenY);
+                ctx.stroke();
+            }
+            
+            ctx.setLineDash([]);
+        }
+        
+        function drawAxes(centerX, centerY, scale) {
+            // Draw axes
+            ctx.strokeStyle = '#495057';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(canvas.width, centerY);
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, canvas.height);
+            ctx.stroke();
+            
+            // Draw axis labels
+            ctx.fillStyle = '#495057';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            
+            // X-axis labels
+            for (let x = -8; x <= 8; x += 2) {
+                if (x === 0) continue;
+                const screenX = centerX + x * scale;
+                ctx.fillText(x.toString(), screenX, centerY + 20);
+            }
+            
+            // Y-axis labels
+            ctx.textAlign = 'right';
+            for (let y = -4; y <= 4; y += 2) {
+                if (y === 0) continue;
+                const screenY = centerY - y * scale;
+                ctx.fillText(y.toString(), centerX - 10, screenY + 5);
+            }
+            
+            // Axis names
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('x', canvas.width - 20, centerY - 10);
+            ctx.textAlign = 'left';
+            ctx.fillText('y', centerX + 10, 20);
+        }
+    
+    function drawVisualization() {
+        const lambda = parseFloat(slider.value);
+            valueSpan.textContent = lambda.toFixed(2);
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Set up coordinate system
+        const centerX = canvas.width / 2;
+            const centerY = canvas.height * 0.6;
+        const scale = 50;
+            
+            // Draw grid
+            drawGrid(centerX, centerY, scale);
+        
+        // Draw axes
+            drawAxes(centerX, centerY, scale);
+        
+        // Draw original function f(x) = x^2
+            ctx.strokeStyle = '#212529';
+            ctx.lineWidth = 3;
+        ctx.beginPath();
+        let first = true;
+            for (let x = -8; x <= 8; x += 0.05) {
+                const y = x * x;
+            const screenX = centerX + x * scale;
+                const screenY = centerY - y * scale / 4;
+                if (screenY >= 0 && screenY <= canvas.height && screenX >= 0 && screenX <= canvas.width) {
+                if (first) {
+                    ctx.moveTo(screenX, screenY);
+                    first = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+        }
+        ctx.stroke();
+        
+        // Draw Lagrangian L(x,λ) = x^2 + λ(x-1)
+            if (lambda > 0.01) {
+                ctx.strokeStyle = '#007bff';
+                ctx.lineWidth = 3;
+            ctx.beginPath();
+            first = true;
+                for (let x = -8; x <= 8; x += 0.05) {
+                const lagrangian = x * x + lambda * (x - 1);
+                const screenX = centerX + x * scale;
+                const screenY = centerY - lagrangian * scale / 4;
+                    if (screenY >= -50 && screenY <= canvas.height + 50 && screenX >= 0 && screenX <= canvas.width) {
+                    if (first) {
+                        ctx.moveTo(screenX, screenY);
+                        first = false;
+                    } else {
+                        ctx.lineTo(screenX, screenY);
+                    }
+                }
+            }
+            ctx.stroke();
+            
+                // Calculate minimum point
+            const minX = -lambda / 2;
+            const minY = -lambda * lambda / 4 - lambda;
+            const screenMinX = centerX + minX * scale;
+            const screenMinY = centerY - minY * scale / 4;
+            
+                // Draw vertical line from minimum to x-axis
+            if (screenMinY >= 0 && screenMinY <= canvas.height) {
+                    ctx.strokeStyle = '#007bff';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                    ctx.moveTo(screenMinX, screenMinY);
+                    ctx.lineTo(screenMinX, centerY);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    // Mark minimum point with glow effect
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = '#007bff';
+                    ctx.fillStyle = '#007bff';
+                    ctx.beginPath();
+                    ctx.arc(screenMinX, screenMinY, 7, 0, 2 * Math.PI);
+                ctx.fill();
+                    ctx.shadowBlur = 0;
+                    
+                    // Add label for minimum
+                    ctx.fillStyle = '#007bff';
+                    ctx.font = 'bold 13px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`x* = ${minX.toFixed(2)}`, screenMinX, centerY + 35);
+                    ctx.fillText(`g(λ) = ${minY.toFixed(2)}`, screenMinX, screenMinY - 15);
+                }
+                
+                // Update dual value display
+                dualValueSpan.textContent = `g(${lambda.toFixed(2)}) = ${minY.toFixed(3)}`;
+                
+                // Update lower bound info
+                if (minY <= 0) {
+                    lowerBoundInfo.textContent = `✓ g(λ) = ${minY.toFixed(3)} ≤ p* = 0 (valid lower bound)`;
+                    lowerBoundInfo.style.color = '#28a745';
+                } else {
+                    lowerBoundInfo.textContent = `⚠ The lower bound is not tight`;
+                    lowerBoundInfo.style.color = '#ffc107';
+                }
+            } else {
+                dualValueSpan.textContent = 'g(0) = 0';
+                lowerBoundInfo.textContent = 'Drag the slider to see the Lagrangian function';
+                lowerBoundInfo.style.color = '#666';
+        }
+        
+        // Draw constraint boundary x = 1
+            ctx.strokeStyle = '#dc3545';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 4]);
+        ctx.beginPath();
+        ctx.moveTo(centerX + scale, 0);
+        ctx.lineTo(centerX + scale, canvas.height);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+            // Mark optimal point (x=1, f(1)=1)
+            const optX = 1;
+            const optY = 1;
+            const screenOptX = centerX + optX * scale;
+            const screenOptY = centerY - optY * scale / 4;
+            
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#dc3545';
+            ctx.fillStyle = '#dc3545';
+        ctx.beginPath();
+            ctx.arc(screenOptX, screenOptY, 8, 0, 2 * Math.PI);
+        ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            // Draw legend box
+            const legendX = 20;
+            const legendY = 20;
+            const legendWidth = 250;
+            const legendHeight = 115;
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.strokeStyle = '#dee2e6';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(legendX, legendY, legendWidth, legendHeight, 5);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Legend content
+            let yPos = legendY + 25;
+            ctx.textAlign = 'left';
+            
+            // Original function
+            ctx.strokeStyle = '#212529';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(legendX + 10, yPos);
+            ctx.lineTo(legendX + 40, yPos);
+            ctx.stroke();
+            ctx.fillStyle = '#212529';
+        ctx.font = '14px Arial';
+            ctx.fillText('f(x) = x²', legendX + 50, yPos + 5);
+            
+            yPos += 25;
+            
+            // Lagrangian
+            if (lambda > 0.01) {
+                ctx.strokeStyle = '#007bff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(legendX + 10, yPos);
+                ctx.lineTo(legendX + 40, yPos);
+                ctx.stroke();
+                ctx.fillStyle = '#007bff';
+                ctx.fillText(`L(x,λ) = x² + λ(x-1)`, legendX + 50, yPos + 5);
+                yPos += 25;
+            }
+            
+            // Constraint
+            ctx.strokeStyle = '#dc3545';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 4]);
+            ctx.beginPath();
+            ctx.moveTo(legendX + 10, yPos);
+            ctx.lineTo(legendX + 40, yPos);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#dc3545';
+        ctx.fillText('Constraint: x ≤ 1', legendX + 50, yPos + 5);
+            
+            yPos += 25;
+            
+            // Optimal point
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(legendX + 25, yPos, 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#dc3545';
+            ctx.fillText('Optimal solution: p* = 0', legendX + 50, yPos + 5);
+        }
+        
+        // Debounce function for smoother performance
+        let debounceTimer;
+        function debouncedDraw() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(drawVisualization, 10);
+        }
+        
+        slider.addEventListener('input', debouncedDraw);
+    drawVisualization();
+    }
+})();
+</script>
+
+**Figure 1:** *The Lagrangian function and the dual function. The black curve is the original problem; the blue and green curves are the original problem with perturbation. We can see that the values of $$\inf_{x \in \mathcal{D}} L(x, \lambda)$$ (the saddle points on the blue and green curves) are always less than or equal to the optimal solution $$p^*$$.*
+
+<div style="text-align: center; margin: 20px 0;">
+    <img src="/img/chapter_img/lagrangian_function_example.png" alt="Lagrangian Function Example" style="max-width: 100%; height: auto;">
+    <p><em>Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
+</div>
+
+## 🎯 Why Solve the Dual Problem?
+
+> **Question:** Why do we choose to solve the dual problem to estimate the lower bound? Is it easier?
+> 
+> **Answer:** **YES**. It is easier to solve.
+
+In fact, the dual function $$g(\lambda)$$ is **concave**; in other words, $$-g(\lambda)$$ is **convex**.
+
+From equation (3), we know that $$-g(\lambda)$$ is a pointwise supremum of a set of functions that are affine in $$\lambda$$, which means $$-g(\lambda)$$ is convex.
+
+<div id="dual-function-visualization" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+    <canvas id="dualCanvas" width="800" height="450" style="border: 2px solid #dee2e6; display: block; margin: 0 auto; background: white; border-radius: 5px;"></canvas>
+    <div style="text-align: center; margin-top: 15px;">
+        <button id="animateSupremum" style="padding: 10px 25px; font-size: 16px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            ▶ Run Animation
+        </button>
+        <button id="resetSupremum" style="padding: 10px 25px; font-size: 16px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+            🔄 Reset
+        </button>
+    </div>
+    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 5px; border-left: 4px solid #007bff;">
+        <p style="margin: 0; font-size: 14px; color: #666;">
+            <strong>Explanation:</strong> The dual function -g(λ) is the pointwise supremum of a set of affine functions, 
+            and is therefore a convex function. This means the dual problem is always convex, whether or not the original problem is convex.
+        </p>
+    </div>
+</div>
+
+<script>
+(function() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDualViz);
+    } else {
+        initDualViz();
+    }
+    
+    function initDualViz() {
+    const canvas = document.getElementById('dualCanvas');
+        if (!canvas) return;
+        
+    const ctx = canvas.getContext('2d');
+        const animateBtn = document.getElementById('animateSupremum');
+        const resetBtn = document.getElementById('resetSupremum');
+        
+        let animationProgress = 0;
+        let isAnimating = false;
+        let animationId = null;
+        
+        const affineFunctions = [
+            { a: -2, b: 3.5, color: '#ff6b6b', label: 'f₁' },
+            { a: -1, b: 3, color: '#4ecdc4', label: 'f₂' },
+            { a: 0, b: 2.5, color: '#45b7d1', label: 'f₃' },
+            { a: 1, b: 2, color: '#96ceb4', label: 'f₄' },
+            { a: 2, b: 1.5, color: '#ffeaa7', label: 'f₅' }
+        ];
+        
+        function drawDualVisualization(progress = 1) {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Set up coordinate system
+            const margin = 80;
+            const centerX = margin;
+            const centerY = canvas.height - margin;
+            const scaleX = (canvas.width - margin - 40) / 5;
+            const scaleY = 60;
+            
+            // Draw grid
+            ctx.strokeStyle = '#e9ecef';
+        ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            for (let i = 0; i <= 5; i++) {
+                const x = centerX + i * scaleX;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, centerY);
+                ctx.stroke();
+            }
+            for (let i = -2; i <= 4; i++) {
+                const y = centerY - i * scaleY;
+                ctx.beginPath();
+                ctx.moveTo(centerX, y);
+                ctx.lineTo(canvas.width - 20, y);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+            
+            // Draw axes
+            ctx.strokeStyle = '#495057';
+            ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, centerY);
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(canvas.width - 20, centerY);
+        ctx.stroke();
+        
+            // Draw axis labels
+            ctx.fillStyle = '#495057';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            
+            // X-axis labels
+            for (let i = 0; i <= 5; i++) {
+                const x = centerX + i * scaleX;
+                ctx.fillText(i.toString(), x, centerY + 25);
+            }
+            
+            // Y-axis labels
+            ctx.textAlign = 'right';
+            for (let i = -2; i <= 4; i++) {
+                const y = centerY - i * scaleY;
+                ctx.fillText(i.toString(), centerX - 10, y + 5);
+            }
+            
+            // Axis names
+            ctx.fillStyle = '#212529';
+            ctx.font = 'bold 18px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('λ', canvas.width - 10, centerY + 25);
+            ctx.textAlign = 'left';
+            ctx.fillText('-g(λ)', centerX - 50, 20);
+            
+            // Draw affine functions with animation
+            const numFunctionsToShow = Math.ceil(progress * affineFunctions.length);
+            
+            for (let i = 0; i < numFunctionsToShow; i++) {
+                const func = affineFunctions[i];
+                const alpha = (i < numFunctionsToShow - 1) ? 1 : (progress * affineFunctions.length - i);
+                
+                ctx.strokeStyle = func.color;
+                ctx.globalAlpha = alpha;
+                ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+                let first = true;
+                for (let lambda = 0; lambda <= 5; lambda += 0.05) {
+                    const y = func.a * lambda + func.b;
+                const screenX = centerX + lambda * scaleX;
+                const screenY = centerY - y * scaleY;
+                
+                    if (screenY >= 0 && screenY <= canvas.height) {
+                        if (first) {
+                    ctx.moveTo(screenX, screenY);
+                            first = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                        }
+                }
+            }
+            ctx.stroke();
+                
+                // Draw function label
+                const labelX = centerX + 4.5 * scaleX;
+                const labelY = centerY - (func.a * 4.5 + func.b) * scaleY;
+                if (labelY >= 0 && labelY <= canvas.height) {
+                    ctx.fillStyle = func.color;
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(func.label, labelX + 10, labelY + 5);
+                }
+            }
+            
+            ctx.globalAlpha = 1;
+            
+            // Draw pointwise supremum (envelope) if animation is complete
+            if (progress >= 0.9) {
+                const envelopeAlpha = (progress - 0.9) / 0.1;
+                ctx.globalAlpha = envelopeAlpha;
+                
+                ctx.strokeStyle = '#dc3545';
+                ctx.lineWidth = 4;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#dc3545';
+        ctx.beginPath();
+        
+                let first = true;
+                const supremumPoints = [];
+                
+                for (let lambda = 0; lambda <= 5; lambda += 0.02) {
+            let maxY = -Infinity;
+                    for (const func of affineFunctions) {
+                        const y = func.a * lambda + func.b;
+                maxY = Math.max(maxY, y);
+            }
+                    
+                    supremumPoints.push({ lambda, y: maxY });
+            
+            const screenX = centerX + lambda * scaleX;
+            const screenY = centerY - maxY * scaleY;
+            
+                    if (screenY >= 0 && screenY <= canvas.height) {
+                        if (first) {
+                ctx.moveTo(screenX, screenY);
+                            first = false;
+            } else {
+                ctx.lineTo(screenX, screenY);
+                        }
+            }
+        }
+        ctx.stroke();
+                ctx.shadowBlur = 0;
+                
+                // Highlight some key points on the envelope
+                if (envelopeAlpha > 0.5) {
+                    const keyLambdas = [0.5, 1.5, 2.5, 3.5, 4.5];
+                    for (const lambda of keyLambdas) {
+                        let maxY = -Infinity;
+                        for (const func of affineFunctions) {
+                            const y = func.a * lambda + func.b;
+                            maxY = Math.max(maxY, y);
+                        }
+                        
+                        const screenX = centerX + lambda * scaleX;
+                        const screenY = centerY - maxY * scaleY;
+                        
+                        if (screenY >= 0 && screenY <= canvas.height) {
+                            ctx.fillStyle = '#dc3545';
+                            ctx.beginPath();
+                            ctx.arc(screenX, screenY, 5, 0, 2 * Math.PI);
+                            ctx.fill();
+                        }
+                    }
+                }
+                
+                ctx.globalAlpha = 1;
+                
+                // Add annotation
+                ctx.fillStyle = '#dc3545';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'left';
+        ctx.fillText('Pointwise supremum', 200, 30);
+        ctx.font = '14px Arial';
+        ctx.fillText('(Convex envelope)', 200, 50);
+            }
+            
+            // Draw legend
+            const legendX = canvas.width - 180;
+            const legendY = 80;
+            const legendWidth = 160;
+            const legendHeight = 80;
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.strokeStyle = '#dee2e6';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(legendX, legendY, legendWidth, legendHeight, 5);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Legend title
+            ctx.fillStyle = '#212529';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+        ctx.fillText('Affine functions', legendX + legendWidth/2, legendY + 20);
+            
+            // Legend items
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'left';
+            for (let i = 0; i < Math.min(3, numFunctionsToShow); i++) {
+                const func = affineFunctions[i];
+                const yPos = legendY + 40 + i * 15;
+                
+                ctx.strokeStyle = func.color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(legendX + 10, yPos);
+                ctx.lineTo(legendX + 30, yPos);
+                ctx.stroke();
+                
+                ctx.fillStyle = '#495057';
+                ctx.fillText(`${func.a}λ + ${func.b}`, legendX + 35, yPos + 4);
+            }
+        }
+        
+        function animate() {
+            if (!isAnimating) return;
+            
+            animationProgress += 0.008;
+            if (animationProgress >= 1) {
+                animationProgress = 1;
+                isAnimating = false;
+                animateBtn.innerHTML = '▶ Run Again';
+                animateBtn.style.background = '#28a745';
+            }
+            
+            drawDualVisualization(animationProgress);
+            
+            if (isAnimating) {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+        
+        animateBtn.addEventListener('click', function() {
+            if (animationProgress >= 1) {
+                animationProgress = 0;
+            }
+            
+            if (isAnimating) {
+                isAnimating = false;
+                if (animationId) cancelAnimationFrame(animationId);
+                animateBtn.innerHTML = '▶ Resume';
+                animateBtn.style.background = '#007bff';
+            } else {
+                isAnimating = true;
+                animateBtn.innerHTML = '⏸ Pause';
+                animateBtn.style.background = '#ffc107';
+                animate();
+            }
+        });
+        
+        resetBtn.addEventListener('click', function() {
+            isAnimating = false;
+            if (animationId) cancelAnimationFrame(animationId);
+            animationProgress = 0;
+                animateBtn.innerHTML = '▶ Run Animation';
+            animateBtn.style.background = '#007bff';
+            drawDualVisualization(0);
+        });
+        
+        // Initial draw
+        drawDualVisualization(1);
+    }
+})();
+</script>
+
+**Figure 2:** *The pointwise supremum of a set of affine functions is a convex function*
+
+<div style="text-align: center; margin: 20px 0;">
+    <img src="/img/chapter_img/pointwise_supremum_convex.png" alt="Pointwise Supremum of Affine Functions" style="max-width: 100%; height: auto;">
+    <p><em>Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
+</div>
+
+Figure 2 shows a set of affine functions, with the red line representing the pointwise supremum. Clearly, in this figure the red line is a convex function. We know that for convex functions and convex sets, finding the global extremum is easy. Whether or not $$f(x)$$ is convex, its dual function is always concave, which is a convenient property.
+
+## 🔗 Connection with the Conjugate Function
+
+When the constraints in equation (1) are linear, the dual function often looks like the conjugate function.
+
+### 📐 The Conjugate Function
+
+The conjugate function of $$f(x)$$ is defined as:
+
+$$f^*(λ) = \sup_x (λ^T x - f(x))$$
+
+<div id="conjugate-visualization" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+    <canvas id="conjugateCanvas" width="900" height="550" style="border: 2px solid #dee2e6; display: block; margin: 0 auto; background: white; border-radius: 5px;"></canvas>
+    <div style="text-align: center; margin: 15px 0;">
+        <div style="display: inline-block; padding: 10px 20px; background: white; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <label >Slope λ = <span id="slopeValue" >1.0</span></label><br>
+            <input type="range" id="slopeSlider" min="-4" max="4" step="0.05" value="1" style="width: 400px; margin-top: 10px;">
+            <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                <span>Change the slope of the line λx</span>
+            </div>
+        </div>
+    </div>
+    <div id="conjugateInfo" style="text-align: center; margin-top: 15px; padding: 15px; background: white; border-radius: 5px; border-left: 4px solid #6f42c1;">
+        <p ><strong>Conjugate function:</strong> <span id="conjugateValue" >f*(1.0) = 0.50</span></p>
+        <p ><span id="conjugateExplanation">The largest distance between λx and f(x)</span></p>
+    </div>
+</div>
+
+<script>
+(function() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initConjugateViz);
+    } else {
+        initConjugateViz();
+    }
+    
+    function initConjugateViz() {
+    const canvas = document.getElementById('conjugateCanvas');
+        if (!canvas) return;
+        
+    const ctx = canvas.getContext('2d');
+    const slider = document.getElementById('slopeSlider');
+    const valueSpan = document.getElementById('slopeValue');
+        const conjugateValueSpan = document.getElementById('conjugateValue');
+        const explanationSpan = document.getElementById('conjugateExplanation');
+        
+        function drawGrid(centerX, centerY, scale) {
+            ctx.strokeStyle = '#f1f3f5';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            
+            // Vertical grid
+            for (let x = -10; x <= 10; x++) {
+                if (x === 0) continue;
+                const screenX = centerX + x * scale;
+                if (screenX >= 0 && screenX <= canvas.width) {
+                    ctx.beginPath();
+                    ctx.moveTo(screenX, 0);
+                    ctx.lineTo(screenX, canvas.height);
+                    ctx.stroke();
+                }
+            }
+            
+            // Horizontal grid
+            for (let y = -5; y <= 15; y++) {
+                if (y === 0) continue;
+                const screenY = centerY - y * scale;
+                if (screenY >= 0 && screenY <= canvas.height) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, screenY);
+                    ctx.lineTo(canvas.width, screenY);
+                    ctx.stroke();
+                }
+            }
+            
+            ctx.setLineDash([]);
+        }
+        
+        function drawAxes(centerX, centerY, scale) {
+            // Axes
+            ctx.strokeStyle = '#495057';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(canvas.width, centerY);
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, canvas.height);
+            ctx.stroke();
+            
+            // Axis labels
+            ctx.fillStyle = '#495057';
+            ctx.font = 'bold 13px Arial';
+            ctx.textAlign = 'center';
+            
+            // X-axis
+            for (let x = -10; x <= 10; x += 2) {
+                if (x === 0) continue;
+                const screenX = centerX + x * scale;
+                if (screenX >= 0 && screenX <= canvas.width) {
+                    ctx.fillText(x.toString(), screenX, centerY + 20);
+                }
+            }
+            
+            // Y-axis
+            ctx.textAlign = 'right';
+            for (let y = -4; y <= 14; y += 2) {
+                if (y === 0) continue;
+                const screenY = centerY - y * scale;
+                if (screenY >= 0 && screenY <= canvas.height) {
+                    ctx.fillText(y.toString(), centerX - 10, screenY + 5);
+                }
+            }
+            
+            // Axis names
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('x', canvas.width - 20, centerY - 10);
+            ctx.textAlign = 'left';
+            ctx.fillText('y', centerX + 10, 20);
+        }
+    
+    function drawConjugateVisualization() {
+        const slope = parseFloat(slider.value);
+            valueSpan.textContent = slope.toFixed(2);
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Set up coordinate system
+        const centerX = canvas.width / 2;
+            const centerY = canvas.height * 0.75;
+            const scale = 35;
+            
+            // Draw grid
+            drawGrid(centerX, centerY, scale);
+        
+        // Draw axes
+            drawAxes(centerX, centerY, scale);
+        
+        // Draw function f(x) = x^2/2
+            ctx.strokeStyle = '#20c997';
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = '#20c997';
+        ctx.beginPath();
+        let first = true;
+            for (let x = -10; x <= 10; x += 0.05) {
+            const y = x * x / 2;
+            const screenX = centerX + x * scale;
+            const screenY = centerY - y * scale;
+                if (screenY >= -10 && screenY <= canvas.height && screenX >= 0 && screenX <= canvas.width) {
+                if (first) {
+                    ctx.moveTo(screenX, screenY);
+                    first = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+        }
+        ctx.stroke();
+            ctx.shadowBlur = 0;
+        
+        // Draw line λx with given slope
+            ctx.strokeStyle = '#6f42c1';
+            ctx.lineWidth = 3;
+        ctx.beginPath();
+            first = true;
+            for (let x = -10; x <= 10; x += 0.1) {
+            const y = slope * x;
+            const screenX = centerX + x * scale;
+            const screenY = centerY - y * scale;
+                if (screenY >= -10 && screenY <= canvas.height + 10 && screenX >= -10 && screenX <= canvas.width + 10) {
+                    if (first) {
+                    ctx.moveTo(screenX, screenY);
+                        first = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+        }
+        ctx.stroke();
+        
+        // Find and mark the point where λx - f(x) is maximized
+        let maxDiff = -Infinity;
+        let maxX = 0;
+            for (let x = -10; x <= 10; x += 0.01) {
+            const diff = slope * x - x * x / 2;
+            if (diff > maxDiff) {
+                maxDiff = diff;
+                maxX = x;
+            }
+        }
+        
+            const conjugateValue = slope * slope / 2;
+            
+            // Draw tangent line at optimal point (parallel to λx)
+            ctx.strokeStyle = '#fd7e14';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 4]);
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = '#fd7e14';
+            ctx.beginPath();
+            first = true;
+            for (let x = -10; x <= 10; x += 0.1) {
+                const y = slope * x - conjugateValue;
+            const screenX = centerX + x * scale;
+            const screenY = centerY - y * scale;
+                if (screenY >= -10 && screenY <= canvas.height + 10 && screenX >= -10 && screenX <= canvas.width + 10) {
+                    if (first) {
+                    ctx.moveTo(screenX, screenY);
+                        first = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+            ctx.shadowBlur = 0;
+            
+            // Mark tangent point on f(x)
+            const tangentY = maxX * maxX / 2;
+            const tangentScreenX = centerX + maxX * scale;
+            const tangentScreenY = centerY - tangentY * scale;
+            
+            if (tangentScreenY >= 0 && tangentScreenY <= canvas.height) {
+                // Draw vertical line to show the contact point
+                ctx.strokeStyle = '#e63946';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+                ctx.moveTo(tangentScreenX, tangentScreenY);
+                ctx.lineTo(tangentScreenX, centerY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // Mark point with glow
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#e63946';
+                ctx.fillStyle = '#e63946';
+                ctx.beginPath();
+                ctx.arc(tangentScreenX, tangentScreenY, 8, 0, 2 * Math.PI);
+        ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // Label the contact point
+                ctx.fillStyle = '#e63946';
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(`x* = ${maxX.toFixed(2)}`, tangentScreenX, centerY + 35);
+            }
+            
+            // Draw vertical distance visualization (f*(λ))
+            if (Math.abs(maxX) <= 10 && tangentScreenY >= 0) {
+                const lineY = slope * maxX;
+                const lineScreenY = centerY - lineY * scale;
+                
+                if (lineScreenY >= 0 && lineScreenY <= canvas.height) {
+                    // Draw vertical arrow showing the distance
+                    ctx.strokeStyle = '#6f42c1';
+                    ctx.fillStyle = '#6f42c1';
+                    ctx.lineWidth = 3;
+                    
+                    // Draw arrow
+                    const arrowX = tangentScreenX + 50;
+                    ctx.beginPath();
+                    ctx.moveTo(arrowX, tangentScreenY);
+                    ctx.lineTo(arrowX, lineScreenY);
+                    ctx.stroke();
+                    
+                    // Arrowheads
+                    ctx.beginPath();
+                    ctx.moveTo(arrowX - 5, tangentScreenY + 10);
+                    ctx.lineTo(arrowX, tangentScreenY);
+                    ctx.lineTo(arrowX + 5, tangentScreenY + 10);
+                    ctx.fill();
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(arrowX - 5, lineScreenY - 10);
+                    ctx.lineTo(arrowX, lineScreenY);
+                    ctx.lineTo(arrowX + 5, lineScreenY - 10);
+                    ctx.fill();
+                    
+                    // Label the distance
+                    const midY = (tangentScreenY + lineScreenY) / 2;
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(`f*(λ) = ${conjugateValue.toFixed(2)}`, arrowX + 10, midY + 5);
+                }
+            }
+            
+            // Update info display
+            conjugateValueSpan.textContent = `f*(${slope.toFixed(2)}) = ${conjugateValue.toFixed(3)}`;
+                explanationSpan.textContent = `At x* = ${maxX.toFixed(2)}, the distance λx - f(x) reaches its maximum = ${conjugateValue.toFixed(3)}`;
+            
+            // Draw legend box
+            const legendX = 20;
+            const legendY = 20;
+            const legendWidth = 280;
+            const legendHeight = 135;
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.strokeStyle = '#dee2e6';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(legendX, legendY, legendWidth, legendHeight, 5);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Legend content
+            let yPos = legendY + 25;
+            ctx.textAlign = 'left';
+            
+            // f(x)
+            ctx.strokeStyle = '#20c997';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(legendX + 10, yPos);
+            ctx.lineTo(legendX + 45, yPos);
+            ctx.stroke();
+            ctx.fillStyle = '#20c997';
+            ctx.font = '15px Arial';
+            ctx.fillText('f(x) = x²/2', legendX + 55, yPos + 5);
+            yPos += 28;
+            
+            // λx
+            ctx.strokeStyle = '#6f42c1';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(legendX + 10, yPos);
+            ctx.lineTo(legendX + 45, yPos);
+            ctx.stroke();
+            ctx.fillStyle = '#6f42c1';
+            ctx.fillText(`λx (λ = ${slope.toFixed(2)})`, legendX + 55, yPos + 5);
+            yPos += 28;
+            
+            // Tangent
+            ctx.strokeStyle = '#fd7e14';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 4]);
+            ctx.beginPath();
+            ctx.moveTo(legendX + 10, yPos);
+            ctx.lineTo(legendX + 45, yPos);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#fd7e14';
+        ctx.fillText('Tangent line', legendX + 55, yPos + 5);
+            yPos += 28;
+            
+            // Contact point
+            ctx.fillStyle = '#e63946';
+            ctx.beginPath();
+            ctx.arc(legendX + 27, yPos - 3, 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#e63946';
+        ctx.fillText('Tangent point', legendX + 55, yPos + 2);
+        }
+        
+        // Debounce for performance
+        let debounceTimer;
+        function debouncedDraw() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(drawConjugateVisualization, 5);
+        }
+        
+        slider.addEventListener('input', debouncedDraw);
+    drawConjugateVisualization();
+    }
+})();
+</script>
+
+**Figure 3:** *The conjugate function. The green curve is $$f(x)$$, the black line is $$λ^T x$$, and the (signed) vectors between $$λ^T x$$ and $$f(x)$$ are $$λ^T x - f(x)$$. So the conjugate function $$f^*(λ)$$ is about the largest distance between the line $$λ^T x$$ and $$f(x)$$.*
+
+<div style="text-align: center; margin: 20px 0;">
+    <img src="/img/chapter_img/conjugate_function_geometric.png" alt="Conjugate Function Geometric Interpretation" style="max-width: 100%; height: auto;">
+    <p><em>Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
+</div>
+
+### 🔄 When the Constraints Are Linear
+
+When the constraints are linear, the optimization problem has the form:
+
+$$\min_x f(x) \quad \text{s.t. } Ax \preceq b$$
+
+The Lagrange dual function is:
+
+$$\begin{align}
+&g(λ) = \inf_x (f(x) + λ^T(Ax - b)) \quad \text{for } λ \succeq 0 \\
+&= -\sup_x (-λ^T A x - f(x)) - λ^T b \\
+&= -f^*(-A^T λ) - λ^T b \quad \text{by equation (9)}
+\end{align}$$
+
+Intuitively, since $$-λ^T b$$ is a linear term, the extreme values are affected only by the domain, so if we focus on the term $$-f^*(-A^T λ)$$, solving $$\max_λ g(λ)$$ means solving $$\min f^*(-A^T λ)$$.
+
+<div style="text-align: center; margin: 20px 0;">
+    <img src="/img/chapter_img/conjugate_minimum_example.png" alt="Minimum of Conjugate Function" style="max-width: 100%; height: auto;">
+    <p><em>Figure 4: The minimum of the conjugate function - Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
+</div>
+
+## 💻 Interactive Example
+
+Let us look at a concrete example with the problem:
+
+$$\min x^2 \quad \text{s.t. } x \leq 1$$
+
+<div id="complete-example" style="margin: 20px 0; padding: 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <h4 >🎬 Combined Illustration: The Primal-Dual Relationship</h4>
+    <canvas id="completeCanvas" width="1100" height="600" style="border: 3px solid white; display: block; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);"></canvas>
+    <div style="text-align: center; margin: 20px 0;">
+        <button id="animateBtn" style="padding: 12px 30px; font-size: 17px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s;">
+            ▶ Run Animation
+        </button>
+        <button id="resetBtn" style="padding: 12px 30px; font-size: 17px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-left: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: all 0.3s;">
+            🔄 Reset
+        </button>
+        <div style="margin-top: 15px; padding: 10px 20px; background: rgba(255,255,255,0.9); border-radius: 8px; display: inline-block;">
+            <span style="font-size: 18px; font-weight: bold; color: #495057;">λ = <span id="currentLambdaDisplay" style="color: #007bff;">0.00</span></span>
+            <span style="margin: 0 15px; color: #dee2e6;">|</span>
+            <span style="font-size: 18px; font-weight: bold; color: #495057;">g(λ) = <span id="currentDualDisplay" style="color: #dc3545;">0.000</span></span>
+    </div>
+    </div>
+    <div id="explanation" style="margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.95); border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.2);">
+        <p >📖 How to read the chart:</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px; line-height: 1.8;">
+            <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #212529;">
+                <span >● Bold black line:</span> The objective function f(x) = x²
+            </div>
+            <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff;">
+                <span >● Blue line:</span> The Lagrangian L(x,λ)
+            </div>
+            <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #dc3545;">
+                <span >⊥ Dashed red line:</span> The constraint x ≤ 1
+            </div>
+            <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #ff0000;">
+                <span >◉ Large red point:</span> The optimal solution p* = 0
+            </div>
+            <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #007bff;">
+                <span >◉ Green point:</span> Min of L(x,λ) → g(λ)
+            </div>
+            <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; border-left: 4px solid #28a745;">
+                <span >📊 Right curve:</span> The dual function g(λ)
+            </div>
+        </div>
+        <div style="margin-top: 15px; padding: 12px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 5px;">
+            <p style="margin: 0; color: #856404; font-size: 14px;">
+                <strong>💡 Key observation:</strong> As λ increases from 0, the minimum point of the Lagrangian (green) moves to the left, 
+                and the value of g(λ) decreases (a looser lower bound). The maximum of g(λ) over λ ≥ 0 (here at λ = 0) gives us the best lower bound!
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCompleteViz);
+    } else {
+        initCompleteViz();
+    }
+    
+    function initCompleteViz() {
+    const canvas = document.getElementById('completeCanvas');
+        if (!canvas) return;
+        
+    const ctx = canvas.getContext('2d');
+    const animateBtn = document.getElementById('animateBtn');
+    const resetBtn = document.getElementById('resetBtn');
+        const lambdaDisplay = document.getElementById('currentLambdaDisplay');
+        const dualDisplay = document.getElementById('currentDualDisplay');
+    
+    let animationId = null;
+    let currentLambda = 0;
+    let isAnimating = false;
+    
+    function drawCompleteExample(lambda) {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+            // Set up panels
+            const leftPanel = { x: 60, y: 60, width: 500, height: 450 };
+            const rightPanel = { x: 600, y: 60, width: 450, height: 450 };
+            
+            // Draw panel backgrounds
+            ctx.fillStyle = '#f8f9fa';
+            ctx.fillRect(leftPanel.x - 10, leftPanel.y - 10, leftPanel.width + 20, leftPanel.height + 20);
+            ctx.fillRect(rightPanel.x - 10, rightPanel.y - 10, rightPanel.width + 20, rightPanel.height + 20);
+            
+            // Draw panels
+            drawPrimalSpace(leftPanel, lambda);
+        drawDualSpace(rightPanel, lambda);
+        
+            // Add panel titles
+            ctx.fillStyle = '#212529';
+            ctx.font = 'bold 20px Arial';
+            ctx.textAlign = 'center';
+        ctx.fillText('Primal Space', leftPanel.x + leftPanel.width/2, leftPanel.y - 25);
+        ctx.fillText('Dual Space', rightPanel.x + rightPanel.width/2, rightPanel.y - 25);
+            
+            // Update displays
+            lambdaDisplay.textContent = lambda.toFixed(2);
+        const dualValue = -lambda * lambda / 4 - lambda;
+            dualDisplay.textContent = dualValue.toFixed(3);
+    }
+    
+    function drawPrimalSpace(panel, lambda) {
+        const centerX = panel.x + panel.width / 2;
+            const centerY = panel.y + panel.height - 70;
+            const scale = 50;
+        
+            // Draw grid
+            ctx.strokeStyle = '#e9ecef';
+        ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            for (let x = -4; x <= 4; x++) {
+                if (x === 0) continue;
+                const screenX = centerX + x * scale;
+                ctx.beginPath();
+                ctx.moveTo(screenX, panel.y);
+                ctx.lineTo(screenX, panel.y + panel.height);
+                ctx.stroke();
+            }
+            for (let y = -2; y <= 6; y++) {
+                if (y === 0) continue;
+                const screenY = centerY - y * scale / 2;
+                ctx.beginPath();
+                ctx.moveTo(panel.x, screenY);
+                ctx.lineTo(panel.x + panel.width, screenY);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+            
+            // Draw axes
+            ctx.strokeStyle = '#495057';
+            ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(panel.x, centerY);
+        ctx.lineTo(panel.x + panel.width, centerY);
+        ctx.moveTo(centerX, panel.y);
+        ctx.lineTo(centerX, panel.y + panel.height);
+        ctx.stroke();
+            
+            // Axis labels
+            ctx.fillStyle = '#495057';
+            ctx.font = 'bold 13px Arial';
+            ctx.textAlign = 'center';
+            for (let x = -4; x <= 4; x += 2) {
+                if (x === 0) continue;
+                ctx.fillText(x.toString(), centerX + x * scale, centerY + 20);
+            }
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText('x', panel.x + panel.width - 15, centerY - 10);
+            ctx.fillText('y', centerX + 15, panel.y + 20);
+        
+        // Draw original function f(x) = x^2
+            ctx.strokeStyle = '#212529';
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = '#212529';
+        ctx.beginPath();
+        let first = true;
+            for (let x = -4; x <= 4; x += 0.05) {
+            const y = x * x;
+            const screenX = centerX + x * scale;
+            const screenY = centerY - y * scale / 2;
+            if (screenY >= panel.y && screenY <= panel.y + panel.height) {
+                if (first) {
+                    ctx.moveTo(screenX, screenY);
+                    first = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+        }
+        ctx.stroke();
+            ctx.shadowBlur = 0;
+        
+        // Draw Lagrangian if lambda > 0
+            if (lambda > 0.01) {
+                ctx.strokeStyle = '#007bff';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = '#007bff';
+            ctx.beginPath();
+            first = true;
+                for (let x = -4; x <= 4; x += 0.05) {
+                const lagrangian = x * x + lambda * (x - 1);
+                const screenX = centerX + x * scale;
+                const screenY = centerY - lagrangian * scale / 2;
+                    if (screenY >= panel.y - 20 && screenY <= panel.y + panel.height + 20) {
+                    if (first) {
+                        ctx.moveTo(screenX, screenY);
+                        first = false;
+                    } else {
+                        ctx.lineTo(screenX, screenY);
+                    }
+                }
+            }
+            ctx.stroke();
+                ctx.shadowBlur = 0;
+            
+            // Mark minimum of Lagrangian
+            const minX = -lambda / 2;
+            const minY = -lambda * lambda / 4 - lambda;
+            const screenMinX = centerX + minX * scale;
+            const screenMinY = centerY - minY * scale / 2;
+            
+            if (screenMinY >= panel.y && screenMinY <= panel.y + panel.height) {
+                    // Vertical line to axis
+                    ctx.strokeStyle = '#007bff';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                    ctx.moveTo(screenMinX, screenMinY);
+                    ctx.lineTo(screenMinX, centerY);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    
+                    // Glow effect
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = '#007bff';
+                    ctx.fillStyle = '#007bff';
+                    ctx.beginPath();
+                    ctx.arc(screenMinX, screenMinY, 8, 0, 2 * Math.PI);
+                ctx.fill();
+                    ctx.shadowBlur = 0;
+                    
+                    // Label
+                    ctx.fillStyle = '#007bff';
+                    ctx.font = 'bold 13px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`x*=${minX.toFixed(2)}`, screenMinX, screenMinY - 15);
+                    ctx.fillText(`g(λ)=${minY.toFixed(2)}`, screenMinX, centerY + 35);
+            }
+        }
+        
+        // Draw constraint x = 1
+            ctx.strokeStyle = '#dc3545';
+            ctx.lineWidth = 4;
+            ctx.setLineDash([10, 5]);
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = '#dc3545';
+        ctx.beginPath();
+        ctx.moveTo(centerX + scale, panel.y);
+        ctx.lineTo(centerX + scale, panel.y + panel.height);
+        ctx.stroke();
+        ctx.setLineDash([]);
+            ctx.shadowBlur = 0;
+            
+            // Shade feasible region
+            ctx.fillStyle = 'rgba(220, 53, 69, 0.1)';
+            ctx.fillRect(panel.x, panel.y, centerX + scale - panel.x, panel.height);
+        
+        // Mark optimal point
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = '#ff0000';
+        ctx.fillStyle = '#ff0000';
+        ctx.beginPath();
+            ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
+        ctx.fill();
+            ctx.shadowBlur = 0;
+            
+            // Label optimal
+            ctx.fillStyle = '#ff0000';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('p* = 0', centerX, centerY - 20);
+            
+            // Legend
+            const legendX = panel.x + 15;
+            const legendY = panel.y + 15;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.strokeStyle = '#dee2e6';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.roundRect(legendX, legendY, 160, 90, 5);
+            ctx.fill();
+            ctx.stroke();
+            
+            ctx.font = '13px Arial';
+            ctx.textAlign = 'left';
+            let yPos = legendY + 20;
+            
+            ctx.strokeStyle = '#212529';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(legendX + 10, yPos);
+            ctx.lineTo(legendX + 35, yPos);
+            ctx.stroke();
+            ctx.fillStyle = '#212529';
+            ctx.fillText('f(x) = x²', legendX + 45, yPos + 4);
+            yPos += 22;
+            
+            if (lambda > 0.01) {
+                ctx.strokeStyle = '#007bff';
+                ctx.beginPath();
+                ctx.moveTo(legendX + 10, yPos);
+                ctx.lineTo(legendX + 35, yPos);
+                ctx.stroke();
+                ctx.fillStyle = '#007bff';
+                ctx.fillText('L(x,λ)', legendX + 45, yPos + 4);
+                yPos += 22;
+            }
+            
+            ctx.strokeStyle = '#dc3545';
+            ctx.setLineDash([8, 4]);
+            ctx.beginPath();
+            ctx.moveTo(legendX + 10, yPos);
+            ctx.lineTo(legendX + 35, yPos);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#dc3545';
+            ctx.fillText('x ≤ 1', legendX + 45, yPos + 4);
+    }
+    
+    function drawDualSpace(panel, currentLambda) {
+            const margin = 50;
+            const centerX = panel.x + margin;
+            const centerY = panel.y + panel.height - 70;
+            const scaleX = (panel.width - margin - 30) / 4;
+            const scaleY = 60;
+            
+            // Draw grid
+            ctx.strokeStyle = '#e9ecef';
+        ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            for (let i = 0; i <= 4; i++) {
+                const x = centerX + i * scaleX;
+                ctx.beginPath();
+                ctx.moveTo(x, panel.y);
+                ctx.lineTo(x, centerY);
+                ctx.stroke();
+            }
+            for (let i = -5; i <= 1; i++) {
+                const y = centerY + i * scaleY;
+                ctx.beginPath();
+                ctx.moveTo(centerX, y);
+                ctx.lineTo(panel.x + panel.width - 20, y);
+                ctx.stroke();
+            }
+            ctx.setLineDash([]);
+            
+            // Draw axes
+            ctx.strokeStyle = '#495057';
+            ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(centerX, panel.y);
+            ctx.lineTo(centerX, centerY);
+        ctx.moveTo(centerX, centerY);
+            ctx.lineTo(panel.x + panel.width - 20, centerY);
+        ctx.stroke();
+            
+            // Axis labels
+            ctx.fillStyle = '#495057';
+            ctx.font = 'bold 13px Arial';
+            ctx.textAlign = 'center';
+            for (let i = 0; i <= 4; i++) {
+                ctx.fillText(i.toString(), centerX + i * scaleX, centerY + 20);
+            }
+            ctx.textAlign = 'right';
+            for (let i = -5; i <= 0; i++) {
+                ctx.fillText(i.toString(), centerX - 10, centerY + i * scaleY + 5);
+            }
+            
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('λ', panel.x + panel.width - 10, centerY + 20);
+            ctx.textAlign = 'left';
+            ctx.fillText('g(λ)', centerX - 40, panel.y + 20);
+        
+        // Draw dual function g(λ) = -λ²/4 - λ
+            ctx.strokeStyle = '#28a745';
+            ctx.lineWidth = 4;
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = '#28a745';
+        ctx.beginPath();
+        let first = true;
+            for (let lambda = 0; lambda <= 4; lambda += 0.02) {
+            const g = -lambda * lambda / 4 - lambda;
+            const screenX = centerX + lambda * scaleX;
+            const screenY = centerY - g * scaleY;
+                if (screenY >= panel.y && screenY <= centerY + 10) {
+                if (first) {
+                    ctx.moveTo(screenX, screenY);
+                    first = false;
+                } else {
+                    ctx.lineTo(screenX, screenY);
+                }
+            }
+        }
+        ctx.stroke();
+            ctx.shadowBlur = 0;
+            
+            // Mark current point with trail effect
+            if (currentLambda > 0) {
+                // Draw trail
+                ctx.strokeStyle = 'rgba(220, 53, 69, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                for (let lambda = 0; lambda <= currentLambda; lambda += 0.05) {
+                    const g = -lambda * lambda / 4 - lambda;
+                    const screenX = centerX + lambda * scaleX;
+                    const screenY = centerY - g * scaleY;
+                    if (lambda === 0) {
+                        ctx.moveTo(screenX, screenY);
+                    } else {
+                        ctx.lineTo(screenX, screenY);
+                    }
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+        
+        // Mark current point
+        const currentG = -currentLambda * currentLambda / 4 - currentLambda;
+        const currentScreenX = centerX + currentLambda * scaleX;
+        const currentScreenY = centerY - currentG * scaleY;
+        
+            if (currentScreenY >= panel.y && currentScreenY <= centerY) {
+                // Vertical line
+                ctx.strokeStyle = '#dc3545';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+                ctx.moveTo(currentScreenX, currentScreenY);
+                ctx.lineTo(currentScreenX, centerY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                
+                // Glow point
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = '#dc3545';
+                ctx.fillStyle = '#dc3545';
+                ctx.beginPath();
+                ctx.arc(currentScreenX, currentScreenY, 10, 0, 2 * Math.PI);
+            ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            
+            // Show p* = 0 reference line
+            ctx.strokeStyle = '#ff0000';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 4]);
+            const pStarY = centerY - 0 * scaleY;
+            ctx.beginPath();
+            ctx.moveTo(centerX, pStarY);
+            ctx.lineTo(panel.x + panel.width - 20, pStarY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            ctx.fillStyle = '#ff0000';
+            ctx.font = 'bold 13px Arial';
+            ctx.textAlign = 'left';
+            ctx.fillText('p* = 0', panel.x + panel.width - 70, pStarY - 5);
+    }
+    
+    function animate() {
+        if (!isAnimating) return;
+        
+            currentLambda += 0.015;
+        if (currentLambda > 4) {
+            currentLambda = 0;
+        }
+        
+        drawCompleteExample(currentLambda);
+        animationId = requestAnimationFrame(animate);
+    }
+    
+    animateBtn.addEventListener('click', function() {
+        if (isAnimating) {
+            isAnimating = false;
+                if (animationId) cancelAnimationFrame(animationId);
+                animateBtn.innerHTML = '▶ Resume';
+                animateBtn.style.background = '#007bff';
+        } else {
+            isAnimating = true;
+                animateBtn.innerHTML = '⏸ Pause';
+                animateBtn.style.background = '#ffc107';
+            animate();
+        }
+    });
+    
+    resetBtn.addEventListener('click', function() {
+        isAnimating = false;
+            if (animationId) cancelAnimationFrame(animationId);
+        currentLambda = 0;
+                animateBtn.innerHTML = '▶ Run Animation';
+            animateBtn.style.background = '#28a745';
+        drawCompleteExample(currentLambda);
+    });
+    
+    // Initial draw
+    drawCompleteExample(currentLambda);
+    }
+})();
+</script>
+
+## 🎓 Conclusion
+
+<div style="text-align: center; margin: 20px 0;">
+    <img src="/img/chapter_img/lagrange_duality_framework.png" alt="Lagrange Duality Framework Overview" style="max-width: 100%; height: auto;">
+    <p><em>Figure 5: Overview of the Lagrange Duality Framework - Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
+</div>
+
+Lagrange Duality provides a powerful approach to solving complex optimization problems by:
+
+1. **Turning constraints into perturbations:** The Lagrangian adds the constraints as penalty terms
+2. **Producing a lower bound:** The dual function always provides a lower bound for the original problem
+3. **Guaranteeing convexity:** The dual problem is always convex, and easier to solve
+4. **Connecting with geometry:** The conjugate function gives an intuitive geometric view
+
+### 🔍 Practical Significance
+
+- **Algorithms:** Many modern optimization algorithms are based on duality
+- **Sensitivity analysis:** Dual variables tell the "price" of changing a constraint  
+- **Optimality checking:** The duality gap helps assess the quality of a solution
+- **Algorithm design:** Primal-dual methods combine both viewpoints
+
+Lagrange Duality is not just an abstract mathematical tool, but a powerful framework that helps us understand the nature of optimization problems more deeply and design efficient algorithms to solve them.
+
+## 🖼️ A Note on the Images
+
+The images in this lesson are inspired by and refer to the original article by Zhiliang Zhou. The interactive visualizations were created with JavaScript to supplement and clarify the concepts presented in the original article.
+
+## 📚 References
+
+1. "Convex Optimization" - Stephen Boyd & Lieven Vandenberghe
+2. [Intuition behind Lagrange Duality](https://masszhou.github.io/2016/09/10/Lagrange-Duality/) - Zhiliang Zhou's Blog
+3. [Zhiliang's Blog and Notes](https://masszhou.github.io/) - Another External Brain Drive
+4. The previous chapters of the course on Linear Programming Duality and General Duality
+5. Boyd, S., & Vandenberghe, L. (2004). Convex optimization. Cambridge University Press
+6. Rockafellar, R. T. (1970). Convex analysis. Princeton University Press

@@ -28,7 +28,7 @@ Chúng ta sẽ chứng minh rằng hàm này là lồi sử dụng ba phương p
 
 $$\|\theta x + (1-\theta) y\|_2 \leq \theta \|x\|_2 + (1-\theta) \|y\|_2$$
 
-Let $$z = \theta x + (1-\theta) y$$. Then:
+Đặt $$z = \theta x + (1-\theta) y$$. Khi đó:
 
 $$\begin{align}
 \|z\|_2^2 &= \|\theta x + (1-\theta) y\|_2^2 \\
@@ -37,84 +37,86 @@ $$\begin{align}
 &= \theta^2 \|x\|_2^2 + 2\theta(1-\theta) x^T y + (1-\theta)^2 \|y\|_2^2
 \end{align}$$
 
-By the **Cauchy-Schwarz inequality**: $$x^T y \leq \|x\|_2 \|y\|_2$$
+Theo **bất đẳng thức Cauchy-Schwarz**: $$x^T y \leq \|x\|_2 \|y\|_2$$
 
-Therefore:
+Do đó:
 $$\|z\|_2^2 \leq \theta^2 \|x\|_2^2 + 2\theta(1-\theta) \|x\|_2 \|y\|_2 + (1-\theta)^2 \|y\|_2^2$$
 
-The right-hand side can be factored as:
+Vế phải có thể phân tích thành nhân tử:
 $$\theta^2 \|x\|_2^2 + 2\theta(1-\theta) \|x\|_2 \|y\|_2 + (1-\theta)^2 \|y\|_2^2 = (\theta \|x\|_2 + (1-\theta) \|y\|_2)^2$$
 
-Taking square roots of both sides:
+Lấy căn bậc hai hai vế:
 $$\|\theta x + (1-\theta) y\|_2 \leq \theta \|x\|_2 + (1-\theta) \|y\|_2$$
 
-This proves that the Euclidean norm is convex. $$\square$$
+Điều này chứng minh chuẩn Euclidean là lồi. $$\square$$
 
-## Method 2: Second Derivative Test (Hessian Analysis)
+## Phương pháp 2: Kiểm tra đạo hàm bậc hai (phân tích Hessian)
 
-For twice-differentiable functions, we can use the **second derivative test**: a function is convex if its Hessian matrix is positive semidefinite.
+Với các hàm khả vi hai lần, ta có thể dùng **kiểm tra đạo hàm bậc hai**: một hàm là lồi nếu ma trận Hessian của nó nửa xác định dương.
 
-**Analysis**: 
-The Euclidean norm $$f(x) = \|x\|_2 = \sqrt{x^T x}$$ is not differentiable at $$x = 0$$. However, for $$x \neq 0$$, we can compute:
+**Phân tích**: 
+Chuẩn Euclidean $$f(x) = \|x\|_2 = \sqrt{x^T x}$$ không khả vi tại $$x = 0$$. Tuy nhiên, với $$x \neq 0$$, ta có thể tính:
 
 $$\frac{\partial f}{\partial x_i} = \frac{x_i}{\|x\|_2}$$
 
 $$\frac{\partial^2 f}{\partial x_i \partial x_j} = \frac{1}{\|x\|_2} \delta_{ij} - \frac{x_i x_j}{\|x\|_2^3}$$
 
-The Hessian matrix is:
+Ma trận Hessian là:
 $$H = \frac{1}{\|x\|_2} I - \frac{1}{\|x\|_2^3} x x^T = \frac{1}{\|x\|_2} \left( I - \frac{x x^T}{\|x\|_2^2} \right)$$
 
-**Verification of positive semidefiniteness**:
-For any vector $$v \in \mathbb{R}^n$$:
+**Kiểm tra tính nửa xác định dương**:
+Với mọi vector $$v \in \mathbb{R}^n$$:
 $$v^T H v = \frac{1}{\|x\|_2} \left( \|v\|_2^2 - \frac{(x^T v)^2}{\|x\|_2^2} \right)$$
 
-By Cauchy-Schwarz inequality: $$(x^T v)^2 \leq \|x\|_2^2 \|v\|_2^2$$
+Theo bất đẳng thức Cauchy-Schwarz: $$(x^T v)^2 \leq \|x\|_2^2 \|v\|_2^2$$
 
-Therefore: $$\|v\|_2^2 - \frac{(x^T v)^2}{\|x\|_2^2} \geq 0$$
+Do đó: $$\|v\|_2^2 - \frac{(x^T v)^2}{\|x\|_2^2} \geq 0$$
 
-This shows $$H \succeq 0$$, confirming convexity for $$x \neq 0$$.
+Điều này cho thấy $$H \succeq 0$$, xác nhận tính lồi với $$x \neq 0$$. (Tại $$x = 0$$ tính lồi suy ra từ phương pháp 1 hoặc 3.)
 
-## Method 3: Triangle Inequality Approach
+## Phương pháp 3: Phương pháp bất đẳng thức tam giác
 
-**Alternative Proof using Minkowski Inequality**:
+**Chứng minh thay thế bằng bất đẳng thức Minkowski**:
 
-The Euclidean norm satisfies the **triangle inequality**:
+Chuẩn Euclidean thỏa mãn **bất đẳng thức tam giác**:
 $$\|x + y\|_2 \leq \|x\|_2 + \|y\|_2$$
 
-For convexity, let $$u = \theta x$$ and $$v = (1-\theta) y$$ where $$\theta \in [0,1]$$:
+Để chứng minh tính lồi, đặt $$u = \theta x$$ và $$v = (1-\theta) y$$ với $$\theta \in [0,1]$$:
 $$\|\theta x + (1-\theta) y\|_2 = \|u + v\|_2 \leq \|u\|_2 + \|v\|_2 = \theta \|x\|_2 + (1-\theta) \|y\|_2$$
 
-This directly establishes the convexity condition.
+Điều này trực tiếp thiết lập điều kiện lồi (đồng nhất bậc một của chuẩn được dùng ở đẳng thức cuối).
 
 
-## Key Properties and Applications
+## Các tính chất và ứng dụng chính
 
-### Properties of Euclidean Norm Convexity
+### Các tính chất của tính lồi của chuẩn Euclidean
 
-1. **Strict Convexity**: The Euclidean norm is actually **strictly convex** on any line not passing through the origin.
+1. **Lồi chặt dọc theo đường**: Chuẩn Euclidean thực ra là **lồi chặt** dọc theo mọi đường thẳng không đi qua gốc tọa độ.
 
-2. **Homogeneity**: $$\|\alpha x\|_2 = \lvert\alpha\rvert \|x\|_2$$ for any scalar $$\alpha$$.
+2. **Tính thuần nhất**: $$\|\alpha x\|_2 = \lvert\alpha\rvert \|x\|_2$$ với mọi vô hướng $$\alpha$$.
 
-3. **Subadditivity**: $$\|x + y\|_2 \leq \|x\|_2 + \|y\|_2$$ (Triangle inequality).
+3. **Tính dưới cộng**: $$\|x + y\|_2 \leq \|x\|_2 + \|y\|_2$$ (bất đẳng thức tam giác).
 
-### Applications in Optimization
+### Ứng dụng trong tối ưu hóa
 
-The convexity of the Euclidean norm has important implications:
+Tính lồi của chuẩn Euclidean có những hệ quả quan trọng:
 
-1. **Least Squares Problems**: The objective function $$\|Ax - b\|_2^2$$ is convex.
+1. **Bài toán bình phương tối thiểu**: Hàm mục tiêu $$\|Ax - b\|_2^2$$ là lồi.
 
-2. **Regularization**: $$\ell_2$$-regularization terms like $$\lambda \|x\|_2$$ preserve convexity.
+2. **Chính quy hóa**: Các số hạng chính quy hóa $$\ell_2$$ như $$\lambda \|x\|_2$$ (với $$\lambda \ge 0$$) bảo toàn tính lồi.
 
-3. **Constrained Optimization**: Norm constraints $$\|x\|_2 \leq r$$ define convex feasible sets.
+3. **Tối ưu có ràng buộc**: Các ràng buộc chuẩn $$\|x\|_2 \leq r$$ xác định các tập khả thi lồi.
 
-## Conclusion
+## Kết luận
 
-We have proven that the Euclidean norm is convex using three different approaches:
+Chúng ta đã chứng minh chuẩn Euclidean là lồi bằng ba cách tiếp cận khác nhau:
 
-1. **Direct definition**: Using Jensen's inequality and Cauchy-Schwarz
+1. **Định nghĩa trực tiếp**: Dùng bất đẳng thức Jensen và Cauchy-Schwarz
+2. **Kiểm tra đạo hàm bậc hai**: Chỉ ra Hessian nửa xác định dương  
+3. **Bất đẳng thức tam giác**: Tận dụng tính chất cơ bản của chuẩn
 2. **Second derivative test**: Showing the Hessian is positive semidefinite  
 3. **Triangle inequality**: Leveraging the fundamental norm property
 
-This convexity property is fundamental in optimization theory and has wide-ranging applications in machine learning, signal processing, and numerical analysis.
+Tính chất lồi này là nền tảng của lý thuyết tối ưu và có nhiều ứng dụng trong học máy, xử lý tín hiệu và giải tích số.
 
-The interactive visualization above demonstrates how the convexity condition $$\|\theta x + (1-\theta) y\|_2 \leq \theta \|x\|_2 + (1-\theta) \|y\|_2$$ holds for any choice of points and convex combination parameter $$\theta$$.
+Phần minh họa tương tác ở trên cho thấy điều kiện lồi $$\|\theta x + (1-\theta) y\|_2 \leq \theta \|x\|_2 + (1-\theta) \|y\|_2$$ đúng với mọi lựa chọn các điểm và tham số tổ hợp lồi $$\theta$$.

@@ -1,52 +1,49 @@
 ---
 layout: post
-title: 15-06 Barrier method v.2
+title: '15-06 Phương pháp chắn v.2'
+chapter: '15'
 order: 12
 owner: Minjoo Lee
 categories:
 - chapter15
 lang: vi
 ---
-이전 알고리즘에서는 central path에 있는 solution을 생성했는데, 실제 central path는 optimal로 가는 과정("means to an end")일 뿐이다. 따라서, 문제를 정확히 풀 필요는 없다.
 
-In the previous algorithm, we generated solutions along the central path, but in reality, the central path is just a means to reach the optimal solution. Therefore, it is not necessary to solve the problem exactly.
+Ở thuật toán trước, chúng ta tạo ra các nghiệm nằm trên đường trung tâm, nhưng thực ra đường trung tâm chỉ là phương tiện để đi đến nghiệm tối ưu ("means to an end"). Do đó, không cần giải bài toán một cách chính xác.
 
-### Algorithm
-For this reason, Barrier method v.2 solves the barrier problem approximately.
+### Thuật toán
 
-단, 단계 2의  $$x^{(0)} \approx x^*(t)$$와 단계 3-2의 $$x^{(k+1)} \approx x^*(t)$$ 부분이 approximation으로 바뀌었다.
-The steps of the algorithm are the same as those in Barrier method v.1.
-1. $$t^{(0)} \gt 0$$이고 $$k := 0$$을 선택한다.
-However, in step 2, $$x^{(0)} \approx x^*(t)$$ and in step 3-2, $$x^{(k+1)} \approx x^*(t)$$ are now approximations.
-3. While $$m/t \gt \epsilon$$ <br>
-1. Choose $$t^{(0)} > 0$$ and set $$k := 0$$.
-2. At $$t = t^{(0)}$$, solve the barrier problem to obtain $$x^{(0)} \approx x^*(t)$$.
-3. While $$m/t > \epsilon$$ <br>
-  3-1. Choose $$t^{(k+1)} > t^{(k)}$$. <br>
-  3-2. Initialize Newton's method with $$x^{(k)}$$. (warm start)<br>
-        At $$t = t^{(k+1)}$$, solve the barrier problem to obtain $$x^{(k+1)} \approx x^*(t)$$.<br>
-  end while<br>
-Barrier method v.2에서는 다음 두 가지 사항이 매우 중요하다.<br>
+Vì lý do này, phương pháp chắn v.2 giải bài toán chắn một cách xấp xỉ. Cụ thể, $$x^{(0)} \approx x^*(t)$$ ở bước 2 và $$x^{(k+1)} \approx x^*(t)$$ ở bước 3-2 giờ đây là các xấp xỉ.
 
-* 얼마나 근사를 잘 할 수 있는가? (How close should each approximation be?)
-In Barrier method v.2, the following two issues are very important:<br>
+Các bước của thuật toán giống như trong phương pháp chắn v.1.
 
-* How close should each approximation be?
-* How many Newton steps are needed at each centering step?
+1. Chọn $$t^{(0)} > 0$$ và đặt $$k := 0$$.
+2. Tại $$t = t^{(0)}$$, giải bài toán chắn để thu được $$x^{(0)} \approx x^*(t)$$.
+3. Trong khi $$m/t > \epsilon$$<br>
+   3-1. Chọn $$t^{(k+1)} > t^{(k)}$$.<br>
+   3-2. Khởi tạo phương pháp Newton với $$x^{(k)}$$ (warm start)<br>
+        Tại $$t = t^{(k+1)}$$, giải bài toán chắn để thu được $$x^{(k+1)} \approx x^*(t)$$.<br>
+   kết thúc vòng lặp<br>
 
-<figure class="image" style="align: center;">
-In the following figure, you can see that when the barrier method is applied to a problem with $$m$$ constraints, linear convergence occurs even as $$m$$ becomes large. That is, it has a log scale with respect to $$m$$.
- <img src="{{ site.baseurl }}/img/chapter_img/chapter15/15_barrier_methodv2_04.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Fig 1] m에 대해 newton iteration과 suboptimality gap 분석 [1]</figcaption>
-</p>
-</figure>
+Trong phương pháp chắn v.2, hai vấn đề sau đây rất quan trọng:
 
-
-다르게 보면 ($$10^4$$인 초기 suboptimal gap (duality gap)을 줄이기 위해 필요한) newton step은 $$m$$에 대해 천천히 증가한다. 아래 그림을 보면 $$m$$이 크게 증하하더라도 각 centering step 별로 20~30 newton step 정도만 필요하다. 단, 한 newton step은 문제의 크기에 따라 크게 달라진다.
+* Mỗi xấp xỉ cần gần đến mức nào?
+* Mỗi bước centering cần bao nhiêu bước Newton?
 
 <figure class="image" style="align: center;">
 <p align="center">
- <img src="{{ site.baseurl }}/img/chapter_img/chapter15/15_barrier_methodv2_05.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Fig 2] m의 증가와 newton iteration 수 분석 [1]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter15/15_barrier_methodv2_04.png" alt="" width="70%" height="70%">
+  <figcaption style="text-align: center;">[Hình 1] Phân tích số vòng lặp Newton và khoảng cách dưới tối ưu theo $$m$$ [1]</figcaption>
+</p>
+</figure>
+
+Trong hình trên, bạn có thể thấy khi áp dụng phương pháp chắn cho bài toán có $$m$$ ràng buộc, sự hội tụ vẫn là tuyến tính ngay cả khi $$m$$ rất lớn. Nghĩa là, nó có thang logarit theo $$m$$.
+
+Nhìn từ một góc độ khác, số bước Newton cần thiết (để giảm khoảng cách dưới tối ưu ban đầu (duality gap) $$10^4$$) chỉ tăng chậm theo $$m$$. Quan sát hình dưới đây, ngay cả khi $$m$$ tăng đáng kể, mỗi bước centering chỉ cần khoảng 20–30 bước Newton. Tuy nhiên, chi phí của một bước Newton thay đổi rất nhiều tùy theo kích thước bài toán.
+
+<figure class="image" style="align: center;">
+<p align="center">
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter15/15_barrier_methodv2_05.png" alt="" width="70%" height="70%">
+  <figcaption style="text-align: center;">[Hình 2] Phân tích số vòng lặp Newton khi $$m$$ tăng [1]</figcaption>
 </p>
 </figure>

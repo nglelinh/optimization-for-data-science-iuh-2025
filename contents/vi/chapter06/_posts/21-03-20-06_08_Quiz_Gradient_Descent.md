@@ -74,7 +74,7 @@ $$f(x^{(k)}) - f^* \le \frac{\lVert x^{(0)} - x^* \rVert_2^2}{2tk}$$
 
 #### **Định lý hội tụ cho hàm lồi mạnh**
 Nếu $$f$$ lồi mạnh với tham số $$m > 0$$:
-$$f(x^{(k)}) - f^* \le \left(1 - \frac{2m}{m + L}\right)^k \left(f(x^{(0)}) - f^*\right)$$
+$$f(x^{(k)}) - f^* \le \left(1 - \frac{m}{L}\right)^k \left(f(x^{(0)}) - f^*\right) \quad (t = 1/L)$$
 
 **Tốc độ hội tụ:** $$O(\rho^k)$$ với $$\rho < 1$$ - hội tụ linear
 
@@ -226,22 +226,6 @@ $$k > k_{\max}$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -473,14 +457,14 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
         <div class="question" id="q13" style="display: none;">
             <h3>Câu 13: Quy tắc cập nhật của Gradient Descent với momentum là:</h3>
             <div class="options">
-                <label><input type="radio" name="q13" value="a"> A) \(v^{(k)} = \beta v^{(k-1)} + \nabla f(x^{(k-1)})\), \(x^{(k)} = x^{(k-1)} - t v^{(k)}\)</label>
+                <label><input type="radio" name="q13" value="a"> A) \(v^{(k)} = \beta v^{(k-1)} + \nabla f(x^{(k-1)})\), \(x^{(k)} = x^{(k-1)} + t v^{(k)}\)</label>
                 <label><input type="radio" name="q13" value="b"> B) \(v^{(k)} = \beta v^{(k-1)} + (1-\beta) \nabla f(x^{(k-1)})\), \(x^{(k)} = x^{(k-1)} - t v^{(k)}\)</label>
                 <label><input type="radio" name="q13" value="c"> C) \(x^{(k)} = x^{(k-1)} - t \beta \nabla f(x^{(k-1)})\)</label>
                 <label><input type="radio" name="q13" value="d"> D) \(x^{(k)} = \beta x^{(k-1)} - t \nabla f(x^{(k-1)})\)</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$v^{(k)} = \beta v^{(k-1)} + (1-\beta) \nabla f(x^{(k-1)})$$, $$x^{(k)} = x^{(k-1)} - t v^{(k)}$$</strong><br>
-                Momentum tích lũy vận tốc với trung bình động có trọng số mũ của các gradient.
+                Momentum tích lũy vận tốc với trung bình động có trọng số mũ của các gradient. (Dạng cổ điển $$v^{(k)} = \beta v^{(k-1)} + \nabla f(x^{(k-1)})$$, $$x^{(k)} = x^{(k-1)} - t v^{(k)}$$ cũng đúng, chỉ khác thang đo của $$t$$; phương án A sai vì đi theo hướng $$+v$$, tức là tăng hàm mục tiêu.)
             </div>
         </div>
 
@@ -525,7 +509,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Tính gradient tại vị trí "nhìn trước"</strong><br>
-                NAG tính gradient tại $$x^{(k-1)} - \beta v^{(k-1)}$$ thay vì $$x^{(k-1)}$$, cho phép "nhìn trước" hướng di chuyển.
+                NAG tính gradient tại $$x^{(k-1)} - t\beta v^{(k-1)}$$ thay vì $$x^{(k-1)}$$, cho phép "nhìn trước" hướng di chuyển.
             </div>
         </div>
 
@@ -593,12 +577,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             <h3>Câu 21: Trong gradient descent, kích thước bước $$t = 0.01$$ có nghĩa là gì?</h3>
             <div class="options">
                 <label><input type="radio" name="q21" value="a"> A) Di chuyển 1% theo hướng gradient</label>
-                <label><input type="radio" name="q21" value="b"> B) Di chuyển 0.01 đơn vị theo hướng $$-\nabla f$$</label>
+                <label><input type="radio" name="q21" value="b"> B) Di chuyển theo hướng $$-\nabla f$$ một bước bằng 0.01 lần gradient (độ dài $$0.01\lVert\nabla f\rVert$$)</label>
                 <label><input type="radio" name="q21" value="c"> C) Chia gradient cho 100</label>
                 <label><input type="radio" name="q21" value="d"> D) Số lần lặp tối đa</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Di chuyển 0.01 đơn vị theo hướng $$-\nabla f$$</strong><br>
+                <strong>Đáp án đúng: B) Di chuyển theo hướng $$-\nabla f$$ một bước bằng 0.01 lần gradient (độ dài $$0.01\lVert\nabla f\rVert$$)</strong><br>
                 Kích thước bước $$t$$ xác định độ dài di chuyển theo hướng $$-\nabla f$$: $$x^{(k+1)} = x^{(k)} - t\nabla f(x^{(k)})$$.
             </div>
         </div>
@@ -908,8 +892,8 @@ function showQuestion(questionNum) {
     updateProgress();
     
     // Re-render MathJax for the newly displayed question
-    if (window.MathJax) {
-        MathJax.typesetPromise([document.getElementById(`q${questionNum}`)]);
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise([document.getElementById(`q${questionNum}`)]));
     }
 }
 
@@ -1049,8 +1033,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

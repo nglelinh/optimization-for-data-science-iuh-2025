@@ -38,4 +38,16 @@ và
 
 BFGS cũng duy trì tính xác định dương giống như DFP. (Nếu $$B$$ là xác định dương và $$s^Ty > 0$$, thì $$B^+$$ là xác định dương.)
 
-Ưu điểm của BFGS là có tính chất tự hi교chỉnh. Nếu ma trận $$H$$ trong một vòng lặp là một xấp xỉ kém của Hessian nghịch đảo, thì $$H$$ có thể được điều chỉnh trong một vài bước tiếp theo. DFP không có khả năng tự hiệu chỉnh trong trường hợp xấp xỉ sai về Hessian, do đó hiệu suất của BFGS thường tốt hơn [14].
+Ưu điểm của BFGS là có tính chất tự hiệu chỉnh. Nếu ma trận $$H$$ trong một vòng lặp là một xấp xỉ kém của Hessian nghịch đảo, thì $$H$$ có thể được điều chỉnh trong một vài bước tiếp theo. DFP không có khả năng tự hiệu chỉnh trong trường hợp xấp xỉ sai về Hessian, do đó hiệu suất của BFGS thường tốt hơn [14].
+
+### Quasi-Newton trong 15 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/bfgs-vs-gd_vi.mp4"></video>
+</div>
+
+BFGS chỉ dùng các gradient để dựng dần một xấp xỉ Hessian nghịch đảo $$H$$, nên bước đi $$-H\nabla f$$ gần giống Newton mà không cần tính Hessian.
+
+### Tự tay thử: BFGS so với gradient descent
+
+<div class="opx-explainer" data-opx="bfgs" data-lang="vi"></div>

@@ -70,3 +70,7 @@ In conclusion, 1 and 2 show the following relationships respectively.
 
 So, under what circumstances do (C) and (L) show perfect equivalence?<br/>
 For example, when $$h(x) \ge 0$$ (such as norm), $$t = 0$$, and $$\lambda = \infty$$, perfect equivalence is shown. Due to the given conditions, the constraint in (C) becomes $$h(x) = 0$$, and by setting $$\lambda$$ to $$\infty$$, (L) also imposes the same constraint ($$h(x) = 0$$).
+
+### Try it yourself: constrained vs. Lagrange form
+
+<div class="opx-explainer" data-opx="cl" data-lang="en"></div>

@@ -25,7 +25,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
 
 **Primal-Dual advantages:**
 - **Single Newton step:** One Newton step per iteration
-- **Infeasible start OK:** Can start from infeasible points
+- **Infeasible start OK:** Can start from infeasible points (không cần $$Ax^0 = b$$; trong dạng này vẫn cần $$h(x^0) < 0, u^0 > 0$$)
 - **Simultaneous updates:** Update primal và dual variables together
 - **More efficient:** Generally superior performance
 
@@ -233,10 +233,10 @@ XS - \tau I
 ### 🎯 **Performance Analysis**
 
 #### **Theoretical advantages**
-- **Polynomial-time:** $$O(n^3 \log(1/\epsilon))$$ complexity
+- **Polynomial-time:** $$O(\sqrt{n}\log(1/\epsilon))$$ iterations, tổng $$O(n^{3.5} \log(1/\epsilon))$$ complexity
 - **Superlinear convergence:** Under appropriate conditions
 - **Robust performance:** Works across problem classes
-- **Infeasible start:** No need for Phase I
+- **Infeasible start:** No need for Phase I (chỉ cần điểm trong strict interior của ràng buộc bất đẳng thức)
 
 #### **Practical benefits**
 - **Fewer iterations:** Compared to barrier method
@@ -319,7 +319,7 @@ XS - \tau I
 4. **Warm starts:** Efficient reoptimization scenarios
 
 #### **Parameter selection:**
-- **$$\sigma$$:** Typically 0.1 to 0.9 (0.1 for fast progress, 0.9 for stability)
+- **$$\sigma$$:** Thường từ 0.1 đến 0.9 (0.1 để tiến nhanh, 0.9 để ổn định)
 - **$$\alpha, \beta$$:** Standard values 0.01, 0.5 work well
 - **$$\epsilon$$:** Problem-dependent tolerance
 - **Feasibility margin:** 0.99 factor for numerical stability
@@ -468,22 +468,6 @@ Chương 17 demonstrates that **optimization theory can be both beautiful và pr
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -777,13 +761,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
             <h3>Câu 11: Complementary slackness trong SDP là:</h3>
             <div class="options">
                 <label><input type="radio" name="q11" value="a"> A) \(X \bullet S = 0\) (tức \(\text{tr}(XS) = 0\))</label>
-                <label><input type="radio" name="q11" value="b"> B) \(XS = 0\) (matrix product)</label>
+                <label><input type="radio" name="q11" value="b"> B) \(X \bullet S = 1\)</label>
                 <label><input type="radio" name="q11" value="c"> C) \(X + S = 0\)</label>
                 <label><input type="radio" name="q11" value="d"> D) \(\|X - S\| = 0\)</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$X \bullet S = 0$$ (tức $$\text{tr}(XS) = 0$$)</strong><br>
-                SDP complementary slackness: inner product (trace) của primal và dual matrix variables bằng 0.
+                SDP complementary slackness: inner product (trace) của primal và dual matrix variables bằng 0. (Với $$X, S \succeq 0$$, điều này tương đương với $$XS = 0$$.)
             </div>
         </div>
 
@@ -938,7 +922,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
 
         <!-- Câu hỏi 22: Thực hành -->
         <div class="question" id="q22" style="display: none;">
-            <h3>Câu 22: Trong primal-dual IPM, hệ phương trình Newton có dạng:</h3>
+            <h3>Câu 22: Trong primal-dual IPM, hệ phương trình Newton rút gọn (sau khi khử \(\Delta \lambda\)) có dạng:</h3>
             <div class="options">
                 <label><input type="radio" name="q22" value="a"> A) Ma trận khối đối xứng</label>
                 <label><input type="radio" name="q22" value="b"> B) Ma trận tam giác</label>
@@ -947,7 +931,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Ma trận khối đối xứng</strong><br>
-                Hệ KKT trong IPM tạo ra ma trận khối đối xứng với cấu trúc đặc biệt.
+                Sau khi khử $$\Delta \lambda$$, hệ KKT trong IPM trở thành ma trận khối đối xứng (augmented system) với cấu trúc đặc biệt; hệ Newton đầy đủ ban đầu nói chung không đối xứng.
             </div>
         </div>
 
@@ -970,14 +954,14 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
         <div class="question" id="q24" style="display: none;">
             <h3>Câu 24: Complexity của IPM cho LP là:</h3>
             <div class="options">
-                <label><input type="radio" name="q24" value="a"> A) $$O(n^3 \log(1/\epsilon))$$</label>
+                <label><input type="radio" name="q24" value="a"> A) $$O(n^{3.5} \log(1/\epsilon))$$</label>
                 <label><input type="radio" name="q24" value="b"> B) $$O(2^n)$$</label>
                 <label><input type="radio" name="q24" value="c"> C) $$O(n!)$$</label>
                 <label><input type="radio" name="q24" value="d"> D) $$O(n \log n)$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$O(n^3 \log(1/\epsilon))$$</strong><br>
-                IPM có complexity polynomial, thường $$O(n^3 \log(1/\epsilon))$$ cho LP.
+                <strong>Đáp án đúng: A) $$O(n^{3.5} \log(1/\epsilon))$$</strong><br>
+                IPM có complexity polynomial: $$O(\sqrt{n}\log(1/\epsilon))$$ iterations, mỗi iteration $$O(n^3)$$, tổng $$O(n^{3.5} \log(1/\epsilon))$$ cho LP.
             </div>
         </div>
 
@@ -1194,8 +1178,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

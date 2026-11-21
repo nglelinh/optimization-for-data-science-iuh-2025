@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 15-06 Barrier method v.2
+chapter: '15'
 order: '12'
 owner: Minjoo Lee
 categories:

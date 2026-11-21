@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 17-02-02 Surrogate duality gap, residuals
+title: '17-02-02 Khoảng cách đối ngẫu thay thế và các phần dư'
 chapter: '17'
 order: 5
 owner: Minjoo Lee
@@ -8,41 +8,41 @@ categories:
 - chapter17
 lang: vi
 ---
-To define the Primal-Dual algorithm, let's first define three types of residuals and the surrogate duality gap. Residuals and surrogate duality gap are the objectives to be minimized in the Primal-Dual algorithm.
 
-## Residuals
-The dual, central, and primal residuals at $$(x,u,v)$$ are defined as follows. 
+Để định nghĩa thuật toán gốc-đối ngẫu, trước hết hãy định nghĩa ba loại phần dư (residual) và khoảng cách đối ngẫu thay thế (surrogate duality gap). Các phần dư và khoảng cách đối ngẫu thay thế là các đại lượng cần cực tiểu hóa trong thuật toán gốc-đối ngẫu.
+
+## Các phần dư
+Các phần dư đối ngẫu, trung tâm và gốc tại $$(x,u,v)$$ được định nghĩa như sau.
 
 > $$r_{dual} = \nabla f(x) +\nabla h(x)u + A^Tv\\$$
 > $$r_{cent} =  Uh(x) + τ\mathbb{1} \\ $$ 
 > $$r_{prim} = Ax−b$$
 
-These correspond to each row of the function $$r(x,u,v)$$. The **Primal-dual interior point method** executes in the direction of satisfying 0 rather than continuously making these three residuals equal to 0. This means that it is not necessary to be feasible during the execution process.
+Chúng tương ứng với từng hàng của hàm $$r(x,u,v)$$. **Phương pháp điểm trong gốc-đối ngẫu** thực hiện theo hướng làm cho ba phần dư này tiến về 0 chứ không liên tục ép chúng bằng 0. Điều này có nghĩa là trong quá trình thực hiện không cần phải khả thi.
 
-The reason $$r_{dual}$$ is called the dual residual is that, as shown in the equation below, if $$r_{dual} = 0$$, it guarantees that $$u, v$$ are in the domain of $$g$$, which means dual feasible.
+Lý do $$r_{dual}$$ được gọi là phần dư đối ngẫu là vì, như trong phương trình dưới đây, nếu $$r_{dual} = 0$$ thì đảm bảo $$u, v$$ nằm trong miền xác định của $$g$$, tức là khả thi đối ngẫu.
 
 >$$\begin{align}
 & r_{dual} = \nabla f(x) +\nabla h(x)u + A^Tv = 0 \\\\
-& \iff \min_{x} L(x,u.v) = g(u,v) \\\\
+& \iff \min_{x} L(x,u,v) = g(u,v) \\\\
 \end{align}$$
 
-Similarly, satisfying $$r_{prim}=0$$ means primal feasible, so $$r_{prim}$$ is called the primal residual.
+Tương tự, thỏa mãn $$r_{prim}=0$$ nghĩa là khả thi gốc, nên $$r_{prim}$$ được gọi là phần dư gốc.
 
-## Surrogate duality gap
-While the barrier method has a duality gap because it is feasible, the primal-dual interior-point method uses **surrogate duality gap** because it doesn't necessarily need to be feasible. **Surrogate duality gap** is defined by the following equation.
+## Khoảng cách đối ngẫu thay thế
+Trong khi phương pháp chắn có khoảng cách đối ngẫu vì nó luôn khả thi, phương pháp điểm trong gốc-đối ngẫu dùng **khoảng cách đối ngẫu thay thế** vì không nhất thiết phải khả thi. **Khoảng cách đối ngẫu thay thế** được định nghĩa bởi công thức sau.
 
 > $$−h(x)^Tu  \quad \text{for} \quad h(x) \le 0, u \ge 0$$ 
 
-If $$r_{dual} = 0$$ and $$r_{prim} = 0$$, then the surrogate duality gap becomes the true duality gap. In other words, if primal and dual feasible, the surrogate duality gap becomes equal to the actual duality gap $$\frac{m}{t}$$.
+Nếu $$r_{dual} = 0$$ và $$r_{prim} = 0$$ thì khoảng cách đối ngẫu thay thế trở thành khoảng cách đối ngẫu thực sự. Nói cách khác, nếu khả thi gốc và khả thi đối ngẫu thì khoảng cách đối ngẫu thay thế bằng khoảng cách đối ngẫu thực $$\frac{m}{t}$$.
 
-**[Reference] Perturbed KKT conditions and parameter t** <br>
+**[Tham khảo] Các điều kiện KKT nhiễu và tham số t** <br>
 
-* In the perturbed KKT conditions, the parameter t is $$t = −\frac{m}{h(x)^Tu}$$. 
-* For detailed information, see [15-03-01 Perturbed KKT conditions]({% multilang_post_url contents/chapter15/21-03-28-15_03_01_perturbed_kkt_conditions %}) and [15-03-02 Suboptimality gap]({% multilang_post_url contents/chapter15/21-03-28-15_03_02_suboptimality_gap %})
+* Trong các điều kiện KKT nhiễu, tham số t là $$t = −\frac{m}{h(x)^Tu}$$. 
+* Thông tin chi tiết xem [15-03-01 Điều kiện KKT nhiễu]({% multilang_post_url contents/chapter15/21-03-28-15_03_01_perturbed_kkt_conditions %}) và [15-03-02 Khoảng cách dưới tối ưu]({% multilang_post_url contents/chapter15/21-03-28-15_03_02_suboptimality_gap %})
 
-Furthermore, if $$u > 0,h(x) < 0$$ and the following condition is satisfied, then $$(x,u,v)$$ exists on the central path.
+Hơn nữa, nếu $$u > 0,h(x) < 0$$ và điều kiện sau được thỏa mãn thì $$(x,u,v)$$ nằm trên đường trung tâm.
 
-> $$r(x,u,v) = 0$$ for $$\tau = -\frac{h(x)^Tu}{m}$$
+> $$r(x,u,v) = 0$$ với $$\tau = -\frac{h(x)^Tu}{m}$$
 
-In other words, the residual is 0 at points existing on the central path.
-
+Nói cách khác, phần dư bằng 0 tại các điểm nằm trên đường trung tâm.

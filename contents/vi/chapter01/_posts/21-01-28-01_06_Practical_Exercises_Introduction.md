@@ -101,7 +101,7 @@ Không có closed form, cần numerical methods.
 
 **Bước 2: Chứng minh convexity**
 
-**a-c)** Quadratic functions với positive definite Hessian
+**a-c)** Hàm bậc hai với Hessian nửa xác định dương: $$2A^TA \succeq 0$$, $$2A^TWA \succeq 0$$, $$2(A^TA + \lambda I) \succ 0$$ (với $$\lambda > 0$$)
 **d)** $$\phi(u)$$ là convex function (piecewise quadratic với non-decreasing derivative)
 
 **Bước 3: Ý nghĩa hình học**
@@ -164,7 +164,9 @@ $$\min_{x,s} (-c^T x + 0^T s) \quad \text{s.t.} \quad [A \quad I] \begin{bmatrix
 **Biến đổi chuẩn $$\ell_\infty$$:** $$\min t \text{ s.t. } -t \leq c^T x - d \leq t$$
 
 **Dạng chuẩn:**
-$$\min_{x,t,s_1,s_2} t \quad \text{s.t.} \quad \begin{bmatrix} A & 0 & I & 0 \\ c^T & -1 & 0 & I \\ -c^T & -1 & 0 & 0 \end{bmatrix} \begin{bmatrix} x \\ t \\ s_1 \\ s_2 \end{bmatrix} = \begin{bmatrix} b \\ d \\ -d \end{bmatrix}$$
+$$\min_{x,t,s_1,s_2,s_3} t \quad \text{s.t.} \quad \begin{bmatrix} A & 0 & I & 0 & 0 \\ c^T & -1 & 0 & 1 & 0 \\ -c^T & -1 & 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} x \\ t \\ s_1 \\ s_2 \\ s_3 \end{bmatrix} = \begin{bmatrix} b \\ d \\ -d \end{bmatrix}, \quad t, s_1, s_2, s_3 \geq 0$$
+
+Hai hàng cuối lần lượt là $$c^T x - d \leq t$$ và $$-(c^T x - d) \leq t$$, mỗi hàng cần một biến slack riêng. Vì $$x$$ tự do, thay tiếp $$x = x^+ - x^-$$ với $$x^+, x^- \geq 0$$ để đưa về đúng dạng $$z \geq 0$$.
 
 </details>
 
@@ -195,15 +197,15 @@ với $$\Sigma \succ 0$$ (covariance matrix), $$\mu$$ (expected returns), $$r$$ 
 - $$\Rightarrow$$ Convex QP
 
 **Bước 2: KKT conditions**
-Lagrangian: $$L(x,\lambda,\nu,\mu) = \frac{1}{2} x^T \Sigma x - \lambda(\mu^T x - r) + \nu(\mathbf{1}^T x - 1) - \mu^T x$$
+Lagrangian (dùng $$\eta$$ cho nhân tử của $$x \geq 0$$ để không trùng ký hiệu với $$\mu$$): $$L(x,\lambda,\nu,\eta) = \frac{1}{2} x^T \Sigma x - \lambda(\mu^T x - r) + \nu(\mathbf{1}^T x - 1) - \eta^T x$$
 
 KKT conditions:
-- Stationarity: $$\Sigma x - \lambda \mu + \nu \mathbf{1} - \mu = 0$$
+- Stationarity: $$\Sigma x - \lambda \mu + \nu \mathbf{1} - \eta = 0$$
 - Primal feasibility: $$\mu^T x \geq r, \mathbf{1}^T x = 1, x \geq 0$$
-- Dual feasibility: $$\lambda \geq 0, \mu \geq 0$$
-- Complementary slackness: $$\lambda(\mu^T x - r) = 0, \mu_i x_i = 0$$
+- Dual feasibility: $$\lambda \geq 0, \eta \geq 0$$
+- Complementary slackness: $$\lambda(\mu^T x - r) = 0, \eta_i x_i = 0$$
 
-**Bước 3: Trường hợp unconstrained ($$x \geq 0$$)**
+**Bước 3: Trường hợp bỏ ràng buộc $$x \geq 0$$ (giả sử ràng buộc lợi nhuận active, $$\mu^T x = r$$)**
 $$x^* = \Sigma^{-1}(\lambda^* \mu - \nu^* \mathbf{1})$$
 
 Từ constraints:
@@ -216,7 +218,7 @@ $$\begin{bmatrix} A & B \\ B & C \end{bmatrix} \begin{bmatrix} \lambda^* \\ -\nu
 với $$A = \mu^T \Sigma^{-1} \mu, B = \mu^T \Sigma^{-1} \mathbf{1}, C = \mathbf{1}^T \Sigma^{-1} \mathbf{1}$$
 
 **Bước 4: Biên hiệu quả**
-$$\sigma^2(r) = \frac{Ar^2 - 2Br + C}{AC - B^2}$$
+$$\sigma^2(r) = x^{*T} \Sigma x^* = \frac{Cr^2 - 2Br + A}{AC - B^2}$$
 
 Đây là đường hyperbola trong không gian $$(r, \sigma)$$.
 
@@ -229,7 +231,9 @@ $$\sigma^2(r) = \frac{Ar^2 - 2Br + C}{AC - B^2}$$
 **Đề bài:** (Bài 1.5 từ Boyd & Vandenberghe)
 Xét bài toán thiết kế mạch điện:
 
-$$\min_{x,y,z} \frac{1}{xyz} \quad \text{s.t.} \quad \frac{x}{y} + \frac{y}{z} \leq 1, \quad x,y,z > 0$$
+$$\min_{x,y,z} \frac{1}{xyz} \quad \text{s.t.} \quad \frac{x}{y} + \frac{y}{z} \leq 1, \quad z \leq 1, \quad x,y,z > 0$$
+
+*(Ràng buộc $$z \leq 1$$ là cần thiết: nếu bỏ nó, nhân $$(x, y, z)$$ với $$s > 0$$ không đổi ràng buộc thứ nhất nhưng làm $$\frac{1}{xyz} \to 0$$ khi $$s \to \infty$$, nên bài toán không có nghiệm tối ưu.)*
 
 **Yêu cầu:**
 1. Chứng minh đây là geometric program
@@ -242,7 +246,7 @@ $$\min_{x,y,z} \frac{1}{xyz} \quad \text{s.t.} \quad \frac{x}{y} + \frac{y}{z} \
 
 **Bước 1: Verify geometric program**
 - Objective: $$f_0(x,y,z) = x^{-1} y^{-1} z^{-1}$$ (monomial)
-- Constraint: $$g_1(x,y,z) = x^1 y^{-1} z^0 + x^0 y^1 z^{-1}$$ (posynomial)
+- Constraint: $$g_1(x,y,z) = x^1 y^{-1} z^0 + x^0 y^1 z^{-1}$$ (posynomial), $$g_2(x,y,z) = z$$ (monomial)
 - Domain: $$x,y,z > 0$$
 
 $$\Rightarrow$$ Đây là GP trong standard form.
@@ -250,13 +254,13 @@ $$\Rightarrow$$ Đây là GP trong standard form.
 **Bước 2: Biến đổi logarit**
 Đặt $$u = \log x, v = \log y, w = \log z$$:
 
-$$\min_{u,v,w} -u - v - w \quad \text{s.t.} \quad \log(e^{u-v} + e^{v-w}) \leq 0$$
+$$\min_{u,v,w} -u - v - w \quad \text{s.t.} \quad \log(e^{u-v} + e^{v-w}) \leq 0, \quad w \leq 0$$
 
 Tương đương:
-$$\min_{u,v,w} -u - v - w \quad \text{s.t.} \quad e^{u-v} + e^{v-w} \leq 1$$
+$$\min_{u,v,w} -u - v - w \quad \text{s.t.} \quad e^{u-v} + e^{v-w} \leq 1, \quad w \leq 0$$
 
 **Bước 3: Công thức lồi**
-$$\min_{u,v,w,t} -u - v - w \quad \text{s.t.} \quad e^{u-v} + e^{v-w} \leq t, \quad t \leq 1$$
+Mục tiêu tuyến tính, $$\log(e^{u-v} + e^{v-w})$$ là hàm log-sum-exp của các hàm affine (lồi), $$w \leq 0$$ tuyến tính.
 
 Đây là bài toán lồi (ràng buộc log-sum-exp).
 
@@ -265,7 +269,8 @@ Sử dụng phương pháp điểm trong hoặc các bộ giải GP chuyên dụ
 
 Nghiệm tối ưu sẽ có dạng:
 - $$x^* = e^{u^*}, y^* = e^{v^*}, z^* = e^{w^*}$$
-- Ràng buộc thường hoạt động: $$\frac{x^*}{y^*} + \frac{y^*}{z^*} = 1$$
+- Cả hai ràng buộc đều active. Với $$z = 1$$, bài toán thành $$\max xy$$ s.t. $$x \leq y(1 - y)$$, tức $$\max_y y^2(1-y)$$, đạt tại $$y = 2/3$$.
+- Nghiệm: $$x^* = 2/9$$, $$y^* = 2/3$$, $$z^* = 1$$; kiểm tra $$\frac{x^*}{y^*} + \frac{y^*}{z^*} = \frac{1}{3} + \frac{2}{3} = 1$$ ✓; giá trị tối ưu $$\frac{1}{x^*y^*z^*} = \frac{27}{4}$$.
 
 </details>
 
@@ -406,7 +411,7 @@ $$\Rightarrow$$ Convex trên $$\mathbb{R}_{++}$$
 
 Alternative: $$-\log(\det X) = -\log(\prod_i \lambda_i) = -\sum_i \log \lambda_i$$
 
-Vì $$-\log$$ convex và eigenvalues là concave functions của $$X$$, cần careful analysis.
+Lập luận qua từng trị riêng không đủ (trị riêng không phải hàm lõm của $$X$$; chỉ $$\lambda_{\min}$$ lõm). Cách chuẩn: xét $$X = Z + tV$$ với $$Z \succ 0$$, ta có $$f(Z + tV) = -\log\det Z - \sum_i \log(1 + t\lambda_i)$$, trong đó $$\lambda_i$$ là trị riêng của $$Z^{-1/2} V Z^{-1/2}$$. Mỗi số hạng $$-\log(1 + t\lambda_i)$$ lồi theo $$t$$, nên $$f$$ lồi.
 
 **Result:** Convex trên $$\mathbb{S}_{++}^n$$
 
@@ -414,7 +419,7 @@ Vì $$-\log$$ convex và eigenvalues là concave functions của $$X$$, cần ca
 **Domain:** $$\mathbb{R}^n$$ (convex)
 
 **For $$p \geq 1$$:** Triangle inequality $$\Rightarrow$$ convex
-**For $$0 < p < 1$$:** Not convex (subadditive but not convex)
+**For $$0 < p < 1$$:** Not convex (the triangle inequality fails: for $$p = 1/2$$, $$\lVert (1,1) \rVert_{1/2} = 4 > \lVert (1,0) \rVert_{1/2} + \lVert (0,1) \rVert_{1/2} = 2$$)
 
 **Verification:** Minkowski inequality for $$p \geq 1$$
 

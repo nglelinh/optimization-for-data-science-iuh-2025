@@ -55,7 +55,7 @@ $$S = \{x \in D \mid g_i(x) \le 0, h_j(x) = 0\}$$
 - $$\theta x + (1-\theta)y$$ khả thi (do tính lồi của tập khả thi)
 - $$f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y) = f^*$$
 
-**Tính chất 2:** Nếu $$f$$ lồi chặt thì nghiệm duy nhất
+**Tính chất 2:** Nếu $$f$$ lồi chặt thì nghiệm (nếu tồn tại) là duy nhất
 
 ### ✅ **Điều Kiện Tối Ưu**
 
@@ -119,7 +119,7 @@ $$h_j(x) = 0 \quad \Rightarrow \quad h_j(x) \le 0$$
 
 **Loại bỏ ràng buộc đẳng thức:**
 Nếu $$Ax = b$$ có nghiệm, có thể tham số hóa:
-$$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$AF = 0$$
+$$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$\text{range}(F) = \text{null}(A)$$
 
 **Đổi biến:**
 - Thay đổi biến để đơn giản hóa bài toán
@@ -250,7 +250,7 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$AF = 0$$
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Hàm mục tiêu $$f$$ là lồi chặt</strong><br>
-                Khi hàm mục tiêu là lồi chặt, nghiệm tối ưu là duy nhất vì không có đoạn phẳng nào trên đồ thị.
+                Khi hàm mục tiêu là lồi chặt, nghiệm tối ưu (nếu tồn tại) là duy nhất vì không có đoạn phẳng nào trên đồ thị.
             </div>
         </div>
 
@@ -265,7 +265,7 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$AF = 0$$
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$\nabla f(x)^T(y-x) \geq 0$$ với mọi $$y \in C$$</strong><br>
-                Điều kiện bậc nhất cho tính tối ưu yêu cầu gradient không chỉ về phía trong của tập khả thi.
+                Điều kiện bậc nhất cho tính tối ưu yêu cầu không có hướng khả thi nào là hướng giảm: $$-\nabla f(x)$$ không được chỉ vào trong tập khả thi.
             </div>
         </div>
 
@@ -467,14 +467,14 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$AF = 0$$
         <div class="question" id="q21" style="display: none;">
             <h3>Câu 21: Trong bài toán tối ưu lồi, điều kiện KKT là:</h3>
             <div class="options">
-                <label><input type="radio" name="q21" value="a"> A) Cần thiết và đủ cho tối ưu</label>
+                <label><input type="radio" name="q21" value="a"> A) Đủ cho tối ưu, và cũng cần thiết khi điều kiện Slater thỏa mãn</label>
                 <label><input type="radio" name="q21" value="b"> B) Chỉ cần thiết</label>
                 <label><input type="radio" name="q21" value="c"> C) Chỉ đủ</label>
                 <label><input type="radio" name="q21" value="d"> D) Không liên quan</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Cần thiết và đủ cho tối ưu</strong><br>
-                Đối với bài toán tối ưu lồi, điều kiện KKT vừa cần thiết vừa đủ cho tối ưu toàn cục.
+                <strong>Đáp án đúng: A) Đủ cho tối ưu, và cũng cần thiết khi điều kiện Slater thỏa mãn</strong><br>
+                Đối với bài toán tối ưu lồi, điều kiện KKT luôn đủ cho tối ưu toàn cục; chúng cũng cần thiết khi có điều kiện chính quy như Slater (khi đó strong duality đúng). Không có Slater, nghiệm tối ưu có thể không thỏa KKT (ví dụ $$\min x$$ với $$x^2 \leq 0$$).
             </div>
         </div>
 
@@ -919,8 +919,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 3. **Tính Hiệu Quả Tiệm Cận (Asymptotic Efficiency)**: MLE đạt được cận Cramér-Rao, nghĩa là có phương sai nhỏ nhất trong các ước lượng không thiên lệch.
 
-4. **Bất Biến (Invariance)**: Nếu $$\hat{\theta}$$ là MLE của $$\theta$$, thì $$g(\hat{\theta})$$ là MLE của $$g(\theta)$$ với $$g$$ là hàm khả nghịch.
+4. **Bất Biến (Invariance)**: Nếu $$\hat{\theta}$$ là MLE của $$\theta$$, thì $$g(\hat{\theta})$$ là MLE của $$g(\theta)$$ với $$g$$ là hàm khả nghịch (tính chất này mở rộng cho mọi hàm $$g$$ thông qua likelihood cảm sinh).
 
 ### Ứng Dụng của MLE
 
@@ -486,7 +486,7 @@ $$\max_{\theta} L(\theta \mid x) \quad \text{hoặc} \quad \max_{\theta} \log L(
 Điều này thường dẫn đến:
 - **Tối ưu hóa không ràng buộc**: Khi không có ràng buộc trên tham số
 - **Tối ưu hóa có ràng buộc**: Khi tham số phải thỏa mãn điều kiện nhất định
-- **Bài toán lồi**: Nhiều hàm log-likelihood là lồi, đảm bảo nghiệm tối ưu toàn cục
+- **Bài toán lồi**: Với nhiều mô hình, log-likelihood là hàm lõm (tương đương, âm log-likelihood là hàm lồi), nên việc cực đại hóa nó là bài toán lồi và đảm bảo nghiệm tối ưu toàn cục
 
 <div style="background: #e8f4fd; padding: 15px; border-left: 4px solid #2196F3; margin: 20px 0;">
 <strong>💡 Kết Nối với Tối Ưu Hóa Lồi:</strong> Nhiều bài toán MLE dẫn đến tối ưu hóa lồi, đặc biệt trong họ phân phối mũ. Điều này đảm bảo rằng nghiệm tìm được là tối ưu toàn cục và các thuật toán tối ưu hóa sẽ hội tụ đến nghiệm đúng.
@@ -498,10 +498,10 @@ Trong hồi quy logistic, chúng ta mô hình hóa xác suất của biến nh�
 
 $$P(y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}$$
 
-**Log-likelihood:**
+**Log-likelihood** (với $$p_i = P(y_i = 1 \mid x_i)$$):
 $$\ell(\beta_0, \beta_1) = \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1-y_i) \log(1-p_i) \right]$$
 
-Đây là một bài toán tối ưu hóa lồi, có thể giải bằng gradient descent hoặc Newton's method.
+Đây là bài toán cực đại hóa hàm lõm (tương đương, cực tiểu hóa lồi của âm log-likelihood), có thể giải bằng gradient descent hoặc Newton's method.
 
 ### Tóm Tắt
 

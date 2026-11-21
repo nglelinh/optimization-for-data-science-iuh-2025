@@ -156,10 +156,14 @@ Now let's look at the performance for a series of problems where $$n = 2m$$ and 
 
 As can be seen from the above figure, the Primal-dual method finds solutions with higher accuracy but requires some additional iterations.
 
+### Primal-dual in 18 seconds
 
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/primal-dual-ipm_en.mp4"></video>
+</div>
 
+The barrier method re-centres after each update of $$t$$; the primal-dual method takes a single Newton step on the perturbed KKT conditions in $$(x,\lambda)$$ and cuts the duality gap with far fewer steps.
 
+### Try it yourself: primal-dual vs barrier
 
-
-
-
+<div class="opx-explainer" data-opx="pdipm" data-lang="en"></div>

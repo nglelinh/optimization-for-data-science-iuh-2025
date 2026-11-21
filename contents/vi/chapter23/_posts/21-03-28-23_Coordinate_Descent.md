@@ -9,36 +9,36 @@ categories:
 lang: vi
 ---
 
-Coordinate descent is an optimization algorithm that iteratively moves along each coordinate axis to find the minimum of the objective function. At each iteration, according to a coordinate selection rule, it determines a coordinate axis (coordinate) or coordinate block, then minimizes the function along the direction of that axis while keeping the unselected coordinate axes or coordinate blocks fixed (exactly or inexactly). Coordinate descent can be utilized not only with gradient-based methods but also with gradient-free methods. Additionally, depending on the case, line search can be used to determine appropriate step sizes for each axis [16].
+Coordinate descent là một thuật toán tối ưu lặp, di chuyển lần lượt theo từng trục tọa độ để tìm cực tiểu của hàm mục tiêu. Ở mỗi vòng lặp, theo một quy tắc chọn tọa độ, thuật toán xác định một trục tọa độ (coordinate) hoặc một khối tọa độ, rồi cực tiểu hóa hàm theo hướng của trục đó trong khi giữ cố định các trục hoặc khối tọa độ không được chọn (một cách chính xác hoặc không chính xác). Coordinate descent có thể dùng không chỉ với các phương pháp dựa trên gradient mà còn với các phương pháp không dùng gradient. Ngoài ra, tùy trường hợp, có thể dùng line search để xác định kích thước bước phù hợp cho từng trục [16].
 
-Coordinate descent is very simple and easy to implement, and shows very good performance when carefully implemented for appropriate problems.
+Coordinate descent rất đơn giản, dễ cài đặt, và cho hiệu năng rất tốt khi được cài đặt cẩn thận cho các bài toán phù hợp.
 
-**Examples:** lasso regression, lasso GLMs (under proximal Newton), SVMs, group lasso, graphical lasso (applied to the dual), additive modeling, matrix completion, regression with nonconvex penalties
+**Ví dụ:** hồi quy lasso, lasso GLM (dưới proximal Newton), SVM, group lasso, graphical lasso (áp dụng cho bài toán đối ngẫu), additive modeling, matrix completion, hồi quy với các phạt không lồi
 
-## References and Further readings
+## Tài liệu tham khảo và đọc thêm
 
-**Early coordinate descent in optimization:**
+**Các nghiên cứu sớm về coordinate descent trong tối ưu:**
 
 * D. Bertsekas and J. Tsitsiklis (1989), “Parallel and distributed domputation: numerical methods”
 * Z. Luo and P. Tseng (1992), “On the convergence of the coordinate descent method for convex differentiable minimization”
 * J. Ortega and W. Rheinboldt (1970), “Iterative solution of nonlinear equations in several variables”
 * P. Tseng (2001), “Convergence of a block coordinate descent method for nondifferentiable minimization”
-35 Early coordinate descent references in statistics and ML:
+**Các tài liệu sớm về coordinate descent trong thống kê và ML:**
 * I. Daubechies and M. Defrise and C. De Mol (2004), “An iterative thresholding algorithm for linear inverse problems with a sparsity constraint”
 * J. Friedman and T. Hastie and H. Hoefling and R. Tibshirani (2007), “Pathwise coordinate optimization”
 * W. Fu (1998), “Penalized regressions: the bridge versus the lasso”
 * T. Wu and K. Lange (2008), “Coordinate descent algorithms for lasso penalized regression”
 * A. van der Kooij (2007), “Prediction accuracy and stability of regresssion with optimal scaling transformations”
 
-**Coordinate descent의 응용:**
+**Các ứng dụng của coordinate descent:**
 
 * O. Banerjee and L. Ghaoui and A. d’Aspremont (2007), “Model selection through sparse maximum likelihood estimation”
 * J. Friedman and T. Hastie and R. Tibshirani (2007), “Sparse inverse covariance estimation with the graphical lasso”
 * J. Friedman and T. Hastie and R. Tibshirani (2009), “Regularization paths for generalized linear models via coordinate descent”
-* C.J. Hsiesh and K.W. Chang and C.J. Lin and S. Keerthi and S. Sundararajan (2008), “A dual coordinate descent method for large-scale linear SVM”
+* C.J. Hsieh and K.W. Chang and C.J. Lin and S. Keerthi and S. Sundararajan (2008), “A dual coordinate descent method for large-scale linear SVM”
 * R. Mazumder and J. Friedman and T. Hastie (2011), “SparseNet: coordinate descent with non-convex penalties”
 * J. Platt (1998), “Sequential minimal optimization: a fast algorithm for training support vector machines”
-37 Recent theory for coordinate descent:
+**Lý thuyết gần đây cho coordinate descent:**
 * A. Beck and L. Tetruashvili (2013), “On the convergence of block coordinate descent type methods”
 * Y. Nesterov (2010), “Efficiency of coordinate descent methods on huge-scale optimization problems”
 * J. Nutini, M. Schmidt, I. Laradji, M. Friedlander, H. Koepke (2015), “Coordinate descent converges faster with the Gauss- Southwell rule than random selection”
@@ -46,7 +46,7 @@ Coordinate descent is very simple and easy to implement, and shows very good per
 * P. Richtarik and M. Takac (2011), “Iteration complexity of randomized block-coordinate descent methods for minimizing a composite function”
 * A. Saha and A. Tewari (2013), “On the nonasymptotic convergence of cyclic coordinate descent methods”
 * S. Wright (2015), “Coordinate descent algorithms”
-38 Screening rules and graphical lasso references:
+**Các quy tắc sàng lọc (screening) và tài liệu về graphical lasso:**
 * L. El Ghaoui and V. Viallon and T. Rabbani (2010), “Safe feature elimination in sparse supervised learning”
 * R. Tibshirani, J. Bien, J. Friedman, T. Hastie, N. Simon, J. Taylor, and R. J. Tibshirani (2011), “Strong rules for discarding predictors in lasso-type problems”
 * R. Mazumder and T. Hastie (2011), “The graphical lasso: new insights and alternatives”
@@ -54,14 +54,14 @@ Coordinate descent is very simple and easy to implement, and shows very good per
 * J. Wang, P. Wonka, and J. Ye (2015), “Lasso screening rules via dual polytope projection”
 * D. Witten and J. Friedman and N. Simon (2011), “New insights and faster computations for the graphical lasso”
 
-**Convergence analysis:**<br>
-Coordinate descent의 convergence analysisto, about, 연구 흐름을 간략히 소개하겠다.
+**Phân tích hội tụ:**<br>
+Xin giới thiệu ngắn gọn các hướng nghiên cứu về phân tích hội tụ của coordinate descent.
 
-* Convergence of coordinatewise minimization for solving linear systems, the Gauss-Seidel method, is a classic topic. E.g., see Golub and van Loan (1996), or Ramdas (2014) for a modern twist that looks at randomized coordinate descent
-* Nesterov (2010) considers randomized coordinate descent for smooth functions and shows that it achieves a rate O(1/ε) under a Lipschitz gradient condition, and a rate O(log(1/ε)) under strong convexity
-* Richtarik and Takac (2011) extend and simplify these results, considering smooth plus separable functions, where now each coordinate descent update applies a prox operation
-* Saha and Tewari (2013) consider minimizing l1 regularized functions of the form g(β) + λ∥β∥1, for smooth g, and study both cyclic coordinate descent and cyclic coordinatewise min. Under (very strange) conditions on g, they show both methods dominate proximal gradient descent in iteration progress
-* Beck and Tetruashvili (2013) study cyclic coordinate descent for smooth functions in general. They show that it achieves a rate O(1/ε) under a Lipschitz gradient condition, and a rate O(log(1/ε)) under strong convexity. They also extend these results to a constrained setting with projections
-* Nutini et al. (2015) analyze greedy coordinate descent (called Gauss-Southwell rule), and show it achieves a faster rate than randomized coordinate descent for certain problems
-* Wright (2015) provides some unification and a great summary. Also covers parallel versions (even asynchronous ones)
-* General theory is still not complete; still unanswered questions (e.g., are descent and minimization strategies the same?)
+* Sự hội tụ của cực tiểu hóa theo từng tọa độ để giải hệ tuyến tính, tức phương pháp Gauss-Seidel, là một chủ đề cổ điển. Ví dụ, xem Golub và van Loan (1996), hoặc Ramdas (2014) với góc nhìn hiện đại về coordinate descent ngẫu nhiên.
+* Nesterov (2010) xét coordinate descent ngẫu nhiên cho các hàm trơn và chỉ ra rằng nó đạt tốc độ $$O(1/ε)$$ dưới điều kiện gradient Lipschitz, và tốc độ $$O(\log(1/ε))$$ dưới tính lồi mạnh.
+* Richtarik và Takac (2011) mở rộng và đơn giản hóa các kết quả này, xét các hàm dạng trơn cộng với tách được, trong đó mỗi cập nhật coordinate descent áp dụng một phép prox.
+* Saha và Tewari (2013) xét cực tiểu hóa các hàm chính quy hóa $$l_1$$ có dạng $$g(β) + λ\|β\|_1$$, với $$g$$ trơn, và nghiên cứu cả coordinate descent tuần hoàn lẫn cực tiểu hóa theo tọa độ tuần hoàn. Dưới các điều kiện (rất lạ) trên $$g$$, họ chỉ ra rằng cả hai phương pháp đều vượt proximal gradient descent về mức tiến triển theo vòng lặp.
+* Beck và Tetruashvili (2013) nghiên cứu coordinate descent tuần hoàn cho các hàm trơn nói chung. Họ chỉ ra rằng nó đạt tốc độ $$O(1/ε)$$ dưới điều kiện gradient Lipschitz, và $$O(\log(1/ε))$$ dưới tính lồi mạnh. Họ cũng mở rộng các kết quả này sang trường hợp có ràng buộc với phép chiếu.
+* Nutini et al. (2015) phân tích coordinate descent tham lam (quy tắc Gauss-Southwell), và chỉ ra nó đạt tốc độ nhanh hơn coordinate descent ngẫu nhiên đối với một số bài toán.
+* Wright (2015) đưa ra sự thống nhất và một bản tóm tắt tuyệt vời. Cũng bao gồm các phiên bản song song (thậm chí bất đồng bộ).
+* Lý thuyết tổng quát vẫn chưa hoàn chỉnh; vẫn còn các câu hỏi chưa có lời đáp (ví dụ: chiến lược descent và chiến lược minimization có giống nhau không?)

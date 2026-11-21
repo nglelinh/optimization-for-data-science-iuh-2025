@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-This chapter introduces the definition, relationships, and examples of Mixed Integer Programming, and presents methods for finding optimal solutions by indirectly utilizing relaxation to find solutions for Integer programming.
+Chương này giới thiệu định nghĩa, các mối quan hệ và ví dụ của quy hoạch số nguyên hỗn hợp (Mixed Integer Programming), và trình bày các phương pháp tìm nghiệm tối ưu bằng cách gián tiếp dùng nới lỏng (relaxation) để tìm nghiệm cho quy hoạch nguyên.

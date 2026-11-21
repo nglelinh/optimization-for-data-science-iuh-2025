@@ -61,33 +61,21 @@ $$
 
 ---
 
-**b) Giải bằng phương pháp đồ thị (2 biến chính):**
+**b) Tìm nghiệm tối ưu:**
 
-Giả sử $$x_3 = 0$$ (thử nghiệm):
+Thực phẩm 3 rẻ nhất trên mỗi đơn vị dinh dưỡng, nên nghiệm tối ưu dùng nhiều thực phẩm 3. Xét đỉnh $$x = (0, 1, 4)$$ (cả hai ràng buộc chặt, $$x_1 = 0$$):
 
-$$
-\begin{cases}
-2x_1 + x_2 \geq 5 \\
-x_1 + 2x_2 \geq 6
-\end{cases}
-$$
+$$\text{Protein: } 0 + 1 + 4 = 5 \text{ ✓}, \qquad \text{Carbs: } 0 + 2 + 4 = 6 \text{ ✓}$$
 
-Giao điểm: Giải hệ $$2x_1 + x_2 = 5$$, $$x_1 + 2x_2 = 6$$:
+Chi phí: $$3 \cdot 0 + 2 \cdot 1 + 1.5 \cdot 4 = 8$$ USD.
 
-Từ (1): $$x_2 = 5 - 2x_1$$. Thế vào (2):
+Tính tối ưu được xác nhận bằng dual ở phần c): có $$\lambda$$ khả thi với giá trị dual bằng 8.
 
-$$x_1 + 2(5 - 2x_1) = 6 \Rightarrow x_1 + 10 - 4x_1 = 6 \Rightarrow -3x_1 = -4 \Rightarrow x_1 = \frac{4}{3}$$
+**Nghiệm tối ưu:** $$x^* = (0, 1, 4)$$, chi phí = 8 USD
 
-$$x_2 = 5 - 2 \cdot \frac{4}{3} = \frac{7}{3}$$
+(Lưu ý: đỉnh $$x_3 = 0$$, $$x = (\frac{4}{3}, \frac{7}{3}, 0)$$ là khả thi nhưng chi phí $$\frac{26}{3} \approx 8.67 > 8$$ nên **không** tối ưu.)
 
-Chi phí: $$3 \cdot \frac{4}{3} + 2 \cdot \frac{7}{3} = 4 + \frac{14}{3} = \frac{26}{3} \approx 8.67$$
-
-**Thử các điểm khác:**
-
-- Điểm $$(0, 3)$$: Protein = $$3 < 5$$ ✗
-- Điểm $$(2.5, 0)$$: Carbs = $$2.5 < 6$$ ✗
-
-**Nghiệm tối ưu:** $$x^* = (\frac{4}{3}, \frac{7}{3}, 0)$$, chi phí = $$\frac{26}{3} \approx 8.67$$ USD
+---
 
 ---
 
@@ -99,13 +87,15 @@ $$
 \max_{\lambda} \quad 5\lambda_1 + 6\lambda_2 \quad \text{s.t.} \quad A^T\lambda \leq c, \, \lambda \geq 0
 $$
 
-Với $$\lambda^* = (\frac{2}{3}, \frac{4}{3})$$ (từ complementary slackness):
+tức là $$2\lambda_1 + \lambda_2 \leq 3$$, $$\lambda_1 + 2\lambda_2 \leq 2$$, $$\lambda_1 + \lambda_2 \leq 1.5$$.
+
+Với $$\lambda^* = (1, \frac{1}{2})$$ (từ complementary slackness, vì $$x_2, x_3 > 0$$ nên ràng buộc dual 2 và 3 phải chặt): ràng buộc 1 là $$2 + 0.5 = 2.5 < 3$$ (lỏng, khớp với $$x_1^* = 0$$), và giá trị dual $$5(1) + 6(0.5) = 8$$ bằng giá trị primal → tối ưu (strong duality).
 
 **Ý nghĩa:**
-- $$\lambda_1^* = \frac{2}{3}$$: Tăng yêu cầu protein 1 đơn vị → chi phí tăng $$\frac{2}{3}$$ USD
-- $$\lambda_2^* = \frac{4}{3}$$: Tăng yêu cầu carbs 1 đơn vị → chi phí tăng $$\frac{4}{3}$$ USD
+- $$\lambda_1^* = 1$$: Tăng yêu cầu protein 1 đơn vị → chi phí tăng 1 USD
+- $$\lambda_2^* = \frac{1}{2}$$: Tăng yêu cầu carbs 1 đơn vị → chi phí tăng 0.5 USD
 
-Carbs "đắt" hơn protein trong bối cảnh này!
+Protein "đắt" hơn carbs trong bối cảnh này!
 
 </details>
 
@@ -175,17 +165,18 @@ $$= \begin{bmatrix} 0.5 & 0.5 \end{bmatrix} \begin{bmatrix} 0.025 \\ 0.05 \end{b
 
 **c) Efficient frontier:**
 
-Vary $$r$$ từ $$\min(\mu_i) = 0.10$$ đến $$\max(\mu_i) = 0.12$$:
+Thay đổi $$r$$ từ $$\min(\mu_i) = 0.10$$ đến $$\max(\mu_i) = 0.12$$:
 
 | Return $$r$$ | $$x_1$$ | $$x_2$$ | Risk $$\sigma$$ |
 |-------------|---------|---------|-----------------|
-| 0.10 | 0 | 1 | 0.30 |
-| 0.105 | 0.25 | 0.75 | 0.23 |
+| 0.10 | 0 | 1 | 0.300 |
+| 0.105 | 0.25 | 0.75 | 0.238 |
 | 0.11 | 0.5 | 0.5 | 0.194 |
-| 0.115 | 0.75 | 0.25 | 0.184 |
-| 0.12 | 1 | 0 | 0.20 |
+| 0.1145 | 0.727 | 0.273 | 0.178 (rủi ro nhỏ nhất) |
+| 0.115 | 0.75 | 0.25 | 0.179 |
+| 0.12 | 1 | 0 | 0.200 |
 
-**Kết luận:** Efficient frontier là đường cong lõm trong không gian (risk, return).
+**Kết luận:** Đường cong (risk, return) có rủi ro nhỏ nhất tại $$x_1 = 0.08/0.11 \approx 0.727$$ ($$r \approx 0.1145$$). Chỉ nhánh $$r \geq 0.1145$$ mới là **efficient frontier** (với cùng rủi ro, lợi nhuận cao hơn); các điểm với $$r < 0.1145$$ bị chi phối (dominated).
 
 </details>
 
@@ -253,23 +244,27 @@ $$\nabla f(x) = \frac{A^T(Ax-b)}{\|Ax-b\|_2} + \gamma \frac{x}{\|x\|_2}$$
 
 (Phức tạp do non-smooth tại $$x = 0$$ và $$Ax = b$$)
 
-**Sử dụng closed-form cho regularized LS:**
+**Cách 1: xấp xỉ bằng regularized LS có closed-form:**
 
 Xấp xỉ bằng $$\min \|Ax-b\|_2^2 + \gamma^2\|x\|_2^2$$:
 
-$$x^* = (A^TA + \gamma^2 I)^{-1} A^T b$$
+$$x_{\text{ridge}} = (A^TA + \gamma^2 I)^{-1} A^T b$$
 
 Tính:
 
-$$A^TA = \begin{bmatrix} 1 & 1 & 2 \\ 1 & -1 & 0 \end{bmatrix} \begin{bmatrix} 1 & 1 \\ 1 & -1 \\ 2 & 0 \end{bmatrix} = \begin{bmatrix} 6 & 2 \\ 2 & 2 \end{bmatrix}$$
+$$A^TA = \begin{bmatrix} 1 & 1 & 2 \\ 1 & -1 & 0 \end{bmatrix} \begin{bmatrix} 1 & 1 \\ 1 & -1 \\ 2 & 0 \end{bmatrix} = \begin{bmatrix} 6 & 0 \\ 0 & 2 \end{bmatrix}$$
 
-$$A^TA + 0.01I = \begin{bmatrix} 6.01 & 2 \\ 2 & 2.01 \end{bmatrix}$$
+$$A^TA + 0.01I = \begin{bmatrix} 6.01 & 0 \\ 0 & 2.01 \end{bmatrix}$$
 
 $$A^Tb = \begin{bmatrix} 1 & 1 & 2 \\ 1 & -1 & 0 \end{bmatrix} \begin{bmatrix} 2 \\ 0 \\ 3 \end{bmatrix} = \begin{bmatrix} 8 \\ 2 \end{bmatrix}$$
 
-Giải: $$x^* \approx (1.21, 0.39)^T$$
+Giải: $$x_{\text{ridge}} = \left(\frac{8}{6.01}, \frac{2}{2.01}\right) \approx (1.331, 0.995)^T$$, với $$f(x_{\text{ridge}}) \approx 0.744$$.
 
-**Objective:** $$f(x^*) \approx 0.35$$
+**Cách 2: nghiệm số của SOCP gốc** (giải trực tiếp $$\min \|Ax-b\|_2 + 0.1\|x\|_2$$):
+
+$$x^* \approx (1.326, 0.983)^T, \qquad f(x^*) \approx 0.743$$
+
+(Hai nghiệm gần nhau nhưng không trùng, vì bài toán gốc dùng chuẩn $$\ell_2$$ chứ không phải bình phương.)
 
 </details>
 
@@ -368,7 +363,7 @@ Với mỗi bài toán, xác định dạng chuẩn (LP, QP, QCQP, SOCP, SDP):
 
 **b)** $$\min \|Ax - b\|_1$$
 
-**c)** $$\min x^TQx$$ s.t. $$\|Ax - b\|_2 \leq \delta$$
+**c)** $$\min x^TQx$$ s.t. $$\|Ax - b\|_2 \leq \delta$$ (với $$Q \succeq 0$$)
 
 **d)** $$\min \text{tr}(X)$$ s.t. $$X \succeq yy^T$$, $$X \succeq 0$$
 
@@ -400,7 +395,7 @@ $$
 
 ---
 
-**c) $$\min x^TQx$$ s.t. $$\|Ax - b\|_2 \leq \delta$$:**
+**c) $$\min x^TQx$$ s.t. $$\|Ax - b\|_2 \leq \delta$$ (với $$Q \succeq 0$$):**
 
 - Objective: quadratic
 - Constraint: second-order cone ($$\ell_2$$ norm)

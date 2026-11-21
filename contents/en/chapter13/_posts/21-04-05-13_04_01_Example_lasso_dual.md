@@ -80,3 +80,15 @@ Therefore, lasso satisfies the dual residual.
  <figcaption style="text-align: center;">[Fig2] Lasso Dual [1]</figcaption>
 </p>
 </figure>
+
+### The lasso dual in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/lasso-dual_en.mp4"></video>
+</div>
+
+The dual asks for $$u$$ with $$\|A^Tu\|_\infty\le\lambda$$. The coordinates where this constraint is tight are exactly the nonzeros of the primal solution.
+
+### Try it yourself: lasso primal and dual
+
+<div class="opx-explainer" data-opx="ld" data-lang="en"></div>

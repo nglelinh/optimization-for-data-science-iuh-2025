@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 20-02 Dual Decomposition
+title: '20-02 Phân rã đối ngẫu (Dual Decomposition)'
 chapter: '20'
 order: 4
 owner: Hooncheol Shin
@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-In this section, we examine techniques for decomposing problems using duality.
+Trong phần này, chúng ta xem xét các kỹ thuật phân rã bài toán bằng đối ngẫu.

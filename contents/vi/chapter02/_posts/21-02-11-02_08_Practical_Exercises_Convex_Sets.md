@@ -66,8 +66,8 @@ Cartesian product của convex sets (intervals) là convex.
 
 **Bước 3: Điểm cực biên**
 - **a:** Biên $$\{x : \lVert x \rVert_2 = 1\}$$ (vô số điểm cực biên)
-- **b:** Các đỉnh $$\{\pm e_i : i = 1,\ldots,n\}$$ ($$2n$$ điểm cực biên)
-- **c:** Phụ thuộc vào $$P$$; nếu $$P \succ 0$$, ellipse biên
+- **b:** Các đỉnh $$\{(\pm 1, \ldots, \pm 1)\}$$ ($$2^n$$ điểm cực biên; các điểm $$\pm e_i$$ là đỉnh của quả cầu $$\ell_1$$, không phải của quả cầu $$\ell_\infty$$)
+- **c:** Phụ thuộc vào $$P$$: nếu $$P \succ 0$$, mọi điểm trên biên $$x^T P x = 1$$ đều là điểm cực biên; nếu $$P$$ suy biến, tập chứa trọn một đường thẳng nên không có điểm cực biên
 - **d:** Các đỉnh $$\{(\pm a_1, \ldots, \pm a_n)\}$$ ($$2^n$$ điểm cực biên)
 
 </details>
@@ -166,7 +166,7 @@ $$a^T x \leq b \leq a^T y, \quad \forall x \in C, y \in D$$
 1. Xét $$S = C - D = \{x - y : x \in C, y \in D\}$$ (convex)
 2. $$0 \notin S$$ (vì $$C \cap D = \emptyset$$)
 3. Tìm $$s^* \in S$$ closest to origin: $$s^* = \arg\min_{s \in S} \lVert s \rVert_2$$
-4. Đặt $$a = s^*$$, $$b = \frac{1}{2} \lVert s^* \rVert_2^2$$
+4. Viết $$s^* = x^* - y^*$$ ($$x^* \in C$$, $$y^* \in D$$; giả sử $$C, D$$ đóng và một tập bị chặn để $$s^*$$ tồn tại). Đặt $$a = y^* - x^* = -s^*$$, $$b = \frac{1}{2}(\lVert y^* \rVert_2^2 - \lVert x^* \rVert_2^2)$$ (mặt phẳng trung trực của đoạn $$x^* y^*$$). Điều kiện tối ưu của $$s^*$$ cho $$s^{*T}(s - s^*) \geq 0$$ với mọi $$s \in S$$, từ đó $$a^T x \leq b \leq a^T y$$.
 
 **Bước 2: Example 1 - Two balls**
 $$C = \{x : \lVert x \rVert_2 \leq 1\}$$, $$D = \{x : \lVert x - (3,0) \rVert_2 \leq 1\}$$
@@ -189,9 +189,9 @@ $$C = \{x : x_1 + x_2 \leq 1, x_1, x_2 \geq 0\}$$, $$D = \{(2,2)\}$$
 **Optimization problem:**
 $$\min_{x \in C} \lVert x - (2,2) \rVert_2^2$$
 
-**KKT conditions:** Closest point là $$(1,0)$$ hoặc $$(0,1)$$.
+**KKT conditions:** Điểm gần nhất là $$(1/2, 1/2)$$ (hình chiếu của $$(2,2)$$ lên cạnh $$x_1 + x_2 = 1$$), khoảng cách $$\frac{3}{\sqrt{2}}$$.
 
-**Solution:** $$a = (1,1)$$, $$b = 1.5$$
+**Solution:** $$a = (1,1)$$ (cùng hướng với $$(2,2) - (1/2,1/2)$$), $$b = 1.5$$. Mọi $$b \in (1, 4)$$ đều tách được; mặt phẳng trung trực là $$x_1 + x_2 = 2.5$$.
 Hyperplane: $$x_1 + x_2 = 1.5$$
 
 </details>
@@ -234,20 +234,20 @@ $$S_2 = \{x \in \mathbb{R}^3 : x_1^2 + x_2^2 = 1, x_3 = 0\} \cup \{(0,0,1), (0,0
 **Convex hull:** Double cone
 $$\text{conv}(S_2) = \{x \in \mathbb{R}^3 : x_1^2 + x_2^2 \leq (1 - |x_3|)^2, |x_3| \leq 1\}$$
 
-**Extreme points:** Circle $$\{x : x_1^2 + x_2^2 = 1, x_3 = 0\}$$
+**Extreme points:** Circle $$\{x : x_1^2 + x_2^2 = 1, x_3 = 0\}$$ and the two apexes $$(0,0,\pm 1)$$
 
 **Bước 3: Parabola segment**
 $$S_3 = \{(t, t^2) : t \in [-1,1]\}$$
 
-**Convex hull:** Region below parabola
-$$\text{conv}(S_3) = \{(x_1, x_2) : x_2 \geq x_1^2, |x_1| \leq 1\}$$
+**Convex hull:** Region above the parabola and below the chord $$x_2 = 1$$
+$$\text{conv}(S_3) = \{(x_1, x_2) : x_1^2 \leq x_2 \leq 1\}$$
 
 **Extreme points:** 
-- $$(1,1)$$ và $$(-1,1)$$ (endpoints)
-- Entire parabolic arc forms boundary
+- Mọi điểm $$(t, t^2)$$, $$t \in [-1,1]$$, của cung parabol (kể cả hai đầu mút $$(\pm 1, 1)$$)
+- Các điểm trong của đoạn thẳng $$x_2 = 1$$ không phải điểm cực biên
 
 **Alternative description:**
-$$\text{conv}(S_3) = \{(x_1, x_2) : x_2 \geq x_1^2, -1 \leq x_1 \leq 1\}$$
+$$\text{conv}(S_3) = \{(x_1, x_2) : x_2 \geq x_1^2,\ x_2 \leq 1\}$$ (điều kiện $$|x_1| \leq 1$$ tự suy ra)
 
 </details>
 
@@ -260,7 +260,7 @@ Tìm dual cone của các cones sau:
 
 a) $$K_1 = \mathbb{R}_+^n = \{x \in \mathbb{R}^n : x_i \geq 0, \forall i\}$$
 
-b) $$K_2 = \{x \in \mathbb{R}^n : \lVert x \rVert_2 \leq x_n\}$$ (second-order cone)
+b) $$K_2 = \{x \in \mathbb{R}^n : \lVert (x_1, \ldots, x_{n-1}) \rVert_2 \leq x_n\}$$ (second-order cone)
 
 c) $$K_3 = \{x \in \mathbb{R}^n : \sum_{i=1}^{n-1} |x_i| \leq x_n\}$$ ($$\ell_1$$ cone)
 
@@ -394,7 +394,7 @@ r \cdot \text{sign}(x_{0i}) & \text{if } |x_{0i}| > r
 **Đề bài:** (Bài 2.7 từ Boyd & Vandenberghe)
 Cho polytope $$P = \{x : Ax \leq b\}$$ trong $$\mathbb{R}^n$$.
 
-a) Chứng minh $$x$$ là extreme point khi và chỉ khi $$n$$ constraints active tại $$x$$
+a) Chứng minh $$x$$ là extreme point khi và chỉ khi có $$n$$ constraints độc lập tuyến tính active tại $$x$$
 
 b) Tìm tất cả extreme points của:
    - $$P_1 = \{x \in \mathbb{R}^2 : x_1 + x_2 \leq 1, x_1 \geq 0, x_2 \geq 0\}$$
@@ -508,10 +508,8 @@ b) Cho $$K = \mathbb{S}_+^n$$, verify:
 
 **Proof:**
 - $$B - A \succeq 0$$ và $$C \succeq 0$$
-- For any $$x$$: $$x^T(B - A)x \geq 0$$
-- Let $$y = Cx$$: $$y^T C^{-1}(B - A)C^{-1} y \geq 0$$
-- $$\Rightarrow C^{-1}(B - A)C^{-1} \succeq 0$$
-- $$\Rightarrow CBC - CAC \succeq 0$$
+- For any $$x$$ (with $$C$$ symmetric): $$x^T(CBC - CAC)x = (Cx)^T(B - A)(Cx) \geq 0$$
+- $$\Rightarrow CBC - CAC \succeq 0$$ (no invertibility of $$C$$ needed; in fact $$C$$ only needs to be symmetric)
 - $$\Rightarrow CAC \preceq CBC$$
 
 **Bước 3: Counterexample cho improper cone**
@@ -560,7 +558,7 @@ với $$x_i \in S$$, $$\lambda_i \geq 0$$, $$\sum \lambda_i = 1$$.
 3. Tồn tại $$\mu_i$$ không đồng thời bằng 0: $$\sum_{i=1}^{k-1} \mu_i (x_i - x_k) = 0$$
 4. Đặt $$\mu_k = -\sum_{i=1}^{k-1} \mu_i$$, ta có $$\sum_{i=1}^k \mu_i x_i = 0$$
 5. $$x = \sum_{i=1}^k (\lambda_i - t\mu_i) x_i$$ for any $$t$$
-6. Choose $$t$$ để một coefficient bằng 0, giảm $$k$$
+6. Chọn $$t = \min\{\lambda_i/\mu_i : \mu_i > 0\}$$: mọi hệ số vẫn $$\geq 0$$, tổng vẫn bằng 1 (vì $$\sum \mu_i = 0$$), và ít nhất một hệ số bằng 0, nên giảm được $$k$$
 
 **Bước 2: Example 1 - Square vertices**
 $$S = \{(1,0), (0,1), (-1,0), (0,-1)\}$$
@@ -591,8 +589,8 @@ Output: Minimal convex combination
 
 1. Find any representation x = Σ λᵢ xᵢ
 2. While |active set| > n+1:
-   a. Solve Σ μᵢ xᵢ = 0 with some μᵢ ≠ 0
-   b. Find t = max{λᵢ/μᵢ : μᵢ > 0}
+   a. Solve Σ μᵢ xᵢ = 0, Σ μᵢ = 0 with some μᵢ ≠ 0
+b. Find t = min{λᵢ/μᵢ : μᵢ > 0}
    c. Update λᵢ ← λᵢ - t μᵢ
    d. Remove zero coefficients
 3. Return minimal representation
@@ -668,12 +666,11 @@ $$C = \{x : \sum x_i \leq 1, x_i \geq 0\}$$
 $$C = \{x : \lVert x \rVert_2 \leq 1\}$$
 
 **Face structure:**
-- **Dimension 0:** Origin $$\{0\}$$ (unique vertex)
-- **Dimension $$n-1$$:** Boundary sphere $$\{x : \lVert x \rVert_2 = 1\}$$
-- **Dimension $$n$$:** $$C$$ itself
-- **No other faces:** Smooth boundary
+- **Dimension 0:** Every boundary point $$\{x\}$$ with $$\lVert x \rVert_2 = 1$$ (infinitely many extreme points); the origin is **not** a face
+- **Dimension $$n$$:** $$C$$ itself (plus the empty face)
+- **No other faces:** The ball is strictly convex, so every supporting hyperplane touches it at exactly one point; the sphere itself is not convex, hence not a face
 
-**Lattice structure:** Linear lattice $$\{0\} \subset \partial C \subset C$$
+**Lattice structure:** $$\emptyset \subset \{x\} \subset C$$ for each $$x$$ on the sphere (no chain of length greater than 3)
 
 </details>
 

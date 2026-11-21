@@ -1,0 +1,925 @@
+---
+layout: post
+title: '4-10 Practical Exercises - Convex Optimization Problems'
+chapter: '4'
+order: 11
+owner: GitHub Copilot
+lang: en
+categories:
+- chapter04
+lesson_type: required
+---
+
+# Practical Exercises - Convex Optimization Problems
+
+## 📝 **Exercise 1: Standard form transformations**
+
+**Problem:** Convert the following problems to standard forms:
+
+a) **Mixed constraints:**
+$$\min_{x \in \mathbb{R}^3} x_1^2 + x_2^2 + x_3^2$$
+$$\text{s.t.} \quad x_1 + 2x_2 - x_3 = 5, \quad x_1 - x_2 \geq 3, \quad x_2 \leq 4, \quad x_3 \text{ free}$$
+
+b) **Minimax problem:**
+$$\min_x \max_{i=1,\ldots,m} (a_i^T x + b_i)$$
+
+c) **Robust least squares:**
+$$\min_x \max_{\lVert u \rVert_2 \leq 1} \lVert (A + \sum_{i=1}^k u_i B_i)x - b \rVert_2^2$$
+
+**Task:**
+1. Transform to the convex optimization standard form
+2. Identify the variables, constraints, and objective
+3. Verify convexity of the transformed problem
+4. Discuss computational implications
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Mixed constraints problem**
+
+**Handle free variable:** $$x_3 = x_3^+ - x_3^-$$ with $$x_3^+, x_3^- \geq 0$$
+
+**Handle inequality:** $$x_1 - x_2 \geq 3 \Rightarrow -x_1 + x_2 \leq -3$$
+
+**Standard form:**
+$$\min_{x_1,x_2,x_3^+,x_3^-} x_1^2 + x_2^2 + (x_3^+)^2 + (x_3^-)^2 - 2x_3^+ x_3^-$$
+$$\text{s.t.} \quad x_1 + 2x_2 - x_3^+ + x_3^- = 5$$
+$$\quad -x_1 + x_2 \leq -3$$
+$$\quad x_2 \leq 4$$
+$$\quad x_3^+, x_3^- \geq 0 \quad (x_1, x_2 \text{ remain free: the original problem has no } x_1, x_2 \geq 0)$$
+
+**Note:** $$(x_3^+ - x_3^-)^2 = (x_3^+)^2 + (x_3^-)^2 - 2x_3^+ x_3^-$$; the objective is still convex (PSD Hessian). Splitting a free variable is only needed for the LP standard form; for a QP solver it is unnecessary.
+
+**Alternative approach:** Keep $$x_3$$ free, handle directly:
+$$\min_{x_1,x_2,x_3} x_1^2 + x_2^2 + x_3^2$$
+$$\text{s.t.} \quad x_1 + 2x_2 - x_3 = 5, \quad x_1 - x_2 \geq 3, \quad x_2 \leq 4$$
+
+**Step 2: Minimax problem**
+
+**Epigraph formulation:**
+$$\min_{x,t} t$$
+$$\text{s.t.} \quad a_i^T x + b_i \leq t, \quad i = 1,\ldots,m$$
+
+**Convexity:** Linear objective, linear constraints $$\Rightarrow$$ LP
+
+**Step 3: Robust least squares**
+
+**Worst-case reformulation:**
+$$\max_{\lVert u \rVert_2 \leq 1} \lVert (A + \sum_{i=1}^k u_i B_i)x - b \rVert_2^2$$
+
+**Matrix form:** $$\max_{\lVert u \rVert_2 \leq 1} \lVert Ax - b + (\sum_{i=1}^k u_i B_i)x \rVert_2^2$$
+
+**Let** $$q(x) = Ax - b$$ and $$P(x) = [B_1 x \ \cdots \ B_k x]$$ (affine in $$x$$); then $$(\sum_i u_i B_i)x = P(x)u$$ and the worst-case function is $$\max_{\lVert u \rVert_2 \leq 1} \lVert q(x) + P(x)u \rVert_2^2$$. This is **not** equal to $$\lVert q \rVert_2^2 + \lVert \sum_i B_i x \rVert_2^2$$.
+
+**Semidefinite reformulation (S-lemma, Boyd & Vandenberghe §6.4.2):**
+$$\min_{x,t,\lambda} t + \lambda$$
+$$\text{s.t.} \quad \begin{bmatrix} I & P(x) & q(x) \\ P(x)^T & \lambda I & 0 \\ q(x)^T & 0 & t \end{bmatrix} \succeq 0$$
+
+**SOCP upper bound (simpler but conservative):** since $$\lVert P(x)u \rVert_2 \leq \lVert P(x) \rVert_F$$ when $$\lVert u \rVert_2 \leq 1$$:
+$$\min_{x} \ \lVert Ax - b \rVert_2 + \lVert P(x) \rVert_F$$
+
+</details>
+
+---
+
+## 📝 **Exercise 2: Optimality conditions analysis**
+
+**Problem:** Analyze the optimality conditions for the following problems:
+
+a) **Constrained quadratic:**
+$$\min_x \frac{1}{2}x^T Q x + c^T x \quad \text{s.t.} \quad Ax = b, \quad x \geq 0$$
+with $$Q \succeq 0$$
+
+b) **Entropy maximization:**
+$$\max_x -\sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad \sum_{i=1}^n x_i = 1, \quad \sum_{i=1}^n a_i x_i = \alpha, \quad x \geq 0$$
+
+c) **Support vector machine:**
+$$\min_{w,b,\xi} \frac{1}{2}\lVert w \rVert_2^2 + C\sum_{i=1}^m \xi_i$$
+$$\text{s.t.} \quad y_i(w^T x_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0$$
+
+**Task:**
+1. Derive KKT conditions
+2. Analyze complementary slackness
+3. Characterize optimal solutions
+4. Discuss geometric interpretation
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Constrained quadratic**
+
+**Lagrangian:**
+$$L(x,\lambda,\mu) = \frac{1}{2}x^T Q x + c^T x + \lambda^T(Ax - b) - \mu^T x$$
+
+**KKT conditions:**
+- **Stationarity:** $$Qx + c + A^T \lambda - \mu = 0$$
+- **Primal feasibility:** $$Ax = b, x \geq 0$$
+- **Dual feasibility:** $$\mu \geq 0$$
+- **Complementary slackness:** $$\mu_i x_i = 0, \forall i$$
+
+**Analysis:**
+- If $$x_i > 0$$: $$\mu_i = 0$$
+- If $$x_i = 0$$: $$\mu_i \geq 0$$ (reduced cost)
+
+**Solution structure:** Active set methods exploit sparsity pattern.
+
+**Step 2: Entropy maximization**
+
+**Convert to minimization:**
+$$\min_x \sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad \sum_{i=1}^n x_i = 1, \sum_{i=1}^n a_i x_i = \alpha, x \geq 0$$
+
+**Lagrangian:**
+$$L(x,\lambda_1,\lambda_2,\mu) = \sum_{i=1}^n x_i \log x_i + \lambda_1(\sum x_i - 1) + \lambda_2(\sum a_i x_i - \alpha) - \sum \mu_i x_i$$
+
+**KKT conditions:**
+- **Stationarity:** $$\log x_i + 1 + \lambda_1 + \lambda_2 a_i - \mu_i = 0$$
+- **Complementary slackness:** $$\mu_i x_i = 0$$
+
+**Optimal solution:**
+$$x_i^* = e^{-1 - \lambda_1 - \lambda_2 a_i}$$ (always $$> 0$$, so $$\mu_i = 0$$); normalizing: $$x_i^* = \frac{e^{-\lambda_2 a_i}}{\sum_j e^{-\lambda_2 a_j}}$$
+
+**Exponential family form:** Maximum entropy distribution with moment constraints.
+
+**Step 3: Support vector machine**
+
+**Lagrangian:**
+$$L(w,b,\xi,\alpha,\beta) = \frac{1}{2}\lVert w \rVert_2^2 + C\sum \xi_i - \sum \alpha_i[y_i(w^T x_i + b) - 1 + \xi_i] - \sum \beta_i \xi_i$$
+
+**KKT conditions:**
+- **Stationarity:**
+  - $$\nabla_w L = w - \sum \alpha_i y_i x_i = 0 \Rightarrow w = \sum \alpha_i y_i x_i$$
+  - $$\nabla_b L = -\sum \alpha_i y_i = 0$$
+  - $$\nabla_{\xi_i} L = C - \alpha_i - \beta_i = 0$$
+
+- **Complementary slackness:**
+  - $$\alpha_i[y_i(w^T x_i + b) - 1 + \xi_i] = 0$$
+  - $$\beta_i \xi_i = 0$$
+
+**Support vector characterization:**
+- $$\alpha_i = 0$$: $$x_i$$ not support vector
+- $$0 < \alpha_i < C$$: $$x_i$$ on margin ($$\xi_i = 0$$)
+- $$\alpha_i = C$$: $$x_i$$ violates margin ($$\xi_i > 0$$)
+
+</details>
+
+---
+
+## 📝 **Exercise 3: Duality and sensitivity analysis**
+
+**Problem:** Consider the linear program:
+$$\min_x c^T x \quad \text{s.t.} \quad Ax \leq b, \quad x \geq 0$$
+
+a) Derive the dual problem and analyze the strong duality conditions
+b) Perform sensitivity analysis: How does the optimal value change with $$b$$?
+c) Shadow prices interpretation
+d) Parametric programming: $$b(\theta) = b_0 + \theta d$$
+
+**Task:**
+1. Complete duality analysis
+2. Sensitivity computations
+3. Economic interpretation
+4. Parametric solution paths
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Dual derivation**
+
+**Primal:** $$\min_x c^T x \text{ s.t. } Ax \leq b, x \geq 0$$
+
+**Lagrangian:** $$L(x,\lambda) = c^T x + \lambda^T(Ax - b)$$
+
+**Dual function:** $$g(\lambda) = \inf_x L(x,\lambda) = \inf_x (c + A^T \lambda)^T x - \lambda^T b$$
+
+**Condition for finiteness:** $$c + A^T \lambda \geq 0$$
+
+**Dual problem:**
+$$\max_\lambda -\lambda^T b \quad \text{s.t.} \quad A^T \lambda + c \geq 0, \quad \lambda \geq 0$$
+
+Equivalently:
+$$\max_\nu b^T \nu \quad \text{s.t.} \quad A^T \nu \leq c, \quad \nu \leq 0 \qquad (\nu = -\lambda)$$
+
+**Step 2: Strong duality conditions**
+
+**Slater's condition:** $$\exists x > 0 \text{ s.t. } Ax < b$$
+
+**Fundamental theorem of LP:** Strong duality holds when both the primal and the dual are feasible.
+
+**Complementary slackness:**
+- $$(c + A^T \lambda^*)_j x_j^* = 0, \forall j$$
+- $$\lambda_i^* (Ax^* - b)_i = 0, \forall i$$
+
+**Step 3: Sensitivity analysis**
+
+**Optimal value function:** $$f^*(b) = \min\{c^T x : Ax \leq b, x \geq 0\}$$
+
+**Envelope theorem:** $$\nabla_b f^*(b) = -\lambda^*(b) \leq 0$$ (relaxing $$b$$ decreases the optimal value; at points where $$f^*$$ is differentiable)
+
+**Shadow price interpretation:** $$\lambda_i^*$$ = marginal value of resource $$i$$
+
+**Practical computation:**
+- Solve primal-dual pair
+- $$\lambda^*$$ gives sensitivity coefficients
+- Valid in a neighborhood of the current $$b$$
+
+**Step 4: Parametric programming**
+
+**Parameterized problem:** $$\min_x c^T x \text{ s.t. } Ax \leq b_0 + \theta d, x \geq 0$$
+
+**Optimal value:** $$f^*(\theta) = f^*(b_0 + \theta d)$$
+
+**Piecewise linear:** $$f^*(\theta)$$ is piecewise linear in $$\theta$$
+
+**Critical points:** Breakpoints where the optimal basis changes
+
+**Solution path:**
+1. Start with the optimal solution at $$\theta = 0$$
+2. Increase $$\theta$$ until basis change
+3. Pivot to new basis
+4. Repeat until desired $$\theta$$
+
+</details>
+
+---
+
+## 📝 **Exercise 4: Relaxation techniques**
+
+**Problem:** Consider the integer programming problem:
+$$\min_x c^T x \quad \text{s.t.} \quad Ax \leq b, \quad x_i \in \{0,1\}, \quad i \in I$$
+
+a) **LP relaxation:** Relax $$x_i \in [0,1]$$
+b) **Lagrangian relaxation:** Dualize a subset of the constraints
+c) **SDP relaxation:** $$x_i x_j = X_{ij}$$ with $$X \succeq 0$$
+d) **Convex hull:** Characterize $$\text{conv}(\text{feasible integer points})$$
+
+**Task:**
+1. Formulate relaxations
+2. Analyze bound quality
+3. Tightening techniques
+4. Computational comparison
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: LP relaxation**
+
+**Relaxed problem:**
+$$\min_x c^T x \quad \text{s.t.} \quad Ax \leq b, \quad 0 \leq x_i \leq 1, \quad i \in I$$
+
+**Properties:**
+- **Lower bound:** $$z_{LP} \leq z_{IP}$$
+- **Polynomial time** solvable
+- **Tight when** the optimal LP solution is integer
+
+**Integrality gap:** $$\frac{z_{IP}}{z_{LP}}$$
+
+**Step 2: Lagrangian relaxation**
+
+**Dualize constraints $$A_2 x \leq b_2$$:**
+$$L_D(\lambda) = \min_x \{c^T x + \lambda^T(A_2 x - b_2) : A_1 x \leq b_1, x_i \in \{0,1\}\}$$
+
+**Dual bound:** $$\max_{\lambda \geq 0} L_D(\lambda)$$
+
+**Advantages:**
+- **Decomposition:** If $$A_1$$ is block diagonal
+- **Better bounds:** Potentially tighter than LP relaxation
+- **Subgradient optimization:** For dual problem
+
+**Step 3: SDP relaxation**
+
+**Quadratic reformulation:** $$\min \sum_{ij} c_{ij} x_i x_j$$
+
+**SDP relaxation:**
+$$\min_{X} \sum_{ij} c_{ij} X_{ij}$$
+$$\text{s.t.} \quad \text{linear constraints in } X$$
+$$\quad X_{ii} = x_i, \quad X \succeq 0$$
+
+**Rank-1 constraint:** $$X = xx^T$$ (relaxed)
+
+**Applications:**
+- **Max-cut:** Goemans-Williamson algorithm
+- **Quadratic assignment:** QAP relaxations
+
+**Step 4: Convex hull characterization**
+
+**Polytope:** $$P_I = \text{conv}\{x \in \{0,1\}^n : Ax \leq b\}$$
+
+**Facet identification:**
+- **Valid inequalities:** $$\alpha^T x \leq \beta$$ for all $$x \in P_I$$
+- **Facet-defining:** Maximal valid inequalities
+
+**Cutting plane methods:**
+1. Solve LP relaxation
+2. If fractional, find violated valid inequality
+3. Add the cut and re-solve
+4. Repeat until integer solution
+
+**Examples:**
+- **Knapsack:** Cover inequalities
+- **TSP:** Subtour elimination constraints
+
+</details>
+
+---
+
+## 📝 **Exercise 5: Robust optimization**
+
+**Problem:** Portfolio optimization under uncertainty:
+$$\min_x x^T \Sigma x \quad \text{s.t.} \quad \mu^T x \geq r, \quad \mathbf{1}^T x = 1, \quad x \geq 0$$
+
+with uncertain parameters $$(\mu, \Sigma)$$.
+
+a) **Box uncertainty:** $$\mu_i \in [\underline{\mu}_i, \overline{\mu}_i]$$
+b) **Ellipsoidal uncertainty:** $$\mu \in \{\mu_0 + Pu : \lVert u \rVert_2 \leq 1\}$$
+c) **Factor model:** $$\mu = \beta f + \epsilon$$ with $$f$$ uncertain
+d) **Distributionally robust:** $$\mathbb{E}_P[\mu] = \mu_0$$, $$\text{Var}_P[\mu] \preceq \Sigma_0$$
+
+**Task:**
+1. Reformulate as deterministic convex programs
+2. Analyze conservatism levels
+3. Compare computational complexity
+4. Practical implementation
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Box uncertainty**
+
+**Worst-case constraint:** $$\min_{\mu \in \mathcal{U}} \mu^T x \geq r$$
+
+with $$\mathcal{U} = \{\mu : \underline{\mu}_i \leq \mu_i \leq \overline{\mu}_i\}$$
+
+**Worst-case analysis:**
+$$\min_{\mu \in \mathcal{U}} \mu^T x = \sum_{i: x_i \geq 0} \underline{\mu}_i x_i + \sum_{i: x_i < 0} \overline{\mu}_i x_i$$
+
+**Robust formulation:**
+$$\min_x x^T \Sigma x$$
+$$\text{s.t.} \quad \sum_{i: x_i \geq 0} \underline{\mu}_i x_i + \sum_{i: x_i < 0} \overline{\mu}_i x_i \geq r$$
+$$\quad \mathbf{1}^T x = 1, \quad x \geq 0$$
+
+**Step 2: Ellipsoidal uncertainty**
+
+**Uncertainty set:** $$\mathcal{U} = \{\mu_0 + Pu : \lVert u \rVert_2 \leq 1\}$$
+
+**Worst-case constraint:**
+$$\min_{\lVert u \rVert_2 \leq 1} (\mu_0 + Pu)^T x = \mu_0^T x - \lVert P^T x \rVert_2 \geq r$$
+
+**Robust formulation:**
+$$\min_x x^T \Sigma x$$
+$$\text{s.t.} \quad \mu_0^T x - \lVert P^T x \rVert_2 \geq r$$
+$$\quad \mathbf{1}^T x = 1, \quad x \geq 0$$
+
+**SOCP formulation:** Second-order cone constraint
+
+**Step 3: Factor model**
+
+**Model:** $$\mu = \beta f + \epsilon$$ with $$f \in \mathcal{F}$$, $$\epsilon$$ noise
+
+**Uncertainty set:** $$\mathcal{U} = \{\beta f + \epsilon : f \in \mathcal{F}, \lVert \epsilon \rVert_2 \leq \sigma\}$$
+
+**Worst-case analysis:**
+$$\min_{\mu \in \mathcal{U}} \mu^T x = \min_{f \in \mathcal{F}} (\beta f)^T x - \sigma \lVert x \rVert_2$$
+
+**Multi-factor case:** $$\mu = \sum_{k=1}^K \beta_k f_k + \epsilon$$
+
+**Step 4: Distributionally robust**
+
+**Ambiguity set:** $$\mathcal{P} = \{P : \mathbb{E}_P[\mu] = \mu_0, \text{Cov}_P[\mu] \preceq \Sigma_0\}$$
+
+**Note:** the expectation itself carries no uncertainty: $$\mathbb{E}_P[\mu^T x] = \mu_0^T x$$ for every $$P \in \mathcal{P}$$. Robustness comes from the chance constraint $$\inf_{P \in \mathcal{P}} \mathbb{P}_P[\mu^T x \geq r] \geq 1 - \epsilon$$, which is equivalent (one-sided Cantelli/Chebyshev inequality) to:
+$$\mu_0^T x - \kappa \sqrt{x^T \Sigma_0 x} \geq r, \qquad \kappa = \sqrt{\frac{1-\epsilon}{\epsilon}}$$
+
+**Robust formulation:**
+$$\min_x x^T \Sigma x$$
+$$\text{s.t.} \quad \mu_0^T x - \kappa \sqrt{x^T \Sigma_0 x} \geq r$$
+$$\quad \mathbf{1}^T x = 1, \quad x \geq 0$$
+
+**Connection:** Ellipsoidal uncertainty with $$P P^T = \kappa^2 \Sigma_0$$ (since $$\lVert P^T x \rVert_2^2 = x^T P P^T x$$)
+
+</details>
+
+---
+
+## 📝 **Exercise 6: Multi-objective optimization**
+
+**Problem:** Consider the bi-objective problem:
+$$\min_x (f_1(x), f_2(x)) \quad \text{s.t.} \quad x \in \mathcal{X}$$
+
+with $$f_1, f_2$$ convex and $$\mathcal{X}$$ convex.
+
+a) **Pareto efficiency:** Characterize Pareto optimal solutions
+b) **Scalarization methods:** Weighted sum, $$\epsilon$$-constraint, achievement
+c) **Pareto frontier computation:** Systematic enumeration
+d) **Applications:** Portfolio optimization, engineering design
+
+**Task:**
+1. Theoretical characterization
+2. Algorithmic approaches
+3. Computational examples
+4. Practical considerations
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Pareto efficiency characterization**
+
+**Definition:** $$x^*$$ is Pareto optimal if there is no $$x \in \mathcal{X}$$ such that:
+- $$f_i(x) \leq f_i(x^*)$$ for all $$i$$
+- $$f_j(x) < f_j(x^*)$$ for some $$j$$
+
+**Necessary condition:** If $$x^*$$ is Pareto optimal, there exists $$\lambda \geq 0$$, $$\lambda \neq 0$$ such that $$x^*$$ solves:
+$$\min_x \sum_{i=1}^2 \lambda_i f_i(x) \quad \text{s.t.} \quad x \in \mathcal{X}$$
+
+**Sufficient condition:** If $$\lambda > 0$$ and $$x^*$$ uniquely solves the weighted problem, then $$x^*$$ is Pareto optimal.
+
+**Step 2: Scalarization methods**
+
+**Weighted sum method:**
+$$\min_x \lambda_1 f_1(x) + \lambda_2 f_2(x) \quad \text{s.t.} \quad x \in \mathcal{X}$$
+
+with $$\lambda_1, \lambda_2 \geq 0$$, $$\lambda_1 + \lambda_2 = 1$$
+
+**Limitations:** Cannot find non-convex parts of the Pareto frontier
+
+**$$\epsilon$$-constraint method:**
+$$\min_x f_1(x) \quad \text{s.t.} \quad f_2(x) \leq \epsilon, \quad x \in \mathcal{X}$$
+
+**Advantages:** Can find entire Pareto frontier
+
+**Achievement scalarization:**
+$$\min_{x,t} t \quad \text{s.t.} \quad f_i(x) - z_i^* \leq t, \quad x \in \mathcal{X}$$
+
+with $$z^*$$ the ideal point: $$z_i^* = \min_x f_i(x)$$
+
+**Step 3: Pareto frontier computation**
+
+**Algorithm 1: Weighted sum sweep**
+```
+For λ₁ = 0 to 1 (step δ):
+    λ₂ = 1 - λ₁
+    Solve: min λ₁f₁(x) + λ₂f₂(x) s.t. x ∈ X
+    Store solution if Pareto optimal
+```
+
+**Algorithm 2: $$\epsilon$$-constraint sweep**
+```
+Compute range [ε_min, ε_max] for f₂
+For ε = ε_min to ε_max (step δ):
+    Solve: min f₁(x) s.t. f₂(x) ≤ ε, x ∈ X
+    Store solution
+```
+
+**Algorithm 3: Normal boundary intersection**
+- Construct the convex hull of the individual minima
+- Generate evenly distributed points
+- Solve constrained problems
+
+**Step 4: Portfolio example**
+
+**Objectives:**
+- $$f_1(x) = x^T \Sigma x$$ (risk)
+- $$f_2(x) = -\mu^T x$$ (negative return)
+
+**Constraints:** $$\mathbf{1}^T x = 1$$, $$x \geq 0$$
+
+**Efficient frontier:** 
+$$\min_x x^T \Sigma x \quad \text{s.t.} \quad \mu^T x \geq r, \quad \mathbf{1}^T x = 1, \quad x \geq 0$$
+
+**Parametric solution:** $$r \in [r_{\min}, r_{\max}]$$
+
+**Mean-variance frontier:** Hyperbola in $$(r, \sigma)$$ space
+
+</details>
+
+---
+
+## 📝 **Exercise 7: Stochastic optimization**
+
+**Problem:** Two-stage stochastic program:
+$$\min_{x} c^T x + \mathbb{E}_\xi[Q(x, \xi)]$$
+$$\text{s.t.} \quad Ax = b, \quad x \geq 0$$
+
+with $$Q(x, \xi) = \min_y \{q^T y : Wy = h - Tx, y \geq 0\}$$
+
+a) **Sample average approximation (SAA)**
+b) **Scenario-based formulation**
+c) **Benders decomposition**
+d) **Risk measures:** CVaR, robust optimization
+
+**Task:**
+1. Deterministic equivalent formulations
+2. Decomposition algorithms
+3. Statistical analysis
+4. Risk-aware extensions
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Sample average approximation**
+
+**True problem:** $$\min_x \{c^T x + \mathbb{E}_\xi[Q(x, \xi)] : Ax = b, x \geq 0\}$$
+
+**SAA approximation:** $$\min_x \{c^T x + \frac{1}{N}\sum_{i=1}^N Q(x, \xi^i) : Ax = b, x \geq 0\}$$
+
+with $$\xi^1, \ldots, \xi^N$$ i.i.d. samples
+
+**Convergence:** $$\hat{x}_N \to x^*$$ as $$N \to \infty$$ (w.p.1)
+
+**Sample size:** $$N = O(\epsilon^{-2})$$ for $$\epsilon$$-optimal solution
+
+**Step 2: Scenario-based formulation**
+
+**Deterministic equivalent:**
+$$\min_{x,y^1,\ldots,y^N} c^T x + \frac{1}{N}\sum_{i=1}^N q^T y^i$$
+$$\text{s.t.} \quad Ax = b, \quad x \geq 0$$
+$$\quad W y^i = h^i - T^i x, \quad y^i \geq 0, \quad i = 1,\ldots,N$$
+
+**Large-scale LP:** $$(n + Nm)$$ variables, $$(m + Nm)$$ constraints
+
+**Block structure:** Exploitable by decomposition
+
+**Step 3: Benders decomposition**
+
+**Master problem:**
+$$\min_{x,\theta} c^T x + \theta$$
+$$\text{s.t.} \quad Ax = b, \quad x \geq 0$$
+$$\quad \theta \geq \frac{1}{N}\sum_{i=1}^N (\pi^{i,k})^T(h^i - T^i x), \quad k = 1, 2, \ldots \quad \text{(optimality cuts, } \pi^{i,k} \text{ is the dual solution of the subproblem)}$$
+
+**Subproblems:** For each scenario $$i$$:
+$$\min_{y^i} q^T y^i \quad \text{s.t.} \quad W y^i = h^i - T^i x, \quad y^i \geq 0$$
+
+**Algorithm:**
+1. Solve master problem → get $$x^k$$
+2. Solve subproblems → get $$\pi^{i,k}$$
+3. Add Benders cuts
+4. Repeat until convergence
+
+**Step 4: Risk measures**
+
+**Conditional Value-at-Risk (CVaR):**
+$$\text{CVaR}_\alpha[Z] = \mathbb{E}[Z | Z \geq \text{VaR}_\alpha[Z]]$$
+
+**Optimization formulation:**
+$$\min_{x,\eta,s} c^T x + \eta + \frac{1}{(1-\alpha)N}\sum_{i=1}^N s_i$$
+$$\text{s.t.} \quad Ax = b, \quad x \geq 0$$
+$$\quad s_i \geq Q(x, \xi^i) - \eta, \quad s_i \geq 0$$
+
+**Risk-constrained:**
+$$\min_x c^T x \quad \text{s.t.} \quad \text{CVaR}_\alpha[Q(x, \xi)] \leq \gamma$$
+
+**Robust approach:** Worst-case over ambiguity set
+$$\min_x c^T x + \max_{P \in \mathcal{P}} \mathbb{E}_P[Q(x, \xi)]$$
+
+</details>
+
+---
+
+## 📝 **Exercise 8: Conic optimization**
+
+**Problem:** Analyze conic optimization problems:
+
+a) **Second-order cone programming (SOCP):**
+$$\min_x c^T x \quad \text{s.t.} \quad \lVert A_i x + b_i \rVert_2 \leq c_i^T x + d_i$$
+
+b) **Semidefinite programming (SDP):**
+$$\min_X \langle C, X \rangle \quad \text{s.t.} \quad \langle A_i, X \rangle = b_i, \quad X \succeq 0$$
+
+c) **Exponential cone programming:**
+$$\min_x c^T x \quad \text{s.t.} \quad (x_i, x_j, x_k) \in \mathcal{K}_{\exp}$$
+
+**Task:**
+1. Standard form representations
+2. Duality theory
+3. Interior-point algorithms
+4. Applications and modeling
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Second-order cone programming**
+
+**Standard form:**
+$$\min_x c^T x \quad \text{s.t.} \quad Ax = b, \quad x \in \mathcal{K}$$
+
+with $$\mathcal{K} = \mathcal{K}_1 \times \cdots \times \mathcal{K}_m$$ and $$\mathcal{K}_i = \{(t, u) : \lVert u \rVert_2 \leq t\}$$
+
+**Dual problem:**
+$$\max_y b^T y \quad \text{s.t.} \quad A^T y + s = c, \quad s \in \mathcal{K}$$
+
+**Self-dual cone:** $$\mathcal{K}_i^* = \mathcal{K}_i$$
+
+**Applications:**
+- **Robust optimization:** Ellipsoidal uncertainty
+- **Portfolio optimization:** Risk measures
+- **Filter design:** Frequency response constraints
+
+**Step 2: Semidefinite programming**
+
+**Standard form:**
+$$\min_X \langle C, X \rangle \quad \text{s.t.} \quad \langle A_i, X \rangle = b_i, \quad X \succeq 0$$
+
+**Vectorized form:** $$\min_x c^T x \text{ s.t. } Ax = b, x \in \mathcal{S}_+^n$$
+
+**Dual problem:**
+$$\max_y b^T y \quad \text{s.t.} \quad \sum_{i=1}^m y_i A_i + S = C, \quad S \succeq 0$$
+
+**Strong duality:** Holds under Slater condition
+
+**Applications:**
+- **Combinatorial optimization:** Max-cut, coloring
+- **Control theory:** LMI constraints
+- **Machine learning:** Kernel methods
+
+**Step 3: Exponential cone**
+
+**Exponential cone:** $$\mathcal{K}_{\exp} = \{(x,y,z) : ye^{x/y} \leq z, y > 0\} \cup \{(x,0,z) : x \leq 0, z \geq 0\}$$
+
+**Dual cone:** $$\mathcal{K}_{\exp}^* = \{(u,v,w) : u < 0, -ue^{v/u} \leq ew, \text{ or } u = 0, v \geq 0, w \geq 0\}$$
+
+**Applications:**
+- **Entropy optimization:** $$\min \sum x_i \log x_i$$
+- **Geometric programming:** After log transformation
+- **Relative entropy:** KL divergence minimization
+
+**Modeling examples:**
+
+**Entropy:** $$x \log x \leq t \Leftrightarrow (-t, x, 1) \in \mathcal{K}_{\exp}$$ (since $$x e^{-t/x} \leq 1 \Leftrightarrow t \geq x \log x$$)
+
+**Log-sum-exp:** $$\log(\sum e^{x_i}) \leq t \Leftrightarrow$$ a system of exponential cone constraints
+
+**Power cone:** $$x_1^{p_1} \cdots x_k^{p_k} \geq |x_{k+1}|$$ is a separate cone (not an exponential cone); for rational exponents it can be represented by second-order cone constraints
+
+</details>
+
+---
+
+## 📝 **Exercise 9: Approximation algorithms**
+
+**Problem:** Design approximation algorithms for non-convex problems:
+
+a) **Max-cut SDP relaxation:** Goemans-Williamson algorithm
+b) **Facility location:** LP-based rounding
+c) **Set cover:** Greedy algorithm analysis
+d) **Knapsack:** FPTAS via dynamic programming
+
+**Task:**
+1. Relaxation formulations
+2. Rounding schemes
+3. Approximation ratio analysis
+4. Performance guarantees
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Max-cut SDP relaxation**
+
+**Original problem:** $$\max_{x \in \{-1,1\}^n} \frac{1}{2}\sum_{(i,j) \in E} w_{ij}(1 - x_i x_j)$$ (each edge counted once; a cut edge gives $$1 - x_i x_j = 2$$)
+
+**Equivalent:** $$\min_{x \in \{-1,1\}^n} \sum_{(i,j) \in E} w_{ij} x_i x_j$$
+
+**SDP relaxation:** $$X = xx^T \Rightarrow X_{ij} = x_i x_j$$
+$$\max_X \frac{1}{2}\sum_{(i,j) \in E} w_{ij}(1 - X_{ij})$$
+$$\text{s.t.} \quad X_{ii} = 1, \quad X \succeq 0$$
+
+**Goemans-Williamson algorithm:**
+1. Solve SDP relaxation → optimal $$X^*$$
+2. Cholesky decomposition: $$X^* = V^T V$$
+3. Random hyperplane: $$r \sim \mathcal{N}(0, I)$$
+4. Rounding: $$x_i = \text{sign}(r^T v_i)$$
+
+**Approximation ratio:** $$\alpha_{GW} = \min_{0 \leq \theta \leq \pi} \frac{2}{\pi} \cdot \frac{\theta}{1 - \cos \theta} \approx 0.878$$
+
+**Step 2: Facility location**
+
+**Problem:** $$\min \sum_{i \in F} f_i y_i + \sum_{i \in F, j \in C} c_{ij} x_{ij}$$
+$$\text{s.t.} \quad \sum_{i \in F} x_{ij} = 1, \quad x_{ij} \leq y_i, \quad x_{ij}, y_i \in \{0,1\}$$
+
+**LP relaxation:** $$x_{ij}, y_i \in [0,1]$$
+
+**Rounding algorithm:**
+1. Solve LP relaxation
+2. Cluster clients and, in each cluster, open one facility chosen with probability proportional to $$x_{ij}^*$$ (opening each facility independently with probability $$y_i^*$$ alone can leave clients unserved)
+3. Connect client $$j$$ to the closest open facility
+**Analysis:** Clustered randomized rounding (Chudak–Shmoys) gives expected cost $$\leq (1 + 2/e) \times$$ LP optimal $$\approx 1.736 \times$$ LP
+**Better guarantees:** The greedy dual-fitting algorithm of Jain–Mahdian–Saberi achieves 1.61; the best known ratio is about 1.488 (Li, 2011)
+
+**Step 3: Set cover greedy**
+
+**Problem:** $$\min \sum_{S \in \mathcal{S}} x_S \quad \text{s.t.} \quad \sum_{S: e \in S} x_S \geq 1, \quad x_S \in \{0,1\}$$
+
+**Greedy algorithm:**
+```
+While uncovered elements exist:
+    Pick set S maximizing |S ∩ (uncovered elements)| / cost(S)
+    Add S to solution
+```
+
+**Analysis:** $$H_n$$-approximation with $$H_n = \sum_{i=1}^n \frac{1}{i} \approx \ln n$$
+
+**LP-based analysis:**
+- Dual fitting method
+- Primal-dual algorithm
+
+**Step 4: Knapsack FPTAS**
+
+**Problem:** $$\max \sum_{i=1}^n v_i x_i \quad \text{s.t.} \quad \sum_{i=1}^n w_i x_i \leq W, \quad x_i \in \{0,1\}$$
+
+**Dynamic programming:** $$O(nW)$$ time (pseudo-polynomial)
+
+**FPTAS approach:**
+1. Scale profits: $$\tilde{v}_i = \lfloor v_i / K \rfloor$$ with $$K = \epsilon \cdot v_{\max} / n$$
+2. DP on scaled instance: $$O(n^3 / \epsilon)$$ time (scaled total profit $$\leq n^2/\epsilon$$)
+3. Return solution
+
+**Approximation guarantee:** $$(1 - \epsilon)$$-optimal
+
+**Key insight:** Rounding preserves near-optimality but reduces the state space
+
+</details>
+
+---
+
+## 📝 **Exercise 10: Machine learning applications**
+
+**Problem:** Formulate machine learning problems as convex optimization:
+
+a) **Logistic regression:** $$\min_w \sum_{i=1}^n \log(1 + e^{-y_i w^T x_i}) + \lambda \lVert w \rVert_2^2$$
+
+b) **Support vector regression:** $$\min_{w,b} \frac{1}{2}\lVert w \rVert_2^2 + C\sum_{i=1}^n \max(0, |y_i - w^T x_i - b| - \epsilon)$$
+
+c) **Matrix completion:** $$\min_X \lVert X \rVert_* \quad \text{s.t.} \quad X_{ij} = M_{ij}, (i,j) \in \Omega$$
+
+d) **Sparse coding:** $$\min_{D,\alpha} \frac{1}{2}\lVert Y - D\alpha \rVert_F^2 + \lambda \lVert \alpha \rVert_1$$
+
+**Task:**
+1. Convexity analysis
+2. Optimality conditions
+3. Algorithmic approaches
+4. Regularization effects
+
+<details>
+<summary><strong>💡 Detailed solution</strong></summary>
+
+**Step 1: Logistic regression**
+
+**Objective:** $$f(w) = \sum_{i=1}^n \log(1 + e^{-y_i w^T x_i}) + \lambda \lVert w \rVert_2^2$$
+
+**Convexity:** 
+- Log-sum-exp convex
+- $$\ell_2$$ regularization convex
+- Sum preserves convexity
+
+**Gradient:** $$\nabla f(w) = -\sum_{i=1}^n \frac{y_i x_i}{1 + e^{y_i w^T x_i}} + 2\lambda w$$
+
+**Hessian:** $$\nabla^2 f(w) = \sum_{i=1}^n \frac{e^{y_i w^T x_i}}{(1 + e^{y_i w^T x_i})^2} x_i x_i^T + 2\lambda I \succ 0$$
+
+**Algorithms:**
+- **Newton method:** Fast convergence
+- **BFGS:** Quasi-Newton
+- **SGD:** Scalable to large datasets
+
+**Step 2: Support vector regression**
+
+**Reformulation:** $$\min_{w,b,\xi,\xi^*} \frac{1}{2}\lVert w \rVert_2^2 + C\sum_{i=1}^n (\xi_i + \xi_i^*)$$
+$$\text{s.t.} \quad y_i - w^T x_i - b \leq \epsilon + \xi_i$$
+$$\quad w^T x_i + b - y_i \leq \epsilon + \xi_i^*$$
+$$\quad \xi_i, \xi_i^* \geq 0$$
+
+**Dual problem:**
+$$\max_{\alpha,\alpha^*} -\frac{1}{2}\sum_{i,j}(\alpha_i - \alpha_i^*)(\alpha_j - \alpha_j^*) x_i^T x_j - \epsilon \sum_i(\alpha_i + \alpha_i^*) + \sum_i y_i(\alpha_i - \alpha_i^*)$$
+$$\text{s.t.} \quad \sum_i(\alpha_i - \alpha_i^*) = 0, \quad 0 \leq \alpha_i, \alpha_i^* \leq C$$
+
+**Support vectors:** $$x_i$$ with $$\alpha_i > 0$$ or $$\alpha_i^* > 0$$
+
+**Step 3: Matrix completion**
+
+**Nuclear norm:** $$\lVert X \rVert_* = \sum_{i=1}^{\min(m,n)} \sigma_i(X)$$
+
+**Convexity:** The nuclear norm is convex (spectral function)
+
+**SDP formulation:**
+$$\min_{X,U,V} \frac{1}{2}(\text{tr}(U) + \text{tr}(V))$$
+$$\text{s.t.} \quad \begin{bmatrix} U & X \\ X^T & V \end{bmatrix} \succeq 0, \quad X_{ij} = M_{ij}$$
+
+**Algorithms:**
+- **Proximal gradient:** Soft thresholding of the SVD
+- **ADMM:** Alternating direction method
+- **Frank-Wolfe:** Conditional gradient
+
+**Step 4: Sparse coding**
+
+**Bi-convex:** Convex in $$D$$ (fixed $$\alpha$$) and convex in $$\alpha$$ (fixed $$D$$)
+
+**Dictionary update:** $$\min_D \frac{1}{2}\lVert Y - D\alpha \rVert_F^2$$ (least squares)
+
+**Sparse coding:** $$\min_\alpha \frac{1}{2}\lVert Y - D\alpha \rVert_F^2 + \lambda \lVert \alpha \rVert_1$$ (LASSO)
+
+**Alternating minimization:**
+1. **Sparse coding step:** Solve LASSO for each column
+2. **Dictionary update:** Least squares with normalization
+3. Repeat until convergence
+
+**LASSO solution:** Soft thresholding
+$$\alpha_j^{(k+1)} = \text{soft}(\alpha_j^{(k)} - \eta \nabla_j f, \eta \lambda)$$
+
+with $$\text{soft}(x, \tau) = \text{sign}(x) \max(|x| - \tau, 0)$$
+
+</details>
+
+---
+
+## 💡 Practical Tips
+
+#### **When formulating optimization problems:**
+- **Identify structure:** LP, QP, SOCP, SDP, GP
+- **Check convexity:** Objective and constraints
+- **Standard forms:** Transform to use efficient solvers
+
+#### **When analyzing optimality:**
+- **KKT conditions:** Necessary and sufficient conditions
+- **Complementary slackness:** Active constraints
+- **Sensitivity analysis:** Shadow prices and perturbations
+
+#### **When designing algorithms:**
+- **Exploit structure:** Sparsity, separability, decomposition
+- **Approximation:** When exact solution intractable
+- **Robustness:** Handle uncertainty and noise
+
+---
+
+## 💡 **Summary**
+
+### **Convex Optimization Standard Form:**
+
+$$
+\begin{align}
+\min_{x} \quad & f_0(x) \\
+\text{s.t.} \quad & f_i(x) \leq 0, \quad i = 1, \ldots, m \\
+& h_i(x) = 0, \quad i = 1, \ldots, p
+\end{align}
+$$
+
+with $$f_0, \ldots, f_m$$ convex, $$h_i$$ affine.
+
+### **Optimality Conditions:**
+
+| Condition | Formula | When sufficient |
+|-----------|-----------|------------|
+| **Unconstrained** | $$\nabla f(x^*) = 0$$ | $$f$$ differentiable |
+| **Equality constraints** | $$\nabla f(x^*) + \sum \nu_i^* \nabla h_i(x^*) = 0$$ | Affine $$h_i$$ |
+| **KKT (general)** | Stationarity, primal/dual feasibility, complementary slackness | Slater's condition |
+| **Convex** | Local optimum = Global optimum | Convexity |
+
+### **Duality:**
+
+| Concept | Definition | Meaning |
+|---------|------------|---------|
+| **Lagrangian** | $$L(x, \lambda, \nu) = f_0(x) + \sum \lambda_i f_i(x) + \sum \nu_i h_i(x)$$ | Augmented objective |
+| **Dual function** | $$g(\lambda, \nu) = \inf_x L(x, \lambda, \nu)$$ | Lower bound |
+| **Dual problem** | $$\max g(\lambda, \nu)$$ s.t. $$\lambda \geq 0$$ | Best lower bound |
+| **Weak duality** | $$d^* \leq p^*$$ | Always holds |
+| **Strong duality** | $$d^* = p^*$$ | Slater → zero gap |
+| **Complementary slackness** | $$\lambda_i^* f_i(x^*) = 0$$ | Active constraints |
+
+### **Quasiconvex Optimization:**
+
+- **Definition:** $$f$$ is quasiconvex if its sublevel sets $$\{x : f(x) \leq \alpha\}$$ are convex
+- **Not closed under addition:** $$f_1 + f_2$$ is not necessarily quasiconvex
+- **Fractional programming:** $$\min \frac{f(x)}{g(x)}$$ can be solved by bisection
+
+### **Vector Optimization:**
+
+- **Pareto optimal:** There is no other $$y$$ such that $$f(y) \preceq_{K} f(x)$$ and $$f(y) \neq f(x)$$
+- **Scalarization:** $$\min \lambda^T f(x)$$ with $$\lambda \succ_{K^*} 0$$
+- **$$\epsilon$$-constraint method:** Fix $$m-1$$ objectives, optimize 1
+
+### **Stochastic & Robust Optimization:**
+
+| Method | Formulation | Trade-off |
+|--------|-------------|-----------|
+| **Expected value** | $$\min \mathbb{E}[f(x, \xi)]$$ | Average performance |
+| **Worst-case** | $$\min \max_{\xi \in \mathcal{U}} f(x, \xi)$$ | Conservative |
+| **Chance constraint** | $$\mathbb{P}[f(x, \xi) \leq 0] \geq 1 - \epsilon$$ | Probabilistic guarantee |
+| **Sample average** | $$\min \frac{1}{N}\sum f(x, \xi_i)$$ | Tractable approximation |
+
+### **Relaxation Techniques:**
+
+- **LP relaxation:** $$x \in \{0,1\}^n \to x \in [0,1]^n$$
+- **SDP relaxation:** $$xx^T \to X \succeq 0$$, $$X_{ii} = 1$$
+- **Lagrangian relaxation:** Dualize hard constraints
+- **Randomized rounding:** Convert fractional solution to integer
+
+---
+
+## 📚 References
+
+1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press.
+   - Chapter 4: Convex Optimization Problems
+
+2. **Ben-Tal, A., & Nemirovski, A.** (2001). *Lectures on Modern Convex Optimization*. SIAM.
+
+3. **Bertsekas, D. P.** (1999). *Nonlinear Programming*. Athena Scientific.
+
+4. **Shapiro, A., Dentcheva, D., & Ruszczyński, A.** (2009). *Lectures on Stochastic Programming*. SIAM.
+
+5. **Williamson, D. P., & Shmoys, D. B.** (2011). *The Design of Approximation Algorithms*. Cambridge University Press.

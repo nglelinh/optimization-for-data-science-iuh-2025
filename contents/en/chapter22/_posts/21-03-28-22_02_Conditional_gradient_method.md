@@ -27,7 +27,7 @@ For more detailed information about Projected Gradient Descent, please reference
 
 ## Conditional gradient (Frank-Wolfe) method
 
-Instead of minimizing the quadratic approximation here, let's try something simpler. First, let's examine the point where the value is minimized when we take the inner product of set $$C$$ with $$\nabla f(x)$$. Fundamentally, instead of projection, we can solve problems more conveniently and effectively by minimizing linear functions at points within set $$C$$. Here, we proceed by applying a line search method using convex combinations between the current point and the minimum point.
+Instead of minimizing the quadratic approximation here, let's try something simpler. First, find the point $$s$$ of the set $$C$$ that minimizes the inner product with $$\nabla f(x)$$, i.e. minimize the linear function $$\nabla f(x)^T s$$ over $$C$$. Instead of a projection, we solve this simpler linear problem over $$C$$. We then move to a convex combination of the current point and this minimizer, choosing the weight by line search or a fixed rule.
 
 Let's look at the following formalized method. Choose initial value $$x^{(0)} \in C$$. For $$k = 1, 2, 3, ...$$:
 
@@ -46,11 +46,11 @@ Here, unlike before, when updating without going through the projection process,
 
 >$$x^{(k)} = x^{(k−1)} + \gamma_k\bigl( s^{(k−1)} − x^{(k−1)} \bigr)$$
 
-That is, as the algorithm is performed, we move gradually less in the direction of the linear minimizer. In most cases, using the subgradient method on the L1 Ball, which is a special case of coordinate descent, is easier to solve problems than using the projection method.
+That is, as the algorithm is performed, we move gradually less in the direction of the linear minimizer. In many cases, minimizing a linear function over $$C$$ is much cheaper than projecting onto $$C$$. For example, over the $$\ell_1$$ ball the linear minimizer $$s^{(k-1)}$$ is simply a signed coordinate vector, so each step changes the iterate in a single coordinate direction, whereas the Euclidean projection onto the $$\ell_1$$ ball requires more work.
 
 ### [Reference]
 
-An interesting fact is that Frank and Wolfe were post-docs working together with Tucker. They first proposed the algorithm with two different functions. The algorithm was published in 1956 and later published as a paper. For a long time after that, no follow-up papers on this topic came out. However, in recent years, it has gained attention again through Jaggi's insights and has been reintroduced to the world.
+An interesting fact is that Frank and Wolfe were post-docs working together with Tucker. They first proposed the algorithm in 1956 for quadratic programs. For a long time after that, no follow-up papers on this topic came out. However, in recent years, it has gained attention again through Jaggi's insights and has been reintroduced to the world.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -197,3 +197,15 @@ $$I_C^{*}$$ means the support function of $$C$$. We saw earlier that the conjuga
 When $$x = x^{(k-1)}, u = \nabla f(x^{(k-1)})$$, the duality gap occurring at $$x, u$$ is as follows (derived from 13-04 [Fenchel's inequality]({% multilang_post_url contents/chapter13/21-04-05-13_04_Conjugate_function %})):
 
 >$$f(x) + f^{*}(u) + I^{*}_C(−u) \geq x^Tu + I^{*}_C(−u)$$
+
+### Frank-Wolfe in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/frank-wolfe_en.mp4"></video>
+</div>
+
+Each step picks the vertex $$s$$ that minimises $$\langle \nabla f(x), s\rangle$$ and moves to $$(1-\gamma_k)x + \gamma_k s$$, so the iterate never leaves $$C$$.
+
+### Try it yourself: Frank-Wolfe steps
+
+<div class="opx-explainer" data-opx="fw" data-lang="en"></div>

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 19-03 When would we use proximal Newton?
+title: '19-03 Khi nào nên dùng Newton proximal?'
 chapter: '19'
 order: 7
 owner: Hooncheol Shin
@@ -9,21 +9,21 @@ categories:
 lang: vi
 ---
 
-When should we use the proximal newton method? 
+Khi nào phương pháp Newton proximal là lựa chọn tốt?
 
-To understand the usefulness of the proximal newton method, let's compare the proximal newton method and proximal gradient descent on the following problem.
+Để hiểu khi nào nó hữu ích, hãy so sánh phương pháp Newton proximal với proximal gradient descent trên bài toán sau.
 
-**Problem** : $$\min_x g(x) + h(x)$$
+**Bài toán**: $$\min_x g(x) + h(x)$$
 
-## Proximal gradient descent vs. proximal newton
+## Proximal gradient descent so với Newton proximal
 
-| **Proximal gradient descent** |**Proximal Newton** | 
+| **Proximal gradient descent** |**Newton proximal** | 
 | -------- | -------- |
-| $$\frac{1}{2} \parallel b - x \parallel_2^2 + h(x)$$ minimization  | $$b^T x + x^T A x + h(x)$$ minimization | 
-| Prox operator가 대부분 closed formwith, 정의됨  | Prox operator가 대부분 closed formwith, 정의되지 않음 
-| iteration이 저렴 | iteration이 아주 비쌈 (newton method보다 비쌈)| 
-| Gradient descent convergence 속도 <br> $$O(1/\epsilon)$$  | Newton's method convergence 속도 <br> $$O(\log \log 1/\epsilon)$$ | 
+| Ở mỗi bước cực tiểu hóa $$\frac{1}{2} \parallel b - x \parallel_2^2 + h(x)$$ | Ở mỗi bước cực tiểu hóa $$b^T x + x^T A x + h(x)$$ | 
+| Toán tử prox thường có dạng đóng | Toán tử prox thường không có dạng đóng |
+| Vòng lặp rẻ | Vòng lặp rất đắt (đắt hơn phương pháp Newton) | 
+| Tốc độ hội tụ của gradient descent <br> $$O(1/\epsilon)$$ | Tốc độ hội tụ của phương pháp Newton <br> $$O(\log \log 1/\epsilon)$$ | 
 
-두 method은 비슷solution 보이지만 실제 매우 다른 일을 한다. 
+Hai phương pháp trông giống nhau, nhưng thực tế làm những việc rất khác nhau.
 
-therefore,, proximal newton method는 아주 적은 iteration을 기대할 수 있는 scaled prox operator(quadratic + $$h$$)to, about, 빠른 inner optimizer를 가질 when, 사용할 수 있다. $$h$$가 separable function일 when, inner optimizerto, 가장 많이 사용되는 method이 coordinate descent이다.
+Do đó, phương pháp Newton proximal đáng dùng khi ta có một bộ tối ưu bên trong nhanh cho bài toán prox có tỉ lệ (dạng toàn phương $$+\ h$$), để chỉ cần rất ít vòng lặp ngoài. Khi $$h$$ là hàm tách biến (separable), bộ tối ưu bên trong được dùng phổ biến nhất là coordinate descent.

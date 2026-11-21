@@ -23,3 +23,15 @@ For example, in the figure below, gradient descent is applied to $$f(x) = (10 x_
 * In case A, the step size $$t$$ is too large, causing divergence after 8 steps. The minimum cannot be reached.
 * In case B, the step size $$t$$ is too small, so convergence is very slow and the minimum is not reached even after 100 steps.
 * In case C, the step size is "appropriate," and convergence is achieved in about 40 steps. (How to find this "appropriate" value is discussed later in this chapter.)
+
+### Step size: three rules in 20 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/gd-step-sizes_en.mp4"></video>
+</div>
+
+On a stretched bowl, a step that is too large zig-zags or diverges, and one that is too small crawls. Backtracking and exact line search pick the step for you.
+
+### Try it yourself: step size
+
+<div class="opx-explainer" data-opx="gd" data-lang="en"></div>

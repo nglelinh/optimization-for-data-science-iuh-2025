@@ -22,7 +22,7 @@ Cho $$f(x) = x_1^2 + 4x_2^2$$, $$x^{(k)} = (2, 1)$$, $$x^{(k+1)} = (1.6, 0.7)$$.
 
 **Yêu cầu:**  
 a) Tính $$s^{(k)} = x^{(k+1)} - x^{(k)}$$, $$y^{(k)} = \nabla f(x^{(k+1)}) - \nabla f(x^{(k)})$$  
-b) Apply BFGS update: $$H_{k+1} = H_k - \frac{H_k y y^T H_k}{y^T H_k y} + \frac{ss^T}{y^Ts}$$  
+b) Áp dụng cập nhật BFGS cho nghịch đảo Hessian: $$H_{k+1} = \left(I - \rho s y^T\right) H_k \left(I - \rho y s^T\right) + \rho s s^T$$, $$\rho = \frac{1}{y^Ts}$$  
 c) Verify $$H_{k+1}y = s$$ (secant condition)
 
 <details>
@@ -42,23 +42,19 @@ $$y = (3.2, 5.6) - (4, 8) = (-0.8, -2.4)$$
 
 **b) BFGS update (start $$H_0 = I$$):**
 
-$$y^Ts = (-0.8)(-0.4) + (-2.4)(-0.3) = 0.32 + 0.72 = 1.04$$
+$$y^Ts = (-0.8)(-0.4) + (-2.4)(-0.3) = 0.32 + 0.72 = 1.04$$, nên $$\rho = 1/1.04 \approx 0.9615$$
 
-$$H_0 y = (-0.8, -2.4)$$
+$$I - \rho s y^T = \begin{bmatrix} 0.692 & -0.923 \\ -0.231 & 0.308 \end{bmatrix}$$
 
-$$y^T H_0 y = 0.64 + 5.76 = 6.4$$
+$$H_1 = (I - \rho s y^T)(I - \rho y s^T) + \rho s s^T$$
 
-$$H_1 = I - \frac{yy^T}{6.4} + \frac{ss^T}{1.04}$$
-
-$$= I - \frac{1}{6.4}\begin{bmatrix} 0.64 & 1.92 \\ 1.92 & 5.76 \end{bmatrix} + \frac{1}{1.04}\begin{bmatrix} 0.16 & 0.12 \\ 0.12 & 0.09 \end{bmatrix}$$
-
-$$\approx \begin{bmatrix} 1.05 & 0.11 \\ 0.11 & 0.19 \end{bmatrix}$$
+$$\approx \begin{bmatrix} 1.331 & -0.444 \\ -0.444 & 0.148 \end{bmatrix} + \begin{bmatrix} 0.154 & 0.115 \\ 0.115 & 0.087 \end{bmatrix} \approx \begin{bmatrix} 1.485 & -0.328 \\ -0.328 & 0.234 \end{bmatrix}$$
 
 ---
 
 **c) Verify secant:**
 
-$$H_1 y = \begin{bmatrix} 1.05 & 0.11 \\ 0.11 & 0.19 \end{bmatrix} \begin{bmatrix} -0.8 \\ -2.4 \end{bmatrix} \approx \begin{bmatrix} -0.4 \\ -0.3 \end{bmatrix} = s$$ ✓
+$$H_1 y = \begin{bmatrix} 1.485 & -0.328 \\ -0.328 & 0.234 \end{bmatrix} \begin{bmatrix} -0.8 \\ -2.4 \end{bmatrix} \approx \begin{bmatrix} -0.4 \\ -0.3 \end{bmatrix} = s$$ ✓
 
 </details>
 
@@ -97,9 +93,9 @@ $$(s - H_0 y)^T y = 0.4(-0.8) + 2.1(-2.4) = -0.32 - 5.04 = -5.36$$
 
 $$H_1^{\text{SR1}} = I + \frac{1}{-5.36}\begin{bmatrix} 0.16 & 0.84 \\ 0.84 & 4.41 \end{bmatrix}$$
 
-$$\approx \begin{bmatrix} 0.97 & -0.16 \\ -0.16 & 0.18 \end{bmatrix}$$
+$$\approx \begin{bmatrix} 0.970 & -0.157 \\ -0.157 & 0.177 \end{bmatrix}$$
 
-**Not positive definite!** (SR1 characteristic)
+Ma trận này thỏa điều kiện secant $$H_1 y = s$$. Trong ví dụ này nó vẫn xác định dương (định thức ≈ $$0.147 > 0$$), nhưng SR1 **không** đảm bảo điều đó nói chung (mẫu số có thể âm hoặc gần 0).
 
 </details>
 

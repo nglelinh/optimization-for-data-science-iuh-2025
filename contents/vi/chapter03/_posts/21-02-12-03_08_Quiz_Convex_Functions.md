@@ -64,7 +64,7 @@ $$f$$ lồi ⟺ $$f(y) \ge f(x) + \nabla f(x)^T (y-x)$$ với mọi $$x,y$$
 (Hàm nằm trên đường tiếp tuyến)
 
 **Đặc trưng bậc hai (hàm khả vi hai lần):**
-$$f$$ lồi ⟺ $$\nabla^2 f(x) \succeq 0$$ với mọi $$x$$ (Hessian nửa xác định dương)
+$$f$$ lồi ⟺ $$\nabla^2 f(x) \succeq 0$$ với mọi $$x$$ (Hessian nửa xác định dương, với $$\text{dom}(f)$$ lồi)
 
 ### 🔄 **Phép Toán Bảo Toàn Tính Lồi**
 
@@ -883,8 +883,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

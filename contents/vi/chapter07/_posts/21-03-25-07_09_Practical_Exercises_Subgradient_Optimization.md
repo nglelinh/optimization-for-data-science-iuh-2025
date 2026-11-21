@@ -156,17 +156,9 @@ $$x^{(2)} = 3 - 0.707 \cdot 2 = 1.586$$
 
 $$x^{(2)} = 1.586 \in [-1, 2]$$ (optimal region!)
 
-$$\partial f(1.586) = [-1, 1]$$ (chọn $$g^{(2)} = 0$$ hoặc bất kỳ)
+$$\partial f(1.586) = \{\text{sign}(1.586 - 2) + \text{sign}(1.586 + 1)\} = \{-1 + 1\} = \{0\}$$ (trong khoảng $$(-1, 2)$$, $$f$$ là hằng số nên khả vi với gradient 0)
 
-Nếu chọn $$g^{(2)} = 0$$: $$x^{(3)} = 1.586$$ (đã hội tụ)
-
-Nếu chọn $$g^{(2)} = -1$$:
-
-$$\alpha_2 = \frac{1}{\sqrt{3}} \approx 0.577$$
-
-$$x^{(3)} = 1.586 + 0.577 = 2.163$$
-
-(Oscillates around optimal set)
+$$g^{(2)} = 0 \Rightarrow x^{(3)} = x^{(2)} = 1.586$$ (đã hội tụ đến tập nghiệm tối ưu)
 
 ---
 
@@ -243,7 +235,7 @@ $$x^{(3)} = (0.85, 0.85)$$
 
 ...
 
-**Hội tụ tuyến tính đến lân cận $$x^*$$, nhưng không đạt chính xác.**
+**Hội tụ đến lân cận của $$x^*$$ (bán kính $$O(\alpha)$$), nhưng không đạt chính xác.**
 
 ---
 
@@ -251,11 +243,13 @@ $$x^{(3)} = (0.85, 0.85)$$
 
 $$x^{(1)} = (1, 1) - 1 \cdot (0.5, 0.5) = (0.5, 0.5)$$
 
-$$x^{(2)} = (0.5, 0.5) - 0.5 \cdot g^{(1)} \approx (0.4, 0.4)$$
+$$x^{(2)} = (0.5, 0.5) - 0.5 \cdot (0.5, 0.5) = (0.25, 0.25)$$ (với $$g^{(1)} = (0.5, 0.5)$$)
+
+Tại $$(0.25, 0.25)$$: $$f_3 = 0.5$$ lớn nhất, $$g^{(2)} = (-1, -1)$$ nên $$x^{(3)} = (0.25, 0.25) + \frac{1}{3}(1, 1) \approx (0.583, 0.583)$$ (iterate dao động quanh $$x^*$$ và biên độ giảm dần).
 
 ...
 
-**Hội tụ đến $$x^*$$, nhưng rất chậm ($$O(1/\sqrt{k})$$).**
+**Hội tụ đến $$x^*$$, nhưng rất chậm (cận $$O(1/\log k)$$ vì $$\sum_{i \le k} 1/i \approx \log k$$).**
 
 ---
 
@@ -265,9 +259,7 @@ $$\sum \alpha_k = \sum \frac{1}{k^{0.6}} = \infty$$ ✓
 
 $$\sum \alpha_k^2 = \sum \frac{1}{k^{1.2}} < \infty$$ ✓
 
-**Hội tụ đến $$x^*$$ nhanh hơn $$1/k$$, chậm hơn constant.**
-
-**Best balance!**
+**Hội tụ đến $$x^*$$ với cận $$O(1/k^{0.4})$$ (vì $$\sum_{i \le k} \alpha_i \sim k^{0.4}$$), nhanh hơn $$\alpha_k = 1/k$$ nhưng vẫn là hội tụ sublinear.**
 
 </details>
 
@@ -331,33 +323,19 @@ $$\max_{\nu} \quad -6\nu \quad \text{s.t.} \quad -\frac{1}{3} \leq \nu \leq \fra
 
 **Obvious:** $$\nu^* = -\frac{1}{3}$$, $$g^* = 2$$
 
-**Subgradient of $$-g(\nu) = 6\nu$$:** $$\partial(-g) = \{6\}$$
+**Subgradient của $$g(\nu) = -6\nu$$:** $$s = -6$$ (với bài toán cực đại hóa hàm lõm $$g$$ ta dùng subgradient ascent).
 
-**Polyak step size:**
+**Polyak step size** (biết $$g^* = 2$$):
 
-$$\alpha_k = \frac{g(\nu^{(k)}) - g^*}{\|s^{(k)}\|^2}$$
+$$\alpha_k = \frac{g^* - g(\nu^{(k)})}{\|s^{(k)}\|^2}, \qquad \nu^{(k+1)} = \Pi_{[-1/3,\,1/3]}\left(\nu^{(k)} + \alpha_k s^{(k)}\right)$$
 
-với $$s^{(k)} = -6$$ (subgradient of $$-g$$).
+Từ $$\nu^{(0)} = 0$$: $$g(0) = 0$$
 
-Từ $$\nu^{(0)} = 0$$:
+$$\alpha_0 = \frac{2 - 0}{36} = \frac{1}{18}$$
 
-$$g(0) = 0$$
+$$\nu^{(1)} = 0 + \frac{1}{18} \cdot (-6) = -\frac{1}{3}$$ ✓ (nằm trong miền xác định)
 
-$$\alpha_0 = \frac{0 - 2}{36} = -\frac{1}{18}$$
-
-(Negative → điều chỉnh: use $$|g - g^*|$$)
-
-$$\alpha_0 = \frac{|0 - 2|}{36} = \frac{1}{18}$$
-
-$$\nu^{(1)} = 0 - \frac{1}{18} \cdot (-6) = \frac{1}{3}$$
-
-**Jumped to boundary!** (Nhưng sai dấu)
-
-**Correction:** Maximize $$g$$, nên:
-
-$$\nu^{(1)} = 0 + \frac{1}{18} \cdot (-6) = -\frac{1}{3}$$ ✓
-
-**Hội tụ trong 1 bước!**
+**Hội tụ trong 1 bước!** ($$g(-1/3) = 2 = g^*$$, và nghiệm gốc là $$x^* = (0, 0, 2)$$ với $$\|x^*\|_1 = 2$$.)
 
 </details>
 
@@ -430,13 +408,15 @@ Minimize $$\|x - c\|_1$$ over $$\|x\| \leq 2$$.
 
 $$\|c\| = \sqrt{13} > 2$$ → infeasible!
 
-**Constrained optimum:** Project $$c$$ onto ball:
+**Constrained optimum:** Vì $$c$$ nằm ngoài hình cầu, nghiệm nằm trên biên $$\|x\|_2 = 2$$. (Lưu ý: chiếu $$c$$ lên hình cầu chỉ tối ưu cho khoảng cách $$\ell_2$$, không phải $$\ell_1$$.) Trên biên với $$x_1 < 2$$, $$x_2 < 3$$:
 
-$$x^* = 2 \cdot \frac{c}{\|c\|} = \frac{2}{\sqrt{13}}(2, 3) = \left(\frac{4}{\sqrt{13}}, \frac{6}{\sqrt{13}}\right)$$
+$$f(x) = (2 - x_1) + (3 - x_2) = 5 - (x_1 + x_2)$$
 
-$$\approx (1.109, 1.664)$$
+nên bài toán trở thành $$\max\; x_1 + x_2$$ trên đường tròn $$x_1^2 + x_2^2 = 4$$, đạt tại $$x_1 = x_2 = \sqrt{2}$$:
 
-**Objective:** $$f(x^*) = |1.109 - 2| + |1.664 - 3| = 0.891 + 1.336 = 2.227$$
+$$x^* = (\sqrt{2}, \sqrt{2}) \approx (1.414, 1.414)$$
+
+**Objective:** $$f(x^*) = 5 - 2\sqrt{2} \approx 2.172$$ (điểm chiếu $$\frac{2}{\sqrt{13}}(2,3)$$ cho $$2.227$$, tệ hơn). Đây chính là điểm mà projected subgradient đạt được tại $$x^{(2)}$$.
 
 </details>
 
@@ -457,8 +437,8 @@ $$\approx (1.109, 1.664)$$
 ### **Step Size Rules:**
 
 1. **Constant $$\alpha$$:** Converges to neighborhood
-2. **Diminishing $$\frac{1}{k}$$:** Converges exactly, slowly
-3. **Square summable $$\frac{1}{k^{0.6}}$$:** Best practical balance
+2. **Diminishing $$\frac{1}{k}$$:** Hội tụ chính xác nhưng rất chậm (cận $$O(1/\log k)$$)
+3. **Square summable $$\frac{1}{k^{0.6}}$$:** Hội tụ chính xác với cận $$O(1/k^{0.4})$$, nhanh hơn $$\frac{1}{k}$$
 4. **Polyak:** Fast if $$f^*$$ known
 
 ### **Khi nào dùng Subgradient:**

@@ -100,3 +100,15 @@ $$f(x) = \max f_1(x),f_2(x) $$, where $$f_1,f_2:\mathbb{R}^n \to \mathbb{R}$$ ar
 - For $$f_1(x) < f_2(x)$$, we have $$g = \nabla f_2(x)$$
 
 - For $$f_1(x) = f_2(x)$$, we have $$g \in \{\theta_1 \nabla f_1(x) + \theta_2 \nabla f_2(x): \theta_1 + \theta_2 = 1, \theta_1 \geq 0, \theta_2 \geq 0 \}$$  
+
+### Subgradients at a kink
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/subgradient-fan_en.mp4"></video>
+</div>
+
+At a kink of $$f(x)=\max_i f_i(x)$$, many lines stay below the graph and touch it at that point; every one of their slopes is a subgradient.
+
+### Try it yourself: subgradients at a kink
+
+<div class="opx-explainer" data-opx="subg" data-lang="en"></div>

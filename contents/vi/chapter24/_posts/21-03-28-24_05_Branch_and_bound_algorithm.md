@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 24-05 Thuật Toán Nhánh và Cận (B&B)
+title: '24-05 Thuật toán nhánh và cận (B&B)'
 chapter: '24'
 order: 6
 owner: YoungJae Choung
@@ -9,19 +9,19 @@ categories:
 lang: vi
 ---
 
-Let's find out the method of solving Integer programs through Branch and bound algorithm and Convex relaxation.
+Hãy tìm hiểu cách giải quy hoạch nguyên bằng thuật toán nhánh và cận (Branch and bound) và nới lỏng lồi.
 
-## Definition and properties
-Branch and bound algorithm is the most common method for solving integer programs. It is mainly a divide and conquer approach that breaks the original problem into several smaller problems (sub-problems) to approach the correct answer. 
+## Định nghĩa và tính chất
+Thuật toán nhánh và cận là phương pháp phổ biến nhất để giải quy hoạch nguyên. Về cơ bản đó là cách tiếp cận chia để trị, chia bài toán gốc thành nhiều bài toán nhỏ hơn (bài toán con) để tiến gần đến đáp án đúng. 
 
-When the constraint set $$X = X_{1} \cup X_{2} \cup \dotsc \cup X_{k}$$ is a union of partitions consisting of each $$X_{i}$$,
+Khi tập ràng buộc $$X = X_{1} \cup X_{2} \cup \dotsc \cup X_{k}$$ là hợp của một phân hoạch gồm các $$X_{i}$$,
 > $$ \min_{x \in X} f(x) = \min_{i = 1, \dotsc , k} \lbrace \min_{x \in X_{i}} f(x) \rbrace .$$
 
-We can find the optimal solution by partitioning the region and finding the minimum.
+Ta có thể tìm nghiệm tối ưu bằng cách phân hoạch miền và tìm giá trị nhỏ nhất.
 
-Any feasible solution of a sub-problem can be set as the upper bound $$u(X)$$. To obtain the lower bound, we find the lower bound $$l(X_{i})$$ of each sub-problem. Then, if $$l(X_{i}) \geq u(X)$$, we exclude the sub-problem $$\min_{x \in X_{i}} f(x)$$ corresponding to this part. 
+Mọi nghiệm khả thi của một bài toán con đều có thể được đặt làm cận trên $$u(X)$$. Để thu được cận dưới, ta tìm cận dưới $$l(X_{i})$$ của từng bài toán con. Sau đó, nếu $$l(X_{i}) \geq u(X)$$, ta loại bài toán con $$\min_{x \in X_{i}} f(x)$$ tương ứng với phần này. 
  
-The Integer Programming problem (IP) is defined as follows:
+Bài toán quy hoạch nguyên (IP) được định nghĩa như sau:
 
 > $$
 > \begin{align}
@@ -30,12 +30,12 @@ The Integer Programming problem (IP) is defined as follows:
 > &&&x_j \in \mathbb{Z}, \quad j \in J \\\\
 > \end{align}$$
 > $$\begin{align}
-> \text{where f is convex } f : \mathbb{R}^{n} \rightarrow \mathbb{R}, \quad C \in \mathbb{R}^n 
-\quad \text{and} \quad J \in \lbrace 1 \dotsc n \rbrace \\
+> \text{trong đó } f \text{ lồi, } f : \mathbb{R}^{n} \rightarrow \mathbb{R}, \quad C \subseteq \mathbb{R}^n 
+> \quad \text{và} \quad J \subseteq \lbrace 1 \dotsc n \rbrace \\\\
 > \end{align}
 > $$
 
-And when the Convex Relaxation (CR) problem is as follows:
+Và bài toán nới lỏng lồi (CR) như sau:
 
 > $$
 > \begin{align}
@@ -43,24 +43,36 @@ And when the Convex Relaxation (CR) problem is as follows:
 > &\text{subject to } &&x \in C \\\\
 > \end{align}$$
 > $$\begin{align}
-> \text{where f is convex } f : \mathbb{R}^{n} \rightarrow \mathbb{R}, \quad C \in \mathbb{R}^n 
-\quad \text{and} \quad J \in \lbrace 1 \dotsc n \rbrace \\
+> \text{trong đó } f \text{ lồi, } f : \mathbb{R}^{n} \rightarrow \mathbb{R}, \quad C \subseteq \mathbb{R}^n 
+> \quad \text{và} \quad J \subseteq \lbrace 1 \dotsc n \rbrace \\\\
 > \end{align}
 > $$
 
-The problem is solved recursively.
+Bài toán được giải đệ quy.
 
-* If the constraint set is trivial, solve the (CR) problem. If the solution is less than the current upper bound, update the upper bound. Stop.
-    * If (CR) is infeasible, then (IP) is also infeasible. Stop.
-    * If the solution $$x^{\star}$$ of (CR) is also feasible for (IP), then $$x^{\star}$$ becomes the solution. Stop.
-* Find the lower bound of the problem.
-    * If the solution $$x^{\star}$$ of (CR) is infeasible for (IP), update the lower bound of (IP).
-* If the lower bound is greater than the current upper bound, Stop.
-* Split the constraint set and solve each sub-problem recursively.
+* Nếu tập ràng buộc là tầm thường (trivial), giải bài toán (CR). Nếu nghiệm nhỏ hơn cận trên hiện tại thì cập nhật cận trên. Dừng.
+    * Nếu (CR) vô nghiệm (không khả thi) thì (IP) cũng không khả thi. Dừng.
+    * Nếu nghiệm $$x^{\star}$$ của (CR) cũng khả thi cho (IP) thì $$x^{\star}$$ là nghiệm. Dừng.
+* Tìm cận dưới của bài toán.
+    * Nếu nghiệm $$x^{\star}$$ của (CR) không khả thi cho (IP), cập nhật cận dưới của (IP).
+* Nếu cận dưới lớn hơn cận trên hiện tại, Dừng.
+* Chia tập ràng buộc và giải đệ quy từng bài toán con.
 
 
-## After branching
+## Sau khi phân nhánh
 
-* After branching, solve each subproblem.
-* If the lower bound of a subproblem is greater than the current upper bound, there is no need to consider the subproblems below it.
-* The most reliable method for computing the lower bound is through convex relaxation, but other methods (e.g., Lagrangian relaxation) are also used.
+* Sau khi phân nhánh, giải từng bài toán con.
+* Nếu cận dưới của một bài toán con lớn hơn cận trên hiện tại thì không cần xét các bài toán con bên dưới nó.
+* Phương pháp đáng tin cậy nhất để tính cận dưới là nới lỏng lồi, nhưng các phương pháp khác (ví dụ nới lỏng Lagrange) cũng được dùng.
+
+### Nhánh cận trong 18 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/branch-bound_vi.mp4"></video>
+</div>
+
+Giải LP nới lỏng, rẽ nhánh theo biến phân số, và loại bỏ mọi nút mà cận không thể vượt nghiệm nguyên tốt nhất đã tìm được.
+
+### Tự tay thử: duyệt qua nhánh cận
+
+<div class="opx-explainer" data-opx="bnb" data-lang="vi"></div>

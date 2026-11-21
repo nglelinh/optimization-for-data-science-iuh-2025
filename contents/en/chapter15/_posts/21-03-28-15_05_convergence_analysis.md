@@ -6,6 +6,7 @@ order: 11
 categories:
 - chapter16
 owner: "Minjoo Lee"
+lang: en
 ---
 
 Assuming the centering step in the barrier method is solved exactly, we can obtain the following convergence results.

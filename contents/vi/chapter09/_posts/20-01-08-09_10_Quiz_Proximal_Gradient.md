@@ -305,22 +305,6 @@ $$f_t(x) = \min_z \left\{ f(z) + \frac{1}{2t}\lVert x - z \rVert^2 \right\}$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -613,13 +597,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về phươ
         <div class="question" id="q11" style="display: none;">
             <h3>Câu 11: Proximal operator có tính chất:</h3>
             <div class="options">
-                <label><input type="radio" name="q11" value="a"> A) Không giảm khoảng cách (non-expansive)</label>
+                <label><input type="radio" name="q11" value="a"> A) Không làm tăng khoảng cách (non-expansive, với $$h$$ lồi)</label>
                 <label><input type="radio" name="q11" value="b"> B) Tăng khoảng cách</label>
                 <label><input type="radio" name="q11" value="c"> C) Không liên tục</label>
                 <label><input type="radio" name="q11" value="d"> D) Chỉ áp dụng cho hàm khả vi</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Không giảm khoảng cách (non-expansive)</strong><br>
+                <strong>Đáp án đúng: A) Không làm tăng khoảng cách (non-expansive, với $$h$$ lồi)</strong><br>
                 $$\|\text{prox}_h(u) - \text{prox}_h(v)\| \leq \|u - v\|$$ với mọi $$u, v$$, đây là tính chất quan trọng cho phân tích hội tụ.
             </div>
         </div>
@@ -784,7 +768,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về phươ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Gradient descent + proximal operator</strong><br>
-                Proximal gradient method: $$x^{(k+1)} = \text{prox}_{tg}(x^{(k)} - t\nabla f(x^{(k)}))$$.
+                Proximal gradient method: $$x^{(k+1)} = \text{prox}_{th}(x^{(k)} - t\nabla g(x^{(k)}))$$.
             </div>
         </div>
 
@@ -1031,8 +1015,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

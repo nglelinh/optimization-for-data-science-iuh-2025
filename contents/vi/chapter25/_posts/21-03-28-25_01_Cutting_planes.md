@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 25-01 Mặt Phẳng Cắt
+title: '25-01 Mặt phẳng cắt'
 chapter: '25'
 order: 2
 owner: YoungJae Choung
@@ -9,28 +9,28 @@ categories:
 lang: vi
 ---
 
-The cutting plane method is an approach that changes an integer linear program to a convex problem and finds a solution. If this solution is not included in the original feasible set, it uses cuts to progressively guide the newly obtained solution to be included in the original feasible set by cutting out the region where the solution exists. Here, a cut is a line (or hyperplane) that cuts the feasible set, also called a cutting plane.
+Phương pháp mặt phẳng cắt (cutting plane) là cách tiếp cận biến một quy hoạch tuyến tính nguyên thành một bài toán lồi rồi tìm nghiệm. Nếu nghiệm này không thuộc tập khả thi ban đầu, nó dùng các lát cắt (cut) để cắt bỏ vùng chứa nghiệm, từng bước dẫn nghiệm mới thu được vào tập khả thi ban đầu. Ở đây, lát cắt là một đường thẳng (hoặc siêu phẳng) cắt tập khả thi, còn gọi là mặt phẳng cắt.
 
-## Concept of cutting plane
-Conceptually, it can be thought of as a method that draws a line between the original feasible set and the feasible set to cut out regions that are not part of the original feasible set, as shown in the figure below. 
+## Khái niệm mặt phẳng cắt
+Về mặt khái niệm, có thể xem đây là phương pháp kẻ một đường giữa tập khả thi ban đầu và tập khả thi đã nới lỏng để cắt bỏ các vùng không thuộc tập khả thi ban đầu, như hình dưới.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter25/25_01_cutting_plane_concept.png" alt="[Fig1] Cutting Plane">
-  <figcaption style="text-align: center;">[Fig1] Cutting Plane</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter25/25_01_cutting_plane_concept.png" alt="[Hình 1] Mặt phẳng cắt">
+  <figcaption style="text-align: center;">[Hình 1] Mặt phẳng cắt</figcaption>
 </p>
 </figure>
 
-* Red region: feasible set of the original integer linear program
-* Blue region: feasible set of the convex relaxation problem
-* Green line: cutting plane (the cutting plane exists between the blue and red regions)
+* Vùng đỏ: tập khả thi của quy hoạch tuyến tính nguyên ban đầu
+* Vùng xanh: tập khả thi của bài toán nới lỏng lồi
+* Đường xanh lá: mặt phẳng cắt (mặt phẳng cắt nằm giữa vùng xanh và vùng đỏ)
 
-The detailed algorithm will be introduced again in the main text.
+Thuật toán chi tiết sẽ được giới thiệu lại ở phần chính.
 
 
-## A bit of history on cutting planes
-It took a very long time for the cutting plane method to develop from theory to a practical method. 
+## Đôi nét lịch sử về mặt phẳng cắt
+Phương pháp mặt phẳng cắt mất rất nhiều thời gian để phát triển từ lý thuyết thành một phương pháp thực tế.
 
-In 1954, Dantzig, Fulkerson, and Johnson first proposed the cutting plane method to solve the TSP (traveling salesman problem), and in 1958, mathematician Gomory proposed a general cutting plane method that could solve arbitrary integer linear programs. However, for about 30 years after that, Gomory cuts remained buried in an impractical state for solving real problems.
+Năm 1954, Dantzig, Fulkerson và Johnson lần đầu đề xuất phương pháp mặt phẳng cắt để giải bài toán TSP (người bán hàng du lịch), và năm 1958, nhà toán học Gomory đề xuất phương pháp mặt phẳng cắt tổng quát có thể giải quy hoạch tuyến tính nguyên bất kỳ. Tuy nhiên, trong khoảng 30 năm sau đó, các lát cắt Gomory vẫn bị bỏ quên trong trạng thái không thực dụng để giải các bài toán thực tế.
 
-In 1990, Sebastian Ceria at CMU successfully implemented the cutting plane method using the branch and bound algorithm, which is called branch and cut. Since then, cutting planes have become a core component of commercial optimization solvers.
+Năm 1990, Sebastian Ceria tại CMU đã cài đặt thành công phương pháp mặt phẳng cắt kết hợp với thuật toán nhánh và cận, gọi là nhánh và cắt (branch and cut). Từ đó, mặt phẳng cắt trở thành thành phần cốt lõi của các bộ giải tối ưu thương mại.

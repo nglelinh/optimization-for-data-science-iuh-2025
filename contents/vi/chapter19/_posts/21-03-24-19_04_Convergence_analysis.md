@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 19-04 Convergence analysis
+title: '19-04 Phân tích hội tụ'
 chapter: '19'
 order: 8
 owner: Hooncheol Shin
@@ -9,38 +9,38 @@ categories:
 lang: vi
 ---
 
-To analyze the convergence of the Proximal Newton method, we will follow the proof from Lee (2014) [1].
+Để phân tích sự hội tụ của phương pháp Newton proximal, chúng ta sẽ đi theo chứng minh của Lee (2014) [1].
 
 [1] J. Lee and Y. Sun and M. Saunders (2014), Proximal Newton-type methods for minimizing
 
-To prove convergence, we make the following assumptions:
+Để chứng minh sự hội tụ, ta đưa ra các giả thiết sau:
 
-* $$f = g + h$$, $$g$$ and $$h$$ are convex and $$g$$ is twice differentiable (smooth)
+* $$f = g + h$$, $$g$$ và $$h$$ lồi và $$g$$ khả vi hai lần (trơn)
 * $$mI \preceq \nabla^2 g(x) \preceq LI$$.
-* $$\nabla^2 g(x)$$ is Lipschitz with constant $$M$$
-* $$\text{prox}_H(\cdot)$$ can be computed exactly
+* $$\nabla^2 g(x)$$ Lipschitz với hằng số $$M$$
+* $$\text{prox}_H(\cdot)$$ có thể được tính chính xác
 
-The above three assumptions imply that the function is strictly convex, and assuming that $$\text{prox}_H(\cdot)$$ can be computed exactly is because this is not easy to achieve in practice.
+Các giả thiết trên kéo theo hàm là lồi chặt; còn giả thiết $$\text{prox}_H(\cdot)$$ có thể được tính chính xác được đưa ra vì điều này không dễ đạt được trong thực tế.
  
-## Convergence Theorem
+## Định lý hội tụ
 
-> **Proximal Newton method** converges globally using backtracking line search.
+> **Phương pháp Newton proximal** hội tụ toàn cục khi dùng backtracking line search, và
 > \begin{align}
 \parallel x^{(k)} - x^{\star} \parallel_2 \le \frac{M}{2m} \parallel x^{(k-1)} - x^{\star} \parallel_2^2
 \end{align}
 
-This is called **local quadratic convergence**. After $$k \ge k_0$$, to satisfy $$f(x^{(k)}) - f^{\star} \le \epsilon$$, $$O(\log \log (1/\epsilon))$$ iterations are needed. However, each iteration uses a scaled prox.
+Điều này được gọi là **hội tụ bậc hai cục bộ (local quadratic convergence)**. Sau $$k \ge k_0$$, để thỏa mãn $$f(x^{(k)}) - f^{\star} \le \epsilon$$ cần $$O(\log \log (1/\epsilon))$$ vòng lặp. Tuy nhiên, mỗi vòng lặp dùng một prox có tỉ lệ.
 
-## Proof sketch
-To show **global convergence**, we can show that at any step, the backtracking exit condition for step size $$t$$ is satisfied as follows.
+## Phác thảo chứng minh
+Để chứng minh **hội tụ toàn cục**, ta có thể chỉ ra rằng ở bất kỳ bước nào, điều kiện thoát backtracking đối với kích thước bước $$t$$ được thỏa mãn như sau.
 
 > \begin{align}
 t \le \min \left\\{ 1, \frac{2m}{L} (1-\alpha) \right\\} \\\\
 \end{align}
 
-With this equation, we can show that when the global minimum is reached, the update direction converges to 0.
+Với bất đẳng thức này, ta có thể chỉ ra rằng khi đạt cực tiểu toàn cục thì hướng cập nhật hội tụ về 0.
 
-To show **local quadratic convergence**, after sufficiently many iterations, the pure Newton step $$t=1$$ satisfies the backtracking exit conditions, and the following equation holds.
+Để chứng minh **hội tụ bậc hai cục bộ**, sau đủ nhiều vòng lặp, bước Newton thuần túy $$t=1$$ thỏa mãn các điều kiện thoát backtracking, và bất đẳng thức sau đúng.
 
 > $$
 > \begin{align}
@@ -50,12 +50,12 @@ To show **local quadratic convergence**, after sufficiently many iterations, the
 > \end{align}
 > $$
 
-Summarizing this, we get the following:
+Tóm tắt lại, ta được:
 
 > \begin{align}
 \parallel x^{+} - x^{\star} \parallel_2 \ \le \ \frac{1}{\sqrt(m)} \parallel x^{+} - x^{\star} \parallel_H \  \le \ \frac{M}{2m} \parallel x - x^{\star} \parallel_2^2
 \end{align}
 
-* The first inequality holds due to the lowest eigenvalue bound, and the equality holds by the fact that $$\text{prox}_H(\cdot)$$ becomes the identity at the definition of $$x^+$$ and global minimum $$x^{\star}$$.
+* Bất đẳng thức đầu tiên đúng nhờ cận giá trị riêng nhỏ nhất, và đẳng thức đúng vì $$\text{prox}_H(\cdot)$$ trở thành phép đồng nhất tại điểm $$x^+$$ và cực tiểu toàn cục $$x^{\star}$$ (theo định nghĩa của chúng).
 
-* The second inequality holds due to the nonexpansiveness of the proximal operator, the Lipschitz assumption, and the largest eigenvalue bound.
+* Bất đẳng thức thứ hai đúng nhờ tính không giãn của toán tử proximal, giả thiết Lipschitz và cận giá trị riêng lớn nhất.

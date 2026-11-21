@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 21-05 Consensus ADMM
+title: '21-05 ADMM đồng thuận (Consensus ADMM)'
 chapter: '21'
 order: 6
 owner: Hooncheol Shin
@@ -9,18 +9,18 @@ categories:
 lang: vi
 ---
 
-# Consensus ADMM
+# ADMM đồng thuận
 
-## Basic Consensus ADMM
+## ADMM đồng thuận cơ bản
 
-Consider the following problem:
+Xét bài toán sau:
 >$$
 >\begin{align}
 >\min_{x}\sum^{B}_{i=1} f_{i}(x)
 >\end{align}
 >$$
 
-To solve this problem with ADMM, we need to introduce constraints. Here, we want to transform the equation into a form that is easy to operate in parallel. This approach, called consensus ADMM, reparametrizes the equation as follows:
+Để giải bài toán này bằng ADMM, ta cần đưa vào các ràng buộc. Ở đây, ta muốn biến đổi phương trình về dạng dễ tính toán song song. Cách tiếp cận này, gọi là ADMM đồng thuận, tham số hóa lại phương trình như sau:
 >$$
 >\begin{align}
 >&\min_{x_{1},...,x_{B},x} &&\sum^{B}_{i=1} f_{i}(x_{i})\\\\
@@ -28,9 +28,9 @@ To solve this problem with ADMM, we need to introduce constraints. Here, we want
 >\end{align}
 >$$
 
-## ADMM Algorithm
+## Thuật toán ADMM
 
-This allows us to compute decomposable ADMM steps:
+Điều này cho phép ta tính các bước ADMM phân rã được:
 
 >$$
 >\begin{align}
@@ -40,9 +40,9 @@ This allows us to compute decomposable ADMM steps:
 >\end{align}
 >$$
 
-## Simplified Form
+## Dạng đơn giản hóa
 
-Additionally, we can define $$\overline{x}=\frac{1}{B}\sum_{i=1}^{B}x_{i}, \overline{w}=\frac{1}{B}\sum_{i=1}^{B}w_{i}$$. With this, we can easily verify that $$\overline{w}^{(k)}=0$$ for iterations $$k>1$$, and the second equation of the ADMM update simplifies to $$x^{(k)}=\overline{x}^{(k)}$$. Therefore, we can simplify the ADMM update equations as follows:
+Ngoài ra, ta có thể định nghĩa $$\overline{x}=\frac{1}{B}\sum_{i=1}^{B}x_{i}, \overline{w}=\frac{1}{B}\sum_{i=1}^{B}w_{i}$$. Từ đó có thể dễ dàng kiểm tra rằng $$\overline{w}^{(k)}=0$$ với các vòng lặp $$k>1$$, và phương trình thứ hai của cập nhật ADMM đơn giản thành $$x^{(k)}=\overline{x}^{(k)}$$. Do đó, ta có thể đơn giản hóa các phương trình cập nhật ADMM như sau:
 
 >$$
 >\begin{align}
@@ -51,16 +51,15 @@ Additionally, we can define $$\overline{x}=\frac{1}{B}\sum_{i=1}^{B}x_{i}, \over
 >\end{align}
 >$$
 
-## Intuition
+## Trực giác
 
-The $$x_{i}$$ updates for $$i = 1,...,B$$ can be computed in parallel.
+Các cập nhật $$x_{i}$$ với $$i = 1,...,B$$ có thể được tính song song.
 
-From the simplified equations, we can gain intuition about consensus ADMM. Each $$x_{i}$$ update tries to minimize $$f_{i}(x_{i})$$ while simultaneously using $$l_{2}$$ regularization to align each $$x_{i}$$ with the average $$\overline{x}$$. If $$x_{i}$$ becomes larger than the average, $$w_{i}$$ increases. Therefore, the regularization in the next step will reduce the enlarged $$x_{i}$$.
+Từ các phương trình đã đơn giản hóa, ta có thể có được trực giác về ADMM đồng thuận. Mỗi cập nhật $$x_{i}$$ cố gắng cực tiểu hóa $$f_{i}(x_{i})$$ đồng thời dùng chính quy hóa $$l_{2}$$ để kéo từng $$x_{i}$$ về gần giá trị trung bình $$\overline{x}$$. Nếu $$x_{i}$$ lớn hơn trung bình thì $$w_{i}$$ tăng lên. Do đó, chính quy hóa ở bước tiếp theo sẽ làm giảm $$x_{i}$$ đã bị phình to.
 
-## General consensus ADMM
-## General Consensus ADMM
+## ADMM đồng thuận tổng quát
 
-Consensus ADMM can be generalized to a more general form. Let's look at the form of problems with affine transformations of $$x$$ and arbitrary function $$g$$:
+ADMM đồng thuận có thể được tổng quát hóa thành dạng tổng quát hơn. Hãy xem dạng bài toán với các phép biến đổi affine của $$x$$ và hàm bất kỳ $$g$$:
 
 >$$
 >\begin{align}
@@ -68,31 +67,31 @@ Consensus ADMM can be generalized to a more general form. Let's look at the form
 >\end{align}
 >$$
 
-For this equation as well, we reparameterize by adding constraints:
+Với phương trình này, ta cũng tham số hóa lại bằng cách thêm các ràng buộc:
 >$$
 >\begin{align}
->&\min_{x_{1},..x_{B},x} &&\sum^{B}_{i=1}f_{i}(a_{i}^{T}x+b)+g(x)\\\\
+>&\min_{x_{1},..x_{B},x} &&\sum^{B}_{i=1}f_{i}(a_{i}^{T}x_{i}+b_{i})+g(x)\\\\
 >&\text{subject to } &&x_{i} = x, i=1,...B
 >\end{align}
 >$$ 
 
-We can then derive decomposable ADMM updates:
+Sau đó ta có thể suy ra các cập nhật ADMM phân rã được:
 >$$
 >\begin{align}
->x_{i}^{(k)} &= \underset{x_{i}}{\operatorname{argmin}}f_{i}(a_{i}^{T}x+b_{i})+\frac{\rho}{2}||x_{i}-x^{(k-1)}+w_{i}^{(k-1)}||^{2}_{2}+g(x)\\\\
+>x_{i}^{(k)} &= \underset{x_{i}}{\operatorname{argmin}}f_{i}(a_{i}^{T}x_{i}+b_{i})+\frac{\rho}{2}||x_{i}-x^{(k-1)}+w_{i}^{(k-1)}||^{2}_{2}\\\\
 >x^{(k)}&=\underset{x}{\operatorname{argmin}} \frac{B\rho}{2}||x-\overline{x}^{(k)}-\overline{w}^{(k-1)}||^{2}_{2}+g(x)\\\\
 >w_{i}^{(k)}&=w_{i}^{(k-1)}+x_{i}^{(k)}-x^{(k)}, i=1,...B
 >\end{align}
 >$$ 
 
-## Key Differences
+## Những điểm khác biệt chính
 
-The differences between generalized consensus ADMM and the consensus ADMM derived above can be summarized as follows:
+Những khác biệt giữa ADMM đồng thuận tổng quát và ADMM đồng thuận đã suy ra ở trên có thể tóm tắt như sau:
 
-* Because the ADMM step equations do not simplify, $$\overline{w}^{(k)}=0$$ is no longer satisfied.
-* $$x_{i}, i=1,...,B$$ can be updated in parallel.
-* Each $$x_{i}$$ update can be thought of as minimizing the corresponding partial loss with $$l_2$$ regularization.
-* The $$x$$ update is a proximal operation for the arbitrary function $$g$$ (generally a regularizer).
-* Different ADMM algorithms are derived depending on how the reparameterization is done. 
+* Vì các phương trình bước ADMM không đơn giản hóa được, $$\overline{w}^{(k)}=0$$ không còn được thỏa mãn.
+* $$x_{i}, i=1,...,B$$ có thể được cập nhật song song.
+* Mỗi cập nhật $$x_{i}$$ có thể xem như cực tiểu hóa phần mất mát tương ứng cùng với chính quy hóa $$l_2$$.
+* Cập nhật $$x$$ là một phép toán proximal cho hàm bất kỳ $$g$$ (thường là một số hạng chính quy hóa).
+* Các thuật toán ADMM khác nhau được suy ra tùy theo cách tham số hóa lại.
 
-For more detailed information, see the [reference papers]({% multilang_post_url contents/chapter21/21-03-29-21_00_Alternating_Direction_Method_of_Multipliers %}).
+Thông tin chi tiết xem [các bài báo tham khảo]({% multilang_post_url contents/chapter21/21-03-29-21_00_Alternating_Direction_Method_of_Multipliers %}).

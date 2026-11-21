@@ -1,1 +1,65 @@
---- layout: post title: 19-01-03 Scaled proximal map chapter: '19' order: '5' owner: Hooncheol Shin categories: - - chapter19 lang: en --- **Proximal newton method****proximal gradient descent**and, with, solution exists. # # Scaled proximal map if, $$H \succ 0$$ **scaled proximal map** as follows: becomes definition. > \begin{align} \text{prox}_{t}(x) = \underset{z}{\text{argmin}} \frac{1}{2} \parallel x - z \parallel_H^2 + h(z) \end{align} from $$\parallel x\parallel_H^2 = x^THx$$with, $$H\text{-norm}$$is. $$H = \frac{1}{t} I$$ when, general **unscaled proximal map**becomes. generally, **scaled proximal map**usually, than prox good exists. * **uniqueness**: solution ($$H \succ 0$$to, strictly convex optimization problem because of, becomes. ) * **non-expansiveness**: (scaled proximal map non-expansive projection of operator general because of, becomes. ) # # # [reference] Projection of operator non-expansiveness $$x$$, $$y$$and, convex set $$C$$to, about, projection operator $$P_c$$about, non-expansiveness $$\parallel P_c(x) - P_c(y) \parallel_2 \le \parallel x - y \parallel_2$$. that is, , $$P_c$$ Lipschitz-1 satisfiedly $$C$$ convex case, to,. <figure class="image" style="align: center; " > <p align="center" > <img src="{{ site. baseurl }}/img/chapter_img/chapter19/09. 01_03_projection_operator. png" alt="[Fig 1] Projection onto a convex set C [3]" width="70%" > <figcaption style="text-align: center; ">[Fig 1] Projection onto a convex set C [3]</figcaption > </p > </figure > # # Proximal newton update **Scaled proximal map**using, from Proximal newton update expressing, as follows: . > >$$ \begin{align} > z^{+} & = \underset{z}{\text{argmin}} \nabla g(x)^T (z - x)^T v + \frac{1}{2} (z - x)^T H (z - x) + h(z) \\\\ > & =\underset{z}{\text{argmin}} \ \frac{1}{2} \parallel x - H^{-1} \nabla g(x) - z \parallel_H^2 + h(z) > \end{align} > $$ table as follows: . > >$$ \begin{align} > z^{(k)} & = \text{prox}_{H^{(k-1)}} ( x^{(k-1)} - (H^{(k-1)})^{-1} \nabla g (x^{(k-1)}) ) \\\\ > x^{(k)} & =x^{(k-1)} + t_k (z^{(k)} - x^{(k-1)} ) > \end{align} > $$ with, $$g$$about, from newton step, $$H^{(k-1)}$$about, scaled prox operator applying, from that directionwith,. from, nextand, exists. * $$h(z) = 0$$when, proximal operator identity function general Newton update becomes. * $$H^{(k+1)}$$ $$\frac{1}{r_k} I$$to, $$t_k = 1$$to, step size $$r_k$$about, proximal gradient update exists. * of Prox $$h$$ of $$g$$ of hessian structureaccording to,. for example, $$H$$ diagonal banded dense $$H$$ case, to, solution problem very. therefore, , proximal Newton method proximal gradient descentand, Newton's method general exists. 
+---
+layout: post
+title: "19-01-03 Scaled proximal map"
+chapter: '19'
+order: 5
+owner: Hooncheol Shin
+categories:
+- chapter19
+lang: en
+---
+
+The **proximal Newton method** can be rewritten in the same form as **proximal gradient descent**.
+
+## Scaled proximal map
+If $$H \succ 0$$, the **scaled proximal map** is defined as follows.
+
+> \begin{align}
+\text{prox}_{H}(x) = \underset{z}{\text{argmin}}  \frac{1}{2} \parallel x - z \parallel_H^2 + h(z)
+\end{align}
+
+Here $$\parallel x\parallel_H^2 = x^THx$$ is the squared $$H\text{-norm}$$. When $$H = \frac{1}{t} I$$, this becomes the usual **unscaled proximal map**.
+
+In general, the **scaled proximal map** has the same nice properties as the ordinary prox.
+
+* **uniqueness**: the solution is unique (this holds because $$H \succ 0$$ makes the problem strictly convex).
+* **non-expansiveness**: the map does not expand distances (this holds because the scaled proximal map generalizes the projection operator, which is non-expansive).
+
+#### [Note] Non-expansiveness of the projection operator
+For two points $$x$$, $$y$$ and the projection operator $$P_C$$ onto a convex set $$C$$, non-expansiveness means $$\parallel P_C(x) - P_C(y) \parallel_2 \le \parallel x - y \parallel_2$$. In other words, $$P_C$$ is 1-Lipschitz, which holds whenever $$C$$ is convex.
+
+<figure class="image" style="align: center;">
+<p align="center">
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter19/09.01_03_projection_operator.png" alt="[Fig 1] Projection onto a convex set C [3]" width="70%">
+  <figcaption style="text-align: center;">[Fig 1] Projection onto a convex set C [3]</figcaption>
+</p>
+</figure>
+
+## Proximal Newton update
+Using the **scaled proximal map**, the proximal Newton update can be rewritten as follows.
+
+> $$
+> \begin{align}
+> z^{+} & = \underset{z}{\text{argmin}} \ \nabla g(x)^T (z - x) + \frac{1}{2} (z - x)^T H (z - x) + h(z) \\\\
+> & =\underset{z}{\text{argmin}} \ \frac{1}{2} \parallel x - H^{-1} \nabla g(x) - z \parallel_H^2 + h(z)
+> \end{align}
+> $$
+
+Equivalently:
+
+> $$
+> \begin{align}
+> z^{(k)} & = \text{prox}_{H^{(k-1)}} ( x^{(k-1)} - (H^{(k-1)})^{-1} \nabla g (x^{(k-1)}) ) \\\\
+> x^{(k)} & =x^{(k-1)} + t_k (z^{(k)} - x^{(k-1)} )
+> \end{align}
+> $$
+
+Intuitively, we take a Newton step on $$g$$, apply the scaled prox operator with respect to $$H^{(k-1)}$$, and move in that direction.
+
+From this we see the following.
+
+* When $$h(z) = 0$$, the proximal operator is the identity, and we recover the ordinary Newton update.
+* If we replace $$H^{(k-1)}$$ by $$\frac{1}{r_k} I$$ and set $$t_k = 1$$, we obtain the proximal gradient update with step size $$r_k$$.
+* The difficulty of the prox depends not only on $$h$$ but also on the structure of the Hessian of $$g$$. For example, if $$H$$ is diagonal or banded, the problem is much easier than when $$H$$ is dense.
+
+Thus, the proximal Newton method generalizes both proximal gradient descent and Newton's method.

@@ -266,7 +266,7 @@ $$f(\theta x + (1 - \theta)y) \ge \theta f(x) + (1-\theta)f(y)$$
         <div class="question" id="q11" style="display: none;">
             <h3>Câu 11: Hàm affine có dạng:</h3>
             <div class="options">
-                <label><input type="radio" name="q11" value="a"> A) $$ax + b$$</label>
+                <label><input type="radio" name="q11" value="a"> A) $$e^{a^T x} + b$$</label>
                 <label><input type="radio" name="q11" value="b"> B) $$ax^2 + bx + c$$</label>
                 <label><input type="radio" name="q11" value="c"> C) $$a^T x + b$$</label>
                 <label><input type="radio" name="q11" value="d"> D) $$\|x\|^2$$</label>
@@ -313,12 +313,12 @@ $$f(\theta x + (1 - \theta)y) \ge \theta f(x) + (1-\theta)f(y)$$
             <div class="options">
                 <label><input type="radio" name="q14" value="a"> A) Huấn luyện mạng nơ-ron</label>
                 <label><input type="radio" name="q14" value="b"> B) Hồi quy tuyến tính</label>
-                <label><input type="radio" name="q14" value="c"> C) Lựa chọn đặc trưng</label>
+                <label><input type="radio" name="q14" value="c"> C) Lựa chọn đặc trưng bằng Lasso (phạt chuẩn $$\ell_1$$)</label>
                 <label><input type="radio" name="q14" value="d"> D) Cả B và C</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Cả B và C</strong><br>
-                Hồi quy tuyến tính và lựa chọn đặc trưng thường dẫn đến bài toán tối ưu hóa lồi. Huấn luyện mạng nơ-ron thường là bài toán không lồi.
+                Hồi quy tuyến tính và lựa chọn đặc trưng bằng Lasso (nới lỏng lồi của bài toán chọn tập con) dẫn đến bài toán tối ưu hóa lồi. Huấn luyện mạng nơ-ron thường là bài toán không lồi.
             </div>
         </div>
 
@@ -870,8 +870,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

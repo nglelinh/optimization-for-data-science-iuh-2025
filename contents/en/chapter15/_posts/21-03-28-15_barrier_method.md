@@ -6,6 +6,7 @@ order: 1
 categories:
 - chapter16
 owner: "Minjoo Lee"
+lang: en
 ---
 
 In this chapter, we will look at one of the 2nd-order methods, the **Barrier Method**.

@@ -87,7 +87,7 @@ $$\{x \mid (x-x_c)^T P^{-1} (x-x_c) \le 1\}$$ với $$P \succ 0$$ - là tập l�
 ### ✂️ **Siêu Phẳng Phân Tách và Hỗ Trợ**
 
 **Định lý siêu phẳng phân tách:**
-Nếu $$C$$ và $$D$$ là hai tập lồi rời rạc, tồn tại siêu phẳng $$\{x \mid a^T x = b\}$$ sao cho:
+Nếu $$C$$ và $$D$$ là hai tập lồi rời rạc, tồn tại siêu phẳng $$\{x \mid a^T x = b\}$$ với $$a \neq 0$$ sao cho:
 - $$a^T x \le b$$ với mọi $$x \in C$$
 - $$a^T x \ge b$$ với mọi $$x \in D$$
 
@@ -100,7 +100,7 @@ $$\{x \mid a^T x = a^T x_0\}$$ sao cho $$a^T x \le a^T x_0$$ với mọi $$x \in
 ```
 Tập Affine ⊂ Tập Lồi
      ↓
-Hình Nón ⊂ Hình Nón Lồi ⊂ Tập Lồi
+Hình Nón Lồi = Hình Nón ∩ Tập Lồi (nên Hình Nón Lồi ⊂ Hình Nón và Hình Nón Lồi ⊂ Tập Lồi)
 ```
 
 **Ghi nhớ:**
@@ -303,12 +303,12 @@ Hình Nón ⊂ Hình Nón Lồi ⊂ Tập Lồi
             <div class="options">
                 <label><input type="radio" name="q12" value="a"> A) Với mọi chuẩn</label>
                 <label><input type="radio" name="q12" value="b"> B) Chỉ với chuẩn Euclidean</label>
-                <label><input type="radio" name="q12" value="c"> C) Với p-chuẩn khi $$p \geq 1$$</label>
+                <label><input type="radio" name="q12" value="c"> C) Chỉ với p-chuẩn khi $$p \geq 1$$</label>
                 <label><input type="radio" name="q12" value="d"> D) Chỉ khi $$p = 2$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: C) Với p-chuẩn khi $$p \geq 1$$</strong><br>
-                Hình cầu chuẩn là tập lồi khi sử dụng p-chuẩn với $$p \geq 1$$. Điều kiện $$p \geq 1$$ đảm bảo tính lồi của chuẩn.
+                <strong>Đáp án đúng: A) Với mọi chuẩn</strong><br>
+                Hình cầu của mọi chuẩn đều là tập lồi: nếu $$\|x - x_c\| \leq r$$ và $$\|y - x_c\| \leq r$$ thì theo bất đẳng thức tam giác và tính thuần nhất, $$\|\theta x + (1-\theta)y - x_c\| \leq \theta r + (1-\theta) r = r$$. (Với $$p < 1$$, $$\|\cdot\|_p$$ không phải là chuẩn và "hình cầu" không lồi.)
             </div>
         </div>
 
@@ -716,7 +716,7 @@ let quizSubmitted = false;
 const correctAnswers = {
     q1: 'b', q2: 'b', q3: 'b', q4: 'b', q5: 'b',
     q6: 'c', q7: 'a', q8: 'a', q9: 'b', q10: 'b',
-    q11: 'b', q12: 'c', q13: 'b', q14: 'b', q15: 'b',
+    q11: 'b', q12: 'a', q13: 'b', q14: 'b', q15: 'b',
     q16: 'd', q17: 'b', q18: 'a', q19: 'a', q20: 'b',
     q21: 'a', q22: 'a', q23: 'a', q24: 'a', q25: 'a'
 };
@@ -889,8 +889,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

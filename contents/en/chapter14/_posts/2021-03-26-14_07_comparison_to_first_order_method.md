@@ -34,3 +34,7 @@ In this chapter, we compare Newton's method and gradient descent from a general 
 </figure>
 
 Figure 1 above is a logistic regression example discussed in [14-04]({% multilang_post_url contents/chapter14/2021-03-26-14_04_backtracking_line_search %}). If you plot the x-axis as actual computation time, you see the following. In convergence analysis, Newton's method has two phases. In practice, after a certain time, you can observe fast convergence (quadratic convergence). In the initial damped phase of Newton's method, the convergence rate is similar to gradient descent. However, since $$O(n^{3})$$ computation is required, the actual computation time may be slower. After backtracking line search is no longer needed, you observe quadratic convergence and very fast progress.
+
+### Try it yourself: Newton vs. gradient descent
+
+<div class="opx-explainer" data-opx="newton" data-lang="en"></div>

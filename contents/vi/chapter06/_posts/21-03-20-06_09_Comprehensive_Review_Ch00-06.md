@@ -163,7 +163,7 @@ $$f$$ lồi ⟺ $$\text{epi}(f) = \{(x,t) \mid f(x) \le t\}$$ là tập lồi
 $$f$$ lồi ⟺ $$f(y) \ge f(x) + \nabla f(x)^T (y-x)$$ với mọi $$x,y$$
 
 #### **Đặc trưng bậc hai (hàm khả vi hai lần)**
-$$f$$ lồi ⟺ $$\nabla^2 f(x) \succeq 0$$ với mọi $$x$$
+$$f$$ lồi ⟺ $$\nabla^2 f(x) \succeq 0$$ với mọi $$x$$ (với $$\text{dom}(f)$$ lồi)
 
 ### ⭐ **10. Hàm liên hợp**
 
@@ -201,7 +201,7 @@ $$g_i(x) \le 0 \quad \Rightarrow \quad g_i(x) + s_i = 0, \quad s_i \ge 0$$
 Thay thế tập khả thi $$C$$ bằng siêu tập $$\tilde{C} \supseteq C$$
 
 #### **Loại bỏ ràng buộc đẳng thức**
-Nếu $$Ax = b$$ có nghiệm: $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$AF = 0$$
+Nếu $$Ax = b$$ có nghiệm: $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$\text{range}(F) = \text{null}(A)$$
 
 ---
 
@@ -210,8 +210,7 @@ Nếu $$Ax = b$$ có nghiệm: $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$AF = 0$
 ### 🎯 **13. Phân cấp bài toán tối ưu**
 
 ```
-LP ⊆ QP ⊆ QCQP ⊆ SDP
-    ⊆ SOCP ⊆
+LP ⊆ QP ⊆ QCQP ⊆ SOCP ⊆ SDP
 ```
 
 #### **Linear Programming (LP)**
@@ -223,7 +222,7 @@ $$\begin{align}
 
 **Đặc điểm:**
 - Hàm mục tiêu và ràng buộc đều affine
-- Nghiệm tối ưu tại đỉnh của đa diện
+- Nếu có nghiệm tối ưu và đa diện có đỉnh, luôn tồn tại một nghiệm tối ưu tại đỉnh
 - Giải bằng thuật toán Simplex
 
 #### **Quadratic Programming (QP)**
@@ -282,7 +281,7 @@ $$f(x^{(k)}) - f^* \le \frac{\lVert x^{(0)} - x^* \rVert_2^2}{2tk}$$
 **Tốc độ:** $$O(1/k)$$ - sublinear
 
 #### **Hội tụ cho hàm lồi mạnh**
-$$f(x^{(k)}) - f^* \le \left(1 - \frac{2m}{m + L}\right)^k \left(f(x^{(0)}) - f^*\right)$$
+$$f(x^{(k)}) - f^* \le \left(1 - \frac{m}{L}\right)^k \left(f(x^{(0)}) - f^*\right) \quad (t = 1/L)$$
 **Tốc độ:** $$O(\rho^k)$$ với $$\rho < 1$$ - linear
 
 ### 🎲 **18. Stochastic Gradient Descent**

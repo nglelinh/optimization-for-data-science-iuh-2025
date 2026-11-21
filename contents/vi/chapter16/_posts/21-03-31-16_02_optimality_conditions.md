@@ -146,3 +146,15 @@ x^\star, s^\star &\gt 0,\\\\
 \end{align}$$
 
 Các điều kiện 3 và 4 cho thấy sự khác biệt so với các điều kiện KKT của LP nguyên thủy.
+
+### KKT trong 18 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/kkt-normals_vi.mp4"></video>
+</div>
+
+Tại điểm tối ưu, $$-\nabla f(x^*)$$ là tổ hợp không âm của các pháp tuyến ràng buộc đang tác dụng, còn ràng buộc không tác dụng có nhân tử $$0$$.
+
+### Tự tay thử: nhân tử KKT
+
+<div class="opx-explainer" data-opx="kkt" data-lang="vi"></div>

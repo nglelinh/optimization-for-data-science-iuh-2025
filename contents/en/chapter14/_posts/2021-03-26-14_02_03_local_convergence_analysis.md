@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 14-02-03 Local convergence analyisis
+chapter: '14'
 order: 7
 owner: Minjoo Lee
 categories:

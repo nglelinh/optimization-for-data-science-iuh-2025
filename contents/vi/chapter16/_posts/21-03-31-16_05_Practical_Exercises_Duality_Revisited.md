@@ -30,7 +30,7 @@ $$
 
 **Yêu cầu:**  
 a) Tìm $$p^*(u)$$ (optimal value as function of $$u$$)  
-b) Verify $$\lambda^* = -\frac{dp^*}{du}$$  
+b) Verify $$\lambda^* = \frac{dp^*}{du}$$ (ràng buộc $$u - x \leq 0$$ càng chặt khi $$u$$ tăng)  
 c) Giải thích ý nghĩa kinh tế
 
 <details>
@@ -56,7 +56,7 @@ $$L(x, \lambda) = x^2 - \lambda(x - u)$$
 
 KKT: $$2x^* - \lambda^* = 0$$, $$\lambda^*(x^* - u) = 0$$
 
-- Nếu $$u \geq 0$$: $$x^* = u$$, $$\lambda^* = 2u = -\frac{dp^*}{du}$$ ✓
+- Nếu $$u \geq 0$$: $$x^* = u$$, $$\lambda^* = 2u = \frac{dp^*}{du}$$ ✓
 - Nếu $$u < 0$$: $$x^* = 0$$, $$\lambda^* = 0$$ ✓
 
 **c) Ý nghĩa:** $$\lambda^*$$ là sensitivity của optimal cost khi constraint thay đổi.
@@ -124,9 +124,9 @@ $$2x_2 + 2\lambda_1 x_2 - \lambda_2 = 0$$
 
 **c) Numerical verification:**
 
-Primal optimal: $$x^* \approx (0.786, 0.214)$$, $$p^* \approx 0.664$$
+Primal optimal: $$x^* = (0.5, 0.5)$$, $$p^* = 0.5$$ (ràng buộc đĩa không active vì $$(0.5-1)^2 + 0.5^2 = 0.5 < 1$$)
 
-Dual optimal: $$\lambda^* \approx (0.214, 0.571)$$, $$d^* \approx 0.664$$
+Dual optimal: $$\lambda^* = (0, 1)$$, $$d^* = 0.5$$ (từ $$g(0, \lambda_2) = \lambda_2 - \lambda_2^2/2$$, cực đại tại $$\lambda_2 = 1$$)
 
 **Gap:** $$p^* - d^* \approx 0$$ ✓ (strong duality!)
 
@@ -183,8 +183,8 @@ $$
 
 $$
 \begin{align}
-\max \quad & -b^Ty - d^Tz \\
-\text{s.t.} \quad & A^Ty + c^Tz = c \\
+\max \quad & -\sum_i (b_i^Ty_i + d_iz_i) \\
+\text{s.t.} \quad & \sum_i (A_i^Ty_i + c_iz_i) = c \\
 & \|y_i\| \leq z_i
 \end{align}
 $$
@@ -274,7 +274,7 @@ $$
 **Yêu cầu:**  
 a) Viết Lagrangian relaxation  
 b) Explain lower bound property  
-c) Ví dụ: $$c = (1, 2)$$, $$A = [1, 1]$$, $$b = 1$$
+c) Ví dụ: $$c = (-1, -2)$$, $$A = [1, 1]$$, $$b = 1$$
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
@@ -304,25 +304,21 @@ Giải dual (easier) → bound for primal (NP-hard).
 
 **c) Example:**
 
-$$\min x_1 + 2x_2$$ s.t. $$x_1 + x_2 \leq 1$$, $$x \in \{0,1\}^2$$
+$$\min -x_1 - 2x_2$$ s.t. $$x_1 + x_2 \leq 1$$, $$x \in \{0,1\}^2$$
 
-**Lagrangian:**
+**Primal optimal:** $$x^* = (0, 1)$$, $$p^* = -2$$
 
-$$L(x, \lambda) = x_1 + 2x_2 + \lambda(x_1 + x_2 - 1) = (1+\lambda)x_1 + (2+\lambda)x_2 - \lambda$$
+**Lagrangian** (với $$\lambda \geq 0$$):
+
+$$L(x, \lambda) = -x_1 - 2x_2 + \lambda(x_1 + x_2 - 1) = (\lambda - 1)x_1 + (\lambda - 2)x_2 - \lambda$$
 
 **Dual function:**
 
-$$g(\lambda) = \min_{x \in \{0,1\}^2} [(1+\lambda)x_1 + (2+\lambda)x_2] - \lambda$$
+$$g(\lambda) = \min(0, \lambda - 1) + \min(0, \lambda - 2) - \lambda = \begin{cases} \lambda - 3 & 0 \leq \lambda \leq 1 \\ -2 & 1 \leq \lambda \leq 2 \\ -\lambda & \lambda \geq 2 \end{cases}$$
 
-$$= -\lambda$$ (chọn $$x_1 = x_2 = 0$$ nếu $$\lambda < -1$$)
+**Dual optimal:** $$\lambda^* \in [1, 2]$$, $$d^* = -2 = p^*$$
 
-$$= 1 + \lambda - \lambda = 1$$ (chọn $$x_1 = 1, x_2 = 0$$ nếu $$-2 < \lambda < -1$$)
-
-**Dual optimal:** $$\lambda^* = -1$$, $$g^* = 1$$
-
-**Primal optimal:** $$x^* = (1, 0)$$, $$p^* = 1$$
-
-**Strong duality!** (lucky case)
+**Strong duality!** (lucky case; nói chung relaxation chỉ cho cận dưới $$d^* \leq p^*$$)
 
 </details>
 
@@ -334,7 +330,7 @@ $$= 1 + \lambda - \lambda = 1$$ (chọn $$x_1 = 1, x_2 = 0$$ nếu $$-2 < \lambd
 
 | Concept | Key Idea |
 |---------|----------|
-| **Perturbation** | $$\lambda^* = -dp^*/du$$ (sensitivity) |
+| **Perturbation** | $$\lambda^* = -dp^*/du$$ cho ràng buộc $$f_i(x) \leq u_i$$ (sensitivity) |
 | **Slater's condition** | Guarantees strong duality |
 | **Dual cone** | $$K^* = \{y : y^Tx \geq 0 \, \forall x \in K\}$$ |
 | **Minimax** | $$\min \max = \max \min$$ under convexity |

@@ -23,3 +23,15 @@ Ví dụ, trong hình dưới đây, gradient descent được áp dụng cho $$
 * Trong trường hợp A, kích thước bước $$t$$ quá lớn, gây ra phân kỳ sau 8 bước. Không thể đạt được cực tiểu.
 * Trong trường hợp B, kích thước bước $$t$$ quá nhỏ, vì vậy sự hội tụ rất chậm và cực tiểu không được đạt được ngay cả sau 100 bước.
 * Trong trường hợp C, kích thước bước là "phù hợp", và sự hội tụ đạt được trong khoảng 40 bước. (Cách tìm giá trị "phù hợp" này được thảo luận sau trong chương này.)
+
+### Kích thước bước: ba quy tắc trong 20 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/gd-step-sizes_vi.mp4"></video>
+</div>
+
+Trên một cái bát bị kéo dài, bước quá lớn sẽ zig-zag hoặc phân kỳ, còn bước quá nhỏ thì bò rất chậm. Backtracking và line search chính xác tự chọn bước giúp bạn.
+
+### Tự tay thử: kích thước bước
+
+<div class="opx-explainer" data-opx="gd" data-lang="vi"></div>

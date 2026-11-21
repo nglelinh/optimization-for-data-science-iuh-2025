@@ -294,12 +294,18 @@ $$\nu \leq -1$$ → $$\nu^* = -1$$.
 **Duality gap:**
 
 $$
-\text{gap}(t) = c^T x^*(t) - \nu^* = -1 - (-1) = 0
+\text{gap}(t) = c^T x^*(t) - b^T y(t)
 $$
 
-Không có gap! (Do LP có strong duality và central path đã ở nghiệm tối ưu)
+Điểm dual khả thi suy ra từ central path: $$\lambda_i(t) = \frac{1}{t x_i^*(t)} = \frac{2}{t}$$ và $$y(t) = \frac{\nu(t)}{t} = -1 - \frac{2}{t} \leq -1$$ (khả thi cho dual). Giá trị dual $$b^Ty(t) = -1 - \frac{2}{t}$$, nên
 
-**Lưu ý:** Thông thường, gap = $$m/t$$ với $$m$$ = số ràng buộc inequality. Ở đây $$m = 2$$, nhưng do đặc thù bài toán, gap = 0.
+$$
+\text{gap}(t) = -1 - \left(-1 - \frac{2}{t}\right) = \frac{2}{t} = \frac{m}{t}
+$$
+
+Gap **khác 0** với mọi $$t$$ hữu hạn và $$\to 0$$ khi $$t \to \infty$$ (đúng như công thức $$m/t$$ với $$m = 2$$).
+
+**Lưu ý:** Công thức $$\text{gap} = m/t$$ luôn đúng trên central path; gap bằng 0 chỉ khi so với giá trị dual tối ưu $$\nu^* = -1$$, tức là khi $$t \to \infty$$.
 
 </details>
 
@@ -366,7 +372,7 @@ t \nabla f(x^*) + \sum_i \frac{\nabla h_i(x^*)}{-h_i(x^*)} = 0
 $$
 
 $$
-\nabla f(x^*) + \sum_i \frac{1}{t h_i(x^*)} \nabla h_i(x^*) = 0
+\nabla f(x^*) + \sum_i \frac{1}{-t h_i(x^*)} \nabla h_i(x^*) = 0
 $$
 
 $$
@@ -493,10 +499,10 @@ $$
 **c) Tính số cụ thể:**
 
 $$
-k > \frac{\log(100/10^{-6})}{\log 10} = \frac{\log(10^8)}{\log 10} = \frac{8}{\log_{10} 10} = 8
+k > \frac{\log(100/10^{-6})}{\log 10} = \frac{\log(10^8)}{\log 10} = 8
 $$
 
-**Số outer iterations:** $$k = 8$$ (vì $$\mu^8 = 10^8$$)
+**Số outer iterations:** $$k > 8$$ nên cần $$k = 9$$ (với $$k = 8$$ thì $$\text{gap} = m/\mu^8 = 10^{-6} = \epsilon$$, chưa nhỏ hơn $$\epsilon$$ một cách chặt)
 
 ---
 
@@ -505,13 +511,13 @@ $$
 Giả sử mỗi outer iteration cần $$\approx 10$$ Newton steps:
 
 $$
-\text{Total Newton iters} \approx 8 \times 10 = 80
+\text{Total Newton iters} \approx 9 \times 10 = 90
 $$
 
 **Phân tích:**
-- Barrier method: $$O(\sqrt{m})$$ outer iterations (với $$\mu = O(\sqrt{m})$$)
-- Mỗi outer iteration: $$O(\log(1/\epsilon_{\text{inner}}))$$ Newton steps
-- Total complexity: $$O(\sqrt{m} \log(m/\epsilon) \log(1/\epsilon_{\text{inner}}))$$
+- Barrier method với $$\mu$$ cố định: $$O(\log(m/\epsilon))$$ outer iterations
+- Với $$\mu = 1 + 1/\sqrt{m}$$ (short-step): $$O(\sqrt{m}\log(m/\epsilon))$$ outer iterations, mỗi iteration chỉ cần $$O(1)$$ Newton step
+- Tổng số Newton steps (lý thuyết): $$O(\sqrt{m} \log(m/\epsilon))$$
 
 Với bài toán này ($$\mu = 10$$ large): ít outer iterations nhưng có thể cần nhiều Newton steps hơn mỗi iteration.
 
@@ -583,54 +589,32 @@ $$
 
 tức $$s^* = \max_i h_i(x)$$.
 
-**Nghiệm analytically:**
+**Nghiệm:** Phase I problem là một LP trong 3 biến $$(x_1, x_2, s)$$. Tại nghiệm tối ưu, ba ràng buộc $$h_1, h_3, h_4$$ cùng chặt:
 
-Để minimize $$s$$ với $$h_i(x) \leq s$$, ta cần minimize $$\max_i h_i(x)$$.
+$$x_1 + x_2 - 1 = -x_1 = -x_2 = s \;\Rightarrow\; x_1 = x_2 = -s,\quad -2s - 1 = s \;\Rightarrow\; s = -\tfrac{1}{3}$$
 
-**Thử $$x_1 = x_2 = 0.25$$:**
+**Nghiệm:** $$x^* = \left(\tfrac{1}{3}, \tfrac{1}{3}\right)$$, $$s^* = -\tfrac{1}{3}$$.
+
+**Kiểm tra:**
 
 $$
 \begin{align}
-h_1 &= 0.25 + 0.25 - 1 = -0.5 \\
-h_2 &= 0.25 - 0.25 - 0.5 = -0.5 \\
-h_3 &= -0.25 \\
-h_4 &= -0.25
+h_1 &= \tfrac{1}{3} + \tfrac{1}{3} - 1 = -\tfrac{1}{3} \\
+h_2 &= \tfrac{1}{3} - \tfrac{1}{3} - 0.5 = -0.5 \\
+h_3 &= -\tfrac{1}{3} \\
+h_4 &= -\tfrac{1}{3}
 \end{align}
 $$
 
-$$
-s = \max(-0.5, -0.5, -0.25, -0.25) = -0.25
-$$
-
-**Thử tối ưu hóa:**
-
-Central point của miền khả thi: maximize margin.
-
-Bài toán LP:
-
-$$
-\max_s \quad s \quad \text{s.t.} \quad h_i(x) + s \leq 0
-$$
-
-(Maximize negative slack)
-
-**Chebyshev center** của miền khả thi (cách đều các ràng buộc).
-
-**Kết quả (numerical):**
-
-$$
-x^* \approx (0.25, 0.25), \quad s^* = -0.25 < 0
-$$
+$$s = \max_i h_i = -\tfrac{1}{3}$$. (Điểm $$x = (0.25, 0.25)$$ cũng khả thi với $$s = -0.25$$ nhưng chưa tối ưu cho Phase I vì $$-0.25 > -\tfrac{1}{3}$$.)
 
 ---
 
 **c) Strictly feasible point:**
 
-Vì $$s^* = -0.25 < 0$$, bài toán **feasible**.
+Vì $$s^* = -\tfrac{1}{3} < 0$$, bài toán **feasible** và $$x = (\tfrac{1}{3}, \tfrac{1}{3})$$ thỏa mãn **chặt** cả bốn bất đẳng thức ($$h_i = -\tfrac{1}{3}, -0.5, -\tfrac{1}{3}, -\tfrac{1}{3} < 0$$).
 
-Chọn strictly feasible point: $$x = (0.25, 0.25)$$
-
-Hoặc thu nhỏ một chút: $$x = (0.9 \cdot 0.25, 0.9 \cdot 0.25)$$ để đảm bảo strictly interior.
+Trong thực tế chỉ cần một điểm bất kỳ có $$s < 0$$ (ví dụ $$x = (0.25, 0.25)$$ với $$s = -0.25$$) là đủ làm điểm khởi đầu cho barrier method.
 
 </details>
 
@@ -716,19 +700,19 @@ Với dữ liệu cho trước, approximate solutions:
 
 **$$t = 1$$:**
 
-$$x^*(1) \approx (0.55, 0.45)$$
+$$x^*(1) \approx (0.247, 0.753)$$
 
-(Gần analytical center)
+(với $$t$$ nhỏ, thành phần rào cản chiếm ưu thế nên nghiệm gần tâm analytic của miền khả thi)
 
 **$$t = 10$$:**
 
-$$x^*(10) \approx (0.62, 0.38)$$
+$$x^*(10) \approx (0.282, 0.718)$$
 
 **$$t = 100$$:**
 
-$$x^*(100) \approx (0.64, 0.36)$$
+$$x^*(100) \approx (0.448, 0.552)$$ (và $$x^*(1000) \approx (0.571, 0.429)$$)
 
-Hội tụ đến nghiệm tối ưu: $$x^* \approx (0.64, 0.36)$$
+Hội tụ đến nghiệm tối ưu: $$x^* = (0.6, 0.4)$$ (ràng buộc return chặt: $$0.10(0.6)+0.15(0.4)=0.12$$; $$x^T\Sigma x = 0.0336$$).
 
 ---
 

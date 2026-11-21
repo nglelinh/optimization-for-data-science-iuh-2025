@@ -72,3 +72,7 @@ Tóm lại, 1 và 2 lần lượt cho thấy các mối quan hệ sau.
 
 Vậy, trong những hoàn cảnh nào (C) và (L) thể hiện sự tương đương hoàn hảo?<br/>
 Ví dụ, khi $$h(x) \ge 0$$ (như chuẩn), $$t = 0$$, và $$\lambda = \infty$$, sự tương đương hoàn hảo được thể hiện. Do các điều kiện đã cho, ràng buộc trong (C) trở thành $$h(x) = 0$$, và bằng cách đặt $$\lambda$$ thành $$\infty$$, (L) cũng áp đặt cùng một ràng buộc ($$h(x) = 0$$). 
+
+### Tự tay thử: dạng ràng buộc và dạng Lagrange
+
+<div class="opx-explainer" data-opx="cl" data-lang="vi"></div>

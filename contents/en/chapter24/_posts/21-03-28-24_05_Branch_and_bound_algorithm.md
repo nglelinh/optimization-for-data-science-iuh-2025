@@ -64,3 +64,15 @@ The problem is solved recursively.
 * After branching, solve each subproblem.
 * If the lower bound of a subproblem is greater than the current upper bound, there is no need to consider the subproblems below it.
 * The most reliable method for computing the lower bound is through convex relaxation, but other methods (e.g., Lagrangian relaxation) are also used.
+
+### Branch and bound in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/branch-bound_en.mp4"></video>
+</div>
+
+Solve the LP relaxation, branch on a fractional variable, and discard any node whose bound cannot beat the best integer solution found so far.
+
+### Try it yourself: step through branch and bound
+
+<div class="opx-explainer" data-opx="bnb" data-lang="en"></div>

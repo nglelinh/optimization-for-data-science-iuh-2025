@@ -140,3 +140,15 @@ For example, in the following figure, $$f(x_1,x_2)$$ is a quadratic function ove
 * The blue point is the optimal dual value, and the red point is the optimal primal value.
 * For all $$u>0$$, the dual function $$g(u)$$ provides a lower bound on $$f^*$$.
 * The maximum of the dual function $$g(u)$$ matches exactly the value $$f^*$$.
+
+### The dual function in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/dual-lower-bound_en.mp4"></video>
+</div>
+
+For every $$\lambda\ge 0$$ the minimum of the Lagrangian, $$g(\lambda)=\min_x L(x,\lambda)$$, is a lower bound on $$p^*$$. The dual problem maximises that bound.
+
+### Try it yourself: slide the multiplier
+
+<div class="opx-explainer" data-opx="d1" data-lang="en"></div>

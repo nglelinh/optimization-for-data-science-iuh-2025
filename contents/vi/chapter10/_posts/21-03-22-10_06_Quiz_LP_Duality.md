@@ -57,8 +57,8 @@ $$\max_{u,v} -b^T u - h^T v \quad \text{s.t.} \quad c = -A^T u - G^T v, \quad v 
 | $$\min$$ | $$\max$$ |
 | $$Ax = b$$ | $$u$$ không ràng buộc |
 | $$Gx \le h$$ | $$v \ge 0$$ |
-| $$x \ge 0$$ | Ràng buộc đẳng thức trong dual |
-| $$x$$ không ràng buộc | Ràng buộc bất đẳng thức trong dual |
+| $$x \ge 0$$ | Ràng buộc bất đẳng thức trong dual |
+| $$x$$ không ràng buộc | Ràng buộc đẳng thức trong dual |
 
 #### **Ví dụ chuyển đổi**
 **Primal:**
@@ -129,14 +129,14 @@ $$= \begin{cases}
 - **Expected payout:** $$x^T P y$$
 
 #### **Quan điểm của J (minimizer)**
-J biết strategy của R, muốn minimize expected payout:
+R được biết trước strategy của J, nên J muốn minimize expected payout trong trường hợp xấu nhất:
 $$\min_x \max_{i=1,\ldots,n} (P^T x)_i \quad \text{s.t.} \quad x \ge 0, \quad \mathbf{1}^T x = 1$$
 
 **Reformulation:**
 $$\min_{x,t} t \quad \text{s.t.} \quad x \ge 0, \quad \mathbf{1}^T x = 1, \quad P^T x \preceq t \mathbf{1}$$
 
 #### **Quan điểm của R (maximizer)**
-R biết strategy của J, muốn maximize expected payout:
+J được biết trước strategy của R, nên R muốn maximize expected payout trong trường hợp xấu nhất:
 $$\max_y \min_{j=1,\ldots,m} (Py)_j \quad \text{s.t.} \quad y \ge 0, \quad \mathbf{1}^T y = 1$$
 
 **Reformulation:**
@@ -146,7 +146,7 @@ $$\max_{y,v} v \quad \text{s.t.} \quad y \ge 0, \quad \mathbf{1}^T y = 1, \quad 
 Hai bài toán trên là **primal-dual** của nhau và có cùng giá trị tối ưu:
 $$\min_x \max_y x^T P y = \max_y \min_x x^T P y$$
 
-**Điều kiện:** $$P$$ convex-concave, tập khả thi compact và convex.
+**Lý do:** $$x^T P y$$ song tuyến tính (lồi theo $$x$$, lõm theo $$y$$) và các simplex là compact, lồi; hơn nữa đây là một cặp LP đối ngẫu nên strong duality luôn đúng.
 
 ### **Weak vs Strong Duality**
 
@@ -179,7 +179,7 @@ $$\max b^T u \quad \text{s.t.} \quad A^T u \le c$$
 $$\min c^T x \quad \text{s.t.} \quad Ax \le b$$
 
 **Dual:**
-$$\max b^T u \quad \text{s.t.} \quad A^T u = c, \quad u \ge 0$$
+$$\max -b^T u \quad \text{s.t.} \quad A^T u = -c, \quad u \ge 0$$
 
 #### **General form**
 $$\min c^T x \quad \text{s.t.} \quad Ax = b, \quad Gx \le h$$
@@ -223,7 +223,7 @@ $$\max u \quad \text{s.t.} \quad u \le 2, \quad u \le 3, \quad u \ge 0$$
 #### **Complementary slackness:**
 - $$x_1^* > 0 \Rightarrow u^* = 2$$ (tight)
 - $$x_2^* = 0 \Rightarrow u^* \le 3$$ (slack OK)
-- $$x_1^* + x_2^* = 1 \Rightarrow u^* > 0$$ (tight)
+- $$u^* > 0 \Rightarrow x_1^* + x_2^* = 1$$ (ràng buộc primal tight)
 
 ### **Kết Nối Với Các Chương Khác**
 
@@ -287,22 +287,6 @@ $$\max u \quad \text{s.t.} \quad u \le 2, \quad u \le 3, \quad u \ge 0$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -445,14 +429,14 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
         <div class="question" id="q1" style="display: block;">
             <h3>Câu 1: Cho bài toán LP primal: $$\min c^T x$$ s.t. $$Ax = b, Gx \leq h$$. Bài toán dual có dạng:</h3>
             <div class="options">
-                <label><input type="radio" name="q1" value="a"> A) $$\max b^T u + h^T v$$ s.t. $$A^T u + G^T v = c, v \geq 0$$</label>
-                <label><input type="radio" name="q1" value="b"> B) $$\min b^T u + h^T v$$ s.t. $$A^T u + G^T v = c, v \geq 0$$</label>
-                <label><input type="radio" name="q1" value="c"> C) $$\max b^T u + h^T v$$ s.t. $$A^T u + G^T v \leq c, v \geq 0$$</label>
+                <label><input type="radio" name="q1" value="a"> A) $$\max -b^T u - h^T v$$ s.t. $$-A^T u - G^T v = c, v \geq 0$$</label>
+                <label><input type="radio" name="q1" value="b"> B) $$\min -b^T u - h^T v$$ s.t. $$-A^T u - G^T v = c, v \geq 0$$</label>
+                <label><input type="radio" name="q1" value="c"> C) $$\max -b^T u - h^T v$$ s.t. $$-A^T u - G^T v = c, v \leq 0$$</label>
                 <label><input type="radio" name="q1" value="d"> D) $$\max c^T x$$ s.t. $$Ax \geq b, Gx = h$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\max b^T u + h^T v$$ s.t. $$A^T u + G^T v = c, v \geq 0$$</strong><br>
-                Dual của minimization problem là maximization problem. Biến dual $$u$$ cho equality constraint không có ràng buộc dấu, $$v$$ cho inequality constraint phải non-negative.
+                <strong>Đáp án đúng: A) $$\max -b^T u - h^T v$$ s.t. $$-A^T u - G^T v = c, v \geq 0$$</strong><br>
+                Dual của minimization problem là maximization problem. Biến dual $$u$$ cho equality constraint không có ràng buộc dấu, $$v$$ cho inequality constraint phải non-negative. Từ Lagrangian $$L = c^Tx + u^T(Ax-b) + v^T(Gx-h)$$, cực tiểu theo $$x$$ hữu hạn khi và chỉ khi $$c + A^Tu + G^Tv = 0$$, khi đó $$g(u,v) = -b^Tu - h^Tv$$.
             </div>
         </div>
 
@@ -461,13 +445,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             <h3>Câu 2: Weak duality theorem phát biểu rằng:</h3>
             <div class="options">
                 <label><input type="radio" name="q2" value="a"> A) Giá trị optimal của primal bằng giá trị optimal của dual</label>
-                <label><input type="radio" name="q2" value="b"> B) Giá trị optimal của primal luôn nhỏ hơn hoặc bằng giá trị optimal của dual</label>
-                <label><input type="radio" name="q2" value="c"> C) Giá trị optimal của primal luôn lớn hơn giá trị optimal của dual</label>
+                <label><input type="radio" name="q2" value="b"> B) Giá trị optimal của primal luôn lớn hơn hoặc bằng giá trị optimal của dual</label>
+                <label><input type="radio" name="q2" value="c"> C) Giá trị optimal của primal luôn nhỏ hơn giá trị optimal của dual</label>
                 <label><input type="radio" name="q2" value="d"> D) Primal và dual không thể cùng có nghiệm optimal</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Giá trị optimal của primal luôn nhỏ hơn hoặc bằng giá trị optimal của dual</strong><br>
-                Weak duality: $$p^* \leq d^*$$ trong đó $$p^*$$ là giá trị optimal của primal (minimization) và $$d^*$$ là giá trị optimal của dual (maximization).
+                <strong>Đáp án đúng: B) Giá trị optimal của primal luôn lớn hơn hoặc bằng giá trị optimal của dual</strong><br>
+                Weak duality: $$p^* \geq d^*$$ trong đó $$p^*$$ là giá trị optimal của primal (minimization) và $$d^*$$ là giá trị optimal của dual (maximization).
             </div>
         </div>
 
@@ -488,15 +472,15 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
 
         <!-- Câu hỏi 4: Complementary slackness -->
         <div class="question" id="q4" style="display: none;">
-            <h3>Câu 4: Complementary slackness conditions phát biểu rằng:</h3>
+            <h3>Câu 4: Với cặp LP $$\min c^T x$$ s.t. $$Ax \geq b, x \geq 0$$ và $$\max b^T y$$ s.t. $$A^T y \leq c, y \geq 0$$, complementary slackness phát biểu rằng:</h3>
             <div class="options">
-                <label><input type="radio" name="q4" value="a"> A) $$x_i > 0 \Rightarrow (A^T u + G^T v)_i = c_i$$ và $$v_j > 0 \Rightarrow (Gx)_j = h_j$$</label>
-                <label><input type="radio" name="q4" value="b"> B) $$x_i = 0$$ và $$v_j = 0$$ với mọi $$i, j$$</label>
+                <label><input type="radio" name="q4" value="a"> A) $$x_i > 0 \Rightarrow (A^T y)_i = c_i$$ và $$y_j > 0 \Rightarrow (Ax)_j = b_j$$</label>
+                <label><input type="radio" name="q4" value="b"> B) $$x_i = 0$$ và $$y_j = 0$$ với mọi $$i, j$$</label>
                 <label><input type="radio" name="q4" value="c"> C) Primal và dual cùng feasible</label>
-                <label><input type="radio" name="q4" value="d"> D) $$Ax = b$$ và $$Gx \leq h$$</label>
+                <label><input type="radio" name="q4" value="d"> D) $$Ax \geq b$$ và $$x \geq 0$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$x_i > 0 \Rightarrow (A^T u + G^T v)_i = c_i$$ và $$v_j > 0 \Rightarrow (Gx)_j = h_j$$</strong><br>
+                <strong>Đáp án đúng: A) $$x_i > 0 \Rightarrow (A^T y)_i = c_i$$ và $$y_j > 0 \Rightarrow (Ax)_j = b_j$$</strong><br>
                 Complementary slackness: nếu primal variable dương thì dual constraint tight, nếu dual variable dương thì primal constraint tight.
             </div>
         </div>
@@ -772,7 +756,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
 
         <!-- Câu hỏi 23: Thực hành -->
         <div class="question" id="q23" style="display: none;">
-            <h3>Câu 23: Điều kiện bổ sung trong LP: $$x_i > 0$$ khi và chỉ khi:</h3>
+            <h3>Câu 23: Điều kiện bổ sung trong LP: nếu $$x_i > 0$$ thì:</h3>
             <div class="options">
                 <label><input type="radio" name="q23" value="a"> A) Ràng buộc dual tương ứng tích cực</label>
                 <label><input type="radio" name="q23" value="b"> B) Ràng buộc dual tương ứng không tích cực</label>
@@ -1013,8 +997,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

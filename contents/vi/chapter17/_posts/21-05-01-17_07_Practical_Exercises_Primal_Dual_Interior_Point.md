@@ -104,11 +104,15 @@ $$\nu^2 + 3\nu + 2 = 1 + \frac{2\nu}{3}$$
 
 $$\nu^2 + \frac{7\nu}{3} + 1 = 0$$
 
-$$\nu = \frac{-7/3 \pm \sqrt{49/9 - 4}}{2} \approx -0.5$$
+$$\nu = \frac{-7/3 \pm \sqrt{49/9 - 4}}{2} \in \{-0.566, -1.768\}$$
 
-$$x_1 = \frac{1}{1-0.5} = 2$$, $$x_2 = \frac{1}{2-0.5} = 0.67$$
+Chỉ nghiệm $$\nu > -1$$ mới cho $$\lambda_1, \lambda_2 > 0$$, nên chọn $$\nu \approx -0.566$$ và $$x_1 = \frac{1}{1-0.566} \approx 2.30$$, $$x_2 = \frac{1}{2-0.566} \approx 0.70$$ (kiểm tra: $$x_1 + x_2 = 3$$ ✓).
 
-**For $$\mu \to 0$$:** $$x^* \to (3, 0)$$ (primal optimal), $$\nu^* \to -1$$
+**Với $$\mu = 0.1$$:** $$\nu \approx -0.9656$$, $$x \approx (2.90, 0.097)$$.
+
+**Với $$\mu = 0.01$$:** $$\nu \approx -0.9967$$, $$x \approx (2.99, 0.010)$$.
+
+**Khi $$\mu \to 0$$:** $$x^* \to (3, 0)$$ (nghiệm tối ưu của bài toán gốc), $$\nu^* \to -1$$
 
 </details>
 
@@ -228,7 +232,7 @@ $$
 \end{bmatrix}
 $$
 
-Solve: $$\Delta x \approx (0.5, 0.17)$$, $$\Delta\nu \approx 0.33$$
+Giải hệ: $$\Delta x = (0.8, 0.2)$$, $$\Delta\nu = -1.1$$ (kiểm tra: $$2(0.8) - 1.1 = 0.5$$, $$3(0.2) - 1.1 = -0.5$$, $$0.8 + 0.2 = 1$$ ✓)
 
 </details>
 
@@ -346,7 +350,7 @@ Each Newton step reduces $$\|(r_d, r_p, r_c)\|$$ quadratically near solution.
 
 $$x^{(0)} = (1, 1)$$, $$r_p = 1 + 1 - 3 = -1$$
 
-After 1 Newton step: $$x^{(1)} = (1.5, 1.5)$$, $$r_p = 0$$ (feasible!)
+Sau 1 bước Newton đầy đủ ($$\alpha = 1$$), ví dụ $$x^{(1)} = (1.5, 1.5)$$ thì $$r_p = 0$$ (khả thi!), vì $$A\Delta x = -r_p$$. (Nếu dùng bước $$\alpha < 1$$ thì $$r_p$$ chỉ giảm theo hệ số $$1-\alpha$$.)
 
 Then continue as standard primal-dual IPM.
 
@@ -398,11 +402,11 @@ $$= 2(\phi''[h,h])^{3/2}$$ ✓
 
 Self-concordance → Newton step has predictable damping.
 
-**Key:** $$\nu = 1$$ (barrier parameter for simplex) → $$O(\sqrt{n})$$ Newton steps per barrier reduction.
+**Ý chính:** tham số barrier của $$\phi(x) = -\sum_{i=1}^n \log x_i$$ trên orthant $$\mathbb{R}^n_+$$ là $$\vartheta = n$$. Mỗi vòng lặp giảm $$\mu$$ theo hệ số $$\left(1 - \frac{1}{\sqrt{\vartheta}}\right)$$ chỉ với $$O(1)$$ bước Newton, nên cần $$O(\sqrt{\vartheta}\log(1/\epsilon)) = O(\sqrt{n}\log(1/\epsilon))$$ vòng lặp để giảm $$\mu$$ xuống dưới $$\epsilon$$.
 
 **Total:** $$O(\sqrt{n} \log(1/\epsilon))$$ iterations.
 
-**Polynomial!** (vs exponential for simplex method)
+**Đa thức!** (so với độ phức tạp hàm mũ trong trường hợp xấu nhất của phương pháp simplex)
 
 </details>
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 17-02-01 Central path equations and Newton step
+title: '17-02-01 Phương trình đường trung tâm và bước Newton'
 chapter: '17'
 order: 4
 owner: Minjoo Lee
@@ -8,10 +8,11 @@ categories:
 - chapter17
 lang: vi
 ---
-The **Primal-dual interior-point method** is a method that finds solutions by finding the central path, similar to the barrier method. To do this, it defines perturbed KKT conditions as residual functions and finds solutions that make them zero. This section aims to explain this approach.
 
-## Central path equations
-By moving the right-hand side to the left-hand side in the central path equations explained in the previous [17-01 Optimality conditions]({% multilang_post_url contents/chapter17/21-05-01-17_01_barrier_method_duality_optimality_revisited %}), we can organize them as follows. (The optimality conditions of central path equations are also called perturbed KKT conditions.)
+**Phương pháp điểm trong gốc-đối ngẫu (Primal-dual interior-point method)** là phương pháp tìm nghiệm bằng cách đi theo đường trung tâm, tương tự phương pháp chắn. Để làm điều này, nó định nghĩa các điều kiện KKT nhiễu (perturbed KKT conditions) như các hàm phần dư và tìm nghiệm làm chúng bằng không. Phần này nhằm giải thích cách tiếp cận đó.
+
+## Phương trình đường trung tâm
+Chuyển vế phải sang vế trái trong các phương trình đường trung tâm đã giải thích ở phần trước [17-01 Điều kiện tối ưu]({% multilang_post_url contents/chapter17/21-05-01-17_01_barrier_method_duality_optimality_revisited %}), ta có thể sắp xếp chúng như sau. (Các điều kiện tối ưu của phương trình đường trung tâm còn được gọi là các điều kiện KKT nhiễu.)
 > $$
 > \begin{array}{rcl}
 > ∇f(x) +∇h(x)u + A^Tv & = & 0 \\\
@@ -21,12 +22,12 @@ By moving the right-hand side to the left-hand side in the central path equation
 > \end{array}
 > $$
 
-Note that the complementary slackness and inequality constraints in the KKT conditions for the original problem differ from those in the perturbed KKT conditions. For the original problem, $$Uh(x) = 0$$ and $$u,−h(x)  \ge 0$$, but in the perturbed KKT conditions, $$Uh(x) = - \tau\mathbb{1}$$ and $$u,−h(x)  \gt 0$$.
+Lưu ý rằng độ lệch bù và các ràng buộc bất đẳng thức trong điều kiện KKT của bài toán ban đầu khác với trong các điều kiện KKT nhiễu. Với bài toán ban đầu, $$Uh(x) = 0$$ và $$u,−h(x)  \ge 0$$, nhưng trong các điều kiện KKT nhiễu, $$Uh(x) = - \tau\mathbb{1}$$ và $$u,−h(x)  \gt 0$$.
 
-These organized nonlinear equations, the perturbed KKT conditions, can be solved by approximating them as linear equations using the root finding version of Newton's method.
+Các phương trình phi tuyến đã được sắp xếp này, tức các điều kiện KKT nhiễu, có thể được giải bằng cách xấp xỉ chúng thành các phương trình tuyến tính bằng phiên bản tìm nghiệm (root finding) của phương pháp Newton.
 
-## Newton step
-Now let's learn about the method of finding solutions by linearly approximating the perturbed KKT conditions. The perturbed KKT conditions equation can be defined as the following residual function $$r(x, u, v) = 0$$. (The reason for naming it residual is that these values must be 0 to be optimal.)
+## Bước Newton
+Bây giờ hãy tìm hiểu phương pháp tìm nghiệm bằng cách xấp xỉ tuyến tính các điều kiện KKT nhiễu. Phương trình điều kiện KKT nhiễu có thể được định nghĩa là hàm phần dư $$r(x, u, v) = 0$$. (Lý do gọi là phần dư là vì các giá trị này phải bằng 0 để đạt tối ưu.)
 
 > $$r(x,u,v) :=
 > \begin{bmatrix}
@@ -35,9 +36,9 @@ Now let's learn about the method of finding solutions by linearly approximating 
 > Ax−b
 > \end{bmatrix}, H(x) = \text{Diag}(h(x))$$
 
-To find the roots of the function, approximating $$r(x, u, v)$$ with a first-order Taylor expansion gives us the following. (This process approximates non-linear equations to linear equations. For detailed information, see [14-02-01 Root finding]({% multilang_post_url contents/chapter14/2021-03-26-14_01_newton_method %}))
+Để tìm nghiệm của hàm, xấp xỉ $$r(x, u, v)$$ bằng khai triển Taylor bậc nhất cho ta kết quả sau. (Quá trình này xấp xỉ các phương trình phi tuyến thành phương trình tuyến tính. Thông tin chi tiết xem [14-02-01 Tìm nghiệm]({% multilang_post_url contents/chapter14/2021-03-26-14_01_newton_method %}))
 >$$\begin{align}
-0 & = r(x + \Delta x, u + \Delta u, r + \Delta v)  \\\\
+0 & = r(x + \Delta x, u + \Delta u, v + \Delta v)  \\\\
   & \approx r(x, u, v) + \nabla r(x, u, v) 
 \begin{pmatrix}
 \Delta x \\\\
@@ -46,7 +47,7 @@ To find the roots of the function, approximating $$r(x, u, v)$$ with a first-ord
 \end{pmatrix} \\\\
 \end{align}$$
 
-Accordingly, the function $$r(x, u, v)$$ can be organized as follows.
+Theo đó, hàm $$r(x, u, v)$$ có thể được sắp xếp như sau.
 
 >$$\begin{align}
 \nabla r(x, u, v) 
@@ -57,7 +58,7 @@ Accordingly, the function $$r(x, u, v)$$ can be organized as follows.
 \end{pmatrix} = -r(x, u, v) \\\\
 \end{align}$$
 
-By differentiating $$r(x, u, v)$$ with respect to $$x, u, v$$ to obtain the Jacobian matrix $$\nabla r(x, u, v)$$ and substituting the above equation, we get the following.
+Lấy đạo hàm $$r(x, u, v)$$ theo $$x, u, v$$ để thu được ma trận Jacobi $$\nabla r(x, u, v)$$ và thay vào phương trình trên, ta được kết quả sau.
 > $$\begin{bmatrix}
 > \nabla^2f(x) + \sum_i u_i \nabla^2h_i(x) & \nabla h(x) & A^T \\\
 >  U \nabla  h(x)^T & H(x) & 0 \\\
@@ -68,7 +69,7 @@ By differentiating $$r(x, u, v)$$ with respect to $$x, u, v$$ to obtain the Jaco
 > \Delta u \\\
 > \Delta v
 > \end{bmatrix} = −r(x,u,v)$$
-> where
+> trong đó
 > $$r(x,u,v) :=
 > \begin{bmatrix}
 > \nabla f(x) +\nabla h(x)u + A^Tv \\\
@@ -76,4 +77,4 @@ By differentiating $$r(x, u, v)$$ with respect to $$x, u, v$$ to obtain the Jaco
 > Ax−b
 > \end{bmatrix}, H(x) = \text{Diag}(h(x))$$
 
-The solution $$(\Delta x, \Delta u, \Delta v)$$ to this equation is the update direction for the primal and dual variables. The reason why the method introduced in this chapter is called the **Primal-Dual** interior point method is that it simultaneously updates primal and dual variables using residual functions.
+Nghiệm $$(\Delta x, \Delta u, \Delta v)$$ của phương trình này là hướng cập nhật cho các biến gốc và đối ngẫu. Lý do phương pháp được giới thiệu trong chương này được gọi là phương pháp điểm trong **gốc-đối ngẫu (Primal-Dual)** là vì nó cập nhật đồng thời các biến gốc và đối ngẫu bằng cách sử dụng các hàm phần dư.

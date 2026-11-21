@@ -30,7 +30,7 @@ $$
 trong đó:
 
 - $$x \in \mathbb{R}^n$$ là vector biến quyết định
-- $c \in \mathbb{R}^n$$ là vector hệ số hàm mục tiêu
+- $$c \in \mathbb{R}^n$$ là vector hệ số hàm mục tiêu
 - $$A \in \mathbb{R}^{m \times n}$$ là ma trận ràng buộc
 - $$b \in \mathbb{R}^m$$ là vector vế phải
 
@@ -114,7 +114,7 @@ $$
 Áp dụng quy tắc đối ngẫu cho bài toán này:
 
 - Biến đối ngẫu mới: $z \in \mathbb{R}^n$ (có cùng số chiều với $x$ trong bài toán primal gốc)
-- Hàm mục tiêu mới: maximize $(-c)^T z$ (tương đương minimize $c^T z$)
+- Hàm mục tiêu mới: maximize $(-c)^T z$ (tức là $-\min c^T z$; sau khi đổi dấu lại, ta được minimize $c^T z$)
 - Ràng buộc mới: từ $-A^T y \geq -c$ và quy tắc đối ngẫu, ta có:
   - Ma trận ràng buộc của dual mới là $(-A^T)^T = -A$
   - Ràng buộc trở thành: $-A z \leq -b$
@@ -149,7 +149,7 @@ $$
 \text{minimize } -4y_1 - 5y_2 \text{ s.t. } -y_1 - 2y_2 \geq -2, \; -y_1 - y_2 \geq -3, \; y_1, y_2 \geq 0
 $$
 
-Dual của nó (với biến $z_1, z_2$):
+Dual của nó (với biến $z_1, z_2$) là bài toán maximize $-2z_1 - 3z_2$ (tương đương minimize $2z_1 + 3z_2$ sau khi đổi dấu hàm mục tiêu):
 $$
 \begin{align}
 \text{minimize} \quad & 2z_1 + 3z_2 \\
@@ -248,31 +248,20 @@ $$
 
 ### **Bài Toán Dual (D)**
 
-Dual có ý nghĩa kinh tế: tìm giá của nguồn lực sao cho minimize tổng chi phí, nhưng vẫn đảm bảo chi phí nguồn lực cho mỗi sản phẩm không nhỏ hơn lợi nhuận.
+Dual có ý nghĩa kinh tế: tìm giá bóng (shadow price) của các nguồn lực sao cho **minimize** tổng giá trị nguồn lực, nhưng vẫn đảm bảo giá trị nguồn lực dùng cho mỗi đơn vị sản phẩm không nhỏ hơn lợi nhuận của sản phẩm đó. Vì (P) là bài toán maximize với ràng buộc $$\leq$$, dual của nó là bài toán **minimize** với ràng buộc $$\geq$$:
 
 $$
 \begin{align}
-\text{maximize} \quad & 8y_1 + 10y_2 \\
-\text{subject to} \quad & 2y_1 + y_2 \leq 3, \\
-& y_1 + 2y_2 \leq 5, \\
+\text{minimize} \quad & 8y_1 + 10y_2 \\
+\text{subject to} \quad & 2y_1 + y_2 \geq 3, \\
+& y_1 + 2y_2 \geq 5, \\
 & y_1, y_2 \geq 0.
 \end{align}
 $$
 
 ### **Dual của Dual (DD)**
 
-Chuyển dual về dạng minimize:
-
-$$
-\begin{align}
-\text{minimize} \quad & -8y_1 - 10y_2 \\
-\text{subject to} \quad & -2y_1 - y_2 \geq -3, \\
-& -y_1 - 2y_2 \geq -5, \\
-& y_1, y_2 \geq 0.
-\end{align}
-$$
-
-Dual của nó (với biến $z_1, z_2$):
+(D) đã ở dạng chuẩn "minimize, ràng buộc $$\geq$$, biến không âm", với hệ số mục tiêu $$(8, 10)$$, ma trận ràng buộc $$\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$ và vế phải $$(3, 5)$$. Áp dụng quy tắc đối ngẫu (biến mới $$z_1, z_2$$):
 
 $$
 \begin{align}
@@ -284,6 +273,8 @@ $$
 $$
 
 **Đây chính xác là bài toán primal (P) ban đầu!**
+
+**Kiểm tra bằng số:** (P) đạt tối ưu tại $$(x_1, x_2) = (2, 4)$$ với lợi nhuận $$3 \cdot 2 + 5 \cdot 4 = 26$$. (D) đạt tối ưu tại $$(y_1, y_2) = (\tfrac{1}{3}, \tfrac{7}{3})$$ với giá trị $$8 \cdot \tfrac{1}{3} + 10 \cdot \tfrac{7}{3} = 26$$. Hai giá trị bằng nhau, đúng như đối ngẫu mạnh.
 
 ---
 

@@ -24,7 +24,7 @@ The **central path** is a set of solutions obtained by gradually redefining the 
 Let's find the central path for the following LP problem.
 >$$\begin{align*}
 >&\min_{x} \ && c^Tx \\
->&\text{subject to } \ && a_i^Tx \le b_i^T, i = 1, \cdots , 6 \\
+>&\text{subject to } \ && a_i^Tx \le b_i, \quad i = 1, \cdots , 6 \\
 >\end{align*}$$
 
 In the following figure, the dotted line represents the logarithmic barrier function $$\phi$$. <br>
@@ -37,3 +37,15 @@ In the following figure, the dotted line represents the logarithmic barrier func
 </figure>
 
 You can see that as $$t \to \infty$$, the central path converges to the optimal $$x^*$$. At this point, the hyperplane $$c^Tx = c^Tx(t)$$ is the tangent to the level curve of $$\phi$$ passing through $$c^Tx(t)$$.
+
+### The central path in 10 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/central-path_en.mp4"></video>
+</div>
+
+As $$t$$ grows, the solution $$x^*(t)$$ of the barrier problem slides along the central path to the optimal vertex.
+
+### Try it yourself: slide along the central path
+
+<div class="opx-explainer" data-opx="barrier" data-lang="en"></div>

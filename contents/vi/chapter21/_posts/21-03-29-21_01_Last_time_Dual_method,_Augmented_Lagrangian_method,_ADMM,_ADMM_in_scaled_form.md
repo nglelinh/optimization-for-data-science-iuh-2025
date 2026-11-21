@@ -10,10 +10,10 @@ categories:
 lang: vi
 ---
 
-before, 20장at, 우리는 Dual methods, ADMMabout, 살펴보았다. 여기선 ADMM의 응용을 살펴보기to, 앞서, Dual methodsand, Augmented Lagrangian method, ADMM, ADMM in scaled formabout, 정리하고자 한다.
+Ở chương trước (Chương 20) chúng ta đã tìm hiểu các phương pháp đối ngẫu và ADMM. Trước khi xem các ứng dụng của ADMM, hãy tóm tắt lại phương pháp đối ngẫu, phương pháp augmented Lagrangian, ADMM và ADMM dạng có tỉ lệ.
 
-## Dual method
-아래의 problem를 let's look at.
+## Phương pháp đối ngẫu
+Xét bài toán sau.
 
 >$$
 >\begin{align}
@@ -22,23 +22,23 @@ before, 20장at, 우리는 Dual methods, ADMMabout, 살펴보았다. 여기선 A
 >\end{align}
 >$$
 
-여기서 $f$는 strictly convex하고 닫혀있다고 하자. 이 problem의 Lagrangian은 아래and, 같다.
+Giả sử $$f$$ lồi chặt và đóng. Hàm Lagrange của bài toán này là
 >$$
 >\begin{align}
 >L(x,u) = f(x)+u^{T}(Ax-b)
 >\end{align}
 >$$
 
-위 problem의 dual problem는 아래and, 같다.
+Bài toán đối ngẫu là
 >$$
 >\begin{equation}
 >\max_u -f^{\ast}(-A^T u) - b^T u
 >\end{equation}
 >$$
 
-여기at,의 u는 dual variable이다.
+trong đó $$u$$ là biến đối ngẫu.
 
-이 식to, about, dual gradient ascent는 아래의 식을 iteration적with, computation한다.($k=1,2,3,...$)
+Dual gradient ascent cho bài toán này lặp lại các cập nhật sau ($$k=1,2,3,...$$).
 >$$
 >\begin{align}
 >x^{(k)}&=\underset{x}{\operatorname{argmin}} L(x,u^{(k-1)}) \\\\
@@ -46,14 +46,14 @@ before, 20장at, 우리는 Dual methods, ADMMabout, 살펴보았다. 여기선 A
 >\end{align}
 >$$
 
-$$t_{k}$$는 k번째 iteration의 step size이다.
+Ở đây $$t_{k}$$ là kích thước bước ở vòng lặp thứ $$k$$.
 
-이 dual methodat,는, primal variable $$x$$는 첫번째 식처럼 before, 스텝at, 주어진 $$u^{(k-1)}$$at,의 Lagrangian을 minimization하는 $$x$$값with, 업데이트되고, dual variable $$u$$는 $$Ax-b$$이 gradient direction인 gradient ascent의 형태to, 업데이트가 된다.
+Trong phương pháp đối ngẫu này, như ở cập nhật đầu tiên, biến gốc $$x$$ được đặt bằng điểm cực tiểu của hàm Lagrange tại biến đối ngẫu $$u^{(k-1)}$$ từ bước trước, còn biến đối ngẫu $$u$$ được cập nhật bằng gradient ascent, trong đó $$Ax-b$$ là hướng gradient.
 
-이 method의 장점은 $$f$$가 B개의 problemto, 분할이 가능할 when,(decomposable), $$x$$ also, B개의 블록with, 분할하고$$( x =(x_{1}, ...,x_{B})\in \mathbb{R}^{n}, \text{ where }x_{i}\in \mathbb{R}^{n_{i}})$$, matrix A also, B개의 sub-matrix 블록with, decompose가 가능solution서$$(A = [A_{1}, ..., A_{B}] \text{ where }A_{i} \in \mathbb{R}^{m \times n_{i}})$$, 쉽게 병렬화 or, 확장이 가능하여 computation이 용이하다. but, 단점은 convergence성를 보장하기 for, 까다to,운 condition,이 필요하다 ; primal의 feasible을 보장하기 for,, $$f$$가 strongly convex하다는 condition,이 필요하다.[[20-01-01]]({% multilang_post_url contents/chapter20/21-03-27-20_01_01_Convergence_Analysis %})
+Ưu điểm của phương pháp này là khi $$f$$ có thể phân rã thành $$B$$ phần, $$x$$ cũng có thể chia thành $$B$$ khối $$( x =(x_{1}, ...,x_{B})\in \mathbb{R}^{n}, \text{ where }x_{i}\in \mathbb{R}^{n_{i}})$$ và ma trận $$A$$ thành $$B$$ khối ma trận con $$(A = [A_{1}, ..., A_{B}] \text{ where }A_{i} \in \mathbb{R}^{m \times n_{i}})$$, nên việc tính toán dễ song song hóa và mở rộng. Nhược điểm là cần các điều kiện khắt khe để đảm bảo hội tụ: để đảm bảo tính khả thi gốc, $$f$$ phải lồi mạnh. [[20-01-01]]({% multilang_post_url contents/chapter20/21-03-27-20_01_01_Convergence_Analysis %})
 
-## Augmented Lagrangian method
-Method of multipliers라고도 불리는 Augmented Lagrangian method는 primal problemto, 추가 항을 더하여 computation한다. 이렇게 하면 iteration을 iteration되면서 점difference KKT의 conditions을 만족하게 된다. Dual methodand, comparing, convergence성to, about, condition,(f가 strongly convex)을 완화시킨다. instead of, problem의 분solution(decompose)가 불가능solution지는 단점이 있다. Primal problem의 정의는 as follows:.
+## Phương pháp augmented Lagrangian
+Phương pháp augmented Lagrangian, còn gọi là phương pháp nhân tử (method of multipliers), thêm một số hạng bổ sung vào bài toán gốc. Khi các vòng lặp tiến triển, các điều kiện KKT dần được thỏa mãn. So với phương pháp đối ngẫu, nó nới lỏng điều kiện cần cho hội tụ ($$f$$ lồi mạnh). Đổi lại, bài toán không thể được phân rã nữa. Bài toán gốc được định nghĩa như sau.
 
 >$$
 >\begin{align}
@@ -62,7 +62,7 @@ Method of multipliers라고도 불리는 Augmented Lagrangian method는 primal p
 >\end{align}
 >$$
 
-여기서 $$\rho>0$$이다. 이 problem의 Lagrangian은 아래and, 같다.
+với $$\rho>0$$. Hàm Lagrange của bài toán này là
 
 >$$
 >\begin{align}
@@ -70,7 +70,7 @@ Method of multipliers라고도 불리는 Augmented Lagrangian method는 primal p
 >\end{align}
 >$$
 
-Dual gradient ascent는 다음을 iteration한다. ($$k=1,2,3,...$$)
+Dual gradient ascent lặp lại như sau ($$k=1,2,3,...$$).
 >$$
 >\begin{align}
 >x^{(k)}&=\underset{x}{\operatorname{argmin}} L_{\rho}(x,u^{(k-1)}) \\\\
@@ -78,10 +78,10 @@ Dual gradient ascent는 다음을 iteration한다. ($$k=1,2,3,...$$)
 >\end{align}
 >$$
 
-이 method의 장점은 위at, 언급하였듯, dual methodto, 비하여 더 나은 convergence condition,을 가진다. 단점은 제product 항이 추가되는 탓to, 분solution가능한 성질(decomposability)을 잃게 된다.
+Như đã đề cập ở trên, ưu điểm của phương pháp này là điều kiện hội tụ tốt hơn phương pháp đối ngẫu. Nhược điểm là số hạng bình phương được thêm vào làm mất tính phân rã được.
 
-## Alternating direction method of multipliers(ADMM)
-ADMM은 dual methodand, augmented Lagrangian method의 장점을 섞은 method이다. problem가 아래의 형태to, 정의 되어있다고 하자.
+## Phương pháp hướng luân phiên của các nhân tử (ADMM)
+ADMM kết hợp ưu điểm của phương pháp đối ngẫu và phương pháp augmented Lagrangian. Giả sử bài toán có dạng sau.
 
 >$$
 >\begin{align}
@@ -89,14 +89,14 @@ ADMM은 dual methodand, augmented Lagrangian method의 장점을 섞은 method�
 >\end{align}
 >$$
 
-이 식to, $$\rho>0$$인 augmented Lagrangian을 정의할 수 있다.
+Với bài toán này ta có thể định nghĩa augmented Lagrangian với $$\rho>0$$.
 >$$
 >\begin{align}
 >&L_{\rho} (x,z,u) = f(x)+g(z)+u^{T}(Ax+Bz-c)+\frac{\rho}{2}||Ax+Bz-c||_{2}^{2}\\\\
 >\end{align}
 >$$
 
-이어서 아래를 iteration하여 variable를 업데이트한다.
+Sau đó ta cập nhật các biến bằng cách lặp lại như sau.
 >$$
 >\begin{align}
 >&\text{for k = 1,2,3,...}\\\\
@@ -106,28 +106,28 @@ ADMM은 dual methodand, augmented Lagrangian method의 장점을 섞은 method�
 >\end{align}
 >$$
 
-ADMMat,는 primal variable인 $$x, z$$를 함께 업데이트하지 않고, 순difference적with, 각각 업데이트 한다. and, 순difference적with, 업데이트할 when,는 다른 variable는 가장 최근의 값을 이용한다. that is,, k번째 iterationat, $$z$$를 업데이트 할when,to,는 before, iteration의 값 $$x^{(k-1)}$$이 아닌 $$x^{(k)}$$를 이용하고, u를 업데이트 할when, also, 현재 iterationat, 구한 primal variable $$x^{(k)}, z^{(k)}$$를 바to, 이용한다.
+Trong ADMM, các biến gốc $$x, z$$ không được cập nhật đồng thời mà lần lượt từng biến. Khi cập nhật tuần tự, biến còn lại lấy giá trị mới nhất. Nghĩa là khi cập nhật $$z$$ ở vòng lặp $$k$$, ta dùng $$x^{(k)}$$ thay vì giá trị $$x^{(k-1)}$$ của vòng lặp trước, và khi cập nhật $$u$$ ta dùng ngay các biến gốc $$x^{(k)}, z^{(k)}$$ vừa tính ở vòng lặp hiện tại.
 
-## Alternating direction method of multipliers(ADMM)
-ADMM은 제약식 내의 Aand, B가 full rank라는 가정 없이, $$f$$and, $$g$$to, about, 큰 제약 없이(under modeset assumption) 모든 $$\rho > 0$$about, 다음을 만족한다. 
+## Hội tụ của ADMM
+Không cần giả sử $$A$$ và $$B$$ trong ràng buộc có hạng đầy đủ, và chỉ với các giả thiết khiêm tốn trên $$f$$ và $$g$$, ADMM thỏa mãn các điều sau với mọi $$\rho > 0$$.
 
-* Residual convergence: $$k$$가 $$\infty$$to, 갈 when,, $$r^{(k)} = A x^{(k)} - B z^{(k)} - c \to 0$$, that is, primal iteration이 feasibilityto, 접근한다.  
-* Objective convergence: $$f(x^{(k)}) + g(x^{(k)}) \to f^{\star} + g^{\star}$$, 여기서 $$f^{\star} + g^{\star}$$는 최적의 primal objective 값이다. 
-* Dual convergence: $$u^{(k)} \to u^{\star}$$, 여기서 $$u^{\star}$$는 dual solution 이다. 
+* Hội tụ phần dư: $$r^{(k)} = A x^{(k)} + B z^{(k)} - c \to 0$$ khi $$k \to \infty$$, tức là các điểm lặp gốc tiến đến tính khả thi.
+* Hội tụ hàm mục tiêu: $$f(x^{(k)}) + g(z^{(k)}) \to f^{\star} + g^{\star}$$, trong đó $$f^{\star} + g^{\star}$$ là giá trị mục tiêu gốc tối ưu.
+* Hội tụ đối ngẫu: $$u^{(k)} \to u^{\star}$$, trong đó $$u^{\star}$$ là một nghiệm đối ngẫu.
 
-Convergence rateabout,서는 아직 generally, informing,지진 않았고, 연구가 이루어지고있다. Convergenceto, about, reference문헌은 [21장 소개파트]({% multilang_post_url contents/chapter21/21-03-29-21_00_Alternating_Direction_Method_of_Multipliers %})to, 서술되어있다.
+Tốc độ hội tụ nói chung chưa được biết và vẫn đang được nghiên cứu. Các tài liệu tham khảo về hội tụ được nêu trong [phần giới thiệu Chương 21]({% multilang_post_url contents/chapter21/21-03-29-21_00_Alternating_Direction_Method_of_Multipliers %}).
 
-## ADMM in scaled form
-We can express ADMM in scaled form by changing the dual variable $$u$$ to the scaled variable $$w=u/\rho$$. In summary, the ADMM steps can be represented as follows: 
+## ADMM dạng có tỉ lệ
+ADMM có thể được viết dưới dạng có tỉ lệ bằng cách thay biến đối ngẫu $$u$$ bằng biến có tỉ lệ $$w=u/\rho$$. Khi đó các bước ADMM trở thành
 >$$
 >\begin{align}
 &x^{(k)} = \underset{x}{\operatorname{argmin}} f(x) + \frac{\rho}{2} ||Ax + Bz^{(k-1)} - c + w^{(k-1)} ||_2^2 \\\\
-&z^{(k)} = \arg\min_z g(x) + \frac{\rho}{2} || Ax^{(k)} + Bz - c + w^{(k-1)} ||_2^2  \\\\
+&z^{(k)} = \underset{z}{\operatorname{argmin}} g(z) + \frac{\rho}{2} || Ax^{(k)} + Bz - c + w^{(k-1)} ||_2^2  \\\\
 &w^{(k)} = w^{(k-1)} + Ax^{(k)} + Bz^{(k)} - c 
 \end{align}
 >$$
 
-Here, $$w^{(k)}$$ can also be expressed as the sum of residuals up to the $$k$$-th iteration as shown below. 
+Ở đây $$w^{(k)}$$ là tổng dồn các phần dư đến vòng lặp $$k$$, cũng có thể viết là
 >$$
 >\begin{align}
 w^{(k)} = w^{(0)} + \sum_{i=1}^k (Ax^{(i)} + Bz^{(i)} - c) 

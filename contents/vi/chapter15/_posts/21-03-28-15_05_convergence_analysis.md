@@ -1,30 +1,31 @@
 ---
 layout: post
-title: 15-05 Convergence analysis
+title: '15-05 Phân tích hội tụ'
 chapter: "15"
 order: 11
 categories:
 - chapter16
 owner: "Minjoo Lee"
+lang: vi
 ---
 
-Assuming the centering step in the barrier method is solved exactly, we can obtain the following convergence results.
+Giả sử bước centering trong phương pháp chắn được giải chính xác, ta thu được các kết quả hội tụ sau.
 
-## Convergence Theorem
-After $$k$$ centering steps, the **barrier method** satisfies the following equation. (Here, $$k$$ is the number of outer iterations.)
+## Định lý hội tụ
+Sau $$k$$ bước centering, **phương pháp chắn** thỏa mãn bất đẳng thức sau. (Ở đây $$k$$ là số vòng lặp ngoài.)
 >$$\begin{align}
 f(x^{(k)}) - f^{*} \le  \frac{m}{\mu^k t^{(0)}}
 \end{align}$$
 
-That is, to reach the desired accuracy level $$\epsilon$$ with the barrier method, you need the following number of centering steps plus one for the first centering step.
+Nghĩa là, để đạt độ chính xác mong muốn $$\epsilon$$ bằng phương pháp chắn, bạn cần số bước centering sau đây, cộng thêm một bước centering đầu tiên.
 
 >$$\begin{align}
 \frac{log(m/(t^{(0)}\epsilon))}{\log \mu} + 1
 \end{align}$$
 
-Therefore, we see that the convergence is linear, with $$O(\log 1/\epsilon )$$.
+Do đó, ta thấy sự hội tụ là tuyến tính, với $$O(\log 1/\epsilon )$$.
 
-Newton's method has quadratic convergence with $$O(\log \log 1/\epsilon ) $$, but in this case, the problem is very difficult, so linear convergence is not such a bad result.
+Phương pháp Newton hội tụ bậc hai với $$O(\log \log 1/\epsilon ) $$, nhưng trong trường hợp này bài toán rất khó, nên hội tụ tuyến tính không phải là kết quả tệ.
 
-For the definitions of linear and quadratic convergence, refer to the Wiki.<br>
-* Reference: [Rate of convergence](https://en.wikipedia.org/wiki/Rate_of_convergence)
+Định nghĩa về hội tụ tuyến tính và hội tụ bậc hai có thể xem trên Wiki.<br>
+* Tham khảo: [Rate of convergence](https://en.wikipedia.org/wiki/Rate_of_convergence)

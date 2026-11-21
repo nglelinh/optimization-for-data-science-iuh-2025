@@ -105,3 +105,14 @@ This result has the following characteristics:
 >R_{t}(x) = (1-\frac{x}{\lVert x \rVert_{2}})_{+}x
 >\end{align}
 
+### ADMM in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/admm-lasso_en.mp4"></video>
+</div>
+
+ADMM alternates a ridge-like $$x$$-update, a soft-thresholding $$z$$-update and a dual update of $$u$$, pulling $$x$$ and $$z$$ together.
+
+### Try it yourself: ADMM on a lasso
+
+<div class="opx-explainer" data-opx="admm" data-lang="en"></div>

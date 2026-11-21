@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '23-04 Example: Pathwise coordinate descent for lasso'
+title: '23-04 Ví dụ: Pathwise coordinate descent cho lasso'
 chapter: '23'
 order: 5
 owner: YoungJae Choung
@@ -9,29 +9,29 @@ categories:
 lang: vi
 ---
 
-In this section, Pathwise coordinate descent for lassoto, about, 개요를 간단히 소개하도록 한다 [[Friedman et al. (2007)](https://arxiv.org/pdf/0708.1485.pdf)] [[Friedman et al. (2009)](https://www.jstatsoft.org/article/view/v033i01/v33i01.pdf)]. 
+Trong phần này, ta giới thiệu ngắn gọn tổng quan về Pathwise coordinate descent cho lasso [[Friedman et al. (2007)](https://arxiv.org/pdf/0708.1485.pdf)] [[Friedman et al. (2009)](https://www.jstatsoft.org/article/view/v033i01/v33i01.pdf)]. 
 
->**Lasso regression problem:**
+>**Bài toán hồi quy lasso:**
 > $$
 > \min_{\beta} \frac{1}{2} \| y - X\beta \|_2^2 + \lambda \|\beta\|_1
 > $$
 
-[07-03-03 Example: Lasso Optimality Condition]({% multilang_post_url contents/chapter07/21-03-25-07_03_03_example_lasso_optimality_condition %})at, lasso regression problemto, about, optimality condition을 유도solution 보았다. 위 problemto, about, optimal solution는 다음의 condition,을 만족한다.
+Ở [07-03-03 Ví dụ: Điều kiện tối ưu của Lasso]({% multilang_post_url contents/chapter07/21-03-25-07_03_03_example_lasso_optimality_condition %}) ta đã suy ra điều kiện tối ưu cho bài toán hồi quy lasso. Nghiệm tối ưu của bài toán trên thỏa mãn các điều kiện sau.
 
 >
 > $$
 > \begin{align}
-> X_1^T(y-X\beta) &= \lambda v_1\\
-> X_2^T(y-X\beta) &= \lambda v_2\\
-> \dots\\
+> X_1^T(y-X\beta) &= \lambda v_1\\\\
+> X_2^T(y-X\beta) &= \lambda v_2\\\\
+> \dots\\\\
 > X_p^T(y-X\beta) &= \lambda v_p
 > \end{align}
 > $$
 
 **Note:**
-$$X_i,i \in \{ 1,2,…,p \}$$는 주어진 matrix $$X$$의 $$i$$번째 열(column) 데이터를 의미한다.
+$$X_i,i \in \{ 1,2,…,p \}$$ là dữ liệu cột thứ $$i$$ của ma trận $$X$$ đã cho.
 
-여기서 $$v=(v_1,v_2,\dots,v_p)$$는 $$\beta=(\beta_1,\beta_2,\dots,\beta_p )$$to, about, subgradient다. 
+Ở đây $$v=(v_1,v_2,\dots,v_p)$$ là một dưới đạo hàm (subgradient) của $$\|\beta\|_1$$ tại $$\beta=(\beta_1,\beta_2,\dots,\beta_p )$$. 
 >
 $$
 v_i, i \in \{1,2,\dots,p \} = 
@@ -42,20 +42,20 @@ v_i, i \in \{1,2,\dots,p \} =
 \end{cases}
 $$
 
-이 optimality conditionby, $$\beta$$의 각 element가 현재 최적image태to, solution당하는지 파악할 수 있다. Coordinate descent algorithm을 이용하면 아직 최적image태to, 도달하지 못한 element만을 업데이트하는 방식with, 좀 더 효율적with, lasso problem를 푸는 것이 가능solution진다. also, $$\lambda$$의 값이 클수록 lasso regression problemat, coordinate descent algorithm이 더 빨리 동작하는 경향성을 utilizing, $$\lambda$$를 점점 reducing,가는 방식(warm start)with, solutionto, 더욱 빠르게 접근한다.
+Nhờ điều kiện tối ưu này, ta có thể biết từng phần tử của $$\beta$$ hiện đã ở trạng thái tối ưu hay chưa. Với thuật toán coordinate descent, ta có thể giải bài toán lasso hiệu quả hơn bằng cách chỉ cập nhật các phần tử chưa đạt trạng thái tối ưu. Ngoài ra, coordinate descent trên bài toán hồi quy lasso có xu hướng chạy nhanh hơn khi $$\lambda$$ lớn; tận dụng điều này, bằng cách giảm dần $$\lambda$$ (warm start), ta tiếp cận nghiệm nhanh hơn nữa.
 
-## Algorithm
+## Thuật toán
 
-### Outer loop (pathwise strategy):
-* $$\lambda_1 > \lambda_2 > \dots > \lambda_r$$의 순서를 따라 optimal solution를 computation한다.
-* Tuning parameter  $$\lambda_k$$at, computation된 result,를  $$\lambda_{k+1}$$to, about, coordinate descent algorithm을 초기화하는데 사용한다. (warm start)
+### Vòng ngoài (chiến lược pathwise):
+* Tính nghiệm tối ưu theo thứ tự $$\lambda_1 > \lambda_2 > \dots > \lambda_r$$.
+* Kết quả tính được tại tham số điều chỉnh $$\lambda_k$$ được dùng để khởi tạo thuật toán coordinate descent cho $$\lambda_{k+1}$$. (warm start)
 
-### Inner loop (active set strategy):
-* 하나 or, 적은 수의 coordinate cycle을 시행한다. and, 0이 아닌 $$\beta$$의 element를 active set $$A$$to, 기록한다.
-* $$A$$to, 기록된 element들about,서만 convergence할 when,to, coordinate cycle을 시행한다.
-* $$\beta$$의 모든 element들about, optimality condition을 확인한다. condition,을 만족하지 않는 element가 있으면 $$A$$to, 추가하고 step 1with, 다시 돌아간다.
+### Vòng trong (chiến lược active set):
+* Thực hiện một hoặc một vài chu trình tọa độ. Các phần tử khác 0 của $$\beta$$ được ghi vào tập active set $$A$$.
+* Thực hiện các chu trình tọa độ chỉ trên các phần tử thuộc $$A$$ cho đến khi hội tụ.
+* Kiểm tra điều kiện tối ưu cho mọi phần tử của $$\beta$$. Nếu có phần tử không thỏa điều kiện thì thêm nó vào $$A$$ và quay lại bước đầu của vòng trong.
 
-## Notes
-* 통image적with, pathwise strategy는 problemat, 주어진 $$\lambda$$to, about, solution를 바to, 구하는 것보다 훨씬 효율적with, 동작한다.
-* Active set strategy는 sparsityabout, 이점이 있다. 이 because of, coordinate descent는 ridge regression보다 lasso regressionat, 훨씬 더 빠르게 동작한다. (reference: [ridge regressionand, lasso regression의 경향성 분석](https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-ridge-lasso-regression-python/))
-* Pathwise coordinate descent for lasso는 lasso regression problemabout, 가장 빠르다고 informing,진 다른 algorithm들to, 비견될만큼 빠르게 동작한다.
+## Ghi chú
+* Về mặt thực nghiệm, chiến lược pathwise hoạt động hiệu quả hơn nhiều so với việc giải trực tiếp bài toán tại một giá trị $$\lambda$$ cho trước.
+* Chiến lược active set có lợi thế nhờ tính thưa. Vì vậy coordinate descent chạy nhanh hơn nhiều với hồi quy lasso so với hồi quy ridge. (tham khảo: [phân tích xu hướng của hồi quy ridge và lasso](https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-ridge-lasso-regression-python/))
+* Pathwise coordinate descent cho lasso chạy nhanh ngang với các thuật toán khác được biết là nhanh nhất cho bài toán hồi quy lasso.

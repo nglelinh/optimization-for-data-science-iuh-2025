@@ -99,7 +99,7 @@ $$L(x,y) = c^T x - \tau \sum_{i=1}^n \log(x_i) + (b - Ax)^T y$$
 **Optimal $$x$$:** $$x_i = \frac{\tau}{s_i}$$ với $$s = c - A^T y$$
 
 **LP Barrier Dual:**
-$$\max b^T y + \tau \sum_{i=1}^n \log(s_i) \quad \text{s.t.} \quad A^T y + s = c$$
+$$\max b^T y + \tau \sum_{i=1}^n \log(s_i) \quad \text{s.t.} \quad A^T y + s = c$$ (bỏ qua hằng số $$n\tau(1 - \log\tau)$$)
 
 **Beautiful result:** Barrier dual = Dual của barrier!
 
@@ -149,7 +149,7 @@ x^*, s^* &> 0
 \end{align}$$
 
 #### **Algorithm implications:**
-- **Simplex:** Maintain conditions 1,2,4; gradually satisfy 3
+- **Simplex (primal):** Maintain conditions 2, 3 và $$x \ge 0$$; gradually satisfy 1 với $$s \ge 0$$ (dual feasibility)
 - **Interior Point:** Maintain condition 4; gradually satisfy 1,2,3
 - **Central path:** $$XS\mathbf{1} = \tau\mathbf{1}$$ defines path to optimality
 
@@ -193,7 +193,7 @@ $$\max b^T y \quad \text{s.t.} \quad A^T y + s = c, \quad s \in K^*$$
 **Key insight:** Dual cone $$K^*$$ appears naturally!
 
 #### **Strong duality conditions:**
-- **Primal strictly feasible** OR **dual strictly feasible** ⟹ strong duality
+- **Primal strictly feasible** OR **dual strictly feasible** (và giá trị tối ưu hữu hạn) ⟹ strong duality
 - **Both strictly feasible** ⟹ strong duality + optimal solutions exist
 
 ### 📊 **Semidefinite Programming (SDP)**
@@ -461,22 +461,6 @@ Chương 16 demonstrates that **duality is not just mathematical curiosity** - i
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -782,7 +766,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
 
         <!-- Câu hỏi 12: Slater condition -->
         <div class="question" id="q12" style="display: none;">
-            <h3>Câu 12: Slater condition đảm bảo:</h3>
+            <h3>Câu 12: Với bài toán lồi, Slater condition đảm bảo:</h3>
             <div class="options">
                 <label><input type="radio" name="q12" value="a"> A) Strong duality holds</label>
                 <label><input type="radio" name="q12" value="b"> B) Weak duality holds</label>
@@ -814,13 +798,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
         <div class="question" id="q14" style="display: none;">
             <h3>Câu 14: Dual của QP \(\min \frac{1}{2}x^T Q x + c^T x\) s.t. \(Ax \leq b\) với \(Q \succ 0\):</h3>
             <div class="options">
-                <label><input type="radio" name="q14" value="a"> A) \(\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) + b^T u\) s.t. \(u \geq 0\)</label>
+                <label><input type="radio" name="q14" value="a"> A) \(\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) - b^T u\) s.t. \(u \geq 0\)</label>
                 <label><input type="radio" name="q14" value="b"> B) \(\min \frac{1}{2}u^T Q u - b^T u\) s.t. \(u \geq 0\)</label>
                 <label><input type="radio" name="q14" value="c"> C) \(\max b^T u\) s.t. \(A^T u = c\)</label>
                 <label><input type="radio" name="q14" value="d"> D) \(\min c^T u + b^T u\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) + b^T u$$ s.t. $$u \geq 0$$</strong><br>
+                <strong>Đáp án đúng: A) $$\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) - b^T u$$ s.t. $$u \geq 0$$</strong><br>
                 QP dual được derive từ Lagrangian, eliminate primal variables bằng stationarity condition.
             </div>
         </div>
@@ -1187,8 +1171,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

@@ -9,13 +9,13 @@ categories:
 lang: vi
 ---
 
-In this chapter, we introduce a method called coordinate descent that is extremely simple, efficient, and highly scalable. First, let's start with some simple questions and answers.
+Trong chương này, chúng ta giới thiệu một phương pháp gọi là coordinate descent, cực kỳ đơn giản, hiệu quả và có khả năng mở rộng cao. Trước hết, hãy bắt đầu bằng một vài câu hỏi và trả lời đơn giản.
 
-**Q1. When function $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is convex and differentiable, if the point where $$f$$ is minimized along each coordinate axis is $$x$$, is this $$x$$ a global minimizer?**
+**Q1. Khi hàm $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ lồi và khả vi, nếu điểm mà $$f$$ đạt cực tiểu dọc theo từng trục tọa độ là $$x$$, thì $$x$$ có phải là điểm cực tiểu toàn cục không?**
 
-**A1: Yes. Since $$\nabla f(x) = 0$$, $$x$$ is a global minimizer of $$f$$.**
+**A1: Có. Vì $$\nabla f(x) = 0$$ nên $$x$$ là điểm cực tiểu toàn cục của $$f$$.**
 
-The above question is equivalent to asking whether $$f(x + \delta e_i) \ge f(x)$$ is satisfied for all $$\delta, i$$ when $$e_i = (0, \dots, 1, \dots, 0) \in \mathbb{R}^n$$ is the $$i$$-th standard basis vector. That is, since we cannot make $$f$$ smaller by moving in any coordinate axis direction from $$x$$, the partial derivatives in all axis directions become 0.
+Câu hỏi trên tương đương với việc hỏi liệu $$f(x + \delta e_i) \ge f(x)$$ có thỏa mãn với mọi $$\delta, i$$ hay không, trong đó $$e_i = (0, \dots, 1, \dots, 0) \in \mathbb{R}^n$$ là vector cơ sở chuẩn thứ $$i$$. Nghĩa là, vì ta không thể làm $$f$$ nhỏ hơn bằng cách di chuyển theo bất kỳ trục tọa độ nào từ $$x$$, nên các đạo hàm riêng theo mọi trục đều bằng 0.
 
 $$
 \nabla f(x) = \big( \frac{\partial f}{\partial x_1}(x), \dots, \frac{\partial f}{\partial x_n}(x) \big) = (0, \dots, 0) = 0
@@ -23,39 +23,39 @@ $$
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter23/smooth_function.png" alt="[Fig1] Smooth convex function f [3]">
-  <figcaption style="text-align: center;">$$[Fig1] \; Smooth \; convex \; function \; f \; [3]$$ </figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter23/smooth_function.png" alt="[Hình 1] Hàm lồi trơn f [3]">
+  <figcaption style="text-align: center;">$$[Hình 1] \; Hàm \; lồi \; trơn \; f \; [3]$$ </figcaption>
 </p>
 </figure>
 
 
 <br/>
 
-**Q2. Then, when $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is convex but 'non-differentiable' function, is the point $$x$$ where $$f$$ is minimized along each coordinate axis always a global minimizer?**
+**Q2. Vậy khi $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ là hàm lồi nhưng 'không khả vi', điểm $$x$$ mà $$f$$ đạt cực tiểu dọc theo từng trục tọa độ có luôn là điểm cực tiểu toàn cục không?**
 
-**A2: No. In this case, we cannot assert that $$x$$ is a global minimizer of $$f$$. (Counterexample: Fig2 below)** 
+**A2: Không. Trong trường hợp này, ta không thể khẳng định $$x$$ là điểm cực tiểu toàn cục của $$f$$. (Phản ví dụ: Hình 2 bên dưới)** 
 
-Looking at the contour lines on the right side of the counterexample below, we can see that although the marked point is not the global minimum, $$f$$ cannot be made smaller by moving in any coordinate axis direction. (To make $$f$$ smaller, one must be able to move inside the contour lines.) This is because at this position, all inner regions of the contour lines are contained within the two tangent lines parallel to the coordinate axes. On the other hand, when $$f$$ is a differentiable convex function, only one tangent line exists at any point on the contour lines, so this phenomenon does not occur.
+Quan sát các đường đồng mức ở bên phải của phản ví dụ dưới đây, ta thấy dù điểm được đánh dấu không phải cực tiểu toàn cục, $$f$$ không thể giảm thêm bằng cách di chuyển theo bất kỳ trục tọa độ nào. (Để làm $$f$$ nhỏ hơn, ta phải có thể di chuyển vào bên trong đường đồng mức.) Đó là vì tại vị trí này, toàn bộ vùng bên trong của đường đồng mức nằm giữa hai tiếp tuyến song song với các trục tọa độ. Ngược lại, khi $$f$$ là hàm lồi khả vi, tại mọi điểm trên đường đồng mức chỉ có một tiếp tuyến duy nhất, nên hiện tượng này không xảy ra.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter23/non-smooth_function.png" alt="[Fig2] Counterexample: Non-smooth convex function f [3]">
-  <figcaption style="text-align: center;">$$[Fig2] \; Counterexample: Non \, smooth \; convex \; function \; f \; [3]$$ </figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter23/non-smooth_function.png" alt="[Hình 2] Phản ví dụ: hàm lồi không trơn f [3]">
+  <figcaption style="text-align: center;">$$[Hình 2] \; Phản \; ví \; dụ: \; hàm \; lồi \; không \; trơn \; f \; [3]$$ </figcaption>
 </p>
 </figure>
 <br/>
 
-**Q3. When $$f$$ can be expressed as the sum of a differentiable convex function $$g$$ and a convex function $$h$$, is the point $$x$$ where $$f$$ is minimized along each coordinate axis always a global minimizer? (That is, $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$)**
+**Q3. Khi $$f$$ có thể biểu diễn thành tổng của một hàm lồi khả vi $$g$$ và một hàm lồi $$h$$, điểm $$x$$ mà $$f$$ đạt cực tiểu dọc theo từng trục tọa độ có luôn là điểm cực tiểu toàn cục không? (Tức là $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$)**
 
-**A3. Yes. This is because it satisfies the following for any $$y$$.**
+**A3. Có. Vì nó thỏa mãn điều sau với mọi $$y$$.**
 $$\begin{align}
 f(y) - f(x) &\ge \nabla g(x)^T (y-x) + \sum_{i=1}^{n} \big[ h_i(y_i) - h_i(x_i) \big] \\\\
 &= \sum_{i=1}^{n} \big[ \underbrace{\nabla_i g(x) (y_i - x_i) + h_i(y_i) - h_i(x_i)}_{\ge 0} \big] \ge 0
 \end{align}$$
 
-**Proof:**
+**Chứng minh:**
 
->Let $$F_i(x_i) = g(x_i ; x_{-i}) + h_i(x_i)$$. ($$g(x_i ; x_{-i})$$ means viewing only the $$i$$-th element of $$x$$ as a variable, and the rest as fixed values.)
+>Đặt $$F_i(x_i) = g(x_i ; x_{-i}) + h_i(x_i)$$. ($$g(x_i ; x_{-i})$$ nghĩa là chỉ coi phần tử thứ $$i$$ của $$x$$ là biến, còn các phần tử còn lại là giá trị cố định.)
 >
 > $$
 > \begin{align}
@@ -65,7 +65,7 @@ f(y) - f(x) &\ge \nabla g(x)^T (y-x) + \sum_{i=1}^{n} \big[ h_i(y_i) - h_i(x_i) 
 > \end{align}
 > $$
 
-By the [definition of subgradient]({% multilang_post_url contents/chapter07/21-03-25-07_01_subgradient %}),
+Theo [định nghĩa của dưới đạo hàm (subgradient)]({% multilang_post_url contents/chapter07/21-03-25-07_01_subgradient %}),
 
 > $$
 > \begin{align}
@@ -76,18 +76,18 @@ By the [definition of subgradient]({% multilang_post_url contents/chapter07/21-0
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter23/separable_non-smooth.png" alt="[Fig3] Convex function f with separable non-smooth parts [3]">
-  <figcaption style="text-align: center;">$$[Fig3] \; Convex \; function \; f \; with \; separable \; non \,smooth \; parts \; [3]$$ </figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter23/separable_non-smooth.png" alt="[Hình 3] Hàm lồi f có các phần không trơn tách được [3]">
+  <figcaption style="text-align: center;">$$[Hình 3] \; Hàm \; lồi \; f \; có \; các \; phần \; không \; trơn \; tách \; được \; [3]$$ </figcaption>
 </p>
 </figure>
 <br/>
 
-## Conclusion
+## Kết luận
 
-The minimizer of $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$ with $$g$$ convex, differentiable and $$h_i$$ convex can be found using **coordinate descent**. Coordinate descent iterates the following cycle. (Assume that an appropriate initial value $$x^{(0)}$$ is set.)
+Điểm cực tiểu của $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$ với $$g$$ lồi, khả vi và $$h_i$$ lồi có thể tìm được bằng **coordinate descent**. Coordinate descent lặp lại chu trình sau. (Giả sử đã đặt giá trị khởi tạo $$x^{(0)}$$ phù hợp.)
 
 >**Coordinate Descent:** <br/>
->$$\:$$ For $$k = 1,2,3,\dots$$,
+>$$\:$$ Với $$k = 1,2,3,\dots$$,
 >
 >$$
 >\begin{align}
@@ -99,16 +99,16 @@ The minimizer of $$f(x) = g(x) + \sum_{i=1}^{n} h_i(x_i)$$ with $$g$$ convex, di
 >\end{align}
 >$$
 
-### Notes:
+### Lưu ý:
 
-* The process of obtaining $$x_{i+1}^{(k)}, \dots, x_{n}^{(k)}$$ uses the newly obtained $$x_i^{(k)}$$ in the $$k$$-th cycle.
-* The order of coordinate axes in the cycle can be arbitrarily specified.
-* Two or more coordinate axes can be grouped together and processed as blocks.
+* Quá trình tìm $$x_{i+1}^{(k)}, \dots, x_{n}^{(k)}$$ dùng $$x_i^{(k)}$$ mới thu được trong chu trình thứ $$k$$.
+* Thứ tự các trục tọa độ trong chu trình có thể được chỉ định tùy ý.
+* Có thể gộp hai hay nhiều trục tọa độ lại và xử lý như các khối.
 
-The coordinate descent introduced above corresponds to exact coordinatewise minimization. Another approach is inexact coordinatewise minimization using gradients. (Assuming $$f$$ is a differentiable convex function)
+Coordinate descent giới thiệu ở trên tương ứng với cực tiểu hóa chính xác theo từng tọa độ. Một cách tiếp cận khác là cực tiểu hóa không chính xác theo từng tọa độ bằng gradient. (Giả sử $$f$$ là hàm lồi khả vi)
 
->**Coordinate Descent (inexact coordinatewise minimization):** <br/>
->$$\:$$ For $$k = 1,2,3,\dots$$,
+>**Coordinate Descent (cực tiểu hóa không chính xác theo từng tọa độ):** <br/>
+>$$\:$$ Với $$k = 1,2,3,\dots$$,
 >
 >$$
 >\begin{align}
@@ -119,4 +119,3 @@ The coordinate descent introduced above corresponds to exact coordinatewise mini
 >x_n^{(k)} &= x_n^{(k-1)} - t_{k,n} \cdot \nabla_n f(x_1^{(k)}, x_2^{(k)}, x_3^{(k)}, \dots, x_n^{(k-1)})
 >\end{align}
 >$$
-

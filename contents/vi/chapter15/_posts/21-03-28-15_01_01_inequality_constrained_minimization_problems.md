@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 15-01-01 Inequality constrained minimization problems
+title: '15-01-01 Bài toán cực tiểu hóa có ràng buộc bất đẳng thức'
 chapter: '15'
 order: 3
 owner: Minjoo Lee
@@ -8,12 +8,13 @@ categories:
 - chapter15
 lang: vi
 ---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"
 });
 </script>
-Let's consider the following convex optimization problem.
+Hãy xét bài toán tối ưu lồi sau.
 >
 $$\begin{align}
 &\min_{x}           && f(x) \\ 
@@ -21,30 +22,30 @@ $$\begin{align}
                     &&& h_{i}(x) \leq 0, i = 1, \dotsc, m
 \end{align}$$
 
-In problems that include inequalities like this, it is difficult to distinguish between binding and non-binding constraints, especially at the boundary of the feasible region. Binding constraints refer to the constraints that affect the solution.
+Trong các bài toán có ràng buộc bất đẳng thức như thế này, rất khó phân biệt ràng buộc chặt (binding) và ràng buộc không chặt (non-binding), đặc biệt là ở biên của miền khả thi. Ràng buộc chặt là các ràng buộc ảnh hưởng đến nghiệm.
 
-Therefore, the **interior method** is an approach that tries to solve the problem from the interior of the feasible region, not at the boundary.
+Do đó, **phương pháp điểm trong (interior method)** là cách tiếp cận cố gắng giải bài toán từ bên trong miền khả thi chứ không phải ở biên.
 
-## Background of interior method
-The **interior method** for general problems was proposed in the 1960s by Anthony V. Fiacco and Garth P. McCormick. At the time, it was overshadowed by popular methods like sequential quadratic programming and the active set method, and only gained attention in the 1980s.
+## Bối cảnh của phương pháp điểm trong
+**Phương pháp điểm trong** cho các bài toán tổng quát được Anthony V. Fiacco và Garth P. McCormick đề xuất vào những năm 1960. Vào thời điểm đó, nó bị lu mờ bởi các phương pháp phổ biến như quy hoạch toàn phương tuần tự (sequential quadratic programming) và phương pháp tập tích cực (active set method), và chỉ được chú ý trở lại vào những năm 1980.
 
-The active set method is a theory for determining which constraints affect the optimization result. In the active set method, a constraint is considered active if it is zero, and such constraints are called the active set. However, to find the active set, you need to compute the boundary of the feasible region, and as the number of constraints increases, the computational cost increases.
+Phương pháp tập tích cực là một lý thuyết để xác định ràng buộc nào ảnh hưởng đến kết quả tối ưu. Trong phương pháp tập tích cực, một ràng buộc được coi là tích cực (active) nếu nó bằng 0, và các ràng buộc như vậy được gọi là tập tích cực. Tuy nhiên, để tìm tập tích cực cần tính biên của miền khả thi, và khi số ràng buộc tăng lên thì chi phí tính toán cũng tăng theo.
 
-Recognizing these issues, the interior point method was developed to solve problems from the interior rather than the boundary. For example, in LP, if there are $$m$$ constraints, calculating the boundary requires $$O(m^2)$$ computations, but with the interior method, even for large $$m$$, the solution can be found within 20–30 Newton steps. More details on performance will be discussed later.
+Nhận ra những vấn đề này, phương pháp điểm trong được phát triển để giải bài toán từ bên trong thay vì từ biên. Ví dụ, trong LP, nếu có $$m$$ ràng buộc thì việc tính biên đòi hỏi $$O(m^2)$$ phép tính, nhưng với phương pháp điểm trong, ngay cả khi $$m$$ lớn, nghiệm vẫn có thể tìm được trong 20–30 bước Newton. Chi tiết hơn về hiệu năng sẽ được bàn ở phần sau.
 
-* Reference: [Interior point method](https://en.wikipedia.org/wiki/Interior-point_method)
-* Reference: [Active set method](https://en.wikipedia.org/wiki/Active_set_method)
+* Tham khảo: [Interior point method](https://en.wikipedia.org/wiki/Interior-point_method)
+* Tham khảo: [Active set method](https://en.wikipedia.org/wiki/Active_set_method)
 
-## Reducing equality constrained minimization problem
-The above problem can be rewritten as $$C := \{x : h_i(x) \le 0, i = 1, \cdots , m \}$$. Inequality constraints can be included in the objective function as an indicator function.
+## Rút gọn bài toán cực tiểu hóa có ràng buộc đẳng thức
+Bài toán trên có thể được viết lại với $$C := \{x : h_i(x) \le 0, i = 1, \cdots , m \}$$. Các ràng buộc bất đẳng thức có thể được đưa vào hàm mục tiêu dưới dạng hàm chỉ thị (indicator function).
 
 >$$\begin{align}
 &\min_{x} \ && f(x) + I_C(x) \\
 &\text{subject to }\  && Ax = b \\
 \end{align}$$
 
-In this way, the problem can be transformed into an equality constrained minimization problem. However, since the indicator function still includes the boundary, it still has the difficulty of boundary computation from the original problem, and since it is not differentiable, it is difficult to apply Newton's method.
+Bằng cách này, bài toán được chuyển thành bài toán cực tiểu hóa có ràng buộc đẳng thức. Tuy nhiên, vì hàm chỉ thị vẫn bao gồm biên nên vẫn còn khó khăn về việc tính biên như ở bài toán ban đầu, và vì nó không khả vi nên khó áp dụng phương pháp Newton.
 
-What if we approximate the indicator function $$I_C$$ with a **barrier function**? In that case, the boundary would not be included and since it is differentiable, Newton's method can be applied. 
+Điều gì xảy ra nếu ta xấp xỉ hàm chỉ thị $$I_C$$ bằng một **hàm chắn (barrier function)**? Khi đó biên sẽ không được bao gồm, và vì hàm chắn khả vi nên có thể áp dụng phương pháp Newton.
 
-The method of solving problems redefined with barrier functions in this way is called the barrier method, which is introduced in detail in the next section.
+Phương pháp giải bài toán được định nghĩa lại bằng hàm chắn như vậy được gọi là phương pháp chắn (barrier method), sẽ được giới thiệu chi tiết ở phần tiếp theo.

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '06-01-05 Bài tập: Hiểu về Kích thước Bước và Độ cong'
+title: '06-01-06 Bài tập: Hiểu về Kích thước Bước và Độ cong'
 chapter: '06'
 order: 7
 owner: AI Assistant
@@ -177,7 +177,7 @@ for kappa in condition_numbers:
     t_optimal = 2 / (eigenvals.max() + eigenvals.min())
     
     # Kích thước bước tối ưu theo tọa độ
-    t_coord = 2 / np.diag(A)
+    t_coord = 1 / np.diag(A)
     
     # Chạy cả hai phương pháp
     history_std = standard_gd(A, x0, t_optimal)
@@ -239,7 +239,7 @@ Giải: $$y = x - t\nabla f(x)$$
 
 **B**: 
 - Với $$f_1$$: $$t = 1$$
-- Với $$f_2$$: $$t = 0.4$$ (tối thiểu hóa $$\|(4-\frac{1}{t})^2 + (1-\frac{1}{t})^2\|$$)
+- Với $$f_2$$: $$t = 0.4$$ (tối thiểu hóa sai số xấp xỉ $$(4-\frac{1}{t})^2 + (1-\frac{1}{t})^2$$ theo $$\frac{1}{t}$$, cho $$\frac{1}{t} = \frac{4+1}{2} = 2.5$$)
 
 ### Lời giải Bài tập 3:
 **A**: $$\kappa = \frac{a}{b}$$ đo lường mức độ "kéo dài" của đường đồng mức ellip
@@ -247,6 +247,18 @@ Giải: $$y = x - t\nabla f(x)$$
 **B**: Tối thiểu hóa hệ số hội tụ $$\frac{\kappa-1}{\kappa+1}$$
 
 **C**: Số điều kiện cao hơn → hội tụ chậm hơn, hành vi dao động nhiều hơn
+
+### Lời giải Bài tập 4:
+**A**: $$t_1 = \frac{1}{a}$$, $$t_2 = \frac{1}{b}$$: khi đó $$x_1^{+} = x_1 - \frac{1}{a}\cdot a x_1 = 0$$ và $$x_2^{+} = 0$$, tức hội tụ đúng trong một bước.
+
+**B**: Điều này tương ứng với việc xấp xỉ Hessian bằng ma trận đường chéo $$\text{diag}(a, b)$$ (xấp xỉ chính xác), thay vì $$\frac{1}{t}I$$.
+
+**C**: Dùng $$t_i = 1/A_{ii}$$ (không phải $$2/A_{ii}$$; kích thước bước $$2/A_{ii}$$ chỉ làm tọa độ đổi dấu và dao động).
+
+### Lời giải Bài tập 6:
+**A**: $$\lambda_{\max} \approx 10.42$$, $$\lambda_{\min} \approx 0.575$$, nên $$t = \frac{2}{11} \approx 0.18$$.
+
+**B–C**: Lưu ý rằng $$t = 0.5 > \frac{2}{\lambda_{\max}} \approx 0.19$$ nên gradient descent với bước cố định lớn **phân kỳ**; $$t = 0.1$$ hội tụ nhưng chậm theo hướng có độ cong nhỏ; $$t = \frac{2}{11}$$ cho tốc độ tốt nhất.
 
 ### Kết quả Học tập Chính:
 

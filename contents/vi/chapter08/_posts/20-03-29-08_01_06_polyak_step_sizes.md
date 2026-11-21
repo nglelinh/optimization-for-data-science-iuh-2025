@@ -25,20 +25,20 @@ $$ \begin{align}
  \Vert x^{(k)}-x^* \Vert_2^{2}  \quad \le \quad  \Vert x^{(k-1)}-x^* \Vert_2^{2}-2t_k (f(x^{(k-1)})-f^*)+t_k^{2} \Vert g^{(k-1)} \Vert_2^{2} \\
 \end{align} $$
 
-By differentiating the right-hand side above with respect to $$t_k$$ and setting it to zero, we obtain the Polyak step size that minimizes the right-hand side.
+Lấy đạo hàm vế phải ở trên theo $$t_k$$ và cho bằng 0, ta thu được kích thước bước Polyak làm cực tiểu vế phải.
 >
 $$ \begin{align}
 & \frac{\partial}{\partial t_k}  \Vert x^{(k-1)}-x^* \Vert_2^{2}-2t_k (f(x^{(k-1)})-f^*)+t_k^{2} \Vert g^{(k-1)} \Vert_2^{2} = 0 \\
  \Longleftrightarrow & -2(f(x^{(k-1)})-f^*)+2t_k \Vert g^{(k-1)} \Vert_2^{2} = 0 \\
  \Longleftrightarrow & f(x^{(k-1)})-f^* = t_k \Vert g^{(k-1)} \Vert_2^{2} \\
- \Longleftrightarrow & t_k = \frac{f(x^{(k-1)})-f^*}{ \Vert g^{(k-1)} \Vert_2^{2}} \quad \text{(Polyak step size at k)}
+ \Longleftrightarrow & t_k = \frac{f(x^{(k-1)})-f^*}{ \Vert g^{(k-1)} \Vert_2^{2}} \quad \text{(kích thước bước Polyak tại k)}
 \end{align} $$
 
-The convergence rate of the Polyak step size can also be derived from the [basic inequality]({% multilang_post_url contents/chapter08/20-03-29-08_01_02_basic_inequality %}) and the sequence of inequalities used there.
+Tốc độ hội tụ của kích thước bước Polyak cũng có thể được suy ra từ [bất đẳng thức cơ bản]({% multilang_post_url contents/chapter08/20-03-29-08_01_02_basic_inequality %}) và chuỗi bất đẳng thức được sử dụng ở đó.
 
-## Convergence rate for Polyak step-sizes
+## Tốc độ hội tụ cho kích thước bước Polyak
 
-Let’s substitute the Polyak step size $$t_i$$ into the basic inequality derived in the [basic inequality]({% multilang_post_url contents/chapter08/20-03-29-08_01_02_basic_inequality %}).
+Hãy thay kích thước bước Polyak $$t_i$$ vào bất đẳng thức cơ bản đã được suy ra ở phần [bất đẳng thức cơ bản]({% multilang_post_url contents/chapter08/20-03-29-08_01_02_basic_inequality %}).
 >
 $$ \begin{align}
 & 2\sum_{i=1}^{k}t_i(f(x^{(i)})-f^*) \le R^2 + \sum_{i=1}^kt_i^2 \Vert g^{(i)} \Vert_2^2 \\
@@ -46,7 +46,7 @@ $$ \begin{align}
  \Longleftrightarrow \quad & \sum_{i=1}^{k}\frac{(f(x^{(i)})-f^*)^2}{ \Vert g^{(i)} \Vert_2^2} \le R^2 \\
 \end{align} $$
 
-Assuming that the Lipschitz condition $$ \Vert g^{(i)} \Vert_2 \le G$$ always holds, the above inequality can be rearranged as follows:
+Giả sử điều kiện Lipschitz $$ \Vert g^{(i)} \Vert_2 \le G$$ luôn đúng, bất đẳng thức trên có thể được sắp xếp lại như sau:
 >
 $$ \begin{align}
 & \sum_{i=1}^{k}(f(x^{(i)})-f^*)^2 \le R^2G^2 \\
@@ -55,4 +55,18 @@ $$ \begin{align}
  \Longleftrightarrow \quad & (f(x^{(i)})-f^*) \le \frac{RG}{\sqrt{k}} \\
 \end{align} $$
 
-If we let $$\frac{RG}{\sqrt{k}}=\epsilon$$, then $$k=\big(\frac{RG}{\epsilon}\big)^2$$, so the number of trials required to reach a suboptimal point with respect to $$\epsilon$$ is on the order of $$\big(\frac{RG}{\epsilon}\big)^2$$. In other words, the convergence rate is $$O(1/\epsilon^{2})$$, which is the same as other subgradient methods.
+(Ở đây $$f(x^{(i)})$$ được hiểu là giá trị tốt nhất trong các vòng lặp đã thực hiện, $$f^{(k)}_{best}$$.)
+
+Nếu đặt $$\frac{RG}{\sqrt{k}}=\epsilon$$ thì $$k=\big(\frac{RG}{\epsilon}\big)^2$$, do đó số vòng lặp cần thiết để đạt một điểm cận tối ưu với độ chính xác $$\epsilon$$ có bậc $$\big(\frac{RG}{\epsilon}\big)^2$$. Nói cách khác, tốc độ hội tụ là $$O(1/\epsilon^{2})$$, giống như các phương pháp subgradient khác.
+
+### Bước Polyak trong 18 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/polyak-step_vi.mp4"></video>
+</div>
+
+Bước cố định bị kẹt ở một mức nhất định, bước giảm dần đi rất chậm, còn bước Polyak $$\alpha_k=\dfrac{f(x_k)-f^*}{\|g_k\|_2^2}$$ rơi đúng vào điểm cực tiểu, nhưng cần biết $$f^*$$.
+
+### Tự tay thử: ba quy tắc kích thước bước
+
+<div class="opx-explainer" data-opx="sgm" data-lang="vi"></div>

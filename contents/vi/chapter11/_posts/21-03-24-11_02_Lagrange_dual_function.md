@@ -140,3 +140,15 @@ Ví dụ, trong hình sau đây, $$f(x_1,x_2)$$ là một hàm bậc hai trên c
 * Điểm màu xanh là giá trị tối ưu đối ngẫu, và điểm màu đỏ là giá trị tối ưu gốc.
 * Với mọi $$u>0$$, hàm đối ngẫu $$g(u)$$ cung cấp một cận dưới cho $$f^*$$.
 * Giá trị tối đa của hàm đối ngẫu $$g(u)$$ trùng khớp chính xác với giá trị $$f^*$$.
+
+### Hàm đối ngẫu trong 18 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/dual-lower-bound_vi.mp4"></video>
+</div>
+
+Với mọi $$\lambda\ge 0$$, giá trị nhỏ nhất của hàm Lagrange, $$g(\lambda)=\min_x L(x,\lambda)$$, là một cận dưới của $$p^*$$. Bài toán đối ngẫu cực đại hóa cận đó.
+
+### Tự tay thử: kéo nhân tử
+
+<div class="opx-explainer" data-opx="d1" data-lang="vi"></div>

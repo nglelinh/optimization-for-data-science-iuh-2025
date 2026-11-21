@@ -179,7 +179,7 @@ $$\mathbf{d}_{Newton} = -[\nabla^2 f(\mathbf{x})]^{-1} \nabla f(\mathbf{x})$$
 </div>
 
 ### Khi nào Newton vuông góc?
-Chỉ khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (với $$c$$ là hằng số), Newton trùng với GD và di chuyển vuông góc.
+Khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (với $$c$$ là hằng số), Newton trùng với GD (với kích thước bước $$1/c$$) và di chuyển vuông góc với đường đồng mức. Tổng quát hơn, Newton chỉ vuông góc tại những điểm mà $$\nabla f$$ là một vector riêng của Hessian (ví dụ dọc theo các trục tọa độ khi Hessian là ma trận đường chéo).
 
 ## 3. Minh Họa Tương Tác
 

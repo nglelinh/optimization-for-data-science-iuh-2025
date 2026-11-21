@@ -6,6 +6,7 @@ order: 10
 owner: "Minjoo Lee"
 categories:
 - chapter16
+lang: en
 ---
 
 ## Barrier method v.0

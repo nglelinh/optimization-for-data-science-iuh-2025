@@ -1,1 +1,59 @@
---- layout: post title: 20-01 Dual (sub)gradient methods chapter: '20' order: '2' owner: Hooncheol Shin categories: - - chapter20 lang: en --- Even in cases where we cannot find a dual (conjugate) in closed-form, we can use subgradient or gradient methods based on the dual. For example, consider the following problem. >\begin{equation} \min_x f(x) \text{ subject to } Ax = b \end{equation} The dual problem of the above problem is as follows. Here $$f^{\ast}$$ thise conjugate of $$f$$. >\begin{equation} \max_u -f^{\ast}(-A^T u) - b^T u \end{equation} In this case, if we define $$g(u)$$ as $$-f^{\ast}(-A^Tu)-b^Tu$$, then the subgradient of $$g(u)$$ is as follows. >\begin{equation} \partial g(u) = A \partial f^{\ast}(-A^Tu) - b \end{equation} In the above expression, $$\partial f^{\ast}(-A^Tu)$$ can be expressed in terms of $$x$$ as follows. >\begin{equation} \partial g(u) = Ax-b \quad \text{where} \quad x \in \arg\min_z f(z) + u^T A z \end{equation} # # Dual subgradient method **Dual subgradient method**dual of problem maximization for, start $$u^{(0)}$$at, startsolutionfrom $$k=1, 2, 3, \dots$$about, next step iteration. > >$$ \begin{alignat}{1} > x^{(k)} & \in \arg \min_x f(x) + ({u^{(k-1)}})^T A x \\ > u^{(k)} & = u^{(k-1)} + t_k (A x^{(k)} - b) > \end{alignat} > $$ from step size $$t_k(k=1, 2, 3, \dots$$) table with, becomes. # # # Strictly Convex case, if, $$f$$ strictly convex $$f^{\ast}$$ derivativepossiblesolution. therefore, , algorithm $$k=1, 2, 3, \dots$$about, next step iteration**dual gradient ascent**becomes. > >$$ \begin{alignat}{1} > x^{(k)} & = \arg \min_x f(x) + ({u^{(k-1)}})^T A x \\ > u^{(k)} & = u^{(k-1)} + t_k (A x^{(k)}-b) > \end{alignat} > $$ before, and, different $$x^{(k)}$$ is unique is. ($$\text{argmin}$$and, relationship, $$=$$ relationship, confirming,. ) from step size $$t_k(k=1, 2, 3, also \dots$$) table with, $$\text{argmin}$$ when, proximal gradient also acceleration application exists. 
+---
+layout: post
+title: "20-01 Dual (sub)gradient methods"
+chapter: '20'
+order: 2
+owner: Hooncheol Shin
+categories:
+- chapter20
+lang: en
+---
+
+Even when the dual (conjugate) cannot be found in closed form, we can still use a dual-based subgradient or gradient method.
+
+For example, consider the following problem.
+>\begin{equation}
+\min_x f(x) \text{ subject to } Ax = b
+\end{equation}
+
+The dual of this problem is as follows, where $$f^{\ast}$$ is the conjugate of $$f$$.
+>\begin{equation}
+\max_u -f^{\ast}(-A^T u) - b^T u
+\end{equation}
+
+Define $$g(u) = -f^{\ast}(-A^Tu)-b^Tu$$. Then a subgradient of $$g(u)$$ is
+>\begin{equation}
+\partial g(u) = A \partial f^{\ast}(-A^Tu) - b
+\end{equation}
+
+Writing the element of $$\partial f^{\ast}(-A^Tu)$$ as $$x$$, this can be expressed as
+
+>\begin{equation}
+\partial g(u) = Ax-b \quad \text{where} \quad x \in \arg\min_z f(z) + u^T A z
+\end{equation}
+
+## Dual subgradient method
+The **dual subgradient method** maximizes the dual objective. Starting from $$u^{(0)}$$, it repeats the following steps for $$k=1,2,3,\dots$$
+> $$
+> \begin{alignat}{1}
+> x^{(k)} & \in \arg \min_x f(x) + ({u^{(k-1)}})^T A x  \\
+> u^{(k)} & = u^{(k-1)} + t_k (A x^{(k)} - b) 
+> \end{alignat}
+> $$
+
+Here the step sizes $$t_k$$ ($$k=1,2,3,\dots$$) are chosen in the standard way.
+
+#### The strictly convex case
+If $$f$$ is strictly convex, then $$f^{\ast}$$ is differentiable.
+
+The algorithm then becomes **dual gradient ascent**, which repeats the following steps for $$k=1,2,3,\dots$$
+> $$
+> \begin{alignat}{1}
+> x^{(k)} & = \arg \min_x f(x) + ({u^{(k-1)}})^T A x  \\
+> u^{(k)} & = u^{(k-1)} + t_k (A x^{(k)}-b) 
+> \end{alignat}
+> $$
+
+The difference from the previous version is that $$x^{(k)}$$ is unique. (Note that the relation with $$\text{argmin}$$ is now "$$=$$" instead of "$$\in$$".)
+
+Again the step sizes $$t_k$$ ($$k=1,2,3,\dots$$) are chosen in the standard way, and when computing the $$\text{argmin}$$ we can apply proximal gradient or acceleration as usual.

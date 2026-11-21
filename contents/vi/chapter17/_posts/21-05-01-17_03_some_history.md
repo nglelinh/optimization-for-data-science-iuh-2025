@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 17-03 Some history
+title: '17-03 Một chút lịch sử'
 chapter: '17'
 order: 7
 owner: Minjoo Lee
@@ -8,14 +8,15 @@ categories:
 - chapter17
 lang: vi
 ---
-Generally, modern state-of-the-art LP Solvers use both Simplex method and interior-point method.
 
-* Dantzig (1940s): Simplex method, the first method to solve the general form of LP, obtaining exact solutions without iteration. It remains one of the best-known and most studied algorithms for LP to this day.
+Nhìn chung, các bộ giải LP hiện đại hàng đầu sử dụng cả phương pháp đơn hình (Simplex) và phương pháp điểm trong.
 
-* Klee and Minty (1972): A pathological LP with $$n$$ variables and $$2n$$ constraints. Solving with the Simplex method requires $$2^n$$ iterations.
+* Dantzig (thập niên 1940): Phương pháp đơn hình, phương pháp đầu tiên giải LP dạng tổng quát, thu được nghiệm chính xác sau một số hữu hạn bước. Cho đến nay nó vẫn là một trong những thuật toán nổi tiếng và được nghiên cứu nhiều nhất cho LP.
 
-* Khachiyan (1979): A polynomial-time algorithm for LP based on the ellipsoid method of Nemirovski and Yudin (1976), which is theoretically strong but not so in practice.
+* Klee và Minty (1972): Một bài toán LP "bệnh lý" với $$n$$ biến và $$2n$$ ràng buộc. Giải bằng phương pháp đơn hình cần $$2^n$$ vòng lặp.
 
-* Karmarkar (1984): An interior-point polynomial-time LP method that is quite effective and became a breakthrough research. (US Patent 4,744,026, expired in 2006).
+* Khachiyan (1979): Thuật toán thời gian đa thức cho LP dựa trên phương pháp ellipsoid của Nemirovski và Yudin (1976); về mặt lý thuyết rất mạnh nhưng trong thực tế thì không.
 
-* Renegar (1988): Newton-based interior-point algorithm for LP. It had the theoretically best computational complexity until the latest research by Lee-Sidford emerged.
+* Karmarkar (1984): Phương pháp LP điểm trong thời gian đa thức khá hiệu quả và trở thành một nghiên cứu đột phá. (Bằng sáng chế Hoa Kỳ 4,744,026, hết hạn năm 2006).
+
+* Renegar (1988): Thuật toán điểm trong dựa trên Newton cho LP. Nó có độ phức tạp tính toán tốt nhất về mặt lý thuyết cho đến khi có nghiên cứu mới nhất của Lee–Sidford.

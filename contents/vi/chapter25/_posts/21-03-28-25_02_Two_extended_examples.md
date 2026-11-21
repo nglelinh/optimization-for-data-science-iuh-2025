@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 25-02 Two extended examples
+title: '25-02 Hai ví dụ mở rộng'
 chapter: '25'
 order: 7
 owner: YoungJae Choung
@@ -9,7 +9,7 @@ categories:
 lang: vi
 ---
 
-In this section, we will present two examples of Mixed Integer Programming.
+Trong phần này, chúng ta sẽ trình bày hai ví dụ về quy hoạch số nguyên hỗn hợp.
 
-* Best subset selection
-* Least mean squares
+* Chọn tập con tốt nhất (Best subset selection)
+* Bình phương trung bình nhỏ nhất (Least mean squares)

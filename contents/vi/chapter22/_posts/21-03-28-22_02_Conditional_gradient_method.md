@@ -1,219 +1,211 @@
 ---
 layout: post
-title: 22-02 Conditional gradient method
+title: 22-02 Phương pháp gradient có điều kiện
 chapter: '22'
-order: 3
+order: '3'
 owner: YoungJae Choung
 categories:
 - chapter22
 lang: vi
 ---
 
-## Projected Gradient Descent
-Let's consider a problem with the following constraints.
+## Gradient descent có chiếu (Projected Gradient Descent)
 
-> $$\min_{x} f(x) \qquad \text{ subject to } x ∈ C $$
+Hãy xét bài toán có ràng buộc sau.
 
-We previously saw that if $$f$$ is convex and smooth, and $$C$$ is also convex, we can use the **projected gradient descent** method.
-When $$P_{C}$$ is the projection operator for set $$C$$, for the chosen initial value $$x^{(0)}$$ and $$k = 1, 2, 3, . . .$$, the following equation holds.
+>$$\min_{x} f(x) \qquad \text{ thỏa mãn } x \in C$$
 
-> $$ x^{(k)} = P_{C } \bigl( x^{(k−1)} − t_k∇f(x^{(k−1)} \bigr)$$
+Trước đây ta đã thấy rằng nếu $$f$$ lồi và trơn, và $$C$$ cũng lồi, ta có thể dùng phương pháp **projected gradient descent**. Gọi $$P_{C}$$ là toán tử chiếu lên tập $$C$$; với giá trị khởi tạo $$x^{(0)}$$ và $$k = 1, 2, 3, ...$$, ta có công thức sau.
 
-Projected Gradient Descent can also be represented as a special case of proximal gradient descent, which is essentially motivated by the fact that the $$y$$ value in the local quadratic expansion (2nd Taylor Expansion) becomes the next $$x^{(k)}$$.
+>$$x^{(k)} = P_{C} \bigl( x^{(k−1)} − t_k\nabla f(x^{(k−1)}) \bigr)$$
 
-> $$x^{(k)} = P_{C} \Bigl( \arg\min_{y} ∇f(x^{(k−1)})^T(y − x^{(k−1)}) + \frac{1}{2t} \| y − x^{(k−1)} \|^2_ 2 \Bigr) $$
+Projected gradient descent cũng có thể được biểu diễn như một trường hợp đặc biệt của gradient gần kề (proximal gradient descent), vốn xuất phát từ việc giá trị $$y$$ trong khai triển bậc hai cục bộ (khai triển Taylor bậc hai) trở thành $$x^{(k)}$$ tiếp theo.
 
-For more detailed information about Projected Gradient Descent, please reference [9-4]({% multilang_post_url contents/chapter09/20-01-08-09_04_special_cases %}).
+>$$x^{(k)} = P_{C} \Bigl( \arg\min_{y} \nabla f(x^{(k−1)})^T(y − x^{(k−1)}) + \frac{1}{2t} \| y − x^{(k−1)} \|^2_2 \Bigr)$$
 
+Để biết thêm chi tiết về Projected Gradient Descent, hãy xem [9-4]({% multilang_post_url contents/chapter09/20-01-08-09_04_special_cases %}).
 
+## Phương pháp gradient có điều kiện (Frank-Wolfe)
 
-## Conditional gradient (Frank-Wolfe) method
-Instead of minimizing the quadratic approximation here, let's try something simpler.
-First, let's examine the point where the value is minimized when we take the inner product of set $$C$$ with $$\nabla f(x)$$.
+Thay vì cực tiểu hóa xấp xỉ bậc hai ở đây, ta thử một cách đơn giản hơn. Trước hết, hãy xem điểm làm cực tiểu tích vô hướng của các điểm trong tập $$C$$ với $$\nabla f(x)$$. Về bản chất, thay vì chiếu, ta có thể giải bài toán thuận tiện và hiệu quả hơn bằng cách cực tiểu hóa hàm tuyến tính trên các điểm của tập $$C$$. Sau đó ta tiến hành bằng cách dùng tổ hợp lồi giữa điểm hiện tại và điểm cực tiểu đó.
 
-Fundamentally, instead of projection, we can solve problems more conveniently and effectively by minimizing linear functions at points within set $$C$$. Here, we proceed by applying a line search method using convex combinations between the current point and the minimum point.
+Hãy xem phương pháp được hình thức hóa như sau. Chọn giá trị khởi tạo $$x^{(0)} \in C$$. Với $$k = 1, 2, 3, ...$$:
 
-Let's look at the following formalized method.
+>$$\begin{array}{rcl}
+>s^{(k−1)} & \in & \arg\min_{s \in C} \nabla f(x^{(k−1)})^Ts \\
+>x^{(k)} & = & (1 − \gamma_k)x^{(k−1)} + \gamma_ks^{(k−1)}
+>\end{array}$$
 
-Choose initial value $$x^{(0)} ∈ C$$. $$k = 1, 2, 3, . . . $$
+### [Tham khảo]
 
-> $$\begin{array}{rcl}
-> s^{(k−1)} & ∈ & \arg\min_{s ∈ C} ∇f(x^{(k−1)})^Ts \\\
-> x^{(k)} & = & (1 − γ_k)x^{(k−1)} + γ_ks^{(k−1)}
-> \end{array}$$
+>$$f(y) \approx f(x) + \nabla f(x)(y-x)$$
+>
+>$$\arg\min_y f(x) + \nabla f(x)(y-x) \equiv \arg\min_y \nabla f(x)y$$
 
-### [reference]
-> $$f(y) \approx f(x) + \nabla f(x)(y-x)$$
-> $$\arg\min_y = f(x) + \nabla f(x)(y-x)$$
-> $$\equiv \arg\min_y f(x)y$$
+Ở đây, khác với trước, khi cập nhật mà không qua bước chiếu, ta giải bài toán bằng các điểm trong tập ràng buộc $$C$$. Về cơ bản, kích thước bước được đặt là $$\gamma_k = \frac{2}{k + 1}, k = 1, 2, 3, ...$$ Với mọi $$0 \leq \gamma_k \leq 1$$, do tính lồi nên $$x^{(k)} \in C$$ được đảm bảo. Ngoài ra, cập nhật còn có thể viết như sau:
 
-여기서, before,and, 다르게 Projection process을 거치지 않고 업데이트를 할 떄, 제약 condition, set $$C$$to, 있는 점을 using, problem를 풀어나간다.
+>$$x^{(k)} = x^{(k−1)} + \gamma_k\bigl( s^{(k−1)} − x^{(k−1)} \bigr)$$
 
-기본적with, step size는 $$γ_k =  \frac{2}{(k + 1)}, k = 1, 2, 3, . . ..$$with, 설정된다.
+Nghĩa là, khi thuật toán chạy, ta di chuyển dần dần ít hơn theo hướng của điểm cực tiểu tuyến tính. Trong nhiều trường hợp, dùng phương pháp này trên hình cầu L1 (một trường hợp đặc biệt của coordinate descent) dễ giải hơn so với dùng phép chiếu.
 
-임의의 $$0 ≤ γ_k ≤ 1$$at, convexityby, $$x^{(k)} ∈ C$$ 임을 보인다.
+### [Tham khảo]
 
-also, 다음and, 같은 식with, 업데이트가 진행되기도 한다.
-> $$ x^{(k)} = x^{(k−1)} + γ_k\bigl( s^{(k−1)} − x^{(k−1)} \bigr) $$
-
-
-that is,, algorithm 수행됨according to, 선형 minimizer directionwith, 점difference적with, 조금씩 덜 이동하게 된다.
-대부분의 case,, co-ordinate descent의 스페셜 케이스인 Ball L1about,서 sub gradient 방식을 사용하는 것이 projection 방식을 사용하는 것 보다 problem를 solution결하기 더 쉽다.
-
-
-### [reference]
-흥미to,운 in fact,은, Frankand, Wolfe는 Tuckerand, 함께 일하던 post-doc 였다고 informing,져 있으며. 그들은 first, 첫번째to, 이 algorithm을 2 difference functionto, 제안했다고 한다. and, 그 algorithm은 1956년to, 출판되고, 후to, 논문with,도 발표되었다. and, 이 후to, 오랫during, 더 이image 이to, about, 후속 논문은 전혀 나오지 못했다. however, 지난 몇년 during, Jaggi의 통찰력to, 힘임어 세imageto, 소개되면서 다시 주목을 받게 되었다.
-
+Một điều thú vị là Frank và Wolfe là các nghiên cứu sinh sau tiến sĩ làm việc cùng với Tucker. Họ lần đầu đề xuất thuật toán với hai hàm khác nhau. Thuật toán được công bố năm 1956 và sau đó được đăng thành bài báo. Trong một thời gian dài sau đó, không có bài báo tiếp nối nào về chủ đề này. Tuy nhiên, những năm gần đây nó lại được chú ý nhờ những hiểu biết của Jaggi và được giới thiệu trở lại.
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter22/frank_wolfe.png" alt="[Fig 1] Conditional Gradient (Frank-Wolfe) method (From Jaggi 2011)[3]">
-  <figcaption style="text-align: center;">[Fig 1] Conditional Gradient (Frank-Wolfe) method (From Jaggi 2011)[3]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter22/frank_wolfe.png" alt="[Hình 1] Phương pháp gradient có điều kiện (Frank-Wolfe) (Jaggi 2011)[3]">
+  <figcaption style="text-align: center;">[Hình 1] Phương pháp gradient có điều kiện (Frank-Wolfe) (Jaggi 2011)[3]</figcaption>
 </p>
 </figure>
-<br>
 
-## Norm constraints
-norm $$\| · \|$$about, $$C = \{x : \| x \| ≤ t \}$$일 when, 무슨일이 발생할까? 
+## Ràng buộc chuẩn
 
-다음을 let's look at
+Điều gì xảy ra khi $$C = \{x : \| x \| \leq t \}$$ với chuẩn $$\| \cdot \|$$? Hãy xem:
 
-> $$\begin{align}
-> s &∈ \arg\min_{\|s\|≤t} ∇f(x^{(k−1)})^Ts \\\
-> &= −t ·  \arg\max_{\|s\|≤1}  ∇f(x^{(k−1)})^Ts \\\
-> &= −t · ∂ \| ∇f(x^{(k−1)}) \|_{∗}
-> \end{align}$$
+>$$\begin{align}
+>s &\in \arg\min_{\|s\|\leq t} \nabla f(x^{(k−1)})^Ts \\
+>&= −t \cdot \arg\max_{\|s\|\leq 1} \nabla f(x^{(k−1)})^Ts \\
+>&= −t \cdot \partial \| \nabla f(x^{(k−1)}) \|_{*}
+>\end{align}$$
 
-여기서 $$\| · \|_{∗}$$는 dual norm을 의마한다.
+Ở đây $$\| \cdot \|_{*}$$ là chuẩn đối ngẫu. Nói cách khác, nếu ta biết cách tính dưới đạo hàm của chuẩn đối ngẫu, ta có thể dễ dàng thực hiện bước Frank-Wolfe. Điểm mấu chốt của Frank-Wolfe là với $$C = \{x : \| x \| \leq t \}$$, bước này có thể thu được đơn giản hơn hoặc rẻ hơn phương pháp chiếu, và cũng đơn giản hơn hoặc rẻ hơn toán tử prox của $$\| \cdot \|$$.
 
-다시 말solution, dual norm의 subgradient를 computation하는 method을 안다면, Frank-Wolfe step를 쉽게 수행 할 수 있다는 뜻이다.
+## Ví dụ: chính quy hóa $$l_1$$
 
-Frank-Wolfe의 핵심은 $$C = \{x : \| x \| ≤ t \}$$to, projection method을 사용하는 것보다 더 간단하거나 낮은 비용with, 구할 수 있으며, also, when,to,는 $$\| · \|$$의 prox operator보다도 간단하거나 더 낮은 비용을 요한다는 것이다.
+Sau đây là bài toán **chính quy hóa $$l_1$$**:
 
+>$$\min_x f(x) \qquad \text{ thỏa mãn } \| x \|_1 \leq t$$
 
-## Example: $$l_1$$ regularization
-다음은 **$$l_1$$-regularized** 이다.
-> $$\min_x f(x) \qquad \text{ subject to } \| x \|_1 ≤ t$$
+Khai triển theo công thức trước, ta được $$s^{(k−1)} \in −t\partial \|\nabla f(x^{(k−1)}) \|_\infty$$. Phương pháp Frank-Wolfe cập nhật qua quy trình sau:
 
-앞선 공식대to, 전개하면, $$s^{(k−1)} ∈ −t∂ \|∇f(x^{(k−1)}) \|_∞$$ 를 얻을 수 있다.
- 
-Frank-Wolfe method은 다음의 process을 through, 업데이트 된다.
-> $$\begin{array}{rcl}
-> i_{k−1} & ∈  & \arg\max_{i=1,...p} ∇_i f(x^{(k−1)}) \\\
-> x^{(k)}  & = & (1 − γ_k)x^{(k−1)} − γ_kt · sign ∇_{i_{k−1}} f(x^{(k−1)})· e_{i_{k−1}}
-> \end{array}$$
+>$$\begin{array}{rcl}
+>i_{k−1} & \in & \arg\max_{i=1,...,p} |\nabla_i f(x^{(k−1)})| \\
+>x^{(k)} & = & (1 − \gamma_k)x^{(k−1)} − \gamma_kt \cdot \text{sign}(\nabla_{i_{k−1}} f(x^{(k−1)})) \cdot e_{i_{k−1}}
+>\end{array}$$
 
-이것은 coordinate descent의 일종이다(coordinate descentabout,서는 나중to, 자세히 let's look at).<br>
-Note : 두 가지 모두 $$O(n)$$의 복잡도가 필요but, $$l1$$ ballto, projection 하는 것보다 훨씬 간단하다.
+Đây là một dạng của coordinate descent (ta sẽ xem coordinate descent chi tiết ở phần sau).
 
-## Example: $$l_p$$ regularization
-다음은 $$l_p$$-regularized problem다.
+**Lưu ý**: Cả hai đều cần độ phức tạp $$O(n)$$, nhưng phép chiếu lên hình cầu $$l_1$$ đơn giản hơn nhiều.
 
-> $$\min_{x}  f(x) \qquad \text{ subject to } \| x \|_{p} ≤ t$$
+## Ví dụ: chính quy hóa $$l_p$$
 
-$$1 ≤ p ≤ ∞$$at, p가 q의 dual일 when,  $$s^{(k−1)} ∈ −t∂ \| ∇f(x^{(k−1)}) \|_{q}$$ 이다. that is,, $$1/p + 1/q = 1$$이다.
- 
-that is, as follows: 선택할 수 있다. 
-> $$s_i^{(k−1)} = −α · sign ∇f_i(x^{(k−1)}) · \left| ∇f_i(x^{(k−1)}) \right|^{p/q}, i = 1, . . . n$$
+Sau đây là bài toán chính quy hóa $$l_p$$:
 
-여기서 $$α$$는 $$\| s^{(k-1)} \|_{q} = t$$and, 같은 constant이고, Frank-Wolfe 업데이트도 동일하다.
+>$$\min_{x} f(x) \qquad \text{ thỏa mãn } \| x \|_{p} \leq t$$
 
-Note: 일반 $$p$$의 case, **p Ballto, Projection**하는 것보다 훨씬 간단하다.<br>
-특별한 case,($$p = 1, 2, ∞$$)를 제외하고 이러한 projection은 직접 computation할 수 없다(optimizationto, 처리되어야 함).
+Khi $$1 \leq p \leq \infty$$ và $$q$$ là đối ngẫu của $$p$$, ta có $$s^{(k−1)} \in −t\partial \| \nabla f(x^{(k−1)}) \|_{q}$$, tức là $$1/p + 1/q = 1$$. Ta có thể chọn như sau:
 
-## Example: trace norm regularization
-**trace-regularized** problem를 let's look at
-> $$\min_{X} f(X) \qquad \text{ subject to } \| X \|_{tr} ≤ t$$
+>$$s_i^{(k−1)} = −\alpha \cdot \text{sign}(\nabla f_i(x^{(k−1)})) \cdot \left| \nabla f_i(x^{(k−1)}) \right|^{q-1}, \quad i = 1, ..., n$$
 
-$$S^{(k−1)} ∈ −t· ∂\| ∇f(X(k−1)) \|_{op}.$$ 이다.
+Ở đây $$\alpha$$ là hằng số sao cho $$\| s^{(k-1)} \|_{p} = t$$, và cập nhật Frank-Wolfe vẫn như cũ.
 
-as follows: $$S_i^{(k−1)}$$를 선택할 수 있다.
-> $$S_i^{(k−1)} = −t · uv^T$$
+**Lưu ý**: Với trường hợp $$p$$ tổng quát, **phép chiếu lên hình cầu p** đơn giản hơn nhiều. Trừ các trường hợp đặc biệt ($$p = 1, 2, \infty$$), những phép chiếu như vậy không thể tính trực tiếp (phải xử lý bằng tối ưu hóa).
 
-여기서 $$u, v$$는 $$∇f(X^{(k−1)})$$의 왼쪽, 오른쪽 singular vector이고, Frank-Wolfe 업데이트는 평소and, 같다.
+## Ví dụ: chính quy hóa chuẩn vết (trace norm)
 
-Note: 이 method은 특이 값 분solution(SVD)가 가능하면, **trace norm ballto, projection**하는 것보다 훨씬 간단하고 효율적with, solution를 구할 수 있는 method이다.
+Hãy xem bài toán **chính quy hóa vết**:
 
+>$$\min_{X} f(X) \qquad \text{ thỏa mãn } \| X \|_{tr} \leq t$$
 
-## Constrained and Lagrange forms
-제약 condition,이 있는 problem의 solution을 다시 한번 image기solution보자
-> $$\min_x f(x) \qquad \text{ subject to } \| x \| ≤ t$$
+Ta có $$S^{(k−1)} \in −t \cdot \partial\| \nabla f(X^{(k−1)}) \|_{op}$$. Ta có thể chọn $$S^{(k−1)}$$ như sau:
 
-다음의 Lagrange problem는 위 식and, equivalence이다.
-> $$\min_x f(x) + λ \| x \| $$
+>$$S^{(k−1)} = −t \cdot uv^T$$
 
-튜닝 파라미터 $$t$$and, $$λ$$는 [0,∞]구간at, 변한다. also, $$\| · \|$$의 Frank-Wolfe 업데이트를 $$\| · \|$$의  proximal 오퍼레이터and, comparing,야 한다.
+Ở đây $$u, v$$ là các vector kỳ dị trái và phải của $$\nabla f(X^{(k−1)})$$, và cập nhật Frank-Wolfe vẫn như thường lệ.
 
-• **$$l_1$$ norm**: Frank-Wolfe method은 gradient의 최댓값을 스캔하여 업데이트 한다.
-proximal operator soft-threshold를 진행하면서 업데이트 한다. 두 step 모두 $$O(n)$$ flops을 사용 한다.
- 
-• **$$l_p$$ norm**: 프랭크-울프(Frank-Wolfe) 업데이트는 gradient의 각 항목마다 제product하고 모두 sum산하여 $$O(n)$$ flopwith, 증가시킨다. proximal operator는 generally, 직접 computation할 수 없다.
+**Lưu ý**: Phương pháp này, nếu có thể phân rã giá trị kỳ dị (SVD), đơn giản và hiệu quả hơn nhiều so với **phép chiếu lên hình cầu chuẩn vết**.
 
-• **Trace norm**: 프랭크-울프(Frank-Wolfe) 업데이트는 gradient의 image단 왼쪽 및 오른쪽 singular vector를 computation한다. proximal operatorat,는 soft-thresholds gradient step을 진행하며, 특이값 분solution(SVD)를 필요to, 한다.
+## Dạng ràng buộc và dạng Lagrange
 
-다른 많은 regularizer들이 효율적인 Frank-Wolfe update를 도출하였다.
-예를 들면, special polyhedra or, cone constraints, sum-of-norms (group-based) regularization, atomic norms. 같은 것들이다.
+Hãy xem lại bài toán có ràng buộc một lần nữa:
 
+>$$\min_x f(x) \qquad \text{ thỏa mãn } \| x \| \leq t$$
 
-Constrained Lassoto, about, projected gradient techniqueand, conditional gradient technique을 활용했을 when, 성능을 비교하면 as follows:. (여기서 $$n=100, p = 500$$)
+Bài toán Lagrange sau tương đương với bài toán trên:
+
+>$$\min_x f(x) + \lambda \| x \|$$
+
+Các tham số điều chỉnh $$t$$ và $$\lambda$$ thay đổi trong khoảng $$[0,\infty]$$. Ngoài ra, ta nên so sánh cập nhật Frank-Wolfe của $$\| \cdot \|$$ với toán tử gần kề (proximal operator) của $$\| \cdot \|$$.
+
+• **Chuẩn $$l_1$$**: Phương pháp Frank-Wolfe cập nhật bằng cách quét tìm giá trị lớn nhất của gradient. Toán tử gần kề cập nhật bằng co ngưỡng mềm (soft-thresholding). Cả hai bước đều dùng $$O(n)$$ flops.
+
+• **Chuẩn $$l_p$$**: Cập nhật Frank-Wolfe nâng từng thành phần của gradient lên lũy thừa rồi cộng tất cả, tốn $$O(n)$$ flops. Toán tử gần kề nói chung không thể tính trực tiếp.
+
+• **Chuẩn vết**: Cập nhật Frank-Wolfe chỉ tính các vector kỳ dị trái và phải của gradient. Toán tử gần kề co ngưỡng mềm các giá trị kỳ dị của bước gradient, đòi hỏi phân rã giá trị kỳ dị (SVD).
+
+Nhiều bộ chính quy hóa khác nhau đã có các cập nhật Frank-Wolfe hiệu quả, chẳng hạn các ràng buộc đa diện hoặc nón đặc biệt, chính quy hóa tổng các chuẩn (theo nhóm), chuẩn nguyên tử, v.v.
+
+Khi so sánh hiệu năng của kỹ thuật projected gradient và kỹ thuật gradient có điều kiện cho bài Lasso có ràng buộc (ở đây $$n=100, p = 500$$):
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter22/comparing_projected_and_conditional_gradient.png" alt="[Fig 2] Comparing projected and conditional gradient for constrained lasso
-problem [3]">
-  <figcaption style="text-align: center;">[Fig 2] Comparing projected and conditional gradient for constrained lasso
-problem [3]</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter22/comparing_projected_and_conditional_gradient.png" alt="[Hình 2] So sánh gradient có chiếu và gradient có điều kiện cho bài lasso có ràng buộc [3]">
+  <figcaption style="text-align: center;">[Hình 2] So sánh gradient có chiếu và gradient có điều kiện cho bài lasso có ràng buộc [3]</figcaption>
 </p>
 </figure>
-<br>
 
-프랭크-울프(Frank-Wolfe) method이 first-order method의 convergence율and, 비슷한 양image을 띠고 있는 것을 확인할 수 있을 것이다. however, actually,는 높은 정확도to, convergence하기 for,서는 속도가 더 느려질 수 있다. (reference: 여기서 fixed step size를 사용but,, line search를 using, convergence 속도를 향image시킬 수도 있다.)
+Ta thấy phương pháp Frank-Wolfe có tốc độ hội tụ tương tự các phương pháp bậc nhất. Tuy nhiên, thực tế nó có thể hội tụ chậm hơn khi cần độ chính xác cao. (Tham khảo: ở đây dùng kích thước bước cố định, nhưng dùng line search có thể cải thiện tốc độ hội tụ.)
 
+## Khoảng cách đối ngẫu (Duality gap)
 
-## Duality gap
-프랭크-울프(Frank-Wolfe) iteration processat, 자연스럽게 duality gap 이 발생되며, 이는 actually, suboptimality gap을 의미한다.
-> $$g(x^{(k-1)}) := \max_{s∈C} ∇f(x^{(k−1)})^T(x^{(k−1)} − s) $$
+Trong quá trình lặp Frank-Wolfe, một khoảng cách đối ngẫu xuất hiện một cách tự nhiên, và thực chất nó chính là khoảng cách tới tối ưu (suboptimality gap).
 
-이것은 $$f(x^{(k−1)}) − f^{\star}$$의 upper bound 이다.
+>$$g(x^{(k-1)}) := \max_{s\in C} \nabla f(x^{(k−1)})^T(x^{(k−1)} − s)$$
 
-#### [Proof]
-convexity의 first-order condition을 using, 증명할 수 있다.
-> $$f(s) ≥ f(x^{(k−1)}) + ∇f(x^{(k−1)})^T(s − x^{(k−1)})$$
+Đây là một cận trên của $$f(x^{(k−1)}) − f^{*}$$.
 
-모든 $s ∈ C$about, 양쪽을 minimization 한다.
->  $$f^{\star} ≥ f(x^{(k−1)}) + min_{s∈C} ∇f(x^{(k−1)})^T(s − x^{(k−1)})$$
+### [Chứng minh]
 
-최종적with,, 다시 정리하여 다음 식은 duality gap이 upper bound임을 showing, 준다.
-> $$\max_{s∈C} ∇f(x^{(k−1)})^T(x^{(k−1)} − s) = ∇f(x^{(k−1)})^T(x^{(k−1)} − s^{(k−1)})$$
+Ta có thể chứng minh bằng điều kiện bậc nhất của tính lồi:
 
-#### [Note]
-therefore, 이 quantity는 Frank-Wolfe 업데이트at, 직접 나온 것이다.
-왜 우리는 이를 “duality gap”이라 부를까?
+>$$f(s) \geq f(x^{(k−1)}) + \nabla f(x^{(k−1)})^T(s − x^{(k−1)})$$
 
-original problem을 다시 써보면 아래and, 같이 쓸 수있다.
-> $$\min_{x} f(x) + I_C(x)$$
+Cực tiểu hóa cả hai vế theo mọi $$s \in C$$:
 
-여기서 $$I_C$$는 $$C$$의 indicator function을 의미한다. dual problem는 아래and, 같다.
-> $$\max_u −f^{*} (u) − I^{*}_C(−u)$$
+>$$f^{*} \geq f(x^{(k−1)}) + \min_{s\in C} \nabla f(x^{(k−1)})^T(s − x^{(k−1)})$$
 
-$$I_C^{*}$$가 $$C$$의 support function을 의미한다. Indicator function의 conjugate는 support function 이 됨을 앞서 살펴보았다.
+Cuối cùng, sắp xếp lại cho thấy biểu thức sau là cận trên của khoảng cách đối ngẫu:
 
-#### [Recall]
-> $$
-> I_C (X) =  
-> \begin{cases}
-> +& \infty &if &x &\notin; C \\\
->  & 0      &if &x &\in; C
-> \end{cases}
-> $$
+>$$\max_{s\in C} \nabla f(x^{(k−1)})^T(x^{(k−1)} − s) = \nabla f(x^{(k−1)})^T(x^{(k−1)} − s^{(k−1)})$$
 
-> $$
-> \begin{align}
-> I_C^{*} &= \max_{x} \{ <s, x\> - I_C(x)\} \\
->         &= \max_{x \in C} <s, x> \\
->         &= \text{Support function of } C \text{ at } S
-> \end{align}
-> $$
+### [Ghi chú]
 
-$$ x = x ^ {(k-1)}, u = ∇f (x ^ {(k-1)}) $$ 일 when,, $$x, u$$at, 발생하는 duality gap은 as follows:. (13-04 [Fenchel's inequality]({% multilang_post_url contents/chapter13/21-04-05-13_04_Conjugate_function %}) from, 유도되기도 한다.)
-> $$f(x) + f^{*}(u) + I^{*}_C(−u) ≥ x^Tu + I^{*}_C(−u)$$
+Do đó, đại lượng này đến trực tiếp từ cập nhật Frank-Wolfe. Vì sao ta gọi đây là "khoảng cách đối ngẫu"? Ta có thể viết lại bài toán gốc như sau:
+
+>$$\min_{x} f(x) + I_C(x)$$
+
+Ở đây $$I_C$$ là hàm chỉ thị của $$C$$. Bài toán đối ngẫu là:
+
+>$$\max_u −f^{*}(u) − I^{*}_C(−u)$$
+
+$$I_C^{*}$$ là hàm tựa (support function) của $$C$$. Ta đã thấy trước đó rằng liên hợp của hàm chỉ thị chính là hàm tựa.
+
+### [Nhắc lại]
+
+>$$I_C(x) = \begin{cases}
+>+\infty & \text{nếu } x \notin C \\
+>0 & \text{nếu } x \in C
+>\end{cases}$$
+>
+>$$\begin{align}
+>I_C^{*} &= \max_{x} \{\langle s, x \rangle - I_C(x)\} \\
+>&= \max_{x \in C} \langle s, x \rangle \\
+>&= \text{Hàm tựa của } C \text{ tại } s
+>\end{align}$$
+
+Khi $$x = x^{(k-1)}, u = \nabla f(x^{(k-1)})$$, khoảng cách đối ngẫu tại $$x, u$$ như sau (suy ra từ 13-04 [bất đẳng thức Fenchel]({% multilang_post_url contents/chapter13/21-04-05-13_04_Conjugate_function %})):
+
+>$$f(x) + f^{*}(u) + I^{*}_C(−u) \geq x^Tu + I^{*}_C(−u)$$
+
+### Frank-Wolfe trong 18 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/frank-wolfe_vi.mp4"></video>
+</div>
+
+Mỗi bước chọn đỉnh $$s$$ làm cực tiểu $$\langle \nabla f(x), s\rangle$$ và chuyển tới $$(1-\gamma_k)x + \gamma_k s$$, nên điểm lặp không bao giờ rời $$C$$.
+
+### Tự tay thử: các bước Frank-Wolfe
+
+<div class="opx-explainer" data-opx="fw" data-lang="vi"></div>

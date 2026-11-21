@@ -1,20 +1,21 @@
 ---
 layout: post
-title: 15 Barrier Method
+title: '15 Phương pháp chắn (Barrier Method)'
 chapter: "15"
 order: 1
 categories:
 - chapter16
 owner: "Minjoo Lee"
+lang: vi
 ---
 
-In this chapter, we will look at one of the 2nd-order methods, the **Barrier Method**.
+Trong chương này, chúng ta sẽ tìm hiểu một trong các phương pháp bậc hai, đó là **phương pháp chắn (Barrier Method)**.
 
-The **Barrier Method** is a technique for solving **inequality constraint and equality constrained smooth problems**, which are considered the most difficult among 2nd-order method problems.
+**Phương pháp chắn** là kỹ thuật giải **các bài toán trơn có ràng buộc bất đẳng thức và đẳng thức**, được xem là khó nhất trong các bài toán của phương pháp bậc hai.
 
-(For reference, using the gradient to solve an optimization problem is called a 1st-order method, and using the Hessian is called a 2nd-order method.)
+(Lưu ý: dùng gradient để giải bài toán tối ưu được gọi là phương pháp bậc nhất, còn dùng Hessian được gọi là phương pháp bậc hai.)
 
-## References and further readings
+## Tài liệu tham khảo và đọc thêm
 * S. Boyd and L. Vandenberghe (2004), "Convex optimization", Chapter 11
 * A. Nemirovski (2004), "Interior-point polynomial time methods in convex programming", Chapter 4
 * J. Nocedal and S. Wright (2006), "Numerical optimization", Chapters 14 and 19

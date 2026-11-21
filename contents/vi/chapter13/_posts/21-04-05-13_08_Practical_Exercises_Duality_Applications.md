@@ -505,15 +505,21 @@ $$
 
 Không thỏa! Ràng buộc phải active.
 
-**Giả sử** $$|\nu_1 + \nu_3| = 0.5$$:
+**Giả sử** cả hai ràng buộc cùng chặt: $$\nu_1 + \nu_3 = \nu_2 + \nu_3 = -0.5$$ (do đối xứng, $$\nu_1 = \nu_2 = a$$ và $$\nu_3 = -0.5 - a$$).
 
-Từ FOC + ràng buộc, giải hệ (cần solver số).
+Thế vào mục tiêu: $$\min_a \; \frac{1}{2}\left[2(a+1)^2 + (2.5 - a)^2\right]$$ (vì $$\frac{1}{2}\|\nu\|^2 + \nu^Tb = \frac{1}{2}\|\nu + b\|^2 - \frac{1}{2}\|b\|^2$$).
 
-**Nghiệm xấp xỉ** (cần verify bằng solver):
+Đạo hàm: $$2(a+1) - (2.5 - a) = 0 \Rightarrow a = \frac{1}{6}$$.
+
+**Nghiệm dual:**
 
 $$
-\nu^* \approx (-0.2, -0.2, -0.3)^T
+\nu^* = \left(\tfrac{1}{6}, \tfrac{1}{6}, -\tfrac{2}{3}\right)^T, \qquad \tfrac{1}{2}\|\nu^*\|^2 + \nu^{*T}b = \tfrac{1}{4} - \tfrac{5}{3} = -\tfrac{17}{12}
 $$
+
+tức giá trị dual (bài toán max) là $$\frac{17}{12} \approx 1.4167$$.
+
+**Kiểm tra với primal:** $$x^* = \left(\tfrac{7}{6}, \tfrac{7}{6}\right)$$ cho $$Ax^* - b = \left(\tfrac{1}{6}, \tfrac{1}{6}, -\tfrac{2}{3}\right) = \nu^*$$ ✓ (đúng $$r^* = \nu^*$$), và giá trị primal $$\frac{1}{2}\|r^*\|^2 + \lambda\|x^*\|_1 = \frac{1}{4} + 0.5 \cdot \frac{7}{3} = \frac{17}{12}$$ ✓. Không có duality gap.
 
 </details>
 
@@ -614,7 +620,7 @@ c) Tính $$y^T x$$ và verify dual cone property
 
 **SOC:** $$K = \{(t, x) \in \mathbb{R} \times \mathbb{R}^2 : \|x\|_2 \leq t\}$$
 
-Viết lại: $$x = (t, x_1, x_2)$$ với $$t = x_1 = 2$$, $$x = (x_2, x_3) = (1, 1)$$.
+Viết $$x = (t, u)$$ với $$t = 2$$, $$u = (1, 1)$$.
 
 ---
 

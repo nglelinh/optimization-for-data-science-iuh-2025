@@ -34,8 +34,8 @@ Also, we assume that both players use mixed strategies. Mixed strategies is the 
 
 >$$
 >\begin{align}
->x : P(\text{J chooses i}) = x_{i}, \qquad i=1,...m\\\\
->y : P(\text{R chooses j}) = y_{j}, \qquad j=1,...n.\\\\
+>x : P(\text{J chooses i}) = x_{i}, \qquad i=1,...,m\\\\
+>y : P(\text{R chooses j}) = y_{j}, \qquad j=1,...,n.\\\\
 >\end{align}
 >$$
 
@@ -56,7 +56,7 @@ First, assume that R knows J's strategy $$x$$. R will want to maximize the expec
 
 >$$
 >\begin{align}
->\max\{x^{T}Py : y\geq0, 1^{T}y = 1\} = \max_{i=1,...n}(P^{T}x)_{i}.\\\\
+>\max\{x^{T}Py : y\geq0, 1^{T}y = 1\} = \max_{j=1,...,n}(P^{T}x)_{j}.\\\\
 >\end{align}
 >$$
 
@@ -67,7 +67,7 @@ Knowing that R will act optimally as described above, J's optimal strategy will 
 >$$
 >\begin{align}
 >& \min_{x}
->& &\max_{i=1,...n} (P^{T}x)_{i}\\\\
+>& &\max_{j=1,...,n} (P^{T}x)_{j}\\\\
 >& \text{subject to}
 >& & x\geq 0, 1^{T}x =1.\\\\
 >\end{align}
@@ -80,7 +80,7 @@ From the second perspective, assume that J knows R's strategy $$y$$. J will want
 
 >$$
 >\begin{align}
->\min \{x^{T}Py : x\geq0, 1^{T}x = 1\} = \min_{j=1,...n}(Py)_{j}.\\\\
+>\min \{x^{T}Py : x\geq0, 1^{T}x = 1\} = \min_{i=1,...,m}(Py)_{i}.\\\\
 >\end{align}
 >$$
 
@@ -89,7 +89,7 @@ By the same logic, knowing that J will act optimally as described above, R's opt
 >$$
 >\begin{align}
 >& \max_{y}  
->& & \min_{j=1,...m} (Py)_{j}\\\\
+>& & \min_{i=1,...,m} (Py)_{i}\\\\
 >&\text{subject to}
 >& &y\geq 0, 1^{T}y =1.\\\\
 >\end{align}
@@ -102,7 +102,7 @@ However, according to Von Neumann's minimax theorem, $$f^{*}_{1} = f^{*}_{2}$$. 
   
 >$$
 >\begin{align}
->&\text{Let } X\subset \mathbb{R}^{N} \text{ and }Y\subset \mathbb{R}^{m} \text{ be compact convex sets. }\\\\
+>&\text{Let } X\subset \mathbb{R}^{m} \text{ and }Y\subset \mathbb{R}^{n} \text{ be compact convex sets. }\\\\
 > &\text{If } f:X\times Y\rightarrow \mathbb{R} \text{ is a continuous function that is convex-concave, i.e.}\\\\
 > &\qquad f(\cdot, y): X\rightarrow\mathbb{R} \text{ is convex for fixed }y, \text{ and}\\\\
 > &\qquad f(x, \cdot): Y\rightarrow\mathbb{R} \text{ is concave for fixed }x.\\\\
@@ -120,8 +120,8 @@ First, the problem from the first perspective can be reformulated as follows.
 
 >$$
 >\begin{align}
->& \min_{x} \max_{i=1,...m} 
->& &(P^{T}x)_{i}\\\\
+>& \min_{x} \max_{j=1,...,n} 
+>& &(P^{T}x)_{j}\\\\
 >&\text{subject to } 
 >& &x\geq 0, 1^{T}x = 1\\\\
 >\end{align}
@@ -163,3 +163,15 @@ Since $$u$$ is a slack variable, removing it and organizing the equation gives u
 This is the primal LP of the problem from the second perspective. Therefore, the two perspectives are in a dual relationship and since the optimal values of the two problems are equal, strong duality holds.
 
 In general, for LP problems, as we will cover in future content, strong duality holds if only one of the primal and dual is feasible.
+
+### A matrix game in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/matrix-game_en.mp4"></video>
+</div>
+
+J minimises the highest line, R maximises the lowest one, and both reach the same value: the minimax theorem, which is LP duality.
+
+### Try it yourself: the game from both sides
+
+<div class="opx-explainer" data-opx="mgame" data-lang="en"></div>

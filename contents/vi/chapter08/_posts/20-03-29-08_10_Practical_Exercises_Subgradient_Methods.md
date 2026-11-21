@@ -27,11 +27,15 @@ Cho bài toán LP: $$\min c^Tx$$ s.t. $$Ax = b$$, $$x \geq 0$$ với $$c = (1,2)
 <details markdown="1">
 <summary><strong>Lời giải</strong></summary>
 
-**Dual:** $$\max -3\nu$$ s.t. $$\nu \leq 1$$
+**Lagrangian:** $$L(x,\nu) = c^Tx + \nu(b - Ax)$$, nên $$g(\nu) = 3\nu + \inf_{x \geq 0}(c - A^T\nu)^Tx$$, hữu hạn khi $$A^T\nu \leq c$$.
 
-**Solution:** $$\nu^* = 1$$
+**Dual:** $$\max 3\nu$$ s.t. $$\nu \leq 1$$
 
-Iterations với $$\alpha = 0.1$$ từ $$\nu^{(0)} = 0$$ hội tụ đến $$\nu^* = 1$$ sau 4 bước.
+**Subgradient:** $$g'(\nu) = b - Ax^*(\nu) = 3$$ (với $$x^*=0$$ khi $$\nu \le 1$$)
+
+**Solution:** $$\nu^* = 1$$ (giá trị đối ngẫu $$3$$ = giá trị gốc tại $$x = (3, 0)$$)
+
+Lặp gradient ascent có chiếu lên $$\nu \leq 1$$ với $$\alpha = 0.1$$ từ $$\nu^{(0)} = 0$$: $$0.3, 0.6, 0.9, 1$$, hội tụ đến $$\nu^* = 1$$ sau 4 bước.
 
 </details>
 

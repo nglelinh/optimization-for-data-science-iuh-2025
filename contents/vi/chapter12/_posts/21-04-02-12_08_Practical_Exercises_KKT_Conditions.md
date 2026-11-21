@@ -39,17 +39,17 @@ Kiểm tra hai nghiệm ứng viên:
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**Lagrangian:** $$L(x,\nu,\lambda) = x_1^2 + x_2^2 - \nu(x_1+x_2-1) - \lambda(-x_1)$$
+**Lagrangian:** $$L(x,\nu,\lambda) = x_1^2 + x_2^2 - \nu(x_1+x_2-1) + \lambda(-x_1)$$ (ràng buộc bất đẳng thức viết dạng $$g(x)=-x_1 \leq 0$$)
 
 **Bốn điều kiện KKT:**
 
-1. **Stationarity:** $$2x_1 - \nu + \lambda = 0$$, $$2x_2 - \nu = 0$$
+1. **Stationarity:** $$2x_1 - \nu - \lambda = 0$$, $$2x_2 - \nu = 0$$
 2. **Primal Feasibility:** $$x_1 + x_2 = 1$$, $$x_1 \geq 0$$
 3. **Dual Feasibility:** $$\lambda \geq 0$$
 4. **Complementary Slackness:** $$\lambda \cdot (-x_1) = 0$$
 
 **Kiểm tra $$x^{(1)} = (0.5,0.5)$$, $$\nu=1$$, $$\lambda=0$$:**
-- Stationarity: $$2(0.5)-1+0=0$$ ✓, $$2(0.5)-1=0$$ ✓
+- Stationarity: $$2(0.5)-1-0=0$$ ✓, $$2(0.5)-1=0$$ ✓
 - Primal Feasibility: $$0.5+0.5=1$$ ✓, $$0.5 \geq 0$$ ✓
 - Dual Feasibility: $$0 \geq 0$$ ✓
 - Comp. Slackness: $$0 \cdot (-0.5)=0$$ ✓
@@ -57,16 +57,16 @@ Kiểm tra hai nghiệm ứng viên:
 **Thỏa mãn!** Giá trị: $$f^{(1)} = 0.5$$
 
 **Kiểm tra $$x^{(2)} = (0,1)$$, $$\nu=2$$, $$\lambda=2$$:**
-- Stationarity: $$0-2+2=0$$ ✓, $$2-2=0$$ ✓
+- Stationarity: $$0-2-2=-4 \neq 0$$ ✗ (thành phần thứ hai: $$2-2=0$$ ✓)
 - Primal Feasibility: $$0+1=1$$ ✓, $$0 \geq 0$$ ✓
 - Dual Feasibility: $$2 \geq 0$$ ✓
 - Comp. Slackness: $$2 \cdot 0=0$$ ✓
 
-**Thỏa mãn!** Giá trị: $$f^{(2)} = 1$$
+**Không thỏa mãn!** Thực tế, với $$x^{(2)}$$ thì $$\nu=2x_2=2$$ và $$\lambda = 2x_1-\nu = -2 < 0$$: không có multiplier hợp lệ nào, nên $$(0,1)$$ không phải điểm KKT. (Giá trị $$f^{(2)} = 1 > f^{(1)}$$ cũng phù hợp.)
 
-**Kết luận:** Cả hai thỏa KKT nhưng $$x^* = (0.5,0.5)$$ là tối ưu vì $$f^{(1)} < f^{(2)}$$.
+**Kết luận:** Chỉ $$x^* = (0.5,0.5)$$ là điểm KKT.
 
-**Giải thích:** Bài toán lồi nên KKT đủ cho global optimum. Nghiệm thứ 2 không tối ưu dù thỏa KKT.
+**Giải thích:** Bài toán lồi nên KKT đủ cho global optimum, do đó $$x^* = (0.5,0.5)$$ là nghiệm tối ưu duy nhất.
 
 </details>
 
@@ -87,7 +87,7 @@ $$
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**3 trường hợp active set:**
+**3 trường hợp active set** (với $$L = \frac{1}{2}\|x\|^2 - \nu(x_1+x_2-1) - \lambda_1x_1 - \lambda_2x_2$$, stationarity: $$x_i = \nu + \lambda_i$$):
 
 **TH1:** Không có ràng buộc $$\geq 0$$ active ($$\lambda_1=\lambda_2=0$$)
 
@@ -99,13 +99,13 @@ Từ $$x_1+x_2=1$$: $$2\nu=1 \Rightarrow \nu=0.5$$
 **TH2:** $$x_1=0$$ active
 
 $$x_2=1$$, stationarity cho $$x_2$$: $$\nu=1$$  
-Stationarity cho $$x_1$$: $$\lambda_1=1$$
+Stationarity cho $$x_1$$: $$\lambda_1 = x_1 - \nu = -1 < 0$$ ✗
 
-→ $$x=(0,1)$$, $$f=0.5$$, feasible ✓
+→ $$x=(0,1)$$ khả thi nhưng **vi phạm dual feasibility**, không phải điểm KKT ($$f=0.5$$)
 
 **TH3:** $$x_2=0$$ active
 
-→ $$x=(1,0)$$, $$f=0.5$$, feasible ✓
+→ tương tự, $$\lambda_2 = -1 < 0$$ ✗, $$x=(1,0)$$ ($$f=0.5$$) không phải điểm KKT
 
 **Nghiệm tối ưu:** $$x^*=(0.5,0.5)$$ với $$f^*=0.25$$
 
@@ -134,7 +134,7 @@ $$
 r_{\min} = 0.12
 $$
 
-**Yêu cầu:** Giả sử $$x_3=0$$, tìm $$x_1, x_2$$ và các dual variables.
+**Yêu cầu:** Thử giả thiết $$x_3=0$$ (chỉ đầu tư vào tài sản 1, 2): tìm $$x_1, x_2$$ và các dual variables, rồi kiểm tra các điều kiện KKT.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
@@ -162,30 +162,36 @@ $$
 
 **Nghiệm:** $$x^* = (0.6, 0.4, 0)^T$$
 
-**Tính dual variables từ stationarity:**
+**Kiểm tra dual variables từ stationarity** (với $$L = \frac{1}{2}x^T\Sigma x - \lambda(\mu^Tx - r_{\min}) - \nu_1(\mathbf{1}^Tx-1) - \nu_2^Tx$$, nên $$\Sigma x = \lambda\mu + \nu_1\mathbf{1} + \nu_2$$):
 
 $$\Sigma x^* = \begin{bmatrix} 0.028 \\ 0.042 \\ 0.008 \end{bmatrix}$$
 
-Stationarity: $$\Sigma x^* = \lambda\mu - \nu_1\mathbf{1} - \nu_2$$
-
-Từ các phương trình với $$\nu_{2,1}=\nu_{2,2}=0$$:
+Với $$\nu_{2,1}=\nu_{2,2}=0$$:
 
 $$
 \begin{cases}
-0.028 = 0.10\lambda - \nu_1 \\
-0.042 = 0.15\lambda - \nu_1
+0.028 = 0.10\lambda + \nu_1 \\
+0.042 = 0.15\lambda + \nu_1
 \end{cases}
 $$
 
 Trừ: $$0.014 = 0.05\lambda \Rightarrow \lambda = 0.28$$  
-→ $$\nu_1 = 0$$
+→ $$\nu_1 = 0.028 - 0.028 = 0$$
 
 Từ phương trình 3:
-$$\nu_{2,3} = 0.08(0.28) - 0.008 = 0.0144 > 0$$ ✓
+$$\nu_{2,3} = 0.008 - 0.08(0.28) - 0 = -0.0144 < 0$$ ✗
+
+**Kết luận:** Dual feasibility ($$\nu_2 \geq 0$$) bị vi phạm, nên giả thiết $$x_3=0$$ **sai**: tài sản 3 (ít tương quan với tài sản 1) vẫn nên được đầu tư một lượng nhỏ nhờ hiệu ứng đa dạng hóa.
+
+**Giải lại với cả 3 tài sản active** ($$x_i>0$$, ràng buộc return chặt): giải hệ $$\Sigma x = \lambda\mu + \nu_1\mathbf{1}$$, $$\mu^Tx=0.12$$, $$\mathbf{1}^Tx=1$$ cho
+
+$$x^* \approx (0.522,\ 0.422,\ 0.056)^T, \quad \lambda^* \approx 0.385, \quad \nu_1^* \approx -0.0134$$
+
+Kiểm tra thành phần 3: $$(\Sigma x^*)_3 \approx 0.0174 = 0.08(0.385) - 0.0134$$ ✓. Phương sai $$\frac{1}{2}x^{*T}\Sigma x^* \approx 0.0164$$ ($$\sigma \approx 0.181$$), thấp hơn $$0.0168$$ ($$\sigma \approx 0.183$$) của $$(0.6, 0.4, 0)$$.
 
 **Ý nghĩa:**
-- $$\lambda^*=0.28$$: Shadow price của ràng buộc return (giảm $$r_{\min}$$ 1% → risk giảm 0.28%)
-- $$\nu_{2,3}^*=0.0144$$: Tài sản 3 có Sharpe ratio kém, không đầu tư
+- $$\lambda^*\approx 0.385$$: Shadow price của ràng buộc return (tăng $$r_{\min}$$ thêm $$0.001$$ → $$\frac{1}{2}x^T\Sigma x$$ tăng khoảng $$0.000385$$)
+- $$x_3^* \approx 0.056 > 0$$: Tài sản 3 có return thấp nhưng giúp giảm rủi ro nhờ đa dạng hóa
 
 </details>
 
@@ -223,34 +229,36 @@ $$
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**Quan sát hình học:** Hai lớp tách rõ ràng. Support vectors có thể là các điểm gần nhất giữa hai lớp.
+**Quan sát hình học:** Hai lớp tách được tuyến tính. Support vectors là các điểm nằm trên biên margin.
 
-**Giả sử nghiệm (từ solver):**
-- Support vectors: $$x_1=(1,2)$$, $$x_4=(1,1)$$, $$x_6=(3,2)$$
-- $$\alpha_1^* = 0.5$$, $$\alpha_4^* = 0.3$$, $$\alpha_6^* = 0.2$$
+**Nghiệm (giải bằng solver QP, rồi kiểm tra lại bằng KKT):**
+- Support vectors: $$x_1=(1,2)$$ (lớp +1), $$x_3=(3,3)$$ (lớp +1), $$x_6=(3,2)$$ (lớp -1)
+- $$\alpha_1^* = 0.5$$, $$\alpha_3^* = 2$$, $$\alpha_6^* = 2.5$$
 - Các $$\alpha$$ khác = 0
+
+Kiểm tra: $$\sum_i \alpha_i y_i = 0.5 + 2 - 2.5 = 0$$ ✓
 
 **Tính $$w^*$$:**
 
 $$
-w^* = \sum_i \alpha_i^* y_i x_i = 0.5(1)(1,2) - 0.3(1,1) - 0.2(3,2)
+w^* = \sum_i \alpha_i^* y_i x_i = 0.5(1,2) + 2(3,3) - 2.5(3,2)
 $$
 
 $$
-= (0.5,1.0) - (0.3,0.3) - (0.6,0.4) = (-0.4, 0.3)
+= (0.5,1.0) + (6,6) - (7.5,5) = (-1, 2)
 $$
 
 **Tính $$b^*$$ từ SV $$x_1$$:**
 
 $$y_1(w^{*T}x_1 + b^*) = 1$$
 
-$$1 \cdot ((-0.4)(1) + (0.3)(2) + b^*) = 1$$
+$$1 \cdot ((-1)(1) + (2)(2) + b^*) = 1$$
 
-$$-0.4 + 0.6 + b^* = 1 \Rightarrow b^* = 0.8$$
+$$3 + b^* = 1 \Rightarrow b^* = -2$$
 
-**Decision boundary:** $$-0.4x_1 + 0.3x_2 + 0.8 = 0$$ hay $$x_2 = \frac{4x_1-8}{3}$$
+**Decision boundary:** $$-x_1 + 2x_2 - 2 = 0$$ hay $$x_2 = \frac{x_1+2}{2}$$
 
-*(Lưu ý: Cần solver số thực tế để xác định chính xác)*
+**Kiểm tra margin:** $$y_i(w^{*T}x_i+b^*) = 1, 2, 1, 1, 2, 1$$ cho 6 điểm (đều $$\geq 1$$, bằng 1 tại các SV) ✓. Độ rộng margin: $$\frac{2}{\|w^*\|} = \frac{2}{\sqrt{5}} \approx 0.894$$.
 
 </details>
 
@@ -375,30 +383,30 @@ $$
 $$\nabla f(x) = A^TAx - A^Tb$$
 
 $$
-A^TA = \begin{bmatrix} 6&2\\2&2 \end{bmatrix}, \quad
+A^TA = \begin{bmatrix} 6&0\\0&2 \end{bmatrix}, \quad
 A^Tb = \begin{bmatrix} 8\\2 \end{bmatrix}
 $$
 
 **KKT system (không có $$x \geq 0$$):**
 
 $$
-\begin{bmatrix} 6&2&-1\\2&2&-1\\1&1&0 \end{bmatrix}
+\begin{bmatrix} 6&0&-1\\0&2&-1\\1&1&0 \end{bmatrix}
 \begin{bmatrix} x_1\\x_2\\\nu \end{bmatrix} =
 \begin{bmatrix} 8\\2\\2 \end{bmatrix}
 $$
 
 Giải:
 - Từ (3): $$x_1+x_2=2$$
-- Từ (1)-(2): $$4x_1=6 \Rightarrow x_1=1.5, x_2=0.5$$
-- Từ (1): $$\nu = 2$$
+- Từ (1), (2): $$x_1=\frac{8+\nu}{6}$$, $$x_2=\frac{2+\nu}{2}$$, thế vào (3): $$14+4\nu=12 \Rightarrow \nu=-0.5$$
+- $$x_1=1.25$$, $$x_2=0.75$$
 
-**Kiểm tra $$x \geq 0$$:** $$x_1=1.5>0$$, $$x_2=0.5>0$$ ✓
+**Kiểm tra $$x \geq 0$$:** $$x_1=1.25>0$$, $$x_2=0.75>0$$ ✓
 
 **Kiểm tra $$\lambda$$:**
 
-$$\lambda = A^TAx - A^Tb - C^T\nu = \begin{bmatrix} 0\\0 \end{bmatrix} \geq 0$$ ✓
+$$\lambda = A^TAx - A^Tb - C^T\nu = \begin{bmatrix} 7.5-8+0.5\\1.5-2+0.5 \end{bmatrix} = \begin{bmatrix} 0\\0 \end{bmatrix} \geq 0$$ ✓
 
-**Nghiệm:** $$x^*=(1.5, 0.5)^T$$, $$f^*=0.5$$
+**Nghiệm:** $$x^*=(1.25, 0.75)^T$$, $$Ax^*-b=(0,0.5,-0.5)^T$$, $$f^*=\frac{1}{2}(0.25+0.25)=0.25$$
 
 </details>
 
@@ -442,14 +450,14 @@ FOC: $$1 + 2\mu x_i(x_1^2+x_2^2-1)=0$$
 
 Với $$x_1=x_2=x$$: $$1 + 2\mu x(2x^2-1)=0$$ hay $$4\mu x^3 - 2\mu x + 1=0$$
 
-**Nghiệm số:**
-- $$\mu=1$$: $$x \approx -0.618$$
-- $$\mu=10$$: $$x \approx -0.700$$
-- $$\mu=100$$: $$x \approx -0.707 \approx -1/\sqrt{2}$$
+**Nghiệm số** (lấy nghiệm thực âm của phương trình bậc ba, có $$\phi$$ nhỏ nhất; với $$\mu$$ lớn phương trình còn nghiệm dương ứng với một cực tiểu địa phương gần điểm KKT cực đại, có $$\phi$$ lớn hơn):
+- $$\mu=1$$: $$x \approx -0.885$$ ($$x_1^2+x_2^2-1 \approx 0.57$$, vi phạm ràng buộc khá nhiều)
+- $$\mu=10$$: $$x \approx -0.731$$ ($$x_1^2+x_2^2-1 \approx 0.07$$)
+- $$\mu=100$$: $$x \approx -0.710$$ ($$x_1^2+x_2^2-1 \approx 0.007$$) $$\to -1/\sqrt{2} \approx -0.7071$$
 
-**Hội tụ:** Khi $$\mu \to \infty$$, nghiệm penalty hội tụ đến nghiệm KKT!
+**Hội tụ:** Khi $$\mu \to \infty$$, nghiệm penalty hội tụ đến nghiệm KKT (từ phía **ngoài** tập khả thi, vì $$x_1^2+x_2^2>1$$)!
 
-**Mối liên hệ:** $$\nu \approx \mu(x_1^2+x_2^2-1)$$
+**Mối liên hệ:** $$\nu \approx -\mu(x_1^2+x_2^2-1)$$ (với quy ước $$L = f - \nu h$$; ví dụ $$\mu=100$$: $$\nu \approx -100 \cdot 0.007 \approx -0.7 \approx -1/\sqrt{2}$$ ✓)
 
 </details>
 

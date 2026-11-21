@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 20-03 Augmented Lagrangians
+title: '20-03 Augmented Lagrangian'
 chapter: '20'
 order: 7
 owner: Hooncheol Shin
@@ -9,17 +9,17 @@ categories:
 lang: vi
 ---
 
-Dual ascent의 단점은 convergence을 보장하기 for, 강한 condition,이 필요하다는 것이다. (convergence을 보장하려면 $$f$$가 strongly convexsolution야 했다.) 이런 단점은 **Augmented Lagrangian method** (or, **Method of multipliers**)by, 개선될 수 있다. 
+Nhược điểm của dual ascent là cần điều kiện mạnh để đảm bảo hội tụ. (Để đảm bảo hội tụ, $$f$$ phải lồi mạnh.) Nhược điểm này có thể được khắc phục bằng **phương pháp augmented Lagrangian** (còn gọi là **phương pháp nhân tử, method of multipliers**).
 
-Primal problem를 아래and, 같이 transformation한다. 
+Ta biến đổi bài toán gốc như sau.
 >\begin{equation}
 \min_x f(x) + \frac{\rho}{2} \lVert Ax - b \rVert _2^2 \quad \text{ subject to } \quad Ax = b
 \end{equation}
 
-여기서 $$\rho > 0$$이다. $$A$$가 full column rank를 갖는다면 목적식은 strongly convex하다. 이는 원래의 problemand, 정확히 동일한 problem가 된다. (Augmented term인 $$Ax - b$$는 0이 되기 because,이다.)
+Ở đây $$\rho > 0$$. Nếu $$A$$ có hạng cột đầy đủ thì hàm mục tiêu lồi mạnh. Bài toán mới tương đương chính xác với bài toán ban đầu (số hạng bổ sung $$Ax - b$$ bằng không tại mọi điểm khả thi).
 
-## Augmented Lagrangian Method
-**Dual gradient ascent** : $$k=1,2,3,\dots$$about, 다음을 iteration한다. 
+## Phương pháp Augmented Lagrangian
+**Dual gradient ascent** trên bài toán này lặp lại các bước sau với $$k=1,2,3,\dots$$
 > $$
 > \begin{alignat}{1}
 > x^{(k)} & \in \arg\min_x f(x) + (u^{(k-1)})^T A x + \frac{\rho}{2} \lVert Ax - b \rVert_2^2  \\
@@ -27,20 +27,20 @@ Primal problem를 아래and, 같이 transformation한다.
 > \end{alignat}
 > $$
 
-위 dual algorithmat, $$\rho$$는 step size 역할을 한다, that is, $$t_k=\rho$$이다. 이것은 next,서 그 reason,를 알 수 있다. 
+Trong thuật toán đối ngẫu này, $$\rho$$ đóng vai trò kích thước bước, tức là $$t_k=\rho$$. Để thấy lý do, hãy xét phần sau.
 
-### $$\rho$$가 step size일 when, optimality 증명
+#### Vì sao $$\rho$$ là kích thước bước phù hợp
 
-$$x^{(k)}$$는 $$f(x) + (u^{(k-1)})^T Ax + \frac{\rho}{2} \lVert Ax - b\rVert _2^2$$ 를 minimization하므to,, 
-원래 primal problemto, about, stationary condition,according to,, $$x^{(k)}$$at, 목적식의 subgradient가 아래and, 같이 $$0$$을 포함solution야 한다. 
+Vì $$x^{(k)}$$ cực tiểu hóa $$f(x) + (u^{(k-1)})^T Ax + \frac{\rho}{2} \lVert Ax - b\rVert _2^2$$,
+điều kiện dừng nói rằng subgradient của hàm mục tiêu tại $$x^{(k)}$$ phải chứa $$0$$:
 
 > $$
 > \begin{alignat}{1}
-> 0 & \in \partial f(x^{(k)}) + A^T (u^{(k-1)}) + \rho (A x^{(k)} -b))  \\
+> 0 & \in \partial f(x^{(k)}) + A^T \left( u^{(k-1)} + \rho (A x^{(k)} -b) \right)  \\
 >   & = \partial f(x^{(k)}) + A^T u^{(k)}
 > \end{alignat}
 > $$
 
-위식at,, $$u^{(k)} = u^{(k-1)} + \rho (A x^{(k)} - b)$$to, 동작하게 되면, 적당한 condition,하at, $$Ax^{(k)}-b$$가 $$0$$with, 가까워지면서 feasible한 solution를 제공하기 시작하고, 궁극적with, KKT condition,이 만족되고, $$x^{(k)}$$and, $$u^{(k)}$$가 optimalityto, 근접함을 보일 수 있다.  
+Như vậy với cập nhật $$u^{(k)} = u^{(k-1)} + \rho (A x^{(k)} - b)$$, $$x^{(k)}$$ cực tiểu hóa chính xác hàm Lagrange $$f(x) + (u^{(k)})^T A x$$ như điều kiện dừng đối ngẫu yêu cầu. Dưới các điều kiện thích hợp, $$Ax^{(k)}-b$$ tiến về $$0$$, nên các điểm lặp trở nên khả thi, các điều kiện KKT cuối cùng được thỏa mãn, và $$x^{(k)}$$, $$u^{(k)}$$ tiến đến tối ưu.
 
-**Augmented Lagrangian method**의 장점은 훨씬 좋은 convergence성을 갖는다는 것이고, 단점은 problem를 분solution할 수 있는 decomposability를 잃는다는 것이다.
+Ưu điểm của **phương pháp augmented Lagrangian** là hội tụ tốt hơn nhiều; nhược điểm là mất tính phân rã được của bài toán.

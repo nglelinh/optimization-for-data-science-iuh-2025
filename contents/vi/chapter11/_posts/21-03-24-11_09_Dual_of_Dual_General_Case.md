@@ -120,6 +120,8 @@ $$
 
 **Lưu ý quan trọng:** Điều này **không luôn đúng** cho bài toán không convex!
 
+**Ghi chú về độ chặt chẽ:** Điều kiện Slater đảm bảo strong duality; việc dual của dual (hay "bidual") thực sự khôi phục lại đúng bài toán primal còn đòi hỏi bài toán primal convex và "đóng" (closed, tức hàm mục tiêu nửa liên tục dưới). Với bài toán không convex, dual của dual nói chung chỉ cho bài toán primal đã được convex hóa (convex relaxation).
+
 ---
 
 ## **So Sánh: LP vs Convex Optimization**
@@ -185,11 +187,11 @@ với $Q \succ 0$ (positive definite).
 
 **Bài toán Primal:**
 $$
-\text{minimize} \quad x^2 - 2x \quad \text{subject to} \quad x \geq 0
+\text{minimize} \quad -x^2 \quad \text{subject to} \quad 0 \leq x \leq 1
 $$
 
 **Vấn đề:**
-- Hàm mục tiêu không convex
+- Hàm mục tiêu $-x^2$ là hàm lõm, không convex
 - Strong duality không đúng
 - **Dual của dual ≠ Primal** ✗
 
@@ -197,15 +199,16 @@ $$
 
 Primal optimal: $x^* = 1$, $p^* = -1$
 
-Dual:
+Dual (với $\lambda_1 \geq 0$ cho ràng buộc $-x \leq 0$ và $\lambda_2 \geq 0$ cho ràng buộc $x - 1 \leq 0$):
 $$
-g(\lambda) = \inf_{x \geq 0} (x^2 - 2x - \lambda x) = \inf_{x \geq 0} (x^2 - (2+\lambda)x)
+g(\lambda_1, \lambda_2) = \inf_{x \in \mathbb{R}} \left( -x^2 - \lambda_1 x + \lambda_2 (x - 1) \right) = -\infty \quad \text{với mọi } \lambda_1, \lambda_2 \geq 0,
 $$
+vì $-x^2 \to -\infty$ khi $|x| \to \infty$.
 
-- Nếu $2 + \lambda > 0$: $g(\lambda) = -\infty$ (vô nghiệm)
-- Dual problem không bounded
+- Dual problem có giá trị tối ưu $d^* = -\infty$
+- $d^* = -\infty < p^* = -1$
 
-→ Duality gap > 0, dual của dual không trở về primal
+→ Duality gap > 0 (thực tế là vô hạn), dual của dual không trở về primal
 
 ### **Ví dụ 3: Convex Không Thỏa Slater**
 
@@ -324,7 +327,7 @@ c) Chứng minh dual của dual không trở về primal
 ## **Tài Liệu Tham Khảo**
 
 1. **Boyd, S., & Vandenberghe, L. (2004).** *Convex Optimization.* Cambridge University Press.
-   - Chapter 5: Duality (Section 5.4 về dual của dual)
+   - Chapter 5: Duality (đặc biệt Section 5.2 và 5.3)
 
 2. **Rockafellar, R. T. (1970).** *Convex Analysis.* Princeton University Press.
    - Chapter 31: Duality correspondences
@@ -340,5 +343,5 @@ c) Chứng minh dual của dual không trở về primal
 **Kết nối với các chương khác:**
 - **Chương 10**: Dual của dual trong LP (trường hợp đặc biệt)
 - **Chương 12**: KKT conditions (ứng dụng của duality)
-- **Chương 16**: Interior-Point Methods (algorithms dựa trên duality)
+- **Chương 15 và 17**: Barrier method và Primal-Dual Interior-Point Methods (algorithms dựa trên duality)
 

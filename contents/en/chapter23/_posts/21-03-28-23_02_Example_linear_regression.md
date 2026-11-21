@@ -46,3 +46,15 @@ According to the above results, coordinate descent shows significantly better co
 **A. Yes.** The CD update formula introduced earlier can be modified to have a time complexity of $$O(n)$$ per step. Then, the time complexity of one cycle for CD becomes $$O(np)$$, which has the same time complexity as one step of GD.
 
 * **Gradient descent update:** $$\beta \leftarrow \beta + tX^T(y-X\beta)$$, the time complexity of the $$X\beta$$ operation becomes $$O(np)$$ flops.
+
+### Coordinate descent in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/coordinate-descent_en.mp4"></video>
+</div>
+
+Coordinate descent minimises exactly along one coordinate at a time, drawing a staircase path; correlated coordinates make the stairs small.
+
+### Try it yourself: coordinate descent vs gradient descent
+
+<div class="opx-explainer" data-opx="cd" data-lang="en"></div>

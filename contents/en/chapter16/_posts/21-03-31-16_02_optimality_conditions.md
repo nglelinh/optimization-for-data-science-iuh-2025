@@ -146,3 +146,15 @@ x^\star, s^\star &\gt 0,\\\\
 \end{align}$$
 
 Conditions 3 and 4 show differences from the KKT conditions of the primal LP.
+
+### KKT in 18 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/kkt-normals_en.mp4"></video>
+</div>
+
+At the optimum, $$-\nabla f(x^*)$$ is a nonnegative combination of the normals of the active constraints, and inactive constraints get multiplier $$0$$.
+
+### Try it yourself: KKT multipliers
+
+<div class="opx-explainer" data-opx="kkt" data-lang="en"></div>

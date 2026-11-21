@@ -5,6 +5,7 @@ chapter: "15"
 order: 8
 categories:
 - chapter16
+lang: en
 ---
 
 If we derive the KKT conditions from the barrier problem and the original formulation, we get the following.

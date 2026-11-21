@@ -35,7 +35,7 @@ $$t_k = t > 0, \quad \forall k$$
 
 **Đặc điểm:**
 - Đơn giản để implement
-- Hội tụ đến lân cận của nghiệm tối ưu
+- Hội tụ đến lân cận của giá trị tối ưu
 - Không đạt được nghiệm chính xác
 
 #### **2. Kích thước bước giảm dần**
@@ -48,7 +48,7 @@ $$\sum_{k=1}^{\infty} t_k = \infty, \quad \sum_{k=1}^{\infty} t_k^2 < \infty$$
 - $$t_k = \frac{a}{b + k}$$ với $$a, b > 0$$
 
 **Đặc điểm:**
-- Hội tụ chính xác đến nghiệm tối ưu
+- Hội tụ chính xác đến giá trị tối ưu ($$f_{\text{best}}^{(k)} \to f^*$$)
 - Tốc độ hội tụ chậm hơn kích thước bước cố định ban đầu
 
 #### **3. Polyak step sizes**
@@ -69,7 +69,7 @@ $$t_k = \frac{f(x^{(k)}) - f^*}{\lVert g^{(k)} \rVert_2^2}$$
 $$\lim_{k \to \infty} f(x_{\text{best}}^{(k)}) \le f^* + \frac{G^2 t}{2}$$
 
 **Ý nghĩa:**
-- Hội tụ đến lân cận của nghiệm tối ưu
+- Hội tụ đến lân cận của giá trị tối ưu
 - Sai số cuối cùng tỷ lệ với kích thước bước $$t$$
 - Trade-off: $$t$$ nhỏ → sai số nhỏ nhưng hội tụ chậm
 
@@ -77,7 +77,7 @@ $$\lim_{k \to \infty} f(x_{\text{best}}^{(k)}) \le f^* + \frac{G^2 t}{2}$$
 $$\lim_{k \to \infty} f(x_{\text{best}}^{(k)}) = f^*$$
 
 **Ý nghĩa:**
-- Hội tụ chính xác đến nghiệm tối ưu
+- Hội tụ chính xác đến giá trị tối ưu ($$f_{\text{best}}^{(k)} \to f^*$$)
 - Tốc độ hội tụ: $$O(1/\sqrt{k})$$ (sublinear)
 
 #### **Chứng minh cơ bản**
@@ -229,22 +229,6 @@ $$\partial f(x) = \partial |x - 2| + \partial |x + 1|$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -433,13 +417,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về phươ
             <h3>Câu 4: Với kích thước bước cố định \(t_k = t\), phương pháp subgradient:</h3>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) Hội tụ đến nghiệm tối ưu chính xác</label>
-                <label><input type="radio" name="q4" value="b"> B) Hội tụ đến một lân cận của nghiệm tối ưu</label>
+                <label><input type="radio" name="q4" value="b"> B) Hội tụ đến một lân cận của giá trị tối ưu</label>
                 <label><input type="radio" name="q4" value="c"> C) Không hội tụ</label>
                 <label><input type="radio" name="q4" value="d"> D) Chỉ hội tụ cho hàm khả vi</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Hội tụ đến một lân cận của nghiệm tối ưu</strong><br>
-                Với step size cố định, thuật toán không hội tụ chính xác mà chỉ đến gần nghiệm tối ưu trong một lân cận.
+                <strong>Đáp án đúng: B) Hội tụ đến một lân cận của giá trị tối ưu</strong><br>
+                Với step size cố định, thuật toán không hội tụ chính xác: $$\lim_{k\to\infty} f(x_{best}^{(k)}) \leq f^* + \frac{G^2 t}{2}$$, tức là chỉ đến gần giá trị tối ưu trong một lân cận tỉ lệ với $$t$$.
             </div>
         </div>
 
@@ -628,13 +612,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về phươ
             <h3>Câu 17: Để tìm giao của các tập lồi \(C_1 \cap C_2 \cap ... \cap C_m\), ta có thể sử dụng:</h3>
             <div class="options">
                 <label><input type="radio" name="q17" value="a"> A) Gradient descent</label>
-                <label><input type="radio" name="q17" value="b"> B) Projected subgradient method với hàm chỉ thị</label>
+                <label><input type="radio" name="q17" value="b"> B) Subgradient method trên hàm $$f(x) = \max_i d_{C_i}(x)$$ (dẫn đến phép chiếu luân phiên)</label>
                 <label><input type="radio" name="q17" value="c"> C) Newton method</label>
                 <label><input type="radio" name="q17" value="d"> D) Không thể giải được</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Projected subgradient method với hàm chỉ thị</strong><br>
-                Có thể tối ưu hóa tổng các hàm chỉ thị $$\sum I_{C_i}(x)$$ để tìm giao của các tập.
+                <strong>Đáp án đúng: B) Subgradient method trên hàm $$f(x) = \max_i d_{C_i}(x)$$ (dẫn đến phép chiếu luân phiên)</strong><br>
+                Tối thiểu hóa $$f(x) = \max_i d_{C_i}(x)$$ (với $$f^* = 0$$ khi giao khác rỗng). Subgradient của $$d_{C_i}$$ là $$(x - P_{C_i}(x))/d_{C_i}(x)$$; với Polyak step size, mỗi bước chính là chiếu $$x$$ lên tập xa nhất, tức là thuật toán chiếu luân phiên (alternating projections).
             </div>
         </div>
 
@@ -955,8 +939,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

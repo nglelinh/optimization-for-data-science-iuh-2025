@@ -181,9 +181,9 @@ Ràng buộc dual:
 
 **d) Tăng lợi nhuận:**
 
-Để trả lời, cần giải bài toán. Giả sử nghiệm tối ưu có $$u_1^* = 15$$ nghìn đồng/giờ.
+Để trả lời, cần giải hệ ràng buộc dual chặt: $$2u_1 + u_2 = 40$$, $$u_1 + 2u_2 = 30$$ → $$u_1^* = 50/3 \approx 16.67$$, $$u_2^* = 20/3 \approx 6.67$$ nghìn đồng/giờ (kiểm tra: primal $$x^* = (40, 20)$$ cho $$40 \cdot 40 + 30 \cdot 20 = 2200$$ = dual $$100 \cdot \frac{50}{3} + 80 \cdot \frac{20}{3} = 2200$$ ✓).
 
-→ Thêm 1 giờ lao động tăng lợi nhuận khoảng **15 nghìn đồng**.
+→ Thêm 1 giờ lao động tăng lợi nhuận khoảng **16.67 nghìn đồng** ($$50/3$$).
 
 </details>
 
@@ -239,6 +239,8 @@ $$
 - $$u_1$$: Giá trị biên của vốn - nếu có thêm 1% vốn, rủi ro giảm bao nhiêu
 - $$u_2$$: Giá trị của việc nới lỏng ràng buộc lợi nhuận - trade-off giữa lợi nhuận và rủi ro
 
+**Nghiệm:** chỉ cần cổ phiếu và trái phiếu: $$15x_1 + 8(1-x_1) = 10 \Rightarrow x_1 = 2/7$$, nên $$x^* = (2/7, 5/7, 0)$$ với rủi ro $$20(2/7) + 5(5/7) = 65/7 \approx 9.29\% \leq 12\%$$ ✓ (ràng buộc rủi ro tối đa 12% không chặt). Nghiệm dual: $$u_1^* = -85/7$$, $$u_2^* = 15/7 \approx 2.14$$ (giá trị dual $$-85/7 + 150/7 = 65/7$$ ✓), nghĩa là nâng yêu cầu lợi nhuận thêm 1% làm rủi ro tăng khoảng 2.14%.
+
 </details>
 
 ---
@@ -261,7 +263,7 @@ $$
 **a)** Xây dựng bài toán đối ngẫu (D)    
 **b)** Cho $$x = (3, 1)$$. Kiểm tra tính khả thi và tìm nghiệm khả thi $$u$$ của (D)    
 **c)** Kiểm tra $$c^Tx \geq b^Tu$$ (weak duality)    
-**d)** Chứng minh $$x^* = (2, 2)$$ là nghiệm tối ưu
+**d)** Chứng minh $$x^* = (4, 0)$$ là nghiệm tối ưu
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
@@ -299,28 +301,19 @@ $$
 
 ✓ Thỏa mãn!
 
-**d) Chứng minh $$x^* = (2, 2)$$ tối ưu:**
+**d) Chứng minh $$x^* = (4, 0)$$ tối ưu:**
 
 Kiểm tra khả thi:
-- $$2 + 2 = 4 \geq 4$$ ✓ (chặt)
-- $$2(2) + 2 = 6 \geq 6$$ ✓ (chặt)
+- $$4 + 0 = 4 \geq 4$$ ✓ (chặt)
+- $$2(4) + 0 = 8 \geq 6$$ ✓ (lỏng, slack = 2)
 
-Giá trị: $$f(x^*) = 2(2) + 3(2) = 10$$
+Giá trị: $$f(x^*) = 2(4) + 3(0) = 8$$
 
-Tìm $$u^*$$ thỏa điều kiện bù (cả hai ràng buộc chặt, cả hai biến dương):
+Tìm $$u^*$$ thỏa điều kiện bù: ràng buộc 2 lỏng nên $$u_2^* = 0$$; $$x_1^* > 0$$ nên ràng buộc dual 1 chặt: $$u_1^* + 2u_2^* = 2 \Rightarrow u_1^* = 2$$.
 
-$$
-\begin{cases}
-u_1^* + 2u_2^* = 2 \\
-u_1^* + u_2^* = 3
-\end{cases}
-$$
+Kiểm tra dual khả thi: $$u_1^* + u_2^* = 2 \leq 3$$ ✓ (lỏng, khớp với $$x_2^* = 0$$). Giá trị dual: $$g(u^*) = 4(2) + 6(0) = 8 = f(x^*)$$ ✓
 
-Giải: $$u_2^* = -1$$, $$u_1^* = 4$$
-
-Nhưng $$u_2^* = -1 < 0$$ không khả thi!
-
-**Kết luận:** Cần kiểm tra lại. Nghiệm tối ưu thực sự phải được tìm bằng phương pháp đồ thị hoặc simplex.
+**Kết luận:** $$x^* = (4, 0)$$ tối ưu (theo weak duality, mọi $$x$$ khả thi đều có $$f(x) \geq g(u^*) = 8$$). Lưu ý $$(2,2)$$ khả thi nhưng $$f = 10 > 8$$ nên không tối ưu; $$x = (3,1)$$ cho $$f = 9$$.
 
 </details>
 
@@ -391,9 +384,9 @@ Strong duality đúng! ✓
 
 **d) Giải thích:**
 
-Trong LP, strong duality luôn đúng khi:
-- Ít nhất một bài toán khả thi
-- Không có trường hợp cả hai vô nghiệm hoặc unbounded
+Trong LP, strong duality đúng khi một trong hai bài toán có nghiệm tối ưu hữu hạn (khi đó bài toán kia cũng có nghiệm tối ưu và hai giá trị bằng nhau):
+- Nếu primal unbounded thì dual infeasible (và ngược lại)
+- Cả hai bài toán có thể cùng infeasible
 
 Điều kiện Slater tự động thỏa với LP khả thi.
 
@@ -714,7 +707,9 @@ Expected payoff với mỗi cột:
 - Cột 2: $$(1/3)(-1+4+2) = 5/3$$
 - Cột 3: $$(1/3)(2-2+3) = 1$$
 
-Min = 1, vậy $$v^* \geq 1$$
+Min = 1, vậy $$v^* \geq 1$$.
+
+**Nghiệm tối ưu (giải LP):** $$x^* = (3/8, 1/4, 3/8)$$, $$y^* = (17/40, 7/20, 9/40)$$, $$v^* = 11/8 = 1.375$$. Kiểm tra: với $$x^*$$, payoff của từng cột đều bằng $$\frac{11}{8}$$ (cột 1: $$\frac{9}{8}+\frac{2}{8}$$; cột 2: $$-\frac{3}{8}+\frac{8}{8}+\frac{6}{8}$$; cột 3: $$\frac{6}{8}-\frac{4}{8}+\frac{9}{8}$$). Lưu ý $$\text{Maxmin} = 0 < v^* = 1.375 < \text{Minmax} = 3$$.
 
 </details>
 
@@ -738,7 +733,7 @@ trong đó $$a_i$$ có thể dao động trong ellipsoid: $$\{a_i + P_i u : \|u\
 
 **Yêu cầu:**    
 a) Viết bài toán robust tương đương    
-b) Chứng minh đây vẫn là bài toán LP    
+b) Chứng minh đây là một SOCP (không còn là bài toán LP thuần túy)    
 c) Xây dựng bài toán đối ngẫu
 
 <details markdown="1">
@@ -770,7 +765,7 @@ $$
 a_i^T x + \|P_i^T x\| \leq b_i
 $$
 
-**b) Chứng minh là LP:**
+**b) Đây là SOCP, không phải LP:**
 
 Dạng tương đương SOCP (Second-Order Cone Program):
 
@@ -855,7 +850,7 @@ $$
 \end{align}
 $$
 
-Giải (bằng tay hoặc solver): $$x_c = (0, 1)$$, $$r = \frac{3}{\sqrt{2}} \approx 2.12$$
+Giải (bằng tay hoặc solver): $$r\sqrt{2} = 2$$, tức $$r = \sqrt{2} \approx 1.414$$, với tâm $$x_c = (t, t)$$, $$0 \leq t \leq 1$$ (ví dụ $$x_c = (0, 0)$$); nghiệm không duy nhất vì ràng buộc 1 không chặt. Kiểm tra với $$x_c = (0,0)$$: vế trái của 4 ràng buộc bằng $$2, 2, 2, 2$$, tức $$\leq 4, 2, 2, 2$$ ✓ (ràng buộc 2, 3, 4 chặt).
 
 </details>
 

@@ -9,19 +9,19 @@ categories:
 lang: vi
 ---
 
-Gradient descent has a convergence rate of $$O(1/\epsilon)$$ for problems represented by functions that have Lipschitz gradients and are convex and differentiable. Are there first-order methods that are faster than gradient descent?
+Gradient descent có tốc độ hội tụ $$O(1/\epsilon)$$ đối với các bài toán biểu diễn bởi hàm lồi, khả vi và có gradient liên tục Lipschitz. Liệu có phương pháp bậc nhất nào nhanh hơn gradient descent không?
 
-### First-order method
-A first-order method can express changes at the $$x^{(k)}$$-th iteration as follows. Therefore, the change at the $$x^{(k)}$$-th iteration is expressed as the span of gradients from the initial position $$x^{(0)}$$ to $$x^{(k−1)}$$.
+### Phương pháp bậc nhất
+Một phương pháp bậc nhất biểu diễn bước cập nhật tại vòng lặp thứ $$k$$ như sau: điểm $$x^{(k)}$$ nằm trong không gian sinh bởi các gradient từ vị trí ban đầu $$x^{(0)}$$ đến $$x^{(k−1)}$$.
 
-> $$x^{(0)} + $$ **span**$$\{∇f(x^{(0)}),∇f(x^{(1)}),...,∇f(x^{(k−1)})\}$$
+> $$x^{(k)} \in x^{(0)} + $$ **span**$$\{∇f(x^{(0)}),∇f(x^{(1)}),...,∇f(x^{(k−1)})\}$$
 
-###  Theorem (Nesterov)
-Nesterov's theorem provides a lower bound for the convergence of first-order methods.
+###  Định lý (Nesterov)
+Định lý của Nesterov cho một cận dưới về tốc độ hội tụ của các phương pháp bậc nhất.
 
-> **Nesterov Theorem** For any $$k ≤ (n−1)/2$$ and starting point $$x^{(0)}$$, there exists a function $$f$$ such that any first-order method satisfies the following condition (where $$n$$ denotes the dimension):<br>
+> **Định lý Nesterov** Với mọi $$k ≤ (n−1)/2$$ và điểm xuất phát $$x^{(0)}$$, tồn tại một hàm $$f$$ sao cho mọi phương pháp bậc nhất đều thỏa mãn điều kiện sau (trong đó $$n$$ là số chiều):<br>
 \begin{align}
 f(x^{(k)})−f^{\star} ≥ \frac{3L \lVert x^{(0)} −x^{\star} \rVert_2^2}{32(k + 1)^2 }\\\
 \end{align}
 
-Since Nesterov's theorem has $$k^2$$ in the denominator of the lower bound, the convergence rate becomes $$O(1/k^2)$$. Furthermore, the number of iterations becomes $$O(1/\sqrt{\epsilon})$$. We will examine this content in detail later.
+Vì cận dưới trong định lý Nesterov có $$k^2$$ ở mẫu số, tốc độ hội tụ là $$O(1/k^2)$$. Hơn nữa, số vòng lặp cần thiết là $$O(1/\sqrt{\epsilon})$$. Chúng ta sẽ xem xét nội dung này chi tiết hơn ở phần sau.

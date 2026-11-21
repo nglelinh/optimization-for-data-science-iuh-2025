@@ -57,7 +57,7 @@ $$\lVert z \rVert_* = \max_{\lVert x \rVert \le 1} z^T x$$
 #### **Tính chất cơ bản**
 - **Generalized Cauchy-Schwarz:** $$\lvert z^T x \rvert \le \lVert z \rVert_* \lVert x \rVert$$
 - **Double dual:** $$\lVert x \rVert_{**} = \lVert x \rVert$$
-- **Always a norm:** $$\lVert \cdot \rVert_*$$ luôn là norm ngay cả khi $$\lVert \cdot \rVert$$ không convex
+- **Always a norm:** $$\lVert \cdot \rVert_*$$ luôn là một norm (là supremum của các hàm tuyến tính, nên luôn lồi)
 
 #### **Ví dụ quan trọng**
 - **$$\ell_p$$ norms:** $$(\lVert x \rVert_p)_* = \lVert x \rVert_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$
@@ -86,7 +86,7 @@ $$\min_{\beta,z} \frac{1}{2}\lVert y - z \rVert_2^2 + \lambda \lVert \beta \rVer
 $$L(\beta,z,u) = \frac{1}{2}\lVert y - z \rVert_2^2 + \lambda \lVert \beta \rVert_1 + u^T(z - X\beta)$$
 
 **Dual function:**
-$$g(u) = \frac{1}{2}\lVert y \rVert_2^2 - \frac{1}{2}\lVert y - u \rVert_2^2 - I_{\{\lVert X^T v \rVert_\infty \le \lambda\}}(u)$$
+$$g(u) = \frac{1}{2}\lVert y \rVert_2^2 - \frac{1}{2}\lVert y - u \rVert_2^2 - I_{\{\lVert X^T u \rVert_\infty \le \lambda\}}(u)$$
 
 #### **LASSO dual problem**
 $$\min_u \lVert y - u \rVert_2^2 \quad \text{s.t.} \quad \lVert X^T u \rVert_\infty \le \lambda$$
@@ -162,7 +162,7 @@ $$\max_u -f^*(A^T u) \quad \text{s.t.} \quad u \in K^*$$
 #### **Ví dụ: Second-Order Cone Programming (SOCP)**
 **Primal:** $$\min c^T x \quad \text{s.t.} \quad \lVert A_i x + b_i \rVert_2 \le c_i^T x + d_i$$
 
-**Equivalent conic form:** $$Ax \in K$$ với $$K$$ là product của second-order cones
+**Equivalent conic form:** $$Ax + b \in K$$ (xếp chồng $$(A_i x + b_i, c_i^T x + d_i)$$) với $$K$$ là product của second-order cones
 
 **Dual:** $$\max -b^T u \quad \text{s.t.} \quad A^T u = c, \quad u \in K^*$$
 
@@ -351,22 +351,6 @@ $$\max_u -f^*(A^T u) \quad \text{s.t.} \quad u \in K^*$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -782,11 +766,11 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
                 <label><input type="radio" name="q19" value="a"> A) \(f^*(y) = \max\{f_1^*(y), f_2^*(y)\}\)</label>
                 <label><input type="radio" name="q19" value="b"> B) \(f^*(y) = \min\{f_1^*(y), f_2^*(y)\}\)</label>
                 <label><input type="radio" name="q19" value="c"> C) \(f^*(y) = f_1^*(y) + f_2^*(y)\)</label>
-                <label><input type="radio" name="q19" value="d"> D) \(f^*(y) = \inf\{\lambda_1 f_1^*(y) + \lambda_2 f_2^*(y) : \lambda_1 + \lambda_2 = 1, \lambda_i \geq 0\}\)</label>
+                <label><input type="radio" name="q19" value="d"> D) \(f^*(y) = \inf\{\lambda_1 f_1^*(y_1/\lambda_1) + \lambda_2 f_2^*(y_2/\lambda_2) : y_1 + y_2 = y,\ \lambda_1 + \lambda_2 = 1, \lambda_i \geq 0\}\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: D) $$f^*(y) = \inf\{\lambda_1 f_1^*(y) + \lambda_2 f_2^*(y) : \lambda_1 + \lambda_2 = 1, \lambda_i \geq 0\}$$</strong><br>
-                Conjugate của max là infimal convolution của conjugates (under regularity conditions).
+                <strong>Đáp án đúng: D) $$f^*(y) = \inf\{\lambda_1 f_1^*(y_1/\lambda_1) + \lambda_2 f_2^*(y_2/\lambda_2) : y_1 + y_2 = y,\ \lambda_1 + \lambda_2 = 1, \lambda_i \geq 0\}$$</strong><br>
+                Với $$f_1, f_2$$ lồi, đóng: conjugate của max là bao lồi (convex hull) của $$\min\{f_1^*, f_2^*\}$$, chính là công thức D (dùng perspective). Đáp án B chỉ là $$\min\{f_1^*, f_2^*\}$$, nói chung không lồi nên không thể là một conjugate. Ví dụ: $$\max\{x, -x\} = |x|$$ có conjugate $$I_{[-1,1]}$$, trong khi $$\min\{I_{\{1\}}, I_{\{-1\}}\} = I_{\{-1,1\}}$$.
             </div>
         </div>
 
@@ -1077,8 +1061,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

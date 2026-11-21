@@ -1,13 +1,15 @@
 ---
 layout: post
-title: 15-01-03 Log barrier calculus
+title: '15-01-03 Giải tích của hàm chắn logarit'
 chapter: "15"
 order: 5
 owner: "Minjoo Lee"
 categories:
 - chapter15
+lang: vi
 ---
-The gradient and Hessian of the log barrier function are as follows.
+
+Gradient và Hessian của hàm chắn logarit như sau.
 >
 \begin{align}
 \phi(x) = - \sum_{i=1}^{m} \log(-h_i(x))
@@ -26,13 +28,13 @@ Hessian:
 \nabla^2 \phi(x) = \sum_{i=1}^{m} \frac{1}{h_i(x)^2} \nabla h_i(x) \nabla h_i(x)^T -  \sum_{i=1}^{m} \frac{1}{h_i(x)} \nabla^2 h_i(x)
 \end{align}
 
-## Example: $$\phi(x) = -\sum_{i=1}^{n} \log(x_i)$$
-If we compute the gradient and Hessian for the barrier function $$\phi(x) = -\sum_{i=1}^{n} \log(-x_i)$$, we get the following results.
+## Ví dụ: $$\phi(x) = -\sum_{i=1}^{n} \log(x_i)$$
+Nếu tính gradient và Hessian cho hàm chắn $$\phi(x) = -\sum_{i=1}^{n} \log(x_i)$$, ta được kết quả sau.
 >
 \begin{align}
 \phi(x) = -\sum_{i=1}^{n} \log(x_i)
 \end{align}
-Therefore, $$h_i(x) =  -x_i$$ and $$x_i \ge 0$$.
+Do đó, $$h_i(x) =  -x_i$$ và $$x_i \ge 0$$.
 
 Gradient:
 >
@@ -45,7 +47,7 @@ $$
 \end{bmatrix}
  = -X^{-1} \mathbb{1}, \qquad X = \text{diag}(x)$$
  
-Hessian :
+Hessian:
 >
 $$
 \nabla^2 \phi(x) = 

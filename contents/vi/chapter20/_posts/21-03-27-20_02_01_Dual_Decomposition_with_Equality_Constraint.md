@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 20-02-01 Dual Decomposition with Equality Constraint
+title: 20-02-01 Phân rã đối ngẫu với ràng buộc đẳng thức
 chapter: '20'
 order: 5
 owner: Hooncheol Shin
@@ -9,12 +9,12 @@ categories:
 lang: vi
 ---
 
-다음의 problem를 보자. 
->\begin{equation}
-\min_x \sum_{i=1}^B f_i(x_i) \quad \text{ subject to } \quad Ax = b
-\end{equation}
+Hãy xét bài toán sau.
+>$$\begin{equation}
+>\min_x \sum_{i=1}^B f_i(x_i) \quad \text{ subject to } \quad Ax = b
+>\end{equation}$$
 
-if,, variable $$x$$를 $$B$$개의 블록with, 분할하고, $$x = (x_1,\dots,x_B) \in \mathbb{R}^n, \text{ where } x_i \in \mathbb{R}^{n_i}$$, matrix $$A$$ 역시 $$B$$개의 sub-matrix 블록with, as follows: 분할하면, $$A = [A_1, \dots, A_B], \text{ where } A_i \in \mathbb{R}^{m \times n_i}$$, 위 minimization problem는 as follows: $$B$$개의 분리된 problemto, 분solution될 수 있다.  
+Giả sử biến $$x$$ được chia thành $$B$$ khối, $$x = (x_1,\dots,x_B) \in \mathbb{R}^n, \text{ trong đó } x_i \in \mathbb{R}^{n_i}$$, và ma trận $$A$$ cũng được chia thành $$B$$ khối cột, $$A = [A_1, \dots, A_B], \text{ trong đó } A_i \in \mathbb{R}^{m \times n_i}$$. Khi đó, với $$u$$ cố định, bài toán cực tiểu hóa theo $$x$$ tách thành $$B$$ bài toán độc lập:
 > $$
 > \begin{alignat}{1}
 > & \quad x^+ \in \arg\min_x \sum_{i=1}^B f_i(x_i) + u^T Ax  \\
@@ -22,7 +22,7 @@ if,, variable $$x$$를 $$B$$개의 블록with, 분할하고, $$x = (x_1,\dots,x_
 > \end{alignat}
 > $$
 
-### Dual decomposition algorithm: 
+### Thuật toán phân rã đối ngẫu:
 
 > $$
 > \begin{alignat}{1}
@@ -31,15 +31,27 @@ if,, variable $$x$$를 $$B$$개의 블록with, 분할하고, $$x = (x_1,\dots,x_
 > \end{alignat}
 > $$
 
-위 두 step는 아래and, 같이 solution석할 수 있다. 
->* 첫번째 수식은 broadcast stepto,서, $$B$$개의 프to,세서의 각각to,게 $$u$$를 보낸다. and,, 프to,세서 각각은 병렬to, 자신의 최적 $$x_i$$를 찾는다.   
-* 두번째 수식은 gather stepto,서, 각 프to,세서from, $$A_i x_i$$를 모은다. and, global dual variable $$u$$를 업데이트 한다. 
+Hai bước trên có thể hiểu như sau.
+* Phương trình thứ nhất là bước **phát (broadcast)**: giá trị $$u$$ hiện tại được gửi tới từng bộ xử lý trong $$B$$ bộ xử lý, và mỗi bộ xử lý song song tìm $$x_i$$ tối ưu của riêng mình.
+* Phương trình thứ hai là bước **thu (gather)**: thu $$A_i x_i$$ từ mỗi bộ xử lý và cập nhật biến đối ngẫu toàn cục $$u$$.
 
-위 두 step는 $$k=1,2,3,\dots$$about, 계속 iteration한다. 
+Hai bước này được lặp lại với $$k=1,2,3,\dots$$
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl }}/img/chapter_img/chapter20/decomposition.png" alt="[Fig 1] Broadcast and Gather" width="70%">
-  <figcaption style="text-align: center;">[Fig 1] Broadcast and Gather</figcaption>
+  <img src="{{ site.baseurl }}/img/chapter_img/chapter20/decomposition.png" alt="[Hình 1] Broadcast and Gather" width="70%">
+  <figcaption style="text-align: center;">[Hình 1] Broadcast and Gather</figcaption>
 </p>
 </figure>
+
+### Phân rã đối ngẫu trong 18 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/dual-decomposition_vi.mp4"></video>
+</div>
+
+Mỗi tác tử tự giải bài toán nhỏ của mình với mức giá $$\nu$$, và dual ascent tăng hoặc giảm $$\nu$$ theo mức vi phạm ràng buộc $$\sum_i x_i-c$$.
+
+### Tự tay thử: đặt mức giá
+
+<div class="opx-explainer" data-opx="dd" data-lang="vi"></div>

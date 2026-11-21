@@ -117,3 +117,15 @@ In the following figure, you can clearly see the performance difference between 
   <figcaption style="text-align: center;">[Fig 1] Example of proximal gradient (ISTA) vs. subgradient method convergence rate [3]</figcaption>
 </p>
 </figure>
+
+### Soft-thresholding in 15 seconds
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/prox-shrink_en.mp4"></video>
+</div>
+
+The prox of $$\lambda\|x\|_1$$ sends small entries to exactly zero and shrinks the others by $$\lambda$$: $$\operatorname{sign}(y)\max(|y|-\lambda,0)$$.
+
+### Try it yourself: ISTA on a tiny lasso
+
+<div class="opx-explainer" data-opx="ista" data-lang="en"></div>

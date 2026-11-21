@@ -10,15 +10,15 @@ lang: vi
 lesson_type: required
 ---
 
-Suppose $$f$$ is convex and differentiable with $$dom(f) = \mathbb{R}^n$$, and $$\nabla f$$ is Lipschitz continuous with constant $$L > 0$$:
->$$ \| \nabla f(x) - \nabla f(y) \|_2 \le L \| x - y \|_2 $$ for any $$x, y$$
+Giả sử $$f$$ lồi và khả vi với $$dom(f) = \mathbb{R}^n$$, và $$\nabla f$$ liên tục Lipschitz với hằng số $$L > 0$$:
+>$$ \| \nabla f(x) - \nabla f(y) \|_2 \le L \| x - y \|_2 $$ với mọi $$x, y$$
 
-Reference: [[Wikipedia: Lipschitz continuity](https://en.wikipedia.org/wiki/Lipschitz_continuity)]
+Tham khảo: [[Wikipedia: Lipschitz continuity](https://en.wikipedia.org/wiki/Lipschitz_continuity)]
 
-## Convergence Theorem
-**Gradient descent** with backtracking line search satisfies:
+## Định lý hội tụ
+**Gradient descent** với backtracking line search thỏa mãn:
 > $$ \begin{align}
 f(x^{(k)}) - f^* \le \frac{\| x^{(0)} - x^* \|_2^2}{2 t_{min} k}, \quad t_{min} = \min \{ 1, \beta/L \}
 \end{align} $$
 
-The convergence rate for backtracking line search is similar to that for fixed step size, with the step size $$t$$ replaced by $$t_{min}$$. If $$\beta$$ is not too small, the performance is comparable to fixed step size ($$\beta/L$$ vs. $$1/L$$).
+Tốc độ hội tụ của backtracking line search tương tự như với kích thước bước cố định, trong đó kích thước bước $$t$$ được thay bằng $$t_{min}$$. Nếu $$\beta$$ không quá nhỏ thì hiệu năng tương đương với kích thước bước cố định ($$\beta/L$$ so với $$1/L$$).

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 25-01-04 Branch and cut algorithm
+title: '25-01-04 Thuật toán nhánh và cắt (Branch and cut)'
 chapter: '25'
 order: 6
 owner: YoungJae Choung
@@ -9,23 +9,10 @@ categories:
 lang: vi
 ---
 
-In 1990, Sebastian Ceria at CMU successfully implemented the cutting plane method using the branch and bound algorithm, which is called branch and cut. Since then, cutting planes have become a core component of commercial optimization solvers.
+Năm 1990, Sebastian Ceria tại CMU đã cài đặt thành công phương pháp mặt phẳng cắt kết hợp với thuật toán nhánh và cận, gọi là nhánh và cắt (branch and cut). Từ đó, mặt phẳng cắt trở thành thành phần cốt lõi của các bộ giải tối ưu thương mại.
 
-## Branch and cut algorithm
-다음and, 같은 integer programming problem가 있다고 하자. 이when, $$f : \mathbb{R}^{n} \to \mathbb{R}$$이고  $$C \subseteq \mathbb{R}^{n}$$는 convex이며 $$J \subseteq {1, ..., n}$$이다.
-
-> $$
-> \begin{align}
->           \min_{x} & \quad {f(x)} \\
-> \text{subject to } & \quad  x \in C \\
->                    & \quad  x_j \in \mathbb{Z}, \quad j \in J \\
-> \end{align}
-> $$
-
-### Branch and cut algorithm
-algorithmat, Convex Problem은 CPto, Integer Program은 IPto, 표기한다.
-
-1. 다음 convex relaxation problem를 푼다.
+## Thuật toán nhánh và cắt
+Giả sử có bài toán quy hoạch nguyên sau. Ở đây $$f : \mathbb{R}^{n} \to \mathbb{R}$$ lồi, $$C \subseteq \mathbb{R}^{n}$$ là tập lồi và $$J \subseteq \{1, ..., n\}$$.
 
 > $$
 > \begin{align}
@@ -35,19 +22,31 @@ algorithmat, Convex Problem은 CPto, Integer Program은 IPto, 표기한다.
 > \end{align}
 > $$
 
-2. (CR) infeasible $$\Rightarrow$$ (IP) infeasible <br>
-3. (CR)의 solution $$x^{\star}$$이 (IP) feasible $$\Rightarrow$$ $$x^{\star}$$는 (IP)의 solution <br>
-4. (CR)의 solution $$x^{\star}$$이 (IP) infeasible하면 다음 두 가지 중to, 선택 <br>
-$$\quad$$4.1 cut을 추가하고 step 1to, 간다. <br>
-$$\quad$$4.2 branchsolution서 iteration적with, subproblem을 푼다. <br>
+### Thuật toán nhánh và cắt
+Trong thuật toán, bài toán lồi được ký hiệu là CR (nới lỏng lồi) và quy hoạch nguyên là IP.
 
-Branch and cut algorithm은 branch and bound and, cutting plane method를 결sum한 algorithmwith,서, step 4at, branch-and-bound를 할지, cut을 할지 선택할 수 있다. 
+1. Giải bài toán nới lỏng lồi (CR) sau.
 
-## Integer programming technology
-Gurobi, CPLEX, FICOand, 같은 state-of-the-art solver들은 매우 효율적인 simplex, interior-point method 등의 algorithm 구현을 포함하고 있다. particularly,, mixed integer optimization의 case, 대부분의 solver들은 branch and cut algorithm을 사용하고 있으며 이들은 convex relaxationand, warm start의 이점을 많이 활용하고 있다.
+> $$
+> \begin{align}
+> \min_{x} & \quad {f(x)} \\\\
+> \text{subject to } & \quad  x \in C
+> \end{align}
+> $$
 
-약 30년 전to, 비하면 Integer programming의 성능 향image은 매우 비약적이다. therefore,, 그during, 풀지 못했던  실생활의 많은 problem들이 최근to, Integer programming을 through, solution결되고 있으며 computing power가 향image됨according to, 더욱 적극적with, 활용될 전망이다.
+2. (CR) không khả thi $$\Rightarrow$$ (IP) không khả thi <br>
+3. Nghiệm $$x^{\star}$$ của (CR) khả thi cho (IP) $$\Rightarrow$$ $$x^{\star}$$ là nghiệm của (IP) <br>
+4. Nếu nghiệm $$x^{\star}$$ của (CR) không khả thi cho (IP) thì chọn một trong hai cách sau <br>
+$$\quad$$4.1 Thêm một lát cắt (cut) rồi quay lại bước 1. <br>
+$$\quad$$4.2 Phân nhánh (branch) và giải đệ quy các bài toán con. <br>
 
-* Algorithmat,의 속도 향image 1990-2016 : over $$500,000$$
-* Hardwareat,의 속도 향image 1990-2016 : over $$500,000$$
-* Total speedup over $$250$$ billion = $$2:5 \cdot 10^{11}$$
+Thuật toán nhánh và cắt là thuật toán kết hợp nhánh và cận (branch and bound) với phương pháp mặt phẳng cắt; ở bước 4 ta có thể chọn thực hiện branch-and-bound hay thêm lát cắt. 
+
+## Công nghệ quy hoạch nguyên
+Các bộ giải hiện đại như Gurobi, CPLEX, FICO chứa các cài đặt rất hiệu quả của các thuật toán như simplex và điểm trong (interior-point). Đặc biệt với tối ưu nguyên hỗn hợp, hầu hết các bộ giải dùng thuật toán nhánh và cắt, tận dụng nhiều lợi thế của nới lỏng lồi và warm start.
+
+So với khoảng 30 năm trước, hiệu năng của quy hoạch nguyên đã cải thiện vượt bậc. Do đó, nhiều bài toán thực tế mà trước đây chưa giải được nay đã được giải bằng quy hoạch nguyên, và với sự cải thiện của sức mạnh tính toán, nó dự kiến sẽ được sử dụng tích cực hơn nữa.
+
+* Tăng tốc nhờ thuật toán 1990-2016: hơn $$500{,}000$$ lần
+* Tăng tốc nhờ phần cứng 1990-2016: hơn $$500{,}000$$ lần
+* Tổng tốc độ tăng hơn $$250$$ tỷ lần $$= 2{,}5 \cdot 10^{11}$$

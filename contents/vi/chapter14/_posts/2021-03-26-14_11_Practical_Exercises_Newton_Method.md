@@ -508,7 +508,7 @@ $$
 | Method | Convergence | Iterations to $$10^{-6}$$ |
 |--------|-------------|---------------------------|
 | Newton | Quadratic | 1 (hàm bậc hai) |
-| GD | Linear ($$0.6^k$$) | $$k \approx 27$$ |
+| GD | Linear ($$0.6^k$$) | $$k = 28$$ ($$0.6^{27} \approx 1.03 \times 10^{-6}$$) |
 
 Newton **nhanh hơn rất nhiều**!
 
@@ -715,11 +715,11 @@ x_1 = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{b
 $$
 
 $$
-x_2 = A x_1 + B u_1 = \begin{bmatrix} 1 + u_0 + u_1 \\ u_0 + u_1 \end{bmatrix}
+x_2 = A x_1 + B u_1 = \begin{bmatrix} 1 + u_0 \\ u_0 + u_1 \end{bmatrix}
 $$
 
 $$
-x_3 = A x_2 + B u_2 = \begin{bmatrix} 1 + 2u_0 + 2u_1 + u_2 \\ u_0 + u_1 + u_2 \end{bmatrix}
+x_3 = A x_2 + B u_2 = \begin{bmatrix} 1 + 2u_0 + u_1 \\ u_0 + u_1 + u_2 \end{bmatrix}
 $$
 
 **Hàm mục tiêu ($$Q = R = Q_f = I$$):**
@@ -732,11 +732,11 @@ $$
 = (1^2 + u_0^2) + ((1)^2 + (u_0)^2 + u_1^2) + \ldots
 $$
 
-(Tính toán phức tạp, cần sử dụng software hoặc symbolic math)
+Khai triển và lấy đạo hàm: $$\nabla f(0) = (6, 2, 0)^T$$, $$\nabla^2 f = \begin{bmatrix} 18 & 8 & 2 \\ 8 & 8 & 2 \\ 2 & 2 & 4 \end{bmatrix}$$. Newton step từ $$u = 0$$: $$\Delta u = -(\nabla^2 f)^{-1}\nabla f(0)$$.
 
 **Kết quả (tham khảo):**
 
-Optimal control: $$u^* \approx (-0.5, -0.3, -0.2)^T$$
+Optimal control: $$u^* = (-2/5,\ 4/35,\ 1/7)^T \approx (-0.4,\ 0.114,\ 0.143)^T$$, $$f^* = 102/35 \approx 2.914$$
 
 Newton method hội tụ trong 1 iteration vì QP.
 

@@ -1,67 +1,68 @@
 ---
 layout: post
-title: 15-04 Barrier method v.0 and v.1
+title: '15-04 Phương pháp chắn v.0 và v.1'
 chapter: "15"
 order: 10
 owner: "Minjoo Lee"
 categories:
 - chapter16
+lang: vi
 ---
 
-## Barrier method v.0
-**Barrier method v.0** chooses $$t = m/\epsilon$$ for $$\epsilon > 0$$ and solves the following barrier problem to obtain $$f(x^*(t)) - f(x^*) \le \epsilon $$.
+## Phương pháp chắn v.0
+**Phương pháp chắn v.0** chọn $$t = m/\epsilon$$ với $$\epsilon > 0$$ và giải bài toán chắn sau để thu được $$f(x^*(t)) - f(x^*) \le \epsilon $$.
 >
 $$\begin{align}
  &\min_{x} \ && tf(x) + \phi(x) \\
  &\text{subject to } \ && Ax = b \\
 \end{align}$$
 
-Here, $$m$$ is the number of constraints and $$t$$ is a multiple of $$1/\epsilon$$, so as $$\epsilon$$ gets smaller, $$t$$ becomes very large, and eventually the end of the central path is reached, making the problem equivalent to the original problem. Therefore, this can be very slow and difficult to solve.
+Ở đây, $$m$$ là số ràng buộc và $$t$$ là một bội của $$1/\epsilon$$, nên khi $$\epsilon$$ càng nhỏ thì $$t$$ càng rất lớn, và cuối cùng ta đến cuối đường trung tâm, khiến bài toán tương đương với bài toán ban đầu. Do đó, cách này có thể rất chậm và khó giải.
 
-Thus, a better approach is to follow the central path to find the solution, which leads to the definition of **barrier method v.1**.
+Vì vậy, một cách tiếp cận tốt hơn là đi theo đường trung tâm để tìm nghiệm, dẫn đến định nghĩa **phương pháp chắn v.1**.
 
-## Barrier method v.1
-**Barrier method v.1** is a method that gradually increases the value of $$t$$ and solves the following barrier problem multiple times.
+## Phương pháp chắn v.1
+**Phương pháp chắn v.1** là phương pháp tăng dần giá trị $$t$$ và giải bài toán chắn sau nhiều lần.
 >
 $$\begin{align}
  &\min_{x} \ && tf(x) + \phi(x) \\
  &\text{subject to } \ && Ax = b \\
 \end{align}$$
 
-### Algorithm
-The algorithm can be described as follows.
+### Thuật toán
+Thuật toán có thể được mô tả như sau.
 
-1. Choose $$t^{(0)} > 0$$ and set $$k := 0$$.
-2. At $$t = t^{(0)}$$, solve the barrier problem to obtain $$x^{(0)} = x^*(t)$$.
-3. While $$m/t > \epsilon$$ <br>
-  3-1. Choose $$t^{(k+1)} > t^{(k)}$$. <br>
-  3-2. Initialize Newton's method with $$x^{(k)}$$. (warm start)<br>
-        At $$t = t^{(k+1)}$$, solve the barrier problem to obtain $$x^{(k+1)} = x^*(t)$$.<br>
-  end while<br>
+1. Chọn $$t^{(0)} > 0$$ và đặt $$k := 0$$.
+2. Tại $$t = t^{(0)}$$, giải bài toán chắn để thu được $$x^{(0)} = x^*(t)$$.
+3. Trong khi $$m/t > \epsilon$$ <br>
+  3-1. Chọn $$t^{(k+1)} > t^{(k)}$$. <br>
+  3-2. Khởi tạo phương pháp Newton với $$x^{(k)}$$. (khởi động ấm, warm start)<br>
+        Tại $$t = t^{(k+1)}$$, giải bài toán chắn để thu được $$x^{(k+1)} = x^*(t)$$.<br>
+  kết thúc vòng lặp<br>
 
-### Comments
-* **Common update method**: $$t^{(k+1)} = \mu t^{(k)}$$, ($$\mu > 1$$)
-* **Warm start**: In step 3-2, the solution from the previous step is used as the initial value for the next step, which is called warm start.
-* **Centering step**: Steps 2 and 3-2 in the algorithm, which solve the barrier problem, are called centering steps (or outer iterations).
+### Nhận xét
+* **Cách cập nhật thường dùng**: $$t^{(k+1)} = \mu t^{(k)}$$, ($$\mu > 1$$)
+* **Khởi động ấm (warm start)**: Ở bước 3-2, nghiệm của bước trước được dùng làm giá trị khởi tạo cho bước sau, cách này gọi là warm start.
+* **Bước centering**: Các bước 2 và 3-2 của thuật toán, tức là giải bài toán chắn, được gọi là các bước centering (hay vòng lặp ngoài).
 
-### Considerations
-In choosing $$\mu$$ and $$t^{(0)}$$, the following trade-offs must be considered.
-##### Choice of $$\mu$$
-* If $$\mu$$ is too small, the number of outer iterations increases. (In this case, warm start helps.)<br>
-* If $$\mu$$ is too large, many iterations are required for Newton's method to converge in every centering step. 
+### Những điều cần cân nhắc
+Khi chọn $$\mu$$ và $$t^{(0)}$$, cần cân nhắc các đánh đổi sau.
+##### Chọn $$\mu$$
+* Nếu $$\mu$$ quá nhỏ, số vòng lặp ngoài tăng lên. (Trong trường hợp này warm start có ích.)<br>
+* Nếu $$\mu$$ quá lớn, phương pháp Newton cần nhiều vòng lặp để hội tụ ở mỗi bước centering.
 
-##### Choice of initial algorithm value
-* If $$t^{(0)}$$ is too small, the number of outer iterations increases.<br>
-* If $$t^{(0)}$$ is too large, it becomes the same problem as v.0. Therefore, Newton's method requires many iterations to find $$x^{(0)}$$ in the first centering step. 
+##### Chọn giá trị khởi tạo của thuật toán
+* Nếu $$t^{(0)}$$ quá nhỏ, số vòng lặp ngoài tăng lên.<br>
+* Nếu $$t^{(0)}$$ quá lớn, bài toán trở thành giống v.0. Do đó, phương pháp Newton cần nhiều vòng lặp để tìm $$x^{(0)}$$ ở bước centering đầu tiên.
 
-Fortunately, the performance of the actual barrier method is very robust to the choice of $$\mu$$ and $$t^{(0)}$$. Moreover, the appropriate range of these parameters varies depending on the problem size.
+May mắn là hiệu năng của phương pháp chắn thực tế rất ổn định đối với việc chọn $$\mu$$ và $$t^{(0)}$$. Hơn nữa, khoảng giá trị phù hợp của các tham số này thay đổi tùy theo kích thước bài toán.
 
-## Example of small LP
-The following figure shows the performance when executing an LP problem with n=50 dimensions and m=100 inequality constraints using the barrier method. It can be confirmed that when $$\mu = 2$$, the outer iterations increase, and when $$\mu=150$$, the centering steps increase relatively compared to when $$\mu=50$$.
+## Ví dụ LP nhỏ
+Hình dưới đây cho thấy hiệu năng khi chạy một bài toán LP có n=50 chiều và m=100 ràng buộc bất đẳng thức bằng phương pháp chắn. Có thể thấy khi $$\mu = 2$$ thì số vòng lặp ngoài tăng lên, và khi $$\mu=150$$ thì số bước centering tăng tương đối so với khi $$\mu=50$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter15/15_barrier_method_03.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Fig 1] Example of small LP [3]</figcaption>
+ <figcaption style="text-align: center;">[Hình 1] Ví dụ LP nhỏ [3]</figcaption>
 </p>
 </figure>

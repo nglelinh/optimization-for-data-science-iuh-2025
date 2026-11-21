@@ -129,9 +129,9 @@ $$\beta = \left(\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}\right)^2 = \left(\fr
 
 **b) Heavy Ball iterations:**
 
-$$x^{(1)} = (2.4, -0.8)$$ (same as GD initially)
+$$x^{(1)} = (2.4, -0.8)$$, $$x^{(2)} = (1.92, 0.64)$$ (giống GD ở các bước đầu, vì chưa có momentum)
 
-$$x^{(2)} = (1.92, 0.64) - 0.1(3.84, 11.52) + 0.25((1.92, 0.64) - (2.4, -0.8))$$
+$$x^{(3)} = (1.92, 0.64) - 0.1(3.84, 11.52) + 0.25((1.92, 0.64) - (2.4, -0.8))$$
 
 $$= (1.92, 0.64) - (0.384, 1.152) + 0.25(-0.48, 1.44)$$
 
@@ -145,9 +145,9 @@ $$= (1.416, -0.152)$$
 
 **GD:** $$\left(\frac{\kappa - 1}{\kappa + 1}\right)^k = \left(\frac{8}{10}\right)^k = 0.8^k$$
 
-**Heavy Ball:** $$\left(\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}\right)^{2k} = 0.5^k$$
+**Heavy Ball:** $$\left(\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}\right)^{k} = 0.5^k$$
 
-**Heavy Ball converges ~60% faster per iteration!**
+**Mỗi vòng lặp Heavy Ball co sai số với hệ số 0.5 (so với 0.8 của GD), tức cần ít hơn khoảng $$\ln 0.8 / \ln 0.5 \approx 3$$ lần số vòng lặp!**
 
 </details>
 
@@ -204,14 +204,14 @@ $$k=2$$: $$y^{(2)} = (1, 0.25) + \frac{1}{4}((1, 0.25) - (0, 0)) = (1.25, 0.3125
 
 ---
 
-**c) Comparison (after 5 iters):**
+**c) Comparison (sau 5 iterations):**
 
-| Method | $$x^{(5)}$$ | $$\|x^{(5)} - x^*\|$$ |
+| Method | $$x$$ sau 5 iterations | $$\|x^{(5)} - x^*\|$$ |
 |--------|-------------|----------------------|
-| GD | $$(0.92, 0.87)$$ | $$0.15$$ |
-| Nesterov | $$(0.98, 0.95)$$ | $$0.06$$ |
+| GD | $$(1, 0.763)$$ | $$0.237$$ |
+| Nesterov | $$(1, 0.944)$$ | $$0.056$$ |
 
-**Nesterov ~2.5× faster!**
+**Sai số của Nesterov nhỏ hơn khoảng 4 lần!** (GD: sai số $$0.75^5 \approx 0.237$$ theo tọa độ thứ hai)
 
 </details>
 

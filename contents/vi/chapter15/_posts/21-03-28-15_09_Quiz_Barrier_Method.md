@@ -43,7 +43,7 @@ với $$i = 1,\ldots,m$$
 - **Domain:** $$\{x : h_i(x) < 0 \quad \forall i\}$$ (strictly feasible)
 - **Smooth:** Twice differentiable trong interior
 - **Barrier effect:** $$\phi(x) \to \infty$$ khi $$x$$ approaches boundary
-- **Self-concordant:** Enables elegant Newton analysis
+- **Self-concordant:** (khi $$h_i$$ affine hoặc convex quadratic) Enables elegant Newton analysis
 
 #### **Barrier problem formulation**
 **Original problem:** $$\min f(x)$$ s.t. $$h_i(x) \le 0, Ax = b$$
@@ -182,7 +182,7 @@ $$\text{Outer iterations} = \frac{\log(m/(t^{(0)}\epsilon))}{\log \mu} + 1$$
 - **Gradient descent:** $$O(1/\epsilon)$$ - sublinear convergence
 - **Barrier method:** $$O(\log(1/\epsilon))$$ - linear convergence
 
-**Note:** Linear convergence is **excellent** for constrained problems!
+**Lưu ý:** Hội tụ tuyến tính là **rất tốt** đối với các bài toán có ràng buộc!
 
 ### 🎯 **Feasibility Methods**
 
@@ -197,16 +197,16 @@ $$\min_{x,s} s \quad \text{s.t.} \quad h_i(x) \le s, \quad Ax = b$$
 **Advantage:** Single slack variable
 
 #### **Phase I: Individual infeasibilities**
-$$\min_{x,s} \mathbf{1}^T s \quad \text{s.t.} \quad h_i(x) \le s_i, \quad Ax = b$$
+$$\min_{x,s} \mathbf{1}^T s \quad \text{s.t.} \quad h_i(x) \le s_i, \quad Ax = b, \quad s \succeq 0$$
 
-**Goal:** Find $$s_i < 0 \quad \forall i$$
+**Goal:** Optimal $$s^* = 0$$ ⟺ bài toán gốc feasible
 
 **Advantage:** Identify which constraints are problematic
 
 #### **Implementation**
 - **Use barrier method:** For Phase I problems too
 - **Lower accuracy:** Don't need high precision for feasibility
-- **Infeasibility detection:** If optimal $$s \ge 0$$, original problem infeasible
+- **Infeasibility detection:** Trong Phase I cơ bản, nếu optimal $$s^* > 0$$ thì original problem infeasible; nếu $$s^* \ge 0$$ thì không có strictly feasible point
 
 ### 🛠️ **Implementation Details**
 
@@ -384,22 +384,6 @@ với $$X = \text{diag}(x)$$, $$e = (1,\ldots,1)^T$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -690,7 +674,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Barrie
 
         <!-- Câu hỏi 11: Self-concordance of log barrier -->
         <div class="question" id="q11" style="display: none;">
-            <h3>Câu 11: Log barrier function \(-\log(-g_i(x))\) có tính chất:</h3>
+            <h3>Câu 11: Với \(g_i\) affine, log barrier function \(-\log(-g_i(x))\) có tính chất:</h3>
             <div class="options">
                 <label><input type="radio" name="q11" value="a"> A) Self-concordant</label>
                 <label><input type="radio" name="q11" value="b"> B) Convex</label>
@@ -699,7 +683,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Barrie
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các tính chất trên</strong><br>
-                Log barrier function vừa convex, smooth, vừa self-concordant, làm cho Newton method có convergence guarantees.
+                Với $$g_i$$ affine, log barrier function vừa convex, smooth, vừa self-concordant, làm cho Newton method có convergence guarantees. (Với $$g_i$$ lồi tổng quát, barrier vẫn convex và smooth nhưng không nhất thiết self-concordant.)
             </div>
         </div>
 
@@ -707,14 +691,14 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Barrie
         <div class="question" id="q12" style="display: none;">
             <h3>Câu 12: Phase I problem để tìm feasible starting point:</h3>
             <div class="options">
-                <label><input type="radio" name="q12" value="a"> A) \(\min s\) subject to \(g_i(x) \leq s, Ax = b, s \geq 0\)</label>
+                <label><input type="radio" name="q12" value="a"> A) \(\min s\) subject to \(g_i(x) \leq s, Ax = b\)</label>
                 <label><input type="radio" name="q12" value="b"> B) \(\min \|g(x)\|\)</label>
                 <label><input type="radio" name="q12" value="c"> C) \(\min f(x)\)</label>
                 <label><input type="radio" name="q12" value="d"> D) \(\min \|x\|\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\min s$$ subject to $$g_i(x) \leq s, Ax = b, s \geq 0$$</strong><br>
-                Phase I tìm feasible point bằng cách minimize slack variable $$s$$. Nếu optimal $$s^* < 0$$ thì có feasible point.
+                <strong>Đáp án đúng: A) $$\min s$$ subject to $$g_i(x) \leq s, Ax = b$$</strong><br>
+                Phase I tìm feasible point bằng cách minimize slack variable $$s$$. Nếu optimal $$s^* < 0$$ thì có strictly feasible point; nếu $$s^* > 0$$ thì bài toán infeasible.
             </div>
         </div>
 
@@ -848,7 +832,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Barrie
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Chuỗi bài toán không ràng buộc</strong><br>
-                Barrier method: $$\min f(x) + t \phi(x)$$ với $$\phi$$ là barrier function, $$t \to \infty$$.
+                Barrier method: $$\min t f(x) + \phi(x)$$ (tương đương $$\min f(x) + \frac{1}{t}\phi(x)$$) với $$\phi$$ là barrier function, $$t \to \infty$$.
             </div>
         </div>
 
@@ -871,14 +855,14 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Barrie
         <div class="question" id="q23" style="display: none;">
             <h3>Câu 23: Central path trong barrier method là:</h3>
             <div class="options">
-                <label><input type="radio" name="q23" value="a"> A) Tập nghiệm của $$\nabla f + t \nabla \phi = 0$$</label>
+                <label><input type="radio" name="q23" value="a"> A) Tập nghiệm của $$t\nabla f + \nabla \phi + A^T\nu = 0$$</label>
                 <label><input type="radio" name="q23" value="b"> B) Đường thẳng qua nghiệm</label>
                 <label><input type="radio" name="q23" value="c"> C) Biên của miền khả thi</label>
                 <label><input type="radio" name="q23" value="d"> D) Đường gradient descent</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Tập nghiệm của $$\nabla f + t \nabla \phi = 0$$</strong><br>
-                Central path: $$x^*(t)$$ thỏa mãn $$\nabla f(x) + t \nabla \phi(x) = 0$$ với tham số $$t > 0$$.
+                <strong>Đáp án đúng: A) Tập nghiệm của $$t\nabla f + \nabla \phi + A^T\nu = 0$$</strong><br>
+                Central path: $$x^*(t)$$ thỏa mãn $$t\nabla f(x) + \nabla \phi(x) + A^T\nu = 0$$, $$Ax = b$$ với tham số $$t > 0$$.
             </div>
         </div>
 
@@ -1110,8 +1094,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

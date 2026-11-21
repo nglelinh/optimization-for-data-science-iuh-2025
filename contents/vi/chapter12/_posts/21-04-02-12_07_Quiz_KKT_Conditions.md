@@ -183,9 +183,9 @@ $$\min_x x^2 + y^2 \quad \text{s.t.} \quad x + y = 1, \quad x \ge 0$$
 
 **Case analysis:**
 - **Case 1:** $$x^* > 0$$ ⟹ $$\lambda^* = 0$$ ⟹ $$x^* = y^* = 1/2$$
-- **Case 2:** $$x^* = 0$$ ⟹ $$y^* = 1$$ ⟹ $$\lambda^* = 2$$
+- **Case 2:** $$x^* = 0$$ ⟹ $$y^* = 1$$ ⟹ $$\nu^* = -2$$ ⟹ $$\lambda^* = -2 < 0$$ (vi phạm dual feasibility, loại)
 
-**Optimal solution:** $$x^* = 1/2, y^* = 1/2$$ (Case 1 gives smaller objective)
+**Optimal solution:** $$x^* = 1/2, y^* = 1/2$$, $$\nu^* = -1$$, $$\lambda^* = 0$$ (chỉ Case 1 thỏa mãn KKT)
 
 ### 🎯 **Kết Nối Với Các Chương**
 
@@ -236,7 +236,7 @@ $$\min_x x^2 + y^2 \quad \text{s.t.} \quad x + y = 1, \quad x \ge 0$$
 
 #### **Common pitfalls:**
 - **Forget constraint qualifications:** LICQ, MFCQ for necessity
-- **Wrong complementary slackness:** $$\lambda_i h_i = 0$$, not $$\lambda_i = 0$$ or $$h_i = 0$$
+- **Wrong complementary slackness:** $$\lambda_i h_i = 0$$ chỉ có nghĩa là ít nhất một trong hai bằng 0; ràng buộc active vẫn có thể có $$\lambda_i = 0$$
 - **Non-convex problems:** KKT necessary but not sufficient
 - **Numerical issues:** KKT matrix có thể ill-conditioned
 
@@ -293,22 +293,6 @@ $$\min_x x^2 + y^2 \quad \text{s.t.} \quad x + y = 1, \quad x \ge 0$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -578,7 +562,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\min \frac{1}{2}\|w\|^2$$ s.t. $$y_i(w^T x_i + b) \geq 1$$</strong><br>
-                SVM primal: minimize margin width subject to classification constraints.
+                SVM primal: minimize $$\frac{1}{2}\|w\|^2$$, tức là maximize margin $$2/\|w\|$$, subject to classification constraints.
             </div>
         </div>
 
@@ -647,7 +631,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             <h3>Câu 14: Trong L1 regularization, nghiệm duy nhất khi:</h3>
             <div class="options">
                 <label><input type="radio" name="q14" value="a"> A) \(f\) là strictly convex</label>
-                <label><input type="radio" name="q14" value="b"> B) \(\lambda\) đủ lớn</label>
+                <label><input type="radio" name="q14" value="b"> B) \(\lambda > 0\) bất kỳ</label>
                 <label><input type="radio" name="q14" value="c"> C) Active set được xác định duy nhất</label>
                 <label><input type="radio" name="q14" value="d"> D) Tất cả các điều trên</label>
             </div>
@@ -678,7 +662,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             <div class="options">
                 <label><input type="radio" name="q16" value="a"> A) Đảm bảo KKT conditions sufficient</label>
                 <label><input type="radio" name="q16" value="b"> B) Đảm bảo KKT conditions necessary</label>
-                <label><input type="radio" name="q16" value="c"> C) Đảm bảo strong duality</label>
+                <label><input type="radio" name="q16" value="c"> C) Đảm bảo hàm mục tiêu khả vi</label>
                 <label><input type="radio" name="q16" value="d"> D) Đảm bảo convexity</label>
             </div>
             <div class="explanation" style="display: none;">
@@ -706,13 +690,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
         <div class="question" id="q18" style="display: none;">
             <h3>Câu 18: Mối liên hệ giữa KKT multipliers và penalty methods:</h3>
             <div class="options">
-                <label><input type="radio" name="q18" value="a"> A) KKT multipliers là giới hạn của penalty parameters</label>
+                <label><input type="radio" name="q18" value="a"> A) Ước lượng multiplier của penalty method hội tụ đến KKT multipliers</label>
                 <label><input type="radio" name="q18" value="b"> B) Penalty parameters là giới hạn của KKT multipliers</label>
                 <label><input type="radio" name="q18" value="c"> C) Không có mối liên hệ</label>
                 <label><input type="radio" name="q18" value="d"> D) Chúng luôn bằng nhau</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) KKT multipliers là giới hạn của penalty parameters</strong><br>
+                <strong>Đáp án đúng: A) Ước lượng multiplier của penalty method hội tụ đến KKT multipliers</strong><br>
                 Khi penalty parameter $$\to \infty$$, nghiệm của penalized problem hội tụ và multipliers hội tụ đến KKT multipliers.
             </div>
         </div>
@@ -1019,8 +1003,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

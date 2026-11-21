@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 15-03-02 Suboptimality gap
+chapter: '15'
 order: '9'
 owner: Minjoo Lee
 categories:

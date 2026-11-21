@@ -63,7 +63,7 @@ $$\lambda(x) = (\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x))^{1/2}$$
 #### **Ý nghĩa vật lý**
 1. **Approximation quality:** $$\frac{1}{2}\lambda^2(x) = f(x) - \min_y \hat{f}(y)$$
    - $$\hat{f}(y)$$: quadratic approximation của $$f$$ tại $$x$$
-   - $$\frac{1}{2}\lambda^2(x)$$: upper bound cho $$f(x) - f^*$$
+   - $$\frac{1}{2}\lambda^2(x)$$: ước lượng cho $$f(x) - f^*$$ (dựa trên xấp xỉ bậc hai; chưa phải cận trên chặt chẽ)
 
 2. **Step length:** $$\lambda(x) = \lVert \Delta x_{nt} \rVert_{\nabla^2 f(x)}$$ (Hessian norm)
 
@@ -113,7 +113,7 @@ $$f(x^{(k+1)}) - f(x^{(k)}) \le -\gamma$$
 $$\frac{M}{2m^2} \lVert \nabla f(x^{(k+1)}) \rVert_2 \le \left(\frac{M}{2m^2} \lVert \nabla f(x^{(k)}) \rVert_2\right)^2$$
 
 #### **Convergence rates**
-**Phase I:** Linear decrease trong function value
+**Phase I (damped phase):** Giá trị hàm giảm ít nhất một lượng cố định $$\gamma$$ mỗi bước
 $$f(x^{(k)}) - f^* \le (f(x^{(0)}) - f^*) - \gamma k$$
 
 **Phase II:** Quadratic convergence
@@ -135,7 +135,7 @@ $$\frac{f(x^{(0)}) - f^*}{\gamma} + \log\log\left(\frac{\epsilon_0}{\epsilon}\ri
 Hàm $$f$$ là **self-concordant** nếu:
 $$|f'''(x)| \le 2(f''(x))^{3/2}$$ (univariate case)
 
-**Multivariate:** $$|D^3 f(x)[h,h,h]| \le 2(h^T \nabla^2 f(x) h)^{3/2}$$
+**Multivariate:** $$\lvert D^3 f(x)[h,h,h] \rvert \le 2(h^T \nabla^2 f(x) h)^{3/2}$$
 
 #### **Key properties**
 1. **Affine invariant:** Self-concordance preserved under affine transformation
@@ -192,7 +192,7 @@ $$|f'''(x)| \le 2(f''(x))^{3/2}$$ (univariate case)
 #### **Stopping criteria**
 1. **Newton decrement:** $$\lambda^2(x)/2 < \epsilon$$
 2. **Gradient norm:** $$\lVert \nabla f(x) \rVert_2 < \epsilon$$
-3. **Function decrease:** $$|f(x^{(k)}) - f(x^{(k-1)})| < \epsilon$$
+3. **Function decrease:** $$\lvert f(x^{(k)}) - f(x^{(k-1)}) \rvert < \epsilon$$
 
 ### 🎯 **Special Cases và Extensions**
 
@@ -377,22 +377,6 @@ subject to $$\lVert p \rVert \le \Delta$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -533,7 +517,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
     <div id="quiz-content">
         <!-- Câu hỏi 1: Newton method update -->
         <div class="question" id="q1" style="display: block;">
-            <h3>Câu 1: Công thức cập nhật của Newton method là:</h3>
+            <h3>Câu 1: Công thức cập nhật của pure Newton method (không line search) là:</h3>
             <div class="options">
                 <label><input type="radio" name="q1" value="a"> A) \(x^{(k+1)} = x^{(k)} - t_k \nabla f(x^{(k)})\)</label>
                 <label><input type="radio" name="q1" value="b"> B) \(x^{(k+1)} = x^{(k)} - t_k [\nabla^2 f(x^{(k)})]^{-1} \nabla f(x^{(k)})\)</label>
@@ -700,14 +684,14 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
         <div class="question" id="q12" style="display: none;">
             <h3>Câu 12: BFGS method cập nhật approximation của:</h3>
             <div class="options">
-                <label><input type="radio" name="q12" value="a"> A) Hessian matrix</label>
+                <label><input type="radio" name="q12" value="a"> A) Chỉ đường chéo của Hessian</label>
                 <label><input type="radio" name="q12" value="b"> B) Inverse Hessian matrix</label>
                 <label><input type="radio" name="q12" value="c"> C) Gradient vector</label>
                 <label><input type="radio" name="q12" value="d"> D) Objective function</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Inverse Hessian matrix</strong><br>
-                BFGS directly updates approximation của inverse Hessian, tránh việc phải solve linear system.
+                BFGS (dạng thường dùng) directly updates approximation $$H_k$$ của inverse Hessian, tránh việc phải solve linear system. (Cũng có dạng tương đương cập nhật xấp xỉ $$B_k$$ của chính Hessian.)
             </div>
         </div>
 
@@ -747,12 +731,12 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
             <div class="options">
                 <label><input type="radio" name="q15" value="a"> A) Giới hạn step size trong một region</label>
                 <label><input type="radio" name="q15" value="b"> B) Modify direction thay vì step size</label>
-                <label><input type="radio" name="q15" value="c"> C) Sử dụng quadratic model</label>
+                <label><input type="radio" name="q15" value="c"> C) Chọn step bằng cách giải bài toán con với ràng buộc $$\lVert p \rVert \leq \Delta$$</label>
                 <label><input type="radio" name="q15" value="d"> D) Tất cả các điều trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Trust region methods giới hạn step trong trusted region, có thể modify direction, và sử dụng quadratic model approximation.
+                Trust region methods giới hạn step trong trusted region, có thể modify direction, và chọn step bằng cách tối thiểu hóa quadratic model trong ràng buộc $$\lVert p \rVert \leq \Delta$$.
             </div>
         </div>
 
@@ -886,7 +870,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Xấp xỉ Hessian nghịch đảo</strong><br>
-                BFGS cập nhật ma trận xấp xỉ $$B_k \approx [\nabla^2 f]^{-1}$$ sử dụng thông tin gradient.
+                BFGS cập nhật ma trận xấp xỉ $$H_k \approx [\nabla^2 f]^{-1}$$ sử dụng thông tin gradient.
             </div>
         </div>
 
@@ -1103,8 +1087,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

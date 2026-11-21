@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 17-02 Primal-dual interior-point method
+title: '17-02 Phương pháp điểm trong gốc-đối ngẫu'
 chapter: '17'
 order: 3
 owner: Minjoo Lee
@@ -8,10 +8,11 @@ categories:
 - chapter17
 lang: vi
 ---
-Like the barrier method, the **primal-dual interior-point method** also aims to (approximately) compute points on the central path. However, the two methods have several differences.
 
-## Differences between Primal-dual interior-point method and barrier method
-* Generally performs **one Newton step** per iteration. (That is, there is no additional loop for the centering step.)
-* **Does not necessarily need to be feasible**. (Pushes toward feasible regions through backtracking line search.)
-* Generally **more effective**. Particularly shows superior performance compared to linear convergence under appropriate conditions.
-* Somewhat less intuitive compared to the barrier method.
+Giống như phương pháp chắn, **phương pháp điểm trong gốc-đối ngẫu** cũng nhằm tính (xấp xỉ) các điểm trên đường trung tâm. Tuy nhiên, hai phương pháp có một số điểm khác biệt.
+
+## Khác biệt giữa phương pháp điểm trong gốc-đối ngẫu và phương pháp chắn
+* Thông thường chỉ thực hiện **một bước Newton** mỗi vòng lặp. (Tức là không có vòng lặp bổ sung cho bước centering.)
+* **Không nhất thiết phải khả thi**. (Đẩy về miền khả thi thông qua backtracking line search.)
+* Thông thường **hiệu quả hơn**. Đặc biệt, trong điều kiện thích hợp nó cho hiệu năng vượt trội so với hội tụ tuyến tính.
+* Hơi kém trực quan hơn so với phương pháp chắn.

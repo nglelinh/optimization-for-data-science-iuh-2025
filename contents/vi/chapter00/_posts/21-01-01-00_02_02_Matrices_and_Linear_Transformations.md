@@ -18,9 +18,9 @@ Bài học này bao gồm ma trận, các phép toán ma trận, và phép biế
 
 ### Ma trận là gì?
 
-A **matrix** is a rectangular grid of numbers arranged in rows and columns. Matrices represent data, transformations, systems of equations, and relationships between variables.
+Một **ma trận** (matrix) là một lưới số hình chữ nhật được sắp xếp theo hàng và cột. Ma trận biểu diễn dữ liệu, các phép biến đổi, hệ phương trình và quan hệ giữa các biến.
 
-**General Form:**
+**Dạng tổng quát:**
 $$\mathbf{A} = \begin{pmatrix} 
 a_{11} & a_{12} & \cdots & a_{1n} \\
 a_{21} & a_{22} & \cdots & a_{2n} \\
@@ -28,55 +28,55 @@ a_{21} & a_{22} & \cdots & a_{2n} \\
 a_{m1} & a_{m2} & \cdots & a_{mn}
 \end{pmatrix}$$
 
-This is an $$m \times n$$ matrix ($$m$$ rows, $$n$$ columns).
+Đây là ma trận $$m \times n$$ ($$m$$ hàng, $$n$$ cột).
 
-**Example:**
-$$\mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$$ is a $$2 \times 3$$ matrix.
+**Ví dụ:**
+$$\mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$$ là ma trận $$2 \times 3$$.
 
-### Matrix Addition
+### Phép cộng ma trận
 
-Matrices are added by summing corresponding elements. Both matrices must have the same dimensions.
+Hai ma trận được cộng bằng cách cộng các phần tử tương ứng. Cả hai ma trận phải có cùng kích thước.
 
 $$\mathbf{A} + \mathbf{B} = \begin{pmatrix} a_{11} + b_{11} & a_{12} + b_{12} \\ a_{21} + b_{21} & a_{22} + b_{22} \end{pmatrix}$$
 
-**Example:**
+**Ví dụ:**
 $$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} + \begin{pmatrix} 5 & 6 \\ 7 & 8 \end{pmatrix} = \begin{pmatrix} 6 & 8 \\ 10 & 12 \end{pmatrix}$$
 
-### Scalar Multiplication
+### Phép nhân vô hướng
 
-Multiply every element of the matrix by the scalar:
+Nhân mọi phần tử của ma trận với vô hướng:
 
 $$c\mathbf{A} = \begin{pmatrix} ca_{11} & ca_{12} \\ ca_{21} & ca_{22} \end{pmatrix}$$
 
-### Matrix Multiplication
+### Phép nhân ma trận
 
-For matrices $$\mathbf{A}_{m \times n}$$ and $$\mathbf{B}_{n \times p}$$, the product $$\mathbf{C}_{m \times p}$$ is formed by taking the dot product of rows from $$\mathbf{A}$$ and columns from $$\mathbf{B}$$:
+Với các ma trận $$\mathbf{A}_{m \times n}$$ và $$\mathbf{B}_{n \times p}$$, tích $$\mathbf{C}_{m \times p}$$ được tạo bằng cách lấy tích vô hướng của các hàng của $$\mathbf{A}$$ với các cột của $$\mathbf{B}$$:
 
 $$c_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj}$$
 
-**Example:**
+**Ví dụ:**
 $$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} \begin{pmatrix} 5 & 6 \\ 7 & 8 \end{pmatrix} = \begin{pmatrix} 1 \cdot 5 + 2 \cdot 7 & 1 \cdot 6 + 2 \cdot 8 \\ 3 \cdot 5 + 4 \cdot 7 & 3 \cdot 6 + 4 \cdot 8 \end{pmatrix} = \begin{pmatrix} 19 & 22 \\ 43 & 50 \end{pmatrix}$$
 
-**Important:** Matrix multiplication is **not commutative**: $$\mathbf{AB} \neq \mathbf{BA}$$ in general.
+**Quan trọng:** Phép nhân ma trận **không giao hoán**: nói chung $$\mathbf{AB} \neq \mathbf{BA}$$.
 
 ---
 
-## Linear Transformations
+## Phép biến đổi tuyến tính
 
-A **linear transformation** is a function $$T: \mathbb{R}^n \to \mathbb{R}^m$$ that preserves vector addition and scalar multiplication. Every linear transformation can be represented by a matrix.
+Một **phép biến đổi tuyến tính** là hàm $$T: \mathbb{R}^n \to \mathbb{R}^m$$ bảo toàn phép cộng vector và phép nhân vô hướng. Mọi phép biến đổi tuyến tính đều có thể biểu diễn bằng một ma trận.
 
-### Definition
+### Định nghĩa
 
-A transformation $$T(\mathbf{v}) = \mathbf{Av}$$ is linear if and only if:
+Phép biến đổi $$T(\mathbf{v}) = \mathbf{Av}$$ là tuyến tính khi và chỉ khi:
 
-1. **Additivity:** $$T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$$
-2. **Homogeneity:** $$T(c\mathbf{v}) = cT(\mathbf{v})$$
+1. **Tính cộng tính:** $$T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$$
+2. **Tính thuần nhất:** $$T(c\mathbf{v}) = cT(\mathbf{v})$$
 
-These can be combined into: $$T(c_1\mathbf{u} + c_2\mathbf{v}) = c_1T(\mathbf{u}) + c_2T(\mathbf{v})$$
+Hai tính chất này có thể gộp thành: $$T(c_1\mathbf{u} + c_2\mathbf{v}) = c_1T(\mathbf{u}) + c_2T(\mathbf{v})$$
 
-### Matrix-Vector Multiplication
+### Phép nhân ma trận với vector
 
-If $$\mathbf{A}$$ is an $$m \times n$$ matrix and $$\mathbf{v}$$ is an $$n \times 1$$ column vector, their product $$\mathbf{Av}$$ is an $$m \times 1$$ column vector:
+Nếu $$\mathbf{A}$$ là ma trận $$m \times n$$ và $$\mathbf{v}$$ là vector cột $$n \times 1$$, thì tích $$\mathbf{Av}$$ là vector cột $$m \times 1$$:
 
 $$ \mathbf{w} = \mathbf{Av} = \begin{pmatrix} 
 a_{11}v_1 + a_{12}v_2 + \cdots + a_{1n}v_n \\
@@ -85,56 +85,56 @@ a_{21}v_1 + a_{22}v_2 + \cdots + a_{2n}v_n \\
 a_{m1}v_1 + a_{m2}v_2 + \cdots + a_{mn}v_n
 \end{pmatrix} $$
 
-**Example:**
+**Ví dụ:**
 $$\begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix} \begin{pmatrix} 4 \\ 5 \end{pmatrix} = \begin{pmatrix} 2 \cdot 4 + 1 \cdot 5 \\ 0 \cdot 4 + 3 \cdot 5 \end{pmatrix} = \begin{pmatrix} 13 \\ 15 \end{pmatrix}$$
 
 ---
 
-## Common 2D Transformations
+## Các phép biến đổi 2D thường gặp
 
-Understanding geometric transformations helps visualize how matrices affect vectors.
+Hiểu các phép biến đổi hình học giúp hình dung ma trận tác động lên vector như thế nào.
 
-### Scaling
+### Phép co giãn (Scaling)
 
-**Scaling Matrix:**
+**Ma trận co giãn:**
 $$\mathbf{S} = \begin{pmatrix} s_x & 0 \\ 0 & s_y \end{pmatrix}$$
 
-- Scales x-coordinates by $$s_x$$ and y-coordinates by $$s_y$$
-- **Example:** $$\begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix}$$ doubles x-values and triples y-values
+- Co giãn tọa độ x với hệ số $$s_x$$ và tọa độ y với hệ số $$s_y$$
+- **Ví dụ:** $$\begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix}$$ nhân đôi giá trị x và nhân ba giá trị y
 
-### Rotation
+### Phép quay (Rotation)
 
-**Rotation Matrix (counter-clockwise by angle $$\theta$$):**
+**Ma trận quay (ngược chiều kim đồng hồ một góc $$\theta$$):**
 $$\mathbf{R} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
 
-- **Example:** 90° rotation: $$\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$$
-- Transforms $$(x, y) \mapsto (-y, x)$$
+- **Ví dụ:** phép quay 90°: $$\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$$
+- Biến đổi $$(x, y) \mapsto (-y, x)$$
 
-### Reflection
+### Phép phản xạ (Reflection)
 
-**Reflection across x-axis:**
+**Phản xạ qua trục x:**
 $$\mathbf{F}_x = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
 
-**Reflection across y-axis:**
+**Phản xạ qua trục y:**
 $$\mathbf{F}_y = \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}$$
 
-**Reflection across line $$y = x$$:**
+**Phản xạ qua đường thẳng $$y = x$$:**
 $$\mathbf{F}_{y=x} = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$$
 
-### Shearing
+### Phép trượt (Shearing)
 
-**Horizontal Shear:**
+**Trượt ngang:**
 $$\mathbf{H} = \begin{pmatrix} 1 & k \\ 0 & 1 \end{pmatrix}$$
 
-Transforms $$(x, y) \mapsto (x + ky, y)$$
+Biến đổi $$(x, y) \mapsto (x + ky, y)$$
 
 ---
 
-## Special Types of Matrices
+## Các loại ma trận đặc biệt
 
-### Identity Matrix
+### Ma trận đơn vị
 
-The **identity matrix** $$\mathbf{I}$$ acts like the number 1 for matrix multiplication:
+**Ma trận đơn vị** $$\mathbf{I}$$ đóng vai trò như số 1 đối với phép nhân ma trận:
 
 $$\mathbf{I}_n = \begin{pmatrix} 
 1 & 0 & \cdots & 0 \\
@@ -143,77 +143,77 @@ $$\mathbf{I}_n = \begin{pmatrix}
 0 & 0 & \cdots & 1
 \end{pmatrix}$$
 
-**Property:** $$\mathbf{AI} = \mathbf{IA} = \mathbf{A}$$ for any compatible matrix $$\mathbf{A}$$.
+**Tính chất:** $$\mathbf{AI} = \mathbf{IA} = \mathbf{A}$$ với mọi ma trận $$\mathbf{A}$$ tương thích.
 
-### Transpose
+### Ma trận chuyển vị
 
-The **transpose** $$\mathbf{A}^T$$ flips a matrix across its main diagonal:
+**Chuyển vị** $$\mathbf{A}^T$$ lật ma trận qua đường chéo chính:
 
-$$\text{If } \mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}, \text{ then } \mathbf{A}^T = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix}$$
+$$\text{Nếu } \mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}, \text{ thì } \mathbf{A}^T = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix}$$
 
-**Properties:**
+**Các tính chất:**
 - $$(\mathbf{A}^T)^T = \mathbf{A}$$
 - $$(\mathbf{A} + \mathbf{B})^T = \mathbf{A}^T + \mathbf{B}^T$$
 - $$(\mathbf{AB})^T = \mathbf{B}^T\mathbf{A}^T$$
 
-### Symmetric Matrices
+### Ma trận đối xứng
 
-A matrix is **symmetric** if $$\mathbf{A} = \mathbf{A}^T$$:
+Một ma trận là **đối xứng** nếu $$\mathbf{A} = \mathbf{A}^T$$:
 
 $$\mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 5 \\ 3 & 5 & 6 \end{pmatrix}$$
 
-Symmetric matrices have special properties important in optimization.
+Ma trận đối xứng có những tính chất đặc biệt quan trọng trong tối ưu hóa.
 
-### Inverse Matrix
+### Ma trận nghịch đảo
 
-The **inverse** $$\mathbf{A}^{-1}$$ of a square matrix $$\mathbf{A}$$ satisfies:
+**Nghịch đảo** $$\mathbf{A}^{-1}$$ của một ma trận vuông $$\mathbf{A}$$ thỏa mãn:
 
 $$\mathbf{A}\mathbf{A}^{-1} = \mathbf{A}^{-1}\mathbf{A} = \mathbf{I}$$
 
-**For 2×2 matrices:**
+**Với ma trận 2×2:**
 $$\mathbf{A}^{-1} = \frac{1}{\det(\mathbf{A})} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$$
 
-where $$\mathbf{A} = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$$ and $$\det(\mathbf{A}) = ad - bc$$.
+trong đó $$\mathbf{A} = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$$ và $$\det(\mathbf{A}) = ad - bc$$.
 
-**Note:** Not all matrices have inverses. A matrix is **invertible** (non-singular) if and only if its determinant is non-zero.
+**Lưu ý:** Không phải ma trận nào cũng có nghịch đảo. Một ma trận **khả nghịch** (không suy biến) khi và chỉ khi định thức của nó khác không.
 
 ---
 
-## Applications in Optimization
+## Ứng dụng trong tối ưu hóa
 
-Matrices and linear transformations are fundamental in optimization for several reasons:
+Ma trận và phép biến đổi tuyến tính là nền tảng của tối ưu hóa vì nhiều lý do:
 
-### 1. System of Linear Equations
+### 1. Hệ phương trình tuyến tính
 
-Many optimization problems involve solving $$\mathbf{Ax} = \mathbf{b}$$:
-- **Unique solution:** $$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$ (when $$\mathbf{A}$$ is invertible)
-- **Least squares:** Minimize $$\|\mathbf{Ax} - \mathbf{b}\|^2$$ when no exact solution exists
+Nhiều bài toán tối ưu hóa liên quan đến việc giải $$\mathbf{Ax} = \mathbf{b}$$:
+- **Nghiệm duy nhất:** $$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$ (khi $$\mathbf{A}$$ khả nghịch)
+- **Bình phương tối thiểu:** cực tiểu hóa $$\|\mathbf{Ax} - \mathbf{b}\|^2$$ khi không có nghiệm chính xác
 
-### 2. Quadratic Forms
+### 2. Dạng toàn phương
 
-Quadratic functions appear frequently in optimization:
+Các hàm toàn phương xuất hiện thường xuyên trong tối ưu hóa:
 $$f(\mathbf{x}) = \mathbf{x}^T\mathbf{Q}\mathbf{x} + \mathbf{c}^T\mathbf{x} + d$$
 
-The matrix $$\mathbf{Q}$$ determines the curvature properties of the function.
+Ma trận $$\mathbf{Q}$$ quyết định tính chất độ cong của hàm.
 
-### 3. Linear Programming
+### 3. Quy hoạch tuyến tính
 
-Standard form: Minimize $$\mathbf{c}^T\mathbf{x}$$ subject to $$\mathbf{Ax} = \mathbf{b}$$, $$\mathbf{x} \geq \mathbf{0}$$
+Dạng chuẩn: cực tiểu hóa $$\mathbf{c}^T\mathbf{x}$$ với điều kiện $$\mathbf{Ax} = \mathbf{b}$$, $$\mathbf{x} \geq \mathbf{0}$$
 
-### 4. Constraint Representation
+### 4. Biểu diễn ràng buộc
 
-- **Equality constraints:** $$\mathbf{Ax} = \mathbf{b}$$
-- **Inequality constraints:** $$\mathbf{Ax} \leq \mathbf{b}$$
+- **Ràng buộc đẳng thức:** $$\mathbf{Ax} = \mathbf{b}$$
+- **Ràng buộc bất đẳng thức:** $$\mathbf{Ax} \leq \mathbf{b}$$
 
-### 5. Transformations of Variables
+### 5. Phép biến đổi biến
 
-Change of variables: $$\mathbf{y} = \mathbf{T}\mathbf{x}$$ can simplify optimization problems.
+Đổi biến $$\mathbf{y} = \mathbf{T}\mathbf{x}$$ có thể đơn giản hóa các bài toán tối ưu hóa.
 
-### Example: Portfolio Optimization
+### Ví dụ: Tối ưu danh mục đầu tư
 
-In finance, we might minimize portfolio risk:
-$$\text{minimize } \mathbf{w}^T\mathbf{\Sigma}\mathbf{w}$$
+Trong tài chính, ta có thể cực tiểu hóa rủi ro của danh mục:
+$$\text{cực tiểu hóa } \mathbf{w}^T\mathbf{\Sigma}\mathbf{w}$$
 
-where $$\mathbf{w}$$ is the vector of portfolio weights and $$\mathbf{\Sigma}$$ is the covariance matrix of asset returns.
+trong đó $$\mathbf{w}$$ là vector trọng số của danh mục và $$\mathbf{\Sigma}$$ là ma trận hiệp phương sai của lợi suất các tài sản.
 
-Understanding matrices and linear transformations provides the tools to formulate, analyze, and solve a wide variety of optimization problems efficiently.
+Hiểu về ma trận và phép biến đổi tuyến tính cung cấp công cụ để xây dựng, phân tích và giải hiệu quả nhiều bài toán tối ưu hóa.

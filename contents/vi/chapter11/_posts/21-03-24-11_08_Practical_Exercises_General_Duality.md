@@ -326,9 +326,8 @@ $$
 }
 $$
 
-**d) Tính số:** Giải numerical cho 3 điểm → $$\alpha^* \approx (0.5, 0.5, 1)$$
-
-Decision boundary: $$2x_1 - 1 = 0$$
+**d) Tính số:** Cả 3 điểm đều là support vector. Từ $$w = \sum_i \alpha_i y_i x_i$$, $$\sum_i \alpha_i y_i = 0$$ và $$y_i(w^T x_i + b) = 1$$ ta được $$\alpha^* = (1/4,\ 1/4,\ 1/2)$$, $$w^* = (1, 0)^T$$, $$b^* = 0$$, giá trị dual $$= 1 - \frac{1}{2}\|w^*\|^2 = \frac{1}{2}$$.
+Decision boundary: $$x_1 = 0$$
 
 </details>
 
@@ -386,7 +385,7 @@ Maximize $$x_1 + 2x_2$$ với $$x_1 + x_2 = 1$$.
 
 ### **Bài tập 8: Duality Gap Analysis (Bertsekas, Ex. 6.1.2)**
 
-Cho bài toán non-convex:
+Cho bài toán (lưu ý: $$x(x-2) = x^2 - 2x$$ là hàm lồi):
 
 $$
 \min_{x \in [0,2]} \quad x(x-2)
@@ -417,11 +416,11 @@ $$L(x, \lambda_1, \lambda_2) = x^2 - 2x - \lambda_1 x + \lambda_2(x - 2)$$
 
 **c) Dual analysis:**
 
-Do tính non-convex, dual không tight. $$d^* \leq p^* = -1$$
+Cực tiểu theo $$x$$: $$x = \frac{2 + \lambda_1 - \lambda_2}{2}$$, nên $$g(\lambda_1, \lambda_2) = -\frac{(2 + \lambda_1 - \lambda_2)^2}{4} - 2\lambda_2$$. Với $$\lambda \geq 0$$, $$g$$ đạt max tại $$\lambda_1 = \lambda_2 = 0$$: $$d^* = g(0, 0) = -1$$.
 
 **d) Duality gap:**
 
-Gap $$= p^* - d^* > 0$$ (weak duality chặt vì bài toán không lồi)
+Gap $$= p^* - d^* = -1 - (-1) = 0$$. Bài toán lồi và thỏa Slater (ví dụ $$x = 1$$ thỏa chặt cả hai ràng buộc), nên strong duality đúng. Nghiệm $$x^* = 1$$ nằm trong miền, hai ràng buộc không active, nên $$\lambda^* = 0$$ (khớp complementary slackness).
 
 </details>
 
@@ -458,7 +457,7 @@ $$\max_{\lambda,\mu} -b^T(\lambda - \mu) \quad \text{s.t.} \quad A^T(\lambda - \
 $$\min_{x,t} t \quad \text{s.t.} \quad \lVert Ax - b \rVert_2 \leq t$$
 
 Dual:
-$$\max_{\lambda,\nu} -b^T \nu - \lambda \quad \text{s.t.} \quad A^T \nu = 0, \quad \lVert \nu \rVert_2 \leq \lambda, \quad \lambda \geq 0$$
+$$\max_{\nu} -b^T \nu \quad \text{s.t.} \quad A^T \nu = 0, \quad \lVert \nu \rVert_2 \leq 1$$
 
 ---
 
@@ -476,7 +475,7 @@ $$\max_{\lambda,\mu} -b^T(\lambda - \mu) \quad \text{s.t.} \quad A^T(\lambda - \
 ### **Bài tập 10: Entropy Maximization (Boyd & Vandenberghe, Ex. 5.4)**
 
 **Đề bài:**
-$$\max_x \sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad Ax = b, \quad x \geq 0$$
+$$\max_x -\sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad Ax = b, \quad x \geq 0$$
 
 **Yêu cầu:**
 1. Chuyển về bài toán minimization
@@ -488,18 +487,18 @@ $$\max_x \sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad Ax = b, \quad x \geq 
 <summary><strong>Lời giải chi tiết</strong></summary>
 
 **Chuyển đổi:**
-$$\min_x -\sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad Ax = b, \quad x \geq 0$$
+$$\min_x \sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad Ax = b, \quad x \geq 0$$
 
 **Hàm Lagrangian:**
-$$L(x,\nu,\lambda) = -\sum_{i=1}^n x_i \log x_i + \nu^T(Ax - b) - \lambda^T x$$
+$$L(x,\nu,\lambda) = \sum_{i=1}^n x_i \log x_i + \nu^T(Ax - b) - \lambda^T x$$
 
 **Điều kiện tối ưu:**
-$$\frac{\partial L}{\partial x_i} = -(\log x_i + 1) + (A^T \nu)_i - \lambda_i = 0$$
+$$\frac{\partial L}{\partial x_i} = \log x_i + 1 + (A^T \nu)_i - \lambda_i = 0$$
 
-Suy ra: $$x_i = e^{(A^T \nu)_i - \lambda_i - 1}$$
+Suy ra: $$x_i = e^{-(A^T \nu)_i + \lambda_i - 1}$$
 
 **Complementary slackness:**
-Nếu $$x_i > 0$$, thì $$\lambda_i = 0$$: $$x_i = e^{(A^T \nu)_i - 1}$$
+Vì $$x_i = e^{\cdots} > 0$$ nên $$\lambda_i = 0$$: $$x_i = e^{-(A^T \nu)_i - 1}$$. Hàm đối ngẫu: $$g(\nu) = -b^T \nu - \sum_{i=1}^n e^{-(A^T \nu)_i - 1}$$; giải $$\max_\nu g(\nu)$$ (không ràng buộc) rồi thế lại để được $$x^*$$.
 
 </details>
 
@@ -579,29 +578,28 @@ $$x_3 = 1 - x_1 - x_2$$
 $$0.12x_1 + 0.08x_2 + 0.05(1 - x_1 - x_2) = 0.1$$
 $$0.07x_1 + 0.03x_2 = 0.05$$
 
-Giải numerical (sử dụng phương pháp Newton hoặc QP solver):
+Kết hợp 3 phương trình stationarity với 2 ràng buộc (5 phương trình tuyến tính, 5 ẩn) và giải chính xác:
 
 $$
-x^* \approx \begin{bmatrix} 0.50 \\ 0.33 \\ 0.17 \end{bmatrix}, \quad \lambda_1^* \approx 2.5, \quad \nu^* \approx 0.18
+x^* = \begin{bmatrix} 7/12 \\ 11/36 \\ 1/9 \end{bmatrix} \approx \begin{bmatrix} 0.583 \\ 0.306 \\ 0.111 \end{bmatrix}, \quad \lambda_1^* = \frac{13}{36} \approx 0.361, \quad \nu^* = \frac{61}{3600} \approx 0.017
 $$
 
 **Kiểm tra:**
-- Lợi nhuận: $$0.12(0.5) + 0.08(0.33) + 0.05(0.17) = 0.095 \approx 0.1$$ ✓
-- Rủi ro: $$\frac{1}{2}x^{*T}\Sigma x^* \approx 0.0145$$
+- Lợi nhuận: $$0.12 \cdot \frac{7}{12} + 0.08 \cdot \frac{11}{36} + 0.05 \cdot \frac{1}{9} = 0.1$$ ✓, tổng tỷ trọng $$= 1$$ ✓, mọi $$x_i > 0$$ ✓ (giả thiết đúng)
+- Rủi ro: $$\frac{1}{2}x^{*T}\Sigma x^* = \frac{23}{2400} \approx 0.00958$$
 
 ---
 
 **d) Giải thích kinh tế:**
 
-- $$\lambda_1^* = 2.5$$: **Shadow price của ràng buộc lợi nhuận**
-  - Nếu tăng yêu cầu lợi nhuận từ 10% lên 11%, rủi ro tăng thêm khoảng $$2.5 \times 0.01 = 0.025$$
-  
-- $$\nu^* = 0.18$$: **Marginal cost của vốn**
-  - Nếu có thêm 1 đơn vị vốn, rủi ro giảm khoảng 0.18
+- $$\lambda_1^* \approx 0.361$$: **Shadow price của ràng buộc lợi nhuận**
+- Nếu tăng yêu cầu lợi nhuận từ 10% lên 11%, rủi ro tăng thêm khoảng $$0.361 \times 0.01 \approx 0.0036$$
+- $$\nu^* \approx 0.017$$: **Độ nhạy theo ràng buộc ngân sách**
+- Nếu nới $$\mathbf{1}^T x = 1$$ thành $$1 + \delta$$ (với $$\delta$$ nhỏ), rủi ro tối ưu thay đổi khoảng $$-\nu^* \delta$$
 
 - $$\lambda_2 = 0$$: Không có tài sản nào ở biên short-selling constraint
 
-**Phân bổ tối ưu:** 50% cổ phiếu, 33% trái phiếu, 17% tiền mặt.
+**Phân bổ tối ưu:** khoảng 58,3% tài sản 1, 30,6% tài sản 2, 11,1% tài sản 3 (tức khoảng 58,3 / 30,6 / 11,1 triệu đồng).
 
 </details>
 
@@ -651,57 +649,44 @@ $$\lambda_1(2x_1 + x_2 - 100) = 0$$
 $$\lambda_2(x_1 + 2x_2 - 80) = 0$$
 $$\lambda_3(x_1 - 40) = 0$$
 
-**Thử các trường hợp:**
+**Nhận xét:** Đỉnh $$(40, 20)$$ làm **cả ba** ràng buộc active cùng lúc: $$2(40) + 20 = 100$$, $$40 + 2(20) = 80$$, $$x_1 = 40$$. Đây là đỉnh suy biến (degenerate).
 
-**Trường hợp 1:** Ràng buộc 1 và 2 active ($$\lambda_1, \lambda_2 > 0$$, $$\lambda_3 = 0$$):
+So sánh các đỉnh của miền khả thi: $$(0, 0) \to 0$$, $$(0, 40) \to 1200$$, $$(40, 20) \to 2200$$, $$(40, 0) \to 1600$$.
 
-$$2x_1 + x_2 = 100$$
-$$x_1 + 2x_2 = 80$$
+**Nghiệm tối ưu:** $$x_1^* = 40$$, $$x_2^* = 20$$, lợi nhuận $$40(40) + 30(20) = 2200$$ nghìn
 
-Giải hệ:
-$$x_1 = 40, \quad x_2 = 20$$
+**Nhân tử KKT:** Vì $$x_1^*, x_2^* > 0$$, stationarity cho:
 
-Từ stationarity:
-$$-40 + 2\lambda_1 + \lambda_2 = 0$$
-$$-30 + \lambda_1 + 2\lambda_2 = 0$$
+$$2\lambda_1 + \lambda_2 + \lambda_3 = 40$$
+$$\lambda_1 + 2\lambda_2 = 30$$
 
-Giải:
-$$\lambda_1 = 10, \quad \lambda_2 = 10$$
+Đặt $$\lambda_2 = s$$: $$\lambda_1 = 30 - 2s$$, $$\lambda_3 = 3s - 20$$. Điều kiện $$\lambda \geq 0$$ cho $$20/3 \leq s \leq 15$$, nên nhân tử **không duy nhất** (do suy biến). Ví dụ:
+- $$s = 20/3$$: $$\lambda = (50/3,\ 20/3,\ 0)$$
+- $$s = 10$$: $$\lambda = (10,\ 10,\ 10)$$
+- $$s = 15$$: $$\lambda = (0,\ 15,\ 25)$$
 
-**Kiểm tra:** 
-- $$\lambda_1, \lambda_2 > 0$$ ✓
-- $$x_1 = 40 = 40$$ (ràng buộc 3 cũng active!)
-- Lợi nhuận: $$40(40) + 30(20) = 2200$$ nghìn
-
-**Nghiệm tối ưu:** $$x_1^* = 40$$, $$x_2^* = 20$$
+Mọi lựa chọn đều cho giá trị dual $$100\lambda_1 + 80\lambda_2 + 40\lambda_3 = 2200$$ ✓ (strong duality).
 
 ---
 
 **c) Shadow prices (Dual variables):**
 
-$$\lambda_1^* = 10$$ nghìn/giờ lao động
-$$\lambda_2^* = 10$$ nghìn/kg vật liệu
-$$\lambda_3^* = 0$$ (máy móc không thiếu)
-
-**Giải thích:**
-- Nếu có thêm 1 giờ lao động → lợi nhuận tăng 10 nghìn
-- Nếu có thêm 1 kg vật liệu → lợi nhuận tăng 10 nghìn
-- Thêm máy không giúp gì vì đang dư
+Vì nhân tử không duy nhất, shadow price chỉ có nghĩa **một phía**:
+- **Lao động:** $$\lambda_1 \in [0,\ 50/3]$$. Bớt 1 giờ lao động làm lợi nhuận giảm khoảng $$50/3 \approx 16{,}7$$ nghìn, nhưng **thêm** 1 giờ thì lợi nhuận tăng **0**.
+- **Vật liệu:** $$\lambda_2 \in [20/3,\ 15]$$. Thêm 1 kg tăng lợi nhuận khoảng $$20/3 \approx 6{,}7$$ nghìn; bớt 1 kg giảm khoảng 15 nghìn.
+- **Máy móc:** $$\lambda_3 \in [0,\ 25]$$. Nới $$x_1 \leq 40$$ thêm 1 đơn vị thì lợi nhuận tăng **0** (lao động lập tức chặn lại); siết lại thì mất khoảng 25 nghìn.
 
 ---
 
 **d) Quyết định mua lao động:**
 
-Shadow price lao động: 10 nghìn/giờ
-Giá mua: 8 nghìn/giờ
+Với 110 giờ lao động, hai ràng buộc $$x_1 \leq 40$$ và $$x_1 + 2x_2 \leq 80$$ vẫn giữ nghiệm ở $$(40, 20)$$, lợi nhuận vẫn là 2200 nghìn. Shadow price **khi tăng** lao động bằng 0.
 
-**Lợi nhuận ròng:** $$10 - 8 = 2$$ nghìn/giờ
+Chi phí: $$10 \times 8 = 80$$ nghìn, lợi ích: 0.
 
-**Kết luận:** ✅ **NÊN MUA!** Lãi 2 nghìn/giờ.
+**Kết luận:** ❌ **KHÔNG NÊN MUA.** Mua 10 giờ làm lỗ 80 nghìn. Nút thắt thật sự là vật liệu và máy móc.
 
-Với 10 giờ: lợi nhuận tăng thêm $$10 \times 2 = 20$$ nghìn.
-
-**Lưu ý:** Shadow price chỉ đúng trong một khoảng nhất định (sensitivity analysis cần kiểm tra range).
+**Lưu ý:** Ở đỉnh suy biến, đạo hàm của lợi nhuận tối ưu theo tài nguyên khác nhau ở hai phía, nên phải kiểm tra range trong sensitivity analysis trước khi dùng shadow price.
 
 </details>
 

@@ -6,6 +6,7 @@ order: 13
 categories:
 - chapter16
 owner: "Minjoo Lee"
+lang: en
 ---
 
 So far, we have implicitly assumed that the first centering step ($$t = t^{(0)}$$) starts from a strictly feasible point to compute $$x^{(0)} = x^*$$.

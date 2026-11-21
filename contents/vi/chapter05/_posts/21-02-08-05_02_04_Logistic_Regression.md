@@ -77,7 +77,7 @@ $$J(\mathbf{w}) = -\sum_{i=1}^n \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \righ
 với $$p_i = \sigma(\mathbf{w}^T \mathbf{x}_i)$$ là xác suất dự đoán.
 
 **Đặc điểm quan trọng:**
-- **Phạt nặng dự đoán sai:** Khi dự đoán càng sai, loss tăng exponentially
+- **Phạt nặng dự đoán sai:** Khi dự đoán càng sai, loss càng lớn và không bị chặn trên
 - **Smooth và convex:** Đảm bảo tối ưu hóa hiệu quả
 - **Probabilistic:** Phù hợp với bản chất xác suất của bài toán
 
@@ -135,12 +135,12 @@ Vì $$\mathbf{S} \succ 0$$, ta có $$\nabla^2_{\mathbf{w}} J(\mathbf{w}) \succeq
 **Tại sao tính lồi quan trọng?**
 
 1. **Đảm bảo Global Optimum:**
-   - Hàm lồi có **duy nhất một điểm tối ưu toàn cục**
+   - Mọi **điểm cực tiểu địa phương đều là cực tiểu toàn cục** (tập nghiệm tối ưu là tập lồi)
    - Không có local minima "giả" như trong neural networks
-   - Mọi thuật toán tối ưu đều hội tụ về cùng một nghiệm
+   - Các thuật toán tối ưu đều hướng về nghiệm tối ưu toàn cục
 
 2. **Gradient Descent hoạt động hiệu quả:**
-   - **Luôn hội tụ** về nghiệm tối ưu (với learning rate phù hợp)
+   - **Luôn hội tụ** về nghiệm tối ưu (với learning rate phù hợp, khi nghiệm tối ưu tồn tại; với dữ liệu tách được tuyến tính hoàn toàn, nghiệm tối ưu nằm ở vô cực và $$\|\mathbf{w}\|$$ tăng mãi)
    - **Không bị kẹt** tại local minima
    - **Đơn giản và ổn định** - không cần kỹ thuật phức tạp
 
@@ -179,9 +179,9 @@ Trong **Chương 6 - Gradient Descent**, chúng ta sẽ học chi tiết:
 | **Đầu ra** | Giá trị liên tục | Xác suất $$\in [0,1]$$ |
 | **Hàm kích hoạt** | Identity: $$f(z) = z$$ | Sigmoid: $$\sigma(z) = \frac{1}{1+e^{-z}}$$ |
 | **Hàm mất mát** | MSE: $$\frac{1}{2n}\sum(y_i - \hat{y}_i)^2$$ | Cross-entropy: $$-\sum[y_i \log p_i + (1-y_i)\log(1-p_i)]$$ |
-| **Nghiệm đóng** | Có: $$\mathbf{w}^* = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$ | Không có |
+| **Nghiệm đóng** | Có (nếu $$\mathbf{X}^T\mathbf{X}$$ khả nghịch): $$\mathbf{w}^* = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$ | Không có |
 | **Thuật toán** | Normal equation hoặc GD | Gradient Descent |
-| **Tính lồi** | Lồi (quadratic) | Lồi (log-convex) |
+| **Tính lồi** | Lồi (quadratic) | Lồi (convex) |
 
 ## 💡 Ví dụ Minh họa: Dự đoán Spam Email
 
@@ -750,7 +750,7 @@ $$J(\mathbf{w}) = -\log(\text{Likelihood}) = -\sum_{i=1}^n \left[ y_i \log p_i +
 - **Trường hợp 2:** $$y = 1$$ (thực tế), $$p = 0.1$$ (dự đoán)  
   - Loss = $$-1 \times \log(0.1) = 2.303$$ (cao - tệ!)
 
-**Kết luận:** Dự đoán càng sai, loss càng lớn một cách **exponential**.
+**Kết luận:** Dự đoán càng sai, loss càng lớn, và **không bị chặn trên** (tăng xấp xỉ tuyến tính theo mức sai khi $$p \to 0$$).
 
 #### **2. Khuyến khích dự đoán tự tin**
 
@@ -893,7 +893,7 @@ $$F(z) = e^{-e^{-z}}$$
 
 **Đặc điểm:**
 - ✅ **Miền giá trị**: $$(0, 1)$$
-- ❌ **Không đối xứng**: Left-skewed
+- ❌ **Không đối xứng**: Right-skewed
 - **CDF của Gumbel distribution**
 
 **Ứng dụng:**
@@ -907,7 +907,7 @@ $$F(z) = 1 - e^{-e^z}$$
 
 **Đặc điểm:**
 - ✅ **Miền giá trị**: $$(0, 1)$$
-- ❌ **Không đối xứng**: Right-skewed
+- ❌ **Không đối xứng**: Left-skewed
 - **Complement của Gumbel**
 
 **Ứng dụng:**
@@ -983,7 +983,7 @@ $$F(z) = \frac{1}{2} + \frac{1}{\pi} \arctan(z)$$
                         <tr>
                             <td style="border: 1px solid #ccc; padding: 8px;"><strong>Gumbel</strong></td>
                             <td style="border: 1px solid #ccc; padding: 8px;">❌ No</td>
-                            <td style="border: 1px solid #ccc; padding: 8px;">Left-skewed</td>
+                            <td style="border: 1px solid #ccc; padding: 8px;">Right-skewed</td>
                             <td style="border: 1px solid #ccc; padding: 8px;">⚡ Fast</td>
                         </tr>
                         <tr>

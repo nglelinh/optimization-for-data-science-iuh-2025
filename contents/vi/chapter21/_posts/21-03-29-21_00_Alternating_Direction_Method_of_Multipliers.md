@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 21 Alternating Direction Method of Multipliers
+title: '21 Phương pháp hướng luân phiên của các nhân tử (ADMM)'
 chapter: '21'
 order: 1
 owner: Hooncheol Shin
@@ -9,9 +9,9 @@ categories:
 lang: vi
 ---
 
-This chapter aims to examine ADMM, which was covered in [Chapter 20]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %}), in more detail. The basic concepts are not significantly different in depth from what was covered in Chapter 20, and we will mainly look at application cases.
+Chương này nhằm xem xét chi tiết hơn ADMM, đã được đề cập ở [Chương 20]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %}). Các khái niệm cơ bản không khác biệt đáng kể về độ sâu so với những gì đã học ở Chương 20, và chúng ta chủ yếu sẽ xem các trường hợp ứng dụng.
 
-### Reference Papers
+### Các bài báo tham khảo
 
 * Boyd, Stephen, et al. [BPCPE11] "Distributed optimization and statistical learning via the alternating direction method of multipliers." Foundations and Trends® in Machine learning 3.1 (2011): 1-122.
 * Hong, Mingyi, and Zhi-Quan Luo. [HL12] "On the linear convergence of the alternating direction method of multipliers." Mathematical Programming 162.1-2 (2017): 165-199.
@@ -26,8 +26,8 @@ This chapter aims to examine ADMM, which was covered in [Chapter 20]({% multilan
 * Barbero, Alvaro, and Suvrit Sra. [BS14] "Modular proximal optimization for multidimensional total-variation regularization." arXiv preprint arXiv:1411.0589 (2014).
 
 
-ADMM convergence relation, : [BPCPE11], [HL12], [DY16], [IBCH14], [NLRPJ15]  
-Sparse subspace estimation : [VCLR13]  
-Sparse plus low rank decomposition : [CLMW09]  
-Consensus ADMM : [BPCPE11], [NB13]  
-Subprogram parameterization : [RT16], [WSK14], [BS14]
+Quan hệ hội tụ của ADMM: [BPCPE11], [HL12], [DY16], [IBCH14], [NLRPJ15]  
+Ước lượng không gian con thưa: [VCLR13]  
+Phân rã thưa cộng hạng thấp: [CLMW09]  
+ADMM đồng thuận (Consensus ADMM): [BPCPE11], [NB13]  
+Tham số hóa bài toán con: [RT16], [WSK14], [BS14]

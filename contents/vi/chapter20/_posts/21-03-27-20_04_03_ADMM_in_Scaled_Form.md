@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 20-04-03 ADMM in Scaled Form
+title: '20-04-03 ADMM dạng có tỉ lệ (Scaled Form)'
 chapter: '20'
 order: 11
 owner: Hooncheol Shin
@@ -9,20 +9,20 @@ categories:
 lang: vi
 ---
 
-# ADMM in Scaled Form
+# ADMM dạng có tỉ lệ
 
-ADMM can be expressed in scaled form by substituting the dual variable $$u$$ with $$w = u/\rho$$. The ADMM steps can then be written as follows: 
+ADMM có thể được biểu diễn dưới dạng có tỉ lệ bằng cách thay biến đối ngẫu $$u$$ bằng $$w = u/\rho$$. Khi đó các bước ADMM có thể được viết như sau:
 > $$
 > \begin{alignat}{1}
 > x^{(k)} & = \arg\min_x f(x) + \frac{\rho}{2} \lVert Ax + Bz^{(k-1)} - c + w^{(k-1)} \rVert_2^2  \\
-> z^{(k)} & = \arg\min_z g(x) + \frac{\rho}{2} \lVert Ax^{(k)} + Bz - c + w^{(k-1)} \rVert_2^2  \\
+> z^{(k)} & = \arg\min_z g(z) + \frac{\rho}{2} \lVert Ax^{(k)} + Bz - c + w^{(k-1)} \rVert_2^2  \\
 > w^{(k)} & = w^{(k-1)} + Ax^{(k)} + Bz^{(k)} - c 
 > \end{alignat}
 > $$
 
-## Equivalence to Original Form
+## Tương đương với dạng ban đầu
 
-We can show that the above equations are equivalent to the original form through the following process:
+Ta có thể chứng minh các phương trình trên tương đương với dạng ban đầu qua quá trình sau:
 
 > $$
 > \begin{align}
@@ -32,11 +32,11 @@ We can show that the above equations are equivalent to the original form through
 > \end{align}
 > $$
 
-where we used $$u^{(k-1)} = \rho w^{(k-1)}$$ and dropped the constant term.
+trong đó ta đã dùng $$u^{(k-1)} = \rho w^{(k-1)}$$ và bỏ đi số hạng hằng.
 
-## Interpretation of Scaled Variable
+## Diễn giải biến có tỉ lệ
 
-Here, $$w^{(k)}$$ can be viewed as the sum of residuals up to iteration $$k$$:
+Ở đây, $$w^{(k)}$$ có thể được xem là tổng các phần dư cho đến vòng lặp $$k$$:
 
 > $$
 > \begin{equation}
@@ -44,4 +44,4 @@ Here, $$w^{(k)}$$ can be viewed as the sum of residuals up to iteration $$k$$:
 > \end{equation}
 > $$
 
-This scaled form is often more convenient for implementation and analysis.
+Dạng có tỉ lệ này thường thuận tiện hơn cho việc cài đặt và phân tích.

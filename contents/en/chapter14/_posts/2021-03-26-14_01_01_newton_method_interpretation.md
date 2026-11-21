@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 14-01-01 Newton's method interpretation
+chapter: '14'
 order: 3
 owner: Minjoo Lee
 categories:
@@ -71,3 +72,11 @@ As an example, for the function $$f = (10x_{1}^{2}+x_{2}^{2})/2+5log(1+e^{-x_{1}
 </figure>
 
 As can be seen in Fig 1, gradient descent assumes the second derivative term as a constant multiplied by the identity matrix when calculating the gradient, so it converges perpendicularly to the tangent direction of the contour lines, and shows slower convergence speed compared to Newton's method. The remaining chapters will cover the properties, characteristics, convergence, examples, etc. of Newton's method.
+
+### Newton's method in one dimension
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/newton-parabola_en.mp4"></video>
+</div>
+
+Each step minimizes the quadratic model $$f(x_k)+f'(x_k)(x-x_k)+\tfrac12 f''(x_k)(x-x_k)^2$$, so $$x_{k+1}=x_k-f'(x_k)/f''(x_k)$$.

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 20-04-02 Convergence Guarantee
+title: '20-04-02 Đảm bảo hội tụ'
 chapter: '20'
 order: 10
 owner: Hooncheol Shin
@@ -9,14 +9,14 @@ categories:
 lang: vi
 ---
 
-# Convergence Guarantee for ADMM
+# Đảm bảo hội tụ của ADMM
 
-Under appropriate conditions on $$f$$ and $$g$$ (note that $$A$$ and $$B$$ do not need to be full rank), ADMM satisfies the following for all $$\rho > 0$$:
+Với các điều kiện thích hợp trên $$f$$ và $$g$$ (lưu ý rằng $$A$$ và $$B$$ không cần có hạng đầy đủ), ADMM thỏa mãn các điều sau với mọi $$\rho > 0$$:
 
-* **Residual convergence**: As $$k \to \infty$$, $$r^{(k)} = Ax^{(k)} + Bz^{(k)} - c \to 0$$, meaning the primal iterates approach feasibility.
+* **Hội tụ phần dư**: Khi $$k \to \infty$$, $$r^{(k)} = Ax^{(k)} + Bz^{(k)} - c \to 0$$, nghĩa là các điểm lặp gốc tiến đến tính khả thi.
 
-* **Objective convergence**: $$f(x^{(k)}) + g(z^{(k)}) \to f^{\ast} + g^{\ast}$$, where $$f^{\ast} + g^{\ast}$$ is the optimal primal objective value.
+* **Hội tụ hàm mục tiêu**: $$f(x^{(k)}) + g(z^{(k)}) \to f^{\ast} + g^{\ast}$$, trong đó $$f^{\ast} + g^{\ast}$$ là giá trị mục tiêu gốc tối ưu.
 
-* **Dual convergence**: $$u^{(k)} \to u^{\ast}$$, where $$u^{\ast}$$ is the dual solution.
+* **Hội tụ đối ngẫu**: $$u^{(k)} \to u^{\ast}$$, trong đó $$u^{\ast}$$ là nghiệm đối ngẫu.
 
-The exact convergence rate is not yet fully understood, and much research is currently ongoing in this area. Roughly speaking, ADMM performs similarly to or slightly better than first-order methods. 
+Tốc độ hội tụ chính xác vẫn chưa được hiểu đầy đủ, và hiện có nhiều nghiên cứu đang diễn ra trong lĩnh vực này. Nói đại khái, ADMM hoạt động tương tự hoặc tốt hơn một chút so với các phương pháp bậc nhất.

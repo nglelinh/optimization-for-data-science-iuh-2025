@@ -138,7 +138,7 @@ $$\text{prox}_{tg}(y) = (I + tQ)^{-1}y$$
 
 ## 📝 **Bài tập 5: Dual Proximal Gradient**
 
-Cho $$\min Ax = b, x \geq 0$$ $$c^Tx$$.
+Cho $$\min c^Tx$$ s.t. $$Ax = b, x \geq 0$$.
 
 **a)** Viết dual problem  
 **b)** Apply proximal gradient trên dual  
@@ -149,7 +149,7 @@ Cho $$\min Ax = b, x \geq 0$$ $$c^Tx$$.
 
 **Dual:**
 
-$$\max_\nu \quad g(\nu) = -b^T\nu$$
+$$\max_\nu \quad g(\nu) = b^T\nu$$
 
 s.t. $$A^T\nu \leq c$$
 

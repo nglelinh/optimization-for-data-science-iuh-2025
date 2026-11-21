@@ -42,17 +42,17 @@ $$\min_x \max_{\lVert u \rVert_2 \leq 1} \lVert (A + \sum_{i=1}^k u_i B_i)x - b 
 **Handle inequality:** $$x_1 - x_2 \geq 3 \Rightarrow -x_1 + x_2 \leq -3$$
 
 **Standard form:**
-$$\min_{x_1,x_2,x_3^+,x_3^-} x_1^2 + x_2^2 + (x_3^+)^2 + (x_3^-)^2 + 2x_3^+ x_3^-$$
+$$\min_{x_1,x_2,x_3^+,x_3^-} x_1^2 + x_2^2 + (x_3^+)^2 + (x_3^-)^2 - 2x_3^+ x_3^-$$
 $$\text{s.t.} \quad x_1 + 2x_2 - x_3^+ + x_3^- = 5$$
 $$\quad -x_1 + x_2 \leq -3$$
 $$\quad x_2 \leq 4$$
-$$\quad x_1, x_2, x_3^+, x_3^- \geq 0$$
+$$\quad x_3^+, x_3^- \geq 0 \quad (x_1, x_2 \text{ vẫn tự do: bài gốc không có } x_1, x_2 \geq 0)$$
 
-**Note:** Cross term $$2x_3^+ x_3^-$$ makes objective non-separable but still convex.
+**Note:** $$(x_3^+ - x_3^-)^2 = (x_3^+)^2 + (x_3^-)^2 - 2x_3^+ x_3^-$$; the objective is still convex (PSD Hessian). Splitting a free variable is only needed for the LP standard form; for a QP solver it is unnecessary.
 
 **Alternative approach:** Keep $$x_3$$ free, handle directly:
 $$\min_{x_1,x_2,x_3} x_1^2 + x_2^2 + x_3^2$$
-$$\text{s.t.} \quad x_1 + 2x_2 - x_3 = 5, \quad x_1 - x_2 \geq 3, \quad x_2 \leq 4, \quad x_1 \geq 0$$
+$$\text{s.t.} \quad x_1 + 2x_2 - x_3 = 5, \quad x_1 - x_2 \geq 3, \quad x_2 \leq 4$$
 
 **Bước 2: Minimax problem**
 
@@ -69,15 +69,14 @@ $$\max_{\lVert u \rVert_2 \leq 1} \lVert (A + \sum_{i=1}^k u_i B_i)x - b \rVert_
 
 **Matrix form:** $$\max_{\lVert u \rVert_2 \leq 1} \lVert Ax - b + (\sum_{i=1}^k u_i B_i)x \rVert_2^2$$
 
-**Let $$y = (\sum_{i=1}^k u_i B_i)x$$:** Need $$\lVert y \rVert_2 \leq \lVert \sum_{i=1}^k B_i x \rVert_2$$
+**Đặt** $$q(x) = Ax - b$$ và $$P(x) = [B_1 x \ \cdots \ B_k x]$$ (affine theo $$x$$), khi đó $$(\sum_i u_i B_i)x = P(x)u$$ và hàm worst-case là $$\max_{\lVert u \rVert_2 \leq 1} \lVert q(x) + P(x)u \rVert_2^2$$. Đây **không** bằng $$\lVert q \rVert_2^2 + \lVert \sum_i B_i x \rVert_2^2$$.
 
-**Semidefinite reformulation:**
-$$\min_{x,t} t$$
-$$\text{s.t.} \quad \lVert Ax - b \rVert_2^2 + \lVert \sum_{i=1}^k B_i x \rVert_2^2 \leq t$$
+**Semidefinite reformulation (S-lemma, Boyd & Vandenberghe §6.4.2):**
+$$\min_{x,t,\lambda} t + \lambda$$
+$$\text{s.t.} \quad \begin{bmatrix} I & P(x) & q(x) \\ P(x)^T & \lambda I & 0 \\ q(x)^T & 0 & t \end{bmatrix} \succeq 0$$
 
-**SOCP form:**
-$$\min_{x,t} t$$
-$$\text{s.t.} \quad \begin{bmatrix} t - \lVert Ax - b \rVert_2^2 \\ \sum_{i=1}^k B_i x \end{bmatrix} \in \mathcal{K}_{SOCP}$$
+**SOCP upper bound (đơn giản hơn nhưng bảo thủ):** vì $$\lVert P(x)u \rVert_2 \leq \lVert P(x) \rVert_F$$ khi $$\lVert u \rVert_2 \leq 1$$:
+$$\min_{x} \ \lVert Ax - b \rVert_2 + \lVert P(x) \rVert_F$$
 
 </details>
 
@@ -92,7 +91,7 @@ $$\min_x \frac{1}{2}x^T Q x + c^T x \quad \text{s.t.} \quad Ax = b, \quad x \geq
 với $$Q \succeq 0$$
 
 b) **Entropy maximization:**
-$$\max_x \sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad \sum_{i=1}^n x_i = 1, \quad \sum_{i=1}^n a_i x_i = \alpha, \quad x \geq 0$$
+$$\max_x -\sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad \sum_{i=1}^n x_i = 1, \quad \sum_{i=1}^n a_i x_i = \alpha, \quad x \geq 0$$
 
 c) **Support vector machine:**
 $$\min_{w,b,\xi} \frac{1}{2}\lVert w \rVert_2^2 + C\sum_{i=1}^m \xi_i$$
@@ -127,17 +126,17 @@ $$L(x,\lambda,\mu) = \frac{1}{2}x^T Q x + c^T x + \lambda^T(Ax - b) - \mu^T x$$
 **Bước 2: Entropy maximization**
 
 **Convert to minimization:**
-$$\min_x -\sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad \sum_{i=1}^n x_i = 1, \sum_{i=1}^n a_i x_i = \alpha, x \geq 0$$
+$$\min_x \sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad \sum_{i=1}^n x_i = 1, \sum_{i=1}^n a_i x_i = \alpha, x \geq 0$$
 
 **Lagrangian:**
-$$L(x,\lambda_1,\lambda_2,\mu) = -\sum_{i=1}^n x_i \log x_i + \lambda_1(\sum x_i - 1) + \lambda_2(\sum a_i x_i - \alpha) - \sum \mu_i x_i$$
+$$L(x,\lambda_1,\lambda_2,\mu) = \sum_{i=1}^n x_i \log x_i + \lambda_1(\sum x_i - 1) + \lambda_2(\sum a_i x_i - \alpha) - \sum \mu_i x_i$$
 
 **KKT conditions:**
-- **Stationarity:** $$-\log x_i - 1 + \lambda_1 + \lambda_2 a_i - \mu_i = 0$$
+- **Stationarity:** $$\log x_i + 1 + \lambda_1 + \lambda_2 a_i - \mu_i = 0$$
 - **Complementary slackness:** $$\mu_i x_i = 0$$
 
 **Optimal solution:**
-$$x_i^* = e^{\lambda_1 + \lambda_2 a_i - 1}$$ (if $$x_i > 0$$)
+$$x_i^* = e^{-1 - \lambda_1 - \lambda_2 a_i}$$ (luôn $$> 0$$, nên $$\mu_i = 0$$); chuẩn hóa: $$x_i^* = \frac{e^{-\lambda_2 a_i}}{\sum_j e^{-\lambda_2 a_j}}$$
 
 **Exponential family form:** Maximum entropy distribution với moment constraints.
 
@@ -195,10 +194,10 @@ d) Parametric programming: $$b(\theta) = b_0 + \theta d$$
 **Condition for finiteness:** $$c + A^T \lambda \geq 0$$
 
 **Dual problem:**
-$$\max_\lambda -\lambda^T b \quad \text{s.t.} \quad A^T \lambda \leq c, \quad \lambda \geq 0$$
+$$\max_\lambda -\lambda^T b \quad \text{s.t.} \quad A^T \lambda + c \geq 0, \quad \lambda \geq 0$$
 
 Equivalently:
-$$\max_\lambda b^T \lambda \quad \text{s.t.} \quad A^T \lambda \leq c, \quad \lambda \geq 0$$
+$$\max_\nu b^T \nu \quad \text{s.t.} \quad A^T \nu \leq c, \quad \nu \leq 0 \qquad (\nu = -\lambda)$$
 
 **Bước 2: Strong duality conditions**
 
@@ -207,14 +206,14 @@ $$\max_\lambda b^T \lambda \quad \text{s.t.} \quad A^T \lambda \leq c, \quad \la
 **Fundamental theorem of LP:** Strong duality holds khi cả primal và dual feasible.
 
 **Complementary slackness:**
-- $$(A^T \lambda^* - c)_j x_j^* = 0, \forall j$$
+- $$(c + A^T \lambda^*)_j x_j^* = 0, \forall j$$
 - $$\lambda_i^* (Ax^* - b)_i = 0, \forall i$$
 
 **Bước 3: Sensitivity analysis**
 
 **Optimal value function:** $$f^*(b) = \min\{c^T x : Ax \leq b, x \geq 0\}$$
 
-**Envelope theorem:** $$\nabla_b f^*(b) = \lambda^*(b)$$
+**Envelope theorem:** $$\nabla_b f^*(b) = -\lambda^*(b) \leq 0$$ (nới $$b$$ làm giá trị tối ưu giảm; tại điểm $$f^*$$ khả vi)
 
 **Shadow price interpretation:** $$\lambda_i^*$$ = marginal value của resource $$i$$
 
@@ -387,15 +386,15 @@ $$\min_{\mu \in \mathcal{U}} \mu^T x = \min_{f \in \mathcal{F}} (\beta f)^T x - 
 
 **Ambiguity set:** $$\mathcal{P} = \{P : \mathbb{E}_P[\mu] = \mu_0, \text{Cov}_P[\mu] \preceq \Sigma_0\}$$
 
-**Worst-case expectation:**
-$$\min_{P \in \mathcal{P}} \mathbb{E}_P[\mu^T x] = \mu_0^T x - \sqrt{x^T \Sigma_0 x}$$
+**Lưu ý:** kỳ vọng không có tính bất định: $$\mathbb{E}_P[\mu^T x] = \mu_0^T x$$ với mọi $$P \in \mathcal{P}$$. Tính bền vững đến từ ràng buộc xác suất (chance constraint) $$\inf_{P \in \mathcal{P}} \mathbb{P}_P[\mu^T x \geq r] \geq 1 - \epsilon$$, tương đương (bất đẳng thức Cantelli/Chebyshev một phía):
+$$\mu_0^T x - \kappa \sqrt{x^T \Sigma_0 x} \geq r, \qquad \kappa = \sqrt{\frac{1-\epsilon}{\epsilon}}$$
 
 **Robust formulation:**
 $$\min_x x^T \Sigma x$$
-$$\text{s.t.} \quad \mu_0^T x - \sqrt{x^T \Sigma_0 x} \geq r$$
+$$\text{s.t.} \quad \mu_0^T x - \kappa \sqrt{x^T \Sigma_0 x} \geq r$$
 $$\quad \mathbf{1}^T x = 1, \quad x \geq 0$$
 
-**Connection:** Ellipsoidal uncertainty với $$P^T P = \Sigma_0$$
+**Connection:** Ellipsoidal uncertainty với $$P P^T = \kappa^2 \Sigma_0$$ (vì $$\lVert P^T x \rVert_2^2 = x^T P P^T x$$)
 
 </details>
 
@@ -544,7 +543,7 @@ $$\quad W y^i = h^i - T^i x, \quad y^i \geq 0, \quad i = 1,\ldots,N$$
 **Master problem:**
 $$\min_{x,\theta} c^T x + \theta$$
 $$\text{s.t.} \quad Ax = b, \quad x \geq 0$$
-$$\quad \theta \geq \frac{1}{N}\sum_{i=1}^N (q^T y^i + (\pi^i)^T(h^i - T^i x))$$
+$$\quad \theta \geq \frac{1}{N}\sum_{i=1}^N (\pi^{i,k})^T(h^i - T^i x), \quad k = 1, 2, \ldots \quad \text{(optimality cuts, } \pi^{i,k} \text{ là nghiệm dual của subproblem)}$$
 
 **Subproblems:** For each scenario $$i$$:
 $$\min_{y^i} q^T y^i \quad \text{s.t.} \quad W y^i = h^i - T^i x, \quad y^i \geq 0$$
@@ -644,11 +643,11 @@ $$\max_y b^T y \quad \text{s.t.} \quad \sum_{i=1}^m y_i A_i + S = C, \quad S \su
 
 **Modeling examples:**
 
-**Entropy:** $$x \log x \leq t \Leftrightarrow (t, x, 1) \in \mathcal{K}_{\exp}^*$$
+**Entropy:** $$x \log x \leq t \Leftrightarrow (-t, x, 1) \in \mathcal{K}_{\exp}$$ (vì $$x e^{-t/x} \leq 1 \Leftrightarrow t \geq x \log x$$)
 
 **Log-sum-exp:** $$\log(\sum e^{x_i}) \leq t \Leftrightarrow$$ system của exponential cone constraints
 
-**Power cone:** $$x_1^{p_1} \cdots x_k^{p_k} \geq |x_{k+1}|$$ reducible to exponential cones
+**Power cone:** $$x_1^{p_1} \cdots x_k^{p_k} \geq |x_{k+1}|$$ là một nón riêng (không phải nón mũ); với số mũ hữu tỉ có thể biểu diễn bằng các ràng buộc second-order cone
 
 </details>
 
@@ -674,12 +673,12 @@ d) **Knapsack:** FPTAS via dynamic programming
 
 **Bước 1: Max-cut SDP relaxation**
 
-**Original problem:** $$\max_{x \in \{-1,1\}^n} \frac{1}{4}\sum_{(i,j) \in E} w_{ij}(1 - x_i x_j)$$
+**Original problem:** $$\max_{x \in \{-1,1\}^n} \frac{1}{2}\sum_{(i,j) \in E} w_{ij}(1 - x_i x_j)$$ (mỗi cạnh tính một lần; cạnh bị cắt cho $$1 - x_i x_j = 2$$)
 
-**Equivalent:** $$\max_{x \in \{-1,1\}^n} \frac{1}{4}\sum_{(i,j) \in E} w_{ij}(1 - x_i x_j)$$
+**Equivalent:** $$\min_{x \in \{-1,1\}^n} \sum_{(i,j) \in E} w_{ij} x_i x_j$$
 
 **SDP relaxation:** $$X = xx^T \Rightarrow X_{ij} = x_i x_j$$
-$$\max_X \frac{1}{4}\sum_{(i,j) \in E} w_{ij}(1 - X_{ij})$$
+$$\max_X \frac{1}{2}\sum_{(i,j) \in E} w_{ij}(1 - X_{ij})$$
 $$\text{s.t.} \quad X_{ii} = 1, \quad X \succeq 0$$
 
 **Goemans-Williamson algorithm:**
@@ -699,12 +698,10 @@ $$\text{s.t.} \quad \sum_{i \in F} x_{ij} = 1, \quad x_{ij} \leq y_i, \quad x_{i
 
 **Rounding algorithm:**
 1. Solve LP relaxation
-2. Open facility $$i$$ với probability $$y_i^*$$
-3. Connect client $$j$$ to closest open facility
-
-**Analysis:** Expected cost $$\leq 2 \times$$ LP optimal
-
-**Improved rounding:** Deterministic 1.61-approximation
+2. Cluster clients and, in each cluster, open one facility chosen with probability proportional to $$x_{ij}^*$$ (opening each facility independently with probability $$y_i^*$$ alone can leave clients unserved)
+3. Connect client $$j$$ to the closest open facility
+**Analysis:** Clustered randomized rounding (Chudak–Shmoys) gives expected cost $$\leq (1 + 2/e) \times$$ LP optimal $$\approx 1.736 \times$$ LP
+**Better guarantees:** The greedy dual-fitting algorithm of Jain–Mahdian–Saberi achieves 1.61; the best known ratio is about 1.488 (Li, 2011)
 
 **Bước 3: Set cover greedy**
 
@@ -731,7 +728,7 @@ While uncovered elements exist:
 
 **FPTAS approach:**
 1. Scale profits: $$\tilde{v}_i = \lfloor v_i / K \rfloor$$ với $$K = \epsilon \cdot v_{\max} / n$$
-2. DP on scaled instance: $$O(n^2 / \epsilon)$$ time
+2. DP on scaled instance: $$O(n^3 / \epsilon)$$ time (scaled total profit $$\leq n^2/\epsilon$$)
 3. Return solution
 
 **Approximation guarantee:** $$(1 - \epsilon)$$-optimal
@@ -892,7 +889,7 @@ với $$f_0, \ldots, f_m$$ convex, $$h_i$$ affine.
 
 ### **Vector Optimization:**
 
-- **Pareto optimal:** Không tồn tại $$y$$ khác sao cho $$f(y) \preceq_{K^*} f(x)$$ và $$f(y) \neq f(x)$$
+- **Pareto optimal:** Không tồn tại $$y$$ khác sao cho $$f(y) \preceq_{K} f(x)$$ và $$f(y) \neq f(x)$$
 - **Scalarization:** $$\min \lambda^T f(x)$$ với $$\lambda \succ_{K^*} 0$$
 - **$$\epsilon$$-constraint method:** Fix $$m-1$$ objectives, optimize 1
 

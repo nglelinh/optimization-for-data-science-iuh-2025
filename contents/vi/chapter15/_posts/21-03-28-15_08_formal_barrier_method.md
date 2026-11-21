@@ -1,46 +1,47 @@
 ---
 layout: post
-title: 15-08 Formal barrier method
+title: '15-08 Phương pháp chắn chính thức'
 chapter: "15"
 categories:
 - chapter16
 order: 14
 owner: "Minjoo Lee"
+lang: vi
 ---
 
-If a convex function $$\phi : D \to \mathbb{R}$$ defined on an open convex set $$D \subset \mathbb{R}^n$$ satisfies the following conditions, then the function is a **self-concordant barrier** with parameter $$\nu$$.
+Nếu một hàm lồi $$\phi : D \to \mathbb{R}$$ xác định trên tập lồi mở $$D \subset \mathbb{R}^n$$ thỏa mãn các điều kiện sau thì hàm đó là một **hàm chắn tự hòa hợp (self-concordant barrier)** với tham số $$\nu$$.
 
-* $$\phi$$ is self-concordant
-* For all $$x \in D$$, the Newton decrement is bounded by the constant $$\nu$$ as follows.
+* $$\phi$$ là hàm tự hòa hợp (self-concordant)
+* Với mọi $$x \in D$$, đại lượng giảm Newton (Newton decrement) bị chặn bởi hằng số $$\nu$$ như sau.
 
 > $$\lambda(x)^2 = \nabla \phi(x) (\nabla^2 \phi(x))^{-1} \nabla \phi(x) \le \nu$$
 
-Let's consider the following LP problem. (Here, $$\bar{D}$$ is the closure of the domain $$D$$.)
+Hãy xét bài toán LP sau. (Ở đây $$\bar{D}$$ là bao đóng của miền $$D$$.)
 >
 $$\begin{align}
 &\min_{x} \           && c^Tx \\
 &\text{subject to } \ && x \in \bar{D}  \\
 \end{align}$$
 
-This problem can be approximated as follows.
+Bài toán này có thể được xấp xỉ như sau.
 >
 $$\begin{align}
 &\min_{x} && tc^Tx + \phi(x) \\
 \end{align}$$
 
-Here, let $$\phi_t(x) := tc^Tx + \phi(x)$$ and let the corresponding Newton decrement be $$\lambda_t(x)$$.
+Ở đây, đặt $$\phi_t(x) := tc^Tx + \phi(x)$$ và gọi $$\lambda_t(x)$$ là đại lượng giảm Newton tương ứng.
 
-Key observation: When $$t^+ > t$$
+Quan sát then chốt: khi $$t^+ > t$$
 >
 $$\begin{align}
-\lambda_t^+(x) \le & \frac{t^+}{t}\lambda_t^+(x) + \left ( \frac{t^+}{t} -1 \right ) \sqrt{\nu}  \\\
+\lambda_{t^+}(x) \le & \frac{t^+}{t}\lambda_t(x) + \left ( \frac{t^+}{t} -1 \right ) \sqrt{\nu}  \\\
 \end{align}$$
 
-## Theorem
+## Định lý
 
 >$$\begin{align}
-& \text{if} \quad \lambda_t(x) \le \frac{1}{9} \quad \text{and} \quad \frac{t^+}{t} \le 1 + \frac{1}{8 \sqrt{\nu}} \quad \text{then} \quad \lambda_t^+(x^+) \le \frac{1}{9}  \\
-& \qquad \qquad \text{for} \quad x^+ = x - (\nabla^2 (\phi_{t^+}(x))^{-1} \nabla (\phi_{t^+}(x)
+& \text{nếu} \quad \lambda_t(x) \le \frac{1}{9} \quad \text{và} \quad \frac{t^+}{t} \le 1 + \frac{1}{8 \sqrt{\nu}} \quad \text{thì} \quad \lambda_{t^+}(x^+) \le \frac{1}{9}  \\
+& \qquad \qquad \text{với} \quad x^+ = x - (\nabla^2 \phi_{t^+}(x))^{-1} \nabla \phi_{t^+}(x)
 \end{align}$$
 
-In conclusion, if we start with $$x^{(0)}, t^{(0)}$$ such that $$\lambda_{t^{(0)}}(x^{(0)}) \lt \frac{1}{9}$$ and choose $$\mu := 1 + \frac{1}{8 \sqrt{\nu}}$$, then one Newton step per centering step is sufficient.
+Kết luận, nếu bắt đầu từ $$x^{(0)}, t^{(0)}$$ sao cho $$\lambda_{t^{(0)}}(x^{(0)}) \lt \frac{1}{9}$$ và chọn $$\mu := 1 + \frac{1}{8 \sqrt{\nu}}$$ thì mỗi bước centering chỉ cần một bước Newton là đủ.

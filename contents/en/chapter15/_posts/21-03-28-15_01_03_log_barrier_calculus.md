@@ -6,6 +6,7 @@ order: 5
 owner: "Minjoo Lee"
 categories:
 - chapter15
+lang: en
 ---
 The gradient and Hessian of the log barrier function are as follows.
 >

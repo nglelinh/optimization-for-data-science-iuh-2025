@@ -6,6 +6,7 @@ categories:
 - chapter16
 order: 14
 owner: "Minjoo Lee"
+lang: en
 ---
 
 If a convex function $$\phi : D \to \mathbb{R}$$ defined on an open convex set $$D \subset \mathbb{R}^n$$ satisfies the following conditions, then the function is a **self-concordant barrier** with parameter $$\nu$$.

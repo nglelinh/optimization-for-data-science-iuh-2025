@@ -9,11 +9,11 @@ categories:
 lang: vi
 ---
 
-This chapter examines the cutting plane algorithm, which can be considered the most core algorithm in Integer Programming (IP), and the branch and cut algorithm, which is its practical implementation. 
+Chương này xem xét thuật toán mặt phẳng cắt, có thể coi là thuật toán cốt lõi nhất trong quy hoạch nguyên (IP), và thuật toán nhánh và cắt, là bản cài đặt thực tế của nó. 
 
-We will also examine examples of Integer Programming such as best subset selection and Least mean squares.
+Chúng ta cũng sẽ xem các ví dụ về quy hoạch nguyên như chọn tập con tốt nhất và bình phương trung bình nhỏ nhất.
 
-## Reference
+## Tài liệu tham khảo
 * Belotti, Kirches, Leyer, Linderoth, Luedke, and Mahajan (2012), "Mixed-integer nonlinear optimization"
 * Bertsimas and Mazumder (2016), "Best subset selection via a modern optimization lens"
 * Bertsimas, King, and Mazumder (2014), "Least quantile regression via modern optimization"

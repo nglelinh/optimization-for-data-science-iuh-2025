@@ -285,22 +285,6 @@ $$\max_u -\frac{u^2}{4} + u \quad \text{s.t.} \quad u \ge 0$$
 
 ---
 
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['\\(', '\\)']],
-    displayMath: [['\\[', '\\]'], ['$$', '$$']],
-    processEscapes: true,
-    processEnvironments: true
-  },
-  options: {
-    ignoreHtmlClass: ".*|",
-    processHtmlClass: "arithmatex"
-  }
-};
-</script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -624,7 +608,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             <h3>Câu 13: Constraint qualification cần thiết để:</h3>
             <div class="options">
                 <label><input type="radio" name="q13" value="a"> A) Đảm bảo KKT conditions là necessary</label>
-                <label><input type="radio" name="q13" value="b"> B) Đảm bảo strong duality</label>
+                <label><input type="radio" name="q13" value="b"> B) Đảm bảo hàm dual là concave</label>
                 <label><input type="radio" name="q13" value="c"> C) Đảm bảo convexity</label>
                 <label><input type="radio" name="q13" value="d"> D) Đảm bảo uniqueness</label>
             </div>
@@ -773,13 +757,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             <h3>Câu 23: Duality gap bằng 0 khi:</h3>
             <div class="options">
                 <label><input type="radio" name="q23" value="a"> A) Đối ngẫu mạnh thỏa mãn</label>
-                <label><input type="radio" name="q23" value="b"> B) Bài toán lồi</label>
-                <label><input type="radio" name="q23" value="c"> C) Slater condition thỏa mãn</label>
+                <label><input type="radio" name="q23" value="b"> B) Bài toán lồi và thỏa Slater condition</label>
+                <label><input type="radio" name="q23" value="c"> C) Bài toán là LP khả thi</label>
                 <label><input type="radio" name="q23" value="d"> D) Tất cả các điều trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Duality gap = 0 khi có đối ngẫu mạnh, thường xảy ra với bài toán lồi và Slater condition.
+                Duality gap = 0 chính là đối ngẫu mạnh; bài toán lồi + Slater condition là điều kiện đủ; LP khả thi luôn có đối ngẫu mạnh. Lưu ý: chỉ riêng tính lồi thì chưa đủ.
             </div>
         </div>
 
@@ -800,7 +784,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
 
         <!-- Câu hỏi 25: Thực hành -->
         <div class="question" id="q25" style="display: none;">
-            <h3>Câu 25: Bài toán dual của $$\min f(x)$$ với $$g(x) \leq 0$$ là:</h3>
+            <h3>Câu 25: Bài toán dual của $$\min f(x)$$ với $$h(x) \leq 0$$ là:</h3>
             <div class="options">
                 <label><input type="radio" name="q25" value="a"> A) $$\max g(\lambda)$$ với $$\lambda \geq 0$$</label>
                 <label><input type="radio" name="q25" value="b"> B) $$\min g(\lambda)$$ với $$\lambda \geq 0$$</label>
@@ -1011,8 +995,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Render MathJax sau khi DOM được tải
-    if (window.MathJax) {
-        MathJax.typesetPromise();
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+        MathJax.startup.promise.then(() => MathJax.typesetPromise());
     }
 });
 

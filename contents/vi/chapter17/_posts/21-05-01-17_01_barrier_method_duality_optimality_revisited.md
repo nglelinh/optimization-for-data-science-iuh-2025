@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 17-01 Barrier method & duality & optimality revisited
+title: '17-01 Ôn lại phương pháp chắn, đối ngẫu và điều kiện tối ưu'
 chapter: '17'
 order: 2
 owner: Minjoo Lee
@@ -9,20 +9,20 @@ categories:
 lang: vi
 ---
 
-In Chapter 15, we examined the barrier method, and in Chapters 13 and 16, we looked at duality.
-Before covering the content of this chapter, we want to briefly review the barrier method and duality.
+Ở Chương 15 chúng ta đã xem xét phương pháp chắn, và ở Chương 13 và 16 chúng ta đã tìm hiểu về đối ngẫu.
+Trước khi đi vào nội dung của chương này, chúng ta muốn ôn lại ngắn gọn phương pháp chắn và đối ngẫu.
 
 
 
-## Barrier method
-When the following primal problem is convex and $$f, h_i , i = 1, . . . m$$ are differentiable,   
+## Phương pháp chắn
+Khi bài toán gốc (primal) sau là lồi và $$f, h_i , i = 1, . . . m$$ khả vi,
 > $$\begin{align}
 > &\min_{x} && f(x) \\
 > &\text{subject to } &&h_{i}(x) \leq 0, i = 1, \dotsc, m \\
 > &&& Ax = b \\
 > \end{align}$$
 
-Using the log barrier function, the primal problem can be transformed into a barrier problem as follows:
+Sử dụng hàm chắn logarit, bài toán gốc có thể được chuyển thành bài toán chắn như sau:
 
 > $$\begin{align}
 > & \min_{x} && f(x) + \frac{1}{t} \phi(x) & \qquad & \min_{x} && tf(x) + \phi(x) \\
@@ -30,67 +30,67 @@ Using the log barrier function, the primal problem can be transformed into a bar
 > & \text{where } && \phi(x) = - \sum_{i=1}^{m} \log(-h_i(x))
 > \end{align}$$
 
-The algorithm starts with $$t = t^{(0)}$$ satisfying $$t > 0$$ and increases until $$\frac{m}{t}$$ becomes less than or equal to $$\epsilon$$. At this time, Newton's method is used to find $$x^{\star}(t)$$ for the initial value $$x^{(0)}$$, and the process of finding $$x^{(k+1)} = x^{\star}(t)$$ at each step for $$k = 1, 2, 3, . . .$$ is repeated.
+Thuật toán bắt đầu với $$t = t^{(0)}$$ thỏa mãn $$t > 0$$ và tăng $$t$$ cho đến khi $$\frac{m}{t}$$ nhỏ hơn hoặc bằng $$\epsilon$$. Khi đó, phương pháp Newton được dùng để tìm $$x^{\star}(t)$$ với giá trị khởi tạo $$x^{(0)}$$, và quá trình tìm $$x^{(k+1)} = x^{\star}(t)$$ ở mỗi bước với $$k = 1, 2, 3, . . .$$ được lặp lại.
 
-The algorithm can be briefly summarized as follows:
+Thuật toán có thể được tóm tắt ngắn gọn như sau:
 
-1. Choose $$t^{(0)} \gt 0$$ and $$k := 0$$.
-2. Solve the barrier problem at $$t = t^{(0)}$$ to find $$x^{(0)} = x^{\star}(t)$$.
-3. While $$m/t \gt \epsilon$$ <br>
-  3-1. Update $$t^{(k+1)} = µt$$ where $$(µ > 1)$$ <br>
-  3-2. Initialize Newton's method with $$x^{(k)}$$ (warm start)<br>
-        Solve the barrier problem at $$t = t^{(k+1)}$$ to find $$x^{(k+1)} = x^{\star}(t)$$.<br>
-  end while<br>
+1. Chọn $$t^{(0)} \gt 0$$ và $$k := 0$$.
+2. Giải bài toán chắn tại $$t = t^{(0)}$$ để tìm $$x^{(0)} = x^{\star}(t)$$.
+3. Trong khi $$m/t \gt \epsilon$$ <br>
+  3-1. Cập nhật $$t^{(k+1)} = µt$$ với $$(µ > 1)$$ <br>
+  3-2. Khởi tạo phương pháp Newton với $$x^{(k)}$$ (warm start)<br>
+        Giải bài toán chắn tại $$t = t^{(k+1)}$$ để tìm $$x^{(k+1)} = x^{\star}(t)$$.<br>
+  kết thúc vòng lặp<br>
 
-* For detailed information, see [15-01-02 Log barrier function & barrier method]({% multilang_post_url contents/chapter15/21-03-28-15_01_02_log_barrier_function_and_barrier_method %})
+* Thông tin chi tiết xem [15-01-02 Hàm chắn logarit và phương pháp chắn]({% multilang_post_url contents/chapter15/21-03-28-15_01_02_log_barrier_function_and_barrier_method %})
 
 
-## Duality
-When the following primal problem is given: 
+## Đối ngẫu
+Cho bài toán gốc sau: 
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad f(x) \\\\
->    \text{subject to} &\quad f Ax = b \\\\
+>    \text{subject to} &\quad Ax = b \\\\
 >    &\quad h(x) \le 0
 >\end{align}
 >$$
 
-This can be transformed into Lagrangian form as follows:
+Bài toán này có thể được chuyển sang dạng Lagrange như sau:
 >$$
 >L(x,u,v) = f(x) + u^Th(x) + v^T(Ax - b)
 >$$
 
-Using the Lagrangian defined in this way, primal and dual problems can be redefined in the following form. Please refer to Chapter 16 for detailed information.<br>
-### Primal Problem
+Sử dụng hàm Lagrange được định nghĩa như vậy, bài toán gốc và bài toán đối ngẫu có thể được định nghĩa lại dưới dạng sau. Thông tin chi tiết xem Chương 16.<br>
+### Bài toán gốc
 >$$
 >\min_x \mathop{\max_{u,v}}_{u \geq 0} L(x,u,v)
 >$$
 
-### Dual problem
+### Bài toán đối ngẫu
 >$$
 >\mathop{\max_{u,v}}_{u \geq 0} \min_x L(x,u,v)
 >$$
 
-## Optimality conditions
+## Điều kiện tối ưu
 
-When $$f,h_1,...h_m$$ are convex and differentiable, and the given problem satisfies strong duality, the KKT optimality conditions for this problem are as follows:
+Khi $$f,h_1,...h_m$$ lồi và khả vi, và bài toán đã cho thỏa mãn đối ngẫu mạnh, các điều kiện tối ưu KKT của bài toán này như sau:
 
 > $$
 > \begin{array}{rcl}
-> ∇f(x) +∇h(x)u + A^Tv & = & 0 & \text{(Stationarity)}\\\
->  Uh(x) & = & 0 & \text{(Complementary Slackness)} \\\
-> Ax & = & b & \text{(Primal Feasibility)}\\\
-> u,−h(x)  & ≥ & 0 & \text{(Dual Feasibility)}
+> ∇f(x) +∇h(x)u + A^Tv & = & 0 & \text{(Tính dừng)}\\\
+>  Uh(x) & = & 0 & \text{(Độ lệch bù)} \\\
+> Ax & = & b & \text{(Khả thi gốc)}\\\
+> u,−h(x)  & ≥ & 0 & \text{(Khả thi đối ngẫu)}
 > \end{array}
 > $$
 
-Here, $$U$$ means $$\text{diag}(u)$$, and $$∇h(x)$$ means $$ [ ∇h_1(x) ··· ∇h_m(x) ]$$.
+Ở đây, $$U$$ nghĩa là $$\text{diag}(u)$$, và $$∇h(x)$$ nghĩa là $$ [ ∇h_1(x) ··· ∇h_m(x) ]$$.
 
-* For detailed information, see [Chapter 12 KKT conditions]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
+* Thông tin chi tiết xem [Chương 12 Điều kiện KKT]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %})
 
-## Central path equations
-The function $$f(x)$$ can be redefined as a barrier problem as follows.<br>
-In the equation below, $$τ$$ is $$\frac{1}{t}$$, and by making $$τ$$ gradually approach 0 and iteratively finding solutions, we ultimately obtain the solution to the original problem.
+## Phương trình đường trung tâm
+Hàm $$f(x)$$ có thể được định nghĩa lại thành bài toán chắn như sau.<br>
+Trong phương trình dưới đây, $$τ$$ là $$\frac{1}{t}$$, và bằng cách cho $$τ$$ dần tiến về 0 và tìm nghiệm lặp đi lặp lại, cuối cùng ta thu được nghiệm của bài toán ban đầu.
 
 >$$
 >\begin{align}
@@ -100,9 +100,9 @@ In the equation below, $$τ$$ is $$\frac{1}{t}$$, and by making $$τ$$ gradually
 >\end{align}
 >$$
 
-That is, in the above equation, differences from the primal problem occur depending on $$τ$$, and the trajectory generated according to $$τ$$, i.e., the set of solutions to the barrier problem, is called the central path.
+Nghĩa là, trong phương trình trên, sự khác biệt so với bài toán gốc xuất hiện tùy theo $$τ$$, và quỹ đạo được tạo ra theo $$τ$$, tức là tập nghiệm của bài toán chắn, được gọi là đường trung tâm (central path).
 
-And the optimality conditions for this barrier problem are as follows:
+Và các điều kiện tối ưu cho bài toán chắn này như sau:
 > $$
 > \begin{array}{rcl}
 > ∇f(x) +∇h(x)u + A^Tv  & = & 0 \\\
@@ -112,11 +112,10 @@ And the optimality conditions for this barrier problem are as follows:
 > \end{array}
 > $$
  
-* For detailed information, see [16-02 Optimality conditions]({% multilang_post_url contents/chapter16/21-03-31-16_02_optimality_conditions %})
+* Thông tin chi tiết xem [16-02 Điều kiện tối ưu]({% multilang_post_url contents/chapter16/21-03-31-16_02_optimality_conditions %})
 
-The **Primal-Dual interior point method** introduced in this chapter is a method that defines the first three equations above as residuals and finds solutions by reducing them to $$0$$.
+**Phương pháp điểm trong gốc-đối ngẫu (Primal-Dual interior point method)** được giới thiệu trong chương này là phương pháp định nghĩa ba phương trình đầu tiên ở trên là các phần dư (residual) và tìm nghiệm bằng cách đưa chúng về $$0$$.
 
-#### Useful fact
-The solution $$(x(τ),u(τ),v(τ))$$ has a duality gap of size $$mτ$$, i.e., $$\frac{m}{t}$$, as follows:
+#### Một sự thật hữu ích
+Nghiệm $$(x(τ),u(τ),v(τ))$$ có khoảng cách đối ngẫu (duality gap) bằng $$mτ$$, tức là $$\frac{m}{t}$$, như sau:
 > $$f(x(τ))−\min_x L(x,u(τ),v(τ)) = mτ= \frac{m}{t}$$
-

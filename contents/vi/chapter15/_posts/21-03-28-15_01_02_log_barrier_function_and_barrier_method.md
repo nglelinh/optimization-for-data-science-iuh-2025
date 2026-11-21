@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 15-01-02 Log barrier function & barrier method
+title: '15-01-02 Hàm chắn logarit và phương pháp chắn'
 chapter: '15'
 order: 4
 owner: Minjoo Lee
@@ -8,41 +8,42 @@ categories:
 - chapter15
 lang: vi
 ---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"
 });
 </script>
-Before introducing the barrier method, let's first see how the indicator function can be approximated by a barrier function.
+Trước khi giới thiệu phương pháp chắn, trước hết hãy xem hàm chỉ thị có thể được xấp xỉ bằng hàm chắn như thế nào.
 
-## Approximation of indicator function
-In the following figure, you can see the indicator function and the barrier function. The dotted line is the indicator function $$I_C$$, and the solid lines are the barrier function $$\phi(x) = -1/t\log(-x)$$ for $$t = 0.5, 1, 2$$. The barrier function smoothly approximates the indicator function, and when $$t=2$$, it provides the best approximation.
+## Xấp xỉ hàm chỉ thị
+Trong hình dưới đây, bạn có thể thấy hàm chỉ thị và hàm chắn. Đường nét đứt là hàm chỉ thị $$I_C$$, còn các đường nét liền là hàm chắn $$\phi(x) = -1/t\log(-x)$$ với $$t = 0.5, 1, 2$$. Hàm chắn xấp xỉ hàm chỉ thị một cách trơn tru, và khi $$t=2$$ cho xấp xỉ tốt nhất.
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter15/15_barrier_function_01.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">$$\text{[Fig 1] barrier function }\phi(x) = -1/t\log(-x) [1]$$</figcaption>
+ <figcaption style="text-align: center;">$$\text{[Hình 1] Hàm chắn }\phi(x) = -1/t\log(-x) [1]$$</figcaption>
 </p>
 </figure>
 
 
-## Logarithmic barrier function
-Suppose $$h_1, \cdots , h_m : \mathbb{R}^n \to \mathbb{R}$$ are convex and twice differentiable. For the set $$ \{x : h_i(x) \lt 0, i = 1, \cdots , m \}$$, the following function is called the logarithmic barrier function.
+## Hàm chắn logarit
+Giả sử $$h_1, \cdots , h_m : \mathbb{R}^n \to \mathbb{R}$$ là các hàm lồi và khả vi hai lần. Đối với tập $$ \{x : h_i(x) \lt 0, i = 1, \cdots , m \}$$, hàm sau được gọi là hàm chắn logarit.
 
 >
 \begin{align}
 \phi(x) = - \sum_{i=1}^{m} \log(-h_i(x))
 \end{align}
 
-Here, the set is assumed to be the interior of the feasible set $$C$$ and is non-empty.
+Ở đây, tập này được giả sử là phần trong của tập khả thi $$C$$ và khác rỗng.
 
-## Barrier method
+## Phương pháp chắn
 
-Using the barrier function, the original problem can be approximated as follows. Here, $$t\gt 0$$.
+Sử dụng hàm chắn, bài toán ban đầu có thể được xấp xỉ như sau. Ở đây $$t\gt 0$$.
 >
 $$\begin{align}
 &\min_{x}           && f(x) + \frac{1}{t} \phi(x) & \qquad      & \min_{x} && tf(x) + \phi(x) \\
 &\text{subject to } && Ax = b                     & \iff \qquad & \text{subject to } && Ax = b \\
 \end{align}$$
 
-The method of solving the problem defined in this way using Newton's method is called the **barrier method**.
+Phương pháp giải bài toán được định nghĩa như vậy bằng phương pháp Newton được gọi là **phương pháp chắn (barrier method)**.

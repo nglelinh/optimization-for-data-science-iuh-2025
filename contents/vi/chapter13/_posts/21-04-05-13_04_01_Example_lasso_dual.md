@@ -80,3 +80,15 @@ Do đó, lasso thỏa mãn phần dư đối ngẫu.
  <figcaption style="text-align: center;">[Fig2] Lasso Dual [1]</figcaption>
 </p>
 </figure>
+
+### Đối ngẫu của lasso trong 18 giây
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/lasso-dual_vi.mp4"></video>
+</div>
+
+Bài đối ngẫu tìm $$u$$ với $$\|A^Tu\|_\infty\le\lambda$$. Các tọa độ mà ràng buộc này chạm biên chính là các thành phần khác 0 của nghiệm bài gốc.
+
+### Tự tay thử: lasso gốc và đối ngẫu
+
+<div class="opx-explainer" data-opx="ld" data-lang="vi"></div>

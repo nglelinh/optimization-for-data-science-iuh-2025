@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 20-04-04 Example - Alternating Projection
+title: '20-04-04 Ví dụ: Chiếu luân phiên (Alternating Projection)'
 chapter: '20'
 order: 12
 owner: Hooncheol Shin
@@ -9,25 +9,25 @@ categories:
 lang: vi
 ---
 
-# Example: Alternating Projection
+# Ví dụ: Chiếu luân phiên
 
-Consider the problem of finding a point in the intersection of convex sets $$C, D \in \mathbb{R}^n$$:
+Xét bài toán tìm một điểm trong giao của các tập lồi $$C, D \in \mathbb{R}^n$$:
 >\begin{equation}
 \min_x I_C(x) + I_D(x)    
 \end{equation}
 
-where $$I_C(x)$$ and $$I_D(x)$$ are indicator functions for sets $$C$$ and $$D$$ respectively.
+trong đó $$I_C(x)$$ và $$I_D(x)$$ lần lượt là các hàm chỉ thị của các tập $$C$$ và $$D$$.
 
-To reformulate this problem in ADMM form, we express it as follows: 
+Để viết lại bài toán này dưới dạng ADMM, ta biểu diễn như sau:
 > $$
 > \begin{equation}
-> \min_{x,z} I_C(x) + I_D(x) \quad \text{subject to} \quad x - z = 0   
+> \min_{x,z} I_C(x) + I_D(z) \quad \text{subject to} \quad x - z = 0   
 > \end{equation}
 > $$
 
-## ADMM Algorithm for Alternating Projection
+## Thuật toán ADMM cho chiếu luân phiên
 
-Each ADMM cycle involves two projections:
+Mỗi chu kỳ ADMM gồm hai phép chiếu:
 > $$
 > \begin{alignat}{1}
 > x^{(k)} & = P_C \left( z^{(k-1)} - w^{(k-1)} \right) \\
@@ -36,11 +36,11 @@ Each ADMM cycle involves two projections:
 > \end{alignat}
 > $$
 
-where $$P_C$$ and $$P_D$$ denote the projection operators onto sets $$C$$ and $$D$$ respectively.
+trong đó $$P_C$$ và $$P_D$$ lần lượt là các toán tử chiếu lên tập $$C$$ và $$D$$.
 
-## Derivation
+## Suy diễn
 
-The update for $$x^{(k)}$$ is derived as follows:
+Cập nhật cho $$x^{(k)}$$ được suy ra như sau:
 
 > $$
 > \begin{alignat}{1}
@@ -49,7 +49,7 @@ The update for $$x^{(k)}$$ is derived as follows:
 > \end{alignat}
 > $$
 
-Similarly, the update for $$z^{(k)}$$ is derived as:
+Tương tự, cập nhật cho $$z^{(k)}$$ được suy ra như sau:
 
 > $$
 > \begin{alignat}{1}
@@ -58,6 +58,6 @@ Similarly, the update for $$z^{(k)}$$ is derived as:
 > \end{alignat}
 > $$
 
-## Comparison with Classical Method
+## So sánh với phương pháp cổ điển
 
-This method is similar to the classical alternating projection method but is often more efficient and robust in practice.  
+Phương pháp này tương tự phương pháp chiếu luân phiên cổ điển nhưng trong thực tế thường hiệu quả và vững chắc hơn.

@@ -1,1 +1,44 @@
---- layout: post title: 20-02-02 Dual Decomposition with Inequality Constraint chapter: '20' order: '6' owner: Hooncheol Shin categories: - - chapter20 lang: en --- of next problem solution. frontproblemand, different constraintrelationship, is. > >$$ \begin{equation} > \min_x \sum_{i=1}^B f_i(x_i) \quad \text{subject to} \quad \sum_{i=1}^B A_i x_i \leq b > \end{equation} > $$ # # Dual decomposition (projected subgradient method) above problemat, dual variable always, than $$0$$, that is, $$u \geq 0$$. therefore, , next $$u$$computation when, , than $$0$$ large scopeinsidewith, projection from. > >$$ \begin{alignat}{1} > x_i^{(k)} & \in \arg \min_{x_i} f_i(x_i) + (u^{(k-1)})^T A_i x_i, \quad i=1, \dots, B \\ > u^{(k)} & = u^{(k-1)} + t_k \left(\sum_{i=1}^B A_i x_i^{(k)} - b \right)_+ > \end{alignat} > $$ from, $$u_{+}$$ than 0 large $$u$$, that is, , $$(u_+)_i = \max \left\{0, u_i \right\}, i=1, \dots, m$$. above process $$k=1, 2, 3, \dots$$about, from iteration. # # # Price coordination interpretation generally, dual decomposition problem price coordination at, as follows: solution exists. (Vandenberghe) > * $$B$$independent, variable $$x_i$$. > * constraint $$B$$ to, about, constraintand, dual variable $$u_j$$ of $$j$$. > * Dual variable belowand, \begin{equation} u_j^{+} = (u_j - t s_j)_{+}, \quad j=1, \dots, m \end{equation} > > $$\quad$$ from, $$s=b-\sum_{i=1}^B A_ix_i$$ variableto, \\ > $$\qquad$$ - $$s_j < 0$$, $$j$$ over-utilized exists, therefore, , price $$u_j$$ \\ > $$\qquad$$ - $$s_j > 0$$, $$j$$ under-utilized exists, therefore, , price $$u_j$$ \\ > $$\qquad$$ - price image. 
+---
+layout: post
+title: "20-02-02 Dual Decomposition with Inequality Constraint"
+chapter: '20'
+order: 6
+owner: Hooncheol Shin
+categories:
+- chapter20
+lang: en
+---
+
+Consider the following problem. The difference from the previous one is that the constraint is an inequality.
+> $$
+> \begin{equation}
+> \min_x \sum_{i=1}^B f_i(x_i) \quad \text{subject to} \quad \sum_{i=1}^B A_i x_i \leq b
+> \end{equation}
+> $$
+
+## Dual decomposition (projected subgradient method) 
+For this problem the dual variable must always be nonnegative, i.e. $$u \geq 0$$. Therefore, when computing the next value of $$u$$, we project it onto the nonnegative orthant.
+
+> $$
+> \begin{alignat}{1}
+> x_i^{(k)} & \in \arg \min_{x_i} f_i(x_i) + (u^{(k-1)})^T A_i x_i, \quad i=1,\dots,B  \\
+> u^{(k)}   & = \left( u^{(k-1)} + t_k \left(\sum_{i=1}^B A_i x_i^{(k)} - b \right) \right)_+
+> \end{alignat}
+> $$
+
+Here $$u_{+}$$ denotes the nonnegative part of $$u$$, i.e. $$(u_+)_i = \max \left\{0,u_i \right\}, i=1,\dots,m$$.
+These steps are repeated for $$k=1,2,3,\dots$$
+
+#### Price coordination interpretation
+In general, dual decomposition problems can be interpreted from the viewpoint of price coordination as follows. (Vandenberghe)
+> * There are $$B$$ independent units, and each unit decides its own decision variable $$x_i$$.
+> * Each constraint represents a limit on a resource shared by the $$B$$ units, and the dual variable $$u_j$$ is the price of resource $$j$$.
+> * The dual variables are updated as
+ \begin{equation}
+ u_j^{+} = (u_j - t s_j)_{+}, \quad  j=1,\dots,m
+ \end{equation}
+>
+> $$\quad$$ where $$s=b-\sum_{i=1}^B A_ix_i$$ is the slack: \\
+> $$\qquad$$ - if $$s_j < 0$$, resource $$j$$ is over-utilized, so the price $$u_j$$ is increased; \\
+> $$\qquad$$ - if $$s_j > 0$$, resource $$j$$ is under-utilized, so the price $$u_j$$ is decreased; \\
+> $$\qquad$$ - the price is never allowed to become negative.
