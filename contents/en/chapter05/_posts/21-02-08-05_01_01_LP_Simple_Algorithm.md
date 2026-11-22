@@ -83,6 +83,14 @@ Vertices of the feasible polygon are $$(0,0)$$, $$(3,0)$$, $$(2,2)$$, and $$(0,4
 
 **Complexity note.** Klee–Minty cubes show that some pivot rules take exponentially many steps in the worst case. In practice, simplex is often fast; interior-point methods (Chapters 15–17) have polynomial worst-case guarantees and dominate some large sparse LPs. For data-science models that are *already* LPs or QPs — diet problems, maximum-margin SVM duals, basis pursuit — you typically call a modeling layer such as CVXPY (see the DCP lab in this chapter) rather than pivoting by hand.
 
+### The simplex method in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/simplex-pivots_en.mp4"></video>
+</div>
+
+Walking the vertices of the lesson's LP: entering variable, ratio test, pivots, the dual solution, and an unbounded problem.
+
 ## Exercises
 
 1. Convert $$x_1 - x_2 \le 3$$, $$x_1 \ge 0$$, $$x_2$$ free into standard form.

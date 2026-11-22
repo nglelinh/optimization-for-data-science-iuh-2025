@@ -23,4 +23,12 @@ If some eigenvalues vanish, the test is inconclusive (think $$w\mapsto w^3$$ or 
 
 In high dimension, if eigenvalues of a “typical” Hessian at a critical point behave like a random symmetric matrix, the probability that *all* of them are positive is exponentially small. The folk theorem you should remember: **most critical points of high-dimensional generic functions are saddles, not minima**. Deep-learning losses are not generic Gaussians — but the intuition is why “getting stuck in local minima” is usually the wrong diagnosis after epoch 2.
 
+### Saddle points in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/saddle-escape_en.mp4"></video>
+</div>
+
+GD pulled into the saddle of x² − y² + ½y⁴, sitting long with a tiny offset, escaping with noise, and why most critical points are saddles in high dimensions.
+
 **Exercise.** For $$F(x,y)=x^2-y^2$$ (the hyperbolic paraboloid) write $$\nabla F$$ and $$H$$. Starting at $$(0,10^{-3})$$, take two gradient steps. Starting at $$(0,0)$$, explain why GD with exact arithmetic never leaves.

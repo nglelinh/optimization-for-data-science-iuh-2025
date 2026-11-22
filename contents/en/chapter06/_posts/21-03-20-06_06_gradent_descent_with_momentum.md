@@ -498,6 +498,14 @@ $$mx'' + \gamma x' + \nabla f(x) = 0$$
 
 This differential equation, when discretized, leads to the momentum update rules.
 
+### Momentum and Nesterov in about 4 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/momentum-nesterov_en.mp4"></video>
+</div>
+
+Heavy ball and Nesterov on the valley ½(w₁² + 100w₂²): step counts, a β sweep, and a case where Nesterov diverges because η is too large.
+
 ## Comparison Summary
 
 | Aspect | Vanilla GD | Momentum GD |

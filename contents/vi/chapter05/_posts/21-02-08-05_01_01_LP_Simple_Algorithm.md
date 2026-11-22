@@ -83,6 +83,14 @@ Các đỉnh của đa giác khả thi là $$(0,0)$$, $$(3,0)$$, $$(2,2)$$ và $
 
 **Ghi chú về độ phức tạp:** Ví dụ khối Klee–Minty cho thấy một số quy tắc xoay có thể cần số bước hàm mũ trong trường hợp xấu nhất. Dù vậy, trong thực tế Simplex thường chạy rất nhanh; trong khi đó phương pháp điểm trong (Chương 15–17) có đảm bảo độ phức tạp thời gian đa thức và thường chiếm ưu thế trên nhiều bài toán LP thưa quy mô lớn. Khi bài toán đã có dạng LP hoặc QP chuẩn — như bài toán khẩu phần, đối ngẫu SVM biên cứng hay basis pursuit — cách tiếp cận thực tế là mô hình hóa bằng công cụ như CVXPY (xem bài thực hành DCP trong chương này) thay vì xoay bảng thủ công.
 
+### Phương pháp đơn hình trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/simplex-pivots_vi.mp4"></video>
+</div>
+
+Đi theo các đỉnh của bài LP trong bài: chọn biến vào, kiểm tra tỉ số, xoay bảng, đọc nghiệm đối ngẫu, và một bài không bị chặn.
+
 ## Bài tập
 
 1. Chuyển hệ ràng buộc $$x_1 - x_2 \le 3$$, $$x_1 \ge 0$$, $$x_2$$ tự do về dạng chuẩn.

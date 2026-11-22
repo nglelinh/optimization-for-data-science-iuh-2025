@@ -62,5 +62,10 @@ $$
 
 Since the primal problem satisfies the Slater condition, strong duality holds. (That is, the objective is convex and the inequality constraints are affine in $$\beta, \beta_0, \xi$$.)
 
+### Strong duality and Slater in about 3 minutes
 
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/strong-duality-slater_en.mp4"></video>
+</div>
 
+The dual function g(λ) below p*, the duality gap as a certificate, the (u, t) picture of supporting lines, and a convex problem without Slater whose gap is 1.

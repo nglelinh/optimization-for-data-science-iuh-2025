@@ -130,3 +130,11 @@ Tìm kiếm đường chính xác phù hợp khi:
 - **Hàm mục tiêu có cấu trúc đặc biệt** cho phép giải tích trực tiếp.
 
 Trong thực tế, **tìm kiếm đường lùi (backtracking line search)** thường hiệu quả hơn và được sử dụng phổ biến hơn cho đa số ứng dụng.
+
+### Tìm kiếm đường lùi và chính xác trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/line-search_vi.mp4"></video>
+</div>
+
+Bước cố định quá nhỏ hay quá lớn, điều kiện Armijo và các lần lùi t ← βt, so với tìm kiếm chính xác trên ví dụ của bài.

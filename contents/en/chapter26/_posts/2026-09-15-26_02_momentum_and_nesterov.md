@@ -112,6 +112,14 @@ Start both from the same $$w_0$$, sweep $$\beta\in\{0,0.5,0.8,0.9,0.99\}$$ at a 
 
 Chapter 09’s FISTA is the *proximal* sibling of the same look-ahead (composite $$g+h$$, scheduled weight). Chapter 26’s Adam will later put an exponential moving average on the gradient *and* on its coordinate-wise square — momentum is the first of those two averages. Variance reduction ([26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %})) is a different cure for a different disease: it kills *sampling* noise, not *conditioning* zig-zags.
 
+### Momentum and Nesterov in about 4 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/momentum-nesterov_en.mp4"></video>
+</div>
+
+Heavy ball and Nesterov on the valley ½(w₁² + 100w₂²): step counts, a β sweep, and a case where Nesterov diverges because η is too large.
+
 **Exercise 1.** Implement the three updates above. For $$\eta=2/(\lambda_{\min}+\lambda_{\max})$$ (the optimal GD step) and $$\beta=\beta^\star$$, count iterations to $$\|w\|_2\le 10^{-4}$$. Then break the tuning: keep $$\eta$$ and set $$\beta=0.99$$. Which method oscillates more, and why does look-ahead help?
 
 **Exercise 2.** On the same quadratic, replace $$A$$ by a random SPD matrix with the same eigenvalues ($$A=Q\operatorname{diag}(\lambda)Q^\top$$). Convince yourself that momentum’s benefit is *spectral*, not axis-aligned.

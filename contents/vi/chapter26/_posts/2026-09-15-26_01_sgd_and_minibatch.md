@@ -64,4 +64,12 @@ def sgd_logistic(X, y, eta=0.1, batch=16, epochs=20):
 
 Hãy thử so sánh `batch=1`, `batch=16` và `batch=n` (gradient đầy đủ) trên một tập dữ liệu phân loại nhị phân theo thời gian thực thi (wall-clock time) cần để đạt cùng một mức hàm mất mát, chứ không chỉ đếm số epoch.
 
+### SGD và minibatch trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/sgd-minibatch_vi.mp4"></video>
+</div>
+
+Ví dụ m = 3 điểm: một bước GD so với một epoch SGD, bước hằng so với bước giảm dần, rồi ảnh hưởng của kích thước batch.
+
 **Câu hỏi.** Nếu SGD thường dễ thoát khỏi các vùng trũng nông hơn so với GD toàn lô, nhận xét này nên ảnh hưởng thế nào đến cách chọn kích thước minibatch ban đầu cho một mô hình quá tham số hóa?

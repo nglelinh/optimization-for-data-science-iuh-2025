@@ -66,3 +66,11 @@ Thay $$y = x - t \nabla f(x)$$ vào vế phải, ta được:
 > f(x - t \nabla f(x)) &\approx f(x) - t \|\nabla f(x)\|_2^2 + \frac{1}{2}t \|\nabla f(x)\|_2^2 = f(x) - \frac{t}{2} \|\nabla f(x)\|_2^2
 > \end{align}
 > $$
+
+### Tìm kiếm đường lùi và chính xác trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/line-search_vi.mp4"></video>
+</div>
+
+Bước cố định quá nhỏ hay quá lớn, điều kiện Armijo và các lần lùi t ← βt, so với tìm kiếm chính xác trên ví dụ của bài.

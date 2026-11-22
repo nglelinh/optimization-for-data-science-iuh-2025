@@ -233,3 +233,11 @@ That is, the dual problem of the max flow problem is the result of removing the 
 >$$
 
 For the equality of these three results, refer to the max-flow min-cut theorem[11], and for a representative algorithm for solving the max flow min cut problem, refer to the Ford-Fulkerson algorithm[12].
+
+### Max flow and min cut in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/max-flow-min-cut_en.mp4"></video>
+</div>
+
+A 6-node network: augmenting paths, the residual graph with reverse edges, the min cut equal to the flow value, and the link to LP duality.

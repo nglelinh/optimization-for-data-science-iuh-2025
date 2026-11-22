@@ -44,6 +44,14 @@ Trên *mạng nơ-ron sâu*, `torch.optim.SGD(..., nesterov=True)` thường dù
 
 Tăng tốc không mang lại lợi ích miễn phí trong mọi trường hợp. Chính quán tính giúp di chuyển nhanh dọc đáy thung lũng lồi cũng có thể khiến quỹ đạo vượt quá điểm gấp khúc không trơn hoặc vùng cực tiểu hẹp — đó là lý do tồn tại bài [09-05-04]({% multilang_post_url contents/chapter09/20-01-08-09_05_04_is_acceleration_always_useful %}) và kỹ thuật khởi động lại (restart) cho FISTA. Nếu phần trơn có chi phí tính thấp và lồi mạnh, phương pháp gradient gần kề được tinh chỉnh tốt (hoặc các phương pháp giảm phương sai ở [26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %})) có thể nhanh hơn phương pháp tăng tốc không có restart xét theo thời gian thực thi thực tế. Cần theo dõi giá trị hàm mục tiêu: nếu xuất hiện dao động kiểu “gợn sóng Nesterov”, hãy áp dụng restart hoặc giảm $$\beta$$.
 
+### ISTA và FISTA trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/ista-fista_vi.mp4"></video>
+</div>
+
+ISTA và FISTA trên lasso: ngưỡng mềm, trọng số (k − 2)/(k + 1), gợn sóng Nesterov, trường hợp tăng tốc làm chậm, và khởi động lại.
+
 **Bài tập.** Trên thung lũng $$g(x)=\tfrac12 x^\top\operatorname{diag}(1,100)\,x$$ với $$h=0$$, hãy vẽ đường hội tụ của ISTA (GD tiêu chuẩn), FISTA với trọng số $$(k-2)/(k+1)$$, và Nesterov với $$\beta$$ cố định từ bài 26-02. Phương pháp nào đạt $$\|x\|_2\le 10^{-4}$$ sớm nhất, và phương pháp nào dao động quanh gốc tọa độ nếu không dùng restart?
 
 **Câu hỏi.** Trọng số của FISTA tiến tới $$1$$, trong khi trọng số heavy-ball tối ưu $$\beta^\star$$ theo bài Distill (khi biết số điều kiện $$\kappa$$) luôn nhỏ hơn $$1$$ nghiêm ngặt. Vì sao cả hai kết quả này đều đúng — và điều gì thay đổi khi ta *không* biết trước $$\kappa$$?

@@ -47,3 +47,11 @@ def adam_step(g, m, v, k, eta=1e-3, b1=0.9, b2=0.999, eps=1e-8):
 ```
 
 Tham khảo bài báo gốc tại [arXiv:1412.6980](https://arxiv.org/abs/1412.6980). Bài tiếp theo sẽ phân tích vì sao việc cộng số hạng phạt $$(\lambda/2)\|w\|_2^2$$ vào hàm mất mát **không** tương đương với suy giảm trọng số (weight decay) trong AdamW.
+
+### AdaGrad → RMSProp → Adam trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/adagrad-rmsprop-adam_vi.mp4"></video>
+</div>
+
+Ba bước thích nghi trên cùng một hàm bậc hai lệch trục: AdaGrad chậm dần, RMSProp rung quanh nghiệm, Adam có hiệu chỉnh độ lệch.

@@ -8,3 +8,9 @@ r_gd GD gd-step-sizes | r_sub Sub subgradient-fan | r_newton Newton newton-parab
 r_path Path central-path | r_fw FW frank-wolfe | r_polyak Polyak polyak-step | r_game Game matrix-game | r_dual Dual dual-lower-bound |
 r_ld LassoDual lasso-dual | r_kkt Kkt kkt-normals | r_pd Pdip primal-dual-ipm | r_pn Pn prox-newton | r_dd Dec dual-decomposition |
 r_admm Admm admm-lasso | r_cd Cd coordinate-descent | r_bnb Bnb branch-bound | r_cut Cut gomory-cut
+
+Third wave (22/11, about 2:40–4 min, same 5 stages, one scene per lesson group; numbers checked by numpy asserts at import):
+r_mom Mom momentum-nesterov | r_sgd Sgd sgd-minibatch | r_ada Ada adagrad-rmsprop-adam | r_simplex Simplex simplex-pivots |
+r_kktw KktW kkt-water-filling | r_slater Slater strong-duality-slater | r_ls Ls line-search | r_fista Fista ista-fista |
+r_maxflow MaxFlow max-flow-min-cut | r_saddle Saddle saddle-escape
+Preview fast: `FAST=1 REEL_LANG=vi manim -ql r_mom.py Mom`. Compress: `ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart -an out.mp4`.

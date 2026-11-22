@@ -775,3 +775,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 </script>
+
+### SGD and minibatches in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/sgd-minibatch_en.mp4"></video>
+</div>
+
+The m = 3 example: one GD step versus one SGD epoch, constant versus decaying steps, then the effect of the batch size.

@@ -771,3 +771,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 </script>
+
+### SGD và minibatch trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/sgd-minibatch_vi.mp4"></video>
+</div>
+
+Ví dụ m = 3 điểm: một bước GD so với một epoch SGD, bước hằng so với bước giảm dần, rồi ảnh hưởng của kích thước batch.

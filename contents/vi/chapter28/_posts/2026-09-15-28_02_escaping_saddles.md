@@ -22,4 +22,12 @@ Các thuật toán tối ưu quen thuộc thoát khỏi điểm yên ngựa ch�
 
 Hình dung hình học cần ghi nhớ: bề mặt hàm mất mát của mạng sâu không đơn giản như đồ thị 2 chiều với vài hố riêng lẻ, mà là một cấu trúc nhiều chiều có các **vùng cao nguyên** rộng, các **hẻm hẹp** (gắn với số điều kiện xấu ở Chương 06 và 26), và tính **đối xứng** (hoán vị các nơ-ron ẩn không làm đổi $$F$$, nên các điểm cực tiểu tạo thành những đa tạp liên tục). Khi quan sát hình chiếu 3 chiều trong các công cụ mô phỏng, luôn cần lưu ý những chiều thông tin đã bị chiếu mất.
 
+### Điểm yên ngựa trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/saddle-escape_vi.mp4"></video>
+</div>
+
+GD bị hút vào yên ngựa của x² − y² + ½y⁴, ngồi lâu khi lệch rất nhỏ, thoát nhờ nhiễu, và vì sao ở chiều cao hầu hết điểm tới hạn là yên ngựa.
+
 **Câu hỏi.** Nếu nhiễu của SGD là cơ chế giúp đẩy điểm lặp khỏi điểm yên ngựa, điều gì xảy ra khi kích thước minibatch $$B \to n$$, và nhận xét này liên hệ thế nào đến cuộc thảo luận về khả năng tổng quát hóa của kích thước lô lớn?

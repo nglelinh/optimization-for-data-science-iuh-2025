@@ -491,6 +491,14 @@ $$mx'' + \gamma x' + \nabla f(x) = 0$$
 
 Khi rời rạc hóa phương trình vi phân này theo thời gian, ta thu được quy tắc cập nhật momentum.
 
+### Momentum và Nesterov trong khoảng 4 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/momentum-nesterov_vi.mp4"></video>
+</div>
+
+Heavy ball và Nesterov trên thung lũng ½(w₁² + 100w₂²): đếm số bước, quét β, và trường hợp Nesterov phân kỳ khi η quá lớn.
+
 ## Tóm tắt So sánh
 
 | Khía cạnh | Vanilla GD | Momentum GD |

@@ -466,3 +466,11 @@ The magic of backtracking line search is that it works well for ANY function:
 This simple yet powerful technique transforms gradient descent from a method that requires careful tuning into a robust, adaptive algorithm that works well out of the box.
 
 **Next time** you implement gradient descent, consider adding backtracking line search - your algorithm will converge faster and be much more reliable!
+
+### Backtracking and exact line search in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/line-search_en.mp4"></video>
+</div>
+
+Fixed steps that are too small or too large, the Armijo condition and the shrinks t ← βt, compared with exact search on the lesson's examples.

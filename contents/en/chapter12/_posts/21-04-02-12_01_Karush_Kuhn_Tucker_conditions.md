@@ -77,3 +77,11 @@ That is, for problems that satisfy strong duality, the following relationship ho
 >    \Leftrightarrow x^\star, \lambda^\star, \nu^\star \text{ satisfy the KKT conditions} \\\\
 >\end{align}
 >$$
+
+### KKT through water-filling in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/kkt-water-filling_en.mp4"></video>
+</div>
+
+Solving water-filling with α = (0.1, 0.4, 0.8, 1.2) through the four KKT conditions, reading the meaning of λ, and three wrong guesses that KKT rules out.

@@ -112,6 +112,14 @@ Hãy xuất phát cả hai thuật toán từ cùng một điểm $$w_0$$, thử
 
 Về liên hệ giữa các chương: FISTA ở Chương 09 là phiên bản *proximal* của cùng cơ chế nhìn trước cho bài toán hợp thành $$g+h$$; Adam ở Chương 26 dùng trung bình trượt mũ cho cả gradient (chính là momentum) lẫn bình phương gradient từng tọa độ; còn giảm phương sai ([26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %})) giải quyết một vấn đề khác — triệt tiêu nhiễu *lấy mẫu* chứ không phải zíc-zắc do *số điều kiện*.
 
+### Momentum và Nesterov trong khoảng 4 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/momentum-nesterov_vi.mp4"></video>
+</div>
+
+Heavy ball và Nesterov trên thung lũng ½(w₁² + 100w₂²): đếm số bước, quét β, và trường hợp Nesterov phân kỳ khi η quá lớn.
+
 **Bài tập 1.** Cài đặt ba hàm cập nhật trên. Với $$\eta=2/(\lambda_{\min}+\lambda_{\max})$$ (bước tối ưu của GD) và $$\beta=\beta^\star$$, đếm số vòng lặp để đạt $$\|w\|_2\le 10^{-4}$$. Sau đó giữ nguyên $$\eta$$ và đặt $$\beta=0.99$$: phương pháp nào dao động mạnh hơn và vì sao bước nhìn trước cải thiện được hiện tượng đó?
 
 **Bài tập 2.** Trên cùng bài toán bậc hai, thay $$A$$ bằng một ma trận đối xứng xác định dương ngẫu nhiên có cùng tập trị riêng ($$A=Q\operatorname{diag}(\lambda)Q^\top$$). Kiểm chứng rằng lợi ích của momentum phụ thuộc vào *phổ trị riêng* chứ không phụ thuộc vào việc hàm mục tiêu có thẳng hàng theo trục tọa độ hay không.

@@ -44,6 +44,14 @@ On a *deep net*, `torch.optim.SGD(..., nesterov=True)` is usually a **constant**
 
 Acceleration is not free speed. The same inertia that glides down a convex valley can overshoot a nonsmooth kink or a small basin, which is why [09-05-04]({% multilang_post_url contents/chapter09/20-01-08-09_05_04_is_acceleration_always_useful %}) exists and why restarted FISTA is a standard fix. If the smooth piece is cheap and strongly convex, a well-tuned proximal gradient step (or a variance-reduced sibling in [26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %})) can beat an un-restarted accelerated method in wall-clock. Monitor the objective; if you see the famous “Nesterov ripples,” restart or drop $$\beta$$.
 
+### ISTA and FISTA in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/ista-fista_en.mp4"></video>
+</div>
+
+ISTA and FISTA on lasso: soft thresholding, the (k − 2)/(k + 1) weight, Nesterov ripples, a case where acceleration slows down, and restart.
+
 **Exercise.** On the valley $$g(x)=\tfrac12 x^\top\operatorname{diag}(1,100)\,x$$ with $$h=0$$, plot ISTA (plain GD), FISTA with the $$(k-2)/(k+1)$$ weight, and constant-$$\beta$$ Nesterov from 26-02. Which schedule first reaches $$\|x\|_2\le 10^{-4}$$, and which one rings around the origin if you forget to restart?
 
 **Question.** The FISTA weight tends to $$1$$. Distill’s optimal heavy-ball $$\beta^\star$$ for a known $$\kappa$$ is strictly less than $$1$$. Why can both be right — and what changes when you do *not* know $$\kappa$$?

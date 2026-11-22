@@ -22,4 +22,12 @@ How do the algorithms you already know leave a strict saddle?
 
 Geometry to keep: the loss surface is not a 2-D cartoon with a handful of pits. It is a high-dimensional object with huge **plateaus**, **narrow canyons** (the condition-number story of Chapters 06 and 26), and symmetries (permuting hidden units leaves $$F$$ invariant, so minima come in manifolds). When a demo shows a 3-D surface, ask what was *projected away*.
 
+### Saddle points in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/saddle-escape_en.mp4"></video>
+</div>
+
+GD pulled into the saddle of x² − y² + ½y⁴, sitting long with a tiny offset, escaping with noise, and why most critical points are saddles in high dimensions.
+
 **Question.** If SGD noise is what knocks you off saddles, what happens to that mechanism as batch size $$B\to n$$? How might that inform the “large-batch generalization” debate?

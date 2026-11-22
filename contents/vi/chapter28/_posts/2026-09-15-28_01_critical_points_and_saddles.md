@@ -23,4 +23,12 @@ Mặc dù **các phương pháp bậc nhất không tính trực tiếp $$H$$**,
 
 Trong không gian nhiều chiều, nếu dấu các trị riêng của ma trận Hessian tại một điểm tới hạn bất kỳ ứng xử tương tự ma trận đối xứng ngẫu nhiên, xác suất để *tất cả* $$d$$ trị riêng đều dương giảm theo hàm mũ của $$d$$. Nhận xét định tính quan trọng cần nhớ là: **với các hàm tổng quát nhiều chiều, đa số điểm tới hạn là điểm yên ngựa chứ không phải cực tiểu địa phương**. Dù hàm mất mát học sâu không hoàn toàn giống hàm ngẫu nhiên Gaussian, trực giác này giải thích vì sao tình trạng chậm tiến triển khi huấn luyện thường liên quan đến điểm yên ngựa và vùng phẳng hơn là bị mắc kẹt ở một cực tiểu địa phương xấu.
 
+### Điểm yên ngựa trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/saddle-escape_vi.mp4"></video>
+</div>
+
+GD bị hút vào yên ngựa của x² − y² + ½y⁴, ngồi lâu khi lệch rất nhỏ, thoát nhờ nhiễu, và vì sao ở chiều cao hầu hết điểm tới hạn là yên ngựa.
+
 **Bài tập.** Xét hàm yên ngựa $$F(x,y)=x^2-y^2$$: hãy viết $$\nabla F$$ và ma trận Hessian $$H$$. Thực hiện hai bước gradient descent xuất phát từ $$(0, 10^{-3})$$, sau đó giải thích vì sao nếu xuất phát chính xác từ $$(0, 0)$$ thì gradient descent lý tưởng sẽ không bao giờ rời khỏi điểm đó.

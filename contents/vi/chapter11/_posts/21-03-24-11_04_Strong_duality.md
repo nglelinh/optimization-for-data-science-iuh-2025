@@ -71,3 +71,11 @@ $$
 $$
 
 Vì bài toán gốc có hàm mục tiêu lồi, các ràng buộc bất đẳng thức đều là hàm affine theo $$(\beta, \beta_0, \xi)$$ và luôn tồn tại điểm khả thi, nên điều kiện Slater được thỏa mãn và tính đối ngẫu mạnh đúng đối với SVM.
+
+### Đối ngẫu mạnh và Slater trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/strong-duality-slater_vi.mp4"></video>
+</div>
+
+Hàm đối ngẫu g(λ) nằm dưới p*, khoảng cách đối ngẫu làm chứng chỉ, hình (u, t) của đường tì, và một bài lồi không thỏa Slater có khoảng cách bằng 1.

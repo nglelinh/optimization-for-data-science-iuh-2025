@@ -212,3 +212,11 @@ Như vậy, LP đối ngẫu của bài toán luồng cực đại thu được 
 >$$
 
 Để xem chứng minh dấu bằng xảy ra cho cả chuỗi trên, bạn đọc có thể tham khảo định lý luồng cực đại – lát cắt cực tiểu [11]; về thuật toán tiêu biểu để giải bài toán này, xem thuật toán Ford–Fulkerson [12].
+
+### Luồng cực đại và lát cắt cực tiểu trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/max-flow-min-cut_vi.mp4"></video>
+</div>
+
+Một mạng 6 đỉnh: đường tăng luồng, đồ thị dư với cạnh ngược, lát cắt cực tiểu bằng giá trị luồng, và liên hệ với đối ngẫu LP.

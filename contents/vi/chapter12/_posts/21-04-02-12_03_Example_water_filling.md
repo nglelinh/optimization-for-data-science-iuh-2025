@@ -77,3 +77,11 @@ Phương pháp giải này được gọi là **water-filling (đổ nước)**.
  <figcaption style="text-align: center;">[Fig1] Minh họa thuật toán water-filling [1]</figcaption>
 </p>
 </figure>
+
+### KKT qua ví dụ đổ nước trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/kkt-water-filling_vi.mp4"></video>
+</div>
+
+Giải bài đổ nước với α = (0,1; 0,4; 0,8; 1,2) bằng bốn điều kiện KKT, đọc ý nghĩa của λ, và ba cách đoán sai bị KKT loại.

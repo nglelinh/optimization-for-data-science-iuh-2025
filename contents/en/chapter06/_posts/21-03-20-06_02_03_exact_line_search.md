@@ -129,3 +129,11 @@ Exact line search is suitable when:
 - **Special structure** in objective function allows analytical solution
 
 In practice, **backtracking line search** is more efficient and commonly used for most applications.
+
+### Backtracking and exact line search in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/line-search_en.mp4"></video>
+</div>
+
+Fixed steps that are too small or too large, the Armijo condition and the shrinks t ← βt, compared with exact search on the lesson's examples.

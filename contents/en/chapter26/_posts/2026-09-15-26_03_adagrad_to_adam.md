@@ -47,3 +47,11 @@ def adam_step(g, m, v, k, eta=1e-3, b1=0.9, b2=0.999, eps=1e-8):
 ```
 
 Read the paper as [arXiv:1412.6980](https://arxiv.org/abs/1412.6980). Next lesson: why adding $$(\lambda/2)\|w\|_2^2$$ to the loss is **not** the same as AdamW weight decay.
+
+### AdaGrad → RMSProp → Adam in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/adagrad-rmsprop-adam_en.mp4"></video>
+</div>
+
+Three adaptive steps on the same skewed quadratic: AdaGrad slows down, RMSProp jitters around the solution, Adam with bias correction.
