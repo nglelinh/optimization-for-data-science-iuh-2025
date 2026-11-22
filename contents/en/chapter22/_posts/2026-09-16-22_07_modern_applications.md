@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 22-06 Modern applications of Frank–Wolfe
+title: 22-07 Modern applications of Frank–Wolfe
 chapter: '22'
-order: 7
+order: 8
 owner: Nguyen Le Linh
 categories:
 - chapter22

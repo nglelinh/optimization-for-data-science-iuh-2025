@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 13-09 Cách dùng hiện đại của liên hợp, chuẩn đối ngẫu và nón đối ngẫu
+title: 13-10 Cách dùng hiện đại của liên hợp, chuẩn đối ngẫu và nón đối ngẫu
 chapter: '13'
-order: 11
+order: 14
 owner: Nguyen Le Linh
 categories:
 - chapter13

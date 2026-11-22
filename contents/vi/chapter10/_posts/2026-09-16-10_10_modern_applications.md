@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 10-09 Ứng dụng hiện đại của đối ngẫu LP
+title: 10-10 Ứng dụng hiện đại của đối ngẫu LP
 chapter: '10'
-order: 10
+order: 11
 owner: Nguyen Le Linh
 categories:
 - chapter10

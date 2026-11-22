@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 12-09 Ứng dụng hiện đại của điều kiện KKT
+title: 12-10 Ứng dụng hiện đại của điều kiện KKT
 chapter: '12'
-order: 10
+order: 11
 owner: Nguyen Le Linh
 categories:
 - chapter12

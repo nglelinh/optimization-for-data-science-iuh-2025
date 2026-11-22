@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 21-08 Ứng dụng hiện đại của ADMM
+title: 21-09 Ứng dụng hiện đại của ADMM
 chapter: '21'
-order: 9
+order: 10
 owner: Nguyen Le Linh
 categories:
 - chapter21

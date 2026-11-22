@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 07-10 Ứng dụng hiện đại của subgradient
+title: 07-11 Ứng dụng hiện đại của subgradient
 chapter: '07'
-order: 17
+order: 15
 owner: Nguyen Le Linh
 categories:
 - chapter07

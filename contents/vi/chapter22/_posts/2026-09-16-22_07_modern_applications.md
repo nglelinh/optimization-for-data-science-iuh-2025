@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 22-06 Ứng dụng hiện đại của Frank–Wolfe
+title: 22-07 Ứng dụng hiện đại của Frank–Wolfe
 chapter: '22'
-order: 7
+order: 8
 owner: Nguyen Le Linh
 categories:
 - chapter22
