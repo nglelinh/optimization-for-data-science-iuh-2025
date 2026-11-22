@@ -21,7 +21,9 @@ We will prove that this function is convex using three different methods:
 
 ## Method 1: Definition-Based Proof
 
+<div class="textbook-theorem" markdown="1">
 **Theorem**: The Euclidean norm $$f(x) = \|x\|_2$$ is convex on $$\mathbb{R}^n$$.
+</div>
 
 **Proof**: 
 To prove convexity, we need to show that for any $$x, y \in \mathbb{R}^n$$ and $$\theta \in [0,1]$$:

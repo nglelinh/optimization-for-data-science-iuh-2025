@@ -102,10 +102,12 @@ e) **Affine transformation:** $$f(C_1) = \{Ax + b : x \in C_1\}$$
 
 **Step 1: Intersection - CONVEX**
 
+<div class="textbook-proof" markdown="1">
 **Proof:** For $$x, y \in C_1 \cap C_2$$ and $$\theta \in [0,1]$$:
 - $$x, y \in C_1 \Rightarrow \theta x + (1-\theta) y \in C_1$$ (since $$C_1$$ is convex)
 - $$x, y \in C_2 \Rightarrow \theta x + (1-\theta) y \in C_2$$ (since $$C_2$$ is convex)
 - $$\Rightarrow \theta x + (1-\theta) y \in C_1 \cap C_2$$
+</div>
 
 **Generalization:** $$\bigcap_{i \in I} C_i$$ is convex if every $$C_i$$ is convex.
 
@@ -119,22 +121,28 @@ Both are convex, but $$C_1 \cup C_2$$ is not:
 
 **Step 3: Minkowski sum - CONVEX**
 
+<div class="textbook-proof" markdown="1">
 **Proof:** For $$z_1, z_2 \in C_1 + C_2$$:
 - $$z_1 = x_1 + y_1$$, $$z_2 = x_2 + y_2$$ with $$x_i \in C_1, y_i \in C_2$$
 - $$\theta z_1 + (1-\theta) z_2 = \theta(x_1 + y_1) + (1-\theta)(x_2 + y_2)$$
 - $$= (\theta x_1 + (1-\theta) x_2) + (\theta y_1 + (1-\theta) y_2)$$
 - $$\in C_1 + C_2$$ (since $$C_1, C_2$$ are convex)
+</div>
 
 **Step 4: Cartesian product - CONVEX**
 
+<div class="textbook-proof" markdown="1">
 **Proof:** $$(x_1, y_1), (x_2, y_2) \in C_1 \times C_2$$:
 $$\theta(x_1, y_1) + (1-\theta)(x_2, y_2) = (\theta x_1 + (1-\theta) x_2, \theta y_1 + (1-\theta) y_2) \in C_1 \times C_2$$
+</div>
 
 **Step 5: Affine transformation - CONVEX**
 
+<div class="textbook-proof" markdown="1">
 **Proof:** For $$z_1, z_2 \in f(C_1)$$:
 - $$z_i = Ax_i + b$$ with $$x_i \in C_1$$
 - $$\theta z_1 + (1-\theta) z_2 = A(\theta x_1 + (1-\theta) x_2) + b \in f(C_1)$$
+</div>
 
 </details>
 
@@ -161,8 +169,10 @@ b) Find a separating hyperplane for:
 
 **Step 1: Separating hyperplane theorem**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** If $$C, D$$ are disjoint convex sets, there exist $$a \neq 0$$ and $$b$$ such that:
 $$a^T x \leq b \leq a^T y, \quad \forall x \in C, y \in D$$
+</div>
 
 **Constructive proof:**
 1. Consider $$S = C - D = \{x - y : x \in C, y \in D\}$$ (convex)
@@ -309,7 +319,9 @@ $$K_4 = \{X \in \mathbb{S}^n : X \succeq 0\}$$
 
 **Result:** $$K_4^* = K_4$$ (self-dual)
 
+<div class="textbook-proof" markdown="1">
 **Proof:** $$Y \succeq 0 \Leftrightarrow \text{tr}(YX) \geq 0, \forall X \succeq 0$$
+</div>
 
 </details>
 
@@ -415,7 +427,9 @@ c) Verify Krein-Milman theorem: $$P = \text{conv}(\text{extreme points})$$
 
 **Step 1: Characterization theorem**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** $$x \in P$$ is an extreme point $$\Leftrightarrow$$ $$n$$ linearly independent constraints are active at $$x$$.
+</div>
 
 **Proof ($$\Leftarrow$$):** Suppose $$n$$ constraints are active: $$A_I x = b_I$$ with $$A_I$$ of full rank.
 
@@ -425,7 +439,9 @@ If $$x = \theta y + (1-\theta) z$$ with $$y, z \in P$$, $$\theta \in (0,1)$$:
 - $$\Rightarrow A_I y = A_I z = b_I$$
 - Since $$A_I$$ has full rank: $$y = z = x$$
 
+<div class="textbook-proof" markdown="1">
 **Proof ($$\Rightarrow$$):** Contrapositive - if fewer than $$n$$ independent constraints are active, the point is not extreme.
+</div>
 
 **Step 2: Example 1 - 2D simplex**
 $$P_1 = \{x : x_1 + x_2 \leq 1, x_1 \geq 0, x_2 \geq 0\}$$
@@ -481,7 +497,9 @@ b) For $$K = \mathbb{S}_+^n$$, verify:
 
 **Step 1: Properties of the generalized inequality**
 
+<div class="textbook-definition" markdown="1">
 **Definition:** $$x \preceq_K y \Leftrightarrow y - x \in K$$
+</div>
 
 **Reflexive:** $$x \preceq_K x \Leftrightarrow x - x = 0 \in K$$
 - True because $$K$$ is a cone (contains 0)
@@ -501,18 +519,22 @@ b) For $$K = \mathbb{S}_+^n$$, verify:
 
 **Property 1:** $$A \preceq B \Rightarrow A + C \preceq B + C$$
 
+<div class="textbook-proof" markdown="1">
 **Proof:** 
 - $$A \preceq B \Rightarrow B - A \succeq 0$$
 - $$(B + C) - (A + C) = B - A \succeq 0$$
 - $$\Rightarrow A + C \preceq B + C$$
+</div>
 
 **Property 2:** $$A \preceq B, C \succeq 0 \Rightarrow CAC \preceq CBC$$
 
+<div class="textbook-proof" markdown="1">
 **Proof:**
 - $$B - A \succeq 0$$ and $$C \succeq 0$$
 - For any $$x$$ (with $$C$$ symmetric): $$x^T(CBC - CAC)x = (Cx)^T(B - A)(Cx) \geq 0$$
 - $$\Rightarrow CBC - CAC \succeq 0$$ (no invertibility of $$C$$ needed; in fact $$C$$ only needs to be symmetric)
 - $$\Rightarrow CAC \preceq CBC$$
+</div>
 
 **Step 3: Counterexample for an improper cone**
 
@@ -550,10 +572,13 @@ c) Construct an algorithm to find a minimal representation
 
 **Step 1: Proof of Carathéodory's theorem**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** If $$x \in \text{conv}(S)$$, then $$x$$ can be written as:
 $$x = \sum_{i=1}^{n+1} \lambda_i x_i$$
 with $$x_i \in S$$, $$\lambda_i \geq 0$$, $$\sum \lambda_i = 1$$.
+</div>
 
+<div class="textbook-proof" markdown="1">
 **Proof:** 
 1. Suppose $$x = \sum_{i=1}^k \lambda_i x_i$$ with $$k > n+1$$
 2. The vectors $$\{x_1 - x_k, \ldots, x_{k-1} - x_k\}$$ are linearly dependent in $$\mathbb{R}^n$$
@@ -561,6 +586,7 @@ with $$x_i \in S$$, $$\lambda_i \geq 0$$, $$\sum \lambda_i = 1$$.
 4. Setting $$\mu_k = -\sum_{i=1}^{k-1} \mu_i$$, we get $$\sum_{i=1}^k \mu_i x_i = 0$$
 5. $$x = \sum_{i=1}^k (\lambda_i - t\mu_i) x_i$$ for any $$t$$
 6. Choose $$t = \min\{\lambda_i/\mu_i : \mu_i > 0\}$$: all coefficients stay $$\geq 0$$, they still sum to 1 (since $$\sum \mu_i = 0$$), and at least one coefficient becomes 0, so $$k$$ decreases
+</div>
 
 **Step 2: Example 1 - Square vertices**
 $$S = \{(1,0), (0,1), (-1,0), (0,-1)\}$$
@@ -627,13 +653,18 @@ c) Establish face lattice structure
 
 **Step 1: Face characterization**
 
+<div class="textbook-definition" markdown="1">
 **Definition:** $$F$$ is a face of $$C$$ if:
 - $$F \subseteq C$$
 - $$F$$ convex
 - If $$x \in F$$ and $$x = \theta y + (1-\theta) z$$ with $$y, z \in C$$, $$\theta \in (0,1)$$, then $$y, z \in F$$
+</div>
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** $$F = C \cap H$$ with $$H$$ a supporting hyperplane is a face.
+</div>
 
+<div class="textbook-proof" markdown="1">
 **Proof:** 
 1. $$F \subseteq C$$ (by definition)
 2. $$F$$ is convex (intersection of convex sets)
@@ -642,6 +673,7 @@ c) Establish face lattice structure
    - $$a^T y, a^T z \leq \alpha$$ (since $$y, z \in C$$)
    - $$\Rightarrow a^T y = a^T z = \alpha$$
    - $$\Rightarrow y, z \in F$$
+</div>
 
 **Step 2: Faces of the unit cube**
 $$C = [0,1]^n$$

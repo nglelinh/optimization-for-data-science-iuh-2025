@@ -13,7 +13,7 @@ In this section, we will see a class of problems that appear non-convex when loo
 
 First, we need some definitions:
 
-## 5.2.1. Monomials and Posynomials
+## 1. Monomials and Posynomials
 
 A function $$f: \mathbb{R}^n \to \mathbb{R}$$ with domain $$\text{dom } f = \mathbb{R}^n_{++}$$ (all elements are positive) has the form:
 
@@ -27,7 +27,7 @@ $$f(x) = \sum_{k=1}^K c_k x_1^{a_{1k}} x_2^{a_{2k}} \ldots x_n^{a_{nk}} \quad \q
 
 where $$c_k > 0$$, is called a **posynomial function**, or simply a **posynomial**.
 
-## 5.2.2. Geometric Programming
+## 2. Geometric Programming
 
 An optimization problem of the form:
 
@@ -62,7 +62,7 @@ $$\begin{align}
 
 This problem is clearly nonconvex since both the objective function and constraint functions are not convex.
 
-## 5.2.3. Transforming GP to Convex Form
+## 3. Transforming GP to Convex Form
 
 GP can be transformed to convex form as follows:
 

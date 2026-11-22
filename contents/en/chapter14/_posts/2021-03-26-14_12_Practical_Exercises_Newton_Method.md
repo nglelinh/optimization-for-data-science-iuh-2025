@@ -418,11 +418,13 @@ c) Compare with gradient descent
 
 **a) Proof of quadratic convergence:**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** If $$f$$ is strongly convex and $$\nabla^2 f$$ is Lipschitz continuous with constant $$L$$, then there exists $$\delta > 0$$ such that whenever $$\|x^{(k)} - x^*\| < \delta$$:
 
 $$
 \|x^{(k+1)} - x^*\| \leq \frac{L}{2m} \|x^{(k)} - x^*\|^2
 $$
+</div>
 
 **Proof (sketch):**
 

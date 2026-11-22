@@ -25,11 +25,13 @@ Why do we care about quadratic upper bounds?
 
 ## Quadratic Upper Bound Property
 
+<div class="textbook-theorem" markdown="1">
 **Theorem**: If $$f$$ is convex and $$\nabla f$$ is Lipschitz continuous with constant $$L$$, then $$f$$ satisfies the quadratic upper bound:
 
 > $$ \begin{align}
 f(y) & \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \| y - x \|^2_2 \quad \forall x, y
 \end{align} $$
+</div>
 
 ### Geometric Interpretation
 
@@ -40,11 +42,13 @@ This inequality states that:
 
 ### Equivalent Characterization
 
+<div class="textbook-theorem" markdown="1">
 **Corollary**: For any smooth convex function $$f$$, the following function is convex:
 
 > $$ \begin{align}
 g(x) & = \frac{L}{2} \| x \|^2_2 - f(x) \quad \text{where } dom(g) = dom(f)
 \end{align} $$
+</div>
 
 This means that $$f(x)$$ can be written as the difference between a quadratic function and a convex function.
 
@@ -54,8 +58,10 @@ We will prove both the quadratic upper bound and the equivalent characterization
 
 ### Prerequisites
 
+<div class="textbook-definition" markdown="1">
 **Definition 1 (Monotone Operator)**: In vector space $$X$$, an operator $$T : X \to X^*$$ is monotone if:
 > $$(Tu - Tv, u-v) \ge 0, \quad \forall u, v \in X$$
+</div>
 
 **Property 1 (Monotonicity of Gradient)**: If $$f$$ is convex and differentiable, then $$\nabla f$$ is a monotone operator:
 > $$(\nabla f(y) - \nabla f(x))^T (y-x) \ge 0, \quad \forall x, y$$
@@ -95,7 +101,9 @@ Therefore: $$f(y) \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2}\|y-x\|^2$$
 
 ### Proof of Equivalent Characterization
 
+<div class="textbook-theorem" markdown="1">
 **Theorem**: The function $$g(x) = \frac{L}{2} \| x \|^2_2 - f(x)$$ is convex.
+</div>
 
 **Proof**: We need to show that $$\nabla^2 g(x) \succeq 0$$ (positive semidefinite).
 

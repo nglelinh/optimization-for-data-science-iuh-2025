@@ -91,8 +91,10 @@ $$g(x,t) = tf(\frac{x}{t})$$ lồi nếu $$f$$ lồi và $$t > 0$$
 
 ### ⭐ **Hàm Liên Hợp (Conjugate)**
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 $$f^*(y) = \sup_{x \in \text{dom}(f)} \{y^T x - f(x)\}$$
+</div>
 
 **Tính chất quan trọng:**
 - $$f^*$$ luôn lồi (dù $$f$$ có lồi hay không)

@@ -182,9 +182,11 @@ Cho ma trận $$\mathbf{A} = [a_{ij}]_{n \times n}$$. Định nghĩa:
 - **Tâm (center):** $$a_{ii}$$ (phần tử chéo thứ $$i$$)
 - **Bán kính (radius):** $$r_i = \sum_{j \neq i} |a_{ij}|$$ (tổng giá trị tuyệt đối các phần tử ngoài đường chéo ở hàng $$i$$)
 
+<div class="textbook-theorem" markdown="1">
 **Định lý:** Mọi giá trị riêng của $$\mathbf{A}$$ nằm trong hợp của các đĩa Gershgorin:
 
 $$D_i = \{z \in \mathbb{C} : |z - a_{ii}| \leq r_i\}$$
+</div>
 
 ### Ví Dụ
 

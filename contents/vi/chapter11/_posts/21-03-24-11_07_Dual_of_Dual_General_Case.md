@@ -103,10 +103,12 @@ Nếu ta lấy dual của bài toán dual, có được lại bài toán primal 
 
 ### **Kết Quả**
 
+<div class="textbook-theorem" markdown="1">
 **Định lý:** Nếu thỏa mãn các điều kiện sau:
 1. Bài toán primal là **convex**
 2. **Strong duality** thỏa mãn (duality gap = 0)
 3. Thoả mãn **constraint qualification** (như Slater's condition)
+</div>
 
 Thì:
 

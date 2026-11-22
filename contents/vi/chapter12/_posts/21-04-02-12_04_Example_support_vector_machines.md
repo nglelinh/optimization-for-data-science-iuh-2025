@@ -340,11 +340,13 @@ $$
 </p>
 </figure>
 
+<div class="textbook-theorem" markdown="1">
 **Hệ quả**: Với mọi $$n$$, ta có:
 
 $$
 y_n(w^T x_n + b) \geq 1
 $$
+</div>
 
 ### 3.6. Bài toán tối ưu có ràng buộc
 
@@ -1725,6 +1727,7 @@ $$
 
 ### 8.4. Feature Mapping tổng quát: Ánh xạ lên không gian mới
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:** Ánh xạ đặc trưng (feature map) là một hàm $$\phi$$ biến đổi dữ liệu từ không gian gốc sang không gian mới:
 
 $$
@@ -1732,6 +1735,7 @@ $$
 $$
 
 trong đó $$\mathcal{H}$$ là **không gian đặc trưng** (feature space), thường có số chiều cao hơn (thậm chí vô hạn!).
+</div>
 
 **Ví dụ cụ thể - Ánh xạ bậc 2 cho $$\mathbb{R}^2$$:**
 

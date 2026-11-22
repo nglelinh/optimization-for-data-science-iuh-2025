@@ -37,8 +37,10 @@ $$
 
 Ký hiệu $$\mathbb{S}_{+}^n$$ đại diện cho **nón bán xác định dương**, đây là một khái niệm cơ bản trong tối ưu lồi:
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 > $$\mathbb{S}_{+}^n = \{ X \in \mathbb{S}^n : X \succeq 0 \}$$
+</div>
 
 **trong đó:**
 - $$\mathbb{S}^n$$ là tập tất cả các **ma trận đối xứng** $$n \times n$$
@@ -67,8 +69,10 @@ Với ma trận $$2 \times 2$$ $$P = \begin{bmatrix} a & b \\ b & c \end{bmatrix
 
 Ký hiệu $$Gx \preceq h$$ đại diện cho **ràng buộc bất đẳng thức theo thành phần**, đây là cách gọn gàng để viết nhiều ràng buộc bất đẳng thức tuyến tính:
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 $$Gx \preceq h \quad \Leftrightarrow \quad (Gx)_i \leq h_i \text{ với mọi } i = 1, 2, \ldots, m$$
+</div>
 
 **where:**
 - $$G \in \mathbb{R}^{m \times n}$$ is the constraint matrix

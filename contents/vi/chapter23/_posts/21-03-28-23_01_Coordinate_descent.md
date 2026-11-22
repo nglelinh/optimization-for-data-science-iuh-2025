@@ -53,7 +53,9 @@ f(y) - f(x) &\ge \nabla g(x)^T (y-x) + \sum_{i=1}^{n} \big[ h_i(y_i) - h_i(x_i) 
 &= \sum_{i=1}^{n} \big[ \underbrace{\nabla_i g(x) (y_i - x_i) + h_i(y_i) - h_i(x_i)}_{\ge 0} \big] \ge 0
 \end{align}$$
 
+<div class="textbook-proof" markdown="1">
 **Chứng minh:**
+</div>
 
 >Đặt $$F_i(x_i) = g(x_i ; x_{-i}) + h_i(x_i)$$. ($$g(x_i ; x_{-i})$$ nghĩa là chỉ coi phần tử thứ $$i$$ của $$x$$ là biến, còn các phần tử còn lại là giá trị cố định.)
 >

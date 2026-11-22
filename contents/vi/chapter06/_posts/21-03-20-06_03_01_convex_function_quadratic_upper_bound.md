@@ -25,11 +25,13 @@ Tại sao chúng ta quan tâm đến cận trên bậc hai?
 
 ## Tính chất Cận trên Bậc hai
 
+<div class="textbook-theorem" markdown="1">
 **Định lý**: Nếu $$f$$ là lồi và $$\nabla f$$ liên tục Lipschitz với hằng số $$L$$, thì $$f$$ thỏa mãn cận trên bậc hai:
 
 > $$ \begin{align}
 f(y) & \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \| y - x \|^2_2 \quad \forall x, y
 \end{align} $$
+</div>
 
 ### Diễn giải Hình học
 
@@ -40,11 +42,13 @@ Bất đẳng thức này phát biểu rằng:
 
 ### Đặc trưng Tương đương
 
+<div class="textbook-theorem" markdown="1">
 **Hệ quả**: Đối với bất kỳ hàm lồi trơn $$f$$ nào, hàm sau đây là lồi:
 
 > $$ \begin{align}
 g(x) & = \frac{L}{2} \| x \|^2_2 - f(x) \quad \text{với } dom(g) = dom(f)
 \end{align} $$
+</div>
 
 Điều này có nghĩa là $$f(x)$$ có thể được viết như hiệu của một hàm bậc hai và một hàm lồi.
 
@@ -54,8 +58,10 @@ Chúng ta sẽ chứng minh cả cận trên bậc hai và đặc trưng tương
 
 ### Kiến thức Cần thiết
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa 1 (Toán tử Đơn điệu)**: Trong không gian vector $$X$$, toán tử $$T : X \to X^*$$ là đơn điệu nếu:
 > $$(Tu - Tv, u-v) \ge 0, \quad \forall u, v \in X$$
+</div>
 
 **Tính chất 1 (Tính đơn điệu của Gradient)**: Nếu $$f$$ là lồi và khả vi, thì $$\nabla f$$ là toán tử đơn điệu:
 > $$(\nabla f(y) - \nabla f(x))^T (y-x) \ge 0, \quad \forall x, y$$
@@ -95,7 +101,9 @@ Do đó: $$f(y) \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2}\|y-x\|^2$$
 
 ### Chứng minh Đặc trưng Tương đương
 
+<div class="textbook-theorem" markdown="1">
 **Định lý**: Hàm $$g(x) = \frac{L}{2} \| x \|^2_2 - f(x)$$ là lồi.
+</div>
 
 **Chứng minh**: Chúng ta cần chỉ ra rằng $$\nabla^2 g(x) \succeq 0$$ (nửa xác định dương).
 

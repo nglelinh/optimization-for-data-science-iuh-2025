@@ -53,9 +53,11 @@ $$S = \{x \in D \mid g_i(x) \le 0, h_j(x) = 0\}$$
 
 **Property 1:** The solution set $$X_{\text{opt}}$$ of a convex problem is convex
 
+<div class="textbook-proof" markdown="1">
 **Proof:** If $$x, y \in X_{\text{opt}}$$ and $$0 \le \theta \le 1$$:
 - $$\theta x + (1-\theta)y$$ is feasible (by convexity of the feasible set)
 - $$f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y) = f^*$$
+</div>
 
 **Property 2:** If $$f$$ is strictly convex then the solution (if it exists) is unique
 
@@ -105,7 +107,9 @@ $$\begin{aligned}
 
 ### 🔧 **Relaxation**
 
+<div class="textbook-definition" markdown="1">
 **Definition:** Replace the feasible set $$C$$ with a superset $$\tilde{C} \supseteq C$$
+</div>
 
 **Original problem:** $$\min_x f(x)$$ s.t. $$x \in C$$
 **Relaxed problem:** $$\min_x f(x)$$ s.t. $$x \in \tilde{C}$$

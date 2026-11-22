@@ -85,7 +85,9 @@ where $$p_i = \sigma(\mathbf{w}^T \mathbf{x}_i)$$ is the predicted probability.
 
 ### Theorem: The logistic loss function is convex
 
+<div class="textbook-proof" markdown="1">
 **Proof:**
+</div>
 
 **Step 1:** Show that $$-\log \sigma(z)$$ is convex
 

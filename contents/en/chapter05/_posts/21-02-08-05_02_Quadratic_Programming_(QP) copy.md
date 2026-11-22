@@ -37,8 +37,10 @@ $$
 
 The notation $$\mathbb{S}_{+}^n$$ represents the **positive semidefinite cone**, which is a fundamental concept in convex optimization:
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 > $$\mathbb{S}_{+}^n = \{ X \in \mathbb{S}^n : X \succeq 0 \}$$
+</div>
 
 **where:**
 - $$\mathbb{S}^n$$ is the set of all $$n \times n$$ **symmetric matrices**
@@ -67,8 +69,10 @@ For a $$2 \times 2$$ matrix $$P = \begin{bmatrix} a & b \\ b & c \end{bmatrix}$$
 
 The notation $$Gx \preceq h$$ represents **component-wise inequality constraints**, which is a compact way to write multiple linear inequality constraints:
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 $$Gx \preceq h \quad \Leftrightarrow \quad (Gx)_i \leq h_i \text{ for all } i = 1, 2, \ldots, m$$
+</div>
 
 **where:**
 - $$G \in \mathbb{R}^{m \times n}$$ is the constraint matrix

@@ -22,9 +22,11 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
 
 ### 📏 **Tập Affine**
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 Tập $$C$$ là affine nếu với mọi $$x_1, x_2 \in C$$ và $$\theta \in \mathbb{R}$$:
 $$\theta x_1 + (1-\theta)x_2 \in C$$
+</div>
 
 **Tổ hợp affine:**
 $$\sum_{i=1}^k \theta_i x_i$$ với $$\sum_{i=1}^k \theta_i = 1$$ (không yêu cầu $$\theta_i \ge 0$$)
@@ -36,9 +38,11 @@ $$\text{aff}(C) = \{\sum_{i=1}^k \theta_i x_i \mid x_i \in C, \sum_{i=1}^k \thet
 
 ### 🔵 **Tập Lồi**
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 Tập $$C$$ là lồi nếu với mọi $$x_1, x_2 \in C$$ và $$0 \le \theta \le 1$$:
 $$\theta x_1 + (1-\theta)x_2 \in C$$
+</div>
 
 **Tổ hợp lồi:**
 $$\sum_{i=1}^k \theta_i x_i$$ với $$\sum_{i=1}^k \theta_i = 1, \theta_i \ge 0$$

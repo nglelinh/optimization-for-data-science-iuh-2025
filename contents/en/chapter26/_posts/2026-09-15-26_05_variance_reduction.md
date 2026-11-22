@@ -68,6 +68,7 @@ SVRG refreshes the snapshot on an outer loop and walks with the control variate 
 
 A standard choice is $$m=\Theta(n)$$ inner steps, so the *amortized* cost is a small constant times one gradient per step: one full gradient every $$m$$ steps, plus two stochastic gradients per inner step. Memory beyond the parameter vector is one snapshot $$\tilde w$$ and one vector $$\mu$$ — $$O(d)$$, independent of $$n$$.
 
+<div class="textbook-theorem" markdown="1">
 **Theorem (sketch, strongly convex finite-sum).** If each $$f_i$$ is $$L$$-smooth and $$F$$ is $$\mu$$-strongly convex, a sufficiently small constant $$\eta$$ and $$m\gtrsim L/\mu$$ yield
 
 $$
@@ -76,6 +77,7 @@ $$
 $$
 
 with $$\rho<1$$ independent of the horizon. The number of incremental gradients to $$\varepsilon$$-accuracy is $$O\bigl((n+\kappa)\log(1/\varepsilon)\bigr)$$, $$\kappa=L/\mu$$. Vanilla SGD cannot write a $$\log(1/\varepsilon)$$ of this kind while the noise floor is constant.
+</div>
 
 The proof is a Lyapunov argument: the inner-loop noise is controlled by $$\|w-\tilde w\|$$, which itself shrinks as the snapshot improves. You are not asked to reproduce the constants; you are asked to point at the line $$g=\nabla f_I(w)-\nabla f_I(\tilde w)+\mu$$ and say why the variance dies.
 

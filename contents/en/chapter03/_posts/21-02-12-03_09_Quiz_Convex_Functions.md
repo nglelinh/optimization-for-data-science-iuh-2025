@@ -91,8 +91,10 @@ $$g(x,t) = tf(\frac{x}{t})$$ is convex if $$f$$ is convex, for $$t > 0$$
 
 ### ⭐ **Conjugate Functions**
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 $$f^*(y) = \sup_{x \in \text{dom}(f)} \{y^T x - f(x)\}$$
+</div>
 
 **Key properties:**
 - $$f^*$$ is always convex (whether or not $$f$$ is convex)

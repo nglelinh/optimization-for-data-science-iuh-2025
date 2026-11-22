@@ -21,7 +21,9 @@ Chúng ta sẽ chứng minh rằng hàm này là lồi sử dụng ba phương p
 
 ## Phương pháp 1: Chứng minh Dựa trên Định nghĩa
 
+<div class="textbook-theorem" markdown="1">
 **Định lý**: Chuẩn Euclidean $$f(x) = \|x\|_2$$ là lồi trên $$\mathbb{R}^n$$.
+</div>
 
 **Chứng minh**: 
 Để chứng minh tính lồi, chúng ta cần chỉ ra rằng với bất kỳ $$x, y \in \mathbb{R}^n$$ và $$\theta \in [0,1]$$:

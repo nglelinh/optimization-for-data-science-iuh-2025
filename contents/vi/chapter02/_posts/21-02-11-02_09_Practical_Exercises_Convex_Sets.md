@@ -102,10 +102,12 @@ e) **Affine transformation:** $$f(C_1) = \{Ax + b : x \in C_1\}$$
 
 **Bước 1: Giao - LỒI**
 
+<div class="textbook-proof" markdown="1">
 **Chứng minh:** Với $$x, y \in C_1 \cap C_2$$ và $$\theta \in [0,1]$$:
 - $$x, y \in C_1 \Rightarrow \theta x + (1-\theta) y \in C_1$$ (vì $$C_1$$ lồi)
 - $$x, y \in C_2 \Rightarrow \theta x + (1-\theta) y \in C_2$$ (vì $$C_2$$ lồi)
 - $$\Rightarrow \theta x + (1-\theta) y \in C_1 \cap C_2$$
+</div>
 
 **Tổng quát hóa:** $$\bigcap_{i \in I} C_i$$ lồi nếu mỗi $$C_i$$ lồi.
 
@@ -119,22 +121,28 @@ Cả hai đều lồi, nhưng $$C_1 \cup C_2$$ không lồi:
 
 **Bước 3: Tổng Minkowski - LỒI**
 
+<div class="textbook-proof" markdown="1">
 **Chứng minh:** Với $$z_1, z_2 \in C_1 + C_2$$:
 - $$z_1 = x_1 + y_1$$, $$z_2 = x_2 + y_2$$ với $$x_i \in C_1, y_i \in C_2$$
 - $$\theta z_1 + (1-\theta) z_2 = \theta(x_1 + y_1) + (1-\theta)(x_2 + y_2)$$
 - $$= (\theta x_1 + (1-\theta) x_2) + (\theta y_1 + (1-\theta) y_2)$$
 - $$\in C_1 + C_2$$ (vì $$C_1, C_2$$ lồi)
+</div>
 
 **Bước 4: Tích Descartes - LỒI**
 
+<div class="textbook-proof" markdown="1">
 **Chứng minh:** $$(x_1, y_1), (x_2, y_2) \in C_1 \times C_2$$:
 $$\theta(x_1, y_1) + (1-\theta)(x_2, y_2) = (\theta x_1 + (1-\theta) x_2, \theta y_1 + (1-\theta) y_2) \in C_1 \times C_2$$
+</div>
 
 **Bước 5: Biến đổi affine - LỒI**
 
+<div class="textbook-proof" markdown="1">
 **Chứng minh:** Với $$z_1, z_2 \in f(C_1)$$:
 - $$z_i = Ax_i + b$$ với $$x_i \in C_1$$
 - $$\theta z_1 + (1-\theta) z_2 = A(\theta x_1 + (1-\theta) x_2) + b \in f(C_1)$$
+</div>
 
 </details>
 
@@ -161,8 +169,10 @@ b) Tìm separating hyperplane cho:
 
 **Bước 1: Separating hyperplane theorem**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** Nếu $$C, D$$ là convex sets disjoint, tồn tại $$a \neq 0$$ và $$b$$ sao cho:
 $$a^T x \leq b \leq a^T y, \quad \forall x \in C, y \in D$$
+</div>
 
 **Constructive proof:**
 1. Xét $$S = C - D = \{x - y : x \in C, y \in D\}$$ (convex)
@@ -309,7 +319,9 @@ $$K_4 = \{X \in \mathbb{S}^n : X \succeq 0\}$$
 
 **Result:** $$K_4^* = K_4$$ (self-dual)
 
+<div class="textbook-proof" markdown="1">
 **Proof:** $$Y \succeq 0 \Leftrightarrow \text{tr}(YX) \geq 0, \forall X \succeq 0$$
+</div>
 
 </details>
 
@@ -415,7 +427,9 @@ c) Verify Krein-Milman theorem: $$P = \text{conv}(\text{extreme points})$$
 
 **Bước 1: Characterization theorem**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** $$x \in P$$ là extreme point $$\Leftrightarrow$$ $$n$$ linearly independent constraints active tại $$x$$.
+</div>
 
 **Proof ($$\Leftarrow$$):** Giả sử $$n$$ constraints active: $$A_I x = b_I$$ với $$A_I$$ full rank.
 
@@ -425,7 +439,9 @@ Nếu $$x = \theta y + (1-\theta) z$$ với $$y, z \in P$$, $$\theta \in (0,1)$$
 - $$\Rightarrow A_I y = A_I z = b_I$$
 - Vì $$A_I$$ full rank: $$y = z = x$$
 
+<div class="textbook-proof" markdown="1">
 **Proof ($$\Rightarrow$$):** Contrapositive - nếu $$< n$$ constraints active, thì không extreme.
+</div>
 
 **Bước 2: Example 1 - 2D simplex**
 $$P_1 = \{x : x_1 + x_2 \leq 1, x_1 \geq 0, x_2 \geq 0\}$$
@@ -481,7 +497,9 @@ b) Cho $$K = \mathbb{S}_+^n$$, verify:
 
 **Bước 1: Properties của generalized inequality**
 
+<div class="textbook-definition" markdown="1">
 **Definition:** $$x \preceq_K y \Leftrightarrow y - x \in K$$
+</div>
 
 **Reflexive:** $$x \preceq_K x \Leftrightarrow x - x = 0 \in K$$
 - True vì $$K$$ là cone (chứa 0)
@@ -501,18 +519,22 @@ b) Cho $$K = \mathbb{S}_+^n$$, verify:
 
 **Property 1:** $$A \preceq B \Rightarrow A + C \preceq B + C$$
 
+<div class="textbook-proof" markdown="1">
 **Proof:** 
 - $$A \preceq B \Rightarrow B - A \succeq 0$$
 - $$(B + C) - (A + C) = B - A \succeq 0$$
 - $$\Rightarrow A + C \preceq B + C$$
+</div>
 
 **Property 2:** $$A \preceq B, C \succeq 0 \Rightarrow CAC \preceq CBC$$
 
+<div class="textbook-proof" markdown="1">
 **Proof:**
 - $$B - A \succeq 0$$ và $$C \succeq 0$$
 - For any $$x$$ (with $$C$$ symmetric): $$x^T(CBC - CAC)x = (Cx)^T(B - A)(Cx) \geq 0$$
 - $$\Rightarrow CBC - CAC \succeq 0$$ (no invertibility of $$C$$ needed; in fact $$C$$ only needs to be symmetric)
 - $$\Rightarrow CAC \preceq CBC$$
+</div>
 
 **Bước 3: Counterexample cho improper cone**
 
@@ -550,10 +572,13 @@ c) Construct algorithm để find minimal representation
 
 **Bước 1: Carathéodory theorem proof**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** Nếu $$x \in \text{conv}(S)$$, thì $$x$$ có thể viết thành:
 $$x = \sum_{i=1}^{n+1} \lambda_i x_i$$
 với $$x_i \in S$$, $$\lambda_i \geq 0$$, $$\sum \lambda_i = 1$$.
+</div>
 
+<div class="textbook-proof" markdown="1">
 **Proof:** 
 1. Giả sử $$x = \sum_{i=1}^k \lambda_i x_i$$ với $$k > n+1$$
 2. Vectors $$\{x_1 - x_k, \ldots, x_{k-1} - x_k\}$$ linearly dependent trong $$\mathbb{R}^n$$
@@ -561,6 +586,7 @@ với $$x_i \in S$$, $$\lambda_i \geq 0$$, $$\sum \lambda_i = 1$$.
 4. Đặt $$\mu_k = -\sum_{i=1}^{k-1} \mu_i$$, ta có $$\sum_{i=1}^k \mu_i x_i = 0$$
 5. $$x = \sum_{i=1}^k (\lambda_i - t\mu_i) x_i$$ for any $$t$$
 6. Chọn $$t = \min\{\lambda_i/\mu_i : \mu_i > 0\}$$: mọi hệ số vẫn $$\geq 0$$, tổng vẫn bằng 1 (vì $$\sum \mu_i = 0$$), và ít nhất một hệ số bằng 0, nên giảm được $$k$$
+</div>
 
 **Bước 2: Example 1 - Square vertices**
 $$S = \{(1,0), (0,1), (-1,0), (0,-1)\}$$
@@ -627,13 +653,18 @@ c) Establish face lattice structure
 
 **Bước 1: Face characterization**
 
+<div class="textbook-definition" markdown="1">
 **Definition:** $$F$$ là face của $$C$$ nếu:
 - $$F \subseteq C$$
 - $$F$$ convex
 - Nếu $$x \in F$$ và $$x = \theta y + (1-\theta) z$$ với $$y, z \in C$$, $$\theta \in (0,1)$$, thì $$y, z \in F$$
+</div>
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** $$F = C \cap H$$ với $$H$$ supporting hyperplane là face.
+</div>
 
+<div class="textbook-proof" markdown="1">
 **Proof:** 
 1. $$F \subseteq C$$ (by definition)
 2. $$F$$ convex (intersection của convex sets)
@@ -642,6 +673,7 @@ c) Establish face lattice structure
    - $$a^T y, a^T z \leq \alpha$$ (vì $$y, z \in C$$)
    - $$\Rightarrow a^T y = a^T z = \alpha$$
    - $$\Rightarrow y, z \in F$$
+</div>
 
 **Bước 2: Unit cube faces**
 $$C = [0,1]^n$$

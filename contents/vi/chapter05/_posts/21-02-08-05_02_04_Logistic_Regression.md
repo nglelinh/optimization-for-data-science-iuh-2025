@@ -85,7 +85,9 @@ với $$p_i = \sigma(\mathbf{w}^T \mathbf{x}_i)$$ là xác suất dự đoán.
 
 ### Định lý: Hàm mất mát Logistic là lồi
 
+<div class="textbook-proof" markdown="1">
 **Chứng minh:**
+</div>
 
 **Bước 1:** Chứng minh $$-\log \sigma(z)$$ là lồi
 

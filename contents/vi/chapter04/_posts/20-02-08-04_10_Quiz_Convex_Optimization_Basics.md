@@ -53,9 +53,11 @@ $$S = \{x \in D \mid g_i(x) \le 0, h_j(x) = 0\}$$
 
 **Tính chất 1:** Tập nghiệm $$X_{\text{opt}}$$ của bài toán lồi là tập lồi
 
+<div class="textbook-proof" markdown="1">
 **Chứng minh:** Nếu $$x, y \in X_{\text{opt}}$$ và $$0 \le \theta \le 1$$:
 - $$\theta x + (1-\theta)y$$ khả thi (do tính lồi của tập khả thi)
 - $$f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y) = f^*$$
+</div>
 
 **Tính chất 2:** Nếu $$f$$ lồi chặt thì nghiệm (nếu tồn tại) là duy nhất
 
@@ -105,7 +107,9 @@ $$\begin{aligned}
 
 ### 🔧 **Làm Giản (Relaxation)**
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:** Thay thế tập khả thi $$C$$ bằng siêu tập $$\tilde{C} \supseteq C$$
+</div>
 
 **Bài toán gốc:** $$\min_x f(x)$$ s.t. $$x \in C$$
 **Bài toán làm giản:** $$\min_x f(x)$$ s.t. $$x \in \tilde{C}$$

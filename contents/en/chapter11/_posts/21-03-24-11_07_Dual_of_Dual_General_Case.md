@@ -103,10 +103,12 @@ If we take the dual of the dual problem, do we get back the original primal prob
 
 ### **The Result**
 
+<div class="textbook-theorem" markdown="1">
 **Theorem:** If the following conditions are satisfied:
 1. The primal problem is **convex**
 2. **Strong duality** holds (duality gap = 0)
 3. A **constraint qualification** (such as Slater's condition) holds
+</div>
 
 Then:
 

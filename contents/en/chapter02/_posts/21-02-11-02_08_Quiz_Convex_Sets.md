@@ -22,9 +22,11 @@ Before starting the exercises, review the key concepts of this chapter:
 
 ### 📏 **Affine Sets**
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 A set $$C$$ is affine if for all $$x_1, x_2 \in C$$ and $$\theta \in \mathbb{R}$$:
 $$\theta x_1 + (1-\theta)x_2 \in C$$
+</div>
 
 **Affine combination:**
 $$\sum_{i=1}^k \theta_i x_i$$ with $$\sum_{i=1}^k \theta_i = 1$$ (no requirement $$\theta_i \ge 0$$)
@@ -36,9 +38,11 @@ $$\text{aff}(C) = \{\sum_{i=1}^k \theta_i x_i \mid x_i \in C, \sum_{i=1}^k \thet
 
 ### 🔵 **Convex Sets**
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 A set $$C$$ is convex if for all $$x_1, x_2 \in C$$ and $$0 \le \theta \le 1$$:
 $$\theta x_1 + (1-\theta)x_2 \in C$$
+</div>
 
 **Convex combination:**
 $$\sum_{i=1}^k \theta_i x_i$$ with $$\sum_{i=1}^k \theta_i = 1, \theta_i \ge 0$$

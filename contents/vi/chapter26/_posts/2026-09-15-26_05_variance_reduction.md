@@ -68,6 +68,7 @@ SVRG làm mới ảnh chụp trên vòng ngoài và đi với biến kiểm soá
 
 Chọn chuẩn là $$m=\Theta(n)$$ bước trong, nên chi phí *phân bổ* là một hằng nhỏ nhân một gradient mỗi bước: một gradient đầy đủ mỗi $$m$$ bước, cộng hai gradient ngẫu nhiên mỗi bước trong. Bộ nhớ ngoài vector tham số là một ảnh chụp $$\tilde w$$ và một vector $$\mu$$ — $$O(d)$$, không phụ thuộc $$n$$.
 
+<div class="textbook-theorem" markdown="1">
 **Định lý (phác, tổng hữu hạn lồi mạnh).** Nếu mỗi $$f_i$$ trơn-$$L$$ và $$F$$ lồi mạnh-$$\mu$$, một $$\eta$$ hằng đủ nhỏ và $$m\gtrsim L/\mu$$ cho
 
 $$
@@ -76,6 +77,7 @@ $$
 $$
 
 với $$\rho<1$$ không phụ thuộc chân trời. Số gradient gia lượng để đạt độ chính xác $$\varepsilon$$ là $$O\bigl((n+\kappa)\log(1/\varepsilon)\bigr)$$, $$\kappa=L/\mu$$. SGD thuần không viết được một $$\log(1/\varepsilon)$$ kiểu này khi sàn nhiễu là hằng.
+</div>
 
 Chứng minh là lập luận Lyapunov: nhiễu vòng trong được khống chế bởi $$\|w-\tilde w\|$$, bản thân đại lượng đó co khi ảnh chụp tốt hơn. Bạn không bị đòi tái tạo các hằng số; bạn bị đòi chỉ vào dòng $$g=\nabla f_I(w)-\nabla f_I(\tilde w)+\mu$$ và nói vì sao phương sai tắt.
 

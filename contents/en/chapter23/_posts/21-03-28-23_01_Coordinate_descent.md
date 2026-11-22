@@ -53,7 +53,9 @@ f(y) - f(x) &\ge \nabla g(x)^T (y-x) + \sum_{i=1}^{n} \big[ h_i(y_i) - h_i(x_i) 
 &= \sum_{i=1}^{n} \big[ \underbrace{\nabla_i g(x) (y_i - x_i) + h_i(y_i) - h_i(x_i)}_{\ge 0} \big] \ge 0
 \end{align}$$
 
+<div class="textbook-proof" markdown="1">
 **Proof:**
+</div>
 
 >Let $$F_i(x_i) = g(x_i ; x_{-i}) + h_i(x_i)$$. ($$g(x_i ; x_{-i})$$ means viewing only the $$i$$-th element of $$x$$ as a variable, and the rest as fixed values.)
 >

@@ -13,7 +13,7 @@ Trong phần này, chúng ta sẽ thấy một lớp các bài toán có vẻ kh
 
 Trước tiên, chúng ta cần một số định nghĩa:
 
-## 5.2.1. Đơn thức và Đa thức dương
+## 1. Đơn thức và Đa thức dương
 
 Một hàm $$f: \mathbb{R}^n \to \mathbb{R}$$ với miền $$\text{dom } f = \mathbb{R}^n_{++}$$ (tất cả các phần tử đều dương) có dạng:
 
@@ -27,7 +27,7 @@ $$f(x) = \sum_{k=1}^K c_k x_1^{a_{1k}} x_2^{a_{2k}} \ldots x_n^{a_{nk}} \quad \q
 
 trong đó $$c_k > 0$$, được gọi là **hàm đa thức dương**, hoặc đơn giản là **đa thức dương**.
 
-## 5.2.2. Quy hoạch Hình học
+## 2. Quy hoạch Hình học
 
 Một bài toán tối ưu có dạng:
 
@@ -62,7 +62,7 @@ $$\begin{align}
 
 Bài toán này rõ ràng là không lồi vì cả hàm mục tiêu và các hàm ràng buộc đều không lồi.
 
-## 5.2.3. Biến đổi GP về Dạng Lồi
+## 3. Biến đổi GP về Dạng Lồi
 
 GP có thể được biến đổi về dạng lồi như sau:
 

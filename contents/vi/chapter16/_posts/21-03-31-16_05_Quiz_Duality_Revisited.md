@@ -42,8 +42,10 @@ $$\max_{u \ge 0, v} \min_x L(x,u,v)$$
 #### **Weak Duality Theorem**
 **Always true:** $$p \ge d$$ (primal optimal ≥ dual optimal)
 
+<div class="textbook-proof" markdown="1">
 **Proof:** From minimax inequality
 $$\min_x \max_{u \ge 0, v} L(x,u,v) \ge \max_{u \ge 0, v} \min_x L(x,u,v)$$
+</div>
 
 #### **Strong Duality (Refined Slater's Condition)**
 **Condition:** For domain $$D$$, assume $$f, h_1,\ldots,h_p$$ convex và $$h_{p+1},\ldots,h_m, l_1,\ldots,l_r$$ affine.

@@ -41,9 +41,11 @@ $$D = \text{dom}(f) \cap \bigcap_{i=1}^m \text{dom}(g_i) \cap \bigcap_{j=1}^r \t
 
 ### 🔵 **Tập lồi (Convex Sets)**
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 Tập $$C$$ là lồi nếu với mọi $$x_1, x_2 \in C$$ và $$0 \le \theta \le 1$$:
 $$\theta x_1 + (1-\theta)x_2 \in C$$
+</div>
 
 **Đoạn thẳng:** $$x = \theta x_1 + (1 - \theta) x_2$$ với $$0 \le \theta \le 1$$
 
@@ -52,11 +54,13 @@ $$x = \sum_{i=1}^k \theta_i x_i$$ với $$\sum_{i=1}^k \theta_i = 1, \theta_i \g
 
 ### 📈 **Hàm lồi (Convex Functions)**
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 Hàm $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ là lồi nếu:
 1. $$\text{dom}(f)$$ là tập lồi
 2. $$f(\theta x + (1 - \theta)y) \le \theta f(x) + (1-\theta)f(y)$$
    với mọi $$x, y \in \text{dom}(f), 0 \le \theta \le 1$$
+</div>
 
 **Epigraph:**
 $$\text{epi } f = \{(x, t) \in \mathbb{R}^{n+1} \mid x \in \text{dom } f, f(x) \le t\}$$
@@ -65,11 +69,13 @@ $$\text{epi } f = \{(x, t) \in \mathbb{R}^{n+1} \mid x \in \text{dom } f, f(x) \
 
 ### 🏆 **Bài toán tối ưu hóa lồi**
 
+<div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 Bài toán tối ưu hóa là lồi khi:
 - Hàm mục tiêu $$f$$ là lồi
 - Các hàm ràng buộc bất đẳng thức $$g_i$$ là lồi
 - Các hàm ràng buộc đẳng thức $$h_j$$ là affine: $$h_j(x) = a_j^T x + b_j$$
+</div>
 
 **Tính chất vàng:** 
 > Mọi cực tiểu địa phương của bài toán tối ưu hóa lồi đều là cực tiểu toàn cục

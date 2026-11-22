@@ -41,9 +41,11 @@ $$D = \text{dom}(f) \cap \bigcap_{i=1}^m \text{dom}(g_i) \cap \bigcap_{j=1}^r \t
 
 ### 🔵 **Convex Sets**
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 A set $$C$$ is convex if for all $$x_1, x_2 \in C$$ and $$0 \le \theta \le 1$$:
 $$\theta x_1 + (1-\theta)x_2 \in C$$
+</div>
 
 **Line segment:** $$x = \theta x_1 + (1 - \theta) x_2$$ with $$0 \le \theta \le 1$$
 
@@ -52,11 +54,13 @@ $$x = \sum_{i=1}^k \theta_i x_i$$ with $$\sum_{i=1}^k \theta_i = 1, \theta_i \ge
 
 ### 📈 **Convex Functions**
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 A function $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is convex if:
 1. $$\text{dom}(f)$$ is a convex set
 2. $$f(\theta x + (1 - \theta)y) \le \theta f(x) + (1-\theta)f(y)$$
    for all $$x, y \in \text{dom}(f), 0 \le \theta \le 1$$
+</div>
 
 **Epigraph:**
 $$\text{epi } f = \{(x, t) \in \mathbb{R}^{n+1} \mid x \in \text{dom } f, f(x) \le t\}$$
@@ -65,11 +69,13 @@ $$\text{epi } f = \{(x, t) \in \mathbb{R}^{n+1} \mid x \in \text{dom } f, f(x) \
 
 ### 🏆 **Convex Optimization Problems**
 
+<div class="textbook-definition" markdown="1">
 **Definition:**
 An optimization problem is convex when:
 - The objective function $$f$$ is convex
 - The inequality constraint functions $$g_i$$ are convex
 - The equality constraint functions $$h_j$$ are affine: $$h_j(x) = a_j^T x + b_j$$
+</div>
 
 **The golden property:**
 > Every local minimum of a convex optimization problem is a global minimum
