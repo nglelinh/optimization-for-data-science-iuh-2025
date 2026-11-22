@@ -100,3 +100,5 @@ Tốc độ hội tụ $$O(c^k)$$ trông như một đường thẳng trên đ�
 
 Đại số của chứng minh này — bổ đề xuống cộng một cận dưới biến $$\|\nabla f\|^2$$ thành khe giá trị hàm — vẫn chạy nếu lồi mạnh được nới thành bất đẳng thức Polyak–Łojasiewicz. Câu chuyện tốc độ hiện đại tùy chọn đó, và ví dụ bình phương tối thiểu quá tham số nơi cực tiểu không duy nhất, là [28-05 Điều kiện PL và câu chuyện tốc độ hiện đại]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).
 
+Đại số của chứng minh này — bổ đề xuống cộng một cận dưới biến $$\|\nabla f\|^2$$ thành khe giá trị hàm — vẫn chạy nếu lồi mạnh được nới thành bất đẳng thức Polyak–Łojasiewicz. Câu chuyện tốc độ hiện đại tùy chọn đó, và ví dụ bình phương tối thiểu quá tham số nơi cực tiểu không duy nhất, là [28-05 Điều kiện PL và câu chuyện tốc độ hiện đại]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).
+
