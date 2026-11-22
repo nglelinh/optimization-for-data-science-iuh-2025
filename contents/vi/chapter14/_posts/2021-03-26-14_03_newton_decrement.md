@@ -14,9 +14,9 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trong chương này, chúng ta định nghĩa Newton decrement và xem xét ý nghĩa của nó.
+Trong mục này, chúng ta định nghĩa đại lượng giảm Newton (Newton decrement) và phân tích ý nghĩa của nó.
 
-Đối với bài toán tối ưu hóa dưới đây, Newton decrement tại $$x$$ được định nghĩa là $$\lambda(x)$$:
+Đối với bài toán tối ưu hóa dưới đây, Newton decrement tại $$x$$ được ký hiệu và định nghĩa là $$\lambda(x)$$:
 
 >\begin{align}
 >\min_{x} \quad f(x),\\\\
@@ -26,22 +26,22 @@ Trong chương này, chúng ta định nghĩa Newton decrement và xem xét ý n
 >\end{align}
 
 ## Đặc điểm của Newton decrement
-Thứ nhất, Newton decrement liên quan đến sự khác biệt giữa hàm $$f(x)$$ và giá trị tối thiểu của xấp xỉ bậc hai của nó. Tính toán sự khác biệt này cho:
->$$\begin{align}
+Thứ nhất, Newton decrement liên hệ trực tiếp với hiệu giữa giá trị hàm $$f(x)$$ và giá trị nhỏ nhất của xấp xỉ bậc hai của $$f$$ tại $$x$$:
+>$$
+>\begin{align}
 >f(x)-&\min_{y} \big( f(x)+\nabla f(x)^{T}(y-x)+\frac{1}{2}(y-x)^{T}\nabla^{2}f(x)(y-x)\big),\\\\
 >f(x)-&\bigg( f(x) + \nabla^{T}f(x)\big( -(\nabla^{2} f(x) )^{-1} \nabla f(x)\big) + \frac{1}{2}\big( -(\nabla^{2}f(x))^{-1} \nabla f(x) \big)^{T} \nabla ^{2}f(x) \big( -(\nabla^{2}f(x))^{-1}\nabla f(x) \big) \bigg) \\\\ 
 >&= \frac{1}{2}\nabla f(x)^{T}(\nabla^{2} f(x) )^{-1}\nabla f(x) = \frac{1}{2}\lambda(x)^{2}.
->\end{align}$$
+>\end{align}
+>$$
 
-Do đó, $$\frac{1}{2}\lambda^{2}(x)$$ có thể được coi là một cận xấp xỉ cho khoảng cách tối ưu $$f(x)-f^{\star}$$.
+Do đó, $$\frac{1}{2}\lambda^{2}(x)$$ có thể được dùng làm ước lượng cho khoảng cách tối ưu $$f(x)-f^{\star}$$.
 
-Thứ hai, hướng Newton trong phương pháp Newton cho mỗi lần lặp là $$v = -(\nabla^{2}f(x))^{-1}\nabla f(x)$$, và Newton decrement là độ dài của bước Newton trong chuẩn được định nghĩa bởi Hessian $$\nabla^{2}f(x)$$.
+Thứ hai, với hướng Newton ở mỗi vòng lặp là $$v = -(\nabla^{2}f(x))^{-1}\nabla f(x)$$, Newton decrement chính là độ dài của bước Newton theo chuẩn cảm sinh bởi ma trận Hessian $$\nabla^{2}f(x)$$.
 
-Ngoài ra, điều này có thể được xem là một loại khoảng cách Mahalanobis [[Wikipedia](https://en.wikipedia.org/wiki/Mahalanobis_distance)], trong đó bước mới $$y$$ là quan sát, vị trí hiện tại $$x$$ là giá trị trung bình, và Hessian của $$f(x)$$ là hiệp phương sai. Khoảng cách Mahalanobis đo khoảng cách từ một điểm đến giá trị trung bình theo hướng của hiệp phương sai của phân phối.
+Đại lượng này cũng có thể hiểu như một dạng khoảng cách Mahalanobis [[Wikipedia](https://en.wikipedia.org/wiki/Mahalanobis_distance)], trong đó điểm mới $$y$$ đóng vai trò quan sát, điểm hiện tại $$x$$ là giá trị trung bình, còn ma trận Hessian tại $$x$$ đóng vai trò nghịch đảo của ma trận hiệp phương sai. Khoảng cách Mahalanobis đo khoảng cách từ một điểm đến giá trị trung bình sau khi chuẩn hóa theo độ lệch chuẩn trên hướng tương ứng; tương tự, Newton decrement đo độ lớn của bước Newton tính từ điểm hiện tại trong hệ đo xác định bởi Hessian.
 
-Nếu chúng ta xem xét định nghĩa khoảng cách Mahalanobis là khoảng cách giữa một điểm và giá trị trung bình của một phân phối chia cho độ lệch chuẩn theo hướng đó, Newton decrement biểu diễn khoảng cách của bước mới từ vị trí hiện tại, với Hessian đóng vai trò là hiệp phương sai của phân phối.
-
-Thứ ba, Newton decrement có thể được biểu diễn theo số gia và Hessian. Bắt đầu từ cập nhật bước trong phương pháp Newton, chúng ta có:
+Thứ ba, Newton decrement có thể biểu diễn qua bước cập nhật Newton $$\Delta x_{nt}$$ và ma trận Hessian. Từ công thức cập nhật của phương pháp Newton:
 >\begin{align}
 >x^{+} &= x-\big(\nabla^{2} f(x) \big)^{-1} \nabla f(x) &\\ 
 >\end{align}
@@ -52,10 +52,9 @@ Thứ ba, Newton decrement có thể được biểu diễn theo số gia và He
 >\nabla f(x)^{T} \Delta x_{nt} &= -\lambda (x)^{2}
 >\end{align}
 
-Sử dụng các mối quan hệ này, Newton decrement cũng có thể được biểu diễn là:
+Từ các hệ thức trên, ta viết lại Newton decrement dưới dạng:
 >\begin{align}
 >\lambda(x) = (\Delta x_{nt}^{T}\nabla^{2} f(x) \Delta x_{nt})^{1/2}.
 >\end{align}
 
-
-Cuối cùng, giống như bước Newton, Newton decrement cũng bất biến affine. Nói cách khác, đối với bất kỳ ma trận không suy biến nào, nếu hàm $$g(y) = f(Ay)$$ được định nghĩa, thì tại $$x = Ay$$, ta có $$\lambda_{g(y)} = \lambda_{f(x)}$$.
+Cuối cùng, tương tự bước Newton, Newton decrement cũng bất biến affine. Cụ thể, với mọi ma trận không suy biến $$A$$, nếu đặt $$g(y) = f(Ay)$$ thì tại $$x = Ay$$ ta có $$\lambda_{g(y)} = \lambda_{f(x)}$$.

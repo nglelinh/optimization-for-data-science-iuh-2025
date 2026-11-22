@@ -9,9 +9,9 @@ categories:
 lang: vi
 ---
 
-Trong chương này, chúng ta sẽ xem xét **phương pháp Proximal Newton**, **phương pháp proximal quasi-Newton** và **phương pháp Projected Newton**.
+Trong chương này, chúng ta tìm hiểu **phương pháp Proximal Newton**, **phương pháp Proximal Quasi-Newton** và **phương pháp Projected Newton**.
 
-### Các bài báo tham khảo
+### Tài liệu tham khảo
 
 Phương pháp Proximal Newton:
 

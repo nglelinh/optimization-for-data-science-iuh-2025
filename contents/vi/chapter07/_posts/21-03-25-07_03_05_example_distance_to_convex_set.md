@@ -9,7 +9,7 @@ categories:
 lang: vi
 ---
 
-Hàm khoảng cách đến một tập lồi đóng $$C$$ được định nghĩa như sau:
+Hàm khoảng cách từ một điểm $$x$$ đến một tập lồi đóng $$C$$ được định nghĩa như sau:
 >
 \begin{alignat}{1}
 dist(x,C) & = \min_{y \in C} \| y-x \|_2 \\
@@ -17,7 +17,7 @@ dist(x,C) & = \min_{y \in C} \| y-x \|_2 \\
       & \geq 0 
 \end{alignat}
 
-Ở đây, $$P_C(x)$$ là phép chiếu của điểm $$x$$ lên tập $$C$$, tức là điểm gần nhất trong $$C$$ với $$x$$. Gradient dưới của hàm khoảng cách là:
+Trong đó, $$P_C(x)$$ là phép chiếu Euclid của $$x$$ lên tập $$C$$, tức là điểm trong $$C$$ gần $$x$$ nhất. Với $$x \notin C$$ (nên $$\|x - P_C(x)\|_2 > 0$$), vi phân dưới của hàm khoảng cách là:
 >
 \begin{equation}
 \partial dist(x,C) = \{\frac{x-P_C(x)}{ \| x-P_C(x) \|_2}\}
@@ -25,48 +25,49 @@ dist(x,C) & = \min_{y \in C} \| y-x \|_2 \\
 
 ### Chứng minh
 
-Nếu $$u=P_C(x)$$, thì theo điều kiện tối ưu bậc một,
+Đặt $$u=P_C(x)$$. Theo điều kiện tối ưu bậc một cho bài toán chiếu lên tập lồi $$C$$, ta có:
 >
 \begin{equation}
 (x-u)^T(y-u) \leq 0 \ \text{ với mọi } y \in C
 \end{equation}
 
-Do đó,
+Suy ra tập $$C$$ nằm trong nửa không gian đóng $$H$$:
 >
 \begin{equation}
 C \subseteq H = \{y:(x-u)^T(y-u) \leq 0 \}
 \end{equation}
 
-(i) Với $$y \in H$$,
+Ta xét hai trường hợp của $$y$$:
+
+(i) Với $$y \in H$$, ta có:
 >
 \begin{equation}
 (x-u)^T(y-u) \leq 0
 \end{equation}
 
-Mặt khác, vì $$dist(y,C)\geq 0$$,
+Do $$dist(y,C)\geq 0$$, nên hiển nhiên:
 >
 \begin{equation}
 dist(y,C) \geq \frac{(x-u)^T(y-u)}{ \| x-u \|_2} \text{ với mọi } y \in H
 \end{equation}
 
-(ii) Với $$y \notin H$$,
+(ii) Với $$y \notin H$$, ta viết:
 >
 \begin{equation}
 (x-u)^T(y-u) = \| x-u \|_2 \| y-u \|_2 \cos\theta,
 \end{equation}
 
-trong đó $$\theta$$ là góc giữa $$x-u$$ và $$y-u$$. Khi đó,
+trong đó $$\theta$$ là góc giữa hai vector $$x-u$$ và $$y-u$$. Khi đó:
 >
 $$
 \eqalign{
 dist(y,C) &\geq dist(y,H) \\
-
 &= \| y-u \|_2 \cos \theta \\
 &= \frac{(x-u)^T(y-u)}{ \| x-u \|_2} \text{ với mọi }y \notin H
 }
 $$
 
-Do đó, từ (i) và (ii), với mọi $$y$$,
+Từ (i) và (ii), bất đẳng thức sau đúng với mọi $$y$$:
 >
 $$
 \eqalign{
@@ -76,8 +77,8 @@ dist(y,C) &\geq \frac{(x-u)^T(y-u)}{ \| x-u \|_2} \\
 }
 $$
 
-Kết luận, $$dist(x,C)$$ có gradient dưới sau tại $$x$$:
+Do đó, tại $$x \notin C$$, hàm $$dist(x,C)$$ có gradient dưới là:
 >
 $$g=\frac{x-u}{ \| x-u \|_2}=\frac{x-P_C(x)}{ \| x-P_C(x) \|_2} $$
 
-Hơn nữa, vi phân dưới $$\partial dist(x,C)$$ chỉ chứa một phần tử, nên $$dist(x,C)$$ khả vi và đạo hàm của nó trùng với gradient dưới.
+Hơn nữa, vì vi phân dưới $$\partial dist(x,C)$$ tại $$x \notin C$$ chỉ gồm một phần tử duy nhất, hàm $$dist(x,C)$$ khả vi tại $$x$$ và đạo hàm của nó trùng với gradient dưới nói trên.

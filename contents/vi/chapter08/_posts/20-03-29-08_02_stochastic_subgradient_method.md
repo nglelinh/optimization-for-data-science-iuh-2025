@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-Phương pháp subgradient ngẫu nhiên tương tự như stochastic gradient descent, nhưng thay thế gradient bằng subgradient.
+Phương pháp subgradient ngẫu nhiên là sự mở rộng của stochastic gradient descent, trong đó gradient được thay thế bằng subgradient để xử lý các hàm mục tiêu không khả vi.

@@ -12,31 +12,31 @@ lesson_type: optional
 
 # Ứng dụng hiện đại của phương pháp subgradient
 
-Chương 08 phân tích vòng lặp $$x^{k+1}=x^k-\alpha_k g^k$$ với $$g^k\in\partial f(x^k)$$, bản chiếu, và bản ngẫu nhiên. Bài tùy chọn này ánh xạ ba khuôn ấy lên các pipeline đã chuẩn hóa khoảng 2022–2026. Chúng ta không chứng lại tốc độ $$O(1/\varepsilon^2)$$; chúng ta chỉ ra vì sao người làm thực hành vẫn chạy một bước subgradient (chiếu, ngẫu nhiên).
+Chương 08 phân tích vòng lặp $$x^{k+1}=x^k-\alpha_k g^k$$ với $$g^k\in\partial f(x^k)$$, cùng hai biến thể quan trọng là bản có chiếu và bản ngẫu nhiên. Bài đọc tùy chọn này liên hệ ba khuôn mẫu thuật toán đó với các quy trình thực tế đã được chuẩn hóa trong giai đoạn 2022–2026. Chúng ta không chứng minh lại tốc độ hội tụ $$O(1/\varepsilon^2)$$, mà làm rõ vì sao các bước cập nhật subgradient (có chiếu hoặc ngẫu nhiên) vẫn được sử dụng rộng rãi trong thực hành.
 
-## 1. Rủi ro thực nghiệm không trơn: hinge, Huber, và huấn luyện ReLU
+## 1. Tối ưu rủi ro thực nghiệm không trơn: hinge, Huber và huấn luyện ReLU
 
-Hồi quy logistic có regularizer trong [08-01-05]({% multilang_post_url contents/chapter08/20-03-29-08_01_05_example_regularized_logistic_regression %}) đã là ví dụ phương pháp subgradient. Cùng vòng lặp ấy huấn luyện SVM tuyến tính (hinge), hồi quy bền vững (Huber / phân vị), hoặc lớp cuối của một encoder đóng băng. Với cả mạng ReLU, hàm mất mát không còn lồi, nhưng chiều ngược *được cài* vẫn là một lựa chọn bảo toàn của subgradient (Bolte và Pauwels, 2021). Kết quả hội tụ theo giá trị của họ chính là biện minh cho **SGD không trơn như thư viện chạy**, không phải cho một oracle điểm Clarke lý tưởng.
+Hồi quy logistic có chính quy hóa trong [08-01-05]({% multilang_post_url contents/chapter08/20-03-29-08_01_05_example_regularized_logistic_regression %}) là một ví dụ trực tiếp của phương pháp subgradient. Cùng cấu trúc vòng lặp đó được dùng để huấn luyện SVM tuyến tính (hàm mất mát hinge), hồi quy bền vững (hàm Huber hoặc phân vị), hay lớp phân loại cuối của một bộ mã hóa đã đóng băng trọng số. Với mạng ReLU nhiều lớp, hàm mất mát không còn lồi, nhưng lan truyền ngược *trong các thư viện thực tế* vẫn tính ra một lựa chọn bảo toàn của subgradient (Bolte và Pauwels, 2021). Kết quả hội tụ của họ cung cấp cơ sở lý thuyết trực tiếp cho **SGD không trơn đúng như cách các thư viện hiện hành triển khai**, chứ không phụ thuộc vào một oracle vi phân Clarke lý tưởng.
 
-Trên bài toán tổng hữu hạn lồi, bức tranh dễ chịu hơn: bước giảm dần hoặc bước Polyak của chương này vẫn là bảo đảm sách giáo khoa, và các bước thích nghi / không tham số 2022–2024 (DoG, Polyak restart) là hậu duệ trực tiếp của [08-01-06 Bước Polyak]({% multilang_post_url contents/chapter08/20-03-29-08_01_06_polyak_step_sizes %}).
+Trên các bài toán tổng hữu hạn lồi, phân tích còn rõ ràng hơn: bước giảm dần và bước Polyak trong chương này vẫn là nền tảng tiêu chuẩn, còn các thuật toán chọn bước thích nghi hoặc không cần siêu tham số giai đoạn 2022–2024 (như DoG, Polyak restart) là sự kế thừa trực tiếp từ [08-01-06 Kích thước bước Polyak]({% multilang_post_url contents/chapter08/20-03-29-08_01_06_polyak_step_sizes %}).
 
-## 2. PGD chiếu và huấn luyện đối kháng $$\ell_p$$
+## 2. PGD có chiếu và huấn luyện đối kháng theo chuẩn $$\ell_p$$
 
-Huấn luyện đối kháng kiểu Madry, tại mỗi minibatch, giải bài toán trong có ràng buộc
+Trong huấn luyện đối kháng theo cách tiếp cận của Madry, tại mỗi minibatch ta giải bài toán bên trong có ràng buộc:
 
 $$
 \max_{\|\delta\|_p\le\varepsilon}\ \ell\bigl(h_w(x+\delta),y\bigr)
 $$
 
-bằng **leo gradient / subgradient chiếu** trên $$\delta$$ và một bước xuống trên $$w$$. Phép chiếu lên quả cầu $$\ell_\infty$$ hoặc $$\ell_2$$ là toán tử trong [08-01-08 Subgradient chiếu]({% multilang_post_url contents/chapter08/20-03-29-08_01_08_projected_subgradient_method %}). Croce và Hein (2020) chỉ ra rằng PGD trong chỉnh kém *thổi phồng* độ bền vững; ensemble không tham số **AutoAttack** (APGD + FAB + Square) trở thành phép thử mặc định. Croce và cộng sự (2021) đóng gói phép thử ấy thành **RobustBench**, vẫn là bảng xếp hạng công khai cho độ bền $$\ell_\infty$$ và $$\ell_2$$ đến 2025. Câu chuyện chuẩn đối ngẫu (hàm tựa của quả cầu tấn công) thuộc Chương 13; *thuật toán* là phương pháp chiếu của chương này.
+bằng **bước tăng gradient / subgradient có chiếu** theo nhiễu $$\delta$$, xen kẽ với bước giảm theo tham số $$w$$. Phép chiếu lên quả cầu $$\ell_\infty$$ hoặc $$\ell_2$$ chính là toán tử trong [08-01-08 Phương pháp subgradient có chiếu]({% multilang_post_url contents/chapter08/20-03-29-08_01_08_projected_subgradient_method %}). Croce và Hein (2020) chỉ ra rằng vòng lặp PGD bên trong nếu tinh chỉnh kém sẽ *đánh giá quá cao* độ bền vững của mô hình; từ đó, bộ tổ hợp không tham số **AutoAttack** (gồm APGD + FAB + Square) trở thành chuẩn kiểm thử mặc định. Croce và cộng sự (2021) đóng gói quy trình này thành **RobustBench**, vốn vẫn là bảng xếp hạng công khai chuẩn cho độ bền đối kháng $$\ell_\infty$$ và $$\ell_2$$ đến năm 2025. Khía cạnh chuẩn đối ngẫu (hàm tựa của quả cầu tấn công) sẽ được đề cập ở Chương 13, còn *thuật toán* cốt lõi chính là phương pháp có chiếu của chương này.
 
-## 3. Công bằng và các ràng buộc tỷ lệ
+## 3. Tính công bằng và các ràng buộc theo tỷ lệ
 
-Nhiều ràng buộc sản xuất là **tỷ lệ không trơn**: demographic parity, equalised odds, sàn độ nhạy, trần churn. Chúng trông như $$\mathbb{P}(\hat y=1\mid A=a)\le \alpha$$ — trung bình chỉ báo, do đó từng khúc hằng. Cotter, Jiang, Gupta và đồng tác giả (JMLR 2019) đưa vào trò chơi hai người **proxy-Lagrangian**: một người bước gradient trên surrogate trơn, người kia ép tỷ lệ gốc bằng phương pháp (sub)gradient trên nhân tử. Agarwal, Beygelzimer, Dudík, Langford và Wallach (2018) đưa phân loại công bằng về dãy bài toán cost-sensitive; thư viện **Fairlearn** (Weerts, Dudík, Edgar, Jalali, Lutz và Madaio, 2023, *JMLR*) chuyển reduction ấy thành `ExponentiatedGradient` và là thứ stack sklearn 2024–2026 thực sự gọi.
+Nhiều ràng buộc trong hệ thống thực tế có dạng **tỷ lệ không trơn**: cân bằng nhân khẩu học (demographic parity), cân bằng tỷ lệ sai số (equalised odds), ngưỡng dưới của độ nhạy, hay ngưỡng trên của tỷ lệ rời bỏ (churn). Các ràng buộc này có dạng $$\mathbb{P}(\hat y=1\mid A=a)\le \alpha$$ — là trung bình của hàm chỉ báo, do đó từng khúc hằng và không khả vi. Cotter, Jiang, Gupta và cộng sự (JMLR 2019) đề xuất cách tiếp cận trò chơi hai người **proxy-Lagrangian**: một phía thực hiện bước gradient trên hàm thay thế trơn, phía kia áp đặt ràng buộc tỷ lệ gốc bằng phương pháp (sub)gradient trên nhân tử đối ngẫu. Agarwal, Beygelzimer, Dudík, Langford và Wallach (2018) quy bài toán phân loại công bằng về một dãy bài toán phân loại có trọng số chi phí (cost-sensitive); thư viện **Fairlearn** (Weerts, Dudík, Edgar, Jalali, Lutz và Madaio, 2023, *JMLR*) cài đặt phương pháp quy giảm này qua lớp `ExponentiatedGradient` và là công cụ được dùng phổ biến trong hệ sinh thái scikit-learn giai đoạn 2024–2026.
 
-ERM có trọng số bên trong thường được giải bằng bước subgradient hoặc SGD trên hinge hay logistic. Cập nhật nhân tử bên ngoài là bước subgradient trên phần dư ràng buộc. Đó là thuật toán của chương này, hai lần.
+Bài toán tối ưu rủi ro thực nghiệm có trọng số ở vòng trong thường được giải bằng bước subgradient hoặc SGD trên hàm mất mát hinge hay logistic, còn bước cập nhật nhân tử ở vòng ngoài là bước subgradient theo mức độ vi phạm ràng buộc — tức là thuật toán của chương này xuất hiện ở cả hai tầng.
 
-## 4. Ví dụ nhỏ: bước chiếu trên quả cầu $$\ell_\infty$$
+## 4. Ví dụ ngắn: bước chiếu lên quả cầu $$\ell_\infty$$
 
 ```python
 import numpy as np
@@ -51,13 +51,13 @@ def pgd_inner(x, g, eps, alpha=0.01, steps=10):
     return delta
 ```
 
-Thay `g` bằng gradient minibatch của hàm mất mát thì bạn có vòng trong của huấn luyện đối kháng. Thay quả cầu bằng simplex xác suất hoặc polytope công bằng thì bạn có phương pháp chiếu của mục 08-01-08.
+Khi thay `g` bằng gradient minibatch của hàm mất mát, ta thu được vòng lặp bên trong của huấn luyện đối kháng. Khi thay phép chiếu lên quả cầu bằng phép chiếu lên đơn hình xác suất hoặc đa diện công bằng, ta thu được đúng phương pháp subgradient có chiếu ở mục 08-01-08.
 
-## Cần nhớ
+## Tóm lược
 
-Nếu mục tiêu hoặc ràng buộc là max, $$\ell_1$$, hinge, hoặc tỷ lệ thực nghiệm, huấn luyện bậc nhất *chính là* phương pháp subgradient (có thể chiếu, có thể ngẫu nhiên). Tăng tốc và prox (Chương 09) là nâng cấp khi cấu trúc tổng hợp đã hiện; chúng không thay vòng lặp này trên một ràng buộc tỷ lệ thô.
+Khi hàm mục tiêu hoặc ràng buộc chứa hàm max, chuẩn $$\ell_1$$, mất mát hinge hay các tỷ lệ thực nghiệm, thuật toán bậc nhất cơ bản *chính là* phương pháp subgradient (có thể kèm phép chiếu hoặc lấy mẫu ngẫu nhiên). Các kỹ thuật tăng tốc và toán tử gần kề ở Chương 09 giúp cải thiện đáng kể khi bài toán có cấu trúc tổng hợp rõ ràng, nhưng không thay thế hoàn toàn vòng lặp này đối với các ràng buộc tỷ lệ không trơn.
 
-**Câu hỏi.** Vì sao bước cố định về lý thuyết khó chịu với ràng buộc tỷ lệ lồi không trơn, và vì sao các reduction công bằng vẫn dùng một bước như vậy trong thực hành?
+**Câu hỏi.** Vì sao kích thước bước cố định về mặt lý thuyết gặp khó khăn với ràng buộc tỷ lệ lồi không trơn, và vì sao các phương pháp quy giảm công bằng trong thực hành vẫn sử dụng kiểu bước này?
 
 ## Nguồn
 

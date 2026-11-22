@@ -39,8 +39,8 @@ Hàm $$f: \mathbb{R}^n \to \mathbb{R}$$ là lồi nếu:
 
 **Hàm một biến:**
 - Hàm mũ: $$e^{ax}$$ lồi với mọi $$a \in \mathbb{R}$$
-- Hàm lũy thừa: $$x^a$$ lồi trên $$\mathbb{R}_+$$ khi $$a \ge 1$$ hoặc $$a \le 0$$
-- Hàm lũy thừa: $$x^a$$ lõm trên $$\mathbb{R}_+$$ khi $$0 \le a \le 1$$
+- Hàm lũy thừa: $$x^a$$ lồi trên $$\mathbb{R}_{++}$$ khi $$a \ge 1$$ hoặc $$a \le 0$$
+- Hàm lũy thừa: $$x^a$$ lõm trên $$\mathbb{R}_{++}$$ khi $$0 \le a \le 1$$
 
 **Hàm nhiều biến:**
 - Hàm affine: $$a^T x + b$$ vừa lồi vừa lõm
@@ -50,7 +50,7 @@ Hàm $$f: \mathbb{R}^n \to \mathbb{R}$$ là lồi nếu:
 
 **Hàm đặc biệt:**
 - Hàm chỉ thị: $$I_C(x) = \begin{cases} 0 & x \in C \\ +\infty & x \notin C \end{cases}$$ lồi nếu $$C$$ lồi
-- Hàm hỗ trợ: $$I_C^*(x) = \max_{y \in C} x^T y$$ luôn lồi
+- Hàm hỗ trợ: $$I_C^*(x) = \sup_{y \in C} x^T y$$ luôn lồi
 - Hàm max: $$\max\{f_1(x), \ldots, f_m(x)\}$$ lồi nếu $$f_i$$ lồi
 
 ### 🔍 **Tính Chất Đặc Trưng**
@@ -117,7 +117,7 @@ Nếu $$X$$ là biến ngẫu nhiên: $$f(E[X]) \le E[f(X)]$$
 
 ---
 
-💡 **Mẹo:** Hàm lồi có tính chất "cong lên" - đường nối 2 điểm bất kỳ trên đồ thị luôn nằm trên đồ thị. Điều này làm cho việc tối ưu hóa trở nên dễ dàng hơn!
+💡 **Mẹo:** Hàm lồi có tính chất "cong lên" - đoạn thẳng nối hai điểm bất kỳ trên đồ thị luôn nằm phía trên (hoặc trùng với) đồ thị, giúp việc tối ưu hóa trở nên thuận lợi hơn.
 
 ---
 
@@ -209,7 +209,7 @@ Nếu $$X$$ là biến ngẫu nhiên: $$f(E[X]) \le E[f(X)]$$
 
         <!-- Câu hỏi 6: Hàm lũy thừa -->
         <div class="question" id="q6" style="display: none;">
-            <h3>Câu 6: Trên $$\mathbb{R}_+$$, hàm $$f(x) = x^a$$ là lồi khi:</h3>
+            <h3>Câu 6: Trên $$\mathbb{R}_{++}$$, hàm $$f(x) = x^a$$ là lồi khi:</h3>
             <div class="options">
                 <label><input type="radio" name="q6" value="a"> A) $$a \geq 1$$ hoặc $$a \leq 0$$</label>
                 <label><input type="radio" name="q6" value="b"> B) $$0 \leq a \leq 1$$</label>
@@ -218,7 +218,7 @@ Nếu $$X$$ là biến ngẫu nhiên: $$f(E[X]) \le E[f(X)]$$
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$a \geq 1$$ hoặc $$a \leq 0$$</strong><br>
-                Hàm $$x^a$$ lồi trên $$\mathbb{R}_+$$ khi $$a \geq 1$$ hoặc $$a \leq 0$$, và lõm khi $$0 \leq a \leq 1$$.
+                Hàm $$x^a$$ lồi trên $$\mathbb{R}_{++}$$ khi $$a \geq 1$$ hoặc $$a \leq 0$$, và lõm khi $$0 \leq a \leq 1$$.
             </div>
         </div>
 
@@ -278,7 +278,7 @@ Nếu $$X$$ là biến ngẫu nhiên: $$f(E[X]) \le E[f(X)]$$
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Luôn lồi</strong><br>
-                Hợp thành của hàm lồi với hàm affine luôn bảo toàn tính lồi, bất kể $$A$$ có tính chất gì.
+                Hợp thành của hàm lồi với hàm affine luôn bảo toàn tính lồi, với mọi ma trận $$A$$ và vector $$b$$.
             </div>
         </div>
 
@@ -389,7 +389,7 @@ Nếu $$X$$ là biến ngẫu nhiên: $$f(E[X]) \le E[f(X)]$$
 
         <!-- Câu hỏi 18: Hàm hỗ trợ -->
         <div class="question" id="q18" style="display: none;">
-            <h3>Câu 18: Hàm hỗ trợ $$S_C(x) = \max_{y \in C} x^T y$$ của tập $$C$$ là:</h3>
+            <h3>Câu 18: Hàm hỗ trợ $$S_C(x) = \sup_{y \in C} x^T y$$ của tập $$C$$ là:</h3>
             <div class="options">
                 <label><input type="radio" name="q18" value="a"> A) Lồi bất kể $$C$$ có lồi hay không</label>
                 <label><input type="radio" name="q18" value="b"> B) Lồi chỉ khi $$C$$ lồi</label>
@@ -428,7 +428,7 @@ Nếu $$X$$ là biến ngẫu nhiên: $$f(E[X]) \le E[f(X)]$$
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các lý do trên</strong><br>
-                Hàm lồi có nhiều tính chất tốt: cực tiểu địa phương = toàn cục, có thuật toán hiệu quả, và lý thuyết đối ngẫu mạnh.
+                Hàm lồi có nhiều tính chất tốt: mọi cực tiểu địa phương đều là cực tiểu toàn cục, có nhiều thuật toán giải hiệu quả và áp dụng được lý thuyết đối ngẫu.
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->

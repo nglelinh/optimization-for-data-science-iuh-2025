@@ -11,7 +11,7 @@ lang: vi
 
 Các quy tắc cơ bản sau đây áp dụng cho vi phân dưới của các hàm lồi:
 
-### Tỷ lệ
+### Nhân với hằng số dương (Tỷ lệ)
 
 >
 $$
@@ -26,9 +26,9 @@ $$
 >
 $$\partial(f_1 + f_2) = \partial f_1 + \partial f_2$$
 
-Ở đây, tổng của hai tập hợp $$A+B= \{a+b:a\in A, b \in B\}$$ được định nghĩa là tập hợp tất cả các tổng có thể.
+Ở đây, tổng của hai tập hợp được định nghĩa theo nghĩa tổng Minkowski: $$A+B= \{a+b:a\in A, b \in B\}$$.
 
-### Hợp thành affine
+### Hợp thành với ánh xạ affine
 
 >
 $$
@@ -38,7 +38,7 @@ $$
 }
 $$
 
-### Maximum điểm hữu hạn
+### Giá trị lớn nhất hữu hạn theo điểm
 
 >
 $$
@@ -48,9 +48,9 @@ $$
 }
 $$
 
-Tức là, $$\partial f(x)$$ được định nghĩa là bao lồi của hợp các vi phân dưới của các hàm đạt giá trị $$f(x)$$ tại $$x$$.
+Nói cách khác, $$\partial f(x)$$ là bao lồi của hợp các vi phân dưới của những hàm thành phần đạt giá trị lớn nhất $$f(x)$$ tại điểm $$x$$.
 
-### Maximum điểm tổng quát
+### Giá trị lớn nhất tổng quát theo điểm
 
 >$$
 \eqalign{
@@ -59,25 +59,19 @@ Tức là, $$\partial f(x)$$ được định nghĩa là bao lồi của hợp c
 }
 $$
 
-Ở đây, $$S$$ có thể là một tập vô hạn, nên hợp của vô số tập hợp có thể không đóng. Do đó, chúng ta lấy bao đóng để đảm bảo vi phân dưới là một tập đóng.
+Vì $$S$$ có thể là một tập vô hạn, hợp của vô số tập hợp chưa chắc đã là tập đóng. Do đó, cần lấy bao đóng để đảm bảo tập thu được là tập đóng giống như vi phân dưới.
 
-Mặt khác, nếu tập hợp $$S$$ compact (đóng và bị chặn), và các hàm $$f_s$$ liên tục theo $$s$$, thì quan hệ đẳng thức được thiết lập.
+Nếu tập $$S$$ compact (đóng và bị chặn) và các hàm $$f_s$$ liên tục theo $$s$$, thì dấu bao hàm trở thành đẳng thức.
 
-Ví dụ, đối với hàm p-norm $$f(x)$$ sau đây:
+Ví dụ, xét chuẩn $$p$$ của vector $$x$$ viết dưới dạng giá trị lớn nhất theo điểm:
 >
 \begin{equation}
 f(x) =  \vert  \vert x \vert  \vert \_p = \max_{ \vert  \vert z \vert  \vert _q \leq 1} z^Tx, \qquad 1/p + 1/q =1
 \end{equation}
 
-Nếu đặt $$f_z(x)=z^Tx$$, thì $$z^*$$ sao cho $$f(x)=f_{z^*}(x)$$ thuộc $$\arg\max_{ \vert  \vert z \vert  \vert _q \leq 1} z^Tx$$.
+Đặt $$f_z(x)=z^Tx$$. Khi đó, mọi $$z^*$$ thỏa mãn $$f(x)=f_{z^*}(x)$$ đều thuộc tập $$\arg\max_{ \vert  \vert z \vert  \vert _q \leq 1} z^Tx$$. Vì $$\partial f_{z^*}(x)=\{z^*\}$$, hợp $$\bigcup \partial f_{z^*}(x)$$ chính là tập $$\arg\max_{ \vert  \vert z \vert  \vert _q \leq 1} z^Tx$$.
 
-Mặt khác, vì $$\partial f_{z^*}(x)=z^*$$, nên $$\bigcup \partial f_{z^*}(x)$$ là hợp của tất cả $$z^*$$, do đó $$\partial f(x) = \arg\max_{ \vert  \vert z \vert  \vert _q \leq 1} z^Tx$$.
-
-Ở đây, $$S={z: \vert  \vert z \vert  \vert _q \leq 1}$$ là tập compact, và $$f_z(x)=z^Tx$$ là tuyến tính, nên
-
-theo quy tắc maximum điểm tổng quát, việc lấy bao lồi rồi bao đóng của $$\bigcup \partial f_{z^*}(x)$$ không thêm phần tử nào mới.
-
-Do đó, gradient dưới của hàm $$f(x)$$ như sau:
+Do $$S=\{z: \vert  \vert z \vert  \vert _q \leq 1\}$$ là tập compact và $$f_z(x)=z^Tx$$ tuyến tính, theo quy tắc giá trị lớn nhất tổng quát theo điểm, việc lấy bao lồi rồi lấy bao đóng của $$\bigcup \partial f_{z^*}(x)$$ không bổ sung thêm phần tử nào mới. Do đó, vi phân dưới của $$f(x)$$ là:
 
 >
 \begin{equation}

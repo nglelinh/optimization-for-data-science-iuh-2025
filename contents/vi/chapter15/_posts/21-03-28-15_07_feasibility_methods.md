@@ -9,13 +9,13 @@ owner: "Minjoo Lee"
 lang: vi
 ---
 
-Cho đến nay, chúng ta đã ngầm giả sử rằng bước centering đầu tiên ($$t = t^{(0)}$$) bắt đầu từ một điểm khả thi chặt để tính $$x^{(0)} = x^*$$.
+Cho đến nay, ta luôn giả sử bước định tâm đầu tiên (tại $$t = t^{(0)}$$) đã có sẵn một điểm xuất phát khả thi chặt để tìm $$x^{(0)} = x^*(t^{(0)})$$.
 
-Điều này có nghĩa là $$x$$ là một điểm khả thi chặt thỏa mãn các điều kiện sau:
+Một điểm $$x$$ được gọi là khả thi chặt nếu thỏa mãn đồng thời:
 >$$ h_i(x) \lt 0, \quad i = 1, \cdots, m, \quad Ax = b$$
 
-## Mức bất khả thi lớn nhất
-Làm sao để tìm $$x$$? Ta có thể giải bài toán sau để tìm nó.
+## Cực tiểu hóa mức bất khả thi lớn nhất
+Để tìm một điểm $$x$$ khả thi chặt, ta giải bài toán phụ (Phase I) sau:
 
 >
 $$\begin{align}
@@ -24,14 +24,14 @@ $$\begin{align}
                       &&& Ax = b \\
 \end{align}$$
 
-Mục tiêu là làm cho nghiệm $$s$$ âm. Bài toán này được gọi là **phương pháp khả thi (feasibility method)**.
+Mục tiêu của bài toán này là tìm nghiệm có $$s < 0$$. Cách tiếp cận này được gọi là **phương pháp tìm điểm khả thi (feasibility method)**.
 
-Tìm một điểm xuất phát khả thi chặt cho bài toán này thì dễ, nên nó cũng có thể được giải bằng phương pháp chắn. Nghĩa là, bạn có thể thêm các biến bù (slack) vào ràng buộc bất đẳng thức $$h_i(x) \le s$$ và chuyển nó thành ràng buộc đẳng thức để giải.
+Vì bài toán phụ này dễ dàng tìm được điểm xuất phát khả thi chặt (chỉ cần chọn $$x$$ thỏa $$Ax = b$$ rồi lấy $$s > \max_i h_i(x)$$), ta có thể giải trực tiếp nó bằng phương pháp chắn.
 
-Khi giải bài toán này không cần độ chính xác cao; chỉ cần tìm được một $$(x,s)$$ khả thi với $$s < 0$$.
+Khi giải bài toán tìm điểm khả thi, không cần đạt độ chính xác cao; chỉ cần dừng ngay khi tìm được một cặp $$(x, s)$$ khả thi với $$s < 0$$.
 
-## Mức bất khả thi cho từng ràng buộc bất đẳng thức
-Bạn cũng có thể định nghĩa và giải bài toán như sau. Phương pháp trước tìm mức bất khả thi lớn nhất cho tất cả các bất đẳng thức, còn bài toán này tìm biến bất khả thi $$s_i, i = 1, \cdots, m$$ cho từng bất đẳng thức.
+## Cực tiểu hóa mức bất khả thi cho từng ràng buộc
+Một biến thể khác là gán biến phụ $$s_i$$ riêng cho từng ràng buộc bất đẳng thức ($$i = 1, \cdots, m$$) thay vì dùng chung một biến $$s$$:
 >
 $$\begin{align}
 &\min_{x, s} \        && 1^Ts \\
@@ -39,4 +39,4 @@ $$\begin{align}
                       &&& Ax = b \\
 \end{align}$$
 
-Ưu điểm của phương pháp này là bằng cách nhìn vào nghiệm $$s$$, ta biết được bài toán có khả thi hay không. Nghĩa là, nếu có phần tử nào của $$s$$ lớn hơn hoặc bằng 0 thì ràng buộc tương ứng không được thỏa mãn.
+Ưu điểm của cách phát biểu này là dựa vào từng thành phần của nghiệm $$s$$, ta biết cụ thể ràng buộc nào đang bị vi phạm: nếu có phần tử $$s_i \ge 0$$ thì ràng buộc bất đẳng thức thứ $$i$$ không được thỏa mãn chặt.

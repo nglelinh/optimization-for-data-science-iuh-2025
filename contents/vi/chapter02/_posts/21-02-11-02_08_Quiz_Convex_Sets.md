@@ -67,7 +67,7 @@ $$\sum_{i=1}^k \theta_i x_i$$ với $$\theta_i \ge 0$$ (không yêu cầu tổng
 
 ### 📐 **Các Ví Dụ Quan Trọng**
 
-**Tập hợp cơ bản:**
+**Các tập hợp cơ bản:**
 - Tập rỗng $$\emptyset$$: lồi
 - Điểm đơn $$\{x_0\}$$: lồi
 - Đường thẳng, đoạn thẳng, tia: lồi
@@ -78,7 +78,7 @@ $$\{x \mid a^T x = b\}$$ với $$a \neq 0$$ - là tập affine và lồi
 **Nửa không gian:**
 $$\{x \mid a^T x \le b\}$$ với $$a \neq 0$$ - là tập lồi
 
-**Không gian affine:**
+**Tập affine:**
 $$\{x \mid Ax = b\}$$ - là tập affine và lồi
 
 **Hình cầu Euclidean:**
@@ -93,7 +93,7 @@ $$\{x \mid (x-x_c)^T P^{-1} (x-x_c) \le 1\}$$ với $$P \succ 0$$ - là tập l�
 ### ✂️ **Siêu Phẳng Phân Tách và Hỗ Trợ**
 
 **Định lý siêu phẳng phân tách:**
-Nếu $$C$$ và $$D$$ là hai tập lồi rời rạc, tồn tại siêu phẳng $$\{x \mid a^T x = b\}$$ với $$a \neq 0$$ sao cho:
+Nếu $$C$$ và $$D$$ là hai tập lồi rời nhau, tồn tại siêu phẳng $$\{x \mid a^T x = b\}$$ với $$a \neq 0$$ sao cho:
 - $$a^T x \le b$$ với mọi $$x \in C$$
 - $$a^T x \ge b$$ với mọi $$x \in D$$
 
@@ -119,7 +119,7 @@ Hình Nón Lồi = Hình Nón ∩ Tập Lồi (nên Hình Nón Lồi ⊂ Hình N
 - **Giao:** Giao của các tập lồi là lồi
 - **Tổ hợp affine:** $$\alpha C + \beta D$$ lồi nếu $$C, D$$ lồi
 - **Ảnh affine:** $$f(C) = \{Ax + b \mid x \in C\}$$ lồi nếu $$C$$ lồi
-- **Ảnh ngược affine:** $$f^{-1}(D) = \{x \mid Ax + b \in D\}$$ lồi nếu $$D$$ lồi
+- **Nghịch ảnh affine:** $$f^{-1}(D) = \{x \mid Ax + b \in D\}$$ lồi nếu $$D$$ lồi
 
 ---
 
@@ -145,11 +145,11 @@ Hình Nón Lồi = Hình Nón ∩ Tập Lồi (nên Hình Nón Lồi ⊂ Hình N
                 <label><input type="radio" name="q1" value="a"> A) Với mọi $$x_1, x_2 \in C$$ và $$0 \leq \theta \leq 1$$, ta có $$\theta x_1 + (1-\theta)x_2 \in C$$</label>
                 <label><input type="radio" name="q1" value="b"> B) Với mọi $$x_1, x_2 \in C$$ và $$\theta \in \mathbb{R}$$, ta có $$\theta x_1 + (1-\theta)x_2 \in C$$</label>
                 <label><input type="radio" name="q1" value="c"> C) Tập $$C$$ là tập đóng</label>
-                <label><input type="radio" name="q1" value="d"> D) Tập $$C$$ có biên giới</label>
+                <label><input type="radio" name="q1" value="d"> D) Tập $$C$$ có biên giới hạn</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Với mọi $$x_1, x_2 \in C$$ và $$\theta \in \mathbb{R}$$, ta có $$\theta x_1 + (1-\theta)x_2 \in C$$</strong><br>
-                Tập affine chứa toàn bộ đường thẳng đi qua bất kỳ hai điểm nào trong tập, không giới hạn $$\theta$$ trong khoảng $$[0,1]$$.
+                Tập affine chứa toàn bộ đường thẳng đi qua hai điểm bất kỳ trong tập, không giới hạn $$\theta$$ trong khoảng $$[0,1]$$.
             </div>
         </div>
 
@@ -194,7 +194,7 @@ Hình Nón Lồi = Hình Nón ∩ Tập Lồi (nên Hình Nón Lồi ⊂ Hình N
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Với mọi $$x_1, x_2 \in C$$ và $$0 \leq \theta \leq 1$$, ta có $$\theta x_1 + (1-\theta)x_2 \in C$$</strong><br>
-                Tập lồi chứa đoạn thẳng nối bất kỳ hai điểm nào trong tập, với $$\theta$$ giới hạn trong $$[0,1]$$.
+                Tập lồi chứa đoạn thẳng nối hai điểm bất kỳ trong tập, với $$\theta$$ giới hạn trong $$[0,1]$$.
             </div>
         </div>
 
@@ -323,13 +323,13 @@ Hình Nón Lồi = Hình Nón ∩ Tập Lồi (nên Hình Nón Lồi ⊂ Hình N
             <h3>Câu 13: Định lý siêu phẳng phân tách phát biểu rằng:</h3>
             <div class="options">
                 <label><input type="radio" name="q13" value="a"> A) Hai tập lồi bất kỳ đều có thể phân tách bằng siêu phẳng</label>
-                <label><input type="radio" name="q13" value="b"> B) Hai tập lồi rời rạc có thể phân tách bằng siêu phẳng</label>
+                <label><input type="radio" name="q13" value="b"> B) Hai tập lồi rời nhau có thể phân tách bằng siêu phẳng</label>
                 <label><input type="radio" name="q13" value="c"> C) Mọi tập lồi đều có siêu phẳng hỗ trợ</label>
                 <label><input type="radio" name="q13" value="d"> D) Siêu phẳng luôn chia không gian thành hai phần bằng nhau</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Hai tập lồi rời rạc có thể phân tách bằng siêu phẳng</strong><br>
-                Định lý siêu phẳng phân tách áp dụng cho hai tập lồi rời rạc (không giao nhau), không phải cho mọi cặp tập lồi.
+                <strong>Đáp án đúng: B) Hai tập lồi rời nhau có thể phân tách bằng siêu phẳng</strong><br>
+                Định lý siêu phẳng phân tách áp dụng cho hai tập lồi rời nhau (không giao nhau), không phải cho mọi cặp tập lồi.
             </div>
         </div>
 
@@ -428,13 +428,13 @@ Hình Nón Lồi = Hình Nón ∩ Tập Lồi (nên Hình Nón Lồi ⊂ Hình N
             <h3>Câu 20: Trong tối ưu hóa, siêu phẳng phân tách được sử dụng chủ yếu trong:</h3>
             <div class="options">
                 <label><input type="radio" name="q20" value="a"> A) Tính toán gradient</label>
-                <label><input type="radio" name="q20" value="b"> B) Phân loại và machine learning</label>
+                <label><input type="radio" name="q20" value="b"> B) Phân loại và học máy</label>
                 <label><input type="radio" name="q20" value="c"> C) Tính tích phân</label>
                 <label><input type="radio" name="q20" value="d"> D) Giải phương trình vi phân</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Phân loại và machine learning</strong><br>
-                Siêu phẳng phân tách là cơ sở cho nhiều thuật toán phân loại như SVM, được sử dụng rộng rãi trong machine learning.
+                <strong>Đáp án đúng: B) Phân loại và học máy</strong><br>
+                Siêu phẳng phân tách là cơ sở cho nhiều thuật toán phân loại như SVM, được sử dụng rộng rãi trong học máy.
             </div>
         </div>
 
@@ -489,13 +489,13 @@ Hình Nón Lồi = Hình Nón ∩ Tập Lồi (nên Hình Nón Lồi ⊂ Hình N
         <div class="question" id="q24" style="display: none;">
             <h3>Câu 24: Tập $$K = \{(x,y) : x \geq 0, y \geq 0, y \leq x\}$$ có phải là nón lồi không?</h3>
             <div class="options">
-                <label><input type="radio" name="q24" value="a"> A) Có, vì đóng dưới phép nhân với số dương và cộng</label>
+                <label><input type="radio" name="q24" value="a"> A) Có, vì đóng dưới phép nhân với số không âm và phép cộng</label>
                 <label><input type="radio" name="q24" value="b"> B) Không, vì không chứa gốc tọa độ</label>
                 <label><input type="radio" name="q24" value="c"> C) Không, vì không đối xứng</label>
                 <label><input type="radio" name="q24" value="d"> D) Chỉ là nón, không lồi</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Có, vì đóng dưới phép nhân với số dương và cộng</strong><br>
+                <strong>Đáp án đúng: A) Có, vì đóng dưới phép nhân với số không âm và phép cộng</strong><br>
                 Tập này là góc phần tư thứ nhất dưới đường $$y = x$$, chứa gốc tọa độ và thỏa mãn định nghĩa nón lồi.
             </div>
         </div>

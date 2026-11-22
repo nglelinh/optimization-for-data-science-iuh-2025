@@ -16,7 +16,8 @@ MathJax.Hub.Config({
 });
 </script>
 
-Một [chương trình bậc hai]() chỉ với các ràng buộc đẳng thức như sau.
+Xét một [bài toán quy hoạch bậc hai]() chỉ có các ràng buộc đẳng thức như sau:
+
 >$$
 >\begin{align}
 >    &\min_{x} &&{(1/2)x^T P x + q^T x + r} \\\\
@@ -25,13 +26,14 @@ Một [chương trình bậc hai]() chỉ với các ràng buộc đẳng thức
 >\end{align}
 >$$
 
-Bài toán này là lồi và không có ràng buộc bất đẳng thức, vì vậy nó thỏa mãn điều kiện Slater (Tính đối ngẫu mạnh). Nếu các nghiệm nguyên thủy & đối ngẫu là $$x^\star, \nu^\star$$, thì theo các điều kiện KKT, chúng thỏa mãn các điều kiện sau [1].
+Bài toán này là bài toán lồi và không có ràng buộc bất đẳng thức, do đó thỏa mãn điều kiện Slater (tức tính đối ngẫu mạnh được đảm bảo). Nếu $$x^\star, \nu^\star$$ là cặp nghiệm tối ưu nguyên thủy và đối ngẫu, theo các điều kiện KKT chúng phải thỏa mãn [1]:
 
-* Tính dừng: $$Px^\star + q + A^T\nu^\star = 0$$
-* Bù yếu: Vì không có ràng buộc bất đẳng thức, điều này không cần được xem xét.
-* Tính khả thi nguyên thủy & đối ngẫu: $$Ax^\star = b$$
+* **Điều kiện dừng:** $$Px^\star + q + A^T\nu^\star = 0$$
+* **Điều kiện bù yếu:** Không xuất hiện do bài toán không có ràng buộc bất đẳng thức.
+* **Tính khả thi nguyên thủy và đối ngẫu:** $$Ax^\star = b$$
 
-Những điều kiện này có thể được biểu diễn một cách ngắn gọn bằng cách sử dụng ma trận khối, được gọi là ma trận KKT [3].
+Hệ điều kiện trên có thể viết gọn dưới dạng phương trình ma trận khối, trong đó ma trận hệ số được gọi là **ma trận KKT** [3]:
+
 > $$
 > \begin{bmatrix}
 >     P       & A^T  \\\\
@@ -48,7 +50,7 @@ Những điều kiện này có thể được biểu diễn một cách ngắn 
 > \end{bmatrix}
 > $$
 
-Giải phương trình ma trận này cho ta các nghiệm nguyên thủy & đối ngẫu cho bài toán đã cho.
+Giải hệ phương trình tuyến tính này cho ta đồng thời nghiệm nguyên thủy $$x^\star$$ và nghiệm đối ngẫu $$\nu^\star$$.
 
-Một sự thật thú vị là bài toán này cũng có thể được xem như việc tính toán bước Newton cho một bài toán có ràng buộc đẳng thức [3]. Đối với bài toán $$min_x f(x) \text{ với điều kiện } Ax = b$$, nếu chúng ta đặt P, q, r như sau, thì hàm mục tiêu của chương trình bậc hai trở nên giống hệt với khai triển Taylor bậc hai của $$f(x)$$.<br/>
+Một điểm đáng chú ý là bài toán trên cũng tương ứng với việc tính bước Newton cho bài toán tối ưu có ràng buộc đẳng thức [3]. Cụ thể, với bài toán $$\min_x f(x) \text{ với điều kiện } Ax = b$$, nếu đặt $$P, q, r$$ theo công thức dưới đây thì hàm mục tiêu của bài toán quy hoạch bậc hai chính là khai triển Taylor bậc hai của $$f$$ tại điểm lặp trước đó $$x^{(k-1)}$$:<br/>
 > $$P = \nabla^2 f(x^{(k-1)})$$, $$q = \nabla f(x^{(k-1)})$$, $$r = f(x^{(k-1)})$$

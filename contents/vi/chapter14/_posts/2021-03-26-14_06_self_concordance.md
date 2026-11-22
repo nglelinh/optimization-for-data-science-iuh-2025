@@ -8,16 +8,16 @@ categories:
 - chapter14
 lang: vi
 ---
-Trong phân tích hội tụ trước đây của phương pháp Newton, có hai vấn đề chính. [1]
+Phân tích hội tụ ở mục trước cho phương pháp Newton tồn tại hai hạn chế chính [1].
 
-Thứ nhất, trong các bài toán thực tế, rất khó tìm hằng số Lipschitz L, các cận dưới và trên của tính lồi mạnh m, M, v.v., được bao gồm trong các công thức. Vì điều này, trong khi chúng ta có thể quan sát sự hội tụ và tốc độ hội tụ, việc phân tích cần bao nhiêu bước Newton trong thực tế là gần như bất khả thi.
+Thứ nhất, trong thực tế rất khó xác định các hằng số xuất hiện trong cận hội tụ như hằng số Lipschitz $$L$$ của gradient, tham số lồi mạnh $$m$$ hay hằng số Lipschitz $$M$$ của Hessian. Vì vậy, dù lý thuyết khẳng định tốc độ hội tụ, ta hầu như không thể tính trước số bước Newton cần thiết cho một bài toán cụ thể.
 
-Thứ hai, mặc dù bản thân phương pháp Newton là bất biến affine, nhưng phân tích hội tụ của phương pháp Newton không bất biến affine. Đối với các hàm tổng quát, giá trị của hằng số Lipschitz hoặc các cận tính lồi mạnh thay đổi tùy thuộc vào phép biến đổi tọa độ.
+Thứ hai, bản thân phương pháp Newton bất biến affine, nhưng phân tích hội tụ cổ điển lại không bất biến affine. Với hàm tổng quát, các hằng số $$L, m, M$$ thay đổi theo phép biến đổi tọa độ.
 
-Do đó, trong chương này, chúng ta giới thiệu các hàm tự hài hòa, giải quyết hai vấn đề trên.
+Vì hai lý do trên, mục này giới thiệu lớp **hàm tự hài hòa (self-concordant functions)** nhằm khắc phục cả hai hạn chế.
 
-Các hàm tự hài hòa quan trọng và có ý nghĩa vì ba lý do chính:
+Các hàm tự hài hòa có vai trò quan trọng vì ba lý do:
 
-1. Các hàm rào cản logarit được sử dụng trong các phương pháp điểm nội là các hàm tự hài hòa.
-2. Trong phân tích phương pháp Newton cho các hàm tự hài hòa, các số hạng liên quan đến hằng số không xuất hiện.
-3. Tính tự hài hòa là bất biến affine. Tức là, số lần lặp Newton cần thiết không phụ thuộc vào các phép biến đổi affine của hệ tọa độ.
+1. Các hàm chắn logarit dùng trong phương pháp điểm trong đều là hàm tự hài hòa (khi các ràng buộc bất đẳng thức là hàm affine hoặc bậc hai lồi).
+2. Phân tích hội tụ của phương pháp Newton cho hàm tự hài hòa không phụ thuộc vào các hằng số khó ước lượng như $$L, m, M$$.
+3. Tính tự hài hòa bất biến affine, nghĩa là cận số vòng lặp Newton không phụ thuộc vào phép biến đổi affine của hệ tọa độ.

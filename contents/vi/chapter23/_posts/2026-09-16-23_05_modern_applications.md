@@ -11,38 +11,38 @@ lesson_type: optional
 ---
 
 
-Hạ theo tọa độ theo đường regularization là lý do Lasso trở thành *nút mặc định* trong thống kê ứng dụng chứ không phải nguyên mẫu nghiên cứu. **glmnet** của Friedman, Hastie và Tibshirani (JSS 2010) vẫn chạy trên R; `lasso_path` / `enet_path` của scikit-learn là cùng ý tưởng trong Cython. Ghi chú tùy chọn này cập nhật câu chuyện tới 2023–2026: glmnet cho *mọi* họ GLM, screening và working set ở triệu đặc trưng, và bộ giải CD đối ngẫu vẫn huấn luyện SVM tuyến tính trong sản xuất.
+Hạ theo tọa độ dọc đường chính quy hóa (pathwise coordinate descent) là lý do giúp hồi quy Lasso trở thành công cụ tiêu chuẩn trong thống kê ứng dụng thay vì chỉ dừng ở mức nghiên cứu lý thuyết. Thư viện **glmnet** của Friedman, Hastie và Tibshirani (JSS 2010) vẫn được sử dụng rộng rãi trong R, còn `lasso_path` và `enet_path` của scikit-learn triển khai cùng ý tưởng bằng Cython. Bài đọc tùy chọn này cập nhật bối cảnh giai đoạn 2023–2026: `glmnet` mở rộng cho *mọi* họ mô hình tuyến tính tổng quát (GLM), các kỹ thuật sàng lọc an toàn và tập hoạt động ở quy mô hàng triệu đặc trưng, cùng bộ giải hạ theo tọa độ đối ngẫu tiếp tục phục vụ huấn luyện SVM tuyến tính trong thực tế.
 
-Một bước tọa độ cyclic (hoặc ngẫu nhiên) trên mục tiêu hợp thành $$f(\beta)+ \lambda\|\beta\|_1$$ là soft-threshold vô hướng. Toàn bộ **đường regularization** là vòng lặp khởi động nóng trên lưới giảm $$\lambda_1>\cdots>\lambda_T$$. Đó là thuật toán; các ứng dụng dưới đây là những gì người thực hành thực sự chạy.
+Mỗi bước tọa độ tuần hoàn (hoặc ngẫu nhiên) trên hàm mục tiêu hợp thành $$f(\beta)+ \lambda\|\beta\|_1$$ chỉ là một phép co ngưỡng mềm vô hướng. Toàn bộ **đường chính quy hóa** là vòng lặp khởi động nóng (warm start) trên lưới giá trị giảm dần $$\lambda_1>\cdots>\lambda_T$$. Dưới đây là những hệ thống thực tế xây dựng trên nền tảng thuật toán đó.
 
-## 1. glmnet cho mọi GLM (2023)
+## 1. glmnet cho mọi họ GLM (2023)
 
-Tay, Narasimhan và Hastie, *Elastic Net Regularization Paths for All Generalized Linear Models*, *Journal of Statistical Software* 106(1):1–31, 2023, [doi:10.18637/jss.v106.i01](https://doi.org/10.18637/jss.v106.i01), mở glmnet 4.x ra ngoài các họ Gaussian / binomial / Poisson / Cox có sẵn. Mọi GLM với log-likelihood trơn nay có đường elastic-net cyclic. Phiên bản 4.1 (cùng mã, tài liệu 2021–2023 tại [glmnet.stanford.edu](https://glmnet.stanford.edu/)) thêm dữ liệu sống còn `(start, stop)`, strata, và $$X$$ thưa.
+Tay, Narasimhan và Hastie, *Elastic Net Regularization Paths for All Generalized Linear Models*, *Journal of Statistical Software* 106(1):1–31, 2023, [doi:10.18637/jss.v106.i01](https://doi.org/10.18637/jss.v106.i01), mở rộng `glmnet 4.x` vượt ra ngoài các họ phân phối cố định (Gaussian, nhị thức, Poisson, Cox). Mọi mô hình GLM có hàm log-hợp lý trơn đều có thể tính đường chính quy hóa elastic-net bằng hạ theo tọa độ tuần hoàn. Phiên bản 4.1 (tài liệu giai đoạn 2021–2023 tại [glmnet.stanford.edu](https://glmnet.stanford.edu/)) bổ sung hỗ trợ dữ liệu phân tích sống còn dạng `(start, stop)`, phân tầng (strata) và ma trận đặc trưng $$X$$ thưa.
 
-Đây là bài báo để trích dẫn khi sinh viên hỏi “ta học Lasso trên bình phương tối thiểu — CD còn thắng cho logistic, Cox, hay GLM tùy chỉnh?” Có, vì vòng ngoài IRLS / proximal-Newton đưa mỗi bước về Lasso bình phương tối thiểu *có trọng số*, và bài toán trong đó đúng là hạ theo tọa độ bạn đã viết ở 23-03.
+Đây là tài liệu trực tiếp trả lời câu hỏi thường gặp: “Ta mới học Lasso trên bình phương tối thiểu — liệu hạ theo tọa độ còn hiệu quả với hồi quy logistic, Cox hay các GLM tùy chỉnh không?” Câu trả lời là có, vì vòng lặp ngoài IRLS / proximal-Newton đưa mỗi bước về một bài toán Lasso bình phương tối thiểu *có trọng số*, và bài toán vòng trong chính là thuật toán hạ theo tọa độ ở mục 23-03.
 
-## 2. Đường scikit-learn và screening an toàn theo khe
+## 2. Đường chính quy hóa trong scikit-learn và sàng lọc an toàn theo khoảng cách đối ngẫu
 
-`sklearn.linear_model.lasso_path` và `enet_path` (tài liệu hiện tại: scikit-learn 1.5–1.9) chạy hạ theo tọa độ thứ tự Fortran với **quy tắc screening an toàn theo khe**: một khi khe đối ngẫu chứng nhận một tọa độ ở lại số không, nó bị loại cho phần còn lại của $$\lambda$$ đó. Các PR bảo trì 2025–2026 (ví dụ tiền tính phần dư và chuẩn cột xuyên suốt một đường) không phải toán mới; chúng là lý do một microarray leukemia với $$p\sim 10^4$$ gene vẫn khớp đường 100 điểm trong vài giây. Khi bạn viết `LassoCV`, bạn đang chạy Chương 23, không phải Adam.
+Các hàm `sklearn.linear_model.lasso_path` và `enet_path` (scikit-learn phiên bản 1.5–1.9) chạy hạ theo tọa độ trên mảng lưu theo thứ tự Fortran kết hợp **quy tắc sàng lọc an toàn theo khoảng cách đối ngẫu (gap-safe screening)**: ngay khi khoảng cách đối ngẫu chứng nhận một tọa độ chắc chắn bằng 0 tại nghiệm, tọa độ đó bị loại khỏi các bước cập nhật còn lại của mức $$\lambda$$ hiện tại. Các cải tiến bảo trì giai đoạn 2025–2026 (như tính trước phần dư và chuẩn cột dọc theo đường nghiệm) giúp một bộ dữ liệu biểu hiện gen với $$p\sim 10^4$$ đặc trưng vẫn khớp xong đường 100 điểm trong vài giây. Khi gọi `LassoCV`, bên dưới chính là thuật toán Chương 23 chứ không phải Adam.
 
-## 3. skglm: working set vượt $$\ell_1$$ (NeurIPS 2022)
+## 3. skglm: tập hoạt động cho các hàm phạt ngoài $$\ell_1$$ (NeurIPS 2022)
 
-Bertrand, Klopfenstein, Blondel, Vaiter, Gramfort và Massias, *Beyond L1: Faster and Better Sparse Models with skglm*, NeurIPS 2022, [bài báo](https://proceedings.neurips.cc/paper_files/paper/2022/hash/fe5c31e525e9a26a1426ab0b589f42fe-Abstract-Conference.html), đẩy hạ theo tọa độ qua bộ đặc trưng glmnet. **Working set** lần lượt phóng tập tích cực nhỏ; tăng tốc Anderson (Bertrand & Massias, 2021) cho tăng tốc thực tế mà Nesterov-trên-CD thường không có. Gói xử lý MCP / SCAD, chuẩn nhóm và đa nhiệm, và data-fit tùy chỉnh — gạch đầu dòng “penalty không lồi” đã có trên landing 23-00, nay kèm phần mềm `pip install`. Genomics, từ điển thị giác, và bài toán ngược M/EEG là ứng dụng chạy trong bài báo; khẳng định tối ưu là CD cộng working set vẫn át phương pháp proximal gradient đầy đủ khi $$p$$ vào hàng triệu.
+Bertrand, Klopfenstein, Blondel, Vaiter, Gramfort và Massias, *Beyond L1: Faster and Better Sparse Models with skglm*, NeurIPS 2022, [bài báo](https://proceedings.neurips.cc/paper_files/paper/2022/hash/fe5c31e525e9a26a1426ab0b589f42fe-Abstract-Conference.html), mở rộng hạ theo tọa độ vượt ra ngoài phạm vi của `glmnet`. Kỹ thuật **tập hoạt động (working set)** mở rộng dần tập đặc trưng tích cực cỡ nhỏ, kết hợp tăng tốc Anderson (Bertrand & Massias, 2021) nhằm cải thiện tốc độ thực tế. Thư viện hỗ trợ các hàm phạt không lồi MCP / SCAD, chuẩn nhóm, học đa nhiệm và hàm khớp dữ liệu tùy chỉnh — hiện thực hóa hạng mục “hàm phạt không lồi” đã nêu ở mục 23-00 thành gói phần mềm cài đặt trực tiếp qua `pip`. Các ứng dụng chính trong bài báo gồm hệ gen học, học từ điển thị giác và bài toán ngược M/EEG; kết quả thực nghiệm cho thấy hạ theo tọa độ kết hợp tập hoạt động vượt trội phương pháp proximal gradient đầy đủ khi $$p$$ lên tới hàng triệu.
 
 ## 4. Hạ theo tọa độ đối ngẫu cho SVM tuyến tính
 
-Hsieh, Chang, Lin, Keerthi và Sundararajan (ICML 2008) huấn luyện SVM tuyến tính bằng hạ theo tọa độ đối ngẫu; **LIBLINEAR** vẫn là bộ giải sau `sklearn.svm.LinearSVC` và một phần lớn bộ phân loại văn bản công nghiệp. Mỗi tọa độ đối ngẫu là một quadratic 1-D bị cắt. Không có gì ở thuật toán đó lỗi thời vì transformer xuất hiện: baseline logistic / SVM túi từ, mô hình click, và GLM bảng chiều cao vẫn là sân nhà của CD. Dùng AdamW (Chương 26) cho mạng sâu; dùng glmnet / LIBLINEAR / skglm khi mô hình *tuyến tính tổng quát và thưa*.
+Hsieh, Chang, Lin, Keerthi và Sundararajan (ICML 2008) đề xuất huấn luyện SVM tuyến tính bằng hạ theo tọa độ đối ngẫu; **LIBLINEAR** đến nay vẫn là bộ giải cốt lõi đằng sau `sklearn.svm.LinearSVC` và nhiều hệ thống phân loại văn bản trong công nghiệp. Mỗi bước cập nhật tọa độ đối ngẫu chỉ là cực tiểu hóa một hàm bậc hai một chiều có chặn biên. Sự phổ biến của các mô hình transformer không làm phương pháp này lỗi thời: các mô hình cơ sở logistic/SVM trên đặc trưng túi từ, mô hình dự đoán tỉ lệ nhấp (CTR) và GLM trên dữ liệu bảng nhiều chiều vẫn là thế mạnh của coordinate descent. Nói ngắn gọn, hãy dùng AdamW (Chương 26) cho mạng sâu và dùng `glmnet` / LIBLINEAR / `skglm` cho các mô hình *tuyến tính tổng quát có tính thưa*.
 
 ```python
-# Pathwise CD là một lời gọi thư viện — thuật toán là Chương 23
+# Pathwise CD gói gọn trong một lời gọi thư viện — nền tảng là thuật toán Chương 23
 from sklearn.linear_model import lasso_path
 from sklearn.datasets import make_regression
 X, y = make_regression(n_samples=400, n_features=80, n_informative=8, noise=8.0)
 alphas, coefs, _ = lasso_path(X, y, eps=1e-3)
-# coefs.shape == (n_features, n_alphas); đếm feature vào đường muộn thế nào
+# coefs.shape == (n_features, n_alphas); quan sát thứ tự các đặc trưng bước vào đường nghiệm
 ```
 
-**Bài tập.** Trên `make_regression` với $$p=200$$, $$n=150$$, năm đặc trưng thông tin, vẽ hệ số glmnet / `lasso_path` theo $$-\log\lambda$$. Rồi khớp cùng đường bằng skglm (hoặc soft-threshold cyclic tự viết nếu bỏ qua phụ thuộc thêm) và kiểm tra *support* khớp trên $$\lambda$$ chọn bằng kiểm chứng chéo. Cuối cùng, huấn luyện `LinearSVC` trên một tập con túi từ 20-newsgroups và báo thời gian tường so với mạng logistic Adam minibatch cùng quả cầu $$\ell_2$$. CD phải thắng trên mô hình tuyến tính; Adam chỉ thắng sau khi bạn thêm một lớp ẩn.
+**Bài tập.** Trên dữ liệu sinh bởi `make_regression` với $$p=200$$, $$n=150$$ và 5 đặc trưng có thông tin, vẽ đường hệ số của `lasso_path` theo $$-\log\lambda$$. Sau đó khớp cùng đường nghiệm bằng `skglm` (hoặc tự viết vòng lặp co ngưỡng mềm tuần hoàn nếu không cài thêm thư viện) và kiểm tra xem tập đặc trưng khác 0 (*support*) có khớp nhau tại giá trị $$\lambda$$ chọn bằng kiểm chứng chéo hay không. Cuối cùng, huấn luyện `LinearSVC` trên một tập con túi từ của bộ dữ liệu 20-newsgroups và so sánh thời gian chạy thực tế (wall-clock time) với mô hình hồi quy logistic huấn luyện bằng Adam theo minibatch với cùng chuẩn phạt $$\ell_2$$: coordinate descent sẽ nhanh hơn trên mô hình tuyến tính, còn Adam chỉ phát huy ưu thế khi bổ sung thêm lớp ẩn phi tuyến.
 
 ## Nguồn
 

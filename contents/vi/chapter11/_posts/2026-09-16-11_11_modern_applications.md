@@ -12,37 +12,37 @@ lesson_type: optional
 
 # Ứng dụng hiện đại của đối ngẫu Lagrange
 
-Chương 11 nâng đối ngẫu từ LP lên chương trình tổng quát: Lagrangian $$L(x,u,v)$$, hàm đối ngẫu $$g(u,v)=\inf_x L$$, đối ngẫu yếu $$g\le f^\star$$, và đối ngẫu mạnh khi lồi cộng điều kiện ràng buộc. Bài tùy chọn này chỉ ra bốn cách dùng *đối ngẫu ấy* hiện đại — nhân tử như giá, như bán kính bền vững, và như tín hiệu huấn luyện — mà không xây lại $$g$$.
+Chương 11 mở rộng lý thuyết đối ngẫu từ quy hoạch tuyến tính sang các bài toán tối ưu tổng quát: hàm Lagrangian $$L(x,u,v)$$, hàm đối ngẫu $$g(u,v)=\inf_x L$$, tính đối ngẫu yếu $$g\le f^\star$$ và tính đối ngẫu mạnh khi bài toán lồi kèm điều kiện chuẩn hóa ràng buộc. Bài đọc tùy chọn này trình bày bốn ứng dụng hiện đại của cơ chế đối ngẫu đó — trong đó nhân tử Lagrange đóng vai trò như giá biên, bán kính bền vững hoặc tín hiệu huấn luyện.
 
-## 1. Học bền vững theo phân phối (DRO)
+## 1. Tối ưu bền vững theo phân phối (DRO)
 
-Thay vì cực tiểu rủi ro thực nghiệm $$\mathbb{E}_{\hat P}[\ell(x,\xi)]$$, DRO giải
+Thay vì cực tiểu hóa rủi ro thực nghiệm $$\mathbb{E}_{\hat P}[\ell(x,\xi)]$$, bài toán tối ưu bền vững theo phân phối (Distributionally Robust Optimization – DRO) giải:
 
 $$
 \min_x\ \sup_{P\in\mathcal{P}}\ \mathbb{E}_P[\ell(x,\xi)],
 $$
 
-trong đó tập mơ hồ $$\mathcal{P}$$ là một quả cầu phân phối (phân kỳ $$\phi$$ hoặc Wasserstein) quanh mẫu. Sup bên trong là bài toán **liên hợp / đối ngẫu**: với quả cầu Wasserstein nó trở thành rủi ro có regularizer mà biến đối ngẫu là giá Lipschitz của việc dời khối. Rahimian và Mehrotra (2022) khảo sát đối ngẫu, cách chỉnh $$\mathcal{P}$$, và các bộ giải. Kuhn, Esfahani, Nguyen và Shafieezadeh-Abadeh (2019) là bài hướng dẫn Wasserstein vẫn được trích 2023–2026 trong các bài ML về nhãn nhiễu, dịch phân phối, và huấn luyện đối kháng. Đối ngẫu mạnh là thứ biến kỳ vọng worst-case vô hạn chiều thành chương trình lồi hữu hạn bạn đưa được cho CVXPY.
+trong đó tập bất định $$\mathcal{P}$$ là một quả cầu phân phối (theo phân kỳ $$\phi$$ hoặc khoảng cách Wasserstein) quanh phân phối thực nghiệm. Bài toán $$\sup$$ bên trong là một bài toán **liên hợp / đối ngẫu**: với quả cầu Wasserstein, nó biến đổi thành bài toán cực tiểu hóa rủi ro có điều chuẩn, trong đó biến đối ngẫu đóng vai trò như hằng số phạt Lipschitz cho chi phí dịch chuyển khối lượng xác suất. Rahimian và Mehrotra (2022) tổng hợp lý thuyết đối ngẫu, cách chọn tập $$\mathcal{P}$$ và các bộ giải tương ứng. Công trình hướng dẫn về Wasserstein DRO của Kuhn, Esfahani, Nguyen và Shafieezadeh-Abadeh (2019) vẫn được trích dẫn rộng rãi giai đoạn 2023–2026 trong các nghiên cứu học máy về nhãn nhiễu, dịch chuyển phân phối và huấn luyện đối kháng. Chính tính đối ngẫu mạnh giúp chuyển bài toán kỳ vọng trường hợp xấu nhất vô hạn chiều thành một bài toán lồi hữu hạn chiều có thể giải bằng CVXPY.
 
 ## 2. Ràng buộc cứng trong năng lượng và vật lý: OPF-DNN và DC3
 
-Luồng công suất tối ưu AC (OPF) là chương trình không lồi với đẳng thức Kirchhoff và giới hạn nhiệt. Fioretto, Mak và Van Hentenryck (AAAI 2020) huấn luyện mạng dự đoán setpoint đồng thời **cập nhật nhân tử Lagrange bằng bước subgradient** trên phần dư ràng buộc — đối ngẫu Lagrange như một vòng huấn luyện. Donti, Rolnick và Kolter (ICLR 2021) đề xuất **DC3**: hoàn tất đẳng thức một cách khả vi, rồi sửa bất đẳng thức bằng các bước gradient unroll, và minh họa trên AC-OPF. Các bài “học để tối ưu” 2022–2025 giữ cùng ý đối ngẫu: nhân tử không chỉ là chứng chỉ sau việc; chúng là **đặc trưng** mạng được huấn luyện để tôn trọng.
+Bài toán luồng công suất tối ưu xoay chiều (AC-OPF) là một bài toán tối ưu không lồi với các phương trình đẳng thức Kirchhoff và giới hạn nhiệt của đường dây. Fioretto, Mak và Van Hentenryck (AAAI 2020) huấn luyện mạng nơ-ron dự đoán điểm vận hành đồng thời **cập nhật nhân tử Lagrange bằng các bước dưới đạo hàm (subgradient)** theo độ vi phạm ràng buộc — sử dụng đối ngẫu Lagrange trực tiếp như một vòng lặp huấn luyện. Donti, Rolnick và Kolter (ICLR 2021) đề xuất phương pháp **DC3**: hoàn tất các ràng buộc đẳng thức một cách khả vi, rồi hiệu chỉnh các ràng buộc bất đẳng thức bằng các bước gradient trải phẳng (unrolled), và kiểm chứng trên bài toán AC-OPF. Các nghiên cứu "học để tối ưu" (learning to optimize) giai đoạn 2022–2025 tiếp tục khai thác cùng cơ chế này: nhân tử Lagrange không chỉ là chứng chỉ kiểm tra sau khi giải, mà trở thành tín hiệu trực tiếp định hướng quá trình huấn luyện mạng.
 
-Đối ngẫu yếu vẫn cho cận dù gốc không lồi; đối ngẫu mạnh *không* miễn phí. Phân biệt ấy là cả điểm của chương này.
+Cần lưu ý rằng tính đối ngẫu yếu vẫn cung cấp cận dưới ngay cả khi bài toán gốc không lồi, nhưng tính đối ngẫu mạnh không tự động được bảo đảm — đây chính là ranh giới quan trọng của Chương 11.
 
-## 3. Reduction công bằng như trò chơi đối ngẫu
+## 3. Quy giảm công bằng như một trò chơi đối ngẫu
 
-Agarwal và cộng sự (2018) và bộ giảm `ExponentiatedGradient` của Fairlearn (Weerts và cộng sự, 2023) coi ràng buộc tỷ lệ nhóm như một Lagrangian. Người chơi đối ngẫu đặt khối trên nhóm đang bị vi phạm; người chơi gốc giải ERM *có trọng số*. Cotter và cộng sự (2019) mở trò chơi sang ràng buộc tỷ lệ không trơn qua proxy-Lagrangian. Ở cả ba, $$v\ge 0$$ là nhân tử Chương 11 của bất đẳng thức $$g_i(x)\le 0$$, và bù (Chương 12) nói nhóm đã đạt tỷ lệ phải có $$v_i=0$$.
+Agarwal và cộng sự (2018) cùng phương pháp `ExponentiatedGradient` trong thư viện Fairlearn (Weerts và cộng sự, 2023) biểu diễn các ràng buộc công bằng theo nhóm dưới dạng một hàm Lagrangian. Trong trò chơi hai người tương ứng, phía đối ngẫu tăng trọng số lên các nhóm đang bị vi phạm ràng buộc, còn phía gốc giải bài toán cực tiểu hóa rủi ro thực nghiệm (ERM) có trọng số. Cotter và cộng sự (2019) mở rộng khung này sang các ràng buộc tỷ lệ không khả vi thông qua proxy-Lagrangian. Ở cả ba phương pháp, $$v \ge 0$$ là nhân tử Lagrange cho ràng buộc bất đẳng thức $$g_i(x) \le 0$$, và theo điều kiện bù (Chương 12), nhóm nào đã thỏa mãn chặt chẽ tiêu chí công bằng (ràng buộc lỏng) sẽ có nhân tử $$v_i = 0$$.
 
-## 4. SVM và máy kernel, vẫn qua đối ngẫu
+## 4. Máy vector hỗ trợ (SVM) và phương pháp nhân (kernel)
 
-SVM soft-margin là chương trình tổng quát sách giáo khoa mà đối ngẫu là QP hộp trên hệ số $$\alpha_i$$. `SVC` của sklearn và một đuôi dài các bài 2022–2026 về sinh học tính toán và bảng nhỏ-$$n$$ vẫn *giải đối ngẫu*, vì mẹo kernel là phát biểu về $$g(\alpha)$$, không về $$w$$. Bạn sẽ gặp dạng KKT ở Chương 12; *sự tồn tại* của một $$g$$ hữu ích là chương này.
+Bài toán SVM lề mềm là ví dụ kinh điển của tối ưu tổng quát với bài toán đối ngẫu là một quy hoạch bậc hai có ràng buộc hộp trên các hệ số $$\alpha_i$$. Trình giải `SVC` trong scikit-learn cùng nhiều nghiên cứu giai đoạn 2022–2026 trong sinh học tính toán và bài toán dữ liệu bảng cỡ nhỏ vẫn giải trực tiếp bài toán đối ngẫu, bởi kỹ thuật nhân (kernel trick) được áp dụng trên hàm đối ngẫu $$g(\alpha)$$ thay vì trực tiếp trên vector trọng số $$w$$. Dạng điều kiện tối ưu KKT sẽ được phân tích ở Chương 12, còn cơ sở tồn tại của hàm đối ngẫu $$g$$ nằm ở chương này.
 
-## Cần nhớ
+## Tóm tắt
 
-Lập Lagrangian, cực tiểu theo $$x$$ để được $$g$$, cực đại $$g$$ theo nhân tử. Nếu gốc lồi và một CQ thỏa, bạn được đổi inf và sup. DRO, mạng có ràng buộc, bộ giảm công bằng, và SVM kernel là bốn câu chuyện khác nhau về phép đổi ấy.
+Quy trình tổng quát gồm ba bước: lập hàm Lagrangian, cực tiểu hóa theo $$x$$ để thu được hàm đối ngẫu $$g$$, và cực đại hóa $$g$$ theo các nhân tử đối ngẫu. Khi bài toán gốc lồi và thỏa mãn một điều kiện chuẩn hóa ràng buộc (CQ), ta có thể hoán đổi thứ tự $$\inf$$ và $$\sup$$ (đối ngẫu mạnh). DRO, mạng nơ-ron có ràng buộc vật lý, quy giảm công bằng và SVM nhân là bốn ứng dụng khác nhau của cùng nguyên lý này.
 
-**Câu hỏi.** Trong bài DRO Wasserstein, một biến đối ngẫu tối ưu lớn trên bán kính nói gì về chi phí dịch phân phối — và bất đẳng thức nào của chương này làm con số ấy thành cận dưới hợp lệ của rủi ro worst-case?
+**Câu hỏi tự kiểm tra:** Trong bài toán Wasserstein DRO, một biến đối ngẫu tối ưu có giá trị lớn ứng với bán kính quả cầu cho biết điều gì về độ nhạy với dịch chuyển phân phối, và bất đẳng thức nào trong chương này bảo đảm giá trị đó tạo thành cận dưới hợp lệ cho rủi ro trường hợp xấu nhất?
 
 ## Nguồn
 

@@ -11,37 +11,37 @@ lesson_type: optional
 ---
 
 
-Các bài 27-01 đến 27-03 là toán: đồ thị tính toán, JVP chế độ thuận, VJP / lan truyền ngược chế độ nghịch. Ghi chú tùy chọn này là nơi các chế độ đó sống trong *phần mềm* năm 2022–2026. Baydin, Pearlmutter, Radul và Siskind, *JMLR* 18(153), 2018, [jmlr.org/papers/v18/17-468.html](https://www.jmlr.org/papers/v18/17-468.html), vẫn là khảo sát trên bàn; các khung dưới đây là những gì bạn thực sự import.
+Các bài 27-01 đến 27-03 trình bày nền tảng toán học của vi phân tự động: đồ thị tính toán, tích Jacobian–vector (JVP) ở chế độ thuận và tích vector–Jacobian (VJP) ở chế độ nghịch. Bài đọc tùy chọn này giới thiệu cách các chế độ đó được triển khai trong *hệ sinh thái phần mềm* giai đoạn 2022–2026. Bài tổng quan của Baydin, Pearlmutter, Radul và Siskind (*JMLR* 18(153), 2018, [jmlr.org/papers/v18/17-468.html](https://www.jmlr.org/papers/v18/17-468.html)) vẫn là tài liệu tham khảo lý thuyết chuẩn; còn các khung dưới đây là những công cụ được sử dụng trực tiếp trong thực tế.
 
-## 1. PyTorch: reverse-mode trên băng, rồi biên dịch
+## 1. PyTorch: chế độ nghịch trên băng động và biên dịch đồ thị
 
-Paszke et al., *Automatic differentiation in PyTorch* (hội thảo Autodiff NIPS, 2017) và *PyTorch: An Imperative Style, High-Performance Deep Learning Library* (NeurIPS 2019) dựng AD chế độ nghịch trên băng động: chạy Python thuận, ghi `grad_fn`, phát băng ngược. Đó là 27-03 với bộ cấp phát. **PyTorch 2.0** (2023) thêm `torch.compile` (TorchDynamo + Inductor): cùng đồ thị chế độ nghịch được bắt, biên dịch, và vẫn được vi phân. Với môn này quy tắc không đổi. Nếu `torch.autograd.grad` lệch với adjoint bạn viết tay, đồ thị hoặc `detach` của bạn sai — không phải định nghĩa đạo hàm. Dùng PyTorch khi mô hình là mạng động, hệ sinh thái là thị giác / LLM, và bạn muốn một băng in được.
+Paszke và cộng sự (*Automatic differentiation in PyTorch*, hội thảo Autodiff NIPS 2017; *PyTorch: An Imperative Style, High-Performance Deep Learning Library*, NeurIPS 2019) xây dựng AD chiều nghịch dựa trên băng tính toán động: chạy mã Python ở lượt thuận, ghi lại các nút `grad_fn` rồi phát ngược để tính đạo hàm. **PyTorch 2.0** (2023) bổ sung `torch.compile` (TorchDynamo + Inductor), cho phép thu nhận và biên dịch cùng đồ thị chiều nghịch đó để tối ưu tốc độ mà vẫn bảo toàn cơ chế vi phân. Nguyên tắc kiểm chứng không đổi: nếu kết quả `torch.autograd.grad` lệch so với biến liên hợp tính tay, lỗi nằm ở cấu trúc đồ thị hoặc thao tác `detach`. PyTorch phù hợp khi mô hình có đồ thị động, tận dụng hệ sinh thái thị giác máy tính / LLM và cần gỡ lỗi thuận tiện.
 
-## 2. JAX: JVP và VJP kết hợp được
+## 2. JAX: phép biến đổi hàm kết hợp JVP và VJP
 
-Bradbury, Frostig, Hawkins, Johnson, Leary, Maclaurin, Necula, Paszke, VanderPlas, Wanderman-Milne và Zhang, *JAX: composable transformations of Python+NumPy programs*, 2018–, [github.com/google/jax](https://github.com/google/jax), coi `grad`, `vmap`, `jit` và `pmap` là *phép biến đổi hàm*. `jax.jvp` chế độ thuận và `jax.vjp` / `jax.grad` chế độ nghịch là hai chế độ của chương này, lộ như API hạng nhất. Mảng bất biến; chương trình bạn vi phân là hàm thuần. Ràng buộc đó là lý do nhóm ML khoa học (mạng thông tin vật lý, thế năng phân tử, mô phỏng khả vi) chuẩn hóa trên JAX năm 2022–2026: bạn `vmap` một mô phỏng rồi `grad` phần dư. Dùng JAX khi bạn cần JVP/VJP lồng, batch, hoặc trình biên dịch (XLA) hơn một vườn mô hình tiền huấn luyện.
+Bradbury, Frostig, Hawkins, Johnson, Leary, Maclaurin, Necula, Paszke, VanderPlas, Wanderman-Milne và Zhang (*JAX: composable transformations of Python+NumPy programs*, 2018–, [github.com/google/jax](https://github.com/google/jax)) thiết kế `grad`, `vmap`, `jit` và `pmap` như các *phép biến đổi hàm thuần túy*. Hai chế độ `jax.jvp` (thuận) và `jax.vjp` / `jax.grad` (nghịch) được cung cấp trực tiếp ở mức API cốt lõi. Nhờ sử dụng mảng bất biến và hàm thuần, JAX trở thành lựa chọn phổ biến trong học máy khoa học giai đoạn 2022–2026 (mạng nơ-ron tích hợp vật lý, thế năng phân tử, mô phỏng khả vi): người dùng dễ dàng vector hóa một mô phỏng bằng `vmap` rồi lấy đạo hàm bằng `grad` và biên dịch qua XLA.
 
-## 3. Enzyme: vi phân sau trình biên dịch
+## 3. Enzyme: vi phân tự động ở tầng trình biên dịch
 
-Moses và Churavy, *Instead of rewriting foreign code for machine learning, automatically synthesize fast gradients*, NeurIPS 2020, chạy AD chế độ nghịch trên **LLVM IR**, nên C++, Fortran, Julia và Rust trở nên khả vi mà không viết lại nguồn. Moses, Churavy, Paehler, et al., *Reverse-Mode Automatic Differentiation and Optimization of GPU Kernels via Enzyme*, SC 2021, và Moses, Narayanan, Paehler, et al., *Scalable Automatic Differentiation of Multiple Parallel Paradigms*, SC 2022, mở cùng ý tưởng tới CUDA, OpenMP, MPI và task Julia. Enzyme-JAX (2023–) đăng ký các kernel đó như primitive JAX, nên `jax.grad` nhìn thấy bộ giải nhiệt Fortran. Đây là câu trả lời thập niên 2020 cho “mô phỏng sản xuất của chúng tôi không phải mô-đun PyTorch.”
+Moses và Churavy (*Instead of rewriting foreign code for machine learning, automatically synthesize fast gradients*, NeurIPS 2020) triển khai AD chiều nghịch trực tiếp trên **LLVM IR**, giúp các chương trình viết bằng C++, Fortran, Julia và Rust có thể vi phân tự động mà không cần viết lại bằng Python. Các công trình tiếp theo — Moses, Churavy, Paehler và cộng sự (*Reverse-Mode Automatic Differentiation and Optimization of GPU Kernels via Enzyme*, SC 2021) cùng Moses, Narayanan, Paehler và cộng sự (*Scalable Automatic Differentiation of Multiple Parallel Paradigms*, SC 2022) — mở rộng phương pháp này sang CUDA, OpenMP, MPI và các tác vụ song song trong Julia. Giao diện Enzyme-JAX (từ 2023) cho phép đăng ký các kernel đó như phép toán nguyên thủy của JAX, giúp `jax.grad` vi phân xuyên qua cả bộ giải truyền nhiệt viết bằng Fortran.
 
-## 4. Học máy khoa học / PINN
+## 4. Học máy khoa học và mạng nơ-ron tích hợp vật lý (PINN)
 
-Một mạng thông tin vật lý cực tiểu hóa phần dư $$r_\theta(x)=\mathcal{L}[u_\theta](x)$$ mà đạo hàm theo *đầu vào* $$x$$ (không chỉ tham số $$\theta$$) đến từ AD. Raissi, Perdikaris và Karniadakis, *J. Comput. Phys.* 378:686–707, 2019, là kinh điển; Karniadakis, Kevrekidis, Lu, Perdikaris, Wang và Yang, *Nature Reviews Physics* 3:422–440, 2021, là khảo sát khiến PINN thành chủ đề khoa học dữ liệu. Sóng 2022–2025 (phần dư nhân quả/có trọng số tốt hơn, học toán tử, mô phỏng lai Enzyme+JAX) vẫn đứng trên chế độ nghịch theo $$\theta$$ và thường *chế độ thuận* hoặc nghịch lồng theo $$x$$. Đó là lý do Chương 27 dạy cả hai chế độ: PINN là ví dụ mà “một loss vô hướng, hàng triệu tham số” *không* phải truy vấn AD duy nhất.
+Một mạng nơ-ron tích hợp vật lý (Physics-Informed Neural Network — PINN) cực tiểu hóa phần dư phương trình vi phân $$r_\theta(x)=\mathcal{L}[u_\theta](x)$$, trong đó các đạo hàm riêng theo *biến đầu vào* $$x$$ (không chỉ theo tham số $$\theta$$) đều được tính bằng AD. Công trình của Raissi, Perdikaris và Karniadakis (*J. Comput. Phys.* 378:686–707, 2019) và bài tổng quan của Karniadakis, Kevrekidis, Lu, Perdikaris, Wang và Yang (*Nature Reviews Physics* 3:422–440, 2021) đã đưa PINN thành một hướng nghiên cứu lớn. Các phát triển giai đoạn 2022–2025 (phần dư có trọng số nhân quả, học toán tử, mô phỏng lai Enzyme+JAX) đều kết hợp chế độ nghịch theo $$\theta$$ với chế độ thuận hoặc nghịch lồng nhau theo $$x$$. Đây là minh họa rõ ràng cho thấy “một hàm mất mát vô hướng với hàng triệu tham số” không phải là dạng truy vấn AD duy nhất trong thực tế.
 
 ```python
-# JAX: chế độ nghịch cho tham số, JVP chế độ thuận nếu cần đạo hàm hướng
+# JAX: chế độ nghịch cho tham số, JVP chế độ thuận cho đạo hàm theo hướng
 import jax, jax.numpy as jnp
 
 def loss(w, x, y):
     return jnp.mean((x @ w - y) ** 2)
 
 w = jnp.zeros(3)
-g = jax.grad(loss)(w, jnp.ones((8, 3)), jnp.zeros(8))  # VJP, một vô hướng
-_, jvp = jax.jvp(lambda v: v @ v, (w,), (jnp.ones(3),))  # đạo hàm hướng
+g = jax.grad(loss)(w, jnp.ones((8, 3)), jnp.zeros(8))  # VJP cho hàm mất mát vô hướng
+_, jvp = jax.jvp(lambda v: v @ v, (w,), (jnp.ones(3),))  # đạo hàm theo hướng
 ```
 
-**Bài tập.** Hiện thực $$f(w)=\|Aw-b\|_2^2$$ trong NumPy, PyTorch, và (nếu cài) JAX. So `2 A.T @ (A@w-b)` với `torch.autograd` và `jax.grad`. Rồi bấm giờ một *Jacobian* của ánh xạ 8 đầu ra bằng (i) tám lời gọi chế độ nghịch và (ii) tám JVP chế độ thuận — thuận phải thắng, đó là bài 27-02 dưới dạng phần mềm.
+**Bài tập.** Cài đặt hàm $$f(w)=\|Aw-b\|_2^2$$ bằng NumPy, PyTorch và (nếu có sẵn) JAX; đối chiếu công thức giải tích `2 * A.T @ (A @ w - b)` với `torch.autograd` và `jax.grad`. Tiếp theo, đo thời gian tính ma trận *Jacobian* của một ánh xạ có ít đầu vào (ví dụ 2 hoặc 3 chiều) và 8 đầu ra bằng hai cách: (i) 8 lần gọi chế độ nghịch theo từng đầu ra và (ii) các lần gọi JVP chế độ thuận theo từng đầu vào — chế độ thuận sẽ nhanh hơn, minh họa trực tiếp phân tích độ phức tạp ở mục 27-02.
 
 ## Nguồn
 

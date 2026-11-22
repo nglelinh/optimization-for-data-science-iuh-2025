@@ -9,49 +9,49 @@ categories:
 lang: vi
 ---
 
-Trong phần này, ta sẽ xem thuật toán mặt phẳng cắt có thể giải quy hoạch tuyến tính nguyên.
+Mục này trình bày khái niệm bất đẳng thức hợp lệ và cấu trúc chung của thuật toán mặt phẳng cắt để giải quy hoạch tuyến tính nguyên.
 
 ## Bất đẳng thức hợp lệ (Valid Inequality)
-Để định nghĩa mặt phẳng cắt, trước hết hãy xem bất đẳng thức hợp lệ là gì. 
 
-Một bất đẳng thức $$\pi^{T}x \le \pi_{0}$$ được gọi là hợp lệ đối với tập $$S$$ nếu thỏa mãn điều kiện sau. Nghĩa là, nếu tập $$S$$ nằm trong nửa không gian xác định bởi bất đẳng thức $$\pi^{T}x \le \pi_{0}$$ thì bất đẳng thức này được coi là hợp lệ đối với $$S$$.
+Một bất đẳng thức tuyến tính $$\pi^{T}x \le \pi_{0}$$ được gọi là *hợp lệ* đối với tập $$S$$ nếu mọi điểm của $$S$$ đều nằm trong nửa không gian xác định bởi bất đẳng thức đó:
 
->$$\pi^{T}x \le \pi_{0}$$ với mọi $$x \in S$$
+>$$\pi^{T}x \le \pi_{0} \quad \text{với mọi } x \in S$$
 
-Một bất đẳng thức phải hợp lệ thì mới trở thành mặt phẳng cắt.
+Điều kiện hợp lệ đảm bảo việc bổ sung bất đẳng thức sẽ không bao giờ loại bỏ nghiệm nguyên khả thi nào của bài toán gốc.
+
 ## Thuật toán mặt phẳng cắt
-Bây giờ hãy xem thuật toán mặt phẳng cắt khi có quy hoạch nguyên sau.
+
+Xét bài toán quy hoạch nguyên (IP):
 
 > $$
 > \begin{align}
 >           \min_{x} & \quad {c^{T}x} \\\\
 > \text{subject to } & \quad  x \in C \\\\
->                    & \quad  x_j \in \mathbb{Z}, \quad j \in J \\\\
+>                    & \quad  x_j \in \mathbb{Z}, \quad j \in J
 > \end{align}
 > $$
 
-Với $$S := \text{conv} \left \{ x \in C : x_j \in \mathbb{Z}, j \in J \right \}$$.
+và đặt $$S := \text{conv} \left \{ x \in C : x_j \in \mathbb{Z}, j \in J \right \}$$.
 
-### Thuật toán mặt phẳng cắt
-Trong thuật toán sau, bài toán lồi được ký hiệu là CP và quy hoạch nguyên là IP.
+### Các bước thực hiện
 
-1. Đặt $$C_{0} := C$$ và tính $$x^{(0)} := \text{argmin}_{x} \left\{c^{T}x : x \in C_{0} \right\}$$
-2. với $$k = 0, 1, ...$$ <br>
-$$\quad$$nếu $$x^{(k)}$$ khả thi cho (IP) thì $$x^{(k)}$$ là nghiệm tối ưu nên dừng <br>
-$$\quad$$ngược lại<br>
-$$\quad\quad$$ tìm bất đẳng thức ($$\pi$$, $$\pi_{0}$$) hợp lệ đối với $$S$$ và cắt bỏ $$x^{(k)}$$<br>
-$$\quad\quad$$ $$C_{k+1} := C_{k} \cap \{ x : \pi^{T}x \le \pi_{0} \} $$<br>
-$$\quad\quad$$ $$x^{(k+1)} := \text{argmin}_{x} \left\{c^{T}x : x \in C_{k+1} \right\}$$<br>
-$$\quad$$kết thúc nếu<br>
-kết thúc vòng lặp<br>
+Ký hiệu bài toán nới lỏng lồi là (CP) và bài toán gốc là (IP):
 
-Bất đẳng thức hợp lệ như vậy được gọi là **mặt phẳng cắt (cutting plane)** hoặc **lát cắt (cut)**.
+1. Khởi tạo $$C_{0} := C$$ và tính $$x^{(0)} := \arg\min_{x} \left\{c^{T}x : x \in C_{0} \right\}$$.
+2. Với $$k = 0, 1, \dots$$: <br>
+$$\quad$$ Nếu $$x^{(k)}$$ khả thi cho (IP) thì $$x^{(k)}$$ là nghiệm tối ưu; dừng thuật toán. <br>
+$$\quad$$ Ngược lại: <br>
+$$\quad\quad$$ Tìm một bất đẳng thức $$(\pi, \pi_{0})$$ hợp lệ đối với $$S$$ sao cho $$\pi^T x^{(k)} > \pi_0$$ (tức cắt bỏ $$x^{(k)}$$). <br>
+$$\quad\quad$$ Cập nhật $$C_{k+1} := C_{k} \cap \{ x : \pi^{T}x \le \pi_{0} \}$$. <br>
+$$\quad\quad$$ Giải lại bài toán nới lỏng: $$x^{(k+1)} := \arg\min_{x} \left\{c^{T}x : x \in C_{k+1} \right\}$$. <br>
+$$\quad$$ Kết thúc nhánh điều kiện. <br>
+Kết thúc vòng lặp.
 
-Bước 1 của thuật toán là bước giải bài toán CP bằng nới lỏng lồi. Khi đó tập khả thi là $$C$$. 
+Bất đẳng thức hợp lệ tách được $$x^{(k)}$$ khỏi $$S$$ như trên được gọi là **mặt phẳng cắt (cutting plane)** hoặc **lát cắt (cut)**.
 
-Ở bước 2 của thuật toán, nếu nghiệm tìm được khả thi cho IP thì lấy làm nghiệm. Nếu không khả thi, ta tìm một bất đẳng thức hợp lệ tách nghiệm $$x^{(k)}$$ khỏi tập $$S$$ và thu hẹp phạm vi của $$C_{k}$$. Sau đó giải bài toán CP được định nghĩa lại trên $$C_{k+1}$$ và lặp lại bước 2. 
+Ở bước 1, thuật toán giải bài toán nới lỏng lồi (CP) ban đầu trên $$C$$. Ở bước 2, nếu nghiệm thu được đã thỏa mãn ràng buộc nguyên thì quá trình kết thúc; ngược lại, ta thêm một mặt phẳng cắt để loại bỏ nghiệm phân số $$x^{(k)}$$, thu hẹp miền khả thi thành $$C_{k+1}$$ và giải lại (CP).
 
-Trong hình dưới, đa giác biểu diễn tập $$C$$ và nghiệm của CP được đánh dấu bằng chấm đen. Khi đó, bất đẳng thức hợp lệ cắt bỏ nghiệm và thu hẹp phạm vi của tập $$C$$.
+Trong Hình 1, đa giác biểu diễn miền nới lỏng $$C$$ và chấm đen là nghiệm của (CP). Bất đẳng thức hợp lệ cắt bỏ chấm đen này trong khi vẫn giữ nguyên toàn bộ bao lồi $$S$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -60,4 +60,4 @@ Trong hình dưới, đa giác biểu diễn tập $$C$$ và nghiệm của CP �
 </p>
 </figure>
 
-Cứ thu hẹp phạm vi của tập $$C$$ như vậy, cuối cùng ta gặp tập $$S$$, tức tập khả thi bao lồi của bài toán IP, và có thể tìm được nghiệm khả thi cho IP.
+Qua các vòng lặp, tập $$C_k$$ dần được siết chặt về phía bao lồi $$S$$ cho tới khi nghiệm của bài toán nới lỏng rơi vào một điểm nguyên khả thi của (IP).

@@ -16,9 +16,9 @@ MathJax.Hub.Config({
 });
 </script>
 
-## Ví dụ 1: Dạng mà ràng buộc chứa hàm mục tiêu
+## Ví dụ 1: Trường hợp ràng buộc chứa trực tiếp hàm mục tiêu
 
-Giả sử chúng ta muốn tìm giá trị cận dưới B của giá trị tối ưu cho một bài toán lồi cho trước.
+Giả sử chúng ta muốn tìm một cận dưới $$B$$ cho giá trị tối ưu của một bài toán lồi cho trước:
 
 >$$
 >\begin{align}
@@ -26,8 +26,7 @@ Giả sử chúng ta muốn tìm giá trị cận dưới B của giá trị t�
 >\end{align}
 >$$
 
-Hãy xét cụ thể cận dưới của các chương trình tuyến tính. Chúng ta sẽ xem xét các trường hợp từ đơn giản đến dạng tổng quát theo thứ tự.
-Đầu tiên, lấy dạng đơn giản nhất của bài toán LP làm ví dụ
+Hãy xét cụ thể bài toán tìm cận dưới trong quy hoạch tuyến tính (LP), đi từ các trường hợp đơn giản đến dạng tổng quát. Trước hết, xét ví dụ LP đơn giản nhất:
 
 >$$
 >\begin{align}
@@ -39,11 +38,11 @@ Hãy xét cụ thể cận dưới của các chương trình tuyến tính. Ch�
 >\end{align}
 >$$
 
-Bài toán trên đã bao gồm cận dưới của hàm mục tiêu trong ràng buộc, vì vậy chúng ta có thể dễ dàng thấy rằng $$B=2$$.
+Trong bài toán này, chính ràng buộc đã cung cấp trực tiếp cận dưới cho hàm mục tiêu, nên ta dễ dàng thấy ngay $$B = 2$$.
 
-Hơn nữa, hãy xem xét trường hợp mà ràng buộc không bao gồm cận dưới.
+Tiếp theo, hãy xét trường hợp ràng buộc không cho sẵn cận dưới một cách trực tiếp như vậy.
 
-## Ví dụ 2: Dạng mà hàm mục tiêu có thể được biểu diễn như tổ hợp tuyến tính của các ràng buộc (1)
+## Ví dụ 2: Trường hợp hàm mục tiêu là tổ hợp tuyến tính của các ràng buộc (1)
 
 >$$
 >\begin{align}
@@ -55,7 +54,7 @@ Hơn nữa, hãy xem xét trường hợp mà ràng buộc không bao gồm cậ
 >\end{align}
 >$$
 
-Nếu $$x,\, y$$ là khả thi, thì việc nhân ba ràng buộc với các giá trị vô hướng và cộng hoặc trừ chúng vẫn thỏa mãn cả ba ràng buộc. Do đó, đối với bài toán LP như vậy, quá trình nhân các ràng buộc với các giá trị vô hướng và cộng hoặc trừ chúng, tức là biểu diễn hàm mục tiêu như tổ hợp tuyến tính của các ràng buộc, là có thể, và kết quả là chúng ta có thể tìm $$B$$. 
+Nếu $$x,\, y$$ là một nghiệm khả thi, thì khi nhân các bất đẳng thức ràng buộc với những hằng số không âm rồi cộng lại, ta vẫn thu được một bất đẳng thức đúng. Do đó, bằng cách chọn hệ số thích hợp để biểu diễn hàm mục tiêu dưới dạng tổ hợp tuyến tính không âm của các ràng buộc, ta có thể suy ra cận dưới $$B$$:
 
 >$$
 >\begin{align}
@@ -68,7 +67,7 @@ Nếu $$x,\, y$$ là khả thi, thì việc nhân ba ràng buộc với các gi�
 >\end{align}
 >$$
 
-Tổng quát hóa hơn nữa bằng cách áp dụng các biến tùy ý để biểu diễn hàm mục tiêu, chúng ta có được như sau:
+Tổng quát hóa hơn nữa với các hệ số tùy ý $$p, q$$ trong hàm mục tiêu, ta xét bài toán:
 
 >$$
 >\begin{align}
@@ -80,26 +79,25 @@ Tổng quát hóa hơn nữa bằng cách áp dụng các biến tùy ý để b
 >\end{align}
 >$$
 
-Tương tự như ví dụ thứ hai, bằng cách nhân các ràng buộc với các giá trị vô hướng a, b, c tương ứng, hàm mục tiêu có thể được biểu diễn như tổ hợp tuyến tính của ba ràng buộc này.
+Tương tự như trên, ta nhân ba ràng buộc lần lượt với các hằng số $$a, b, c$$ rồi cộng lại để khớp với hàm mục tiêu:
 
- >$$
- >\begin{align}
- >& &{a(x+y) \geq 2a} \\\\
- >&{+} &{bx \geq 0} \\\\
- >&{+} &{cy \geq 0} \\\\
- >&{=} &{(a+b)x+(a+c)y \geq 2a} \\\\
- >&&\text{Cận dưới}\ B=2a, \\
- >&&\text{với bất kỳ a,b,c thỏa mãn điều kiện dưới đây}\\\\
- >& &{a + b = p}\\\\
- >& &{a + c = q}\\\\
- >& &{a,b,c \geq 0.}\\\\
- >\end{align}
- >$$
+>$$
+>\begin{align}
+>& &{a(x+y) \geq 2a} \\\\
+>&{+} &{bx \geq 0} \\\\
+>&{+} &{cy \geq 0} \\\\
+>&{=} &{(a+b)x+(a+c)y \geq 2a} \\\\
+>&&\text{Cận dưới}\ B=2a, \\
+>&&\text{với bất kỳ a,b,c thỏa mãn điều kiện dưới đây}\\\\
+>& &{a + b = p}\\\\
+>& &{a + c = q}\\\\
+>& &{a,b,c \geq 0.}\\\\
+>\end{align}
+>$$
 
+Để $$2a$$ thực sự là một cận dưới, các hệ số $$a, b, c$$ phải không âm (vì nhân bất đẳng thức với số âm sẽ làm đổi chiều dấu), đồng thời hệ số của $$x$$ và $$y$$ sau khi cộng phải trùng với hàm mục tiêu, tức là $$a + b = p$$ và $$a + c = q$$.
 
-Để cận dưới thỏa mãn là 2a như trên, vì dấu bất đẳng thức sẽ bị đảo ngược trong quá trình nhân với các giá trị vô hướng và điều này sẽ không thỏa mãn, các điều kiện $$a, b, c$$ phải dương và tổng các giá trị vô hướng phải bằng hàm mục tiêu, tức là các điều kiện $$a+b = p$$ và $$a+c = q$$ phải được thỏa mãn.
-
-Một bài toán tối ưu mới có thể được định nghĩa bằng cách tối đa hóa kết quả cận dưới thu được như trên. Trong trường hợp này, các điều kiện thỏa mãn cận dưới trở thành các ràng buộc trong bài toán này.
+Để tìm cận dưới chặt nhất (lớn nhất), ta lập một bài toán tối ưu mới với mục tiêu cực đại hóa $$2a$$, trong đó các điều kiện đảm bảo cận dưới trở thành ràng buộc của bài toán mới:
 
 >$$
 >\begin{align}
@@ -112,7 +110,7 @@ Một bài toán tối ưu mới có thể được định nghĩa bằng cách 
 >\end{align}
 >$$
 
-Bài toán LP ban đầu ở trên được gọi là LP nguyên thủy, và dạng định nghĩa lại bài toán tối ưu bằng cách tối đa hóa cận dưới trong LP nguyên thủy được gọi là LP đối ngẫu. Lưu ý rằng số lượng biến tối ưu trong bài toán đối ngẫu bằng số lượng ràng buộc trong bài toán nguyên thủy.
+Bài toán LP ban đầu được gọi là **LP gốc (primal LP)**, còn bài toán cực đại hóa cận dưới vừa xây dựng được gọi là **LP đối ngẫu (dual LP)**. Lưu ý rằng số biến của bài toán đối ngẫu bằng số ràng buộc của bài toán gốc.
 
 >$$
 >\begin{align}
@@ -130,9 +128,9 @@ Bài toán LP ban đầu ở trên được gọi là LP nguyên thủy, và d�
 >\end{align}
 >$$
 
-## Ví dụ 3: Dạng mà hàm mục tiêu có thể được biểu diễn như tổ hợp tuyến tính của các ràng buộc (2)
+## Ví dụ 3: Trường hợp hàm mục tiêu là tổ hợp tuyến tính của các ràng buộc (2)
 
-Như một ví dụ cuối cùng, hãy xem xét một dạng mà các dấu bất đẳng thức trong ràng buộc bị đảo ngược và bao gồm các ràng buộc đẳng thức.
+Xét ví dụ cuối cùng, trong đó có cả bất đẳng thức ngược chiều ($$\leq$$) và ràng buộc đẳng thức ($$=$$):
 
 >$$
 >\begin{align}
@@ -155,9 +153,9 @@ Như một ví dụ cuối cùng, hãy xem xét một dạng mà các dấu bấ
 >\end{align}
 >$$
 
-Ở đây, c là giá trị vô hướng được nhân với cả hai vế của đẳng thức, vì vậy bất kỳ giá trị nào cũng có thể được nhân mà không có hạn chế.
+Ở đây, vì $$c$$ nhân với hai vế của một phương trình đẳng thức nên $$c$$ có thể nhận bất kỳ giá trị thực nào (không bị ràng buộc dấu).
 
-Do đó, LP đối ngẫu có thể được định nghĩa như sau.
+Từ đó, bài toán LP đối ngẫu được viết như sau:
 
 >$$
 >\begin{align}

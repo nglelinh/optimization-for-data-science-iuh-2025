@@ -9,26 +9,25 @@ categories:
 lang: vi
 ---
 
-Ở thuật toán trước, chúng ta tạo ra các nghiệm nằm trên đường trung tâm, nhưng thực ra đường trung tâm chỉ là phương tiện để đi đến nghiệm tối ưu ("means to an end"). Do đó, không cần giải bài toán một cách chính xác.
+Trong phiên bản trước, thuật toán yêu cầu giải chính xác bài toán chắn để nghiệm nằm đúng trên đường trung tâm. Tuy nhiên, đường trung tâm chỉ là phương tiện dẫn tới nghiệm tối ưu chứ không phải đích đến cuối cùng, nên trên thực tế ta không cần giải chính xác tuyệt đối ở từng bước định tâm.
 
 ### Thuật toán
 
-Vì lý do này, phương pháp chắn v.2 giải bài toán chắn một cách xấp xỉ. Cụ thể, $$x^{(0)} \approx x^*(t)$$ ở bước 2 và $$x^{(k+1)} \approx x^*(t)$$ ở bước 3-2 giờ đây là các xấp xỉ.
+Từ nhận xét đó, **phương pháp chắn v.2** chỉ giải xấp xỉ bài toán chắn ở mỗi bước: cụ thể, $$x^{(0)} \approx x^*(t)$$ ở bước 2 và $$x^{(k+1)} \approx x^*(t)$$ ở bước 3-2.
 
-Các bước của thuật toán giống như trong phương pháp chắn v.1.
+Cấu trúc thuật toán giữ nguyên như phương pháp chắn v.1:
 
 1. Chọn $$t^{(0)} > 0$$ và đặt $$k := 0$$.
-2. Tại $$t = t^{(0)}$$, giải bài toán chắn để thu được $$x^{(0)} \approx x^*(t)$$.
-3. Trong khi $$m/t > \epsilon$$<br>
+2. Tại $$t = t^{(0)}$$, giải xấp xỉ bài toán chắn để thu được $$x^{(0)} \approx x^*(t)$$.
+3. Trong khi $$m/t > \epsilon$$:<br>
    3-1. Chọn $$t^{(k+1)} > t^{(k)}$$.<br>
-   3-2. Khởi tạo phương pháp Newton với $$x^{(k)}$$ (warm start)<br>
-        Tại $$t = t^{(k+1)}$$, giải bài toán chắn để thu được $$x^{(k+1)} \approx x^*(t)$$.<br>
-   kết thúc vòng lặp<br>
+   3-2. Khởi tạo phương pháp Newton bằng $$x^{(k)}$$ (warm start) và giải xấp xỉ bài toán chắn tại $$t = t^{(k+1)}$$ để thu được $$x^{(k+1)} \approx x^*(t)$$.<br>
+   Kết thúc vòng lặp.<br>
 
-Trong phương pháp chắn v.2, hai vấn đề sau đây rất quan trọng:
+Với phương pháp chắn v.2, hai câu hỏi trọng tâm cần đặt ra là:
 
-* Mỗi xấp xỉ cần gần đến mức nào?
-* Mỗi bước centering cần bao nhiêu bước Newton?
+* Mỗi bước giải xấp xỉ cần chính xác đến mức nào?
+* Mỗi bước định tâm cần bao nhiêu bước Newton?
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -37,9 +36,9 @@ Trong phương pháp chắn v.2, hai vấn đề sau đây rất quan trọng:
 </p>
 </figure>
 
-Trong hình trên, bạn có thể thấy khi áp dụng phương pháp chắn cho bài toán có $$m$$ ràng buộc, sự hội tụ vẫn là tuyến tính ngay cả khi $$m$$ rất lớn. Nghĩa là, nó có thang logarit theo $$m$$.
+Hình 1 cho thấy khi áp dụng phương pháp chắn cho bài toán có $$m$$ ràng buộc, tốc độ hội tụ vẫn là tuyến tính ngay cả khi $$m$$ rất lớn — tức số vòng lặp tăng theo thang logarit đối với $$m$$.
 
-Nhìn từ một góc độ khác, số bước Newton cần thiết (để giảm khoảng cách dưới tối ưu ban đầu (duality gap) $$10^4$$) chỉ tăng chậm theo $$m$$. Quan sát hình dưới đây, ngay cả khi $$m$$ tăng đáng kể, mỗi bước centering chỉ cần khoảng 20–30 bước Newton. Tuy nhiên, chi phí của một bước Newton thay đổi rất nhiều tùy theo kích thước bài toán.
+Nhìn từ góc độ khác, số bước Newton cần thiết để giảm khoảng cách đối ngẫu (duality gap) đi một hệ số $$10^4$$ chỉ tăng rất chậm theo $$m$$. Như thể hiện ở Hình 2, ngay cả khi $$m$$ tăng mạnh, mỗi bài toán vẫn chỉ cần khoảng 20–30 bước Newton (dù chi phí của bản thân mỗi bước Newton phụ thuộc đáng kể vào kích thước bài toán).
 
 <figure class="image" style="align: center;">
 <p align="center">

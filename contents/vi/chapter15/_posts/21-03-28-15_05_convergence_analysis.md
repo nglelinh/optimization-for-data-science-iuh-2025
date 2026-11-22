@@ -9,23 +9,27 @@ owner: "Minjoo Lee"
 lang: vi
 ---
 
-Giả sử bước centering trong phương pháp chắn được giải chính xác, ta thu được các kết quả hội tụ sau.
+Giả sử mỗi bước định tâm (centering step) trong phương pháp chắn được giải chính xác, ta thu được kết quả hội tụ sau.
 
 ## Định lý hội tụ
-Sau $$k$$ bước centering, **phương pháp chắn** thỏa mãn bất đẳng thức sau. (Ở đây $$k$$ là số vòng lặp ngoài.)
->$$\begin{align}
-f(x^{(k)}) - f^{*} \le  \frac{m}{\mu^k t^{(0)}}
-\end{align}$$
+Sau $$k$$ bước định tâm (vòng lặp ngoài), **phương pháp chắn** thỏa mãn bất đẳng thức:
+>$$
+>\begin{align}
+>f(x^{(k)}) - f^{*} \le  \frac{m}{\mu^k t^{(0)}}
+>\end{align}
+>$$
 
-Nghĩa là, để đạt độ chính xác mong muốn $$\epsilon$$ bằng phương pháp chắn, bạn cần số bước centering sau đây, cộng thêm một bước centering đầu tiên.
+Nghĩa là để đạt độ chính xác $$\epsilon$$, tổng số bước định tâm cần thiết (bao gồm bước định tâm đầu tiên) là:
 
->$$\begin{align}
-\frac{log(m/(t^{(0)}\epsilon))}{\log \mu} + 1
-\end{align}$$
+>$$
+>\begin{align}
+>\frac{\log(m/(t^{(0)}\epsilon))}{\log \mu} + 1
+>\end{align}
+>$$
 
-Do đó, ta thấy sự hội tụ là tuyến tính, với $$O(\log 1/\epsilon )$$.
+Như vậy, số vòng lặp ngoài có bậc độ phức tạp $$O(\log(1/\epsilon))$$, tương ứng tốc độ hội tụ tuyến tính.
 
-Phương pháp Newton hội tụ bậc hai với $$O(\log \log 1/\epsilon ) $$, nhưng trong trường hợp này bài toán rất khó, nên hội tụ tuyến tính không phải là kết quả tệ.
+So với tốc độ hội tụ bậc hai $$O(\log \log(1/\epsilon))$$ của phương pháp Newton không ràng buộc, hội tụ tuyến tính vẫn là kết quả tốt đối với lớp bài toán có ràng buộc bất đẳng thức vốn khó hơn nhiều.
 
-Định nghĩa về hội tụ tuyến tính và hội tụ bậc hai có thể xem trên Wiki.<br>
+Định nghĩa chi tiết về hội tụ tuyến tính và hội tụ bậc hai có thể tham khảo thêm trên Wikipedia:<br>
 * Tham khảo: [Rate of convergence](https://en.wikipedia.org/wiki/Rate_of_convergence)

@@ -10,8 +10,8 @@ lang: vi
 lesson_type: required
 ---
 
-Khi thực hiện gradient descent, **kích thước bước** quyết định cách biến $$x$$ được cập nhật và ảnh hưởng đến tốc độ và sự thành công trong việc tìm giá trị tối ưu. Phần này giới thiệu ba phương pháp chính để chọn kích thước bước nhằm giúp gradient descent tìm được tối ưu nhanh hơn:
+Khi thực hiện gradient descent, **kích thước bước** quyết định mức độ cập nhật của biến $$x$$ ở mỗi lần lặp, qua đó ảnh hưởng trực tiếp đến tốc độ và khả năng hội tụ về nghiệm tối ưu. Mục này giới thiệu ba phương pháp chính để lựa chọn kích thước bước:
 
-- Kích thước bước cố định
-- Tìm kiếm đường lùi
-- Tìm kiếm đường chính xác
+- Kích thước bước cố định (fixed step size)
+- Tìm kiếm đường lùi (backtracking line search)
+- Tìm kiếm đường chính xác (exact line search)

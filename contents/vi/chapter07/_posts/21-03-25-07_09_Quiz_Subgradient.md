@@ -24,14 +24,14 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
 $$f(y) \ge f(x) + g^T(y - x), \quad \forall y$$
 
 **Ý nghĩa hình học:**
-- $$g$$ định nghĩa một siêu phẳng hỗ trợ (supporting hyperplane) của $$f$$ tại $$x$$
-- Siêu phẳng này nằm dưới đồ thị hàm số tại mọi điểm
-- Tổng quát hóa khái niệm gradient cho hàm không khả vi
+- $$g$$ xác định một siêu phẳng tựa (supporting hyperplane) của $$f$$ tại $$x$$.
+- Siêu phẳng này nằm dưới đồ thị hàm số tại mọi điểm.
+- Tổng quát hóa khái niệm gradient cho các hàm không khả vi.
 
 #### **Tính chất cơ bản**
-- **Tồn tại:** Gradient dưới luôn tồn tại cho hàm lồi
-- **Duy nhất:** Nếu $$f$$ khả vi tại $$x$$, thì $$g = \nabla f(x)$$ là gradient dưới duy nhất
-- **Không lồi:** Với hàm không lồi, gradient dưới có thể không tồn tại
+- **Tính tồn tại:** Gradient dưới luôn tồn tại với mọi hàm lồi.
+- **Tính duy nhất:** Nếu $$f$$ khả vi tại $$x$$, thì $$g = \nabla f(x)$$ là gradient dưới duy nhất.
+- **Hàm không lồi:** Với hàm không lồi, gradient dưới có thể không tồn tại.
 
 ### 📊 **Các Ví Dụ Quan Trọng**
 
@@ -64,15 +64,15 @@ $$\partial f(x) = \begin{cases}
 ### 🔍 **Vi Phân Dưới (Subdifferential)**
 
 #### **Định nghĩa**
-Vi phân dưới $$\partial f(x)$$ là tập hợp tất cả gradient dưới tại $$x$$:
+Vi phân dưới $$\partial f(x)$$ là tập hợp tất cả các gradient dưới tại $$x$$:
 
 $$\partial f(x) = \{g \in \mathbb{R}^n : g \text{ là gradient dưới của } f \text{ tại } x\}$$
 
 #### **Tính chất quan trọng**
-- **Tập lồi đóng:** $$\partial f(x)$$ luôn là tập lồi đóng
-- **Không rỗng:** Nếu $$f$$ lồi, thì $$\partial f(x) \neq \emptyset$$
-- **Duy nhất:** Nếu $$f$$ khả vi tại $$x$$, thì $$\partial f(x) = \{\nabla f(x)\}$$
-- **Khả vi:** Nếu $$\partial f(x) = \{g\}$$, thì $$f$$ khả vi tại $$x$$ và $$\nabla f(x) = g$$
+- **Tập lồi đóng:** $$\partial f(x)$$ luôn là tập lồi đóng.
+- **Khác rỗng:** Nếu $$f$$ lồi thì $$\partial f(x) \neq \emptyset$$.
+- **Duy nhất:** Nếu $$f$$ lồi và khả vi tại $$x$$, thì $$\partial f(x) = \{\nabla f(x)\}$$.
+- **Khả vi:** Nếu $$\partial f(x) = \{g\}$$, thì $$f$$ khả vi tại $$x$$ và $$\nabla f(x) = g$$.
 
 ### 🎯 **Điều Kiện Tối Ưu Gradient Dưới**
 
@@ -86,7 +86,7 @@ f(x^*) = \min_x f(x) &\Longleftrightarrow f(y) \ge f(x^*) \text{ với mọi } y
 &\Longleftrightarrow 0 \in \partial f(x^*)
 \end{align}$$
 
-**Lưu ý quan trọng:** Điều kiện này đúng cho cả hàm không lồi!
+**Lưu ý:** Điều kiện này đúng cho cả hàm không lồi.
 
 ### 🔗 **Kết Nối với Điều Kiện Tối Ưu Bậc Một**
 
@@ -94,7 +94,7 @@ f(x^*) = \min_x f(x) &\Longleftrightarrow f(y) \ge f(x^*) \text{ với mọi } y
 $$\min_{x \in C} f(x)$$
 
 #### **Điều kiện tối ưu bậc một**
-Nếu $$f$$ lồi và khả vi:
+Nếu $$f$$ lồi và khả vi trên tập lồi $$C$$:
 $$x^* \text{ tối ưu} \Longleftrightarrow \nabla f(x^*)^T(y - x^*) \ge 0, \quad \forall y \in C$$
 
 #### **Suy dẫn từ gradient dưới**
@@ -110,13 +110,13 @@ $$\begin{align}
 
 #### **1. Tổ hợp tuyến tính**
 $$\partial(\alpha f + \beta g)(x) = \alpha \partial f(x) + \beta \partial g(x)$$
-với $$\alpha, \beta \ge 0$$
+với $$\alpha, \beta \ge 0$$.
 
-#### **2. Hàm max**
+#### **2. Hàm giá trị lớn nhất**
 $$\partial \max\{f_1, \ldots, f_m\}(x) = \text{conv}\{\partial f_i(x) : i \in I(x)\}$$
-với $$I(x) = \{i : f_i(x) = \max_j f_j(x)\}$$
+với $$I(x) = \{i : f_i(x) = \max_j f_j(x)\}$$.
 
-#### **3. Hàm hợp thành**
+#### **3. Hợp thành với ánh xạ affine**
 Nếu $$h(x) = f(Ax + b)$$:
 $$\partial h(x) = A^T \partial f(Ax + b)$$
 
@@ -126,17 +126,17 @@ $$\partial I_C(x) = \begin{cases}
 \emptyset & \text{nếu } x \notin C
 \end{cases}$$
 
-với $$\mathcal{N}_C(x)$$ là nón pháp tuyến của $$C$$ tại $$x$$
+với $$\mathcal{N}_C(x)$$ là nón pháp tuyến của $$C$$ tại $$x$$.
 
 ### 🎲 **Ứng Dụng Thực Tế**
 
-#### **1. LASSO Regression**
+#### **1. Hồi quy LASSO**
 $$\min_\beta \frac{1}{2}\lVert y - X\beta \rVert_2^2 + \lambda \lVert \beta \rVert_1$$
 
 **Điều kiện tối ưu:**
 $$0 \in X^T(X\beta^* - y) + \lambda \partial \lVert \beta^* \rVert_1$$
 
-#### **2. Soft-thresholding**
+#### **2. Toán tử ngưỡng mềm (Soft-thresholding)**
 Nghiệm của $$\min_x \frac{1}{2}(x - a)^2 + \lambda \lvert x \rvert$$:
 
 $$x^* = \text{soft}(a, \lambda) = \begin{cases}
@@ -145,58 +145,58 @@ a - \lambda & \text{nếu } a > \lambda \\
 a + \lambda & \text{nếu } a < -\lambda
 \end{cases}$$
 
-#### **3. Khoảng cách đến tập lồi**
+#### **3. Phép chiếu lên tập lồi**
 $$\min_x \frac{1}{2}\lVert x - a \rVert_2^2 + I_C(x)$$
 
-**Nghiệm:** $$x^* = P_C(a)$$ (phép chiếu của $$a$$ lên $$C$$)
+**Nghiệm:** $$x^* = P_C(a)$$ (phép chiếu Euclid của $$a$$ lên $$C$$).
 
-### 🔄 **So Sánh Gradient vs Subgradient**
+### 🔄 **So Sánh Gradient và Subgradient**
 
 | Khía cạnh | Gradient | Subgradient |
 |-----------|----------|-------------|
 | **Điều kiện** | Hàm khả vi | Hàm lồi |
-| **Duy nhất** | Có | Không (có thể là tập) |
-| **Tồn tại** | Không luôn | Luôn (với hàm lồi) |
-| **Tính toán** | Đạo hàm | Quy tắc subdifferential |
-| **Ứng dụng** | Smooth optimization | Non-smooth optimization |
+| **Tính duy nhất** | Duy nhất | Có thể là một tập hợp |
+| **Tính tồn tại** | Không phải lúc nào cũng tồn tại | Luôn tồn tại với hàm lồi |
+| **Cách tính** | Đạo hàm thông thường | Quy tắc vi phân dưới |
+| **Phạm vi ứng dụng** | Tối ưu hàm trơn | Tối ưu hàm không trơn |
 
-### 🛠️ **Kỹ Thuật Tính Toán**
+### 🛠️ **Quy Trình Tính Toán**
 
 #### **Bước 1: Xác định tính khả vi**
-- Nếu $$f$$ khả vi tại $$x$$: $$\partial f(x) = \{\nabla f(x)\}$$
-- Nếu không khả vi: sử dụng quy tắc tính toán
+- Nếu $$f$$ khả vi tại $$x$$: $$\partial f(x) = \{\nabla f(x)\}$$.
+- Nếu không khả vi: áp dụng các quy tắc phép tính vi phân dưới.
 
 #### **Bước 2: Phân tích cấu trúc**
-- Tổ hợp tuyến tính của hàm lồi
-- Hàm max/min
-- Hàm hợp thành
-- Hàm chỉ thị
+- Tổ hợp tuyến tính không âm của các hàm lồi.
+- Hàm $$\max$$ hữu hạn theo điểm.
+- Hàm hợp thành với ánh xạ affine.
+- Hàm chỉ thị của tập lồi.
 
 #### **Bước 3: Áp dụng quy tắc**
-- Sử dụng các quy tắc tính toán subdifferential
-- Kết hợp các kết quả từng phần
+- Tính vi phân dưới của từng thành phần.
+- Kết hợp kết quả theo các quy tắc tương ứng.
 
-### ⚡ **Thuật Toán Subgradient Method**
+### ⚡ **Thuật Toán Phương Pháp Subgradient**
 
 #### **Quy tắc cập nhật**
 $$x^{(k+1)} = x^{(k)} - t_k g^{(k)}$$
-với $$g^{(k)} \in \partial f(x^{(k)})$$
+với $$g^{(k)} \in \partial f(x^{(k)})$$.
 
-#### **Lựa chọn step size**
-- **Cố định:** $$t_k = t > 0$$
-- **Giảm dần:** $$t_k \to 0$$, $$\sum t_k = \infty$$
-- **Square summable:** $$\sum t_k^2 < \infty$$
+#### **Lựa chọn kích thước bước**
+- **Cố định:** $$t_k = t > 0$$.
+- **Giảm dần:** $$t_k \to 0$$, $$\sum t_k = \infty$$.
+- **Tổng bình phương hội tụ:** $$\sum t_k^2 < \infty$$.
 
-#### **Hội tụ**
-- Không đảm bảo giảm monotonic
-- Hội tụ về giá trị tối ưu (không nhất thiết về điểm tối ưu)
-- Tốc độ hội tụ: $$O(1/\sqrt{k})$$
+#### **Tính chất hội tụ**
+- Không đảm bảo giảm đơn điệu ở mọi bước.
+- Hội tụ về giá trị tối ưu (theo $$f(x_{\text{best}}^{(k)})$$).
+- Tốc độ hội tụ: $$O(1/\sqrt{k})$$.
 
 ### 🎯 **Ví Dụ Minh Họa**
 
 #### **Bài toán:** $$\min_x \lvert x - 2 \rvert + \lvert x + 1 \rvert$$
 
-**Bước 1:** Tính subdifferential
+**Bước 1:** Tính vi phân dưới
 $$\partial f(x) = \partial \lvert x - 2 \rvert + \partial \lvert x + 1 \rvert$$
 
 **Bước 2:** Phân tích từng khoảng
@@ -210,23 +210,23 @@ $$0 \in \partial f(x^*) \Rightarrow x^* \in [-1, 2]$$
 ### 💡 **Mẹo Thực Hành**
 
 #### **Nhận biết hàm không khả vi:**
-- Hàm chứa $$\lvert \cdot \rvert$$, $$\max\{\cdot\}$$, $$\min\{\cdot\}$$
-- Hàm chỉ thị $$I_C(\cdot)$$
-- Chuẩn $$\lVert \cdot \rVert_1$$, $$\lVert \cdot \rVert_\infty$$
+- Hàm chứa $$\lvert \cdot \rvert$$, $$\max\{\cdot\}$$, $$\min\{\cdot\}$$.
+- Hàm chỉ thị $$I_C(\cdot)$$.
+- Các chuẩn không trơn như $$\lVert \cdot \rVert_1$$, $$\lVert \cdot \rVert_\infty$$.
 
 #### **Tính toán hiệu quả:**
-- Sử dụng quy tắc tổ hợp tuyến tính
-- Phân tích theo từng thành phần
-- Áp dụng tính chất hình học
+- Tận dụng quy tắc tổ hợp tuyến tính.
+- Phân tích độc lập theo từng tọa độ khi hàm tách biến được.
+- Khai thác trực giác hình học (siêu phẳng tựa, nón pháp tuyến).
 
 #### **Kiểm tra kết quả:**
-- Xác minh điều kiện subdifferential
-- Kiểm tra tính lồi của tập kết quả
-- So sánh với trường hợp khả vi (nếu có)
+- Xác minh bất đẳng thức định nghĩa gradient dưới.
+- Kiểm tra tính lồi đóng của tập kết quả.
+- Đối chiếu với trường hợp khả vi tại các điểm trơn.
 
 ---
 
-💡 **Mẹo:** Subgradient mở rộng khái niệm gradient cho hàm không khả vi, là công cụ mạnh mẽ trong tối ưu hóa lồi và machine learning với regularization!
+💡 **Ghi chú:** Subgradient mở rộng khái niệm gradient sang lớp hàm không khả vi và là công cụ nền tảng trong tối ưu hóa lồi cũng như các bài toán học máy có chính quy hóa.
 
 ---
 

@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-Trong phần này, chúng ta sẽ suy ra các điều kiện KKT của bài toán chắn và của bài toán ban đầu để xem chúng khác nhau như thế nào. Chúng ta cũng sẽ tính khoảng cách dưới tối ưu của nghiệm hai bài toán.
+Trong mục này, ta đối chiếu các điều kiện KKT của bài toán chắn với điều kiện KKT của bài toán ban đầu để thấy rõ mối liên hệ giữa chúng, đồng thời dẫn xuất cận cho khoảng cách dưới tối ưu (suboptimality gap) giữa hai nghiệm.

@@ -14,15 +14,15 @@ redirect_from:
 
 # Bài Tập Thực Hành - Tính Đối Ngẫu Tổng Quát
 
-Các bài tập được tham khảo từ Boyd & Vandenberghe (2004), Rockafellar (1970), và Bertsekas (1999).
+Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Rockafellar (1970) và Bertsekas (1999).
 
 ---
 
-## **Phần I: Lagrangian và Dual Function - Nền Tảng**
+## Phần I: Hàm Lagrangian và hàm đối ngẫu
 
-### **Bài tập 1: Xây dựng Lagrangian (Boyd & Vandenberghe, Ex. 5.1)**
+### Bài tập 1: Xây dựng hàm Lagrangian (Boyd & Vandenberghe, Ex. 5.1)
 
-Cho bài toán tổng quát:
+Cho bài toán tối ưu tổng quát:
 
 $$
 \begin{align}
@@ -32,55 +32,49 @@ $$
 \end{align}
 $$
 
-**Yêu cầu:**  
-a) Viết Lagrangian $$L(x, \lambda, \nu)$$  
-b) Định nghĩa dual function $$g(\lambda, \nu)$$  
-c) Cho $$f_0(x) = x_1^2 + x_2^2$$, $$f_1(x) = x_1 + x_2 - 1$$, $$h_1(x) = x_1 - x_2$$. Tính $$L$$ và $$g$$
+**Yêu cầu:**
+a) Viết hàm Lagrangian $$L(x, \lambda, \nu)$$.
+b) Định nghĩa hàm đối ngẫu $$g(\lambda, \nu)$$.
+c) Cho $$f_0(x) = x_1^2 + x_2^2$$, $$f_1(x) = x_1 + x_2 - 1$$, $$h_1(x) = x_1 - x_2$$. Tính $$L$$ và $$g$$.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Lagrangian:**
+**a) Hàm Lagrangian:**
 
 $$
 L(x, \lambda, \nu) = f_0(x) + \sum_{i=1}^m \lambda_i f_i(x) + \sum_{j=1}^p \nu_j h_j(x)
 $$
 
 với:
-- $$\lambda \in \mathbb{R}^m$$, $$\lambda \geq 0$$: dual variables cho inequality constraints
-- $$\nu \in \mathbb{R}^p$$: dual variables cho equality constraints (không ràng buộc dấu)
+- $$\lambda \in \mathbb{R}^m, \lambda \geq 0$$: vector biến đối ngẫu cho các ràng buộc bất đẳng thức.
+- $$\nu \in \mathbb{R}^p$$: vector biến đối ngẫu cho các ràng buộc đẳng thức (không ràng buộc dấu).
 
 ---
 
-**b) Dual function:**
+**b) Hàm đối ngẫu:**
 
 $$
 g(\lambda, \nu) = \inf_x L(x, \lambda, \nu) = \inf_x \left( f_0(x) + \sum_i \lambda_i f_i(x) + \sum_j \nu_j h_j(x) \right)
 $$
 
 **Tính chất:**
-- $$g(\lambda, \nu)$$ luôn **lõm** (concave) theo $$(\lambda, \nu)$$
-- $$g(\lambda, \nu) \leq p^*$$ (weak duality) với mọi $$\lambda \geq 0$$
+- $$g(\lambda, \nu)$$ luôn là hàm **lõm** theo $$(\lambda, \nu)$$.
+- $$g(\lambda, \nu) \leq p^*$$ với mọi $$\lambda \geq 0$$ (tính đối ngẫu yếu).
 
 ---
 
 **c) Tính cụ thể:**
 
-Dữ liệu:
+Với $$f_0(x) = x_1^2 + x_2^2$$, $$f_1(x) = x_1 + x_2 - 1$$ và $$h_1(x) = x_1 - x_2$$:
 
-$$
-f_0(x) = x_1^2 + x_2^2, \quad f_1(x) = x_1 + x_2 - 1, \quad h_1(x) = x_1 - x_2
-$$
-
-**Lagrangian:**
+**Hàm Lagrangian:**
 
 $$
 L(x, \lambda, \nu) = x_1^2 + x_2^2 + \lambda(x_1 + x_2 - 1) + \nu(x_1 - x_2)
 $$
 
-**Tìm $$\inf_x L$$:**
-
-FOC:
+**Tìm $$\inf_x L$$:** Điều kiện đạo hàm bậc nhất (FOC):
 
 $$
 \frac{\partial L}{\partial x_1} = 2x_1 + \lambda + \nu = 0 \Rightarrow x_1 = -\frac{\lambda + \nu}{2}
@@ -90,7 +84,7 @@ $$
 \frac{\partial L}{\partial x_2} = 2x_2 + \lambda - \nu = 0 \Rightarrow x_2 = -\frac{\lambda - \nu}{2}
 $$
 
-Thế vào $$L$$, ta có:
+Thế vào $$L$$, ta thu được:
 
 $$
 g(\lambda, \nu) = -\frac{\lambda^2 + \nu^2}{2} - \lambda
@@ -102,19 +96,19 @@ với $$\lambda \geq 0$$.
 
 ---
 
-### **Bài tập 2: Weak Duality (Boyd & Vandenberghe, Ex. 5.2)**
+### Bài tập 2: Đối ngẫu yếu và mạnh (Boyd & Vandenberghe, Ex. 5.2)
 
-Cho bài toán và dual function từ Bài tập 1c.
+Xét bài toán gốc và hàm đối ngẫu từ Bài tập 1c.
 
-**Yêu cầu:**  
-a) Giải primal problem  
-b) Giải dual problem: $$\max_{\lambda \geq 0, \nu} g(\lambda, \nu)$$  
-c) Kiểm tra strong duality
+**Yêu cầu:**
+a) Giải bài toán gốc.
+b) Giải bài toán đối ngẫu $$\max_{\lambda \geq 0, \nu} g(\lambda, \nu)$$.
+c) Kiểm tra tính đối ngẫu mạnh.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Giải Primal:**
+**a) Giải bài toán gốc:**
 
 $$
 \begin{align}
@@ -124,43 +118,41 @@ $$
 \end{align}
 $$
 
-Từ $$x_1 = x_2$$ và $$x_1 + x_2 \leq 1$$ → $$2x_1 \leq 1$$ → $$x_1 \leq 0.5$$.
+Từ $$x_1 = x_2$$ và $$x_1 + x_2 \leq 1$$ suy ra $$x_1 \leq 0.5$$. Hàm mục tiêu trở thành $$2x_1^2$$, đạt cực tiểu tại $$x_1 = 0$$.
 
-Minimize $$2x_1^2$$ → minimum tại $$x_1 = 0$$.
-
-**Nghiệm primal:** $$x^* = (0, 0)$$, $$p^* = 0$$
+**Nghiệm bài toán gốc:** $$x^* = (0, 0)$$, $$p^* = 0$$.
 
 ---
 
-**b) Giải Dual:**
+**b) Giải bài toán đối ngẫu:**
 
 $$
 \max_{\lambda \geq 0, \nu} \quad -\frac{\lambda^2 + \nu^2}{2} - \lambda
 $$
 
-FOC: $$\frac{\partial g}{\partial \lambda} = -\lambda - 1 = 0$$ → $$\lambda = -1$$ (nhưng $$\lambda \geq 0$$ → $$\lambda^* = 0$$)
+Điều kiện đạo hàm bậc nhất:
+- $$\frac{\partial g}{\partial \lambda} = -\lambda - 1 = 0 \Rightarrow \lambda = -1$$. Vì ràng buộc $$\lambda \geq 0$$ và $$g$$ giảm trên $$[0, +\infty)$$, nên $$\lambda^* = 0$$.
+- $$\frac{\partial g}{\partial \nu} = -\nu = 0 \Rightarrow \nu^* = 0$$.
 
-$$\frac{\partial g}{\partial \nu} = -\nu = 0$$ → $$\nu^* = 0$$
-
-**Nghiệm dual:** $$\lambda^* = 0$$, $$\nu^* = 0$$, $$d^* = 0$$
+**Nghiệm bài toán đối ngẫu:** $$\lambda^* = 0$$, $$\nu^* = 0$$, $$d^* = 0$$.
 
 ---
 
-**c) Strong Duality:**
+**c) Kiểm tra đối ngẫu mạnh:**
 
 $$p^* = 0 = d^*$$
 
-**Strong duality holds!** ✓ (Bài toán lồi và thỏa Slater's condition)
+Tính đối ngẫu mạnh được thỏa mãn ✓ (bài toán lồi và thỏa mãn điều kiện Slater).
 
 </details>
 
 ---
 
-## **Phần II: Slater's Condition và Strong Duality**
+## Phần II: Điều kiện Slater và tính đối ngẫu mạnh
 
-### **Bài tập 3: Kiểm tra Slater's Condition (Rockafellar, Ex. 28.3)**
+### Bài tập 3: Kiểm tra điều kiện Slater (Rockafellar, Ex. 28.3)
 
-Cho các bài toán sau, kiểm tra Slater's condition:
+Kiểm tra điều kiện Slater cho các bài toán sau:
 
 **a)** $$\min x^2$$ s.t. $$x^2 \leq 1$$
 
@@ -171,94 +163,89 @@ Cho các bài toán sau, kiểm tra Slater's condition:
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**Slater's Condition:** Tồn tại $$\tilde{x}$$ strictly feasible:
-- $$f_i(\tilde{x}) < 0$$ với mọi $$i$$
-- $$h_j(\tilde{x}) = 0$$ với mọi $$j$$
+**Điều kiện Slater:** Tồn tại điểm khả thi chặt $$\tilde{x}$$ sao cho:
+- $$f_i(\tilde{x}) < 0$$ với mọi ràng buộc bất đẳng thức phi tuyến $$i$$ (ràng buộc bất đẳng thức affine chỉ cần $$\leq 0$$),
+- $$h_j(\tilde{x}) = 0$$ với mọi ràng buộc đẳng thức $$j$$.
 
 ---
 
 **a) $$\min x^2$$ s.t. $$x^2 \leq 1$$:**
 
-Strictly feasible: $$\tilde{x}^2 < 1$$, ví dụ $$\tilde{x} = 0$$ ✓
+Điều kiện khả thi chặt là $$\tilde{x}^2 < 1$$; chọn $$\tilde{x} = 0$$ thỏa mãn ✓.
 
-**Slater's condition thỏa mãn** → Strong duality.
+**Điều kiện Slater thỏa mãn**, nên tính đối ngẫu mạnh đúng.
 
 ---
 
 **b) $$\min x^2$$ s.t. $$x^2 \leq 0$$:**
 
-Strictly feasible: $$\tilde{x}^2 < 0$$ → **không tồn tại**!
+Bất đẳng thức $$\tilde{x}^2 < 0$$ vô nghiệm, nên **điều kiện Slater không thỏa mãn**.
 
-**Slater's condition KHÔNG thỏa mãn**.
-
-Miền khả thi chỉ có $$x = 0$$ (single point). Tuy nhiên strong duality vẫn holds ($$p^* = d^* = 0$$).
+Miền khả thi chỉ gồm một điểm duy nhất $$x = 0$$. Tuy nhiên, trong ví dụ cụ thể này tính đối ngẫu mạnh vẫn đúng ($$p^* = d^* = 0$$), minh họa rằng điều kiện Slater chỉ là điều kiện đủ.
 
 ---
 
 **c) QP với $$Q \succ 0$$, $$Ax \leq b$$:**
 
-Strictly feasible: $$A\tilde{x} < b$$ (component-wise).
-
-**Slater's thỏa** nếu $$\{x : Ax < b\} \neq \emptyset$$.
+Dạng nguyên bản của điều kiện Slater đòi hỏi tồn tại $$\tilde{x}$$ thỏa $$A\tilde{x} < b$$ (tức $$\{x : Ax < b\} \neq \emptyset$$). Tuy nhiên, vì các ràng buộc $$Ax \leq b$$ đều là hàm **affine**, theo dạng mở rộng (refined Slater's condition), chỉ cần miền khả thi $$\{x : Ax \leq b\}$$ khác rỗng là đã đủ đảm bảo tính đối ngẫu mạnh.
 
 </details>
 
 ---
 
-## **Phần III: Bài Toán Quy Hoạch Bậc Hai (Quadratic Programming)**
+## Phần III: Quy hoạch bậc hai (Quadratic Programming)
 
-### **Bài tập 4: Quadratic Programming đơn giản**
+### Bài tập 4: Quy hoạch bậc hai một biến
 
-**Đề bài:** 
+**Đề bài:**
 $$\min_x \frac{1}{2}x^2 + x \quad \text{s.t.} \quad x \geq 1$$
 
 **Yêu cầu:**
-1. Viết lại bài toán ở dạng chuẩn
-2. Xây dựng hàm Lagrangian
-3. Tính hàm đối ngẫu $$g(u)$$
-4. Giải bài toán đối ngẫu
-5. So sánh nghiệm primal và dual
+1. Viết lại bài toán ở dạng chuẩn.
+2. Xây dựng hàm Lagrangian.
+3. Tính hàm đối ngẫu $$g(u)$$.
+4. Giải bài toán đối ngẫu.
+5. So sánh nghiệm gốc và nghiệm đối ngẫu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**Bước 1: Viết lại bài toán**
+**Bước 1: Viết lại ở dạng chuẩn**
 $$\min_x \frac{1}{2}x^2 + x \quad \text{s.t.} \quad -x + 1 \leq 0$$
 
 **Bước 2: Hàm Lagrangian**
 $$L(x,u) = \frac{1}{2}x^2 + x + u(-x + 1) = \frac{1}{2}x^2 + (1-u)x + u$$
 
-**Bước 3: Tính hàm đối ngẫu**
+**Bước 3: Hàm đối ngẫu**
 $$g(u) = \inf_x L(x,u)$$
 
-Đạo hàm: $$\frac{\partial L}{\partial x} = x + (1-u) = 0$$ → $$x^* = u - 1$$
+Lấy đạo hàm theo $$x$$: $$\frac{\partial L}{\partial x} = x + (1 - u) = 0 \Rightarrow x^* = u - 1$$.
 
-Thay vào: $$g(u) = -\frac{1}{2}(u-1)^2 + u$$
+Thay vào $$L$$: $$g(u) = -\frac{1}{2}(u - 1)^2 + u$$.
 
-**Bước 4: Bài toán đối ngẫu**
+**Bước 4: Giải bài toán đối ngẫu**
 $$\max_u g(u) \quad \text{s.t.} \quad u \geq 0$$
 
-$$g'(u) = 2 - u = 0$$ → $$u^* = 2$$
+Ta có $$g'(u) = -(u - 1) + 1 = 2 - u = 0 \Rightarrow u^* = 2$$ (thỏa $$u^* \geq 0$$).
 
 **Bước 5: So sánh nghiệm**
-- Dual optimal: $$u^* = 2$$, $$g^* = \frac{3}{2}$$
-- Primal optimal: $$x^* = 1$$, $$f^* = \frac{3}{2}$$
-- Strong duality: $$f^* = g^*$$ ✓
+- Nghiệm đối ngẫu: $$u^* = 2$$, $$g^* = \frac{3}{2}$$.
+- Nghiệm gốc: $$x^* = 1$$, $$f^* = \frac{3}{2}$$.
+- Tính đối ngẫu mạnh thỏa mãn: $$f^* = g^*$$ ✓.
 
 </details>
 
 ---
 
-### **Bài tập 5: QP với nhiều ràng buộc**
+### Bài tập 5: Quy hoạch bậc hai nhiều ràng buộc
 
-**Đề bài:** 
+**Đề bài:**
 $$\min_{x,y} x^2 + y^2 \quad \text{s.t.} \quad x + y \geq 2, \quad x \geq 0, \quad y \geq 0$$
 
 **Yêu cầu:**
-1. Xây dựng hàm Lagrangian đầy đủ
-2. Tính hàm đối ngẫu
-3. Tìm điều kiện KKT
-4. Giải bài toán
+1. Xây dựng hàm Lagrangian đầy đủ.
+2. Viết các điều kiện KKT.
+3. Giải tìm nghiệm tối ưu gốc và đối ngẫu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
@@ -267,22 +254,21 @@ $$\min_{x,y} x^2 + y^2 \quad \text{s.t.} \quad x + y \geq 2, \quad x \geq 0, \qu
 $$L(x,y,u_1,u_2,u_3) = x^2 + y^2 + u_1(-x - y + 2) + u_2(-x) + u_3(-y)$$
 
 **Điều kiện KKT:**
-- $$\frac{\partial L}{\partial x} = 2x - u_1 - u_2 = 0$$
-- $$\frac{\partial L}{\partial y} = 2y - u_1 - u_3 = 0$$
-- Complementary slackness
-- Primal và dual feasibility
+- Dừng (stationarity): $$\frac{\partial L}{\partial x} = 2x - u_1 - u_2 = 0$$ và $$\frac{\partial L}{\partial y} = 2y - u_1 - u_3 = 0$$.
+- Điều kiện bù: $$u_1(-x - y + 2) = 0$$, $$u_2 x = 0$$, $$u_3 y = 0$$.
+- Khả thi gốc và đối ngẫu ($$u_1, u_2, u_3 \geq 0$$).
 
-**Nghiệm:** $$x^* = y^* = 1$$, $$(u_1^*, u_2^*, u_3^*) = (2, 0, 0)$$
+**Nghiệm:** $$x^* = y^* = 1$$, $$(u_1^*, u_2^*, u_3^*) = (2, 0, 0)$$.
 
 </details>
 
 ---
 
-## **Phần IV: Support Vector Machine (SVM) Dual**
+## Phần IV: Đối ngẫu của Support Vector Machine (SVM)
 
-### **Bài tập 6: SVM Dual Formulation (Boyd & Vandenberghe, Ex. 8.6)**
+### Bài tập 6: Dạng đối ngẫu của SVM (Boyd & Vandenberghe, Ex. 8.6)
 
-Cho bài toán SVM:
+Cho bài toán SVM lề cứng:
 
 $$
 \begin{align}
@@ -291,32 +277,32 @@ $$
 \end{align}
 $$
 
-**Yêu cầu:**  
-a) Viết Lagrangian  
-b) Tính dual function $$g(\alpha)$$  
-c) Viết dual problem  
-d) Với 3 điểm: $$(1, 1, +1)$$, $$(1, -1, +1)$$, $$(-1, 0, -1)$$, tìm dual optimum
+**Yêu cầu:**
+a) Viết hàm Lagrangian.
+b) Tính hàm đối ngẫu $$g(\alpha)$$.
+c) Viết bài toán đối ngẫu.
+d) Với 3 điểm dữ liệu $$(1, 1, +1)$$, $$(1, -1, +1)$$ và $$(-1, 0, -1)$$, tìm nghiệm đối ngẫu tối ưu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Lagrangian:**
+**a) Hàm Lagrangian:**
 
 $$
 L(w, b, \alpha) = \frac{1}{2}\|w\|^2 - \sum_{i=1}^m \alpha_i (y_i(w^T x_i + b) - 1)
 $$
 
-**b) Dual function:**
+**b) Hàm đối ngẫu:**
 
-FOC: $$w = \sum_i \alpha_i y_i x_i$$, $$\sum_i \alpha_i y_i = 0$$
+Điều kiện dừng theo $$w$$ và $$b$$ cho: $$w = \sum_i \alpha_i y_i x_i$$ và $$\sum_i \alpha_i y_i = 0$$.
 
-Thế vào:
+Thế vào $$L$$, ta được:
 
 $$
 g(\alpha) = \sum_i \alpha_i - \frac{1}{2}\sum_{i,j} \alpha_i \alpha_j y_i y_j x_i^T x_j
 $$
 
-**c) Dual problem:**
+**c) Bài toán đối ngẫu:**
 
 $$
 \boxed{
@@ -328,16 +314,15 @@ $$
 }
 $$
 
-**d) Tính số:** Cả 3 điểm đều là support vector. Từ $$w = \sum_i \alpha_i y_i x_i$$, $$\sum_i \alpha_i y_i = 0$$ và $$y_i(w^T x_i + b) = 1$$ ta được $$\alpha^* = (1/4,\ 1/4,\ 1/2)$$, $$w^* = (1, 0)^T$$, $$b^* = 0$$, giá trị dual $$= 1 - \frac{1}{2}\|w^*\|^2 = \frac{1}{2}$$.
-Decision boundary: $$x_1 = 0$$
+**d) Tính cụ thể:** Cả 3 điểm đều là vector hỗ trợ (support vector). Từ $$w = \sum_i \alpha_i y_i x_i$$, $$\sum_i \alpha_i y_i = 0$$ và $$y_i(w^T x_i + b) = 1$$, ta giải được $$\alpha^* = (1/4,\ 1/4,\ 1/2)$$, $$w^* = (1, 0)^T$$, $$b^* = 0$$, với giá trị đối ngẫu $$1 - \frac{1}{2}\|w^*\|^2 = \frac{1}{2}$$. Biên quyết định là đường thẳng $$x_1 = 0$$.
 
 </details>
 
 ---
 
-## **Phần V: Complementary Slackness**
+## Phần V: Điều kiện bù và khoảng cách đối ngẫu
 
-### **Bài tập 7: Complementary Slackness Application**
+### Bài tập 7: Áp dụng điều kiện bù
 
 Cho bài toán LP:
 
@@ -349,21 +334,21 @@ $$
 \end{align}
 $$
 
-**Yêu cầu:**  
-a) Viết điều kiện complementary slackness  
-b) Cho $$c = \begin{bmatrix} -1 \\ -2 \end{bmatrix}$$, $$A = \begin{bmatrix} 1 & 1 \end{bmatrix}$$, $$b = 1$$, tìm nghiệm  
-c) Kiểm tra complementary slackness
+**Yêu cầu:**
+a) Viết điều kiện bù (complementary slackness).
+b) Cho $$c = \begin{bmatrix} -1 \\ -2 \end{bmatrix}$$, $$A = \begin{bmatrix} 1 & 1 \end{bmatrix}$$, $$b = 1$$, tìm nghiệm tối ưu gốc và đối ngẫu.
+c) Kiểm tra điều kiện bù.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Complementary Slackness:**
+**a) Điều kiện bù:**
 
 $$\lambda_i^* \cdot (-x_i^*) = 0$$
 
 **Ý nghĩa:**
-- Nếu $$x_i^* > 0$$: $$\lambda_i^* = 0$$
-- Nếu $$\lambda_i^* > 0$$: $$x_i^* = 0$$
+- Nếu $$x_i^* > 0$$ thì $$\lambda_i^* = 0$$.
+- Nếu $$\lambda_i^* > 0$$ thì $$x_i^* = 0$$.
 
 ---
 
@@ -371,13 +356,12 @@ $$\lambda_i^* \cdot (-x_i^*) = 0$$
 
 $$\min \quad -x_1 - 2x_2 \quad \text{s.t.} \quad x_1 + x_2 = 1, \quad x \geq 0$$
 
-Maximize $$x_1 + 2x_2$$ với $$x_1 + x_2 = 1$$.
+Tương đương với cực đại hóa $$x_1 + 2x_2$$ trên đoạn $$x_1 + x_2 = 1, x \geq 0$$.
 
-**Nghiệm primal:** $$x^* = (0, 1)^T$$, $$p^* = -2$$
+- **Nghiệm gốc:** $$x^* = (0, 1)^T$$, $$p^* = -2$$.
+- **Nghiệm đối ngẫu:** $$\nu^* = -2$$, $$\lambda^* = (1, 0)^T$$.
 
-**Nghiệm dual:** $$\nu^* = -2$$, $$\lambda^* = (1, 0)^T$$
-
-**c) Kiểm tra:**
+**c) Kiểm tra điều kiện bù:**
 - $$\lambda_1^* \cdot 0 = 0$$ ✓
 - $$\lambda_2^* \cdot (-1) = 0$$ ✓
 
@@ -385,105 +369,105 @@ Maximize $$x_1 + 2x_2$$ với $$x_1 + x_2 = 1$$.
 
 ---
 
-### **Bài tập 8: Duality Gap Analysis (Bertsekas, Ex. 6.1.2)**
+### Bài tập 8: Phân tích khoảng cách đối ngẫu (Bertsekas, Ex. 6.1.2)
 
-Cho bài toán (lưu ý: $$x(x-2) = x^2 - 2x$$ là hàm lồi):
+Cho bài toán (lưu ý $$x(x-2) = x^2 - 2x$$ là hàm lồi):
 
 $$
 \min_{x \in [0,2]} \quad x(x-2)
 $$
 
-**Yêu cầu:**  
-a) Giải primal problem  
-b) Viết Lagrangian và tìm dual function  
-c) Giải dual problem  
-d) Tính duality gap
+**Yêu cầu:**
+a) Giải bài toán gốc.
+b) Viết hàm Lagrangian và tìm hàm đối ngẫu.
+c) Giải bài toán đối ngẫu.
+d) Tính khoảng cách đối ngẫu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Giải Primal:**
+**a) Giải bài toán gốc:**
 
 $$f(x) = x^2 - 2x = (x-1)^2 - 1$$
 
-Minimum tại $$x = 1$$ trong $$[0, 2]$$: $$p^* = -1$$
+Hàm đạt cực tiểu tại $$x = 1 \in [0, 2]$$ với $$p^* = -1$$.
 
 ---
 
-**b) Lagrangian:**
+**b) Hàm Lagrangian:**
 
-Viết lại: $$\min_x x^2 - 2x$$ s.t. $$-x \leq 0$$, $$x - 2 \leq 0$$
+Viết lại bài toán: $$\min_x x^2 - 2x$$ s.t. $$-x \leq 0$$, $$x - 2 \leq 0$$.
 
 $$L(x, \lambda_1, \lambda_2) = x^2 - 2x - \lambda_1 x + \lambda_2(x - 2)$$
 
-**c) Dual analysis:**
+**c) Giải bài toán đối ngẫu:**
 
-Cực tiểu theo $$x$$: $$x = \frac{2 + \lambda_1 - \lambda_2}{2}$$, nên $$g(\lambda_1, \lambda_2) = -\frac{(2 + \lambda_1 - \lambda_2)^2}{4} - 2\lambda_2$$. Với $$\lambda \geq 0$$, $$g$$ đạt max tại $$\lambda_1 = \lambda_2 = 0$$: $$d^* = g(0, 0) = -1$$.
+Cực tiểu hóa theo $$x$$ cho $$x = \frac{2 + \lambda_1 - \lambda_2}{2}$$, suy ra $$g(\lambda_1, \lambda_2) = -\frac{(2 + \lambda_1 - \lambda_2)^2}{4} - 2\lambda_2$$. Trên miền $$\lambda \geq 0$$, $$g$$ đạt cực đại tại $$\lambda_1 = \lambda_2 = 0$$ với $$d^* = g(0, 0) = -1$$.
 
-**d) Duality gap:**
+**d) Khoảng cách đối ngẫu:**
 
-Gap $$= p^* - d^* = -1 - (-1) = 0$$. Bài toán lồi và thỏa Slater (ví dụ $$x = 1$$ thỏa chặt cả hai ràng buộc), nên strong duality đúng. Nghiệm $$x^* = 1$$ nằm trong miền, hai ràng buộc không active, nên $$\lambda^* = 0$$ (khớp complementary slackness).
+$$\text{Gap} = p^* - d^* = -1 - (-1) = 0$$. Bài toán lồi và thỏa mãn điều kiện Slater (ví dụ $$x = 1$$ thỏa chặt cả hai bất đẳng thức), nên tính đối ngẫu mạnh đúng. Vì nghiệm $$x^* = 1$$ nằm trong phần trong của miền khả thi, cả hai ràng buộc đều lỏng nên $$\lambda^* = 0$$ (phù hợp điều kiện bù).
 
 </details>
 
 ---
 
-## **Phần VI: Norm Approximation và Optimization Problems**
+## Phần VI: Xấp xỉ chuẩn và tối ưu entropy
 
-### **Bài tập 9: Norm Approximation (Boyd & Vandenberghe, Ex. 5.3)**
+### Bài tập 9: Xấp xỉ chuẩn (Boyd & Vandenberghe, Ex. 5.3)
 
 **Đề bài:**
 $$\min_x \lVert Ax - b \rVert$$
 
-với norm là $$\ell_1, \ell_2,$$ hoặc $$\ell_\infty$$.
+với chuẩn lần lượt là $$\ell_1, \ell_2$$ và $$\ell_\infty$$.
 
 **Yêu cầu:**
-1. Reformulate thành bài toán có ràng buộc
-2. Xây dựng dual cho mỗi trường hợp
-3. So sánh các dual problems
+1. Biến đổi thành bài toán có ràng buộc.
+2. Xây dựng bài toán đối ngẫu cho từng trường hợp.
+3. So sánh các bài toán đối ngẫu thu được.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**Trường hợp 1: $$\ell_1$$ norm**
+**Trường hợp 1: Chuẩn $$\ell_1$$**
 
 $$\min_{x,t} \mathbf{1}^T t \quad \text{s.t.} \quad -t \leq Ax - b \leq t$$
 
-Dual:
+Bài toán đối ngẫu:
 $$\max_{\lambda,\mu} -b^T(\lambda - \mu) \quad \text{s.t.} \quad A^T(\lambda - \mu) = 0, \quad \lambda + \mu = \mathbf{1}, \quad \lambda,\mu \geq 0$$
 
 ---
 
-**Trường hợp 2: $$\ell_2$$ norm**
+**Trường hợp 2: Chuẩn $$\ell_2$$**
 
 $$\min_{x,t} t \quad \text{s.t.} \quad \lVert Ax - b \rVert_2 \leq t$$
 
-Dual:
+Bài toán đối ngẫu:
 $$\max_{\nu} -b^T \nu \quad \text{s.t.} \quad A^T \nu = 0, \quad \lVert \nu \rVert_2 \leq 1$$
 
 ---
 
-**Trường hợp 3: $$\ell_\infty$$ norm**
+**Trường hợp 3: Chuẩn $$\ell_\infty$$**
 
 $$\min_{x,t} t \quad \text{s.t.} \quad -t\mathbf{1} \leq Ax - b \leq t\mathbf{1}$$
 
-Dual:
+Bài toán đối ngẫu:
 $$\max_{\lambda,\mu} -b^T(\lambda - \mu) \quad \text{s.t.} \quad A^T(\lambda - \mu) = 0, \quad \lVert \lambda - \mu \rVert_1 \leq 1$$
 
 </details>
 
 ---
 
-### **Bài tập 10: Entropy Maximization (Boyd & Vandenberghe, Ex. 5.4)**
+### Bài tập 10: Cực đại hóa entropy (Boyd & Vandenberghe, Ex. 5.4)
 
 **Đề bài:**
 $$\max_x -\sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad Ax = b, \quad x \geq 0$$
 
 **Yêu cầu:**
-1. Chuyển về bài toán minimization
-2. Xây dựng hàm Lagrangian
-3. Tính hàm đối ngẫu
-4. Tìm nghiệm tối ưu
+1. Chuyển về bài toán cực tiểu hóa.
+2. Xây dựng hàm Lagrangian.
+3. Tính hàm đối ngẫu.
+4. Tìm dạng nghiệm tối ưu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
@@ -494,38 +478,38 @@ $$\min_x \sum_{i=1}^n x_i \log x_i \quad \text{s.t.} \quad Ax = b, \quad x \geq 
 **Hàm Lagrangian:**
 $$L(x,\nu,\lambda) = \sum_{i=1}^n x_i \log x_i + \nu^T(Ax - b) - \lambda^T x$$
 
-**Điều kiện tối ưu:**
+**Điều kiện dừng:**
 $$\frac{\partial L}{\partial x_i} = \log x_i + 1 + (A^T \nu)_i - \lambda_i = 0$$
 
-Suy ra: $$x_i = e^{-(A^T \nu)_i + \lambda_i - 1}$$
+Suy ra: $$x_i = e^{-(A^T \nu)_i + \lambda_i - 1}$$.
 
-**Complementary slackness:**
-Vì $$x_i = e^{\cdots} > 0$$ nên $$\lambda_i = 0$$: $$x_i = e^{-(A^T \nu)_i - 1}$$. Hàm đối ngẫu: $$g(\nu) = -b^T \nu - \sum_{i=1}^n e^{-(A^T \nu)_i - 1}$$; giải $$\max_\nu g(\nu)$$ (không ràng buộc) rồi thế lại để được $$x^*$$.
+**Điều kiện bù:**
+Vì $$x_i = e^{\cdots} > 0$$ nên $$\lambda_i = 0$$, dẫn đến $$x_i = e^{-(A^T \nu)_i - 1}$$. Hàm đối ngẫu là $$g(\nu) = -b^T \nu - \sum_{i=1}^n e^{-(A^T \nu)_i - 1}$$; ta giải bài toán không ràng buộc $$\max_\nu g(\nu)$$ rồi thế ngược lại để thu được $$x^*$$.
 
 </details>
 
 ---
 
-## **Phần VII: Bài Tập Tính Toán Cụ Thể với Lagrange**
+## Phần VII: Bài tập tính toán cụ thể với nhân tử Lagrange
 
-### **Bài tập 11: Portfolio Optimization với Dual Variables**
+### Bài tập 11: Tối ưu danh mục đầu tư với biến đối ngẫu
 
-**Đề bài:** Một nhà đầu tư có 100 triệu đồng muốn đầu tư vào 3 tài sản với:
-- Lợi nhuận kỳ vọng: $$r = (12\%, 8\%, 5\%)^T$$
+**Đề bài:** Một nhà đầu tư có 100 triệu đồng muốn phân bổ vào 3 tài sản với:
+- Vector lợi nhuận kỳ vọng: $$r = (12\%, 8\%, 5\%)^T$$
 - Ma trận hiệp phương sai rủi ro: $$\Sigma = \begin{bmatrix} 0.04 & 0.01 & 0 \\ 0.01 & 0.02 & 0 \\ 0 & 0 & 0.01 \end{bmatrix}$$
 
-Bài toán: $$\min_x \frac{1}{2}x^T \Sigma x$$ s.t. $$r^T x \geq 10\%$$, $$\mathbf{1}^T x = 1$$, $$x \geq 0$$
+Bài toán: $$\min_x \frac{1}{2}x^T \Sigma x$$ s.t. $$r^T x \geq 10\%$$, $$\mathbf{1}^T x = 1$$, $$x \geq 0$$.
 
 **Yêu cầu:**
-a) Viết Lagrangian với tất cả ràng buộc
-b) Tính điều kiện KKT
-c) Giải tìm phân bổ tối ưu $$x^*$$
-d) Tính dual variables và giải thích ý nghĩa kinh tế
+a) Viết hàm Lagrangian với đầy đủ các ràng buộc.
+b) Viết hệ điều kiện KKT.
+c) Giải tìm phân bổ tối ưu $$x^*$$.
+d) Tính các biến đối ngẫu và giải thích ý nghĩa kinh tế.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết từng bước</strong></summary>
 
-**a) Lagrangian:**
+**a) Hàm Lagrangian:**
 
 $$
 L(x, \lambda_1, \nu, \lambda_2) = \frac{1}{2}x^T \Sigma x - \lambda_1(r^T x - 0.1) + \nu(\mathbf{1}^T x - 1) - \lambda_2^T x
@@ -537,102 +521,71 @@ với $$\lambda_1, \lambda_2 \geq 0$$.
 
 **b) Điều kiện KKT:**
 
-**Stationarity:**
-$$\nabla_x L = \Sigma x - \lambda_1 r + \nu \mathbf{1} - \lambda_2 = 0$$
-
-**Primal feasibility:**
-- $$r^T x \geq 0.1$$
-- $$\mathbf{1}^T x = 1$$  
-- $$x \geq 0$$
-
-**Dual feasibility:**
-$$\lambda_1, \lambda_2 \geq 0$$
-
-**Complementary slackness:**
-- $$\lambda_1(r^T x - 0.1) = 0$$
-- $$\lambda_{2i} x_i = 0$$ với mọi $$i$$
+- **Điều kiện dừng (Stationarity):** $$\nabla_x L = \Sigma x - \lambda_1 r + \nu \mathbf{1} - \lambda_2 = 0$$.
+- **Khả thi gốc:** $$r^T x \geq 0.1$$, $$\mathbf{1}^T x = 1$$, $$x \geq 0$$.
+- **Khả thi đối ngẫu:** $$\lambda_1, \lambda_2 \geq 0$$.
+- **Điều kiện bù:** $$\lambda_1(r^T x - 0.1) = 0$$ và $$\lambda_{2i} x_i = 0$$ với mọi $$i$$.
 
 ---
 
 **c) Giải bài toán:**
 
-Giả sử ràng buộc lợi nhuận active ($$r^T x = 0.1$$) và tất cả $$x_i > 0$$ (không short).
-
-Từ complementary slackness: $$\lambda_2 = 0$$.
-
-Từ stationarity:
-$$\Sigma x = \lambda_1 r - \nu \mathbf{1}$$
+Giả sử ràng buộc lợi nhuận chặt ($$r^T x = 0.1$$) và mọi $$x_i > 0$$ (không bán khống). Khi đó từ điều kiện bù suy ra $$\lambda_2 = 0$$, và điều kiện dừng trở thành $$\Sigma x = \lambda_1 r - \nu \mathbf{1}$$:
 
 $$
 \begin{bmatrix} 0.04 & 0.01 & 0 \\ 0.01 & 0.02 & 0 \\ 0 & 0 & 0.01 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix} = \lambda_1 \begin{bmatrix} 0.12 \\ 0.08 \\ 0.05 \end{bmatrix} - \nu \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}
 $$
 
-Kết hợp với:
-- $$x_1 + x_2 + x_3 = 1$$
-- $$0.12x_1 + 0.08x_2 + 0.05x_3 = 0.1$$
-
-**Giải hệ phương trình:**
-
-Từ phương trình 3: $$0.01x_3 = 0.05\lambda_1 - \nu$$
-
-Từ 2 ràng buộc:
-$$x_3 = 1 - x_1 - x_2$$
-$$0.12x_1 + 0.08x_2 + 0.05(1 - x_1 - x_2) = 0.1$$
-$$0.07x_1 + 0.03x_2 = 0.05$$
-
-Kết hợp 3 phương trình stationarity với 2 ràng buộc (5 phương trình tuyến tính, 5 ẩn) và giải chính xác:
+Kết hợp với hai ràng buộc $$x_1 + x_2 + x_3 = 1$$ và $$0.12x_1 + 0.08x_2 + 0.05x_3 = 0.1$$ (suy ra $$x_3 = 1 - x_1 - x_2$$ và $$0.07x_1 + 0.03x_2 = 0.05$$), ta giải hệ 5 phương trình tuyến tính 5 ẩn:
 
 $$
 x^* = \begin{bmatrix} 7/12 \\ 11/36 \\ 1/9 \end{bmatrix} \approx \begin{bmatrix} 0.583 \\ 0.306 \\ 0.111 \end{bmatrix}, \quad \lambda_1^* = \frac{13}{36} \approx 0.361, \quad \nu^* = \frac{61}{3600} \approx 0.017
 $$
 
 **Kiểm tra:**
-- Lợi nhuận: $$0.12 \cdot \frac{7}{12} + 0.08 \cdot \frac{11}{36} + 0.05 \cdot \frac{1}{9} = 0.1$$ ✓, tổng tỷ trọng $$= 1$$ ✓, mọi $$x_i > 0$$ ✓ (giả thiết đúng)
-- Rủi ro: $$\frac{1}{2}x^{*T}\Sigma x^* = \frac{23}{2400} \approx 0.00958$$
+- Lợi nhuận: $$0.12 \cdot \frac{7}{12} + 0.08 \cdot \frac{11}{36} + 0.05 \cdot \frac{1}{9} = 0.1$$ ✓; tổng tỷ trọng $$= 1$$ ✓; mọi $$x_i > 0$$ ✓ (giả thiết ban đầu đúng).
+- Giá trị hàm mục tiêu rủi ro: $$\frac{1}{2}x^{*T}\Sigma x^* = \frac{23}{2400} \approx 0.00958$$.
 
 ---
 
-**d) Giải thích kinh tế:**
+**d) Ý nghĩa kinh tế:**
 
-- $$\lambda_1^* \approx 0.361$$: **Shadow price của ràng buộc lợi nhuận**
-- Nếu tăng yêu cầu lợi nhuận từ 10% lên 11%, rủi ro tăng thêm khoảng $$0.361 \times 0.01 \approx 0.0036$$
-- $$\nu^* \approx 0.017$$: **Độ nhạy theo ràng buộc ngân sách**
-- Nếu nới $$\mathbf{1}^T x = 1$$ thành $$1 + \delta$$ (với $$\delta$$ nhỏ), rủi ro tối ưu thay đổi khoảng $$-\nu^* \delta$$
+- $$\lambda_1^* \approx 0.361$$ là **giá bóng của ràng buộc lợi nhuận**: nếu nâng yêu cầu lợi nhuận từ 10% lên 11%, giá trị rủi ro tối ưu tăng thêm khoảng $$0.361 \times 0.01 \approx 0.0036$$.
+- $$\nu^* \approx 0.017$$ là **độ nhạy theo ràng buộc ngân sách**: nếu thay $$\mathbf{1}^T x = 1$$ bằng $$1 + \delta$$ (với $$\delta$$ nhỏ), rủi ro tối ưu thay đổi khoảng $$-\nu^* \delta$$.
+- $$\lambda_2 = 0$$: không có tài sản nào chạm biên không bán khống.
 
-- $$\lambda_2 = 0$$: Không có tài sản nào ở biên short-selling constraint
-
-**Phân bổ tối ưu:** khoảng 58,3% tài sản 1, 30,6% tài sản 2, 11,1% tài sản 3 (tức khoảng 58,3 / 30,6 / 11,1 triệu đồng).
+**Phân bổ tối ưu:** khoảng 58,3% vào tài sản 1, 30,6% vào tài sản 2 và 11,1% vào tài sản 3 (tương ứng khoảng 58,3 / 30,6 / 11,1 triệu đồng).
 
 </details>
 
 ---
 
-### **Bài tập 12: Sản xuất tối ưu với Lagrange Multipliers**
+### Bài tập 12: Sản xuất tối ưu với nhân tử Lagrange
 
 **Đề bài:** Một công ty sản xuất 2 sản phẩm A và B:
-- Lợi nhuận: A = 40 nghìn/sản phẩm, B = 30 nghìn/sản phẩm
-- Tài nguyên giới hạn:
-  - Lao động: 2A + B ≤ 100 giờ
-  - Vật liệu: A + 2B ≤ 80 kg
-  - Máy móc: A ≤ 40 sản phẩm
+- Lợi nhuận: sản phẩm A đạt 40 nghìn/đơn vị, sản phẩm B đạt 30 nghìn/đơn vị.
+- Ràng buộc nguồn lực:
+  - Lao động: $$2A + B \leq 100$$ giờ
+  - Vật liệu: $$A + 2B \leq 80$$ kg
+  - Máy móc: $$A \leq 40$$ sản phẩm
 
-Bài toán: $$\max_{x_1, x_2} 40x_1 + 30x_2$$ với các ràng buộc trên.
+Bài toán: $$\max_{x_1, x_2} 40x_1 + 30x_2$$ với các ràng buộc trên và $$x_1, x_2 \geq 0$$.
 
 **Yêu cầu:**
-a) Chuyển về min và viết Lagrangian
-b) Tìm nghiệm tối ưu bằng KKT
-c) Tính shadow prices của từng tài nguyên
-d) Nếu mua thêm 10 giờ lao động giá 8 nghìn/giờ, có nên mua không?
+a) Chuyển về bài toán cực tiểu hóa và viết hàm Lagrangian.
+b) Tìm nghiệm tối ưu bằng điều kiện KKT.
+c) Tính giá bóng của từng nguồn lực.
+d) Nếu có thể mua thêm 10 giờ lao động với giá 8 nghìn/giờ, có nên mua không?
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Chuyển về minimization:**
+**a) Chuyển về bài toán cực tiểu hóa:**
 
 $$\min_{x_1, x_2} -40x_1 - 30x_2$$
 $$\text{s.t.} \quad 2x_1 + x_2 \leq 100, \quad x_1 + 2x_2 \leq 80, \quad x_1 \leq 40, \quad x_1, x_2 \geq 0$$
 
-**Lagrangian:**
+**Hàm Lagrangian:**
 
 $$
 L(x, \lambda) = -40x_1 - 30x_2 + \lambda_1(2x_1 + x_2 - 100) + \lambda_2(x_1 + 2x_2 - 80) + \lambda_3(x_1 - 40)
@@ -642,84 +595,82 @@ $$
 
 **b) Điều kiện KKT:**
 
-**Stationarity:**
-$$\frac{\partial L}{\partial x_1} = -40 + 2\lambda_1 + \lambda_2 + \lambda_3 = 0$$
-$$\frac{\partial L}{\partial x_2} = -30 + \lambda_1 + 2\lambda_2 = 0$$
+- **Điều kiện dừng:**
+  $$\frac{\partial L}{\partial x_1} = -40 + 2\lambda_1 + \lambda_2 + \lambda_3 = 0$$
+  $$\frac{\partial L}{\partial x_2} = -30 + \lambda_1 + 2\lambda_2 = 0$$
+- **Điều kiện bù:**
+  $$\lambda_1(2x_1 + x_2 - 100) = 0$$
+  $$\lambda_2(x_1 + 2x_2 - 80) = 0$$
+  $$\lambda_3(x_1 - 40) = 0$$
 
-**Complementary slackness:**
-$$\lambda_1(2x_1 + x_2 - 100) = 0$$
-$$\lambda_2(x_1 + 2x_2 - 80) = 0$$
-$$\lambda_3(x_1 - 40) = 0$$
+**Nhận xét:** Đỉnh $$(40, 20)$$ làm **cả ba** ràng buộc đều chặt cùng lúc: $$2(40) + 20 = 100$$, $$40 + 2(20) = 80$$, $$x_1 = 40$$. Đây là một đỉnh suy biến (degenerate).
 
-**Nhận xét:** Đỉnh $$(40, 20)$$ làm **cả ba** ràng buộc active cùng lúc: $$2(40) + 20 = 100$$, $$40 + 2(20) = 80$$, $$x_1 = 40$$. Đây là đỉnh suy biến (degenerate).
+So sánh giá trị lợi nhuận tại các đỉnh của miền khả thi: $$(0, 0) \to 0$$, $$(0, 40) \to 1200$$, $$(40, 20) \to 2200$$, $$(40, 0) \to 1600$$.
 
-So sánh các đỉnh của miền khả thi: $$(0, 0) \to 0$$, $$(0, 40) \to 1200$$, $$(40, 20) \to 2200$$, $$(40, 0) \to 1600$$.
+**Nghiệm tối ưu:** $$x_1^* = 40$$, $$x_2^* = 20$$, lợi nhuận $$40(40) + 30(20) = 2200$$ nghìn đồng.
 
-**Nghiệm tối ưu:** $$x_1^* = 40$$, $$x_2^* = 20$$, lợi nhuận $$40(40) + 30(20) = 2200$$ nghìn
-
-**Nhân tử KKT:** Vì $$x_1^*, x_2^* > 0$$, stationarity cho:
+**Nhân tử KKT:** Vì $$x_1^*, x_2^* > 0$$, điều kiện dừng cho hệ:
 
 $$2\lambda_1 + \lambda_2 + \lambda_3 = 40$$
 $$\lambda_1 + 2\lambda_2 = 30$$
 
-Đặt $$\lambda_2 = s$$: $$\lambda_1 = 30 - 2s$$, $$\lambda_3 = 3s - 20$$. Điều kiện $$\lambda \geq 0$$ cho $$20/3 \leq s \leq 15$$, nên nhân tử **không duy nhất** (do suy biến). Ví dụ:
+Đặt $$\lambda_2 = s$$, ta có $$\lambda_1 = 30 - 2s$$ và $$\lambda_3 = 3s - 20$$. Điều kiện $$\lambda \geq 0$$ suy ra $$20/3 \leq s \leq 15$$, nên tập nhân tử đối ngẫu **không duy nhất** (do suy biến). Ví dụ:
 - $$s = 20/3$$: $$\lambda = (50/3,\ 20/3,\ 0)$$
 - $$s = 10$$: $$\lambda = (10,\ 10,\ 10)$$
 - $$s = 15$$: $$\lambda = (0,\ 15,\ 25)$$
 
-Mọi lựa chọn đều cho giá trị dual $$100\lambda_1 + 80\lambda_2 + 40\lambda_3 = 2200$$ ✓ (strong duality).
+Mọi lựa chọn hợp lệ đều cho cùng giá trị đối ngẫu $$100\lambda_1 + 80\lambda_2 + 40\lambda_3 = 2200$$ ✓ (đối ngẫu mạnh).
 
 ---
 
-**c) Shadow prices (Dual variables):**
+**c) Giá bóng của từng nguồn lực:**
 
-Vì nhân tử không duy nhất, shadow price chỉ có nghĩa **một phía**:
-- **Lao động:** $$\lambda_1 \in [0,\ 50/3]$$. Bớt 1 giờ lao động làm lợi nhuận giảm khoảng $$50/3 \approx 16{,}7$$ nghìn, nhưng **thêm** 1 giờ thì lợi nhuận tăng **0**.
-- **Vật liệu:** $$\lambda_2 \in [20/3,\ 15]$$. Thêm 1 kg tăng lợi nhuận khoảng $$20/3 \approx 6{,}7$$ nghìn; bớt 1 kg giảm khoảng 15 nghìn.
-- **Máy móc:** $$\lambda_3 \in [0,\ 25]$$. Nới $$x_1 \leq 40$$ thêm 1 đơn vị thì lợi nhuận tăng **0** (lao động lập tức chặn lại); siết lại thì mất khoảng 25 nghìn.
+Vì nhân tử đối ngẫu không duy nhất, giá bóng chỉ có ý nghĩa **một phía**:
+- **Lao động:** $$\lambda_1 \in [0,\ 50/3]$$. Giảm 1 giờ lao động làm lợi nhuận giảm $$50/3 \approx 16{,}7$$ nghìn đồng, nhưng **tăng** thêm 1 giờ thì lợi nhuận tăng **0**.
+- **Vật liệu:** $$\lambda_2 \in [20/3,\ 15]$$. Tăng 1 kg làm lợi nhuận tăng $$20/3 \approx 6{,}7$$ nghìn đồng; giảm 1 kg làm lợi nhuận giảm 15 nghìn đồng.
+- **Máy móc:** $$\lambda_3 \in [0,\ 25]$$. Nới $$x_1 \leq 40$$ thêm 1 đơn vị không làm tăng lợi nhuận (vì ràng buộc lao động lập tức chặn lại); siết lại 1 đơn vị làm giảm 25 nghìn đồng.
 
 ---
 
-**d) Quyết định mua lao động:**
+**d) Quyết định mua thêm lao động:**
 
-Với 110 giờ lao động, hai ràng buộc $$x_1 \leq 40$$ và $$x_1 + 2x_2 \leq 80$$ vẫn giữ nghiệm ở $$(40, 20)$$, lợi nhuận vẫn là 2200 nghìn. Shadow price **khi tăng** lao động bằng 0.
+Khi tăng quỹ lao động lên 110 giờ, hai ràng buộc $$x_1 \leq 40$$ và $$x_1 + 2x_2 \leq 80$$ vẫn giữ nguyên nghiệm tối ưu tại $$(40, 20)$$ với lợi nhuận 2200 nghìn đồng; tức giá bóng **theo chiều tăng** của lao động bằng 0.
 
-Chi phí: $$10 \times 8 = 80$$ nghìn, lợi ích: 0.
+Chi phí bỏ ra là $$10 \times 8 = 80$$ nghìn đồng trong khi lợi ích thu thêm bằng 0.
 
-**Kết luận:** ❌ **KHÔNG NÊN MUA.** Mua 10 giờ làm lỗ 80 nghìn. Nút thắt thật sự là vật liệu và máy móc.
+**Kết luận:** ❌ **Không nên mua.** Việc mua thêm 10 giờ lao động gây lỗ 80 nghìn đồng; nút thắt thực sự nằm ở vật liệu và máy móc.
 
-**Lưu ý:** Ở đỉnh suy biến, đạo hàm của lợi nhuận tối ưu theo tài nguyên khác nhau ở hai phía, nên phải kiểm tra range trong sensitivity analysis trước khi dùng shadow price.
+**Lưu ý:** Tại đỉnh suy biến, đạo hàm trái và đạo hàm phải của giá trị tối ưu theo từng nguồn lực có thể khác nhau, nên cần kiểm tra miền độ nhạy trước khi áp dụng giá bóng.
 
 </details>
 
 ---
 
-## **Tổng kết Chiến lược**
+## Tổng kết chiến lược giải bài tập
 
-### **Lagrangian Duality:**
-- **Lagrangian:** $$L(x, \lambda, \nu) = f_0(x) + \sum_i \lambda_i f_i(x) + \sum_j \nu_j h_j(x)$$
-- **Dual function:** $$g(\lambda, \nu) = \inf_x L(x, \lambda, \nu)$$
-- **Dual problem:** $$\max_{\lambda \geq 0, \nu} g(\lambda, \nu)$$
+### Đối ngẫu Lagrange
+- **Hàm Lagrangian:** $$L(x, \lambda, \nu) = f_0(x) + \sum_i \lambda_i f_i(x) + \sum_j \nu_j h_j(x)$$
+- **Hàm đối ngẫu:** $$g(\lambda, \nu) = \inf_x L(x, \lambda, \nu)$$
+- **Bài toán đối ngẫu:** $$\max_{\lambda \geq 0, \nu} g(\lambda, \nu)$$
 
-### **Duality Relations:**
-- **Weak duality:** $$d^* \leq p^*$$ luôn đúng
-- **Strong duality:** $$d^* = p^*$$ (cần điều kiện Slater)
-- **Duality gap:** $$p^* - d^* \geq 0$$
+### Quan hệ đối ngẫu
+- **Đối ngẫu yếu:** $$d^* \leq p^*$$ luôn đúng.
+- **Đối ngẫu mạnh:** $$d^* = p^*$$ (ví dụ khi bài toán lồi và thỏa điều kiện Slater).
+- **Khoảng cách đối ngẫu:** $$p^* - d^* \geq 0$$.
 
-### **Complementary Slackness:**
-- $$\lambda_i^* f_i(x^*) = 0$$ với mọi $$i$$
-- Active constraints có thể có $$\lambda_i^* > 0$$
-- Inactive constraints có $$\lambda_i^* = 0$$
+### Điều kiện bù
+- $$\lambda_i^* f_i(x^*) = 0$$ với mọi $$i$$.
+- Ràng buộc chặt (active) có thể có $$\lambda_i^* > 0$$.
+- Ràng buộc lỏng (inactive) bắt buộc có $$\lambda_i^* = 0$$.
 
-### **Khi nào dùng Dual:**
-- Dual problem dễ giải hơn
-- Cần sensitivity analysis (shadow prices)
-- Algorithm efficiency (interior point methods)
-- Ít biến hơn (như SVM: $$m < n$$)
+### Khi nào nên giải qua bài toán đối ngẫu
+- Bài toán đối ngẫu có cấu trúc đơn giản hơn hoặc ít biến hơn (ví dụ SVM khi số mẫu nhỏ hơn số đặc trưng).
+- Cần phân tích độ nhạy thông qua giá bóng.
+- Cần khoảng cách đối ngẫu làm tiêu chí dừng trong các thuật toán điểm trong (interior-point).
 
 ---
 
-## **Tài liệu Tham khảo**
+## Tài liệu tham khảo
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press. Chapter 5.
 

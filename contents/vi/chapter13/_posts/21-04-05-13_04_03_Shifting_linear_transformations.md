@@ -9,27 +9,32 @@ categories:
 lang: vi
 ---
 
-Công thức đối ngẫu giúp dịch chuyển các biến đổi tuyến tính giữa các phần của hàm mục tiêu và các miền khác.
+Kỹ thuật lập bài toán đối ngẫu cho phép dịch chuyển phép biến đổi tuyến tính từ một thành phần này sang thành phần khác của hàm mục tiêu.
 
-Hãy xem xét điều sau:
+Xét bài toán sau:
+
 > $$ \min_x f(x) + g(Ax)$$
 
-Biểu thức sau tương đương:
-> $$min_{x,z} f(x) + g(z) \text { với điều kiện } Ax = z$$
+Ta viết lại bài toán ở dạng tương đương bằng cách đặt $$z = Ax$$:
 
-Điều này dẫn đến quá trình đối ngẫu sau:
-> $$\text {g(u)} = \min_{x,z} f(x) + g(z) + u^T(z - Ax)$$
-> $$\qquad  = -\max_{x} (A^T u)^T x - f(x) - \max_{z} (-u)^T z - g(z)  $$
-> $$\qquad = -\ f^* (A^T u) - g^* (-u) $$
+> $$\min_{x,z} f(x) + g(z) \text{ với điều kiện } Ax = z$$
 
-Và đối ngẫu là:
+Từ đó tính hàm đối ngẫu Lagrange:
+
+> $$g(u) = \min_{x,z} \left(f(x) + g(z) + u^T(z - Ax)\right)$$
+> $$\qquad  = -\max_{x} \left((A^T u)^T x - f(x)\right) - \max_{z} \left((-u)^T z - g(z)\right)$$
+> $$\qquad = -f^* (A^T u) - g^* (-u) $$
+
+Vậy bài toán đối ngẫu là:
+
 > $$\max_u -f^*(A^Tu) - g^*(-u)$$
 
-#### [Ví dụ]
-Chuẩn và chuẩn đối ngẫu của chúng có mối quan hệ như sau: $$\| \cdot \|, \| \cdot \|^*$$, các bài toán 
+#### Ví dụ
 
-> $$ \min_x f(x) +\| Ax \|$$
+Với một chuẩn $$\| \cdot \|$$ và chuẩn đối ngẫu tương ứng $$\| \cdot \|_{*}$$, xét cặp bài toán:
+
+> $$ \min_x f(x) + \| Ax \|$$
 > 
-> $$ \max_u -f^*(A^Tu) \text{ với điều kiện } \| u \|^* \leq 1$$
+> $$ \max_u -f^*(A^Tu) \text{ với điều kiện } \| u \|_{*} \leq 1$$
 
-Biểu thức đầu tiên là nguyên thủy, và biểu thức thứ hai là đối ngẫu, có thể được giải trực tiếp.
+Bài toán thứ nhất là bài toán nguyên thủy, còn bài toán thứ hai là bài toán đối ngẫu tương ứng, trong đó ma trận $$A$$ đã được chuyển sang tác động lên đối số của $$f^*$$ dưới dạng $$A^T u$$.

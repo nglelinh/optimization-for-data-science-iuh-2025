@@ -10,9 +10,9 @@ lang: vi
 lesson_type: required
 ---
 
-Chương này là cửa vào môn học: một bài toán tối ưu *là gì*, vì sao các bài toán **lồi** là những bài ta có thể chứng nhận, và phần còn lại của học kỳ mang lại gì cho sinh viên khoa học dữ liệu.
+Chương này mở đầu khóa học bằng ba câu hỏi cốt lõi: một bài toán tối ưu hóa *là gì*, vì sao các bài toán **lồi** cho phép ta đảm bảo chất lượng nghiệm, và phần còn lại của khóa học trang bị những gì cho sinh viên khoa học dữ liệu.
 
-Một chương trình toán học tìm điểm $$x$$ trong tập khả thi làm cho hàm mục tiêu nhỏ (hoặc lớn) nhất có thể:
+Một bài toán quy hoạch toán học tìm điểm $$x$$ thuộc tập khả thi sao cho hàm mục tiêu đạt giá trị nhỏ nhất (hoặc lớn nhất):
 
 $$
 \begin{align}
@@ -21,23 +21,23 @@ $$
 \end{align}
 $$
 
-Trong học máy, cùng một khuôn mẫu xuất hiện khắp nơi. Huấn luyện bộ dự đoán thường là **tối thiểu hóa rủi ro thực nghiệm**
+Trong học máy, cấu trúc này xuất hiện ở hầu hết mọi mô hình. Huấn luyện một bộ dự đoán thường có dạng bài toán **cực tiểu hóa rủi ro thực nghiệm**:
 
 $$
 \min_w \frac{1}{n}\sum_{i=1}^n \ell\bigl(h_w(x_i), y_i\bigr) + \lambda R(w),
 $$
 
-với $$\ell$$ là hàm mất mát và $$R$$ là regularizer. Chọn đặc trưng, trọng số danh mục, tham số hợp lý cực đại, và đối ngẫu của máy vector hỗ trợ đều là cùng ý tưởng với $$f$$ và $$\mathcal{C}$$ khác nhau.
+trong đó $$\ell$$ là hàm mất mát và $$R$$ là hàm điều chuẩn (regularizer). Lựa chọn đặc trưng, phân bổ trọng số danh mục đầu tư, ước lượng hợp lý tối đa và bài toán đối ngẫu của máy vector hỗ trợ (SVM) đều chung khuôn mẫu này, chỉ khác nhau ở hàm mục tiêu $$f$$ và tập khả thi $$\mathcal{C}$$.
 
-Các chương trình **lồi** — $$f$$ lồi trên $$\mathcal{C}$$ lồi — đặc biệt: mọi cực tiểu địa phương là toàn cục, điều kiện bậc nhất thường đủ, và ta có thuật toán đáng tin (gradient, proximal, điểm trong). Mạng sâu không lồi vẫn dùng các thuật toán đó; [Chương 28]({{ site.baseurl }}/contents/vi/chapter28/) hỏi vì sao phong cảnh thường dễ chịu hơn lý thuyết trường hợp xấu nhất.
+Các bài toán quy hoạch **lồi** — khi $$f$$ là hàm lồi trên tập lồi $$\mathcal{C}$$ — có tính chất đặc biệt: mọi cực tiểu địa phương đều là cực tiểu toàn cục, điều kiện bậc nhất thường là điều kiện đủ, và ta có các thuật toán đáng tin cậy (gradient, proximal, điểm trong). Các mạng nơ-ron sâu dù không lồi vẫn sử dụng những thuật toán này; [Chương 28]({{ site.baseurl }}/contents/vi/chapter28/) sẽ phân tích vì sao bề mặt hàm mất mát trong thực tế thường thuận lợi hơn so với dự đoán từ lý thuyết trường hợp xấu nhất.
 
-## Chương này gồm những gì
+## Nội dung của chương này
 
-1. **Bài toán tối ưu** — biến, mục tiêu, ràng buộc, tính khả thi.
-2. **Bài toán tối ưu lồi** — định nghĩa bạn sẽ dùng mỗi tuần.
-3. **Mục tiêu và chủ đề** — cách Chương 02–25 (trục cổ điển) và 26–29 (lộ trình hiện đại 2026) khớp nhau.
-4. **Lược sử** — từ quy hoạch tuyến tính đến học sâu dẫn dắt bởi autodiff.
+1. **Bài toán tối ưu hóa** — biến quyết định, hàm mục tiêu, ràng buộc và tính khả thi.
+2. **Bài toán tối ưu hóa lồi** — định nghĩa nền tảng dùng xuyên suốt khóa học.
+3. **Mục tiêu và chủ đề** — cách kết nối giữa Chương 02–25 (nền tảng cổ điển) và Chương 26–29 (lộ trình hiện đại 2026).
+4. **Lược sử** — từ quy hoạch tuyến tính đến học sâu gắn với vi phân tự động (autodiff).
 
-Đọc bài tiếp theo về dạng chuẩn với ràng buộc bất đẳng thức và đẳng thức; rồi thử quyết định, với một bài bạn đã biết (bình phương tối thiểu, hồi quy logistic, *k*-means), phần nào là lồi.
+Hãy đọc bài tiếp theo về dạng chuẩn với ràng buộc bất đẳng thức và đẳng thức; sau đó thử tự phân loại với những bài toán quen thuộc (bình phương tối thiểu, hồi quy logistic, *k*-means) xem bài nào là bài toán lồi.
 
-Bài tùy chọn kết chương, [01-05 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter01/2026-09-16-01_05_Applications_Recent %}), áp dụng cùng khuôn mẫu cho LLM tối ưu tính toán, predict-then-optimize, và ràng buộc công bằng.
+Bài đọc tùy chọn ở cuối chương, [01-05 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter01/2026-09-16-01_05_Applications_Recent %}), áp dụng cùng khuôn mẫu này cho bài toán huấn luyện LLM tối ưu theo tính toán, khuôn khổ predict-then-optimize và tối ưu hóa với ràng buộc công bằng.

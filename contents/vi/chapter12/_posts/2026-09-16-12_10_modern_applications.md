@@ -12,33 +12,33 @@ lesson_type: optional
 
 # Ứng dụng hiện đại của điều kiện KKT
 
-Chương 12 nêu hệ KKT — khả thi gốc, khả thi đối ngẫu, bù, và dừng của Lagrangian — rồi làm các ví dụ SVM, water-filling, và $$\ell_1$$. Bài tùy chọn này chỉ ra nơi *hệ ấy* được giải, lấy vi phân, hoặc đọc như một giá trong phần mềm 2022–2026. Chúng ta không liệt lại bốn khối.
+Chương 12 đã trình bày hệ điều kiện KKT — gồm tính khả thi nguyên thủy, tính khả thi đối ngẫu, điều kiện bù yếu và điều kiện dừng của hàm Lagrangian — cùng các ví dụ về SVM, thuật toán water-filling và bài toán phạt $$\ell_1$$. Bài đọc tùy chọn này điểm qua các ứng dụng thực tế giai đoạn 2022–2026 nơi hệ KKT được giải trực tiếp, lấy vi phân ẩn hoặc diễn giải như giá biên trong phần mềm tối ưu, mà không lặp lại phần lý thuyết cơ bản.
 
 ## 1. Lấy vi phân xuyên qua bộ giải: cvxpylayers và Theseus
 
-Nếu $$x^\star(\theta)$$ là nghiệm duy nhất của chương trình lồi tham số hóa, định lý hàm ẩn áp lên ánh xạ KKT $$F(x,u,v;\theta)=0$$ cho $$\mathrm{d}x^\star/\mathrm{d}\theta$$ mà không unroll bộ giải. Agrawal, Amos, Barratt, Boyd, Diamond và Kolter (NeurIPS 2019) chuyển ý ấy thành **cvxpylayers** (PyTorch / JAX / MLX). Đó vẫn là cách mặc định, năm 2024–2026, để đặt một QP hoặc SOCP *bên trong* mạng: lớp danh mục (DeepDow), chính sách MPC, và các phép chiếu kiểu sparsemax.
+Nếu $$x^\star(\theta)$$ là nghiệm duy nhất của một bài toán quy hoạch lồi phụ thuộc tham số $$\theta$$, định lý hàm ẩn áp dụng lên ánh xạ KKT $$F(x,u,v;\theta)=0$$ cho phép tính đạo hàm $$\mathrm{d}x^\star/\mathrm{d}\theta$$ mà không cần trải ngược (unroll) các bước lặp của bộ giải. Agrawal, Amos, Barratt, Boyd, Diamond và Kolter (NeurIPS 2019) hiện thực hóa ý tưởng này trong thư viện **cvxpylayers** (hỗ trợ PyTorch, JAX và MLX). Trong giai đoạn 2024–2026, đây vẫn là cách làm tiêu chuẩn để nhúng một bài toán QP hoặc SOCP *bên trong* mạng nơ-ron, chẳng hạn trong lớp tối ưu hóa danh mục đầu tư (DeepDow), chính sách điều khiển dự báo mô hình (MPC) và các phép chiếu kiểu sparsemax.
 
-Pineda, Fan, Monge, Venkataraman, Sodhi, Chen, Ortiz, DeTone, Wang, Anderson, Dong, Amos và Mukadam (NeurIPS 2022) phát hành **Theseus**, thư viện GPU cho bình phương tối thiểu *phi tuyến* khả vi dùng trong robot và thị giác. Chiều ngược lại là vi phân ẩn của điều kiện dừng (Gauss–Newton / Levenberg–Marquardt) — KKT của NLS có đẳng thức hoặc regularizer. Bài 2022 là bài cần trích; repo là thứ stack SLAM / bundle-adjustment thực sự import.
+Pineda, Fan, Monge, Venkataraman, Sodhi, Chen, Ortiz, DeTone, Wang, Anderson, Dong, Amos và Mukadam (NeurIPS 2022) phát hành **Theseus**, thư viện chạy trên GPU cho bài toán bình phương tối thiểu *phi tuyến* khả vi dùng trong robot và thị giác máy tính. Quá trình lan truyền ngược dựa trên vi phân ẩn của điều kiện dừng (Gauss–Newton hoặc Levenberg–Marquardt) — tương ứng với hệ KKT của bài toán bình phương tối thiểu phi tuyến có ràng buộc đẳng thức hoặc thành phần điều chuẩn. Công trình năm 2022 là tài liệu tham khảo chính, còn mã nguồn thư viện được dùng trực tiếp trong nhiều hệ thống SLAM và hiệu chỉnh chùm tia (bundle adjustment).
 
-**Nối với giáo trình.** Dừng $$\nabla_x L=0$$ là hệ tuyến tính Theseus lấy vi phân. Bù xuất hiện ngay khi lớp có bất đẳng thức (cvxpylayers).
+**Liên hệ với giáo trình:** Điều kiện dừng $$\nabla_x L=0$$ tạo thành hệ tuyến tính mà Theseus lấy vi phân, còn điều kiện bù yếu xuất hiện ngay khi lớp tối ưu có ràng buộc bất đẳng thức như trong cvxpylayers.
 
-## 2. Vector hỗ trợ SVM là một phát biểu KKT
+## 2. Vector hỗ trợ của SVM dưới góc nhìn KKT
 
-Ví dụ [12-04]({% multilang_post_url contents/chapter12/21-04-02-12_04_Example_support_vector_machines %}) không phải trang trí. Bù nói rằng điểm có $$0<\alpha_i<C$$ nằm trên lề, điểm có $$\alpha_i=0$$ được phân loại đúng với slack, và điểm có $$\alpha_i=C$$ là vector hỗ trợ biên. SVM kernel vẫn là công cụ chuẩn trong ML khoa học nhỏ-$$n$$ 2022–2026 (hóa tin, EEG, dữ liệu lâm sàng dạng bảng) đúng vì tập hữu hạn vector ấy *là* mô hình. Khi bài báo báo “47 vector hỗ trợ,” họ đang báo active set của một hệ KKT.
+Ví dụ trong mục [12-04]({% multilang_post_url contents/chapter12/21-04-02-12_04_Example_support_vector_machines %}) có ý nghĩa trực tiếp trong thực hành. Điều kiện bù yếu cho biết các điểm có $$0<\alpha_i<C$$ nằm đúng trên lề, các điểm có $$\alpha_i=0$$ được phân loại đúng và nằm ngoài vùng lề (không có sai số vi phạm), còn các điểm có $$\alpha_i=C$$ là các vector hỗ trợ chạm giới hạn trên (nằm trong lề hoặc bị phân loại sai). Trong giai đoạn 2022–2026, SVM nhân (kernel SVM) vẫn là công cụ phổ biến trong học máy khoa học cỡ mẫu $$n$$ nhỏ (như hóa tin học, dữ liệu điện não đồ EEG, dữ liệu lâm sàng dạng bảng) chính vì mô hình chỉ phụ thuộc vào tập hữu hạn các vector hỗ trợ này. Khi một bài báo nêu mô hình có “47 vector hỗ trợ”, con số đó chính là kích thước tập ràng buộc tích cực (active set) của hệ KKT.
 
-## 3. LMP điện và bù
+## 3. Giá biên theo vị trí (LMP) trong thị trường điện và điều kiện bù
 
-Giá biên theo vị trí là biến đối ngẫu của cân bằng công suất và giới hạn dòng (Chương 10). Liang và Dvorkin (2023) đảo LMP công bố để khôi phục giá chào; phép đảo được vì, tại điểm khớp không suy biến, KKT chỉ ra bất đẳng thức nào ràng. Donti, Rolnick và Kolter (2021) huấn luyện DC3 sao cho đầu ra mạng bị kéo về một điểm OPF khả thi KKT. Water-filling trong [12-03]({% multilang_post_url contents/chapter12/21-04-02-12_03_Example_water_filling %}) là cùng bức tranh bù trên kênh Gauss; các bài phân bổ công suất 5G / 6G vẫn viết mực nước ấy như nhân tử của bất đẳng thức tổng công suất.
+Giá biên theo vị trí (Locational Marginal Price — LMP) là các biến đối ngẫu ứng với ràng buộc cân bằng công suất và giới hạn truyền tải đường dây (Chương 10). Liang và Dvorkin (2023) sử dụng tối ưu hóa ngược trên dữ liệu LMP công bố để khôi phục giá chào bán của các nhà máy điện; phép khôi phục này thực hiện được vì tại điểm cân bằng không suy biến, hệ KKT xác định rõ ràng buộc bất đẳng thức nào đang chặt. Donti, Rolnick và Kolter (2021) huấn luyện phương pháp DC3 sao cho đầu ra của mạng nơ-ron được hiệu chỉnh về điểm khả thi KKT của bài toán trào lưu công suất tối ưu (OPF). Thuật toán water-filling trong [12-03]({% multilang_post_url contents/chapter12/21-04-02-12_03_Example_water_filling %}) cũng mang cấu trúc điều kiện bù tương tự trên kênh nhiễu Gauss; các nghiên cứu phân bổ công suất cho mạng 5G/6G vẫn biểu diễn mực nước như nhân tử đối ngẫu của ràng buộc tổng công suất.
 
-## 4. Công bằng: ràng buộc nhóm nào chặt?
+## 4. Tính công bằng trong học máy: nhận diện ràng buộc nhóm đang chặt
 
-Trong một khớp Fairlearn / reductions (Weerts và cộng sự, 2023), nhân tử lớn trên equalised odds của nhóm $$a$$ nghĩa là ràng buộc tỷ lệ nhóm ấy **đang ràng** — bù bằng lời. Nhân tử không nghĩa là mô hình không ràng buộc đã thỏa tỷ lệ ấy. Đọc $$(x^\star,v^\star)$$ vì thế là công cụ gỡ lỗi: nó nói ràng buộc xã hội-kỹ thuật *nào* đắt, không chỉ rằng Lagrangian đã được cực tiểu.
+Trong khung công cụ Fairlearn theo cách tiếp cận quy giảm (Weerts và cộng sự, 2023), một nhân tử Lagrange có giá trị lớn gắn với tiêu chí equalised odds của nhóm $$a$$ cho thấy ràng buộc tỷ lệ lỗi của nhóm đó **đang chặt** — đây chính là ý nghĩa trực tiếp của điều kiện bù yếu. Ngược lại, nhân tử bằng không cho thấy mô hình không ràng buộc đã tự thỏa mãn tiêu chí đó (hoặc ràng buộc không còn tác động biên). Vì vậy, việc quan sát cặp nghiệm $$(x^\star,v^\star)$$ đóng vai trò như một công cụ chẩn đoán: nó chỉ ra ràng buộc xã hội–kỹ thuật nào đang tạo ra chi phí đánh đổi lớn nhất, thay vì chỉ cho biết hàm Lagrangian đã đạt cực tiểu.
 
-## Cần nhớ
+## Tóm tắt
 
-KKT là hệ bậc nhất (i) đặc trưng cực tiểu lồi có ràng buộc, (ii) có thể lấy vi phân để huấn luyện một lớp, và (iii) đặt tên các tài nguyên có giá. Nếu bài báo 2024 “nhúng QP vào mạng” hoặc “báo vector hỗ trợ” hoặc “công bố LMP,” họ đang nói về hệ ấy.
+Hệ KKT là tập điều kiện bậc nhất giúp: (i) đặc trưng nghiệm tối ưu của bài toán lồi có ràng buộc, (ii) lấy vi phân ẩn để huấn luyện các lớp tối ưu trong mạng học sâu, và (iii) gán giá biên cho các tài nguyên bị giới hạn. Khi các nghiên cứu hiện đại đề cập đến việc nhúng QP vào mạng nơ-ron, báo cáo số lượng vector hỗ trợ hay công bố giá điện LMP, nền tảng toán học chung đằng sau đều là hệ KKT.
 
-**Câu hỏi.** Vì sao vi phân ẩn của KKT cần điều kiện ràng buộc và Jacobian KKT không suy biến — và điều gì hỏng trong một lớp Lasso khi hai đặc trưng trùng nhau?
+**Câu hỏi gợi mở:** Vì sao phép lấy vi phân ẩn qua hệ KKT đòi hỏi điều kiện ràng buộc (constraint qualification) và ma trận Jacobian KKT không suy biến? Điều gì xảy ra trong một lớp Lasso khi hai đặc trưng trùng hệt nhau?
 
 ## Nguồn
 

@@ -9,40 +9,40 @@ categories:
 lang: vi
 ---
 
-Để định nghĩa thuật toán gốc-đối ngẫu, trước hết hãy định nghĩa ba loại phần dư (residual) và khoảng cách đối ngẫu thay thế (surrogate duality gap). Các phần dư và khoảng cách đối ngẫu thay thế là các đại lượng cần cực tiểu hóa trong thuật toán gốc-đối ngẫu.
+Để xây dựng thuật toán gốc-đối ngẫu, trước hết ta định nghĩa ba loại phần dư (residual) và đại lượng khoảng cách đối ngẫu thay thế (surrogate duality gap). Đây là các đại lượng mà thuật toán cần đưa về $$0$$.
 
 ## Các phần dư
-Các phần dư đối ngẫu, trung tâm và gốc tại $$(x,u,v)$$ được định nghĩa như sau.
+Tại điểm $$(x, u, v)$$, ba phần dư đối ngẫu, trung tâm và gốc được định nghĩa lần lượt như sau:
 
 > $$r_{dual} = \nabla f(x) +\nabla h(x)u + A^Tv\\$$
-> $$r_{cent} =  Uh(x) + τ\mathbb{1} \\ $$ 
-> $$r_{prim} = Ax−b$$
+> $$r_{cent} =  Uh(x) + \tau\mathbb{1} \\ $$ 
+> $$r_{prim} = Ax-b$$
 
-Chúng tương ứng với từng hàng của hàm $$r(x,u,v)$$. **Phương pháp điểm trong gốc-đối ngẫu** thực hiện theo hướng làm cho ba phần dư này tiến về 0 chứ không liên tục ép chúng bằng 0. Điều này có nghĩa là trong quá trình thực hiện không cần phải khả thi.
+Ba đại lượng này tương ứng với ba khối hàng của vector phần dư $$r(x, u, v)$$. **Phương pháp điểm trong gốc-đối ngẫu** điều chỉnh điểm lặp sao cho cả ba phần dư tiến dần về $$0$$, thay vì ép buộc chúng luôn bằng $$0$$ ở mọi bước; vì vậy các điểm lặp trung gian không nhất thiết phải khả thi.
 
-Lý do $$r_{dual}$$ được gọi là phần dư đối ngẫu là vì, như trong phương trình dưới đây, nếu $$r_{dual} = 0$$ thì đảm bảo $$u, v$$ nằm trong miền xác định của $$g$$, tức là khả thi đối ngẫu.
+Sở dĩ $$r_{dual}$$ được gọi là phần dư đối ngẫu vì khi $$r_{dual} = 0$$ (cùng với $$u \ge 0$$), điểm $$(u, v)$$ nằm trong miền xác định của hàm đối ngẫu $$g$$, tức là khả thi đối ngẫu:
 
 >$$\begin{align}
 & r_{dual} = \nabla f(x) +\nabla h(x)u + A^Tv = 0 \\\\
 & \iff \min_{x} L(x,u,v) = g(u,v) \\\\
 \end{align}$$
 
-Tương tự, thỏa mãn $$r_{prim}=0$$ nghĩa là khả thi gốc, nên $$r_{prim}$$ được gọi là phần dư gốc.
+Tương tự, điều kiện $$r_{prim} = 0$$ (cùng với $$h(x) \le 0$$) biểu thị tính khả thi gốc, nên $$r_{prim}$$ được gọi là phần dư gốc.
 
 ## Khoảng cách đối ngẫu thay thế
-Trong khi phương pháp chắn có khoảng cách đối ngẫu vì nó luôn khả thi, phương pháp điểm trong gốc-đối ngẫu dùng **khoảng cách đối ngẫu thay thế** vì không nhất thiết phải khả thi. **Khoảng cách đối ngẫu thay thế** được định nghĩa bởi công thức sau.
+Trong khi phương pháp chắn luôn duy trì điểm khả thi nên có khoảng cách đối ngẫu thực sự ở mọi vòng lặp, phương pháp điểm trong gốc-đối ngẫu không đòi hỏi tính khả thi trung gian nên sử dụng **khoảng cách đối ngẫu thay thế (surrogate duality gap)**, được định nghĩa là:
 
-> $$−h(x)^Tu  \quad \text{for} \quad h(x) \le 0, u \ge 0$$ 
+> $$-h(x)^Tu  \quad \text{với} \quad h(x) \le 0, u \ge 0$$ 
 
-Nếu $$r_{dual} = 0$$ và $$r_{prim} = 0$$ thì khoảng cách đối ngẫu thay thế trở thành khoảng cách đối ngẫu thực sự. Nói cách khác, nếu khả thi gốc và khả thi đối ngẫu thì khoảng cách đối ngẫu thay thế bằng khoảng cách đối ngẫu thực $$\frac{m}{t}$$.
+Khi $$r_{dual} = 0$$ và $$r_{prim} = 0$$ (tức là điểm lặp đồng thời khả thi gốc và khả thi đối ngẫu), khoảng cách đối ngẫu thay thế trở thành khoảng cách đối ngẫu thực sự $$\frac{m}{t}$$.
 
-**[Tham khảo] Các điều kiện KKT nhiễu và tham số t** <br>
+**[Tham khảo] Các điều kiện KKT bị nhiễu và tham số $$t$$** <br>
 
-* Trong các điều kiện KKT nhiễu, tham số t là $$t = −\frac{m}{h(x)^Tu}$$. 
-* Thông tin chi tiết xem [15-03-01 Điều kiện KKT nhiễu]({% multilang_post_url contents/chapter15/21-03-28-15_03_01_perturbed_kkt_conditions %}) và [15-03-02 Khoảng cách dưới tối ưu]({% multilang_post_url contents/chapter15/21-03-28-15_03_02_suboptimality_gap %})
+* Trong hệ điều kiện KKT bị nhiễu, tham số $$t$$ liên hệ với cặp $$(x, u)$$ theo công thức $$t = -\frac{m}{h(x)^Tu}$$. 
+* Xem chi tiết tại [15-03-01 Điều kiện KKT nhiễu]({% multilang_post_url contents/chapter15/21-03-28-15_03_01_perturbed_kkt_conditions %}) và [15-03-02 Khoảng cách dưới tối ưu]({% multilang_post_url contents/chapter15/21-03-28-15_03_02_suboptimality_gap %}).
 
-Hơn nữa, nếu $$u > 0,h(x) < 0$$ và điều kiện sau được thỏa mãn thì $$(x,u,v)$$ nằm trên đường trung tâm.
+Hơn nữa, nếu $$u > 0, h(x) < 0$$ và thỏa mãn
 
 > $$r(x,u,v) = 0$$ với $$\tau = -\frac{h(x)^Tu}{m}$$
 
-Nói cách khác, phần dư bằng 0 tại các điểm nằm trên đường trung tâm.
+thì $$(x, u, v)$$ nằm chính xác trên đường trung tâm. Nói cách khác, tại mọi điểm thuộc đường trung tâm, toàn bộ phần dư đều bằng $$0$$.

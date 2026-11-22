@@ -14,10 +14,10 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trong phần này, chúng ta sẽ cho thấy rằng các bài toán nguyên thủy và đối ngẫu có thể được định nghĩa bằng cách sử dụng Lagrangian, và sử dụng định nghĩa này để suy ra các bài toán đối ngẫu cho quy hoạch tuyến tính dạng chuẩn và quy hoạch bậc hai. Hơn nữa, chúng ta sẽ suy ra bài toán đối ngẫu cho quy hoạch tuyến tính với bài toán barrier được áp dụng, cho thấy rằng dạng của nó giống với bài toán barrier cho bài toán đối ngẫu của quy hoạch tuyến tính.
+Trong phần này, chúng ta sẽ chỉ ra cách biểu diễn bài toán nguyên thủy và bài toán đối ngẫu thông qua hàm Lagrange (Lagrangian), rồi dùng cách biểu diễn này để suy ra bài toán đối ngẫu cho quy hoạch tuyến tính (LP) dạng chuẩn và quy hoạch bậc hai (QP). Tiếp đó, chúng ta sẽ tìm bài toán đối ngẫu của bài toán rào cản (barrier) cho quy hoạch tuyến tính, và thấy rằng dạng của nó trùng khớp với bài toán rào cản thiết lập cho bài toán đối ngẫu của quy hoạch tuyến tính.
 
 <br/>
-Đầu tiên, hãy định nghĩa bài toán nguyên thủy và Lagrangian như sau.
+Trước hết, xét bài toán nguyên thủy và hàm Lagrange tương ứng như sau.
 
 ### Bài toán nguyên thủy
 >$$
@@ -28,44 +28,43 @@ Trong phần này, chúng ta sẽ cho thấy rằng các bài toán nguyên th�
 >\end{align}
 >$$
 
-### Lagrangian
+### Hàm Lagrange (Lagrangian)
 >$$
 >L(x,u,v) = f(x) + \sum_{i=1}^m u_i h_i (x) + \sum_{j=1}^r v_j l_j (x)
 >$$
 
 <br/>
-Tại thời điểm này, bài toán nguyên thủy và bài toán đối ngẫu có thể được định nghĩa lại thành các bài toán liên quan đến Lagrangian.
+Khi đó, bài toán nguyên thủy và bài toán đối ngẫu có thể được viết lại dưới dạng các bài toán minimax/maximin liên quan trực tiếp đến hàm Lagrange.
 
 ### Bài toán nguyên thủy được viết lại
 >$$
 >\min_x \mathop{\max_{u,v}}_{u \geq 0} L(x,u,v)
 >$$
 
-Bài toán nguyên thủy được định nghĩa lại không nêu rõ ràng các ràng buộc, nhưng nó có tác dụng như một hàm chỉ thị cho bất kỳ $$x$$ không khả thi nào vi phạm các ràng buộc.
+Dạng viết lại này không liệt kê tường minh các ràng buộc, nhưng phần cực đại hóa theo $$u, v$$ đóng vai trò như một hàm chỉ thị (indicator function) đối với mọi điểm $$x$$ không khả thi:
 
-1. Nếu $$h_i(\hat{x}) \gt 0$$ cho một số $$i \in [1, m]$$, thì $$\hat{x}$$ là một điểm không khả thi. Trong trường hợp này, $$u_i h_i(\hat{x})$$ phân kỳ về $$\infty$$ do $$\max_{u,v}$$, vì vậy nó hoạt động như một hàm chỉ thị cho bất kỳ $$\hat{x}$$ nào vi phạm ràng buộc bất đẳng thức.
-2. Nếu $$l_i(\hat{x}) \neq 0$$ cho một số $$i \in [1, r]$$, thì $$\hat{x}$$ là một điểm không khả thi. Trong trường hợp này, $$v_i l_i(\hat{x})$$ phân kỳ về $$\infty$$ do $$\max_{u,v}$$, vì vậy nó hoạt động như một hàm chỉ thị cho bất kỳ $$\hat{x}$$ nào vi phạm ràng buộc đẳng thức.
+1. Nếu tồn tại $$i \in [1, m]$$ sao cho $$h_i(\hat{x}) \gt 0$$, thì $$\hat{x}$$ là điểm không khả thi. Khi đó, số hạng $$u_i h_i(\hat{x})$$ phân kỳ ra $$\infty$$ khi lấy $$\max_{u,v}$$ với $$u \geq 0$$, do đó đóng vai trò như hàm chỉ thị phạt vô hạn mọi điểm $$\hat{x}$$ vi phạm ràng buộc bất đẳng thức.
+2. Nếu tồn tại $$i \in [1, r]$$ sao cho $$l_i(\hat{x}) \neq 0$$, thì $$\hat{x}$$ là điểm không khả thi. Khi đó, số hạng $$v_i l_i(\hat{x})$$ phân kỳ ra $$\infty$$ khi lấy $$\max_{u,v}$$, do đó đóng vai trò như hàm chỉ thị đối với mọi điểm $$\hat{x}$$ vi phạm ràng buộc đẳng thức.
 
 ### Bài toán đối ngẫu được viết lại
 >$$
 >\mathop{\max_{u,v}}_{u \geq 0} \min_x L(x,u,v)
 >$$
 
-Trong bài toán đối ngẫu, việc nới lỏng miền là cần thiết, vì vậy nó không nên hoạt động như một hàm chỉ thị cho các ràng buộc của bài toán nguyên thủy. Vì việc lấy $$\min_x$$ cho $$u, v$$ cố định không thể thực thi các ràng buộc của bài toán nguyên thủy, bài toán đối ngẫu được định nghĩa lại cũng có tác dụng nới lỏng miền. (Tham khảo: [11-02 Hàm đối ngẫu Lagrange]({% multilang_post_url contents/chapter11/21-03-24-11_02_Lagrange_dual_function %}))
+Trong bài toán đối ngẫu, miền ràng buộc được nới lỏng nên hàm mục tiêu bên trong không còn đóng vai trò hàm chỉ thị cho các ràng buộc nguyên thủy. Vì phép lấy $$\min_x$$ với $$u, v$$ cố định không áp đặt các ràng buộc của bài toán nguyên thủy, bài toán đối ngẫu viết lại cũng thể hiện rõ cơ chế nới lỏng miền này. (Tham khảo: [11-02 Hàm đối ngẫu Lagrange]({% multilang_post_url contents/chapter11/21-03-24-11_02_Lagrange_dual_function %}))
 
 ## Tính đối ngẫu yếu và mạnh
-Hãy xem xét lại tính đối ngẫu yếu và tính đối ngẫu mạnh.
+Chúng ta ôn lại hai định lý cơ bản về tính đối ngẫu yếu và tính đối ngẫu mạnh.
 
 ### Định lý: tính đối ngẫu yếu
-Khi $$p$$ và $$d$$ là các giá trị tối ưu cho bài toán nguyên thủy và bài toán đối ngẫu tương ứng, điều sau luôn được thỏa mãn:
-
+Gọi $$p$$ và $$d$$ lần lượt là giá trị tối ưu của bài toán nguyên thủy và bài toán đối ngẫu. Khi đó, bất đẳng thức sau luôn đúng:
 
 $$
 p \ge d
 $$
 
-### Định lý: tính đối ngẫu mạnh (điều kiện Slater được làm tế)
-Đối với tập miền $$D$$, giả sử rằng $$f, h_1, \dots, h_p$$ là lồi và $$h_{p+1}, \dots, h_m, l_1, \dots, l_r$$ là affine. Nếu tồn tại $$\hat{x} \in \text{relint}(D)$$ thỏa mãn điều sau:
+### Định lý: tính đối ngẫu mạnh (điều kiện Slater tinh chỉnh)
+Trên miền xác định $$D$$, giả sử $$f, h_1, \dots, h_p$$ là các hàm lồi và $$h_{p+1}, \dots, h_m, l_1, \dots, l_r$$ là các hàm affine. Nếu tồn tại điểm $$\hat{x} \in \text{relint}(D)$$ thỏa mãn:
 > $$\begin{align}
 >h_i(\hat{x}) \ & \lt 0, \ && i=1, \dots, p \\
 >h_i(\hat{x}) \ & \le 0, \ && i=p+1, \dots, m \\
@@ -75,7 +74,7 @@ $$
 thì $$p = d$$ được đảm bảo cho các giá trị tối ưu $$p, d$$ của bài toán nguyên thủy và bài toán đối ngẫu.
 
 ## Ví dụ: quy hoạch tuyến tính
-Hãy suy ra bài toán đối ngẫu của quy hoạch tuyến tính bằng cách sử dụng bài toán đối ngẫu đã định nghĩa trước đó.
+Ta suy ra bài toán đối ngẫu của quy hoạch tuyến tính (LP) từ dạng định nghĩa ở trên.
 
 ### Bài toán nguyên thủy của LP dạng chuẩn
 >$$
@@ -86,15 +85,15 @@ Hãy suy ra bài toán đối ngẫu của quy hoạch tuyến tính bằng các
 >\end{align}
 >$$
 
-Theo định nghĩa trước đó, bài toán đối ngẫu của bài toán trên như sau:
+Theo định nghĩa đã nêu, bài toán đối ngẫu tương ứng là:
 
 $$\mathop{\max_{s,y}}_{s\ge0} \min_{x} \: L(x,s,y) = \mathop{\max_{s,y}}_{s\ge0} \min_{x} \: c^Tx - s^Tx + (b-Ax)^T y$$
 
-Chúng ta thay thế mối quan hệ $$c=A^Ty +s$$ thu được bằng cách giải $$\nabla_x L = 0$$ vào bài toán đối ngẫu.
+Từ điều kiện dừng $$\nabla_x L = 0$$, ta thu được quan hệ $$c = A^Ty + s$$. Thay quan hệ này vào bài toán đối ngẫu:
 
 $$\mathop{\max_{s,y}}_{s\ge0} \: (A^Ty + s)^Tx - s^Tx + (b-Ax)^Ty \quad \text{ s.t. } c=A^Ty +s$$
 
-Điều này có thể được tổ chức như sau:
+Rút gọn biểu thức trên, ta thu được:
 
 ### Bài toán đối ngẫu của LP
 >$$
@@ -107,7 +106,7 @@ $$\mathop{\max_{s,y}}_{s\ge0} \: (A^Ty + s)^Tx - s^Tx + (b-Ax)^Ty \quad \text{ s
 
 
 ## Ví dụ: quy hoạch bậc hai lồi
-Bây giờ hãy suy ra bài toán đối ngẫu của quy hoạch bậc hai bằng cách sử dụng bài toán đối ngẫu đã định nghĩa trước đó.
+Tiếp theo, ta áp dụng cùng cách tiếp cận để suy ra bài toán đối ngẫu của quy hoạch bậc hai lồi (QP).
 
 ### Bài toán nguyên thủy của QP dạng chuẩn
 >$$
@@ -118,15 +117,15 @@ Bây giờ hãy suy ra bài toán đối ngẫu của quy hoạch bậc hai bằ
 >
 >\end{align}$$
 >
->$$\text{trong đó } Q \text{ là đối xứng và nửa xác định dương.}$$
+>$$\text{trong đó } Q \text{ là ma trận đối xứng và nửa xác định dương.}$$
 
 
-Theo định nghĩa trước đó, bài toán đối ngẫu của bài toán trên như sau:
+Bài toán đối ngẫu tương ứng có dạng:
 
 $$\mathop{\max_{s,y}}_{s\ge0} \min_{x} \: L(x,s,y) = \mathop{\max_{s,y}}_{s\ge0} \min_{x} \:  \frac{1}{2} x^T Q x + c^Tx - s^Tx + (b-Ax)^T y$$
 
 
-Chúng ta thay thế mối quan hệ $$Qx = A^Ty +s - c$$ thu được bằng cách giải $$\nabla_x L = 0$$ vào bài toán đối ngẫu.
+Giải điều kiện dừng $$\nabla_x L = 0$$ cho ta quan hệ $$Qx = A^Ty + s - c$$. Thay vào bài toán đối ngẫu:
 
 $$
 \begin{align}
@@ -137,7 +136,7 @@ $$
 \end{align}
 $$
 
-Điều này có thể được tổ chức như sau:
+Viết gọn lại, ta thu được:
 
 ### Bài toán đối ngẫu của QP
 >$$
@@ -148,12 +147,12 @@ $$
 >\end{align}
 >$$
 
-Bài toán đối ngẫu của một bài toán bậc hai cũng là một bài toán bậc hai.
+Như vậy, bài toán đối ngẫu của một bài toán quy hoạch bậc hai cũng là một bài toán quy hoạch bậc hai.
 
-## Ví dụ: bài toán barrier cho quy hoạch tuyến tính
-Bài toán barrier cho quy hoạch tuyến tính được định nghĩa như sau:
+## Ví dụ: bài toán rào cản cho quy hoạch tuyến tính
+Bài toán rào cản (barrier) cho quy hoạch tuyến tính được định nghĩa như sau:
 
-### Bài toán barrier cho LP
+### Bài toán rào cản cho LP
 >$$
 >\begin{align}
 >    \mathop{\text{minimize}}_x &\quad c^Tx - \tau \sum_{i=1}^n \log(x_i)\\
@@ -163,32 +162,32 @@ Bài toán barrier cho quy hoạch tuyến tính được định nghĩa như sa
 >$$\text{trong đó }\tau > 0.$$
 
 
-Theo định nghĩa trước đó, bài toán đối ngẫu của bài toán trên như sau:
+Bài toán đối ngẫu tương ứng là:
 $$
 \begin{align}
 \max_{y} \min_{x} \: L(x,y) &= \max_{y} \min_{x} \:  c^Tx - \tau \sum_{i=1}^n \log(x_i) + (b-Ax)^T y\\\\
-&=  \max_{y} \min_{x} \:  \underbrace{(c-A^Ty)}_{s \doteq c-A^Ty}x - \tau \sum_{i=1}^n \log(x_i) + b^Ty\\\\
-&= \max_{y} \min_{x} \: \sum_{i=1}^n \big( s_i^Tx_i - \tau  \log(x_i) \big) + b^Ty  \quad \text{ s.t. } A^Ty +s = c
+&=  \max_{y} \min_{x} \:  \underbrace{(c-A^Ty)^T}_{s^T \doteq (c-A^Ty)^T}x - \tau \sum_{i=1}^n \log(x_i) + b^Ty\\\\
+&= \max_{y} \min_{x} \: \sum_{i=1}^n \big( s_i x_i - \tau  \log(x_i) \big) + b^Ty  \quad \text{ s.t. } A^Ty +s = c
 \end{align}
 $$
 
-Ở đây, $$\sum_{i=1}^n \big( s_i^Tx_i - \tau  \log(x_i) \big) + b^Ty$$ sẽ được tối thiểu hóa khi $$x_i = \frac{\tau}{s_i}$$. Do đó, hãy thay thế $$\frac{\tau}{s_i}$$ cho $$x_i$$ trong bài toán đối ngẫu.
+Biểu thức $$\sum_{i=1}^n \big( s_i x_i - \tau \log(x_i) \big) + b^Ty$$ đạt giá trị nhỏ nhất khi $$x_i = \frac{\tau}{s_i}$$ (với $$s_i > 0$$). Thay $$x_i = \frac{\tau}{s_i}$$ vào bài toán đối ngẫu:
 
 $$
 \begin{align}
-&\max_{s,y} \: b^Ty + n\tau - \tau \sum_{i=1}^n log(\frac{\tau}{s_i}) \quad \text{ s.t. } A^Ty +s = c\\\\
-&= \max_{s,y} \: b^Ty + \tau \sum_{i=1}^n log(s_i) + n\tau - n\tau\log(\tau) \quad \text{ s.t. } A^Ty +s = c\\\\
+&\max_{s,y} \: b^Ty + n\tau - \tau \sum_{i=1}^n \log\left(\frac{\tau}{s_i}\right) \quad \text{ s.t. } A^Ty +s = c\\\\
+&= \max_{s,y} \: b^Ty + \tau \sum_{i=1}^n \log(s_i) + n\tau - n\tau\log(\tau) \quad \text{ s.t. } A^Ty +s = c\\\\
 \end{align}
 $$
 
-Vì $$n\tau - n\tau\log(\tau)$$ có thể được bỏ qua khỏi bài toán, bài toán đối ngẫu có thể được tổ chức như sau:
+Vì hằng số $$n\tau - n\tau\log(\tau)$$ không ảnh hưởng đến nghiệm tối ưu, ta có thể bỏ qua hằng số này và viết gọn bài toán đối ngẫu như sau:
 
-### Bài toán đối ngẫu của bài toán Barrier cho LP
+### Bài toán đối ngẫu của bài toán rào cản cho LP
 >$$
 >\begin{align}
->    \mathop{\text{maximize}}_{s,y} &\quad b^Ty + \tau \sum_{i=1}^n log(s_i)\\\\
+>    \mathop{\text{maximize}}_{s,y} &\quad b^Ty + \tau \sum_{i=1}^n \log(s_i)\\\\
 >    \text{subject to} &\quad A^Ty +  s = c \\\\
 >\end{align}
 >$$
 
-Chúng ta có thể thấy rằng bài toán này giống hệt với bài toán barrier cho bài toán đối ngẫu của quy hoạch tuyến tính.
+Có thể thấy bài toán này trùng khớp hoàn toàn với bài toán rào cản thiết lập trực tiếp cho bài toán đối ngẫu của quy hoạch tuyến tính.

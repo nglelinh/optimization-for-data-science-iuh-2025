@@ -10,29 +10,29 @@ lang: vi
 lesson_type: required
 ---
 
-Disciplined convex programming (DCP) là hợp đồng mô hình hóa của [CVXPY](https://www.cvxpy.org/): bạn ghép các nguyên tử mà thư viện đã biết là lồi hoặc lõm, theo các quy tắc *bảo toàn* tính lồi. Nếu bộ viết lại chấp nhận mô hình, một bộ giải số (OSQP, SCS, Clarabel, ECOS, …) nhận một chương trình nón chuẩn — cùng phân loại với phần còn lại của chương này.
+Quy hoạch lồi có kỷ luật (Disciplined Convex Programming - DCP) là quy tắc mô hình hóa nền tảng của [CVXPY](https://www.cvxpy.org/): người dùng lắp ghép các hàm nguyên tử (atoms) đã được thư viện xác định trước tính lồi hoặc lõm theo các quy tắc *bảo toàn tính lồi*. Khi bộ chuẩn hóa/chuyển đổi (canonicalizer) chấp nhận mô hình, bài toán sẽ được tự động đưa về một bài toán quy hoạch nón chuẩn (đúng theo hệ phân loại của chương này) và chuyển cho các bộ giải số như OSQP, SCS, Clarabel hoặc ECOS.
 
-Đây là thói quen thực hành Stanford EE364a: **mô hình trước, thuật toán sau**. Với Lasso, SVM và QP danh mục, bạn không nên tự viết projected gradient trừ khi đang học thuật toán.
+Đây là nguyên tắc thực hành quen thuộc của khóa học Stanford EE364a: **mô hình hóa trước, chọn thuật toán sau**. Đối với các bài toán chuẩn như Lasso, SVM hay QP tối ưu hóa danh mục đầu tư, ta nên mô hình hóa trực tiếp bằng công cụ chuyên dụng thay vì tự cài đặt hạ gradient chiếu (trừ khi mục tiêu là học sâu về thuật toán).
 
-## Ý tưởng DCP trong một đoạn
+## Tóm tắt ý tưởng DCP
 
-Hợp thành $$f(g(x))$$ lồi khi, chẳng hạn, $$f$$ lồi và tăng còn $$g$$ lồi (Boyd & Vandenberghe, Ch. 3). CVXPY cài một catalog hữu hạn các nguyên tử (`norm`, `sum_squares`, `abs`, `quad_over_lin`, `logistic`, …) và từ chối biểu thức nó không chứng nhận được. Bị từ chối không phải lúc nào cũng nghĩa là “bài toán không lồi” — đôi khi bạn viết một hàm lồi theo dạng bộ viết lại không nhìn thấy. Cách sửa là viết lại bằng nguyên tử đã biết, không phải tắt lỗi.
+Hàm hợp $$f(g(x))$$ là hàm lồi khi, chẳng hạn, $$f$$ lồi và đơn điệu tăng còn $$g$$ là hàm lồi (Boyd & Vandenberghe, Chương 3). CVXPY cung cấp một danh mục hữu hạn các hàm nguyên tử (`norm`, `sum_squares`, `abs`, `quad_over_lin`, `logistic`, …) và sẽ từ chối các biểu thức không thể chứng nhận tính lồi theo quy tắc này. Việc bị từ chối không nhất thiết có nghĩa là bài toán không lồi — đôi khi biểu thức chỉ đang được viết ở dạng mà bộ chuẩn hóa/chuyển đổi không nhận diện được. Cách xử lý đúng là viết lại biểu thức bằng các hàm nguyên tử hợp lệ chứ không tắt kiểm tra DCP.
 
-Cài một lần:
+Cài đặt thư viện:
 
 ```bash
 pip install cvxpy numpy
 ```
 
-## Mini-lab A — Lasso
+## Bài thực hành nhỏ A — Lasso
 
-Cho ma trận thiết kế $$A\in\mathbb{R}^{m\times n}$$ và vector đáp $$b$$, Lasso
+Cho ma trận thiết kế $$A\in\mathbb{R}^{m\times n}$$ và vectơ mục tiêu $$b$$, bài toán Lasso:
 
 $$
 \min_x \tfrac12\|Ax-b\|_2^2 + \lambda \|x\|_1
 $$
 
-là một QP lồi dạng mở rộng (mất mát bình phương là toàn phương lồi; $$\|\cdot\|_1$$ là chuẩn lồi). Trong CVXPY chỉ còn vài nguyên tử:
+có thể viết lại như một bài toán QP lồi (số hạng sai số bình phương là hàm bậc hai lồi; chuẩn $$\|\cdot\|_1$$ là hàm lồi). Trong CVXPY, mô hình chỉ cần vài dòng với các hàm nguyên tử sẵn có:
 
 ```python
 import cvxpy as cp
@@ -54,11 +54,11 @@ print("status:", prob.status, "opt:", prob.value)
 print("nnz ~", np.sum(np.abs(x.value) > 1e-4))
 ```
 
-So sánh hỗ trợ khôi phục với `x_true`. Đổi $$\lambda$$ và quan sát đánh đổi thưa–khớp — cùng quỹ đạo mà proximal gradient sẽ vẽ ở Chương 09.
+Hãy so sánh tập tọa độ khác không (support) khôi phục được với `x_true`, đồng thời thử thay đổi $$\lambda$$ để quan sát sự đánh đổi giữa độ thưa và độ khớp dữ liệu — đây cũng chính là quỹ đạo nghiệm mà phương pháp hạ gradient cận kề sẽ khảo sát ở Chương 09.
 
-## Mini-lab B — SVM lề cứng như một QP
+## Bài thực hành nhỏ B — SVM biên cứng dưới dạng QP
 
-Với các cặp gán nhãn tách được tuyến tính $$(a_i,y_i)$$, $$y_i\in\{-1,1\}$$, SVM lề cứng là
+Với các cặp dữ liệu gán nhãn tách tuyến tính được $$(a_i,y_i)$$, $$y_i\in\{-1,1\}$$, bài toán SVM biên cứng có dạng:
 
 $$
 \begin{align}
@@ -87,12 +87,12 @@ prob.solve()
 print("status:", prob.status, "||w|| =", np.linalg.norm(w.value))
 ```
 
-Nếu `status` là infeasible, đám mây không tách được tuyến tính — chuyển sang hinge lề mềm (`cp.pos(1 - cp.multiply(y, a @ w + b))`), vẫn DCP.
+Nếu `status` trả về `infeasible`, tập điểm dữ liệu không tách tuyến tính được — khi đó có thể chuyển sang mô hình SVM biên mềm với hàm mất mát hinge (`cp.pos(1 - cp.multiply(y, a @ w + b))`), vốn vẫn tuân thủ đầy đủ quy tắc DCP.
 
-## Cần nhớ
+## Điểm cần ghi nhớ
 
-- DCP là ngữ pháp *đủ* cho tính lồi, không phải ngữ pháp đầy đủ.
-- Bộ giải, không phải vòng lặp Python của bạn, chọn giữa simplex, điểm trong, và phương pháp nón bậc nhất.
-- Khi mô hình không viết lại được theo DCP (mạng sâu, phần lớn ERM không lồi), bạn rời chương này và vào [Chương 26]({{ site.baseurl }}/contents/vi/chapter26/) với autodiff ([Chương 27]({{ site.baseurl }}/contents/vi/chapter27/)).
+- DCP là một hệ quy tắc *đủ* để chứng nhận tính lồi, nhưng không phải điều kiện cần (không bao quát mọi cách viết của hàm lồi).
+- Bộ giải (chứ không phải vòng lặp Python tự viết) sẽ quyết định việc dùng Simplex, phương pháp điểm trong hay phương pháp nón bậc nhất.
+- Khi bài toán không thể biểu diễn theo DCP (như huấn luyện mạng nơ-ron sâu hoặc phần lớn bài toán ERM không lồi), ta chuyển sang các phương pháp tối ưu không lồi ở [Chương 26]({{ site.baseurl }}/contents/vi/chapter26/) kết hợp vi phân tự động ([Chương 27]({{ site.baseurl }}/contents/vi/chapter27/)).
 
-**Bài tập.** Thay phạt Lasso bằng elastic net $$\lambda(\alpha\|x\|_1 + \tfrac{1-\alpha}{2}\|x\|_2^2)$$ và xác nhận CVXPY vẫn nhận bài toán. Rồi thử viết $$\|x\|_0$$ — bộ viết lại phải từ chối.
+**Bài tập.** Thay số hạng phạt của Lasso bằng Elastic Net $$\lambda(\alpha\|x\|_1 + \tfrac{1-\alpha}{2}\|x\|_2^2)$$ và kiểm chứng rằng CVXPY vẫn chấp nhận bài toán. Sau đó thử viết chuẩn giả $$\|x\|_0$$ — bộ chuẩn hóa/chuyển đổi sẽ từ chối vì không tuân thủ DCP.

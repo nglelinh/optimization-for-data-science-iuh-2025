@@ -10,17 +10,17 @@ lang: vi
 lesson_type: required
 ---
 
-Bài [quy hoạch tuyến tính]({% multilang_post_url contents/chapter05/21-02-08-05_01_Linear_Programming_(LP) %}) ở tiết trước có tập khả thi là một đa diện. Một sự thật hình học làm cho LP đặc biệt: **nếu tồn tại nghiệm tối ưu hữu hạn thì có ít nhất một điểm tối ưu nằm tại đỉnh**. Thuật toán simplex đi từ đỉnh này sang đỉnh kề, cải thiện hàm mục tiêu, cho đến khi không còn đỉnh láng giềng nào tốt hơn.
+Bài toán [quy hoạch tuyến tính]({% multilang_post_url contents/chapter05/21-02-08-05_01_Linear_Programming_(LP) %}) ở tiết trước có tập khả thi là một tập đa diện. Một tính chất hình học đặc trưng của LP là: **nếu tồn tại nghiệm tối ưu hữu hạn (và tập khả thi không chứa đường thẳng), thì có ít nhất một điểm tối ưu nằm tại một đỉnh**. Thuật toán đơn hình (Simplex) di chuyển từ đỉnh này sang đỉnh kề sao cho giá trị hàm mục tiêu được cải thiện, cho đến khi không còn đỉnh lân cận nào tốt hơn.
 
-Bảng simplex tương tác: [demo simplex](https://github.com/nglelinh/interactive_math/blob/main/linear-programming/simplex_optimization_demo.html) trong `nglelinh/interactive_math`.
+Minh họa bảng đơn hình tương tác: [demo simplex](https://github.com/nglelinh/interactive_math/blob/main/linear-programming/simplex_optimization_demo.html) trong `nglelinh/interactive_math`.
 
 <div class="content-box insight-box">
-<strong>Ý tưởng then chốt:</strong> các phương pháp gradient đi trong phần trong của miền. Simplex bám trên bộ xương của đa diện và chỉ đánh giá các góc. Đó là lý do một thuật toán những năm 1950 vẫn giải được nhiều LP phía sau bài toán pha trộn, định tuyến, và đối ngẫu SVM.
+<strong>Ý tưởng then chốt:</strong> Trong khi các phương pháp gradient di chuyển bên trong miền khả thi, thuật toán Simplex bám dọc theo các cạnh của tập đa diện và chỉ đánh giá tại các đỉnh. Nhờ đó, dù ra đời từ thập niên 1950, Simplex vẫn được sử dụng rộng rãi để giải nhiều bài toán LP trong phối trộn, định tuyến và bài toán đối ngẫu của SVM.
 </div>
 
 ## Dạng chuẩn
 
-Hầu hết giáo trình cài simplex trên dạng đẳng thức với biến không âm:
+Phần lớn các giáo trình trình bày thuật toán Simplex trên dạng chuẩn với ràng buộc đẳng thức và biến không âm:
 
 $$
 \begin{align}
@@ -30,40 +30,40 @@ $$
 \end{align}
 $$
 
-với $$A \in \mathbb{R}^{m \times n}$$ có hạng hàng đủ $$m$$, $$b \succeq 0$$, và $$n > m$$. Ràng buộc bất đẳng thức $$Gx \preceq h$$ được chuyển bằng cách thêm biến **bù** (slack) không âm. Biến tự do được tách thành hiệu của hai biến không âm.
+trong đó $$A \in \mathbb{R}^{m \times n}$$ có hạng hàng đầy đủ bằng $$m$$, $$b \succeq 0$$, và $$n > m$$. Các ràng buộc bất đẳng thức dạng $$Gx \preceq h$$ được chuyển sang đẳng thức bằng cách thêm **biến phụ** (slack variable) không âm, còn các biến tự do được tách thành hiệu của hai biến không âm.
 
-Một **cơ sở** (basis) là một tập $$m$$ cột độc lập tuyến tính của $$A$$. Viết $$A = [A_B \; A_N]$$ sau khi hoán vị cột, và tách $$x = (x_B, x_N)$$. **Nghiệm cơ sở** tương ứng là
+Một **cơ sở** (basis) là một tập gồm $$m$$ cột độc lập tuyến tính của $$A$$. Sau khi hoán vị cột để viết $$A = [A_B \; A_N]$$ và tách tương ứng $$x = (x_B, x_N)$$, **nghiệm cơ sở** được xác định bởi:
 
 $$
 x_B = A_B^{-1} b, \qquad x_N = 0.
 $$
 
-Nếu $$x_B \succeq 0$$ thì điểm đó là **nghiệm khả thi cơ sở (BFS)** — về hình học, một đỉnh của đa diện khả thi.
+Nếu $$x_B \succeq 0$$, điểm này được gọi là **nghiệm khả thi cơ sở (Basic Feasible Solution - BFS)** — về mặt hình học, đây chính là một đỉnh của đa diện khả thi.
 
-## Chi phí rút gọn và một bước xoay (pivot)
+## Chi phí rút gọn và bước xoay (pivot)
 
-Từ $$Ax = b$$ ta khử các biến cơ sở:
+Từ phương trình $$Ax = b$$, ta biểu diễn các biến cơ sở theo các biến ngoài cơ sở:
 
 $$
 x_B = A_B^{-1}b - A_B^{-1}A_N x_N.
 $$
 
-Thế vào hàm mục tiêu:
+Thay vào hàm mục tiêu, ta thu được:
 
 $$
 c^\top x = c_B^\top A_B^{-1}b + \bar{c}_N^\top x_N, \qquad \bar{c}_N^\top := c_N^\top - c_B^\top A_B^{-1}A_N.
 $$
 
-Vector $$\bar{c}_N$$ chứa **chi phí rút gọn** (reduced costs). Vì $$x_N \succeq 0$$:
+Vectơ $$\bar{c}_N$$ chứa các **chi phí rút gọn** (reduced costs). Do $$x_N \succeq 0$$:
 
-- nếu $$\bar{c}_N \succeq 0$$, không thể tăng một biến ngoài cơ sở mà làm giảm mục tiêu — BFS là **tối ưu**;
-- nếu có $$\bar{c}_j < 0$$, ta có thể tăng tọa độ ngoài cơ sở đó (biến **vào** cơ sở) và đưa một biến cơ sở về không (biến **ra**). Kiểm định tỉ số chọn chỉ số ra sao cho $$x_B$$ vẫn không âm.
+- Nếu $$\bar{c}_N \succeq 0$$, mọi cách tăng biến ngoài cơ sở đều không thể làm giảm hàm mục tiêu — nghiệm khả thi cơ sở hiện tại là **tối ưu**.
+- Nếu tồn tại $$\bar{c}_j < 0$$, ta có thể tăng biến ngoài cơ sở tương ứng (biến **vào** cơ sở) cho đến khi một biến cơ sở giảm về 0 (biến **ra** khỏi cơ sở). Quy tắc kiểm định tỉ số (ratio test) chọn biến ra sao cho điều kiện $$x_B \succeq 0$$ vẫn được duy trì.
 
-Một phép đổi chỗ như vậy gọi là **pivot**. Sau hữu hạn bước (nếu có quy tắc chống tuần hoàn, ví dụ Bland), simplex hoặc báo tối ưu, hoặc phát hiện tia không bị chặn ($$Ax = 0$$, $$x \succeq 0$$, $$c^\top x < 0$$).
+Mỗi phép thay đổi cơ sở như vậy gọi là một bước **xoay** (pivot). Sau hữu hạn bước (khi áp dụng quy tắc chống lặp vòng, chẳng hạn quy tắc Bland), thuật toán Simplex hoặc dừng tại nghiệm tối ưu, hoặc phát hiện tia không bị chặn ($$Ax = 0$$, $$x \succeq 0$$, $$c^\top x < 0$$).
 
 ## Ví dụ hai biến
 
-Tối đa hóa $$3x_1 + 2x_2$$ (tương đương tối thiểu hóa $$-3x_1-2x_2$$) với
+Xét bài toán tối đa hóa $$3x_1 + 2x_2$$ (tương đương tối thiểu hóa $$-3x_1 - 2x_2$$) với các ràng buộc:
 
 $$
 \begin{align}
@@ -73,20 +73,20 @@ x_1, x_2 &\ge 0.
 \end{align}
 $$
 
-Các đỉnh của đa giác khả thi là $$(0,0)$$, $$(3,0)$$, $$(2,2)$$, và $$(0,4)$$. Giá trị mục tiêu: $$0$$, $$9$$, $$10$$, $$8$$. Simplex có thể xuất phát từ gốc, xoay tới $$(3,0)$$ rồi $$(2,2)$$, nơi mọi chi phí rút gọn đều không âm. Hình học cho cùng kết luận: các đường mức của $$3x_1+2x_2$$ chạm đa giác lần cuối tại $$(2,2)$$.
+Các đỉnh của đa giác khả thi là $$(0,0)$$, $$(3,0)$$, $$(2,2)$$ và $$(0,4)$$, với giá trị hàm mục tiêu lần lượt là $$0$$, $$9$$, $$10$$ và $$8$$. Xuất phát từ gốc tọa độ $$(0,0)$$, thuật toán Simplex có thể xoay sang $$(3,0)$$ rồi tới $$(2,2)$$, tại đó mọi chi phí rút gọn đều không âm. Quan sát hình học cũng cho cùng kết quả: các đường đồng mức của $$3x_1 + 2x_2$$ tiếp xúc lần cuối với miền khả thi tại $$(2,2)$$.
 
-## Vì sao vẫn dạy simplex trong khoa học dữ liệu
+## Vai trò của Simplex trong khoa học dữ liệu
 
-- **Kiểm tra mô hình.** Nếu viết được bài toán về dạng chuẩn LP, bạn đã biết nó lồi và tồn tại nghiệm tại đỉnh.
-- **Lót đường cho đối ngẫu.** Chi phí rút gọn chính là slack đối ngẫu. Bù trừ bù (complementary slackness) ở [Chương 12]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %}) là chứng chỉ tối ưu mà simplex đang tìm.
-- **Bộ giải.** Mã sản xuất (HiGHS, Gurobi, `scipy.optimize.linprog`) dùng simplex cải tiến và/hoặc điểm trong. Bạn ít khi tự lập bảng, nhưng cần phân biệt trả về không khả thi với không bị chặn.
+- **Kiểm tra cấu trúc mô hình:** Khi viết được bài toán về dạng chuẩn LP, ta biết ngay bài toán có tính lồi và có nghiệm tối ưu tại đỉnh (nếu bị chặn).
+- **Liên kết trực tiếp với lý thuyết đối ngẫu:** Các chi phí rút gọn chính là các biến phụ đối ngẫu. Điều kiện bù lỏng (complementary slackness) ở [Chương 12]({% multilang_post_url contents/chapter12/21-04-02-12_00_KKT_conditions %}) chính là chứng chỉ tối ưu mà thuật toán Simplex hướng tới.
+- **Sử dụng bộ giải thực tế:** Các thư viện giải LP hiện đại (HiGHS, Gurobi, `scipy.optimize.linprog`) kết hợp phương pháp Simplex cải tiến và/hoặc phương pháp điểm trong. Người dùng hiếm khi tự lập bảng bằng tay, nhưng cần hiểu bản chất để phân biệt kết quả *không khả thi* (infeasible) với *không bị chặn* (unbounded).
 
-**Ghi chú độ phức tạp.** Các khối Klee–Minty cho thấy một số quy tắc xoay có thể mất số bước hàm mũ trong trường hợp xấu nhất. Thực tế simplex thường nhanh; phương pháp điểm trong (Chương 15–17) có đảm bảo đa thức và thắng trên một số LP thưa lớn. Với mô hình *đã là* LP hoặc QP — bài toán khẩu phần, đối ngẫu SVM lề cứng, basis pursuit — bạn thường gọi lớp mô hình hóa như CVXPY (xem lab DCP trong chương này) thay vì xoay bảng bằng tay.
+**Ghi chú về độ phức tạp:** Ví dụ khối Klee–Minty cho thấy một số quy tắc xoay có thể cần số bước hàm mũ trong trường hợp xấu nhất. Dù vậy, trong thực tế Simplex thường chạy rất nhanh; trong khi đó phương pháp điểm trong (Chương 15–17) có đảm bảo độ phức tạp thời gian đa thức và thường chiếm ưu thế trên nhiều bài toán LP thưa quy mô lớn. Khi bài toán đã có dạng LP hoặc QP chuẩn — như bài toán khẩu phần, đối ngẫu SVM biên cứng hay basis pursuit — cách tiếp cận thực tế là mô hình hóa bằng công cụ như CVXPY (xem bài thực hành DCP trong chương này) thay vì xoay bảng thủ công.
 
 ## Bài tập
 
-1. Chuyển $$x_1 - x_2 \le 3$$, $$x_1 \ge 0$$, $$x_2$$ tự do về dạng chuẩn.
-2. Xuất phát từ $$(0,0)$$ trong ví dụ trên, xác định biến vào đầu tiên nếu luôn chọn chi phí rút gọn âm nhất.
-3. Cho một LP 2-D khả thi và không bị chặn; giải thích vì sao kiểm định tỉ số thất bại.
+1. Chuyển hệ ràng buộc $$x_1 - x_2 \le 3$$, $$x_1 \ge 0$$, $$x_2$$ tự do về dạng chuẩn.
+2. Xuất phát từ $$(0,0)$$ trong ví dụ trên, xác định biến vào đầu tiên nếu luôn chọn biến có chi phí rút gọn âm nhất.
+3. Xây dựng một bài toán LP hai chiều khả thi nhưng không bị chặn và giải thích vì sao phép kiểm định tỉ số không tìm được biến ra.
 
-Đọc thêm: Boyd & Vandenberghe, Phụ lục B; Nocedal & Wright, Ch. 13; ghi chú bài toán chuẩn của CMU được liên kết từ [README]({{ site.baseurl }}/).
+Đọc thêm: Boyd & Vandenberghe, Phụ lục B; Nocedal & Wright, Chương 13; tài liệu bài toán chuẩn của CMU được liên kết tại [README]({{ site.baseurl }}/).

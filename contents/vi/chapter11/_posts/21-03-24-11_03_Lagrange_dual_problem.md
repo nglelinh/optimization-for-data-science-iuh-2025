@@ -10,7 +10,8 @@ lang: vi
 lesson_type: required
 ---
 
-Xem xét bài toán tối ưu sau đây:
+Xét bài toán tối ưu tổng quát sau:
+
 >
 $$
 \begin{alignat}{1}
@@ -20,7 +21,8 @@ s.t.   & \quad h_i(x) \leq 0, i=1,\dots,m  \\
 \end{alignat}
 $$
 
-Hàm đối ngẫu $$g(u,v)$$ thỏa mãn $$f^* \geq g(u,v)$$ với mọi $$u\geq 0$$ và $$v$$. Do đó, chúng ta có thể thu được cận dưới tốt nhất bằng cách tối đa hóa $$g(u,v)$$ trên tất cả $$u$$ và $$v$$ khả thi. Điều này được gọi là bài toán đối ngẫu Lagrange. 
+Hàm đối ngẫu $$g(u,v)$$ thỏa mãn $$f^* \geq g(u,v)$$ với mọi $$u \geq 0$$ và $$v$$. Để tìm cận dưới chặt nhất có thể cho $$f^*$$, ta cực đại hóa $$g(u,v)$$ trên miền $$u \geq 0$$. Bài toán thu được gọi là **bài toán đối ngẫu Lagrange**:
+
 >
 $$
 \begin{alignat}{1}
@@ -29,21 +31,21 @@ $$
 \end{alignat}
 $$
 
-Ở đây, nếu ta ký hiệu giá trị tối ưu đối ngẫu là $$g^*$$, thì $$f^* \geq g^*$$. Điều này được gọi là tính đối ngẫu yếu. Tính chất này luôn đúng ngay cả khi bài toán gốc không lồi. Hơn nữa, bài toán đối ngẫu luôn là một bài toán tối ưu lồi, ngay cả khi bài toán gốc không lồi.
+Ký hiệu giá trị tối ưu của bài toán đối ngẫu là $$g^*$$, khi đó ta luôn có $$f^* \geq g^*$$. Tính chất này được gọi là **tính đối ngẫu yếu (weak duality)** và luôn đúng bất kể bài toán gốc có lồi hay không. Hơn nữa, **bài toán đối ngẫu luôn là một bài toán tối ưu lồi**, ngay cả khi bài toán gốc không lồi.
 
-Theo định nghĩa, $$g$$ là hàm lõm theo $$(u,v)$$, và $$u \geq 0$$ là một ràng buộc lồi. Do đó, bài toán đối ngẫu tương ứng với một bài toán tối đa hóa hàm lõm. 
+Thật vậy, theo định nghĩa, $$g(u,v)$$ là hàm lõm theo $$(u,v)$$ và ràng buộc $$u \geq 0$$ xác định một tập lồi, nên bài toán đối ngẫu là bài toán cực đại hóa một hàm lõm trên một tập lồi:
+
 >
+$$
 \begin{alignat}{1}
  g(u,v) & = \min_x \{ f(x) + \sum_{i=1}^m u_i h_i(x) + \sum_{j=1}^r v_j l_j(x) \}  \\ 
         & = - \underbrace{\max_x \{ -f(x) - \sum_{i=1}^m u_i h_i(x) - \sum_{j=1}^r v_j l_j(x) \}}_{\text{pointwise maximum of convex functions in $(u,v)$}}
 \end{alignat}
+$$
 
+## Ví dụ: Cực tiểu hóa hàm bậc bốn không lồi
 
-
-
-## Ví dụ: Tối thiểu hóa hàm bậc bốn không lồi
-Hãy tối thiểu hóa hàm $$f(x)=x^4 - 50 x^2 + 100 x$$ với điều kiện $$x \geq -4.5$$.
-
+Xét bài toán cực tiểu hóa hàm không lồi $$f(x) = x^4 - 50x^2 + 100x$$ với ràng buộc $$x \geq -4.5$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -52,7 +54,8 @@ Hãy tối thiểu hóa hàm $$f(x)=x^4 - 50 x^2 + 100 x$$ với điều kiện 
 </p>
 </figure>
 
-Trong trường hợp này, hàm đối ngẫu $$g$$ như sau: 
+Trong ví dụ này, hàm đối ngẫu $$g(u)$$ có biểu thức phức tạp:
+
 >
 $$
 \begin{equation}
@@ -60,7 +63,8 @@ $$
 \end{equation}
 $$
 
-where, for $$i=1,2,3$$, 
+trong đó, với $$i = 1, 2, 3$$:
+
 >
 $$
 \begin{alignat}{1}
@@ -69,5 +73,6 @@ F_i(u) = & \frac{- a_i}{12\cdot 2^{1/3}} \left( 432(100-u)-(432^2(100-u)^2 - 4\c
 \end{alignat}
 $$
 
-và $$a_1=1, a_2 = (-1+i\sqrt{3})/2, a_3 = (-1-i \sqrt{3})/2$$.
-Mặc dù khó xác định liệu $$g$$ có lõm hay không chỉ bằng cách nhìn vào hàm số, nhưng chúng ta có thể biết rằng $$g$$ là hàm lõm dưới tính chất lồi của tính đối ngẫu.
+và $$a_1 = 1$$, $$a_2 = (-1 + i\sqrt{3})/2$$, $$a_3 = (-1 - i\sqrt{3})/2$$.
+
+Nếu chỉ nhìn vào công thức giải tích trên thì rất khó kiểm tra trực tiếp tính lõm của $$g$$; tuy nhiên, theo tính chất tổng quát của hàm đối ngẫu Lagrange, ta biết chắc chắn rằng $$g(u)$$ là một hàm lõm.

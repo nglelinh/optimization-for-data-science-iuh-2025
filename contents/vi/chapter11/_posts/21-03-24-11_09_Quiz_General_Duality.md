@@ -16,274 +16,138 @@ redirect_from:
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
 
-### ⚡ **Tính Đối Ngẫu Tổng Quát (General Duality)**
+### ⚡ Tính đối ngẫu tổng quát (General Duality)
 
-#### **Bài toán tối ưu tổng quát**
+#### Bài toán tối ưu tổng quát
 $$\min_x f(x) \quad \text{s.t.} \quad h_i(x) \le 0, \quad l_j(x) = 0$$
 
-với:
-- $$f(x)$$: hàm mục tiêu (không nhất thiết lồi)
-- $$h_i(x) \le 0$$: ràng buộc bất đẳng thức ($$i = 1,\ldots,m$$)
-- $$l_j(x) = 0$$: ràng buộc đẳng thức ($$j = 1,\ldots,r$$)
+trong đó:
+- $$f(x)$$: hàm mục tiêu (không nhất thiết lồi),
+- $$h_i(x) \le 0$$: các ràng buộc bất đẳng thức ($$i = 1,\ldots,m$$),
+- $$l_j(x) = 0$$: các ràng buộc đẳng thức ($$j = 1,\ldots,r$$).
 
-#### **Mở rộng từ LP Duality**
-- **LP Duality (Chương 10):** Chỉ áp dụng cho linear programs
-- **General Duality (Chương 11):** Áp dụng cho **mọi** bài toán tối ưu
-- **Công cụ chính:** Lagrangian function thay vì linear combination
+#### Mở rộng từ đối ngẫu LP
+- **Đối ngẫu LP (Chương 10):** chỉ áp dụng cho quy hoạch tuyến tính.
+- **Đối ngẫu tổng quát (Chương 11):** áp dụng cho mọi bài toán tối ưu nhờ sử dụng hàm Lagrangian thay cho tổ hợp tuyến tính trực tiếp.
 
-### 📏 **Hàm Lagrangian**
+### 📏 Hàm Lagrangian
 
-#### **Định nghĩa**
+#### Định nghĩa
 $$L(x,u,v) = f(x) + \sum_{i=1}^m u_i h_i(x) + \sum_{j=1}^r v_j l_j(x)$$
 
-với:
-- $$u \in \mathbb{R}^m, u \ge 0$$: dual variables cho inequality constraints
-- $$v \in \mathbb{R}^r$$: dual variables cho equality constraints (không ràng buộc dấu)
+trong đó:
+- $$u \in \mathbb{R}^m, u \ge 0$$: biến đối ngẫu cho các ràng buộc bất đẳng thức,
+- $$v \in \mathbb{R}^r$$: biến đối ngẫu cho các ràng buộc đẳng thức (không ràng buộc dấu).
 
-#### **Tính chất cơ bản**
-Với mọi $$x$$ khả thi và mọi $$u \ge 0, v$$:
+#### Tính chất cơ bản
+Với mọi điểm khả thi $$x$$ và mọi $$u \ge 0, v$$:
 $$L(x,u,v) = f(x) + \sum_{i=1}^m u_i \underbrace{h_i(x)}_{\le 0} + \sum_{j=1}^r v_j \underbrace{l_j(x)}_{= 0} \le f(x)$$
 
-**Ý nghĩa:** Lagrangian cung cấp **lower bound** cho $$f(x)$$ tại mọi feasible point.
+Như vậy, hàm Lagrangian luôn là **cận dưới** của $$f(x)$$ tại mọi điểm khả thi, với các biến đối ngẫu đóng vai trò như hệ số phạt (hoặc giá biên) đối với việc vi phạm ràng buộc.
 
-#### **Geometric interpretation**
-- **Primal problem:** Tìm minimum trực tiếp trong feasible region
-- **Lagrangian:** "Penalty method" - thêm penalty cho constraint violations
-- **Dual variables:** "Prices" cho việc vi phạm constraints
+### 🎯 Hàm đối ngẫu Lagrange
 
-### 🎯 **Hàm Đối Ngẫu Lagrange (Lagrange Dual Function)**
-
-#### **Định nghĩa**
+#### Định nghĩa
 $$g(u,v) = \min_x L(x,u,v) = \min_x \left\{ f(x) + \sum_{i=1}^m u_i h_i(x) + \sum_{j=1}^r v_j l_j(x) \right\}$$
 
-#### **Tính chất quan trọng**
-1. **Lower bound:** $$g(u,v) \le f^*$$ với mọi $$u \ge 0, v$$ (weak duality)
-2. **Concavity:** $$g(u,v)$$ là hàm **lõm** theo $$(u,v)$$
-3. **Không phụ thuộc convexity:** $$g$$ lõm ngay cả khi $$f$$ không lồi
+#### Tính chất quan trọng
+1. **Cận dưới (đối ngẫu yếu):** $$g(u,v) \le f^*$$ với mọi $$u \ge 0, v$$.
+2. **Tính lõm:** $$g(u,v)$$ luôn là hàm **lõm** theo $$(u,v)$$, ngay cả khi bài toán gốc không lồi.
 
-#### **Chứng minh concavity**
+#### Chứng minh tính lõm
 $$g(u,v) = \min_x L(x,u,v) = -\max_x \{-L(x,u,v)\}$$
 
-Vì $$-L(x,u,v)$$ là **convex** theo $$(u,v)$$ (linear), nên $$\max_x$$ của convex functions là convex, do đó $$g(u,v)$$ là concave.
+Vì $$-L(x,u,v)$$ là hàm affine (nên lồi) theo $$(u,v)$$, cực đại theo từng điểm của một họ hàm lồi là hàm lồi, do đó $$g(u,v)$$ là hàm lõm.
 
-### 📊 **Bài Toán Đối Ngẫu Lagrange**
+### 📊 Bài toán đối ngẫu Lagrange
 
-#### **Định nghĩa**
+#### Định nghĩa
 $$\max_{u,v} g(u,v) \quad \text{s.t.} \quad u \ge 0$$
 
-**Mục tiêu:** Tìm **best lower bound** cho $$f^*$$
+Mục tiêu của bài toán là tìm **cận dưới lớn nhất** cho $$f^*$$. Vì cực đại hóa hàm lõm trên tập lồi $$u \ge 0$$, **bài toán đối ngẫu luôn là bài toán tối ưu lồi**, bất kể bài toán gốc có lồi hay không.
 
-#### **Tính chất đặc biệt**
-1. **Luôn là convex problem:** Maximize concave function over convex set
-2. **Không phụ thuộc primal:** Dual luôn convex ngay cả khi primal non-convex
-3. **Computational advantage:** Có thể dễ giải hơn primal
+- **Đối ngẫu yếu:** $$g^* \le f^*$$ luôn đúng.
+- **Khoảng cách đối ngẫu:** $$f^* - g^* \ge 0$$.
 
-#### **Weak Duality**
-**Luôn đúng:** $$g^* \le f^*$$ (dual optimal ≤ primal optimal)
+### 🔄 Ví dụ: Quy hoạch bậc hai (Quadratic Programming)
 
-**Duality gap:** $$f^* - g^* \ge 0$$
-
-### 🔄 **Ví Dụ: Quadratic Programming**
-
-#### **Bài toán**
+#### Bài toán
 $$\min_x \frac{1}{2}x^T Q x + c^T x \quad \text{s.t.} \quad Ax = b, \quad x \ge 0$$
 
-#### **Trường hợp 1: $$Q \succ 0$$ (positive definite)**
+#### Trường hợp 1: $$Q \succ 0$$ (xác định dương)
+- **Hàm Lagrangian:** $$L(x,u,v) = \frac{1}{2}x^T Q x + c^T x - u^T x + v^T(Ax - b)$$
+- **Cực tiểu hóa theo $$x$$:** $$\nabla_x L = Qx + c - u + A^T v = 0 \Rightarrow x^* = Q^{-1}(u - c - A^T v)$$
+- **Hàm đối ngẫu:** $$g(u,v) = -\frac{1}{2}(c - u + A^T v)^T Q^{-1}(c - u + A^T v) - b^T v$$
 
-**Lagrangian:**
-$$L(x,u,v) = \frac{1}{2}x^T Q x + c^T x - u^T x + v^T(Ax - b)$$
-
-**Tối ưu hóa theo $$x$$:**
-$$\nabla_x L = Qx + c - u + A^T v = 0$$
-$$\Rightarrow x^* = Q^{-1}(u - c - A^T v)$$
-
-**Dual function:**
-$$g(u,v) = -\frac{1}{2}(c - u + A^T v)^T Q^{-1}(c - u + A^T v) - b^T v$$
-
-#### **Trường hợp 2: $$Q \succeq 0$$ (positive semidefinite)**
-
-**Dual function:**
+#### Trường hợp 2: $$Q \succeq 0$$ (nửa xác định dương)
 $$g(u,v) = \begin{cases}
 -\frac{1}{2}(c - u + A^T v)^T Q^+(c - u + A^T v) - b^T v & \text{if } c - u + A^T v \perp \text{null}(Q) \\
 -\infty & \text{otherwise}
 \end{cases}$$
 
-với $$Q^+$$ là Moore-Penrose pseudoinverse.
+với $$Q^+$$ là nghịch đảo giả Moore–Penrose của $$Q$$.
 
-### 💪 **Strong Duality**
+### 💪 Đối ngẫu mạnh (Strong Duality)
 
-#### **Định nghĩa**
-**Strong duality xảy ra khi:** $$f^* = g^*$$ (duality gap = 0)
+**Định nghĩa:** Đối ngẫu mạnh xảy ra khi $$f^* = g^*$$ (khoảng cách đối ngẫu bằng 0).
 
-#### **Slater's Condition**
-**Điều kiện đủ cho strong duality:**
-
-Nếu bài toán primal là **convex** và tồn tại $$x$$ **strictly feasible**:
+#### Điều kiện Slater
+Nếu bài toán gốc là **lồi** và tồn tại điểm $$x$$ **khả thi chặt**:
 $$h_i(x) < 0 \quad \forall i, \quad l_j(x) = 0 \quad \forall j$$
+thì tính đối ngẫu mạnh được thỏa mãn. Lưu ý rằng với các ràng buộc bất đẳng thức affine, không cần dấu bất đẳng thức chặt.
 
-**Lưu ý:** Strict inequality không cần thiết cho affine constraints.
+### 🎯 Ví dụ: Support Vector Machine (SVM)
 
-#### **Ý nghĩa của Strong Duality**
-- **Perfect correspondence:** Primal và dual có cùng optimal value
-- **Computational:** Có thể giải dual thay vì primal
-- **Theoretical:** Enables KKT conditions (Chương 12)
-
-### 🎯 **Ví Dụ: Support Vector Machine (SVM)**
-
-#### **Primal problem**
+#### Bài toán gốc
 $$\min_{\beta,\beta_0,\xi} \frac{1}{2}\|\beta\|_2^2 + C\sum_{i=1}^n \xi_i$$
 $$\text{s.t.} \quad \xi_i \ge 0, \quad y_i(x_i^T\beta + \beta_0) \ge 1 - \xi_i$$
 
-#### **Lagrangian**
+#### Hàm Lagrangian
 $$L(\beta,\beta_0,\xi,v,w) = \frac{1}{2}\|\beta\|_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i + \sum_{i=1}^n w_i(1 - \xi_i - y_i(x_i^T\beta + \beta_0))$$
 
-#### **Dual problem** (sau khi eliminate primal variables)
+#### Bài toán đối ngẫu (sau khi khử các biến gốc)
 $$\max_w -\frac{1}{2}w^T \tilde{X}\tilde{X}^T w + \mathbf{1}^T w$$
 $$\text{s.t.} \quad 0 \le w \le C\mathbf{1}, \quad w^T y = 0$$
 
-với $$\tilde{X} = \text{diag}(y)X$$
+với $$\tilde{X} = \text{diag}(y)X$$. Bài toán thỏa mãn điều kiện Slater nên đối ngẫu mạnh đúng ($$f^* = g^*$$).
 
-**Strong duality:** Slater's condition thỏa mãn → $$f^* = g^*$$
+### 📐 Khoảng cách đối ngẫu (Duality Gap)
 
-### 📐 **Duality Gap**
-
-#### **Định nghĩa**
-Cho $$x$$ khả thi primal và $$(u,v)$$ khả thi dual:
+Cho $$x$$ khả thi gốc và $$(u,v)$$ khả thi đối ngẫu:
 $$\text{Duality gap} = f(x) - g(u,v)$$
 
-#### **Tính chất**
-1. **Upper bound cho suboptimality:** $$f(x) - f^* \le f(x) - g(u,v)$$
-2. **Stopping criterion:** Nếu $$f(x) - g(u,v) \le \epsilon$$ thì $$f(x) - f^* \le \epsilon$$
-3. **Optimality test:** $$f(x) - g(u,v) = 0 \Leftrightarrow x, (u,v)$$ optimal
+1. **Cận trên của sai số nghiệm:** $$f(x) - f^* \le f(x) - g(u,v)$$.
+2. **Tiêu chí dừng:** Nếu $$f(x) - g(u,v) \le \epsilon$$ thì chắc chắn $$f(x) - f^* \le \epsilon$$.
+3. **Kiểm tra tối ưu:** $$f(x) - g(u,v) = 0 \Leftrightarrow x$$ và $$(u,v)$$ đều tối ưu.
 
-#### **Ứng dụng trong algorithms**
-- **Primal-dual methods:** Simultaneously update primal và dual variables
-- **Convergence monitoring:** Track duality gap thay vì objective values
-- **Early stopping:** Stop khi duality gap đủ nhỏ
+### 🔄 So sánh đối ngẫu LP và đối ngẫu tổng quát
 
-### 🔄 **So Sánh LP Duality vs General Duality**
+| **Khía cạnh** | **Đối ngẫu LP (Chương 10)** | **Đối ngẫu tổng quát (Chương 11)** |
+|---------------|-----------------------------|-------------------------------------|
+| **Phạm vi** | Chỉ quy hoạch tuyến tính | Mọi bài toán tối ưu |
+| **Phương pháp** | Tổ hợp tuyến tính các ràng buộc | Hàm Lagrangian |
+| **Tính lồi của bài toán đối ngẫu** | Luôn lồi (LP) | Luôn lồi (hàm $$g$$ lõm) |
+| **Đối ngẫu mạnh** | Đúng nếu ít nhất một bài toán khả thi | Cần điều kiện Slater (hoặc CQ tương đương) |
+| **Ứng dụng tiêu biểu** | LP, luồng trên mạng, trò chơi ma trận | SVM, QP, tối ưu có ràng buộc tổng quát |
 
-| **Aspect** | **LP Duality (Ch 10)** | **General Duality (Ch 11)** |
-|------------|------------------------|------------------------------|
-| **Scope** | Linear programs only | Any optimization problem |
-| **Method** | Linear combination of constraints | Lagrangian function |
-| **Dual convexity** | Always convex (LP) | Always convex (concave $$g$$) |
-| **Strong duality** | If one feasible → strong duality | Slater's condition needed |
-| **Applications** | LP, network flows, games | SVM, QP, general constrained |
+### 💡 Ví dụ minh họa nhanh
 
-### 🛠️ **Kỹ Thuật Thực Hành**
+Xét $$\min_x x^2 \quad \text{s.t.} \quad x \ge 1$$:
+- **Hàm Lagrangian:** $$L(x,u) = x^2 - u(x - 1) = x^2 - ux + u$$
+- **Cực tiểu hóa theo $$x$$:** $$\frac{\partial L}{\partial x} = 2x - u = 0 \Rightarrow x = \frac{u}{2}$$
+- **Hàm đối ngẫu:** $$g(u) = L\left(\frac{u}{2}, u\right) = \frac{u^2}{4} - u \cdot \frac{u}{2} + u = -\frac{u^2}{4} + u$$
+- **Bài toán đối ngẫu:** $$\max_{u \ge 0} \left(-\frac{u^2}{4} + u\right)$$
+- **Nghiệm:** $$u^* = 2, g^* = 1$$ và $$x^* = 1, f^* = 1$$ (đối ngẫu mạnh ✓).
 
-#### **Xây dựng dual problem:**
-1. **Write Lagrangian:** $$L(x,u,v) = f(x) + u^T h(x) + v^T l(x)$$
-2. **Minimize over $$x$$:** $$g(u,v) = \min_x L(x,u,v)$$
-3. **Solve optimization:** $$\nabla_x L = 0$$ (nếu unconstrained)
-4. **Substitute back:** Get $$g(u,v)$$ explicitly
-5. **Maximize $$g$$:** Subject to $$u \ge 0$$
+### Lưu ý khi giải bài tập
 
-#### **Kiểm tra strong duality:**
-1. **Verify convexity:** Primal problem convex?
-2. **Check Slater's condition:** Strictly feasible point exists?
-3. **Special cases:** LP, QP với $$Q \succ 0$$, etc.
-
-#### **Computational strategies:**
-- **Dual easier:** Khi dual có fewer variables hoặc simpler structure
-- **Primal-dual methods:** Update both simultaneously
-- **Duality gap monitoring:** For convergence assessment
-
-### 💡 **Ví Dụ Minh Họa**
-
-#### **Bài toán đơn giản:**
-$$\min_x x^2 \quad \text{s.t.} \quad x \ge 1$$
-
-**Lagrangian:**
-$$L(x,u) = x^2 - u(x - 1) = x^2 - ux + u$$
-
-**Minimize over $$x$$:**
-$$\frac{\partial L}{\partial x} = 2x - u = 0 \Rightarrow x = \frac{u}{2}$$
-
-**Dual function:**
-$$g(u) = L\left(\frac{u}{2}, u\right) = \frac{u^2}{4} - u \cdot \frac{u}{2} + u = -\frac{u^2}{4} + u$$
-
-**Dual problem:**
-$$\max_u -\frac{u^2}{4} + u \quad \text{s.t.} \quad u \ge 0$$
-
-**Solution:** $$u^* = 2$$, $$g^* = 1$$, $$x^* = 1$$, $$f^* = 1$$
-
-**Strong duality:** $$f^* = g^* = 1$$ ✓
-
-### 🎯 **Kết Nối Với Các Chương**
-
-#### **Từ chương trước:**
-- **Chương 10:** LP duality như special case
-- **Chương 09:** Proximal gradient cho composite problems
-- **Chương 05:** QP như canonical problem
-
-#### **Tầm quan trọng của General Duality:**
-- **Theoretical foundation:** Cho modern optimization theory
-- **KKT conditions:** Optimality conditions (Chương 12)
-- **Algorithms:** Primal-dual methods, interior point
-- **Machine learning:** SVM, neural networks, regularization
-
-#### **Hướng phát triển:**
-- **Chương 12:** KKT conditions và complementary slackness
-- **Advanced topics:** Robust optimization, semidefinite programming
-- **Applications:** Deep learning, reinforcement learning
-
-### 🌟 **Ý Nghĩa Lý Thuyết**
-
-#### **Duality như universal principle:**
-- **Mọi optimization problem** có dual perspective
-- **Dual luôn convex** ngay cả khi primal non-convex
-- **Provides bounds** và **optimality conditions**
-- **Enables algorithms** không thể có với primal alone
-
-#### **Geometric interpretation:**
-- **Primal:** Direct search trong feasible region
-- **Dual:** Indirect approach qua "supporting hyperplanes"
-- **Strong duality:** Perfect geometric correspondence
-
-#### **Computational significance:**
-- **Alternative solution path:** Dual có thể easier than primal
-- **Parallel computation:** Primal-dual methods
-- **Convergence monitoring:** Duality gap như stopping criterion
-
-### 💡 **Mẹo Thực Hành**
-
-#### **Khi nào sử dụng duality:**
-1. **Primal khó giải:** Many variables, complex constraints
-2. **Dual structure simpler:** Fewer dual variables
-3. **Bounds needed:** Duality gap cho convergence assessment
-4. **Theoretical analysis:** Optimality conditions, sensitivity
-
-#### **Common pitfalls:**
-- **Forget constraint qualifications:** Slater's condition
-- **Wrong sign conventions:** $$u \ge 0$$ cho $$h(x) \le 0$$
-- **Non-convex primal:** Strong duality không guaranteed
-- **Computational issues:** Dual có thể numerically unstable
-
-#### **Debugging strategies:**
-- **Verify weak duality:** $$g^* \le f^*$$ luôn đúng
-- **Check Slater's condition:** For strong duality
-- **Compare với known results:** LP, QP special cases
-- **Numerical verification:** Small examples
-
-### 🔬 **Advanced Topics**
-
-#### **Fenchel duality:**
-- **Conjugate functions:** Alternative duality framework
-- **Applications:** Convex analysis, variational problems
-
-#### **Conic duality:**
-- **Semidefinite programming:** Matrix optimization
-- **Second-order cone programming:** Robust optimization
-
-#### **Stochastic duality:**
-- **Robust optimization:** Worst-case analysis
-- **Chance constraints:** Probabilistic optimization
+- **Các bước chuẩn:** Lập hàm Lagrangian → cực tiểu hóa theo $$x$$ để tìm $$g(u,v)$$ → cực đại hóa $$g(u,v)$$ với $$u \ge 0$$.
+- **Lỗi thường gặp:** Nhầm quy ước dấu ($$u \ge 0$$ ứng với ràng buộc dạng $$h(x) \le 0$$); quên kiểm tra điều kiện Slater; mặc định bài toán không lồi có đối ngẫu mạnh.
+- **Kết nối với chương tiếp theo:** Điều kiện tối ưu KKT và điều kiện bù (Chương 12), cùng các mở rộng như đối ngẫu Fenchel và đối ngẫu hình nón (SOCP, SDP).
 
 ---
 
-💡 **Mẹo:** General Duality là **paradigm shift** từ "giải bài toán trực tiếp" sang "tìm best bound và exploit structure". Đây là foundation cho toàn bộ modern optimization theory!
+💡 **Ghi chú:** Đối ngẫu tổng quát chuyển bài toán từ việc tìm trực tiếp nghiệm gốc sang tìm cận dưới chặt nhất và khai thác cấu trúc lồi của bài toán đối ngẫu.
 
 ---
 
@@ -411,7 +275,7 @@ mjx-container[jax="CHTML"][display="false"] {
 }
 </style>
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính đối ngẫu trong quy hoạch tổng quát, bao gồm Lagrangian, dual function, strong duality, Slater condition và KKT conditions.
+Bài tập trắc nghiệm này kiểm tra kiến thức về tính đối ngẫu trong tối ưu tổng quát, bao gồm hàm Lagrangian, hàm đối ngẫu, đối ngẫu mạnh, điều kiện Slater và điều kiện KKT.
 
 ---
 
@@ -421,7 +285,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
         <div class="progress-bar">
             <div class="progress-fill" id="progress-fill" style="width: 5%"></div>
         </div>
-        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">20</span></div>
+        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">25</span></div>
     </div>
 
     <div id="quiz-content">
@@ -436,7 +300,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$L(x,u,v) = f(x) + \sum u_i h_i(x) + \sum v_j l_j(x)$$</strong><br>
-                Lagrangian kết hợp objective function với penalty terms cho constraints, với $$u_i \geq 0$$ cho inequality constraints.
+                Hàm Lagrangian kết hợp hàm mục tiêu với các số hạng ràng buộc có trọng số, trong đó $$u_i \geq 0$$ ứng với các ràng buộc bất đẳng thức.
             </div>
         </div>
 
@@ -451,7 +315,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$u \geq 0, v$$ không ràng buộc</strong><br>
-                Dual variables $$u_i$$ cho inequality constraints phải non-negative, $$v_j$$ cho equality constraints không có ràng buộc dấu.
+                Biến đối ngẫu $$u_i$$ cho ràng buộc bất đẳng thức phải không âm, còn $$v_j$$ cho ràng buộc đẳng thức không bị ràng buộc dấu.
             </div>
         </div>
 
@@ -466,13 +330,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$g(u,v) = \min_x L(x,u,v)$$</strong><br>
-                Dual function là infimum của Lagrangian over primal variables $$x$$.
+                Hàm đối ngẫu là infimum của hàm Lagrangian theo biến gốc $$x$$.
             </div>
         </div>
 
         <!-- Câu hỏi 4: Weak duality -->
         <div class="question" id="q4" style="display: none;">
-            <h3>Câu 4: Weak duality theorem phát biểu rằng:</h3>
+            <h3>Câu 4: Định lý đối ngẫu yếu phát biểu rằng:</h3>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) \(g(u,v) \geq f^*\) với mọi \(u \geq 0, v\)</label>
                 <label><input type="radio" name="q4" value="b"> B) \(g(u,v) \leq f^*\) với mọi \(u \geq 0, v\)</label>
@@ -481,7 +345,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$g(u,v) \leq f^*$$ với mọi $$u \geq 0, v$$</strong><br>
-                Dual function cung cấp lower bound cho primal optimal value: $$g^* \leq f^*$$.
+                Hàm đối ngẫu cung cấp cận dưới cho giá trị tối ưu của bài toán gốc: $$g^* \leq f^*$$.
             </div>
         </div>
 
@@ -496,13 +360,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$\max_{u \geq 0, v} g(u,v)$$</strong><br>
-                Dual problem tối đa hóa dual function để tìm best lower bound cho primal problem.
+                Bài toán đối ngẫu cực đại hóa hàm đối ngẫu để tìm cận dưới tốt nhất cho bài toán gốc.
             </div>
         </div>
 
         <!-- Câu hỏi 6: Strong duality -->
         <div class="question" id="q6" style="display: none;">
-            <h3>Câu 6: Strong duality xảy ra khi:</h3>
+            <h3>Câu 6: Tính đối ngẫu mạnh xảy ra khi:</h3>
             <div class="options">
                 <label><input type="radio" name="q6" value="a"> A) \(f^* > g^*\)</label>
                 <label><input type="radio" name="q6" value="b"> B) \(f^* = g^*\)</label>
@@ -511,7 +375,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$f^* = g^*$$</strong><br>
-                Strong duality có nghĩa là không có duality gap: primal và dual optimal values bằng nhau.
+                Đối ngẫu mạnh có nghĩa là khoảng cách đối ngẫu bằng 0: giá trị tối ưu của bài toán gốc và bài toán đối ngẫu bằng nhau.
             </div>
         </div>
 
@@ -526,7 +390,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Tồn tại $$x$$ sao cho $$h_i(x) < 0, l_j(x) = 0$$ (strictly feasible)</strong><br>
-                Slater condition yêu cầu tồn tại điểm strictly feasible (interior point) để đảm bảo strong duality.
+                Điều kiện Slater yêu cầu tồn tại điểm khả thi chặt để đảm bảo tính đối ngẫu mạnh cho bài toán lồi.
             </div>
         </div>
 
@@ -541,7 +405,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$f^* - g^*$$</strong><br>
-                Duality gap là hiệu số giữa primal và dual optimal values, luôn non-negative do weak duality.
+                Khoảng cách đối ngẫu là hiệu giữa giá trị tối ưu gốc và đối ngẫu, luôn không âm theo tính đối ngẫu yếu.
             </div>
         </div>
 
@@ -556,7 +420,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\nabla f(x^*) + \sum u_i^* \nabla h_i(x^*) + \sum v_j^* \nabla l_j(x^*) = 0$$</strong><br>
-                Stationarity: gradient của Lagrangian theo $$x$$ bằng 0 tại optimal point.
+                Điều kiện dừng (stationarity): gradient của hàm Lagrangian theo $$x$$ bằng 0 tại điểm tối ưu.
             </div>
         </div>
 
@@ -571,7 +435,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: C) $$u_i^* h_i(x^*) = 0$$</strong><br>
-                Complementary slackness: nếu constraint không active thì dual variable = 0, nếu dual variable > 0 thì constraint active.
+                Điều kiện bù: nếu ràng buộc lỏng (không chặt) thì biến đối ngẫu bằng 0; nếu biến đối ngẫu dương thì ràng buộc tương ứng chặt.
             </div>
         </div>
 
@@ -586,7 +450,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Bài toán là convex</strong><br>
-                KKT conditions là necessary cho mọi bài toán (với constraint qualification), nhưng chỉ sufficient khi bài toán convex.
+                Điều kiện KKT là điều kiện cần cho cực trị địa phương (khi thỏa điều kiện chuẩn hóa ràng buộc), và là điều kiện đủ cho cực trị toàn cục khi bài toán lồi.
             </div>
         </div>
 
@@ -601,7 +465,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Luôn concave</strong><br>
-                Dual function luôn concave vì là pointwise minimum của linear functions trong $$(u,v)$$.
+                Hàm đối ngẫu luôn lõm vì là infimum theo từng điểm của một họ các hàm affine theo $$(u,v)$$.
             </div>
         </div>
 
@@ -616,7 +480,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Đảm bảo KKT conditions là necessary</strong><br>
-                Constraint qualification (như LICQ, MFCQ) đảm bảo KKT conditions là necessary conditions cho local optimality.
+                Điều kiện chuẩn hóa ràng buộc (như LICQ, MFCQ) đảm bảo điều kiện KKT là điều kiện cần cho tính tối ưu địa phương.
             </div>
         </div>
 
@@ -631,7 +495,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Quadratic programming với linear constraints</strong><br>
-                SVM dual là QP problem: maximize quadratic objective subject to linear constraints và box constraints.
+                Bài toán đối ngẫu của SVM là một bài toán quy hoạch bậc hai: cực đại hóa hàm bậc hai dưới các ràng buộc tuyến tính và ràng buộc hộp.
             </div>
         </div>
 
@@ -646,7 +510,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$L(x^*,u,v) \leq L(x^*,u^*,v^*) \leq L(x,u^*,v^*)$$</strong><br>
-                Saddle point property: Lagrangian minimized over $$x$$ và maximized over $$(u,v)$$ tại optimal point.
+                Tính chất điểm yên ngựa: hàm Lagrangian đạt cực tiểu theo $$x$$ và cực đại theo $$(u,v)$$ tại cặp nghiệm tối ưu.
             </div>
         </div>
 
@@ -661,7 +525,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Với convex problem và Slater condition: weak duality luôn có, strong duality holds, KKT necessary và sufficient.
+                Với bài toán lồi thỏa mãn điều kiện Slater: đối ngẫu yếu và đối ngẫu mạnh đều đúng, và điều kiện KKT là điều kiện cần và đủ.
             </div>
         </div>
 
@@ -676,7 +540,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f(x^*) = g(u^*,v^*)$$</strong><br>
-                Strong duality có nghĩa là primal và dual optimal values bằng nhau.
+                Đối ngẫu mạnh có nghĩa là giá trị tối ưu của bài toán gốc và bài toán đối ngẫu bằng nhau.
             </div>
         </div>
 
@@ -691,7 +555,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Tìm lower bound cho minimization problem</strong><br>
-                Lagrangian relaxation "relax" constraints và cung cấp lower bound thông qua dual function.
+                Nới lỏng Lagrangian chuyển các ràng buộc vào hàm mục tiêu để thu được cận dưới thông qua hàm đối ngẫu.
             </div>
         </div>
 
@@ -706,7 +570,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Supporting hyperplane tách hoàn hảo epigraph và feasible set</strong><br>
-                Strong duality tương ứng với việc tồn tại supporting hyperplane tách epigraph của objective và feasible region.
+                Về mặt hình học, đối ngẫu mạnh tương ứng với sự tồn tại của siêu phẳng tựa (supporting hyperplane) tách phần trên đồ thị và miền ràng buộc.
             </div>
         </div>
 
@@ -721,7 +585,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các lĩnh vực trên</strong><br>
-                Lagrangian duality là công cụ fundamental trong optimization với ứng dụng rộng rãi trong ML, economics, engineering và nhiều lĩnh vực khác.
+                Đối ngẫu Lagrange là công cụ nền tảng trong tối ưu hóa, được ứng dụng trong học máy, kinh tế học, kỹ thuật và nhiều lĩnh vực khác.
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->
@@ -924,15 +788,15 @@ function submitQuiz() {
     
     let message = '';
     if (percentage >= 90) {
-        message = '🌟 Xuất sắc! Bạn đã thành thạo Lagrangian duality theory!';
+        message = '🌟 Xuất sắc! Bạn đã nắm vững lý thuyết đối ngẫu Lagrange.';
     } else if (percentage >= 80) {
-        message = '👍 Rất tốt! Bạn hiểu tốt về KKT conditions và strong duality.';
+        message = '👍 Rất tốt! Bạn hiểu tốt về điều kiện KKT và tính đối ngẫu mạnh.';
     } else if (percentage >= 70) {
-        message = '📚 Khá ổn! Hãy xem lại Slater condition và complementary slackness.';
+        message = '📚 Khá ổn! Hãy xem lại điều kiện Slater và điều kiện bù.';
     } else if (percentage >= 60) {
-        message = '💪 Cần cải thiện! Ôn lại Lagrangian và dual function.';
+        message = '💪 Cần cải thiện! Ôn lại hàm Lagrangian và hàm đối ngẫu.';
     } else {
-        message = '📖 Hãy học lại từ đầu về general duality theory nhé!';
+        message = '📖 Hãy ôn lại từ đầu lý thuyết đối ngẫu tổng quát.';
     }
     
     document.getElementById('performance-message').textContent = message;

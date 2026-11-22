@@ -10,7 +10,7 @@ lang: vi
 lesson_type: required
 ---
 
-Bài toán tối ưu hóa lồi là một loại bài toán tối ưu hóa.
+Bài toán tối ưu hóa lồi là một lớp đặc biệt quan trọng của bài toán tối ưu hóa.
 
 >$$\begin{align*} 
 >&\min_{x\in D}\ &&f(x) \\
@@ -18,52 +18,55 @@ Bài toán tối ưu hóa lồi là một loại bài toán tối ưu hóa.
 >&&& h_j(x) = 0,\ j = 1,\ ..., r
 >\end{align*}$$
 
-**Bài toán Tối ưu hóa Lồi ở dạng chuẩn [3]**
+**Bài toán tối ưu hóa lồi ở dạng chuẩn [3]**
 
-Ở đây, hàm mục tiêu $$f$$ và các hàm ràng buộc bất đẳng thức $$g_i$$ là lồi, và các hàm ràng buộc đẳng thức $$h_j$$ là affine. Một hàm affine là một hàm tuyến tính cộng với một hằng số:
->$$h_j,\ j = 1, ..., r$$ là affine: $$h_j(x) = a_{j}^T x + b_{j},\ j=1, ..., r$$
+Trong dạng chuẩn này, hàm mục tiêu $$f$$ và các hàm ràng buộc bất đẳng thức $$g_i$$ là các hàm lồi, còn các hàm ràng buộc đẳng thức $$h_j$$ là các hàm affine (hàm tuyến tính cộng với một hằng số):
+>$$h_j,\ j = 1, ..., r$$ là hàm affine: $$h_j(x) = a_{j}^T x + b_{j},\ j=1, ..., r$$
 
-Điều gì có nghĩa là một hàm lồi? Để hiểu điều này, trước tiên chúng ta cần hiểu tập lồi.
+Vậy thế nào là một hàm lồi? Để trả lời câu hỏi này, trước hết ta cần định nghĩa tập lồi.
 
 ## Tập lồi
-Một đoạn thẳng nối hai điểm $$x_1$$ và $$x_2$$ được định nghĩa là:
+
+Đoạn thẳng nối hai điểm $$x_1$$ và $$x_2$$ được định nghĩa là tập các điểm có dạng:
 
 >$$x = \theta x_1 + (1 - \theta) x_2$$ với $$0 \le \theta \le 1$$
 
-Cho một tập hợp, nếu đoạn thẳng giữa bất kỳ hai điểm $$x_1$$ và $$x_2$$ nào trong tập cũng được chứa trong tập đó, chúng ta gọi nó là tập lồi. Nói cách khác, một tập $$C$$ là lồi nếu:
+Một tập hợp được gọi là **tập lồi** nếu đoạn thẳng nối hai điểm $$x_1, x_2$$ bất kỳ thuộc tập đều nằm hoàn toàn trong tập đó. Nói cách khác, tập $$C$$ là tập lồi nếu:
 
 >$$x_1, x_2 \in C$$, $$0 \le \theta \le 1$$  $$\Rightarrow$$ $$\theta x_1 + (1-\theta)x_2 \in C$$
 
-Ví dụ, trong hình dưới đây, chỉ có hình bên trái nhất là tập lồi.
+Chẳng hạn, trong hình minh họa dưới đây, chỉ có hình ngoài cùng bên trái là tập lồi.
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter01/Convex_set.png" alt="Convex Set" width="70%">
-  <figcaption style="text-align: center;">[Hình1] trái: tập lồi, giữa & phải: tập không lồi [2]</figcaption>
+  <figcaption style="text-align: center;">[Hình1] Trái: tập lồi; giữa & phải: tập không lồi [2]</figcaption>
 </p>
 </figure>
 
 ## Hàm lồi
-Một hàm lồi được định nghĩa như sau:
 
->$$f: \mathbb{R}^n \rightarrow \mathbb{R} $$ là lồi nếu $$ dom(f) $$ là tập lồi và,
+Một hàm số $$f$$ được gọi là **hàm lồi** nếu thỏa mãn điều kiện sau:
+
+>$$f: \mathbb{R}^n \rightarrow \mathbb{R} $$ là lồi nếu $$ dom(f) $$ là tập lồi và
 >
 >$$f(\theta x + (1 - \theta)y) \le \theta f(x) + (1-\theta)f(y) $$ với mọi $$ x, y \in dom(f),\ 0 \le \theta \le 1$$
 
-Về mặt hình học, điều này có nghĩa là với bất kỳ hai điểm $$(x, f(x))$$ và $$(y, f(y))$$ nào trên đồ thị của $$f$$, đoạn thẳng nối chúng nằm phía trên đồ thị giữa $$x$$ và $$y$$.
+Về mặt hình học, với hai điểm bất kỳ $$(x, f(x))$$ và $$(y, f(y))$$ trên đồ thị của $$f$$, đoạn thẳng nối hai điểm đó luôn nằm phía trên (hoặc trùng với) đồ thị trên đoạn giữa $$x$$ và $$y$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter01/Convex_function.png" alt="Convex Function" width="70%">
-  <figcaption style="text-align: center;">[Hình2] Hàm Lồi [2]</figcaption>
+  <figcaption style="text-align: center;">[Hình2] Hàm lồi [2]</figcaption>
 </p>
 </figure>
 
 ## Mối quan hệ giữa tập lồi và hàm lồi
-Có một mối quan hệ chặt chẽ giữa hàm lồi và tập lồi:
-> Một hàm $$f$$ là lồi khi và chỉ khi epigraph của nó là tập lồi.
 
-Epigraph là gì? 'Epi' có nghĩa là 'phía trên', vì vậy epigraph của $$f$$ là tập hợp các điểm phía trên đồ thị của $$f$$. Chính thức, epigraph được định nghĩa là:
+Tập lồi và hàm lồi liên hệ chặt chẽ với nhau qua khái niệm biểu đồ trên (epigraph):
+> Một hàm $$f$$ là hàm lồi khi và chỉ khi biểu đồ trên (epigraph) của nó là một tập lồi.
+
+Tiền tố *epi* nghĩa là "phía trên", do đó **epigraph** của $$f$$ là tập hợp tất cả các điểm nằm trên hoặc phía trên đồ thị của $$f$$. Về mặt toán học:
 
 >$$
 \eqalign{
@@ -79,43 +82,44 @@ $$
 </p>
 </figure>
 
-Nếu $$f$$ là hàm lồi, thì $$\text{epi } f$$ luôn là tập lồi, và ngược lại. Đây là tính chất quan trọng kết nối định nghĩa của hàm lồi và tập lồi.
+Nếu $$f$$ là hàm lồi thì $$\text{epi } f$$ là tập lồi, và ngược lại. Đây là tính chất cốt lõi kết nối hình học của tập lồi với giải tích của hàm lồi.
 
 ## Hàm lồi và hàm lõm
 
-Một hàm $$f$$ là lõm nếu $$-f$$ là lồi. Tương đương, $$f$$ là lõm nếu:
+Một hàm $$f$$ được gọi là **hàm lõm** nếu $$-f$$ là hàm lồi. Tương đương, $$f$$ lõm nếu $$dom(f)$$ là tập lồi và:
 
 >$$f(\theta x + (1 - \theta)y) \ge \theta f(x) + (1-\theta)f(y) $$ với mọi $$ x, y \in dom(f),\ 0 \le \theta \le 1$$
 
-Về mặt hình học, điều này có nghĩa là đoạn thẳng nối bất kỳ hai điểm nào trên đồ thị nằm dưới đồ thị của hàm số. Một hàm lõm "cong xuống" trong khi hàm lồi "cong lên".
+Về mặt hình học, đoạn thẳng nối hai điểm bất kỳ trên đồ thị hàm lõm luôn nằm phía dưới đồ thị: hàm lõm "cong xuống", còn hàm lồi "cong lên".
 
-Còn về hàm lõm thì sao? Tại sao chúng ta nhấn mạnh hàm lồi nhiều đến vậy, và dường như "bỏ qua" hàm lõm?
-- Chúng ta "không quan tâm" đến hàm lõm riêng biệt vì chúng chỉ là hình ảnh phản chiếu của hàm lồi. Luôn chuyển đổi việc tối đa hóa hàm lõm $$f$$ thành tối thiểu hóa hàm lồi $$-f$$.
+Vì sao trong lý thuyết tối ưu ta tập trung vào hàm lồi mà ít trình bày riêng về hàm lõm?
+- Hàm lõm chỉ là phiên bản đổi dấu của hàm lồi. Mọi bài toán cực đại hóa hàm lõm $$f$$ đều có thể chuyển ngay thành bài toán cực tiểu hóa hàm lồi $$-f$$.
 
-## Tính chất tốt của bài toán tối ưu hóa lồi
-Một điểm cực tiểu địa phương của hàm lồi luôn là cực tiểu toàn cục. Đối với bài toán tối ưu hóa lồi, nghiệm thường dễ tìm hơn so với bài toán không lồi, vì hàm lồi có tính chất sau:
-> Nếu $$f$$ là lồi và $$x$$ là điểm tối ưu địa phương (tức là cực tiểu địa phương), thì $$x$$ cũng là điểm tối ưu toàn cục.
+## Tính chất cốt lõi của bài toán tối ưu hóa lồi
 
-Hãy chứng minh điều này bằng phản chứng:
+Một tính chất nổi bật khiến bài toán tối ưu hóa lồi dễ giải hơn nhiều so với bài toán không lồi là:
+> Nếu bài toán tối ưu hóa là lồi và $$x$$ là điểm cực tiểu địa phương, thì $$x$$ cũng là điểm cực tiểu toàn cục.
+
+Ta chứng minh mệnh đề này bằng phản chứng:
 
 >**Chứng minh bằng phản chứng:**
 >
->Giả sử với hàm lồi $$f$$, $$x$$ là điểm tối ưu địa phương nhưng không phải tối ưu toàn cục. Gọi $$y$$ là điểm tối ưu toàn cục khả thi, nên với mọi $$\rho$$ dương, $$\|y - x\|_2 > \rho$$ và $$f(y) < f(x)$$. (Vì $$x$$ tối ưu địa phương, nếu $$\|x - y\|_2 \le \rho$$ thì $$f(x) \le f(y)$$, điều này mâu thuẫn với việc $$y$$ tối ưu toàn cục.)
->Bây giờ, với $$\theta=\frac{\rho}{2\|y-x\|_2}$$, gọi $$z = \theta y + (1 - \theta) x = x + \theta( y - x)$$. Khi đó:
+>Giả sử $$x$$ là điểm cực tiểu địa phương của bài toán tối ưu hóa lồi nhưng không phải cực tiểu toàn cục. Khi đó, tồn tại bán kính $$\rho > 0$$ sao cho $$f(x) \le f(z)$$ với mọi điểm khả thi $$z$$ thỏa mãn $$\|z - x\|_2 \le \rho$$. Mặt khác, vì $$x$$ không phải cực tiểu toàn cục nên tồn tại một điểm khả thi $$y$$ sao cho $$f(y) < f(x)$$. Do $$f(y) < f(x)$$, nhất thiết phải có $$\|y - x\|_2 > \rho$$.
 >
->1. $$z$$ là tổ hợp lồi của hai điểm khả thi $$x, y$$, nên nó cũng khả thi.
+>Đặt $$\theta=\frac{\rho}{2\|y-x\|_2}$$ (khi đó $$0 < \theta < \frac{1}{2} < 1$$) và xét điểm $$z = \theta y + (1 - \theta) x = x + \theta( y - x)$$. Ta có:
+>
+>1. Vì miền khả thi của bài toán tối ưu hóa lồi là tập lồi, $$z$$ là tổ hợp lồi của hai điểm khả thi $$x, y$$ nên $$z$$ cũng khả thi.
 >
 >2. $$\|z - x\|_2 = \theta \|y - x\|_2 = \frac{\rho}{2} < \rho$$.
 >
->3. $$f(z) \le \theta f(y) + (1 - \theta) f(x) < \theta f(x) + (1 - \theta) f(x) = f(x)$$
+>3. $$f(z) \le \theta f(y) + (1 - \theta) f(x) < \theta f(x) + (1 - \theta) f(x) = f(x)$$.
 >
->Điểm 2 và 3 mâu thuẫn với giả thiết rằng $$x$$ là điểm tối ưu địa phương, nên bằng phản chứng, bất kỳ điểm tối ưu địa phương $$x$$ nào cũng là tối ưu toàn cục.
+>Hai điều (2) và (3) mâu thuẫn với giả thiết $$x$$ là cực tiểu địa phương trong hình cầu bán kính $$\rho$$. Vậy mọi điểm cực tiểu địa phương $$x$$ đều là điểm cực tiểu toàn cục.
 
 ## Tổ hợp lồi
 
-Tổ hợp lồi của $$x_1, ..., x_k$$ được định nghĩa là:
+Tổ hợp lồi của các điểm $$x_1, ..., x_k$$ được định nghĩa là:
 
 > $$x = \theta_1 x_1 + \theta_2 x_2 + \cdots + \theta_k x_k$$ với $$\theta_1 + \cdots + \theta_k = 1, \theta_i \ge 0$$
 
-Nếu $$D$$ là tập lồi và $$x_1, x_2, ..., x_k \in D$$, thì $$x \in D$$ cũng vậy.
-
+Nếu $$D$$ là tập lồi và $$x_1, x_2, ..., x_k \in D$$, thì mọi tổ hợp lồi $$x$$ của chúng cũng thuộc $$D$$.

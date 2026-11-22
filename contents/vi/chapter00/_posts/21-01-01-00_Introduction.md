@@ -9,6 +9,6 @@ categories:
 - chapter00
 ---
 
-Tối ưu hóa là trái tim của khoa học dữ liệu. Dù bạn đang huấn luyện một mạng nơ-ron, tối thiểu hóa lỗi trong các mô hình hồi quy, hay phân bổ tài nguyên hiệu quả trong hệ thống gợi ý, về bản chất bạn đang giải quyết các bài toán tìm kiếm giải pháp "tốt nhất" từ một tập hợp khổng lồ các khả năng. Nhưng để làm điều này một cách hiệu quả, bạn cần nói được ngôn ngữ của toán học. Chúng ta sẽ ôn lại các ý tưởng chính từ đại số tuyến tính, lý thuyết tập hợp và giải tích, đảm bảo bạn được trang bị để xử lý các gradient, ma trận, ràng buộc và sự bất định phát sinh trong các tác vụ tối ưu hóa.
+Tối ưu hóa giữ vai trò trung tâm trong khoa học dữ liệu. Dù bạn đang huấn luyện mạng nơ-ron, cực tiểu hóa sai số trong các mô hình hồi quy hay phân bổ tài nguyên trong hệ thống gợi ý, về bản chất bạn đều đang giải bài toán tìm nghiệm "tốt nhất" trong một tập hợp lớn các phương án khả dĩ. Để giải quyết hiệu quả các bài toán này, bạn cần nắm vững ngôn ngữ toán học nền tảng. Trong chương này, chúng ta sẽ ôn lại những kiến thức cốt lõi từ đại số tuyến tính, lý thuyết tập hợp, giải tích và xác suất, giúp bạn sẵn sàng làm việc với gradient, ma trận, ràng buộc và tính bất định trong các bài toán tối ưu hóa.
 
-Bài tùy chọn sau trong chương, [00-05 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter00/2026-09-16-00_05_Applications_Recent %}), nối cùng những công cụ đó với autodiff, LoRA và mô hình khuếch tán (2022–2025).
+Bài đọc tùy chọn ở cuối chương, [00-05 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter00/2026-09-16-00_05_Applications_Recent %}), kết nối các công cụ nền tảng này với vi phân tự động (autodiff), LoRA và mô hình khuếch tán (2022–2025).

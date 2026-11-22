@@ -11,18 +11,18 @@ lesson_type: required
 ---
 
 
-Giả sử ta chia $$n$$ mẫu cho $$P$$ worker, worker $$p$$ giữ tập chỉ số $$\mathcal{I}_p$$. Một bước **song song dữ liệu** đồng bộ là
+Giả sử tập dữ liệu gồm $$n$$ mẫu được phân chia cho $$P$$ nút tính toán (worker), trong đó nút $$p$$ giữ tập chỉ số $$\mathcal{I}_p$$. Một bước **SGD song song dữ liệu** đồng bộ thực hiện:
 
 $$
 g_k = \frac{1}{P}\sum_{p=1}^P g_k^{(p)}, \qquad
 g_k^{(p)} = \frac{1}{B}\sum_{i\in\mathcal{B}_{k,p}} \nabla f_i(w_k),
 $$
 
-rồi $$w_{k+1}=w_k-\eta g_k$$. Nếu hợp của các minibatch $$\mathcal{B}_{k,p}$$ là một mẫu đều, đây là SGD minibatch thường với batch $$PB$$. Phần *hệ thống* là cách lập $$g_k$$: **parameter server** cộng gradient gửi tới, hoặc **all-reduce** (vòng, cây, NCCL) lấy trung bình không cần một nút cổ chai duy nhất.
+sau đó cập nhật $$w_{k+1}=w_k-\eta g_k$$. Nếu hợp các minibatch $$\mathcal{B}_{k,p}$$ tương đương với một mẫu rút đều, phép cập nhật này hoàn toàn trùng với SGD minibatch thông thường có kích thước lô $$PB$$. Điểm khác biệt nằm ở kiến trúc *hệ thống* để tổng hợp $$g_k$$: sử dụng **máy chủ tham số (parameter server)** để gom và cộng gradient, hoặc dùng giao thức **all-reduce** (dạng vòng, cây hoặc thư viện NCCL) để lấy trung bình trực tiếp giữa các nút mà không tạo điểm nghẽn tập trung.
 
-**Không có phép màu.** Song song dữ liệu không đổi toán của SGD nếu mọi worker dùng *cùng* $$w_k$$. Nó đổi thời gian tường mỗi bước và batch khả thi lớn nhất. All-reduce một vector 100 triệu tham số là bài toán băng thông; đó là lý do người ta bàn nén (lượng tử hóa, thưa hóa) như bài tùy chọn kế.
+Về mặt toán học, song song dữ liệu đồng bộ không làm thay đổi thuật toán SGD miễn là mọi nút đều dùng *cùng một* bản sao tham số $$w_k$$; lợi ích của nó là giảm thời gian thực thi (wall-clock time) mỗi bước và cho phép huấn luyện với kích thước lô tổng lớn hơn. Khi mô hình có hàng trăm triệu tham số, thao tác all-reduce trở thành bài toán băng thông mạng — đó là động lực cho các kỹ thuật nén gradient (lượng tử hóa, làm thưa).
 
-Các biến thể **bất đồng bộ** (kiểu Hogwild!) áp gradient cũ. Chúng có thể nhanh hơn trên bộ nhớ dùng chung và khó phân tích hơn. Với môn này, hãy cài bức tranh đồng bộ trước.
+Các biến thể **bất đồng bộ** (như Hogwild!) cho phép cập nhật ngay bằng các gradient tính trên bản sao tham số cũ hơn; chúng có thể tận dụng tốt bộ nhớ dùng chung nhưng khó phân tích hội tụ hơn. Trong phạm vi môn học, ta tập trung nắm vững mô hình đồng bộ trước.
 
 ```python
 def data_parallel_step(workers_grads, eta, w):
@@ -30,6 +30,6 @@ def data_parallel_step(workers_grads, eta, w):
     return w - eta * g
 ```
 
-Mở [parallel_computing_illustration.html](https://nglelinh.github.io/interactive_math/optimization/parallel_computing_illustration.html) để xem hoạt họa chia việc, rồi trở lại và viết all-reduce của $$g$$ lên bảng.
+Bạn có thể xem mô phỏng chia tải song song tại [parallel_computing_illustration.html](https://nglelinh.github.io/interactive_math/optimization/parallel_computing_illustration.html).
 
-**Bài tập.** Nếu mỗi worker có batch $$B=32$$ và $$P=8$$, batch tương đương một nút là bao nhiêu? Nếu bạn scale tuyến tính $$\eta$$ theo $$P$$, điều gì có thể hỏng (gợi ý: lịch Chương 26 và ngưỡng gãy batch lớn)?
+**Bài tập.** Nếu mỗi nút xử lý minibatch kích thước $$B=32$$ trên $$P=8$$ nút, kích thước lô tương đương trên một máy đơn là bao nhiêu? Nếu bạn tăng tuyến tính tốc độ học $$\eta$$ theo $$P$$, những rủi ro nào có thể xảy ra (gợi ý: xem lại phần lịch tốc độ học và giới hạn kích thước lô lớn ở Chương 26)?

@@ -20,9 +20,9 @@ Các bài tập được tham khảo từ Boyd & Vandenberghe (2004) và Shor (1
 
 ## 📝 **Phần I: Tính Subgradient**
 
-### **Bài tập 1: Subgradient của Hàm Không Khả Vi**
+### **Bài tập 1: Subgradient của hàm không khả vi**
 
-Tính subgradient của các hàm sau tại điểm cho trước:
+Tính vi phân dưới (tập các subgradient) của các hàm sau tại điểm cho trước:
 
 **a)** $$f(x) = |x|$$ tại $$x = 0$$
 
@@ -37,26 +37,26 @@ Tính subgradient của các hàm sau tại điểm cho trước:
 
 **a) $$f(x) = |x|$$ tại $$x = 0$$:**
 
-**Định nghĩa:** $$g \in \partial f(0)$$ nếu 
+**Định nghĩa:** $$g \in \partial f(0)$$ khi và chỉ khi
 
 $$f(y) \geq f(0) + g(y - 0)$$ $$\forall y$$
 
 $$|y| \geq 0 + gy \quad \forall y$$
 
-- Với $$y > 0$$: $$y \geq gy$$ → $$g \leq 1$$
-- Với $$y < 0$$: $$-y \geq gy$$ → $$g \geq -1$$
+- Với $$y > 0$$: $$y \geq gy$$ suy ra $$g \leq 1$$.
+- Với $$y < 0$$: $$-y \geq gy$$ suy ra $$g \geq -1$$.
 
-$$\partial f(0) = [-1, 1]$$
+Do đó: $$\partial f(0) = [-1, 1]$$.
 
-**Giải thích hình học:** Tập hợp tất cả slopes của các đường thẳng support tại $$x = 0$$.
+**Ý nghĩa hình học:** Tập hợp hệ số góc của tất cả các đường thẳng tựa đi qua đồ thị tại $$x = 0$$.
 
 ---
 
 **b) $$f(x) = \max\{x_1, x_2\}$$ tại $$x = (1, 1)$$:**
 
-$$f(1, 1) = 1$$ (cả hai active)
+Ta có $$f(1, 1) = 1$$ (cả hai thành phần đều đạt giá trị lớn nhất).
 
-**Active set:** $$I = \{1, 2\}$$
+**Tập hoạt động (active set):** $$I = \{1, 2\}$$.
 
 $$\partial f(x) = \text{conv}\{\nabla f_i(x) : i \in I\}$$
 
@@ -64,7 +64,7 @@ $$= \text{conv}\{(1, 0), (0, 1)\}$$
 
 $$= \{(\lambda, 1-\lambda) : 0 \leq \lambda \leq 1\}$$
 
-**Hình học:** Đoạn thẳng nối $$(1, 0)$$ và $$(0, 1)$$.
+**Ý nghĩa hình học:** Đoạn thẳng nối hai điểm $$(1, 0)$$ và $$(0, 1)$$.
 
 ---
 
@@ -76,7 +76,7 @@ $$= [-1, 1] \times [-1, 1]$$
 
 $$= \{(g_1, g_2) : |g_1| \leq 1, |g_2| \leq 1\}$$
 
-**Hình học:** Hình vuông $$[-1, 1]^2$$.
+**Ý nghĩa hình học:** Hình vuông $$[-1, 1]^2$$.
 
 ---
 
@@ -86,27 +86,27 @@ $$f_1(1, 0) = 1 + 0 = 1$$
 
 $$f_2(1, 0) = 2 - 0 = 2$$
 
-$$\Rightarrow f(1, 0) = 2$$ (chỉ $$f_2$$ active)
+$$\Rightarrow f(1, 0) = 2$$ (chỉ có $$f_2$$ đạt giá trị lớn nhất).
 
 $$\nabla f_2 = (2, -1)$$
 
-$$\partial f(1, 0) = \{(2, -1)\}$$ (singleton vì chỉ 1 active)
+$$\partial f(1, 0) = \{(2, -1)\}$$ (chỉ gồm một phần tử vì chỉ có một hàm thành phần hoạt động).
 
 </details>
 
 ---
 
-## 📝 **Phần II: Subgradient Method**
+## 📝 **Phần II: Phương pháp Subgradient**
 
-### **Bài tập 2: Convergence Analysis**
+### **Bài tập 2: Phân tích hội tụ**
 
 Cho $$f(x) = |x - 2| + |x + 1|$$.
 
 **Yêu cầu:**  
-a) Tìm $$x^*$$ (minimizer)  
-b) Với step size $$\alpha_k = \frac{1}{\sqrt{k}}$$, iterate từ $$x^{(0)} = 5$$  
-c) Tính $$x^{(1)}, x^{(2)}, x^{(3)}$$  
-d) Ước tính convergence rate
+a) Tìm tập điểm cực tiểu $$x^*$$.  
+b) Với kích thước bước $$\alpha_k = \frac{1}{\sqrt{k}}$$, viết công thức lặp xuất phát từ $$x^{(0)} = 5$$.  
+c) Tính $$x^{(1)}, x^{(2)}, x^{(3)}$$.  
+d) Ước lượng tốc độ hội tụ.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
@@ -115,16 +115,16 @@ d) Ước tính convergence rate
 
 $$f(x) = |x - 2| + |x + 1|$$
 
-**Case analysis:**
-- $$x < -1$$: $$f(x) = -(x-2) - (x+1) = -2x + 1$$ (giảm)
-- $$-1 \leq x \leq 2$$: $$f(x) = -(x-2) + (x+1) = 3$$ (constant!)
-- $$x > 2$$: $$f(x) = (x-2) + (x+1) = 2x - 1$$ (tăng)
+**Xét theo từng khoảng:**
+- Với $$x < -1$$: $$f(x) = -(x-2) - (x+1) = -2x + 1$$ (hàm giảm).
+- Với $$-1 \leq x \leq 2$$: $$f(x) = -(x-2) + (x+1) = 3$$ (hàm hằng).
+- Với $$x > 2$$: $$f(x) = (x-2) + (x+1) = 2x - 1$$ (hàm tăng).
 
-$$f^* = 3$$, $$x^* \in [-1, 2]$$
+Do đó $$f^* = 3$$ và tập điểm cực tiểu là $$x^* \in [-1, 2]$$.
 
 ---
 
-**b) Subgradient method:**
+**b) Công thức lặp của phương pháp subgradient:**
 
 $$x^{(k+1)} = x^{(k)} - \alpha_k g^{(k)}$$
 
@@ -132,9 +132,9 @@ với $$g^{(k)} \in \partial f(x^{(k)})$$.
 
 ---
 
-**c) Iterations:**
+**c) Tính các bước lặp đầu tiên:**
 
-$$x^{(0)} = 5 > 2$$
+Tại $$x^{(0)} = 5 > 2$$:
 
 $$\partial f(5) = \{\text{sign}(5-2)\} + \{\text{sign}(5+1)\} = \{1\} + \{1\} = \{2\}$$
 
@@ -146,7 +146,7 @@ $$x^{(1)} = 5 - 1 \cdot 2 = 3$$
 
 ---
 
-$$x^{(1)} = 3 > 2$$
+Tại $$x^{(1)} = 3 > 2$$:
 
 $$g^{(1)} = 2$$
 
@@ -156,17 +156,17 @@ $$x^{(2)} = 3 - 0.707 \cdot 2 = 1.586$$
 
 ---
 
-$$x^{(2)} = 1.586 \in [-1, 2]$$ (optimal region!)
+Tại $$x^{(2)} = 1.586 \in [-1, 2]$$ (đã nằm trong miền tối ưu):
 
-$$\partial f(1.586) = \{\text{sign}(1.586 - 2) + \text{sign}(1.586 + 1)\} = \{-1 + 1\} = \{0\}$$ (trong khoảng $$(-1, 2)$$, $$f$$ là hằng số nên khả vi với gradient 0)
+$$\partial f(1.586) = \{\text{sign}(1.586 - 2) + \text{sign}(1.586 + 1)\} = \{-1 + 1\} = \{0\}$$ (trên khoảng $$(-1, 2)$$, $$f$$ là hàm hằng nên khả vi với đạo hàm bằng 0).
 
-$$g^{(2)} = 0 \Rightarrow x^{(3)} = x^{(2)} = 1.586$$ (đã hội tụ đến tập nghiệm tối ưu)
+$$g^{(2)} = 0 \Rightarrow x^{(3)} = x^{(2)} = 1.586$$ (thuật toán đã hội tụ đến tập nghiệm tối ưu).
 
 ---
 
-**d) Convergence rate:**
+**d) Tốc độ hội tụ:**
 
-With $$\alpha_k = \frac{1}{\sqrt{k}}$$:
+Với $$\alpha_i = \frac{1}{\sqrt{i}}$$, từ bất đẳng thức cơ bản ta có:
 
 $$f(x_{\text{best}}^{(k)}) - f^* \leq \frac{R^2 + G^2 \sum_{i=1}^k \alpha_i^2}{2\sum_{i=1}^k \alpha_i}$$
 
@@ -174,60 +174,62 @@ $$\sum_{i=1}^k \frac{1}{\sqrt{i}} \approx 2\sqrt{k}$$
 
 $$\sum_{i=1}^k \frac{1}{i} \approx \log k$$
 
-$$\Rightarrow O\left(\frac{\log k}{\sqrt{k}}\right) = O\left(\frac{1}{\sqrt{k}}\right)$$
+$$\Rightarrow f(x_{\text{best}}^{(k)}) - f^* = O\left(\frac{\log k}{\sqrt{k}}\right)$$
 
-**Sublinear convergence** (slower than gradient descent!)
+(Nếu chọn kích thước bước cố định theo tổng số bước $$k$$ dạng $$\alpha = \frac{R}{G\sqrt{k}}$$, cận sẽ bỏ được thừa số $$\log k$$ và đạt $$O(1/\sqrt{k})$$.)
+
+Đây là **hội tụ dưới tuyến tính (sublinear)**, chậm hơn so với gradient descent trên hàm trơn.
 
 </details>
 
 ---
 
-## 📝 **Phần III: Step Size Rules**
+## 📝 **Phần III: Các quy tắc chọn kích thước bước**
 
-### **Bài tập 3: So sánh Step Size Strategies**
+### **Bài tập 3: So sánh các chiến lược kích thước bước**
 
 Cho $$f(x) = \max\{x_1, x_2, -x_1 - x_2 + 1\}$$.
 
 **Yêu cầu:**  
-a) Tìm $$x^*$$ graphically  
-b) Compare 3 step size rules:
-   - Constant: $$\alpha_k = 0.1$$
-   - Diminishing: $$\alpha_k = \frac{1}{k}$$
-   - Square summable: $$\alpha_k = \frac{1}{k^{0.6}}$$
+a) Tìm nghiệm tối ưu $$x^*$$.  
+b) So sánh 3 quy tắc kích thước bước:
+   - Cố định: $$\alpha_k = 0.1$$
+   - Giảm dần: $$\alpha_k = \frac{1}{k}$$
+   - Tổng bình phương hội tụ: $$\alpha_k = \frac{1}{k^{0.6}}$$
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Graphical solution:**
+**a) Tìm nghiệm tối ưu:**
 
 $$f(x) = \max\{x_1, x_2, 1 - x_1 - x_2\}$$
 
-**Intersection points:**
-- $$x_1 = x_2$$: Line $$x_1 = x_2$$
-- $$x_1 = 1 - x_1 - x_2$$: $$2x_1 + x_2 = 1$$
-- $$x_2 = 1 - x_1 - x_2$$: $$x_1 + 2x_2 = 1$$
+**Các đường giao nhau của ba hàm thành phần:**
+- $$x_1 = x_2$$
+- $$x_1 = 1 - x_1 - x_2 \iff 2x_1 + x_2 = 1$$
+- $$x_2 = 1 - x_1 - x_2 \iff x_1 + 2x_2 = 1$$
 
 Giải hệ $$x_1 = x_2$$ và $$2x_1 + x_2 = 1$$:
 
 $$3x_1 = 1 \Rightarrow x_1 = \frac{1}{3}$$
 
-$$x^* = \left(\frac{1}{3}, \frac{1}{3}\right)$$, $$f^* = \frac{1}{3}$$
+Suy ra $$x^* = \left(\frac{1}{3}, \frac{1}{3}\right)$$ và $$f^* = \frac{1}{3}$$.
 
 ---
 
-**b) Step size comparison:**
+**b) So sánh các quy tắc kích thước bước:**
 
-**Từ $$x^{(0)} = (1, 1)$$:**
+**Xuất phát từ $$x^{(0)} = (1, 1)$$:**
 
-$$f_1 = 1$$, $$f_2 = 1$$, $$f_3 = -1$$ → max là $$f_1, f_2$$ (tie)
+Ta có $$f_1 = 1$$, $$f_2 = 1$$, $$f_3 = -1$$ nên giá trị lớn nhất đạt tại cả $$f_1$$ và $$f_2$$:
 
 $$\partial f(1, 1) = \text{conv}\{(1, 0), (0, 1)\}$$
 
-Chọn $$g = (0.5, 0.5)$$ (midpoint)
+Chọn trung điểm $$g = (0.5, 0.5)$$.
 
 ---
 
-**Constant $$\alpha_k = 0.1$$:**
+**Kích thước bước cố định $$\alpha_k = 0.1$$:**
 
 $$x^{(1)} = (1, 1) - 0.1(0.5, 0.5) = (0.95, 0.95)$$
 
@@ -237,53 +239,53 @@ $$x^{(3)} = (0.85, 0.85)$$
 
 ...
 
-**Hội tụ đến lân cận của $$x^*$$ (bán kính $$O(\alpha)$$), nhưng không đạt chính xác.**
+**Nhận xét:** Thuật toán hội tụ đến một lân cận của $$x^*$$ (bán kính cỡ $$O(\alpha)$$), nhưng không đạt tới nghiệm chính xác.
 
 ---
 
-**Diminishing $$\alpha_k = \frac{1}{k}$$:**
+**Kích thước bước giảm dần $$\alpha_k = \frac{1}{k}$$:**
 
 $$x^{(1)} = (1, 1) - 1 \cdot (0.5, 0.5) = (0.5, 0.5)$$
 
 $$x^{(2)} = (0.5, 0.5) - 0.5 \cdot (0.5, 0.5) = (0.25, 0.25)$$ (với $$g^{(1)} = (0.5, 0.5)$$)
 
-Tại $$(0.25, 0.25)$$: $$f_3 = 0.5$$ lớn nhất, $$g^{(2)} = (-1, -1)$$ nên $$x^{(3)} = (0.25, 0.25) + \frac{1}{3}(1, 1) \approx (0.583, 0.583)$$ (iterate dao động quanh $$x^*$$ và biên độ giảm dần).
+Tại $$(0.25, 0.25)$$, thành phần $$f_3 = 0.5$$ đạt giá trị lớn nhất nên $$g^{(2)} = (-1, -1)$$, suy ra $$x^{(3)} = (0.25, 0.25) + \frac{1}{3}(1, 1) \approx (0.583, 0.583)$$ (điểm lặp dao động quanh $$x^*$$ với biên độ giảm dần).
 
 ...
 
-**Hội tụ đến $$x^*$$, nhưng rất chậm (cận $$O(1/\log k)$$ vì $$\sum_{i \le k} 1/i \approx \log k$$).**
+**Nhận xét:** Hội tụ đến $$x^*$$ nhưng rất chậm (cận $$O(1/\log k)$$ vì $$\sum_{i \le k} 1/i \approx \log k$$).
 
 ---
 
-**Square summable $$\alpha_k = \frac{1}{k^{0.6}}$$:**
+**Kích thước bước tổng bình phương hội tụ $$\alpha_k = \frac{1}{k^{0.6}}$$:**
 
 $$\sum \alpha_k = \sum \frac{1}{k^{0.6}} = \infty$$ ✓
 
 $$\sum \alpha_k^2 = \sum \frac{1}{k^{1.2}} < \infty$$ ✓
 
-**Hội tụ đến $$x^*$$ với cận $$O(1/k^{0.4})$$ (vì $$\sum_{i \le k} \alpha_i \sim k^{0.4}$$), nhanh hơn $$\alpha_k = 1/k$$ nhưng vẫn là hội tụ sublinear.**
+**Nhận xét:** Hội tụ đến $$x^*$$ với cận $$O(1/k^{0.4})$$ (vì $$\sum_{i \le k} \alpha_i \sim k^{0.4}$$), nhanh hơn quy tắc $$\alpha_k = 1/k$$ nhưng vẫn là tốc độ hội tụ dưới tuyến tính.
 
 </details>
 
 ---
 
-## 📝 **Phần IV: Polyak Step Size**
+## 📝 **Phần IV: Kích thước bước Polyak**
 
-### **Bài tập 4: Polyak's Step Size for $$\ell_1$$ Minimization**
+### **Bài tập 4: Kích thước bước Polyak cho bài toán cực tiểu hóa $$\ell_1$$**
 
 $$\min_{x} \|x\|_1 \quad \text{s.t.} \quad Ax = b$$
 
 với $$A = [1, 2, 3]$$, $$b = 6$$.
 
 **Yêu cầu:**  
-a) Viết Lagrangian  
-b) Tìm dual function  
-c) Maximize dual bằng subgradient với Polyak step size
+a) Viết hàm Lagrangian.  
+b) Tìm hàm đối ngẫu.  
+c) Cực đại hóa hàm đối ngẫu bằng phương pháp subgradient với kích thước bước Polyak.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Lagrangian:**
+**a) Hàm Lagrangian:**
 
 $$L(x, \nu) = \|x\|_1 + \nu^T(Ax - b)$$
 
@@ -291,22 +293,22 @@ $$= \sum_i (|x_i| + \nu a_i x_i) - \nu b$$
 
 ---
 
-**b) Dual function:**
+**b) Hàm đối ngẫu:**
 
 $$g(\nu) = \inf_x L(x, \nu)$$
 
 $$= \inf_x \sum_i (|x_i| + \nu a_i x_i) - \nu b$$
 
-Minimize mỗi $$x_i$$ độc lập:
+Cực tiểu hóa độc lập theo từng biến $$x_i$$:
 
 $$\inf_{x_i} (|x_i| + \nu a_i x_i) = \begin{cases}
-0 & \text{if } |\nu a_i| \leq 1 \\
--\infty & \text{otherwise}
+0 & \text{nếu } |\nu a_i| \leq 1 \\
+-\infty & \text{trường hợp khác}
 \end{cases}$$
 
 $$g(\nu) = \begin{cases}
--\nu b & \text{if } |\nu a_i| \leq 1 \, \forall i \\
--\infty & \text{otherwise}
+-\nu b & \text{nếu } |\nu a_i| \leq 1 \, \forall i \\
+-\infty & \text{trường hợp khác}
 \end{cases}$$
 
 Với $$A = [1, 2, 3]$$:
@@ -315,110 +317,110 @@ $$|\nu| \leq 1, \quad |2\nu| \leq 1, \quad |3\nu| \leq 1$$
 
 $$\Rightarrow |\nu| \leq \frac{1}{3}$$
 
-$$g(\nu) = -6\nu$$ for $$|\nu| \leq \frac{1}{3}$$
+Do đó $$g(\nu) = -6\nu$$ với $$|\nu| \leq \frac{1}{3}$$.
 
 ---
 
-**c) Dual maximization:**
+**c) Cực đại hóa bài toán đối ngẫu:**
 
 $$\max_{\nu} \quad -6\nu \quad \text{s.t.} \quad -\frac{1}{3} \leq \nu \leq \frac{1}{3}$$
 
-**Obvious:** $$\nu^* = -\frac{1}{3}$$, $$g^* = 2$$
+Ta thấy ngay $$\nu^* = -\frac{1}{3}$$ và $$g^* = 2$$.
 
-**Subgradient của $$g(\nu) = -6\nu$$:** $$s = -6$$ (với bài toán cực đại hóa hàm lõm $$g$$ ta dùng subgradient ascent).
+**Subgradient của $$g(\nu) = -6\nu$$:** $$s = -6$$ (vì đây là bài toán cực đại hóa hàm lõm $$g$$, ta áp dụng bước tăng subgradient).
 
-**Polyak step size** (biết $$g^* = 2$$):
+**Kích thước bước Polyak** (khi đã biết $$g^* = 2$$):
 
 $$\alpha_k = \frac{g^* - g(\nu^{(k)})}{\|s^{(k)}\|^2}, \qquad \nu^{(k+1)} = \Pi_{[-1/3,\,1/3]}\left(\nu^{(k)} + \alpha_k s^{(k)}\right)$$
 
-Từ $$\nu^{(0)} = 0$$: $$g(0) = 0$$
+Xuất phát từ $$\nu^{(0)} = 0$$ (có $$g(0) = 0$$):
 
 $$\alpha_0 = \frac{2 - 0}{36} = \frac{1}{18}$$
 
-$$\nu^{(1)} = 0 + \frac{1}{18} \cdot (-6) = -\frac{1}{3}$$ ✓ (nằm trong miền xác định)
+$$\nu^{(1)} = 0 + \frac{1}{18} \cdot (-6) = -\frac{1}{3}$$ ✓ (thuộc miền xác định).
 
-**Hội tụ trong 1 bước!** ($$g(-1/3) = 2 = g^*$$, và nghiệm gốc là $$x^* = (0, 0, 2)$$ với $$\|x^*\|_1 = 2$$.)
+Thuật toán hội tụ chỉ sau 1 bước: $$g(-1/3) = 2 = g^*$$, tương ứng với nghiệm gốc $$x^* = (0, 0, 2)$$ có $$\|x^*\|_1 = 2$$.
 
 </details>
 
 ---
 
-## 📝 **Phần V: Projected Subgradient**
+## 📝 **Phần V: Phương pháp Subgradient có chiếu**
 
-### **Bài tập 5: Projected Subgradient for Constrained Optimization**
+### **Bài tập 5: Subgradient có chiếu cho bài toán tối ưu có ràng buộc**
 
 $$\min_{x} \|x - c\|_1 \quad \text{s.t.} \quad \|x\|_2 \leq R$$
 
 với $$c = (2, 3)^T$$, $$R = 2$$.
 
 **Yêu cầu:**  
-a) Viết projected subgradient update  
-b) Iterate từ $$x^{(0)} = (0, 0)$$  
-c) Tìm nghiệm exact
+a) Viết công thức cập nhật của phương pháp subgradient có chiếu.  
+b) Thực hiện các bước lặp xuất phát từ $$x^{(0)} = (0, 0)$$.  
+c) Tìm nghiệm chính xác của bài toán.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Projected subgradient:**
+**a) Phương pháp subgradient có chiếu:**
 
 $$x^{(k+1)} = \Pi_C\left(x^{(k)} - \alpha_k g^{(k)}\right)$$
 
-với $$C = \{x : \|x\|_2 \leq R\}$$, $$g^{(k)} \in \partial f(x^{(k)})$$.
+với $$C = \{x : \|x\|_2 \leq R\}$$ và $$g^{(k)} \in \partial f(x^{(k)})$$.
 
-**Projection onto $$\ell_2$$ ball:**
+**Phép chiếu lên hình cầu $$\ell_2$$:**
 
 $$\Pi_C(y) = \begin{cases}
-y & \text{if } \|y\| \leq R \\
-R \frac{y}{\|y\|} & \text{if } \|y\| > R
+y & \text{nếu } \|y\| \leq R \\
+R \frac{y}{\|y\|} & \text{nếu } \|y\| > R
 \end{cases}$$
 
 ---
 
-**b) Iterations:**
+**b) Các bước lặp:**
 
-$$x^{(0)} = (0, 0)$$
+Tại $$x^{(0)} = (0, 0)$$:
 
 $$\partial f(0, 0) = \partial \|(0, 0) - (2, 3)\|_1 = \partial(|{-2}| + |{-3}|)$$
 
-Subgradient: $$g = \text{sign}(x - c) = (-1, -1)$$
+Subgradient: $$g = \text{sign}(x - c) = (-1, -1)$$.
 
 Chọn $$\alpha_0 = 1$$:
 
 $$\tilde{x}^{(1)} = (0, 0) - 1 \cdot (-1, -1) = (1, 1)$$
 
-$$\|\tilde{x}^{(1)}\| = \sqrt{2} < 2$$ → no projection needed
+Vì $$\|\tilde{x}^{(1)}\| = \sqrt{2} < 2$$ nên điểm nằm trong $$C$$, không cần chiếu:
 
 $$x^{(1)} = (1, 1)$$
 
 ---
 
+Ở bước tiếp theo:
+
 $$g^{(1)} = \text{sign}((1, 1) - (2, 3)) = (-1, -1)$$
 
 $$\tilde{x}^{(2)} = (1, 1) + (1, 1) = (2, 2)$$
 
-$$\|\tilde{x}^{(2)}\| = 2\sqrt{2} > 2$$ → project!
+Vì $$\|\tilde{x}^{(2)}\| = 2\sqrt{2} > 2$$, ta chiếu lên biên của hình cầu $$C$$:
 
 $$x^{(2)} = 2 \cdot \frac{(2, 2)}{2\sqrt{2}} = \frac{2}{\sqrt{2}}(1, 1) = (\sqrt{2}, \sqrt{2})$$
 
 ---
 
-**c) Exact solution:**
+**c) Nghiệm chính xác:**
 
-Minimize $$\|x - c\|_1$$ over $$\|x\| \leq 2$$.
+Ta cần cực tiểu hóa $$\|x - c\|_1$$ trên tập $$\|x\|_2 \leq 2$$.
 
-**Unconstrained optimum:** $$x = c = (2, 3)$$
+**Nghiệm không ràng buộc:** $$x = c = (2, 3)$$, nhưng $$\|c\|_2 = \sqrt{13} > 2$$ nên không khả thi.
 
-$$\|c\| = \sqrt{13} > 2$$ → infeasible!
-
-**Constrained optimum:** Vì $$c$$ nằm ngoài hình cầu, nghiệm nằm trên biên $$\|x\|_2 = 2$$. (Lưu ý: chiếu $$c$$ lên hình cầu chỉ tối ưu cho khoảng cách $$\ell_2$$, không phải $$\ell_1$$.) Trên biên với $$x_1 < 2$$, $$x_2 < 3$$:
+**Nghiệm có ràng buộc:** Vì $$c$$ nằm ngoài hình cầu, nghiệm tối ưu nằm trên biên $$\|x\|_2 = 2$$. (Lưu ý rằng phép chiếu $$c$$ lên hình cầu chỉ tối ưu cho khoảng cách $$\ell_2$$, không tối ưu cho chuẩn $$\ell_1$$.) Trên biên trong miền $$x_1 < 2$$, $$x_2 < 3$$:
 
 $$f(x) = (2 - x_1) + (3 - x_2) = 5 - (x_1 + x_2)$$
 
-nên bài toán trở thành $$\max\; x_1 + x_2$$ trên đường tròn $$x_1^2 + x_2^2 = 4$$, đạt tại $$x_1 = x_2 = \sqrt{2}$$:
+Do đó bài toán tương đương với $$\max\; (x_1 + x_2)$$ trên đường tròn $$x_1^2 + x_2^2 = 4$$, đạt cực đại tại $$x_1 = x_2 = \sqrt{2}$$:
 
 $$x^* = (\sqrt{2}, \sqrt{2}) \approx (1.414, 1.414)$$
 
-**Objective:** $$f(x^*) = 5 - 2\sqrt{2} \approx 2.172$$ (điểm chiếu $$\frac{2}{\sqrt{13}}(2,3)$$ cho $$2.227$$, tệ hơn). Đây chính là điểm mà projected subgradient đạt được tại $$x^{(2)}$$.
+**Giá trị hàm mục tiêu:** $$f(x^*) = 5 - 2\sqrt{2} \approx 2.172$$ (trong khi điểm chiếu $$\frac{2}{\sqrt{13}}(2,3)$$ cho giá trị $$2.227$$, lớn hơn). Điểm này trùng khớp với kết quả $$x^{(2)}$$ thu được ở câu b.
 
 </details>
 
@@ -426,28 +428,28 @@ $$x^* = (\sqrt{2}, \sqrt{2}) \approx (1.414, 1.414)$$
 
 ## 💡 **Tổng kết**
 
-### **Subgradient Method Properties:**
+### **So sánh Gradient Descent và Phương pháp Subgradient:**
 
-| Aspect | Gradient Descent | Subgradient Method |
-|--------|------------------|-------------------|
-| **Applicability** | Smooth $$f$$ | Non-smooth $$f$$ |
-| **Convergence** | Linear ($$O(\rho^k)$$) | Sublinear ($$O(1/\sqrt{k})$$) |
-| **Step size** | Fixed or line search | Diminishing or Polyak |
-| **Descent** | Always decreases | May increase! |
-| **Usage** | Well-behaved $$f$$ | $$\ell_1$$, max, constraints |
+| Tiêu chí | Gradient Descent | Phương pháp Subgradient |
+|----------|------------------|-------------------------|
+| **Phạm vi áp dụng** | Hàm trơn $$f$$ | Hàm lồi không trơn $$f$$ |
+| **Tốc độ hội tụ** | Tuyến tính ($$O(\rho^k)$$, khi lồi mạnh) | Dưới tuyến tính ($$O(1/\sqrt{k})$$) |
+| **Kích thước bước** | Cố định hoặc tìm kiếm đường thẳng | Giảm dần hoặc bước Polyak |
+| **Tính giảm đơn điệu** | Luôn giảm (với bước phù hợp) | Có thể tăng ở một số bước |
+| **Ứng dụng điển hình** | Hàm khả vi trơn | Phạt $$\ell_1$$, hàm max, bài toán có ràng buộc |
 
-### **Step Size Rules:**
+### **Các quy tắc chọn kích thước bước:**
 
-1. **Constant $$\alpha$$:** Converges to neighborhood
-2. **Diminishing $$\frac{1}{k}$$:** Hội tụ chính xác nhưng rất chậm (cận $$O(1/\log k)$$)
-3. **Square summable $$\frac{1}{k^{0.6}}$$:** Hội tụ chính xác với cận $$O(1/k^{0.4})$$, nhanh hơn $$\frac{1}{k}$$
-4. **Polyak:** Fast if $$f^*$$ known
+1. **Bước cố định $$\alpha$$:** Hội tụ đến lân cận của nghiệm tối ưu.
+2. **Bước giảm dần $$\frac{1}{k}$$:** Hội tụ chính xác nhưng rất chậm (cận $$O(1/\log k)$$).
+3. **Tổng bình phương hội tụ $$\frac{1}{k^{0.6}}$$:** Hội tụ chính xác với cận $$O(1/k^{0.4})$$, nhanh hơn $$\frac{1}{k}$$.
+4. **Bước Polyak:** Hội tụ nhanh khi biết trước $$f^*$$.
 
-### **Khi nào dùng Subgradient:**
-- Non-differentiable $$f$$ ($$\ell_1$$, max)
-- Simple per-iteration cost needed
-- Willing to accept slow convergence
-- Constraints via projection
+### **Khi nào nên dùng phương pháp Subgradient:**
+- Hàm mục tiêu không khả vi (chứa chuẩn $$\ell_1$$, hàm $$\max$$).
+- Cần chi phí tính toán mỗi bước lặp thấp và đơn giản.
+- Có thể chấp nhận tốc độ hội tụ chậm hơn.
+- Xử lý ràng buộc thông qua phép chiếu.
 
 ---
 
@@ -458,4 +460,3 @@ $$x^* = (\sqrt{2}, \sqrt{2}) \approx (1.414, 1.414)$$
 2. **Shor, N. Z.** (1985). *Minimization Methods for Non-Differentiable Functions*. Springer.
 
 3. **Polyak, B. T.** (1987). *Introduction to Optimization*. Optimization Software.
-

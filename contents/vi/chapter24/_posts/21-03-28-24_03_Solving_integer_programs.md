@@ -9,37 +9,38 @@ categories:
 lang: vi
 ---
 
-Sau khi biến đổi công thức toán học của quy hoạch nguyên, cần các kỹ thuật như nới lỏng (relaxation) để giải bài toán. Hãy xem các ràng buộc xuất hiện trong quy hoạch nguyên và những cách tiếp cận để giải quyết bài toán.
+Sau khi mô hình hóa một bài toán dưới dạng quy hoạch nguyên, ta cần các kỹ thuật như nới lỏng (relaxation) và khép khoảng cận để tìm nghiệm. Mục này trình bày độ khó cơ bản của quy hoạch nguyên và khung thuật toán tổng quát để giải nó.
 
 ## Độ khó của quy hoạch nguyên
-Giải các bài toán quy hoạch nguyên khó hơn nhiều so với giải các bài toán tối ưu lồi. Quy hoạch nguyên tổng quát là [NP-khó](https://en.wikipedia.org/wiki/NP-hardness), nên nói chung không có thuật toán thời gian đa thức nào được biết. Trong trường hợp này, bằng cách bỏ các ràng buộc nguyên và thực hiện nới lỏng lồi (convex relaxation), ta có thể thu được một cận dưới tiến gần đến giá trị tối ưu.<br><br>
-Khi giải bài toán bằng nới lỏng lồi, có thể xảy ra các hạn chế sau:
 
+Giải quy hoạch nguyên khó hơn nhiều so với tối ưu lồi. Quy hoạch nguyên tổng quát thuộc lớp bài toán [NP-khó](https://en.wikipedia.org/wiki/NP-hardness), nên nhìn chung không tồn tại thuật toán thời gian đa thức được biết. Khi bỏ các ràng buộc nguyên để thực hiện nới lỏng lồi (convex relaxation), ta thu được một cận dưới cho giá trị tối ưu, nhưng cách làm này vẫn gặp ba hạn chế chính:
 
- * Việc tìm một nghiệm nguyên khả thi có thể trở nên khó khăn.
- * Nghiệm tối ưu thu được dưới điều kiện nới lỏng có thể ở xa nghiệm tối ưu của quy hoạch nguyên.
- * Giá trị sau khi xấp xỉ (làm tròn) có thể khác giá trị tối ưu.
+* Việc tìm được một nghiệm nguyên khả thi từ nghiệm nới lỏng có thể rất khó.
+* Giá trị tối ưu của bài toán nới lỏng có thể cách xa giá trị tối ưu thực của quy hoạch nguyên.
+* Nghiệm thu được sau khi làm tròn nghiệm nới lỏng có thể không tối ưu (thậm chí không khả thi).
 
+## Khung thuật toán giải quy hoạch nguyên
 
-## Khung thuật toán để giải quy hoạch nguyên
-Khi $$X$$ lồi và bao gồm các ràng buộc nguyên, quy hoạch nguyên có dạng:
+Xét bài toán quy hoạch nguyên với tập khả thi $$X$$ (bao gồm các ràng buộc lồi và ràng buộc nguyên):
 
-> $$ z : = \min_{x \in X} f(x) $$
+> $$ z := \min_{x \in X} f(x) $$
 
-Không như tối ưu lồi, không có "điều kiện tối ưu" trực tiếp nào chứng minh một điểm khả thi $$x^{\star} \in X$$ là tối ưu. Thay vào đó, ta có thể dùng phương pháp tìm xấp xỉ của giá trị tối ưu bằng cách tìm cận dưới $$ \underline{z} \leq z$$ và cận trên $$ \bar{z} \geq z$$ trong khi làm cho $$\underline{z} = \bar{z}$$ tiến lại gần nhau.
+Khác với tối ưu lồi, ta không có điều kiện tối ưu bậc nhất đơn giản để chứng nhận ngay một điểm khả thi $$x^{\star} \in X$$ là tối ưu toàn cục. Thay vào đó, các thuật toán giải quy hoạch nguyên hoạt động bằng cách liên tục cập nhật một cận dưới $$\underline{z} \leq z$$ và một cận trên $$\bar{z} \geq z$$ cho đến khi khoảng cách giữa chúng đủ nhỏ.
 
-### Khung thuật toán
-Quan sát dãy giảm của các cận trên,
-> $$\bar{z_1} \geq \bar{z_2} \geq \dotsc \bar{z_s} \geq z$$
+### Khung thuật toán chung
 
-Quan sát dãy tăng của các cận dưới,
-> $$\underline{z_1} \leq \underline{z_2} \leq \dotsc \underline{z_t} \leq z $$
+Xây dựng dãy cận trên không tăng:
+> $$\bar{z}_1 \geq \bar{z}_2 \geq \dotsc \geq \bar{z}_s \geq z$$
 
-Với mọi $$\epsilon > 0$$, giá trị của $$z$$ được xác định trong khoảng thỏa mãn $$\bar{z_s} - \underline{z_t} \leq \epsilon$$.
+và dãy cận dưới không giảm:
+> $$\underline{z}_1 \leq \underline{z}_2 \leq \dotsc \leq \underline{z}_t \leq z$$
+
+Với sai số cho trước $$\epsilon > 0$$, thuật toán dừng khi $$\bar{z}_s - \underline{z}_t \leq \epsilon$$, đảm bảo nghiệm tương ứng với $$\bar{z}_s$$ cách giá trị tối ưu thực không quá $$\epsilon$$.
 
 ### Cận gốc (Primal bounds)
-Theo công thức của $$z$$ ở trên, với mọi $$x \in X$$ khả thi, $$f(x) \geq z$$ luôn đúng, và khi đó $$f(x)$$ là một cận trên. Tuy nhiên, vì không phải lúc nào cũng tìm được $$x$$ khả thi, nếu giá trị $$x$$ thuộc tập tương ứng thì bài toán có thể giải dễ dàng, nhưng điều này không phải lúc nào cũng xảy ra.
 
+Với mọi điểm khả thi $$x \in X$$, giá trị hàm mục tiêu $$f(x) \geq z$$ lập tức cung cấp một cận trên (cận gốc). Tuy nhiên, trên thực tế việc tìm được các điểm khả thi $$x \in X$$ có chất lượng tốt không phải lúc nào cũng đơn giản.
 
 ### Cận đối ngẫu (Dual bounds)
-Thường còn được gọi là cận dưới, giá trị của chúng được tìm qua nới lỏng. Giải thích chi tiết được bổ sung ở phần tiếp theo.
+
+Cận đối ngẫu (hay cận dưới) thường được tính thông qua các bài toán nới lỏng. Nội dung chi tiết về các phương pháp nới lỏng được trình bày ở mục tiếp theo.

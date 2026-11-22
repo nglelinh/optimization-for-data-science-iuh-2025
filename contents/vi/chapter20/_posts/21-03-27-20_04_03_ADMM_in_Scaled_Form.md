@@ -11,7 +11,7 @@ lang: vi
 
 # ADMM dạng có tỉ lệ
 
-ADMM có thể được biểu diễn dưới dạng có tỉ lệ bằng cách thay biến đối ngẫu $$u$$ bằng $$w = u/\rho$$. Khi đó các bước ADMM có thể được viết như sau:
+ADMM có thể được viết gọn hơn dưới dạng có tỉ lệ (scaled form) bằng cách đổi biến đối ngẫu $$w = u/\rho$$. Khi đó, các bước lặp của ADMM trở thành:
 > $$
 > \begin{alignat}{1}
 > x^{(k)} & = \arg\min_x f(x) + \frac{\rho}{2} \lVert Ax + Bz^{(k-1)} - c + w^{(k-1)} \rVert_2^2  \\
@@ -20,9 +20,9 @@ ADMM có thể được biểu diễn dưới dạng có tỉ lệ bằng cách 
 > \end{alignat}
 > $$
 
-## Tương đương với dạng ban đầu
+## Chứng minh tương đương với dạng ban đầu
 
-Ta có thể chứng minh các phương trình trên tương đương với dạng ban đầu qua quá trình sau:
+Khai triển số hạng bình phương ở bước cập nhật $$x^{(k)}$$:
 
 > $$
 > \begin{align}
@@ -32,11 +32,11 @@ Ta có thể chứng minh các phương trình trên tương đương với dạ
 > \end{align}
 > $$
 
-trong đó ta đã dùng $$u^{(k-1)} = \rho w^{(k-1)}$$ và bỏ đi số hạng hằng.
+trong đó ta thay $$u^{(k-1)} = \rho w^{(k-1)}$$ và lược bỏ hằng số $$\frac{\rho}{2}\lVert w^{(k-1)} \rVert_2^2$$ không phụ thuộc vào $$x$$. Biến đổi cho bước cập nhật $$z^{(k)}$$ hoàn toàn tương tự.
 
-## Diễn giải biến có tỉ lệ
+## Ý nghĩa của biến đối ngẫu có tỉ lệ
 
-Ở đây, $$w^{(k)}$$ có thể được xem là tổng các phần dư cho đến vòng lặp $$k$$:
+Từ quy tắc cập nhật ở trên, $$w^{(k)}$$ chính là tổng tích lũy các phần dư gốc từ đầu cho đến vòng lặp thứ $$k$$:
 
 > $$
 > \begin{equation}
@@ -44,4 +44,4 @@ trong đó ta đã dùng $$u^{(k-1)} = \rho w^{(k-1)}$$ và bỏ đi số hạng
 > \end{equation}
 > $$
 
-Dạng có tỉ lệ này thường thuận tiện hơn cho việc cài đặt và phân tích.
+Dạng có tỉ lệ gọn gàng hơn và thường thuận tiện hơn cả trong phân tích lý thuyết lẫn cài đặt thuật toán.

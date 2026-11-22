@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-Phần này giới thiệu các hàm giả lồi, định nghĩa, ví dụ và các tính chất cơ bản của chúng.
+Phần này giới thiệu khái niệm hàm giả lồi (quasiconvex function), cùng các ví dụ tiêu biểu và tính chất cơ bản của chúng.

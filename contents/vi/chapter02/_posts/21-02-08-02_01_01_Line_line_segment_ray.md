@@ -9,9 +9,9 @@ categories:
 lang: vi
 ---
 
-Để định nghĩa tập affine, tập lồi và hình nón, trước tiên hãy xem xét đường thẳng, đoạn thẳng và tia.
+Để định nghĩa tập affine, tập lồi và hình nón, trước hết ta xét ba đối tượng hình học cơ bản: đường thẳng, đoạn thẳng và tia.
 
-Đường thẳng là một đường thẳng vô hạn đi qua hai điểm theo cả hai hướng. Ngược lại, đoạn thẳng là một đường thẳng chỉ được xác định giữa hai điểm, và tia bắt đầu từ một điểm và kéo dài vô hạn theo một hướng qua điểm khác. Hình dưới đây cho thấy một đường thẳng và một đoạn thẳng. Tùy thuộc vào phạm vi của tham số $$\theta$$, bạn có thể tưởng tượng cách một đường thẳng, đoạn thẳng hoặc tia được định nghĩa.
+Đường thẳng đi qua hai điểm kéo dài vô hạn về cả hai phía. Ngược lại, đoạn thẳng chỉ gồm các điểm nằm giữa hai điểm đó, còn tia xuất phát từ một điểm và kéo dài vô hạn theo một hướng đi qua điểm còn lại. Hình dưới đây minh họa đường thẳng và đoạn thẳng đi qua hai điểm $$x_1$$ và $$x_2$$. Tùy theo miền giá trị của tham số $$\theta$$, ta thu được biểu diễn tương ứng cho đường thẳng, đoạn thẳng hoặc tia.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -20,30 +20,27 @@ lang: vi
 </p>
 </figure>
 
-[Tham khảo] Khi bạn sử dụng hai điểm được bao gồm trong một tập hợp để tạo ra một đường thẳng, đoạn thẳng hoặc tia, việc liệu những điểm này có được bao gồm trong tập hợp hay không quyết định định nghĩa của tập hợp. (Bạn cũng có thể định nghĩa tập hợp bằng cách sử dụng nhiều điểm và các tổ hợp affine, lồi hoặc nón của chúng. Chi tiết sẽ được giải thích trong các phần tiếp theo.)
+*Lưu ý:* Khi lấy hai điểm thuộc một tập hợp để tạo thành đường thẳng, đoạn thẳng hoặc tia, việc các điểm tạo ra có luôn thuộc lại tập hợp đó hay không chính là tiêu chí để định nghĩa các loại tập hợp. (Ta cũng có thể định nghĩa tương tự bằng nhiều điểm thông qua tổ hợp affine, tổ hợp lồi hoặc tổ hợp nón; chi tiết sẽ được trình bày ở các mục tiếp theo.)
 
 ## Đường thẳng
 
-Một **Đường thẳng** đi qua hai điểm $$x_1$$ và $$x_2$$ được định nghĩa là:
+**Đường thẳng** đi qua hai điểm $$x_1$$ và $$x_2$$ được định nghĩa là:
 > $$y = \theta x_1 + (1 - \theta) x_2$$ với $$\theta \in \mathbb{R}$$
 
 ## Đoạn thẳng
 
-Một **Đoạn thẳng** được định nghĩa bằng cách giới hạn $$\theta$$ trong khoảng [0, 1]:
+**Đoạn thẳng** nối hai điểm $$x_1$$ và $$x_2$$ thu được khi giới hạn $$\theta$$ trong đoạn $$[0, 1]$$:
 > $$y = \theta x_1 + (1 - \theta) x_2$$ với $$0 \le \theta \le 1$$
 
-Hoặc bạn có thể biểu diễn nó như:
+Ta cũng có thể viết lại dưới dạng:
 > $$y = x_2 + \theta (x_1 - x_2)$$ với $$0 \le \theta \le 1$$
 
 ## Tia
 
-Một **Tia** bắt đầu từ một điểm và kéo dài vô hạn theo một hướng:
+**Tia** xuất phát từ $$x_2$$ và kéo dài vô hạn theo hướng đi qua $$x_1$$ được định nghĩa là:
 > $$y = x_2 + \theta (x_1 - x_2)$$ với $$\theta \ge 0$$
 
-Hoặc tương đương:
+Hoặc viết tương đương:
 > $$y = \theta x_1 + (1 - \theta) x_2$$ với $$\theta \ge 0$$
 
-
-
-Bây giờ bạn có thể thấy rằng phạm vi của $$\theta$$ là $$\theta \in \mathbb{R}$$ cho đường thẳng, $$0 \le \theta \le 1$$ cho đoạn thẳng, và $$\theta \ge 0$$ cho tia. Hơn nữa, bạn sẽ thấy rằng các phạm vi của $$\theta$$ giống nhau trong các tập affine, tập lồi và tập nón mà chúng ta sẽ định nghĩa sau này.
-
+Như vậy, miền giá trị của tham số $$\theta$$ lần lượt là $$\theta \in \mathbb{R}$$ đối với đường thẳng, $$0 \le \theta \le 1$$ đối với đoạn thẳng và $$\theta \ge 0$$ đối với tia. Các miền giá trị này sẽ xuất hiện lại tương ứng trong định nghĩa tập affine, tập lồi và hình nón ở các bài sau.

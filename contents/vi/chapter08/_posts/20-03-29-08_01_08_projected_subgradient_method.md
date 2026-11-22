@@ -9,28 +9,28 @@ categories:
 lang: vi
 ---
 
-Phương pháp được mô tả trong ví dụ trước được gọi là phương pháp subgradient có chiếu. Thuật toán này có thể được sử dụng cho các bài toán lồi có ràng buộc.
+Ý tưởng phép chiếu ở ví dụ trước dẫn đến **phương pháp subgradient có chiếu (projected subgradient method)**, dùng để giải các bài toán tối ưu lồi có ràng buộc.
 
-Nếu chúng ta ký hiệu miền thỏa mãn các ràng buộc là tập $$C$$, thì bài toán lồi có ràng buộc được định nghĩa như sau:
+Ký hiệu miền ràng buộc là tập lồi đóng $$C$$, bài toán tối ưu có dạng:
 
 >
 $$ \begin{align}
 \min_x \text{ }f(x) \quad \text{với điều kiện } x \in C
 \end{align} $$
 
-Bằng cách sử dụng phương pháp subgradient có chiếu, các bài toán như vậy có thể được giải tương đối dễ dàng. Phương pháp subgradient có chiếu tương tự như phương pháp subgradient chuẩn, nhưng ở mỗi lần lặp, kết quả được chiếu lên tập $$C$$.
+Phương pháp subgradient có chiếu thực hiện tương tự phương pháp subgradient tiêu chuẩn, nhưng sau mỗi bước cập nhật, điểm mới được chiếu trở lại tập ràng buộc $$C$$:
 
 >
 $$ \begin{align}
 x^{(k)} = P_c(x^{(k-1)} - t_k \cdot g^{(k-1)}), \quad k = 1,2,3,...
 \end{align} $$
 
-Nếu phép chiếu có thể thực hiện được, phương pháp này có cùng tính chất hội tụ và tốc độ như phương pháp subgradient.
+Nếu phép chiếu $$P_C$$ thực hiện được chính xác, phương pháp này có cùng các tính chất hội tụ và tốc độ hội tụ như phương pháp subgradient không ràng buộc.
 
-Một điều cần lưu ý về phương pháp subgradient có chiếu là ngay cả khi $$C$$ là một tập lồi đơn giản, nếu phép toán chiếu $$P_c$$ khó thực hiện, thì bài toán tổng thể cũng trở nên khó giải. Thông thường, các tập $$C$$ sau đây tương đối dễ chiếu lên:
+Tuy nhiên, cần lưu ý rằng ngay cả khi $$C$$ là một tập lồi có mô tả đơn giản, nếu phép chiếu $$P_C$$ khó tính toán thì thuật toán tổng thể vẫn tốn kém. Một số tập $$C$$ có phép chiếu tương đối dễ tính gồm:
 
-- Ảnh affine: {$$Ax=b : x \in \mathbb{R}^{n}$$}
-- Tập nghiệm của hệ tuyến tính: {$$x: Ax=b$$}
-- Trực giao không âm: $$\mathbb{R}_+^{n} =  $${$$x: x\ge 0$$}
+- Tập ảnh affine: {$$Ax + b : x \in \mathbb{R}^{n}$$}
+- Tập nghiệm của hệ phương trình tuyến tính: {$$x: Ax=b$$}
+- Góc phần tư không âm (nonnegative orthant): $$\mathbb{R}_+^{n} = $$ {$$x: x\ge 0$$}
 - Một số quả cầu chuẩn: {$$x: \lVert x \rVert _p \le 1 $$} với $$p=1,2,\infty$$
 - Một số đa diện đơn giản và hình nón đơn giản

@@ -15,10 +15,9 @@ MathJax.Hub.Config({
 });
 </script>
 
-Như một ví dụ về tính đối ngẫu trong chương trình tuyến tính, chúng ta muốn xem xét bài toán luồng cực đại lát cắt cực tiểu.
+Để minh họa tính đối ngẫu trong quy hoạch tuyến tính, bài học này sẽ phân tích cặp bài toán luồng cực đại (max flow) và lát cắt cực tiểu (min cut).
 
-## Đồ thị có hướng, Điều kiện của luồng
-
+## Đồ thị có hướng và các điều kiện của luồng
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -27,22 +26,21 @@ Như một ví dụ về tính đối ngẫu trong chương trình tuyến tính
 </p>
 </figure>
 
+Xét một đồ thị có hướng $$G = (V, E)$$ như Hình 1. Trên mỗi cạnh có hướng $$(i, j) \in E$$ nối từ đỉnh $$i$$ đến đỉnh $$j$$, ta ký hiệu $$f_{ij}$$ là lượng luồng chảy qua cạnh đó và $$c_{ij}$$ là dung lượng (lượng luồng tối đa mà cạnh có thể tải).
 
-Có một đồ thị có hướng $$G = (V, E)$$ như được hiển thị ở trên, và đặt cạnh nối đỉnh i và đỉnh j, $$(i,j)\in E$$, tức là luồng từ i đến j, là $$f_{ij}$$. Mỗi cạnh có một công suất, tức là luồng tối đa có thể chảy qua nó. Đặt đây là $$c_{ij}$$.
+Mô hình đồ thị này biểu diễn sự lưu chuyển từ một đỉnh nguồn $$s$$ đến một đỉnh đích $$t$$, thường gặp trong các bài toán thực tế như quy hoạch thoát nước đô thị, truyền tải điện năng hay vận chuyển hàng hóa.
 
-Như một ví dụ đơn giản, điều này có thể được hiểu như một biểu diễn đồ thị của một luồng nào đó từ một nguồn(s) chảy ra đến một đích(t). Đây là một dạng đồ thị có thể được áp dụng cho nhiều bài toán khác nhau như quy hoạch thoát nước đô thị/truyền tải điện, vận chuyển vật liệu, v.v.
+Một luồng hợp lệ phải thỏa mãn ba điều kiện sau:
 
-Ở đây, luồng thỏa mãn ba điều kiện.
+1. Luồng trên mỗi cạnh không âm: $$f_{ij} \geq 0,\, (i,j)\in E$$.
+2. Luồng trên mỗi cạnh không vượt quá dung lượng của cạnh đó: $$f_{ij} \leq c_{ij}, \, (i,j)\in E$$.
+3. Bảo toàn luồng tại các đỉnh trung gian: với mọi đỉnh $$k$$ khác nguồn $$s$$ và đích $$t$$, tổng luồng đi vào $$k$$ bằng tổng luồng đi ra khỏi $$k$$: $$\sum_{(i,k)\in E}f_{ik} = \sum_{(k,j)\in E}f_{kj}, \, k\in V\backslash\{s,t\}$$.
 
-1. $$f_{ij}$$ luôn là một số dương lớn hơn hoặc bằng 0: $$f_{ij} \geq 0,\, (i,j)\in E$$
-2. $$f_{ij}$$ phải nhỏ hơn luồng tối đa được xác định cho cạnh, tức là công suất (giới hạn công suất) $$c_{ij}$$: $$f_{ij}<c_{ij}, \, (i,j)\in E$$
-3. Đối với đỉnh k không bao gồm nguồn (điểm mà luồng ra, s) hoặc đích (điểm mà luồng vào, t), tổng lượng luồng vào k bằng tổng lượng luồng ra khỏi k: $$\sum_{(i,k)\in E}f_{ik} = \sum_{(k,j)\in E}f_{kj}, \, k\in V\backslash{s,t}$$
+## Mối quan hệ giữa bài toán luồng cực đại và lát cắt cực tiểu (1)
 
-## Mối quan hệ giữa bài toán Luồng cực đại và Cắt cực tiểu(1)
+Trên đồ thị có hướng đã định nghĩa, ta xét hai bài toán kinh điển là bài toán luồng cực đại và bài toán lát cắt cực tiểu.
 
-Đối với đồ thị và luồng được định nghĩa ở trên, chúng ta sẽ xem xét hai bài toán nổi tiếng, bài toán luồng cực đại và bài toán cắt cực tiểu, và mối quan hệ giữa chúng.
-
-Để kết luận trước, bài toán luồng cực đại là một bài toán LP, và bài toán cắt cực tiểu là một chương trình nguyên, trong đó đối ngẫu của bài toán luồng cực đại có cùng dạng bài toán như việc nới lỏng LP của bài toán cắt cực tiểu.
+Tóm tắt kết quả chính trước khi đi vào chứng minh: bài toán luồng cực đại là một bài toán quy hoạch tuyến tính (LP), còn bài toán lát cắt cực tiểu là một bài toán quy hoạch nguyên (integer program). Khi lập bài toán đối ngẫu của luồng cực đại, ta thu được đúng bài toán nới lỏng tuyến tính (LP relaxation) của lát cắt cực tiểu:
 
 >$$
 >\begin{align}
@@ -52,19 +50,15 @@ Như một ví dụ đơn giản, điều này có thể được hiểu như m�
 >\end{align}
 >$$
 
-Trong trang này, chúng ta sẽ chỉ ra mối quan hệ bất đẳng thức bằng quá trình ngược của đối ngẫu và nới lỏng (thêm ràng buộc vào bài toán LP để chuyển đổi nó thành chương trình nguyên). Mặc dù không được đề cập ở đây, trên thực tế, cả ba kết quả đều bằng nhau.
+Trong bài này, chúng ta sẽ chứng minh chuỗi bất đẳng thức trên bằng cách lập đối ngẫu và thực hiện quá trình ngược của phép nới lỏng (tức là bổ sung ràng buộc nguyên vào LP để thu được bài toán quy hoạch nguyên). Dù không chứng minh chi tiết tại đây, trên thực tế cả ba giá trị trong chuỗi trên đều bằng nhau. Kết quả đó chính là **định lý luồng cực đại – lát cắt cực tiểu**: giá trị luồng cực đại trong một mạng bằng dung lượng của lát cắt cực tiểu.
 
-Điều này được gọi là định lý luồng cực đại cắt cực tiểu, nói rằng luồng tối đa trong một mạng bằng công suất tối thiểu của một cắt.
+Tổng quát hơn, khi giá trị tối ưu của bài toán gốc và bài toán đối ngẫu bằng nhau, ta nói **tính đối ngẫu mạnh (strong duality)** thỏa mãn. Đối với quy hoạch tuyến tính, tính đối ngẫu mạnh luôn đúng ngoại trừ trường hợp cả bài toán gốc lẫn bài toán đối ngẫu đều vô nghiệm (không khả thi); nội dung này sẽ được phân tích kỹ hơn ở Chương 11.
 
-Tổng quát hơn, dưới một số điều kiện nhất định, các giá trị tối ưu của các bài toán nguyên thủy và đối ngẫu bằng nhau, điều này được gọi là tính đối ngẫu mạnh.
-
-Trong các bài toán LP, ngoại trừ trường hợp mà cả bài toán nguyên thủy và đối ngẫu đều không khả thi, tính đối ngẫu mạnh được giữ. Điều này sẽ được thảo luận trong Chương 11.
-
-Đầu tiên, hãy xem xét hai bài toán, suy ra đối ngẫu từ bài toán luồng cực đại, và chỉ ra rằng bằng cách thêm các điều kiện cụ thể vào bài toán đối ngẫu (ngược lại của nới lỏng), nó biến đổi thành bài toán cắt cực tiểu.
+Trước hết, ta phát biểu chính xác hai bài toán, suy ra đối ngẫu của bài toán luồng cực đại, rồi chỉ ra cách thêm ràng buộc nguyên để đưa bài toán đối ngẫu về bài toán lát cắt cực tiểu.
 
 ## Bài toán luồng cực đại
 
-Bài toán luồng cực đại là tìm luồng tối đa từ s đến t trong một đồ thị thỏa mãn các điều kiện trên.
+Bài toán luồng cực đại yêu cầu tìm tổng lượng luồng lớn nhất đi từ nguồn $$s$$ đến đích $$t$$ thỏa mãn ba điều kiện của luồng:
 
 >$$
 >\begin{align}
@@ -83,9 +77,9 @@ Bài toán luồng cực đại là tìm luồng tối đa từ s đến t trong
 </p>
 </figure>
 
-Bài toán lát cắt cực tiểu chia tất cả các đỉnh của đồ thị thành hai tập hợp: vùng có bóng và vùng không có bóng, như được hiển thị trong hình. Một tập hợp chứa nguồn, và tập hợp khác chứa đích, trong khi các đỉnh còn lại được gán tùy ý vào một trong hai tập hợp (ở đây, tập hợp chứa nguồn được gọi là A, và tập hợp chứa đích được gọi là B). Tổng các công suất của các cạnh đi từ tập hợp A đến tập hợp B được định nghĩa là cắt.
+Bài toán lát cắt cực tiểu phân hoạch tập đỉnh của đồ thị thành hai tập hợp rời nhau (vùng tô đậm và vùng không tô đậm trong Hình 2): tập $$A$$ chứa nguồn $$s$$, tập $$B$$ chứa đích $$t$$, còn các đỉnh khác được xếp vào $$A$$ hoặc $$B$$. Tổng dung lượng của tất cả các cạnh có hướng đi từ $$A$$ sang $$B$$ được gọi là **dung lượng của lát cắt**.
 
-Nói cách khác, một cắt là một phân hoạch các đỉnh của đồ thị sao cho nguồn và đích ở các phân hoạch khác nhau. Bài toán cắt cực tiểu là tìm giá trị tối thiểu của cắt này cho một đồ thị cho trước. Trong định nghĩa tổng quát của bài toán cắt cực tiểu, vì nó được định nghĩa trên một đồ thị có hướng, nó luôn thỏa mãn nguồn $$x_{s}=1$$, đích $$x_{t}=0$$. Phần này được bỏ qua trong định nghĩa bài toán dưới đây.
+Nói cách khác, một lát cắt là một cách phân hoạch tập đỉnh sao cho nguồn và đích nằm ở hai phía khác nhau, và bài toán lát cắt cực tiểu tìm lát cắt có dung lượng nhỏ nhất. Trong dạng phát biểu dưới đây, ta gán $$x_i = 1$$ nếu $$i \in A$$ và $$x_i = 0$$ nếu $$i \in B$$, với điều kiện cố định $$x_s = 1$$ và $$x_t = 0$$ (được ngầm hiểu trong công thức):
 
 >$$
 >\begin{align}
@@ -96,13 +90,13 @@ Nói cách khác, một cắt là một phân hoạch các đỉnh của đồ t
 >\end{align}
 >$$
 
-Trực quan, bài toán luồng cực đại là tìm luồng tối đa từ nguồn, và bài toán cắt cực tiểu là tìm tổng công suất tối thiểu có thể được gửi từ tập nguồn đến tập đích, vì vậy rõ ràng rằng hai bài toán này có liên quan chặt chẽ.
+Về mặt trực quan, bài toán luồng cực đại tìm lưu lượng lớn nhất truyền được từ nguồn sang đích, còn bài toán lát cắt cực tiểu tìm "nút thắt cổ chai" có tổng dung lượng nhỏ nhất ngăn cách nguồn với đích, nên hai bài toán này liên hệ chặt chẽ với nhau.
 
-## Đối ngẫu của bài toán Luồng cực đại
-Hãy suy ra đối ngẫu cho bài toán tối ưu luồng cực đại.
+## Bài toán đối ngẫu của luồng cực đại
 
-Đầu tiên, định nghĩa các biến đối ngẫu cho các ràng buộc theo thứ tự là $$a_{ij}, b_{ij}, x_{k}$$. Trong đối ngẫu của bài toán max, cận trên sẽ được tối thiểu hóa, vì vậy dạng được tổ chức phải ở dạng mục tiêu nguyên thủy $$\leq$$ một cái gì đó. Do đó, tổ chức phương trình để tìm cận trên của $$f_{ij}$$ cho các ràng buộc.
-Điều này có thể được tổ chức như sau.
+Bây giờ ta xây dựng bài toán đối ngẫu cho bài toán luồng cực đại.
+
+Đặt các biến đối ngẫu lần lượt là $$a_{ij} \geq 0$$ (cho ràng buộc $$f_{ij} \geq 0$$), $$b_{ij} \geq 0$$ (cho ràng buộc $$f_{ij} \leq c_{ij}$$) và $$x_k \in \mathbb{R}$$ (cho ràng buộc bảo toàn luồng tại đỉnh $$k \in V \setminus \{s, t\}$$). Vì bài toán gốc là bài toán cực đại hóa, bài toán đối ngẫu sẽ đi tìm cận trên nhỏ nhất cho hàm mục tiêu gốc. Ta lập tổ hợp tuyến tính của các ràng buộc như sau:
 
 >$$
 >\begin{align}
@@ -111,15 +105,7 @@ Hãy suy ra đối ngẫu cho bài toán tối ưu luồng cực đại.
 >\end{align}
 >$$
 
-Tổ chức các số hạng $$f$$ liên quan đến hàm mục tiêu LP nguyên thủy ở bên trái, và phần còn lại ở bên phải.
-
-Tiếp theo, vì chúng ta muốn cận trên của LP nguyên thủy, tìm phương trình sao cho các số hạng được nhân với $$f$$ ở bên trái khớp với hàm mục tiêu LP nguyên thủy.
-
-Điều kiện thỏa mãn phương trình này trở thành ràng buộc trong LP đối ngẫu.
-
-Tức là, tổ chức phương trình sao cho số hạng $$f_{ij}$$ chỉ là 1 trong $$\sum_{(s,j)\in E}f_{sj}$$ và 0 ở nơi khác.
-
-Quá trình này được chi tiết hóa như sau.
+Chuyển các số hạng chứa biến $$f$$ sang vế trái và phần hằng số sang vế phải, ta được:
 
 >$$
 >\begin{align}
@@ -127,14 +113,13 @@ Quá trình này được chi tiết hóa như sau.
 >\end{align}
 >$$
 
-Ở đây, mục tiêu của chúng ta là làm cho kết quả của vế trái khi $$i=s$$ là $$\sum_{(s,j)\in E}f_{sj}$$ và bằng 0 cho các trường hợp khác.
+Để vế trái trùng khớp với hàm mục tiêu của LP gốc là $$\sum_{(s,j)\in E} f_{sj}$$, hệ số của $$f_{ij}$$ ở vế trái phải bằng $$1$$ khi $$i = s$$ và bằng $$0$$ với mọi cạnh khác. Các điều kiện hệ số này chính là ràng buộc của bài toán đối ngẫu.
 
-Biến k trong số hạng x của sigma thứ hai không bao gồm nguồn và đích, và có thể được chia thành ba trường hợp: khi $$i=s, j\neq t$$, khi $$i\neq s, j=t$$, và khi $$i\neq s,j\neq t$$.
+Vì chỉ số $$k$$ trong tổng thứ hai không bao gồm $$s$$ và $$t$$, ta xét hệ số của $$f_{ij}$$ theo ba trường hợp:
 
 ### Trường hợp 1. $$i = s, j \neq t.$$
 
-Đối với số hạng được nhân với $$x_{k}$$, nó bị loại bỏ bởi điều kiện thứ ba của luồng trừ trường hợp $$k=j$$.
-Do đó, sigma cho số hạng x của số hạng thứ hai có thể được tổ chức như sau.
+Trong tổng theo $$x_k$$, mọi số hạng với $$k \neq j$$ đều triệt tiêu (do điều kiện bảo toàn luồng), chỉ còn lại phần tử ứng với $$k = j$$:
 
 >$$
 >\begin{align}
@@ -144,8 +129,8 @@ Do đó, sigma cho số hạng x của số hạng thứ hai có thể được 
 >$$
 
 ### Trường hợp 2. $$i \neq s, j = t.$$
-Đối với số hạng được nhân với $$x_{k}$$, nó bị loại bỏ bởi điều kiện thứ ba của luồng trừ trường hợp $$k=i$$.
-Do đó, sigma cho số hạng x của số hạng thứ hai có thể được tổ chức như sau.
+
+Tương tự, trong tổng theo $$x_k$$ chỉ còn lại phần tử ứng với $$k = i$$ (với dấu trừ):
 
 >$$
 >\begin{align}
@@ -155,8 +140,8 @@ Do đó, sigma cho số hạng x của số hạng thứ hai có thể được 
 >$$
 
 ### Trường hợp 3. $$i \neq s, j \neq t.$$
-Đối với số hạng được nhân với $$x_{k}$$, nó bị loại bỏ bởi điều kiện thứ ba của luồng trừ các trường hợp $$k=i$$ và $$k=j$$.
-Do đó, sigma cho số hạng x của số hạng thứ hai có thể được tổ chức như sau.
+
+Trong trường hợp này, tổng theo $$x_k$$ giữ lại cả hai phần tử ứng với $$k = j$$ và $$k = i$$:
 
 >$$
 >\begin{align}
@@ -165,7 +150,7 @@ Do đó, sigma cho số hạng x của số hạng thứ hai có thể được 
 >\end{align}
 >$$
 
-Hàm mục tiêu của LP nguyên thủy khớp với trường hợp 1 ở trên, trong đó số hạng bằng 1 trong $$b_{sj}-a_{sj}+x_{j}$$, và đối với các trường hợp khác, nó làm cho số hạng được nhân bằng 0, hoàn thành dạng vế trái là hàm mục tiêu và vế phải là cận trên.
+Đặt hệ số ở Trường hợp 1 bằng $$1$$ và ở hai trường hợp còn lại bằng $$0$$, ta thu được cận trên cho hàm mục tiêu gốc:
 
 >$$
 >\begin{align}
@@ -177,7 +162,7 @@ Hàm mục tiêu của LP nguyên thủy khớp với trường hợp 1 ở trê
 >\end{align}
 >$$
 
-Do đó, bài toán đối ngẫu là tìm giá trị tối thiểu của cận trên (hàm mục tiêu của LP đối ngẫu) cho các biến đối ngẫu $$a, b, x$$, và giá trị tối thiểu này trở thành cận trên tốt nhất. Biến giả $$a$$ được loại bỏ trong khi vẫn duy trì các điều kiện. Ngoài ra, bằng cách thêm điều kiện rằng luồng xảy ra từ nguồn đến đích trong đồ thị có hướng, phương trình trở thành:
+Bài toán đối ngẫu nhằm cực tiểu hóa cận trên $$\sum_{(i,j)\in E} b_{ij} c_{ij}$$. Vì $$a_{ij} \geq 0$$ chỉ đóng vai trò biến bù (slack variable), ta có thể khử $$a_{ij}$$ để viết lại các đẳng thức thành bất đẳng thức. Đồng thời, khi đặt thêm quy ước $$x_s = 1$$ và $$x_t = 0$$, cả ba điều kiện trên gộp thành một dạng thống nhất:
 
 >$$
 >\begin{align}
@@ -187,12 +172,9 @@ Do đó, bài toán đối ngẫu là tìm giá trị tối thiểu của cận 
 >\end{align}
 >$$
 
-## Từ LP đối ngẫu đến chương trình nguyên
-Bây giờ, chúng ta muốn chỉ ra rằng LP đối ngẫu này giống với việc nới lỏng LP của bài toán cắt cực tiểu.
-Do đó, chúng ta sẽ trải qua quá trình chuyển đổi nó thành một chương trình nguyên bằng cách thêm các điều kiện vào bài toán LP đối ngẫu ở trên.
-Biến $$x$$ không được định nghĩa cho các đỉnh khác ngoài s và t.
-Do đó, để thu hẹp phạm vi của bài toán, hãy thêm điều kiện rằng các đỉnh còn lại ngoại trừ s và t thuộc về nhóm s hoặc nhóm t.
-Nói cách khác, hãy giả sử rằng tất cả các đỉnh thuộc về nhóm 0 hoặc 1. Điều này tương đương với việc xác định phân hoạch đỉnh cho cắt cực tiểu.
+## Từ LP đối ngẫu đến bài toán quy hoạch nguyên
+
+Bây giờ ta chỉ ra rằng LP đối ngẫu trên chính là bản nới lỏng tuyến tính của bài toán lát cắt cực tiểu. Để chuyển bài toán LP đối ngẫu này về bài toán quy hoạch nguyên, ta bổ sung điều kiện nhị phân cho các biến $$x_i$$ (tức là ép mọi đỉnh ngoài $$s$$ và $$t$$ chỉ được nhận giá trị $$0$$ hoặc $$1$$, tương ứng với việc phân hoạch tập đỉnh thành hai nhóm):
 
 >$$
 >\begin{align}
@@ -200,11 +182,7 @@ Nói cách khác, hãy giả sử rằng tất cả các đỉnh thuộc về nh
 >\end{align}
 >$$
 
-Hãy định nghĩa nhóm thuộc về 1 là tập hợp A, và nhóm thuộc về 0 là tập hợp B. Ngoài ra, hãy định nghĩa rằng nguồn (s) thuộc về A, và đích (t) thuộc về B.
-
-Với các định nghĩa trên, $$b_{ij}$$ hoạt động như một công tắc bật/tắt, bằng 1 cho các cạnh đi từ tập hợp A đến tập hợp B, và bằng 0 trong các trường hợp khác.
-
-Điều này có thể được tổ chức như sau.
+Đặt $$A = \{i : x_i = 1\}$$ (chứa nguồn $$s$$) và $$B = \{i : x_i = 0\}$$ (chứa đích $$t$$). Khi đó, với mục tiêu cực tiểu hóa $$\sum_{(i,j)\in E} b_{ij} c_{ij}$$ cùng các ràng buộc $$b_{ij} \geq x_i - x_j$$ và $$b_{ij} \geq 0$$, biến $$b_{ij}$$ nhận giá trị $$1$$ nếu cạnh $$(i, j)$$ đi từ $$A$$ sang $$B$$ và bằng $$0$$ trong mọi trường hợp còn lại:
 
 >$$
 >\begin{align}
@@ -219,10 +197,11 @@ Với các định nghĩa trên, $$b_{ij}$$ hoạt động như một công tắ
 >\end{align}
 >$$
 
-Kết quả trên giống với công thức của bài toán cắt cực tiểu.
+Đây chính xác là bài toán lát cắt cực tiểu đã phát biểu ở trên.
 
-## Mối quan hệ giữa bài toán Luồng cực đại và Cắt cực tiểu(2)
-Tức là, bài toán đối ngẫu của bài toán luồng cực đại là kết quả của việc loại bỏ điều kiện rằng các đỉnh ngoại trừ s và t trong bài toán cắt cực tiểu được bao gồm trong 0 hoặc 1 (nới lỏng). Giá trị tối ưu của luồng cực đại $$\leq$$ LP đối ngẫu (cận trên), và việc nới lỏng này mở rộng phạm vi miền của biến tối ưu hóa, do đó giá trị tối ưu của cắt cực tiểu nới lỏng LP $$\leq$$ công suất của cắt cực tiểu. Tóm tắt ba kết quả này, chúng ta có kết quả sau.
+## Mối quan hệ giữa bài toán luồng cực đại và lát cắt cực tiểu (2)
+
+Như vậy, LP đối ngẫu của bài toán luồng cực đại thu được từ bài toán lát cắt cực tiểu bằng cách bỏ ràng buộc nhị phân $$x_i \in \{0, 1\}$$ (phép nới lỏng LP). Theo tính đối ngẫu yếu, giá trị luồng cực đại không vượt quá giá trị tối ưu của LP đối ngẫu. Mặt khác, vì phép nới lỏng mở rộng tập khả thi, giá trị tối ưu của bài toán lát cắt cực tiểu nới lỏng không vượt quá dung lượng lát cắt cực tiểu. Tóm lại, ta có:
 
 >$$
 >\begin{align}
@@ -232,4 +211,4 @@ Tức là, bài toán đối ngẫu của bài toán luồng cực đại là k�
 >\end{align}
 >$$
 
-Để biết về tính bằng nhau của ba kết quả này, tham khảo định lý luồng cực đại cắt cực tiểu[11], và đối với thuật toán đại diện để giải bài toán luồng cực đại cắt cực tiểu, tham khảo thuật toán Ford-Fulkerson[12].
+Để xem chứng minh dấu bằng xảy ra cho cả chuỗi trên, bạn đọc có thể tham khảo định lý luồng cực đại – lát cắt cực tiểu [11]; về thuật toán tiêu biểu để giải bài toán này, xem thuật toán Ford–Fulkerson [12].

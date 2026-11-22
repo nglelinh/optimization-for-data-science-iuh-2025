@@ -10,25 +10,23 @@ lang: vi
 ---
 
 ### Hai ứng dụng chính của đối ngẫu
-Hãy cùng xem lại hai đặc điểm chính của đối ngẫu đã được đề cập trong Chương 11.
 
-• Khi $$x$$ là khả thi nguyên thủy và $$u,v$$ là khả thi đối ngẫu, hiệu số giữa bài toán nguyên thủy $$f(x)$$ và bài toán đối ngẫu $$g(u,v)$$ được gọi là **khoảng cách đối ngẫu** (duality gap) giữa $$x$$ và $$u,v$$.
-> $$f(x)-f^{\star}  \le f(x)-g(u, v)$$
+Hãy cùng điểm lại hai tính chất ứng dụng chính của lý thuyết đối ngẫu đã giới thiệu ở Chương 11.
 
-Khi khoảng cách đối ngẫu bằng 0, điều này được gọi là khoảng cách đối ngẫu bằng không, có nghĩa là nghiệm của bài toán đối ngẫu là tối ưu.
-Ngoài ra, cận trên $$g(u, v)$$ luôn nhỏ hơn hoặc bằng giá trị tối ưu $$f^{\star}$$. Để biết lý do chi tiết, vui lòng tham khảo nội dung trong [[Chương 11]]({% multilang_post_url contents/chapter11/21-03-24-11_00_Duality_in_General_Programs %}).
-Do đó, có thể thực hiện suy luận sau đây.
+* **Khoảng cách đối ngẫu làm tiêu chí dừng:** Khi $$x$$ khả thi nguyên thủy và $$(u, v)$$ khả thi đối ngẫu, hiệu giữa giá trị mục tiêu nguyên thủy $$f(x)$$ và giá trị hàm đối ngẫu $$g(u, v)$$ được gọi là **khoảng cách đối ngẫu** (duality gap) giữa $$x$$ và $$(u, v)$$:
 
-#### [Chứng minh]
+> $$f(x) - f^{\star} \le f(x) - g(u, v)$$
+
+Khi khoảng cách đối ngẫu bằng $$0$$ (zero duality gap), nghiệm nguyên thủy và nghiệm đối ngẫu đều đạt tối ưu. Ngoài ra, giá trị hàm đối ngẫu $$g(u, v)$$ luôn là một **cận dưới** của giá trị tối ưu $$f^{\star}$$ (tức $$g(u, v) \le f^{\star}$$); xem lại chi tiết tại [[Chương 11]]({% multilang_post_url contents/chapter11/21-03-24-11_00_Duality_in_General_Programs %}). Từ đó ta có suy dẫn sau:
+
+#### Chứng minh
 > $$\begin{align*}
 > f^{\star} &\ge g(u, v) \\
 > -f^{\star} &\le -g(u, v) \\
 > f(x)-f^{\star} &\le \underbrace{f(x)-g(u, v)}_{\text{khoảng cách đối ngẫu}}\\
-> g^{\star}-g(x) &\le \underbrace{f(x)-g(u, v)}_{\text{khoảng cách đối ngẫu}}\\
+> g^{\star}-g(u, v) &\le \underbrace{f(x)-g(u, v)}_{\text{khoảng cách đối ngẫu}}\\
 > \end{align*}$$
 
+Nhờ chặn trên sai số tối ưu này, khoảng cách đối ngẫu thường được dùng trực tiếp làm tiêu chí dừng cho các thuật toán tối ưu hóa.
 
-Hơn nữa, khoảng cách đối ngẫu có thể được sử dụng làm tiêu chí dừng cho các thuật toán.
-• Khi nghiệm đối ngẫu tối ưu $$u^{\star}, v^{\star}$$ được cho, trong điều kiện đối ngẫu mạnh, nghiệm nguyên thủy tối thiểu hóa Lagrangian $$L (x, u^{\star}, v^{\star})$$ cho tất cả $$x$$ (tức là thỏa mãn điều kiện dừng).
-
-Điều này có thể được sử dụng để tính toán nghiệm nguyên thủy.
+* **Tìm nghiệm nguyên thủy thông qua nghiệm đối ngẫu:** Khi tính đối ngẫu mạnh được thỏa mãn và ta đã biết nghiệm đối ngẫu tối ưu $$(u^{\star}, v^{\star})$$, nghiệm nguyên thủy tối ưu $$x^{\star}$$ phải cực tiểu hóa hàm Lagrangian $$L(x, u^{\star}, v^{\star})$$ theo $$x$$ (tức thỏa mãn điều kiện dừng). Tính chất này cho phép suy ra nghiệm nguyên thủy từ nghiệm đối ngẫu.

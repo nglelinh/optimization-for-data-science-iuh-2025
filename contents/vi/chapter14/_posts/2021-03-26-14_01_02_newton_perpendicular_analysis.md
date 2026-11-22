@@ -149,42 +149,49 @@ button:disabled {
 }
 </style>
 
-Trong bài học này, chúng ta sẽ khám phá một câu hỏi quan trọng trong tối ưu hóa: **Phương pháp Newton có di chuyển vuông góc với đường đồng mức hay không?** Đây là một câu hỏi giúp chúng ta hiểu sâu hơn về sự khác biệt giữa Newton's method và gradient descent.
+Trong bài học này, chúng ta xét một câu hỏi quan trọng trong tối ưu hóa: **Phương pháp Newton có di chuyển vuông góc với đường đồng mức hay không?** Câu hỏi này làm rõ sự khác biệt hình học giữa phương pháp Newton và gradient descent.
 
-## 1. Trực Giác Cơ Bản
+## 1. Trực giác cơ bản
 
 <div class="key-insight">
-<strong>Câu trả lời ngắn gọn:</strong> <strong>KHÔNG</strong>, phương pháp Newton thường KHÔNG di chuyển vuông góc với đường đồng mức, khác với gradient descent.
+<strong>Câu trả lời ngắn gọn:</strong> <strong>Không.</strong> Khác với gradient descent, phương pháp Newton nhìn chung không di chuyển vuông góc với đường đồng mức.
 </div>
 
 ### So sánh với Gradient Descent
 
-- **Gradient Descent**: Luôn di chuyển theo hướng $$-\nabla f$$, vuông góc với đường đồng mức
-- **Newton's Method**: Sử dụng thông tin bậc hai (Hessian) để "điều chỉnh" hướng di chuyển, không còn vuông góc trong không gian gốc
+- **Gradient Descent**: Luôn di chuyển theo hướng $$-
+abla f$$, vuông góc với đường đồng mức.
+- **Phương pháp Newton**: Sử dụng thông tin đạo hàm bậc hai (ma trận Hessian) để điều chỉnh hướng di chuyển, nên hướng bước đi không còn vuông góc với đường đồng mức trong hệ tọa độ gốc.
 
-## 2. Giải Thích Toán Học
+## 2. Giải thích toán học
 
 ### Gradient Descent
-Hướng di chuyển trong gradient descent:
-$$\mathbf{d}_{GD} = -\nabla f(\mathbf{x})$$
+Hướng di chuyển trong gradient descent là:
+$$\mathbf{d}_{GD} = -
+abla f(\mathbf{x})$$
 
-Hướng này luôn vuông góc với đường đồng mức vì gradient là vector pháp tuyến của level curves.
+Hướng này luôn vuông góc với đường đồng mức vì gradient là vector pháp tuyến của đường đồng mức.
 
-### Newton's Method
-Hướng di chuyển trong Newton's method:
-$$\mathbf{d}_{Newton} = -[\nabla^2 f(\mathbf{x})]^{-1} \nabla f(\mathbf{x})$$
+### Phương pháp Newton
+Hướng di chuyển trong phương pháp Newton là:
+$$\mathbf{d}_{Newton} = -[
+abla^2 f(\mathbf{x})]^{-1} 
+abla f(\mathbf{x})$$
 
 <div class="math-explanation">
-<strong>Giải thích:</strong> Hessian $$\nabla^2 f$$ "biến đổi" không gian, làm cho hướng di chuyển không còn vuông góc với đường đồng mức trong tọa độ gốc. Newton tối ưu hóa theo "hướng dốc nhất" trong không gian được biến đổi bởi Hessian.
+<strong>Giải thích:</strong> Ma trận Hessian $$
+abla^2 f$$ đóng vai trò biến đổi hình học không gian, làm cho hướng bước đi không còn vuông góc với đường đồng mức trong hệ tọa độ gốc. Phương pháp Newton thực chất đi theo hướng giảm nhanh nhất trong không gian đã được chuẩn hóa theo độ cong của Hessian.
 </div>
 
-### Khi nào Newton vuông góc?
-Khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (với $$c$$ là hằng số), Newton trùng với GD (với kích thước bước $$1/c$$) và di chuyển vuông góc với đường đồng mức. Tổng quát hơn, Newton chỉ vuông góc tại những điểm mà $$\nabla f$$ là một vector riêng của Hessian (ví dụ dọc theo các trục tọa độ khi Hessian là ma trận đường chéo).
+### Khi nào hướng Newton vuông góc với đường đồng mức?
+Khi ma trận Hessian tỉ lệ với ma trận đơn vị ($$
+abla^2 f = cI$$ với hằng số $$c > 0$$), bước Newton trùng hướng với gradient descent (với kích thước bước $$1/c$$) và vuông góc với đường đồng mức. Tổng quát hơn, bước Newton chỉ vuông góc với đường đồng mức tại các điểm mà $$
+abla f$$ là một vector riêng của Hessian (chẳng hạn dọc theo các trục tọa độ khi Hessian là ma trận đường chéo).
 
-## 3. Minh Họa Tương Tác
+## 3. Minh họa tương tác
 
 <div class="interactive-container">
-    <h4>So sánh Quỹ Đạo Newton vs Gradient Descent</h4>
+    <h4>So sánh quỹ đạo phương pháp Newton và Gradient Descent</h4>
     
     <div class="controls">
         <div class="control-group">
@@ -210,7 +217,7 @@ Khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (vớ
         </div>
         
         <div class="control-group">
-            <label for="learning-rate">Learning Rate (GD):</label>
+            <label for="learning-rate">Kích thước bước (GD):</label>
             <input type="range" id="learning-rate" min="0.01" max="0.5" value="0.1" step="0.01">
             <input type="number" id="lr-value" min="0.01" max="0.5" value="0.1" step="0.01">
         </div>
@@ -230,7 +237,7 @@ Khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (vớ
         </div>
         <div class="legend-item">
             <div class="legend-color" style="background: #4444ff;"></div>
-            <span>Newton's Method (cắt qua đường đồng mức)</span>
+            <span>Phương pháp Newton (cắt chéo qua đường đồng mức)</span>
         </div>
         <div class="legend-item">
             <div class="legend-color" style="background: #888888;"></div>
@@ -244,36 +251,38 @@ Khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (vớ
     </div>
 </div>
 
-## 4. Phân Tích Chi Tiết
+## 4. Phân tích chi tiết
 
 <table class="comparison-table">
     <thead>
         <tr>
             <th>Đặc điểm</th>
             <th>Gradient Descent</th>
-            <th>Newton's Method</th>
+            <th>Phương pháp Newton</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td><strong>Hướng di chuyển</strong></td>
-            <td>$$-\nabla f$$ (vuông góc với đường đồng mức)</td>
-            <td>$$-H^{-1}\nabla f$$ (không vuông góc)</td>
+            <td>$$-
+abla f$$ (vuông góc với đường đồng mức)</td>
+            <td>$$-H^{-1}
+abla f$$ (nhìn chung không vuông góc)</td>
         </tr>
         <tr>
             <td><strong>Thông tin sử dụng</strong></td>
-            <td>Chỉ gradient (bậc 1)</td>
-            <td>Gradient + Hessian (bậc 2)</td>
+            <td>Chỉ gradient (đạo hàm bậc nhất)</td>
+            <td>Gradient và Hessian (đạo hàm bậc hai)</td>
         </tr>
         <tr>
             <td><strong>Tốc độ hội tụ</strong></td>
             <td>Tuyến tính</td>
-            <td>Bậc hai (gần optimum)</td>
+            <td>Bậc hai (trong lân cận điểm tối ưu)</td>
         </tr>
         <tr>
-            <td><strong>Xử lý ill-conditioning</strong></td>
-            <td>Kém (zig-zag)</td>
-            <td>Tốt (đi thẳng)</td>
+            <td><strong>Xử lý bài toán có số điều kiện xấu</strong></td>
+            <td>Kém (dễ dao động zíc-zắc)</td>
+            <td>Tốt (hướng trực tiếp về cực tiểu)</td>
         </tr>
         <tr>
             <td><strong>Chi phí tính toán</strong></td>
@@ -283,40 +292,42 @@ Khi Hessian là bội số của ma trận đơn vị: $$\nabla^2 f = cI$$ (vớ
     </tbody>
 </table>
 
-## 5. Ví Dụ Cụ Thể
+## 5. Ví dụ cụ thể
 
-Xét hàm $$f(x,y) = x^2 + 10y^2$$ với đường đồng mức là các ellipse dẹt.
+Xét hàm $$f(x,y) = x^2 + 10y^2$$ có các đường đồng mức là các elip dẹt.
 
-**Tại điểm (1,1):**
-- **Gradient**: $$\nabla f = (2, 20)$$ - vuông góc với ellipse
-- **Hessian**: $$H = \begin{pmatrix} 2 & 0 \\ 0 & 20 \end{pmatrix}$$
-- **Newton direction**: $$\mathbf{d} = -H^{-1}\nabla f = -\begin{pmatrix} 1/2 & 0 \\ 0 & 1/20 \end{pmatrix} \begin{pmatrix} 2 \\ 20 \end{pmatrix} = (-1, -1)$$
+**Tại điểm (1, 1):**
+- **Gradient**: $$
+abla f = (2, 20)$$ — vuông góc với đường elip.
+- **Hessian**: $$H = egin{pmatrix} 2 & 0 \ 0 & 20 \end{pmatrix}$$
+- **Hướng Newton**: $$\mathbf{d} = -H^{-1}
+abla f = -egin{pmatrix} 1/2 & 0 \ 0 & 1/20 \end{pmatrix} egin{pmatrix} 2 \ 20 \end{pmatrix} = (-1, -1)$$
 
 <div class="key-insight">
-<strong>Quan sát:</strong> Gradient descent đi theo hướng (-2, -20) (vuông góc), trong khi Newton đi theo (-1, -1) (cắt chéo qua ellipse).
+<strong>Quan sát:</strong> Gradient descent đi theo hướng (-2, -20) (vuông góc với đường đồng mức), trong khi phương pháp Newton đi theo hướng (-1, -1) (cắt chéo qua các đường elip hướng thẳng về gốc tọa độ).
 </div>
 
-## 6. Tại Sao Điều Này Quan Trọng?
+## 6. Ý nghĩa thực tiễn
 
-### Ưu điểm của Newton
-1. **Xử lý ill-conditioning tốt**: Khi hàm có độ cong khác nhau theo các hướng khác nhau
-2. **Hội tụ nhanh hơn**: Đặc biệt gần điểm tối ưu
-3. **Bất biến affine**: Không phụ thuộc vào hệ tọa độ
+### Ưu điểm của phương pháp Newton
+1. **Xử lý tốt bài toán có số điều kiện xấu**: Hiệu quả khi hàm có độ cong chênh lệch lớn giữa các hướng.
+2. **Hội tụ nhanh**: Đạt tốc độ bậc hai khi gần điểm tối ưu.
+3. **Bất biến affine**: Quỹ đạo không phụ thuộc vào phép biến đổi affine của hệ tọa độ.
 
 ### Nhược điểm
-1. **Chi phí tính toán cao**: Cần tính và nghịch đảo Hessian
-2. **Có thể không ổn định**: Nếu Hessian không positive definite
-3. **Không phù hợp với dữ liệu lớn**: Do độ phức tạp O(n³)
+1. **Chi phí tính toán cao**: Cần tính ma trận Hessian và giải hệ tuyến tính cỡ $$n 	imes n$$.
+2. **Nhạy cảm với tính xác định dương**: Có thể không ổn định nếu Hessian không xác định dương.
+3. **Khó mở rộng với số chiều rất lớn**: Chi phí $$O(n^3)$$ mỗi bước trở nên tốn kém khi $$n$$ lớn.
 
-## 7. Ứng Dụng Trong Machine Learning
+## 7. Ứng dụng trong học máy
 
-Trong thực tế, các biến thể của Newton được sử dụng:
-- **L-BFGS**: Xấp xỉ Hessian, tránh tính toán đầy đủ
-- **Gauss-Newton**: Cho bài toán least squares
-- **Levenberg-Marquardt**: Kết hợp ưu điểm của GD và Newton
+Trong thực tế, người ta thường dùng các biến thể của phương pháp Newton:
+- **L-BFGS**: Xấp xỉ nghịch đảo Hessian với bộ nhớ giới hạn, tránh tính toán toàn bộ Hessian.
+- **Gauss-Newton**: Dành cho các bài toán bình phương tối thiểu phi tuyến.
+- **Levenberg-Marquardt**: Kết hợp ưu điểm của gradient descent và phương pháp Newton thông qua tham số điều chuẩn.
 
 <div class="math-explanation">
-<strong>Kết luận:</strong> Newton's method không di chuyển vuông góc với đường đồng mức vì nó tối ưu hóa trong không gian được "biến đổi" bởi Hessian. Điều này cho phép nó hội tụ nhanh hơn nhưng với chi phí tính toán cao hơn.
+<strong>Kết luận:</strong> Phương pháp Newton không di chuyển vuông góc với đường đồng mức vì nó tối ưu hóa trong không gian đã được biến đổi theo độ cong của Hessian. Nhờ đó, thuật toán hội tụ nhanh hơn đáng kể dù chi phí tính toán mỗi bước cao hơn.
 </div>
 
 <script>

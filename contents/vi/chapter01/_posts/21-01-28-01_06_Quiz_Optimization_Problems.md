@@ -12,100 +12,100 @@ redirect_from:
   - /contents/vi/chapter01/01_05_Quiz_Optimization_Problems/
 ---
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các khái niệm cơ bản trong bài toán tối ưu hóa và tối ưu hóa lồi.
+Bài tập trắc nghiệm này giúp bạn kiểm tra mức độ nắm vững các khái niệm cơ bản về bài toán tối ưu hóa và tối ưu hóa lồi.
 
 ---
 
 ## 📚 Ôn tập lý thuyết
 
-Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
+Trước khi làm bài tập, hãy điểm lại các khái niệm chính trong chương này:
 
 ### 🎯 **Bài toán tối ưu hóa tổng quát**
 
 **Dạng chuẩn:**
-$$\begin{align*} 
-&\min_{x\in D}\ &&f(x) \\
-&\text{với điều kiện} && g_i(x) \le 0,\ i = 1, ..., m \\
+$$egin{align*} 
+&\min_{x\in D}\ &&f(x) \
+&	ext{với điều kiện} && g_i(x) \le 0,\ i = 1, ..., m \
 &&& h_j(x) = 0,\ j = 1,\ ..., r
 \end{align*}$$
 
 **Các thành phần:**
-- $$x \in \mathbb{R}^n$$: biến tối ưu hóa (biến quyết định)
-- $$f(x)$$: hàm mục tiêu (objective function) hoặc hàm chi phí
-- $$g_i(x) \le 0$$: ràng buộc bất đẳng thức (inequality constraints)
-- $$h_j(x) = 0$$: ràng buộc đẳng thức (equality constraints)
-- $$x^*$$: nghiệm tối ưu (optimal solution)
+- $$x \in \mathbb{R}^n$$: biến tối ưu hóa (biến quyết định).
+- $$f(x)$$: hàm mục tiêu (objective function) hoặc hàm chi phí.
+- $$g_i(x) \le 0$$: ràng buộc bất đẳng thức (inequality constraints).
+- $$h_j(x) = 0$$: ràng buộc đẳng thức (equality constraints).
+- $$x^*$$: nghiệm tối ưu (optimal solution).
 
-**Miền khả thi:**
-$$D = \text{dom}(f) \cap \bigcap_{i=1}^m \text{dom}(g_i) \cap \bigcap_{j=1}^r \text{dom}(h_j)$$
+**Miền xác định chung:**
+$$D = 	ext{dom}(f) \cap igcap_{i=1}^m 	ext{dom}(g_i) \cap igcap_{j=1}^r 	ext{dom}(h_j)$$
 
 ### 🔵 **Tập lồi (Convex Sets)**
 
 <div class="textbook-definition" markdown="1">
 **Định nghĩa:**
-Tập $$C$$ là lồi nếu với mọi $$x_1, x_2 \in C$$ và $$0 \le \theta \le 1$$:
-$$\theta x_1 + (1-\theta)x_2 \in C$$
+Tập $$C$$ là tập lồi nếu với mọi $$x_1, x_2 \in C$$ và $$0 \le 	heta \le 1$$:
+$$	heta x_1 + (1-	heta)x_2 \in C$$
 </div>
 
-**Đoạn thẳng:** $$x = \theta x_1 + (1 - \theta) x_2$$ với $$0 \le \theta \le 1$$
+**Đoạn thẳng:** $$x = 	heta x_1 + (1 - 	heta) x_2$$ với $$0 \le 	heta \le 1$$
 
 **Tổ hợp lồi:** 
-$$x = \sum_{i=1}^k \theta_i x_i$$ với $$\sum_{i=1}^k \theta_i = 1, \theta_i \ge 0$$
+$$x = \sum_{i=1}^k 	heta_i x_i$$ với $$\sum_{i=1}^k 	heta_i = 1, 	heta_i \ge 0$$
 
 ### 📈 **Hàm lồi (Convex Functions)**
 
 <div class="textbook-definition" markdown="1">
 **Định nghĩa:**
-Hàm $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ là lồi nếu:
-1. $$\text{dom}(f)$$ là tập lồi
-2. $$f(\theta x + (1 - \theta)y) \le \theta f(x) + (1-\theta)f(y)$$
-   với mọi $$x, y \in \text{dom}(f), 0 \le \theta \le 1$$
+Hàm $$f: \mathbb{R}^n ightarrow \mathbb{R}$$ là hàm lồi nếu:
+1. $$	ext{dom}(f)$$ là tập lồi.
+2. $$f(	heta x + (1 - 	heta)y) \le 	heta f(x) + (1-	heta)f(y)$$
+   với mọi $$x, y \in 	ext{dom}(f), 0 \le 	heta \le 1$$.
 </div>
 
-**Epigraph:**
-$$\text{epi } f = \{(x, t) \in \mathbb{R}^{n+1} \mid x \in \text{dom } f, f(x) \le t\}$$
+**Biểu đồ trên (Epigraph):**
+$$	ext{epi } f = \{(x, t) \in \mathbb{R}^{n+1} \mid x \in 	ext{dom } f, f(x) \le t\}$$
 
-**Tính chất quan trọng:** $$f$$ lồi ⟺ $$\text{epi } f$$ là tập lồi
+**Tính chất quan trọng:** $$f$$ lồi ⟺ $$	ext{epi } f$$ là tập lồi.
 
 ### 🏆 **Bài toán tối ưu hóa lồi**
 
 <div class="textbook-definition" markdown="1">
 **Định nghĩa:**
-Bài toán tối ưu hóa là lồi khi:
-- Hàm mục tiêu $$f$$ là lồi
-- Các hàm ràng buộc bất đẳng thức $$g_i$$ là lồi
-- Các hàm ràng buộc đẳng thức $$h_j$$ là affine: $$h_j(x) = a_j^T x + b_j$$
+Bài toán tối ưu hóa là bài toán lồi khi:
+- Hàm mục tiêu $$f$$ là hàm lồi.
+- Các hàm ràng buộc bất đẳng thức $$g_i$$ là hàm lồi.
+- Các hàm ràng buộc đẳng thức $$h_j$$ là hàm affine: $$h_j(x) = a_j^T x + b_j$$.
 </div>
 
-**Tính chất vàng:** 
-> Mọi cực tiểu địa phương của bài toán tối ưu hóa lồi đều là cực tiểu toàn cục
+**Tính chất cốt lõi:** 
+> Mọi cực tiểu địa phương của bài toán tối ưu hóa lồi đều là cực tiểu toàn cục.
 
-**Hàm affine:** $$f(x) = Ax + b$$ (tuyến tính + hằng số)
+**Hàm affine:** $$f(x) = Ax + b$$ (hàm tuyến tính cộng với một hằng số).
 
-### 🔄 **Hàm lõm vs Hàm lồi**
+### 🔄 **Hàm lõm và hàm lồi**
 
 **Hàm lõm:** $$f$$ lõm ⟺ $$-f$$ lồi
-$$f(\theta x + (1 - \theta)y) \ge \theta f(x) + (1-\theta)f(y)$$
+$$f(	heta x + (1 - 	heta)y) \ge 	heta f(x) + (1-	heta)f(y)$$
 
-**Chuyển đổi:** Tối đa hóa hàm lõm $$f$$ = Tối thiểu hóa hàm lồi $$-f$$
+**Chuyển đổi:** Cực đại hóa hàm lõm $$f$$ tương đương cực tiểu hóa hàm lồi $$-f$$.
 
 ### 🎯 **Mục tiêu khóa học**
 
-1. **Nhận biết:** Khi nào bài toán là tối ưu hóa lồi?
-2. **Xây dựng:** Chuyển tình huống thực tế thành bài toán tối ưu hóa lồi
-3. **Lựa chọn:** Thuật toán phù hợp nhất cho từng bài toán cụ thể
+1. **Nhận biết:** xác định khi nào một bài toán là tối ưu hóa lồi.
+2. **Mô hình hóa:** chuyển bài toán thực tế thành bài toán tối ưu hóa lồi.
+3. **Lựa chọn:** chọn thuật toán phù hợp nhất cho từng lớp bài toán.
 
 ### 🛠️ **Các thuật toán chính**
 
-- **Gradient Descent:** Phương pháp bậc nhất
-- **Newton Method:** Phương pháp bậc hai
-- **Proximal Gradient:** Cho hàm không khả vi
-- **ADMM:** Cho bài toán có cấu trúc đặc biệt
-- **Coordinate Descent:** Tối ưu từng biến một
+- **Gradient Descent:** phương pháp bậc nhất.
+- **Phương pháp Newton:** phương pháp bậc hai.
+- **Proximal Gradient:** dành cho hàm mục tiêu có phần không khả vi.
+- **ADMM:** phù hợp với bài toán có cấu trúc tách được.
+- **Coordinate Descent:** tối ưu hóa luân phiên theo từng tọa độ/khối biến.
 
 ---
 
-💡 **Mẹo:** Tối ưu hóa lồi có tính chất tuyệt vời - không có cực tiểu địa phương "giả", mọi nghiệm địa phương đều là toàn cục!
+💡 **Gợi ý:** Tối ưu hóa lồi có một tính chất rất thuận lợi: không có cực tiểu địa phương tách biệt với cực tiểu toàn cục — mọi cực tiểu địa phương đều là cực tiểu toàn cục.
 
 ---
 

@@ -11,21 +11,21 @@ lang: vi
 
 # Phương pháp gradient gần kề và tăng tốc
 
-Chương này giới thiệu phương pháp gradient gần kề và các kỹ thuật tăng tốc cho các bài toán tối ưu liên quan đến các hàm tổng hợp.
+Chương này giới thiệu phương pháp gradient gần kề (proximal gradient descent) cùng các kỹ thuật tăng tốc cho các bài toán tối ưu có hàm mục tiêu dạng tổng hợp.
 
 ## Tổng quan
-- Phương pháp gradient gần kề được sử dụng cho các bài toán trong đó hàm mục tiêu có thể được tách thành một phần khả vi và một phần không khả vi.
-- Các phương pháp tăng tốc, chẳng hạn như tăng tốc của Nesterov và FISTA, có thể cải thiện tốc độ hội tụ.
+- Phương pháp gradient gần kề được dùng cho các bài toán mà hàm mục tiêu có thể tách thành một phần khả vi và một phần không khả vi.
+- Các kỹ thuật tăng tốc như tăng tốc Nesterov và FISTA giúp cải thiện đáng kể tốc độ hội tụ.
 
-## Cấu trúc
+## Cấu trúc chương
 - Phần 1: Phương pháp gradient gần kề
 - Phần 2: Phân tích hội tụ
-- Phần 3: Ví dụ hoàn thiện ma trận
+- Phần 3: Ví dụ về hoàn thiện ma trận
 - Phần 4: Các trường hợp đặc biệt
-- Phần 5: Các phương pháp tăng tốc — bắt đầu từ bức tranh kiểu Distill ở [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}), rồi đại số FISTA ở 09-05-01; họ hàng ngẫu nhiên / $$\beta$$ hằng là [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %})
+- Phần 5: Các phương pháp tăng tốc — bắt đầu từ góc nhìn trực quan kiểu Distill ở [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}), tiếp theo là phần trình bày giải tích về FISTA ở 09-05-01; biến thể ngẫu nhiên với hệ số $$\beta$$ cố định được trình bày tại [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}).
 
-Tham khảo từng phần để biết chi tiết và các công thức toán học.
+Tham khảo từng bài học dưới đây để xem chi tiết thuật toán và phân tích toán học.
 
 ## Ứng dụng hiện đại (2022–2026)
 
-Một bài tùy chọn đi kèm theo cùng khuôn proximal-gradient / FISTA sang tạo ảnh PnP, unrolling FISTA-Net / pFISTA-DR, và đường elastic net sản xuất. Xem [09-06 Ứng dụng hiện đại của proximal GD và tăng tốc]({% multilang_post_url contents/chapter09/2026-09-16-09_06_modern_applications %}).
+Bài đọc tùy chọn đi kèm nối tiếp khuôn mẫu proximal gradient / FISTA sang các ứng dụng như tái tạo ảnh plug-and-play (PnP), trải phẳng thuật toán (unrolling) trong FISTA-Net / pFISTA-DR, và đường chính quy hóa elastic net trong thực tế. Xem [09-06 Ứng dụng hiện đại của proximal GD và tăng tốc]({% multilang_post_url contents/chapter09/2026-09-16-09_06_modern_applications %}).

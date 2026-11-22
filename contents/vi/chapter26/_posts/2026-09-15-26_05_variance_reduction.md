@@ -11,38 +11,38 @@ lesson_type: required
 ---
 
 
-Trần $$O(1/\sqrt{T})$$ của SGD trên tổng hữu hạn Lipschitz lồi không phải định mệnh lý thuyết thông tin. Đó là cái giá của một gradient *không chệch nhưng nhiễu* mà phương sai vẫn cỡ một ngay cả khi $$w$$ ngồi tại cực tiểu. Các phương pháp **giảm phương sai** tái sử dụng gradient cũ để ước lượng đúng tại một ảnh chụp (hoặc trong một bảng), và nhiễu tắt khi $$w$$ tiến tới cực tiểu. Bài này là lõi Opt-for-ML — SVRG và SAGA — ở độ sâu IUH: đủ đại số để thấy *vì sao* phương sai tắt, đủ thuật toán để cài, và một ranh giới rõ “đừng huấn luyện ResNet kiểu này”.
+Giới hạn $$O(1/\sqrt{T})$$ của SGD trên bài toán tổng hữu hạn lồi Lipschitz không phải là giới hạn bất khả kháng của lớp bài toán này. Đó là hệ quả của việc sử dụng gradient *không chệch nhưng vẫn còn nhiễu* với phương sai không triệt tiêu ngay cả khi $$w$$ đã tới sát điểm cực tiểu. Các phương pháp **giảm phương sai (variance reduction)** tái sử dụng các gradient đã tính trước đó (tại một điểm mốc hoặc trong một bảng lưu trữ) để làm cho nhiễu ước lượng tiến về 0 khi $$w \to w^\star$$. Bài này trình bày hai thuật toán nền tảng là SVRG và SAGA: đủ chi tiết đại số để hiểu *vì sao* phương sai triệt tiêu, đủ rõ ràng để tự cài đặt, và xác định ranh giới thực tế về phạm vi áp dụng của chúng.
 
-Bạn đã gặp đường nhiễu ở [26-01]({% multilang_post_url contents/chapter26/2026-09-15-26_01_sgd_and_minibatch %}) và hoạt họa batch-đối-ngẫu nhiên ở [08-02-04]({% multilang_post_url contents/chapter08/20-03-29-08_02_04_batch_vs_stochastic_methods %}). Mở lại [stochastic_gradient_demo.html](https://nglelinh.github.io/interactive_math/optimization/stochastic_gradient_demo.html) và xem đường vẫn rung *sau khi* đã vào chén: phần rung sót đó là bệnh trang này chữa.
+Bạn có thể xem lại [26-01]({% multilang_post_url contents/chapter26/2026-09-15-26_01_sgd_and_minibatch %}), phần so sánh toàn lô và ngẫu nhiên ở [08-02-04]({% multilang_post_url contents/chapter08/20-03-29-08_02_04_batch_vs_stochastic_methods %}) và mô phỏng [stochastic_gradient_demo.html](https://nglelinh.github.io/interactive_math/optimization/stochastic_gradient_demo.html) để quan sát quỹ đạo SGD vẫn dao động xung quanh đáy sau khi đã tiến vào vùng lân cận nghiệm: phần dao động dư này chính là vấn đề mà giảm phương sai giải quyết.
 
-## Bài toán tổng hữu hạn, và vì sao SGD không tuyến tính được
+## Bài toán tổng hữu hạn và giới hạn của SGD
 
-Rủi ro thực nghiệm là một trung bình,
+Hàm rủi ro thực nghiệm là trung bình trên $$n$$ hàm thành phần:
 
 $$
 F(w)=\frac{1}{n}\sum_{i=1}^n f_i(w),\qquad
 \nabla F(w)=\frac{1}{n}\sum_{i=1}^n \nabla f_i(w).
 $$
 
-Một bước SGD một mẫu dùng $$g_k=\nabla f_{I_k}(w_k)$$. Nếu $$I_k$$ đều và độc lập với $$w_k$$ thì $$\mathbb{E}[g_k\mid w_k]=\nabla F(w_k)$$ — không chệch — nhưng
+Một bước SGD đơn mẫu sử dụng $$g_k=\nabla f_{I_k}(w_k)$$. Nếu $$I_k$$ rút đều và độc lập với $$w_k$$ thì $$\mathbb{E}[g_k\mid w_k]=\nabla F(w_k)$$, nhưng phương sai:
 
 $$
 \mathbb{E}\bigl[\|g_k-\nabla F(w_k)\|_2^2\mid w_k\bigr]
 $$
 
-không nhất thiết về không khi $$w_k\to w^\star$$. Ngay tại cực tiểu, $$\nabla f_i(w^\star)$$ vẫn có thể là vector lớn chỉ *trung bình* về không (nghĩ mô hình tuyến tính đặc tả đúng mà phần dư vẫn có phương sai). SGD phương sai bị chặn trên mục tiêu Lipschitz lồi vì thế kẹt ở $$O(1/\sqrt{T})$$ theo giá trị hàm. Lồi mạnh không cứu bạn nếu sàn nhiễu là hằng: các vòng lặp nảy trong quả cầu bán kính tỉ lệ $$\eta\sigma$$.
+không nhất thiết tiến về 0 khi $$w_k\to w^\star$$. Ngay tại điểm tối ưu toàn cục $$w^\star$$, từng gradient thành phần $$\nabla f_i(w^\star)$$ vẫn có thể khác 0 và chỉ có *trung bình* của chúng bằng 0 (ví dụ trong hồi quy tuyến tính có nhiễu quan sát). Vì sàn nhiễu khác 0, SGD với bước hằng chỉ dao động trong một hình cầu bán kính tỉ lệ với $$\eta\sigma$$ quanh $$w^\star$$, còn muốn hội tụ chính xác phải giảm tốc độ học nên tốc độ dừng ở $$O(1/\sqrt{T})$$ (hoặc $$O(1/T)$$ khi lồi mạnh).
 
-Gradient descent cả lô *có* tuyến tính dưới lồi mạnh (Chương 06), nhưng mỗi bước tốn $$n$$ gradient. Giảm phương sai đòi tốc độ tuyến tính với chi phí gần một gradient mỗi bước.
+Gradient descent toàn lô đạt hội tụ tuyến tính dưới tính lồi mạnh (Chương 06), nhưng mỗi bước tốn $$n$$ lượt tính gradient. Giảm phương sai hướng tới mục tiêu đạt tốc độ hội tụ tuyến tính với chi phí phân bổ chỉ cỡ một vài gradient mỗi bước.
 
-## Ý tưởng biến kiểm soát
+## Ý tưởng biến kiểm soát (control variate)
 
-Chọn một ảnh chụp $$\tilde w$$ bất kỳ mà bạn sẵn sàng tính *một lần* gradient đầy đủ $$\mu=\nabla F(\tilde w)$$. Với chỉ số ngẫu nhiên $$I$$, vector
+Chọn một điểm mốc (snapshot) $$\tilde w$$ tại đó ta chấp nhận tính *một lần* gradient đầy đủ $$\mu=\nabla F(\tilde w)$$. Với chỉ số ngẫu nhiên $$I$$, xét ước lượng:
 
 $$
-g(w)=\nabla f_I(w)-\nabla f_I(\tilde w)+\mu
+g(w)=\nabla f_I(w)-\nabla f_I(\tilde w)+\mu.
 $$
 
-vẫn không chệch cho $$\nabla F(w)$$:
+Ước lượng này vẫn không chệch đối với $$\nabla F(w)$$:
 
 $$
 \mathbb{E}[g(w)]
@@ -50,54 +50,54 @@ $$
 =\nabla F(w).
 $$
 
-Khi $$w=\tilde w$$ ta có $$g(\tilde w)=\mu=\nabla F(\tilde w)$$ *chính xác* — nhiễu bằng không tại ảnh chụp. Khi $$w$$ gần $$\tilde w$$ và mỗi $$\nabla f_i$$ Lipschitz, $$\nabla f_I(w)-\nabla f_I(\tilde w)$$ nhỏ, nên phương sai của $$g$$ nhỏ. Đó là **biến kiểm soát** (control variate): ta trừ một bản sao tương quan của nhiễu rồi cộng lại kỳ vọng của nó.
+Khi $$w=\tilde w$$, ta có $$g(\tilde w)=\mu=\nabla F(\tilde w)$$ *chính xác*, nghĩa là phương sai bằng 0 tại điểm mốc. Khi $$w$$ gần $$\tilde w$$ và mỗi $$\nabla f_i$$ liên tục Lipschitz, hiệu $$\nabla f_I(w)-\nabla f_I(\tilde w)$$ nhỏ, kéo theo phương sai của $$g(w)$$ nhỏ. Đây chính là kỹ thuật **biến kiểm soát**: trừ đi một thành phần nhiễu có tương quan cao rồi cộng bù lại đúng kỳ vọng của nó.
 
 ## SVRG (Johnson & Zhang, 2013)
 
-SVRG làm mới ảnh chụp trên vòng ngoài và đi với biến kiểm soát trên vòng trong.
+SVRG định kỳ cập nhật điểm mốc ở vòng lặp ngoài và sử dụng ước lượng biến kiểm soát ở vòng lặp trong.
 
-**Vòng ngoài** $$s=0,1,\ldots,S-1$$
+**Vòng ngoài** $$s=0,1,\ldots,S-1$$:
 
-1. Đặt ảnh chụp $$\tilde w\leftarrow w$$ và tính $$\mu\leftarrow\nabla F(\tilde w)$$ (một lượt đầy đủ, $$n$$ gradient).
-2. **Vòng trong** $$t=0,1,\ldots,m-1$$: rút $$I$$ đều, đặt
+1. Lưu điểm mốc $$\tilde w\leftarrow w$$ và tính gradient đầy đủ $$\mu\leftarrow\nabla F(\tilde w)$$ (tốn $$n$$ gradient thành phần).
+2. **Vòng trong** $$t=0,1,\ldots,m-1$$: rút đều chỉ số $$I$$ và cập nhật:
    $$
    g\leftarrow\nabla f_I(w)-\nabla f_I(\tilde w)+\mu,\qquad
    w\leftarrow w-\eta g.
    $$
-3. Có thể trung bình đường trong, hoặc giữ $$w$$ cuối, rồi trở lại bước 1.
+3. Chọn điểm khởi đầu cho vòng ngoài tiếp theo (bằng trung bình các điểm lặp trong hoặc giữ nguyên $$w$$ cuối cùng), rồi quay lại bước 1.
 
-Chọn chuẩn là $$m=\Theta(n)$$ bước trong, nên chi phí *phân bổ* là một hằng nhỏ nhân một gradient mỗi bước: một gradient đầy đủ mỗi $$m$$ bước, cộng hai gradient ngẫu nhiên mỗi bước trong. Bộ nhớ ngoài vector tham số là một ảnh chụp $$\tilde w$$ và một vector $$\mu$$ — $$O(d)$$, không phụ thuộc $$n$$.
+Với lựa chọn phổ biến $$m=\Theta(n)$$, chi phí *phân bổ* cho mỗi bước trong chỉ tương đương một hằng số nhỏ (khoảng 3 lượt tính gradient thành phần: 1 lượt phân bổ từ gradient đầy đủ và 2 lượt trong vòng trong). Bộ nhớ phụ chỉ gồm một điểm mốc $$\tilde w$$ và một vector $$\mu$$, tức $$O(d)$$, không phụ thuộc số mẫu $$n$$.
 
 <div class="textbook-theorem" markdown="1">
-**Định lý (phác, tổng hữu hạn lồi mạnh).** Nếu mỗi $$f_i$$ trơn-$$L$$ và $$F$$ lồi mạnh-$$\mu$$, một $$\eta$$ hằng đủ nhỏ và $$m\gtrsim L/\mu$$ cho
+<strong>Định lý (phác thảo cho tổng hữu hạn lồi mạnh).</strong> Nếu mỗi $$f_i$$ trơn-$$L$$ và $$F$$ lồi mạnh-$$\mu$$, thì với bước hằng $$\eta$$ đủ nhỏ và độ dài vòng trong $$m\gtrsim L/\mu$$, thuật toán thỏa mãn:
 
 $$
 \mathbb{E}\bigl[F(\tilde w_{s+1})-F^\star\bigr]
 \le \rho\,\mathbb{E}\bigl[F(\tilde w_s)-F^\star\bigr]
 $$
 
-với $$\rho<1$$ không phụ thuộc chân trời. Số gradient gia lượng để đạt độ chính xác $$\varepsilon$$ là $$O\bigl((n+\kappa)\log(1/\varepsilon)\bigr)$$, $$\kappa=L/\mu$$. SGD thuần không viết được một $$\log(1/\varepsilon)$$ kiểu này khi sàn nhiễu là hằng.
+với hằng số $$\rho<1$$. Tổng số lượt tính gradient thành phần để đạt sai số $$\varepsilon$$ là $$O\bigl((n+\kappa)\log(1/\varepsilon)\bigr)$$, trong đó $$\kappa=L/\mu$$. SGD thuần túy không đạt được tốc độ $$\log(1/\varepsilon)$$ này khi sàn nhiễu dương.
 </div>
 
-Chứng minh là lập luận Lyapunov: nhiễu vòng trong được khống chế bởi $$\|w-\tilde w\|$$, bản thân đại lượng đó co khi ảnh chụp tốt hơn. Bạn không bị đòi tái tạo các hằng số; bạn bị đòi chỉ vào dòng $$g=\nabla f_I(w)-\nabla f_I(\tilde w)+\mu$$ và nói vì sao phương sai tắt.
+Ý tưởng chứng minh dựa trên hàm Lyapunov: phương sai ở vòng trong bị chặn bởi khoảng cách $$\|w-\tilde w\|$$, và khoảng cách này co dần khi điểm mốc $$\tilde w$$ tiến gần $$w^\star$$. Điều quan trọng nhất cần nắm vững là cơ chế tại công thức $$g=\nabla f_I(w)-\nabla f_I(\tilde w)+\mu$$ giải thích vì sao phương sai giảm về 0.
 
 ## SAGA (Defazio, Bach, Lacoste-Julien, 2014)
 
-SAGA bỏ vòng ngoài bằng cách lưu một **bảng** $$g^{(1)},\ldots,g^{(n)}$$ gradient gần nhất của mỗi $$f_i$$. Khởi tạo $$g^{(i)}\leftarrow\nabla f_i(w_0)$$ (hoặc không, với một đoạn đốt ngắn) và giữ trung bình chạy $$\bar g=\frac1n\sum_i g^{(i)}$$.
+SAGA loại bỏ bước tính gradient đầy đủ định kỳ bằng cách duy trì một **bảng** $$g^{(1)},\ldots,g^{(n)}$$ lưu gradient gần nhất của từng hàm thành phần $$f_i$$. Khởi tạo $$g^{(i)}\leftarrow\nabla f_i(w_0)$$ (hoặc khởi tạo bằng 0 kèm giai đoạn làm nóng ngắn) và lưu sẵn trung bình cộng $$\bar g=\frac1n\sum_i g^{(i)}$$.
 
-Mỗi bước: rút $$I$$, tính gradient mới $$\nabla f_I(w)$$, đặt
+Ở mỗi bước: rút chỉ số $$I$$, tính gradient mới $$\nabla f_I(w)$$, tạo ước lượng:
 
 $$
 g\leftarrow \nabla f_I(w)-g^{(I)}+\bar g,
 $$
 
-rồi ghi $$g^{(I)}\leftarrow\nabla f_I(w)$$, cập nhật $$\bar g$$ trong $$O(d)$$ bằng thay đổi hạng một, và bước $$w\leftarrow w-\eta g$$.
+cập nhật bảng $$g^{(I)}\leftarrow\nabla f_I(w)$$, cập nhật trung bình $$\bar g$$ trong $$O(d)$$ bằng phép cộng trừ một phần tử, rồi cập nhật tham số $$w\leftarrow w-\eta g$$.
 
-Cùng đại số biến kiểm soát, nay với ảnh chụp *từng mẫu, cũ* thay vì một $$\tilde w$$ chung. Không có lượt đầy đủ định kỳ. Cái giá là bộ nhớ: $$n$$ vector gradient, $$O(nd)$$, hoặc $$O(n)$$ vô hướng với mô hình tuyến tính nơi $$\nabla f_i(w)=(x_i^\top w-y_i)x_i$$ và chỉ cần lưu phần dư. Đó là vì sao `sklearn.linear_model.LogisticRegression(solver="saga")` là mặc định sản xuất trên ERM lồi vừa, và vì sao SAGA vô vọng như bộ tối ưu *mạng sâu* — bạn sẽ không lưu bảng gradient cho ImageNet.
+Về bản chất, đây là cùng công thức biến kiểm soát nhưng dùng các điểm mốc *cũ riêng cho từng mẫu* thay vì một điểm mốc chung $$\tilde w$$. Đổi lại cho việc bỏ vòng tính gradient đầy đủ là chi phí bộ nhớ $$O(nd)$$ cho $$n$$ vector gradient — hoặc rút xuống $$O(n)$$ số vô hướng với các mô hình tuyến tính (do $$\nabla f_i(w)=(x_i^\top w-y_i)x_i$$ chỉ cần lưu phần dư vô hướng). Chính vì vậy `sklearn.linear_model.LogisticRegression(solver="saga")` rất hiệu quả trên bài toán ERM lồi cỡ vừa, nhưng SAGA không khả thi cho *mạng nơ-ron sâu* quy mô lớn như ImageNet do không thể lưu bảng gradient cho mọi mẫu.
 
-**SAG** (Schmidt, Le Roux, Bach) là anh em cũ bị chệch: nó dùng trung bình bảng *không* có hiệu chỉnh $$+\nabla f_I(w)-g^{(I)}$$. Hiệu chỉnh thêm của SAGA khôi phục không chệch và làm gọn chứng minh; ưu tiên SAGA trừ khi bạn đang đọc bài SAG 2013.
+**SAG** (Schmidt, Le Roux, Bach) là phiên bản tiền nhiệm có chệch: thuật toán dùng trực tiếp trung bình bảng đã cập nhật (tức chỉ nhân phần hiệu chỉnh $$\nabla f_I(w)-g^{(I)}$$ với hệ số $$1/n$$ thay vì hệ số $$1$$). Việc dùng hệ số $$1$$ trong SAGA khôi phục tính không chệch và giúp phân tích lý thuyết gọn gàng hơn.
 
-## Một vòng SVRG nhỏ
+## Minh họa cài đặt SVRG
 
 ```python
 import numpy as np
@@ -122,23 +122,23 @@ def svrg_logistic(X, y, lam=1e-3, eta=0.1, inner=None, epochs=20):
     return w
 ```
 
-So thời gian tường — không phải epoch — với SGD minibatch của 26-01 trên ridge-logistic lồi mạnh $$n=5000$$, đích $$\|\nabla F(w)\|_2\le 10^{-4}$$. Rồi tiêu cùng ngân sách trên mạng một tầng ẩn: chi phí ảnh chụp vẫn là $$n$$ lượt ngược, giấc mơ bảng gradient của SAGA trở nên bất khả, và AdamW từ 26-04 sẽ trông như lựa chọn trưởng thành.
+Hãy so sánh thời gian thực thi (không chỉ số epoch) giữa đoạn mã trên và SGD minibatch ở mục 26-01 trên bài toán hồi quy logistic có chính quy hóa $$\ell_2$$ (lồi mạnh) với $$n=5000$$ để đạt $$\|\nabla F(w)\|_2\le 10^{-4}$$. Sau đó thử cùng bài toán trên mạng nơ-ron có một lớp ẩn: chi phí tính điểm mốc đầy đủ đòi hỏi $$n$$ lượt lan truyền ngược, bảng gradient của SAGA vượt quá bộ nhớ, và AdamW ở mục 26-04 trở nên thực tế hơn nhiều.
 
-## Dùng gì khi nào
+## Bảng so sánh phạm vi sử dụng
 
-| Phương pháp | Bộ nhớ thêm | Chi phí mỗi bước (phân bổ) | Nhà thường trú | Tốc độ tuyến tính trên SC finite-sum? |
-|-------------|-------------|----------------------------|----------------|----------------------------------------|
-| SGD / mini-batch | không | $$1$$ (hoặc $$B$$) gradient | học sâu | không (sàn nhiễu) |
-| SVRG | một snapshot + $$\mu$$ | $$\approx 3$$ gradient | tổng hữu hạn lồi, mã nghiên cứu | có |
-| SAGA | một gradient mỗi mẫu | $$1$$ gradient | ERM lồi vừa (`solver="saga"`) | có |
-| AdamW | hai EMA | $$1$$ minibatch | DL mặc định | không phải điểm |
+| Phương pháp | Bộ nhớ phụ | Chi phí phân bổ mỗi bước | Phạm vi phù hợp | Hội tụ tuyến tính trên tổng hữu hạn lồi mạnh? |
+|-------------|------------|--------------------------|-----------------|-----------------------------------------------|
+| SGD / mini-batch | không | $$1$$ (hoặc $$B$$) gradient | học sâu | không (do sàn nhiễu) |
+| SVRG | một điểm mốc + $$\mu$$ | $$\approx 3$$ gradient | tổng hữu hạn lồi, nghiên cứu | có |
+| SAGA | một gradient mỗi mẫu | $$1$$ gradient | ERM lồi cỡ vừa (`solver="saga"`) | có |
+| AdamW | hai trung bình trượt mũ | $$1$$ minibatch | mặc định cho học sâu | không phải mục tiêu thiết kế |
 
-Học SVRG để đọc được ghi chú Opt-for-ML (MIT 6.7220, BU EC525) và để nhận ra khi một ERM *lồi* — hồi quy logistic, SVM tuyến tính, một bộ làm mượt Lasso — *không* nên huấn luyện bằng Adam theo thói quen. Mini-batch Adam vẫn thắng trên mạng sâu vì (i) lưu hoặc làm mới gradient đầy đủ thuộc lớp độ phức tạp sai, (ii) phong cảnh không lồi mạnh, và (iii) phần cứng muốn nhân lớn, đều, không phải một $$I$$ ngẫu nhiên trừ ảnh chụp.
+Nắm vững SVRG và SAGA giúp nhận diện rõ những bài toán ERM *lồi* (hồi quy logistic, SVM tuyến tính, các dạng Lasso làm trơn) mà ta không nên mặc định dùng Adam. Ngược lại, Adam theo minibatch vẫn vượt trội trên mạng nơ-ron sâu vì ba lý do: (i) chi phí tính hoặc lưu gradient đầy đủ quá lớn, (ii) hàm mất mát không lồi mạnh, và (iii) phần cứng GPU tối ưu cho phép nhân ma trận theo lô lớn thay vì cập nhật đơn mẫu trừ điểm mốc.
 
-Ý tưởng hàng xóm cuối, không kiểm tra: **SARAH** / **SPIDER** thay biến kiểm soát bằng ước lượng đệ quy có thể chặt hơn trên lý thuyết; **FedAvg** ở Chương 29 *không* phải giảm phương sai theo nghĩa này (nó trung bình mô hình, không phải biến kiểm soát), dù biến kiểm soát của SCAFFOLD là họ hàng liên bang của SVRG.
+Một số hướng liên quan (không kiểm tra): **SARAH** và **SPIDER** thay biến kiểm soát bằng ước lượng đệ quy giúp cải thiện cận lý thuyết; còn **FedAvg** ở Chương 29 *không* phải giảm phương sai (vì chỉ lấy trung bình trọng số), mặc dù biến kiểm soát trong thuật toán SCAFFOLD có thể xem là phiên bản học liên kết của SVRG.
 
-**Bài tập 1.** Chứng minh không chệch của ước lượng SVRG trong một dòng, rồi chỉ một toàn phương hai mẫu nơi phương sai SGD thuần tại $$w^\star$$ dương trong khi phương sai SVRG tại ảnh chụp bằng không.
+**Bài tập 1.** Chứng minh tính không chệch của ước lượng SVRG trong một dòng, sau đó xây dựng một hàm bậc hai gồm hai thành phần sao cho phương sai của SGD thuần tại $$w^\star$$ dương trong khi phương sai của SVRG tại điểm mốc $$\tilde w = w^\star$$ bằng 0.
 
-**Bài tập 2.** Trên ridge-logistic $$n=5000$$, vẽ chuẩn gradient huấn luyện theo *số gradient $$f_i$$* cho SGD, SVRG, và (nếu bộ nhớ cho phép) SAGA. Đánh dấu các lượt ảnh chụp SVRG. Rồi vẽ cùng các đường theo thời gian tường. Trục $$x$$ nào đổi người thắng?
+**Bài tập 2.** Trên bài toán hồi quy logistic chính quy hóa ridge với $$n=5000$$, vẽ chuẩn gradient theo *tổng số lượt tính gradient thành phần $$f_i$$* cho SGD, SVRG và SAGA (nếu đủ bộ nhớ), đánh dấu các thời điểm tính điểm mốc của SVRG. Tiếp theo, vẽ lại các đường này theo thời gian thực thi (wall-clock time) và quan sát xem thứ tự hiệu năng giữa các phương pháp có thay đổi hay không.
 
-**Câu hỏi.** Biến kiểm soát $$g$$ không chệch với mọi $$w$$, không chỉ tại $$\tilde w$$. Vậy thì vì sao ta vẫn phải làm mới ảnh chụp — $$\mathrm{Var}(g)$$ xảy ra gì nếu đóng băng $$\tilde w$$ và để $$w$$ đi xa?
+**Câu hỏi.** Ước lượng biến kiểm soát $$g$$ là không chệch với mọi $$w$$, không riêng tại $$\tilde w$$. Vậy tại sao vẫn cần định kỳ cập nhật điểm mốc $$\tilde w$$ — điều gì sẽ xảy ra với $$\mathrm{Var}(g)$$ nếu giữ cố định $$\tilde w$$ khi $$w$$ di chuyển ra xa?

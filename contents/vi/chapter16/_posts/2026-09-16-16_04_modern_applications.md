@@ -10,23 +10,23 @@ lang: vi
 lesson_type: optional
 ---
 
-Chương 16 xem lại đối ngẫu Lagrange, KKT, và liên hợp Fenchel để phương pháp điểm trong nguyên thủy–đối ngẫu ở Chương 17 có chỗ đứng. Cùng ba đối tượng — một Lagrange, một biến đối ngẫu định giá ràng buộc, và một liên hợp Fenchel đổi mất mát lấy regularizer — là cách học máy 2022–2026 *viết mục tiêu*, không chỉ cách nó chứng minh. Bốn ứng dụng dưới đây giữ toán của chương này lộ ra: bạn phải nêu được nguyên thủy, ràng buộc, và biến đối ngẫu trong từng câu chuyện.
+Chương 16 hệ thống lại đối ngẫu Lagrange, điều kiện KKT và liên hợp Fenchel làm nền tảng cho phương pháp điểm trong nguyên thủy – đối ngẫu ở Chương 17. Ba đối tượng quen thuộc này — hàm Lagrange, biến đối ngẫu định giá ràng buộc và hàm liên hợp Fenchel chuyển đổi giữa hàm mất mát và hàm điều chuẩn (regularizer) — chính là cách học máy giai đoạn 2022–2026 *xây dựng hàm mục tiêu*, chứ không chỉ dùng trong chứng minh lý thuyết. Bốn ứng dụng dưới đây giữ rõ cấu trúc toán học của chương này: ở mỗi trường hợp, ta đều có thể chỉ ra rõ ràng bài toán nguyên thủy, ràng buộc và biến đối ngẫu tương ứng.
 
-## Mất mát Fenchel–Young: liên hợp như mục tiêu huấn luyện
+## Hàm mất mát Fenchel–Young: dùng hàm liên hợp làm mục tiêu huấn luyện
 
-Blondel, Martins và Niculae (JMLR 2020) định nghĩa **mất mát Fenchel–Young** từ một hàm dự báo đã regularize. Nếu $$\Omega$$ là regularizer lồi trên đơn hình (hoặc một tập có cấu trúc) và $$\Omega^\star$$ là liên hợp của nó, mất mát
+Blondel, Martins và Niculae (JMLR 2020) định nghĩa **hàm mất mát Fenchel–Young** từ một ánh xạ dự báo có điều chuẩn. Nếu $$\Omega$$ là hàm điều chuẩn lồi trên đơn hình (hoặc một tập có cấu trúc) và $$\Omega^\star$$ là hàm liên hợp của nó, thì hàm mất mát
 
 $$
 L_\Omega(\theta; y) = \Omega^\star(\theta) + \Omega(y) - \theta^\top y
 $$
 
-đúng là khe Fenchel–Young từ [16-03]({% multilang_post_url contents/chapter16/21-03-31-16_03_fenchel_duality %}). Entropy chéo là trường hợp riêng $$\Omega =$$ âm entropy; các mất mát thưa và có cấu trúc xuất hiện khi đổi $$\Omega$$. Cách dựng cũ hơn 2022, nhưng nó thành *khuôn thiết kế* những năm sau. Blondel, Llinares-López, Dadashi, Hussenot và Geist (NeurIPS 2022) nâng lên mạng năng lượng bằng cách thay cặp song tuyến bằng một ghép tổng quát (liên hợp tổng quát, gồm $$C$$-transform của vận chuyển tối ưu). Năm 2025, mất mát Fenchel–Young làm sắc được dùng cho OT không cân bằng ngược và dòng gradient JKO ngược — kể cả động lực quần thể tế bào trong genomics đơn bào ([arXiv:2505.07124](https://arxiv.org/abs/2505.07124)).
+chính là khe Fenchel–Young đã xét ở [16-03]({% multilang_post_url contents/chapter16/21-03-31-16_03_fenchel_duality %}). Hàm mất mát entropy chéo là trường hợp riêng với $$\Omega$$ là âm entropy; các hàm mất mát thưa và có cấu trúc khác thu được khi thay đổi $$\Omega$$. Dù khái niệm ra đời trước năm 2022, nó đã trở thành một *khuôn mẫu thiết kế* phổ biến trong những năm gần đây. Blondel, Llinares-López, Dadashi, Hussenot và Geist (NeurIPS 2022) mở rộng hướng này sang mạng năng lượng bằng cách thay tích song tuyến bằng một phép ghép tổng quát (hàm liên hợp tổng quát, bao gồm phép biến đổi $$C$$-transform của vận chuyển tối ưu). Năm 2025, hàm mất mát Fenchel–Young sắc nét (sharpened Fenchel–Young losses) được ứng dụng cho bài toán ngược vận chuyển tối ưu không cân bằng và dòng gradient JKO ngược — bao gồm mô hình hóa động lực quần thể tế bào trong hệ gen học đơn bào ([arXiv:2505.07124](https://arxiv.org/abs/2505.07124)).
 
-Động tác lớp học: lấy một mất mát bạn đã biết, viết nó thành $$\Omega^\star(\theta)-\theta^\top y+\Omega(y)$$, và đọc biến đối ngẫu như một *dự báo* chứ không chỉ như nhân tử Lagrange. Đối ngẫu không còn chỉ là chứng chỉ; nó là mất mát.
+Góc nhìn thực hành: hãy lấy một hàm mất mát quen thuộc, viết lại nó dưới dạng $$\Omega^\star(\theta)-\theta^\top y+\Omega(y)$$, và nhìn nhận biến đối ngẫu như một *dự báo* thay vì chỉ là nhân tử Lagrange. Lúc này, đối ngẫu không chỉ là công cụ kiểm chứng tính tối ưu mà trực tiếp trở thành hàm mất mát.
 
-## RLHF: ràng buộc KL và nhân tử Lagrange của nó
+## RLHF: ràng buộc KL và nhân tử Lagrange tương ứng
 
-Ouyang et al. (NeurIPS 2022), *Training language models to follow instructions with human feedback* (InstructGPT), tinh chỉnh mô hình giám sát bằng PPO đối với mô hình thưởng, cộng **phạt KL từng token** giữ chính sách gần tham chiếu SFT. Mục tiêu RLHF chuẩn là Lagrange của
+Ouyang et al. (NeurIPS 2022), *Training language models to follow instructions with human feedback* (InstructGPT), tinh chỉnh mô hình đã học có giám sát bằng PPO theo mô hình phần thưởng, kết hợp với **hạng tử phạt KL theo từng token** để giữ chính sách không lệch quá xa mô hình tham chiếu SFT. Mục tiêu RLHF tiêu chuẩn chính là hàm Lagrange của bài toán
 
 $$
 \max_\pi\ \mathbb{E}_{x\sim\mathcal{D},\, y\sim\pi(\cdot\mid x)}\bigl[r_\theta(x,y)\bigr]
@@ -34,25 +34,25 @@ $$
 \mathbb{E}\bigl[\mathrm{KL}(\pi(\cdot\mid x)\,\|\,\pi_{\mathrm{SFT}}(\cdot\mid x))\bigr] \le \varepsilon.
 $$
 
-Hệ số trên số hạng KL là biến đối ngẫu của một ràng buộc phân kỳ. Tăng nó là một bước lên đối ngẫu: bạn tăng giá của việc rời tham chiếu cho tới khi ràng buộc chịu được. Các công thức căn chỉnh sau (DPO và họ hàng) viết lại *cùng* Lagrange sao cho chính sách tối ưu có dạng đóng và hệ số đối ngẫu thành nhiệt độ; đối ngẫu vẫn đó, chỉ được giải giải tích.
+Hệ số nhân với hạng tử KL là biến đối ngẫu của ràng buộc phân kỳ KL. Tăng hệ số này tương ứng với một bước tăng đối ngẫu (dual ascent): ta nâng mức phạt cho việc rời xa mô hình tham chiếu cho đến khi ràng buộc được thỏa mãn. Các phương pháp căn chỉnh sau này (như DPO và các biến thể liên quan) viết lại *chính hàm Lagrange đó* để chính sách tối ưu có nghiệm dạng đóng và hệ số đối ngẫu trở thành tham số nhiệt độ; cấu trúc đối ngẫu vẫn được giữ nguyên, chỉ khác là được giải theo hướng giải tích.
 
-Đây là câu chuyện Chương 16 mà sinh viên đã dùng như chatbot: đối ngẫu mạnh không được khẳng định cho lớp chính sách không lồi, nhưng *cách mô hình hóa* — ràng buộc trước, định giá ràng buộc, đọc nhân tử như một núm — là đối ngẫu Lagrange trong sản xuất.
+Đây là một ví dụ thực tế gần gũi của Chương 16: đối ngẫu mạnh không được đảm bảo cho lớp chính sách không lồi, nhưng *cách mô hình hóa* — đặt ràng buộc trước, định giá ràng buộc và xem nhân tử như một tham số điều chỉnh — chính là ứng dụng trực tiếp của đối ngẫu Lagrange trong thực tiễn.
 
-## RL an toàn: vòng nguyên thủy–đối ngẫu chạy được
+## Học tăng cường an toàn (Safe RL): vòng lặp nguyên thủy – đối ngẫu trong thực tế
 
-MDP ràng buộc đòi chính sách cực đại hóa lợi tức chịu ngân sách chi phí kỳ vọng. PPO-Lagrangian và TRPO-Lagrangian (OpenAI Safety Gym, Ray et al. 2019) cập nhật chính sách bằng PPO/TRPO và nhân tử bằng lên đối ngẫu trên phần dư chi phí — phương pháp nguyên thủy–đối ngẫu sách giáo khoa trên một yên ngẫu nhiên, không lồi. CPO (Achiam et al., 2017) tuyến tính hóa ràng buộc và giải một QP nhỏ; IPO (Chương 15) dùng rào thay nhân tử. OmniSafe (Ji et al., JMLR 2024) và Safety Gymnasium (Ji et al., NeurIPS 2023) đóng gói các thuật toán này để một đồ án 2024–2026 có thể *so* rào, nguyên thủy–đối ngẫu, và đối ngẫu miền tin cậy trên cùng robot.
+Bài toán MDP có ràng buộc (CMDP) yêu cầu tìm chính sách cực đại hóa lợi tức kỳ vọng trong giới hạn ngân sách chi phí kỳ vọng. PPO-Lagrangian và TRPO-Lagrangian (OpenAI Safety Gym, Ray et al. 2019) cập nhật chính sách bằng PPO/TRPO và cập nhật nhân tử bằng bước tăng đối ngẫu dựa trên phần dư chi phí — đúng theo sơ đồ nguyên thủy – đối ngẫu kinh điển trên một bài toán điểm yên ngẫu nhiên, không lồi. CPO (Achiam et al., 2017) tuyến tính hóa ràng buộc và giải một bài toán QP nhỏ ở mỗi bước; IPO (Chương 15) dùng hàm rào cản thay cho nhân tử. Các bộ thư viện OmniSafe (Ji et al., JMLR 2024) và Safety Gymnasium (Ji et al., NeurIPS 2023) chuẩn hóa các thuật toán này để nghiên cứu và đồ án giai đoạn 2024–2026 có thể *so sánh trực tiếp* phương pháp rào cản, nguyên thủy – đối ngẫu và đối ngẫu miền tin cậy trên cùng một môi trường robot.
 
-Paternain, Chamon, Calvo-Fullana và Ribeiro (và dòng SafeRL nguyên thủy–đối ngẫu 2022) cho xương sống giải tích lồi: hàm đối ngẫu của CMDP là chương trình lõm theo nhân tử, và một khe đối ngẫu nhỏ kiểm soát vi phạm ràng buộc. Đó là [16-01]({% multilang_post_url contents/chapter16/21-03-31-16_01_lagrangian_duality_revisited %}) với kỳ vọng bên trong mọi tích trong.
+Paternain, Chamon, Calvo-Fullana và Ribeiro (và loạt nghiên cứu SafeRL nguyên thủy – đối ngẫu năm 2022) cung cấp nền tảng giải tích lồi cho hướng này: hàm đối ngẫu của CMDP là một bài toán quy hoạch lõm theo nhân tử, và khe đối ngẫu nhỏ giúp kiểm soát mức độ vi phạm ràng buộc. Đó chính là nội dung [16-01]({% multilang_post_url contents/chapter16/21-03-31-16_01_lagrangian_duality_revisited %}) với phép lấy kỳ vọng nằm bên trong các tích trong.
 
-## Vận chuyển tối ưu như đối ngẫu Fenchel
+## Vận chuyển tối ưu dưới góc nhìn đối ngẫu Fenchel
 
-Vận chuyển tối ưu entropy,
+Bài toán vận chuyển tối ưu có điều chuẩn entropy (entropic optimal transport),
 
 $$
 \min_{\pi\in\Pi(\mu,\nu)}\ \langle C,\pi\rangle + \varepsilon\,\mathrm{KL}(\pi\,\|\,\mu\otimes\nu),
 $$
 
-có đối ngẫu Fenchel là cực đại lõm không ràng buộc trên hai thế — đối ngẫu Sinkhorn. OT tính toán (chuyên khảo Peyré & Cuturi; thư viện POT) là cách các bài đơn bào, thích nghi miền, và mô hình sinh 2022–2026 chuyển khối lượng giữa các độ đo thực nghiệm. Mất mát Fenchel–Young tổng quát (NeurIPS 2022) biến $$C$$-transform của đối ngẫu đó thành *mất mát huấn luyện* cho mô hình năng lượng. Nếu đối ngẫu Fenchel ở 16-03 từng trừu tượng, đây là bức tranh: liên hợp của chi phí vận chuyển là một thế, và khớp những thế đó là học có giám sát.
+có bài toán đối ngẫu Fenchel là bài toán cực đại hóa hàm lõm không ràng buộc theo hai thế năng — chính là đối ngẫu Sinkhorn. Vận chuyển tối ưu tính toán (chuyên khảo Peyré & Cuturi; thư viện POT) được sử dụng rộng rãi trong giai đoạn 2022–2026 cho phân tích dữ liệu đơn bào, thích nghi miền và mô hình sinh nhằm vận chuyển khối lượng xác suất giữa các độ đo thực nghiệm. Hàm mất mát Fenchel–Young tổng quát (NeurIPS 2022) chuyển phép biến đổi $$C$$-transform của đối ngẫu đó thành *hàm mất mát huấn luyện* cho mô hình năng lượng. Nếu đối ngẫu Fenchel ở bài 16-03 từng có vẻ trừu tượng, thì ứng dụng này cho thấy ý nghĩa trực quan của nó: hàm liên hợp của chi phí vận chuyển là một thế năng, và việc khớp các thế năng đó trở thành bài toán học có giám sát.
 
 ## Nguồn
 

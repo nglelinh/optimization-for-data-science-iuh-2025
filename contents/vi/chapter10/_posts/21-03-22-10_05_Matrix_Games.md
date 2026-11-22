@@ -15,7 +15,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trong bài này, chúng ta xét các chiến lược hỗn hợp (mixed strategy) của trò chơi ma trận, một ví dụ về LP gốc và LP đối ngẫu trong lý thuyết trò chơi. Thiết lập gồm hai người chơi, J và R, và một ma trận chi trả $$P$$.
+Trong bài này, chúng ta xét bài toán chiến lược hỗn hợp (mixed strategy) trong trò chơi ma trận — một ví dụ tiêu biểu về cặp bài toán LP gốc và đối ngẫu trong lý thuyết trò chơi. Xét trò chơi gồm hai người chơi $$J$$ và $$R$$ cùng một ma trận chi trả $$P$$.
 
 ## Thiết lập trò chơi
 
@@ -26,11 +26,11 @@ Trong bài này, chúng ta xét các chiến lược hỗn hợp (mixed strategy
 </p>
 </figure>
 
-Ma trận chi trả là số tiền thưởng mà J phải trả cho R khi J chọn chiến lược $$i$$ (hàng) và R chọn chiến lược $$j$$ (cột) ($$P_{ij}$$). Nếu giá trị này dương, J trả cho R một khoản bằng độ lớn của phần tử tương ứng; nếu âm, R trả cho J một khoản bằng độ lớn đó.
+Phần tử $$P_{ij}$$ của ma trận chi trả biểu thị số tiền mà $$J$$ phải trả cho $$R$$ khi $$J$$ chọn chiến lược $$i$$ (hàng) và $$R$$ chọn chiến lược $$j$$ (cột). Nếu $$P_{ij} > 0$$, $$J$$ trả cho $$R$$ một khoản bằng $$P_{ij}$$; nếu $$P_{ij} < 0$$, $$R$$ trả cho $$J$$ một khoản bằng $$|P_{ij}|$$.
 
-Thiết lập này còn gọi là trò chơi tổng bằng không (zero-sum): nếu phần thưởng R nhận được (hoặc phải trả) là $$r_{R}$$ và phần thưởng của J là $$r_{J}$$, thì trong mỗi ván $$r_{R} = - r_{J}$$, và tổng hai phần thưởng luôn bằng 0.
+Đây là trò chơi tổng bằng không (zero-sum): gọi phần thưởng của $$R$$ là $$r_R$$ và của $$J$$ là $$r_J$$, thì ở mọi ván đấu ta luôn có $$r_R = -r_J$$, tức tổng phần thưởng của hai người chơi bằng $$0$$.
 
-Ngoài ra, ta giả sử cả hai người chơi đều dùng chiến lược hỗn hợp. Chiến lược hỗn hợp là giả định rằng lựa chọn của mỗi người chơi tuân theo một phân phối xác suất nhất định (hay được lấy mẫu từ một phân phối xác suất nhất định).
+Giả sử cả hai người chơi đều sử dụng chiến lược hỗn hợp, nghĩa là lựa chọn của mỗi người được rút ngẫu nhiên theo một phân phối xác suất:
 
 >$$
 >\begin{align}
@@ -39,7 +39,7 @@ Ngoài ra, ta giả sử cả hai người chơi đều dùng chiến lược h�
 >\end{align}
 >$$
 
-Nếu mỗi người chơi biết chiến lược hỗn hợp (tức phân phối xác suất) của đối phương, họ có thể tính khoản chi trả mà mình kỳ vọng nhận được, tức chi trả kỳ vọng (expected payout).
+Khi biết phân phối xác suất của đối phương, mỗi người chơi có thể tính được chi trả kỳ vọng (expected payout):
 
 >$$
 >\begin{align}
@@ -47,12 +47,13 @@ Nếu mỗi người chơi biết chiến lược hỗn hợp (tức phân phố
 >\end{align}
 >$$
 
-Vì dấu của ma trận chi trả được định nghĩa là số tiền J trả cho R, J sẽ cố gắng cực tiểu hóa chi trả kỳ vọng này vì J muốn trả cho R càng ít càng tốt, còn R sẽ cố gắng cực đại hóa chi trả kỳ vọng này vì R muốn nhận từ J càng nhiều càng tốt.
+Vì $$P_{ij}$$ là khoản tiền $$J$$ trả cho $$R$$, nên $$J$$ muốn cực tiểu hóa chi trả kỳ vọng, còn $$R$$ muốn cực đại hóa chi trả kỳ vọng.
 
-Bây giờ, đứng ở vị trí của từng người chơi, mỗi người xét chiến lược hỗn hợp của đối phương để cực đại hóa (R) hoặc cực tiểu hóa (J) chi trả kỳ vọng này. Với giả định hai bên đều hành động tối ưu đối với nhau, ta sẽ tìm chiến lược tối ưu suy ra từ hai góc nhìn, và cuối cùng xác nhận rằng theo định lý minimax của Von Neumann, hai kết quả này bằng nhau.
+Bây giờ, ta xét bài toán từ góc nhìn của từng người chơi với giả định cả hai đều hành động tối ưu. Ta sẽ lập bài toán tối ưu cho từng phía, rồi chỉ ra rằng theo định lý minimax của von Neumann, hai giá trị tối ưu thu được bằng nhau.
 
 ## Cực tiểu hóa chi trả kỳ vọng: góc nhìn của J
-Trước hết, giả sử R biết chiến lược $$x$$ của J. R sẽ muốn cực đại hóa chi trả kỳ vọng $$x^{T}Py$$.
+
+Trước hết, giả sử $$R$$ biết trước chiến lược $$x$$ của $$J$$. Khi đó $$R$$ sẽ chọn $$y$$ để cực đại hóa chi trả kỳ vọng $$x^T P y$$:
 
 >$$
 >\begin{align}
@@ -60,9 +61,9 @@ Trước hết, giả sử R biết chiến lược $$x$$ của J. R sẽ muốn
 >\end{align}
 >$$
 
-Khi đó, như công thức cho thấy, R tìm chỉ số $$j$$ ứng với giá trị lớn nhất trong các $$(P^{T}x)_{j}$$; chiến lược đặt $$y_{j} = 1$$ cho chỉ số đó và bằng 0 cho các chỉ số còn lại chính là chiến lược cực đại hóa chi trả kỳ vọng của R.
+Theo biểu thức trên, chiến lược tối ưu của $$R$$ là chọn chỉ số $$j$$ làm cực đại $$(P^T x)_j$$ (tức đặt $$y_j = 1$$ tại chỉ số đó và bằng $$0$$ ở các chỉ số còn lại).
 
-Khi biết R hành động tối ưu như trên, chiến lược tối ưu của J là phân phối $$x$$ thỏa mãn bài toán sau.
+Biết rằng $$R$$ sẽ phản ứng tối ưu như vậy, $$J$$ chọn phân phối $$x$$ nhằm giải bài toán:
 
 >$$
 >\begin{align}
@@ -73,10 +74,11 @@ Khi biết R hành động tối ưu như trên, chiến lược tối ưu của
 >\end{align}
 >$$
 
-Cực đại (theo từng điểm) của các hàm lồi cũng là một hàm lồi. Ta gọi đây là bài toán của góc nhìn thứ nhất, và gọi nghiệm của bài toán tối ưu này là chi trả kỳ vọng tối ưu $$f^{*}_{1}$$. Một điểm cần lưu ý nữa là giả định tất cả người chơi đều hành động tối ưu là giả định cơ bản trong cách hình thức hóa trò chơi dạng đơn giản nhất.
+Vì cực đại theo từng điểm của các hàm tuyến tính là một hàm lồi, đây là một bài toán tối ưu lồi. Ta gọi giá trị tối ưu của bài toán này là $$f_1^*$$. Lưu ý rằng giả định mọi người chơi đều hành động tối ưu là giả định cơ bản của mô hình trò chơi hai người tổng bằng không.
 
 ## Cực đại hóa chi trả kỳ vọng: góc nhìn của R
-Ở góc nhìn thứ hai, giả sử J biết chiến lược $$y$$ của R. J sẽ muốn cực tiểu hóa chi trả kỳ vọng.
+
+Ngược lại, giả sử $$J$$ biết trước chiến lược $$y$$ của $$R$$. Khi đó $$J$$ sẽ chọn $$x$$ để cực tiểu hóa chi trả kỳ vọng:
 
 >$$
 >\begin{align}
@@ -84,7 +86,7 @@ Cực đại (theo từng điểm) của các hàm lồi cũng là một hàm l�
 >\end{align}
 >$$
 
-Theo lập luận tương tự, khi biết J hành động tối ưu như trên, chiến lược tối ưu của R là phân phối $$y$$ thỏa mãn bài toán sau.
+Biết rằng $$J$$ sẽ phản ứng tối ưu như vậy, $$R$$ chọn phân phối $$y$$ để giải bài toán:
 
 >$$
 >\begin{align}
@@ -95,11 +97,12 @@ Theo lập luận tương tự, khi biết J hành động tối ưu như trên,
 >\end{align}
 >$$
 
-Tương tự, ta gọi đây là bài toán của góc nhìn thứ hai và gọi nghiệm của nó là $$f^{*}_{2}$$. Vì người chơi R muốn cực đại hóa chi trả kỳ vọng, nên dễ dự đoán rằng chi trả kỳ vọng $$f^{*}_{1}$$ của góc nhìn thứ nhất (R biết trước chiến lược của J) sẽ lớn hơn hoặc bằng chi trả của góc nhìn thứ hai. ($$f^{*}_{1}\geq f^{*}_{2}$$)
-  
-## Định lý minimax của Von Neumann
-Tuy nhiên, theo định lý minimax của Von Neumann thì $$f^{*}_{1} = f^{*}_{2}$$. Định lý minimax phát biểu như sau.
-  
+Gọi giá trị tối ưu của bài toán này là $$f_2^*$$. Vì ở góc nhìn thứ nhất $$R$$ có lợi thế biết trước chiến lược của $$J$$, ta dễ thấy $$f_1^* \geq f_2^*$$.
+
+## Định lý minimax của von Neumann
+
+Theo định lý minimax của von Neumann, dấu bằng thực sự xảy ra: $$f_1^* = f_2^*$$. Định lý được phát biểu như sau:
+
 >$$
 >\begin{align}
 >&\text{Cho } X\subset \mathbb{R}^{m} \text{ và }Y\subset \mathbb{R}^{n} \text{ là các tập lồi compact. }\\\\
@@ -113,10 +116,11 @@ Tuy nhiên, theo định lý minimax của Von Neumann thì $$f^{*}_{1} = f^{*}_
 
 Phần chứng minh định lý này được lược bỏ.
 
-## Chứng minh hai góc nhìn là cặp bài toán gốc - đối ngẫu
-Bây giờ ta sẽ chỉ ra rằng chi trả kỳ vọng của hai góc nhìn trên, xét như các bài toán LP, là cặp bài toán gốc - đối ngẫu của nhau, và nhờ định lý minimax của Von Neumann hai kết quả bằng nhau nên đối ngẫu mạnh được thỏa mãn.
+## Chứng minh hai góc nhìn tạo thành cặp bài toán gốc – đối ngẫu
 
-Trước hết, bài toán của góc nhìn thứ nhất có thể viết lại như sau.
+Ta sẽ chứng minh hai bài toán trên là cặp bài toán LP gốc – đối ngẫu của nhau; khi kết hợp với định lý minimax của von Neumann ($$f_1^* = f_2^*$$), điều này cho thấy tính đối ngẫu mạnh được thỏa mãn.
+
+Trước hết, viết lại bài toán từ góc nhìn của $$J$$ dưới dạng LP bằng cách đưa thêm biến phụ $$t$$ biểu thị giá trị lớn nhất của các thành phần trong $$P^T x$$:
 
 >$$
 >\begin{align}
@@ -137,9 +141,7 @@ Trước hết, bài toán của góc nhìn thứ nhất có thể viết lại 
 >\end{align}
 >$$
 
-Ta đã viết lại bài toán sao cho $$t$$ bằng giá trị lớn nhất trong các thành phần của $$P^{T}x$$.
-
-Bây giờ, áp dụng cách thứ hai của đối ngẫu đã học là lập hàm Lagrange và tìm hàm đối ngẫu Lagrange $$g$$, ta được
+Áp dụng phương pháp Lagrangian đã học ở bài 10-04 để lập hàm Lagrange và hàm đối ngẫu $$g(u, v, y)$$ (với $$u \geq 0, y \geq 0$$):
 
 >$$
 >\begin{align}
@@ -150,7 +152,7 @@ Bây giờ, áp dụng cách thứ hai của đối ngẫu đã học là lập 
 >\end{align}
 >$$
 
-Vì $$u$$ là biến bù (slack variable), loại bỏ nó và sắp xếp lại ta được:
+Khử biến bù $$u \geq 0$$ từ điều kiện $$Py - u - v\mathbf{1} = 0$$ (tức $$Py \geq v\mathbf{1}$$), ta thu được bài toán đối ngẫu:
 
 >$$
 >\begin{align}
@@ -160,9 +162,9 @@ Vì $$u$$ là biến bù (slack variable), loại bỏ nó và sắp xếp lại
 >\end{align}
 >$$
 
-Đây chính là bài LP gốc của góc nhìn thứ hai. Do đó hai góc nhìn có quan hệ đối ngẫu và giá trị tối ưu của hai bài toán bằng nhau, nên đối ngẫu mạnh được thỏa mãn.
+Đây chính là dạng LP tương đương với bài toán từ góc nhìn của $$R$$. Như vậy, hai góc nhìn của trò chơi ma trận tạo thành một cặp bài toán gốc – đối ngẫu và có cùng giá trị tối ưu (đối ngẫu mạnh).
 
-Nói chung với bài toán LP (sẽ được đề cập ở các phần sau), chỉ cần một trong hai bài toán gốc hoặc đối ngẫu khả thi thì đối ngẫu mạnh đã thỏa mãn.
+Tổng quát đối với quy hoạch tuyến tính (sẽ được trình bày kỹ hơn ở Chương 11), chỉ cần bài toán gốc hoặc bài toán đối ngẫu khả thi thì tính đối ngẫu mạnh luôn được bảo đảm.
 
 ### Trò chơi ma trận trong 18 giây
 
@@ -170,7 +172,7 @@ Nói chung với bài toán LP (sẽ được đề cập ở các phần sau), 
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/matrix-game_vi.mp4"></video>
 </div>
 
-J cực tiểu hóa đường cao nhất, R cực đại hóa đường thấp nhất, và cả hai đạt cùng một giá trị: định lý minimax, chính là đối ngẫu LP.
+$$J$$ cực tiểu hóa đường cao nhất, $$R$$ cực đại hóa đường thấp nhất, và cả hai đạt cùng một giá trị: định lý minimax chính là đối ngẫu LP.
 
 ### Tự tay thử: trò chơi nhìn từ hai phía
 

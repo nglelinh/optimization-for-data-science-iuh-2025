@@ -9,18 +9,18 @@ categories:
 lang: vi
 ---
 
-Giả sử miền của hàm số là $${R}^n$$ và có một hàm lồi $$f$$ có thể không khả vi tại mọi điểm.
+Giả sử $$f$$ là một hàm lồi xác định trên $${R}^n$$ và có thể không khả vi tại một số điểm.
 
-Phương pháp subgradient được định nghĩa bằng cách thay thế gradient trong phương pháp gradient descent bằng một subgradient. ($$\nabla f(x^{(k-1)}) \to g(x^{(k-1)})$$)
+Phương pháp subgradient được xây dựng bằng cách thay thế gradient trong phương pháp gradient descent bằng một subgradient ($$\nabla f(x^{(k-1)}) \to g(x^{(k-1)})$$):
 
 >$$ x^{(k)} = x^{(k-1)} - t_k \cdot g^{(k-1)}, \quad k = 1, 2, 3, . . . $$
 
-Ở đây, $$g^{(k-1)} \in \partial f(x^{(k-1)})$$, tức là $$g^{(k-1)}$$ là một subgradient của $$f$$ tại $$x^{(k-1)}$$.
+trong đó $$g^{(k-1)} \in \partial f(x^{(k-1)})$$ là một subgradient của $$f$$ tại $$x^{(k-1)}$$.
 
-## Phương pháp subgradient (không phải "descent" subgradient)
+## Vì sao gọi là "phương pháp subgradient" (chứ không phải "subgradient descent")
 
-Khác với gradient descent, phương pháp subgradient không luôn đảm bảo giảm giá trị hàm số ở mỗi bước (do đó tên gọi không phải là "descent" subgradient). Vì vậy, khi sử dụng phương pháp subgradient, quan trọng là phải theo dõi kết quả tốt nhất tại mỗi lần lặp.
+Khác với gradient descent, phương pháp subgradient không đảm bảo giá trị hàm mục tiêu luôn giảm sau mỗi bước lặp (do đó thuật toán không được gọi là "subgradient descent"). Vì vậy, trong quá trình chạy thuật toán, cần lưu lại giá trị tốt nhất đạt được tính đến bước hiện tại:
 
 >$$f(x_{best}^{(k)}) = \min_{i=0,...k} f(x^{(i)})$$ 
 
-$$f(x^{(k)}_{best})$$ biểu thị giá trị nhỏ nhất của hàm $$f$$ thu được trong $$k$$ lần lặp của phương pháp subgradient.
+Ở đây, $$f(x^{(k)}_{best})$$ ký hiệu giá trị nhỏ nhất của hàm $$f$$ thu được sau $$k$$ bước lặp.

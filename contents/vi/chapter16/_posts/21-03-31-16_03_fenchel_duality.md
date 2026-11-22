@@ -14,13 +14,13 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trong [13-04 Hàm liên hợp]({% multilang_post_url contents/chapter13/21-04-05-13_04_Conjugate_function %}), chúng ta đã học cách suy ra các bài toán đối ngẫu bằng cách sử dụng các hàm liên hợp. Tính đối ngẫu Fenchel đề cập đến các bài toán đối ngẫu được suy ra từ các hàm liên hợp có dạng sau:
+Trong bài [13-04 Hàm liên hợp]({% multilang_post_url contents/chapter13/21-04-05-13_04_Conjugate_function %}), chúng ta đã biết cách suy ra bài toán đối ngẫu bằng hàm liên hợp (conjugate function). Tính đối ngẫu Fenchel đề cập đến các bài toán đối ngẫu được xây dựng từ hàm liên hợp theo dạng tổng quát sau:
 
 $$
 \max_{v} -f^*(A^Tv) - g^*(-v)
 $$
 
-Hãy khám phá xem dạng bài toán này được suy ra từ đâu.
+Hãy xem dạng đối ngẫu này xuất phát từ đâu.
 
 ### Bài toán nguyên thủy
 
@@ -28,7 +28,7 @@ Hãy khám phá xem dạng bài toán này được suy ra từ đâu.
 > \min_{x} \quad f(x) + g(Ax)
 > $$
 
-Bài toán đã cho có thể được định nghĩa lại với một ràng buộc đẳng thức được thêm vào.
+Bài toán này có thể viết lại tương đương bằng cách đưa thêm biến phụ $$z$$ và ràng buộc đẳng thức:
 
 ### Bài toán nguyên thủy được viết lại
 >
@@ -39,9 +39,9 @@ $$
  \end{align}
  $$
 
-Hãy suy ra bài toán đối ngẫu của bài toán nguyên thủy được định nghĩa lại bằng cách sử dụng các hàm liên hợp. <br/>
+Ta suy ra bài toán đối ngẫu của dạng viết lại bằng hàm liên hợp. <br/>
 
-* **Nhắc lại:** $$f^*(s) \doteq  \max_{x} \big( s^Tx - f(x) \big) = \min_{x} \big( f(x) - s^Tx \big)$$
+* **Nhắc lại:** $$f^*(s) \doteq  \max_{x} \big( s^Tx - f(x) \big) = -\min_{x} \big( f(x) - s^Tx \big)$$
 
 <br/>
 $$
@@ -58,9 +58,9 @@ $$
 > \max_{v} -f^*(A^Tv) - g^*(-v)
 > $$
 
-* **Tính chất tốt:** Nếu $$f, g$$ là lồi và đóng, đối ngẫu của đối ngẫu lại trở thành nguyên thủy. (Đối xứng)
+* **Tính chất quan trọng:** Nếu $$f, g$$ là các hàm lồi và đóng, thì bài toán đối ngẫu của bài toán đối ngẫu quay trở lại chính bài toán nguyên thủy (tính đối xứng).
 
-## Ví dụ: quy hoạch cônic
+## Ví dụ: quy hoạch nón (Conic Programming)
 
 ### Bài toán nguyên thủy của CP dạng chuẩn
 >$$
@@ -71,12 +71,12 @@ $$
 \end{align}
 $$
 
-Bài toán trên có thể được định nghĩa lại bằng cách sử dụng hai hàm $$f(x) = c^Tx + I_K(x)$$ và $$g(z) = I_{\{b\}}(z)$$.<br/>
+Bài toán trên có thể viết lại thông qua hai hàm $$f(x) = c^Tx + I_K(x)$$ và $$g(z) = I_{\{b\}}(z)$$.<br/>
 
 * **Lưu ý:** $$\begin{equation}
     f(x) + g(Ax) = 
     \begin{cases}
-      0, & \text{nếu}\ Ax=b, x \in K \\\\
+      c^Tx, & \text{nếu}\ Ax=b, x \in K \\\\
       \infty, & \text{trường hợp khác}
     \end{cases}
   \end{equation}$$
@@ -91,7 +91,7 @@ Bài toán trên có thể được định nghĩa lại bằng cách sử dụn
 
 ### Suy ra bài toán đối ngẫu của CP
 
-Hãy suy ra bài toán đối ngẫu từ bài toán nguyên thủy CP được định nghĩa lại. Đầu tiên, mở rộng các hàm $$f$$ và $$g$$ cho chúng ta:
+Từ dạng viết lại ở trên, triển khai tường minh hai hàm $$f$$ và $$g$$, ta có:
 > $$
 > \begin{align}
 > & \min_{x, z} && \; c^Tx + I_K(x) + I_{\{b\}}(z)  \\\
@@ -99,7 +99,7 @@ Hãy suy ra bài toán đối ngẫu từ bài toán nguyên thủy CP được 
 > \end{align}
 > $$
 
-Hãy mở rộng bài toán bằng cách sử dụng các hàm liên hợp từ định nghĩa của bài toán đối ngẫu.
+Áp dụng định nghĩa bài toán đối ngẫu và biến đổi bằng hàm liên hợp:
 
 > $$
 > \begin{align}
@@ -112,7 +112,7 @@ Hãy mở rộng bài toán bằng cách sử dụng các hàm liên hợp từ 
 > \end{align}
 > $$
 
-$$I_{-K^*}(A^Ty - c)$$ có thể được biểu diễn như một ràng buộc.
+Số hạng $$I_{-K^*}(A^Ty - c)$$ có thể được chuyển thành ràng buộc tường minh:
 
 > $$
 > \begin{align}
@@ -121,32 +121,32 @@ $$I_{-K^*}(A^Ty - c)$$ có thể được biểu diễn như một ràng buộc.
 > \end{align}
 > $$
 
-Vì $$I_{\{b\}}^*(-y) = \max_{b} -b^Ty - I_{\{b\}}(b)$$, bài toán có thể được tổ chức như sau:
+Do $$I_{\{b\}}^*(-y) = \max_{z} (-y^Tz - I_{\{b\}}(z)) = -b^Ty - I_{\{b\}}(b)$$, bài toán có thể được viết lại như sau:
 > $$
 > \begin{align}
 > &\max_{y, s} \ && -(-b^Ty - I_{\{b\}}(b)) \\\
-> &\text{subject to} \ && y^TA + s = c \\\
+> &\text{subject to} \ && A^Ty + s = c \\\
 > &  \; s \in K^* \\
 > \end{align}
 > $$
 
-Vì $$I_{\{b\}}(b) = 0$$, nó có thể được loại bỏ khỏi bài toán.
+Vì $$I_{\{b\}}(b) = 0$$, ta rút gọn được:
 
 ### Bài toán đối ngẫu của CP
 
 > $$
 > \begin{align}
 > &\max_{y, s} \ &&  \;  b^Ty  \\\
-> &\text{subject to} \ && y^TA + s = c \\\
+> &\text{subject to} \ && A^Ty + s = c \\\
 > &  \; s \in K^* \\
 > \end{align}
 > $$ 
 
-* Nếu bài toán nguyên thủy hoặc bài toán đối ngẫu khả thi nghiêm ngặt, thì tính đối ngẫu mạnh được thỏa mãn.
-* Nếu cả bài toán nguyên thủy và bài toán đối ngẫu đều khả thi nghiêm ngặt, thì tính đối ngẫu mạnh được thỏa mãn và tồn tại nghiệm tối ưu nguyên thủy & đối ngẫu.
+* Nếu bài toán nguyên thủy hoặc bài toán đối ngẫu khả thi ngặt, thì tính đối ngẫu mạnh được thỏa mãn.
+* Nếu cả bài toán nguyên thủy và bài toán đối ngẫu đều khả thi ngặt, thì tính đối ngẫu mạnh được thỏa mãn và cả hai bài toán đều đạt nghiệm tối ưu.
 
-## Ví dụ: quy hoạch nửa xác định
-Hãy xem xét các dạng của bài toán nguyên thủy & đối ngẫu cho SDP và các bài toán nguyên thủy & đối ngẫu cho bài toán barrier của SDP.
+## Ví dụ: quy hoạch nửa xác định (SDP)
+Dưới đây là dạng nguyên thủy – đối ngẫu của quy hoạch nửa xác định (SDP) cùng cặp nguyên thủy – đối ngẫu cho bài toán rào cản tương ứng.
 
 ### Bài toán nguyên thủy của SDP
 >$$
@@ -159,20 +159,20 @@ Hãy xem xét các dạng của bài toán nguyên thủy & đối ngẫu cho SD
 > $$\text{trong đó } C, A_1, \dotsc, A_p \in \mathbb{S}^n.$$
 
 * **Nhắc lại:** $$tr(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$
-* **Lưu ý:** Không giống như LP, SDP không luôn thỏa mãn tính đối ngẫu mạnh.
+* **Lưu ý:** Khác với LP, SDP không phải lúc nào cũng thỏa mãn tính đối ngẫu mạnh.
 
 ### Bài toán đối ngẫu của SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{maximize}}_{y} &&{b^Ty} \\\\
->    &\text{subject to } &&{\sum_{i=1}^m y_i A_i + S = C} \\\\
+>    &\text{subject to } &&{\sum_{i=1}^p y_i A_i + S = C} \\\\
 >    & &&{S \succeq 0}.\\\\
 >\end{align}
 >$$
 
-* **Lưu ý:** Nón nửa xác định dương là một nón tự đối ngẫu. ($$(\mathbb{S}_{+}^n)^* = \mathbb{S}_{+}^n$$)
+* **Lưu ý:** Nón ma trận nửa xác định dương là một nón tự đối ngẫu: $$(\mathbb{S}_{+}^n)^* = \mathbb{S}_{+}^n$$.
 
-### Bài toán nguyên thủy của bài toán Barrier cho SDP
+### Bài toán nguyên thủy của bài toán rào cản cho SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{minimize}}_{X} &&{tr(CX) - \tau \log \big( det(X) \big)} \\\\
@@ -181,10 +181,10 @@ Hãy xem xét các dạng của bài toán nguyên thủy & đối ngẫu cho SD
 >
 >$$\text{trong đó } C, A_1, \dotsc, A_p \in \mathbb{S}^n.$$
 
-### Bài toán đối ngẫu của bài toán Barrier cho SDP
+### Bài toán đối ngẫu của bài toán rào cản cho SDP
 >$$
 >\begin{align}
 >    &\mathop{\text{maximize}}_{y, S} &&{b^Ty +  \tau \log \big( det(S) \big)} \\\\
->    &\text{subject to } &&{\sum_{i=1}^m y_i A_i + S = C}.
+>    &\text{subject to } &&{\sum_{i=1}^p y_i A_i + S = C}.
 >\end{align}
 >$$

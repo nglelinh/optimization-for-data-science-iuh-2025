@@ -14,13 +14,13 @@ redirect_from:
 
 # Bài Tập Thực Hành - Phương Pháp Newton
 
-Các bài tập được tham khảo từ Boyd & Vandenberghe (2004), Nocedal & Wright (2006), và Bertsekas (1999).
+Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Nocedal & Wright (2006) và Bertsekas (1999).
 
 ---
 
-## **Phần I: Newton Method Cơ bản**
+## **Phần I: Phương pháp Newton cơ bản**
 
-### **Bài tập 1: Newton Step Computation (Boyd & Vandenberghe, Ex. 9.1)**
+### **Bài tập 1: Tính bước Newton (Boyd & Vandenberghe, Ex. 9.1)**
 
 Cho hàm mục tiêu:
 
@@ -31,10 +31,10 @@ $$
 với $$Q \succ 0$$.
 
 **Yêu cầu:**  
-a) Tính gradient $$\nabla f(x)$$ và Hessian $$\nabla^2 f(x)$$  
-b) Tại $$x = (1, 2)^T$$, tính Newton step $$\Delta x_{nt}$$  
-c) Tính Newton decrement $$\lambda(x) = \sqrt{\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x)}$$  
-d) Với $$Q = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$, $$c = \begin{bmatrix} -1 \\ -1 \end{bmatrix}$$, tính tất cả các giá trị trên
+a) Tính gradient $$\nabla f(x)$$ và ma trận Hessian $$\nabla^2 f(x)$$.  
+b) Tại $$x = (1, 2)^T$$, tính bước Newton $$\Delta x_{nt}$$.  
+c) Tính đại lượng giảm Newton (Newton decrement) $$\lambda(x) = \sqrt{\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x)}$$.  
+d) Với $$Q = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$ và $$c = \begin{bmatrix} -1 \\ -1 \end{bmatrix}$$, tính tất cả các giá trị trên.
 
 <details markdown="1">
 <summary><strong>Lời giải</strong></summary>
@@ -49,13 +49,13 @@ $$
 \nabla^2 f(x) = Q
 $$
 
-(Hessian không phụ thuộc $$x$$ vì $$f$$ là bậc hai)
+(Ma trận Hessian là hằng số vì $$f$$ là hàm bậc hai.)
 
 ---
 
-**b) Newton step:**
+**b) Bước Newton:**
 
-Newton step được định nghĩa:
+Theo định nghĩa:
 
 $$
 \Delta x_{nt} = -(\nabla^2 f(x))^{-1} \nabla f(x) = -Q^{-1}(Qx + c)
@@ -63,7 +63,7 @@ $$
 
 ---
 
-**c) Newton decrement:**
+**c) Đại lượng giảm Newton:**
 
 $$
 \lambda(x) = \sqrt{\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x)}
@@ -75,7 +75,7 @@ $$
 
 ---
 
-**d) Tính số:**
+**d) Tính toán cụ thể:**
 
 Dữ liệu:
 
@@ -105,7 +105,7 @@ $$
 = \begin{bmatrix} 4 \\ 5 \end{bmatrix} + \begin{bmatrix} -1 \\ -1 \end{bmatrix} = \begin{bmatrix} 3 \\ 4 \end{bmatrix}
 $$
 
-**Newton step:**
+**Bước Newton:**
 
 $$
 \Delta x_{nt} = -Q^{-1} \nabla f(x) = -\frac{1}{3}\begin{bmatrix} 2 & -1 \\ -1 & 2 \end{bmatrix} \begin{bmatrix} 3 \\ 4 \end{bmatrix}
@@ -115,7 +115,7 @@ $$
 = -\frac{1}{3}\begin{bmatrix} 6-4 \\ -3+8 \end{bmatrix} = -\frac{1}{3}\begin{bmatrix} 2 \\ 5 \end{bmatrix} = \begin{bmatrix} -2/3 \\ -5/3 \end{bmatrix}
 $$
 
-**Newton decrement:**
+**Đại lượng giảm Newton:**
 
 $$
 \lambda^2(x) = \nabla f(x)^T Q^{-1} \nabla f(x)
@@ -135,51 +135,51 @@ $$
 
 **Nghiệm tối ưu:**
 
-Vì $$f$$ là bậc hai, Newton method hội tụ trong 1 bước:
+Vì $$f$$ là hàm bậc hai, phương pháp Newton hội tụ ngay trong 1 bước:
 
 $$
 x^+ = x + \Delta x_{nt} = \begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} -2/3 \\ -5/3 \end{bmatrix} = \begin{bmatrix} 1/3 \\ 1/3 \end{bmatrix}
 $$
 
-Kiểm tra: $$\nabla f(x^*) = Q x^* + c = 0$$ → $$x^* = -Q^{-1}c$$:
+Kiểm tra trực tiếp từ $$\nabla f(x^*) = Q x^* + c = 0 \Rightarrow x^* = -Q^{-1}c$$:
 
 $$
-x^* = -\frac{1}{3}\begin{bmatrix} 2 & -1 \\ -1 & 2 \end{bmatrix} \begin{bmatrix} -1 \\ -1 \end{bmatrix} = \frac{1}{3}\begin{bmatrix} -1 \\ -1 \end{bmatrix} = \begin{bmatrix} 1/3 \\ 1/3 \end{bmatrix}
+x^* = -\frac{1}{3}\begin{bmatrix} 2 & -1 \\ -1 & 2 \end{bmatrix} \begin{bmatrix} -1 \\ -1 \end{bmatrix} = -\frac{1}{3}\begin{bmatrix} -1 \\ -1 \end{bmatrix} = \begin{bmatrix} 1/3 \\ 1/3 \end{bmatrix}
 $$
 
-✓ Đúng!
+Kết quả trùng khớp.
 
 </details>
 
 ---
 
-### **Bài tập 2: Newton Method cho Logistic Regression (Nocedal & Wright, Ex. 8.1)**
+### **Bài tập 2: Phương pháp Newton cho hồi quy logistic (Nocedal & Wright, Ex. 8.1)**
 
-Cho bài toán logistic regression:
+Xét bài toán hồi quy logistic:
 
 $$
 \min_x \sum_{i=1}^m \log(1 + e^{-y_i (a_i^T x)})
 $$
 
-với dữ liệu $$(a_i, y_i)$$ với $$y_i \in \{-1, +1\}$$.
+với tập dữ liệu $$(a_i, y_i)$$ trong đó $$y_i \in \{-1, +1\}$$.
 
 **Yêu cầu:**  
-a) Tính gradient $$\nabla f(x)$$  
-b) Tính Hessian $$\nabla^2 f(x)$$  
-c) Chứng minh $$\nabla^2 f(x) \succeq 0$$ (hàm lồi)  
+a) Tính gradient $$\nabla f(x)$$.  
+b) Tính ma trận Hessian $$\nabla^2 f(x)$$.  
+c) Chứng minh $$\nabla^2 f(x) \succeq 0$$ (hàm lồi).  
 d) Với dữ liệu $$m=3$$, $$n=2$$:
    - $$a_1 = (1, 1)^T$$, $$y_1 = +1$$
    - $$a_2 = (1, -1)^T$$, $$y_2 = +1$$
    - $$a_3 = (-1, 0)^T$$, $$y_3 = -1$$
    
-   Tính Newton step tại $$x = (0, 0)^T$$
+   Tính bước Newton tại $$x = (0, 0)^T$$.
 
 <details markdown="1">
 <summary><strong>Lời giải</strong></summary>
 
 **a) Gradient:**
 
-Định nghĩa $$\phi(z) = \log(1 + e^{-z})$$, ta có:
+Đặt $$\phi(z) = \log(1 + e^{-z})$$, khi đó:
 
 $$
 f(x) = \sum_{i=1}^m \phi(y_i a_i^T x)
@@ -205,7 +205,7 @@ $$
 \nabla^2 f(x) = \sum_{i=1}^m \phi''(y_i a_i^T x) \cdot y_i^2 a_i a_i^T = \sum_{i=1}^m \frac{a_i a_i^T}{(1 + e^{y_i a_i^T x})^2} \cdot e^{y_i a_i^T x}
 $$
 
-Đơn giản hóa (vì $$y_i^2 = 1$$):
+Rút gọn (do $$y_i^2 = 1$$):
 
 $$
 \nabla^2 f(x) = \sum_{i=1}^m w_i a_i a_i^T
@@ -215,25 +215,23 @@ với $$w_i = \frac{e^{y_i a_i^T x}}{(1 + e^{y_i a_i^T x})^2} > 0$$.
 
 ---
 
-**c) Chứng minh lồi:**
+**c) Chứng minh tính lồi:**
 
-$$\nabla^2 f(x) = \sum_{i=1}^m w_i a_i a_i^T$$ với $$w_i > 0$$.
-
-Với mọi $$v \in \mathbb{R}^n$$:
+Ta có $$\nabla^2 f(x) = \sum_{i=1}^m w_i a_i a_i^T$$ với $$w_i > 0$$. Với mọi $$v \in \mathbb{R}^n$$:
 
 $$
 v^T (\nabla^2 f(x)) v = \sum_{i=1}^m w_i (a_i^T v)^2 \geq 0
 $$
 
-→ $$\nabla^2 f(x) \succeq 0$$ → $$f$$ lồi ✓
+Suy ra $$\nabla^2 f(x) \succeq 0$$, nên $$f$$ là hàm lồi.
 
 ---
 
-**d) Tính số tại $$x = (0,0)$$:**
+**d) Tính toán tại $$x = (0,0)^T$$:**
 
 **Gradient:**
 
-Tại $$x = 0$$: $$a_i^T x = 0$$ cho mọi $$i$$.
+Tại $$x = 0$$, ta có $$a_i^T x = 0$$ với mọi $$i$$:
 
 $$
 \nabla f(0) = -\sum_{i=1}^3 \frac{y_i a_i}{1 + e^0} = -\frac{1}{2}\sum_{i=1}^3 y_i a_i
@@ -249,7 +247,7 @@ $$
 
 **Hessian:**
 
-$$w_i = \frac{e^0}{(1+e^0)^2} = \frac{1}{4}$$ cho mọi $$i$$.
+Ta có $$w_i = \frac{e^0}{(1+e^0)^2} = \frac{1}{4}$$ với mọi $$i$$:
 
 $$
 \nabla^2 f(0) = \frac{1}{4}\sum_{i=1}^3 a_i a_i^T
@@ -263,7 +261,7 @@ $$
 = \frac{1}{4}\left( \begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix} + \begin{bmatrix} 1 & -1 \\ -1 & 1 \end{bmatrix} + \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix} \right) = \frac{1}{4}\begin{bmatrix} 3 & 0 \\ 0 & 2 \end{bmatrix}
 $$
 
-**Newton step:**
+**Bước Newton:**
 
 $$
 \Delta x_{nt} = -(\nabla^2 f(0))^{-1} \nabla f(0)
@@ -277,22 +275,22 @@ $$
 
 ---
 
-## **Phần II: Backtracking Line Search**
+## **Phần II: Tìm kiếm đường Backtracking**
 
-### **Bài tập 3: Armijo Condition (Boyd & Vandenberghe, Ex. 9.3)**
+### **Bài tập 3: Điều kiện Armijo (Boyd & Vandenberghe, Ex. 9.3)**
 
 Cho hàm $$f(x) = x^2$$ và điểm $$x = 2$$.
 
 **Yêu cầu:**  
-a) Tính gradient $$\nabla f(x)$$ và Hessian $$\nabla^2 f(x)$$  
-b) Tính Newton direction $$\Delta x_{nt}$$  
-c) Với Armijo parameters $$\alpha = 0.3$$, $$\beta = 0.5$$, tìm step size $$t$$ thỏa mãn điều kiện Armijo:
+a) Tính gradient $$\nabla f(x)$$ và Hessian $$\nabla^2 f(x)$$.  
+b) Tính hướng Newton $$\Delta x_{nt}$$.  
+c) Với các tham số Armijo $$\alpha = 0.3$$, $$\beta = 0.5$$, tìm kích thước bước $$t$$ thỏa mãn điều kiện Armijo:
 
 $$
 f(x + t \Delta x) \leq f(x) + \alpha t \nabla f(x)^T \Delta x
 $$
 
-d) Vẽ đồ thị minh họa
+d) Minh họa bằng đồ thị.
 
 <details markdown="1">
 <summary><strong>Lời giải</strong></summary>
@@ -311,7 +309,7 @@ $$
 
 ---
 
-**b) Newton direction:**
+**b) Hướng Newton:**
 
 $$
 \Delta x_{nt} = -\frac{\nabla f(x)}{\nabla^2 f(x)} = -\frac{4}{2} = -2
@@ -319,7 +317,7 @@ $$
 
 ---
 
-**c) Backtracking line search:**
+**c) Tìm kiếm đường backtracking:**
 
 Điều kiện Armijo:
 
@@ -349,9 +347,9 @@ $$
 t(4t - 5.6) \leq 0
 $$
 
-Vì $$t > 0$$, ta cần $$4t - 5.6 \leq 0$$ → $$t \leq 1.4$$.
+Vì $$t > 0$$, điều kiện tương đương $$4t - 5.6 \leq 0 \Rightarrow t \leq 1.4$$.
 
-**Backtracking:**
+**Kiểm tra backtracking:**
 
 Thử $$t = 1$$:
 
@@ -363,20 +361,20 @@ $$
 4 + 0.3 \cdot 1 \cdot (-8) = 4 - 2.4 = 1.6
 $$
 
-$$0 \leq 1.6$$ ✓ Thỏa mãn!
+Vì $$0 \leq 1.6$$, điều kiện Armijo được thỏa mãn ngay tại $$t = 1$$.
 
-**Kết quả:** $$t = 1$$ (full Newton step)
+**Kết quả:** $$t = 1$$ (bước Newton đầy đủ).
 
 ---
 
 **d) Giải thích hình học:**
 
-- $$f(x)$$ là parabola $$y = x^2$$
-- Tại $$x = 2$$, Newton step $$\Delta x = -2$$ hướng về minimum $$x^* = 0$$
-- Full step $$t = 1$$ đưa ta đến nghiệm tối ưu ngay trong 1 bước
-- Điều kiện Armijo đảm bảo giảm đủ (sufficient decrease)
+- Đồ thị của $$f(x)$$ là parabol $$y = x^2$$.
+- Tại $$x = 2$$, bước Newton $$\Delta x = -2$$ hướng thẳng về điểm cực tiểu $$x^* = 0$$.
+- Bước đầy đủ $$t = 1$$ đưa nghiệm về đúng điểm tối ưu ngay sau 1 vòng lặp.
+- Điều kiện Armijo đảm bảo mức giảm giá trị hàm là đủ lớn (sufficient decrease).
 
-**Đồ thị:**
+**Đồ thị minh họa:**
 
 ```
 f(x) = x²
@@ -390,51 +388,51 @@ f(x) = x²
      0 •------------ x
       0  1   2
          ↑
-      Newton step
+      Bước Newton
       đưa đến x=0
 ```
 
-Armijo line: $$y = 4 - 2.4t$$ (đường tiếp tuyến thu nhỏ với slope $$\alpha \nabla f \Delta x$$)
+Đường Armijo: $$y = 4 - 2.4t$$ (đường thẳng đi qua $$(2, 4)$$ có độ dốc thu nhỏ bằng $$\alpha \nabla f \Delta x$$).
 
 </details>
 
 ---
 
-## **Phần III: Convergence Analysis**
+## **Phần III: Phân tích hội tụ**
 
-### **Bài tập 4: Quadratic Convergence (Nocedal & Wright, Theorem 3.5)**
+### **Bài tập 4: Hội tụ bậc hai (Nocedal & Wright, Theorem 3.5)**
 
-Xét Newton method cho hàm strongly convex $$f$$ với:
+Xét phương pháp Newton cho hàm lồi mạnh $$f$$ thỏa mãn:
 - $$m I \preceq \nabla^2 f(x) \preceq M I$$
-- $$\nabla^2 f$$ Lipschitz với constant $$L$$
+- $$\nabla^2 f$$ liên tục Lipschitz với hằng số $$L$$
 
-**Yêu cầu:**
-a) Chứng minh Newton method có quadratic convergence khi gần nghiệm  
-b) Tính toán cụ thể với $$f(x) = \frac{1}{2}x^T Q x$$ với $$Q = \begin{bmatrix} 4 & 0 \\ 0 & 1 \end{bmatrix}$$  
-c) So sánh với gradient descent
+**Yêu cầu:**  
+a) Chứng minh phương pháp Newton có hội tụ bậc hai khi gần nghiệm.  
+b) Tính toán cụ thể với $$f(x) = \frac{1}{2}x^T Q x$$ trong đó $$Q = \begin{bmatrix} 4 & 0 \\ 0 & 1 \end{bmatrix}$$.  
+c) So sánh với gradient descent.
 
 <details markdown="1">
 <summary><strong>Lời giải</strong></summary>
 
-**a) Chứng minh quadratic convergence:**
+**a) Chứng minh hội tụ bậc hai:**
 
 <div class="textbook-theorem" markdown="1">
-**Định lý:** Nếu $$f$$ strongly convex và $$\nabla^2 f$$ Lipschitz continuous với constant $$L$$, thì tồn tại $$\delta > 0$$ sao cho khi $$\|x^{(k)} - x^*\| < \delta$$:
+<strong>Định lý:</strong> Nếu $$f$$ lồi mạnh với tham số $$m$$ và $$\nabla^2 f$$ liên tục Lipschitz với hằng số $$L$$, thì tồn tại $$\delta > 0$$ sao cho khi $$\|x^{(k)} - x^*\| < \delta$$:
 
 $$
 \|x^{(k+1)} - x^*\| \leq \frac{L}{2m} \|x^{(k)} - x^*\|^2
 $$
 </div>
 
-**Chứng minh (sketch):**
+**Phác thảo chứng minh:**
 
-Newton iteration:
+Công thức lặp Newton:
 
 $$
 x^{(k+1)} = x^{(k)} - (\nabla^2 f(x^{(k)}))^{-1} \nabla f(x^{(k)})
 $$
 
-Taylor tại $$x^*$$:
+Khai triển tích phân của gradient quanh $$x^*$$:
 
 $$
 \nabla f(x^{(k)}) = \nabla f(x^*) + \int_0^1 \nabla^2 f(x^* + t(x^{(k)} - x^*)) (x^{(k)} - x^*) dt
@@ -446,25 +444,25 @@ $$
 \nabla f(x^{(k)}) = \int_0^1 \nabla^2 f(x^* + t(x^{(k)} - x^*)) (x^{(k)} - x^*) dt
 $$
 
-Newton step:
+Suy ra sai số ở bước $$k+1$$:
 
 $$
 x^{(k+1)} - x^* = x^{(k)} - x^* - (\nabla^2 f(x^{(k)}))^{-1} \nabla f(x^{(k)})
 $$
 
-Sử dụng Lipschitz của $$\nabla^2 f$$:
+Áp dụng tính liên tục Lipschitz của Hessian:
 
 $$
 \|\nabla^2 f(x) - \nabla^2 f(y)\| \leq L \|x - y\|
 $$
 
-Sau khi ước lượng phức tạp:
+Kết hợp với cận dưới $$m$$ của giá trị riêng Hessian (suy ra $$\|(\nabla^2 f(x^{(k)}))^{-1}\| \leq 1/m$$), ta thu được:
 
 $$
 \|x^{(k+1)} - x^*\| \leq \frac{L}{2m} \|x^{(k)} - x^*\|^2
 $$
 
-**Ý nghĩa:** Sai số giảm bình phương mỗi iteration! (quadratic convergence)
+**Ý nghĩa:** Sai số giảm theo bình phương sau mỗi vòng lặp (hội tụ bậc hai).
 
 ---
 
@@ -474,16 +472,14 @@ $$
 f(x) = \frac{1}{2}x^T Q x = 2x_1^2 + \frac{1}{2}x_2^2
 $$
 
-**Tham số:**
+**Các tham số:**
 - $$m = \lambda_{\min}(Q) = 1$$
 - $$M = \lambda_{\max}(Q) = 4$$
-- $$L = 0$$ (Hessian constant → $$\nabla^2 f(x) = Q$$)
+- $$L = 0$$ (vì ma trận Hessian là hằng số $$\nabla^2 f(x) = Q$$)
 
-**Convergence:**
+**Sự hội tụ:**
 
-Với $$L = 0$$, Newton method hội tụ trong **1 bước** (vì $$f$$ bậc hai)!
-
-Từ bất kỳ $$x^{(0)}$$:
+Với $$L = 0$$, phương pháp Newton hội tụ ngay trong **1 bước** (do $$f$$ là hàm bậc hai). Từ mọi điểm khởi tạo $$x^{(0)}$$:
 
 $$
 x^{(1)} = x^{(0)} - Q^{-1} (Qx^{(0)}) = x^{(0)} - x^{(0)} = 0 = x^*
@@ -493,62 +489,58 @@ $$
 
 **c) So sánh với Gradient Descent:**
 
-**GD với step size $$t = \frac{2}{m + M} = \frac{2}{5} = 0.4$$:**
+Xét gradient descent với kích thước bước tối ưu $$t = \frac{2}{m + M} = \frac{2}{5} = 0.4$$:
 
 $$
 x^{(k+1)} = x^{(k)} - 0.4 \nabla f(x^{(k)})
 $$
 
-**Convergence rate:**
+**Tốc độ hội tụ:**
 
 $$
 \|x^{(k+1)} - x^*\| \leq \left(\frac{M - m}{M + m}\right) \|x^{(k)} - x^*\| = \frac{3}{5} \|x^{(k)} - x^*\|
 $$
 
-**Linear convergence** với tỷ lệ $$0.6$$.
+Đây là hội tụ tuyến tính với hệ số co $$0.6$$.
 
-**So sánh:**
+**Bảng so sánh:**
 
-| Method | Convergence | Iterations to $$10^{-6}$$ |
-|--------|-------------|---------------------------|
-| Newton | Quadratic | 1 (hàm bậc hai) |
-| GD | Linear ($$0.6^k$$) | $$k = 28$$ ($$0.6^{27} \approx 1.03 \times 10^{-6}$$) |
+| Phương pháp | Tốc độ hội tụ | Số vòng lặp để đạt sai số $$10^{-6}$$ |
+|---|---|---|
+| Newton | Bậc hai | 1 (với hàm bậc hai) |
+| Gradient Descent | Tuyến tính ($$0.6^k$$) | $$k = 28$$ (do $$0.6^{27} \approx 1.03 \times 10^{-6}$$) |
 
-Newton **nhanh hơn rất nhiều**!
+Phương pháp Newton hội tụ nhanh hơn đáng kể so với gradient descent.
 
 </details>
 
 ---
 
-## **Phần IV: Affine Invariance**
+## **Phần IV: Tính bất biến Affine**
 
-### **Bài tập 5: Affine Invariance Property (Boyd & Vandenberghe, Ex. 9.20)**
+### **Bài tập 5: Tính chất bất biến Affine (Boyd & Vandenberghe, Ex. 9.20)**
 
-Tính bất biến affine của Newton method: Nếu $$f$$ được thay đổi bởi phép biến đổi affine, Newton method không bị ảnh hưởng.
+Phương pháp Newton có tính bất biến affine: khi thực hiện phép biến đổi affine lên hệ tọa độ, quỹ đạo lặp của phương pháp không thay đổi.
 
-**Yêu cầu:**
-a) Chứng minh: Nếu $$\tilde{x} = Ax + b$$ với $$A$$ khả nghịch, và $$\tilde{f}(\tilde{x}) = f(A^{-1}(\tilde{x} - b))$$, thì Newton step không đổi  
-b) Minh họa với ví dụ cụ thể
+**Yêu cầu:**  
+a) Chứng minh: Nếu $$\tilde{x} = Ax + b$$ với $$A$$ khả nghịch và $$\tilde{f}(\tilde{x}) = f(A^{-1}(\tilde{x} - b))$$, thì bước Newton biến đổi tương ứng theo phép biến đổi affine đó.  
+b) Minh họa bằng một ví dụ cụ thể.
 
 <details markdown="1">
 <summary><strong>Lời giải</strong></summary>
 
-**a) Chứng minh affine invariance:**
+**a) Chứng minh tính bất biến affine:**
 
-**Problem transformation:**
-
-Gốc: $$\min_x f(x)$$  
-Mới: $$\min_{\tilde{x}} \tilde{f}(\tilde{x})$$ với $$\tilde{x} = Ax + b$$.
+Bài toán gốc: $$\min_x f(x)$$  
+Bài toán sau biến đổi: $$\min_{\tilde{x}} \tilde{f}(\tilde{x})$$ với $$\tilde{x} = Ax + b$$.
 
 **Gradient của $$\tilde{f}$$:**
 
-Theo chain rule:
+Theo quy tắc chuỗi (với $$x = A^{-1}(\tilde{x} - b)$$):
 
 $$
 \nabla \tilde{f}(\tilde{x}) = A^{-T} \nabla f(x)
 $$
-
-(với $$x = A^{-1}(\tilde{x} - b)$$)
 
 **Hessian của $$\tilde{f}$$:**
 
@@ -556,7 +548,7 @@ $$
 \nabla^2 \tilde{f}(\tilde{x}) = A^{-T} \nabla^2 f(x) A^{-1}
 $$
 
-**Newton step trong tọa độ mới:**
+**Bước Newton trong tọa độ mới:**
 
 $$
 \Delta \tilde{x}_{nt} = -(\nabla^2 \tilde{f}(\tilde{x}))^{-1} \nabla \tilde{f}(\tilde{x})
@@ -570,7 +562,7 @@ $$
 = -A \nabla^2 f(x)^{-1} \nabla f(x) = A \Delta x_{nt}
 $$
 
-**Quan hệ:**
+**Quan hệ giữa hai bước lặp:**
 
 $$
 \Delta \tilde{x}_{nt} = A \Delta x_{nt}
@@ -588,7 +580,7 @@ $$
 \tilde{x}^{(k+1)} = \tilde{x}^{(k)} + \Delta \tilde{x}_{nt} = A x^{(k)} + b + A \Delta x_{nt} = A x^{(k+1)} + b
 $$
 
-**Kết luận:** Quỹ đạo Newton **không thay đổi** dưới phép biến đổi affine!
+**Kết luận:** Quỹ đạo của phương pháp Newton giữ nguyên cấu trúc dưới mọi phép biến đổi affine khả nghịch.
 
 ---
 
@@ -598,63 +590,63 @@ $$
 f(x) = x_1^2 + 4x_2^2
 $$
 
-**Transformation:** $$\tilde{x} = Ax$$ với $$A = \begin{bmatrix} 1 & 0 \\ 0 & 2 \end{bmatrix}$$
+**Phép biến đổi:** $$\tilde{x} = Ax$$ với $$A = \begin{bmatrix} 1 & 0 \\ 0 & 2 \end{bmatrix}$$, khi đó:
 
 $$
 \tilde{f}(\tilde{x}) = \tilde{x}_1^2 + \tilde{x}_2^2
 $$
 
-(Biến ellipse thành hình tròn!)
+(Phép biến đổi đưa các đường đồng mức elip thành đường tròn.)
 
-**Từ $$x^{(0)} = (2, 1)^T$$:**
+**Xuất phát từ $$x^{(0)} = (2, 1)^T$$:**
 
-**Tọa độ gốc:**
+**Trong tọa độ gốc:**
 - $$\nabla f = (4, 8)^T$$
 - $$\nabla^2 f = \text{diag}(2, 8)$$
 - $$\Delta x = -(2, 1)^T$$
-- $$x^{(1)} = (0, 0)^T$$ ✓
+- $$x^{(1)} = (0, 0)^T$$
 
-**Tọa độ mới:** $$\tilde{x}^{(0)} = (2, 2)^T$$
+**Trong tọa độ mới:** $$\tilde{x}^{(0)} = (2, 2)^T$$
 - $$\nabla \tilde{f} = (4, 4)^T$$
 - $$\nabla^2 \tilde{f} = 2I$$
 - $$\Delta \tilde{x} = -(2, 2)^T$$
-- $$\tilde{x}^{(1)} = (0, 0)^T$$ ✓
+- $$\tilde{x}^{(1)} = (0, 0)^T$$
 
-**Cùng kết quả!** Số iterations không đổi.
+Cả hai hệ tọa độ đều cho cùng điểm tối ưu với số vòng lặp như nhau.
 
 </details>
 
 ---
 
-## **Phần V: Bài toán Thực tế**
+## **Phần V: Bài toán ứng dụng**
 
-### **Bài tập 6: Optimal Control (Bertsekas, Ex. 2.3.5)**
+### **Bài tập 6: Điều khiển tối ưu (Bertsekas, Ex. 2.3.5)**
 
-Bài toán điều khiển tối ưu rời rạc:
+Xét bài toán điều khiển tối ưu rời rạc:
 
 $$
 \min_{u_0,\ldots,u_{N-1}} \sum_{k=0}^{N-1} \left( x_k^T Q x_k + u_k^T R u_k \right) + x_N^T Q_f x_N
 $$
 
-với dynamics:
+với phương trình trạng thái:
 
 $$
 x_{k+1} = A x_k + B u_k, \quad x_0 = \bar{x}
 $$
 
 **Yêu cầu:**  
-a) Viết bài toán dưới dạng QP không ràng buộc  
-b) Tính gradient và Hessian  
-c) Áp dụng Newton method với $$N = 3$$, $$Q = I$$, $$R = I$$, $$Q_f = I$$, $$A = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}$$, $$B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$, $$\bar{x} = (1, 0)^T$$
+a) Viết bài toán dưới dạng quy hoạch bậc hai (QP) không ràng buộc.  
+b) Tính gradient và ma trận Hessian.  
+c) Áp dụng phương pháp Newton với $$N = 3$$, $$Q = I$$, $$R = I$$, $$Q_f = I$$, $$A = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}$$, $$B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$, $$\bar{x} = (1, 0)^T$$.
 
 <details markdown="1">
 <summary><strong>Lời giải</strong></summary>
 
-**a) Formulation:**
+**a) Biểu diễn bài toán dạng QP không ràng buộc:**
 
-**Biến quyết định:** $$z = (u_0, u_1, u_2)^T \in \mathbb{R}^{3}$$ (vì $$u_k \in \mathbb{R}$$)
+**Biến quyết định:** $$z = (u_0, u_1, u_2)^T \in \mathbb{R}^{3}$$ (với $$u_k \in \mathbb{R}$$).
 
-**Express $$x_k$$ theo $$u$$:**
+**Biểu diễn $$x_k$$ theo $$u$$:**
 
 $$
 \begin{align}
@@ -664,7 +656,7 @@ x_3 &= A^3 x_0 + A^2 B u_0 + AB u_1 + B u_2
 \end{align}
 $$
 
-**Dạng compact:** $$x_k = \Phi_k x_0 + \sum_{j=0}^{k-1} \Psi_{kj} u_j$$
+**Dạng rút gọn:** $$x_k = \Phi_k x_0 + \sum_{j=0}^{k-1} \Psi_{kj} u_j$$.
 
 **Hàm mục tiêu:**
 
@@ -676,13 +668,13 @@ $$
 = \frac{1}{2} u^T H u + g^T u + \text{const}
 $$
 
-với $$H$$, $$g$$ được tính từ dynamics.
+trong đó $$H$$ và $$g$$ được xác định từ phương trình trạng thái và các ma trận trọng số.
 
 ---
 
 **b) Gradient và Hessian:**
 
-Vì $$f$$ là QP:
+Vì $$f$$ là hàm bậc hai:
 
 $$
 \nabla f(u) = Hu + g
@@ -692,17 +684,17 @@ $$
 \nabla^2 f(u) = H
 $$
 
-**Newton step:**
+**Bước Newton:**
 
 $$
 \Delta u = -H^{-1}(Hu + g) = -u - H^{-1}g
 $$
 
-(Hội tụ trong 1 bước!)
+Thuật toán hội tụ ngay trong 1 bước.
 
 ---
 
-**c) Tính số với $$N=3$$:**
+**c) Tính toán cụ thể với $$N=3$$:**
 
 Dữ liệu:
 
@@ -712,7 +704,7 @@ B = \begin{bmatrix} 0 \\ 1 \end{bmatrix}, \quad
 x_0 = \begin{bmatrix} 1 \\ 0 \end{bmatrix}
 $$
 
-**Tính dynamics:**
+**Tính các trạng thái $$x_k$$:**
 
 $$
 x_1 = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix} + \begin{bmatrix} 0 \\ 1 \end{bmatrix} u_0 = \begin{bmatrix} 1 \\ u_0 \end{bmatrix}
@@ -726,7 +718,7 @@ $$
 x_3 = A x_2 + B u_2 = \begin{bmatrix} 1 + 2u_0 + u_1 \\ u_0 + u_1 + u_2 \end{bmatrix}
 $$
 
-**Hàm mục tiêu ($$Q = R = Q_f = I$$):**
+**Hàm mục tiêu (với $$Q = R = Q_f = I$$):**
 
 $$
 f = \sum_{k=0}^2 (\|x_k\|^2 + u_k^2) + \|x_3\|^2
@@ -736,49 +728,49 @@ $$
 = (1^2 + u_0^2) + ((1)^2 + (u_0)^2 + u_1^2) + \ldots
 $$
 
-Khai triển và lấy đạo hàm: $$\nabla f(0) = (6, 2, 0)^T$$, $$\nabla^2 f = \begin{bmatrix} 18 & 8 & 2 \\ 8 & 8 & 2 \\ 2 & 2 & 4 \end{bmatrix}$$. Newton step từ $$u = 0$$: $$\Delta u = -(\nabla^2 f)^{-1}\nabla f(0)$$.
+Khai triển đầy đủ và lấy đạo hàm, ta thu được $$\nabla f(0) = (6, 2, 0)^T$$ và $$\nabla^2 f = \begin{bmatrix} 18 & 8 & 2 \\ 8 & 8 & 2 \\ 2 & 2 & 4 \end{bmatrix}$$. Bước Newton xuất phát từ $$u = 0$$ là $$\Delta u = -(\nabla^2 f)^{-1}\nabla f(0)$$.
 
-**Kết quả (tham khảo):**
+**Kết quả:**
 
-Optimal control: $$u^* = (-2/5,\ 4/35,\ 1/7)^T \approx (-0.4,\ 0.114,\ 0.143)^T$$, $$f^* = 102/35 \approx 2.914$$
+Điều khiển tối ưu: $$u^* = (-2/5,\ 4/35,\ 1/7)^T \approx (-0.4,\ 0.114,\ 0.143)^T$$, với giá trị mục tiêu tối ưu $$f^* = 102/35 \approx 2.914$$.
 
-Newton method hội tụ trong 1 iteration vì QP.
+Phương pháp Newton tìm ra nghiệm chính xác sau 1 vòng lặp vì bài toán có dạng quy hoạch bậc hai.
 
 </details>
 
 ---
 
-## **Tổng kết và Chiến lược**
+## **Tổng kết và lưu ý thực hành**
 
-### **Newton Method:**
-- **Newton step:** $$\Delta x = -(\nabla^2 f(x))^{-1} \nabla f(x)$$
-- **Newton decrement:** $$\lambda(x) = \sqrt{\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x)}$$
-- **Stopping criterion:** $$\lambda^2(x)/2 < \epsilon$$
+### **Phương pháp Newton:**
+- **Bước Newton:** $$\Delta x = -(\nabla^2 f(x))^{-1} \nabla f(x)$$
+- **Đại lượng giảm Newton:** $$\lambda(x) = \sqrt{\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x)}$$
+- **Tiêu chí dừng:** $$\lambda^2(x)/2 < \epsilon$$
 
-### **Backtracking Line Search:**
-- **Armijo condition:** $$f(x + t\Delta x) \leq f(x) + \alpha t \nabla f(x)^T \Delta x$$
-- **Parameters:** $$\alpha \in (0, 0.5)$$, $$\beta \in (0, 1)$$
-- **Typical:** $$\alpha = 0.3$$, $$\beta = 0.8$$
+### **Tìm kiếm đường Backtracking:**
+- **Điều kiện Armijo:** $$f(x + t\Delta x) \leq f(x) + \alpha t \nabla f(x)^T \Delta x$$
+- **Tham số:** $$\alpha \in (0, 0.5)$$, $$\beta \in (0, 1)$$
+- **Giá trị thường dùng:** $$\alpha = 0.3$$, $$\beta = 0.8$$
 
-### **Convergence:**
-- **Quadratic convergence:** $$\|x^{(k+1)} - x^*\| \leq C \|x^{(k)} - x^*\|^2$$
-- **Near optimal:** Khi gần $$x^*$$, Newton method rất nhanh
-- **Quadratic function:** Hội tụ trong 1 bước
+### **Tính chất hội tụ:**
+- **Hội tụ bậc hai:** $$\|x^{(k+1)} - x^*\| \leq C \|x^{(k)} - x^*\|^2$$
+- **Gần điểm tối ưu:** Khi ở gần $$x^*$$, phương pháp Newton hội tụ rất nhanh
+- **Hàm bậc hai:** Hội tụ trong 1 bước
 
-### **Affine Invariance:**
-- Newton method không phụ thuộc vào tọa độ
-- Số iterations không đổi dưới affine transformation
-- **Lợi ích:** Không cần preconditioning
+### **Tính bất biến Affine:**
+- Quỹ đạo phương pháp Newton không phụ thuộc vào phép biến đổi affine của hệ tọa độ
+- Số vòng lặp giữ nguyên dưới các phép biến đổi affine khả nghịch
+- **Lợi ích:** Không nhạy cảm với số điều kiện của hệ tọa độ
 
-### **Khi nào dùng Newton:**
-- Hàm smooth ($$\nabla^2 f$$ tồn tại)
-- Gần nghiệm (convergence nhanh)
-- Dimension không quá lớn (Hessian $$n \times n$$)
+### **Khi nào nên dùng phương pháp Newton:**
+- Hàm mục tiêu trơn, khả vi hai lần ($$\nabla^2 f$$ tồn tại và tính được)
+- Đã ở gần nghiệm hoặc cần tốc độ hội tụ cao
+- Số chiều không quá lớn (lưu trữ và giải hệ tuyến tính cỡ $$n \times n$$ còn khả thi)
 - Cần độ chính xác cao
 
 ---
 
-## **Tài liệu Tham khảo**
+## **Tài liệu tham khảo**
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press. Chapter 9.
 
@@ -789,4 +781,3 @@ Newton method hội tụ trong 1 iteration vì QP.
 4. **Nesterov, Y.** (2004). *Introductory Lectures on Convex Optimization*. Springer. Chapter 2.
 
 5. **Dennis, J. E., & Schnabel, R. B.** (1996). *Numerical Methods for Unconstrained Optimization and Nonlinear Equations*. SIAM.
-

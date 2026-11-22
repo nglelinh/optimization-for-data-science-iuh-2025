@@ -12,17 +12,17 @@ redirect_from:
   - /contents/vi/chapter13/13_08_Practical_Exercises_Duality_Applications/
 ---
 
-# Bài Tập Thực Hành - Ứng Dụng Tính Đối Ngẫu
+# Bài tập thực hành - Ứng dụng tính đối ngẫu
 
-Các bài tập được tham khảo từ Boyd & Vandenberghe (2004), Rockafellar (1970), và Ben-Tal & Nemirovski (2001).
+Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Rockafellar (1970) và Ben-Tal & Nemirovski (2001).
 
 ---
 
-## 📝 **Phần I: Chuẩn Đối Ngẫu (Dual Norms)**
+## 📝 **Phần I: Chuẩn đối ngẫu (Dual Norms)**
 
-### **Bài tập 1: Tính toán Chuẩn Đối Ngẫu (Boyd & Vandenberghe, Ex. 3.7)**
+### **Bài tập 1: Tính toán chuẩn đối ngẫu (Boyd & Vandenberghe, Ex. 3.7)**
 
-Cho chuẩn $$\|x\|$$, chuẩn đối ngẫu được định nghĩa:
+Cho chuẩn $$\|x\|$$, chuẩn đối ngẫu được định nghĩa bởi:
 
 $$
 \|y\|_* = \max_{\|x\| \leq 1} y^T x
@@ -38,31 +38,29 @@ d) $$\|x\|_p = (\sum_{i=1}^n |x_i|^p)^{1/p}$$ với $$p \geq 1$$
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**Công thức chung:** Chuẩn đối ngẫu của $$\|\cdot\|_p$$ là $$\|\cdot\|_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$.
+**Công thức tổng quát:** Chuẩn đối ngẫu của $$\|\cdot\|_p$$ là $$\|\cdot\|_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$.
 
 ---
 
 **a) Chuẩn $$\ell_1$$:**
 
-Cần tìm:
+Cần tính:
 
 $$
 \|y\|_* = \max_{\|x\|_1 \leq 1} y^T x = \max_{\sum_i |x_i| \leq 1} \sum_i y_i x_i
 $$
 
 **Phân tích:**  
-- Để maximize $$\sum_i y_i x_i$$, chọn $$x_i$$ có cùng dấu với $$y_i$$
-- Giới hạn: $$\sum_i |x_i| \leq 1$$
+- Để cực đại hóa $$\sum_i y_i x_i$$, ta chọn các thành phần $$x_i$$ cùng dấu với $$y_i$$.
+- Với ràng buộc $$\sum_i |x_i| \leq 1$$, ta dồn toàn bộ trọng số vào tọa độ có $$|y_i|$$ lớn nhất.
 
-Nghiệm tối ưu: Đặt $$x_j = \text{sign}(y_j)$$ với $$j = \arg\max_i |y_i|$$, các $$x_i$$ khác = 0.
-
-Kết quả:
+Đặt $$x_j = \text{sign}(y_j)$$ với $$j = \arg\max_i |y_i|$$ và các $$x_i = 0$$ với $$i \neq j$$. Khi đó:
 
 $$
 \|y\|_* = \max_i |y_i| = \|y\|_\infty
 $$
 
-**Kết luận:** $$(\|\cdot\|_1)_* = \|\cdot\|_\infty$$
+**Kết luận:** $$(\|\cdot\|_1)_* = \|\cdot\|_\infty$$.
 
 ---
 
@@ -72,15 +70,15 @@ $$
 \|y\|_* = \max_{\|x\|_2 \leq 1} y^T x
 $$
 
-Theo bất đẳng thức Cauchy-Schwarz:
+Theo bất đẳng thức Cauchy–Schwarz:
 
 $$
 y^T x \leq \|y\|_2 \|x\|_2 \leq \|y\|_2
 $$
 
-Đẳng thức xảy ra khi $$x = \frac{y}{\|y\|_2}$$.
+Dấu bằng đạt được khi $$x = \frac{y}{\|y\|_2}$$ (với $$y \neq 0$$).
 
-**Kết luận:** $$(\|\cdot\|_2)_* = \|\cdot\|_2$$ (tự đối ngẫu)
+**Kết luận:** $$(\|\cdot\|_2)_* = \|\cdot\|_2$$ (tự đối ngẫu).
 
 ---
 
@@ -90,13 +88,13 @@ $$
 \|y\|_* = \max_{\max_i |x_i| \leq 1} \sum_i y_i x_i
 $$
 
-Chọn $$x_i = \text{sign}(y_i)$$ cho mọi $$i$$ (vì $$|x_i| \leq 1$$):
+Chọn $$x_i = \text{sign}(y_i)$$ cho mọi $$i$$ (thỏa mãn $$|x_i| \leq 1$$):
 
 $$
 \|y\|_* = \sum_i |y_i| = \|y\|_1
 $$
 
-**Kết luận:** $$(\|\cdot\|_\infty)_* = \|\cdot\|_1$$
+**Kết luận:** $$(\|\cdot\|_\infty)_* = \|\cdot\|_1$$.
 
 ---
 
@@ -110,16 +108,16 @@ $$
 
 với $$\frac{1}{p} + \frac{1}{q} = 1$$.
 
-Đẳng thức đạt được khi $$x_i = c \cdot \text{sign}(y_i) |y_i|^{q-1}$$ (với $$c$$ phù hợp để $$\|x\|_p = 1$$).
+Dấu bằng đạt được khi chọn $$x_i = c \cdot \text{sign}(y_i) |y_i|^{q-1}$$ (với hằng số chuẩn hóa $$c > 0$$ sao cho $$\|x\|_p = 1$$).
 
-**Kết luận:** $$(\|\cdot\|_p)_* = \|\cdot\|_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$
+**Kết luận:** $$(\|\cdot\|_p)_* = \|\cdot\|_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$.
 
 ---
 
 **Bảng tóm tắt:**
 
-| Chuẩn Primal | Chuẩn Dual | Quan hệ |
-|--------------|------------|---------|
+| Chuẩn gốc | Chuẩn đối ngẫu | Quan hệ |
+|-----------|----------------|---------|
 | $$\|\cdot\|_1$$ | $$\|\cdot\|_\infty$$ | $$p=1, q=\infty$$ |
 | $$\|\cdot\|_2$$ | $$\|\cdot\|_2$$ | Tự đối ngẫu |
 | $$\|\cdot\|_\infty$$ | $$\|\cdot\|_1$$ | $$p=\infty, q=1$$ |
@@ -129,19 +127,19 @@ với $$\frac{1}{p} + \frac{1}{q} = 1$$.
 
 ---
 
-### **Bài tập 2: Kiểm chứng Tính chất Chuẩn Đối Ngẫu**
+### **Bài tập 2: Kiểm chứng tính chất chuẩn đối ngẫu**
 
-Với $$x = (3, 4)^T$$ và $$y = (0.6, 0.8)^T$$:
+Cho $$x = (3, 4)^T$$ và $$y = (0.6, 0.8)^T$$.
 
 **Yêu cầu:**  
 a) Tính $$\|x\|_1$$, $$\|x\|_2$$, $$\|x\|_\infty$$  
 b) Tính $$\|y\|_1$$, $$\|y\|_2$$, $$\|y\|_\infty$$  
-c) Kiểm chứng: $$y^T x \leq \|y\|_* \|x\|$$ cho mỗi cặp chuẩn
+c) Kiểm chứng bất đẳng thức $$y^T x \leq \|y\|_* \|x\|$$ cho từng cặp chuẩn đối ngẫu
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Tính chuẩn của $$x = (3,4)$$:**
+**a) Các chuẩn của $$x = (3,4)^T$$:**
 
 $$
 \begin{align}
@@ -153,7 +151,7 @@ $$
 
 ---
 
-**b) Tính chuẩn của $$y = (0.6, 0.8)$$:**
+**b) Các chuẩn của $$y = (0.6, 0.8)^T$$:**
 
 $$
 \begin{align}
@@ -167,55 +165,55 @@ $$
 
 **c) Kiểm chứng bất đẳng thức:**
 
-Tính $$y^T x$$:
+Trước hết tính tích vô hướng:
 
 $$
 y^T x = 0.6 \times 3 + 0.8 \times 4 = 1.8 + 3.2 = 5
 $$
 
-**Trường hợp 1:** $$\|x\|_1$$ và $$\|y\|_\infty$$ (vì $$(\|\cdot\|_1)_* = \|\cdot\|_\infty$$)
+**Trường hợp 1:** Cặp $$\|x\|_1$$ và $$\|y\|_\infty$$ (vì $$(\|\cdot\|_1)_* = \|\cdot\|_\infty$$):
 
 $$
 y^T x = 5 \leq \|y\|_\infty \|x\|_1 = 0.8 \times 7 = 5.6
 $$
 
-✓ Thỏa mãn
+✓ Thỏa mãn.
 
 ---
 
-**Trường hợp 2:** $$\|x\|_2$$ và $$\|y\|_2$$ (tự đối ngẫu)
+**Trường hợp 2:** Cặp $$\|x\|_2$$ và $$\|y\|_2$$ (tự đối ngẫu):
 
 $$
 y^T x = 5 \leq \|y\|_2 \|x\|_2 = 1 \times 5 = 5
 $$
 
-✓ Đẳng thức (vì $$y = \frac{x}{\|x\|_2}$$)
+✓ Đạt dấu bằng (vì $$y = \frac{x}{\|x\|_2}$$).
 
 ---
 
-**Trường hợp 3:** $$\|x\|_\infty$$ và $$\|y\|_1$$ (vì $$(\|\cdot\|_\infty)_* = \|\cdot\|_1$$)
+**Trường hợp 3:** Cặp $$\|x\|_\infty$$ và $$\|y\|_1$$ (vì $$(\|\cdot\|_\infty)_* = \|\cdot\|_1$$):
 
 $$
 y^T x = 5 \leq \|y\|_1 \|x\|_\infty = 1.4 \times 4 = 5.6
 $$
 
-✓ Thỏa mãn
+✓ Thỏa mãn.
 
 </details>
 
 ---
 
-## 📝 **Phần II: Hàm Liên Hợp (Conjugate Functions)**
+## 📝 **Phần II: Hàm liên hợp (Conjugate Functions)**
 
-### **Bài tập 3: Tính Hàm Liên Hợp (Rockafellar, Ex. 12.B)**
+### **Bài tập 3: Tính hàm liên hợp (Rockafellar, Ex. 12.B)**
 
-Hàm liên hợp của $$f(x)$$ được định nghĩa:
+Hàm liên hợp của $$f(x)$$ được định nghĩa là:
 
 $$
 f^*(y) = \sup_x (y^T x - f(x))
 $$
 
-**Yêu cầu:** Tính hàm liên hợp cho:
+**Yêu cầu:** Tính hàm liên hợp cho các hàm sau:
 
 a) $$f(x) = \frac{1}{2}x^T Q x$$ với $$Q \succ 0$$  
 b) $$f(x) = \|x\|_2$$  
@@ -231,13 +229,9 @@ $$
 f^*(y) = \sup_x \left( y^T x - \frac{1}{2} x^T Q x \right)
 $$
 
-**FOC:** $$\nabla_x (y^T x - \frac{1}{2}x^T Q x) = y - Qx = 0$$
+Điều kiện bậc nhất theo $$x$$: $$\nabla_x (y^T x - \frac{1}{2}x^T Q x) = y - Qx = 0 \Rightarrow x^* = Q^{-1} y$$.
 
-$$
-x^* = Q^{-1} y
-$$
-
-Thế vào:
+Thế lại vào biểu thức:
 
 $$
 f^*(y) = y^T Q^{-1} y - \frac{1}{2} (Q^{-1}y)^T Q (Q^{-1}y)
@@ -249,7 +243,7 @@ $$
 
 **Kết quả:** $$\boxed{f^*(y) = \frac{1}{2} y^T Q^{-1} y}$$
 
-**Bất đẳng thức Fenchel:**
+**Bất đẳng thức Fenchel tương ứng:**
 
 $$
 \frac{1}{2}x^T Q x + \frac{1}{2}y^T Q^{-1} y \geq x^T y
@@ -264,8 +258,8 @@ f^*(y) = \sup_x (y^T x - \|x\|_2)
 $$
 
 **Phân tích:**
-- Nếu $$\|y\|_2 \leq 1$$: Có thể tìm $$x$$ theo hướng $$y$$ với $$\|x\| \to \infty$$ nhưng $$y^Tx - \|x\| \leq 0$$
-- Nếu $$\|y\|_2 > 1$$: $$y^T x - \|x\|_2 \to \infty$$ khi $$x = ty$$ với $$t \to \infty$$
+- Nếu $$\|y\|_2 \leq 1$$: theo bất đẳng thức Cauchy–Schwarz, $$y^Tx - \|x\|_2 \leq (\|y\|_2 - 1)\|x\|_2 \leq 0$$ với mọi $$x$$, và dấu bằng đạt tại $$x = 0$$.
+- Nếu $$\|y\|_2 > 1$$: chọn $$x = ty$$ với $$t \to +\infty$$ thì $$y^T x - \|x\|_2 = t\|y\|_2(\|y\|_2 - 1) \to +\infty$$.
 
 **Kết quả:**
 
@@ -284,15 +278,15 @@ $$
 f^*(y) = \sup_x (yx - e^x)
 $$
 
-**FOC:** $$y - e^x = 0 \Rightarrow x^* = \ln y$$
+Điều kiện bậc nhất: $$y - e^x = 0 \Rightarrow x^* = \ln y$$ (chỉ tồn tại khi $$y > 0$$).
 
-(Chỉ có nghiệm nếu $$y > 0$$)
-
-Thế vào:
+Thế vào biểu thức cho trường hợp $$y > 0$$:
 
 $$
 f^*(y) = y \ln y - e^{\ln y} = y \ln y - y
 $$
+
+Khi $$y = 0$$, $$\sup_x (-e^x) = 0$$ (khi $$x \to -\infty$$). Khi $$y < 0$$, cho $$x \to -\infty$$ thì $$yx - e^x \to +\infty$$.
 
 **Kết quả:**
 
@@ -312,9 +306,9 @@ $$
 f^*(y) = \sup_x (y^T x - I_C(x)) = \sup_{x \in C} y^T x
 $$
 
-**Kết quả:** $$\boxed{f^*(y) = \sup_{x \in C} y^T x}$$ (hàm hỗ trợ của $$C$$)
+**Kết quả:** $$\boxed{f^*(y) = \sup_{x \in C} y^T x}$$ (hàm hỗ trợ của tập $$C$$).
 
-**Ví dụ cụ thể:**
+**Ví dụ minh họa:**
 - $$C = \{x : \|x\|_2 \leq 1\}$$: $$f^*(y) = \|y\|_2$$
 - $$C = \mathbb{R}^n_+$$: $$f^*(y) = I_{\{y \leq 0\}}(y)$$
 
@@ -324,10 +318,10 @@ $$
 
 ### **Bài tập 4: Bất đẳng thức Fenchel (Boyd & Vandenberghe, Ex. 3.33)**
 
-Cho $$f(x) = \frac{1}{2}\|x\|^2$$ và $$x = (1, 2)^T$$, $$y = (3, 1)^T$$.
+Cho $$f(x) = \frac{1}{2}\|x\|^2$$ và các vector $$x = (1, 2)^T$$, $$y = (3, 1)^T$$.
 
 **Yêu cầu:**  
-a) Tính $$f(x)$$, $$f^*(y)$$  
+a) Tính $$f(x)$$ và $$f^*(y)$$  
 b) Tính $$x^T y$$  
 c) Kiểm chứng bất đẳng thức Fenchel: $$f(x) + f^*(y) \geq x^T y$$
 
@@ -340,7 +334,7 @@ $$
 f(x) = \frac{1}{2}(1^2 + 2^2) = \frac{1}{2}(1 + 4) = 2.5
 $$
 
-Với $$f(x) = \frac{1}{2}\|x\|^2$$, ta có $$Q = I$$ nên:
+Với $$f(x) = \frac{1}{2}\|x\|^2$$ (tức $$Q = I$$), ta có $$f^*(y) = \frac{1}{2}\|y\|^2$$:
 
 $$
 f^*(y) = \frac{1}{2}\|y\|^2 = \frac{1}{2}(3^2 + 1^2) = \frac{1}{2}(9 + 1) = 5
@@ -356,53 +350,41 @@ $$
 
 ---
 
-**c) Kiểm chứng Fenchel:**
+**c) Kiểm chứng bất đẳng thức Fenchel:**
 
 $$
 f(x) + f^*(y) = 2.5 + 5 = 7.5 \geq 5 = x^T y
 $$
 
-✓ Thỏa mãn
+✓ Thỏa mãn (chênh lệch: $$7.5 - 5 = 2.5$$).
 
-**Chênh lệch:** $$7.5 - 5 = 2.5$$
-
-**Khi nào đẳng thức?** Khi $$y \in \partial f(x)$$, tức $$y = \nabla f(x) = x$$.
-
-Với $$x = (1,2)$$ thì $$\nabla f(x) = (1,2) \neq (3,1) = y$$, nên không có đẳng thức.
+**Điều kiện xảy ra dấu bằng:** Khi $$y \in \partial f(x)$$, tức $$y = \nabla f(x) = x$$. Ở đây $$\nabla f(x) = (1,2)^T \neq (3,1)^T = y$$, nên dấu bằng không xảy ra.
 
 </details>
 
 ---
 
-## 📝 **Phần III: LASSO Dual**
+## 📝 **Phần III: Đối ngẫu của bài toán LASSO**
 
-### **Bài tập 5: Xây dựng LASSO Dual (Boyd & Vandenberghe, Ex. 6.15)**
+### **Bài tập 5: Xây dựng LASSO đối ngẫu (Boyd & Vandenberghe, Ex. 6.15)**
 
-Bài toán LASSO primal:
+Xét bài toán LASSO nguyên thủy:
 
 $$
 \min_x \frac{1}{2}\|Ax - b\|^2 + \lambda \|x\|_1
 $$
 
 **Yêu cầu:**
-a) Viết bài toán dual  
-b) Giải thích quan hệ giữa primal và dual variables  
-c) Với $$A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix}$$, $$b = \begin{bmatrix} 1 \\ 1 \\ 3 \end{bmatrix}$$, $$\lambda = 0.5$$, tìm nghiệm dual
+a) Thiết lập bài toán đối ngẫu  
+b) Giải thích mối liên hệ giữa nghiệm nguyên thủy và nghiệm đối ngẫu  
+c) Với $$A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix}$$, $$b = \begin{bmatrix} 1 \\ 1 \\ 3 \end{bmatrix}$$, $$\lambda = 0.5$$, hãy tìm nghiệm đối ngẫu
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Bài toán Dual:**
+**a) Thiết lập bài toán đối ngẫu:**
 
-LASSO primal:
-
-$$
-\min_x \frac{1}{2}\|Ax - b\|^2 + \lambda \|x\|_1
-$$
-
-**Cách 1: Qua Lagrangian**
-
-Viết lại với biến phụ $$r = Ax - b$$:
+Đặt biến phụ $$r = Ax - b$$, bài toán nguyên thủy trở thành:
 
 $$
 \begin{align}
@@ -411,13 +393,13 @@ $$
 \end{align}
 $$
 
-Lagrangian:
+Hàm Lagrangian tương ứng:
 
 $$
 L(x, r, \nu) = \frac{1}{2}\|r\|^2 + \lambda \|x\|_1 + \nu^T(Ax - r - b)
 $$
 
-Minimize over $$x$$:
+Cực tiểu hóa theo $$x$$:
 
 $$
 \min_x \left( \lambda \|x\|_1 + \nu^T A x \right) = \begin{cases}
@@ -426,13 +408,13 @@ $$
 \end{cases}
 $$
 
-Minimize over $$r$$:
+Cực tiểu hóa theo $$r$$ (đạt tại $$r = \nu$$):
 
 $$
 \min_r \left( \frac{1}{2}\|r\|^2 - \nu^T r \right) = -\frac{1}{2}\|\nu\|^2
 $$
 
-**Hàm dual:**
+**Hàm đối ngẫu:**
 
 $$
 g(\nu) = -\frac{1}{2}\|\nu\|^2 - \nu^T b
@@ -440,7 +422,7 @@ $$
 
 với ràng buộc $$\|A^T \nu\|_\infty \leq \lambda$$.
 
-**Bài toán dual:**
+**Bài toán đối ngẫu (đổi dấu để viết dưới dạng cực tiểu hóa):**
 
 $$
 \boxed{
@@ -451,28 +433,26 @@ $$
 }
 $$
 
-(Chuyển max thành min)
-
 ---
 
-**b) Quan hệ Primal-Dual:**
+**b) Quan hệ giữa nghiệm nguyên thủy và đối ngẫu:**
 
-Từ điều kiện KKT:
-- $$r^* = \nu^*$$ (residual dual = dual variable)
-- Nếu $$|(A^T \nu^*)_i| < \lambda$$: $$x_i^* = 0$$
-- Nếu $$|(A^T \nu^*)_i| = \lambda$$: $$x_i^* \neq 0$$ (trong active set)
+Từ các điều kiện KKT:
+- $$r^* = \nu^*$$ (biến đối ngẫu chính là phần dư $$Ax^* - b$$).
+- Nếu $$|(A^T \nu^*)_i| < \lambda$$ thì $$x_i^* = 0$$.
+- Các chỉ số có $$|(A^T \nu^*)_i| = \lambda$$ tạo thành tập chỉ số tích cực (active set) chứa các thành phần có thể khác $$0$$ của $$x^*$$.
 
-**Khôi phục primal từ dual:**
+**Khôi phục nghiệm nguyên thủy từ nghiệm đối ngẫu:**
 
 $$
-x^* = \text{(nghiệm của bài toán với active set)}
+x^* = \text{(nghiệm của bài toán rút gọn trên tập chỉ số tích cực)}
 $$
 
 ---
 
-**c) Nghiệm số:**
+**c) Tính nghiệm số:**
 
-Dữ liệu:
+Với dữ liệu:
 
 $$
 A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix}, \quad
@@ -480,7 +460,7 @@ b = \begin{bmatrix} 1 \\ 1 \\ 3 \end{bmatrix}, \quad
 \lambda = 0.5
 $$
 
-**Bài toán dual:**
+**Bài toán đối ngẫu cụ thể:**
 
 $$
 \begin{align}
@@ -489,9 +469,9 @@ $$
 \end{align}
 $$
 
-**Giải:**
+**Giải bài toán:**
 
-FOC (nếu ràng buộc không chặt):
+Nếu xét nghiệm không ràng buộc (điều kiện bậc nhất):
 
 $$
 \nu_1 + 1 = 0 \Rightarrow \nu_1 = -1 \\
@@ -505,64 +485,66 @@ $$
 \max(|-1 - 3|, |-1 - 3|) = 4 > 0.5
 $$
 
-Không thỏa! Ràng buộc phải active.
+Điểm này không khả thi, nên ràng buộc phải tích cực.
 
-**Giả sử** cả hai ràng buộc cùng chặt: $$\nu_1 + \nu_3 = \nu_2 + \nu_3 = -0.5$$ (do đối xứng, $$\nu_1 = \nu_2 = a$$ và $$\nu_3 = -0.5 - a$$).
+**Giả sử** cả hai ràng buộc cùng chặt ở biên âm: $$\nu_1 + \nu_3 = \nu_2 + \nu_3 = -0.5$$. Do tính đối xứng, đặt $$\nu_1 = \nu_2 = a$$ và $$\nu_3 = -0.5 - a$$.
 
-Thế vào mục tiêu: $$\min_a \; \frac{1}{2}\left[2(a+1)^2 + (2.5 - a)^2\right]$$ (vì $$\frac{1}{2}\|\nu\|^2 + \nu^Tb = \frac{1}{2}\|\nu + b\|^2 - \frac{1}{2}\|b\|^2$$).
+Sử dụng đồng nhất thức $$\frac{1}{2}\|\nu\|^2 + \nu^Tb = \frac{1}{2}\|\nu + b\|^2 - \frac{1}{2}\|b\|^2$$, ta cực tiểu hóa:
 
-Đạo hàm: $$2(a+1) - (2.5 - a) = 0 \Rightarrow a = \frac{1}{6}$$.
+$$\min_a \; \frac{1}{2}\left[2(a+1)^2 + (2.5 - a)^2\right]$$
 
-**Nghiệm dual:**
+Lấy đạo hàm theo $$a$$ bằng $$0$$: $$2(a+1) - (2.5 - a) = 0 \Rightarrow a = \frac{1}{6}$$.
+
+**Nghiệm đối ngẫu:**
 
 $$
 \nu^* = \left(\tfrac{1}{6}, \tfrac{1}{6}, -\tfrac{2}{3}\right)^T, \qquad \tfrac{1}{2}\|\nu^*\|^2 + \nu^{*T}b = \tfrac{1}{4} - \tfrac{5}{3} = -\tfrac{17}{12}
 $$
 
-tức giá trị dual (bài toán max) là $$\frac{17}{12} \approx 1.4167$$.
+Tức giá trị tối ưu của bài toán đối ngẫu (dạng cực đại hóa) là $$\frac{17}{12} \approx 1.4167$$.
 
-**Kiểm tra với primal:** $$x^* = \left(\tfrac{7}{6}, \tfrac{7}{6}\right)$$ cho $$Ax^* - b = \left(\tfrac{1}{6}, \tfrac{1}{6}, -\tfrac{2}{3}\right) = \nu^*$$ ✓ (đúng $$r^* = \nu^*$$), và giá trị primal $$\frac{1}{2}\|r^*\|^2 + \lambda\|x^*\|_1 = \frac{1}{4} + 0.5 \cdot \frac{7}{3} = \frac{17}{12}$$ ✓. Không có duality gap.
+**Kiểm chứng với bài toán nguyên thủy:** Nghiệm nguyên thủy $$x^* = \left(\tfrac{7}{6}, \tfrac{7}{6}\right)^T$$ cho phần dư $$Ax^* - b = \left(\tfrac{1}{6}, \tfrac{1}{6}, -\tfrac{2}{3}\right)^T = \nu^*$$ ✓ (đúng hệ thức $$r^* = \nu^*$$) và giá trị mục tiêu nguyên thủy $$\frac{1}{2}\|r^*\|^2 + \lambda\|x^*\|_1 = \frac{1}{4} + 0.5 \cdot \frac{7}{3} = \frac{17}{12}$$ ✓, khoảng cách đối ngẫu bằng $$0$$.
 
 </details>
 
 ---
 
-## 📝 **Phần IV: Nón Đối Ngẫu (Dual Cones)**
+## 📝 **Phần IV: Nón đối ngẫu (Dual Cones)**
 
-### **Bài tập 6: Tính Nón Đối Ngẫu (Boyd & Vandenberghe, Ex. 2.36)**
+### **Bài tập 6: Tính nón đối ngẫu (Boyd & Vandenberghe, Ex. 2.36)**
 
-Nón đối ngẫu của $$K$$ được định nghĩa:
+Nón đối ngẫu của nón $$K$$ được định nghĩa là:
 
 $$
 K^* = \{ y : y^T x \geq 0, \forall x \in K \}
 $$
 
-**Yêu cầu:** Tìm nón đối ngẫu cho:
+**Yêu cầu:** Tìm nón đối ngẫu cho các nón sau:
 
 a) $$K = \mathbb{R}^n_+ = \{x : x \geq 0\}$$  
-b) $$K = \{(t, x) : \|x\|_2 \leq t\}$$ (second-order cone)  
-c) $$K = \mathbb{S}^n_+$$ (positive semidefinite cone)
+b) $$K = \{(t, x) : \|x\|_2 \leq t\}$$ (nón bậc hai — second-order cone)  
+c) $$K = \mathbb{S}^n_+$$ (nón ma trận nửa xác định dương)
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
 **a) Nón không âm $$K = \mathbb{R}^n_+$$:**
 
-Cần tìm $$y$$ sao cho $$y^T x \geq 0$$ với mọi $$x \geq 0$$.
+Cần tìm các vector $$y$$ sao cho $$y^T x \geq 0$$ với mọi $$x \geq 0$$.
 
-**Phân tích:** Chọn $$x = e_i$$ (vector cơ sở thứ $$i$$):
+Chọn $$x = e_i$$ (vector cơ sở chuẩn thứ $$i$$):
 
 $$
 y^T e_i = y_i \geq 0
 $$
 
-Phải đúng với mọi $$i$$ → $$y \geq 0$$.
+Điều kiện này đúng với mọi $$i$$ khi và chỉ khi $$y \geq 0$$.
 
-**Kết luận:** $$\boxed{K^* = \mathbb{R}^n_+}$$ (tự đối ngẫu)
+**Kết luận:** $$\boxed{K^* = \mathbb{R}^n_+}$$ (tự đối ngẫu).
 
 ---
 
-**b) Second-order cone:**
+**b) Nón bậc hai (Second-order cone):**
 
 $$
 K = \{(t, x) : t \in \mathbb{R}, x \in \mathbb{R}^{n-1}, \|x\|_2 \leq t\}
@@ -574,99 +556,95 @@ $$
 st + y^T x \geq 0, \quad \forall \|x\|_2 \leq t
 $$
 
-**Trường hợp tệ nhất:** $$x = -\frac{t}{\|y\|_2} y$$ (nếu $$y \neq 0$$)
+Xét trường hợp bất lợi nhất theo $$x$$ (với $$y \neq 0$$): chọn $$x = -\frac{t}{\|y\|_2} y$$ (thỏa $$\|x\|_2 = t$$), ta được:
 
 $$
 st - t\|y\|_2 = t(s - \|y\|_2) \geq 0
 $$
 
-Phải đúng với mọi $$t > 0$$ → $$s \geq \|y\|_2$$.
+Để bất đẳng thức đúng với mọi $$t > 0$$, điều kiện cần và đủ là $$s \geq \|y\|_2$$ (khi $$y = 0$$, điều kiện là $$s \geq 0$$, vẫn khớp).
 
-**Kết luận:** $$\boxed{K^* = K}$$ (tự đối ngẫu)
+**Kết luận:** $$\boxed{K^* = K}$$ (tự đối ngẫu).
 
 ---
 
-**c) PSD cone $$K = \mathbb{S}^n_+$$:**
+**c) Nón ma trận nửa xác định dương $$K = \mathbb{S}^n_+$$:**
 
-Cần tìm $$Y$$ sao cho:
+Cần tìm các ma trận đối xứng $$Y$$ sao cho:
 
 $$
 \text{tr}(Y X) \geq 0, \quad \forall X \succeq 0
 $$
 
-**Phân tích eigenvalue:** $$X = \sum_i \lambda_i v_i v_i^T$$ với $$\lambda_i \geq 0$$:
+Sử dụng phân tích trị riêng $$X = \sum_i \lambda_i v_i v_i^T$$ với $$\lambda_i \geq 0$$:
 
 $$
 \text{tr}(Y X) = \sum_i \lambda_i v_i^T Y v_i \geq 0
 $$
 
-Phải đúng với mọi $$\lambda_i \geq 0$$ → $$v_i^T Y v_i \geq 0$$ với mọi $$v_i$$ → $$Y \succeq 0$$.
+Điều này đúng với mọi $$\lambda_i \geq 0$$ và mọi vector $$v_i$$ khi và chỉ khi $$v^T Y v \geq 0$$ với mọi $$v$$, tức $$Y \succeq 0$$.
 
-**Kết luận:** $$\boxed{K^* = \mathbb{S}^n_+}$$ (tự đối ngẫu)
+**Kết luận:** $$\boxed{K^* = \mathbb{S}^n_+}$$ (tự đối ngẫu).
 
 </details>
 
 ---
 
-### **Bài tập 7: Kiểm chứng Tính chất Nón**
+### **Bài tập 7: Kiểm chứng tính chất nón bậc hai**
 
 Cho $$x = (2, 1, 1)^T$$ và $$y = (1.5, 0.5, 0.5)^T$$.
 
 **Yêu cầu:**
-a) Kiểm tra $$x$$ có thuộc SOC không?  
-b) Kiểm tra $$y$$ có thuộc SOC không?  
-c) Tính $$y^T x$$ và verify dual cone property
+a) Kiểm tra $$x$$ có thuộc nón bậc hai (SOC) hay không  
+b) Kiểm tra $$y$$ có thuộc SOC hay không  
+c) Tính $$y^T x$$ và kiểm chứng tính chất nón đối ngẫu
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**SOC:** $$K = \{(t, x) \in \mathbb{R} \times \mathbb{R}^2 : \|x\|_2 \leq t\}$$
-
-Viết $$x = (t, u)$$ với $$t = 2$$, $$u = (1, 1)$$.
+Xét nón bậc hai $$K = \{(t, u) \in \mathbb{R} \times \mathbb{R}^2 : \|u\|_2 \leq t\}$$.
 
 ---
 
-**a) Kiểm tra $$x$$:**
+**a) Kiểm tra $$x = (2, 1, 1)^T$$** (với $$t = 2$$, $$u = (1, 1)^T$$):
 
 $$
 \|(1, 1)\|_2 = \sqrt{2} \approx 1.414 \leq 2
 $$
 
-✓ $$x \in K$$
+✓ Suy ra $$x \in K$$.
 
 ---
 
-**b) Kiểm tra $$y$$:**
+**b) Kiểm tra $$y = (1.5, 0.5, 0.5)^T$$:**
 
 $$
 \|(0.5, 0.5)\|_2 = \frac{\sqrt{2}}{2} \approx 0.707 \leq 1.5
 $$
 
-✓ $$y \in K$$
+✓ Suy ra $$y \in K$$.
 
 ---
 
-**c) Dual cone property:**
+**c) Kiểm chứng tính chất nón đối ngẫu:**
 
-Vì $$K$$ tự đối ngẫu: $$y \in K^* = K$$
-
-Nên với mọi $$x \in K$$: $$y^T x \geq 0$$.
+Vì nón bậc hai tự đối ngẫu nên $$y \in K = K^*$$, do đó phải có $$y^T x \geq 0$$ với mọi $$x \in K$$. Tính trực tiếp:
 
 $$
 y^T x = 1.5 \times 2 + 0.5 \times 1 + 0.5 \times 1 = 3 + 0.5 + 0.5 = 4 \geq 0
 $$
 
-✓ Thỏa mãn
+✓ Thỏa mãn.
 
 </details>
 
 ---
 
-## 📝 **Phần V: SDP Duality**
+## 📝 **Phần V: Đối ngẫu trong quy hoạch nửa xác định (SDP Duality)**
 
-### **Bài tập 8: SDP Primal-Dual (Ben-Tal & Nemirovski, Ex. 4.3)**
+### **Bài tập 8: Cặp bài toán nguyên thủy–đối ngẫu SDP (Ben-Tal & Nemirovski, Ex. 4.3)**
 
-Bài toán SDP primal:
+Xét bài toán SDP nguyên thủy:
 
 $$
 \begin{align}
@@ -677,16 +655,16 @@ $$
 $$
 
 **Yêu cầu:**  
-a) Viết bài toán dual  
-b) Giải thích strong duality  
-c) Với $$C = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$, $$A_1 = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$$, $$b_1 = 1$$, tìm nghiệm
+a) Viết bài toán đối ngẫu  
+b) Trình bày điều kiện đối ngẫu mạnh và hệ KKT  
+c) Với $$C = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$, $$A_1 = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$$, $$b_1 = 1$$, tìm nghiệm nguyên thủy và đối ngẫu
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Bài toán Dual:**
+**a) Bài toán đối ngẫu:**
 
-Lagrangian:
+Hàm Lagrangian:
 
 $$
 L(X, y) = \text{tr}(CX) - \sum_i y_i (\text{tr}(A_i X) - b_i)
@@ -696,7 +674,7 @@ $$
 = \text{tr}\left( \left(C - \sum_i y_i A_i\right) X \right) + \sum_i y_i b_i
 $$
 
-Minimize over $$X \succeq 0$$:
+Cực tiểu hóa theo $$X \succeq 0$$ (với $$M = C - \sum_i y_i A_i$$):
 
 $$
 \min_{X \succeq 0} \text{tr}(MX) = \begin{cases}
@@ -705,9 +683,7 @@ $$
 \end{cases}
 $$
 
-với $$M = C - \sum_i y_i A_i$$.
-
-**Bài toán dual:**
+**Bài toán đối ngẫu:**
 
 $$
 \boxed{
@@ -720,28 +696,26 @@ $$
 
 ---
 
-**b) Strong Duality:**
+**b) Đối ngẫu mạnh và điều kiện KKT:**
 
-Điều kiện Slater: Tồn tại $$\tilde{X} \succ 0$$ thỏa $$\text{tr}(A_i \tilde{X}) = b_i$$.
+Điều kiện Slater: tồn tại ma trận xác định dương $$\tilde{X} \succ 0$$ thỏa $$\text{tr}(A_i \tilde{X}) = b_i$$ với mọi $$i$$. Khi đó tính **đối ngẫu mạnh** được thỏa mãn ($$p^* = d^*$$) và tồn tại nghiệm tối ưu đối ngẫu.
 
-Khi đó: **Strong duality** $$p^* = d^*$$ và tồn tại nghiệm tối ưu dual.
-
-**KKT Conditions:**
-1. Primal feasible: $$\text{tr}(A_i X^*) = b_i$$, $$X^* \succeq 0$$
-2. Dual feasible: $$C - \sum_i y_i^* A_i \succeq 0$$
-3. Complementary slackness: $$\text{tr}((C - \sum_i y_i^* A_i) X^*) = 0$$
+**Các điều kiện KKT:**
+1. Khả thi nguyên thủy: $$\text{tr}(A_i X^*) = b_i$$ và $$X^* \succeq 0$$.
+2. Khả thi đối ngẫu: $$C - \sum_i y_i^* A_i \succeq 0$$.
+3. Điều kiện bù yếu: $$\text{tr}((C - \sum_i y_i^* A_i) X^*) = 0$$.
 
 ---
 
-**c) Nghiệm cụ thể:**
+**c) Giải với dữ liệu cụ thể:**
 
-Dữ liệu:
+Cho:
 
 $$
 C = I_2, \quad A_1 = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}, \quad b_1 = 1
 $$
 
-**Primal:**
+**Bài toán nguyên thủy:**
 
 $$
 \begin{align}
@@ -757,11 +731,11 @@ $$
 X = \begin{bmatrix} 1 & x_{12} \\ x_{12} & x_{22} \end{bmatrix} \succeq 0
 $$
 
-PSD → $$\det(X) = x_{22} - x_{12}^2 \geq 0$$ → $$x_{22} \geq x_{12}^2 \geq 0$$.
+Điều kiện nửa xác định dương cho $$\det(X) = x_{22} - x_{12}^2 \geq 0 \Rightarrow x_{22} \geq x_{12}^2 \geq 0$$.
 
-Minimize $$1 + x_{22}$$ → $$x_{22}^* = 0$$, $$x_{12}^* = 0$$.
+Cực tiểu hóa $$1 + x_{22}$$ đạt được tại $$x_{22}^* = 0$$ và $$x_{12}^* = 0$$.
 
-**Nghiệm primal:**
+**Nghiệm nguyên thủy:**
 
 $$
 X^* = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}, \quad p^* = 1
@@ -769,7 +743,7 @@ $$
 
 ---
 
-**Dual:**
+**Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -782,44 +756,43 @@ $$
 \begin{bmatrix} 1-y_1 & 0 \\ 0 & 1 \end{bmatrix} \succeq 0 \Rightarrow 1-y_1 \geq 0 \Rightarrow y_1 \leq 1
 $$
 
-Maximize → $$y_1^* = 1$$, $$d^* = 1$$.
+Cực đại hóa $$y_1$$ cho $$y_1^* = 1$$ và $$d^* = 1$$.
 
-**Kết luận:** $$p^* = d^* = 1$$. Strong duality! ✓
+**Kết luận:** $$p^* = d^* = 1$$, tính đối ngẫu mạnh được thỏa mãn ✓.
 
 </details>
 
 ---
 
-## 💡 **Tổng kết và Chiến lược**
+## 💡 **Tổng kết và chiến lược**
 
-### **Chuẩn Đối Ngẫu:**
-- Nhớ: $$(\|\cdot\|_p)_* = \|\cdot\|_q$$ với $$1/p + 1/q = 1$$
-- $$\ell_1 \leftrightarrow \ell_\infty$$, $$\ell_2$$ tự đối ngẫu
-- Dùng: $$y^T x \leq \|y\|_* \|x\|$$
+### **Chuẩn đối ngẫu**
+- Ghi nhớ: $$(\|\cdot\|_p)_* = \|\cdot\|_q$$ với $$1/p + 1/q = 1$$.
+- Cặp $$\ell_1 \leftrightarrow \ell_\infty$$; chuẩn $$\ell_2$$ tự đối ngẫu.
+- Bất đẳng thức tổng quát: $$y^T x \leq \|y\|_* \|x\|$$.
 
-### **Hàm Liên Hợp:**
-- Định nghĩa: $$f^*(y) = \sup_x (y^Tx - f(x))$$
-- Fenchel: $$f(x) + f^*(y) \geq x^Ty$$
-- Đẳng thức khi $$y \in \partial f(x)$$
-- $$f^{**} = f$$ nếu $$f$$ đóng, lồi
+### **Hàm liên hợp**
+- Định nghĩa: $$f^*(y) = \sup_x (y^Tx - f(x))$$.
+- Bất đẳng thức Fenchel: $$f(x) + f^*(y) \geq x^Ty$$ (dấu bằng khi $$y \in \partial f(x)$$).
+- Tính đối hợp: $$f^{**} = f$$ nếu $$f$$ đóng và lồi.
 
-### **LASSO Dual:**
-- Primal: $$\min \frac{1}{2}\|Ax-b\|^2 + \lambda\|x\|_1$$
-- Dual: $$\min \frac{1}{2}\|\nu\|^2 + \nu^Tb$$ s.t. $$\|A^T\nu\|_\infty \leq \lambda$$
-- Dual nhỏ hơn ($$m$$ biến vs $$n$$ biến) nếu $$m < n$$
+### **Đối ngẫu của LASSO**
+- Bài toán nguyên thủy: $$\min \frac{1}{2}\|Ax-b\|^2 + \lambda\|x\|_1$$.
+- Bài toán đối ngẫu: $$\min \frac{1}{2}\|\nu\|^2 + \nu^Tb$$ với điều kiện $$\|A^T\nu\|_\infty \leq \lambda$$.
+- Bài toán đối ngẫu có số chiều nhỏ hơn ($$m$$ biến so với $$n$$ biến) khi $$m < n$$.
 
-### **Nón Đối Ngẫu:**
-- Định nghĩa: $$K^* = \{y : y^Tx \geq 0, \forall x \in K\}$$
-- Tự đối ngẫu: $$\mathbb{R}^n_+$$, SOC, $$\mathbb{S}^n_+$$
-- $$K^{**} = K$$ nếu $$K$$ đóng, lồi
+### **Nón đối ngẫu**
+- Định nghĩa: $$K^* = \{y : y^Tx \geq 0, \forall x \in K\}$$.
+- Các nón tự đối ngẫu quan trọng: $$\mathbb{R}^n_+$$, nón bậc hai (SOC) và $$\mathbb{S}^n_+$$.
+- Tính đối hợp: $$K^{**} = K$$ nếu $$K$$ là nón đóng và lồi.
 
-### **SDP Duality:**
-- Strong duality nếu thỏa Slater
-- Complementary slackness: $$\text{tr}(MX) = 0$$ với $$M \succeq 0$$, $$X \succeq 0$$
+### **Đối ngẫu trong SDP**
+- Tính đối ngẫu mạnh được đảm bảo khi điều kiện Slater thỏa mãn.
+- Điều kiện bù yếu có dạng: $$\text{tr}(MX) = 0$$ với $$M \succeq 0$$ và $$X \succeq 0$$.
 
 ---
 
-## 📚 **Tài liệu Tham khảo**
+## 📚 **Tài liệu tham khảo**
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press. Chapter 3, 5, 6.
 
@@ -830,4 +803,3 @@ Maximize → $$y_1^* = 1$$, $$d^* = 1$$.
 4. **Borwein, J. M., & Lewis, A. S.** (2006). *Convex Analysis and Nonlinear Optimization* (2nd ed.). Springer.
 
 5. **Hiriart-Urruty, J.-B., & Lemaréchal, C.** (2001). *Fundamentals of Convex Analysis*. Springer.
-

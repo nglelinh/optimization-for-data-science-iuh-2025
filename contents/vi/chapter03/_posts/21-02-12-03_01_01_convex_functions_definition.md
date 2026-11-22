@@ -8,15 +8,16 @@ categories:
 - chapter03
 lang: vi
 ---
+
 ## Hàm lồi
 
-Một hàm $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ được gọi là lồi nếu miền xác định của nó là một tập lồi và với bất kỳ hai điểm $$x, y \in \text{dom}f$$, hàm thỏa mãn:
+Một hàm $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ được gọi là **hàm lồi** nếu miền xác định $$\text{dom}f$$ của nó là một tập lồi và với mọi $$x, y \in \text{dom}f$$ cùng mọi $$0 \le \theta \le 1$$, ta có:
 
 > $$f(\theta x+(1-\theta)y) \le \theta f(x)+(1-\theta)f(y)$$,
 >
 > với $$0 \le \theta \le 1$$, cho mọi $$x,y \in \text{dom} f$$
 
-Điều này có nghĩa là với bất kỳ hai điểm $$x, y$$, giá trị của $$f$$ tại tổ hợp lồi của chúng nhỏ hơn hoặc bằng tổ hợp lồi của các giá trị hàm tương ứng. Về mặt hình học, đồ thị của $$f$$ nằm dưới đoạn thẳng nối $$f(x)$$ và $$f(y)$$.
+Nói cách khác, giá trị của $$f$$ tại tổ hợp lồi của hai điểm $$x, y$$ luôn nhỏ hơn hoặc bằng tổ hợp lồi tương ứng của $$f(x)$$ và $$f(y)$$. Về mặt hình học, đoạn thẳng nối hai điểm $$(x, f(x))$$ và $$(y, f(y))$$ trên đồ thị của $$f$$ luôn nằm phía trên (hoặc trùng với) đồ thị của hàm.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -25,23 +26,25 @@ Một hàm $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ được gọi là lồi n�
 </p>
 </figure>
 
-
 ## Hàm lồi chặt
-Một hàm $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ được gọi là lồi chặt nếu với bất kỳ hai điểm phân biệt $$x, y \in \text{dom}f$$ và $$0 < \theta < 1$$:
+
+Một hàm $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ được gọi là **lồi chặt** nếu miền xác định $$\text{dom}f$$ lồi và bất đẳng thức nghiêm ngặt sau đúng với mọi hai điểm phân biệt $$x, y \in \text{dom}f$$ và $$0 < \theta < 1$$:
 
 > $$f(\theta x+(1-\theta)y)<\theta f(x)+(1-\theta)f(y)$$,
 >
 > với $$0<\theta<1$$, $$x \neq y$$, cho mọi $$x, y \in \text{dom}f$$
 
 ## Hàm lồi mạnh
-Một hàm $$f$$ được gọi là lồi mạnh nếu $$f - \frac{m}{2}\| x \|_{2}^{2}$$, với $$m > 0$$, là hàm lồi.
+
+Một hàm $$f$$ được gọi là **lồi mạnh** với tham số $$m > 0$$ nếu hàm $$f(x) - \frac{m}{2}\| x \|_{2}^{2}$$ là hàm lồi.
 
 ### [Lưu ý] lồi mạnh ⇒ lồi chặt ⇒ lồi
 
 ## Hàm lõm
-Một hàm $$f$$ được gọi là lõm nếu $$-f$$ là hàm lồi.
 
-Tất cả các hàm affine $$f(x) = a^T x+b$$ đều thỏa mãn:
+Một hàm $$f$$ được gọi là **hàm lõm** nếu $$-f$$ là hàm lồi.
+
+Mọi hàm affine $$f(x) = a^T x+b$$ đều thỏa mãn đẳng thức:
 > $$
 \begin{aligned}
 f(\theta x+(1-\theta)y) &= a^T (\theta x+(1-\theta)y) +b \\
@@ -49,6 +52,6 @@ f(\theta x+(1-\theta)y) &= a^T (\theta x+(1-\theta)y) +b \\
 &= \theta f(x)+(1-\theta)f(y) \\
 \end{aligned} 
 $$
-> $$\text{với mọi } x,y \in \text{dom} f, \text{và } 0 \le \theta \le 1$$
+> $$\text{với mọi } x,y \in \text{dom} f, \text{ và } 0 \le \theta \le 1$$
 
-Tức là, các hàm affine luôn vừa lồi vừa lõm.
+Do đó, mọi hàm affine đều vừa lồi vừa lõm.

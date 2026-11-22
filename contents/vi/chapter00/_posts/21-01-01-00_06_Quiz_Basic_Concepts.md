@@ -12,79 +12,86 @@ redirect_from:
   - /contents/vi/chapter00/00_05_Quiz_Basic_Concepts/
 ---
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các khái niệm cơ bản trong giải tích và đại số tuyến tính, là nền tảng cho tối ưu hóa.
+Bài tập trắc nghiệm này giúp bạn kiểm tra mức độ nắm vững các khái niệm nền tảng về giải tích, đại số tuyến tính, tập hợp và xác suất phục vụ cho tối ưu hóa.
 
 ---
 
 ## 📚 Ôn tập lý thuyết
 
-Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
+Trước khi làm bài tập, hãy điểm lại các khái niệm chính trong chương này:
 
 ### 🔢 **Giải tích cơ bản**
 
 **Đạo hàm và đạo hàm riêng:**
-- Đạo hàm: $$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
-- Đạo hàm riêng: $$\frac{\partial f}{\partial x_i}$$ - đạo hàm theo $$x_i$$ khi các biến khác cố định
+- Đạo hàm: $$f'(x) = \lim_{h 	o 0} rac{f(x+h) - f(x)}{h}$$
+- Đạo hàm riêng: $$rac{\partial f}{\partial x_i}$$ — đạo hàm theo $$x_i$$ khi các biến còn lại được giữ cố định.
 
-**Gradient và đạo hàm có hướng:**
-- Gradient: $$\nabla f = \begin{pmatrix} \frac{\partial f}{\partial x_1} \\ \vdots \\ \frac{\partial f}{\partial x_n} \end{pmatrix}$$ - vector chỉ hướng tăng dốc nhất
-- Đạo hàm có hướng: $$D_{\mathbf{u}}f = \nabla f \cdot \mathbf{u} = \|\nabla f\| \cos \theta$$
+**Gradient và đạo hàm theo hướng:**
+- Gradient: $$
+abla f = egin{pmatrix} rac{\partial f}{\partial x_1} \ dots \ rac{\partial f}{\partial x_n} \end{pmatrix}$$ — vector chỉ theo hướng tăng nhanh nhất của hàm số.
+- Đạo hàm theo hướng: $$D_{\mathbf{u}}f = 
+abla f \cdot \mathbf{u} = \|
+abla f\| \cos 	heta$$
 
 **Chuỗi Taylor:**
-- Bậc 1: $$f(\mathbf{x}) \approx f(\mathbf{x}_0) + \nabla f(\mathbf{x}_0)^T (\mathbf{x} - \mathbf{x}_0)$$
-- Bậc 2: $$f(\mathbf{x}) \approx f(\mathbf{x}_0) + \nabla f(\mathbf{x}_0)^T (\mathbf{x} - \mathbf{x}_0) + \frac{1}{2} (\mathbf{x} - \mathbf{x}_0)^T \nabla^2 f(\mathbf{x}_0) (\mathbf{x} - \mathbf{x}_0)$$
+- Bậc 1: $$f(\mathbf{x}) pprox f(\mathbf{x}_0) + 
+abla f(\mathbf{x}_0)^T (\mathbf{x} - \mathbf{x}_0)$$
+- Bậc 2: $$f(\mathbf{x}) pprox f(\mathbf{x}_0) + 
+abla f(\mathbf{x}_0)^T (\mathbf{x} - \mathbf{x}_0) + rac{1}{2} (\mathbf{x} - \mathbf{x}_0)^T 
+abla^2 f(\mathbf{x}_0) (\mathbf{x} - \mathbf{x}_0)$$
 
 ### 📐 **Đại số tuyến tính**
 
 **Vector và không gian vector:**
-- Vector: danh sách có thứ tự các số $$\mathbf{v} = \begin{pmatrix} v_1 \\ \vdots \\ v_n \end{pmatrix}$$
-- Không gian $$\mathbb{R}^n$$: tập tất cả vector có $$n$$ thành phần
+- Vector: bộ có thứ tự gồm các số thực $$\mathbf{v} = egin{pmatrix} v_1 \ dots \ v_n \end{pmatrix}$$
+- Không gian $$\mathbb{R}^n$$: tập hợp mọi vector có $$n$$ thành phần thực.
 
 **Các phép toán vector:**
-- Cộng vector: $$\mathbf{u} + \mathbf{v} = \begin{pmatrix} u_1 + v_1 \\ \vdots \\ u_n + v_n \end{pmatrix}$$
-- Nhân vô hướng: $$c\mathbf{v} = \begin{pmatrix} cv_1 \\ \vdots \\ cv_n \end{pmatrix}$$
-- Tích vô hướng: $$\mathbf{u} \cdot \mathbf{v} = \sum_{i=1}^n u_i v_i = \|\mathbf{u}\| \|\mathbf{v}\| \cos \theta$$
+- Cộng vector: $$\mathbf{u} + \mathbf{v} = egin{pmatrix} u_1 + v_1 \ dots \ u_n + v_n \end{pmatrix}$$
+- Nhân vô hướng: $$c\mathbf{v} = egin{pmatrix} cv_1 \ dots \ cv_n \end{pmatrix}$$
+- Tích vô hướng: $$\mathbf{u} \cdot \mathbf{v} = \sum_{i=1}^n u_i v_i = \|\mathbf{u}\| \|\mathbf{v}\| \cos 	heta$$
 
 **Chuẩn vector:**
-- Chuẩn L2 (Euclid): $$\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}$$
-- Chuẩn L1 (Manhattan): $$\|\mathbf{x}\|_1 = \sum_{i=1}^n \lvert x_i \rvert$$
-- Chuẩn L∞ (Max): $$\|\mathbf{x}\|_\infty = \max_i \lvert x_i \rvert$$
+- Chuẩn $$L_2$$ (Euclid): $$\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}$$
+- Chuẩn $$L_1$$ (Manhattan): $$\|\mathbf{x}\|_1 = \sum_{i=1}^n \lvert x_i vert$$
+- Chuẩn $$L_\infty$$ (cực đại): $$\|\mathbf{x}\|_\infty = \max_i \lvert x_i vert$$
 
 **Ma trận:**
 - Phép nhân ma trận: $$(AB)_{ij} = \sum_{k} A_{ik} B_{kj}$$
-- Ma trận nghịch đảo: $$AA^{-1} = I$$ (nếu tồn tại)
-- Định thức: $$\det(A)$$ - đo "thể tích" biến đổi tuyến tính
+- Ma trận nghịch đảo: $$AA^{-1} = I$$ (khi ma trận khả nghịch)
+- Định thức: $$\det(A)$$ — đo hệ số thay đổi thể tích dưới phép biến đổi tuyến tính.
 
-**Eigenvalue và eigenvector:**
-- $$A\mathbf{v} = \lambda \mathbf{v}$$ với $$\mathbf{v} \neq \mathbf{0}$$
-- $$\lambda$$: eigenvalue, $$\mathbf{v}$$: eigenvector tương ứng
+**Giá trị riêng và vector riêng:**
+- $$A\mathbf{v} = \lambda \mathbf{v}$$ với $$\mathbf{v} 
+eq \mathbf{0}$$
+- $$\lambda$$: giá trị riêng (eigenvalue), $$\mathbf{v}$$: vector riêng (eigenvector) tương ứng.
 
 ### 📊 **Lý thuyết tập hợp và giải tích thực**
 
-**Tập hợp cơ bản:**
-- Tập mở: mọi điểm đều có lân cận nằm trong tập
-- Tập đóng: chứa tất cả điểm biên
-- Tập compact: đóng và bị chặn trong $$\mathbb{R}^n$$
+**Các khái niệm tôpô cơ bản:**
+- Tập mở: mọi điểm thuộc tập đều có một lân cận nằm hoàn toàn trong tập.
+- Tập đóng: chứa mọi điểm biên của nó.
+- Tập compact: vừa đóng vừa bị chặn trong $$\mathbb{R}^n$$.
 
 **Tính liên tục:**
-- Hàm liên tục tại $$x_0$$: $$\lim_{x \to x_0} f(x) = f(x_0)$$
-- Liên tục đều: $$\forall \epsilon > 0, \exists \delta > 0$$ sao cho $$\lvert x-y \rvert < \delta \Rightarrow \lvert f(x)-f(y) \rvert < \epsilon$$
+- Hàm liên tục tại $$x_0$$: $$\lim_{x 	o x_0} f(x) = f(x_0)$$
+- Liên tục đều: $$orall \epsilon > 0, \exists \delta > 0$$ sao cho $$\lvert x-y vert < \delta \Rightarrow \lvert f(x)-f(y) vert < \epsilon$$
 
 ### 🎲 **Xác suất cơ bản**
 
 **Khái niệm cơ bản:**
 - Xác suất: $$P(A) \in [0,1]$$, $$P(\Omega) = 1$$
-- Biến ngẫu nhiên: hàm từ không gian mẫu đến số thực
-- Kỳ vọng: $$E[X] = \int x f(x) dx$$ (liên tục) hoặc $$E[X] = \sum x P(X=x)$$ (rời rạc)
+- Biến ngẫu nhiên: hàm ánh xạ từ không gian mẫu vào tập số thực.
+- Kỳ vọng: $$E[X] = \int x f(x) dx$$ (liên tục) hoặc $$E[X] = \sum x P(X=x)$$ (rời rạc).
 
-**Phân phối thông dụng:**
-- Chuẩn: $$X \sim N(\mu, \sigma^2)$$
-- Đều: $$X \sim U(a,b)$$
-- Bernoulli: $$X \sim \text{Ber}(p)$$
+**Một số phân phối thông dụng:**
+- Phân phối chuẩn: $$X \sim N(\mu, \sigma^2)$$
+- Phân phối đều: $$X \sim U(a,b)$$
+- Phân phối Bernoulli: $$X \sim 	ext{Ber}(p)$$
 
 ---
 
-💡 **Mẹo:** Các khái niệm này là nền tảng cho tối ưu hóa. Gradient chỉ hướng tăng nhanh nhất, ma trận Hessian mô tả độ cong, và chuỗi Taylor giúp xấp xỉ hàm cục bộ.
+💡 **Gợi ý:** Những khái niệm này tạo thành nền tảng trực tiếp cho các chương sau: gradient chỉ hướng tăng nhanh nhất, ma trận Hessian phản ánh độ cong, và chuỗi Taylor giúp xấp xỉ hàm mục tiêu cục bộ.
 
 ---
 
@@ -147,9 +154,9 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             </div>
         </div>
 
-        <!-- Câu hỏi 4: Đạo hàm có hướng -->
+        <!-- Câu hỏi 4: Đạo hàm theo hướng -->
         <div class="question" id="q4" style="display: none;">
-            <h3>Câu 4: Cho gradient $$\nabla f = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$ và vector đơn vị $$\mathbf{u} = \begin{pmatrix} 0.6 \\ 0.8 \end{pmatrix}$$. Đạo hàm có hướng $$D_{\mathbf{u}}f$$ là:</h3>
+            <h3>Câu 4: Cho gradient $$\nabla f = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$ và vector đơn vị $$\mathbf{u} = \begin{pmatrix} 0.6 \\ 0.8 \end{pmatrix}$$. Đạo hàm theo hướng $$D_{\mathbf{u}}f$$ là:</h3>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) $$5$$</label>
                 <label><input type="radio" name="q4" value="b"> B) $$4.8$$</label>
@@ -162,9 +169,9 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             </div>
         </div>
 
-        <!-- Câu hỏi 5: Hướng tăng dốc nhất -->
+        <!-- Câu hỏi 5: Hướng tăng nhanh nhất -->
         <div class="question" id="q5" style="display: none;">
-            <h3>Câu 5: Hướng tăng dốc nhất của hàm số luôn là:</h3>
+            <h3>Câu 5: Hướng tăng nhanh nhất của hàm số luôn là:</h3>
             <div class="options">
                 <label><input type="radio" name="q5" value="a"> A) Hướng của vector gradient</label>
                 <label><input type="radio" name="q5" value="b"> B) Hướng ngược với vector gradient</label>
@@ -173,7 +180,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Hướng của vector gradient</strong><br>
-                Gradient luôn chỉ theo hướng tăng dốc nhất của hàm số. Đây là một tính chất cơ bản của gradient.
+                Gradient luôn chỉ theo hướng tăng nhanh nhất của hàm số. Đây là một tính chất cơ bản của gradient.
             </div>
         </div>
 
@@ -456,7 +463,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
 
         <!-- Câu hỏi 24: Ứng dụng eigenvalue -->
         <div class="question" id="q24" style="display: none;">
-            <h3>Câu 24: Ma trận $$A = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix}$$ có eigenvalue là:</h3>
+            <h3>Câu 24: Ma trận $$A = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix}$$ có các giá trị riêng là:</h3>
             <div class="options">
                 <label><input type="radio" name="q24" value="a"> A) $$\lambda_1 = 3, \lambda_2 = 2$$</label>
                 <label><input type="radio" name="q24" value="b"> B) $$\lambda_1 = 3, \lambda_2 = 1$$</label>
@@ -465,7 +472,7 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\lambda_1 = 3, \lambda_2 = 2$$</strong><br>
-                Đối với ma trận tam giác trên, eigenvalue chính là các phần tử trên đường chéo chính.
+                Đối với ma trận tam giác trên, các giá trị riêng chính là các phần tử trên đường chéo chính.
             </div>
         </div>
 

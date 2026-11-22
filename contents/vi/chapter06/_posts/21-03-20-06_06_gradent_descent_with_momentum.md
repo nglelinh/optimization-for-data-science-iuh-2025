@@ -12,21 +12,21 @@ lesson_type: required
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-Hoạt họa trên trang này là bức tranh cả lô, $$\beta$$ hằng. Câu chuyện phổ kiểu Distill — đa thức đặc trưng, $$\beta^\star$$ tối ưu, nhìn trước đối heavy ball, và vì sao `nesterov=True` không phải FISTA — là bài mạch hiện đại [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}); anh em proximal / lên lịch là [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}).
+Hình minh họa trên trang này mô phỏng trường hợp toàn tập (full-batch) với hệ số momentum $$\beta$$ không đổi. Phân tích phổ theo phong cách Distill — bao gồm đa thức đặc trưng, giá trị $$\beta^\star$$ tối ưu, so sánh nhìn trước (look-ahead) với heavy ball, và lý do `nesterov=True` không tương đương FISTA — được trình bày trong bài hiện đại [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}); phiên bản gradient gần kề có lập lịch tham số nằm tại [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}).
 
-## Vấn đề với Gradient Descent thuần túy
+## Hạn chế của Gradient Descent Thuần túy
 
-Hãy tưởng tượng bạn đang lăn một quả bóng xuống thung lũng. Gradient descent tiêu chuẩn giống như một quả bóng không có trí nhớ - tại mỗi bước, nó chỉ xem xét độ dốc hiện tại và di chuyển tương ứng. Điều này có thể dẫn đến một số vấn đề:
+Hãy hình dung một quả bóng lăn xuống đáy thung lũng. Gradient descent tiêu chuẩn giống như một quả bóng không có quán tính: tại mỗi bước, nó chỉ dựa vào độ dốc tức thời để di chuyển. Điều này dẫn tới một số hạn chế:
 
-1. **Hội tụ chậm trong các khe hẹp**: Khi hàm có gradient dốc trong một số hướng và gradient thoải trong các hướng khác
-2. **Dao động**: Thuật toán có thể dao động qua lại trên thung lũng thay vì tiến bộ ổn định
-3. **Bị kẹt trong các cực tiểu địa phương kém**: Không có momentum, thuật toán có thể ổn định ở các nghiệm không tối ưu
+1. **Hội tụ chậm trong các thung lũng hẹp**: Khi hàm số rất dốc theo một số phương nhưng lại rất thoải theo các phương khác.
+2. **Dao động mạnh**: Quỹ đạo thường nảy qua lại giữa hai sườn thung lũng thay vì tiến thẳng về phía cực tiểu.
+3. **Dễ dừng sớm tại cực tiểu cục bộ nông**: Thiếu quán tính khiến thuật toán khó vượt qua các vùng trũng cục bộ nhỏ.
 
-**Câu hỏi**: Điều gì sẽ xảy ra nếu quả bóng của chúng ta có thể "nhớ" hướng trước đó và duy trì một chút vận tốc?
+**Câu hỏi đặt ra**: Điều gì xảy ra nếu ta cho thuật toán "ghi nhớ" hướng di chuyển trước đó và duy trì một phần vận tốc?
 
-## Momentum: Thêm bộ nhớ vào Gradient Descent
+## Momentum: Bổ sung Quán tính cho Gradient Descent
 
-Gradient descent với momentum được lấy cảm hứng từ vật lý - cụ thể là chuyển động của một quả bóng lăn xuống đồi với ma sát. Ý tưởng chính là tích lũy một vector vận tốc kết hợp gradient hiện tại với momentum trước đó.
+Gradient descent có momentum lấy cảm hứng từ cơ học cổ điển — cụ thể là chuyển động của một vật lăn xuống dốc có lực cản ma sát. Ý tưởng cốt lõi là tích lũy một vector vận tốc kết hợp giữa hướng di chuyển trước đó và gradient hiện tại.
 
 ### Thuật toán Momentum
 
@@ -37,38 +37,38 @@ x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
 trong đó:
-- $$v^{(k)}$$ là momentum (vận tốc) tại lần lặp $$k$$
-- $$\beta \in [0,1)$$ là hệ số momentum (thường là 0.9 hoặc 0.99)
-- $$t > 0$$ là tốc độ học
-- $$v^{(0)} = 0$$ (vận tốc ban đầu bằng không)
+- $$v^{(k)}$$ là vector momentum (vận tốc) tại lần lặp $$k$$.
+- $$\beta \in [0,1)$$ là hệ số momentum (thường chọn $$0.9$$ hoặc $$0.99$$).
+- $$t > 0$$ là tốc độ học.
+- $$v^{(0)} = 0$$ (vận tốc khởi tạo bằng 0).
 
-### Công thức thay thế (kiểu Nesterov)
+### Dạng công thức tương đương (không nhân hệ số $$1-\beta$$)
 
-Một số triển khai sử dụng dạng hơi khác:
+Một số cài đặt sử dụng dạng tương đương sau (khác ở hệ số tỉ lệ tốc độ học):
 $$ \begin{align}
 v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
-**Ý tưởng chính**: Số hạng momentum $$v^{(k)}$$ là trung bình động có trọng số mũ của các gradient trong quá khứ.
+**Ý nghĩa chính**: Vector momentum $$v^{(k)}$$ đóng vai trò là trung bình trượt có trọng số mũ của các gradient trước đó.
 
-## Hiểu hệ số Momentum $$\beta$$
+## Ý nghĩa của Hệ số Momentum $$\beta$$
 
-Hệ số momentum $$\beta$$ kiểm soát thuật toán có bao nhiều "bộ nhớ":
+Hệ số $$\beta$$ kiểm soát mức độ "ghi nhớ" của thuật toán:
 
-- **$$\beta = 0$$**: Không có momentum, giảm về gradient descent tiêu chuẩn
-- **$$\beta = 0.9$$**: Momentum trung bình, thường được sử dụng trong thực tế
-- **$$\beta = 0.99$$**: Momentum cao, được sử dụng trong một số ứng dụng deep learning
-- **$$\beta \to 1$$**: Momentum tối đa, nhưng có thể gây bất ổn
+- **$$\beta = 0$$**: Không có momentum, thuật toán trở về gradient descent tiêu chuẩn.
+- **$$\beta = 0.9$$**: Mức momentum trung bình, được sử dụng phổ biến trong thực tế.
+- **$$\beta = 0.99$$**: Mức momentum cao, thường dùng trong một số bài toán học sâu có bề mặt mất mát trơn.
+- **$$\beta \to 1$$**: Quán tính rất lớn, nhưng dễ gây mất ổn định nếu tốc độ học không đủ nhỏ.
 
-### Trung bình động có trọng số mũ
+### Trung bình Trượt có Trọng số Mũ
 
-Momentum $$v^{(k)}$$ có thể được mở rộng là:
+Khai triển đệ quy công thức momentum đầu tiên cho ta:
 $$ v^{(k)} = (1-\beta) \sum_{i=0}^{k-1} \beta^i \nabla f(x^{(k-1-i)}) $$
 
-Điều này cho thấy momentum cho trọng số giảm mũ cho các gradient cũ hơn.
+Công thức này cho thấy trọng số của các gradient cũ giảm dần theo hàm mũ theo thời gian.
 
-## Interactive Visualization: Gradient Descent vs Momentum
+## Trực quan hóa Tương tác: Gradient Descent và Momentum
 
 <div id="momentum-comparison" style="margin: 20px 0;">
     <!-- Parameter Controls -->
@@ -416,53 +416,46 @@ document.addEventListener('DOMContentLoaded', function() {
 ## Ưu điểm của Momentum
 
 ### 1. **Hội tụ nhanh hơn**
-Momentum giúp thuật toán tăng tốc trong các hướng nhất quán, dẫn đến hội tụ nhanh hơn đặc biệt trong:
-- Các hàm có thung lũng hoặc khe hẹp
-- Các bài toán có điều kiện kém (số điều kiện cao)
-- Các hàm có nhiều cực tiểu địa phương
+Momentum tích lũy vận tốc dọc theo các hướng có gradient nhất quán, nhờ đó đẩy nhanh quá trình hội tụ đặc biệt trên:
+- Các hàm có thung lũng hoặc khe hẹp.
+- Các bài toán có chỉ số điều kiện lớn.
+- Các bề mặt hàm phức tạp có nhiều cực tiểu cục bộ.
 
 ### 2. **Giảm dao động**
-Trong các hướng mà gradient thường xuyên đổi dấu, momentum giúp làm mượt các dao động bằng cách lấy trung bình các gradient trong quá khứ.
+Theo các phương mà gradient liên tục đổi dấu, việc lấy trung bình các gradient quá khứ giúp triệt tiêu bớt thành phần dao động qua lại.
 
-### 3. **Thoát khỏi cực tiểu địa phương**
-Momentum tích lũy có thể giúp thuật toán "lăn qua" các cực tiểu địa phương nhỏ và tiếp tục hướng tới các nghiệm tốt hơn.
+### 3. **Khả năng vượt qua cực tiểu cục bộ nông**
+Quán tính tích lũy giúp quỹ đạo có thể lăn qua các vùng trũng cục bộ nhỏ để tiếp tục hướng tới nghiệm tốt hơn.
 
-## Các biến thể và mở rộng
+## Các Biến thể và Mở rộng
 
 ### 1. **Nesterov Accelerated Gradient (NAG)**
-Thay vì tính gradient tại vị trí hiện tại, NAG tính nó tại vị trí "nhìn trước":
+Thay vì tính gradient tại vị trí hiện tại, NAG đánh giá gradient tại vị trí "nhìn trước" (look-ahead):
 
 $$ \begin{align}
-v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)} - \beta v^{(k-1)}) \\
+v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)} - t \beta v^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
-**Trực quan**: "Nhìn trước khi nhảy" - kiểm tra gradient tại nơi momentum sẽ đưa bạn đến.
+**Trực giác**: Đánh giá độ dốc tại vị trí dự kiến mà bước momentum sắp đưa ta tới, từ đó điều chỉnh sớm hơn.
 
-#### Vấn đề với Momentum thông thường
+#### Hạn chế của Momentum Thông thường
 
-Mặc dù momentum giúp quả bóng vượt qua các cực tiểu địa phương, có một hạn chế mà chúng ta có thể quan sát: khi tiến gần đến mục tiêu, momentum vẫn mất khá nhiều thời gian trước khi dừng lại. Lý do chính xác là do vận tốc tích lũy.
+Dù momentum giúp tăng tốc trên thung lũng hẹp, khi tiến gần đến điểm cực tiểu, quán tính tích lũy có thể khiến quỹ đạo vượt quá mục tiêu và cần thêm nhiều bước để giảm tốc.
 
-#### Ý tưởng chính
+#### Ý tưởng Cốt lõi của NAG
 
-Ý tưởng cơ bản là **dự đoán hướng tương lai** - về cơ bản là nhìn trước một bước! Cụ thể, nếu chúng ta sử dụng số hạng momentum $$\beta v^{(k-1)}$$ để cập nhật, chúng ta có thể xấp xỉ vị trí tiếp theo là $$x^{(k-1)} - \beta v^{(k-1)}$$ (chúng ta không bao gồm số hạng gradient ở đây vì chúng ta sẽ sử dụng nó trong bước cuối).
+Ý tưởng của NAG là **dự đoán trước vị trí kế tiếp**: vì thành phần momentum sẽ dịch chuyển điểm lặp đi một đoạn $$-t\beta v^{(k-1)}$$, ta xấp xỉ vị trí sắp tới là $$x^{(k-1)} - t\beta v^{(k-1)}$$ rồi tính gradient ngay tại điểm nhìn trước đó để hiệu chỉnh bước đi.
 
-Thay vì sử dụng gradient tại vị trí hiện tại, NAG bước tiến về phía trước và sử dụng gradient tại vị trí dự kiến tiếp theo.
+#### So sánh Trực quan
 
-#### Visual Comparison
+- **Momentum thông thường**: Bước cập nhật kết hợp vector momentum từ bước trước và gradient tại **vị trí hiện tại**.
+- **Nesterov momentum**: Bước cập nhật kết hợp vector momentum từ bước trước và gradient tại **vị trí nhìn trước** (nơi momentum dự kiến sẽ đưa tới).
 
-**With regular momentum**: The update is the sum of two vectors:
-- Momentum vector (from previous step)
-- Gradient at the current position
-
-**With Nesterov momentum**: The update is the sum of two vectors:
-- Momentum vector (from previous step)  
-- Gradient at the **look-ahead** position (where momentum would take us)
-
-This "look-ahead" approach allows NAG to make more informed corrections and often leads to faster convergence.
+Cơ chế nhìn trước này giúp NAG hiệu chỉnh kịp thời khi độ dốc đổi chiều, giảm hiện tượng vượt quá cực tiểu và thường hội tụ nhanh hơn.
 
 ### 2. **Adaptive Moment Estimation (Adam)**
-Adam combines momentum with adaptive learning rates for each parameter:
+Adam kết hợp momentum (mô-men bậc nhất) với tốc độ học thích ứng cho từng tham số (dựa trên mô-men bậc hai):
 
 $$ \begin{align}
 m^{(k)} &= \beta_1 m^{(k-1)} + (1-\beta_1) \nabla f(x^{(k-1)}) \\
@@ -470,51 +463,51 @@ v^{(k)} &= \beta_2 v^{(k-1)} + (1-\beta_2) (\nabla f(x^{(k-1)}))^2 \\
 x^{(k)} &= x^{(k-1)} - t \frac{m^{(k)}}{\sqrt{v^{(k)}} + \epsilon}
 \end{align} $$
 
-## Practical Implementation Tips
+## Kinh nghiệm Cài đặt Thực tế
 
-### 1. **Choosing the Momentum Coefficient**
-- **Start with $$\beta = 0.9$$**: A good default for most problems
-- **Increase to $$\beta = 0.99$$**: For very smooth optimization landscapes
-- **Decrease to $$\beta = 0.5-0.7$$**: For noisy or non-smooth functions
+### 1. **Chọn Hệ số Momentum**
+- **Bắt đầu với $$\beta = 0.9$$**: Lựa chọn mặc định phù hợp cho đa số bài toán.
+- **Tăng lên $$\beta = 0.99$$**: Khi bề mặt hàm mục tiêu rất trơn.
+- **Giảm xuống $$\beta = 0.5\text{--}0.7$$**: Khi gradient có nhiều nhiễu hoặc hàm kém trơn.
 
-### 2. **Learning Rate Adjustment**
-When using momentum, you may need to reduce the learning rate compared to vanilla gradient descent, as momentum amplifies the effective step size.
+### 2. **Điều chỉnh Tốc độ Học**
+Khi dùng momentum (đặc biệt dạng không nhân $$1-\beta$$), cần cân nhắc giảm tốc độ học so với gradient descent thường vì momentum làm tăng kích thước bước hiệu dụng.
 
-### 3. **Warm-up Period**
-Consider starting with lower momentum and gradually increasing it, as momentum needs time to build up effective velocity.
+### 3. **Giai đoạn Khởi động (Warm-up)**
+Có thể khởi đầu với hệ số momentum nhỏ rồi tăng dần để thuật toán tích lũy vận tốc ổn định hơn ở những vòng lặp đầu.
 
-## Mathematical Analysis
+## Phân tích Toán học
 
-### Convergence Properties
+### Tính chất Hội tụ
 
-For strongly convex functions with Lipschitz gradients, momentum gradient descent achieves:
-- **Linear convergence**: $$f(x^{(k)}) - f^* \leq C \rho^k$$ for some $$\rho < 1$$
-- **Improved condition number**: Effective condition number can be improved from $$\kappa$$ to $$\sqrt{\kappa}$$
+Đối với hàm lồi mạnh có gradient liên tục Lipschitz (và chọn tham số phù hợp trên lớp hàm bậc hai), gradient descent có momentum đạt được:
+- **Hội tụ tuyến tính**: $$f(x^{(k)}) - f^* \leq C \rho^k$$ với một hằng số $$\rho < 1$$.
+- **Cải thiện sự phụ thuộc vào chỉ số điều kiện**: Tốc độ phụ thuộc vào $$\sqrt{\kappa}$$ thay vì $$\kappa$$ như gradient descent chuẩn.
 
-### Heavy Ball Method Connection
+### Liên hệ với Phương pháp Quả cầu Nặng (Heavy Ball)
 
-Momentum gradient descent is closely related to the heavy ball method from classical mechanics:
+Gradient descent có momentum gắn chặt với phương trình vi phân chuyển động của quả cầu nặng có ma sát trong cơ học cổ điển:
 $$mx'' + \gamma x' + \nabla f(x) = 0$$
 
-This differential equation, when discretized, leads to the momentum update rules.
+Khi rời rạc hóa phương trình vi phân này theo thời gian, ta thu được quy tắc cập nhật momentum.
 
-## Tóm tắt so sánh
+## Tóm tắt So sánh
 
 | Khía cạnh | Vanilla GD | Momentum GD |
 |--------|------------|-------------|
-| **Bộ nhớ** | Không | Có (giảm mũ) |
+| **Bộ nhớ** | Không | Có (trọng số giảm mũ) |
 | **Hội tụ** | Có thể chậm | Thường nhanh hơn |
-| **Dao động** | Dễ xảy ra hơn | Giảm |
-| **Cực tiểu địa phương** | Có thể bị kẹt | Thoát tốt hơn |
-| **Siêu tham số** | Tốc độ học | Tốc độ học + momentum |
-| **Chi phí tính toán** | Thấp | Hơi cao hơn |
+| **Dao động** | Dễ xảy ra hơn | Giảm đáng kể |
+| **Cực tiểu cục bộ** | Dễ bị giữ lại | Có khả năng vượt qua tốt hơn |
+| **Siêu tham số** | Tốc độ học | Tốc độ học + hệ số momentum |
+| **Chi phí tính toán** | Thấp | Cao hơn không đáng kể |
 
-## Những điểm chính
+## Những Điểm Chính
 
-1. **Momentum thêm bộ nhớ**: Nó nhớ hướng của các bước trước đó
-2. **Hội tụ nhanh hơn**: Đặc biệt hiệu quả cho các hàm có thung lũng hoặc khe hẹp
-3. **Giảm dao động**: Làm mượt hành vi zigzag
-4. **Được sử dụng rộng rãi**: Nền tảng cho nhiều thuật toán tối ưu hóa hiện đại
-5. **Có thể điều chỉnh**: Hệ số momentum $$\beta$$ cho phép tinh chỉnh cho các bài toán khác nhau
+1. **Bổ sung quán tính**: Momentum lưu giữ thông tin về hướng cập nhật của các bước trước.
+2. **Tăng tốc hội tụ**: Đặc biệt hữu ích trên các hàm có thung lũng hẹp hoặc chỉ số điều kiện lớn.
+3. **Giảm dao động**: Làm mượt quỹ đạo zig-zag dọc theo các phương có độ cong lớn.
+4. **Tính ứng dụng rộng**: Là nền tảng của nhiều bộ tối ưu hiện đại trong học máy và học sâu.
+5. **Linh hoạt điều chỉnh**: Hệ số $$\beta$$ cho phép cân bằng giữa tốc độ tích lũy vận tốc và độ ổn định.
 
-**Kết luận**: Momentum là một cải tiến đơn giản nhưng mạnh mẽ cho gradient descent đã vượt qua thử thách của thời gian và vẫn có liên quan trong các ứng dụng machine learning hiện đại.
+Tóm lại, momentum là một cải tiến đơn giản nhưng hiệu quả đối với gradient descent và vẫn giữ vai trò quan trọng trong các hệ thống tối ưu hóa hiện đại.

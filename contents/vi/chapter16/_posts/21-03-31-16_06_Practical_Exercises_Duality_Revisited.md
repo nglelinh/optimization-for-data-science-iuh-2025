@@ -12,13 +12,13 @@ redirect_from:
   - /contents/vi/chapter16/16_05_Practical_Exercises_Duality_Revisited/
 ---
 
-# Bài Tập Thực Hành - Duality Revisited
+# Bài Tập Thực Hành - Tính đối ngẫu (Nhìn lại)
 
 Các bài tập được tham khảo từ Boyd & Vandenberghe (2004) và Rockafellar (1970).
 
 ---
 
-## 📝 **Bài tập 1: Perturbation Analysis**
+## 📝 **Bài tập 1: Phân tích nhiễu loạn (Perturbation Analysis)**
 
 Cho bài toán:
 
@@ -30,45 +30,45 @@ $$
 $$
 
 **Yêu cầu:**  
-a) Tìm $$p^*(u)$$ (optimal value as function of $$u$$)  
-b) Verify $$\lambda^* = \frac{dp^*}{du}$$ (ràng buộc $$u - x \leq 0$$ càng chặt khi $$u$$ tăng)  
-c) Giải thích ý nghĩa kinh tế
+a) Tìm hàm giá trị tối ưu $$p^*(u)$$ theo tham số $$u$$.  
+b) Kiểm chứng $$\lambda^* = \frac{dp^*}{du}$$ (ràng buộc $$u - x \leq 0$$ càng chặt khi $$u$$ tăng).  
+c) Giải thích ý nghĩa kinh tế của nhân tử $$\lambda^*$$.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Optimal value function:**
+**a) Hàm giá trị tối ưu:**
 
 $$p^*(u) = \begin{cases}
 u^2 & \text{if } u \geq 0 \\
 0 & \text{if } u < 0
 \end{cases}$$
 
-**b) Derivative:**
+**b) Đạo hàm:**
 
 $$\frac{dp^*}{du} = \begin{cases}
 2u & \text{if } u > 0 \\
 0 & \text{if } u < 0
 \end{cases}$$
 
-**Lagrangian:**
+**Hàm Lagrange:**
 
 $$L(x, \lambda) = x^2 - \lambda(x - u)$$
 
-KKT: $$2x^* - \lambda^* = 0$$, $$\lambda^*(x^* - u) = 0$$
+Điều kiện KKT: $$2x^* - \lambda^* = 0$$, $$\lambda^*(x^* - u) = 0$$.
 
 - Nếu $$u \geq 0$$: $$x^* = u$$, $$\lambda^* = 2u = \frac{dp^*}{du}$$ ✓
 - Nếu $$u < 0$$: $$x^* = 0$$, $$\lambda^* = 0$$ ✓
 
-**c) Ý nghĩa:** $$\lambda^*$$ là sensitivity của optimal cost khi constraint thay đổi.
+**c) Ý nghĩa:** $$\lambda^*$$ biểu thị độ nhạy (giá bóng — shadow price) của chi phí tối ưu khi mức ràng buộc $$u$$ thay đổi.
 
 </details>
 
 ---
 
-## 📝 **Bài tập 2: Strong Duality via Slater's Condition**
+## 📝 **Bài tập 2: Tính đối ngẫu mạnh qua điều kiện Slater**
 
-Cho QCQP:
+Cho bài toán QCQP:
 
 $$
 \begin{align}
@@ -79,16 +79,16 @@ $$
 $$
 
 **Yêu cầu:**  
-a) Kiểm tra Slater's condition  
-b) Viết dual problem  
-c) Verify strong duality
+a) Kiểm tra điều kiện Slater.  
+b) Viết bài toán đối ngẫu.  
+c) Kiểm chứng tính đối ngẫu mạnh.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Slater's condition:**
+**a) Kiểm tra điều kiện Slater:**
 
-Cần tìm $$\tilde{x}$$ strictly feasible:
+Cần tìm một điểm $$\tilde{x}$$ khả thi ngặt:
 
 $$
 \begin{cases}
@@ -97,25 +97,25 @@ x_1 + x_2 > 1
 \end{cases}
 $$
 
-Try $$\tilde{x} = (1, 0.5)$$:
+Chọn thử $$\tilde{x} = (1, 0.5)$$:
 
 $$(1-1)^2 + (0.5)^2 = 0.25 < 1$$ ✓
 
 $$1 + 0.5 = 1.5 > 1$$ ✓
 
-**Slater's condition satisfied** → strong duality holds!
+**Điều kiện Slater được thỏa mãn**, suy ra tính đối ngẫu mạnh đúng.
 
 ---
 
-**b) Lagrangian:**
+**b) Hàm Lagrange:**
 
 $$L(x, \lambda_1, \lambda_2) = x_1^2 + x_2^2 + \lambda_1[(x_1-1)^2 + x_2^2 - 1] - \lambda_2(x_1 + x_2 - 1)$$
 
-**Dual function:**
+**Hàm đối ngẫu:**
 
 $$g(\lambda_1, \lambda_2) = \inf_x L(x, \lambda)$$
 
-KKT stationarity: $$\nabla_x L = 0$$:
+Điều kiện dừng KKT $$\nabla_x L = 0$$:
 
 $$2x_1 + 2\lambda_1(x_1 - 1) - \lambda_2 = 0$$
 
@@ -123,55 +123,57 @@ $$2x_2 + 2\lambda_1 x_2 - \lambda_2 = 0$$
 
 ---
 
-**c) Numerical verification:**
+**c) Kiểm chứng bằng số:**
 
-Primal optimal: $$x^* = (0.5, 0.5)$$, $$p^* = 0.5$$ (ràng buộc đĩa không active vì $$(0.5-1)^2 + 0.5^2 = 0.5 < 1$$)
+Nghiệm tối ưu nguyên thủy: $$x^* = (0.5, 0.5)$$, $$p^* = 0.5$$ (ràng buộc hình đĩa không tác dụng vì $$(0.5-1)^2 + 0.5^2 = 0.5 < 1$$).
 
-Dual optimal: $$\lambda^* = (0, 1)$$, $$d^* = 0.5$$ (từ $$g(0, \lambda_2) = \lambda_2 - \lambda_2^2/2$$, cực đại tại $$\lambda_2 = 1$$)
+Nghiệm tối ưu đối ngẫu: $$\lambda^* = (0, 1)$$, $$d^* = 0.5$$ (từ $$g(0, \lambda_2) = \lambda_2 - \lambda_2^2/2$$, đạt cực đại tại $$\lambda_2 = 1$$).
 
-**Gap:** $$p^* - d^* \approx 0$$ ✓ (strong duality!)
+**Khoảng cách đối ngẫu:** $$p^* - d^* = 0$$ ✓ (thỏa mãn tính đối ngẫu mạnh).
 
 </details>
 
 ---
 
-## 📝 **Bài tập 3: Dual Cones và Conic Duality**
+## 📝 **Bài tập 3: Nón đối ngẫu và đối ngẫu nón (Conic Duality)**
 
-Cho second-order cone: $$K = \{(x, t) : \|x\| \leq t\}$$.
+Cho nón bậc hai (second-order cone): $$K = \{(x, t) : \|x\| \leq t\}$$.
 
 **Yêu cầu:**  
-a) Tìm dual cone $$K^*$$  
-b) Verify $$K^{**} = K$$ (self-dual)  
-c) Apply to SOCP duality
+a) Tìm nón đối ngẫu $$K^*$$.  
+b) Kiểm chứng $$K^{**} = K$$ (tính tự đối ngẫu).  
+c) Áp dụng cho tính đối ngẫu của bài toán SOCP.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Dual cone:**
+**a) Nón đối ngẫu:**
 
 $$K^* = \{(y, s) : \langle (x,t), (y,s) \rangle \geq 0 \, \forall (x,t) \in K\}$$
 
 $$= \{(y, s) : x^Ty + ts \geq 0 \, \forall \|x\| \leq t\}$$
 
-Worst case: $$x = -t\frac{y}{\|y\|}$$ (nếu $$y \neq 0$$):
+Xét trường hợp bất lợi nhất $$x = -t\frac{y}{\|y\|}$$ (với $$y \neq 0$$):
 
 $$-t\|y\| + ts \geq 0 \Rightarrow s \geq \|y\|$$
 
+Do đó:
+
 $$K^* = \{(y, s) : \|y\| \leq s\} = K$$
 
-**SOCP cone is self-dual!**
+Như vậy, **nón bậc hai là nón tự đối ngẫu**.
 
 ---
 
-**b) Verification:**
+**b) Kiểm chứng:**
 
 $$K^{**} = (K^*)^* = K^* = K$$ ✓
 
 ---
 
-**c) SOCP duality:**
+**c) Đối ngẫu của bài toán SOCP:**
 
-**Primal:**
+**Bài toán nguyên thủy:**
 
 $$
 \begin{align}
@@ -180,7 +182,7 @@ $$
 \end{align}
 $$
 
-**Dual:**
+**Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -190,79 +192,79 @@ $$
 \end{align}
 $$
 
-Self-duality của SOCP cone → symmetric primal-dual relationship.
+Tính tự đối ngẫu của nón bậc hai tạo nên mối quan hệ đối xứng giữa bài toán nguyên thủy và bài toán đối ngẫu của SOCP.
 
 </details>
 
 ---
 
-## 📝 **Bài tập 4: Minimax Duality**
+## 📝 **Bài tập 4: Đối ngẫu Minimax**
 
-Cho saddle point problem:
+Cho bài toán điểm yên:
 
 $$\min_{x \in X} \max_{y \in Y} f(x, y)$$
 
 với $$f(x, y) = x^TAy + b^Tx + c^Ty$$.
 
 **Yêu cầu:**  
-a) Viết dual problem  
-b) Điều kiện cho minimax = maximin  
-c) Ví dụ: matrix game $$A = \begin{bmatrix} 2 & -1 \\ -1 & 1 \end{bmatrix}$$, $$X = Y = \Delta_2$$ (simplex)
+a) Viết bài toán đối ngẫu.  
+b) Nêu điều kiện để giá trị minimax bằng maximin.  
+c) Giải ví dụ trò chơi ma trận với $$A = \begin{bmatrix} 2 & -1 \\ -1 & 1 \end{bmatrix}$$, $$X = Y = \Delta_2$$ (đơn hình xác suất).
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Dual problem:**
+**a) Bài toán đối ngẫu:**
 
 $$\max_{y \in Y} \min_{x \in X} f(x, y)$$
 
-**Weak duality:**
+**Tính đối ngẫu yếu:**
 
 $$\min_x \max_y f(x, y) \geq \max_y \min_x f(x, y)$$
 
 ---
 
-**b) Minimax theorem (von Neumann):**
+**b) Định lý Minimax (von Neumann):**
 
-Nếu $$X, Y$$ compact convex và $$f$$ convex-concave, thì:
+Nếu $$X, Y$$ là các tập lồi compact và $$f$$ lồi theo $$x$$, lõm theo $$y$$ (convex-concave), thì:
 
 $$\min_x \max_y f = \max_y \min_x f$$
 
-và tồn tại saddle point $$(x^*, y^*)$$.
+và tồn tại điểm yên $$(x^*, y^*)$$.
 
 ---
 
-**c) Matrix game:**
+**c) Trò chơi ma trận:**
 
 $$\min_{x \in \Delta_2} \max_{y \in \Delta_2} x^T A y$$
 
 $$A = \begin{bmatrix} 2 & -1 \\ -1 & 1 \end{bmatrix}$$
 
-**Inner max:**
+**Bài toán cực đại bên trong:**
 
 $$\max_y x^TAy = \max\{2x_1 - x_2, -x_1 + x_2\}$$
 
-(chọn pure strategy với payoff cao hơn)
+(chọn chiến lược thuần mang lại giá trị lớn hơn).
 
-**Outer min:**
+**Bài toán cực tiểu bên ngoài:**
 
 $$\min_x \max\{2x_1 - x_2, -x_1 + x_2\}$$
 
-Với $$x_1 + x_2 = 1$$, $$x_2 = 1 - x_1$$:
+Với $$x_1 + x_2 = 1$$, thay $$x_2 = 1 - x_1$$:
 
 $$\max\{2x_1 - (1-x_1), -x_1 + (1-x_1)\} = \max\{3x_1 - 1, 1 - 2x_1\}$$
 
-Intersection: $$3x_1 - 1 = 1 - 2x_1 \Rightarrow 5x_1 = 2 \Rightarrow x_1 = 0.4$$
+Giao điểm hai đường thẳng: $$3x_1 - 1 = 1 - 2x_1 \Rightarrow 5x_1 = 2 \Rightarrow x_1 = 0.4$$.
 
-**Nash equilibrium:** $$x^* = (0.4, 0.6)$$, value = $$0.2$$
+**Cân bằng Nash:** $$x^* = (0.4, 0.6)$$, giá trị trò chơi bằng $$0.2$$.
 
 </details>
 
 ---
 
-## 📝 **Bài tập 5: Lagrangian Relaxation**
+## 📝 **Bài tập 5: Nới lỏng Lagrange (Lagrangian Relaxation)**
 
-Cho integer program:
+Cho bài toán quy hoạch nguyên:
 
 $$
 \begin{align}
@@ -273,20 +275,20 @@ $$
 $$
 
 **Yêu cầu:**  
-a) Viết Lagrangian relaxation  
-b) Explain lower bound property  
-c) Ví dụ: $$c = (-1, -2)$$, $$A = [1, 1]$$, $$b = 1$$
+a) Viết bài toán nới lỏng Lagrange.  
+b) Giải thích tính chất cận dưới của bài toán đối ngẫu.  
+c) Giải ví dụ với $$c = (-1, -2)$$, $$A = [1, 1]$$, $$b = 1$$.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Lagrangian relaxation:**
+**a) Nới lỏng Lagrange:**
 
 $$L(x, \lambda) = c^Tx + \lambda^T(Ax - b)$$
 
 $$g(\lambda) = \min_{x \in \{0,1\}^n} L(x, \lambda) = \min_{x \in \{0,1\}^n} (c + A^T\lambda)^Tx - \lambda^Tb$$
 
-Minimize mỗi $$x_i$$ độc lập:
+Cực tiểu hóa độc lập từng thành phần $$x_i$$:
 
 $$x_i^* = \begin{cases}
 0 & \text{if } c_i + (A^T\lambda)_i > 0 \\
@@ -295,31 +297,31 @@ $$x_i^* = \begin{cases}
 
 ---
 
-**b) Lower bound:**
+**b) Tính chất cận dưới:**
 
 $$\max_{\lambda \geq 0} g(\lambda) \leq p^*$$
 
-Giải dual (easier) → bound for primal (NP-hard).
+Giải bài toán đối ngẫu (dễ giải hơn) cung cấp cận dưới cho bài toán nguyên thủy (thuộc lớp NP-hard).
 
 ---
 
-**c) Example:**
+**c) Ví dụ:**
 
-$$\min -x_1 - 2x_2$$ s.t. $$x_1 + x_2 \leq 1$$, $$x \in \{0,1\}^2$$
+$$\min -x_1 - 2x_2$$ thỏa mãn $$x_1 + x_2 \leq 1$$, $$x \in \{0,1\}^2$$.
 
-**Primal optimal:** $$x^* = (0, 1)$$, $$p^* = -2$$
+**Nghiệm tối ưu nguyên thủy:** $$x^* = (0, 1)$$, $$p^* = -2$$.
 
-**Lagrangian** (với $$\lambda \geq 0$$):
+**Hàm Lagrange** (với $$\lambda \geq 0$$):
 
 $$L(x, \lambda) = -x_1 - 2x_2 + \lambda(x_1 + x_2 - 1) = (\lambda - 1)x_1 + (\lambda - 2)x_2 - \lambda$$
 
-**Dual function:**
+**Hàm đối ngẫu:**
 
 $$g(\lambda) = \min(0, \lambda - 1) + \min(0, \lambda - 2) - \lambda = \begin{cases} \lambda - 3 & 0 \leq \lambda \leq 1 \\ -2 & 1 \leq \lambda \leq 2 \\ -\lambda & \lambda \geq 2 \end{cases}$$
 
-**Dual optimal:** $$\lambda^* \in [1, 2]$$, $$d^* = -2 = p^*$$
+**Nghiệm tối ưu đối ngẫu:** $$\lambda^* \in [1, 2]$$, $$d^* = -2 = p^*$$.
 
-**Strong duality!** (lucky case; nói chung relaxation chỉ cho cận dưới $$d^* \leq p^*$$)
+Trường hợp này đạt **tính đối ngẫu mạnh** (đây là trường hợp đặc biệt thuận lợi; tổng quát, nới lỏng Lagrange chỉ đảm bảo cận dưới $$d^* \leq p^*$$).
 
 </details>
 
@@ -327,27 +329,26 @@ $$g(\lambda) = \min(0, \lambda - 1) + \min(0, \lambda - 2) - \lambda = \begin{ca
 
 ## 💡 **Tổng kết**
 
-### **Duality Concepts:**
+### **Các khái niệm cốt lõi về đối ngẫu:**
 
-| Concept | Key Idea |
+| Khái niệm | Ý tưởng chính |
 |---------|----------|
-| **Perturbation** | $$\lambda^* = -dp^*/du$$ cho ràng buộc $$f_i(x) \leq u_i$$ (sensitivity) |
-| **Slater's condition** | Guarantees strong duality |
-| **Dual cone** | $$K^* = \{y : y^Tx \geq 0 \, \forall x \in K\}$$ |
-| **Minimax** | $$\min \max = \max \min$$ under convexity |
-| **Lagrangian relaxation** | Relax hard constraints → dual bound |
+| **Phân tích nhiễu loạn (Perturbation)** | $$\lambda^* = -dp^*/du$$ cho ràng buộc $$f_i(x) \leq u_i$$ (độ nhạy) |
+| **Điều kiện Slater** | Đảm bảo tính đối ngẫu mạnh cho bài toán lồi |
+| **Nón đối ngẫu (Dual cone)** | $$K^* = \{y : y^Tx \geq 0 \, \forall x \in K\}$$ |
+| **Định lý Minimax** | $$\min \max = \max \min$$ dưới điều kiện lồi – lõm và compact |
+| **Nới lỏng Lagrange** | Nới lỏng ràng buộc khó để thu được cận dưới đối ngẫu |
 
-### **When strong duality holds:**
-- **LP:** Always (feasible)
-- **Convex:** Slater's condition
-- **SOCP/SDP:** Interior point exists
-- **Non-convex:** Generally fails (duality gap)
+### **Khi nào tính đối ngẫu mạnh được thỏa mãn:**
+- **LP:** Luôn đúng khi bài toán khả thi.
+- **Bài toán lồi:** Khi thỏa mãn điều kiện Slater.
+- **SOCP/SDP:** Khi tồn tại điểm trong khả thi ngặt.
+- **Bài toán không lồi:** Nhìn chung không đảm bảo (thường có khe đối ngẫu khác 0).
 
 ---
 
-## 📚 **Tài liệu Tham khảo**
+## 📚 **Tài liệu tham khảo**
 
 1. Boyd, S., & Vandenberghe, L. (2004). *Convex Optimization*. Chapter 5.
 2. Rockafellar, R. T. (1970). *Convex Analysis*. Princeton.
 3. Borwein, J., & Lewis, A. (2006). *Convex Analysis and Nonlinear Optimization*.
-

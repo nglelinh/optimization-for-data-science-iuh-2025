@@ -12,25 +12,25 @@ redirect_from:
   - /contents/vi/chapter21/21_07_Practical_Exercises_ADMM_Applications/
 ---
 
-# Bài Tập Thực Hành - ADMM Applications
+# Bài Tập Thực Hành - Ứng dụng của ADMM
 
-Các bài tập được tham khảo từ Boyd et al. (2011).
+Các bài tập dưới đây được tham khảo từ Boyd và cộng sự (2011).
 
 ---
 
-## 📝 **Bài tập 1: ADMM Basics**
+## 📝 **Bài tập 1: Cơ bản về ADMM**
 
-$$\min f(x) + g(z)$$ s.t. $$Ax + Bz = c$$.
+Xét bài toán $$\min f(x) + g(z)$$ với ràng buộc $$Ax + Bz = c$$.
 
 **Yêu cầu:**  
-a) Viết scaled ADMM  
-b) Apply to LASSO: $$\min \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1$$  
-c) Iterate với toy example
+a) Viết các bước cập nhật của ADMM dạng chuẩn hóa (scaled ADMM).  
+b) Áp dụng cho bài toán Lasso: $$\min \frac{1}{2}\|Ax - b\|^2 + \lambda\|x\|_1$$.  
+c) Chạy thử vài vòng lặp với một ví dụ nhỏ.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Scaled ADMM:**
+**a) ADMM dạng chuẩn hóa:**
 
 $$x^{(k+1)} = \arg\min_x \left[ f(x) + \frac{\rho}{2}\|Ax + Bz^{(k)} - c + u^{(k)}\|^2 \right]$$
 
@@ -38,7 +38,7 @@ $$z^{(k+1)} = \arg\min_z \left[ g(z) + \frac{\rho}{2}\|Ax^{(k+1)} + Bz - c + u^{
 
 $$u^{(k+1)} = u^{(k)} + Ax^{(k+1)} + Bz^{(k+1)} - c$$
 
-**b) LASSO:** $$x - z = 0$$
+**b) Áp dụng cho Lasso** với ràng buộc tách biến $$x - z = 0$$:
 
 $$x^{(k+1)} = (A^TA + \rho I)^{-1}(A^Tb + \rho(z^{(k)} - u^{(k)}))$$
 
@@ -50,23 +50,23 @@ $$u^{(k+1)} = u^{(k)} + x^{(k+1)} - z^{(k+1)}$$
 
 ---
 
-## 📝 **Bài tập 2: Consensus ADMM**
+## 📝 **Bài tập 2: ADMM đồng thuận (Consensus ADMM)**
 
-$$N$$ functions: $$\min \sum_{i=1}^N f_i(x)$$.
+Cho $$N$$ hàm mục tiêu: $$\min \sum_{i=1}^N f_i(x)$$.
 
 **Yêu cầu:**  
-a) Reformulate với consensus $$x_i$$  
-b) Global variable update  
-c) Distributed implementation
+a) Viết lại bài toán dưới dạng đồng thuận với các biến cục bộ $$x_i$$.  
+b) Suy ra bước cập nhật biến toàn cục.  
+c) Mô tả cách triển khai phân tán.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Consensus form:**
+**a) Dạng đồng thuận:**
 
-$$\min \sum_i f_i(x_i)$$ s.t. $$x_i = z \, \forall i$$
+$$\min \sum_i f_i(x_i)$$ với ràng buộc $$x_i = z \, \forall i$$
 
-**b) ADMM:**
+**b) Các bước ADMM:**
 
 $$x_i^{(k+1)} = \arg\min_{x_i} \left[ f_i(x_i) + \frac{\rho}{2}\|x_i - z^{(k)} + u_i^{(k)}\|^2 \right]$$
 
@@ -74,37 +74,39 @@ $$z^{(k+1)} = \frac{1}{N}\sum_i (x_i^{(k+1)} + u_i^{(k)})$$
 
 $$u_i^{(k+1)} = u_i^{(k)} + x_i^{(k+1)} - z^{(k+1)}$$
 
-**c) Distributed:** Each node updates $$x_i$$, then average for $$z$$.
+**c) Triển khai phân tán:** Mỗi nút tính toán cập nhật độc lập biến cục bộ $$x_i$$, sau đó nút điều phối lấy trung bình để cập nhật biến toàn cục $$z$$.
 
 </details>
 
 ---
 
-## 📝 **Bài tập 3: Total Variation Denoising**
+## 📝 **Bài tập 3: Khử nhiễu biến phân toàn phần (Total Variation Denoising)**
+
+Xét bài toán:
 
 $$\min \frac{1}{2}\|x - b\|^2 + \lambda \|Dx\|_1$$
 
-với $$D$$ là difference operator.
+với $$D$$ là toán tử sai phân.
 
 **Yêu cầu:**  
-a) ADMM formulation  
-b) $$x$$-update (smooth)  
-c) $$z$$-update (soft-thresholding)
+a) Thiết lập công thức ADMM.  
+b) Viết bước cập nhật $$x$$ (thành phần trơn).  
+c) Viết bước cập nhật $$z$$ (co ngưỡng mềm).
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Split:** $$z = Dx$$
+**a) Tách biến:** Đặt $$z = Dx$$, bài toán trở thành:
 
-$$\min_x \frac{1}{2}\|x - b\|^2 + \lambda\|z\|_1$$ s.t. $$Dx - z = 0$$
+$$\min_{x,z} \frac{1}{2}\|x - b\|^2 + \lambda\|z\|_1$$ với ràng buộc $$Dx - z = 0$$
 
-**b) $$x$$-update:**
+**b) Bước cập nhật $$x$$:**
 
 $$x^{(k+1)} = (I + \rho D^TD)^{-1}(b + \rho D^T(z^{(k)} - u^{(k)}))$$
 
-(Solve linear system, often banded/fast)
+(Giải hệ phương trình tuyến tính, thường có cấu trúc dải nên tính toán nhanh.)
 
-**c) $$z$$-update:**
+**c) Bước cập nhật $$z$$:**
 
 $$z^{(k+1)} = S_{\lambda/\rho}(Dx^{(k+1)} + u^{(k)})$$
 
@@ -112,61 +114,61 @@ $$z^{(k+1)} = S_{\lambda/\rho}(Dx^{(k+1)} + u^{(k)})$$
 
 ---
 
-## 📝 **Bài tập 4: Matrix Decomposition**
+## 📝 **Bài tập 4: Phân rã ma trận**
 
-$$\min \|L\|_* + \lambda\|S\|_1$$ s.t. $$L + S = M$$.
+Xét bài toán $$\min \|L\|_* + \lambda\|S\|_1$$ với ràng buộc $$L + S = M$$.
 
 **Yêu cầu:**  
-a) $$L$$-update (SVD thresholding)  
-b) $$S$$-update (soft-thresholding)  
-c) Application: robust PCA
+a) Viết bước cập nhật $$L$$ (co ngưỡng giá trị kỳ dị qua SVD).  
+b) Viết bước cập nhật $$S$$ (co ngưỡng mềm theo phần tử).  
+c) Nêu ứng dụng trong PCA bền vững (robust PCA).
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) $$L$$-update:**
+**a) Bước cập nhật $$L$$:**
 
 $$L^{(k+1)} = \arg\min_L \left[ \|L\|_* + \frac{\rho}{2}\|L + S^{(k)} - M + U^{(k)}\|_F^2 \right]$$
 
 $$= \mathcal{S}_{1/\rho}(M - S^{(k)} - U^{(k)})$$
 
-với $$\mathcal{S}_\tau(X) = U \text{diag}(\max(\sigma_i - \tau, 0)) V^T$$
+với $$\mathcal{S}_\tau(X) = U \text{diag}(\max(\sigma_i - \tau, 0)) V^T$$.
 
-**b) $$S$$-update:**
+**b) Bước cập nhật $$S$$:**
 
 $$S^{(k+1)} = S_{\lambda/\rho}(M - L^{(k+1)} - U^{(k)})$$
 
-**c) Robust PCA:** $$M = L + S$$ (low-rank + sparse)
+**c) Ứng dụng PCA bền vững:** Phân rã ma trận quan sát $$M = L + S$$ thành thành phần hạng thấp $$L$$ và thành phần thưa $$S$$ (nhiễu ngoại lai).
 
 </details>
 
 ---
 
-## 📝 **Bài tập 5: Convergence và Parameter Tuning**
+## 📝 **Bài tập 5: Hội tụ và điều chỉnh tham số**
 
 **Yêu cầu:**  
-a) Chọn $$\rho$$  
-b) Stopping criteria  
-c) Adaptive $$\rho$$
+a) Cách chọn tham số $$\rho$$.  
+b) Tiêu chí dừng thuật toán.  
+c) Quy tắc điều chỉnh $$\rho$$ thích nghi.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Choosing $$\rho$$:**
+**a) Chọn $$\rho$$:**
 
-**Rule of thumb:** $$\rho \sim 1.0$$ for normalized data
+*Quy tắc kinh nghiệm:* Chọn $$\rho \sim 1.0$$ đối với dữ liệu đã chuẩn hóa.
 
-**Balance:** primal vs dual residuals
+*Nguyên tắc cân bằng:* Điều chỉnh sao cho phần dư gốc và phần dư đối ngẫu giảm cân đối với nhau.
 
-**b) Stopping:**
+**b) Tiêu chí dừng:**
 
 $$\epsilon_{\text{pri}} = \sqrt{n}\epsilon_{\text{abs}} + \epsilon_{\text{rel}}\max(\|Ax\|, \|Bz\|, \|c\|)$$
 
 $$\epsilon_{\text{dual}} = \sqrt{n}\epsilon_{\text{abs}} + \epsilon_{\text{rel}}\|A^T\nu\|$$
 
-Stop khi $$\|r\| < \epsilon_{\text{pri}}$$ và $$\|s\| < \epsilon_{\text{dual}}$$
+Dừng thuật toán khi $$\|r\| < \epsilon_{\text{pri}}$$ và $$\|s\| < \epsilon_{\text{dual}}$$.
 
-**c) Adaptive:**
+**c) Điều chỉnh $$\rho$$ thích nghi:**
 
 ```
 if ||r|| > μ ||s||:
@@ -175,7 +177,7 @@ elif ||s|| > μ ||r||:
     ρ = ρ / τ_decr
 ```
 
-với $$\mu = 10$$, $$\tau = 2$$.
+thường chọn $$\mu = 10$$ và $$\tau = 2$$.
 
 </details>
 
@@ -183,18 +185,17 @@ với $$\mu = 10$$, $$\tau = 2$$.
 
 ## 💡 **Tổng kết**
 
-**ADMM Applications:**
+**Một số ứng dụng tiêu biểu của ADMM:**
 
-| Problem | $$f(x)$$ | $$g(z)$$ | Use case |
-|---------|----------|----------|----------|
-| LASSO | $$\frac{1}{2}\|Ax-b\|^2$$ | $$\lambda\|z\|_1$$ | Sparse regression |
-| Total variation | $$\frac{1}{2}\|x-b\|^2$$ | $$\lambda\|z\|_1$$ | Image denoising |
-| Robust PCA | $$\|L\|_*$$ | $$\lambda\|S\|_1$$ | Outlier removal |
-| Consensus | $$\sum f_i(x_i)$$ | $$0$$ | Distributed |
+| Bài toán | $$f(x)$$ | $$g(z)$$ | Ứng dụng |
+|----------|----------|----------|----------|
+| Lasso | $$\frac{1}{2}\|Ax-b\|^2$$ | $$\lambda\|z\|_1$$ | Hồi quy thưa |
+| Biến phân toàn phần (TV) | $$\frac{1}{2}\|x-b\|^2$$ | $$\lambda\|z\|_1$$ | Khử nhiễu ảnh |
+| Robust PCA | $$\|L\|_*$$ | $$\lambda\|S\|_1$$ | Loại bỏ nhiễu ngoại lai |
+| Đồng thuận | $$\sum f_i(x_i)$$ | $$0$$ | Tối ưu phân tán |
 
 ---
 
 ## 📚 **Tài liệu Tham khảo**
 
 1. Boyd, S., et al. (2011). "Distributed Optimization via ADMM". *Foundations and Trends*.
-

@@ -9,8 +9,8 @@ categories:
 lang: vi
 ---
 
-Trong phần này, chúng ta sẽ tìm hiểu về phương pháp subgradient, có thể được áp dụng cho các hàm lồi có thể không khả vi, sử dụng khái niệm subgradient. Chúng ta cũng sẽ khám phá các tính chất hội tụ và tốc độ hội tụ của phương pháp subgradient thông qua các ví dụ.
+Trong chương này, chúng ta tìm hiểu phương pháp subgradient — thuật toán áp dụng cho các hàm lồi không nhất thiết khả vi, được xây dựng dựa trên khái niệm gradient dưới. Chúng ta cũng sẽ phân tích tính chất hội tụ và tốc độ hội tụ của phương pháp này thông qua các ví dụ cụ thể.
 
 ## Ứng dụng hiện đại (2022–2026)
 
-Một bài tùy chọn đi kèm đặt cùng vòng subgradient (chiếu, ngẫu nhiên) vào PGD đối kháng / RobustBench, ràng buộc tỷ lệ Fairlearn, và huấn luyện ReLU không trơn. Xem [08-09 Ứng dụng hiện đại của phương pháp subgradient]({% multilang_post_url contents/chapter08/2026-09-16-08_09_modern_applications %}). Khi mục tiêu tổng hữu hạn *thật sự* trơn, sàn nhiễu $$O(1/\sqrt{T})$$ của phương pháp ngẫu nhiên chương này có thể được gỡ bằng SVRG / SAGA — bài đó là [26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %}), cạnh mạch SGD.
+Bài đọc tùy chọn đi kèm liên hệ trực tiếp vòng lặp subgradient (bao gồm biến thể có chiếu và ngẫu nhiên) với các ứng dụng như PGD trong huấn luyện đối kháng / RobustBench, bài toán ràng buộc tỷ lệ trong Fairlearn, và huấn luyện mạng ReLU không trơn. Xem [08-09 Ứng dụng hiện đại của phương pháp subgradient]({% multilang_post_url contents/chapter08/2026-09-16-08_09_modern_applications %}). Khi hàm mục tiêu dạng tổng hữu hạn *thực sự* trơn, giới hạn nhiễu $$O(1/\sqrt{T})$$ của phương pháp ngẫu nhiên trong chương này có thể được khắc phục bằng các kỹ thuật giảm phương sai như SVRG / SAGA — xem [26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %}), nằm cùng nhóm bài về SGD.

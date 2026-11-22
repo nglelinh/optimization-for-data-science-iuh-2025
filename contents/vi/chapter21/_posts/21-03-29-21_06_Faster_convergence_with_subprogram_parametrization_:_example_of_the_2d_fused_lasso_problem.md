@@ -15,23 +15,21 @@ lang: vi
 
 ## Giới thiệu
 
-Một tính chất rất thú vị của ADMM là khi giải bài toán, nếu ta tham số hóa các bài toán con nhỏ theo một cách đặc biệt thì nó có thể cho hiệu năng hội tụ nhanh hơn nhiều so với các phương pháp thông thường. Trong ví dụ ADMM đồng thuận trước đó, các cập nhật tối ưu theo từng khối biến, tương tự block coordinate descent. Do đó, ADMM cũng có thể đạt hội tụ nhanh bằng cách cập nhật các khối biến theo các hướng gần như trực giao.
+Một tính chất đáng chú ý của ADMM là tốc độ hội tụ có thể cải thiện đáng kể nếu ta tham số hóa các bài toán con một cách phù hợp. Trong ví dụ ADMM đồng thuận trước đó, thuật toán tối ưu lần lượt theo từng khối biến, khá tương đồng với phương pháp hạ tọa độ theo khối (block coordinate descent). Nhờ vậy, khi thiết kế các khối biến cập nhật theo những hướng gần như trực giao hoặc ít tương quan với nhau, ADMM có thể hội tụ nhanh hơn nhiều so với cách tách biến tiêu chuẩn.
 
 ## Ví dụ fused lasso 2D
 
-Trong phần này, ta sẽ minh họa các khái niệm trên qua ví dụ, thiết kế các ràng buộc phụ sao cho các cập nhật gốc đi theo các hướng không tương quan (de-correlated).
+Phần này minh họa ý tưởng trên bằng cách thiết kế các ràng buộc phụ sao cho các bước cập nhật biến gốc đi theo những hướng không tương quan (de-correlated). Chi tiết nghiên cứu có thể xem trong [RT16], [WSK14], [BS14].
 
-Thông tin chi tiết xem [RT16], [WSK14], [BS14].
-
-Hãy xem xét bài toán fused lasso 2D hay khử nhiễu total variation 2D, một trong các ví dụ ta đã xem ở [Chương 1]({% multilang_post_url contents/chapter01/21-01-07-01_01_optimization_problems %}). Cho một ảnh $$Y\in \mathbb{R}^{d\times d}$$, bài toán được định nghĩa như sau:
+Xét bài toán fused lasso 2D (hay khử nhiễu biến phân toàn phần 2D — 2D total variation denoising) đã giới thiệu ở [Chương 1]({% multilang_post_url contents/chapter01/21-01-07-01_01_optimization_problems %}). Cho một ảnh quan sát $$Y\in \mathbb{R}^{d\times d}$$, bài toán được phát biểu như sau:
 
 >$$
 >\begin{align}
->\min_{\Theta}\frac{1}{2}||Y-\Theta||^{2}_{F}+\lambda \sum_{i,j}(|\Theta_{i,j}-\Theta_{i+1,j}|+|\Theta_{i,j}-\Theta_{\Theta_{i,j+1}}|).
+>\min_{\Theta}\frac{1}{2}||Y-\Theta||^{2}_{F}+\lambda \sum_{i,j}(|\Theta_{i,j}-\Theta_{i+1,j}|+|\Theta_{i,j}-\Theta_{i,j+1}|).
 >\end{align}
 >$$
 
-Trong bài toán này, mỗi điểm ảnh có một tham số, và ma trận tham số này là $$\Theta\in \mathbb{R}^{d\times d}$$.
+Ở đây mỗi điểm ảnh ứng với một tham số trong ma trận $$\Theta\in \mathbb{R}^{d\times d}$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -40,24 +38,24 @@ Trong bài toán này, mỗi điểm ảnh có một tham số, và ma trận th
 </p>
 </figure>
 
-[Hình 1] minh họa trực quan số hạng phạt, tức số hạng thứ hai của hàm mục tiêu. Như thấy từ bài toán đã định nghĩa, nó nhằm giảm sự chênh lệch giữa một điểm ảnh và các điểm ảnh kề theo chiều ngang và chiều dọc. Nghĩa là số hạng phạt này làm cho giá trị của các điểm ảnh lân cận giống nhau.
+[Hình 1] minh họa trực quan số hạng phạt thứ hai trong hàm mục tiêu. Số hạng này phạt độ chênh lệch giữa mỗi điểm ảnh với các điểm ảnh kề nó theo cả phương ngang và phương dọc, nhờ đó khuyến khích các điểm ảnh lân cận nhận giá trị tương đồng nhau.
 
 ## Dạng vector
 
-Viết gọn số hạng phạt bằng một toán tử, bài toán trở thành:
+Viết gọn số hạng phạt bằng một toán tử tuyến tính, bài toán có dạng:
 >$$
 >\begin{align}
->\min_{\theta}\frac{1}{2}||y-\theta||^{2}_{F} + \lambda||D\theta||_{1}.
+>\min_{\theta}\frac{1}{2}||y-\theta||^{2}_{2} + \lambda||D\theta||_{1}.
 >\end{align}
 >$$
 
-trong đó $$D\in \mathbb{R}^{m\times n}$$ là toán tử sai phân 2D tương ứng với phương trình gốc.
+trong đó $$D\in \mathbb{R}^{m\times n}$$ là ma trận toán tử sai phân 2D tương ứng với phương trình gốc.
 
 ## Các dạng cập nhật ADMM cho bài toán fused lasso 2D
 
-Bây giờ ta muốn tạo các bước ADMM theo hai cách bằng việc áp dụng các ràng buộc phụ.
+Ta xây dựng hai biến thể ADMM khác nhau thông qua hai cách đặt ràng buộc phụ.
 
-Cách thứ nhất là suy ra ADMM từ dạng vector tạo bởi toán tử sai phân 2D.
+Cách thứ nhất xuất phát từ dạng vector với toán tử sai phân 2D:
 
 >$$
 >\begin{align}
@@ -65,44 +63,44 @@ Cách thứ nhất là suy ra ADMM từ dạng vector tạo bởi toán tử sai
 >\end{align}
 >$$
 
-Các bước ADMM khi đó được suy ra như sau:
+Các bước cập nhật ADMM tương ứng là:
 >$$
 >\begin{align}
 >\theta^{(k)} &= (I+\rho D^{T}D)^{-1}(y+\rho D^{T}(z^{(k-1)}+w^{(k-1)}))\\\\
 >z^{(k)} &= S_{\frac{\lambda}{\rho}}(D\theta^{(k)}-w^{(k-1)})\\\\
->w^{(k)} &= w^{(k-1)}+z^{(k-1)}-D\theta ^{(k)}.
+>w^{(k)} &= w^{(k-1)}+z^{(k)}-D\theta ^{(k)}.
 >\end{align}
 >$$
 
-## Độ phức tạp tính toán - dạng vector
+## Độ phức tạp tính toán — dạng vector
 
-Giải cho $$\theta$$ tương đương với giải hệ tuyến tính $$(I+\rho D^{T}D)^{-1}$$. Ở đây, $$D^{T}D$$ trở thành ma trận Laplace $$L=D^{T}D$$ của lưới 2D, có thể giải trong $$O(n)$$ phép tính. Cập nhật $$z$$ cũng cần $$O(n)$$ phép tính vì chỉ áp dụng toán tử soft thresholding $$S_{t}$$. Do đó, giải ADMM dạng vector mất thời gian $$O(n)$$.
+Bước cập nhật $$\theta$$ đòi hỏi giải hệ phương trình tuyến tính với ma trận hệ số $$(I+\rho D^{T}D)$$. Vì $$L=D^{T}D$$ là ma trận Laplace của lưới 2D, hệ này có thể giải với chi phí $$O(n)$$ phép tính (hoặc gần tuyến tính tùy bộ giải lưới). Bước cập nhật $$z$$ chỉ áp dụng toán tử co ngưỡng mềm $$S_{t}$$ nên cũng tốn $$O(n)$$ phép tính. Như vậy, mỗi vòng lặp của ADMM dạng vector có độ phức tạp $$O(n)$$.
 
 ## ADMM dạng ma trận
 
-Cách thứ hai là suy ra ADMM dạng ma trận, giống hệt định nghĩa bài toán gốc.
+Cách thứ hai giữ nguyên cấu trúc ma trận của bài toán gốc và tách thành phần sai phân dọc cho $$\Theta$$, sai phân ngang cho $$Z$$:
 >$$
 >\begin{align}
->&\min_{\Theta, Z} &&\frac{1}{2}||Y-\Theta||^{2}_{F}+\lambda\sum_{i,j}(|\Theta_{i,j}-\Theta_{i+1,j}+|Z_{i+1,j}-Z_{i,j+1}|)\\\\
+>&\min_{\Theta, Z} &&\frac{1}{2}||Y-\Theta||^{2}_{F}+\lambda\sum_{i,j}(|\Theta_{i,j}-\Theta_{i+1,j}|+|Z_{i,j}-Z_{i,j+1}|)\\\\
 >&\text{subject to } &&\Theta = Z
 >\end{align}
 >$$
 
-Các bước ADMM như sau:
+Các bước cập nhật ADMM thu được như sau:
 >$$
 >\begin{align}
->\Theta_{\cdot \\ , j}^{(k)} &= FL^{1d}_{ \frac{\lambda}{(1+\rho)} } \bigg( \frac{ Y+\rho( Z^{(k-1)}_{\cdot \\ , j}-W_{\cdot \\ ,j}^{(k-1)} ) } {1+\rho} \bigg),\qquad j=1,...,d\\\\
->Z_{i, \cdot}^{(k)} &= FL^{1d}_{\frac{\lambda}{\rho}} \bigg(\Theta_{i, \cdot}^{(k)} + W_{i, \cdot}^{(k-1)} \bigg), \qquad j=1,...,d\\\\
+>\Theta_{\cdot \\ , j}^{(k)} &= FL^{1d}_{ \frac{\lambda}{(1+\rho)} } \bigg( \frac{ Y_{\cdot \\ , j}+\rho( Z^{(k-1)}_{\cdot \\ , j}-W_{\cdot \\ ,j}^{(k-1)} ) } {1+\rho} \bigg),\qquad j=1,...,d\\\\
+>Z_{i, \cdot}^{(k)} &= FL^{1d}_{\frac{\lambda}{\rho}} \bigg(\Theta_{i, \cdot}^{(k)} + W_{i, \cdot}^{(k-1)} \bigg), \qquad i=1,...,d\\\\
 >W^{(k)} &= W^{(k-1)} + \Theta^{(k)} - Z^{(k)} \\\\
 >\end{align}
 >$$
-trong đó $$FL_{\tau}^{1d}(a)$$ là fused lasso 1D, được định nghĩa là $$FL_{\tau}^{1d}(a) = \underset{x}{\operatorname{argmin}}\frac{1}{2}||a-x||^{2}_{2}+\tau\sum_{i=1}^{d-1}|x_{i}-x_{i+1}|$$.
+trong đó $$FL_{\tau}^{1d}(a)$$ là bài toán fused lasso 1D, định nghĩa là $$FL_{\tau}^{1d}(a) = \underset{x}{\operatorname{argmin}}\frac{1}{2}||a-x||^{2}_{2}+\tau\sum_{i=1}^{d-1}|x_{i}-x_{i+1}|$$.
 
-## Độ phức tạp tính toán - dạng ma trận
+## Độ phức tạp tính toán — dạng ma trận
 
-ADMM dạng ma trận cũng có thể thực hiện với độ phức tạp thời gian $$O(n)$$. Cả $$\Theta$$ và $$Z$$ đều có dạng fused lasso 1D, vốn có độ phức tạp thời gian $$O(n)$$.
+ADMM dạng ma trận cũng đạt độ phức tạp $$O(n)$$ cho mỗi vòng lặp, vì cả hai bước cập nhật $$\Theta$$ (theo từng cột) và $$Z$$ (theo từng hàng) đều quy về các bài toán fused lasso 1D, vốn có thuật toán giải trong thời gian tuyến tính theo số phần tử.
 
-[Hình 2] cho thấy số hạng phạt gốc được tách thành các bài toán fused lasso 1D như thế nào.
+[Hình 2] minh họa cách số hạng phạt ban đầu được tách thành các bài toán con fused lasso 1D theo cột và theo hàng.
  
 <figure class="image" style="align: center;">
 <p align="center">
@@ -114,11 +112,9 @@ ADMM dạng ma trận cũng có thể thực hiện với độ phức tạp th�
 
 ## Thí nghiệm khử nhiễu ảnh
 
-Bây giờ hãy xem lại bài toán khử nhiễu ảnh đã xét ở Chương 1.
+Quay lại bài toán khử nhiễu ảnh ở Chương 1, [Hình 3] trình bày ảnh đầu vào và nghiệm chính xác sau khi khử nhiễu. [Hình 4] so sánh tốc độ hội tụ của hai biến thể ADMM: biến thể ADMM "chuyên biệt" dạng ma trận (tách ràng buộc theo phương dọc và phương ngang) hội tụ nhanh hơn rõ rệt so với "ADMM chuẩn" dạng vector.
 
-[Hình 3] cho thấy dữ liệu và các ảnh đã khử nhiễu. [Hình 4] cho thấy so sánh hai phương pháp ADMM. ADMM "chuyên biệt" dạng ma trận, định nghĩa ràng buộc bằng cách phân rã theo hướng dọc/ngang, cho hiệu năng hội tụ nhanh hơn nhiều so với "ADMM chuẩn" suy ra ở dạng vector.
-
-[Hình 5] cho thấy chất lượng ảnh theo các vòng lặp ADMM.
+[Hình 5] minh họa chất lượng ảnh tái tạo sau các mốc vòng lặp ADMM khác nhau.
 
 <figure class="image" style="align: center;">
 <p align="center">

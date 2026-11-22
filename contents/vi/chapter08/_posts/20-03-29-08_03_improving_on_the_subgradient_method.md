@@ -9,6 +9,6 @@ categories:
 lang: vi
 ---
 
-Phương pháp subgradient có lợi thế vì có thể được sử dụng cho các hàm lồi không khả vi, làm cho nó tổng quát hơn. Tuy nhiên, tốc độ hội tụ của nó là $$O(1/\epsilon^{2})$$, chậm hơn nhiều so với tốc độ hội tụ của gradient descent là $$O(1/\epsilon)$$.
+Phương pháp subgradient có ưu điểm là áp dụng được cho các hàm lồi không khả vi, nên có phạm vi sử dụng rộng hơn gradient descent. Tuy nhiên, tốc độ hội tụ $$O(1/\epsilon^{2})$$ của nó chậm hơn nhiều so với tốc độ $$O(1/\epsilon)$$ của gradient descent.
 
-Có cách nào để kết hợp điểm mạnh của gradient descent và phương pháp subgradient không? Trong phần tiếp theo, chúng ta sẽ tìm hiểu về phương pháp proximal gradient descent, kết hợp ưu điểm của cả hai thuật toán.
+Liệu có thể kết hợp ưu điểm của cả hai phương pháp không? Trong chương tiếp theo, chúng ta sẽ tìm hiểu **phương pháp gradient gần kề (proximal gradient descent)**, giúp giữ được tốc độ hội tụ tốt trên lớp bài toán tổng hợp có thành phần không khả vi.

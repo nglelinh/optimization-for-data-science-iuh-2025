@@ -12,7 +12,9 @@ lesson_type: required
 
 ## Điều kiện tối ưu bậc nhất
 
-Để tìm hiểu thêm về hàm lồi, xem [Chương 3: Các Tính chất Chính của Hàm Lồi]({% multilang_post_url contents/chapter03/20-02-08-03_01_key_properties_of_convex_functions %}).
+Để ôn lại các tính chất của hàm lồi, xem [Chương 3: Các Tính chất Chính của Hàm Lồi]({% multilang_post_url contents/chapter03/20-02-08-03_01_key_properties_of_convex_functions %}).
+
+Xét bài toán tối ưu hóa lồi:
 
 >$$
 \begin{aligned}
@@ -21,40 +23,35 @@ lesson_type: required
 \end{aligned}
 $$
 
-Đối với một bài toán lồi mà hàm mục tiêu $$f$$ **khả vi**, điều kiện sau là cần và đủ cho một điểm tối ưu $$x$$:
+Đối với một bài toán lồi có hàm mục tiêu $$f$$ **khả vi** và tập khả thi $$C$$ lồi, điều kiện cần và đủ để điểm khả thi $$x \in C$$ là điểm tối ưu là:
 
-> $$\nabla f(x)^{T}(y-x) \geq 0 \\
-> \text{ với mọi } y \in C$$
+> $$\nabla f(x)^{T}(y-x) \geq 0 \quad \text{với mọi } y \in C$$
 
-Đây được gọi là *điều kiện bậc nhất cho tính tối ưu*. 
+Đây được gọi là *điều kiện bậc nhất cho tính tối ưu* (first-order optimality condition).
 
-$$\nabla f(x)^{T}(y-x) = 0$$ định nghĩa một siêu phẳng đi qua $$x$$ trong tập $$C$$, và $$- \nabla f(x)$$ chỉ hướng di chuyển về phía điểm tối ưu $$x$$. <br><br>
+Phương trình $$\nabla f(x)^{T}(y-x) = 0$$ xác định một siêu phẳng tựa đi qua $$x$$ đối với tập $$C$$, trong đó vectơ $$-\nabla f(x)$$ là hướng giảm nhanh nhất của hàm $$f$$ tại $$x$$. <br><br>
 
-Nếu điều kiện trên được thỏa mãn, 
-tập $$C$$ nằm trong nửa không gian đối diện với $$- \nabla f(x)$$, 
-nên $$x$$ là một điểm tối ưu.
+Khi điều kiện trên được thỏa mãn, toàn bộ tập $$C$$ nằm trong nửa không gian đối diện với hướng $$-\nabla f(x)$$, nghĩa là không tồn tại hướng dịch chuyển khả thi nào từ $$x$$ làm giảm giá trị hàm mục tiêu; do đó $$x$$ là điểm tối ưu.
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter04/first-order-condition.png" alt="[Fig1] geometric interpretation of first-order condition for optimality [3]">
-  <figcaption style="text-align: center;">[Hình 1] Giải thích hình học về điều kiện bậc nhất cho tính tối ưu [3]</figcaption>
+  <figcaption style="text-align: center;">[Hình 1] Minh họa hình học cho điều kiện tối ưu bậc nhất [3]</figcaption>
 </p>
 </figure>
 <br>
 
 ### Trường hợp đặc biệt quan trọng
-Khi $$C = \mathbb{R}^n$$ (tối ưu hóa không ràng buộc),
-điều kiện tối ưu là:
+Khi $$C = \mathbb{R}^n$$ (bài toán tối ưu hóa không ràng buộc), điều kiện tối ưu bậc nhất rút gọn thành:
 > $$\nabla f(x) = 0$$
 
-Trong trường hợp này, $$-\nabla f(x)$$ chỉ về phía điểm tối ưu $$x$$, và $$\nabla f(x) = 0$$ có nghĩa là không còn hướng nào để di chuyển để giảm $$f$$ tại $$x$$.
+Trong trường hợp này, mọi hướng trong $$\mathbb{R}^n$$ đều là hướng khả thi, nên điều kiện $$\nabla f(x) = 0$$ có nghĩa là tại $$x$$ không còn hướng nào giúp giảm giá trị của $$f$$.
 
 ---
 
+## Nền tảng toán học cho điều kiện bậc hai
 
-## Nền tảng Toán học
-
-Trong khi các điều kiện bậc nhất sờ dụng gradient $$\nabla f(x)$$, các điều kiện bậc hai sử dụng **ma trận Hessian**:
+Trong khi các điều kiện bậc nhất sử dụng gradient $$\nabla f(x)$$, các điều kiện bậc hai sử dụng **ma trận Hessian**:
 
 $$H_f(x) = \nabla^2 f(x) = \begin{bmatrix}
 \frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n} \\
@@ -63,128 +60,128 @@ $$H_f(x) = \nabla^2 f(x) = \begin{bmatrix}
 \frac{\partial^2 f}{\partial x_n \partial x_1} & \frac{\partial^2 f}{\partial x_n \partial x_2} & \cdots & \frac{\partial^2 f}{\partial x_n^2}
 \end{bmatrix}$$
 
-Ma trận Hessian nắm bắt **độ cong** của hàm tại điểm $$x$$, cung cấp thông tin về hình dạng cục bộ của hàm mục tiêu.
+Ma trận Hessian mô tả **độ cong** của hàm tại điểm $$x$$, cung cấp thông tin về hình dạng cục bộ của hàm mục tiêu quanh điểm đang xét.
 
-## Điều kiện Tối ưu Bậc Hai
+## Điều kiện tối ưu bậc hai
 
-Xem xét bài toán tối ưu hóa không ràng buộc:
+Xét bài toán tối ưu hóa không ràng buộc:
 $$\min_x f(x)$$
 
-trong đó $$f: \mathbb{R}^n \to \mathbb{R}$$ khả vi liên tục bậc hai.
+trong đó $$f: \mathbb{R}^n \to \mathbb{R}$$ khả vi liên tục cấp hai.
 
-### Điều kiện Cần (Bậc Hai)
+### Điều kiện cần bậc hai
 
-Nếu $$x^*$$ là cực tiểu địa phương của $$f$$, thì:
+Nếu $$x^*$$ là điểm cực tiểu địa phương của $$f$$, thì:
 
-1. **Điều kiện cần bậc nhất**: $$\nabla f(x^*) = 0$$
-2. **Điều kiện cần bậc hai**: $$\nabla^2 f(x^*) \succeq 0$$ (nửa xác định dương)
+1. **Điều kiện cần bậc nhất:** $$\nabla f(x^*) = 0$$
+2. **Điều kiện cần bậc hai:** $$\nabla^2 f(x^*) \succeq 0$$ (ma trận nửa xác định dương)
 
-### Điều kiện Đủ (Bậc Hai)
+### Điều kiện đủ bậc hai
 
-Nếu tại điểm $$x^*$$:
+Nếu tại điểm $$x^*$$ thỏa mãn đồng thời:
 
 1. $$\nabla f(x^*) = 0$$ (điều kiện bậc nhất)
-2. $$\nabla^2 f(x^*) \succ 0$$ (xác định dương)
+2. $$\nabla^2 f(x^*) \succ 0$$ (ma trận xác định dương)
 
-Thì $$x^*$$ là **cực tiểu địa phương chặt** của $$f$$.
+thì $$x^*$$ là **điểm cực tiểu địa phương chặt** của $$f$$.
 
-## Hiểu về Tính Xác Định Dương
+## Tính xác định dương của ma trận đối xứng
 
-Một ma trận đối xứng $$A$$ là:
-- **Xác định dương** ($$A \succ 0$$) nếu $$v^T A v > 0$$ với mọi $$v \neq 0$$
-- **Nửa xác định dương** ($$A \succeq 0$$) nếu $$v^T A v \geq 0$$ với mọi $$v$$
+Một ma trận đối xứng $$A$$ được gọi là:
+- **Xác định dương** ($$A \succ 0$$) nếu $$v^T A v > 0$$ với mọi $$v \neq 0$$.
+- **Nửa xác định dương** ($$A \succeq 0$$) nếu $$v^T A v \geq 0$$ với mọi $$v$$.
 
-**Các kiểm tra thực tế cho tính xác định dương:**
-1. **Kiểm tra giá trị riêng**: Tất cả giá trị riêng đều dương
-2. **Thứ định thức chính**: Tất cả thứ định thức chính đều dương
-3. **Phân tích Cholesky**: $$A = L L^T$$ tồn tại với $$L$$ tam giác dưới
+**Các tiêu chuẩn kiểm tra tính xác định dương trong thực tế:**
+1. **Tiêu chuẩn giá trị riêng:** Tất cả các giá trị riêng của $$A$$ đều dương.
+2. **Tiêu chuẩn Sylvester (định thức con chính dẫn đầu):** Tất cả các định thức con chính dẫn đầu của $$A$$ đều dương.
+3. **Phân tích Cholesky:** Tồn tại ma trận tam giác dưới $$L$$ có các phần tử đường chéo dương sao cho $$A = L L^T$$.
 
-## Giải thích Hình học
+## Giải thích hình học
 
-Các điều kiện bậc hai cung cấp thông tin về **độ cong** tại điểm tới hạn:
+Các điều kiện bậc hai cho biết **độ cong** của đồ thị hàm số tại điểm dừng:
 
-- **$$\nabla^2 f(x^*) \succ 0$$**: Hàm cong lên trên theo mọi hướng → **cực tiểu địa phương chặt**
-- **$$\nabla^2 f(x^*) \prec 0$$**: Hàm cong xuống dưới theo mọi hướng → **cực đại địa phương chặt**  
-- **$$\nabla^2 f(x^*) \succeq 0$$**: Độ cong không âm → **có thể là cực tiểu**
-- **Hessian bất định**: Độ cong hỗn hợp → **điểm yên ngựa**
+- **$$\nabla^2 f(x^*) \succ 0$$:** Đồ thị cong lên theo mọi hướng → **cực tiểu địa phương chặt**.
+- **$$\nabla^2 f(x^*) \prec 0$$:** Đồ thị cong xuống theo mọi hướng → **cực đại địa phương chặt**.
+- **$$\nabla^2 f(x^*) \succeq 0$$:** Độ cong không âm theo mọi hướng → **có thể là điểm cực tiểu** (cần kiểm tra thêm ở bậc cao hơn).
+- **Hessian bất định:** Độ cong dương theo một số hướng và âm theo một số hướng khác → **điểm yên ngựa**.
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter04/second-order-conditions.png" alt="Second-order optimality conditions visualization" width="80%" height="80%">
- <figcaption style="text-align: center;">[Hình 1] Giải thích hình học về các điều kiện bậc hai</figcaption>
+ <figcaption style="text-align: center;">[Hình 2] Minh họa hình học về các điều kiện tối ưu bậc hai</figcaption>
 </p>
 </figure>
 
-## Các Ví dụ Chi tiết
+## Các ví dụ minh họa
 
-### Ví dụ 1: Hàm Bậc Hai
-Xem xét $$f(x_1, x_2) = x_1^2 + 2x_2^2 + x_1 x_2$$
+### Ví dụ 1: Hàm bậc hai
+Xét hàm $$f(x_1, x_2) = x_1^2 + 2x_2^2 + x_1 x_2$$.
 
-**Bước 1: Tìm điểm tới hạn**
+**Bước 1: Tìm điểm dừng**
 $$\nabla f(x) = \begin{bmatrix} 2x_1 + x_2 \\ 4x_2 + x_1 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
 
-Giải: $$x^* = (0, 0)$$
+Giải hệ phương trình trên thu được điểm dừng duy nhất $$x^* = (0, 0)$$.
 
-**Bước 2: Tính Hessian**
+**Bước 2: Tính ma trận Hessian**
 $$\nabla^2 f(x) = \begin{bmatrix} 2 & 1 \\ 1 & 4 \end{bmatrix}$$
 
 **Bước 3: Kiểm tra tính xác định dương**
-- Giá trị riêng: $$\lambda_1 = \frac{6 + \sqrt{12}}{2} > 0$$, $$\lambda_2 = \frac{6 - \sqrt{12}}{2} > 0$$
-- Thứ định thức chính: $$2 > 0$$, $$\det = 8 - 1 = 7 > 0$$
+- Giá trị riêng: từ phương trình đặc trưng $$\lambda^2 - 6\lambda + 7 = 0$$, ta có $$\lambda_1 = \frac{6 + \sqrt{8}}{2} = 3 + \sqrt{2} > 0$$ và $$\lambda_2 = \frac{6 - \sqrt{8}}{2} = 3 - \sqrt{2} > 0$$.
+- Định thức con chính dẫn đầu: $$\Delta_1 = 2 > 0$$ và $$\Delta_2 = \det = 8 - 1 = 7 > 0$$.
 
-**Kết luận**: $$\nabla^2 f(0,0) \succ 0$$ → $$(0,0)$$ là cực tiểu địa phương chặt.
+**Kết luận:** $$\nabla^2 f(0,0) \succ 0$$, do đó $$(0,0)$$ là điểm cực tiểu địa phương chặt (và cũng là cực tiểu toàn cục vì $$f$$ lồi chặt).
 
-### Example 2: Non-Convex Function
-Consider $$f(x_1, x_2) = x_1^4 + x_2^4 - 2x_1^2 - 2x_2^2$$
+### Ví dụ 2: Hàm không lồi
+Xét hàm $$f(x_1, x_2) = x_1^4 + x_2^4 - 2x_1^2 - 2x_2^2$$.
 
-**Step 1: Find critical points**
+**Bước 1: Tìm các điểm dừng**
 $$\nabla f(x) = \begin{bmatrix} 4x_1^3 - 4x_1 \\ 4x_2^3 - 4x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
 
-Critical points: $$(0,0)$$, $$(\pm 1, 0)$$, $$(0, \pm 1)$$, $$(\pm 1, \pm 1)$$
+Các điểm dừng là: $$(0,0)$$, $$(\pm 1, 0)$$, $$(0, \pm 1)$$, và $$(\pm 1, \pm 1)$$.
 
-**Step 2: Analyze $$(0,0)$$**
+**Bước 2: Phân tích tại $$(0,0)$$**
 $$\nabla^2 f(0,0) = \begin{bmatrix} -4 & 0 \\ 0 & -4 \end{bmatrix} \prec 0$$
 
-**Conclusion**: $$(0,0)$$ is a strict local maximum.
+**Kết luận:** $$(0,0)$$ là điểm cực đại địa phương chặt.
 
-**Step 3: Analyze $$(1,1)$$**
+**Bước 3: Phân tích tại $$(1,1)$$**
 $$\nabla^2 f(1,1) = \begin{bmatrix} 8 & 0 \\ 0 & 8 \end{bmatrix} \succ 0$$
 
-**Conclusion**: $$(1,1)$$ is a strict local minimum.
+**Kết luận:** $$(1,1)$$ là điểm cực tiểu địa phương chặt.
 
-### Example 3: Saddle Point
-Consider $$f(x_1, x_2) = x_1^2 - x_2^2$$
+### Ví dụ 3: Điểm yên ngựa
+Xét hàm $$f(x_1, x_2) = x_1^2 - x_2^2$$.
 
-**Analysis at $$(0,0)$$:**
+**Phân tích tại $$(0,0)$$:**
 - $$\nabla f(0,0) = (0,0)$$ ✓
-- $$\nabla^2 f(0,0) = \begin{bmatrix} 2 & 0 \\ 0 & -2 \end{bmatrix}$$ (indefinite)
+- $$\nabla^2 f(0,0) = \begin{bmatrix} 2 & 0 \\ 0 & -2 \end{bmatrix}$$ (ma trận bất định)
 
-**Conclusion**: $$(0,0)$$ is a saddle point (neither minimum nor maximum).
+**Kết luận:** $$(0,0)$$ là một điểm yên ngựa (không phải cực tiểu cũng không phải cực đại).
 
-## Constrained Optimization: Second-Order Conditions
+## Tối ưu hóa có ràng buộc: Điều kiện bậc hai
 
-For constrained problems:
+Đối với bài toán tối ưu hóa có ràng buộc đẳng thức:
 $$\min_x f(x) \text{ subject to } h_i(x) = 0, \, i = 1,\ldots,m$$
 
-The **bordered Hessian** of the Lagrangian is used:
+ta sử dụng **ma trận Hessian có viền** (bordered Hessian) của hàm Lagrange:
 $$\mathcal{L}(x,\lambda) = f(x) + \sum_{i=1}^m \lambda_i h_i(x)$$
 
-**Second-order sufficient condition**: The bordered Hessian has the correct inertia (number of negative eigenvalues equals the number of constraints).
+**Điều kiện đủ bậc hai:** Tại điểm dừng thỏa mãn điều kiện chính quy, nếu ma trận Hessian có viền có quán tính phù hợp (số giá trị riêng âm bằng đúng số ràng buộc $$m$$ và $$n$$ giá trị riêng còn lại đều dương), thì điểm đó là điểm cực tiểu địa phương chặt.
 
-## Comparison: First vs Second-Order Conditions
+## So sánh điều kiện bậc nhất và điều kiện bậc hai
 
-| Aspect | First-Order | Second-Order |
-|--------|-------------|--------------|
-| **Information** | Gradient (slope) | Hessian (curvature) |
-| **Necessary condition** | $$\nabla f(x^*) = 0$$ | $$\nabla f(x^*) = 0$$ and $$\nabla^2 f(x^*) \succeq 0$$ |
-| **Sufficient condition** | Not available for unconstrained | $$\nabla f(x^*) = 0$$ and $$\nabla^2 f(x^*) \succ 0$$ |
-| **Strength** | Weaker | Stronger |
-| **Computational cost** | $$O(n)$$ | $$O(n^2)$$ |
-| **Distinguishes** | Critical points | Minima, maxima, saddle points |
+| Khía cạnh | Điều kiện bậc nhất | Điều kiện bậc hai |
+|-----------|--------------------|-------------------|
+| **Thông tin sử dụng** | Gradient (độ dốc) | Ma trận Hessian (độ cong) |
+| **Điều kiện cần** | $$\nabla f(x^*) = 0$$ | $$\nabla f(x^*) = 0$$ và $$\nabla^2 f(x^*) \succeq 0$$ |
+| **Điều kiện đủ (không ràng buộc)** | Không đủ với hàm tổng quát (chỉ đủ nếu $$f$$ lồi) | $$\nabla f(x^*) = 0$$ và $$\nabla^2 f(x^*) \succ 0$$ |
+| **Mức độ chặt** | Yếu hơn | Mạnh hơn |
+| **Chi phí tính toán** | $$O(n)$$ | $$O(n^2)$$ |
+| **Khả năng phân loại** | Chỉ xác định điểm dừng | Phân biệt cực tiểu, cực đại và điểm yên ngựa |
 
-## Interactive Visualization
+## Công cụ minh họa tương tác
 
-Explore how second-order conditions work in practice:
+Khám phá trực quan cách hoạt động của các điều kiện bậc hai trong thực tế:
 
 <div style="text-align: center; margin: 20px 0;">
     <a href="../second_order_conditions_interactive.html" target="_blank" 
@@ -193,30 +190,28 @@ Explore how second-order conditions work in practice:
     </a>
 </div>
 
-Công cụ tương tác minh họa:
-- **Phân tích giá trị riêng Hessian** cho các loại hàm khác nhau
-- **Phân loại trực quan** các điểm tới hạn (cực tiểu, cực đại, yên ngựa)
-- **Đồ thị đường đẳng mức** hiển thị hành vi độ cong cục bộ
-- **Tính toán từng bước** cho các kiểm tra bậc hai
+Công cụ tương tác này minh họa:
+- **Phân tích giá trị riêng của ma trận Hessian** cho nhiều dạng hàm khác nhau.
+- **Phân loại trực quan** các điểm dừng (cực tiểu, cực đại, điểm yên ngựa).
+- **Đồ thị đường đồng mức** thể hiện hành vi độ cong cục bộ của hàm số.
+- **Các bước tính toán chi tiết** cho kiểm tra điều kiện bậc hai.
 
-## Tóm tắt và Các Điểm Chính
+## Tóm tắt và điểm chính
 
-Các điều kiện tối ưu bậc hai cung cấp **đặc trưng mạnh hơn** cho các điểm tối ưu:
+Các điều kiện tối ưu bậc hai cho phép **đặc trưng hóa chính xác hơn** bản chất của các điểm dừng:
 
-### **Kết quả Chính:**
-1. **Điều kiện cần**: $$\nabla f(x^*) = 0$$ và $$\nabla^2 f(x^*) \succeq 0$$
-2. **Điều kiện đủ**: $$\nabla f(x^*) = 0$$ và $$\nabla^2 f(x^*) \succ 0$$
-3. **Khả năng phân loại**: Có thể phân biệt giữa cực tiểu, cực đại và điểm yên ngựa
+### **Kết quả chính:**
+1. **Điều kiện cần:** $$\nabla f(x^*) = 0$$ và $$\nabla^2 f(x^*) \succeq 0$$.
+2. **Điều kiện đủ:** $$\nabla f(x^*) = 0$$ và $$\nabla^2 f(x^*) \succ 0$$.
+3. **Khả năng phân loại:** Phân biệt rõ ràng giữa điểm cực tiểu, điểm cực đại và điểm yên ngựa.
 
-### **Tầm quan trọng Thực tế:**
-- **Thiết kế thuật toán**: Nền tảng cho các phương pháp kiểu Newton
-- **Phân tích tính lồi**: Thiết yếu cho việc xác minh hàm lồi
-- **Tính bền vững**: Đảm bảo mạnh hơn so với chỉ các điều kiện bậc nhất
-- **Lý thuyết tối ưu hóa**: Cầu nối giữa tính tối ưu địa phương và toàn cục
+### **Ý nghĩa thực tế:**
+- **Thiết kế thuật toán:** Là cơ sở của các phương pháp kiểu Newton.
+- **Kiểm tra tính lồi:** Hỗ trợ xác minh tính lồi của hàm khả vi cấp hai.
+- **Độ tin cậy lý thuyết:** Cung cấp điều kiện chặt hơn so với chỉ dùng thông tin bậc nhất.
+- **Liên kết lý thuyết:** Góp phần kết nối phân tích cực trị địa phương với tối ưu toàn cục.
 
-### **Cân nhắc Tính toán:**
-- **Chi phí**: Lưu trữ và tính toán $$O(n^2)$$ cho Hessian
-- **Xấp xỉ**: Các phương pháp Quasi-Newton giảm gánh nặng tính toán
-- **Ổn định số**: Tính toán giá trị riêng yêu cầu triển khai cẩn thận
-
-Hiểu về các điều kiện bậc hai là thiết yếu cho lý thuyết tối ưu hóa nâng cao và phát triển các thuật toán số hiệu quả. Chúng cung cấp nền tảng toán học cho nhiều phương pháp tối ưu hóa hiện đại và đưa ra các hiểu biết sâu sắc hơn về cấu trúc của các bài toán tối ưu hóa.
+### **Cân nhắc về tính toán:**
+- **Chi phí:** Việc tính và lưu trữ ma trận Hessian có độ phức tạp $$O(n^2)$$.
+- **Xấp xỉ Hessian:** Các phương pháp tựa Newton (Quasi-Newton) giúp giảm chi phí này khi số chiều $$n$$ lớn.
+- **Ổn định số:** Việc tính giá trị riêng hoặc phân tích ma trận đòi hỏi cài đặt số cẩn thận.

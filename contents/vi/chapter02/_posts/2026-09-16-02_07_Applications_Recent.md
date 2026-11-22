@@ -10,7 +10,7 @@ lang: vi
 lesson_type: optional
 ---
 
-Tập lồi là miền khả thi mà bạn có thể *lấy trung bình bên trong*. Sự thật hình học đó giải thích vì sao rất nhiều ràng buộc học máy hiện đại trông như đơn hình, hình cầu, hoặc phổ diện. Bài này gọi tên ba họ tập lồi xuất hiện trong bài báo và thư viện 2022–2025, mỗi họ gắn với một định nghĩa bạn đã có: đơn hình xác suất, quả cầu Wasserstein các phân phối, và đa diện cắt bởi bất đẳng thức công bằng (hoặc ngân sách).
+Tập lồi là miền khả thi mà mọi tổ hợp trung bình có trọng số không âm của các điểm trong đó vẫn nằm lại bên trong miền. Tính chất hình học này giải thích vì sao nhiều tập ràng buộc trong học máy hiện đại có dạng đơn hình, hình cầu hoặc phổ diện (spectrahedron). Bài này điểm qua ba họ tập lồi xuất hiện thường xuyên trong các công trình và thư viện giai đoạn 2022–2025, mỗi họ gắn trực tiếp với một định nghĩa đã học: đơn hình xác suất, quả cầu Wasserstein trong không gian phân phối, và đa diện xác định bởi các bất đẳng thức công bằng hoặc ngân sách.
 
 ## Đơn hình xác suất, softmax và hình học lớp cuối
 
@@ -20,47 +20,47 @@ $$
 \Delta^{n-1} = \bigl\{ p\in\mathbb{R}^n : p\ge 0,\; \mathbf{1}^\top p = 1\bigr\}
 $$
 
-là tập lồi (giao của siêu phẳng với orthant không âm). Softmax là ánh xạ trơn *lên* phần trong tương đối của $$\Delta^{n-1}$$. Mọi đầu attention trong Transformer, và mọi mô hình logistic đa lớp, vì thế dùng phi tuyến cuối để chiếu vector logit lên một tập lồi mà bạn vẽ được trong $$\mathbb{R}^2$$ và $$\mathbb{R}^3$$.
+là một tập lồi (giao của một siêu phẳng với góc phần tư không âm). Hàm softmax là ánh xạ trơn đưa vector logit *vào* phần trong tương đối của $$\Delta^{n-1}$$. Nhờ vậy, mọi đầu attention trong kiến trúc Transformer và mọi mô hình hồi quy logistic đa lớp đều dùng tầng phi tuyến cuối để chiếu vector logit lên một tập lồi có thể hình dung trực tiếp trong $$\mathbb{R}^2$$ và $$\mathbb{R}^3$$.
 
-Một đơn hình bất ngờ hơn xuất hiện *cuối* quá trình huấn luyện. Papyan, Han và Donoho (*Prevalence of neural collapse*, [PNAS 2020](https://www.pnas.org/doi/10.1073/pnas.2015509117); [arXiv:2008.08186](https://arxiv.org/abs/2008.08186)) đo một *khung chặt đều góc đơn hình* (simplex ETF) giữa các trung bình lớp ở lớp cuối: các trung bình đã tâm tạo cấu hình điểm đối xứng nhất trên mặt cầu. Zhu, Ding, Zhou và cộng sự (*A Geometric Analysis of Neural Collapse with Unconstrained Features*, [NeurIPS 2021](https://papers.nips.cc/paper/2021/hash/f92586a25bb3145facd64ab20fd554ff-Abstract.html)) sau đó chỉ ra rằng, trong mô hình đặc trưng tự do đơn giản với cross-entropy và weight decay, các cấu hình ETF là cực tiểu toàn cục và mọi điểm dừng khác là yên ngựa chặt. Ngôn ngữ tập lồi không phải trang trí: ETF là một tập con cụ thể của mặt cầu, còn đơn hình xác suất là tập mà bộ phân loại thật sự xuất ra.
+Một cấu trúc đơn hình khác xuất hiện ở giai đoạn *cuối* quá trình huấn luyện mạng nơ-ron sâu. Papyan, Han và Donoho (*Prevalence of neural collapse*, [PNAS 2020](https://www.pnas.org/doi/10.1073/pnas.2015509117); [arXiv:2008.08186](https://arxiv.org/abs/2008.08186)) quan sát thấy các vector trung bình lớp (đã quy tâm) ở tầng áp chót hội tụ về một *khung chặt đều góc đơn hình* (simplex equiangular tight frame, gọi tắt là simplex ETF) — cấu hình điểm đối xứng nhất trên mặt cầu. Zhu, Ding, Zhou và cộng sự (*A Geometric Analysis of Neural Collapse with Unconstrained Features*, [NeurIPS 2021](https://papers.nips.cc/paper/2021/hash/f92586a25bb3145facd64ab20fd554ff-Abstract.html)) sau đó chứng minh rằng trong mô hình đặc trưng không ràng buộc với hàm mất mát cross-entropy và suy giảm trọng số (weight decay), mọi cấu hình ETF đều là cực tiểu toàn cục còn mọi điểm dừng khác đều là điểm yên ngựa chặt. Như vậy, hình học tập lồi gắn trực tiếp với cấu trúc nghiệm của bài toán: ETF là một tập con xác định trên mặt cầu, còn đơn hình xác suất là miền đầu ra thực tế của bộ phân loại.
 
-Khi kiểm “$$C$$ có lồi không?” trên bài tập, hãy gồm $$\Delta^{n-1}$$ và quả cầu Euclid. Hai tập đó là hình học của phân loại và của nhiều regularizer.
+Khi luyện tập kiểm tra tính lồi của một tập $$C$$, nên luôn đưa $$\Delta^{n-1}$$ và hình cầu Euclidean vào nhóm ví dụ nền tảng, vì đây là cấu trúc hình học của nhiều bài toán phân loại và chuẩn hóa (regularization).
 
-## Quả cầu Wasserstein như tập nhập nhằng
+## Quả cầu Wasserstein như tập bất định phân phối
 
-Tối ưu vững theo phân phối (DRO) thay một phân phối huấn luyện $$\hat{P}$$ bằng một *tập* phân phối, rồi tối ưu chống lại phần tử tệ nhất trong tập đó. Quả cầu Wasserstein
+Tối ưu hóa vững theo phân phối (Distributionally Robust Optimization — DRO) thay phân phối thực nghiệm $$\hat{P}$$ bằng một *tập* các phân phối lân cận, rồi tối ưu theo trường hợp xấu nhất trong tập đó. Quả cầu Wasserstein
 
 $$
 \mathcal{B}_\varepsilon(\hat{P}) = \bigl\{ Q : W_p(Q,\hat{P}) \le \varepsilon\bigr\}
 $$
 
-là tập lồi trong không gian độ đo xác suất (quả cầu vận chuyển tối ưu). Các quyết định sống sót trước $$Q\in\mathcal{B}_\varepsilon(\hat{P})$$ tệ nhất thường có dạng viết lại hữu hạn chiều lồi.
+là một tập lồi trong không gian các độ đo xác suất (quả cầu theo khoảng cách vận chuyển tối ưu). Nhờ đó, bài toán tối ưu chống lại phân phối xấu nhất $$Q\in\mathcal{B}_\varepsilon(\hat{P})$$ thường có thể viết lại thành một bài toán tối ưu lồi hữu hạn chiều.
 
-Hai tài liệu bạn mở được: Gao và Kleywegt, “Distributionally Robust Stochastic Optimization with Wasserstein Distance,” [*Mathematics of Operations Research* 48(2):603–655, 2023](https://doi.org/10.1287/moor.2022.1275), chứng minh đối ngẫu mạnh cho DRO Wasserstein và mô tả cấu trúc phân phối trường hợp xấu. Tutorial của Kuhn, Mohajerin Esfahani, Nguyen và Shafieezadeh-Abadeh, *Wasserstein Distributionally Robust Optimization* ([INFORMS TutORials 2019](https://doi.org/10.1287/educ.2019.0198); [arXiv:1908.08729](https://arxiv.org/abs/1908.08729), sửa tháng 11/2024) là bản đọc được và nối quả cầu với phân loại, hồi quy và MLE. Khảo sát rộng hơn năm 2025 trên *Acta Numerica* ([Kuhn, Shafiee, et al.](https://www.cambridge.org/core/journals/acta-numerica/article/distributionally-robust-optimization/5B4E65E3A5A2AEF24E218A6B34E6EAA2)) đặt quả cầu Wasserstein cạnh các tập nhập nhằng khác.
+Hai tài liệu tham khảo chính gồm: Gao và Kleywegt, “Distributionally Robust Stochastic Optimization with Wasserstein Distance,” [*Mathematics of Operations Research* 48(2):603–655, 2023](https://doi.org/10.1287/moor.2022.1275), chứng minh đối ngẫu mạnh cho DRO Wasserstein và mô tả cấu trúc phân phối trường hợp xấu nhất; và bài hướng dẫn của Kuhn, Mohajerin Esfahani, Nguyen và Shafieezadeh-Abadeh, *Wasserstein Distributionally Robust Optimization* ([INFORMS TutORials 2019](https://doi.org/10.1287/educ.2019.0198); [arXiv:1908.08729](https://arxiv.org/abs/1908.08729), bản cập nhật tháng 11/2024), trình bày rõ mối liên hệ giữa quả cầu Wasserstein với các bài toán phân loại, hồi quy và ước lượng hợp lý cực đại (MLE). Ngoài ra, bài khảo sát tổng quan năm 2025 trên *Acta Numerica* ([Kuhn, Shafiee, et al.](https://www.cambridge.org/core/journals/acta-numerica/article/distributionally-robust-optimization/5B4E65E3A5A2AEF24E218A6B34E6EAA2)) đặt quả cầu Wasserstein trong tương quan với các loại tập bất định phân phối khác.
 
-Động thái mô hình hóa giống “thay ước lượng điểm bằng tập bất định lồi” trong lập trình tuyến tính vững, chỉ khác là “điểm” là phân phối. Nếu bạn chứng nhận được $$\mathcal{B}_\varepsilon(\hat{P})$$ lồi và ánh xạ trường hợp xấu trong là lồi theo quyết định, chương trình DRO ngoài là bài tối ưu lồi mà Chương 04 sẽ chính thức hóa.
+Cách mô hình hóa này tương tự việc thay ước lượng điểm bằng một tập bất định lồi trong quy hoạch tuyến tính vững, chỉ khác ở chỗ "điểm" ở đây là một phân phối xác suất. Khi $$\mathcal{B}_\varepsilon(\hat{P})$$ là tập lồi và hàm mục tiêu ứng với phân phối xấu nhất lồi theo biến quyết định, bài toán DRO bên ngoài trở thành một bài toán tối ưu lồi — dạng bài sẽ được hệ thống hóa ở Chương 04.
 
 ## Polytope công bằng và phân bổ tài nguyên
 
-Bất đẳng thức tuyến tính trên xác suất định nghĩa đa diện. Ràng buộc kiểu demographic parity
+Các bất đẳng thức tuyến tính trên xác suất xác định một đa diện. Chẳng hạn, ràng buộc ngang bằng nhân khẩu học (demographic parity)
 
 $$
 \bigl| \mathbb{E}[h(X)\mid A=a] - \mathbb{E}[h(X)\mid A=a'] \bigr| \le \epsilon
 $$
 
-cắt một polytope trong không gian bộ phân loại (ngẫu nhiên hóa). Agarwal, Beygelzimer, Dudík, Langford và Wallach ([ICML 2018](https://proceedings.mlr.press/v80/agarwal18a.html)) coi các lát cắt đó là tập khả thi của một phép quy; [Fairlearn](https://fairlearn.org/v0.12/user_guide/mitigation/reductions.html) vẫn lộ chúng như đối tượng `Moment` năm 2025–2026.
+cắt ra một polytope trong không gian các bộ phân loại ngẫu nhiên hóa. Agarwal, Beygelzimer, Dudík, Langford và Wallach ([ICML 2018](https://proceedings.mlr.press/v80/agarwal18a.html)) xây dựng phương pháp quy giảm (reductions) xem các ràng buộc này là miền khả thi; thư viện [Fairlearn](https://fairlearn.org/v0.12/user_guide/mitigation/reductions.html) vẫn cung cấp cơ chế này thông qua đối tượng `Moment` trong các phiên bản 2025–2026.
 
-Cùng bức tranh đó phủ ràng buộc ngân sách và phân bổ: $$x\ge 0$$, $$\mathbf{1}^\top x = 1$$ (danh mục trên đơn hình), hoặc $$0\le x\le 1$$, $$Ax\le b$$ (polytope mix truyền thông kiểu knapsack). Siêu phẳng tách ở phần sau chương này chính là chứng chỉ rằng một $$x$$ ứng viên nằm ngoài polytope — cùng loại chứng chỉ bộ giải dùng khi trả về trạng thái không khả thi.
+Cấu trúc hình học tương tự cũng mô tả các ràng buộc ngân sách và phân bổ tài nguyên: $$x\ge 0$$, $$\mathbf{1}^\top x = 1$$ (phân bổ danh mục trên đơn hình), hoặc $$0\le x\le 1$$, $$Ax\le b$$ (polytope phân bổ ngân sách truyền thông dạng bài toán cái túi). Siêu phẳng phân tách ở phần sau của chương chính là chứng chỉ cho thấy một nghiệm ứng viên $$x$$ nằm ngoài polytope — cũng là dạng chứng chỉ mà các bộ giải tối ưu dùng để khẳng định bài toán vô nghiệm.
 
-## Hai dòng hình ảnh cần giữ
+## Hai công thức hình học cốt lõi
 
-Mọi ràng buộc hiện đại trong bài này là giao của các mảnh lồi bạn gọi được tên:
+Mọi miền ràng buộc được nhắc tới trong bài đều có thể biểu diễn dưới dạng giao của các tập lồi cơ bản hoặc quả cầu trong không gian phân phối:
 
 $$
 \mathcal{C} = \Delta^{n-1} \cap \{ x : Fx \le g \} \qquad\text{hoặc}\qquad \mathcal{B}_\varepsilon(\hat{P}).
 $$
 
-Nếu chứng minh từng mảnh lồi thì giao lồi, và mọi tìm kiếm địa phương ở lại trong $$\mathcal{C}$$ là tìm trên tập không có “lỗ.” Đó là toàn bộ lý do Chương 02 tồn tại, viết lại bằng ngôn ngữ attention, DRO và công bằng.
+Khi từng thành phần là tập lồi thì giao của chúng cũng lồi, đảm bảo mọi bước tìm kiếm địa phương trong $$\mathcal{C}$$ diễn ra trên một miền không có "lỗ hổng". Đó chính là vai trò nền tảng của Chương 02 khi nhìn qua các bài toán attention, DRO và công bằng trong học máy.
 
 ## Nguồn
 

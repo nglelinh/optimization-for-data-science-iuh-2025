@@ -13,10 +13,10 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trang này xem xét cách bước cập nhật đã thảo luận trước đó được dẫn xuất từ xấp xỉ bậc hai của hàm số gốc $$f$$. Chúng ta cũng so sánh nó với bước cập nhật gradient descent được đề cập trong [Chương 6]({% multilang_post_url contents/chapter06/21-03-20-06_00_gradient_descent %}).
+Trang này trình bày cách dẫn xuất bước cập nhật Newton từ xấp xỉ bậc hai của hàm gốc $$f$$, đồng thời so sánh với bước cập nhật của gradient descent trong [Chương 6]({% multilang_post_url contents/chapter06/21-03-20-06_00_gradient_descent %}).
 
-## Bước cập nhật phương pháp Newton
-Xấp xỉ Taylor bậc hai (xấp xỉ bậc hai) của hàm số $$f$$ như sau:
+## Bước cập nhật của phương pháp Newton
+Xấp xỉ Taylor bậc hai của hàm $$f$$ quanh điểm $$x$$ có dạng:
 
 >$$
 >\begin{align}
@@ -25,9 +25,9 @@ Xấp xỉ Taylor bậc hai (xấp xỉ bậc hai) của hàm số $$f$$ như sa
 >\end{align}
 >$$
 
-Ở đây, $$y$$ là giá trị $$x$$ của bước tiếp theo, tức là $$x^{+}$$. Chúng ta cũng định nghĩa xấp xỉ bậc hai là $$f_{approx}$$.
+Trong đó, $$y$$ đại diện cho điểm ở bước tiếp theo ($$x^{+}$$), còn $$f_{approx}$$ là hàm xấp xỉ bậc hai của $$f$$.
 
-Chúng ta muốn tìm đầu vào $$y$$ để tối thiểu hóa $$f_{approx}$$ này, tức là xấp xỉ bậc hai. Vì $$f_{approx}$$ là lồi, đầu vào $$y$$ làm cho gradient của phương trình trên bằng không sẽ tối thiểu hóa $$f_{approx}$$. Kết quả này trở thành công thức cập nhật bước trong phương pháp Newton. Hãy nhớ rằng việc lấy đạo hàm trong phương trình dưới đây là theo y.
+Ta cần tìm $$y$$ để cực tiểu hóa $$f_{approx}(y)$$. Vì $$f_{approx}$$ là hàm lồi, điểm $$y$$ làm triệt tiêu gradient theo biến $$y$$ chính là điểm cực tiểu và cho ta công thức cập nhật của phương pháp Newton:
 
 >$$
 >\begin{align}
@@ -38,8 +38,8 @@ Chúng ta muốn tìm đầu vào $$y$$ để tối thiểu hóa $$f_{approx}$$ 
 >\end{align}
 >$$
 
-## Bước cập nhật gradient descent
-Trong gradient descent, chúng ta sử dụng các số hạng xấp xỉ Taylor bậc hai của hàm số $$f$$, nhưng đối với số hạng bậc hai, chúng ta giả sử nó là ma trận đơn vị chia cho $$t$$, thay vì kết quả đạo hàm bậc hai thực tế.
+## Bước cập nhật của gradient descent
+Trong gradient descent, ta cũng dùng khai triển bậc hai của $$f$$, nhưng thay ma trận Hessian bằng ma trận đơn vị chia cho $$t$$:
 
 >$$
 >\begin{align}
@@ -48,21 +48,20 @@ Trong gradient descent, chúng ta sử dụng các số hạng xấp xỉ Taylor
 >\end{align}
 >$$
 
-Tương tự như phương pháp Newton, chúng ta có thể xác định giá trị $$y$$ mà tại đó gradient của xấp xỉ trên bằng không, tức là $$x^{+}$$.
+Tương tự phương pháp Newton, cho gradient của $$f_{approx}(y)$$ theo $$y$$ bằng không, ta tìm được điểm cập nhật $$x^{+}$$:
+
 >$$
 >\begin{align}
->\nabla f(y) &= \nabla f(x) + \frac{1}{t}(y-x), \\\\
+>\nabla f_{approx}(y) &= \nabla f(x) + \frac{1}{t}(y-x), \\\\
 > &= 0,\\\\
 >y &= x-t\nabla f(x).
 >\end{align}
 >$$
 
-Kết quả này giống hệt với bước cập nhật của gradient descent.
-
-Để biết thông tin chi tiết về gradient descent, hãy tham khảo [chương gradient descent]({% multilang_post_url contents/chapter06/21-03-20-06_00_gradient_descent %}).
+Kết quả này trùng khớp với công thức cập nhật của gradient descent. Xem thêm chi tiết tại [chương gradient descent]({% multilang_post_url contents/chapter06/21-03-20-06_00_gradient_descent %}).
 
 ## Ví dụ
-Làm ví dụ, đối với hàm số $$f = (10x_{1}^{2}+x_{2}^{2})/2+5log(1+e^{-x_{1}-x_{2}})$$, chúng ta giả sử thực hiện các bước có độ dài gần bằng nhau. Tức là, chúng ta đặt kích thước bước trong gradient descent để khớp với độ lớn cập nhật của phương pháp Newton tại mỗi lần lặp, và so sánh hướng hội tụ của gradient descent (màu đen) và phương pháp Newton (màu xanh) theo các bước của chúng.
+Xét hàm $$f = (10x_{1}^{2}+x_{2}^{2})/2+5\log(1+e^{-x_{1}-x_{2}})$$. Giả sử tại mỗi vòng lặp, ta chọn kích thước bước của gradient descent sao cho độ dài bước đi xấp xỉ bằng độ dài bước cập nhật của phương pháp Newton, rồi so sánh hướng hội tụ của gradient descent (màu đen) và phương pháp Newton (màu xanh).
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -71,7 +70,7 @@ Làm ví dụ, đối với hàm số $$f = (10x_{1}^{2}+x_{2}^{2})/2+5log(1+e^{
 </p>
 </figure>
 
-Như có thể thấy trong Hình 1, gradient descent giả sử số hạng đạo hàm bậc hai là một hằng số nhân với ma trận đơn vị khi tính toán gradient, do đó nó hội tụ vuông góc với hướng tiếp tuyến của các đường đồng mức, và cho thấy tốc độ hội tụ chậm hơn so với phương pháp Newton. Các chương còn lại sẽ đề cập đến các tính chất, đặc điểm, sự hội tụ, ví dụ, v.v. của phương pháp Newton.
+Như minh họa trong Hình 1, vì thay đạo hàm bậc hai bằng một hằng số nhân ma trận đơn vị, gradient descent luôn di chuyển vuông góc với tiếp tuyến của các đường đồng mức và hội tụ chậm hơn phương pháp Newton. Các mục tiếp theo sẽ trình bày tính chất, đặc điểm, phân tích hội tụ và các ví dụ của phương pháp Newton.
 
 ### Phương pháp Newton trong một chiều
 
@@ -79,4 +78,4 @@ Như có thể thấy trong Hình 1, gradient descent giả sử số hạng đ�
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/newton-parabola_vi.mp4"></video>
 </div>
 
-Mỗi bước cực tiểu hóa mô hình bậc hai $$f(x_k)+f'(x_k)(x-x_k)+\tfrac12 f''(x_k)(x-x_k)^2$$, nên $$x_{k+1}=x_k-f'(x_k)/f''(x_k)$$.
+Mỗi bước cực tiểu hóa mô hình bậc hai $$f(x_k)+f'(x_k)(x-x_k)+\tfrac12 f''(x_k)(x-x_k)^2$$, dẫn đến công thức cập nhật $$x_{k+1}=x_k-f'(x_k)/f''(x_k)$$.

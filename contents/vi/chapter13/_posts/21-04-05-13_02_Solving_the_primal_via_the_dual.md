@@ -11,19 +11,20 @@ lesson_type: required
 ---
 
 ### Một hệ quả quan trọng của điều kiện dừng
-Trong điều kiện đối ngẫu mạnh, khi nghiệm đối ngẫu $$u^{\star}, v^{\star}$$ được cho, nghiệm nguyên thủy $$x^{\star}$$ có thể được tìm bằng cách giải Lagrangian sau:
 
-> $$ \min_x f(x) + \sum_{i=1}^m u_i^{\star} h_i(x) + \sum_{j=1}^r v^{\star}_i l_j(x)$$
+Khi tính đối ngẫu mạnh được thỏa mãn và ta đã tìm được nghiệm đối ngẫu tối ưu $$(u^{\star}, v^{\star})$$, nghiệm nguyên thủy tối ưu $$x^{\star}$$ có thể được xác định bằng cách cực tiểu hóa hàm Lagrangian sau:
 
-Thông thường, nghiệm của các bài toán không ràng buộc như vậy có thể được biểu diễn bằng cách thể hiện rõ ràng các đặc điểm của nghiệm nguyên thủy thông qua nghiệm đối ngẫu.
+> $$ \min_x f(x) + \sum_{i=1}^m u_i^{\star} h_i(x) + \sum_{j=1}^r v^{\star}_j l_j(x)$$
 
-Hơn nữa, nếu nghiệm của bài toán này là duy nhất, nghiệm đối ngẫu trở thành nghiệm nguyên thủy $$x^{\star}$$.
-Điều này rất hữu ích khi việc giải bài toán đối ngẫu dễ dàng hơn việc giải trực tiếp bài toán nguyên thủy.
+Trong nhiều trường hợp, bài toán không ràng buộc này cho phép biểu diễn tường minh đặc trưng của nghiệm nguyên thủy theo nghiệm đối ngẫu. Đặc biệt, nếu bài toán cực tiểu hóa Lagrangian trên có nghiệm duy nhất, thì nghiệm đó chính là nghiệm nguyên thủy tối ưu $$x^{\star}$$. Cách tiếp cận này rất hữu ích khi bài toán đối ngẫu dễ giải hơn nhiều so với bài toán nguyên thủy.
 
+### Ví dụ (Boyd & Vandenberghe, trang 249)
 
-### Ví dụ từ B & V trang 249:
+Xét bài toán tách biến có một ràng buộc đẳng thức tuyến tính:
+
 > $$ \min_x \sum_{i=1}^n f_i(x_i) \qquad \text{ với điều kiện }\qquad a^Tx = b$$
 
+Hàm đối ngẫu Lagrange được tính như sau:
 
 > $$\begin{align}
 > g(v) &= \min_x \sum_{i=1}^n f_i(x_i) + v(b−a^Tx) \\\
@@ -32,20 +33,21 @@ Hơn nữa, nếu nghiệm của bài toán này là duy nhất, nghiệm đối
 > &= bv + \sum_{i=1}^n (\underbrace{\min_{x_i} \{ f_i(x_i) − a_ivx_i \}}_{-f^{*}_i(a_iv)}) \\\
 > &= bv − \sum_{i=1}^n f^{*}_i (a_iv)
 > \end{align}$$
- 
-Ở đây $$f^{*}$$ biểu thị hàm liên hợp của $$f_i$$.
 
-Do đó, bài toán đối ngẫu có thể được biểu diễn như sau:
+Ở đây $$f_i^{*}$$ là hàm liên hợp của $$f_i$$.
+
+Do đó, bài toán đối ngẫu là:
+
 > $$ \max_v bv − \sum^n_{i=1} f^{*}_i (a_iv)$$
 
-Ngoài ra, bằng cách nhân với dấu âm (-), bài toán cực đại có thể được biểu diễn thành bài toán cực tiểu sau:
+Đổi dấu hàm mục tiêu để chuyển về dạng cực tiểu hóa, ta được:
+
 > $$ \min_v \sum^n_{i=1} f^{*}_i (a_iv) − bv$$
 
-Đây là một bài toán tối ưu hóa lồi với các biến vô hướng có thể được giải dễ dàng hơn nhiều so với bài toán nguyên thủy.
+Đây là bài toán tối ưu hóa lồi chỉ theo một biến vô hướng $$v$$, nên thường dễ giải hơn nhiều so với bài toán nguyên thủy có $$n$$ biến.
 
-Khi $$v^{\star}$$ được cho, nghiệm nguyên thủy $$x^{\star}$$ có thể được giải như sau:
+Sau khi tìm được $$v^{\star}$$, nghiệm nguyên thủy $$x^{\star}$$ được xác định từ:
+
 > $$ \min_{x} \sum^n_{i=1} (f_i(x_i) − a_iv^{\star}x_i)$$
 
-Tính lồi chặt của mỗi $$f_i$$ có nghĩa là bài toán này có nghiệm duy nhất.
-Tức là, $$x^{\star}$$ được thu được thông qua tính toán $$∇f_i(x_i) = a_iv^{\star}$$ cho mỗi $$i$$.
-
+Nếu mỗi hàm $$f_i$$ lồi chặt, bài toán này có nghiệm duy nhất; khi các $$f_i$$ khả vi, từng thành phần $$x_i^{\star}$$ được tìm trực tiếp bằng cách giải phương trình $$\nabla f_i(x_i) = a_i v^{\star}$$ với mỗi $$i$$.

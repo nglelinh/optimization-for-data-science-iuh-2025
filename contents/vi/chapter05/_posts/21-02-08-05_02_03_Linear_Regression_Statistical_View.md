@@ -11,64 +11,64 @@ lang: vi
 
 ## Hồi Quy Tuyến Tính từ Góc Nhìn Thống Kê
 
-Trong bài học này, chúng ta khám phá hồi quy tuyến tính từ góc nhìn xác suất và thống kê, chứng minh tại sao việc tối thiểu hóa tổng bình phương sai số (MSE) không chỉ trực quan mà còn được chứng minh lý thuyết thông qua ước lượng hợp lý tối đa.
+Trong bài học này, chúng ta khám phá hồi quy tuyến tính từ góc nhìn xác suất và thống kê, cho thấy việc cực tiểu hóa sai số bình phương trung bình (MSE) không chỉ có ý nghĩa trực quan mà còn có cơ sở lý thuyết chặt chẽ thông qua ước lượng hợp lý cực đại (Maximum Likelihood Estimation - MLE).
 
 ### 1. Diễn Giải Xác Suất của Hồi Quy Tuyến Tính
 
-Dưới góc nhìn xác suất, chúng ta có thể chứng minh rằng các ước lượng đạt được từ hồi quy tuyến tính dựa trên việc tối thiểu hóa tổng bình phương sai số từ hàm MSE là hoàn toàn tự nhiên và hợp lý.
+Dưới góc nhìn xác suất, nghiệm của bài toán hồi quy tuyến tính thu được từ việc cực tiểu hóa MSE có thể được lý giải trực tiếp bằng mô hình nhiễu thống kê.
 
 Thật vậy, chúng ta giả định biến mục tiêu và biến đầu vào liên hệ với nhau qua phương trình:
 
 $$y_i = \mathbf{w}^\top \mathbf{x}_i + \epsilon_i$$
 
-trong đó $\epsilon_i$ đại diện cho sai số ngẫu nhiên mà bất kỳ phương trình nào cũng có. Đây là những yếu tố không thể giải thích bởi mô hình. Do ước lượng của chúng ta là không chệch, sai số ngẫu nhiên này được giả định thỏa mãn các tính chất theo giả thuyết của Gauss-Markov:
+trong đó $$\epsilon_i$$ biểu diễn sai số ngẫu nhiên (những yếu tố không được mô hình giải thích). Theo các giả thiết Gauss–Markov cổ điển, sai số ngẫu nhiên thỏa mãn:
 
-#### Giả Thuyết 1: Sai Số Có Kỳ Vọng Bằng Không
+#### Giả thiết 1: Sai số có kỳ vọng bằng 0
 Các sai số $$\epsilon_i$$ là đại lượng ngẫu nhiên có kỳ vọng bằng 0:
 
 $$\mathbb{E}(\epsilon_i) = 0$$
 
-#### Giả Thuyết 2: Các Sai Số Không Tương Quan
+#### Giả thiết 2: Các sai số không tương quan
 Các sai số ngẫu nhiên không có sự tương quan:
 
 $$\mathbb{E}(\epsilon_i \epsilon_j) = 0, \quad \forall i \neq j$$
 
-#### Giả Thuyết 3: Phương Sai Đồng Nhất (Homoscedasticity)
+#### Giả thiết 3: Phương sai đồng nhất (Homoscedasticity)
 Phương sai của sai số ngẫu nhiên là bất biến:
 
 $$\text{Var}(\epsilon_i) = \sigma^2$$
 
-#### Giả Thuyết 4: Độc Lập Giữa Sai Số và Đặc Trưng
-Sai số ngẫu nhiên $\epsilon_i$ và các biến đầu vào $\mathbf{x}_i$ không có sự tương quan:
+#### Giả thiết 4: Sai số không tương quan với biến đầu vào
+Sai số ngẫu nhiên $$\epsilon_i$$ và biến đầu vào $$\mathbf{x}_i$$ không tương quan với nhau:
 
-$$\text{Cov}(\mathbf{x}_i, \epsilon_i) = 0, \quad \forall i = 1, \dots, p$$
+$$\text{Cov}(\mathbf{x}_i, \epsilon_i) = 0, \quad \forall i = 1, \dots, n$$
 
 ### 2. Phân Phối Gaussian của Sai Số
 
-Dưới các giả thuyết này, các sai số ngẫu nhiên $\epsilon_i$ tạo thành một phân phối Gaussian (phân phối chuẩn) với trung bình bằng 0 và phương sai $\sigma^2$, ký hiệu là $\epsilon_i \sim \mathcal{N}(0, \sigma^2)$. Hàm mật độ xác suất tại mỗi điểm $\epsilon_i$ là:
+Nếu giả định thêm rằng các sai số ngẫu nhiên $$\epsilon_i$$ độc lập và tuân theo phân phối Gaussian (phân phối chuẩn) với kỳ vọng bằng 0 và phương sai $$\sigma^2$$, ký hiệu $$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$$, thì hàm mật độ xác suất tại mỗi điểm $$\epsilon_i$$ là:
 
 $$p(\epsilon_i) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left( -\frac{\epsilon_i^2}{2\sigma^2} \right)$$
 
-Thay $\epsilon_i = y_i - \mathbf{w}^\top \mathbf{x}_i$ vào hàm mật độ xác suất, ta được:
+Thay $$\epsilon_i = y_i - \mathbf{w}^\top \mathbf{x}_i$$ vào hàm mật độ xác suất, ta thu được:
 
 $$p(y_i \mid \mathbf{x}_i; \mathbf{w}) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left( -\frac{(y_i - \mathbf{w}^\top \mathbf{x}_i)^2}{2\sigma^2} \right)$$
 
-Ký hiệu $p(y_i \mid \mathbf{x}_i; \mathbf{w})$ cho biết xác suất của $y_i$ tương ứng với $\mathbf{x}_i$, được tham số hóa bởi $\mathbf{w}$. Ở đây, $\mathbf{w}$ là đã biết và không được xem như điều kiện của $y_i$, do đó sử dụng dấu ; thay vì ,.
+Ký hiệu $$p(y_i \mid \mathbf{x}_i; \mathbf{w})$$ biểu diễn mật độ xác suất có điều kiện của $$y_i$$ khi biết $$\mathbf{x}_i$$, được tham số hóa bởi $$\mathbf{w}$$. Vì $$\mathbf{w}$$ là tham số cố định chứ không phải biến ngẫu nhiên điều kiện, ta dùng dấu `;` thay vì dấu `,`.
 
 ### 3. Ước Lượng Hợp Lý Tối Đa
 
-Dưới góc độ xác suất, $p(y_i \mid \mathbf{x}_i; \mathbf{w})$ là hàm phụ thuộc vào dữ liệu đầu vào $\mathbf{x}_i$ khi đã biết trọng số $\mathbf{w}$. Khi xem xác suất dưới góc nhìn của một hàm theo $\mathbf{w}$, ta gọi đó là hàm hợp lý (likelihood):
+Khi cố định dữ liệu quan sát và xét biểu thức trên như một hàm theo tham số $$\mathbf{w}$$, ta thu được hàm hợp lý (likelihood):
 
 $$L(\mathbf{w}) = L(\mathbf{w}; \mathbf{X}, \mathbf{y}) = p(\mathbf{y} \mid \mathbf{X}; \mathbf{w})$$
 
-Theo điều kiện 2 của giả thuyết Gauss-Markov, các sai số là độc lập, nên xác suất đồng thời của dữ liệu bằng tích các mật độ xác suất của từng điểm dữ liệu:
+Vì các sai số Gaussian không tương quan nên chúng độc lập với nhau; do đó mật độ đồng thời của tập dữ liệu bằng tích mật độ của từng mẫu:
 
 $$\begin{align}
 L(\mathbf{w}) &= \prod_{i=1}^{n} p(y_i \mid \mathbf{x}_i; \mathbf{w}) \\
 &= \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left( -\frac{\epsilon_i^2}{2\sigma^2} \right)
 \end{align}$$
 
-Hàm hợp lý phản ánh mối quan hệ xác suất giữa $\mathbf{y}$ và $\mathbf{X}$. Để tìm $\mathbf{w}$ sao cho mối quan hệ này phù hợp nhất, theo ước lượng hợp lý tối đa (Maximum Likelihood Estimation), ta chọn $\mathbf{w}$ sao cho $L(\mathbf{w})$ lớn nhất.
+Hàm hợp lý đo mức độ phù hợp của tham số $$\mathbf{w}$$ với dữ liệu quan sát $$(\mathbf{X}, \mathbf{y})$$. Theo nguyên lý ước lượng hợp lý cực đại (MLE), ta chọn $$\mathbf{w}$$ làm cực đại hóa $$L(\mathbf{w})$$.
 
 ### 4. Tối Ưu Hóa Log-Likelihood
 
@@ -82,7 +82,7 @@ $$\begin{align}
 &= \arg \max \left[ -\frac{1}{2\sigma^2} \sum_{i=1}^{n} \epsilon_i^2 - n \log \sqrt{2\pi \sigma^2} \right]
 \end{align}$$
 
-Vì $\sigma^2$ và $2\pi$ là hằng số, tối ưu hóa hàm trên tương đương với tối thiểu hóa:
+Vì $$\sigma^2$$ và $$2\pi$$ là các hằng số dương, việc cực đại hóa hàm log-likelihood tương đương với cực tiểu hóa tổng bình phương phần dư:
 
 $$\sum_{i=1}^{n} \epsilon_i^2 = \sum_{i=1}^{n} (y_i - \mathbf{w}^\top \mathbf{x}_i)^2$$
 
@@ -92,7 +92,7 @@ $$\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2$$
 
 ### 5. Chứng Minh Lý Thuyết
 
-Như vậy, dưới góc nhìn xác suất, ta đã chứng minh rằng hồi quy tuyến tính dựa trên tối thiểu hóa tổng bình phương sai số tương đương với tối ưu hóa hàm hợp lý. Khi các điều kiện của giả thuyết Gauss-Markov được thỏa mãn, ước lượng của chúng ta là ước lượng không chệch tốt nhất (best linear unbiased estimator - BLUE). Các giả thuyết về khoảng tin cậy của giá trị dự báo và đánh giá ý nghĩa của các trọng số thông qua P-value có thể được thực hiện dựa trên phân phối chuẩn.
+Như vậy, dưới giả định sai số phân phối chuẩn độc lập đồng nhất, bài toán bình phương tối thiểu tương đương với ước lượng hợp lý cực đại. Ngoài ra, theo định lý Gauss–Markov, chỉ cần các giả thiết Gauss–Markov được thỏa mãn (kể cả không cần giả định chuẩn), ước lượng OLS đã là ước lượng tuyến tính không chệch tốt nhất (BLUE). Giả định phân phối chuẩn cho phép xây dựng thêm các khoảng tin cậy và kiểm định ý nghĩa thống kê (p-value) cho các hệ số.
 
 <div id="mle-demo" style="border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; background-color: #f9f9f9;">
     <h4 style="text-align: center; color: #333;">Trực Quan Hóa Ước Lượng Hợp Lý Tối Đa</h4>
@@ -141,7 +141,7 @@ Như vậy, dưới góc nhìn xác suất, ta đã chứng minh rằng hồi qu
 
 ### 6. Huấn Luyện Mô Hình Hồi Quy Tuyến Tính trên Sklearn
 
-Sklearn là một thư viện toàn diện của Python về khoa học dữ liệu, hỗ trợ huấn luyện hầu hết các mô hình học máy, xây dựng pipeline, chuẩn hóa dữ liệu, và thực hiện kiểm định chéo (cross-validation).
+Scikit-learn (`sklearn`) là thư viện Python phổ biến cho học máy và khoa học dữ liệu, hỗ trợ huấn luyện hầu hết các mô hình học máy, xây dựng pipeline, chuẩn hóa dữ liệu, và thực hiện kiểm định chéo (cross-validation).
 
 Trong phần này, chúng ta sẽ tìm hiểu cách huấn luyện mô hình hồi quy tuyến tính trên sklearn. Quay lại bài toán trước, nếu thêm thông tin về khoảng cách tới trung tâm:
 
@@ -241,7 +241,7 @@ print(f"R²: {r2:.3f}")
     </div>
 </div>
 
-### Những Hiểu Biết Quan Trọng
+### Các điểm chính cần ghi nhớ
 
 1. **Nền Tảng Lý Thuyết**: Ước lượng hợp lý tối đa cung cấp nền tảng lý thuyết vững chắc cho việc tại sao chúng ta tối thiểu hóa sai số bình phương trong hồi quy tuyến tính.
 

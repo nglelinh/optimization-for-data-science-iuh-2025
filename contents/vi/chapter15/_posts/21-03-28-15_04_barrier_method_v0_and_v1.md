@@ -10,19 +10,19 @@ lang: vi
 ---
 
 ## Phương pháp chắn v.0
-**Phương pháp chắn v.0** chọn $$t = m/\epsilon$$ với $$\epsilon > 0$$ và giải bài toán chắn sau để thu được $$f(x^*(t)) - f(x^*) \le \epsilon $$.
+**Phương pháp chắn v.0** chọn trực tiếp $$t = m/\epsilon$$ với độ chính xác mong muốn $$\epsilon > 0$$, rồi giải một lần bài toán chắn sau để đảm bảo $$f(x^*(t)) - f(x^*) \le \epsilon$$:
 >
 $$\begin{align}
  &\min_{x} \ && tf(x) + \phi(x) \\
  &\text{subject to } \ && Ax = b \\
 \end{align}$$
 
-Ở đây, $$m$$ là số ràng buộc và $$t$$ là một bội của $$1/\epsilon$$, nên khi $$\epsilon$$ càng nhỏ thì $$t$$ càng rất lớn, và cuối cùng ta đến cuối đường trung tâm, khiến bài toán tương đương với bài toán ban đầu. Do đó, cách này có thể rất chậm và khó giải.
+Tuy nhiên, vì $$t = m/\epsilon$$ tăng rất lớn khi $$\epsilon$$ nhỏ, bài toán tương ứng nằm sát cuối đường trung tâm và gần như quay về độ khó của bài toán gốc trên biên, khiến phương pháp Newton hội tụ chậm và khó giải.
 
-Vì vậy, một cách tiếp cận tốt hơn là đi theo đường trung tâm để tìm nghiệm, dẫn đến định nghĩa **phương pháp chắn v.1**.
+Để khắc phục, thay vì đặt $$t$$ lớn ngay từ đầu, ta tăng dần $$t$$ để bám theo đường trung tâm. Cách tiếp cận này được gọi là **phương pháp chắn v.1**.
 
 ## Phương pháp chắn v.1
-**Phương pháp chắn v.1** là phương pháp tăng dần giá trị $$t$$ và giải bài toán chắn sau nhiều lần.
+**Phương pháp chắn v.1** tăng dần tham số $$t$$ qua nhiều bước và giải chuỗi bài toán chắn sau:
 >
 $$\begin{align}
  &\min_{x} \ && tf(x) + \phi(x) \\
@@ -30,39 +30,39 @@ $$\begin{align}
 \end{align}$$
 
 ### Thuật toán
-Thuật toán có thể được mô tả như sau.
+Các bước của thuật toán như sau:
 
 1. Chọn $$t^{(0)} > 0$$ và đặt $$k := 0$$.
 2. Tại $$t = t^{(0)}$$, giải bài toán chắn để thu được $$x^{(0)} = x^*(t)$$.
-3. Trong khi $$m/t > \epsilon$$ <br>
-  3-1. Chọn $$t^{(k+1)} > t^{(k)}$$. <br>
-  3-2. Khởi tạo phương pháp Newton với $$x^{(k)}$$. (khởi động ấm, warm start)<br>
-        Tại $$t = t^{(k+1)}$$, giải bài toán chắn để thu được $$x^{(k+1)} = x^*(t)$$.<br>
-  kết thúc vòng lặp<br>
+3. Trong khi $$m/t > \epsilon$$:<br>
+  3-1. Chọn $$t^{(k+1)} > t^{(k)}$$.<br>
+  3-2. Khởi tạo phương pháp Newton bằng $$x^{(k)}$$ (khởi động ấm — warm start) và giải bài toán chắn tại $$t = t^{(k+1)}$$ để thu được $$x^{(k+1)} = x^*(t)$$.<br>
+  Kết thúc vòng lặp.<br>
 
 ### Nhận xét
-* **Cách cập nhật thường dùng**: $$t^{(k+1)} = \mu t^{(k)}$$, ($$\mu > 1$$)
-* **Khởi động ấm (warm start)**: Ở bước 3-2, nghiệm của bước trước được dùng làm giá trị khởi tạo cho bước sau, cách này gọi là warm start.
-* **Bước centering**: Các bước 2 và 3-2 của thuật toán, tức là giải bài toán chắn, được gọi là các bước centering (hay vòng lặp ngoài).
+* **Quy tắc cập nhật thường dùng**: $$t^{(k+1)} = \mu t^{(k)}$$ với $$\mu > 1$$.
+* **Khởi động ấm (warm start)**: Ở bước 3-2, nghiệm của vòng lặp trước được dùng làm điểm khởi tạo cho vòng lặp tiếp theo.
+* **Bước định tâm (centering step)**: Bước 2 và bước 3-2 (giải bài toán chắn ứng với một giá trị $$t$$ cố định) được gọi là các bước định tâm hay vòng lặp ngoài.
 
-### Những điều cần cân nhắc
-Khi chọn $$\mu$$ và $$t^{(0)}$$, cần cân nhắc các đánh đổi sau.
+### Lựa chọn tham số
+Khi chọn $$\mu$$ và $$t^{(0)}$$, cần cân nhắc các đánh đổi sau:
+
 ##### Chọn $$\mu$$
-* Nếu $$\mu$$ quá nhỏ, số vòng lặp ngoài tăng lên. (Trong trường hợp này warm start có ích.)<br>
-* Nếu $$\mu$$ quá lớn, phương pháp Newton cần nhiều vòng lặp để hội tụ ở mỗi bước centering.
+* Nếu $$\mu$$ quá nhỏ, số vòng lặp ngoài tăng lên (dù khởi động ấm giúp mỗi bước giải nhanh hơn).<br>
+* Nếu $$\mu$$ quá lớn, điểm khởi tạo nằm xa điểm đường trung tâm mới nên phương pháp Newton cần nhiều vòng lặp hơn ở mỗi bước định tâm.
 
-##### Chọn giá trị khởi tạo của thuật toán
+##### Chọn $$t^{(0)}$$
 * Nếu $$t^{(0)}$$ quá nhỏ, số vòng lặp ngoài tăng lên.<br>
-* Nếu $$t^{(0)}$$ quá lớn, bài toán trở thành giống v.0. Do đó, phương pháp Newton cần nhiều vòng lặp để tìm $$x^{(0)}$$ ở bước centering đầu tiên.
+* Nếu $$t^{(0)}$$ quá lớn, bài toán ban đầu trở nên khó giải tương tự phương pháp chắn v.0, làm tăng số bước Newton ở bước định tâm đầu tiên.
 
-May mắn là hiệu năng của phương pháp chắn thực tế rất ổn định đối với việc chọn $$\mu$$ và $$t^{(0)}$$. Hơn nữa, khoảng giá trị phù hợp của các tham số này thay đổi tùy theo kích thước bài toán.
+Trong thực tế, hiệu năng của phương pháp chắn khá ổn định trước sự thay đổi của $$\mu$$ và $$t^{(0)}$$, trong đó khoảng giá trị phù hợp phụ thuộc vào kích thước bài toán.
 
-## Ví dụ LP nhỏ
-Hình dưới đây cho thấy hiệu năng khi chạy một bài toán LP có n=50 chiều và m=100 ràng buộc bất đẳng thức bằng phương pháp chắn. Có thể thấy khi $$\mu = 2$$ thì số vòng lặp ngoài tăng lên, và khi $$\mu=150$$ thì số bước centering tăng tương đối so với khi $$\mu=50$$.
+## Ví dụ LP cỡ nhỏ
+Hình dưới đây minh họa hiệu năng của phương pháp chắn trên một bài toán quy hoạch tuyến tính (LP) với $$n = 50$$ biến và $$m = 100$$ ràng buộc bất đẳng thức. Khi $$\mu = 2$$, số vòng lặp ngoài tăng lên; còn khi $$\mu = 150$$, số bước định tâm và bước Newton có sự đánh đổi rõ rệt so với mức $$\mu = 50$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter15/15_barrier_method_03.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Hình 1] Ví dụ LP nhỏ [3]</figcaption>
+ <figcaption style="text-align: center;">[Hình 1] Ví dụ LP cỡ nhỏ [3]</figcaption>
 </p>
 </figure>

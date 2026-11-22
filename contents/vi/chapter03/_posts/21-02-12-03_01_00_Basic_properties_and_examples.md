@@ -10,4 +10,4 @@ lang: vi
 lesson_type: required
 ---
 
-Phần này bao gồm định nghĩa của hàm lồi, các loại hàm lồi tiêu biểu, và các tính chất chính của chúng.
+Phần này trình bày định nghĩa hàm lồi, các họ hàm lồi thường gặp và những tính chất đặc trưng cơ bản của chúng.

@@ -10,9 +10,9 @@ lang: vi
 lesson_type: required
 ---
 
-Một **Chương trình Bậc hai** (QP) là một bài toán tối ưu lồi trong đó hàm mục tiêu là một hàm bậc hai lồi và tất cả các hàm ràng buộc đều là affine. Chương trình bậc hai tổng quát được phát biểu như:
+Một **bài toán quy hoạch bậc hai** (Quadratic Programming - QP) là bài toán tối ưu hóa lồi trong đó hàm mục tiêu là hàm bậc hai lồi và tất cả các ràng buộc đều là hàm affine. Dạng tổng quát của bài toán quy hoạch bậc hai được phát biểu như sau:
 
-### Chương trình Bậc hai Tổng quát
+### Bài toán Quy hoạch Bậc hai tổng quát
 $$
 \begin{align}
     \text{minimize}_{x} \quad &\frac{1}{2}x^T P x + q^T x + r \\
@@ -22,20 +22,20 @@ $$
 $$
 
 **trong đó:**
-- $$P \in \mathbb{S}_{+}^n$$ (ma trận bán xác định dương)
-- $$G \in \mathbb{R}^{m \times n}$$ (ma trận ràng buộc bất đẳng thức)  
+- $$P \in \mathbb{S}_{+}^n$$ (ma trận đối xứng nửa xác định dương)
+- $$G \in \mathbb{R}^{m \times n}$$ (ma trận ràng buộc bất đẳng thức)
 - $$A \in \mathbb{R}^{p \times n}$$ (ma trận ràng buộc đẳng thức)
-- $$x \in \mathbb{R}^n$$ (biến quyết định)
+- $$x \in \mathbb{R}^n$$ (vectơ biến quyết định)
 
-**Tính chất Chính của QP:**
-- Hằng số $$r$$ trong hàm mục tiêu không ảnh hưởng đến quá trình tối ưu hóa hoặc kết quả và có thể bỏ qua.
-- Nếu $$P \in \mathbb{S}_{+}^n$$ không được thỏa mãn, bài toán không lồi.
-- Ngay cả khi không được nêu rõ, QP giả định $$P \in \mathbb{S}_{+}^n$$.
-- Bài toán trên tìm nghiệm tối ưu $$x^*$$ của hàm bậc hai lồi $$\frac{1}{2}x^T P x + q^T x + r$$ trên một tập khả thi đa diện.
+**Các tính chất chính của QP:**
+- Hằng số $$r$$ trong hàm mục tiêu không làm thay đổi nghiệm tối ưu $$x^*$$ nên thường có thể bỏ qua khi giải.
+- Nếu điều kiện $$P \in \mathbb{S}_{+}^n$$ không được thỏa mãn, bài toán không phải là bài toán lồi.
+- Trong tối ưu hóa lồi, khi nhắc đến QP, điều kiện $$P \in \mathbb{S}_{+}^n$$ luôn được ngầm giả định.
+- Về mặt hình học, bài toán QP tìm cực tiểu của một hàm bậc hai lồi trên một tập khả thi dạng đa diện.
 
-### Hiểu về $$\mathbb{S}_{+}^n$$ (Nón Bán xác định Dương)
+### Nón nửa xác định dương $$\mathbb{S}_{+}^n$$
 
-Ký hiệu $$\mathbb{S}_{+}^n$$ đại diện cho **nón bán xác định dương**, đây là một khái niệm cơ bản trong tối ưu lồi:
+Ký hiệu $$\mathbb{S}_{+}^n$$ biểu diễn **nón các ma trận nửa xác định dương**, một khái niệm nền tảng trong tối ưu hóa lồi:
 
 <div class="textbook-definition" markdown="1">
 **Định nghĩa:**
@@ -43,45 +43,44 @@ Ký hiệu $$\mathbb{S}_{+}^n$$ đại diện cho **nón bán xác định dươ
 </div>
 
 **trong đó:**
-- $$\mathbb{S}^n$$ là tập tất cả các **ma trận đối xứng** $$n \times n$$
-- $$X \succeq 0$$ có nghĩa là ma trận $$X$$ là **bán xác định dương**
+- $$\mathbb{S}^n$$ là tập tất cả các **ma trận đối xứng** kích thước $$n \times n$$.
+- $$X \succeq 0$$ có nghĩa là ma trận $$X$$ **nửa xác định dương** (bán xác định dương).
 
-**Tính chất Chính:**
+**Tính chất chính:**
 
-1. **Điều kiện bán xác định dương**: Một ma trận $$P$$ là bán xác định dương nếu:
-   - Tất cả các giá trị riêng của $$P$$ đều không âm ($$\lambda_i \geq 0$$)
-   - Với mọi vector $$v$$, chúng ta có $$v^T P v \geq 0$$
+1. **Điều kiện nửa xác định dương:** Một ma trận đối xứng $$P$$ là nửa xác định dương khi và chỉ khi:
+   - Tất cả các giá trị riêng của $$P$$ đều không âm ($$\lambda_i \geq 0$$), hoặc tương đương
+   - $$v^T P v \geq 0$$ với mọi vectơ $$v \in \mathbb{R}^n$$.
 
-2. **Tính chất nón lồi**: $$\mathbb{S}_{+}^n$$ là một nón lồi vì nếu $$\theta_1, \theta_2 \geq 0$$ và $$A, B \in \mathbb{S}_{+}^n$$, thì $$\theta_1 A + \theta_2 B \in \mathbb{S}_{+}^n$$
+2. **Tính chất nón lồi:** $$\mathbb{S}_{+}^n$$ là một nón lồi, vì với mọi $$\theta_1, \theta_2 \geq 0$$ và $$A, B \in \mathbb{S}_{+}^n$$, ta có $$\theta_1 A + \theta_2 B \in \mathbb{S}_{+}^n$$.
 
-**Ví dụ cho $$n=2$$:**
-Với ma trận $$2 \times 2$$ $$P = \begin{bmatrix} a & b \\ b & c \end{bmatrix}$$, điều kiện $$P \in \mathbb{S}_{+}^2$$ yêu cầu:
-- $$a \geq 0$$ (các phần tử đường chéo không âm)
-- $$c \geq 0$$ (các phần tử đường chéo không âm)  
-- $$ac \geq b^2$$ (định thức không âm)
+**Ví dụ với $$n = 2$$:**
+Đối với ma trận đối xứng $$2 \times 2$$ dạng $$P = \begin{bmatrix} a & b \\ b & c \end{bmatrix}$$, điều kiện $$P \in \mathbb{S}_{+}^2$$ tương đương với:
+- $$a \geq 0$$ và $$c \geq 0$$ (các phần tử trên đường chéo chính không âm),
+- $$ac - b^2 \geq 0$$ (định thức không âm).
 
-**Tại sao điều này quan trọng đối với QP?**
-- Điều kiện $$P \in \mathbb{S}_{+}^n$$ đảm bảo rằng hàm bậc hai $$(1/2)x^T P x + q^T x + r$$ là **lồi**
-- Không có điều kiện này, bài toán có thể có nhiều cực tiểu địa phương và sẽ không là một bài toán tối ưu lồi
-- Điều này đảm bảo rằng bất kỳ cực tiểu địa phương nào cũng là cực tiểu toàn cục
+**Vai trò của điều kiện này trong QP:**
+- Điều kiện $$P \in \mathbb{S}_{+}^n$$ đảm bảo hàm mục tiêu $$\frac{1}{2}x^T P x + q^T x + r$$ là hàm lồi.
+- Nếu thiếu điều kiện này, hàm mục tiêu có thể có nhiều cực tiểu địa phương và bài toán không còn là bài toán lồi.
+- Nhờ tính lồi, mọi cực tiểu địa phương của QP đều là cực tiểu toàn cục.
 
-### Hiểu về $$Gx \preceq h$$ (Bất đẳng thức Theo thành phần)
+### Bất đẳng thức theo thành phần $$Gx \preceq h$$
 
-Ký hiệu $$Gx \preceq h$$ đại diện cho **ràng buộc bất đẳng thức theo thành phần**, đây là cách gọn gàng để viết nhiều ràng buộc bất đẳng thức tuyến tính:
+Ký hiệu $$Gx \preceq h$$ biểu diễn hệ **ràng buộc bất đẳng thức tuyến tính theo từng thành phần**:
 
 <div class="textbook-definition" markdown="1">
 **Định nghĩa:**
 $$Gx \preceq h \quad \Leftrightarrow \quad (Gx)_i \leq h_i \text{ với mọi } i = 1, 2, \ldots, m$$
 </div>
 
-**where:**
-- $$G \in \mathbb{R}^{m \times n}$$ is the constraint matrix
-- $$x \in \mathbb{R}^n$$ is the decision variable vector
-- $$h \in \mathbb{R}^m$$ is the right-hand side vector
-- $$m$$ is the number of inequality constraints
+**trong đó:**
+- $$G \in \mathbb{R}^{m \times n}$$ là ma trận hệ số ràng buộc,
+- $$x \in \mathbb{R}^n$$ là vectơ biến quyết định,
+- $$h \in \mathbb{R}^m$$ là vectơ vế phải,
+- $$m$$ là số lượng ràng buộc bất đẳng thức.
 
-**Expanded Form:**
-The single matrix inequality $$Gx \preceq h$$ is equivalent to the system:
+**Dạng khai triển:**
+Bất đẳng thức vectơ $$Gx \preceq h$$ tương đương với hệ:
 $$
 \begin{align}
 g_1^T x &\leq h_1 \\
@@ -91,38 +90,38 @@ g_m^T x &\leq h_m
 \end{align}
 $$
 
-where $$g_i^T$$ is the $$i$$-th row of matrix $$G$$.
+trong đó $$g_i^T$$ là hàng thứ $$i$$ của ma trận $$G$$.
 
-**Example:**
-Consider $$G = \begin{bmatrix} 1 & 2 \\ -1 & 3 \\ 0 & -1 \end{bmatrix}$$, $$x = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$$, and $$h = \begin{bmatrix} 5 \\ 2 \\ -1 \end{bmatrix}$$
+**Ví dụ:**
+Xét $$G = \begin{bmatrix} 1 & 2 \\ -1 & 3 \\ 0 & -1 \end{bmatrix}$$, $$x = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$$, và $$h = \begin{bmatrix} 5 \\ 2 \\ -1 \end{bmatrix}$$.
 
-Then $$Gx \preceq h$$ means:
+Khi đó $$Gx \preceq h$$ tương đương với hệ:
 $$
 \begin{align}
 x_1 + 2x_2 &\leq 5 \\
 -x_1 + 3x_2 &\leq 2 \\
--x_2 &\leq -1 \quad \text{(i.e., } x_2 \geq 1\text{)}
+-x_2 &\leq -1 \quad \text{(tức là } x_2 \geq 1\text{)}
 \end{align}
 $$
 
-**Geometric Interpretation:**
-- Each inequality $$g_i^T x \leq h_i$$ defines a **half-space** in $$\mathbb{R}^n$$
-- The feasible region is the **intersection** of all these half-spaces
-- This intersection forms a **polyhedron** (or polytope if bounded)
-- The constraint $$Gx \preceq h$$ defines the **polyhedral feasible set** for the QP
+**Ý nghĩa hình học:**
+- Mỗi bất đẳng thức $$g_i^T x \leq h_i$$ xác định một **nửa không gian** trong $$\mathbb{R}^n$$.
+- Miền khả thi là **giao** của tất cả các nửa không gian này.
+- Giao đó tạo thành một **tập đa diện** (polyhedron), hoặc một đa diện lồi bị chặn (polytope) nếu nó bị chặn.
+- Do đó, ràng buộc $$Gx \preceq h$$ xác định **tập khả thi đa diện** của bài toán QP.
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl  }}/img/chapter_img/chapter05/05_02_geometric_interpretation_of_QP.png" alt="[Fig 1] Geometric interpretation of QP [1]" width="70%">
-  <figcaption style="text-align: center;">[Fig 1] Geometric interpretation of QP [1]</figcaption>
+  <figcaption style="text-align: center;">[Hình 1] Minh họa hình học của bài toán QP [1]</figcaption>
 </p>
 </figure>
 
-## QP in Standard Form
+## QP ở dạng chuẩn
 
-The standard form of a quadratic program is:
+Dạng chuẩn của bài toán quy hoạch bậc hai được viết như sau:
 
-### Standard Form QP
+### Bài toán QP dạng chuẩn
 $$
 \begin{align}
     \text{minimize}_{x} \quad &\frac{1}{2}x^T P x + q^T x + r \\
@@ -131,11 +130,11 @@ $$
 \end{align}
 $$
 
-Any general quadratic program can be converted to standard form using the following steps:
+Mọi bài toán quy hoạch bậc hai tổng quát đều có thể đưa về dạng chuẩn theo các bước sau:
 
-### Converting QPs to Standard Form
+### Chuyển đổi QP tổng quát về dạng chuẩn
 
-**Step 1.** Use slack variables $$s$$ to convert inequality constraints into equality constraints:
+**Bước 1.** Đưa thêm vectơ biến phụ $$s \succeq 0$$ để chuyển ràng buộc bất đẳng thức thành ràng buộc đẳng thức:
 $$
 \begin{align}
     \text{minimize}_{x, s} \quad &\frac{1}{2}x^T P x + q^T x + r \\
@@ -145,8 +144,8 @@ $$
 \end{align}
 $$
 
-**Step 2.** Replace $$x$$ with two nonnegative variables:
-$$x = x^{+} - x^{-}, \quad \text{where } x^{+}, x^{-} \succeq 0$$
+**Bước 2.** Tách biến tự do $$x$$ thành hiệu của hai biến không âm:
+$$x = x^{+} - x^{-}, \quad \text{với } x^{+}, x^{-} \succeq 0$$
 
 $$
 \begin{align}
@@ -158,7 +157,7 @@ $$
 \end{align}
 $$
 
-**Step 3.** Define $$\tilde{x}$$, $$\tilde{q}$$, $$\tilde{b}$$, $$\tilde{A}$$, $$\tilde{P}$$:
+**Bước 3.** Định nghĩa các biến và ma trận khối $$\tilde{x}$$, $$\tilde{q}$$, $$\tilde{b}$$, $$\tilde{A}$$, $$\tilde{P}$$:
 
 $$
 \tilde{x} =
@@ -194,7 +193,7 @@ A & -A & O
 \end{bmatrix}
 $$
 
-**Step 4.** Substitute the expressions from Step 3 into the formulation:
+**Bước 4.** Thay các biểu thức ở Bước 3 vào bài toán ở Bước 2 để thu được dạng chuẩn:
 
 $$
 \begin{align}
@@ -204,11 +203,11 @@ $$
 \end{align}
 $$
 
-## Linear Programming as a Special Case of QP
+## Quy hoạch tuyến tính là trường hợp đặc biệt của QP
 
-If the quadratic term is removed from the objective function of a quadratic program, it takes the form of a linear program. Thus, LP is a special case of QP, denoted as LP $$\subseteq$$ QP.
+Khi ma trận $$P = 0$$ (tức loại bỏ số hạng bậc hai khỏi hàm mục tiêu), bài toán QP trở thành bài toán quy hoạch tuyến tính (LP). Vì vậy LP là một trường hợp đặc biệt của QP, ký hiệu $$\text{LP} \subseteq \text{QP}$$.
 
-### Recall: General LP
+### Nhắc lại: LP tổng quát
 $$
 \begin{align}
     \text{minimize}_{x} \quad &c^T x + d \\
@@ -216,11 +215,11 @@ $$
     &Ax = b
 \end{align}
 $$
-where $$G \in \mathbb{R}^{m \times n}$$ and $$A \in \mathbb{R}^{p \times n}$$.
+trong đó $$G \in \mathbb{R}^{m \times n}$$ và $$A \in \mathbb{R}^{p \times n}$$.
 
-### Ví dụ 1: Tối ưu hóa Danh mục Đầu tư
+### Ví dụ 1: Tối ưu hóa danh mục đầu tư
 
-Bài toán này bao gồm việc cân bằng hợp lý giữa hiệu suất và rủi ro khi tạo một danh mục tài chính.
+Bài toán này cân bằng giữa lợi suất kỳ vọng và rủi ro khi phân bổ tỷ trọng cho một danh mục tài sản tài chính:
 
 $$
 \begin{align}
@@ -231,16 +230,14 @@ $$
 $$
 
 **trong đó:**
-- $$\mu$$: lợi nhuận kỳ vọng của các tài sản
-- $$P$$: ma trận hiệp phương sai của lợi nhuận tài sản  
-- $$\gamma$$: tham số tránh rủi ro (siêu tham số)
-- $$x$$: nắm giữ danh mục (phần trăm)
+- $$\mu$$: vectơ lợi suất kỳ vọng của các tài sản,
+- $$P$$: ma trận hiệp phương sai của lợi suất tài sản,
+- $$\gamma > 0$$: tham số mức độ ngại rủi ro (siêu tham số),
+- $$x$$: vectơ tỷ trọng phân bổ vốn vào từng tài sản.
 
+### Ví dụ 2: Máy vectơ hỗ trợ (SVM)
 
-
-### Ví dụ 2: Máy Vector Hỗ trợ (SVM)
-
-Máy Vector Hỗ trợ (SVM) là một ví dụ của chương trình bậc hai. Dưới đây là C-SVM, một biến thể của SVM. Giải thích chi tiết về SVM nằm ngoài phạm vi của chương này và do đó sẽ được bỏ qua.
+Máy vectơ hỗ trợ (SVM) là một ví dụ điển hình của bài toán quy hoạch bậc hai. Dưới đây là mô hình C-SVM (chi tiết lý thuyết SVM nằm ngoài phạm vi chương này):
 
 $$
 \begin{align}
@@ -250,10 +247,9 @@ $$
 \end{align}
 $$
 
-**cho trước:** $$y \in \{-1, 1\}^n$$ và $$X \in \mathbb{R}^{n \times p}$$ có các hàng $$x_1, \ldots, x_n$$.
+**cho trước:** $$y \in \{-1, 1\}^n$$ và ma trận dữ liệu $$X \in \mathbb{R}^{n \times p}$$ có các hàng là $$x_1^T, \ldots, x_n^T$$.
 
-### Ví dụ 3: Bình phương Tối thiểu trong Hồi quy
+### Ví dụ 3: Bình phương tối thiểu trong hồi quy
 
-Bài toán tối thiểu hóa hàm bậc hai lồi sau tương ứng với một QP (không ràng buộc):
+Bài toán cực tiểu hóa tổng bình phương sai số sau đây là một bài toán QP không ràng buộc:
 $$\| Ax - b \|_2^2 = x^T A^TA x - 2b^TAx + b^Tb$$
-

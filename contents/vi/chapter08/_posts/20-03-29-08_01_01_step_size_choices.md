@@ -10,12 +10,10 @@ lang: vi
 lesson_type: required
 ---
 
-Có nhiều cách khác nhau để chọn **kích thước bước** trong phương pháp subgradient.
+Có nhiều cách để lựa chọn **kích thước bước** trong phương pháp subgradient. Dưới đây là hai cách phổ biến:
 
-Hãy xem xét kỹ hơn hai phương pháp sau:
-
-- **Kích thước bước cố định**: $$t_k = t$$, với $$k = 1, 2, 3, ...$$
-- **Kích thước bước giảm dần**: $$t_k$$ thỏa mãn các điều kiện sau:
+- **Kích thước bước cố định**: $$t_k = t$$ với mọi $$k = 1, 2, 3, ...$$
+- **Kích thước bước giảm dần**: dãy $$t_k$$ thỏa mãn đồng thời hai điều kiện:
 
 >\begin{align}
 > \sum_{k=1}^{\infty} t_k = \infty, \quad \sum_{k=1}^{\infty} t_k^{2} < \infty
@@ -24,13 +22,9 @@ Hãy xem xét kỹ hơn hai phương pháp sau:
 ### Ví dụ về kích thước bước giảm dần
 
 > $$\begin{align}
-& t_k = \frac{1}{k}, k = 1,2,3,... 
-& \sum_{k=1}^{\infty}t_k = \infty \quad \\
+& t_k = \frac{1}{k}, k = 1,2,3,... \\
+& \sum_{k=1}^{\infty}t_k = \infty \quad \text{(Chuỗi điều hòa)} \\
+& \sum_{k=1}^{\infty}t^2_k \approx 1.644934 < \infty \quad \text{(Bài toán Basel)}
 \end{align} $$
 
-> $$\begin{align}
-& ext{(Chuỗi điều hòa)} 
-& \sum_{k=1 }^{\infty}t^2_k \approx 1.644934 < \infty \quad 	ext{(Bài toán Basel)} 
-\end{align} $$
-
-Một đặc điểm chính của kích thước bước trong phương pháp subgradient là nó phải được thiết lập trước, khác với gradient descent. Nói cách khác, không giống như tìm kiếm đường thẳng backtracking trong gradient descent, kích thước bước trong phương pháp subgradient không thích ứng với độ cong của hàm số.
+Một đặc điểm quan trọng của phương pháp subgradient là kích thước bước thường phải được chọn trước, khác với gradient descent. Nói cách khác, không giống tìm kiếm đường thẳng lùi (backtracking line search) trong gradient descent, kích thước bước ở đây không tự điều chỉnh theo độ cong cục bộ của hàm mục tiêu.

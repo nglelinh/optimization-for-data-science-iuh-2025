@@ -9,7 +9,7 @@ categories:
 lang: vi
 ---
 
-Xét bài toán sau. Khác biệt so với bài toán trước là ràng buộc là bất đẳng thức.
+Xét bài toán tương tự phần trước nhưng thay ràng buộc đẳng thức bằng ràng buộc bất đẳng thức tuyến tính:
 > $$
 > \begin{equation}
 > \min_x \sum_{i=1}^B f_i(x_i) \quad \text{subject to} \quad \sum_{i=1}^B A_i x_i \leq b
@@ -17,7 +17,7 @@ Xét bài toán sau. Khác biệt so với bài toán trước là ràng buộc 
 > $$
 
 ## Phân rã đối ngẫu (phương pháp subgradient chiếu)
-Với bài toán này, biến đối ngẫu phải luôn không âm, tức là $$u \geq 0$$. Do đó, khi tính giá trị tiếp theo của $$u$$, ta chiếu nó lên góc phần tư không âm.
+Do ràng buộc có dạng bất đẳng thức, biến đối ngẫu phải thỏa mãn điều kiện không âm $$u \geq 0$$. Vì vậy, sau bước cập nhật $$u$$, ta chiếu kết quả lên góc phần tư không âm:
 
 > $$
 > \begin{alignat}{1}
@@ -26,19 +26,18 @@ Với bài toán này, biến đối ngẫu phải luôn không âm, tức là $
 > \end{alignat}
 > $$
 
-Ở đây $$u_{+}$$ là phần không âm của $$u$$, tức là $$(u_+)_i = \max \left\{0,u_i \right\}, i=1,\dots,m$$.
-Các bước này được lặp lại với $$k=1,2,3,\dots$$
+trong đó $$u_{+}$$ ký hiệu phép lấy phần không âm theo từng thành phần: $$(u_+)_i = \max \left\{0, u_i \right\}$$ ($$i = 1, \dots, m$$). Hai bước trên được lặp lại với $$k = 1, 2, 3, \dots$$
 
-#### Diễn giải điều phối giá (price coordination)
-Nói chung, các bài toán phân rã đối ngẫu có thể được diễn giải theo quan điểm điều phối giá như sau. (Vandenberghe)
-> * Có $$B$$ đơn vị độc lập, và mỗi đơn vị tự quyết định biến quyết định $$x_i$$ của mình.
-> * Mỗi ràng buộc biểu diễn giới hạn về một nguồn lực chung của $$B$$ đơn vị, và biến đối ngẫu $$u_j$$ là giá của nguồn lực $$j$$.
-> * Các biến đối ngẫu được cập nhật như sau
+#### Diễn giải theo cơ chế điều phối giá (price coordination)
+Theo Vandenberghe, thuật toán phân rã đối ngẫu có cách hiểu kinh tế trực quan như sau:
+> * Hệ thống gồm $$B$$ đơn vị độc lập, mỗi đơn vị tự chọn phương án $$x_i$$ của mình.
+> * Mỗi ràng buộc biểu diễn giới hạn của một nguồn lực dùng chung giữa $$B$$ đơn vị, còn biến đối ngẫu $$u_j$$ đóng vai trò đơn giá của nguồn lực thứ $$j$$.
+> * Các mức giá được cập nhật theo công thức:
  \begin{equation}
  u_j^{+} = (u_j - t s_j)_{+}, \quad  j=1,\dots,m
  \end{equation}
 >
-> $$\quad$$ trong đó $$s=b-\sum_{i=1}^B A_ix_i$$ là độ chùng (slack): \\
-> $$\qquad$$ - nếu $$s_j < 0$$, nguồn lực $$j$$ đang bị sử dụng quá mức, nên giá $$u_j$$ được tăng lên; \\
-> $$\qquad$$ - nếu $$s_j > 0$$, nguồn lực $$j$$ đang được sử dụng chưa hết, nên giá $$u_j$$ được giảm xuống; \\
-> $$\qquad$$ - giá không bao giờ được phép âm.
+> $$\quad$$ trong đó $$s = b - \sum_{i=1}^B A_ix_i$$ là lượng dư (slack) của nguồn lực: \\
+> $$\qquad$$ - nếu $$s_j < 0$$ (nguồn lực $$j$$ bị sử dụng vượt mức cho phép), giá $$u_j$$ được tăng lên; \\
+> $$\qquad$$ - nếu $$s_j > 0$$ (nguồn lực $$j$$ vẫn còn dư), giá $$u_j$$ được giảm xuống; \\
+> $$\qquad$$ - mức giá luôn được giữ không âm ($$u_j \ge 0$$).

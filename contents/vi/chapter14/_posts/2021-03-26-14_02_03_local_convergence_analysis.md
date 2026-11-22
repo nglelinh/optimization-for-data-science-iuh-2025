@@ -13,52 +13,51 @@ MathJax.Hub.Config({
 });
 </script>
 
-Tính chất quan trọng thứ hai của phương pháp Newton là sự hội tụ được đảm bảo gần nghiệm khi các điều kiện nhất định được thỏa mãn. Điều này được gọi là hội tụ cục bộ. Vì phương pháp Newton thuần túy mà chúng ta đã thảo luận từ [14-01]({% multilang_post_url contents/chapter14/2021-03-26-14_01_newton_method %}) không đảm bảo hội tụ, sau này chúng ta sẽ thiết kế phương pháp Newton có giảm chấn để đảm bảo hội tụ bằng cách điều chỉnh kích thước bước sử dụng cùng phương pháp tìm kiếm đường backtracking được đề cập trong [Chương 6]({% multilang_post_url contents/chapter06/21-03-20-06_00_gradient_descent %}), và phân tích sự hội tụ của nó.
+Tính chất quan trọng thứ hai của phương pháp Newton là hội tụ cục bộ: sự hội tụ được đảm bảo khi điểm khởi tạo đủ gần nghiệm và các điều kiện thích hợp được thỏa mãn. Vì phương pháp Newton thuần túy trong [14-01]({% multilang_post_url contents/chapter14/2021-03-26-14_01_newton_method %}) không đảm bảo hội tụ toàn cục, ở các mục sau ta sẽ xây dựng phương pháp Newton có giảm chấn (damped Newton method) bằng cách điều chỉnh kích thước bước với tìm kiếm đường backtracking như trong [Chương 6]({% multilang_post_url contents/chapter06/21-03-20-06_00_gradient_descent %}), rồi phân tích tốc độ hội tụ của nó.
 
-
->Định lý: Cho $$F : \mathbb{R}^{n}\, \rightarrow  \, \mathbb{R}^{n}$$ liên tục khả vi, và cho $$x^{\star} \in \mathbb{R}^{n}$$ là một nghiệm của hàm $$F$$, tức là $$F(x^{\star})=0$$.
->Nếu $$F^{'}(x^{\star})$$ không suy biến, thì các điều kiện (a) và (b) sau được thỏa mãn: \\
->(a) Nếu tồn tại một $$\delta$$ dương (>0) sao cho $$\| x^{(0)}-x^{\star} \|<\delta$$ và phương pháp Newton được định nghĩa, thì phương trình sau (hội tụ siêu tuyến tính) được thỏa mãn:
+>Định lý: Cho $$F : \mathbb{R}^{n}\, \rightarrow  \, \mathbb{R}^{n}$$ khả vi liên tục và $$x^{\star} \in \mathbb{R}^{n}$$ là một nghiệm của $$F$$, tức $$F(x^{\star})=0$$.
+>Nếu $$F^{'}(x^{\star})$$ không suy biến, thì hai khẳng định (a) và (b) sau đây đúng: \\
+>(a) Tồn tại $$\delta > 0$$ sao cho nếu $$\| x^{(0)}-x^{\star} \|<\delta$$ thì phương pháp Newton xác định và đạt hội tụ siêu tuyến tính:
 >\begin{align}
 >\lim_{ k \rightarrow \infty } \frac{ \|\| x^{ (k+1) }-x^{ \star } \|\| } { \|\| x^{ (k) }-x^{ \star } \|\| } =0.
 >\end{align} \\
->(b) Nếu $$F^{'}$$ liên tục Lipschitz gần $$x^{\star}$$, thì tồn tại một K dương (>0) sao cho phương trình sau (hội tụ bậc hai) được thỏa mãn:
+>(b) Nếu $$F^{'}$$ liên tục Lipschitz trong lân cận của $$x^{\star}$$, thì tồn tại hằng số $$K > 0$$ sao cho dãy nghiệm đạt hội tụ bậc hai:
 >\begin{align}
 >\|\|x^{ (k+1) } - x^{ \star }\|\| \leq K \|\| x^{ (k) }-x^{ \star }\|\|^{2}.
 >\end{align}
 
 ## Chứng minh (a)
->Chúng ta sắp xếp $$F(x^{\star})$$ đến bậc 1 sử dụng khai triển Taylor. Vì các số hạng bậc 2 và cao hơn được giới hạn bởi một bội số hằng của chuẩn của số hạng bậc 1, chúng ta có thể biểu diễn nó bằng ký hiệu little-o như sau:
+>Khai triển Taylor bậc nhất của $$F(x^{\star})$$ quanh $$x^{k}$$ với ký hiệu little-o cho phần dư bậc cao hơn:
 >\begin{align}
 >0=F(x^{\star}) = F(x^{k}) +\nabla F(x^{k})(x^{\star}-x^{k})+o(\|\|x^{k}-x^{\star}\|\|).\\
 >\end{align}
->Nhân cả hai vế với $$\nabla F(x^{k})^{-1}$$ và sắp xếp. Vì little-o được xử lý như một số hạng hằng số, nó có thể được bỏ qua.
+>Nhân cả hai vế bên trái với $$\nabla F(x^{k})^{-1}$$ rồi chuyển vế. Do $$\nabla F(x^{k})^{-1}$$ bị chặn trong lân cận $$x^{\star}$$, tích của nó với $$o(\|\|x^{k}-x^{\star}\|\|)$$ vẫn là $$o(\|\|x^{k}-x^{\star}\|\|)$$:
 >\begin{align}
 >x^{k}-x^{\star}-\nabla F(x^{k})^{-1} F(x^{k}) = o(\|\|x^{k}-x^{\star}\|\|).
 >\end{align}
->Sử dụng phương pháp Newton $$x^{k+1}=x^{k}-\nabla F(x^{k})^{-1}F(x^{k})$$, chúng ta có thể thu được kết quả sau:
+>Thay công thức cập nhật Newton $$x^{k+1}=x^{k}-\nabla F(x^{k})^{-1}F(x^{k})$$, ta thu được:
 >\begin{align}
->x^{k+1}-x^{\star}=o(\|\|x^{k}-x^{\star}\|\|),
+>x^{k+1}-x^{\star}=o(\|\|x^{k}-x^{\star}\|\|).
 >\end{align}
->Do đó, khi $$x^{k} \neq x^{\star}$$, chúng ta có thể chứng minh (a) bằng định nghĩa giới hạn của little-o [[wikipedia](https://en.wikipedia.org/wiki/Big_O_notation)].
+>Do đó, với $$x^{k} \neq x^{\star}$$, từ định nghĩa giới hạn của ký hiệu little-o [[wikipedia](https://en.wikipedia.org/wiki/Big_O_notation)] ta suy ra (a):
 
 >\begin{align}
->\lim_{k\rightarrow \infty} \frac{\|\|x^{k+1}-x^{\star}\|\|}{\|\|x^{k}-x^{\star}\|\|} = \lim_{k\rightarrow \infty}\frac{o(\|\|x^{k}-x^{\star}\|\|)}{\|\|x^{k}-x^{\star}\|\|}.
+>\lim_{k\rightarrow \infty} \frac{\|\|x^{k+1}-x^{\star}\|\|}{\|\|x^{k}-x^{\star}\|\|} = \lim_{k\rightarrow \infty}\frac{o(\|\|x^{k}-x^{\star}\|\|)}{\|\|x^{k}-x^{\star}\|\|} = 0.
 >\end{align}
 
 ## Chứng minh (b)
-Quá trình này giống hệt với việc chứng minh rằng tốc độ hội tụ trong giai đoạn Damped của [[14-05]({% multilang_post_url contents/chapter14/2021-03-26-14_05_convergence_analysis %})] là bậc hai. Do đó, nó được bỏ qua.
+Cách chứng minh tương tự như phần chứng minh tốc độ hội tụ bậc hai trong giai đoạn thuần túy (Pure phase) ở bài [[14-05]({% multilang_post_url contents/chapter14/2021-03-26-14_05_convergence_analysis %})], nên được lược bỏ tại đây.
 
-## Ví dụ : trường hợp phân kỳ
-Chúng ta xem xét ngắn gọn một ví dụ mà sự hội tụ không được đảm bảo với phương pháp Newton thuần túy.
+## Ví dụ: trường hợp phân kỳ
+Dưới đây là một ví dụ minh họa trường hợp phương pháp Newton thuần túy không hội tụ.
 
 <figure class="image" style="align: center;">
 <p align="center">
  <img src="{{ site.baseurl }}/img/chapter_img/chapter14/1_.png" alt="" width="70%" height="70%">
- <figcaption style="text-align: center;">[Hình 1] phương pháp Newton thuần túy áp dụng cho tìm nghiệm : trường hợp phân kỳ </figcaption>
+ <figcaption style="text-align: center;">[Hình 1] Phương pháp Newton thuần túy áp dụng cho bài toán tìm nghiệm: trường hợp phân kỳ</figcaption>
 </p>
 </figure>
 
 [image-link](https://slideplayer.com/slide/4998677/)
 
-Như được hiển thị trong hình, tùy thuộc vào điểm khởi tạo $$x_0$$, nghiệm có thể phân kỳ.
+Như minh họa trong hình, tùy thuộc vào điểm khởi tạo $$x_0$$, dãy lặp có thể phân kỳ.

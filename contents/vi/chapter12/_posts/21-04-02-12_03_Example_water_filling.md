@@ -15,7 +15,7 @@ MathJax.Hub.Config({
 });
 </script>
 
-Giả sử chúng ta có bài toán tối ưu hóa lồi sau đây.
+Xét bài toán tối ưu hóa lồi sau:
 
 >$$
 >\begin{align}
@@ -25,9 +25,10 @@ Giả sử chúng ta có bài toán tối ưu hóa lồi sau đây.
 >\end{align}
 >$$
 
-Bài toán này liên quan đến việc phân bổ công suất cho n kênh truyền thông và xuất hiện trong lý thuyết thông tin. Biến $$x_i$$ biểu diễn công suất đầu ra của máy phát được phân bổ cho kênh thứ i, và $$\log(\alpha_i + x_i)$$ biểu diễn dung lượng hoặc tốc độ truyền thông của kênh đó. Tức là, bài toán này là xác định bao nhiêu công suất nên được phân bổ cho mỗi kênh để tối đa hóa tổng tốc độ truyền thông [1].
+Bài toán này xuất hiện trong lý thuyết thông tin, gắn với việc phân bổ công suất cho $$n$$ kênh truyền thông. Biến $$x_i$$ biểu diễn công suất phát phân bổ cho kênh thứ $$i$$, còn $$\log(\alpha_i + x_i)$$ biểu diễn dung lượng hay tốc độ truyền của kênh đó. Như vậy, mục tiêu là phân bổ tổng công suất cố định vào các kênh sao cho tổng tốc độ truyền đạt cực đại [1].
 
-Gọi các nhân tử Lagrange cho ràng buộc bất đẳng thức $$x^\star \succeq 0$$ và ràng buộc đẳng thức $$1^Tx^\star = 1$$ lần lượt là $$\lambda^\star \in \mathbb{R}^n$$ và $$\nu^\star \in \mathbb{R}$$. Các điều kiện KKT cho bài toán đã cho như sau.
+Gọi $$\lambda^\star \in \mathbb{R}^n$$ và $$\nu^\star \in \mathbb{R}$$ lần lượt là các nhân tử Lagrange ứng với ràng buộc bất đẳng thức $$x^\star \succeq 0$$ và ràng buộc đẳng thức $$1^Tx^\star = 1$$. Các điều kiện KKT của bài toán là:
+
 >$$
 >\begin{align}
 >x^\star \succeq 0, \\\\
@@ -38,7 +39,8 @@ Gọi các nhân tử Lagrange cho ràng buộc bất đẳng thức $$x^\star \
 >\end{align}
 > $$
 
-Sử dụng các phương trình thu được từ các điều kiện KKT, chúng ta có thể tìm $$x^\star, \lambda^\star, \nu^\star$$ một cách giải tích. Đầu tiên, chúng ta loại bỏ $$\lambda^\star$$ khỏi các phương trình bằng cách sử dụng nó như một biến slack.
+Từ hệ điều kiện KKT trên, ta có thể tìm $$x^\star, \lambda^\star, \nu^\star$$ theo dạng giải tích. Trước hết, khử $$\lambda^\star$$ bằng cách coi nó như biến phụ không âm ($$\lambda_i^\star = \nu^\star - 1/(\alpha_i + x_i^\star) \ge 0$$):
+
 >$$
 >\begin{align}
 >x^\star \succeq 0, \\\\
@@ -48,7 +50,8 @@ Sử dụng các phương trình thu được từ các điều kiện KKT, chú
 >\end{align}
 > $$
 
-Điều này được sắp xếp như sau bởi tính dừng và bù yếu.
+Kết hợp điều kiện dừng và điều kiện bù yếu, ta thu được biểu thức nghiệm:
+
 > $$
 > x_i^\star = 
 > \begin{cases}
@@ -58,14 +61,15 @@ Sử dụng các phương trình thu được từ các điều kiện KKT, chú
 > = \max\{0, 1/\nu^\star - \alpha_i \}, \quad i = 1, \dots, n.
 > $$
 
-Cũng vậy, theo điều kiện $$1^T x^\star = 1$$, $$x_i^\star, i = 1, \dots, n$$ có tổng bằng 1.
+Theo ràng buộc $$1^T x^\star = 1$$, tổng các thành phần $$x_i^\star$$ ($$i = 1, \dots, n$$) bằng $$1$$:
+
 > $$
 > \sum_{i=1}^n \max\{0, 1/\nu^\star - \alpha_i \} = 1.
 > $$
 
-Vế trái của phương trình là một hàm tuyến tính từng khoảng tăng của $$1/\nu^\star$$, vì vậy phương trình này có một nghiệm duy nhất cho $$\alpha_i$$ cố định.
+Vế trái là một hàm tuyến tính từng khúc và tăng theo $$1/\nu^\star$$, nên với các giá trị $$\alpha_i$$ cố định, phương trình trên có nghiệm duy nhất cho $$1/\nu^\star$$.
 
-Phương pháp giải này được gọi là water-filling (đổ nước). Khi $$\alpha_i$$ là mức độ nền cho vùng $$i$$, bài toán này có thể được nghĩ như việc đổ nước vào mỗi vùng sao cho mực nước trở thành $$1/\nu^\star$$ như được hiển thị trong hình dưới đây. Chúng ta đổ nước cho đến khi tổng lượng nước trở thành 1.
+Phương pháp giải này được gọi là **water-filling (đổ nước)**. Nếu xem $$\alpha_i$$ là độ cao đáy của ngăn thứ $$i$$, bài toán tương đương với việc đổ nước vào các ngăn cho đến khi mực nước chung đạt mức $$1/\nu^\star$$ và tổng lượng nước đổ vào bằng $$1$$, như minh họa trong hình dưới đây.
 
 <figure class="image" style="align: center;">
 <p align="center">

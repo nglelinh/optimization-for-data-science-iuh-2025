@@ -14,6 +14,6 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trong chương này, trước khi xem xét các tính chất của phương pháp Newton, chúng ta tìm hiểu về việc áp dụng phương pháp Newton vào các bài toán tìm nghiệm của các hàm mục tiêu.
+Trong mục này, trước khi khảo sát các tính chất của phương pháp Newton, chúng ta tìm hiểu cách áp dụng phương pháp này cho bài toán tìm nghiệm.
 
-Tiếp theo, chúng ta sẽ xem xét hai tính chất quan trọng của phương pháp Newton: Bất biến affine và Hội tụ cục bộ.
+Tiếp theo, chúng ta sẽ phân tích hai tính chất quan trọng của phương pháp Newton: tính bất biến affine và hội tụ cục bộ.

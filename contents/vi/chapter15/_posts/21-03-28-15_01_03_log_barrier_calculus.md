@@ -9,19 +9,21 @@ categories:
 lang: vi
 ---
 
-Gradient và Hessian của hàm chắn logarit như sau.
+Với hàm chắn logarit:
 >
 \begin{align}
 \phi(x) = - \sum_{i=1}^{m} \log(-h_i(x))
 \end{align}
 
-Gradient:
+gradient và ma trận Hessian của $$\phi(x)$$ lần lượt là:
+
+**Gradient:**
 >
 \begin{align}
 \nabla \phi(x) = - \sum_{i=1}^{m} \frac{1}{h_i(x)} \nabla h_i(x)
 \end{align}
 
-Hessian:
+**Hessian:**
 
 >
 \begin{align}
@@ -29,14 +31,15 @@ Hessian:
 \end{align}
 
 ## Ví dụ: $$\phi(x) = -\sum_{i=1}^{n} \log(x_i)$$
-Nếu tính gradient và Hessian cho hàm chắn $$\phi(x) = -\sum_{i=1}^{n} \log(x_i)$$, ta được kết quả sau.
+Xét hàm chắn cho ràng buộc không âm:
 >
 \begin{align}
 \phi(x) = -\sum_{i=1}^{n} \log(x_i)
 \end{align}
-Do đó, $$h_i(x) =  -x_i$$ và $$x_i \ge 0$$.
 
-Gradient:
+Ở đây, các ràng buộc bất đẳng thức là $$h_i(x) = -x_i \le 0$$ (tức $$x_i \ge 0$$), và miền xác định của hàm chắn $$\phi$$ là $$x_i > 0$$ với mọi $$i$$.
+
+**Gradient:**
 >
 $$
 \nabla \phi(x) = - 
@@ -47,7 +50,7 @@ $$
 \end{bmatrix}
  = -X^{-1} \mathbb{1}, \qquad X = \text{diag}(x)$$
  
-Hessian:
+**Hessian:**
 >
 $$
 \nabla^2 \phi(x) = 

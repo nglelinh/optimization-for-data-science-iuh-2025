@@ -9,14 +9,14 @@ categories:
 lang: vi
 ---
 
-## Vấn đề của Newton chiếu là gì?
-Khi $$h$$ là hàm chỉ thị $$h = I_C(x)$$ của một tập lồi $$C$$, bài toán trở thành
+## Vấn đề đặt ra với phương pháp Newton chiếu
+Khi $$h$$ là hàm chỉ thị $$h(x) = I_C(x)$$ của một tập lồi $$C$$, bài toán tổng hợp trở thành bài toán tối ưu có ràng buộc:
 
 >$$ \min_{x} \ g(x) \quad  \text{subject to}  \quad  x \in C$$
 
-Do đó, khi $$h(x) = I_C(x)$$, proximal gradient descent trở thành **projected gradient descent** (gradient descent chiếu). Nghĩa là projected gradient descent là một trường hợp đặc biệt của proximal gradient descent.
+Trong trường hợp này, proximal gradient descent suy biến chính xác thành **hạ gradient chiếu (projected gradient descent)** — tức projected gradient descent là một trường hợp đặc biệt của proximal gradient descent.
 
-Còn Newton proximal khi $$h(x) = I_C(x)$$ thì sao? Trong trường hợp này cập nhật là
+Tuy nhiên, điều tương tự không xảy ra với Newton proximal khi $$h(x) = I_C(x)$$. Khi đó, bài toán con của Newton proximal có dạng:
 
 > $$
 > \begin{align}
@@ -25,33 +25,32 @@ Còn Newton proximal khi $$h(x) = I_C(x)$$ thì sao? Trong trường hợp này 
 > \end{align}
 > $$
 
-Nếu $$H = I$$ thì đây là phép chiếu của $$x - \nabla g(x)$$ lên tập $$C$$, nhưng với $$H \neq I$$ tổng quát thì nó không phải là phép chiếu. (Nếu $$H = I$$ thì chuẩn $$H$$ là chuẩn $$l_2$$; phép chiếu đòi hỏi chuẩn $$l_2$$ thông thường chứ không phải chuẩn $$H$$.)
-Do đó, phương pháp Newton chiếu không phải là trường hợp đặc biệt của phương pháp Newton proximal.
+Chỉ khi $$H = I$$ biểu thức này mới là phép chiếu Euclid của $$x - \nabla g(x)$$ lên tập $$C$$; với ma trận $$H \neq I$$ tổng quát, đây là phép chiếu theo chuẩn $$H$$ (tức một bài toán quy hoạch bậc hai trên $$C$$) chứ không phải phép chiếu theo chuẩn $$\ell_2$$ thông thường. Vì vậy, phương pháp Newton chiếu không phải là trường hợp đặc biệt của phương pháp Newton proximal.
 
-## Newton chiếu cho ràng buộc hộp (box constraints)
-Trong trường hợp đặc biệt của ràng buộc hộp, có thể áp dụng Newton chiếu (Bertsekas, 1982; Kim et al., 2010; Schmidt et al., 2011).
+## Phương pháp Newton chiếu cho ràng buộc hộp (Box Constraints)
+Với trường hợp đặc biệt là ràng buộc hộp, có thể xây dựng thuật toán Newton chiếu hiệu quả (Bertsekas, 1982; Kim et al., 2010; Schmidt et al., 2011).
 
-Xét bài toán
+Xét bài toán:
 
 >$$ \min_{x} \ g(x) \quad  \text{subject to}  \quad  l \le x \le u $$
 
-Với điểm xuất phát $$x^{(0)}$$ và hằng số nhỏ $$\epsilon \gt 0$$, phương pháp Newton chiếu lặp lại các bước sau ($$k = 1, 2, 3, ...$$).
+Với điểm khởi tạo $$x^{(0)}$$ và hằng số nhỏ $$\epsilon \gt 0$$, thuật toán lặp các bước sau ($$k = 1, 2, 3, \dots$$):
 
-* Bước 1: Định nghĩa tập ràng buộc chặt (binding set).
+* **Bước 1:** Xác định tập chỉ số bị ràng buộc chặt (binding set):
 
 > \begin{align}
 B_{k-1} & = \\{ i : x_i^{(k-1)} \le l_i + \epsilon \quad \text{and} \quad  \nabla_i g(x^{(k-1)}) \gt 0 \\} \quad  \cup \quad 
 \\{ i : x_i^{(k-1)} \ge u_i - \epsilon  \quad \text{and} \quad  \nabla_i g(x^{(k-1)}) \lt 0 \\} 
 \end{align}
 
-Trong bước tối ưu, các biến này bị đẩy ra biên của hộp. Đẩy càng nhiều biến như vậy thì hàm mục tiêu càng giảm.
+Đây là các tọa độ đang nằm sát biên hộp và có hướng giảm $$-\nabla_i g$$ chỉ ra ngoài tập khả thi.
 
-* Bước 2: Định nghĩa tập tự do (free set) $$F_{k-1} = \left\{1,....,n \right\} \backslash B_{k-1}$$.
-* Bước 3: Tính nghịch đảo của ma trận con chính của Hessian trên các biến tự do.
+* **Bước 2:** Xác định tập biến tự do (free set) $$F_{k-1} = \left\{1, \dots, n \right\} \setminus B_{k-1}$$.
+* **Bước 3:** Tính nghịch đảo của khối ma trận con chính của Hessian trên tập biến tự do:
 
 >$$ S^{(k-1)} = [(\nabla^2 g(x^{(k-1)}))_{F_{k-1}}]^{-1}$$
 
-* Bước 4: Thực hiện bước Newton trên các biến tự do rồi chiếu.
+* **Bước 4:** Thực hiện bước Newton trên các biến tự do, bước gradient trên các biến bị ràng buộc chặt, rồi chiếu lên hộp:
 
 > $$
 > \begin{align}
@@ -62,20 +61,18 @@ Trong bước tối ưu, các biến này bị đẩy ra biên của hộp. Đ�
 > \end{align}
 > $$
 
-Ở đây $$P_{[l,u]}$$ là phép chiếu lên $$[l, u] = [l_1, u_1] \times \cdots \times [l_n, u_n]$$.
+trong đó $$P_{[l,u]}$$ là phép chiếu lên hình hộp $$[l, u] = [l_1, u_1] \times \cdots \times [l_n, u_n]$$.
 
-Trong biểu thức ma trận, bước Newton được thực hiện cho các biến tự do, còn với các biến chặt thì chỉ thực hiện bước gradient thông thường. Ngoài ra, phép chiếu là phép toán đơn giản: với mỗi tọa độ nằm ngoài hộp, ta chỉ cần đặt nó bằng $$l_i$$ hoặc $$u_i$$ thích hợp.
+Phép chiếu lên hộp rất đơn giản: với mỗi tọa độ vượt ra ngoài đoạn $$[l_i, u_i]$$, ta chỉ cần cắt về đúng biên $$l_i$$ hoặc $$u_i$$ tương ứng. Phương pháp này đặc biệt hiệu quả với bài toán có số chiều lớn mà đa số biến nằm sát biên, khiến tập biến tự do $$F_{k-1}$$ nhỏ và việc nghịch đảo Hessian trên $$F_{k-1}$$ có chi phí thấp.
 
-Phương pháp này phù hợp khi bài toán rất lớn (ví dụ số chiều cao) và hầu hết các biến ở gần biên, khiến tập tự do rất nhỏ.
+Một số bài toán tiêu biểu có dạng ràng buộc hộp:
 
-Những loại bài toán nào có ràng buộc hộp? Khá nhiều bài toán, chẳng hạn:
-
-*  Bình phương tối thiểu không âm (nonnegative least squares)
-*  Đối ngẫu của máy vector hỗ trợ (SVM dual)
-*  Đối ngẫu của graphical lasso
-*  Đối ngẫu của fused lasso (khử nhiễu total variation)
+* Bình phương tối thiểu không âm (nonnegative least squares)
+* Bài toán đối ngẫu của máy vector hỗ trợ (SVM dual)
+* Bài toán đối ngẫu của graphical lasso
+* Bài toán đối ngẫu của fused lasso (khử nhiễu biến phân toàn phần — total variation denoising)
 
 ## Tính chất hội tụ
-* Bertsekas (1982) chỉ ra rằng, dưới các giả thiết thích hợp, Newton chiếu xác định đúng các ràng buộc chặt sau một số hữu hạn vòng lặp. Từ đó nó trùng với phương pháp Newton trên các biến tự do.
-*  Bertsekas (1982) cũng chứng minh hội tụ siêu tuyến tính.
-*  Kim et al. (2010) và Schmidt et al. (2011) đề xuất các phương pháp quasi-Newton chiếu dùng cập nhật kiểu BFGS.
+* Bertsekas (1982) chứng minh rằng dưới các giả thiết thích hợp, phương pháp Newton chiếu nhận diện đúng tập ràng buộc chặt sau một số hữu hạn vòng lặp; từ thời điểm đó trở đi, thuật toán trùng với phương pháp Newton trên các biến tự do.
+* Bertsekas (1982) cũng chứng minh tốc độ hội tụ siêu tuyến tính (và bậc hai khi dùng Hessian chính xác).
+* Kim et al. (2010) và Schmidt et al. (2011) phát triển thêm các phương pháp quasi-Newton chiếu sử dụng cập nhật kiểu BFGS.

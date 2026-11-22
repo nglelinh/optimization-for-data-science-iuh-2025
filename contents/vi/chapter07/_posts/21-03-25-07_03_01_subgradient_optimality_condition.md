@@ -12,7 +12,7 @@ lesson_type: required
 
 ### Bổ đề
 
-Đối với bất kỳ hàm $$f$$ nào, điều kiện $$x^*$$ là một điểm cực tiểu của $$f$$ và điều kiện vector $$0$$ là một gradient dưới tại $$x^*$$ là tương đương:
+Với bất kỳ hàm $$f$$ nào, điều kiện $$x^*$$ là điểm cực tiểu toàn cục của $$f$$ tương đương với việc vector $$0$$ là một gradient dưới của $$f$$ tại $$x^*$$:
 
 > $$
 \begin{equation}
@@ -31,5 +31,4 @@ $$
 \end{align}
 $$
 
-Lưu ý rằng tính lồi của $$f$$ không được sử dụng trong chứng minh này, nên điều kiện tối ưu này áp dụng ngay cả cho các hàm không lồi.
-
+Lưu ý rằng chứng minh trên không sử dụng giả thiết lồi của $$f$$, vì vậy điều kiện tối ưu này đúng ngay cả với các hàm không lồi.

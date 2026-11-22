@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-Trong phần này, chúng ta phân tích sự hội tụ của Gradient Descent. Chúng ta sẽ xem xét các cận sai số cho sự hội tụ trong trường hợp kích thước bước cố định và trong trường hợp tìm kiếm lùi. Ngoài ra, chúng ta sẽ phân tích các cận sai số khi điều kiện lồi mạnh được thỏa mãn."
+Trong phần này, chúng ta sẽ phân tích tốc độ hội tụ của thuật toán Gradient Descent. Cụ thể, ta sẽ xem xét các cận sai số trong trường hợp dùng kích thước bước cố định, trường hợp dùng tìm kiếm đường lùi (backtracking line search), và trường hợp hàm mục tiêu thỏa mãn điều kiện lồi mạnh.

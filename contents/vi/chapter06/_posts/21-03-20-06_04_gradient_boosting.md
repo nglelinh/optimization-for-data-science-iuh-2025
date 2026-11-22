@@ -11,28 +11,31 @@ lang: vi
 
 # Gradient boosting
 
-**Gradient boosting** là một phương pháp sử dụng gradient descent để tạo ra các cây một cách tuần tự, đồng thời bù đắp cho các lỗi của các cây trước đó khi cố gắng dự đoán kết quả với một mô hình ensemble bao gồm nhiều cây. **Gradient Boosting** có thể được sử dụng cho cả hồi quy và phân lớp.
+**Gradient boosting** là phương pháp học tập hợp (ensemble) sử dụng ý tưởng gradient descent để xây dựng các cây quyết định theo trình tự nối tiếp, trong đó mỗi cây mới học cách bù đắp sai số còn lại của các cây trước đó. Phương pháp này có thể áp dụng cho cả bài toán hồi quy và phân lớp.
 
-* Để biết thêm thông tin chi tiết, tham khảo blog [Gradient Boosting from scratch](https://medium.com/mlreview/gradient-boosting-from-scratch-1e317ae4587d)
+* Tham khảo thêm: [Gradient Boosting from scratch](https://medium.com/mlreview/gradient-boosting-from-scratch-1e317ae4587d)
 
+### [Tham khảo] Thuật toán Functional Gradient Descent
 
-### [Tham khảo] Thuật toán functional gradient descent
-**Gradient boosting** được giới thiệu như một thuật toán functional gradient descent bởi Llew Mason, Jonathan Baxter, Peter Bartlett và Marcus Frean. Thuật toán functional gradient descent tối ưu hóa hàm mất mát trên không gian hàm bằng cách liên tục lựa chọn các hàm có hướng âm của gradient, do đó thực hiện gradient descent.
+**Gradient boosting** được Llew Mason, Jonathan Baxter, Peter Bartlett và Marcus Frean diễn giải như một thuật toán *functional gradient descent* (hạ gradient trong không gian hàm). Thuật toán này cực tiểu hóa hàm mất mát trực tiếp trên không gian hàm bằng cách liên tiếp bổ sung các hàm có hướng xấp xỉ hướng ngược chiều gradient.
 
-* Để biết thêm thông tin chi tiết, tham khảo [Gradient Boosting](https://en.wikipedia.org/wiki/Gradient_boosting)
+* Tham khảo thêm: [Gradient Boosting](https://en.wikipedia.org/wiki/Gradient_boosting)
 
-### [Tham khảo] Boosting vs Bagging
-**Boosting** là một kỹ thuật ensemble tạo ra các weak learner một cách tuần tự để dự đoán kết quả. Learner giai đoạn tiếp theo học từ dữ liệu mà learner giai đoạn trước đó đã dự đoán sai, và kết quả của các learner được tạo ra tuần tự được kết hợp để tạo ra kết quả cuối cùng.
+### [Tham khảo] Boosting và Bagging
 
-**Bagging** là một kỹ thuật ensemble tạo ra các weak learner độc lập với nhau để dự đoán kết quả. Do đó, mỗi learner chạy song song và kết quả của chúng được kết hợp để tạo ra kết quả cuối cùng.
+**Boosting** là kỹ thuật học tập hợp xây dựng các mô hình yếu (weak learner) một cách tuần tự: mỗi mô hình ở giai đoạn sau tập trung khắc phục sai số mà các mô hình trước đó gây ra, rồi kết hợp tất cả thành dự đoán cuối cùng.
 
-* Để biết thêm thông tin chi tiết, tham khảo blog [What is the difference between Bagging and Boosting?](https://quantdare.com/what-is-the-difference-between-bagging-and-boosting/)
-## Gradient Boosting
-Hãy xem xét nền tảng về cách **Gradient Boosting** được phát triển.
+**Bagging** là kỹ thuật học tập hợp huấn luyện các mô hình yếu một cách độc lập và song song trên các tập mẫu con khác nhau, sau đó tổng hợp kết quả của chúng.
 
-Giả sử có một mô hình ensemble bao gồm các cây được sử dụng cho phân lớp. Mô hình này sẽ muốn dự đoán kết quả sao cho tối thiểu hóa lỗi với các giá trị quan sát được. Gọi các giá trị quan sát được là $$y_i$$, $$i=1,\dots,n$$, dữ liệu đầu vào là $$x_i, i=1,\dots,n$$, và các giá trị dự đoán là $$u_i$$, $$i=1,\dots,n$$.
+* Tham khảo thêm: [What is the difference between Bagging and Boosting?](https://quantdare.com/what-is-the-difference-between-bagging-and-boosting/)
 
-Như được hiển thị trong hình dưới đây, mỗi cây thuộc ensemble nhận $$x_i \in R^p$$ làm đầu vào và đưa ra kết quả theo các điều kiện phân nhánh trong các nút của cây.
+## Ý tưởng của Gradient Boosting
+
+Hãy xem xét cách bài toán **Gradient Boosting** được hình thành.
+
+Giả sử ta có một mô hình tập hợp gồm nhiều cây quyết định nhằm dự đoán đầu ra sao cho cực tiểu hóa sai số so với các giá trị quan sát được. Ký hiệu các giá trị thực là $$y_i$$, dữ liệu đầu vào là $$x_i$$, và giá trị dự đoán là $$u_i$$ với $$i=1,\dots,n$$.
+
+Như minh họa trong hình dưới đây, mỗi cây trong tập hợp nhận đầu vào $$x_i \in \mathbb{R}^p$$ và trả về giá trị dự đoán theo các điều kiện phân nhánh tại các nút của cây.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -41,53 +44,49 @@ Như được hiển thị trong hình dưới đây, mỗi cây thuộc ensembl
 </p>
 </figure>
 
-Giá trị dự đoán $$u_i$$ của mô hình ensemble có thể được tính toán bằng tổng có trọng số của kết quả của mỗi cây. (Ở đây, $$T_j(x_i)$$ là kết quả được đưa ra bởi cây $$j$$ khi nó nhận $$x_i$$ làm đầu vào.)
+Giá trị dự đoán $$u_i$$ của mô hình tập hợp là tổng có trọng số đầu ra của các cây (trong đó $$T_j(x_i)$$ là đầu ra của cây thứ $$j$$ với đầu vào $$x_i$$):
 
 >
 $$ \begin{equation}
 u_i = \sum_{j=1}^M \beta_j T_j(x_i)
 \end{equation} $$
 
-Đối với hàm mất mát, nó có thể được định nghĩa là $$L=(y_i,u_i)=(y_i - u_i)^2$$ dưới dạng tổng bình phương sai số để tối thiểu hóa lỗi giữa các giá trị quan sát và dự đoán.
+Chẳng hạn, với hàm mất mát bình phương $$L(y_i, u_i) = (y_i - u_i)^2$$, bài toán tối ưu hóa là cực tiểu hóa tổng mất mát trên tập dữ liệu:
 >
 $$ \begin{equation}
 \min_{\beta} \sum_{i=1}^n L\left(y_i, \sum_{j=1}^M \beta_j T_j(x_i)\right)
 \end{equation} $$
 
-Thông thường, khi xây dựng cây trong các mô hình ensemble, nhiều cây nhỏ với độ sâu cố định được tạo ra. Điều này là bởi vì việc làm cho cây nhỏ hơn sử dụng ít bộ nhớ hơn và cho phép dự đoán nhanh hơn, và khi số lượng cây tăng lên, hiệu suất của ensemble cải thiện. Thông thường, độ sâu của cây được cố định ở mức 5 hoặc ít hơn.
+Trong thực tế, các mô hình tập hợp thường sử dụng nhiều cây nhỏ có độ sâu cố định (thường từ 5 trở xuống) để tiết kiệm bộ nhớ, tăng tốc độ dự đoán và cải thiện hiệu năng dần khi tăng số lượng cây.
 
-Do đó, trong bài toán này, các điều kiện nút được định nghĩa trong mỗi cây rất đa dạng và kết quả của rất nhiều cây được kết hợp tuyến tính, làm cho không gian cây khá lớn. Vì vậy, có thể nói rằng đây là một bài toán rất khó để tối ưu hóa.
+Tuy nhiên, do cấu trúc phân nhánh của từng cây rất đa dạng và số lượng cây kết hợp rất lớn, không gian tìm kiếm trở nên khổng lồ, khiến việc tối ưu trực tiếp trở nên rất khó khăn.
 
-Để giải quyết vấn đề này, bài toán tối ưu hóa phải được chuyển đổi thành một bài toán dễ hơn. Bài toán tối ưu hóa ban đầu là tìm $$M$$ trọng số $$\beta_j$$ để tối thiểu hóa hàm mất mát. Hãy nghĩ về bài toán này như một bài toán tối thiểu hóa $$\min_{u} f(u)$$ của hàm $$f(u)$$ đối với các giá trị dự đoán $$u$$. Nếu hàm $$f(u)$$ là hàm mất mát $$L(y,u)$$, thì việc tìm $$u$$ để tối thiểu hóa hàm mất mát có thể được coi là một bài toán được định nghĩa lại một cách dễ dàng. (Ở đây, $$n$$ là số lượng điểm dữ liệu.)
+Để giải quyết, ta chuyển bài toán sang một góc nhìn đơn giản hơn: thay vì tối ưu đồng thời $$M$$ trọng số $$\beta_j$$ và cấu trúc cây, hãy xem đây là bài toán cực tiểu hóa $$\min_{u} f(u)$$ theo vector dự đoán $$u \in \mathbb{R}^n$$ với $$f(u) = \sum_{i=1}^n L(y_i, u_i)$$.
 
-**Gradient boosting** đề cập đến kỹ thuật giải quyết bài toán tối thiểu hóa được định nghĩa lại $$\min_{u} f(u)$$ sử dụng gradient descent.
+**Gradient boosting** chính là kỹ thuật giải bài toán $$\min_{u} f(u)$$ này bằng thuật toán gradient descent trong không gian hàm.
 
 ## Thuật toán
-Thuật toán **Gradient boosting** thực hiện gradient descent theo cách sau để tìm ra nghiệm tối ưu $$u^*$$ của $$\min_u L(y, u)$$.
 
-1. Đặt giá trị ban đầu là kết quả của một cây tùy ý: $$u^{(0)}=T_0$$. Sau đó lặp lại các bước 2~4 sau đây.
+Thuật toán **Gradient boosting** thực hiện hạ gradient theo từng bước để tìm dự đoán tối ưu $$u^*$$ cho $$\min_u L(y, u)$$:
 
-2. Tính toán gradient âm cho $$u^{(k-1)}$$, là giá trị dự đoán gần nhất cho $$n$$ điểm dữ liệu.
+1. Khởi tạo dự đoán ban đầu bằng một cây tùy chọn $$u^{(0)} = T_0$$, sau đó lặp các bước 2–4 cho $$k = 1, \dots, M$$.
+
+2. Tính hướng ngược chiều gradient (pseudo-residual) tại dự đoán hiện tại $$u^{(k-1)}$$ cho $$n$$ điểm dữ liệu:
 >
 $$ \begin{equation}
-d_i = - \left . \left[ \frac{\partial L(y_i,u_i)}{\partial u_i} \right] \right|_{u_i = u_i^{(k-1)}}, i=1,\dots,n
+d_i = - \left . \left[ \frac{\partial L(y_i,u_i)}{\partial u_i} \right] \right|_{u_i = u_i^{(k-1)}}, \quad i=1,\dots,n
 \end{equation} $$
 
-3. Tìm cây $$T_k$$ có kết quả $$T(x_i)$$ giống nhất với các gradient $$d_i$$ cho $$n$$ điểm dữ liệu.
+3. Tìm cây quyết định $$T_k$$ khớp nhất với vector gradient âm $$d$$ theo nghĩa bình phương tối thiểu:
 >
 $$ \begin{equation}
-\min_{\text{trees } T} \sum_{i=1}^n (d_i-T(x_i))^2
+\min_{\text{trees } T} \sum_{i=1}^n (d_i - T(x_i))^2
 \end{equation} $$
 
-4. Tính toán kích thước bước $$a_k$$ và cập nhật các giá trị dự đoán sử dụng $$T_k$$ được tìm thấy ở trên.
+4. Chọn kích thước bước $$\alpha_k$$ và cập nhật giá trị dự đoán bằng cây $$T_k$$ vừa tìm được:
 >
-$$u^{(k)}=u^{(k-1)} + \alpha_k T_k$$
+$$u^{(k)} = u^{(k-1)} + \alpha_k T_k$$
 
-Thuật toán này tìm gradient $$d$$ đối với $$u$$ để tìm nghiệm tối ưu $$u^*$$ thông qua gradient descent, tìm $$T_k$$ gần nhất với $$d$$, và thay thế $$T_k$$ thay vì gradient trong phương trình cập nhật để tìm vị trí tiếp theo.
+Như vậy, ở mỗi vòng lặp, thuật toán tính hướng giảm $$d$$ theo $$u$$, xấp xỉ $$d$$ bằng một cây $$T_k$$, rồi dùng $$T_k$$ thay cho gradient trong bước cập nhật.
 
-Giá trị dự đoán cuối cùng $$u^*$$ thu được theo cách này có thể được thấy là giống hệt với tổng có trọng số của kết quả cây được định nghĩa trước đó. (Tức là, nếu chúng ta mở rộng phương trình cập nhật đệ quy $$u^{(k)}=u^{(k-1)} + \alpha_k T_k$$ trở lại $$k=0$$, chúng ta nhận được $$u^* = \sum_{k=1}^n \alpha_k T_k$$, có thể được biến thành dạng tổng có trọng số của kết quả cây.)
-
-
-
-
-
+Khi khai triển ngược công thức truy hồi $$u^{(k)} = u^{(k-1)} + \alpha_k T_k$$ về $$k = 0$$, dự đoán cuối cùng có dạng $$u^{(M)} = T_0 + \sum_{k=1}^M \alpha_k T_k$$, hoàn toàn khớp với dạng tổng có trọng số các cây quyết định đã định nghĩa ở trên.

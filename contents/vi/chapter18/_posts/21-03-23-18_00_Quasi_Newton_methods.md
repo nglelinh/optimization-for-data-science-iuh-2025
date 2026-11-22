@@ -9,21 +9,21 @@ categories:
 lang: vi
 ---
 
-Vào giữa những năm 1950, nhà vật lý W.C. Davidon, người đang làm việc tại Phòng thí nghiệm Quốc gia Argonne, đã giải quyết các bài toán tối ưu với yêu cầu tính toán lớn bằng phương pháp coordinate descent. Không may, do sự bất ổn của máy tính vào thời điểm đó, hệ thống thường xuyên bị sập trước khi các tính toán có thể được hoàn thành, và bực bội với điều này, Davidon quyết định tìm các phương pháp có thể cải thiện tốc độ tính toán. Điều này dẫn đến sự ra đời của thuật toán Quasi-Newton đầu tiên. Đây trở thành chất xúc tác cho sự tiến bộ đáng kể trong tối ưu phi tuyến, và sau đó, nhiều nghiên cứu tiếp theo về phương pháp này đã xuất hiện trong 20 năm tiếp theo.
+Vào giữa thập niên 1950, nhà vật lý W.C. Davidon khi làm việc tại Phòng thí nghiệm Quốc gia Argonne đã giải các bài toán tối ưu có khối lượng tính toán lớn bằng phương pháp hạ theo tọa độ (coordinate descent). Do máy tính thời đó thiếu ổn định và thường xuyên gặp sự cố trước khi phép tính hoàn tất, Davidon tìm cách tăng tốc độ hội tụ. Kết quả là thuật toán Quasi-Newton đầu tiên ra đời, mở ra bước tiến quan trọng cho tối ưu phi tuyến và kéo theo hàng loạt công trình nghiên cứu trong hai thập kỷ sau đó.
 
-Một cách trớ trêu, [nghiên cứu của Davidon](http://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf) không được công bố vào thời điểm đó và vẫn là một báo cáo kỹ thuật trong hơn 30 năm. Nó cuối cùng đã được xuất bản trong [số đầu tiên của SIAM Journal on Optimization](https://epubs.siam.org/toc/sjope8/1/1) vào năm 1991.
+Trớ trêu thay, [nghiên cứu của Davidon](http://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf) khi ấy không được chấp nhận đăng và chỉ lưu hành dưới dạng báo cáo kỹ thuật suốt hơn 30 năm, trước khi chính thức được xuất bản trong [số đầu tiên của SIAM Journal on Optimization](https://epubs.siam.org/toc/sjope8/1/1) vào năm 1991.
 
-Các phương pháp Quasi-Newton chỉ yêu cầu gradient của hàm mục tiêu tại mỗi vòng lặp. Điều này có gánh nặng tính toán ít hơn nhiều so với phương pháp Newton yêu cầu đạo hàm bậc hai, và hơn nữa còn cho thấy sự hội tụ siêu tuyến tính, khiến nó trở thành một phương pháp đủ hấp dẫn [14]. 
+Các phương pháp Quasi-Newton chỉ cần tính gradient của hàm mục tiêu ở mỗi vòng lặp. Nhờ đó, chi phí tính toán thấp hơn nhiều so với phương pháp Newton (vốn đòi hỏi đạo hàm bậc hai), đồng thời vẫn đạt tốc độ hội tụ siêu tuyến tính (superlinear convergence) [14].
 
-## Động lực cho phương pháp Quasi-Newton
+## Động lực của phương pháp Quasi-Newton
 
-Xét bài toán tối ưu trơn không ràng buộc sau:
+Xét bài toán tối ưu trơn không ràng buộc:
 > $$
 > \min_x \: f(x), \\\\
-> \text{trong đó } f \text{ khả vi hai lần, và } dom \; f = \mathbb{R}^n.
+> \text{trong đó } f \text{ khả vi hai lần, và } \operatorname{dom} f = \mathbb{R}^n.
 > $$
 
-Các phương pháp cập nhật cho x trong phương pháp Gradient descent và phương pháp Newton cho bài toán trên như sau:
+Công thức cập nhật $$x$$ của phương pháp hạ gradient (Gradient Descent) và phương pháp Newton cho bài toán trên lần lượt là:
 >**Phương pháp Gradient descent:**
 >$$
 >x^+ = x - t \nabla f(x)
@@ -34,28 +34,28 @@ Các phương pháp cập nhật cho x trong phương pháp Gradient descent và
 >x^+ = x - t \nabla^2 f(x)^{-1} \nabla f(x)
 >$$
 
-Phương pháp Newton có ưu điểm là cho thấy tốc độ hội tụ bậc hai ($$O(\log \log 1/ \epsilon)$$), nhưng có vấn đề với chi phí tính toán cao đáng kể trong hai quá trình sau: 
+Phương pháp Newton có ưu điểm là đạt tốc độ hội tụ bậc hai ($$O(\log \log (1/\epsilon))$$), nhưng gặp trở ngại lớn về chi phí tính toán ở hai bước sau:
 
-* Tính toán Hessian $$\nabla^2 f(x)$$: Việc tính toán và lưu trữ ma trận Hessian yêu cầu bộ nhớ $$O(n^2)$$. Đây không phải là hiệu suất phù hợp để xử lý các hàm có chiều cao. (tham khảo: [Ma trận Hessian](https://en.wikipedia.org/wiki/Hessian_matrix#Use_in_optimization) trên Wikipedia)
-* Giải phương trình $$\nabla^2 f(x) p = -\nabla f(x)$$: Để giải phương trình này, chúng ta phải tính ma trận nghịch đảo của Hessian $$\nabla^2 f(x)$$. (tham khảo: [Độ phức tạp tính toán của Đại số Ma trận](https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations#Matrix_algebra) trên Wikipedia)
+* **Tính và lưu trữ ma trận Hessian $$\nabla^2 f(x)$$:** Việc tính và lưu trữ Hessian đòi hỏi bộ nhớ $$O(n^2)$$, không phù hợp khi làm việc với các bài toán có số chiều lớn (tham khảo: [Ma trận Hessian](https://en.wikipedia.org/wiki/Hessian_matrix#Use_in_optimization) trên Wikipedia).
+* **Giải hệ phương trình $$\nabla^2 f(x) p = -\nabla f(x)$$:** Chi phí giải hệ tuyến tính (hoặc nghịch đảo Hessian) lên tới $$O(n^3)$$ ở mỗi bước (tham khảo: [Độ phức tạp tính toán của Đại số Ma trận](https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations#Matrix_algebra) trên Wikipedia).
 
-Các phương pháp Quasi-Newton sử dụng một xấp xỉ $$B$$ thay vì $$\nabla^2 f(x)$$.
+Phương pháp Quasi-Newton khắc phục điều này bằng cách dùng một ma trận xấp xỉ $$B$$ thay cho $$\nabla^2 f(x)$$:
 >**Phương pháp Quasi-Newton:**
 >$$
 >x^+ = x + tp \\\\
 >\text{trong đó } Bp = -\nabla f(x).
 >$$
 
-Ở đây, B nên dễ tính toán, và cũng nên dễ giải phương trình $$Bp = g$$. 
+Ở đây, ma trận $$B$$ cần dễ cập nhật và cho phép giải nhanh hệ phương trình $$Bp = g$$.
 
 ## Thuật toán Quasi-Newton
-Thuật toán Quasi-Newton như sau:
+Khung thuật toán Quasi-Newton tổng quát gồm các bước:
 
-* Chọn $$x^0$$ và $$B^0$$ ban đầu
-* Với $$k = 0, 1, \dots$$
-    * Giải $$B^k p^k = - \nabla f(x^k)$$
-    * Chọn $$t_k$$ và đặt $$x^{k+1} = x^{k} + t_k p^k$$
-    * Cập nhật $$B^k$$ thành $$B^{k+1}$$
-* Kết thúc
+* Chọn điểm khởi tạo $$x^0$$ và ma trận $$B^0$$ ban đầu.
+* Với $$k = 0, 1, \dots$$:
+    * Giải hệ $$B^k p^k = - \nabla f(x^k)$$.
+    * Chọn độ dài bước $$t_k$$ và đặt $$x^{k+1} = x^{k} + t_k p^k$$.
+    * Cập nhật $$B^k$$ thành $$B^{k+1}$$.
+* Kết thúc khi đạt điều kiện dừng.
 
-Một đặc điểm chính của phương pháp này là cập nhật $$B$$ để chúng ta có thể dần dần tiếp cận điểm tối ưu. Nghĩa là, phương pháp thu được bước tiếp theo $$B^+$$ từ $$B$$ sẽ là chủ đề thảo luận chính trong chương này. (**Lưu ý:** Để thuận tiện, chúng ta sẽ sử dụng hai ký hiệu $$B^{k+1}, B^k$$ và $$B^+, B$$ thay thế cho nhau.)
+Điểm cốt lõi của lớp phương pháp này là cách cập nhật $$B$$ qua từng vòng lặp để ngày càng xấp xỉ tốt hơn độ cong của hàm mục tiêu quanh nghiệm tối ưu. Cách xây dựng $$B^+$$ từ $$B$$ sẽ là nội dung trọng tâm xuyên suốt chương này. (**Lưu ý:** Để trình bày gọn gàng, chúng ta dùng song song hai cặp ký hiệu $$B^{k+1}, B^k$$ và $$B^+, B$$.)

@@ -9,21 +9,17 @@ categories:
 lang: vi
 ---
 
-## Gradient Lipschitz và tính lồi mạnh
-Giả sử $$f$$ là hàm lồi đóng. Khi đó tương đương sau đây đúng.
+## Tính đối ngẫu giữa gradient Lipschitz và tính lồi mạnh
+Giả sử $$f$$ là hàm lồi đóng. Khi đó, mối tương đương sau luôn đúng:
+> $$f \text{ lồi mạnh với tham số } d \Longleftrightarrow \nabla f^{\ast} \text{ liên tục Lipschitz với tham số } 1/d.$$
+
+### Chứng minh
+Ta chứng minh chiều "$$\Rightarrow$$". Nếu hàm $$g$$ lồi mạnh với tham số $$d$$ và đạt cực tiểu tại $$x$$ thì:
 >\begin{equation}
-\text{$$f$$ lồi mạnh với tham số $$d$$ $$\Longleftrightarrow \nabla f^{\ast}$$ Lipschitz với tham số $$1/d$$.} 
+g(y) \geq g(x) + \frac{d}{2}\lVert y-x \rVert_2^2, \quad \forall y
 \end{equation}
 
-### Chứng minh ###
-Ta chứng minh chiều "$$\Rightarrow$$". Nếu $$g$$ lồi mạnh với tham số $$d$$ và đạt cực tiểu tại $$x$$ thì
->\begin{equation}
-g(y) \geq g(x) + \frac{d}{2}\lVert y-x \rVert_2^2, \text{ với mọi } y
-\end{equation}
-
-Gọi $$x_u = \nabla f^{\ast}(u)$$ là điểm cực tiểu của $$g(x) = f(x) − u^T x$$, và $$x_v = \nabla f^{\ast}(v)$$ là điểm cực tiểu của $$g(x) = f(x) − v^T x$$.
-
-Khi đó bất đẳng thức trên cho ta hai bất đẳng thức sau.
+Gọi $$x_u = \nabla f^{\ast}(u)$$ là điểm cực tiểu của $$x \mapsto f(x) - u^T x$$, và $$x_v = \nabla f^{\ast}(v)$$ là điểm cực tiểu của $$x \mapsto f(x) - v^T x$$. Áp dụng bất đẳng thức trên cho hai hàm này, ta có:
 > $$
 > \begin{alignat}{1}
 > f(x_v) - u^Tx_v \geq f(x_u) - u^T x_u + \frac{d}{2} \lVert x_u - x_v \rVert_2^2 \\
@@ -31,12 +27,12 @@ Khi đó bất đẳng thức trên cho ta hai bất đẳng thức sau.
 > \end{alignat}
 > $$
 
-Cộng hai bất đẳng thức, ta được
+Cộng hai bất đẳng thức theo vế:
 >\begin{equation}
 f(x_v) - u^Tx_v + f(x_u) - v^Tx_u \geq f(x_u) - u^T x_u +  f(x_v) - v^T x_v + d \lVert x_u - x_v \rVert_2^2.  
 \end{equation}
 
-Sắp xếp lại và áp dụng bất đẳng thức Cauchy–Schwarz, ta được
+Rút gọn và áp dụng bất đẳng thức Cauchy–Schwarz:
 > $$
 > \begin{align}
 > d \lVert x_u - x_v \rVert_2^2 & \leq - u^Tx_v - v^Tx_u + u^T x_u + v^T x_v \\\\
@@ -45,16 +41,16 @@ Sắp xếp lại và áp dụng bất đẳng thức Cauchy–Schwarz, ta đư�
 > \end{align}
 > $$
 
-Do đó
+Chia hai vế cho $$d \lVert x_u - x_v \rVert_2$$ (khi $$x_u \neq x_v$$), ta thu được:
 
 > $$\lVert x_u - x_v \rVert_2 \leq \frac{1}{d} \lVert u-v \rVert_2$$
 
-điều này chứng tỏ $$\nabla f^{\ast}$$ Lipschitz với tham số $$1/d$$.
+chứng tỏ $$\nabla f^{\ast}$$ liên tục Lipschitz với hằng số $$1/d$$.
 
 ## Đảm bảo hội tụ
-Kết hợp kết quả này với phân tích của gradient descent, ta thu được các đảm bảo hội tụ sau cho hàm mục tiêu đối ngẫu.
+Kết hợp tính chất trên với kết quả hội tụ của gradient descent, ta thu được các đảm bảo hội tụ cho phương pháp tăng gradient đối ngẫu (dual gradient ascent):
 
-* Nếu $$f$$ lồi mạnh với tham số $$d$$ thì dual gradient ascent với kích thước bước $$t_k=d$$ ($$k=1,2,3, \dots$$) hội tụ với tốc độ $$O(1/\epsilon)$$.
-* Nếu $$f$$ lồi mạnh với tham số $$d$$ và $$\nabla f$$ Lipschitz với tham số $$L$$ thì dual gradient ascent với kích thước bước $$t_k=2/(1/d + 1/L)$$ ($$k=1,2,3, \dots$$) hội tụ với tốc độ $$O(\log(1/\epsilon))$$ (hội tụ tuyến tính).
+* Nếu $$f$$ lồi mạnh với tham số $$d$$, thì dual gradient ascent với độ dài bước $$t_k = d$$ ($$k = 1, 2, 3, \dots$$) hội tụ với tốc độ $$O(1/\epsilon)$$.
+* Nếu $$f$$ vừa lồi mạnh với tham số $$d$$ vừa có $$\nabla f$$ liên tục Lipschitz với tham số $$L$$, thì dual gradient ascent với độ dài bước $$t_k = 2/(1/d + 1/L)$$ ($$k = 1, 2, 3, \dots$$) hội tụ tuyến tính với tốc độ $$O(\log(1/\epsilon))$$.
 
-(Các kích thước bước này giả sử $$\lVert A \rVert_2 \le 1$$; nói chung gradient đối ngẫu Lipschitz với hằng số $$\lVert A \rVert_2^2 / d$$, nên các kích thước bước cần được nhân với $$1/\lVert A \rVert_2^2$$.)
+(Các công thức độ dài bước trên giả sử $$\lVert A \rVert_2 \le 1$$; tổng quát, gradient đối ngẫu liên tục Lipschitz với hằng số $$\lVert A \rVert_2^2 / d$$ nên độ dài bước cần được nhân thêm hệ số $$1/\lVert A \rVert_2^2$$.)

@@ -10,19 +10,20 @@ lang: vi
 lesson_type: required
 ---
 
-Bài toán tối ưu hóa là bài toán trong đó, trong số nhiều ứng viên có thể, chúng ta tìm kiếm nghiệm tối ưu (giá trị tối ưu) hoặc một giá trị gần với tối ưu.
+Bài toán tối ưu hóa là bài toán tìm nghiệm tốt nhất (nghiệm tối ưu) — hoặc một nghiệm đủ gần tối ưu — trong tập hợp các phương án khả dĩ.
 
-**Trong khoa học dữ liệu và học máy**, tối ưu hóa có mặt ở khắp mọi nơi:
-- **Huấn luyện mạng nơ-ron**: Tìm kiếm trọng số để giảm thiểu lỗi dự đoán
-- **Hồi quy tuyến tính**: Tìm đường thẳng khớp nhất để giảm thiểu bình phương sai số
-- **Phân cụm**: Tối ưu hóa tâm cụm để giảm thiểu phương sai trong cụm
-- **Lựa chọn đặc trưng**: Chọn tập con đặc trưng tốt nhất để tối đa hóa hiệu suất mô hình
-- **Điều chỉnh siêu tham số**: Tìm tỷ lệ học tối ưu, tham số chính quy, v.v.
+**Trong khoa học dữ liệu và học máy**, tối ưu hóa hiện diện ở hầu hết mọi tác vụ:
+- **Huấn luyện mạng nơ-ron**: tìm bộ trọng số làm cực tiểu sai số dự đoán.
+- **Hồi quy tuyến tính**: tìm siêu phẳng khớp nhất làm cực tiểu tổng bình phương sai số.
+- **Phân cụm**: tối ưu vị trí tâm cụm nhằm cực tiểu hóa phương sai trong từng cụm.
+- **Lựa chọn đặc trưng**: chọn tập con đặc trưng phù hợp nhất để tối đa hóa hiệu năng mô hình.
+- **Tinh chỉnh siêu tham số**: tìm tốc độ học, hệ số điều chuẩn và các siêu tham số tối ưu.
 
-Mỗi khi bạn huấn luyện một mô hình học máy, bạn đang giải một bài toán tối ưu hóa!
+Mỗi khi bạn huấn luyện một mô hình học máy, thực chất bạn đang giải một bài toán tối ưu hóa.
 
 ## Bài toán tối ưu hóa toán học
-Một bài toán tối ưu hóa toán học có thể được biểu diễn như sau:
+
+Một bài toán tối ưu hóa toán học có thể viết ở dạng tổng quát như sau:
 
 >$$\begin{align*} 
 >&\min_{x\in D}\ && f(x) \\
@@ -30,32 +31,32 @@ Một bài toán tối ưu hóa toán học có thể được biểu diễn nh�
 >&&& h_j(x) = 0,\ j = 1,\ ..., r
 >\end{align*}$$
 
-**Bài toán Tối ưu hóa Toán học ở dạng chuẩn**
+**Bài toán tối ưu hóa toán học ở dạng chuẩn**
 
-* $$x \in \mathbb{R}^n$$ là biến tối ưu hóa
-* $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ là hàm mục tiêu hoặc hàm chi phí
-* $$g_i: \mathbb{R}^n \rightarrow \mathbb{R}, i = 1, ..., m$$ là các hàm ràng buộc bất đẳng thức
-* $$h_j: \mathbb{R}^n \rightarrow \mathbb{R}, j = 1, ..., r$$ là các hàm ràng buộc đẳng thức
+* $$x \in \mathbb{R}^n$$ là biến tối ưu hóa (biến quyết định).
+* $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ là hàm mục tiêu (hoặc hàm chi phí).
+* $$g_i: \mathbb{R}^n \rightarrow \mathbb{R},\ i = 1, ..., m$$ là các hàm ràng buộc bất đẳng thức.
+* $$h_j: \mathbb{R}^n \rightarrow \mathbb{R},\ j = 1, ..., r$$ là các hàm ràng buộc đẳng thức.
 
-Vector $$x$$ mà tối thiểu hóa hàm mục tiêu $$f$$ trên miền khả thi (tập hợp tất cả các điểm thỏa mãn các ràng buộc) được ký hiệu là $$x^*$$ và được gọi là nghiệm tối ưu.
+Vector $$x$$ làm cực tiểu hàm mục tiêu $$f$$ trên miền khả thi (tập hợp tất cả các điểm thỏa mãn mọi ràng buộc) được ký hiệu là $$x^*$$ và gọi là **nghiệm tối ưu**.
 
-**Các ràng buộc có thể được phân loại thành hai loại:**
+**Các ràng buộc được chia thành hai loại:**
 
-1. Ràng buộc tường minh: Các ràng buộc được chỉ định trực tiếp trong bài toán tối ưu hóa. Trong dạng chuẩn ở trên, các ràng buộc được biểu diễn bởi các hàm $$g_i$$ và $$h_j$$ là tường minh. Nếu không có ràng buộc tường minh, bài toán được gọi là bài toán không ràng buộc.
-2. Ràng buộc ngầm: Các ràng buộc không được chỉ định trực tiếp, nhưng phát sinh từ giao của các miền của hàm mục tiêu và các hàm ràng buộc.
+1. **Ràng buộc tường minh:** Các ràng buộc được nêu trực tiếp trong bài toán. Trong dạng chuẩn ở trên, các điều kiện liên quan đến $$g_i$$ và $$h_j$$ là ràng buộc tường minh. Nếu không có ràng buộc tường minh nào, bài toán được gọi là bài toán không ràng buộc.
+2. **Ràng buộc ngầm:** Các ràng buộc không viết tường minh, nhưng phát sinh từ giao miền xác định của hàm mục tiêu và tất cả các hàm ràng buộc:
 
 $$D = dom(f) \cap \bigcap_{i=1}^m {\rm dom}(g_i) \cap \bigcap_{j=1}^r dom(h_j)$$<br/>
 
-**Ghi chú:** $$dom(f)$$ có nghĩa là miền của hàm $$f$$.
+**Ghi chú:** $$dom(f)$$ ký hiệu miền xác định của hàm $$f$$.
 
->**Ví dụ: ràng buộc ngầm ↔ ràng buộc tường minh**
+>**Ví dụ: Ràng buộc ngầm ↔ Ràng buộc tường minh**
 >
->Giả sử bài toán tối ưu hóa được cho như sau:
+>Xét bài toán tối ưu hóa sau:
 >
 >$$\begin{align*} \text{tối thiểu } & & \log(x) \end{align*}$$
 >
->Ở đây, miền của hàm mục tiêu $$\log(x)$$ là $$x > 0$$, nên $$x > 0$$ là một ràng buộc ngầm. Nếu chúng ta viết điều này dưới dạng bài toán tối ưu hóa với ràng buộc tường minh:
+>Ở đây, miền xác định của hàm mục tiêu $$\log(x)$$ là $$x > 0$$, nên $$x > 0$$ là một ràng buộc ngầm. Khi viết lại với ràng buộc tường minh, bài toán trở thành:
 >
 >$$\begin{align*} &\text{tối thiểu } && \log(x) \\ &\text{với điều kiện } &&x > 0 \end{align*}$$
 
-> **💡 Mẹo chuyên nghiệp**: Bắt đầu với các công thức lồi khi có thể - chúng dễ giải và hiểu hơn. Chỉ chuyển sang các mô hình phi lồi phức tạp khi các phương pháp đơn giản hơn không đáp ứng được yêu cầu của bạn.
+> **💡 Lưu ý thực hành**: Khi có thể, hãy bắt đầu với mô hình tối ưu hóa lồi vì chúng dễ phân tích và giải chính xác hơn. Chỉ nên chuyển sang các mô hình không lồi phức tạp hơn khi mô hình lồi không đáp ứng được yêu cầu bài toán.

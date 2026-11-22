@@ -15,6 +15,6 @@ MathJax.Hub.Config({
 });
 </script>
 
-Ở chương trước, chúng ta đã tìm hiểu cách giải **bài toán trơn có ràng buộc đẳng thức** bằng phương pháp Newton. Trong chương này, chúng ta sẽ xem xét các phương pháp giải **bài toán trơn có cả ràng buộc bất đẳng thức và đẳng thức**.
+Ở chương trước, chúng ta đã tìm hiểu cách giải **bài toán tối ưu trơn có ràng buộc đẳng thức** bằng phương pháp Newton. Trong chương này, ta mở rộng sang **bài toán tối ưu trơn có cả ràng buộc bất đẳng thức lẫn ràng buộc đẳng thức**.
 
-Ý tưởng cơ bản là chuyển bài toán về bài toán trơn có ràng buộc đẳng thức và giải bằng phương pháp Newton. Cách tiếp cận này được gọi là **phương pháp điểm trong**, và trong chương này chúng ta sẽ tập trung vào một loại phương pháp điểm trong: **phương pháp chắn**.
+Ý tưởng cốt lõi là đưa bài toán về một chuỗi các bài toán trơn chỉ còn ràng buộc đẳng thức rồi giải bằng phương pháp Newton. Hướng tiếp cận này thuộc nhóm **phương pháp điểm trong (interior-point methods)**, mà đại diện tiêu biểu được xét trong chương này là **phương pháp chắn (barrier method)**.

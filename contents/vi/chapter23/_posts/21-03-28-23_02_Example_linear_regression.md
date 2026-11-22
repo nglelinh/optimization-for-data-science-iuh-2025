@@ -9,13 +9,12 @@ categories:
 lang: vi
 ---
 
-Hãy định nghĩa bài toán hồi quy tuyến tính như sau.
+Xét bài toán hồi quy tuyến tính:
 
 > $$\min_{\beta} \frac{1}{2} \| y - X\beta \|_2^2,$$
 > $$\text{với } y \in \mathbb{R}^n \text{ và } X \in \mathbb{R}^{n \times p} \text{ có các cột } X_1, \dots, X_p.$$
 
-Khi các $$\beta_j,\: j \neq i$$ là giá trị cố định, hãy tìm $$\beta_i$$ cực tiểu hóa hàm mục tiêu đã cho.
-($$-i$$ nghĩa là các thành phần còn lại trừ $$i$$. Với $$X$$ thì đó là các cột còn lại trừ cột thứ $$i$$.)
+Giữ cố định tất cả các thành phần $$\beta_j$$ ($$j \neq i$$), ta tìm $$\beta_i$$ cực tiểu hóa hàm mục tiêu (ký hiệu $$-i$$ chỉ tập các thành phần còn lại trừ $$i$$; tương ứng $$X_{-i}$$ là ma trận gồm các cột của $$X$$ trừ cột thứ $$i$$):
 
 $$\begin{align}
 0 &= \nabla_i f(\beta)\\\\
@@ -25,11 +24,11 @@ $$\begin{align}
 &\beta_i = \frac{X_i^T (y - X_{-i} \beta_{-i})}{X_i^T X_i}
 \end{align}$$
 
-Với coordinate descent, ta lặp lại và cập nhật $$\beta_i$$ với $$i=1,2,\dots,p,1,2,\dots$$.
+Thuật toán coordinate descent lặp lại việc cập nhật $$\beta_i$$ theo công thức trên với $$i = 1, 2, \dots, p, 1, 2, \dots$$.
 
-## Thí nghiệm: so sánh tốc độ hội tụ - GD, AGD và CD
+## Thí nghiệm: so sánh tốc độ hội tụ giữa GD, AGD và CD
 
-Đồ thị dưới đây cho thấy tốc độ hội tụ của coordinate descent, gradient descent và accelerated gradient descent cho bài toán hồi quy tuyến tính với $$n=100, p=20$$. (Giá trị k trên trục hoành biểu diễn một bước (GD, AGD) hoặc một chu trình (CD).)
+Đồ thị dưới đây so sánh tốc độ hội tụ của coordinate descent (CD), gradient descent (GD) và accelerated gradient descent (AGD) trên bài toán hồi quy tuyến tính với $$n=100, p=20$$. Trên trục hoành, giá trị $$k$$ biểu diễn một bước lặp (đối với GD, AGD) hoặc một chu trình duyệt đủ $$p$$ tọa độ (đối với CD).
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -39,14 +38,14 @@ Với coordinate descent, ta lặp lại và cập nhật $$\beta_i$$ với $$i=
 </figure>
 <br/>
 
-Theo các kết quả trên, coordinate descent cho tốc độ hội tụ tốt hơn đáng kể so với AGD, vốn tối ưu trong các phương pháp bậc nhất. Vì sao hiện tượng này có thể xảy ra? Kết luận là coordinate descent có thể đạt hiệu năng vượt xa AGD vì nó dùng nhiều thông tin hơn các phương pháp bậc nhất. Đó là vì coordinate descent, ở mỗi bước trong một chu trình, dùng thông tin mới nhất vừa được cập nhật ở bước trước. (Nghĩa là CD không phải là phương pháp bậc nhất.)
+Kết quả cho thấy coordinate descent hội tụ nhanh hơn đáng kể so với AGD — vốn đạt tốc độ tối ưu trong lớp các phương pháp bậc nhất. Lý do là CD không thuộc lớp phương pháp bậc nhất thuần túy: ở mỗi bước con bên trong một chu trình, nó tận dụng ngay giá trị tọa độ vừa được cập nhật ở bước trước đó.
 
-### Q. Vậy so sánh một chu trình của CD với một bước của GD trong thí nghiệm trên có công bằng không?
+### Câu hỏi: So sánh một chu trình CD với một bước GD như trên có công bằng không?
 
-**A. Có.** Công thức cập nhật CD giới thiệu ở trên có thể được biến đổi để có độ phức tạp thời gian $$O(n)$$ mỗi bước. Khi đó, độ phức tạp thời gian của một chu trình CD là $$O(np)$$, bằng với độ phức tạp thời gian của một bước GD.
+**Trả lời: Có.** Công thức cập nhật CD có thể cài đặt với độ phức tạp $$O(n)$$ cho mỗi tọa độ, do đó một chu trình gồm $$p$$ tọa độ tốn $$O(np)$$ phép tính — tương đương chi phí một bước GD:
 
-* **Cập nhật gradient descent:** $$\beta \leftarrow \beta + tX^T(y-X\beta)$$, độ phức tạp thời gian của phép tính $$X\beta$$ là $$O(np)$$ flops.
-* **Cập nhật coordinate descent:** nếu giữ sẵn phần dư $$r = y - X\beta$$, thì $$\beta_i \leftarrow \beta_i + \frac{X_i^T r}{X_i^T X_i}$$ và sau đó cập nhật $$r \leftarrow r - X_i (\beta_i^{\text{new}} - \beta_i^{\text{old}})$$, mỗi bước tốn $$O(n)$$ flops.
+* **Cập nhật gradient descent:** $$\beta \leftarrow \beta + tX^T(y-X\beta)$$, tốn $$O(np)$$ flops để tính $$X\beta$$ và $$X^T r$$.
+* **Cập nhật coordinate descent:** duy trì sẵn vector phần dư $$r = y - X\beta$$; khi đó mỗi bước chỉ cần cập nhật $$\beta_i \leftarrow \beta_i + \frac{X_i^T r}{X_i^T X_i}$$ rồi cập nhật phần dư $$r \leftarrow r - X_i (\beta_i^{\text{new}} - \beta_i^{\text{old}})$$, tốn $$O(n)$$ flops mỗi tọa độ.
 
 ### Coordinate descent trong 18 giây
 
@@ -54,7 +53,7 @@ Theo các kết quả trên, coordinate descent cho tốc độ hội tụ tốt
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/coordinate-descent_vi.mp4"></video>
 </div>
 
-Coordinate descent cực tiểu hóa chính xác theo từng tọa độ một, vẽ nên đường bậc thang; các tọa độ tương quan làm các bậc thang trở nên nhỏ.
+Coordinate descent cực tiểu hóa chính xác theo từng trục tọa độ, tạo nên quỹ đạo dạng bậc thang; khi các biến có tương quan cao, kích thước mỗi bước đi sẽ thu hẹp lại.
 
 ### Tự tay thử: coordinate descent so với gradient descent
 

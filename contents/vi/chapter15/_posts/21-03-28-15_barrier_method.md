@@ -9,11 +9,11 @@ owner: "Minjoo Lee"
 lang: vi
 ---
 
-Trong chương này, chúng ta sẽ tìm hiểu một trong các phương pháp bậc hai, đó là **phương pháp chắn (Barrier Method)**.
+Trong chương này, chúng ta sẽ tìm hiểu **phương pháp chắn (Barrier Method)** — một phương pháp tối ưu bậc hai quan trọng.
 
-**Phương pháp chắn** là kỹ thuật giải **các bài toán trơn có ràng buộc bất đẳng thức và đẳng thức**, được xem là khó nhất trong các bài toán của phương pháp bậc hai.
+**Phương pháp chắn** được dùng để giải **các bài toán tối ưu trơn có cả ràng buộc bất đẳng thức và ràng buộc đẳng thức**, nhóm bài toán tổng quát và khó nhất trong khuôn khổ các phương pháp bậc hai.
 
-(Lưu ý: dùng gradient để giải bài toán tối ưu được gọi là phương pháp bậc nhất, còn dùng Hessian được gọi là phương pháp bậc hai.)
+(Nhắc lại: các phương pháp chỉ dùng gradient được gọi là phương pháp bậc nhất, còn các phương pháp dùng thêm ma trận Hessian được gọi là phương pháp bậc hai.)
 
 ## Tài liệu tham khảo và đọc thêm
 * S. Boyd and L. Vandenberghe (2004), "Convex optimization", Chapter 11

@@ -15,30 +15,32 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trong thống kê và học máy, chúng ta thường chuyển đổi giữa **dạng ràng buộc** và **dạng Lagrange**. Hãy định nghĩa dạng ràng buộc và dạng Lagrangian như sau.
+Trong thống kê và học máy, ta thường chuyển đổi qua lại giữa **dạng ràng buộc** và **dạng Lagrange**. Hai dạng bài toán này được định nghĩa như sau:
 
-### Dạng Ràng buộc ((C) sau đây)
+### Dạng ràng buộc (ký hiệu là (C))
 >$$ 
 >\min_x \: f(x) \quad \text{ với điều kiện } h(x) \le t,\\\\
 >\text{trong đó } t \in \mathbb{R} \text{ là tham số điều chỉnh.}
 >$$
 
-### Dạng Lagrange ((L) sau đây)
+### Dạng Lagrange (ký hiệu là (L))
 >$$ 
 >\min_x \: f(x) + \lambda \cdot h(x),\\\\
 >\text{trong đó } \lambda \ge 0 \text{ là tham số điều chỉnh.}
 >$$
 
-Khi $$f, h$$ là lồi, hãy xem xét các trường hợp mà hai bài toán cho cùng một nghiệm.
+Khi $$f$$ và $$h$$ đều là các hàm lồi, xét mối quan hệ tương đương về nghiệm giữa hai bài toán:
 
-1. **(C) đến (L):** Khi (C) là khả thi chặt chẽ (thỏa mãn điều kiện Slater) và thỏa mãn tính đối ngẫu mạnh, nếu tồn tại một nghiệm đối ngẫu $$\lambda^\star \ge 0$$ tối thiểu hóa hàm mục tiêu sau đây cho nghiệm $$x^\star$$ của (C), thì $$x^\star$$ cũng là nghiệm của (L). 
+1. **Từ (C) sang (L):** Nếu bài toán (C) khả thi chặt (thỏa mãn điều kiện Slater) nên có tính đối ngẫu mạnh, thì ứng với nghiệm $$x^\star$$ của (C), tồn tại nhân tử đối ngẫu $$\lambda^\star \ge 0$$ sao cho $$x^\star$$ cực tiểu hóa hàm mục tiêu
 
-$$f(x) + \lambda \cdot (h(x) - t)$$
+$$f(x) + \lambda^\star \cdot (h(x) - t),$$
+
+và do đó $$x^\star$$ cũng là nghiệm của (L) với $$\lambda = \lambda^\star$$.
    
-2. **(L) đến (C):** Nếu $$x^\star$$ là nghiệm của (L) và (C) với $$t = h(x^\star)$$ thỏa mãn các điều kiện KKT, thì $$x^\star$$ cũng là nghiệm của (C). Điều này là vì $$\lambda^\star, x^\star$$ thỏa mãn các điều kiện KKT của (L) cũng thỏa mãn các điều kiện KKT của (C) với $$t = h(x^\star)$$.
+2. **Từ (L) sang (C):** Nếu $$x^\star$$ là nghiệm của (L) với tham số $$\lambda^\star \ge 0$$, thì $$x^\star$$ cũng là nghiệm của (C) khi đặt $$t = h(x^\star)$$. Lý do là cặp $$(x^\star, \lambda^\star)$$ thỏa mãn các điều kiện KKT của (L) thì đồng thời cũng thỏa mãn toàn bộ các điều kiện KKT của (C) tại $$t = h(x^\star)$$.
 
 
->**$$\rightarrow$$ (L)의 KKT conditions:**
+>**$$\rightarrow$$ Điều kiện KKT của (L):**
 >
 > $$
 > \begin{align}
@@ -48,7 +50,7 @@ $$f(x) + \lambda \cdot (h(x) - t)$$
 > $$
 >
 >
->**$$\rightarrow$$ $$t = h(x^\star)$$인 (C)의 KKT conditions:**
+>**$$\rightarrow$$ Điều kiện KKT của (C) khi $$t = h(x^\star)$$:**
 >
 > $$
 > \begin{align}
@@ -59,7 +61,7 @@ $$f(x) + \lambda \cdot (h(x) - t)$$
 > $$
 
 
-Tóm lại, 1 và 2 lần lượt cho thấy các mối quan hệ sau.
+Tóm lại, hai chiều suy luận ở mục 1 và mục 2 cho thấy mối liên hệ sau giữa tập nghiệm của (C) và (L):
 
 
 <figure class="image" style="align: center;">
@@ -70,8 +72,8 @@ Tóm lại, 1 và 2 lần lượt cho thấy các mối quan hệ sau.
 </figure>
 
 
-Vậy, trong những hoàn cảnh nào (C) và (L) thể hiện sự tương đương hoàn hảo?<br/>
-Ví dụ, khi $$h(x) \ge 0$$ (như chuẩn), $$t = 0$$, và $$\lambda = \infty$$, sự tương đương hoàn hảo được thể hiện. Do các điều kiện đã cho, ràng buộc trong (C) trở thành $$h(x) = 0$$, và bằng cách đặt $$\lambda$$ thành $$\infty$$, (L) cũng áp đặt cùng một ràng buộc ($$h(x) = 0$$). 
+Vậy khi nào (C) và (L) tương đương hoàn toàn ngay cả tại biên?<br/>
+Chẳng hạn, khi $$h(x) \ge 0$$ (như hàm chuẩn), $$t = 0$$ và $$\lambda = \infty$$, hai dạng tương đương hoàn toàn. Với $$t = 0$$ và $$h(x) \ge 0$$, ràng buộc trong (C) trở thành $$h(x) = 0$$; tương tự, khi đặt $$\lambda = \infty$$, bài toán (L) cũng áp đặt đúng ràng buộc $$h(x) = 0$$.
 
 ### Tự tay thử: dạng ràng buộc và dạng Lagrange
 
