@@ -11,15 +11,15 @@ redirect_from:
   - /contents/vi/chapter10/10_08_Dual_of_Dual_Property/
 ---
 
-Trong quy hoạch tuyến tính (Linear Programming), một tính chất toán học đẹp và quan trọng là: **đối ngẫu của bài toán đối ngẫu chính là bài toán gốc (primal)**. Tính chất này được gọi là **"involution" của đối ngẫu** hay **"định lý dual của dual"**.
+Trong quy hoạch tuyến tính (LP), một tính chất cơ bản của phép lấy đối ngẫu là: **đối ngẫu của bài toán đối ngẫu chính là bài toán gốc (primal)**. Tính chất này được gọi là **tính đối hợp (involution)** của phép đối ngẫu, hay thường gọi ngắn gọn là tính chất **dual của dual là primal**.
 
-Đây là một tính chất cơ bản thể hiện tính đối xứng hoàn hảo trong lý thuyết đối ngẫu của LP, và nó có ý nghĩa sâu sắc trong cả lý thuyết lẫn ứng dụng.
+Tính chất này thể hiện sự đối xứng giữa bài toán gốc và bài toán đối ngẫu trong LP, có vai trò quan trọng trong cả phân tích lý thuyết lẫn thiết kế thuật toán.
 
 ---
 
-## Nhắc Lại Dạng Chuẩn của Linear Program (Bài Toán Primal)**
+## Nhắc lại dạng chuẩn của bài toán quy hoạch tuyến tính gốc
 
-Một bài toán quy hoạch tuyến tính ở dạng primal thường được viết như sau:
+Xét một bài toán quy hoạch tuyến tính ở dạng gốc:
 
 $$
 \begin{align}
@@ -31,16 +31,16 @@ $$
 
 trong đó:
 
-- $$x \in \mathbb{R}^n$$ là vector biến quyết định
-- $$c \in \mathbb{R}^n$$ là vector hệ số hàm mục tiêu
-- $$A \in \mathbb{R}^{m \times n}$$ là ma trận ràng buộc
-- $$b \in \mathbb{R}^m$$ là vector vế phải
+- $$x \in \mathbb{R}^n$$ là vector biến quyết định,
+- $$c \in \mathbb{R}^n$$ là vector hệ số hàm mục tiêu,
+- $$A \in \mathbb{R}^{m \times n}$$ là ma trận ràng buộc,
+- $$b \in \mathbb{R}^m$$ là vector vế phải.
 
-**Lưu ý:** LP có thể được viết dưới nhiều dạng khác nhau (maximization, equality constraints, v.v.), nhưng chúng ta luôn có thể chuyển đổi về dạng chuẩn này mà không làm mất tính tổng quát.
+**Lưu ý:** Một bài toán LP có thể được viết dưới nhiều dạng khác nhau (cực đại hóa, ràng buộc đẳng thức, biến tự do...), nhưng luôn có thể quy về dạng trên mà không làm mất tính tổng quát.
 
-### **Ví dụ Minh Họa:**
+### Ví dụ minh họa
 
-Xét bài toán đơn giản:
+Xét bài toán:
 
 $$
 \begin{align}
@@ -52,17 +52,15 @@ $$
 $$
 
 Ở đây:
-- $c = \begin{bmatrix} 2 \\ 3 \end{bmatrix}$
-- $A = \begin{bmatrix} 1 & 1 \\ 2 & 1 \end{bmatrix}$
-- $b = \begin{bmatrix} 4 \\ 5 \end{bmatrix}$
+- $$c = \begin{bmatrix} 2 \\ 3 \end{bmatrix}$$
+- $$A = \begin{bmatrix} 1 & 1 \\ 2 & 1 \end{bmatrix}$$
+- $$b = \begin{bmatrix} 4 \\ 5 \end{bmatrix}$$
 
 ---
 
-## Xây Dựng Bài Toán Đối Ngẫu (Dual Problem)**
+## Xây dựng bài toán đối ngẫu
 
-Bài toán đối ngẫu được xây dựng từ bài toán primal để cung cấp các chặn và thông tin về tính tối ưu (ví dụ: phân tích độ nhạy, điều kiện tối ưu).
-
-Đối với bài toán primal ở trên, bài toán dual được định nghĩa như sau:
+Bài toán đối ngẫu được lập từ bài toán gốc nhằm cung cấp cận dưới cho giá trị tối ưu cũng như thông tin về độ nhạy và điều kiện tối ưu. Với bài toán gốc ở trên, bài toán đối ngẫu tương ứng là:
 
 $$
 \begin{align}
@@ -72,17 +70,17 @@ $$
 \end{align}
 $$
 
-trong đó $y \in \mathbb{R}^m$ là vector biến đối ngẫu.
+trong đó $$y \in \mathbb{R}^m$$ là vector biến đối ngẫu.
 
-### **Ý Nghĩa:**
+### Ý nghĩa
 
-- Bài toán dual cũng là một LP
-- Theo **đối ngẫu yếu** (weak duality): giá trị tối ưu của dual cung cấp chặn dưới cho giá trị tối ưu của primal
-- Nếu **đối ngẫu mạnh** (strong duality) thỏa mãn (luôn đúng với LP khả thi dưới điều kiện nhẹ như điều kiện Slater), thì giá trị tối ưu của hai bài toán bằng nhau
+- Bài toán đối ngẫu cũng là một bài toán quy hoạch tuyến tính.
+- Theo **đối ngẫu yếu** (weak duality), giá trị mục tiêu của mọi nghiệm đối ngẫu khả thi đều là cận dưới của giá trị tối ưu bài toán gốc.
+- Khi **đối ngẫu mạnh** (strong duality) thỏa mãn (luôn đúng với LP nếu ít nhất một trong hai bài toán khả thi), giá trị tối ưu của hai bài toán bằng nhau.
 
-### **Ví Dụ (Tiếp Theo):**
+### Ví dụ (tiếp theo)
 
-Dual của bài toán trên là:
+Bài toán đối ngẫu của ví dụ trên là:
 
 $$
 \begin{align}
@@ -95,13 +93,13 @@ $$
 
 ---
 
-## **Bước 3: Xây Dựng Dual của Dual**
+## Xây dựng đối ngẫu của bài toán đối ngẫu
 
-Bây giờ, chúng ta sẽ coi bài toán dual vừa xây dựng như một bài toán primal mới, và áp dụng quy tắc đối ngẫu lần nữa.
+Bây giờ, ta coi bài toán đối ngẫu vừa lập như một bài toán gốc mới và áp dụng quy tắc lấy đối ngẫu thêm một lần nữa.
 
-### **Bước 3.1: Chuyển Dual Về Dạng "Primal-Like"**
+### Bước 1: Đưa bài toán đối ngẫu về dạng cực tiểu hóa
 
-Để thuận tiện cho việc áp dụng quy tắc đối ngẫu, ta chuyển bài toán maximization thành minimization bằng cách đổi dấu hàm mục tiêu:
+Đổi dấu hàm mục tiêu và nhân hai vế ràng buộc với $$-1$$ để chuyển về dạng chuẩn cực tiểu hóa với ràng buộc $$\geq$$:
 
 $$
 \begin{align}
@@ -111,21 +109,18 @@ $$
 \end{align}
 $$
 
-### **Bước 3.2: Áp Dụng Quy Tắc Đối Ngẫu**
+### Bước 2: Áp dụng quy tắc lấy đối ngẫu
 
-Áp dụng quy tắc đối ngẫu cho bài toán này:
+Áp dụng quy tắc đối ngẫu cho bài toán vừa biến đổi:
 
-- Biến đối ngẫu mới: $z \in \mathbb{R}^n$ (có cùng số chiều với $x$ trong bài toán primal gốc)
-- Hàm mục tiêu mới: maximize $(-c)^T z$ (tức là $-\min c^T z$; sau khi đổi dấu lại, ta được minimize $c^T z$)
-- Ràng buộc mới: từ $-A^T y \geq -c$ và quy tắc đối ngẫu, ta có:
-  - Ma trận ràng buộc của dual mới là $(-A^T)^T = -A$
-  - Ràng buộc trở thành: $-A z \leq -b$
-  - Đơn giản hóa: $A z \geq b$
-- Điều kiện không âm: $z \geq 0$
+- Biến đối ngẫu mới: $$z \in \mathbb{R}^n$$ (cùng số chiều với $$x$$ trong bài toán gốc).
+- Hàm mục tiêu mới: cực đại hóa $$(-c)^T z$$, tương đương với cực tiểu hóa $$c^T z$$ sau khi đổi dấu lại.
+- Ràng buộc mới: ma trận ràng buộc là $$(-A^T)^T = -A$$, nên ràng buộc là $$-A z \leq -b$$, tương đương với $$A z \geq b$$.
+- Điều kiện dấu: $$z \geq 0$$.
 
-### **Bước 3.3: Kết Quả**
+### Bước 3: Kết quả
 
-Dual của dual là:
+Đối ngẫu của bài toán đối ngẫu là:
 
 $$
 \begin{align}
@@ -135,23 +130,24 @@ $$
 \end{align}
 $$
 
-**Đây chính xác là bài toán primal ban đầu!** (với $z$ chỉ là cách đặt tên khác cho $x$)
+Đây chính là bài toán gốc ban đầu (chỉ khác tên biến $$z$$ thay cho $$x$$).
 
-### **Ví Dụ (Tiếp Theo):**
+### Ví dụ (tiếp theo)
 
-Dual của dual cho bài toán ví dụ:
+Xuất phát từ bài toán đối ngẫu của ví dụ trên:
 
-Từ dual:
 $$
 \text{maximize } 4y_1 + 5y_2 \text{ s.t. } y_1 + 2y_2 \leq 2, \; y_1 + y_2 \leq 3, \; y_1, y_2 \geq 0
 $$
 
-Chuyển về dạng minimize:
+Đưa về dạng cực tiểu hóa:
+
 $$
 \text{minimize } -4y_1 - 5y_2 \text{ s.t. } -y_1 - 2y_2 \geq -2, \; -y_1 - y_2 \geq -3, \; y_1, y_2 \geq 0
 $$
 
-Dual của nó (với biến $z_1, z_2$) là bài toán maximize $-2z_1 - 3z_2$ (tương đương minimize $2z_1 + 3z_2$ sau khi đổi dấu hàm mục tiêu):
+Lấy đối ngẫu (với biến $$z_1, z_2$$), ta được bài toán cực đại hóa $$-2z_1 - 3z_2$$, tức cực tiểu hóa $$2z_1 + 3z_2$$:
+
 $$
 \begin{align}
 \text{minimize} \quad & 2z_1 + 3z_2 \\
@@ -161,72 +157,61 @@ $$
 \end{align}
 $$
 
-**Đúng là bài toán primal ban đầu!**
+Kết quả quay trở về đúng bài toán gốc ban đầu.
 
 ---
 
-## **Bước 4: Tại Sao Tính Chất Này Đúng? (Giải Thích Toán Học)**
+## Giải thích toán học
 
-Tính chất này xuất phát từ **tính đối xứng trong công thức Lagrangian** của LP.
+Tính chất đối ngẫu kép bắt nguồn từ tính đối xứng của hàm Lagrangian trong LP.
 
-### **4.1. Hàm Lagrangian**
+### 1. Hàm Lagrangian
 
-Hàm Lagrangian cho bài toán primal là:
+Hàm Lagrangian của bài toán gốc là:
 
 $$
 \mathcal{L}(x, y) = c^T x - y^T (A x - b),
 $$
 
-trong đó $y \geq 0$ là các nhân tử Lagrange cho các bất đẳng thức.
+trong đó $$y \geq 0$$ là vector nhân tử Lagrange cho các ràng buộc bất đẳng thức.
 
-### **4.2. Quan Hệ Primal-Dual**
+### 2. Quan hệ gốc – đối ngẫu
 
-- **Bài toán primal**: $\min_x \sup_{y \geq 0} \mathcal{L}(x, y)$
-- **Bài toán dual**: $\max_{y \geq 0} \inf_{x \geq 0} \mathcal{L}(x, y)$
+- **Bài toán gốc:** $$\min_{x \geq 0} \sup_{y \geq 0} \mathcal{L}(x, y)$$
+- **Bài toán đối ngẫu:** $$\max_{y \geq 0} \inf_{x \geq 0} \mathcal{L}(x, y)$$
 
-Định lý min-max (cho hàm convex-concave như Lagrangian tuyến tính này) có tính chất đối xứng:
+Với hàm song tuyến tính (lồi theo $$x$$, lõm theo $$y$$) như Lagrangian của LP, ta có quan hệ min-max:
 
 $$
 \min_x \max_y \mathcal{L}(x, y) = \max_y \min_x \mathcal{L}(x, y)
 $$
 
-Khi áp dụng đối ngẫu hai lần, ta đổi chỗ min và max hai lần, quay lại vị trí ban đầu.
+Mỗi lần lấy đối ngẫu tương ứng với một lần hoán đổi vai trò giữa cực tiểu hóa và cực đại hóa; áp dụng hai lần sẽ đưa bài toán về đúng vị trí ban đầu.
 
-### **4.3. Góc Nhìn Ma Trận**
+### 3. Góc nhìn ma trận
 
-Quá trình đối ngẫu hóa bao gồm:
-- Chuyển vị ma trận: $A \to A^T$
-- Đổi chiều bất đẳng thức: $\geq$ thành $\leq$ (hoặc ngược lại)
-- Hoán đổi vai trò của $b$ và $c$
+Phép lấy đối ngẫu thực hiện ba thao tác:
+- Chuyển vị ma trận ràng buộc: $$A \to A^T$$.
+- Đổi chiều bất đẳng thức: $$\geq$$ thành $$\leq$$ (và ngược lại).
+- Hoán đổi vai trò giữa $$b$$ và $$c$$.
 
-Khi áp dụng hai lần:
-- $(A^T)^T = A$ (chuyển vị hai lần trả về ma trận gốc)
-- Đổi chiều hai lần trả về chiều ban đầu
-- Hoán đổi $(b, c)$ hai lần trả về $(b, c)$
+Khi áp dụng liên tiếp hai lần, $$(A^T)^T = A$$, chiều bất đẳng thức quay về như cũ và cặp $$(b, c)$$ trở lại đúng thứ tự ban đầu.
 
-**Kết luận:** Cấu trúc toán học quay về ban đầu!
+### 4. Minh họa hình học
 
-### **4.4. Minh Họa Hình Học**
-
-Hãy tưởng tượng một phép biến đổi hình học (như phép đối xứng qua một mặt phẳng):
-- Áp dụng một lần: ta được ảnh đối xứng
-- Áp dụng hai lần: ta quay về vị trí ban đầu
-
-Tính chất "dual của dual là primal" tương tự như vậy - đây là một **involution** (phép biến đổi mà khi áp dụng hai lần sẽ cho kết quả ban đầu).
+Có thể hình dung phép lấy đối ngẫu tương tự như phép lấy đối xứng qua một mặt phẳng: áp dụng một lần cho ảnh đối xứng, áp dụng lần thứ hai quay về đúng điểm xuất phát. Trong toán học, phép biến đổi mà áp dụng hai lần trở về chính nó được gọi là một **phép đối hợp (involution)**.
 
 ---
 
-## **Ví Dụ Chi Tiết: Bài Toán Sản Xuất**
+## Ví dụ chi tiết: Bài toán sản xuất
 
-### **Bài Toán Primal (P)**
+### Bài toán gốc (P)
 
-Một công ty sản xuất hai sản phẩm A và B. Lợi nhuận từ mỗi đơn vị A là 3 triệu, từ B là 5 triệu. Có hai nguồn lực giới hạn:
-- Nguyên liệu: A cần 2 kg/đơn vị, B cần 1 kg/đơn vị, tổng cộng có 8 kg
-- Thời gian: A cần 1 giờ/đơn vị, B cần 2 giờ/đơn vị, tổng cộng có 10 giờ
+Một công ty sản xuất hai sản phẩm A và B với lợi nhuận lần lượt là 3 triệu và 5 triệu cho mỗi đơn vị, dưới hai ràng buộc nguồn lực:
+- Nguyên liệu: sản phẩm A cần 2 kg/đơn vị, sản phẩm B cần 1 kg/đơn vị; tổng nguồn cung là 8 kg.
+- Thời gian: sản phẩm A cần 1 giờ/đơn vị, sản phẩm B cần 2 giờ/đơn vị; tổng quỹ thời gian là 10 giờ.
 
-Tìm số lượng sản phẩm để maximize lợi nhuận.
-
-**Công thức:**
+Bài toán tìm số lượng sản phẩm $$x_1, x_2$$ để cực đại hóa lợi nhuận:
 
 $$
 \begin{align}
@@ -237,7 +222,7 @@ $$
 \end{align}
 $$
 
-Chuyển về dạng chuẩn (minimize):
+Chuyển về dạng chuẩn cực tiểu hóa:
 
 $$
 \begin{align}
@@ -248,9 +233,9 @@ $$
 \end{align}
 $$
 
-### **Bài Toán Dual (D)**
+### Bài toán đối ngẫu (D)
 
-Dual có ý nghĩa kinh tế: tìm giá bóng (shadow price) của các nguồn lực sao cho **minimize** tổng giá trị nguồn lực, nhưng vẫn đảm bảo giá trị nguồn lực dùng cho mỗi đơn vị sản phẩm không nhỏ hơn lợi nhuận của sản phẩm đó. Vì (P) là bài toán maximize với ràng buộc $$\leq$$, dual của nó là bài toán **minimize** với ràng buộc $$\geq$$:
+Về mặt kinh tế, bài toán đối ngẫu tìm **giá bóng (shadow price)** của từng nguồn lực sao cho tổng giá trị nguồn lực là nhỏ nhất, đồng thời tổng giá trị nguồn lực tiêu hao cho mỗi đơn vị sản phẩm không thấp hơn lợi nhuận của sản phẩm đó. Vì (P) là bài toán cực đại hóa với ràng buộc $$\leq$$, bài toán đối ngẫu (D) là bài toán cực tiểu hóa với ràng buộc $$\geq$$:
 
 $$
 \begin{align}
@@ -261,9 +246,9 @@ $$
 \end{align}
 $$
 
-### **Dual của Dual (DD)**
+### Đối ngẫu của bài toán đối ngẫu (DD)
 
-(D) đã ở dạng chuẩn "minimize, ràng buộc $$\geq$$, biến không âm", với hệ số mục tiêu $$(8, 10)$$, ma trận ràng buộc $$\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$ và vế phải $$(3, 5)$$. Áp dụng quy tắc đối ngẫu (biến mới $$z_1, z_2$$):
+Bài toán (D) đã ở dạng chuẩn (cực tiểu hóa, ràng buộc $$\geq$$, biến không âm) với vector mục tiêu $$(8, 10)$$, ma trận ràng buộc $$\begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$ và vế phải $$(3, 5)$$. Áp dụng quy tắc lấy đối ngẫu với biến mới $$z_1, z_2$$, ta thu được:
 
 $$
 \begin{align}
@@ -274,30 +259,25 @@ $$
 \end{align}
 $$
 
-**Đây chính xác là bài toán primal (P) ban đầu!**
+Kết quả trùng khớp hoàn toàn với bài toán gốc (P).
 
-**Kiểm tra bằng số:** (P) đạt tối ưu tại $$(x_1, x_2) = (2, 4)$$ với lợi nhuận $$3 \cdot 2 + 5 \cdot 4 = 26$$. (D) đạt tối ưu tại $$(y_1, y_2) = (\tfrac{1}{3}, \tfrac{7}{3})$$ với giá trị $$8 \cdot \tfrac{1}{3} + 10 \cdot \tfrac{7}{3} = 26$$. Hai giá trị bằng nhau, đúng như đối ngẫu mạnh.
-
----
-
-## **Mở Rộng: Tối Ưu Convex Tổng Quát**
-
-Tính chất "dual của dual là primal" đã được chứng minh cho Linear Programming. Vậy tính chất này có còn đúng với bài toán tối ưu convex tổng quát không?
-
-**Kết quả:** Tính chất này **có điều kiện** đối với convex optimization:
-- Cần thỏa mãn điều kiện Slater
-- Cần strong duality
-- **Không đúng** cho bài toán non-convex
-
-**Để tìm hiểu chi tiết**, xem **Chương 11, Bài 11-09**: "Dual của Dual trong Tối Ưu Convex Tổng Quát" - nơi chúng ta phân tích sâu về:
-- Điều kiện cần thiết cho tính chất này
-- So sánh LP vs Convex Optimization
-- Ví dụ khi dual của dual ≠ primal
-- Ứng dụng trong thiết kế thuật toán
+**Kiểm tra bằng số:** Bài toán (P) đạt tối ưu tại $$(x_1, x_2) = (2, 4)$$ với lợi nhuận $$3 \cdot 2 + 5 \cdot 4 = 26$$. Bài toán (D) đạt tối ưu tại $$(y_1, y_2) = (\tfrac{1}{3}, \tfrac{7}{3})$$ với giá trị mục tiêu $$8 \cdot \tfrac{1}{3} + 10 \cdot \tfrac{7}{3} = 26$$. Hai giá trị bằng nhau, phù hợp với tính đối ngẫu mạnh.
 
 ---
 
-## **Tài Liệu Tham Khảo**
+## Mở rộng: Tối ưu lồi tổng quát
+
+Tính chất đối ngẫu kép luôn đúng đối với quy hoạch tuyến tính. Tuy nhiên, trong tối ưu lồi tổng quát, tính chất này chỉ đúng khi thỏa mãn thêm các điều kiện nhất định:
+- Bài toán gốc là lồi (và đóng).
+- Thỏa mãn điều kiện Slater (hoặc một điều kiện chuẩn hóa ràng buộc tương đương).
+- Tính đối ngẫu mạnh được bảo đảm.
+- Tính chất này nói chung **không đúng** cho các bài toán không lồi.
+
+Để tìm hiểu chi tiết hơn, xem **Chương 11, Bài 11-07**: "Dual của Dual trong Tối Ưu Convex Tổng Quát", trong đó trình bày các điều kiện cần thiết, so sánh giữa LP và tối ưu lồi tổng quát, ví dụ khi đối ngẫu kép không quay về bài toán gốc và ứng dụng trong thiết kế thuật toán.
+
+---
+
+## Tài liệu tham khảo
 
 1. **Boyd, S., & Vandenberghe, L. (2004).** *Convex Optimization.* Cambridge University Press.
    - Chapter 5: Duality (đặc biệt Section 5.2 về LP duality)
@@ -310,4 +290,3 @@ Tính chất "dual của dual là primal" đã được chứng minh cho Linear 
 
 4. **Dantzig, G. B. (1963).** *Linear Programming and Extensions.* Princeton University Press.
    - Foundational work on LP duality
-

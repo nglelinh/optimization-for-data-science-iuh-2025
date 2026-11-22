@@ -11,13 +11,13 @@ lesson_type: optional
 ---
 
 
-Các Chương 26–27 huấn luyện mô hình bằng cách vi phân một hàm mất mát *đơn* theo trọng số. Một lượng đáng ngạc nhiên của học máy hiện đại là một cặp tối ưu **lồng nhau**: bản thân trọng số là nghiệm của bài toán trong phụ thuộc siêu tham số, và ta muốn vi phân mục tiêu *ngoài* xuyên qua nghiệm đó. Bài tùy chọn này là một khuôn lồng — tối ưu hai mức và **siêu gradient** (hypergradient) — ở độ sâu IUH. Nó không phải bài autodiff thứ hai (27-01–27-03 đã sở hữu JVP / VJP) và không phải khảo sát mọi thư viện HPO.
+Các Chương 26–27 xét bài toán huấn luyện mô hình bằng cách lấy đạo hàm một hàm mất mát *đơn* theo vector trọng số. Tuy nhiên, nhiều bài toán học máy hiện đại lại có cấu trúc tối ưu **lồng nhau (hai mức)**: bản thân trọng số $$w^\star(\lambda)$$ là nghiệm của một bài toán tối ưu bên trong phụ thuộc vào siêu tham số $$\lambda$$, và ta cần lấy đạo hàm của mục tiêu *bên ngoài* xuyên qua nghiệm đó. Bài đọc tùy chọn này giới thiệu khuôn khổ tối ưu hai mức (bilevel optimization) và khái niệm **siêu gradient (hypergradient)** — bổ sung ứng dụng cho AD ở các mục 27-01 đến 27-03.
 
-Bản đồ để giữ là Chen, Chen, Jiang, Ye, Wang, Yang, Poor và Wang, *A Whole New World, but How? A Survey of Bilevel Optimization and Applications*, [arXiv:2405.04996](https://arxiv.org/abs/2405.04996) (2024), cùng góc nhìn hàm ẩn cổ điển trong Bengio, *Gradient-Based Optimization of Hyperparameters* (2000) và xử lý học sâu hiện đại của Franceschi, Frasconi, Salzo, Grazzi và Pontil (ICML 2018).
+Tài liệu tham khảo chính gồm bài tổng quan của Chen, Chen, Jiang, Ye, Wang, Yang, Poor và Wang (*A Whole New World, but How? A Survey of Bilevel Optimization and Applications*, [arXiv:2405.04996](https://arxiv.org/abs/2405.04996), 2024), bài báo nền tảng về định lý hàm ẩn của Bengio (*Gradient-Based Optimization of Hyperparameters*, 2000) và cách tiếp cận cho học sâu của Franceschi, Frasconi, Salzo, Grazzi và Pontil (ICML 2018).
 
-## Một khuôn lồng
+## Khuôn khổ bài toán lồng nhau
 
-Một chương trình **hai mức** (bilevel) là
+Một bài toán tối ưu **hai mức (bilevel)** có dạng tổng quát:
 
 $$
 \begin{align}
@@ -26,29 +26,27 @@ $$
 \end{align}
 $$
 
-Bài toán **trong** là huấn luyện thường: $$L$$ là loss huấn luyện, $$w$$ là trọng số, $$\lambda$$ là siêu tham số *đi vào bài trong* (tốc độ học, weight-decay, bộ lọc dữ liệu trọng số kiểm, khởi tạo của vài bước trong). Mục tiêu **ngoài** $$F$$ thường là loss kiểm, một ràng buộc công bằng, hoặc một meta-task. Đối tượng $$\nabla_\lambda F(w^\star(\lambda),\lambda)$$ là **siêu gradient**.
+Bài toán **bên trong** tương ứng với quá trình huấn luyện thông thường: $$L$$ là hàm mất mát huấn luyện, $$w$$ là trọng số mô hình, còn $$\lambda$$ là siêu tham số tác động vào bài toán trong (tốc độ học, hệ số suy giảm trọng số, trọng số mẫu dữ liệu hoặc điểm khởi tạo cho vài bước cập nhật). Hàm mục tiêu **bên ngoài** $$F$$ thường là hàm mất mát trên tập kiểm định (validation loss), tiêu chí công bằng hoặc mất mát trên tác vụ mới. Đạo hàm toàn phần $$\nabla_\lambda F(w^\star(\lambda),\lambda)$$ được gọi là **siêu gradient (hypergradient)**.
 
-Đây là cùng khuôn dưới vài tên trong giáo trình:
+Cấu trúc này xuất hiện dưới nhiều tên gọi quen thuộc:
 
-- **Tối ưu siêu tham số (HPO).** $$\lambda$$ là weight decay hoặc kích thước bước; $$F$$ là loss kiểm. Lưới tìm kiếm bình thường không bao giờ vi phân xuyên $$w^\star$$; một phương pháp siêu gradient thì có.
-- **Meta-learning / MAML.** Mỗi “tác vụ” là vài bước SGD trong từ một khởi tạo $$\lambda$$ dùng chung; loss ngoài là hiệu năng sau những bước đó. Finn, Abbeel và Levine (ICML 2017) là thuật toán; toán học là bilevel tháo cuộn.
-- **Chưng cất dữ liệu / học cách tối ưu.** Bộ giải trong là vài bước GD; biến ngoài là dữ liệu tổng hợp, hoặc chính siêu tham số của bộ tối ưu.
-- **Lớp ẩn.** Một cân bằng $$w=\Phi(w,\lambda)$$ là điểm bất động trong; Deep Equilibrium Models vi phân xuyên nó bằng tích vector–Jacobian (họ hàng của 27-02 / 27-03).
+* **Tối ưu siêu tham số (HPO):** $$\lambda$$ là hệ số chính quy hóa hoặc tốc độ học; $$F$$ là hàm mất mát kiểm định. Tìm kiếm lưới (grid search) không lấy đạo hàm xuyên qua $$w^\star$$, còn phương pháp siêu gradient tối ưu trực tiếp theo $$\lambda$$.
+* **Học siêu cấp (Meta-learning / MAML):** Mỗi tác vụ thực hiện vài bước SGD bên trong xuất phát từ điểm khởi tạo chung $$\lambda$$; hàm mất mát ngoài đo hiệu năng sau các bước thích nghi đó (Finn, Abbeel & Levine, ICML 2017).
+* **Chưng cất dữ liệu và học bộ tối ưu:** Vòng trong chạy vài bước gradient descent; biến ngoài là tập dữ liệu tổng hợp hoặc chính tham số của bộ tối ưu.
+* **Các lớp ẩn (Implicit layers):** Nghiệm cân bằng $$w=\Phi(w,\lambda)$$ là một điểm bất động bên trong; mô hình Deep Equilibrium (DEQ) lấy đạo hàm xuyên qua điểm bất động này bằng tích vector–Jacobian.
 
-Nếu bạn vẽ được cặp lồng và gọi tên gradient nào là siêu gradient, bạn đọc được những bài đó mà không cần một giáo trình lý thuyết mới.
+## Hai cách tính siêu gradient
 
-## Hai cách lấy siêu gradient
+**Khai triển vòng lặp (Unrolling).** Thay nghiệm chính xác $$w^\star(\lambda)$$ bằng kết quả sau $$T$$ bước của một bộ giải khả vi, $$w_{t+1}=w_t-\eta\nabla_w L(w_t,\lambda)$$, rồi lan truyền ngược qua toàn bộ chuỗi $$T$$ bước đó. AD chiều nghịch (27-03) tính $$\nabla_\lambda F$$ với chi phí thời gian và bộ nhớ tăng tuyến tính theo $$T$$ (tương tự lan truyền ngược theo thời gian trong RNN). Với $$T$$ nhỏ (chẳng hạn bài toán học ít mẫu kiểu MAML), khai triển vòng lặp rất trực tiếp và hiệu quả.
 
-**Tháo cuộn (unrolling).** Thay $$w^\star(\lambda)$$ bằng $$T$$ bước của một bộ giải trong khả vi, $$w_{t+1}=w_t-\eta\nabla_w L(w_t,\lambda)$$, rồi lan truyền ngược qua băng. Chế độ nghịch (27-03) cho $$\nabla_\lambda F$$ với chi phí tuyến tính theo $$T$$ nhân chi phí một bước trong — đúng câu chuyện bộ nhớ của một RNN tháo dài. Tháo một bước ($$T=1$$) đã đủ để *cảm* quy tắc chuỗi; các phương pháp few-shot kiểu MAML sống ở $$T$$ nhỏ.
-
-**Vi phân ẩn.** Nếu bài trong trơn và Hessian $$H=\nabla_{ww}^2 L(w^\star,\lambda)$$ khả nghịch tại cực tiểu, định lý hàm ẩn nói
+**Vi phân ẩn (Implicit differentiation).** Nếu bài toán trong trơn và ma trận Hessian $$H=\nabla_{ww}^2 L(w^\star,\lambda)$$ khả nghịch tại nghiệm $$w^\star$$, định lý hàm ẩn cho:
 
 $$
 \frac{\mathrm{d}w^\star}{\mathrm{d}\lambda}
 =-H^{-1}\nabla_{w\lambda}^2 L(w^\star,\lambda),
 $$
 
-nên siêu gradient là
+suy ra siêu gradient có dạng:
 
 $$
 \nabla_\lambda F
@@ -56,20 +54,20 @@ $$
 -\bigl(\nabla_{w\lambda}^2 L\bigr)^\top H^{-1}\nabla_w F.
 $$
 
-Bạn không bao giờ lập $$H^{-1}$$: bạn giải $$H\,v=\nabla_w F$$ bằng gradient liên hợp (tích Hessian–vector qua AD thuận-trên-nghịch, chế độ hỗn hợp đã nêu ở 27-03) rồi co với đạo hàm riêng hỗn hợp. Lorraine, Vicol và Duvenaud (ICML 2020, *Optimizing Millions of Hyperparameters by Implicit Differentiation*) là khẩu hiệu HPO quy mô xây trên lần giải đó. Giả thiết khả nghịch là cái giá: tại cực tiểu trong thật của một $$L$$ lồi mạnh thì thành thật; trên mạng không lồi mà bạn dừng sớm, tháo cuộn thường là mô hình thành thật hơn về thứ bạn thực sự đã tính.
+Trong thực tế, ta không tạo tường minh ma trận nghịch đảo $$H^{-1}$$ mà giải hệ tuyến tính $$H\,v=\nabla_w F$$ bằng phương pháp gradient liên hợp (dùng tích Hessian–vector qua AD thuận-trên-nghịch ở mục 27-03), sau đó nhân với đạo hàm riêng hỗn hợp $$\nabla_{w\lambda}^2 L$$. Lorraine, Vicol và Duvenaud (ICML 2020, *Optimizing Millions of Hyperparameters by Implicit Differentiation*) áp dụng cách này cho bài toán HPO quy mô lớn. Giả thiết $$H$$ khả nghịch tại nghiệm tối ưu chính xác là điều kiện cần lưu ý: nó phù hợp với bài toán trong lồi mạnh giải đến hội tụ, còn với mạng nơ-ron không lồi thường dừng sớm sau ít bước, khai triển vòng lặp phản ánh trung thực hơn quy trình thực tế đã chạy.
 
-Vi phân ẩn xấp xỉ (CG cắt cụt, chuỗi Neumann) nằm giữa hai cách. Coi đó là bài seminar, không phải bộ núm bài tập thứ hai.
+Các kỹ thuật vi phân ẩn xấp xỉ (như gradient liên hợp cắt cụt hoặc chuỗi Neumann) nằm trung gian giữa hai cách tiếp cận trên.
 
 <div class="content-box insight-box">
-<strong>Khi nào tháo, khi nào nghịch.</strong>
-Vòng trong ngắn, không lồi, hoặc “thuật toán <em>chính là</em> mô hình” (MAML, bộ tối ưu được học): tháo cuộn.
-Vòng trong dài, bài trong lồi mạnh, nhiều siêu tham số (huấn luyện trọng số kiểm, kiến trúc với bộ giải trong lồi): ẩn / CG.
-Đừng bao giờ vi phân xuyên một lần tiền huấn luyện AdamW đầy đủ của mô hình ngôn ngữ bằng một trong hai đường — dùng proxy (fine-tune ngắn, đầu tuyến tính, tập con) hoặc đừng nhận là có siêu gradient.
+<strong>Khi nào dùng khai triển vòng lặp, khi nào dùng vi phân ẩn.</strong>
+Khi vòng trong ngắn, không lồi, hoặc bản thân thuật toán tối ưu là một phần của mô hình (MAML, học bộ tối ưu): dùng khai triển vòng lặp.
+Khi vòng trong dài, lồi mạnh và số lượng siêu tham số lớn: dùng vi phân ẩn kết hợp gradient liên hợp.
+Không nên vi phân xuyên qua toàn bộ quá trình tiền huấn luyện AdamW của một mô hình ngôn ngữ lớn bằng cả hai cách trên; hãy dùng bài toán đại diện nhẹ hơn (tinh chỉnh ngắn, lớp tuyến tính trên cùng hoặc tập con dữ liệu).
 </div>
 
-## Một tốc độ học tháo một bước
+## Ví dụ: siêu gradient theo tốc độ học sau một bước
 
-Ví dụ thành thật nhỏ nhất là bài trong toàn phương và bước vô hướng $$\lambda=\eta$$. Một bước gradient từ $$w_0$$ cho $$w_1(\eta)=w_0-\eta\nabla L(w_0)$$. Loss ngoài $$F(w_1)=\tfrac12\|w_1-w_{\mathrm{val}}\|_2^2$$ khi đó có siêu gradient sơ cấp $$\mathrm{d}F/\mathrm{d}\eta$$ theo quy tắc chuỗi — không cần thư viện.
+Ví dụ đơn giản nhất là bài toán trong dạng bậc hai với siêu tham số vô hướng là tốc độ học $$\lambda=\eta$$. Một bước gradient descent từ $$w_0$$ cho $$w_1(\eta)=w_0-\eta\nabla L(w_0)$$. Với hàm mất mát ngoài $$F(w_1)=\tfrac12\|w_1-w_{\mathrm{val}}\|_2^2$$, ta tính được siêu gradient $$\mathrm{d}F/\mathrm{d}\eta$$ trực tiếp bằng quy tắc dây chuyền:
 
 ```python
 import numpy as np
@@ -85,24 +83,24 @@ def one_step_hypergrad(A, b, w0, eta, w_val):
 A = np.diag([1.0, 10.0])
 b = np.array([1.0, 1.0])
 w0 = np.zeros(2)
-w_val = np.linalg.solve(A, b)          # giả bộ đích val là cực tiểu
+w_val = np.linalg.solve(A, b)          # lấy nghiệm tối ưu làm mục tiêu kiểm định
 w1, dF = one_step_hypergrad(A, b, w0, eta=0.05, w_val=w_val)
 print(w1, "siêu gradient dF/deta", dF)
 ```
 
-Siêu gradient âm nói “loss kiểm sẽ giảm nếu bạn *tăng* $$\eta$$.” Đó là toàn bộ thông điệp HPO, viết không cần tuner. AD chế độ nghịch (PyTorch hoặc JAX) làm cùng sổ sách khi $$T>1$$ hoặc khi $$L$$ là một mạng; nay bạn biết băng nào bạn đang nhờ nó phát.
+Giá trị siêu gradient âm cho biết hàm mất mát kiểm định sẽ giảm nếu ta *tăng* $$\eta$$. Khi $$T>1$$ hoặc khi $$L$$ là mạng nơ-ron, AD chiều nghịch (PyTorch hoặc JAX) tự động thực hiện đúng cùng phép tính quy tắc dây chuyền này dọc theo băng tính toán.
 
-Với cực tiểu trong *thật* của cùng toàn phương, vi phân ẩn lấy lại $$\mathrm{d}w^\star/\mathrm{d}\lambda$$ cho mọi siêu tham số đi vào $$A$$ hoặc $$b$$ (ridge $$\lambda$$ là lựa chọn lớp học thường: $$L(w,\lambda)=\tfrac12\|Xw-y\|_2^2+\frac{\lambda}{2}\|w\|_2^2$$, loss ngoài trên một phần kiểm). Hệ tuyến tính là $$(X^\top X+\lambda I)v=\nabla_w F$$ — một lần giải ridge bạn đã gặp ở Chương 05.
+Nếu xét nghiệm tối ưu *chính xác* của bài toán hồi quy ridge $$L(w,\lambda)=\tfrac12\|Xw-y\|_2^2+\frac{\lambda}{2}\|w\|_2^2$$ với hàm mất mát ngoài trên tập kiểm định, vi phân ẩn dẫn tới hệ tuyến tính $$(X^\top X+\lambda I)v=\nabla_w F$$ — chính là hệ phương trình tuyến tính quen thuộc của hồi quy ridge ở Chương 05.
 
-## Giáo trình này kỳ vọng gì
+## Mục tiêu cần nắm
 
-Bạn phải (i) viết được cặp lồng cho HPO và cho MAML một bước, (ii) nói vì sao chế độ nghịch trên vòng trong tháo *chính là* siêu gradient, (iii) viết công thức ẩn và gọi tên lần giải Hessian, và (iv) từ chối tháo một lần tiền huấn luyện LLM đầy đủ. AdamW của Chương 26 vẫn là *thuật toán* trong cho các mô hình ta thực sự huấn luyện; trang này là cách một loss kiểm nói lại với siêu tham số mà không cần lưới. Đọc thêm, không kiểm tra: Maclaurin, Duvenaud và Adams (2015) về đảo SGD cho HPO; Rajeswaran, Finn, Kakade và Levine (ICML 2019) về MAML ẩn; khảo sát Chen 2024 cho phân loại.
+Sau bài này, bạn cần: (i) viết được dạng tối ưu hai mức cho HPO và MAML một bước; (ii) giải thích được vì sao AD chiều nghịch trên vòng trong khai triển cho ra siêu gradient; (iii) viết được công thức vi phân ẩn và nhận diện hệ phương trình tuyến tính chứa Hessian; và (iv) nhận thức được giới hạn chi phí để không áp dụng khai triển cho quá trình tiền huấn luyện mô hình lớn. Tài liệu đọc thêm (không kiểm tra): Maclaurin, Duvenaud & Adams (2015) về đảo ngược SGD cho HPO; Rajeswaran, Finn, Kakade & Levine (ICML 2019) về MAML ẩn; khảo sát Chen và cộng sự (2024).
 
-**Bài tập 1.** Suy ra $$\mathrm{d}w_1/\mathrm{d}\eta=-\nabla L(w_0)$$ cho một bước GD và siêu gradient của $$F(w_1)=\tfrac12\|w_1-w_{\mathrm{val}}\|_2^2$$. Rồi cài hai bước ($$T=2$$) bằng tay và đối chiếu `torch.autograd` trên cùng toàn phương.
+**Bài tập 1.** Suy ra $$\mathrm{d}w_1/\mathrm{d}\eta=-\nabla L(w_0)$$ cho một bước GD và tính siêu gradient của $$F(w_1)=\tfrac12\|w_1-w_{\mathrm{val}}\|_2^2$$. Sau đó tự tính cho hai bước ($$T=2$$) và đối chiếu với `torch.autograd` trên cùng hàm bậc hai.
 
-**Bài tập 2.** Với ridge $$L(w,\lambda)=\tfrac12\|Xw-y\|_2^2+\frac{\lambda}{2}\|w\|_2^2$$ và loss ngoài trên tập kiểm, viết siêu gradient ẩn và tính nó bằng cách giải $$(X^\top X+\lambda I)v=\nabla_w F$$. So với vi phân *một* bước GD trên cùng $$L$$. Khi nào hai số lệch, và số nào khớp “tôi thực sự chạy $$T$$ bước”?
+**Bài tập 2.** Với bài toán hồi quy ridge $$L(w,\lambda)=\tfrac12\|Xw-y\|_2^2+\frac{\lambda}{2}\|w\|_2^2$$ và hàm mất mát ngoài trên tập kiểm định, hãy viết biểu thức siêu gradient ẩn và tính nó bằng cách giải $$(X^\top X+\lambda I)v=\nabla_w F$$. So sánh kết quả này với siêu gradient khai triển sau *một* bước GD: khi nào hai giá trị sai lệch, và giá trị nào phản ánh đúng quy trình chỉ chạy $$T$$ bước?
 
-**Câu hỏi.** AD chế độ hỗn hợp ở 27-03 tính tích Hessian–vector trong thời gian tương đương một gradient. Tích đó xuất hiện *đúng chỗ nào* trong siêu gradient ẩn — và vì sao đó là lý do Lorraine et al. có thể quảng cáo “hàng triệu siêu tham số”?
+**Câu hỏi.** AD chế độ hỗn hợp ở mục 27-03 tính tích Hessian–vector với chi phí tương đương một lượt tính gradient. Phép tính đó xuất hiện ở *vị trí nào* trong công thức siêu gradient ẩn, và vì sao nó cho phép Lorraine và cộng sự mở rộng lên hàng triệu siêu tham số?
 
 ## Nguồn
 

@@ -14,10 +14,11 @@ MathJax.Hub.Config({
     displayAlign: "center"
 });
 </script>
-Trước khi giới thiệu phương pháp chắn, trước hết hãy xem hàm chỉ thị có thể được xấp xỉ bằng hàm chắn như thế nào.
+
+Trước khi phát biểu phương pháp chắn, ta xem xét cách xấp xỉ hàm chỉ thị bằng hàm chắn trơn.
 
 ## Xấp xỉ hàm chỉ thị
-Trong hình dưới đây, bạn có thể thấy hàm chỉ thị và hàm chắn. Đường nét đứt là hàm chỉ thị $$I_C$$, còn các đường nét liền là hàm chắn $$\phi(x) = -1/t\log(-x)$$ với $$t = 0.5, 1, 2$$. Hàm chắn xấp xỉ hàm chỉ thị một cách trơn tru, và khi $$t=2$$ cho xấp xỉ tốt nhất.
+Hình dưới đây minh họa hàm chỉ thị và các hàm chắn tương ứng. Đường nét đứt là hàm chỉ thị $$I_C$$, còn các đường nét liền là hàm chắn $$\phi(x) = -1/t\log(-x)$$ ứng với $$t = 0.5, 1, 2$$. Hàm chắn xấp xỉ hàm chỉ thị một cách trơn tru, và khi $$t$$ tăng (chẳng hạn $$t = 2$$ trong hình), xấp xỉ càng sát hàm chỉ thị.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -26,24 +27,22 @@ Trong hình dưới đây, bạn có thể thấy hàm chỉ thị và hàm ch�
 </p>
 </figure>
 
-
 ## Hàm chắn logarit
-Giả sử $$h_1, \cdots , h_m : \mathbb{R}^n \to \mathbb{R}$$ là các hàm lồi và khả vi hai lần. Đối với tập $$ \{x : h_i(x) \lt 0, i = 1, \cdots , m \}$$, hàm sau được gọi là hàm chắn logarit.
+Giả sử $$h_1, \cdots , h_m : \mathbb{R}^n \to \mathbb{R}$$ là các hàm lồi và khả vi hai lần. Trên tập $$\{x : h_i(x) \lt 0, i = 1, \cdots , m \}$$, **hàm chắn logarit (logarithmic barrier function)** được định nghĩa là:
 
 >
 \begin{align}
 \phi(x) = - \sum_{i=1}^{m} \log(-h_i(x))
 \end{align}
 
-Ở đây, tập này được giả sử là phần trong của tập khả thi $$C$$ và khác rỗng.
+Tập xác định trên được giả sử là phần trong khác rỗng của tập khả thi $$C$$.
 
 ## Phương pháp chắn
-
-Sử dụng hàm chắn, bài toán ban đầu có thể được xấp xỉ như sau. Ở đây $$t\gt 0$$.
+Sử dụng hàm chắn logarit với tham số $$t \gt 0$$, bài toán tối ưu ban đầu được xấp xỉ bởi bài toán có ràng buộc đẳng thức sau:
 >
 $$\begin{align}
 &\min_{x}           && f(x) + \frac{1}{t} \phi(x) & \qquad      & \min_{x} && tf(x) + \phi(x) \\
 &\text{subject to } && Ax = b                     & \iff \qquad & \text{subject to } && Ax = b \\
 \end{align}$$
 
-Phương pháp giải bài toán được định nghĩa như vậy bằng phương pháp Newton được gọi là **phương pháp chắn (barrier method)**.
+Phương pháp giải bài toán xấp xỉ này bằng phương pháp Newton được gọi là **phương pháp chắn (barrier method)**.

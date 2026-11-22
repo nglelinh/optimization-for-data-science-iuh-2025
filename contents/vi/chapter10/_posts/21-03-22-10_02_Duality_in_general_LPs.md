@@ -16,11 +16,9 @@ MathJax.Hub.Config({
 });
 </script>
 
-Trong [10-01]({% multilang_post_url contents/chapter10/21-03-22-10_01_Lower_Bounds_in_Linear_Programs %}), chúng ta đã xem xét nguyên thủy và đối ngẫu của các bài toán LP với các biến một chiều. Trong 10-02, chúng ta muốn xem xét đối ngẫu cho LP ở dạng tổng quát.
+Trong bài [10-01]({% multilang_post_url contents/chapter10/21-03-22-10_01_Lower_Bounds_in_Linear_Programs %}), chúng ta đã tìm hiểu bài toán gốc và bài toán đối ngẫu cho các bài toán LP đơn giản với biến vô hướng. Trong bài này, ta sẽ mở rộng cách xây dựng đối ngẫu cho LP ở dạng tổng quát.
 
-Dạng tổng quát của LP như sau:
-
-Cho $$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, G\in\mathbb{R}^{r\times n},\, h\in\mathbb{R}^{r}$$,
+Xét bài toán LP tổng quát với $$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, G\in\mathbb{R}^{r\times n},\, h\in\mathbb{R}^{r}$$:
 
 >$$
 >\begin{align}
@@ -30,8 +28,7 @@ Cho $$c\in\mathbb{R}^{n},\, A\in\mathbb{R}^{m\times n},\, b\in\mathbb{R}^{m},\, 
 >\end{align}
 >$$
 
-Tương tự như ví dụ trong 10-01, chúng ta định nghĩa các biến đối ngẫu $$u, v$$ có số lượng bằng số lượng ràng buộc,
-và có thể định nghĩa hàm mục tiêu của bài toán đối ngẫu và các ràng buộc như tổng của các tích của ràng buộc và mỗi biến đối ngẫu.
+Tương tự như trong bài 10-01, ta đưa vào các biến đối ngẫu $$u \in \mathbb{R}^m$$ và $$v \in \mathbb{R}^r$$ tương ứng với từng nhóm ràng buộc, rồi nhân các ràng buộc với biến đối ngẫu tương ứng và cộng lại:
 
 >$$
 >\begin{align}
@@ -41,8 +38,7 @@ và có thể định nghĩa hàm mục tiêu của bài toán đối ngẫu và
 >\end{align}
 >$$
 
-Nhớ rằng biến đối ngẫu $$u$$ cho đẳng thức không có ràng buộc, trong khi $$v$$ là biến đối ngẫu cho bất đẳng thức và do đó có ràng buộc bổ sung là phải dương.
-Bằng cách sắp xếp phương trình cuối để biểu diễn hàm mục tiêu của LP nguyên thủy, chúng ta có được LP đối ngẫu.
+Lưu ý rằng biến đối ngẫu $$u$$ ứng với ràng buộc đẳng thức không bị ràng buộc về dấu, trong khi $$v$$ ứng với ràng buộc bất đẳng thức phải thỏa mãn điều kiện không âm ($$v \geq 0$$). Biến đổi bất đẳng thức cuối để làm xuất hiện hàm mục tiêu của LP gốc, ta thu được cận dưới:
 
 >$$
 >\begin{align}
@@ -55,9 +51,9 @@ Bằng cách sắp xếp phương trình cuối để biểu diễn hàm mục t
 >\end{align}
 >$$
 
-Tức là, khi $$c = -A^{T}u-G^{T}v$$, giá trị tối ưu của nguyên thủy có cận dưới là $$-b^{T}u-h^{T}v$$.
+Như vậy, với mọi cặp $$(u, v)$$ thỏa mãn $$c = -A^{T}u - G^{T}v$$ và $$v \geq 0$$, biểu thức $$-b^{T}u - h^{T}v$$ là một cận dưới của giá trị tối ưu bài toán gốc.
 
-Do đó, LP đối ngẫu có thể được định nghĩa như sau.
+Cực đại hóa cận dưới này, ta thu được bài toán LP đối ngẫu:
 
 >$$
 >\begin{align}
@@ -66,4 +62,3 @@ Do đó, LP đối ngẫu có thể được định nghĩa như sau.
 >& &&v\geq 0.
 >\end{align}
 >$$
-

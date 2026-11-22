@@ -9,15 +9,15 @@ categories:
 lang: vi
 ---
 
-Với bài toán lasso được cho dưới đây,
+Xét bài toán Lasso sau:
 >
 \begin{equation}
 \min_{\beta} \frac{1}{2}  \| y-X\beta \|_2^2 + \lambda \| \beta \|_1
 \end{equation}
 
-trong đó $$y \in \mathbb{R}^n$$, $$X \in \mathbb{R}^{n \times p}$$, $$\lambda \geq 0$$.
+trong đó $$y \in \mathbb{R}^n$$, $$X \in \mathbb{R}^{n \times p}$$ và $$\lambda \geq 0$$.
 
-Điều kiện tối ưu gradient dưới cho bài toán này có thể được biểu diễn như sau:
+Điều kiện tối ưu theo gradient dưới của bài toán này được viết như sau:
 >
 $$
 \eqalign{
@@ -28,7 +28,7 @@ $$
 }\\
 $$
 
-Ở đây, đối với một điểm $$\beta=(\beta_1,\beta_2,\dots,\beta_p )$$, gradient dưới $$v=(v_1,v_2,\dots,v_p)$$ được cho bởi:
+Với $$\beta=(\beta_1,\beta_2,\dots,\beta_p )$$, các thành phần của gradient dưới $$v=(v_1,v_2,\dots,v_p)$$ thỏa mãn:
 
 $$
 v_i = 
@@ -40,13 +40,13 @@ v_i =
 , i \in \{1,2,\dots,p \}
 $$
 
-Bất kỳ $$\beta$$ nào thỏa mãn điều kiện sau là tối ưu:
+Bất kỳ $$\beta$$ nào thỏa mãn phương trình sau đều là nghiệm tối ưu:
 >
 \begin{equation}
 X^T(y-X\beta) = \lambda v 
 \end{equation}
 
-Tức là, đối với $$\beta$$ tối ưu, các điều kiện sau được thỏa mãn:
+Viết theo từng tọa độ, $$\beta$$ là nghiệm tối ưu khi và chỉ khi:
 >
 $$
 \begin{cases}
@@ -54,4 +54,4 @@ X_i^T(y-X\beta) = \lambda \cdot \text{sign}(\beta_i) &\text{nếu } \beta_i \neq
  |X_i^T(y-X\beta)|  \leq \lambda &\text{nếu } \beta_i = 0 
 \end{cases}$$
 
-Ở đây, $$X_i, i \in \{1,2,\dots, p \}$$ ký hiệu cột thứ $$i$$ của ma trận $$X$$.
+trong đó $$X_i$$ ($$i \in \{1,2,\dots, p \}$$) ký hiệu cột thứ $$i$$ của ma trận $$X$$.

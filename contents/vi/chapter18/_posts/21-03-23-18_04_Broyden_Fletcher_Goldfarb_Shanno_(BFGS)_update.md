@@ -9,19 +9,19 @@ categories:
 lang: vi
 ---
 
-Ý tưởng của BFGS giống như DFP. Sự khác biệt duy nhất là vai trò của B và H được đảo ngược. BFGS được suy ra bằng cách giải bài toán sau.
+Ý tưởng của cập nhật BFGS hoàn toàn tương tự DFP, chỉ khác ở chỗ vai trò của $$B$$ và $$H$$ được hoán đổi cho nhau. Công thức BFGS được suy ra bằng cách giải bài toán tối ưu sau:
 
->Giải
+>Giải bài toán:
 >$$
 >\begin{align}
 >& \min_{H^+} \: \: && {\|W^{1/2} (H^+ - H) W^{1/2} \|_F} \\\\
 >& \text{thỏa mãn } && {H^+ = (H^+)^T} \\\\
 >    &&& {H^+y = s}  \\\\
->& \text{trong đó } && W \in \mathbb{R}^{n \; \times \;n} \text{ là ma trận khả nghịch và } Ws_k = y_k.
+>& \text{trong đó } && W \in \mathbb{R}^{n \; \times \;n} \text{ là ma trận đối xứng xác định dương thỏa mãn } Ws_k = y_k.
 >\end{align}\\\\
 >$$
 
-Các công thức cập nhật được suy ra cho $$H$$ và $$B$$ như sau.
+Từ đây, ta thu được công thức cập nhật cho $$B$$ và $$H$$:
 
 >$$
 >B^+ = B - \frac{Bss^TB}{s^TBs} + \frac{yy^T}{y^Ts}
@@ -36,9 +36,9 @@ và
 >\end{align}
 >$$
 
-BFGS cũng duy trì tính xác định dương giống như DFP. (Nếu $$B$$ là xác định dương và $$s^Ty > 0$$, thì $$B^+$$ là xác định dương.)
+Tương tự DFP, BFGS bảo toàn tính xác định dương: nếu $$B \succ 0$$ và điều kiện độ cong $$s^Ty > 0$$ được thỏa mãn, thì $$B^+ \succ 0$$ (và tương ứng $$H \succ 0 \Rightarrow H^+ \succ 0$$).
 
-Ưu điểm của BFGS là có tính chất tự hiệu chỉnh. Nếu ma trận $$H$$ trong một vòng lặp là một xấp xỉ kém của Hessian nghịch đảo, thì $$H$$ có thể được điều chỉnh trong một vài bước tiếp theo. DFP không có khả năng tự hiệu chỉnh trong trường hợp xấp xỉ sai về Hessian, do đó hiệu suất của BFGS thường tốt hơn [14].
+Ưu điểm nổi bật của BFGS là **khả năng tự hiệu chỉnh (self-correcting)**: nếu ma trận $$H$$ ở một vòng lặp là xấp xỉ kém của Hessian nghịch đảo, các bước cập nhật tiếp theo có thể nhanh chóng điều chỉnh lại sai lệch này. Trong khi đó, DFP kém hiệu quả hơn nhiều trong việc tự hiệu chỉnh xấp xỉ Hessian kém, nên trên thực tế BFGS thường cho hiệu năng vượt trội hơn [14].
 
 ### Quasi-Newton trong 15 giây
 
@@ -46,7 +46,7 @@ BFGS cũng duy trì tính xác định dương giống như DFP. (Nếu $$B$$ l�
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/bfgs-vs-gd_vi.mp4"></video>
 </div>
 
-BFGS chỉ dùng các gradient để dựng dần một xấp xỉ Hessian nghịch đảo $$H$$, nên bước đi $$-H\nabla f$$ gần giống Newton mà không cần tính Hessian.
+BFGS chỉ dùng thông tin gradient để dựng dần ma trận xấp xỉ Hessian nghịch đảo $$H$$, giúp bước đi $$-H\nabla f$$ tiệm cận hướng Newton mà không cần tính trực tiếp Hessian.
 
 ### Tự tay thử: BFGS so với gradient descent
 

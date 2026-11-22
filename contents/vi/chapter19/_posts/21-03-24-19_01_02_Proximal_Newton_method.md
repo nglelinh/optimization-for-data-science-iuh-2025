@@ -9,35 +9,33 @@ categories:
 lang: vi
 ---
 
-Ở phần trước, chúng ta đã giải thích rằng **phương pháp Newton proximal** dùng Hessian cục bộ $$\nabla^2 g(x)$$ thay cho độ cong cầu $$\frac{1}{t} I$$ trong công thức của **proximal gradient descent**. Phương pháp Newton proximal là một ý tưởng cũ, được nghiên cứu trong thống kê dưới tên "local score".
+Ở phần trước, ta đã thấy **phương pháp Newton proximal** thay thế độ cong đẳng hướng $$\frac{1}{t} I$$ trong **proximal gradient descent** bằng ma trận Hessian cục bộ $$\nabla^2 g(x)$$. Ý tưởng này từng được nghiên cứu sớm trong thống kê dưới tên gọi "local score".
 
-Bây giờ hãy xem **phương pháp Newton proximal** có thể được xây dựng như thế nào.
+Dưới đây là cách xây dựng tường minh thuật toán **Newton proximal**.
 
 ## Thuật toán
-Thuật toán Newton proximal gồm việc tìm hướng $$v$$ của bước tiếp theo rồi chọn kích thước bước $$t_k$$.
+Mỗi vòng lặp của phương pháp Newton proximal gồm hai bước: tìm hướng cập nhật $$v$$ và chọn độ dài bước $$t_k$$.
 
-* Bước 1: Bắt đầu từ điểm ban đầu $$x^{(0)}$$, lặp lại các bước sau. ($$k=1,2,3,...$$)
+* **Bước 1:** Khởi tạo từ điểm ban đầu $$x^{(0)}$$ và lặp với $$k = 1, 2, 3, \dots$$
 
-* Bước 2: Tìm hướng $$v$$ của bước tiếp theo.
+* **Bước 2:** Tìm hướng bước $$v^{(k)}$$ bằng cách giải bài toán con bậc hai có điều chuẩn:
 
 > \begin{align}
 v^{(k)} & = \underset{v}{\text{argmin}} \ \nabla g(x^{(k-1)})^T v + \frac{1}{2} v^T H^{(k-1)} v + h(x^{(k-1)} + v)
 \end{align}
 
-Ở đây $$H^{(k-1)} = \nabla^2 g(x^{(k-1)})$$ là Hessian của $$g$$ tại $$x^{(k-1)}$$.
+trong đó $$H^{(k-1)} = \nabla^2 g(x^{(k-1)})$$ là ma trận Hessian của $$g$$ tại $$x^{(k-1)}$$.
 
-* Bước 3: Chọn kích thước bước để di chuyển theo hướng $$v^{(k)}$$.
+* **Bước 3:** Cập nhật điểm lặp theo hướng $$v^{(k)}$$ với độ dài bước $$t_k$$:
 
 > \begin{align}
 x^{(k)} & =x^{(k-1)} + t_k v^{(k)}
 \end{align}
 
-Ở đây $$t_k$$ là kích thước bước; với $$t_k=1$$ đây là phương pháp Newton proximal thuần túy.
+Khi chọn cố định $$t_k = 1$$, ta thu được phương pháp Newton proximal thuần túy. Trong thực tế, độ dài bước $$t_k$$ thường được xác định qua tìm kiếm theo đường lui (backtracking line search).
 
-Khác với proximal gradient descent, kích thước bước được chọn bằng backtracking line search.
-
-#### Góc nhìn theo vị trí tiếp theo
-Nếu biểu diễn theo vị trí tiếp theo $$z$$ thay vì hướng $$v$$, ta được như sau.
+#### Cách viết theo điểm đích $$z$$
+Nếu biểu diễn bài toán con theo điểm đích $$z = x^{(k-1)} + v$$ thay vì hướng $$v$$, công thức cập nhật trở thành:
 
 > $$
 > \begin{align}
@@ -46,4 +44,4 @@ Nếu biểu diễn theo vị trí tiếp theo $$z$$ thay vì hướng $$v$$, ta
 > \end{align}
 > $$
 
-Một cách trực quan, ở bước đầu tiên ta tìm điểm thay thế (surrogate) $$z$$ cực tiểu hóa mô hình bậc hai của hàm mục tiêu. Sau đó ta di chuyển từ $$x^{(k-1)}$$ theo hướng của $$z$$, nhưng không phải lúc nào cũng đi hết tới $$z$$.
+Về mặt trực giác, ở bước đầu ta tìm điểm trung gian $$z^{(k)}$$ cực tiểu hóa mô hình bậc hai của $$g$$ cộng với $$h$$, sau đó di chuyển từ $$x^{(k-1)}$$ về phía $$z^{(k)}$$ theo tỷ lệ $$t_k \in (0, 1]$$ (không nhất thiết đi trọn bước tới $$z^{(k)}$$).

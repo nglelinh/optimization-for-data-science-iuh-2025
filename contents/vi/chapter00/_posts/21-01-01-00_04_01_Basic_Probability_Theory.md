@@ -10,53 +10,53 @@ lang: vi
 lesson_type: required
 ---
 
-## Lý Thuyết Xác Suất Cơ Bản
+## Lý thuyết xác suất cơ bản
 
-Lý thuyết xác suất cung cấp khung toán học để lý luận về sự bất định, điều này là nền tảng cho nhiều bài toán tối ưu hóa trong học máy và khoa học dữ liệu.
+Lý thuyết xác suất cung cấp khung toán học chặt chẽ để phân tích tính bất định — nền tảng của nhiều bài toán tối ưu hóa trong học máy và khoa học dữ liệu.
 
-### 1. Không Gian Mẫu và Biến Cố
+### 1. Không gian mẫu và biến cố
 
-**Không Gian Mẫu (Ω)**: Tập hợp tất cả các kết quả có thể có của một thí nghiệm.
+**Không gian mẫu (Ω)**: tập hợp tất cả các kết quả có thể xảy ra của một phép thử ngẫu nhiên.
 
-**Biến Cố (A)**: Một tập con của không gian mẫu đại diện cho một tập hợp các kết quả.
+**Biến cố (A)**: một tập con của không gian mẫu, biểu diễn một nhóm kết quả cụ thể.
 
 **Ví dụ:**
 - Tung đồng xu: Ω = {S, N}
 - Tung xúc xắc: Ω = {1, 2, 3, 4, 5, 6}
-- Liên tục: Ω = [0, 1] cho biến ngẫu nhiên đều
+- Trường hợp liên tục: Ω = [0, 1] đối với biến ngẫu nhiên có phân phối đều trên [0, 1]
 
 <div id="sample-space-demo" style="border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; background-color: #f9f9f9;">
-    <h4 style="text-align: center; color: #333;">Trực Quan Hóa Không Gian Mẫu Tương Tác</h4>
+    <h4 style="text-align: center; color: #333;">Trực quan hóa không gian mẫu tương tác</h4>
     
     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 400px;">
             <canvas id="sampleSpaceCanvas" width="400" height="300" style="border: 1px solid #ccc; background: white;"></canvas>
             <p style="font-size: 12px; color: #666; margin-top: 5px;">
-                <strong>Trực quan hóa:</strong> Nhấp để tạo mẫu ngẫu nhiên. Các màu khác nhau đại diện cho các biến cố khác nhau.
+                <strong>Trực quan hóa:</strong> Nhấp để tạo mẫu ngẫu nhiên. Các màu khác nhau biểu diễn các biến cố khác nhau.
             </p>
         </div>
         
         <div style="flex: 1; min-width: 250px;">
             <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h5 style="margin-top: 0; color: #444;">Loại Thí Nghiệm</h5>
+                <h5 style="margin-top: 0; color: #444;">Loại phép thử</h5>
                 
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 10px;">
-                        <input type="radio" name="experiment" value="coin" checked> Tung Đồng Xu
+                        <input type="radio" name="experiment" value="coin" checked> Tung đồng xu
                     </label>
                     <label style="display: block; margin-bottom: 10px;">
-                        <input type="radio" name="experiment" value="dice"> Tung Xúc Xắc
+                        <input type="radio" name="experiment" value="dice"> Tung xúc xắc
                     </label>
                     <label style="display: block; margin-bottom: 10px;">
-                        <input type="radio" name="experiment" value="uniform"> Đều [0,1]
+                        <input type="radio" name="experiment" value="uniform"> Phân phối đều [0,1]
                     </label>
                 </div>
                 
-                <button id="generate-sample" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">Tạo Mẫu</button>
+                <button id="generate-sample" style="width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px;">Tạo mẫu</button>
                 <button id="clear-samples" style="width: 100%; padding: 8px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 15px;">Xóa</button>
                 
                 <div id="sample-stats" style="font-family: monospace; font-size: 12px; line-height: 1.4; background: #f8f9fa; padding: 10px; border-radius: 4px;">
-                    <div><strong>Thống Kê:</strong></div>
+                    <div><strong>Thống kê:</strong></div>
                     <div>Tổng mẫu: <span id="total-samples">0</span></div>
                     <div>Biến cố A: <span id="event-a-count">0</span></div>
                     <div>Biến cố B: <span id="event-b-count">0</span></div>
@@ -68,54 +68,54 @@ Lý thuyết xác suất cung cấp khung toán học để lý luận về sự
     </div>
 </div>
 
-### 2. Tiên Đề Xác Suất (Tiên Đề Kolmogorov)
+### 2. Tiên đề xác suất (Tiên đề Kolmogorov)
 
-Với bất kỳ độ đo xác suất P nào, các tiên đề sau phải được thỏa mãn:
+Mọi độ đo xác suất P đều phải thỏa mãn ba tiên đề sau:
 
-#### Tiên Đề 1: Tính Không Âm
-$$P(A) \geq 0 \text{ với mọi biến cố } A$$
+#### Tiên đề 1: Tính không âm
+$$P(A) \geq 0 	ext{ với mọi biến cố } A$$
 
-#### Tiên Đề 2: Chuẩn Hóa
+#### Tiên đề 2: Chuẩn hóa
 $$P(\Omega) = 1$$
 
-#### Tiên Đề 3: Tính Cộng Đếm Được
-Với các biến cố xung khắc $$A_1, A_2, \ldots$$:
-$$P\left(\bigcup_{i=1}^{\infty} A_i\right) = \sum_{i=1}^{\infty} P(A_i)$$
+#### Tiên đề 3: Tính cộng đếm được
+Với mọi dãy biến cố đôi một xung khắc $$A_1, A_2, \ldots$$:
+$$P\left(igcup_{i=1}^{\infty} A_iight) = \sum_{i=1}^{\infty} P(A_i)$$
 
-### 3. Tính Chất và Quy Tắc Cơ Bản
+### 3. Tính chất và quy tắc cơ bản
 
-#### Quy Tắc Phần Bù
+#### Quy tắc phần bù
 $$P(A^c) = 1 - P(A)$$
 
-#### Quy Tắc Cộng
+#### Quy tắc cộng
 Với hai biến cố A và B bất kỳ:
 $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
 
-#### Quy Tắc Nhân
+#### Quy tắc nhân
 $$P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$$
 
-### 4. Xác Suất Có Điều Kiện
+### 4. Xác suất có điều kiện
 
-Xác suất của biến cố A khi biết rằng biến cố B đã xảy ra:
+Xác suất của biến cố A khi biết biến cố B đã xảy ra:
 
-$$P(A|B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
+$$P(A|B) = rac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
 
-**Diễn giải**: Xác suất có điều kiện cập nhật niềm tin của chúng ta về A khi có thông tin về B.
+**Diễn giải**: Xác suất có điều kiện cập nhật mức độ tin cậy về A khi ta có thêm thông tin rằng B đã xảy ra.
 
 <div id="conditional-prob-demo" style="border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; background-color: #f9f9f9;">
-    <h4 style="text-align: center; color: #333;">Trực Quan Hóa Xác Suất Có Điều Kiện</h4>
+    <h4 style="text-align: center; color: #333;">Trực quan hóa xác suất có điều kiện</h4>
     
     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 400px;">
             <canvas id="conditionalCanvas" width="400" height="300" style="border: 1px solid #ccc; background: white;"></canvas>
             <p style="font-size: 12px; color: #666; margin-top: 5px;">
-                <strong>Biểu Đồ Venn:</strong> Hình tròn xanh là biến cố A, hình tròn đỏ là biến cố B. Giao màu tím thể hiện A ∩ B.
+                <strong>Biểu đồ Venn:</strong> Hình tròn xanh là biến cố A, hình tròn đỏ là biến cố B. Phần giao màu tím biểu diễn A ∩ B.
             </p>
         </div>
         
         <div style="flex: 1; min-width: 250px;">
             <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h5 style="margin-top: 0; color: #444;">Điều Chỉnh Xác Suất</h5>
+                <h5 style="margin-top: 0; color: #444;">Điều chỉnh xác suất</h5>
                 
                 <div style="margin-bottom: 15px;">
                     <label for="prob-a-slider" style="display: block; margin-bottom: 5px; font-weight: bold;">P(A): <span id="prob-a-value">0.4</span></label>
@@ -133,12 +133,12 @@ $$P(A|B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
                 </div>
                 
                 <div id="conditional-results" style="font-family: monospace; font-size: 12px; line-height: 1.4; background: #f8f9fa; padding: 10px; border-radius: 4px;">
-                    <div><strong>Xác Suất:</strong></div>
+                    <div><strong>Xác suất:</strong></div>
                     <div>P(A) = <span id="display-prob-a">0.400</span></div>
                     <div>P(B) = <span id="display-prob-b">0.500</span></div>
                     <div>P(A ∩ B) = <span id="display-prob-ab">0.200</span></div>
                     <div>P(A ∪ B) = <span id="display-prob-union">0.700</span></div>
-                    <div><strong>Có Điều Kiện:</strong></div>
+                    <div><strong>Xác suất có điều kiện:</strong></div>
                     <div>P(A|B) = <span id="display-prob-a-given-b">0.400</span></div>
                     <div>P(B|A) = <span id="display-prob-b-given-a">0.500</span></div>
                 </div>
@@ -147,75 +147,75 @@ $$P(A|B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
     </div>
 </div>
 
-### 5. Tính Độc Lập
+### 5. Tính độc lập
 
-Hai biến cố A và B **độc lập** nếu:
+Hai biến cố A và B được gọi là **độc lập** nếu:
 $$P(A \cap B) = P(A) \cdot P(B)$$
 
-Tương đương:
-$$P(A|B) = P(A) \quad \text{và} \quad P(B|A) = P(B)$$
+Tương đương (khi các xác suất khác 0):
+$$P(A|B) = P(A) \quad 	ext{và} \quad P(B|A) = P(B)$$
 
-**Diễn giải**: Kiến thức về một biến cố không thay đổi xác suất của biến cố kia.
+**Diễn giải**: Thông tin về việc một biến cố đã xảy ra không làm thay đổi xác suất của biến cố còn lại.
 
-### 6. Biến Ngẫu Nhiên
+### 6. Biến ngẫu nhiên
 
-**Biến ngẫu nhiên** X là một hàm gán một số thực cho mỗi kết quả trong không gian mẫu:
-$$X: \Omega \rightarrow \mathbb{R}$$
+**Biến ngẫu nhiên** X là một hàm ánh xạ mỗi kết quả trong không gian mẫu thành một số thực:
+$$X: \Omega ightarrow \mathbb{R}$$
 
-#### Các Loại Biến Ngẫu Nhiên:
+#### Các loại biến ngẫu nhiên
 
-**Rời rạc**: Nhận các giá trị đếm được (ví dụ: số lần xuất hiện mặt sấp)
-- Hàm Khối Xác Suất (PMF): $$P(X = x)$$
+**Rời rạc**: nhận các giá trị đếm được (ví dụ: số lần xuất hiện mặt sấp).
+- Hàm khối xác suất (PMF): $$P(X = x)$$
 
-**Liên tục**: Nhận các giá trị không đếm được (ví dụ: chiều cao, cân nặng)
-- Hàm Mật Độ Xác Suất (PDF): $$f_X(x)$$
+**Liên tục**: nhận các giá trị trên một khoảng số thực (ví dụ: chiều cao, cân nặng).
+- Hàm mật độ xác suất (PDF): $$f_X(x)$$
 - $$P(a \leq X \leq b) = \int_a^b f_X(x) dx$$
 
-### 7. Kết Nối với Tối Ưu Hóa
+### 7. Kết nối với tối ưu hóa
 
-Lý thuyết xác suất kết nối với tối ưu hóa theo nhiều cách:
+Lý thuyết xác suất gắn liền với tối ưu hóa qua nhiều bài toán điển hình:
 
-#### Ước Lượng Hợp Lý Tối Đa
-Tìm tham số θ để tối đa hóa likelihood:
-$$\hat{\theta} = \arg\max_\theta P(\text{dữ liệu}|\theta)$$
+#### Ước lượng hợp lý tối đa
+Tìm tham số θ để cực đại hóa hàm hợp lý (likelihood):
+$$\hat{	heta} = rg\max_	heta P(	ext{dữ liệu}|	heta)$$
 
-#### Tối Ưu Hóa Giá Trị Kỳ Vọng
-Tối thiểu hóa kỳ vọng loss:
-$$\min_\theta \mathbb{E}[L(Y, f(X; \theta))]$$
+#### Tối ưu hóa giá trị kỳ vọng
+Cực tiểu hóa giá trị kỳ vọng của hàm mất mát:
+$$\min_	heta \mathbb{E}[L(Y, f(X; 	heta))]$$
 
-#### Tối Ưu Hóa Bayes
-Sử dụng phân phối xác suất để mô hình hóa sự bất định trong hàm mục tiêu và hướng dẫn tìm kiếm nghiệm tối ưu.
+#### Tối ưu hóa Bayes
+Sử dụng phân phối xác suất để mô hình hóa tính bất định của hàm mục tiêu và định hướng tìm kiếm nghiệm tối ưu.
 
 <div id="optimization-connection" style="border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; background-color: #f0f8ff;">
-    <h4 style="text-align: center; color: #333;">Ví Dụ Xác Suất trong Tối Ưu Hóa</h4>
+    <h4 style="text-align: center; color: #333;">Ví dụ xác suất trong tối ưu hóa</h4>
     
     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 400px;">
             <canvas id="optimizationCanvas" width="400" height="300" style="border: 1px solid #ccc; background: white;"></canvas>
             <p style="font-size: 12px; color: #666; margin-top: 5px;">
-                <strong>Ví Dụ MLE:</strong> Tìm tham số μ để tối đa hóa likelihood của dữ liệu quan sát từ Normal(μ, 1).
+                <strong>Ví dụ MLE:</strong> Tìm tham số μ để cực đại hóa hàm hợp lý của dữ liệu quan sát từ phân phối Normal(μ, 1).
             </p>
         </div>
         
         <div style="flex: 1; min-width: 250px;">
             <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h5 style="margin-top: 0; color: #444;">Demo MLE</h5>
+                <h5 style="margin-top: 0; color: #444;">Minh họa MLE</h5>
                 
                 <div style="margin-bottom: 15px;">
-                    <label for="true-mu-slider" style="display: block; margin-bottom: 5px; font-weight: bold;">μ Thực: <span id="true-mu-value">2.0</span></label>
+                    <label for="true-mu-slider" style="display: block; margin-bottom: 5px; font-weight: bold;">μ thực: <span id="true-mu-value">2.0</span></label>
                     <input type="range" id="true-mu-slider" min="-2" max="4" step="0.1" value="2.0" style="width: 100%;">
                 </div>
                 
                 <div style="margin-bottom: 15px;">
-                    <label for="sample-size-slider" style="display: block; margin-bottom: 5px; font-weight: bold;">Kích Thước Mẫu: <span id="sample-size-value">20</span></label>
+                    <label for="sample-size-slider" style="display: block; margin-bottom: 5px; font-weight: bold;">Kích thước mẫu: <span id="sample-size-value">20</span></label>
                     <input type="range" id="sample-size-slider" min="5" max="100" step="5" value="20" style="width: 100%;">
                 </div>
                 
-                <button id="generate-mle-data" style="width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 15px;">Tạo Dữ Liệu & Tìm MLE</button>
+                <button id="generate-mle-data" style="width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 15px;">Tạo dữ liệu & tìm MLE</button>
                 
                 <div id="mle-results" style="font-family: monospace; font-size: 12px; line-height: 1.4; background: #f8f9fa; padding: 10px; border-radius: 4px;">
-                    <div><strong>Kết Quả:</strong></div>
-                    <div>μ Thực: <span id="display-true-mu">2.000</span></div>
+                    <div><strong>Kết quả:</strong></div>
+                    <div>μ thực: <span id="display-true-mu">2.000</span></div>
                     <div>Trung bình mẫu: <span id="sample-mean">--</span></div>
                     <div>Ước lượng MLE: <span id="mle-estimate">--</span></div>
                     <div>Sai số: <span id="mle-error">--</span></div>
@@ -225,15 +225,15 @@ Sử dụng phân phối xác suất để mô hình hóa sự bất định tro
     </div>
 </div>
 
-### Những Điểm Chính
+### Những điểm chính
 
-1. **Nền Tảng**: Tiên đề xác suất cung cấp nền tảng toán học để lý luận về sự bất định
-2. **Xác Suất Có Điều Kiện**: Thiết yếu để cập nhật niềm tin với thông tin mới
-3. **Tính Độc Lập**: Đơn giản hóa tính toán và giả thuyết mô hình hóa
-4. **Biến Ngẫu Nhiên**: Cầu nối giữa xác suất trừu tượng và ứng dụng cụ thể
-5. **Kết Nối Tối Ưu Hóa**: Nhiều bài toán tối ưu hóa phát sinh từ mô hình hóa xác suất
+1. **Nền tảng**: các tiên đề xác suất cung cấp cơ sở toán học để lập luận về tính bất định.
+2. **Xác suất có điều kiện**: công cụ cốt lõi để cập nhật niềm tin khi có thông tin mới.
+3. **Tính độc lập**: giúp đơn giản hóa tính toán và xây dựng các giả định mô hình.
+4. **Biến ngẫu nhiên**: cầu nối giữa không gian xác suất trừu tượng và các đại lượng đo lường cụ thể.
+5. **Kết nối với tối ưu hóa**: nhiều bài toán tối ưu hóa bắt nguồn trực tiếp từ mô hình hóa xác suất.
 
-Hiểu những khái niệm cơ bản này chuẩn bị cho bạn các chủ đề nâng cao hơn như suy luận Bayes, ước lượng hợp lý tối đa và tối ưu hóa ngẫu nhiên - những yếu tố trung tâm của học máy và khoa học dữ liệu hiện đại.
+Nắm vững những khái niệm cơ bản này giúp bạn sẵn sàng tiếp cận các chủ đề chuyên sâu hơn như suy luận Bayes, ước lượng hợp lý tối đa và tối ưu hóa ngẫu nhiên — những trụ cột của học máy và khoa học dữ liệu hiện đại.
 
 <script>
 // Sample Space Visualization

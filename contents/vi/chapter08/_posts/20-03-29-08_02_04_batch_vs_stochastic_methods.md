@@ -9,11 +9,11 @@ categories:
 lang: vi
 ---
 
-Tính chất hội tụ của phương pháp batch và ngẫu nhiên như sau:
+Đặc điểm hội tụ của phương pháp batch và phương pháp ngẫu nhiên có thể tóm tắt như sau:
 
-Nói chung, phương pháp ngẫu nhiên tiếp cận điểm tối ưu nhanh chóng trong giai đoạn đầu, nhưng có thể không hội tụ tốt gần điểm tối ưu. Ngược lại, phương pháp batch hội tụ chậm hơn nhưng tiếp cận điểm tối ưu chính xác hơn.
+Nhìn chung, phương pháp ngẫu nhiên tiến nhanh về vùng lân cận nghiệm tối ưu trong giai đoạn đầu, nhưng thường dao động và khó hội tụ chính xác khi đã đến gần nghiệm tối ưu. Ngược lại, phương pháp batch tiến chậm hơn ở giai đoạn đầu nhưng hội tụ ổn định và chính xác hơn về điểm tối ưu.
 
-Hình dưới đây so sánh sự hội tụ của phương pháp batch và ngẫu nhiên cho [hồi quy logistic](https://en.wikipedia.org/wiki/Logistic_regression) (không có regularization):
+Hình dưới đây so sánh quá trình hội tụ của hai phương pháp trên bài toán [hồi quy logistic](https://en.wikipedia.org/wiki/Logistic_regression) không có chính quy hóa:
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -22,4 +22,4 @@ Hình dưới đây so sánh sự hội tụ của phương pháp batch và ng�
   <figcaption style="text-align: center;">[Fig 3] So sánh Batch vs Stochastic Gradient Descent [2]</figcaption>
 </figure>
 
-Khi mỗi $$f_i$$ trơn, phần rung sót của đường ngẫu nhiên gần tối ưu chính là sàn nhiễu mà [26-05 SVRG và SAGA]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %}) gỡ — mà không trả một gradient cả lô mỗi bước.
+Khi mỗi hàm thành phần $$f_i$$ đều trơn, phần dao động còn lại của đường ngẫu nhiên quanh điểm tối ưu chính là sàn nhiễu mà các phương pháp giảm phương sai trong [26-05 SVRG và SAGA]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %}) loại bỏ — mà không cần tính lại toàn bộ gradient batch ở mỗi bước.

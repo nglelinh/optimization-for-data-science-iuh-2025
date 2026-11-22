@@ -12,15 +12,15 @@ redirect_from:
   - /contents/vi/chapter10/10_07_Practical_Exercises_LP_Duality/
 ---
 
-Các bài tập sau được tham khảo từ Boyd & Vandenberghe (2004), Bertsimas & Tsitsiklis (1997), và Dantzig (1963), giúp sinh viên nắm vững các khái niệm về tính đối ngẫu trong LP.
+Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Bertsimas & Tsitsiklis (1997) và Dantzig (1963), giúp rèn luyện các kỹ năng xây dựng và vận dụng tính đối ngẫu trong quy hoạch tuyến tính (LP).
 
 ---
 
-## **Phần I: Xây dựng Bài toán Đối ngẫu**
+## Phần I: Xây dựng bài toán đối ngẫu
 
-### **Bài tập 1: Các dạng LP cơ bản (Boyd & Vandenberghe, Ex. 5.1)**
+### Bài tập 1: Các dạng LP cơ bản (Boyd & Vandenberghe, Ex. 5.1)
 
-Cho các bài toán LP sau, hãy xây dựng bài toán đối ngẫu và giải thích ý nghĩa của các biến đối ngẫu.
+Với các bài toán LP sau, hãy lập bài toán đối ngẫu và nêu ý nghĩa của các biến đối ngẫu.
 
 **a) Dạng chuẩn:**
 
@@ -61,11 +61,11 @@ $$
 
 **Bài a) Dạng chuẩn:**
 
-**Quy tắc:** Với bài toán min có ràng buộc đẳng thức và biến $$\geq 0$$:
-- Mỗi ràng buộc đẳng thức → biến dual không ràng buộc dấu  
-- Mỗi biến $$\geq 0$$ → ràng buộc dual $$\leq$$
+**Quy tắc:** Với bài toán cực tiểu hóa có ràng buộc đẳng thức và biến không âm ($$x \geq 0$$):
+- Mỗi ràng buộc đẳng thức ứng với một biến đối ngẫu không ràng buộc dấu.
+- Mỗi biến gốc không âm ứng với một ràng buộc đối ngẫu dạng $$\leq$$.
 
-**Bài toán Dual:**
+**Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -78,19 +78,19 @@ $$
 $$
 
 **Giải thích:**
-- $$u_1, u_2$$: Shadow prices của ràng buộc 1 và 2 (giá trị biên nếu tăng RHS)
-- Không ràng buộc dấu vì ràng buộc primal là đẳng thức
-- Mỗi biến primal tạo một ràng buộc dual
+- $$u_1, u_2$$ là giá bóng (shadow prices) của ràng buộc thứ nhất và thứ hai, cho biết mức thay đổi biên của giá trị tối ưu khi vế phải tăng thêm một đơn vị.
+- Hai biến đối ngẫu không ràng buộc dấu vì các ràng buộc gốc là đẳng thức.
+- Mỗi biến của bài toán gốc tạo ra một ràng buộc tương ứng trong bài toán đối ngẫu.
 
 ---
 
 **Bài b) Dạng bất đẳng thức:**
 
-**Quy tắc:** Min với $$\geq$$ và $$x \geq 0$$:
-- Ràng buộc $$\geq$$ → biến dual $$\geq 0$$
-- Biến $$\geq 0$$ → ràng buộc dual $$\leq$$
+**Quy tắc:** Với bài toán cực tiểu hóa có ràng buộc $$\geq$$ và biến $$x \geq 0$$:
+- Mỗi ràng buộc $$\geq$$ ứng với một biến đối ngẫu $$\geq 0$$.
+- Mỗi biến $$x_i \geq 0$$ ứng với một ràng buộc đối ngẫu $$\leq$$.
 
-**Bài toán Dual:**
+**Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -106,11 +106,11 @@ $$
 **Bài c) Dạng hỗn hợp:**
 
 **Phân tích:**
-- Ràng buộc 1 ($$=$$): biến dual $$u_1 \in \mathbb{R}$$
-- Ràng buộc 2 ($$\leq$$): biến dual $$u_2 \leq 0$$  
-- Ràng buộc 3 ($$\geq$$): biến dual $$u_3 \geq 0$$
+- Ràng buộc 1 ($$=$$): biến đối ngẫu $$u_1 \in \mathbb{R}$$.
+- Ràng buộc 2 ($$\leq$$): biến đối ngẫu $$u_2 \leq 0$$.
+- Ràng buộc 3 ($$\geq$$): biến đối ngẫu $$u_3 \geq 0$$.
 
-**Bài toán Dual:**
+**Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -126,29 +126,29 @@ $$
 
 ---
 
-### **Bài tập 2: Production Planning (Boyd & Vandenberghe, Ex. 5.2)**
+### Bài tập 2: Lập kế hoạch sản xuất (Boyd & Vandenberghe, Ex. 5.2)
 
-Một xí nghiệp sản xuất 2 sản phẩm A và B:
+Một xí nghiệp sản xuất 2 sản phẩm A và B với các thông số sau:
 
 | Sản phẩm | Lợi nhuận (nghìn đồng) | Lao động (giờ) | Máy móc (giờ) |
 |----------|------------------------|----------------|---------------|
 | A        | 40                     | 2              | 1             |
 | B        | 30                     | 1              | 2             |
 
-Tài nguyên: 100 giờ lao động, 80 giờ máy móc.
+Nguồn lực hiện có: 100 giờ lao động và 80 giờ máy móc.
 
-**Yêu cầu:**  
-a) Lập bài toán LP tối đa hóa lợi nhuận    
-b) Xây dựng bài toán đối ngẫu    
-c) Giải thích ý nghĩa kinh tế của biến đối ngẫu    
-d) Nếu có thêm 1 giờ lao động, lợi nhuận tăng tối đa bao nhiêu?
+**Yêu cầu:**
+a) Lập bài toán LP cực đại hóa lợi nhuận.
+b) Xây dựng bài toán đối ngẫu.
+c) Giải thích ý nghĩa kinh tế của các biến đối ngẫu.
+d) Nếu có thêm 1 giờ lao động, lợi nhuận tăng thêm tối đa bao nhiêu?
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Bài toán Primal:**
+**a) Bài toán gốc:**
 
-Đặt $$x_1, x_2$$ là số lượng sản phẩm A, B.
+Đặt $$x_1, x_2$$ lần lượt là số lượng sản phẩm A và B cần sản xuất:
 
 $$
 \begin{align}
@@ -159,9 +159,9 @@ $$
 \end{align}
 $$
 
-**b) Bài toán Dual:**
+**b) Bài toán đối ngẫu:**
 
-Chuyển về min: $$\min -40x_1 - 30x_2$$
+Chuyển về dạng cực tiểu hóa $$\min -40x_1 - 30x_2$$ rồi lập đối ngẫu, ta thu được:
 
 $$
 \begin{align}
@@ -174,26 +174,24 @@ $$
 
 **c) Ý nghĩa kinh tế:**
 
-- $$u_1$$: **Shadow price của lao động** - giá trị biên khi tăng 1 giờ lao động
-- $$u_2$$: **Shadow price của máy móc** - giá trị biên khi tăng 1 giờ máy móc
+- $$u_1$$: **Giá bóng của lao động** — mức tăng lợi nhuận biên khi có thêm 1 giờ lao động.
+- $$u_2$$: **Giá bóng của máy móc** — mức tăng lợi nhuận biên khi có thêm 1 giờ máy móc.
 
-Ràng buộc dual:
-- $$2u_1 + u_2 \geq 40$$: Giá trị tài nguyên để sản xuất 1 sản phẩm A phải $$\geq$$ lợi nhuận của nó
-- $$u_1 + 2u_2 \geq 30$$: Tương tự cho sản phẩm B
+Các ràng buộc đối ngẫu có nghĩa là tổng giá trị nguồn lực dùng để sản xuất mỗi đơn vị sản phẩm A ($$2u_1 + u_2$$) phải lớn hơn hoặc bằng lợi nhuận của sản phẩm A (40), và tương tự cho sản phẩm B ($$u_1 + 2u_2 \geq 30$$).
 
-**d) Tăng lợi nhuận:**
+**d) Mức tăng lợi nhuận khi có thêm 1 giờ lao động:**
 
-Để trả lời, cần giải hệ ràng buộc dual chặt: $$2u_1 + u_2 = 40$$, $$u_1 + 2u_2 = 30$$ → $$u_1^* = 50/3 \approx 16.67$$, $$u_2^* = 20/3 \approx 6.67$$ nghìn đồng/giờ (kiểm tra: primal $$x^* = (40, 20)$$ cho $$40 \cdot 40 + 30 \cdot 20 = 2200$$ = dual $$100 \cdot \frac{50}{3} + 80 \cdot \frac{20}{3} = 2200$$ ✓).
+Giải hệ hai ràng buộc đối ngẫu chặt $$2u_1 + u_2 = 40$$ và $$u_1 + 2u_2 = 30$$, ta được $$u_1^* = 50/3 \approx 16.67$$ và $$u_2^* = 20/3 \approx 6.67$$ nghìn đồng/giờ. Kiểm tra lại: nghiệm gốc $$x^* = (40, 20)$$ cho giá trị $$40 \cdot 40 + 30 \cdot 20 = 2200$$, bằng giá trị đối ngẫu $$100 \cdot \frac{50}{3} + 80 \cdot \frac{20}{3} = 2200$$ ✓.
 
-→ Thêm 1 giờ lao động tăng lợi nhuận khoảng **16.67 nghìn đồng** ($$50/3$$).
+Do đó, thêm 1 giờ lao động giúp lợi nhuận tăng tối đa $$50/3 \approx 16.67$$ nghìn đồng.
 
 </details>
 
 ---
 
-### **Bài tập 3: Portfolio Optimization (Boyd & Vandenberghe, Ex. 5.3)**
+### Bài tập 3: Tối ưu danh mục đầu tư (Boyd & Vandenberghe, Ex. 5.3)
 
-Một nhà đầu tư có 1000 triệu đồng muốn đầu tư vào 3 tài sản với lợi nhuận kỳ vọng:
+Một nhà đầu tư có 1000 triệu đồng muốn phân bổ vào 3 loại tài sản với các thông số sau:
 
 | Tài sản | Lợi nhuận (%) | Rủi ro (độ lệch chuẩn) |
 |---------|---------------|-------------------------|
@@ -201,19 +199,19 @@ Một nhà đầu tư có 1000 triệu đồng muốn đầu tư vào 3 tài s�
 | Trái phiếu| 8           | 5                       |
 | Tiền mặt| 3             | 0                       |
 
-Yêu cầu: Lợi nhuận ít nhất 10%, tổng rủi ro không quá 12%.
+Yêu cầu: lợi nhuận đạt ít nhất 10% và tổng rủi ro không vượt quá 12%.
 
-**Yêu cầu:**  
-a) Lập bài toán LP minimize rủi ro  
-b) Xây dựng bài toán đối ngẫu  
-c) Giải thích ý nghĩa của biến đối ngẫu
+**Yêu cầu:**
+a) Lập bài toán LP cực tiểu hóa rủi ro.
+b) Xây dựng bài toán đối ngẫu.
+c) Giải thích ý nghĩa của các biến đối ngẫu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Bài toán Primal:**
+**a) Bài toán gốc:**
 
-Đặt $$x_1, x_2, x_3$$ là tỷ lệ đầu tư vào cổ phiếu, trái phiếu, tiền mặt.
+Đặt $$x_1, x_2, x_3$$ là tỷ trọng đầu tư vào cổ phiếu, trái phiếu và tiền mặt:
 
 $$
 \begin{align}
@@ -224,7 +222,7 @@ $$
 \end{align}
 $$
 
-**b) Bài toán Dual:**
+**b) Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -236,20 +234,20 @@ $$
 \end{align}
 $$
 
-**c) Ý nghĩa:**
+**c) Ý nghĩa và nghiệm:**
 
-- $$u_1$$: Giá trị biên của vốn - nếu có thêm 1% vốn, rủi ro giảm bao nhiêu
-- $$u_2$$: Giá trị của việc nới lỏng ràng buộc lợi nhuận - trade-off giữa lợi nhuận và rủi ro
+- $$u_1$$: giá trị biên của ràng buộc tổng vốn (độ nhạy của rủi ro tối ưu khi thay đổi vế phải ràng buộc tổng tỷ trọng).
+- $$u_2$$: giá trị biên của ràng buộc lợi nhuận, phản ánh sự đánh đổi giữa yêu cầu lợi nhuận và mức rủi ro.
 
-**Nghiệm:** chỉ cần cổ phiếu và trái phiếu: $$15x_1 + 8(1-x_1) = 10 \Rightarrow x_1 = 2/7$$, nên $$x^* = (2/7, 5/7, 0)$$ với rủi ro $$20(2/7) + 5(5/7) = 65/7 \approx 9.29\% \leq 12\%$$ ✓ (ràng buộc rủi ro tối đa 12% không chặt). Nghiệm dual: $$u_1^* = -85/7$$, $$u_2^* = 15/7 \approx 2.14$$ (giá trị dual $$-85/7 + 150/7 = 65/7$$ ✓), nghĩa là nâng yêu cầu lợi nhuận thêm 1% làm rủi ro tăng khoảng 2.14%.
+**Nghiệm:** Danh mục tối ưu chỉ phân bổ vào cổ phiếu và trái phiếu: $$15x_1 + 8(1 - x_1) = 10 \Rightarrow x_1 = 2/7$$, nên $$x^* = (2/7, 5/7, 0)$$ với mức rủi ro $$20(2/7) + 5(5/7) = 65/7 \approx 9.29\% \leq 12\%$$ ✓ (ràng buộc trần rủi ro 12% không chặt). Nghiệm đối ngẫu là $$u_1^* = -85/7$$, $$u_2^* = 15/7 \approx 2.14$$ (giá trị đối ngẫu $$-85/7 + 150/7 = 65/7$$ ✓), cho thấy khi tăng yêu cầu lợi nhuận thêm 1 điểm phần trăm, rủi ro tối ưu tăng khoảng 2,14 điểm phần trăm.
 
 </details>
 
 ---
 
-## **Phần II: Tính Đối Ngẫu Yếu và Mạnh**
+## Phần II: Tính đối ngẫu yếu và đối ngẫu mạnh
 
-### **Bài tập 4: Weak Duality (Boyd & Vandenberghe, Ex. 5.5)**
+### Bài tập 4: Đối ngẫu yếu (Boyd & Vandenberghe, Ex. 5.5)
 
 Cho bài toán:
 
@@ -262,10 +260,10 @@ $$
 \end{align}
 $$
 
-**a)** Xây dựng bài toán đối ngẫu (D)    
-**b)** Cho $$x = (3, 1)$$. Kiểm tra tính khả thi và tìm nghiệm khả thi $$u$$ của (D)    
-**c)** Kiểm tra $$c^Tx \geq b^Tu$$ (weak duality)    
-**d)** Chứng minh $$x^* = (4, 0)$$ là nghiệm tối ưu
+**a)** Xây dựng bài toán đối ngẫu (D).
+**b)** Cho $$x = (3, 1)$$. Kiểm tra tính khả thi của $$x$$ và tìm một nghiệm khả thi $$u$$ của (D).
+**c)** Kiểm chứng bất đẳng thức đối ngẫu yếu $$c^T x \geq b^T u$$.
+**d)** Chứng minh $$x^* = (4, 0)$$ là nghiệm tối ưu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
@@ -283,47 +281,47 @@ $$
 
 **b) Kiểm tra $$x = (3, 1)$$:**
 
-Primal feasibility:
+Tính khả thi gốc:
 - $$3 + 1 = 4 \geq 4$$ ✓
-- $$2(3) + 1 = 7 \geq 6$$ ✓  
+- $$2(3) + 1 = 7 \geq 6$$ ✓
 - $$x \geq 0$$ ✓
 
-Giá trị primal: $$f(x) = 2(3) + 3(1) = 9$$
+Giá trị mục tiêu gốc: $$f(x) = 2(3) + 3(1) = 9$$.
 
-Thử $$u = (0, 1)$$:
+Chọn nghiệm đối ngẫu khả thi $$u = (0, 1)$$:
 - $$0 + 2(1) = 2 \leq 2$$ ✓
 - $$0 + 1 = 1 \leq 3$$ ✓
-- Giá trị dual: $$g(u) = 4(0) + 6(1) = 6$$
+- Giá trị mục tiêu đối ngẫu: $$g(u) = 4(0) + 6(1) = 6$$.
 
-**c) Weak duality:**
+**c) Kiểm chứng đối ngẫu yếu:**
 
 $$
 c^Tx = 9 \geq 6 = b^Tu
 $$
 
-✓ Thỏa mãn!
+Bất đẳng thức đối ngẫu yếu được thỏa mãn ✓.
 
 **d) Chứng minh $$x^* = (4, 0)$$ tối ưu:**
 
-Kiểm tra khả thi:
-- $$4 + 0 = 4 \geq 4$$ ✓ (chặt)
-- $$2(4) + 0 = 8 \geq 6$$ ✓ (lỏng, slack = 2)
+Kiểm tra tính khả thi gốc:
+- $$4 + 0 = 4 \geq 4$$ ✓ (ràng buộc chặt)
+- $$2(4) + 0 = 8 \geq 6$$ ✓ (ràng buộc lỏng, độ dư bằng 2)
 
-Giá trị: $$f(x^*) = 2(4) + 3(0) = 8$$
+Giá trị mục tiêu gốc: $$f(x^*) = 2(4) + 3(0) = 8$$.
 
-Tìm $$u^*$$ thỏa điều kiện bù: ràng buộc 2 lỏng nên $$u_2^* = 0$$; $$x_1^* > 0$$ nên ràng buộc dual 1 chặt: $$u_1^* + 2u_2^* = 2 \Rightarrow u_1^* = 2$$.
+Tìm $$u^*$$ theo điều kiện bù: vì ràng buộc gốc thứ hai lỏng nên $$u_2^* = 0$$; vì $$x_1^* > 0$$ nên ràng buộc đối ngẫu thứ nhất chặt: $$u_1^* + 2u_2^* = 2 \Rightarrow u_1^* = 2$$.
 
-Kiểm tra dual khả thi: $$u_1^* + u_2^* = 2 \leq 3$$ ✓ (lỏng, khớp với $$x_2^* = 0$$). Giá trị dual: $$g(u^*) = 4(2) + 6(0) = 8 = f(x^*)$$ ✓
+Kiểm tra tính khả thi đối ngẫu: $$u_1^* + u_2^* = 2 \leq 3$$ ✓ (lỏng, khớp với $$x_2^* = 0$$). Giá trị mục tiêu đối ngẫu: $$g(u^*) = 4(2) + 6(0) = 8 = f(x^*)$$ ✓.
 
-**Kết luận:** $$x^* = (4, 0)$$ tối ưu (theo weak duality, mọi $$x$$ khả thi đều có $$f(x) \geq g(u^*) = 8$$). Lưu ý $$(2,2)$$ khả thi nhưng $$f = 10 > 8$$ nên không tối ưu; $$x = (3,1)$$ cho $$f = 9$$.
+**Kết luận:** Theo đối ngẫu yếu, mọi $$x$$ khả thi đều thỏa $$f(x) \geq g(u^*) = 8$$, do đó $$x^* = (4, 0)$$ là nghiệm tối ưu. Lưu ý rằng điểm $$(2, 2)$$ khả thi nhưng cho $$f = 10 > 8$$, còn $$x = (3, 1)$$ cho $$f = 9$$.
 
 </details>
 
 ---
 
-### **Bài tập 5: Strong Duality (Boyd & Vandenberghe, Ex. 5.6)**
+### Bài tập 5: Đối ngẫu mạnh (Boyd & Vandenberghe, Ex. 5.6)
 
-Cho:
+Cho bài toán:
 
 $$
 \begin{align}
@@ -334,31 +332,25 @@ $$
 \end{align}
 $$
 
-**a)** Tìm nghiệm tối ưu bằng phương pháp đại số    
-**b)** Xây dựng và giải bài toán đối ngẫu    
-**c)** Tính khoảng cách đối ngẫu    
-**d)** Giải thích tại sao strong duality đúng
+**a)** Tìm nghiệm tối ưu bằng phương pháp đại số.
+**b)** Xây dựng và giải bài toán đối ngẫu.
+**c)** Tính khoảng cách đối ngẫu.
+**d)** Giải thích vì sao tính đối ngẫu mạnh đúng trong trường hợp này.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Giải Primal:**
+**a) Giải bài toán gốc:**
 
-Từ ràng buộc: $$x_1 = 3 - x_2$$, $$x_3 = 2 - x_2$$
-
-Thế vào hàm mục tiêu:
+Từ hai ràng buộc đẳng thức, ta có $$x_1 = 3 - x_2$$ và $$x_3 = 2 - x_2$$. Thế vào hàm mục tiêu:
 
 $$
 f = (3 - x_2) + 2x_2 + (2 - x_2) = 5
 $$
 
-Hàm mục tiêu **không phụ thuộc $$x_2$$**! Giá trị tối ưu: $$f^* = 5$$
+Hàm mục tiêu có giá trị không đổi bằng $$5$$ trên toàn bộ tập khả thi, nên giá trị tối ưu là $$f^* = 5$$. Điều kiện không âm của các biến cho $$0 \leq x_2 \leq 2$$; chẳng hạn $$x^* = (2, 1, 1)$$ là một nghiệm tối ưu.
 
-Điều kiện: $$0 \leq x_2 \leq 2$$ (từ $$x_3 \geq 0$$)
-
-Ví dụ nghiệm: $$x^* = (2, 1, 1)$$
-
-**b) Dual:**
+**b) Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -370,37 +362,33 @@ $$
 \end{align}
 $$
 
-Maximize: chọn $$u_1 = 1$$, $$u_2 = 1$$
+Để cực đại hóa $$3u_1 + 2u_2$$, chọn $$u_1 = 1$$ và $$u_2 = 1$$. Kiểm tra các ràng buộc: $$1 \leq 1$$ ✓, $$1 + 1 = 2 \leq 2$$ ✓, $$1 \leq 1$$ ✓. Giá trị tối ưu đối ngẫu: $$g^* = 3(1) + 2(1) = 5$$.
 
-Kiểm tra: $$1 \leq 1$$ ✓, $$1 + 1 = 2 \leq 2$$ ✓, $$1 \leq 1$$ ✓
-
-Giá trị: $$g^* = 3(1) + 2(1) = 5$$
-
-**c) Duality gap:**
+**c) Khoảng cách đối ngẫu:**
 
 $$
 \text{Gap} = f^* - g^* = 5 - 5 = 0
 $$
 
-Strong duality đúng! ✓
+Tính đối ngẫu mạnh được thỏa mãn ✓.
 
 **d) Giải thích:**
 
-Trong LP, strong duality đúng khi một trong hai bài toán có nghiệm tối ưu hữu hạn (khi đó bài toán kia cũng có nghiệm tối ưu và hai giá trị bằng nhau):
-- Nếu primal unbounded thì dual infeasible (và ngược lại)
-- Cả hai bài toán có thể cùng infeasible
+Đối với quy hoạch tuyến tính, tính đối ngẫu mạnh luôn đúng khi một trong hai bài toán có nghiệm tối ưu hữu hạn (khi đó bài toán còn lại cũng có nghiệm tối ưu với cùng giá trị mục tiêu):
+- Nếu bài toán gốc không bị chặn thì bài toán đối ngẫu vô nghiệm (và ngược lại).
+- Ngoại lệ duy nhất là trường hợp cả hai bài toán đều vô nghiệm.
 
-Điều kiện Slater tự động thỏa với LP khả thi.
+Với LP khả thi, các ràng buộc đều là hàm affine nên điều kiện Slater dạng mở rộng tự động thỏa mãn.
 
 </details>
 
 ---
 
-## **Phần III: Điều kiện Bù (Complementary Slackness)**
+## Phần III: Điều kiện bù (Complementary Slackness)
 
-### **Bài tập 6: Applying CS (Bertsimas & Tsitsiklis, Ex. 4.3)**
+### Bài tập 6: Áp dụng điều kiện bù (Bertsimas & Tsitsiklis, Ex. 4.3)
 
-Cho bài toán và các cặp nghiệm:
+Cho bài toán gốc và ba cặp nghiệm thử:
 
 $$
 \begin{align}
@@ -411,17 +399,17 @@ $$
 \end{align}
 $$
 
-**Các cặp nghiệm:**  
-1. $$x = (2, 2)$$, $$u = (1, 1)$$  
-2. $$x = (3, 1)$$, $$u = (0, 3/2)$$  
+**Các cặp nghiệm:**
+1. $$x = (2, 2)$$, $$u = (1, 1)$$
+2. $$x = (3, 1)$$, $$u = (0, 3/2)$$
 3. $$x = (0, 6)$$, $$u = (0, 2)$$
 
-**Yêu cầu:** Kiểm tra cặp nào tối ưu bằng điều kiện bù.
+**Yêu cầu:** Kiểm tra cặp nghiệm nào tối ưu bằng điều kiện bù.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**Dual:**
+**Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -432,7 +420,7 @@ $$
 \end{align}
 $$
 
-**Điều kiện bù:**
+**Hệ điều kiện bù:**
 1. $$u_1 \cdot [x_1 + x_2 - 4] = 0$$
 2. $$u_2 \cdot [2x_1 + x_2 - 6] = 0$$
 3. $$x_1 \cdot [u_1 + 2u_2 - 3] = 0$$
@@ -442,66 +430,60 @@ $$
 
 **Cặp 1: $$x = (2,2)$$, $$u = (1,1)$$**
 
-Primal feasible:
+Tính khả thi gốc:
 - $$2 + 2 = 4 \geq 4$$ ✓ (chặt)
 - $$4 + 2 = 6 \geq 6$$ ✓ (chặt)
 
-Dual feasible:
+Tính khả thi đối ngẫu:
 - $$1 + 2 = 3 \leq 3$$ ✓ (chặt)
 - $$1 + 1 = 2 \leq 2$$ ✓ (chặt)
 
-Complementary slackness:
+Điều kiện bù:
 1. $$1 \cdot 0 = 0$$ ✓
 2. $$1 \cdot 0 = 0$$ ✓
 3. $$2 \cdot 0 = 0$$ ✓
 4. $$2 \cdot 0 = 0$$ ✓
 
-**Kết luận:** Cặp 1 tối ưu! ✓✓✓
-
-Giá trị: $$f = 3(2) + 2(2) = 10 = 4(1) + 6(1) = g$$ ✓
+**Kết luận:** Cặp 1 là cặp nghiệm tối ưu ✓. Giá trị mục tiêu: $$f = 3(2) + 2(2) = 10 = 4(1) + 6(1) = g$$ ✓.
 
 ---
 
 **Cặp 2: $$x = (3,1)$$, $$u = (0, 3/2)$$**
 
-Primal: $$3+1=4$$ ✓, $$6+1=7 > 6$$ (slack = 1)
+- Khả thi gốc: $$3 + 1 = 4$$ ✓, $$6 + 1 = 7 > 6$$ (độ dư bằng 1).
+- Khả thi đối ngẫu: $$0 + 3 = 3$$ ✓, $$0 + 3/2 = 3/2 \leq 2$$ ✓.
+- Điều kiện bù thứ 2: $$u_2 \cdot [7 - 6] = (3/2)(1) = 3/2 \neq 0$$ ✗.
 
-Dual: $$0+3=3$$ ✓, $$0+3/2=3/2$$ ✓
-
-CS 2: $$u_2 \cdot [7-6] = (3/2)(1) = 3/2 \neq 0$$ ✗
-
-**Kết luận:** Không tối ưu!
+**Kết luận:** Không tối ưu.
 
 ---
 
 **Cặp 3: $$x = (0,6)$$, $$u = (0,2)$$**
 
-Dual: $$0 + 4 = 4 \not\leq 3$$ ✗
+- Kiểm tra khả thi đối ngẫu: $$0 + 2(2) = 4 \not\leq 3$$ ✗.
 
-**Kết luận:** Dual không khả thi!
+**Kết luận:** Nghiệm đối ngẫu không khả thi, nên cặp 3 không tối ưu.
 
 </details>
 
 ---
 
-### **Bài tập 7: Shadow Prices (Bertsimas & Tsitsiklis, Ex. 4.7)**
+### Bài tập 7: Giá bóng (Bertsimas & Tsitsiklis, Ex. 4.7)
 
-Bài toán sản xuất có nghiệm tối ưu $$x^* = (40, 20)$$ với:
-- Lao động: $$2(40) + 20 = 100$$ (chặt)
-- Máy móc: $$40 + 2(20) = 80$$ (chặt)
+Xét lại bài toán sản xuất ở Bài tập 2 với hàm mục tiêu $$\max 40x_1 + 30x_2$$ và nghiệm tối ưu $$x^* = (40, 20)$$, tại đó hai ràng buộc đều chặt:
+- Lao động: $$2(40) + 20 = 100$$
+- Máy móc: $$40 + 2(20) = 80$$
 
-**a)** Tính shadow price của mỗi tài nguyên    
-**b)** Nếu mua thêm 1 giờ lao động với giá 12 nghìn, có nên mua không?    
-**c)** Phân tích độ nhạy khi lao động tăng lên 105 giờ
+**a)** Tính giá bóng của từng nguồn lực.
+**b)** Nếu có thể mua thêm 1 giờ lao động với giá 12 nghìn đồng, có nên mua không?
+**c)** Phân tích độ nhạy khi quỹ lao động tăng lên 105 giờ.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Tính shadow price:**
+**a) Tính giá bóng:**
 
-Hàm mục tiêu: $$\max 40x_1 + 30x_2$$
-
-Từ điều kiện bù (cả hai ràng buộc chặt, cả hai biến dương):
+Vì cả hai biến gốc đều dương và cả hai ràng buộc đều chặt, theo điều kiện bù ta có hệ:
 
 $$
 \begin{cases}
@@ -510,48 +492,40 @@ u_1 + 2u_2 = 30
 \end{cases}
 $$
 
-Giải hệ:
-- Từ (1): $$u_2 = 40 - 2u_1$$
-- Thế vào (2): $$u_1 + 2(40 - 2u_1) = 30$$
-- $$u_1 + 80 - 4u_1 = 30$$
-- $$-3u_1 = -50$$
-- $$u_1 = 50/3 \approx 16.67$$
-- $$u_2 = 40 - 2(50/3) = 40 - 100/3 = 20/3 \approx 6.67$$
+Giải hệ phương trình:
+- Từ phương trình (1): $$u_2 = 40 - 2u_1$$.
+- Thế vào phương trình (2): $$u_1 + 2(40 - 2u_1) = 30 \Rightarrow -3u_1 = -50 \Rightarrow u_1^* = 50/3 \approx 16.67$$.
+- Suy ra $$u_2^* = 40 - 2(50/3) = 20/3 \approx 6.67$$.
 
-**Shadow prices:**
-- Lao động: $$u_1^* = 16.67$$ nghìn đồng/giờ
-- Máy móc: $$u_2^* = 6.67$$ nghìn đồng/giờ
+**Giá bóng:**
+- Lao động: $$u_1^* = 50/3 \approx 16.67$$ nghìn đồng/giờ.
+- Máy móc: $$u_2^* = 20/3 \approx 6.67$$ nghìn đồng/giờ.
 
-**b) Quyết định mua:**
+**b) Quyết định mua thêm lao động:**
 
-Giá mua: 12 nghìn đồng/giờ    
-Giá trị biên: $$u_1^* = 16.67$$ nghìn đồng/giờ
+Giá mua là 12 nghìn đồng/giờ, thấp hơn giá trị biên $$u_1^* \approx 16.67$$ nghìn đồng/giờ. Vì $$12 < 16.67$$, doanh nghiệp **nên mua** (lợi nhuận ròng tăng thêm khoảng 4,67 nghìn đồng/giờ).
 
-$$12 < 16.67$$ → **Nên mua** (lời 4.67 nghìn/giờ)
+**c) Phân tích độ nhạy:**
 
-**c) Độ nhạy:**
-
-Tăng 5 giờ lao động:
+Khi tăng thêm 5 giờ lao động (từ 100 lên 105 giờ, vẫn nằm trong khoảng ổn định cơ sở tối ưu):
 
 $$
-\Delta f \approx u_1^* \times 5 = 16.67 \times 5 = 83.35 \text{ nghìn đồng}
+\Delta f = u_1^* \times 5 = \frac{50}{3} \times 5 = \frac{250}{3} \approx 83.33 \text{ nghìn đồng}
 $$
 
-Lợi nhuận hiện tại: $$40(40) + 30(20) = 2200$$ nghìn
+Lợi nhuận hiện tại là $$40(40) + 30(20) = 2200$$ nghìn đồng, nên lợi nhuận mới đạt khoảng $$2283.33$$ nghìn đồng.
 
-Lợi nhuận mới: $$2200 + 83.35 = 2283.35$$ nghìn đồng
-
-*(Lưu ý: Shadow price chỉ chính xác trong khoảng sensitivity range)*
+*(Lưu ý: Giá bóng chỉ có hiệu lực trong khoảng độ nhạy mà tập ràng buộc chặt không đổi.)*
 
 </details>
 
 ---
 
-## **Phần IV: Max Flow và Min Cut**
+## Phần IV: Luồng cực đại và lát cắt cực tiểu
 
-### **Bài tập 8: Max Flow Problem (Bertsimas & Tsitsiklis, Ex. 7.2)**
+### Bài tập 8: Bài toán luồng cực đại (Bertsimas & Tsitsiklis, Ex. 7.2)
 
-Cho mạng với dung lượng:
+Cho mạng có hướng với dung lượng các cung như sau:
 
 ```
     s --10--> a --8--> t
@@ -563,17 +537,17 @@ Cho mạng với dung lượng:
           10
 ```
 
-**a)** Viết bài toán max flow dạng LP    
-**b)** Tìm một luồng khả thi    
-**c)** Tìm một lát cắt và tính công suất    
-**d)** Kiểm chứng: giá trị luồng $$\leq$$ công suất cắt
+**a)** Viết bài toán luồng cực đại dưới dạng LP.
+**b)** Tìm một luồng khả thi.
+**c)** Tìm một lát cắt và tính dung lượng của nó.
+**d)** Kiểm chứng bất đẳng thức: giá trị luồng $$\leq$$ dung lượng lát cắt.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Max Flow LP:**
+**a) Bài toán LP luồng cực đại:**
 
-Biến: $$f_{ij}$$ là luồng trên cung $$(i,j)$$
+Đặt $$f_{ij}$$ là luồng trên cung $$(i, j)$$:
 
 $$
 \begin{align}
@@ -590,43 +564,39 @@ $$
 
 **b) Luồng khả thi:**
 
-Thử:
+Xét luồng:
 - $$f_{sa} = 10$$, $$f_{sb} = 8$$
 - $$f_{at} = 8$$, $$f_{ab} = 0$$, $$f_{ac} = 2$$
 - $$f_{bc} = 8$$, $$f_{ct} = 10$$
 
-Kiểm tra bảo toàn:
-- Nút a: $$10 - 0 - 8 - 2 = 0$$ ✓
-- Nút b: $$8 + 0 - 8 = 0$$ ✓
-- Nút c: $$2 + 8 - 10 = 0$$ ✓
+Kiểm tra điều kiện bảo toàn luồng tại các nút trung gian:
+- Nút $$a$$: $$10 - 0 - 8 - 2 = 0$$ ✓
+- Nút $$b$$: $$8 + 0 - 8 = 0$$ ✓
+- Nút $$c$$: $$2 + 8 - 10 = 0$$ ✓
 
-Giá trị luồng: $$|f| = 10 + 8 = 18$$
+Giá trị luồng: $$|f| = 10 + 8 = 18$$.
 
 **c) Lát cắt:**
 
-Cắt $$S = \{s\}$$, $$T = \{a,b,c,t\}$$:
+Xét lát cắt $$S = \{s\}$$, $$T = \{a, b, c, t\}$$. Các cung đi từ $$S$$ sang $$T$$ gồm:
+- $$(s, a)$$ có dung lượng 10
+- $$(s, b)$$ có dung lượng 8
 
-Cung từ $$S$$ sang $$T$$:
-- $$(s,a)$$: dung lượng 10
-- $$(s,b)$$: dung lượng 8
-
-Công suất: $$C(S,T) = 10 + 8 = 18$$
+Dung lượng lát cắt: $$C(S, T) = 10 + 8 = 18$$.
 
 **d) Kiểm chứng:**
 
-Giá trị luồng = 18 = Công suất cắt
-
-Theo định lý Max-Flow Min-Cut: Đây là luồng cực đại và lát cắt cực tiểu! ✓
+Ta có giá trị luồng bằng $$18$$, đúng bằng dung lượng lát cắt $$C(S, T) = 18$$. Theo định lý luồng cực đại – lát cắt cực tiểu, đây đồng thời là luồng cực đại và lát cắt cực tiểu ✓.
 
 </details>
 
 ---
 
-## **Phần V: Matrix Games**
+## Phần V: Trò chơi ma trận
 
-### **Bài tập 9: Zero-Sum Game (Dantzig, Ex. 8.1)**
+### Bài tập 9: Trò chơi tổng bằng không (Dantzig, Ex. 8.1)
 
-Ma trận phần thưởng (từ góc độ người chơi hàng):
+Cho ma trận chi trả (tính theo phần thưởng của người chơi hàng):
 
 $$
 P = \begin{bmatrix}
@@ -636,35 +606,35 @@ P = \begin{bmatrix}
 \end{bmatrix}
 $$
 
-**a)** Kiểm tra điểm cân bằng Nash thuần túy    
-**b)** Viết LP cho chiến lược hỗn hợp (người chơi hàng)    
-**c)** Viết LP đối ngẫu (người chơi cột)    
-**d)** Giải thích giá trị trò chơi
+**a)** Kiểm tra xem trò chơi có điểm cân bằng Nash thuần túy hay không.
+**b)** Viết bài toán LP tìm chiến lược hỗn hợp tối ưu cho người chơi hàng.
+**c)** Viết bài toán LP đối ngẫu cho người chơi cột.
+**d)** Giải thích giá trị của trò chơi.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Nash equilibrium thuần túy:**
+**a) Kiểm tra cân bằng Nash thuần túy:**
 
-Tìm min mỗi hàng:
+Giá trị nhỏ nhất của từng hàng:
 - Hàng 1: $$\min\{3, -1, 2\} = -1$$
 - Hàng 2: $$\min\{1, 4, -2\} = -2$$
 - Hàng 3: $$\min\{0, 2, 3\} = 0$$
 
-Maxmin: $$\max\{-1, -2, 0\} = 0$$ (hàng 3)
+Suy ra $$\text{Maxmin} = \max\{-1, -2, 0\} = 0$$ (hàng 3).
 
-Tìm max mỗi cột:
+Giá trị lớn nhất của từng cột:
 - Cột 1: $$\max\{3, 1, 0\} = 3$$
 - Cột 2: $$\max\{-1, 4, 2\} = 4$$
 - Cột 3: $$\max\{2, -2, 3\} = 3$$
 
-Minmax: $$\min\{3, 4, 3\} = 3$$
+Suy ra $$\text{Minmax} = \min\{3, 4, 3\} = 3$$.
 
-$$\text{Maxmin} \neq \text{Minmax}$$ → **Không có Nash equilibrium thuần túy**
+Vì $$\text{Maxmin} \neq \text{Minmax}$$, trò chơi **không có điểm cân bằng Nash thuần túy**.
 
-**b) LP cho người chơi hàng:**
+**b) Bài toán LP cho người chơi hàng:**
 
-Maximize guaranteed payoff $$v$$:
+Cực đại hóa mức thưởng đảm bảo $$v$$:
 
 $$
 \begin{align}
@@ -677,9 +647,9 @@ $$
 \end{align}
 $$
 
-**c) LP người chơi cột:**
+**c) Bài toán LP cho người chơi cột:**
 
-Minimize max loss $$u$$:
+Cực tiểu hóa mức lỗ tối đa $$u$$:
 
 $$
 \begin{align}
@@ -694,34 +664,27 @@ $$
 
 **d) Giá trị trò chơi:**
 
-Theo Von Neumann minimax theorem:
+Theo định lý minimax của von Neumann:
 
 $$
 v^* = \max_x \min_y x^T P y = \min_y \max_x x^T P y
 $$
 
-Giá trị này là điểm cân bằng Nash trong chiến lược hỗn hợp.
+Giá trị $$v^*$$ là mức chi trả tại cân bằng Nash trong chiến lược hỗn hợp.
 
-**Thử nghiệm:** $$x = y = (1/3, 1/3, 1/3)$$
+**Thử nghiệm với chiến lược đều** $$x = y = (1/3, 1/3, 1/3)$$: chi trả kỳ vọng ứng với ba cột lần lượt là $$(1/3)(3 + 1 + 0) = 4/3$$, $$(1/3)(-1 + 4 + 2) = 5/3$$ và $$(1/3)(2 - 2 + 3) = 1$$. Giá trị nhỏ nhất là $$1$$, nên $$v^* \geq 1$$.
 
-Expected payoff với mỗi cột:
-- Cột 1: $$(1/3)(3+1+0) = 4/3$$
-- Cột 2: $$(1/3)(-1+4+2) = 5/3$$
-- Cột 3: $$(1/3)(2-2+3) = 1$$
-
-Min = 1, vậy $$v^* \geq 1$$.
-
-**Nghiệm tối ưu (giải LP):** $$x^* = (3/8, 1/4, 3/8)$$, $$y^* = (17/40, 7/20, 9/40)$$, $$v^* = 11/8 = 1.375$$. Kiểm tra: với $$x^*$$, payoff của từng cột đều bằng $$\frac{11}{8}$$ (cột 1: $$\frac{9}{8}+\frac{2}{8}$$; cột 2: $$-\frac{3}{8}+\frac{8}{8}+\frac{6}{8}$$; cột 3: $$\frac{6}{8}-\frac{4}{8}+\frac{9}{8}$$). Lưu ý $$\text{Maxmin} = 0 < v^* = 1.375 < \text{Minmax} = 3$$.
+**Nghiệm tối ưu (giải LP):** $$x^* = (3/8, 1/4, 3/8)$$, $$y^* = (17/40, 7/20, 9/40)$$, giá trị trò chơi $$v^* = 11/8 = 1.375$$. Kiểm tra: với $$x^*$$, chi trả kỳ vọng theo từng cột đều bằng $$\frac{11}{8}$$ (cột 1: $$\frac{9}{8} + \frac{2}{8}$$; cột 2: $$-\frac{3}{8} + \frac{8}{8} + \frac{6}{8}$$; cột 3: $$\frac{6}{8} - \frac{4}{8} + \frac{9}{8}$$). Ta thấy $$\text{Maxmin} = 0 < v^* = 1.375 < \text{Minmax} = 3$$.
 
 </details>
 
 ---
 
-## **Phần VI: Bài tập Nâng cao từ Boyd & Vandenberghe**
+## Phần VI: Bài tập nâng cao từ Boyd & Vandenberghe
 
-### **Bài tập 10: Robust LP (Boyd & Vandenberghe, Ex. 5.11)**
+### Bài tập 10: Quy hoạch tuyến tính bền vững (Robust LP – Boyd & Vandenberghe, Ex. 5.11)
 
-Xét bài toán LP không chắc chắn về hệ số:
+Xét bài toán LP có hệ số bất định:
 
 $$
 \begin{align}
@@ -731,45 +694,45 @@ $$
 \end{align}
 $$
 
-trong đó $$a_i$$ có thể dao động trong ellipsoid: $$\{a_i + P_i u : \|u\| \leq 1\}$$
+trong đó mỗi vector $$a_i$$ biến thiên trong ellipsoid $$\{a_i + P_i u : \|u\| \leq 1\}$$.
 
-**Yêu cầu:**    
-a) Viết bài toán robust tương đương    
-b) Chứng minh đây là một SOCP (không còn là bài toán LP thuần túy)    
-c) Xây dựng bài toán đối ngẫu
+**Yêu cầu:**
+a) Viết dạng tương đương của bài toán bền vững (robust).
+b) Chỉ ra đây là một bài toán quy hoạch nón bậc hai (SOCP), không còn là LP thuần túy.
+c) Nhận xét về bài toán đối ngẫu.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Robust formulation:**
+**a) Dạng tương đương bền vững:**
 
-Ràng buộc robust yêu cầu:
+Ràng buộc bền vững đòi hỏi:
 
 $$
 (a_i + P_i u)^T x \leq b_i, \quad \forall \|u\| \leq 1
 $$
 
-Tương đương:
+Điều này tương đương với:
 
 $$
 a_i^T x + \max_{\|u\| \leq 1} u^T P_i^T x \leq b_i
 $$
 
-Theo Cauchy-Schwarz:
+Theo bất đẳng thức Cauchy–Schwarz:
 
 $$
 \max_{\|u\| \leq 1} u^T P_i^T x = \|P_i^T x\|
 $$
 
-Vậy ràng buộc robust:
+Do đó, ràng buộc bền vững trở thành:
 
 $$
 a_i^T x + \|P_i^T x\| \leq b_i
 $$
 
-**b) Đây là SOCP, không phải LP:**
+**b) Đây là bài toán SOCP:**
 
-Dạng tương đương SOCP (Second-Order Cone Program):
+Bài toán tương đương có dạng quy hoạch nón bậc hai (Second-Order Cone Program – SOCP):
 
 $$
 \begin{align}
@@ -779,37 +742,37 @@ $$
 \end{align}
 $$
 
-Nếu $$P_i = 0$$ (không có uncertainty), quay về LP thông thường.
+Khi $$P_i = 0$$ (không có bất định), bài toán quay về LP thông thường.
 
 **c) Bài toán đối ngẫu:**
 
-Sử dụng duality của SOCP, dual problem khá phức tạp và không còn là LP thuần túy.
+Bài toán đối ngẫu được xây dựng theo lý thuyết đối ngẫu của SOCP (có chứa ràng buộc chuẩn Euclide của các biến đối ngẫu) chứ không còn là một LP thuần túy.
 
 </details>
 
 ---
 
-### **Bài tập 11: Chebyshev Center (Boyd & Vandenberghe, Ex. 8.5)**
+### Bài tập 11: Tâm Chebyshev (Boyd & Vandenberghe, Ex. 8.5)
 
-Tìm điểm $$x_c$$ và bán kính $$r$$ lớn nhất sao cho hình cầu $$\{x : \|x - x_c\| \leq r\}$$ nằm trong polyhedron $$\{x : a_i^T x \leq b_i, i = 1, \ldots, m\}$$.
+Tìm tâm $$x_c$$ và bán kính $$r$$ lớn nhất sao cho hình cầu Euclide $$\{x : \|x - x_c\| \leq r\}$$ nằm trọn trong đa diện $$\{x : a_i^T x \leq b_i, i = 1, \ldots, m\}$$.
 
-**Yêu cầu:**    
-a) Viết bài toán tối ưu    
-b) Chứng minh đây là bài toán LP    
-c) Giải cho polyhedron cụ thể
+**Yêu cầu:**
+a) Lập bài toán tối ưu.
+b) Chứng minh đây là một bài toán LP.
+c) Giải cho một đa diện cụ thể.
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) Formulation:**
+**a) Lập bài toán tối ưu:**
 
-Điều kiện để hình cầu nằm trong polyhedron:
+Điều kiện để hình cầu nằm trong đa diện là:
 
 $$
 a_i^T x \leq b_i, \quad \forall x : \|x - x_c\| \leq r
 $$
 
-Tương đương:
+Điều này tương đương với:
 
 $$
 \max_{\|x - x_c\| \leq r} a_i^T x \leq b_i
@@ -819,7 +782,7 @@ $$
 a_i^T x_c + r\|a_i\| \leq b_i
 $$
 
-**Bài toán:**
+Vậy bài toán tìm tâm Chebyshev là:
 
 $$
 \begin{align}
@@ -828,19 +791,19 @@ $$
 \end{align}
 $$
 
-**b) Chứng minh là LP:**
+**b) Chứng minh là bài toán LP:**
 
-Đây là LP với biến $$(x_c, r)$$. Hệ số $$\|a_i\|$$ là hằng số.
+Vì các chuẩn $$\|a_i\|$$ là hằng số đã biết, cả hàm mục tiêu lẫn các ràng buộc đều tuyến tính theo biến $$(x_c, r)$$, nên đây là một bài toán LP.
 
 **c) Ví dụ cụ thể:**
 
-Cho polyhedron:
+Xét đa diện xác định bởi bốn bất đẳng thức:
 - $$x_1 + x_2 \leq 4$$
 - $$x_1 - x_2 \leq 2$$
 - $$-x_1 + x_2 \leq 2$$
 - $$-x_1 - x_2 \leq 2$$
 
-LP:
+Bài toán LP tương ứng (với $$\|a_i\| = \sqrt{2}$$ cho cả bốn ràng buộc):
 
 $$
 \begin{align}
@@ -852,15 +815,15 @@ $$
 \end{align}
 $$
 
-Giải (bằng tay hoặc solver): $$r\sqrt{2} = 2$$, tức $$r = \sqrt{2} \approx 1.414$$, với tâm $$x_c = (t, t)$$, $$0 \leq t \leq 1$$ (ví dụ $$x_c = (0, 0)$$); nghiệm không duy nhất vì ràng buộc 1 không chặt. Kiểm tra với $$x_c = (0,0)$$: vế trái của 4 ràng buộc bằng $$2, 2, 2, 2$$, tức $$\leq 4, 2, 2, 2$$ ✓ (ràng buộc 2, 3, 4 chặt).
+Giải bài toán ta thu được $$r\sqrt{2} = 2$$, tức $$r = \sqrt{2} \approx 1.414$$, với tâm $$x_c = (t, t)$$ với $$0 \leq t \leq 1$$ (ví dụ $$x_c = (0, 0)$$); nghiệm không duy nhất vì ràng buộc thứ nhất không chặt. Kiểm tra tại $$x_c = (0, 0)$$: vế trái của 4 ràng buộc đều bằng $$2$$, thỏa mãn $$\leq 4, 2, 2, 2$$ ✓ (ba ràng buộc cuối chặt).
 
 </details>
 
 ---
 
-### **Bài tập 12: Phân bổ tài nguyên**
+### Bài tập 12: Phân bổ tài nguyên
 
-Công ty sản xuất 3 sản phẩm:
+Một công ty sản xuất 3 sản phẩm A, B, C với các thông số:
 
 | Sản phẩm | Lợi nhuận | Lao động | Máy | Nguyên liệu |
 |----------|-----------|----------|-----|-------------|
@@ -868,16 +831,16 @@ Công ty sản xuất 3 sản phẩm:
 | B        | 4         | 1        | 2   | 2           |
 | C        | 6         | 3        | 2   | 1           |
 
-Tài nguyên: 100 giờ lao động, 80 giờ máy, 90 kg nguyên liệu. Biết rằng ở phương án tối ưu cả ba sản phẩm đều được sản xuất và cả ba tài nguyên đều được dùng hết.
+Nguồn lực hiện có: 100 giờ lao động, 80 giờ máy và 90 kg nguyên liệu. Biết rằng tại phương án tối ưu, cả ba sản phẩm đều được sản xuất và cả ba nguồn lực đều dùng hết.
 
-**a)** Lập bài toán LP và bài toán đối ngẫu.  
-**b)** Tìm phương án sản xuất tối ưu và shadow price của mỗi tài nguyên.  
+**a)** Lập bài toán LP gốc và bài toán đối ngẫu.
+**b)** Tìm phương án sản xuất tối ưu và giá bóng của từng nguồn lực.
 **c)** Có nên mua thêm 10 giờ lao động (giá 1,5 triệu/giờ) hay 10 kg nguyên liệu (giá 1 triệu/kg) không?
 
 <details markdown="1">
 <summary><strong>Lời giải chi tiết</strong></summary>
 
-**a) LP:**
+**a) Bài toán LP gốc:**
 
 $$
 \begin{align}
@@ -889,7 +852,7 @@ $$
 \end{align}
 $$
 
-**Đối ngẫu:**
+**Bài toán đối ngẫu:**
 
 $$
 \begin{align}
@@ -901,17 +864,17 @@ $$
 \end{align}
 $$
 
-**b) Phương án tối ưu và shadow price:**
+**b) Phương án tối ưu và giá bóng:**
 
-Ba ràng buộc tài nguyên đều chặt, nên $$x^*$$ là nghiệm của hệ $$Ax = b$$:
+Vì cả ba ràng buộc nguồn lực đều chặt, $$x^*$$ là nghiệm của hệ $$Ax = b$$:
 
 $$
 x^* = \left(\tfrac{160}{11}, \tfrac{150}{11}, \tfrac{210}{11}\right) \approx (14{,}55;\ 13{,}64;\ 19{,}09), \qquad 5x_1 + 4x_2 + 6x_3 = \tfrac{2660}{11} \approx 241{,}82
 $$
 
-Kiểm tra lao động: $$2 \cdot 160 + 150 + 3 \cdot 210 = 1100$$, chia 11 được 100 ✓.
+Kiểm tra ràng buộc lao động: $$2 \cdot 160 + 150 + 3 \cdot 210 = 1100$$, chia cho 11 được 100 ✓.
 
-Vì $$x_1, x_2, x_3 > 0$$, theo điều kiện bù (complementary slackness) cả ba ràng buộc đối ngẫu đều chặt:
+Vì $$x_1, x_2, x_3 > 0$$, theo điều kiện bù cả ba ràng buộc đối ngẫu đều chặt:
 
 $$
 \begin{cases}
@@ -923,57 +886,55 @@ u_1 + 2u_2 + 2u_3 = 4 \\
 u^* = \left(\tfrac{14}{11}, \tfrac{9}{11}, \tfrac{6}{11}\right) \approx (1{,}27;\ 0{,}82;\ 0{,}55)
 $$
 
-Kiểm tra: $$100u_1 + 80u_2 + 90u_3 = \tfrac{1400 + 720 + 540}{11} = \tfrac{2660}{11}$$, bằng giá trị tối ưu của bài toán gốc ✓ (đối ngẫu mạnh). Mọi $$u_i \ge 0$$ nên $$u^*$$ khả thi.
+Kiểm tra: $$100u_1 + 80u_2 + 90u_3 = \tfrac{1400 + 720 + 540}{11} = \tfrac{2660}{11}$$, khớp với giá trị tối ưu bài toán gốc ✓ (đối ngẫu mạnh). Mọi $$u_i \ge 0$$ nên $$u^*$$ khả thi.
 
-Ý nghĩa: thêm 1 giờ lao động tăng lợi nhuận khoảng 1,27; thêm 1 giờ máy khoảng 0,82; thêm 1 kg nguyên liệu khoảng 0,55.
+Ý nghĩa: thêm 1 giờ lao động tăng lợi nhuận khoảng 1,27; thêm 1 giờ máy tăng khoảng 0,82; thêm 1 kg nguyên liệu tăng khoảng 0,55.
 
-**c) Quyết định:**
+**c) Quyết định mua thêm nguồn lực:**
 
-Shadow price chỉ đúng khi cơ sở tối ưu không đổi. Với $$A^{-1} = \tfrac{1}{11}\begin{pmatrix} 2 & -5 & 4 \\ -5 & 7 & 1 \\ 4 & 1 & -3 \end{pmatrix}$$:
+Giá bóng chỉ còn đúng khi cơ sở tối ưu không thay đổi. Với $$A^{-1} = \tfrac{1}{11}\begin{pmatrix} 2 & -5 & 4 \\ -5 & 7 & 1 \\ 4 & 1 & -3 \end{pmatrix}$$:
 - Thêm 10 giờ lao động: $$x = A^{-1}(110, 80, 90) = \left(\tfrac{180}{11}, \tfrac{100}{11}, \tfrac{250}{11}\right) > 0$$, cơ sở giữ nguyên.
 - Thêm 10 kg nguyên liệu: $$x = A^{-1}(100, 80, 100) = \left(\tfrac{200}{11}, \tfrac{160}{11}, \tfrac{180}{11}\right) > 0$$, cơ sở giữ nguyên.
 
-**Phương án 1 (lao động):** lợi nhuận tăng $$10 \cdot \tfrac{14}{11} \approx 12{,}7$$ triệu, chi phí 15 triệu, **lỗ khoảng 2,3 triệu**.
+**Phương án 1 (lao động):** lợi nhuận tăng $$10 \cdot \tfrac{14}{11} \approx 12{,}7$$ triệu, chi phí 15 triệu → **lỗ khoảng 2,3 triệu**.
 
-**Phương án 2 (nguyên liệu):** lợi nhuận tăng $$10 \cdot \tfrac{6}{11} \approx 5{,}5$$ triệu, chi phí 10 triệu, **lỗ khoảng 4,5 triệu**.
+**Phương án 2 (nguyên liệu):** lợi nhuận tăng $$10 \cdot \tfrac{6}{11} \approx 5{,}5$$ triệu, chi phí 10 triệu → **lỗ khoảng 4,5 triệu**.
 
-**Kết luận:** giá mua của cả hai tài nguyên đều cao hơn shadow price, nên không nên mua thêm. Nếu buộc phải chọn một, phương án 1 lỗ ít hơn.
+**Kết luận:** Giá mua của cả hai nguồn lực đều cao hơn giá bóng tương ứng, nên không nên mua thêm. Nếu bắt buộc phải chọn một trong hai, phương án 1 lỗ ít hơn.
 
 </details>
 
 ---
 
-## **Tổng kết và Chiến lược**
+## Tổng kết và chiến lược giải bài tập
 
-### **Xây dựng đối ngẫu:**
-- Xác định dạng bài toán (min/max, ràng buộc)
-- Áp dụng quy tắc tương ứng primal-dual
-- Số biến dual = số ràng buộc primal
-- Số ràng buộc dual = số biến primal
+### Xây dựng bài toán đối ngẫu
+- Xác định rõ dạng bài toán gốc (cực tiểu hay cực đại, loại ràng buộc và dấu biến).
+- Áp dụng quy tắc tương ứng gốc – đối ngẫu: số biến đối ngẫu bằng số ràng buộc gốc, và số ràng buộc đối ngẫu bằng số biến gốc.
 
-### **Kiểm tra tối ưu:**
-- Primal + Dual feasibility
-- Complementary slackness: $$u_i(a_i^T x - b_i) = 0$$
-- So sánh giá trị: $$f^* = g^*$$ (strong duality)
+### Kiểm tra tính tối ưu
+- Kiểm tra tính khả thi của cả nghiệm gốc và nghiệm đối ngẫu.
+- Kiểm tra điều kiện bù: $$u_i(a_i^T x - b_i) = 0$$.
+- Đối chiếu giá trị mục tiêu: $$f^* = g^*$$ (đối ngẫu mạnh).
 
-### **Shadow price:**
-- Giá trị biên của tài nguyên
-- Chỉ chính xác trong sensitivity range
-- Slack > 0 → shadow price = 0
+### Giá bóng (Shadow price)
+- Biểu thị giá trị biên của từng nguồn lực.
+- Chỉ chính xác trong khoảng độ nhạy mà cơ sở tối ưu không đổi.
+- Ràng buộc lỏng (độ dư dương) có giá bóng bằng 0.
 
-### **Max Flow - Min Cut:**
-- Bảo toàn luồng tại nút trung gian
-- Giá trị luồng $$\leq$$ công suất cắt (weak duality)
-- Nếu bằng nhau → cả hai tối ưu (strong duality)
+### Luồng cực đại – lát cắt cực tiểu
+- Kiểm tra điều kiện bảo toàn luồng tại mọi nút trung gian.
+- Luôn có giá trị luồng $$\leq$$ dung lượng lát cắt (đối ngẫu yếu).
+- Khi dấu bằng xảy ra, cả luồng và lát cắt đều tối ưu (đối ngẫu mạnh).
 
-### **Matrix Games:**
-- Kiểm tra saddle point trước
-- Nếu không có, giải LP cho mixed strategy
-- Von Neumann minimax: $$\max_x \min_y = \min_y \max_x$$
+### Trò chơi ma trận
+- Kiểm tra điểm yên ngựa (cân bằng Nash thuần túy) trước.
+- Nếu không có, lập bài toán LP để tìm chiến lược hỗn hợp tối ưu.
+- Theo định lý minimax của von Neumann: $$\max_x \min_y = \min_y \max_x$$.
 
 ---
 
-## **Tài liệu Tham khảo**
+## Tài liệu tham khảo
 
 1. **Boyd, S., & Vandenberghe, L.** (2004). *Convex Optimization*. Cambridge University Press. Chapter 5: Duality.
 
@@ -987,4 +948,4 @@ Shadow price chỉ đúng khi cơ sở tối ưu không đổi. Với $$A^{-1} =
 
 ---
 
-**Ghi chú:** Các bài tập được sắp xếp từ cơ bản đến nâng cao, tham khảo trực tiếp từ các sách giáo khoa kinh điển. Hãy thực hành đầy đủ để nắm vững tính đối ngẫu trong LP!
+**Ghi chú:** Các bài tập trên được sắp xếp từ cơ bản đến nâng cao theo các giáo trình chuẩn về quy hoạch tuyến tính và tối ưu lồi.

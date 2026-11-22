@@ -9,7 +9,7 @@ categories:
 lang: vi
 ---
 
-Trong phần này, chúng ta sẽ trình bày hai ví dụ về quy hoạch số nguyên hỗn hợp.
+Phần này trình bày hai ví dụ ứng dụng mở rộng của quy hoạch số nguyên hỗn hợp trong thống kê và học máy:
 
 * Chọn tập con tốt nhất (Best subset selection)
-* Bình phương trung bình nhỏ nhất (Least mean squares)
+* Hồi quy bình phương trung vị nhỏ nhất và hồi quy phân vị nhỏ nhất (Least median of squares / Least quantile regression)

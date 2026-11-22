@@ -10,19 +10,19 @@ lang: vi
 lesson_type: optional
 ---
 
-Rào logarit
+Hàm chắn logarit
 
 $$
 \phi(x) = -\sum_{i=1}^{m}\log\bigl(-h_i(x)\bigr)
 $$
 
-biến bài có ràng buộc bất đẳng thức thành một họ bài trơn không ràng buộc (hoặc chỉ ràng buộc đẳng thức) đánh chỉ số bằng tham số siết $$t$$. Đó vẫn là cách các bộ giải lồi công nghiệp suy nghĩ, ngay khi người dùng không bao giờ gõ `log`. Bài này theo rào chắn từ đường trung tâm bạn đã dựng trong chương tới bốn chỗ sinh viên thực sự gặp năm 2022–2026: động cơ mặc định của CVXPY, bộ giải nón thời GPU, học tăng cường an toàn, và lớp điều khiển khả vi.
+chuyển bài toán có ràng buộc bất đẳng thức thành một họ bài toán trơn không ràng buộc (hoặc chỉ có ràng buộc đẳng thức) theo tham số $$t$$. Đây vẫn là nền tảng cốt lõi của nhiều bộ giải tối ưu lồi trong thực tế, ngay cả khi người dùng không viết tường minh hàm `log`. Mục này khảo sát bốn ứng dụng thực tế giai đoạn 2022–2026 gắn trực tiếp với đường trung tâm của chương: bộ giải mặc định trong CVXPY, các bài toán nón trong tài chính và điều khiển, học tăng cường an toàn, và các lớp tối ưu khả vi.
 
-## Clarabel: IPM kiểu rào chắn làm động cơ mặc định của CVXPY
+## Clarabel: bộ giải điểm trong mặc định của CVXPY
 
-Goulart và Chen (2024) mô tả **Clarabel**, bộ giải điểm trong mã nguồn mở cho chương trình nón lồi có mục tiêu toàn phương. Thuật toán là nhúng đồng nhất chuyên biệt hóa thành vòng lặp điểm trong: một rào kiểu log (hoặc tương tự tự tương hợp trên từng nón nguyên tử) giữ các điểm lặp trong phần trong của orthant không âm, nón bậc hai, nón mũ và lũy thừa, và nón PSD, trong khi hệ Newton trên phần dư KKT đẩy khả thi nguyên thủy, khả thi đối ngẫu, và bù. Phân rã chordal có sẵn cho SDP lớn.
+Goulart và Chen (2024) giới thiệu **Clarabel**, một bộ giải điểm trong mã nguồn mở cho các bài toán tối ưu nón lồi có hàm mục tiêu bậc hai. Thuật toán sử dụng nhúng tự đối ngẫu đồng nhất (homogeneous self-dual embedding) kết hợp vòng lặp điểm trong: hàm chắn logarit (hoặc hàm chắn tự hài hòa tương ứng trên từng nón) giữ các điểm lặp trong phần trong của góc phần tư không âm, nón bậc hai, nón mũ, nón lũy thừa và nón nửa xác định dương (PSD), trong khi hệ phương trình Newton trên phần dư KKT đồng thời giảm sai số khả thi nguyên thủy, khả thi đối ngẫu và độ lệch bù. Clarabel cũng hỗ trợ phân rã chordal cho các bài toán quy hoạch nửa xác định (SDP) cỡ lớn.
 
-Sự kiện phần mềm đổi bài tập về nhà: từ CVXPY 1.5, Clarabel *thay ECOS làm mặc định* cho các lớp bài mà ECOS từng được gọi tự động (ghi chú phát hành CVXPY 1.5; Goulart & Chen, mục cài đặt). QP vẫn thường về OSQP (bộ giải ADMM, Chương 21), nhưng LP, SOCP và nhiều mô hình nón mũ nay âm thầm chạy phương pháp rào / điểm trong. Thói quen mô hình hóa từ [05-07]({% multilang_post_url contents/chapter05/2026-09-15-05_07_Modeling_with_DCP_CVXPY %}) do đó có động cơ Chương 15 phía dưới:
+Một thay đổi thực tiễn đáng chú ý là từ phiên bản CVXPY 1.5, Clarabel *thay thế ECOS làm bộ giải mặc định* cho các lớp bài toán mà trước đây ECOS đảm nhiệm (ghi chú phát hành CVXPY 1.5; Goulart & Chen, mục cài đặt). Các bài toán quy hoạch bậc hai (QP) thông thường vẫn thường dùng OSQP (dựa trên ADMM, Chương 21), nhưng LP, SOCP và nhiều mô hình nón mũ nay mặc định chạy bằng phương pháp điểm trong kiểu rào chắn. Nhờ đó, các mô hình viết theo [05-07]({% multilang_post_url contents/chapter05/2026-09-15-05_07_Modeling_with_DCP_CVXPY %}) trực tiếp sử dụng thuật toán Chương 15 ở tầng dưới:
 
 ```python
 import cvxpy as cp
@@ -31,25 +31,25 @@ prob = cp.Problem(cp.Minimize(cp.sum_squares(A @ x - b)), [x >= 0, cp.norm(x, 2)
 prob.solve(solver=cp.CLARABEL)
 ```
 
-Hỏi `prob.solver_stats` sau một lần giải mặc định: nếu bạn không chỉ định OSQP, bạn đang nhìn một phương pháp đường trung tâm. Đó là câu trả lời hiện đại gọn nhất cho “rào chắn dùng ở đâu trong khoa học dữ liệu?” — *bên trong lớp mô hình hóa bạn đã dạy*.
+Kiểm tra `prob.solver_stats` sau khi gọi hàm giải mặc định (khi không chọn OSQP) sẽ cho thấy bài toán đang được giải bằng một phương pháp bám đường trung tâm.
 
-## Danh mục, MPC, và các QP nón khác
+## Tối ưu danh mục, MPC và các bài toán QP nón
 
-Cùng ngăn xếp bộ giải là đường sản xuất cho danh mục trung bình–phương sai và ràng buộc rủi ro, QP điều khiển dự báo mô hình (MPC), và các nón tối ưu vững nhỏ. Mục số của Clarabel và bản GPU sau này (Chương 17) dùng QP danh mục và điều khiển làm ví dụ chạy đúng vì chúng *đủ tự tương hợp* cho Newton và *đủ có cấu trúc* cho phân rã KKT thưa. Sinh viên khoa học dữ liệu viết danh mục chỉ-mua-dài với SOCP sai số bám không phải “làm tài chính thay ML”; họ đang sinh đường trung tâm Chương 15 trên bài có Hessian là hiệp phương sai cộng số hạng rào trên đơn hình (hoặc trên nón bậc hai).
+Cùng nhóm bộ giải này được dùng rộng rãi trong tối ưu danh mục trung bình–phương sai có ràng buộc rủi ro, quy hoạch bậc hai cho điều khiển dự báo mô hình (MPC), và các bài toán tối ưu vững cỡ nhỏ dạng nón. Các thí nghiệm số của Clarabel và những phiên bản chạy trên GPU sau này (Chương 17) thường lấy bài toán danh mục và điều khiển làm chuẩn đánh giá vì chúng vừa có hàm chắn tự hài hòa cho phương pháp Newton, vừa có cấu trúc thưa thuận lợi cho việc phân rã hệ KKT. Một bài toán danh mục chỉ-mua-dài kèm ràng buộc sai số bám dạng SOCP thực chất là bài toán đường trung tâm Chương 15 với ma trận Hessian gồm ma trận hiệp phương sai cộng thêm thành phần rào chắn trên đơn hình hoặc nón bậc hai.
 
-Đạo lý mô hình hóa giống Boyd & Vandenberghe, Chương 11: *đừng tự viết gradient chiếu trên nón nếu IPM rào chắn chỉ cách một `solve()`.* Tách bậc nhất (OSQP, SCS) thắng khi cần khởi động ấm 100 Hz; rào chắn thắng khi cần chứng chỉ độ chính xác cao và chiều vẫn vừa hệ Newton thưa.
+Nguyên tắc thực hành vẫn nhất quán với Boyd & Vandenberghe, Chương 11: không cần tự cài đặt gradient chiếu trên nón khi bộ giải điểm trong đã có sẵn qua một lệnh `solve()`. Các phương pháp tách bậc nhất (như OSQP, SCS) có ưu thế khi cần khởi động ấm ở tần số cao (ví dụ 100 Hz), còn phương pháp chắn và điểm trong nổi trội khi cần độ chính xác cao và số chiều vẫn phù hợp để giải hệ Newton thưa.
 
-## Rào logarit trong RL ràng buộc và an toàn
+## Hàm chắn logarit trong học tăng cường an toàn
 
-Liu, Ding và Liu (*IPO: Interior-Point Policy Optimization under Constraints*, AAAI 2020) đặt rào logarit lên ràng buộc chi phí của MDP ràng buộc rồi chạy phương pháp bậc nhất kiểu PPO trên mục tiêu trơn thu được. Rào trong bài đó không được giải bằng Newton — chính sách là mạng nơ-ron — nhưng *phép đưa về* đúng là Chương 15: bất đẳng thức thành phạt có gradient nổ ở biên, nên điểm lặp ở lại khả thi chặt nếu xuất phát khả thi. OmniSafe (Ji, Zhou, Zhang, Dai, Pan, Sun, Huang, Geng, Liu, Yang; JMLR 2024) và Safety Gymnasium (Ji et al., NeurIPS 2023 Datasets) đóng gói IPO cạnh PPO-Lagrangian, nên sinh viên 2024–2026 gặp rào log trong README *tối ưu chính sách* chứ không chỉ trong chương giải tích lồi.
+Liu, Ding và Liu (*IPO: Interior-Point Policy Optimization under Constraints*, AAAI 2020) áp dụng hàm chắn logarit cho các ràng buộc chi phí trong quá trình quyết định Markov có ràng buộc (CMDP), sau đó tối ưu hàm mục tiêu trơn thu được bằng phương pháp bậc nhất kiểu PPO. Dù không giải bằng phương pháp Newton vì chính sách được tham số hóa bởi mạng nơ-ron, *ý tưởng chuyển đổi bài toán* vẫn là Chương 15: ràng buộc bất đẳng thức trở thành số hạng phạt có gradient tiến ra vô cùng ở biên, giúp các bước cập nhật duy trì tính khả thi chặt nếu xuất phát từ chính sách khả thi. Các thư viện như OmniSafe (Ji, Zhou, Zhang, Dai, Pan, Sun, Huang, Geng, Liu, Yang; JMLR 2024) và Safety Gymnasium (Ji et al., NeurIPS 2023 Datasets) tích hợp IPO song song với PPO-Lagrangian, đưa hàm chắn logarit trực tiếp vào quy trình tối ưu chính sách.
 
-So sánh sắc về sư phạm. IPO là phương pháp rào với bộ giải trong *ngẫu nhiên, bậc nhất*; Clarabel là phương pháp rào với bộ giải trong *xác định, Newton*. Cùng ý ngoài, chế độ tính toán đối ngược. Khi ràng buộc là nón lồi trên vài trăm biến, Newton trên rào là tối ưu; khi “biến” là chính sách sâu, bạn giữ rào và bỏ Hessian.
+Sự đối chiếu này làm rõ bản chất hai tầng của phương pháp: IPO là phương pháp chắn dùng bộ giải bên trong *ngẫu nhiên, bậc nhất*; Clarabel là phương pháp chắn dùng bộ giải bên trong *xác định, bậc hai (Newton)*. Khi ràng buộc là nón lồi trên vài trăm đến vài nghìn biến, giải hệ Newton trên hàm chắn là lựa chọn tối ưu; khi biến tối ưu là trọng số mạng nơ-ron sâu, ta giữ lại hàm chắn nhưng bỏ qua ma trận Hessian.
 
-## Lớp khả vi vẫn gọi bộ giải rào chắn
+## Các lớp tối ưu khả vi dựa trên bộ giải điểm trong
 
-Agrawal, Amos, Barratt, Boyd, Diamond và Kolter (NeurIPS 2019) giới thiệu **cvxpylayers**: một bài CVXPY trở thành lớp PyTorch / JAX mà lượt ngược vi phân ánh xạ nghiệm. Lượt thuận vẫn là IPM hoặc bộ giải nón bậc nhất; lượt ngược áp vi phân ẩn cho hệ KKT — cùng Jacobian mà phương pháp Newton phân rã trong chương này. Suốt 2022–2026 khuôn mẫu này là chuẩn trong MPC khả vi, dự báo có cấu trúc, và kiến trúc “tối ưu như một lớp”: bạn *không* bung gradient descent qua 50 bước chiếu nếu bộ giải rào trả nghiệm và một phân rã tái dùng cho adjoint.
+Agrawal, Amos, Barratt, Boyd, Diamond và Kolter (NeurIPS 2019) giới thiệu **cvxpylayers**, cho phép nhúng một bài toán CVXPY thành một lớp khả vi trong PyTorch hoặc JAX. Ở lượt truyền xuôi (forward pass), hệ thống giải bài toán bằng bộ giải điểm trong hoặc bộ giải nón bậc nhất; ở lượt truyền ngược (backward pass), đạo hàm được tính bằng vi phân ẩn trên hệ điều kiện KKT — sử dụng chính ma trận Jacobian mà phương pháp Newton đã phân rã trong chương này. Giai đoạn 2022–2026, cách tiếp cận này trở thành khuôn mẫu tiêu chuẩn trong MPC khả vi, dự báo có cấu trúc và các kiến trúc "tối ưu như một lớp" (optimization as a layer), giúp tránh phải khai triển ngược qua hàng chục bước gradient chiếu.
 
-Đó là chuyển giao sâu nhất của Chương 15: hệ Newton của đường trung tâm không chỉ là thuật toán cho $$x^\star(t)$$, mà còn là ánh xạ tuyến tính cho phép hệ học coi `solve()` như một nguyên thủy khả vi.
+Nói cách khác, hệ phương trình Newton của đường trung tâm không chỉ dùng để tính điểm $$x^\star(t)$$, mà còn cung cấp ánh xạ tuyến tính cho phép các hệ thống học sâu lấy đạo hàm trực tiếp qua lời gọi `solve()`.
 
 ## Nguồn
 

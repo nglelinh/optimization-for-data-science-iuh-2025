@@ -9,9 +9,9 @@ categories:
 lang: vi
 ---
 
-Khoảng cách dưới tối ưu giữa $$f(x^*(t))$$ (nghiệm của bài toán chắn thu được ở phần trước) và $$f(x^*)$$ (nghiệm của bài toán ban đầu) là bao nhiêu?
+Khoảng cách dưới tối ưu giữa giá trị $$f(x^*(t))$$ tại điểm đường trung tâm và giá trị tối ưu $$f(x^*)$$ của bài toán gốc là bao nhiêu?
 
-Trước hết, ta có hai bất đẳng thức sau.
+Trước hết, từ tính lồi của $$f$$ và $$h_i$$ (đồ thị hàm lồi luôn nằm trên tiếp tuyến khai triển Taylor bậc nhất của nó), ta có hai bất đẳng thức:
 
 >$$
 >\begin{align}
@@ -20,28 +20,26 @@ Trước hết, ta có hai bất đẳng thức sau.
 >\end{align}
 >$$
 
-Nếu tính lồi được đảm bảo thì hàm luôn nằm trên tiếp tuyến của nó, nên $$f(x^*) \ge f(x^*(t)) + \nabla f(x^*(t))^T (x^* - x^*(t))$$ đúng. (Tiếp tuyến là xấp xỉ Taylor bậc nhất.)
-
-Tương tự, vì $$h_i(x^*) \ge h_i(x^*(t)) + \nabla h_i(x^*(t))^T (x^* - x^*(t))$$ đúng, ta suy ra:
+Từ bất đẳng thức thứ hai, chuyển vế ta thu được:
 
 $$
 h_i(x^*(t)) - h_i(x^*) \le \nabla h_i(x^*(t))^T (x^*(t) - x^*), \quad i = 1, \cdots, m
 $$
 
-## Suy ra khoảng cách dưới tối ưu
+## Dẫn xuất khoảng cách dưới tối ưu
 
-Hãy dùng hai bất đẳng thức này để suy ra khoảng cách dưới tối ưu. Vế phải được suy ra từ hai điều kiện lồi ở trên.
+Kết hợp hai bất đẳng thức trên với điều kiện KKT nhiễu ở mục trước (với $$u_i(t) > 0$$), ta có:
 
 $$
 \begin{align}
 f(x^*(t)) - f(x^*) + \sum_{i=1}^{m} u_i(t) (h_i(x^*(t)) - h_i(x^*) ) &\le \left\langle \nabla f(x^*(t)) + \sum_{i=1}^{m} u_i(t) \nabla h_i(x^*(t)), \quad x^*(t) - x^* \right\rangle \\\\
-&= \left\langle -tA^Tv, \quad x^*(t) - x^* \right\rangle \\\\
+&= \left\langle -A^Tv, \quad x^*(t) - x^* \right\rangle \\\\
 \end{align}
 $$
 
-Nếu xem vế phải của bất đẳng thức này như một tích vô hướng, vì $$Ax^*(t) = b$$ và $$Ax^* = b$$ nên toàn bộ số hạng này bằng 0.
+Vì $$Ax^*(t) = b$$ và $$Ax^* = b$$, nên $$\langle -A^Tv, x^*(t) - x^* \rangle = -v^T A(x^*(t) - x^*) = 0$$.
 
-Do đó, chuyển số hạng thứ ba của vế trái sang vế phải và rút gọn, ta được kết quả sau:
+Chuyển tổng ở vế trái sang vế phải và rút gọn:
 
 $$
 \begin{align}
@@ -51,11 +49,9 @@ f(x^*(t)) - f(x^*) &\le - \sum_{i=1}^{m} u_i(t) (h_i(x^*(t)) - h_i(x^*) ) \\\\
 \end{align}
 $$
 
-Số hạng thứ nhất ở dòng thứ hai bằng $$\frac{m}{t}$$ vì từ điều kiện KKT ta có $$u_i(t) \cdot h_i(x^*(t)) = - \frac{1}{t}$$.
+Ở dòng thứ hai, ta thay $$u_i(t) \cdot h_i(x^*(t)) = - \frac{1}{t}$$ từ điều kiện KKT nhiễu để thu được $$\frac{m}{t}$$. Ở dòng cuối, tổng $$\sum_{i=1}^{m} u_i(t) h_i(x^*) \le 0$$ vì $$u_i(t) > 0$$ và $$h_i(x^*) \le 0$$.
 
-Số hạng thứ hai có thể bỏ đi vì từ điều kiện KKT ta có $$\sum_{i=1}^{m} u_i(t) h_i(x^*) \le 0$$.
-
-Kết quả là ta thu được khoảng cách dưới tối ưu sau đây, và nó là một tiêu chí dừng hữu ích cho bài toán này. Lưu ý rằng khoảng cách đối ngẫu (duality gap) cũng có thể được suy ra ở chương sau.
+Như vậy, ta thu được cận trên cho khoảng cách dưới tối ưu, đồng thời là tiêu chí dừng hữu ích cho phương pháp chắn (mối liên hệ với khoảng cách đối ngẫu cũng sẽ được phân tích thêm ở các chương sau):
 
 >$$
 >\begin{align}

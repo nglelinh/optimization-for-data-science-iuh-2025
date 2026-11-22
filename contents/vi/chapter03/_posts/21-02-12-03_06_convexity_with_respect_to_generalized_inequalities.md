@@ -9,65 +9,62 @@ categories:
 lang: vi
 ---
 
-Phần này thảo luận tính lồi đối với bất đẳng thức tổng quát, mở rộng khái niệm tính lồi vượt ra ngoài các hàm giá trị thực chuẩn.
+Phần này mở rộng khái niệm tính đơn điệu và tính lồi từ các hàm giá trị thực thông thường sang các hàm giá trị vector thông qua bất đẳng thức tổng quát.
 
-Trong các không gian khác với $$\mathbb{R}$$, chúng ta sử dụng định nghĩa của nón cho các biểu thức bất đẳng thức tổng quát mở rộng khái niệm thứ tự thường được sử dụng trong không gian $$\mathbb{R}$$ (xem [02-01-04]({% multilang_post_url contents/chapter02/21-02-08-02_01_04_Convex_cone %})). Trong phần này, chúng ta xem xét các khái niệm về tính đơn điệu và tính lồi mở rộng ra ngoài không gian $$\mathbb{R}$$ sử dụng khái niệm nón.
+Trong các không gian nhiều chiều, ta dùng hình nón thích hợp để định nghĩa bất đẳng thức tổng quát, mở rộng quan hệ thứ tự quen thuộc trên $$\mathbb{R}$$ (xem bài [02-01-04]({% multilang_post_url contents/chapter02/21-02-08-02_01_04_Convex_cone %})).
 
 ## Tính đơn điệu đối với bất đẳng thức tổng quát
 
-Giả sử $$K \subseteq \mathbb{R}^n$$ là một nón thích hợp được biểu thị bởi $$\preceq_K$$. Một nón lồi $$K \subseteq \mathbb{R}^n$$ là một **nón thích hợp** nếu nó thỏa mãn các điều kiện sau:
+Giả sử $$K \subseteq \mathbb{R}^n$$ là một **hình nón thích hợp** sinh ra bất đẳng thức tổng quát $$\preceq_K$$, tức là một hình nón lồi thỏa mãn:
 
-• $$K$$ đóng (chứa biên của nó)
-• $$K$$ rắn (có nội tâm khác rỗng)
-• $$K$$ nhọn (không chứa đường thẳng)
+* $$K$$ là tập đóng (chứa biên của nó).
+* $$K$$ là hình nón đặc (có phần trong khác rỗng).
+* $$K$$ là hình nón nhọn (không chứa đường thẳng nào).
 
-Chúng ta định nghĩa **không giảm theo $$K$$** như sau:
-> $$f : \mathbb{R}^n \mapsto \mathbb{R}$$ là không giảm theo $$K$$ nếu $$x \preceq_K y \Rightarrow f(x) \leq f(y)$$
+Hàm $$f : \mathbb{R}^n \mapsto \mathbb{R}$$ được gọi là **không giảm theo $$K$$** nếu:
+> $$f : \mathbb{R}^n \mapsto \mathbb{R}$$ không giảm theo $$K$$ nếu $$x \preceq_K y \Rightarrow f(x) \leq f(y)$$
 
-Cũng vậy, khi điều kiện sau được thỏa mãn, chúng ta nói nó là **tăng theo $$K$$**:
-> $$f : \mathbb{R}^n \mapsto \mathbb{R}$$ là tăng theo $$K$$ nếu $$x \preceq_K y, x \neq y \Rightarrow f(x) < f(y)$$
-
+Tương tự, $$f$$ được gọi là **tăng theo $$K$$** nếu:
+> $$f : \mathbb{R}^n \mapsto \mathbb{R}$$ tăng theo $$K$$ nếu $$x \preceq_K y, x \neq y \Rightarrow f(x) < f(y)$$
 
 ### Điều kiện gradient cho tính đơn điệu
 
-Với một hàm khả vi $$f : \mathbb{R} \mapsto \mathbb{R}$$ không giảm trên miền lồi (tức là khoảng) có nghĩa là $$f'(x) \geq 0$$ với mọi $$x \in \text{dom}f$$, và nếu $$f'(x) > 0$$ với mọi $$x \in \text{dom}f$$, thì nó là tăng. Tương tự, tính đơn điệu có thể được biểu thị như một khái niệm mở rộng trong bất đẳng thức tổng quát.
+Với hàm khả vi một biến $$f : \mathbb{R} \mapsto \mathbb{R}$$ trên một khoảng, $$f$$ không giảm khi và chỉ khi $$f'(x) \geq 0$$ với mọi $$x \in \text{dom}f$$, và nếu $$f'(x) > 0$$ với mọi $$x \in \text{dom}f$$ thì $$f$$ tăng. Khái niệm này mở rộng sang bất đẳng thức tổng quát như sau:
 
-Khi miền là lồi, một hàm khả vi $$f$$ không giảm theo $$K$$ có nghĩa là thỏa mãn phương trình sau. Lưu ý rằng khác với vô hướng đơn giản, gradient $$\nabla f(x)$$ phải không âm trong bất đẳng thức đối ngẫu.
-> Một hàm khả vi $$f$$ không giảm theo $$K$$ $$\Longleftrightarrow$$ $$\nabla f(x) \succeq_{K^*} 0$$ với mọi $$x \in \text{dom}f$$
+Khi $$\text{dom}f$$ lồi, một hàm khả vi $$f$$ không giảm theo $$K$$ khi và chỉ khi gradient $$\nabla f(x)$$ không âm theo bất đẳng thức tổng quát đối ngẫu:
+> Hàm khả vi $$f$$ không giảm theo $$K$$ $$\Longleftrightarrow$$ $$\nabla f(x) \succeq_{K^*} 0$$ với mọi $$x \in \text{dom}f$$
 
-Nếu điều kiện sau được thỏa mãn, $$f$$ được gọi là **tăng theo $$K$$**. Như với vô hướng, điều ngược lại không đúng.
-> $$\nabla f(x) \succ_{K^*} 0$$ với mọi $$x \in \text{dom}f$$ $$\Rightarrow$$ $$f$$ tăng theo $$K$$.
+Tương tự, ta có điều kiện đủ cho tính tăng theo $$K$$ (như trường hợp một biến, chiều ngược lại không nhất thiết đúng):
+> $$\nabla f(x) \succ_{K^*} 0$$ với mọi $$x \in \text{dom}f$$ $$\Longrightarrow$$ $$f$$ tăng theo $$K$$.
 
+## Tính lồi đối với bất đẳng thức tổng quát
 
-### Tính lồi đối với bất đẳng thức tổng quát
+Cho $$K \subseteq \mathbb{R}^m$$ là hình nón thích hợp gắn với bất đẳng thức tổng quát $$\preceq_K$$. Hàm $$f : \mathbb{R}^n \mapsto \mathbb{R}^m$$ được gọi là **lồi theo $$K$$** nếu miền xác định $$\text{dom}f$$ lồi và với mọi $$x, y \in \text{dom}f$$ cùng mọi $$0 \leq \theta \leq 1$$:
+> $$f(\theta x + (1 - \theta) y) \preceq_K \theta f(x) + (1 - \theta) f(y)$$
 
-Gọi $$K \subseteq \mathbb{R}^m$$ là một nón thích hợp liên kết với bất đẳng thức tổng quát $$\preceq_K$$.
-Khi đó, nếu $$f : \mathbb{R}^n \mapsto \mathbb{R}^m$$ được gọi là **lồi theo $$K$$** với mọi $$x, y$$ và $$0 \leq \theta \leq 1$$, bất đẳng thức sau đây đúng:
-> $$f : \mathbb{R}^n \mapsto \mathbb{R}^m$$ là lồi theo $$K$$ $$\Rightarrow$$ $$f(\theta x + (1 - \theta) y) \preceq_K \theta f(x) + (1 - \theta) f(y)$$ với $$0 < \theta < 1$$ cho mọi $$x, y$$.
+Hàm $$f$$ được gọi là **lồi chặt theo $$K$$** nếu với mọi $$x, y \in \text{dom}f$$ ($$x \neq y$$) và $$0 < \theta < 1$$:
+> $$f(\theta x + (1 - \theta) y) \prec_K \theta f(x) + (1 - \theta) f(y)$$
 
-Cũng vậy, điều kiện cho **lồi chặt theo $$K$$** là như sau:
-> $$f(\theta x + (1 - \theta) y) \prec_K \theta f(x) + (1 - \theta) f(y)$$ với mọi $$x \neq y$$ và $$0 < \theta < 1$$.
-
-Khi $$m = 1$$ và $$K = \mathbb{R}_+$$, điều này trở thành bất đẳng thức thỏa mãn tính lồi tổng quát mà chúng ta đã thảo luận trước đó.
+Khi $$m = 1$$ và $$K = \mathbb{R}_+$$, định nghĩa này trở về đúng định nghĩa hàm lồi thông thường.
 
 ### Đặc trưng đối ngẫu của tính lồi theo $$K$$
 
-$$f$$ là lồi theo $$K$$ có nghĩa là hàm (giá trị thực) $$w^T f$$ là lồi với mọi $$w \succeq_{K^*} 0$$. $$f$$ là lồi chặt theo $$K$$ có nghĩa là hàm (giá trị thực) $$w^T f$$ là lồi chặt với mọi $$w \succeq_{K^*} 0$$. Điều này theo sau từ định nghĩa và tính chất của bất đẳng thức đối ngẫu.
+Theo tính chất của bất đẳng thức tổng quát đối ngẫu:
+* $$f$$ lồi theo $$K$$ khi và chỉ khi hàm giá trị thực $$w^T f$$ lồi với mọi $$w \succeq_{K^*} 0$$.
+* $$f$$ lồi chặt theo $$K$$ khi và chỉ khi hàm giá trị thực $$w^T f$$ lồi chặt với mọi $$w \succeq_{K^*} 0, w \neq 0$$.
 
 <br>
-### Các hàm lồi theo $$K$$ khả vi
 
-Nếu một hàm khả vi $$f$$ là lồi theo $$K$$ và miền hàm là lồi, thì phương trình sau đây đúng:
+### Hàm lồi theo $$K$$ khả vi
+
+Một hàm khả vi $$f$$ có miền xác định lồi là lồi theo $$K$$ khi và chỉ khi:
 > $$f(y) \succeq_K f(x) + Df(x)(y - x)$$ với mọi $$x, y \in \text{dom}f$$
 
-Ở đây, $$Df(x) \in \mathbb{R}^{m \times n}$$ là đạo hàm hoặc ma trận Jacobian của $$f$$ tại điểm $$x$$.
+trong đó $$Df(x) \in \mathbb{R}^{m \times n}$$ là ma trận đạo hàm (Jacobian) của $$f$$ tại $$x$$.
 
-Nếu $$f$$ là lồi chặt theo $$K$$ và miền hàm là lồi, thì phương trình sau đây đúng:
+Tương tự, $$f$$ lồi chặt theo $$K$$ khi và chỉ khi:
 > $$f(y) \succ_K f(x) + Df(x)(y - x)$$ với mọi $$x, y \in \text{dom}f$$, $$x \neq y$$
-
 
 ### Định lý hợp thành
 
-Nhiều kết quả từ hợp thành có thể được tổng quát hóa cho tính lồi theo $$K$$.
-Ví dụ, nếu $$g : \mathbb{R}^n \mapsto \mathbb{R}^p$$ là lồi theo $$K$$, $$h : \mathbb{R}^p \rightarrow \mathbb{R}$$ là lồi, và phần mở rộng giá trị mở rộng $$\widetilde{h}$$ của $$h$$ là không giảm theo $$K$$, thì $$h \circ g$$ là lồi. Điều này tổng quát hóa sự thật rằng hợp thành của một hàm lồi với một hàm lồi không giảm là lồi.
-(Điều kiện $$\widetilde{h}$$ không giảm theo $$K$$ có nghĩa là $$\text{dom}h - K = \text{dom}h$$.)
+Nhiều quy tắc hợp thành cũng mở rộng cho tính lồi theo $$K$$. Chẳng hạn, nếu $$g : \mathbb{R}^n \mapsto \mathbb{R}^p$$ lồi theo $$K$$, $$h : \mathbb{R}^p \rightarrow \mathbb{R}$$ lồi và phần mở rộng giá trị thực mở rộng $$\widetilde{h}$$ không giảm theo $$K$$, thì hàm hợp $$h \circ g$$ là hàm lồi. Kết quả này tổng quát hóa quy tắc hợp thành của hàm lồi với hàm lồi không giảm. (Điều kiện $$\widetilde{h}$$ không giảm theo $$K$$ đòi hỏi $$h$$ không giảm theo $$K$$ trên $$\text{dom}h$$ và $$\text{dom}h - K = \text{dom}h$$.)

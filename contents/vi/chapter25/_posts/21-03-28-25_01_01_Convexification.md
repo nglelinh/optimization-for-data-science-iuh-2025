@@ -9,29 +9,30 @@ categories:
 lang: vi
 ---
 
-Việc biến một quy hoạch nguyên thành một bài toán lồi tương đương được gọi là lồi hóa (convexification). Khi thực hiện lồi hóa, tập khả thi trở thành một đa diện (polyhedron), giúp dễ tìm các mặt phẳng cắt hợp lệ cho thuật toán mặt phẳng cắt.
+Quá trình biến đổi một bài toán quy hoạch nguyên thành một bài toán tối ưu lồi tương đương được gọi là lồi hóa (convexification). Trong trường hợp quy hoạch tuyến tính nguyên, tập khả thi sau khi lồi hóa trở thành một đa diện (polyhedron), tạo cơ sở lý thuyết để xây dựng các mặt phẳng cắt hợp lệ.
 
 ## Lồi hóa
-Để lồi hóa một quy hoạch nguyên, hàm mục tiêu phải tuyến tính. Khi đó các ràng buộc của quy hoạch nguyên gồm một tập lồi $$C$$ và ràng buộc nguyên trên các biến $$x_j$$.
+
+Xét bài toán quy hoạch nguyên với hàm mục tiêu tuyến tính, tập ràng buộc lồi $$C$$ và ràng buộc nguyên trên tập chỉ số $$J$$:
 
 > $$
 > \begin{align}
 >           \min_{x} & \quad {c^{T}x} \\\\
 > \text{subject to } & \quad  x \in C \\\\
->                    & \quad  x_j \in \mathbb{Z}, \quad j \in J \\\\
+>                    & \quad  x_j \in \mathbb{Z}, \quad j \in J
 > \end{align}
 > $$
 
-Khi đó, tập khả thi có thể được định nghĩa lại là bao lồi $$S := \text{conv} \left \{ x \in C : x_j \in \mathbb{Z}, j \in J \right \}$$. Dùng tập khả thi xác định bởi bao lồi $$S$$ này, ta có thể định nghĩa một bài toán lồi tương đương với bài toán gốc như sau. Quá trình này được gọi là lồi hóa.
+Định nghĩa bao lồi của tập các điểm khả thi nguyên là $$S := \text{conv} \left \{ x \in C : x_j \in \mathbb{Z}, j \in J \right \}$$. Thay tập khả thi ban đầu bằng $$S$$, ta thu được bài toán tối ưu lồi tương đương:
 
 > $$
 > \begin{align}
 >           \min_{x} & \quad {c^{T}x} \\\\
-> \text{subject to } & \quad  x \in S \\\\
+> \text{subject to } & \quad  x \in S
 > \end{align}
 > $$
 
-Trong hình dưới, vùng xanh là $$C$$, các điểm đỏ là các điểm nguyên, và bao lồi $$S$$ tạo bởi hai tập này là vùng đỏ.
+Trong Hình 1, vùng xanh là tập lồi $$C$$, các điểm đỏ là những điểm thỏa mãn ràng buộc nguyên, và vùng đỏ chính là bao lồi $$S$$ của các điểm đó.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -39,24 +40,27 @@ Trong hình dưới, vùng xanh là $$C$$, các điểm đỏ là các điểm n
   <figcaption style="text-align: center;">[Hình 1] Mặt phẳng cắt</figcaption>
 </p>
 </figure>
-Nguồn: https://commons.wikimedia.org/wiki/File:Cutting_plane_algorithm2.png <br><br>
 
-Lý do hai công thức này tương đương là vì hàm mục tiêu tuyến tính. 
+Nguồn: https://commons.wikimedia.org/wiki/File:Cutting_plane_algorithm2.png
+
+Hai bài toán có cùng giá trị tối ưu (và mọi điểm cực trị của $$S$$ đều là điểm nguyên) chính vì hàm mục tiêu $$c^T x$$ là hàm tuyến tính.
 
 ## Trường hợp đặc biệt: quy hoạch tuyến tính nguyên
-Hãy áp dụng quá trình lồi hóa trên cho quy hoạch tuyến tính nguyên sau.
+
+Áp dụng lồi hóa cho bài toán quy hoạch tuyến tính nguyên:
 
 > $$
 > \begin{align}
 >           \min_{x} & \quad {c^{T}x} \\\\
 > \text{subject to } & \quad  Ax \le b \\\\
->                    & \quad  x_j \in \mathbb{Z}, \quad j \in J \\\\
+>                    & \quad  x_j \in \mathbb{Z}, \quad j \in J
 > \end{align}
 > $$
 
-Bao lồi $$S$$ của quy hoạch tuyến tính nguyên được định nghĩa như sau:
+Ta có kết quả nền tảng sau về bao lồi $$S$$:
 
-> **Định lý**: Nếu $$A, b$$ là các số hữu tỉ thì tập sau là một đa diện (polyhedron).
-$$S := \text{conv} \left \{ x : Ax \le b,  x_j \in \mathbb{Z}, j \in J \right \}$$
+> **Định lý:** Nếu các phần tử của $$A$$ và $$b$$ là số hữu tỉ thì tập
+> $$S := \text{conv} \left \{ x : Ax \le b, \; x_j \in \mathbb{Z}, \; j \in J \right \}$$
+> là một đa diện (polyhedron).
 
-Vậy quy hoạch tuyến tính nguyên có phải là một quy hoạch tuyến tính không? Tất nhiên là có. Tuy nhiên, trong trường hợp này, đa diện $$S$$ có thể trở thành một đa diện rất phức tạp với số bất đẳng thức lớn theo hàm mũ. Vì vậy, nói chung ta cần giải bài toán bằng các phương pháp khác với các phương pháp giải quy hoạch tuyến tính.
+Về mặt lý thuyết, điều này đồng nghĩa quy hoạch tuyến tính nguyên có thể viết dưới dạng một quy hoạch tuyến tính trên đa diện $$S$$. Tuy nhiên, trên thực tế đa diện $$S$$ có thể cần số lượng bất đẳng thức lớn theo hàm mũ để mô tả đầy đủ. Do đó ta không thể liệt kê trước toàn bộ $$S$$ mà phải giải gián tiếp bằng các kỹ thuật như mặt phẳng cắt hay nhánh và cắt.

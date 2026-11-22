@@ -9,12 +9,11 @@ categories:
 lang: vi
 ---
 
-Có sự khác biệt về tốc độ hội tụ giữa phương pháp tuần hoàn và phương pháp ngẫu nhiên.
+Tốc độ hội tụ lý thuyết có sự khác biệt giữa cách chọn chỉ số tuần hoàn và cách chọn chỉ số ngẫu nhiên.
 
-[Tốc độ hội tụ]({% multilang_post_url contents/chapter08/20-03-29-08_01_04_convergence_rate %}) của phương pháp subgradient batch là $$O(G_{batch}^{2}/\epsilon^{2})$$, trong đó $$G_{batch}$$ là hằng số Lipschitz của $$\sum f_i$$.
+[Tốc độ hội tụ]({% multilang_post_url contents/chapter08/20-03-29-08_01_04_convergence_rate %}) của phương pháp subgradient batch là $$O(G_{batch}^{2}/\epsilon^{2})$$, trong đó $$G_{batch}$$ là hằng số Lipschitz của hàm tổng $$\sum f_i$$ (có bậc $$mG$$ nếu mỗi $$f_i$$ có hằng số Lipschitz là $$G$$).
 
-- **Phương pháp tuần hoàn**: Độ phức tạp lặp của phương pháp tuần hoàn là $$O(m^{3}G^{2}/\epsilon^{2})$$. Nếu một chu kỳ của phương pháp subgradient ngẫu nhiên tuần hoàn được coi là tương đương với một phương pháp subgradient batch, thì mỗi chu kỳ cần $$O(m^{2}G^{2}/\epsilon^{2})$$ lần lặp. ($$G$$ là hằng số Lipschitz của một hàm đơn $$f_i$$)
+- **Phương pháp tuần hoàn**: Số bước cập nhật cần thiết là $$O(m^{3}G^{2}/\epsilon^{2})$$. Nếu quy đổi một chu kỳ (duyệt qua đủ $$m$$ hàm thành phần) là tương đương về chi phí với một bước của phương pháp subgradient batch, thì phương pháp tuần hoàn cần $$O(m^{2}G^{2}/\epsilon^{2})$$ chu kỳ.
+- **Phương pháp ngẫu nhiên**: Số bước cập nhật cần thiết là $$O(m^{2}G^{2}/\epsilon^{2})$$, tương đương $$O(mG^{2}/\epsilon^2)$$ chu kỳ — nhanh hơn $$m$$ lần so với phương pháp batch và phương pháp tuần hoàn ($$O(m^2G^2/\epsilon^2)$$ chu kỳ). Theo đánh giá Big-O, khi $$m$$ lớn, phương pháp ngẫu nhiên có tốc độ hội tụ tốt hơn.
 
-- **Phương pháp ngẫu nhiên**: Độ phức tạp lặp của phương pháp ngẫu nhiên là $$O(m^{2}G^{2}/\epsilon^{2})$$. Tức là, phương pháp ngẫu nhiên cần $$O(mG^{2}/\epsilon^2)$$ lần lặp, nhanh hơn $$m$$ lần so với phương pháp batch và tuần hoàn với $$O(m^2G^2/\epsilon^2)$$. Về mặt ký hiệu Big-O, nếu $$m$$ lớn, phương pháp ngẫu nhiên có tốc độ hội tụ nhanh hơn.
-
-Mặc dù các cận Big-O cho phương pháp ngẫu nhiên và tuần hoàn khác nhau một hệ số $$m$$, lưu ý rằng cận Big-O của phương pháp tuần hoàn là trường hợp xấu nhất, trong khi của phương pháp ngẫu nhiên là trường hợp trung bình. Trong thực tế, sự khác biệt có thể không lớn như ký hiệu Big-O gợi ý.
+Mặc dù cận Big-O của hai phương pháp chênh nhau một hệ số $$m$$, cần lưu ý rằng cận của phương pháp tuần hoàn là đánh giá cho trường hợp xấu nhất, còn cận của phương pháp ngẫu nhiên là đánh giá theo kỳ vọng (trường hợp trung bình). Trong thực tế, mức chênh lệch có thể không lớn như kết quả tiệm cận gợi ý.

@@ -9,13 +9,13 @@ categories:
 lang: vi
 ---
 
-Với bài toán lasso đơn giản hơn với $$X=I$$:
+Xét trường hợp đơn giản hơn của bài toán Lasso khi $$X=I$$:
 >
 \begin{equation}
 \min_{\beta} \frac{1}{2} \| y-\beta \|_2^2 + \lambda \| \beta \|_1
 \end{equation}
 
-Từ ví dụ trước, điều kiện tối ưu gradient dưới là:
+Từ ví dụ trước, điều kiện tối ưu theo gradient dưới của bài toán này là:
 >
 $$
 \begin{cases}
@@ -24,7 +24,7 @@ y_i-\beta_i = \lambda \cdot \text{sign}(\beta_i) &\text{nếu } \beta_i \neq 0 \
 \end{cases}
 $$
 
-Từ điều kiện này, có thể tìm được nghiệm $$\beta = S_{\lambda}(y)$$, trong đó
+Giải điều kiện trên cho từng tọa độ, ta thu được nghiệm dạng đóng $$\beta = S_{\lambda}(y)$$, với:
 >
 $$
 [S_{\lambda}(y)]_{i} = 
@@ -35,7 +35,7 @@ y_i + \lambda &\text{nếu } y_i < -\lambda
 \end{cases}
 $$
 
-Ở đây, $$S_{\lambda}$$ được gọi là toán tử ngưỡng mềm.
+Toán tử $$S_{\lambda}$$ được gọi là **toán tử ngưỡng mềm (soft-thresholding operator)**.
 
 <figure class="image" style="align: center;">
 <p align="center">

@@ -9,10 +9,10 @@ categories:
 lang: vi
 ---
 
-Trong phần này chúng ta xem một ví dụ về phương pháp gốc-đối ngẫu cho bài toán SDP (quy hoạch bán xác định, semidefinite programming).
+Trong phần này, chúng ta xét phương pháp điểm trong gốc-đối ngẫu áp dụng cho bài toán quy hoạch bán xác định (SDP — semidefinite programming).
 
-## SDP (quy hoạch bán xác định)
-Bài toán SDP gốc được định nghĩa như sau.
+## Quy hoạch bán xác định (SDP)
+Bài toán SDP gốc được phát biểu như sau:
 >$$
 >\begin{align}
 >    &\min_{X} && {C \cdot X} \\\\
@@ -22,7 +22,7 @@ Bài toán SDP gốc được định nghĩa như sau.
 >$$
 
 
-Bài toán SDP đối ngẫu được định nghĩa như sau.
+Bài toán SDP đối ngẫu tương ứng là:
 >$$
 >\begin{align}
 >    &\max_{y} && {b^Ty} \\\\
@@ -31,11 +31,11 @@ Bài toán SDP đối ngẫu được định nghĩa như sau.
 >\end{align}
 >$$
 
-Nhắc lại rằng tích vô hướng vết (trace inner product) trên $$\mathbb{S}^n$$ được viết là
+Nhắc lại rằng tích vô hướng vết (trace inner product) trên không gian ma trận đối xứng $$\mathbb{S}^n$$ được định nghĩa là:
 > $$X \cdot S = \text{trace}(XS)$$
 
 ## Điều kiện tối ưu cho SDP
-Bài toán SDP gốc và đối ngẫu có thể được viết bằng ánh xạ tuyến tính như sau.
+Cặp bài toán SDP gốc và đối ngẫu có thể được viết gọn bằng toán tử tuyến tính $$\mathcal{A}: \mathbb{S}^n \to \mathbb{R}^m$$ và toán tử liên hợp $$\mathcal{A}^*$$ của nó:
 
 >$$
 >\begin{align}
@@ -46,9 +46,7 @@ Bài toán SDP gốc và đối ngẫu có thể được viết bằng ánh x�
 >$$
 
 
-Ở đây $$\mathcal{A}: \mathbb{S}^n \to \mathbb{R}^m$$ là một ánh xạ tuyến tính.
-
-Giả sử đối ngẫu mạnh thỏa mãn, thì $$X^{\star}$$ và $$(y^{\star}, S^{\star})$$ là các nghiệm tối ưu của bài toán gốc và đối ngẫu khi và chỉ khi $$(X^{\star}, y^{\star}, S^{\star})$$ thỏa mãn các điều kiện sau.
+Giả sử tính đối ngẫu mạnh được thỏa mãn, thì $$X^{\star}$$ và $$(y^{\star}, S^{\star})$$ là cặp nghiệm tối ưu gốc – đối ngẫu khi và chỉ khi $$(X^{\star}, y^{\star}, S^{\star})$$ thỏa mãn hệ điều kiện sau:
 
 > $$
 > \begin{array}{rcl}
@@ -91,7 +89,7 @@ Giả sử đối ngẫu mạnh thỏa mãn, thì $$X^{\star}$$ và $$(y^{\star}
 
 
 ## Bước Newton
-Phương trình đường trung tâm gốc 
+Hệ phương trình đường trung tâm gốc:
 > $$
 > \begin{array}{rcl}
 > \mathcal{A}^*(y) + \tau X^{-1} & = & C \\\
@@ -101,14 +99,14 @@ Phương trình đường trung tâm gốc
 > $$
 
 
-Phương trình Newton
-> $$\tau X^{-1}\Delta X X^{-1} +\mathcal{A}^*(\Delta y) = -(\mathcal{A}^*(y) + \tau X^{-1} -C)$$
+Phương trình Newton tương ứng (sử dụng vi phân $$d(X^{-1}) = -X^{-1} \Delta X X^{-1}$$):
+> $$-\tau X^{-1}\Delta X X^{-1} +\mathcal{A}^*(\Delta y) = -(\mathcal{A}^*(y) + \tau X^{-1} -C)$$
 > $$\mathcal{A}(\Delta X) = -(\mathcal{A}(X)-b)$$
 
-Phương trình đường trung tâm và phương trình Newton cho bài toán đối ngẫu, bao gồm $$(y,S)$$, được định nghĩa tương tự.
+Hệ phương trình đường trung tâm và phương trình Newton cho bài toán đối ngẫu theo $$(y, S)$$ được xây dựng hoàn toàn tương tự.
 
 ## Bước Newton gốc-đối ngẫu 
-Phương trình đường trung tâm gốc-đối ngẫu 
+Hệ phương trình đường trung tâm gốc-đối ngẫu:
 > $$\begin{bmatrix}
 \mathcal{A}^*(y) + S - C  \\\
 \mathcal{A}(X) - b \\\
@@ -122,7 +120,7 @@ XS
 , \quad X, S \succ 0
 $$
 
-Bước Newton:
+Hệ bước Newton:
 > $$\begin{bmatrix}
 0 & \mathcal{A}^* & I \\\
 \mathcal{A} & 0 & 0 \\\

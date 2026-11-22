@@ -16,99 +16,97 @@ redirect_from:
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
 
-### ⚡ **Duality Revisited - Nhìn Lại Tính Đối Ngẫu**
+### ⚡ **Nhìn lại tính đối ngẫu (Duality Revisited)**
 
-#### **Lagrangian formulation của primal-dual**
+#### **Biểu diễn bài toán nguyên thủy – đối ngẫu qua hàm Lagrange**
 **Bài toán nguyên thủy:**
 $$\min_x f(x) \quad \text{s.t.} \quad h_i(x) \le 0, \quad l_j(x) = 0$$
 
-**Lagrangian:**
+**Hàm Lagrange:**
 $$L(x,u,v) = f(x) + \sum_{i=1}^m u_i h_i(x) + \sum_{j=1}^r v_j l_j(x)$$
 
-#### **Primal-dual reformulation**
-**Primal (reformulated):**
+#### **Dạng viết lại nguyên thủy – đối ngẫu**
+**Bài toán nguyên thủy:**
 $$\min_x \max_{u \ge 0, v} L(x,u,v)$$
 
-**Dual (reformulated):**
+**Bài toán đối ngẫu:**
 $$\max_{u \ge 0, v} \min_x L(x,u,v)$$
 
-#### **Indicator function interpretation**
-- **Primal:** $$\max_{u,v}$$ acts như indicator function cho constraint violations
-- **Dual:** $$\min_x$$ provides domain relaxation
-- **Equivalence:** Reformulated problems equivalent to original under feasibility
+#### **Cách hiểu theo hàm chỉ thị**
+- **Bài toán nguyên thủy:** Phép lấy $$\max_{u \ge 0, v}$$ đóng vai trò như hàm chỉ thị, phạt vô hạn mọi điểm $$x$$ vi phạm ràng buộc.
+- **Bài toán đối ngẫu:** Phép lấy $$\min_x$$ với $$(u, v)$$ cố định giúp nới lỏng miền ràng buộc.
+- **Tính tương đương:** Dạng viết lại nguyên thủy tương đương với bài toán gốc trên tập khả thi.
 
-### 🔄 **Weak và Strong Duality (Refined)**
+### 🔄 **Tính đối ngẫu yếu và mạnh (Tinh chỉnh)**
 
-#### **Weak Duality Theorem**
-**Always true:** $$p \ge d$$ (primal optimal ≥ dual optimal)
+#### **Định lý đối ngẫu yếu**
+Bất đẳng thức sau luôn đúng (không phụ thuộc tính lồi): $$p \ge d$$ (giá trị tối ưu nguyên thủy luôn lớn hơn hoặc bằng giá trị tối ưu đối ngẫu).
 
 <div class="textbook-proof" markdown="1">
-**Proof:** From minimax inequality
+**Chứng minh:** Từ bất đẳng thức minimax:
 $$\min_x \max_{u \ge 0, v} L(x,u,v) \ge \max_{u \ge 0, v} \min_x L(x,u,v)$$
 </div>
 
-#### **Strong Duality (Refined Slater's Condition)**
-**Condition:** For domain $$D$$, assume $$f, h_1,\ldots,h_p$$ convex và $$h_{p+1},\ldots,h_m, l_1,\ldots,l_r$$ affine.
+#### **Tính đối ngẫu mạnh (Điều kiện Slater tinh chỉnh)**
+**Điều kiện:** Trên miền xác định $$D$$, giả sử $$f, h_1,\ldots,h_p$$ là các hàm lồi và $$h_{p+1},\ldots,h_m, l_1,\ldots,l_r$$ là các hàm affine.
 
-**If exists $$\hat{x} \in \text{relint}(D)$$ such that:**
-- $$h_i(\hat{x}) < 0, \quad i = 1,\ldots,p$$ (strict inequality for non-affine)
-- $$h_i(\hat{x}) \le 0, \quad i = p+1,\ldots,m$$ (weak inequality for affine)
-- $$l_j(\hat{x}) = 0, \quad j = 1,\ldots,r$$ (equality constraints)
+**Nếu tồn tại $$\hat{x} \in \text{relint}(D)$$ thỏa mãn:**
+- $$h_i(\hat{x}) < 0, \quad i = 1,\ldots,p$$ (bất đẳng thức ngặt cho ràng buộc không affine)
+- $$h_i(\hat{x}) \le 0, \quad i = p+1,\ldots,m$$ (bất đẳng thức không ngặt cho ràng buộc affine)
+- $$l_j(\hat{x}) = 0, \quad j = 1,\ldots,r$$ (ràng buộc đẳng thức)
 
-**Then:** $$p = d$$ (strong duality holds)
+**Thì:** $$p = d$$ (tính đối ngẫu mạnh được thỏa mãn).
 
-### 📊 **Duality Examples Revisited**
+### 📊 **Các ví dụ đối ngẫu tiêu biểu**
 
-#### **1. Linear Programming Duality**
+#### **1. Đối ngẫu quy hoạch tuyến tính (LP)**
 
-**Primal (Standard Form):**
+**Bài toán nguyên thủy (dạng chuẩn):**
 $$\min c^T x \quad \text{s.t.} \quad Ax = b, \quad x \ge 0$$
 
-**Lagrangian approach:**
+**Hàm Lagrange:**
 $$L(x,s,y) = c^T x - s^T x + (b - Ax)^T y$$
 
-**Stationarity condition:** $$\nabla_x L = c - s - A^T y = 0$$
-$$\Rightarrow c = A^T y + s$$
+**Điều kiện dừng:** $$\nabla_x L = c - s - A^T y = 0 \Rightarrow c = A^T y + s$$
 
-**Dual:**
+**Bài toán đối ngẫu:**
 $$\max b^T y \quad \text{s.t.} \quad A^T y + s = c, \quad s \ge 0$$
 
-#### **2. Quadratic Programming Duality**
+#### **2. Đối ngẫu quy hoạch bậc hai (QP)**
 
-**Primal:**
+**Bài toán nguyên thủy:**
 $$\min \frac{1}{2}x^T Q x + c^T x \quad \text{s.t.} \quad Ax = b, \quad x \ge 0$$
 
-với $$Q$$ symmetric positive semidefinite
+với $$Q$$ là ma trận đối xứng nửa xác định dương.
 
-**Lagrangian:**
+**Hàm Lagrange:**
 $$L(x,s,y) = \frac{1}{2}x^T Q x + c^T x - s^T x + (b - Ax)^T y$$
 
-**Stationarity:** $$Qx + c - s - A^T y = 0$$
-$$\Rightarrow Qx = A^T y + s - c$$
+**Điều kiện dừng:** $$Qx + c - s - A^T y = 0 \Rightarrow Qx = A^T y + s - c$$
 
-**Dual:**
+**Bài toán đối ngẫu:**
 $$\max b^T y - \frac{1}{2}x^T Q x \quad \text{s.t.} \quad Qx = A^T y + s - c, \quad s \ge 0$$
 
-**Key insight:** Dual của QP cũng là QP!
+**Nhận xét:** Bài toán đối ngẫu của một bài toán QP cũng là một bài toán QP.
 
-#### **3. Barrier Method Duality**
+#### **3. Đối ngẫu của bài toán rào cản (Barrier)**
 
-**LP Barrier Primal:**
+**Bài toán rào cản nguyên thủy cho LP:**
 $$\min c^T x - \tau \sum_{i=1}^n \log(x_i) \quad \text{s.t.} \quad Ax = b$$
 
-**Lagrangian:**
+**Hàm Lagrange:**
 $$L(x,y) = c^T x - \tau \sum_{i=1}^n \log(x_i) + (b - Ax)^T y$$
 
-**Optimal $$x$$:** $$x_i = \frac{\tau}{s_i}$$ với $$s = c - A^T y$$
+**Nghiệm tối ưu theo $$x$$:** $$x_i = \frac{\tau}{s_i}$$ với $$s = c - A^T y$$.
 
-**LP Barrier Dual:**
+**Bài toán đối ngẫu:**
 $$\max b^T y + \tau \sum_{i=1}^n \log(s_i) \quad \text{s.t.} \quad A^T y + s = c$$ (bỏ qua hằng số $$n\tau(1 - \log\tau)$$)
 
-**Beautiful result:** Barrier dual = Dual của barrier!
+**Kết quả:** Đối ngẫu của bài toán rào cản trùng khớp với bài toán rào cản thiết lập cho bài toán đối ngẫu.
 
-### 🎯 **Optimality Conditions Comparison**
+### 🎯 **So sánh điều kiện tối ưu**
 
-#### **Original Problem KKT**
+#### **Điều kiện KKT của bài toán gốc**
 $$\begin{align}
 l_j(x^*) &= 0 \quad \forall j \\
 u_i^*, -h_i(x^*) &\ge 0 \quad \forall i \\
@@ -116,7 +114,7 @@ u_i^* h_i(x^*) &= 0 \quad \forall i \\
 \nabla f(x^*) + \sum u_i^* \nabla h_i(x^*) + \sum v_j^* \nabla l_j(x^*) &= 0
 \end{align}$$
 
-#### **Barrier Problem KKT (Perturbed)**
+#### **Điều kiện KKT bị nhiễu (bài toán rào cản)**
 $$\begin{align}
 l_j(x^*(t)) &= 0 \quad \forall j \\
 u_i(t), -h_i(x^*(t)) &> 0 \quad \forall i \\
@@ -124,16 +122,16 @@ u_i(t) h_i(x^*(t)) &= -\tau \quad \forall i \\
 \nabla f(x^*(t)) + \sum u_i(t) \nabla h_i(x^*(t)) + \sum \hat{v}_j^* \nabla l_j(x^*(t)) &= 0
 \end{align}$$
 
-với $$\tau = \frac{1}{t}$$, $$u_i(t) = -\frac{1}{t h_i(x^*(t))}$$, $$\hat{v} = \frac{1}{t}v$$
+với $$\tau = \frac{1}{t}$$, $$u_i(t) = -\frac{1}{t h_i(x^*(t))}$$, $$\hat{v} = \frac{1}{t}v$$.
 
-#### **Key differences:**
-- **Complementary slackness:** $$= 0$$ vs $$= -\tau$$
-- **Feasibility:** $$\ge 0$$ vs $$> 0$$ (strict)
-- **Interpretation:** Exact vs perturbed KKT conditions
+#### **Điểm khác biệt chính:**
+- **Điều kiện bù chặt:** Chuyển từ $$= 0$$ sang $$= -\tau$$.
+- **Tính khả thi:** Chuyển từ $$\ge 0$$ sang $$> 0$$ (điểm trong ngặt).
+- **Ý nghĩa:** Khi $$\tau \to 0$$, nghiệm trên đường trung tâm tiến về nghiệm KKT chính xác của bài toán gốc.
 
-### 📈 **Linear Programming Special Case**
+### 📈 **Trường hợp đặc biệt: Quy hoạch tuyến tính (LP)**
 
-#### **Primal-Dual Optimality Conditions**
+#### **Điều kiện tối ưu nguyên thủy – đối ngẫu**
 $$\begin{align}
 A^T y^* + s^* &= c \\
 Ax^* &= b \\
@@ -141,9 +139,9 @@ X S \mathbf{1} &= 0 \\
 x^*, s^* &\ge 0
 \end{align}$$
 
-với $$X = \text{diag}(x^*)$$, $$S = \text{diag}(s^*)$$
+với $$X = \text{diag}(x^*)$$, $$S = \text{diag}(s^*)$$.
 
-#### **Barrier Problem Conditions**
+#### **Điều kiện của bài toán rào cản**
 $$\begin{align}
 A^T y^* + s^* &= c \\
 Ax^* &= b \\
@@ -151,316 +149,72 @@ X S \mathbf{1} &= \tau \mathbf{1} \\
 x^*, s^* &> 0
 \end{align}$$
 
-#### **Algorithm implications:**
-- **Simplex (primal):** Maintain conditions 2, 3 và $$x \ge 0$$; gradually satisfy 1 với $$s \ge 0$$ (dual feasibility)
-- **Interior Point:** Maintain condition 4; gradually satisfy 1,2,3
-- **Central path:** $$XS\mathbf{1} = \tau\mathbf{1}$$ defines path to optimality
+#### **Ý nghĩa về mặt thuật toán:**
+- **Phương pháp đơn hình (Simplex nguyên thủy):** Duy trì điều kiện 2, 3 và $$x \ge 0$$, đồng thời tiến dần tới điều kiện 1 với $$s \ge 0$$ (khả thi đối ngẫu).
+- **Phương pháp điểm trong (Interior-Point):** Duy trì điều kiện 4 ($$x, s > 0$$) và tiến dần tới các điều kiện 1, 2, 3.
+- **Đường trung tâm:** Phương trình $$XS\mathbf{1} = \tau\mathbf{1}$$ xác định quỹ đạo trơn trong miền trong dẫn tới nghiệm tối ưu.
 
-### 🔗 **Fenchel Duality**
+### 🔗 **Tính đối ngẫu Fenchel**
 
-#### **Composite problem form**
-**Primal:** $$\min_x f(x) + g(Ax)$$
+#### **Dạng bài toán tổng hợp**
+**Nguyên thủy:** $$\min_x f(x) + g(Ax)$$
 
-**Reformulated:** $$\min_{x,z} f(x) + g(z) \quad \text{s.t.} \quad Ax = z$$
+**Viết lại:** $$\min_{x,z} f(x) + g(z) \quad \text{s.t.} \quad Ax = z$$
 
-#### **Conjugate function approach**
-**Lagrangian:**
+#### **Cách tiếp cận qua hàm liên hợp**
+**Hàm Lagrange:**
 $$L(x,z,v) = f(x) + g(z) + v^T(z - Ax)$$
 
-**Dual function:**
+**Hàm đối ngẫu:**
 $$\begin{align}
 g(v) &= \min_{x,z} L(x,z,v) \\
 &= \min_x [f(x) - (A^T v)^T x] + \min_z [g(z) + v^T z] \\
 &= -f^*(A^T v) - g^*(-v)
 \end{align}$$
 
-#### **Fenchel Dual**
+#### **Bài toán đối ngẫu Fenchel**
 $$\max_v -f^*(A^T v) - g^*(-v)$$
 
-#### **Beautiful property**
-**Symmetry:** Dual của dual = primal (if $$f,g$$ convex và closed)
+**Tính đối xứng:** Nếu $$f, g$$ là các hàm lồi và đóng, thì bài toán đối ngẫu của bài toán đối ngẫu quay về chính bài toán nguyên thủy.
 
-### 🎯 **Conic Programming Applications**
+### 🎯 **Ứng dụng trong quy hoạch nón (Conic Programming)**
 
-#### **Standard Conic Program**
+#### **Bài toán quy hoạch nón dạng chuẩn**
 $$\min c^T x \quad \text{s.t.} \quad Ax = b, \quad x \in K$$
 
-#### **Fenchel reformulation**
+#### **Biểu diễn Fenchel**
 - $$f(x) = c^T x + I_K(x)$$
 - $$g(z) = I_{\{b\}}(z)$$
 - $$\min f(x) + g(Ax)$$
 
-#### **Conic Dual**
+#### **Bài toán đối ngẫu nón**
 $$\max b^T y \quad \text{s.t.} \quad A^T y + s = c, \quad s \in K^*$$
 
-**Key insight:** Dual cone $$K^*$$ appears naturally!
+**Điều kiện đối ngẫu mạnh:**
+- Bài toán nguyên thủy khả thi ngặt **hoặc** bài toán đối ngẫu khả thi ngặt (với giá trị tối ưu hữu hạn) $$\Longrightarrow$$ đối ngẫu mạnh thỏa mãn.
+- Cả hai cùng khả thi ngặt $$\Longrightarrow$$ đối ngẫu mạnh thỏa mãn và cả hai đều đạt nghiệm tối ưu.
 
-#### **Strong duality conditions:**
-- **Primal strictly feasible** OR **dual strictly feasible** (và giá trị tối ưu hữu hạn) ⟹ strong duality
-- **Both strictly feasible** ⟹ strong duality + optimal solutions exist
+### 📊 **Quy hoạch bán xác định (SDP)**
 
-### 📊 **Semidefinite Programming (SDP)**
-
-#### **Primal SDP**
+**SDP nguyên thủy:**
 $$\min \text{tr}(CX) \quad \text{s.t.} \quad \text{tr}(A_i X) = b_i, \quad X \succeq 0$$
 
-#### **Dual SDP**
+**SDP đối ngẫu:**
 $$\max b^T y \quad \text{s.t.} \quad \sum y_i A_i + S = C, \quad S \succeq 0$$
 
-#### **Self-dual cone property**
-$$(\mathbb{S}_+^n)^* = \mathbb{S}_+^n$$
+**Tính tự đối ngẫu của nón PSD:** $$(\mathbb{S}_+^n)^* = \mathbb{S}_+^n$$.
 
-**Interpretation:** Positive semidefinite cone is self-dual
+**Bài toán rào cản cho SDP:**
+- **Nguyên thủy:** $$\min \text{tr}(CX) - \tau \log(\det(X)) \quad \text{s.t.} \quad \text{tr}(A_i X) = b_i$$
+- **Đối ngẫu:** $$\max b^T y + \tau \log(\det(S)) \quad \text{s.t.} \quad \sum y_i A_i + S = C$$
 
-#### **SDP Barrier Problems**
+**Lưu ý:** Khác với LP, bài toán SDP không phải lúc nào cũng thỏa mãn tính đối ngẫu mạnh.
 
-**Primal Barrier:**
-$$\min \text{tr}(CX) - \tau \log(\det(X)) \quad \text{s.t.} \quad \text{tr}(A_i X) = b_i$$
+### 🛠️ **Ý nghĩa thực hành và liên kết giữa các dạng đối ngẫu**
 
-**Dual Barrier:**
-$$\max b^T y + \tau \log(\det(S)) \quad \text{s.t.} \quad \sum y_i A_i + S = C$$
-
-**Note:** Unlike LP, SDP doesn't always have strong duality!
-
-### 🛠️ **Practical Implications**
-
-#### **Algorithm design insights:**
-1. **Primal-dual methods:** Update both primal và dual variables
-2. **Barrier methods:** Perturbed KKT conditions guide algorithms
-3. **Self-duality:** Exploit symmetric structure (SDP)
-4. **Central path:** Smooth path from interior to boundary
-
-#### **Computational advantages:**
-- **Dual easier:** Sometimes dual has better structure
-- **Bounds:** Dual provides lower bounds for primal
-- **Warm starts:** Use dual information for initialization
-- **Stopping criteria:** Duality gap for convergence
-
-### 🔄 **Connections Between Formulations**
-
-#### **Lagrangian ↔ Fenchel**
-- **Lagrangian:** General constrained problems
-- **Fenchel:** Composite function problems
-- **Connection:** Both use conjugate functions
-- **Advantage:** Fenchel more natural for some problems
-
-#### **Barrier ↔ Original**
-- **Original KKT:** Exact optimality conditions
-- **Barrier KKT:** Perturbed optimality conditions
-- **Connection:** $$\tau \to 0$$ recovers original
-- **Advantage:** Barrier enables interior point methods
-
-#### **Primal ↔ Dual**
-- **Primal:** Direct problem formulation
-- **Dual:** Alternative perspective via bounds
-- **Connection:** Strong duality bridges them
-- **Advantage:** Choose easier formulation
-
-### 💡 **Key Theoretical Insights**
-
-#### **1. Duality universality**
-**Every optimization problem** has dual perspective:
-- **Lagrangian dual:** For constrained problems
-- **Fenchel dual:** For composite problems
-- **Conic dual:** For conic programs
-- **Barrier dual:** For interior point methods
-
-#### **2. Geometric interpretation**
-- **Primal:** Direct search trong feasible region
-- **Dual:** Supporting hyperplane approach
-- **Central path:** Smooth trajectory through interior
-- **Strong duality:** Perfect geometric correspondence
-
-#### **3. Algorithmic implications**
-- **Simplex:** Vertex-hopping on boundary
-- **Interior point:** Path-following through interior
-- **Primal-dual:** Simultaneous primal-dual updates
-- **Barrier methods:** Perturbed optimality conditions
-
-### 🎯 **Kết Nối Với Các Chương**
-
-#### **From previous chapters:**
-- **Chương 10:** LP duality foundation
-- **Chương 11:** General Lagrangian duality
-- **Chương 12:** KKT conditions
-- **Chương 15:** Barrier methods và central path
-
-#### **Advanced connections:**
-- **Conjugate functions:** Fenchel duality framework
-- **Conic programming:** Generalization to cones
-- **Self-duality:** Special structure exploitation
-- **Perturbed KKT:** Bridge between exact và approximate
-
-#### **Future applications:**
-- **Primal-dual algorithms:** Simultaneous updates
-- **Interior point methods:** Polynomial-time algorithms
-- **Semidefinite programming:** Matrix optimization
-- **Robust optimization:** Worst-case analysis
-
-### 🌟 **Ý Nghĩa Lý Thuyết**
-
-#### **Duality as universal principle:**
-- **Every problem has dual:** Alternative formulation always exists
-- **Geometric correspondence:** Primal-dual relationship
-- **Algorithmic flexibility:** Choose best formulation
-- **Theoretical elegance:** Unified framework
-
-#### **Practical significance:**
-- **Algorithm design:** Primal-dual methods
-- **Computational efficiency:** Exploit structure
-- **Sensitivity analysis:** Dual variables as shadow prices
-- **Convergence analysis:** Duality gap monitoring
-
-#### **Mathematical beauty:**
-- **Symmetry:** Dual của dual = primal
-- **Self-duality:** Some cones are self-dual
-- **Conjugate functions:** Elegant mathematical framework
-- **Central path:** Smooth geometric trajectory
-
-### 💡 **Mẹo Thực Hành**
-
-#### **When to use different duality formulations:**
-1. **Lagrangian:** General constrained problems
-2. **Fenchel:** Composite functions, regularization
-3. **Conic:** Problems with cone constraints
-4. **Barrier:** Interior point algorithms
-
-#### **Algorithm selection:**
-- **Primal easier:** Direct primal methods
-- **Dual easier:** Dual methods or primal-dual
-- **Both complex:** Barrier methods với central path
-- **Large-scale:** Interior point methods
-
-#### **Implementation considerations:**
-- **Strong duality:** Check Slater's condition
-- **Numerical stability:** Monitor condition numbers
-- **Convergence:** Use duality gap
-- **Warm starts:** Exploit dual information
-
-### 🔬 **Advanced Topics**
-
-#### **Robust duality:**
-- **Uncertain problems:** Worst-case duality
-- **Distributionally robust:** Ambiguous distributions
-- **Chance constraints:** Probabilistic duality
-
-#### **Algorithmic developments:**
-- **Primal-dual interior point:** Mehrotra's algorithm
-- **Homogeneous methods:** Handle infeasibility
-- **Higher-order methods:** Beyond Newton steps
-- **Distributed algorithms:** Parallel computation
-
-#### **Modern applications:**
-- **Machine learning:** SVM, regularization, neural networks
-- **Finance:** Portfolio optimization, risk management
-- **Engineering:** Control, signal processing, design
-- **Operations research:** Logistics, scheduling, planning
-
-### 📈 **Ứng Dụng Thực Tế**
-
-#### **Linear và Conic Programming:**
-- **Portfolio optimization:** Mean-variance models
-- **Network flows:** Transportation, communication
-- **Production planning:** Resource allocation
-- **Facility location:** Optimal placement
-
-#### **Semidefinite Programming:**
-- **Control theory:** LMI-based design
-- **Combinatorial optimization:** SDP relaxations
-- **Machine learning:** Kernel methods, matrix completion
-- **Signal processing:** Beamforming, filter design
-
-#### **Interior Point Methods:**
-- **Large-scale LP:** Commercial solvers (CPLEX, Gurobi)
-- **Quadratic programming:** Portfolio optimization
-- **Nonlinear programming:** General constrained problems
-- **Convex optimization:** Modern optimization software
-
-### 🔮 **Future Directions**
-
-#### **Theoretical developments:**
-- **Non-convex duality:** Extensions beyond convexity
-- **Stochastic duality:** Random optimization problems
-- **Dynamic duality:** Time-varying problems
-- **Quantum duality:** Quantum optimization
-
-#### **Algorithmic innovations:**
-- **Adaptive methods:** Problem-specific algorithms
-- **Parallel algorithms:** Distributed computation
-- **Online methods:** Streaming optimization
-- **Approximation algorithms:** Near-optimal solutions
-
-#### **Application domains:**
-- **Deep learning:** Neural network optimization
-- **Autonomous systems:** Real-time optimization
-- **Smart grids:** Energy optimization
-- **Bioinformatics:** Computational biology
-
-### 💎 **Key Insights**
-
-#### **Duality transformations:**
-1. **Lagrangian:** Constraint incorporation via multipliers
-2. **Fenchel:** Conjugate function perspective
-3. **Barrier:** Interior point approximation
-4. **Conic:** Cone-based generalization
-
-#### **Algorithmic implications:**
-- **Primal methods:** Direct feasible region search
-- **Dual methods:** Bound-based approaches
-- **Primal-dual:** Simultaneous optimization
-- **Interior point:** Smooth path following
-
-#### **Theoretical elegance:**
-- **Weak duality:** Universal lower bounds
-- **Strong duality:** Perfect correspondence
-- **Self-duality:** Symmetric structures
-- **Central path:** Geometric optimization trajectory
-
-### 🌟 **Legacy của chương 16:**
-
-- **Unified duality theory:** Multiple perspectives on same problems
-- **Algorithmic flexibility:** Choose best formulation approach
-- **Theoretical completeness:** Comprehensive duality framework
-- **Practical impact:** Foundation for modern optimization software
-- **Educational value:** Deep understanding of optimization structure
-
-### 🎯 **Takeaway messages:**
-
-1. **Duality is universal:** Every problem has dual perspective
-2. **Multiple formulations:** Lagrangian, Fenchel, conic, barrier
-3. **Algorithmic choice:** Select best approach for problem structure
-4. **Geometric insight:** Primal-dual correspondence
-5. **Practical power:** Enables efficient algorithms và software
-
-### 💫 **Philosophical impact:**
-
-Chương 16 **unifies duality theory**:
-- **From specific to general:** LP duality → universal duality
-- **From single to multiple:** One formulation → many perspectives
-- **From theoretical to practical:** Mathematical elegance → algorithmic power
-- **From simple to sophisticated:** Basic concepts → advanced applications
-- **From academic to industrial:** Research ideas → commercial software
-
-### 🔮 **Synthesis:**
-
-Duality revisited shows that **optimization has multiple faces**:
-- **Primal face:** Direct problem solving
-- **Dual face:** Bound-based approaches
-- **Barrier face:** Interior approximation
-- **Conjugate face:** Function transformation
-- **Conic face:** Geometric generalization
-
-Each face reveals different aspects của same underlying mathematical structure, enabling **flexible algorithm design** và **deep theoretical understanding**. This multiplicity of perspectives is what makes modern optimization both **theoretically elegant** và **practically powerful**.
-
-### 💡 **Final insight:**
-
-Chương 16 demonstrates that **duality is not just mathematical curiosity** - it's **fundamental organizing principle** của optimization theory. From simple LP duality đến sophisticated Fenchel duality, từ exact KKT conditions đến perturbed barrier conditions, từ primal algorithms đến primal-dual methods - **duality provides unified framework** that connects theory với practice, algorithms với applications, mathematics với engineering.
-
-**Duality = Multiple perspectives on same optimization reality!**
-
----
-
-💡 **Thông điệp cuối cùng:** Duality Revisited không chỉ review previous concepts - nó **synthesizes multiple duality perspectives** into unified framework, showing how Lagrangian, Fenchel, conic, và barrier dualities are all **different faces of same fundamental principle**!
+- **Lagrangian ↔ Fenchel:** Đối ngẫu Lagrange phù hợp cho bài toán có ràng buộc tổng quát; đối ngẫu Fenchel đặc biệt thuận tiện cho bài toán tổng hai hàm (có điều chuẩn hoặc toán tử tuyến tính).
+- **Lựa chọn thuật toán:** Nếu bài toán đối ngẫu có cấu trúc đơn giản hơn, có thể giải trực tiếp bài toán đối ngẫu; với bài toán quy mô lớn có ràng buộc nón hoặc cần độ chính xác cao, phương pháp điểm trong nguyên thủy – đối ngẫu khai thác đồng thời cả hai phía và dùng khoảng cách đối ngẫu làm tiêu chí dừng.
+- **Lưu ý cài đặt:** Cần kiểm tra điều kiện Slater để đảm bảo đối ngẫu mạnh, theo dõi số điều kiện và tận dụng nghiệm đối ngẫu cho khởi động ấm (warm start) hoặc phân tích độ nhạy (giá bóng).
 
 ---
 
@@ -588,23 +342,23 @@ mjx-container[jax="CHTML"][display="false"] {
 }
 </style>
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Duality Revisited, bao gồm Lagrangian duality theory, optimality conditions, Fenchel duality và advanced duality concepts.
+Bài tập trắc nghiệm này kiểm tra kiến thức về tính đối ngẫu, bao gồm đối ngẫu Lagrange, điều kiện tối ưu KKT, đối ngẫu Fenchel và các tính chất liên quan.
 
 ---
 
 <div id="quiz-container">
     <div id="quiz-header">
-        <h2>🔄 Quiz: Tính Đối Ngẫu Tái Xét & Lý Thuyết Nâng Cao</h2>
+        <h2>🔄 Bài tập trắc nghiệm: Tính đối ngẫu (Nhìn lại)</h2>
         <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill" style="width: 5%"></div>
+            <div class="progress-fill" id="progress-fill" style="width: 4%"></div>
         </div>
-        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">20</span></div>
+        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">25</span></div>
     </div>
 
     <div id="quiz-content">
         <!-- Câu hỏi 1: Lagrangian definition -->
         <div class="question" id="q1" style="display: block;">
-            <h3>Câu 1: Lagrangian cho bài toán có constraints \(h_i(x) \leq 0\) và \(l_j(x) = 0\) là:</h3>
+            <h3>Câu 1: Hàm Lagrange cho bài toán có ràng buộc \(h_i(x) \leq 0\) và \(l_j(x) = 0\) là:</h3>
             <div class="options">
                 <label><input type="radio" name="q1" value="a"> A) \(L(x,u,v) = f(x) + \sum u_i h_i(x) + \sum v_j l_j(x)\)</label>
                 <label><input type="radio" name="q1" value="b"> B) \(L(x,u,v) = f(x) - \sum u_i h_i(x) - \sum v_j l_j(x)\)</label>
@@ -613,13 +367,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$L(x,u,v) = f(x) + \sum u_i h_i(x) + \sum v_j l_j(x)$$</strong><br>
-                Lagrangian standard form với dual variables $$u_i \geq 0$$ cho inequality constraints và $$v_j$$ free cho equality constraints.
+                Đây là dạng chuẩn của hàm Lagrange với biến đối ngẫu $$u_i \geq 0$$ cho ràng buộc bất đẳng thức và $$v_j$$ tự do cho ràng buộc đẳng thức.
             </div>
         </div>
 
         <!-- Câu hỏi 2: Primal problem reformulation -->
         <div class="question" id="q2" style="display: none;">
-            <h3>Câu 2: Bài toán primal có thể viết lại thành:</h3>
+            <h3>Câu 2: Bài toán nguyên thủy có thể được viết lại thành:</h3>
             <div class="options">
                 <label><input type="radio" name="q2" value="a"> A) \(\min_x \max_{u \geq 0, v} L(x,u,v)\)</label>
                 <label><input type="radio" name="q2" value="b"> B) \(\max_x \min_{u \geq 0, v} L(x,u,v)\)</label>
@@ -628,13 +382,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\min_x \max_{u \geq 0, v} L(x,u,v)$$</strong><br>
-                Primal problem: minimize over $$x$$, maximize Lagrangian over dual variables để enforce constraints.
+                Bài toán nguyên thủy cực tiểu hóa theo $$x$$ sau khi cực đại hóa hàm Lagrange theo các biến đối ngẫu để áp đặt các ràng buộc.
             </div>
         </div>
 
         <!-- Câu hỏi 3: Dual problem -->
         <div class="question" id="q3" style="display: none;">
-            <h3>Câu 3: Bài toán dual tương ứng là:</h3>
+            <h3>Câu 3: Bài toán đối ngẫu tương ứng là:</h3>
             <div class="options">
                 <label><input type="radio" name="q3" value="a"> A) \(\max_{u \geq 0, v} \min_x L(x,u,v)\)</label>
                 <label><input type="radio" name="q3" value="b"> B) \(\min_{u \geq 0, v} \max_x L(x,u,v)\)</label>
@@ -643,13 +397,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\max_{u \geq 0, v} \min_x L(x,u,v)$$</strong><br>
-                Dual problem: maximize over dual variables, minimize Lagrangian over primal variables.
+                Bài toán đối ngẫu cực đại hóa theo các biến đối ngẫu sau khi cực tiểu hóa hàm Lagrange theo biến nguyên thủy $$x$$.
             </div>
         </div>
 
         <!-- Câu hỏi 4: Dual function -->
         <div class="question" id="q4" style="display: none;">
-            <h3>Câu 4: Dual function \(g(u,v)\) được định nghĩa là:</h3>
+            <h3>Câu 4: Hàm đối ngẫu \(g(u,v)\) được định nghĩa là:</h3>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) \(g(u,v) = \inf_x L(x,u,v)\)</label>
                 <label><input type="radio" name="q4" value="b"> B) \(g(u,v) = \sup_x L(x,u,v)\)</label>
@@ -658,28 +412,28 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$g(u,v) = \inf_x L(x,u,v)$$</strong><br>
-                Dual function là infimum của Lagrangian over primal variables, luôn concave trong dual variables.
+                Hàm đối ngẫu là cận dưới đúng (infimum) của hàm Lagrange theo biến nguyên thủy, và luôn là hàm lõm theo các biến đối ngẫu.
             </div>
         </div>
 
         <!-- Câu hỏi 5: Strong duality condition -->
         <div class="question" id="q5" style="display: none;">
-            <h3>Câu 5: Strong duality xảy ra khi:</h3>
+            <h3>Câu 5: Tính đối ngẫu mạnh xảy ra khi:</h3>
             <div class="options">
-                <label><input type="radio" name="q5" value="a"> A) \(p^* = d^*\) (primal optimal = dual optimal)</label>
+                <label><input type="radio" name="q5" value="a"> A) \(p^* = d^*\) (giá trị tối ưu nguyên thủy bằng giá trị tối ưu đối ngẫu)</label>
                 <label><input type="radio" name="q5" value="b"> B) \(p^* > d^*\)</label>
                 <label><input type="radio" name="q5" value="c"> C) \(p^* < d^*\)</label>
-                <label><input type="radio" name="q5" value="d"> D) Duality gap = ∞</label>
+                <label><input type="radio" name="q5" value="d"> D) Khoảng cách đối ngẫu bằng \(\infty\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$p^* = d^*$$ (primal optimal = dual optimal)</strong><br>
-                Strong duality: không có duality gap, primal và dual optimal values bằng nhau.
+                <strong>Đáp án đúng: A) $$p^* = d^*$$ (giá trị tối ưu nguyên thủy bằng giá trị tối ưu đối ngẫu)</strong><br>
+                Tính đối ngẫu mạnh đồng nghĩa với khoảng cách đối ngẫu bằng $$0$$, tức $$p^* = d^*$$.
             </div>
         </div>
 
         <!-- Câu hỏi 6: KKT stationarity -->
         <div class="question" id="q6" style="display: none;">
-            <h3>Câu 6: KKT stationarity condition là:</h3>
+            <h3>Câu 6: Điều kiện dừng (stationarity) trong hệ KKT là:</h3>
             <div class="options">
                 <label><input type="radio" name="q6" value="a"> A) \(\nabla_x L(x^*,u^*,v^*) = 0\)</label>
                 <label><input type="radio" name="q6" value="b"> B) \(h_i(x^*) \leq 0\)</label>
@@ -688,28 +442,28 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\nabla_x L(x^*,u^*,v^*) = 0$$</strong><br>
-                Stationarity: gradient của Lagrangian theo primal variables bằng 0 tại optimal point.
+                Điều kiện dừng yêu cầu gradient của hàm Lagrange theo biến nguyên thủy triệt tiêu tại điểm tối ưu.
             </div>
         </div>
 
         <!-- Câu hỏi 7: Complementary slackness -->
         <div class="question" id="q7" style="display: none;">
-            <h3>Câu 7: Complementary slackness condition là:</h3>
+            <h3>Câu 7: Điều kiện bù chặt (complementary slackness) là:</h3>
             <div class="options">
-                <label><input type="radio" name="q7" value="a"> A) \(u_i^* h_i(x^*) = 0\) for all \(i\)</label>
+                <label><input type="radio" name="q7" value="a"> A) \(u_i^* h_i(x^*) = 0\) với mọi \(i\)</label>
                 <label><input type="radio" name="q7" value="b"> B) \(u_i^* + h_i(x^*) = 0\)</label>
                 <label><input type="radio" name="q7" value="c"> C) \(u_i^* h_i(x^*) \geq 0\)</label>
                 <label><input type="radio" name="q7" value="d"> D) \(u_i^* = h_i(x^*)\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$u_i^* h_i(x^*) = 0$$ for all $$i$$</strong><br>
-                Complementary slackness: dual variable bằng 0 nếu constraint không active, hoặc constraint active nếu dual variable > 0.
+                <strong>Đáp án đúng: A) $$u_i^* h_i(x^*) = 0$$ với mọi $$i$$</strong><br>
+                Điều kiện bù chặt cho biết biến đối ngẫu bằng $$0$$ nếu ràng buộc không tác dụng ($$h_i(x^*) < 0$$), và ràng buộc phải tác dụng ($$h_i(x^*) = 0$$) nếu biến đối ngẫu dương ($$u_i^* > 0$$).
             </div>
         </div>
 
         <!-- Câu hỏi 8: Fenchel conjugate -->
         <div class="question" id="q8" style="display: none;">
-            <h3>Câu 8: Fenchel conjugate của hàm \(f\) là:</h3>
+            <h3>Câu 8: Hàm liên hợp Fenchel của hàm \(f\) là:</h3>
             <div class="options">
                 <label><input type="radio" name="q8" value="a"> A) \(f^*(y) = \sup_x (y^T x - f(x))\)</label>
                 <label><input type="radio" name="q8" value="b"> B) \(f^*(y) = \inf_x (y^T x - f(x))\)</label>
@@ -718,13 +472,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f^*(y) = \sup_x (y^T x - f(x))$$</strong><br>
-                Fenchel conjugate (Legendre transform): supremum của linear function trừ original function.
+                Hàm liên hợp Fenchel là cận trên đúng (supremum) của hiệu giữa hàm tuyến tính $$y^Tx$$ và hàm gốc $$f(x)$$.
             </div>
         </div>
 
         <!-- Câu hỏi 9: Fenchel duality -->
         <div class="question" id="q9" style="display: none;">
-            <h3>Câu 9: Fenchel duality cho bài toán \(\min_x f(x) + g(Ax)\) có dual:</h3>
+            <h3>Câu 9: Bài toán đối ngẫu Fenchel của \(\min_x f(x) + g(Ax)\) là:</h3>
             <div class="options">
                 <label><input type="radio" name="q9" value="a"> A) \(\max_v -f^*(A^T v) - g^*(-v)\)</label>
                 <label><input type="radio" name="q9" value="b"> B) \(\min_v f^*(A^T v) + g^*(v)\)</label>
@@ -733,88 +487,88 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\max_v -f^*(A^T v) - g^*(-v)$$</strong><br>
-                Fenchel dual sử dụng conjugate functions của cả $$f$$ và $$g$$ với appropriate transformations.
+                Bài toán đối ngẫu Fenchel biểu diễn mục tiêu đối ngẫu trực tiếp qua hàm liên hợp của $$f$$ và $$g$$.
             </div>
         </div>
 
         <!-- Câu hỏi 10: Biconjugate -->
         <div class="question" id="q10" style="display: none;">
-            <h3>Câu 10: Biconjugate \(f^{**}\) của hàm convex \(f\) là:</h3>
+            <h3>Câu 10: Hàm song liên hợp (biconjugate) \(f^{**}\) của hàm lồi \(f\) thỏa mãn:</h3>
             <div class="options">
-                <label><input type="radio" name="q10" value="a"> A) \(f^{**} = f\) (nếu \(f\) convex và lower semicontinuous)</label>
+                <label><input type="radio" name="q10" value="a"> A) \(f^{**} = f\) (nếu \(f\) lồi, chính thường và nửa liên tục dưới)</label>
                 <label><input type="radio" name="q10" value="b"> B) \(f^{**} = -f\)</label>
                 <label><input type="radio" name="q10" value="c"> C) \(f^{**} = f^2\)</label>
                 <label><input type="radio" name="q10" value="d"> D) \(f^{**} = 0\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$f^{**} = f$$ (nếu $$f$$ convex và lower semicontinuous)</strong><br>
-                Fenchel-Moreau theorem: biconjugate của convex lower semicontinuous function là chính nó.
+                <strong>Đáp án đúng: A) $$f^{**} = f$$ (nếu $$f$$ lồi, chính thường và nửa liên tục dưới)</strong><br>
+                Theo định lý Fenchel–Moreau, hàm song liên hợp của một hàm lồi chính thường, nửa liên tục dưới (đóng) chính là hàm ban đầu.
             </div>
         </div>
 
         <!-- Câu hỏi 11: Saddle point -->
         <div class="question" id="q11" style="display: none;">
-            <h3>Câu 11: \((x^*, u^*, v^*)\) là saddle point của Lagrangian nếu:</h3>
+            <h3>Câu 11: \((x^*, u^*, v^*)\) là điểm yên (saddle point) của hàm Lagrange nếu:</h3>
             <div class="options">
-                <label><input type="radio" name="q11" value="a"> A) \(L(x^*, u, v) \leq L(x^*, u^*, v^*) \leq L(x, u^*, v^*)\) for all feasible \((x,u,v)\)</label>
+                <label><input type="radio" name="q11" value="a"> A) \(L(x^*, u, v) \leq L(x^*, u^*, v^*) \leq L(x, u^*, v^*)\) với mọi \((x,u,v)\) khả thi</label>
                 <label><input type="radio" name="q11" value="b"> B) \(L(x^*, u^*, v^*) = 0\)</label>
                 <label><input type="radio" name="q11" value="c"> C) \(\nabla L(x^*, u^*, v^*) = 0\)</label>
-                <label><input type="radio" name="q11" value="d"> D) \(L(x, u, v) = L(x^*, u^*, v^*)\) for all \((x,u,v)\)</label>
+                <label><input type="radio" name="q11" value="d"> D) \(L(x, u, v) = L(x^*, u^*, v^*)\) với mọi \((x,u,v)\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$L(x^*, u, v) \leq L(x^*, u^*, v^*) \leq L(x, u^*, v^*)$$ for all feasible $$(x,u,v)$$</strong><br>
-                Saddle point: minimum theo primal variables, maximum theo dual variables.
+                <strong>Đáp án đúng: A) $$L(x^*, u, v) \leq L(x^*, u^*, v^*) \leq L(x, u^*, v^*)$$ với mọi $$(x,u,v)$$ khả thi</strong><br>
+                Điểm yên đạt cực tiểu theo biến nguyên thủy $$x$$ và đạt cực đại theo các biến đối ngẫu $$(u, v)$$.
             </div>
         </div>
 
         <!-- Câu hỏi 12: Slater condition -->
         <div class="question" id="q12" style="display: none;">
-            <h3>Câu 12: Với bài toán lồi, Slater condition đảm bảo:</h3>
+            <h3>Câu 12: Với bài toán lồi, điều kiện Slater đảm bảo:</h3>
             <div class="options">
-                <label><input type="radio" name="q12" value="a"> A) Strong duality holds</label>
-                <label><input type="radio" name="q12" value="b"> B) Weak duality holds</label>
-                <label><input type="radio" name="q12" value="c"> C) No duality gap</label>
+                <label><input type="radio" name="q12" value="a"> A) Tính đối ngẫu mạnh được thỏa mãn</label>
+                <label><input type="radio" name="q12" value="b"> B) Tính đối ngẫu yếu được thỏa mãn</label>
+                <label><input type="radio" name="q12" value="c"> C) Khoảng cách đối ngẫu bằng 0</label>
                 <label><input type="radio" name="q12" value="d"> D) Cả A và C</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Cả A và C</strong><br>
-                Slater condition (strict feasibility) đảm bảo strong duality, tức là no duality gap.
+                Điều kiện Slater (tồn tại điểm khả thi ngặt) đảm bảo tính đối ngẫu mạnh, tức là không có khoảng cách đối ngẫu ($$p^* = d^*$$).
             </div>
         </div>
 
         <!-- Câu hỏi 13: Linear programming dual -->
         <div class="question" id="q13" style="display: none;">
-            <h3>Câu 13: Dual của LP \(\min c^T x\) s.t. \(Ax = b, x \geq 0\) là:</h3>
+            <h3>Câu 13: Bài toán đối ngẫu của LP \(\min c^T x\) thỏa mãn \(Ax = b, x \geq 0\) là:</h3>
             <div class="options">
-                <label><input type="radio" name="q13" value="a"> A) \(\max b^T y\) s.t. \(A^T y \leq c\)</label>
-                <label><input type="radio" name="q13" value="b"> B) \(\min b^T y\) s.t. \(A^T y \geq c\)</label>
-                <label><input type="radio" name="q13" value="c"> C) \(\max c^T y\) s.t. \(A^T y = b\)</label>
-                <label><input type="radio" name="q13" value="d"> D) \(\min A^T y\) s.t. \(b^T y \leq c\)</label>
+                <label><input type="radio" name="q13" value="a"> A) \(\max b^T y\) thỏa mãn \(A^T y \leq c\)</label>
+                <label><input type="radio" name="q13" value="b"> B) \(\min b^T y\) thỏa mãn \(A^T y \geq c\)</label>
+                <label><input type="radio" name="q13" value="c"> C) \(\max c^T y\) thỏa mãn \(A^T y = b\)</label>
+                <label><input type="radio" name="q13" value="d"> D) \(\min A^T y\) thỏa mãn \(b^T y \leq c\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\max b^T y$$ s.t. $$A^T y \leq c$$</strong><br>
-                Standard LP dual: maximize với dual variables $$y$$ free, constraint $$A^T y \leq c$$.
+                <strong>Đáp án đúng: A) $$\max b^T y$$ thỏa mãn $$A^T y \leq c$$</strong><br>
+                Bài toán đối ngẫu chuẩn của LP có biến $$y$$ tự do và ràng buộc $$A^T y \leq c$$ (tương đương $$A^T y + s = c, s \geq 0$$).
             </div>
         </div>
 
         <!-- Câu hỏi 14: Quadratic programming dual -->
         <div class="question" id="q14" style="display: none;">
-            <h3>Câu 14: Dual của QP \(\min \frac{1}{2}x^T Q x + c^T x\) s.t. \(Ax \leq b\) với \(Q \succ 0\):</h3>
+            <h3>Câu 14: Bài toán đối ngẫu của QP \(\min \frac{1}{2}x^T Q x + c^T x\) thỏa mãn \(Ax \leq b\) với \(Q \succ 0\) là:</h3>
             <div class="options">
-                <label><input type="radio" name="q14" value="a"> A) \(\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) - b^T u\) s.t. \(u \geq 0\)</label>
-                <label><input type="radio" name="q14" value="b"> B) \(\min \frac{1}{2}u^T Q u - b^T u\) s.t. \(u \geq 0\)</label>
-                <label><input type="radio" name="q14" value="c"> C) \(\max b^T u\) s.t. \(A^T u = c\)</label>
+                <label><input type="radio" name="q14" value="a"> A) \(\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) - b^T u\) thỏa mãn \(u \geq 0\)</label>
+                <label><input type="radio" name="q14" value="b"> B) \(\min \frac{1}{2}u^T Q u - b^T u\) thỏa mãn \(u \geq 0\)</label>
+                <label><input type="radio" name="q14" value="c"> C) \(\max b^T u\) thỏa mãn \(A^T u = c\)</label>
                 <label><input type="radio" name="q14" value="d"> D) \(\min c^T u + b^T u\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) - b^T u$$ s.t. $$u \geq 0$$</strong><br>
-                QP dual được derive từ Lagrangian, eliminate primal variables bằng stationarity condition.
+                <strong>Đáp án đúng: A) $$\max -\frac{1}{2}(A^T u + c)^T Q^{-1} (A^T u + c) - b^T u$$ thỏa mãn $$u \geq 0$$</strong><br>
+                Từ điều kiện dừng $$\nabla_x L = Qx + c + A^T u = 0 \Rightarrow x = -Q^{-1}(A^T u + c)$$, thay lại vào hàm Lagrange thu được bài toán đối ngẫu trên.
             </div>
         </div>
 
         <!-- Câu hỏi 15: Conjugate of quadratic -->
         <div class="question" id="q15" style="display: none;">
-            <h3>Câu 15: Conjugate của \(f(x) = \frac{1}{2}x^T Q x\) với \(Q \succ 0\) là:</h3>
+            <h3>Câu 15: Hàm liên hợp của \(f(x) = \frac{1}{2}x^T Q x\) với \(Q \succ 0\) là:</h3>
             <div class="options">
                 <label><input type="radio" name="q15" value="a"> A) \(f^*(y) = \frac{1}{2}y^T Q^{-1} y\)</label>
                 <label><input type="radio" name="q15" value="b"> B) \(f^*(y) = \frac{1}{2}y^T Q y\)</label>
@@ -823,13 +577,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f^*(y) = \frac{1}{2}y^T Q^{-1} y$$</strong><br>
-                Conjugate của quadratic form: thay $$Q$$ bằng $$Q^{-1}$$, giữ nguyên coefficient $$\frac{1}{2}$$.
+                Hàm liên hợp của dạng toàn phương xác định dương thay ma trận $$Q$$ bằng nghịch đảo $$Q^{-1}$$ và giữ nguyên hệ số $$\frac{1}{2}$$.
             </div>
         </div>
 
         <!-- Câu hỏi 16: Moreau envelope -->
         <div class="question" id="q16" style="display: none;">
-            <h3>Câu 16: Moreau envelope của hàm \(f\) là:</h3>
+            <h3>Câu 16: Bao Moreau (Moreau envelope) của hàm \(f\) là:</h3>
             <div class="options">
                 <label><input type="radio" name="q16" value="a"> A) \(M_\lambda f(x) = \inf_z \left( f(z) + \frac{1}{2\lambda}\|x-z\|^2 \right)\)</label>
                 <label><input type="radio" name="q16" value="b"> B) \(M_\lambda f(x) = f(x) + \lambda\|x\|^2\)</label>
@@ -838,13 +592,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$M_\lambda f(x) = \inf_z \left( f(z) + \frac{1}{2\lambda}\|x-z\|^2 \right)$$</strong><br>
-                Moreau envelope: smooth approximation của function bằng cách thêm quadratic regularization.
+                Bao Moreau là một xấp xỉ trơn của hàm $$f$$ thu được bằng phép chập infimal với hàm điều chuẩn bậc hai.
             </div>
         </div>
 
         <!-- Câu hỏi 17: Proximal operator -->
         <div class="question" id="q17" style="display: none;">
-            <h3>Câu 17: Proximal operator liên quan đến Moreau envelope như thế nào?</h3>
+            <h3>Câu 17: Toán tử lân cận (proximal operator) liên hệ với bao Moreau như thế nào?</h3>
             <div class="options">
                 <label><input type="radio" name="q17" value="a"> A) \(\text{prox}_{\lambda f}(x) = \arg\min_z \left( f(z) + \frac{1}{2\lambda}\|x-z\|^2 \right)\)</label>
                 <label><input type="radio" name="q17" value="b"> B) \(\text{prox}_{\lambda f}(x) = \nabla M_\lambda f(x)\)</label>
@@ -853,28 +607,28 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\text{prox}_{\lambda f}(x) = \arg\min_z \left( f(z) + \frac{1}{2\lambda}\|x-z\|^2 \right)$$</strong><br>
-                Proximal operator là argmin của expression trong Moreau envelope definition.
+                Toán tử lân cận chính là điểm đạt cực tiểu (argmin) của bài toán tối ưu trong định nghĩa bao Moreau.
             </div>
         </div>
 
         <!-- Câu hỏi 18: Duality in SVM -->
         <div class="question" id="q18" style="display: none;">
-            <h3>Câu 18: Trong SVM, dual problem có ưu điểm:</h3>
+            <h3>Câu 18: Trong SVM, bài toán đối ngẫu có ưu điểm nào sau đây?</h3>
             <div class="options">
-                <label><input type="radio" name="q18" value="a"> A) Kernel trick có thể áp dụng</label>
-                <label><input type="radio" name="q18" value="b"> B) Số variables phụ thuộc vào số data points</label>
-                <label><input type="radio" name="q18" value="c"> C) Quadratic programming với box constraints</label>
+                <label><input type="radio" name="q18" value="a"> A) Có thể áp dụng thủ thuật hạt nhân (kernel trick)</label>
+                <label><input type="radio" name="q18" value="b"> B) Số biến phụ thuộc vào số điểm dữ liệu thay vì số chiều đặc trưng</label>
+                <label><input type="radio" name="q18" value="c"> C) Là bài toán quy hoạch bậc hai với ràng buộc hộp đơn giản</label>
                 <label><input type="radio" name="q18" value="d"> D) Tất cả các ưu điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các ưu điểm trên</strong><br>
-                SVM dual cho phép kernel trick, có structure đơn giản hơn, và efficient cho high-dimensional features.
+                Bài toán đối ngẫu của SVM cho phép dùng kernel trick, có ràng buộc đơn giản và đặc biệt hiệu quả khi không gian đặc trưng có số chiều lớn.
             </div>
         </div>
 
         <!-- Câu hỏi 19: Weak duality theorem -->
         <div class="question" id="q19" style="display: none;">
-            <h3>Câu 19: Weak duality theorem nói rằng:</h3>
+            <h3>Câu 19: Định lý đối ngẫu yếu khẳng định rằng:</h3>
             <div class="options">
                 <label><input type="radio" name="q19" value="a"> A) \(d^* \leq p^*\) luôn đúng</label>
                 <label><input type="radio" name="q19" value="b"> B) \(d^* \geq p^*\) luôn đúng</label>
@@ -883,42 +637,42 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$d^* \leq p^*$$ luôn đúng</strong><br>
-                Weak duality: dual optimal luôn là lower bound của primal optimal, independent of convexity.
+                Theo đối ngẫu yếu, giá trị tối ưu đối ngẫu luôn là cận dưới của giá trị tối ưu nguyên thủy, bất kể bài toán có lồi hay không.
             </div>
         </div>
 
         <!-- Câu hỏi 20: Applications of duality -->
         <div class="question" id="q20" style="display: none;">
-            <h3>Câu 20: Duality theory được ứng dụng trong:</h3>
+            <h3>Câu 20: Lý thuyết đối ngẫu được ứng dụng trong lĩnh vực nào sau đây?</h3>
             <div class="options">
-                <label><input type="radio" name="q20" value="a"> A) Sensitivity analysis</label>
-                <label><input type="radio" name="q20" value="b"> B) Algorithm design (dual methods)</label>
-                <label><input type="radio" name="q20" value="c"> C) Theoretical analysis và bounds</label>
+                <label><input type="radio" name="q20" value="a"> A) Phân tích độ nhạy (sensitivity analysis)</label>
+                <label><input type="radio" name="q20" value="b"> B) Thiết kế thuật toán (các phương pháp đối ngẫu và nguyên thủy – đối ngẫu)</label>
+                <label><input type="radio" name="q20" value="c"> C) Phân tích lý thuyết và thiết lập cận tối ưu</label>
                 <label><input type="radio" name="q20" value="d"> D) Tất cả các ứng dụng trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các ứng dụng trên</strong><br>
-                Duality theory có ứng dụng rộng rãi: sensitivity analysis, dual algorithms, theoretical bounds, economic interpretation.
+                Lý thuyết đối ngẫu đóng vai trò nền tảng trong phân tích độ nhạy, thiết kế thuật toán, ước lượng cận dưới và diễn giải kinh tế (giá bóng).
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->
         <div class="question" id="q21" style="display: none;">
-            <h3>Câu 21: Trong duality revisited, strong duality xảy ra khi:</h3>
+            <h3>Câu 21: Trong lý thuyết đối ngẫu, tính đối ngẫu mạnh xảy ra khi:</h3>
             <div class="options">
-                <label><input type="radio" name="q21" value="a"> A) Duality gap = 0</label>
-                <label><input type="radio" name="q21" value="b"> B) Primal infeasible</label>
-                <label><input type="radio" name="q21" value="c"> C) Dual infeasible</label>
-                <label><input type="radio" name="q21" value="d"> D) Cả primal và dual unbounded</label>
+                <label><input type="radio" name="q21" value="a"> A) Khoảng cách đối ngẫu bằng 0</label>
+                <label><input type="radio" name="q21" value="b"> B) Bài toán nguyên thủy không khả thi</label>
+                <label><input type="radio" name="q21" value="c"> C) Bài toán đối ngẫu không khả thi</label>
+                <label><input type="radio" name="q21" value="d"> D) Cả hai bài toán đều không bị chặn</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Duality gap = 0</strong><br>
-                Strong duality: $$p^* = d^*$$ (duality gap bằng 0).
+                <strong>Đáp án đúng: A) Khoảng cách đối ngẫu bằng 0</strong><br>
+                Tính đối ngẫu mạnh nghĩa là $$p^* = d^*$$, tức khoảng cách đối ngẫu $$p^* - d^* = 0$$.
             </div>
         </div>
 
         <!-- Câu hỏi 22: Thực hành -->
         <div class="question" id="q22" style="display: none;">
-            <h3>Câu 22: Fenchel conjugate của hàm $$f(x) = \frac{1}{2}x^2$$ là:</h3>
+            <h3>Câu 22: Hàm liên hợp Fenchel của hàm $$f(x) = \frac{1}{2}x^2$$ là:</h3>
             <div class="options">
                 <label><input type="radio" name="q22" value="a"> A) $$f^*(y) = \frac{1}{2}y^2$$</label>
                 <label><input type="radio" name="q22" value="b"> B) $$f^*(y) = y^2$$</label>
@@ -927,52 +681,52 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Dualit
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f^*(y) = \frac{1}{2}y^2$$</strong><br>
-                Fenchel conjugate của $$\frac{1}{2}x^2$$ là $$\frac{1}{2}y^2$$.
+                Hàm liên hợp Fenchel của $$\frac{1}{2}x^2$$ là $$\sup_x (yx - \frac{1}{2}x^2) = \frac{1}{2}y^2$$.
             </div>
         </div>
 
         <!-- Câu hỏi 23: Thực hành -->
         <div class="question" id="q23" style="display: none;">
-            <h3>Câu 23: Bidual theorem khẳng định:</h3>
+            <h3>Câu 23: Định lý song đối ngẫu (biconjugate) khẳng định:</h3>
             <div class="options">
-                <label><input type="radio" name="q23" value="a"> A) $$f^{**} = f$$ nếu $$f$$ lồi và đóng</label>
+                <label><input type="radio" name="q23" value="a"> A) $$f^{**} = f$$ nếu $$f$$ lồi, chính thường và đóng</label>
                 <label><input type="radio" name="q23" value="b"> B) $$f^{**} = -f$$</label>
                 <label><input type="radio" name="q23" value="c"> C) $$f^{**} = f^2$$</label>
                 <label><input type="radio" name="q23" value="d"> D) $$f^{**}$$ không tồn tại</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$f^{**} = f$$ nếu $$f$$ lồi và đóng</strong><br>
-                Với hàm lồi đóng, conjugate của conjugate trả về hàm gốc.
+                <strong>Đáp án đúng: A) $$f^{**} = f$$ nếu $$f$$ lồi, chính thường và đóng</strong><br>
+                Với hàm lồi chính thường và đóng, lấy liên hợp hai lần sẽ quay trở về đúng hàm ban đầu.
             </div>
         </div>
 
         <!-- Câu hỏi 24: Thực hành -->
         <div class="question" id="q24" style="display: none;">
-            <h3>Câu 24: Moreau decomposition cho biết:</h3>
+            <h3>Câu 24: Phân rã Moreau (Moreau decomposition) cho biết:</h3>
             <div class="options">
                 <label><input type="radio" name="q24" value="a"> A) $$x = \text{prox}_f(x) + \text{prox}_{f^*}(x)$$</label>
                 <label><input type="radio" name="q24" value="b"> B) $$x = \text{prox}_f(x) - \text{prox}_{f^*}(x)$$</label>
                 <label><input type="radio" name="q24" value="c"> C) $$x = \text{prox}_f(x) \cdot \text{prox}_{f^*}(x)$$</label>
-                <label><input type="radio" name="q24" value="d"> D) Không có công thức</label>
+                <label><input type="radio" name="q24" value="d"> D) Không có công thức tổng quát</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$x = \text{prox}_f(x) + \text{prox}_{f^*}(x)$$</strong><br>
-                Moreau decomposition: mọi điểm có thể phân tích thành tổng của hai proximal projection.
+                Phân rã Moreau cho thấy mọi điểm $$x$$ có thể được phân tách thành tổng ảnh qua toán tử lân cận của $$f$$ và của hàm liên hợp $$f^*$$.
             </div>
         </div>
 
         <!-- Câu hỏi 25: Thực hành -->
         <div class="question" id="q25" style="display: none;">
-            <h3>Câu 25: Legendre transform liên quan đến:</h3>
+            <h3>Câu 25: Phép biến đổi Legendre (Legendre transform) liên quan trực tiếp đến:</h3>
             <div class="options">
-                <label><input type="radio" name="q25" value="a"> A) Fenchel conjugate</label>
+                <label><input type="radio" name="q25" value="a"> A) Hàm liên hợp Fenchel (Fenchel conjugate)</label>
                 <label><input type="radio" name="q25" value="b"> B) Gradient</label>
-                <label><input type="radio" name="q25" value="c"> C) Hessian</label>
-                <label><input type="radio" name="q25" value="d"> D) Eigenvalue</label>
+                <label><input type="radio" name="q25" value="c"> C) Ma trận Hessian</label>
+                <label><input type="radio" name="q25" value="d"> D) Trị riêng (eigenvalue)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Fenchel conjugate</strong><br>
-                Legendre transform là trường hợp đặc biệt của Fenchel conjugate cho hàm strictly convex.
+                <strong>Đáp án đúng: A) Hàm liên hợp Fenchel (Fenchel conjugate)</strong><br>
+                Phép biến đổi Legendre là trường hợp đặc biệt của hàm liên hợp Fenchel đối với các hàm lồi ngặt và khả vi.
             </div>
         </div>
 

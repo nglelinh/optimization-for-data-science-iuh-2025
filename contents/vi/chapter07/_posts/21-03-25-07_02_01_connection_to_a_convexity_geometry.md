@@ -20,10 +20,10 @@ I_C(x) = I\{x \in C \} =
 \end{cases}
 $$
 
-Vi phân dưới của hàm này có ý nghĩa hình học sau:
+Vi phân dưới của hàm chỉ thị có ý nghĩa hình học sau:
 
 ### Bổ đề
-Với $$x \in C$$, vi phân dưới $$\partial I_C(x)$$ trùng với nón pháp tuyến $$\mathcal{N}_C(x)$$ của tập $$C$$ tại $$x$$:
+Với mọi $$x \in C$$, vi phân dưới $$\partial I_C(x)$$ trùng với nón pháp tuyến $$\mathcal{N}_C(x)$$ của tập $$C$$ tại $$x$$:
 
 >
 \begin{equation}
@@ -32,35 +32,37 @@ Với $$x \in C$$, vi phân dưới $$\partial I_C(x)$$ trùng với nón pháp 
 
 ### Chứng minh
 
-Theo định nghĩa, gradient dưới phải thỏa mãn:
+Theo định nghĩa, một gradient dưới $$g$$ của $$I_C$$ tại $$x$$ phải thỏa mãn:
 >
 \begin{equation}
 I_C(y) \geq I_C(x) + g^T(y-x) \text{ với mọi } y
 \end{equation}
 
-Ở đây, $$x \in C$$ và $$I_C(x)=0$$, nên:
+Vì $$x \in C$$ nên $$I_C(x)=0$$, do đó bất đẳng thức trên trở thành:
 >
 \begin{equation}
 I_C(y) \geq g^T(y-x) \text{ với mọi } y
 \end{equation}
 
-Thứ nhất, với mọi $$y \in C$$, ta có:
+Ta xét hai trường hợp của $$y$$:
+
+Thứ nhất, với mọi $$y \in C$$, ta có $$I_C(y) = 0$$, nên:
 >
 \begin{equation}
 I_C(y) = 0 \geq g^T(y-x)
 \end{equation}
 
-Do đó, gradient dưới $$g$$ phải thỏa mãn $$g^Tx \geq g^Ty$$.
+Điều này tương đương với $$g^Tx \geq g^Ty$$ với mọi $$y \in C$$.
 
-Thứ hai, với mọi $$y \notin C$$, $$I_C(y) = \infty$$, nên bất đẳng thức đúng với mọi giá trị của $$g$$:
+Thứ hai, với mọi $$y \notin C$$, ta có $$I_C(y) = \infty$$, nên bất đẳng thức
 >
 $$I_C(y)=\infty \geq g^T(y-x)$$
 
-điều này luôn đúng.
+luôn đúng với mọi vector $$g$$.
 
-Đối với hai điều kiện trên, gradient dưới phải thỏa mãn cả hai, do đó gradient dưới của hàm trên là
+Kết hợp cả hai trường hợp, tập hợp tất cả các gradient dưới của $$I_C$$ tại $$x \in C$$ chính là:
 >
-$$\{g \in \mathbb{R}^n | g^Tx \geq g^Ty\}$$
+$$\{g \in \mathbb{R}^n | g^Tx \geq g^Ty \text{ với mọi } y \in C\}$$
 
 <figure class="image" style="align: center;">
 <p align="center">

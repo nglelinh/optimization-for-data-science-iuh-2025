@@ -14,14 +14,14 @@ MathJax.Hub.Config({
 });
 </script>
 
-Một trong những tính chất quan trọng của phương pháp Newton là nó bất biến affine. Điều này có nghĩa là hướng của việc cập nhật không phụ thuộc vào các phép biến đổi affine của hệ tọa độ. Ví dụ, gradient descent biến thiên theo các phép biến đổi affine, do đó tốc độ hội tụ khác nhau tùy thuộc vào không gian tọa độ.
+Một tính chất quan trọng của phương pháp Newton là tính bất biến affine: hướng cập nhật không phụ thuộc vào các phép biến đổi affine của hệ tọa độ. Ngược lại, gradient descent không có tính chất này nên tốc độ hội tụ thay đổi tùy theo hệ tọa độ được chọn.
 
-Trang này dẫn xuất tính chất bất biến affine.
+Trang này chứng minh tính chất bất biến affine của phương pháp Newton.
 
-## Tính bất biến affine : chứng minh
-Cho $$f:\mathbb{R}^{n}\rightarrow \mathbb{R}$$ khả vi hai lần, và cho $$A\in \mathbb{R}^{n\times n}$$ không suy biến. Cũng định nghĩa $$g(y)$$ là $$f(Ay)$$. $$g(y):=f(Ay)$$. Điều này có nghĩa là một hàm $$g$$ nào đó nhận $$y$$ làm đầu vào có cùng đầu ra như hàm $$f$$ nhận $$Ay$$ (biến đổi affine bởi $$A$$ đối với $$y$$) làm đầu vào. Để giảm thiểu sự nhầm lẫn về ký hiệu và đối số gradient, chúng ta định nghĩa $$x:=Ay$$.
+## Chứng minh tính bất biến affine
+Cho $$f:\mathbb{R}^{n}\rightarrow \mathbb{R}$$ khả vi hai lần và ma trận không suy biến $$A\in \mathbb{R}^{n\times n}$$. Định nghĩa hàm $$g(y) := f(Ay)$$, tức là hàm $$g$$ tại $$y$$ có cùng giá trị với hàm $$f$$ tại điểm biến đổi affine $$Ay$$. Để tránh nhầm lẫn về ký hiệu và đối số của gradient, ta đặt $$x := Ay$$.
 
-Sử dụng quy tắc chuỗi để lấy đạo hàm cả hai vế một lần và hai lần, chúng ta nhận được các kết quả sau:
+Áp dụng quy tắc chuỗi để lấy đạo hàm bậc nhất và bậc hai của $$g$$, ta thu được:
 
 >$$
 >\begin{align}
@@ -30,7 +30,7 @@ Sử dụng quy tắc chuỗi để lấy đạo hàm cả hai vế một lần 
 >\end{align}
 >$$
 
-Bước Newton của $$g$$ đối với $$y$$ như sau:
+Bước Newton của $$g$$ theo biến $$y$$ là:
 
 >$$
 >\begin{align}
@@ -38,7 +38,7 @@ Bước Newton của $$g$$ đối với $$y$$ như sau:
 >\end{align}
 >$$
 
-Ở đây, thay vì hàm $$g$$, nếu chúng ta biến đổi và sắp xếp nó theo hàm $$f$$ đối với $$x$$, chúng ta có thể dẫn xuất bước Newton cho $$x$$ và $$f$$.
+Biểu diễn bước cập nhật này theo $$f$$ và $$x$$, ta suy ra bước Newton cho $$f$$ tại $$x$$:
 
 >$$
 >\begin{align}
@@ -49,16 +49,16 @@ Bước Newton của $$g$$ đối với $$y$$ như sau:
 >\end{align}
 >$$
 
-Điều này có nghĩa là bước Newton là bất biến affine, tức là, các cập nhật trong các hệ tọa độ được biến đổi bởi các phép biến đổi affine được biểu diễn bởi các ma trận không suy biến là giống hệt nhau.
+Kết quả này cho thấy bước Newton bất biến affine: các bước cập nhật trong hệ tọa độ đã biến đổi bởi ma trận không suy biến $$A$$ hoàn toàn tương đương với các bước cập nhật trong hệ tọa độ gốc.
 
-Sử dụng cùng phương pháp để kiểm tra tính bất biến affine của gradient descent bằng cách dẫn xuất cập nhật bước, chúng ta có thể thu được kết quả sau:
+Thực hiện kiểm tra tương tự cho gradient descent, ta thu được:
 
 >$$
 >\begin{align}
 >y^{+} &= y-t_{k}\cdot \nabla g(y)\\\\
->\Leftrightarrow y^{+} &= y-t_{k}\cdot \nabla f(x)A^{T}\\\\
->\Leftrightarrow x^{+} &= x - t_{k}\cdot A\nabla f(x)A^{T}. 
+>\Leftrightarrow y^{+} &= y-t_{k}\cdot A^{T}\nabla f(x)\\\\
+>\Leftrightarrow x^{+} &= x - t_{k}\cdot AA^{T}\nabla f(x). 
 >\end{align}
 >$$
 
-Trong trường hợp của gradient descent, vì ma trận Hessian được xấp xỉ là $$\frac{1}{t}I$$ cho các cập nhật, chúng ta có thể thấy rằng hướng của cập nhật thay đổi đối với các tọa độ được biến đổi affine.
+Với gradient descent, do ma trận Hessian được xấp xỉ bởi $$\frac{1}{t}I$$, hướng cập nhật bị thay đổi khi áp dụng phép biến đổi affine lên hệ tọa độ (trừ trường hợp đặc biệt $$AA^T$$ tỉ lệ với ma trận đơn vị).

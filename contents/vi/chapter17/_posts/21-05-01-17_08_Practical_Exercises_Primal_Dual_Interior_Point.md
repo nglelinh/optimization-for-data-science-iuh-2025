@@ -12,15 +12,15 @@ redirect_from:
   - /contents/vi/chapter17/17_07_Practical_Exercises_Primal_Dual_Interior_Point/
 ---
 
-# Bài Tập Thực Hành - Primal-Dual Interior Point Methods
+# Bài Tập Thực Hành - Phương pháp điểm trong gốc-đối ngẫu
 
 Các bài tập được tham khảo từ Wright (1997) và Nesterov & Nemirovskii (1994).
 
 ---
 
-## 📝 **Bài tập 1: Primal-Dual Central Path cho LP**
+## 📝 **Bài tập 1: Đường trung tâm gốc-đối ngẫu cho LP**
 
-Cho LP:
+Cho bài toán LP:
 
 $$
 \begin{align}
@@ -31,25 +31,25 @@ $$
 $$
 
 **Yêu cầu:**  
-a) Viết KKT conditions  
-b) Derive perturbed KKT với parameter $$\mu$$  
-c) Tính central path $$x(\mu)$$ cho $$\mu = 1, 0.1, 0.01$$
+a) Viết các điều kiện KKT.  
+b) Thiết lập hệ điều kiện KKT bị nhiễu với tham số $$\mu$$.  
+c) Tính điểm trên đường trung tâm $$x(\mu)$$ tại $$\mu = 1, 0.1, 0.01$$.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) KKT conditions:**
+**a) Các điều kiện KKT:**
 
 $$
 \begin{align}
-\nabla f + A^T\nu - \lambda &= 0 \quad \text{(stationarity)} \\
-Ax &= b \quad \text{(primal feasibility)} \\
-x &\geq 0, \, \lambda \geq 0 \quad \text{(dual feasibility)} \\
-\lambda_i x_i &= 0 \quad \text{(complementarity)}
+\nabla f + A^T\nu - \lambda &= 0 \quad \text{(tính dừng)} \\
+Ax &= b \quad \text{(khả thi gốc)} \\
+x &\geq 0, \, \lambda \geq 0 \quad \text{(khả thi gốc và đối ngẫu)} \\
+\lambda_i x_i &= 0 \quad \text{(bù chặt)}
 \end{align}
 $$
 
-Với data:
+Thay dữ liệu bài toán vào, ta có:
 
 $$
 \begin{align}
@@ -61,11 +61,13 @@ $$
 
 ---
 
-**b) Perturbed KKT (central path conditions):**
+**b) Điều kiện KKT bị nhiễu (phương trình đường trung tâm):**
 
-Replace complementarity $$\lambda_i x_i = 0$$ với:
+Thay điều kiện bù chặt $$\lambda_i x_i = 0$$ bằng:
 
 $$\lambda_i x_i = \mu \quad \forall i$$
+
+Ta thu được hệ:
 
 $$
 \begin{cases}
@@ -79,14 +81,14 @@ $$
 
 ---
 
-**c) Solve for central path:**
+**c) Giải tìm đường trung tâm:**
 
 Từ (1): $$\lambda_1 = 1 + \nu$$  
 Từ (2): $$\lambda_2 = 2 + \nu$$  
 Từ (4): $$x_1 = \frac{\mu}{1 + \nu}$$  
-Từ (5): $$x_2 = \frac{\mu}{2 + \nu}$$  
+Từ (5): $$x_2 = \frac{\mu}{2 + \nu}$$
 
-Substitute vào (3):
+Thay vào phương trình (3):
 
 $$\frac{\mu}{1+\nu} + \frac{\mu}{2+\nu} = 3$$
 
@@ -96,11 +98,11 @@ $$\mu \cdot \frac{(2+\nu) + (1+\nu)}{(1+\nu)(2+\nu)} = 3$$
 
 $$\mu \cdot \frac{3 + 2\nu}{(1+\nu)(2+\nu)} = 3$$
 
-$$(1+\nu)(2+\nu) = \mu(1 + \frac{2\nu}{3})$$
+$$(1+\nu)(2+\nu) = \mu\left(1 + \frac{2\nu}{3}\right)$$
 
-Solve quadratic: $$\nu^2 + 3\nu + 2 = \mu + \frac{2\mu\nu}{3}$$
+Giải phương trình bậc hai: $$\nu^2 + 3\nu + 2 = \mu + \frac{2\mu\nu}{3}$$.
 
-**For $$\mu = 1$$:**
+**Với $$\mu = 1$$:**
 
 $$\nu^2 + 3\nu + 2 = 1 + \frac{2\nu}{3}$$
 
@@ -108,21 +110,21 @@ $$\nu^2 + \frac{7\nu}{3} + 1 = 0$$
 
 $$\nu = \frac{-7/3 \pm \sqrt{49/9 - 4}}{2} \in \{-0.566, -1.768\}$$
 
-Chỉ nghiệm $$\nu > -1$$ mới cho $$\lambda_1, \lambda_2 > 0$$, nên chọn $$\nu \approx -0.566$$ và $$x_1 = \frac{1}{1-0.566} \approx 2.30$$, $$x_2 = \frac{1}{2-0.566} \approx 0.70$$ (kiểm tra: $$x_1 + x_2 = 3$$ ✓).
+Chỉ nghiệm $$\nu > -1$$ mới đảm bảo $$\lambda_1, \lambda_2 > 0$$, do đó chọn $$\nu \approx -0.566$$, suy ra $$x_1 = \frac{1}{1-0.566} \approx 2.30$$, $$x_2 = \frac{1}{2-0.566} \approx 0.70$$ (kiểm tra: $$x_1 + x_2 = 3$$ ✓).
 
 **Với $$\mu = 0.1$$:** $$\nu \approx -0.9656$$, $$x \approx (2.90, 0.097)$$.
 
 **Với $$\mu = 0.01$$:** $$\nu \approx -0.9967$$, $$x \approx (2.99, 0.010)$$.
 
-**Khi $$\mu \to 0$$:** $$x^* \to (3, 0)$$ (nghiệm tối ưu của bài toán gốc), $$\nu^* \to -1$$
+**Khi $$\mu \to 0$$:** $$x^* \to (3, 0)$$ (nghiệm tối ưu của bài toán gốc), $$\nu^* \to -1$$.
 
 </details>
 
 ---
 
-## 📝 **Bài tập 2: Newton Step for Primal-Dual System**
+## 📝 **Bài tập 2: Bước Newton cho hệ gốc-đối ngẫu**
 
-Cho LP từ Bài tập 1. Tại $$(x, \lambda, \nu)^{(k)}$$, solve Newton system:
+Xét bài toán LP từ Bài tập 1. Tại điểm lặp $$(x, \lambda, \nu)^{(k)}$$, xét hệ Newton:
 
 $$
 \begin{bmatrix}
@@ -146,14 +148,14 @@ $$
 với $$\Lambda = \text{diag}(\lambda)$$, $$X = \text{diag}(x)$$.
 
 **Yêu cầu:**  
-a) Viết residuals $$r_d, r_p, r_c$$  
-b) Simplify system bằng cách eliminate $$\Delta\lambda$$  
-c) Compute $$\Delta x$$ cho $$x = (1, 1)$$, $$\lambda = (2, 3)$$, $$\nu = -1$$, $$\mu = 0.5$$
+a) Viết các phần dư $$r_d, r_p, r_c$$.  
+b) Rút gọn hệ phương trình bằng cách khử $$\Delta\lambda$$.  
+c) Tính $$\Delta x$$ tại $$x = (1, 1)$$, $$\lambda = (2, 3)$$, $$\nu = -1$$, $$\mu = 0.5$$.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Residuals:**
+**a) Các phần dư:**
 
 $$
 \begin{align}
@@ -165,13 +167,13 @@ $$
 
 ---
 
-**b) Eliminate $$\Delta\lambda$$:**
+**b) Khử $$\Delta\lambda$$:**
 
-From row 3: $$\Lambda \Delta x + X \Delta\lambda = -r_c$$
+Từ hàng thứ 3: $$\Lambda \Delta x + X \Delta\lambda = -r_c$$, suy ra:
 
 $$\Delta\lambda = -X^{-1}(\Lambda \Delta x + r_c)$$
 
-Substitute vào row 1:
+Thay vào hàng thứ 1:
 
 $$A^T \Delta\nu - \Delta\lambda = -r_d$$
 
@@ -179,7 +181,7 @@ $$A^T \Delta\nu + X^{-1}(\Lambda \Delta x + r_c) = -r_d$$
 
 $$\Lambda X^{-1} \Delta x + A^T \Delta\nu = -r_d - X^{-1}r_c$$
 
-Combined với row 2:
+Kết hợp với hàng thứ 2, ta thu được hệ rút gọn:
 
 $$
 \begin{bmatrix}
@@ -199,9 +201,9 @@ $$
 
 ---
 
-**c) Numerical computation:**
+**c) Tính toán bằng số:**
 
-$$x = (1, 1)$$, $$\lambda = (2, 3)$$, $$\nu = -1$$, $$\mu = 0.5$$
+Với $$x = (1, 1)$$, $$\lambda = (2, 3)$$, $$\nu = -1$$, $$\mu = 0.5$$:
 
 $$r_d = \begin{bmatrix} 1-1-2 \\ 2-1-3 \end{bmatrix} = \begin{bmatrix} -2 \\ -2 \end{bmatrix}$$
 
@@ -213,7 +215,7 @@ $$\Lambda X^{-1} = \begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix} \begin{bmatrix} 
 
 $$-r_d - X^{-1}r_c = \begin{bmatrix} 2 \\ 2 \end{bmatrix} - \begin{bmatrix} 1.5 \\ 2.5 \end{bmatrix} = \begin{bmatrix} 0.5 \\ -0.5 \end{bmatrix}$$
 
-System:
+Hệ phương trình tuyến tính:
 
 $$
 \begin{bmatrix}
@@ -234,56 +236,56 @@ $$
 \end{bmatrix}
 $$
 
-Giải hệ: $$\Delta x = (0.8, 0.2)$$, $$\Delta\nu = -1.1$$ (kiểm tra: $$2(0.8) - 1.1 = 0.5$$, $$3(0.2) - 1.1 = -0.5$$, $$0.8 + 0.2 = 1$$ ✓)
+Giải hệ thu được $$\Delta x = (0.8, 0.2)$$, $$\Delta\nu = -1.1$$ (kiểm tra: $$2(0.8) - 1.1 = 0.5$$, $$3(0.2) - 1.1 = -0.5$$, $$0.8 + 0.2 = 1$$ ✓).
 
 </details>
 
 ---
 
-## 📝 **Bài tập 3: Mehrotra Predictor-Corrector**
+## 📝 **Bài tập 3: Thuật toán Dự báo – Hiệu chỉnh Mehrotra (Predictor-Corrector)**
 
-Mehrotra's algorithm combines predictor và corrector steps:
+Thuật toán Mehrotra kết hợp hai bước dự báo (predictor) và hiệu chỉnh (corrector):
 
-**Predictor:** $$\mu = 0$$ (affine scaling)  
-**Corrector:** $$\mu = \sigma \cdot \frac{x^T\lambda}{n}$$ với $$\sigma \in (0, 1)$$
+**Bước dự báo (Predictor):** $$\mu = 0$$ (hướng affine scaling)  
+**Bước hiệu chỉnh (Corrector):** $$\mu = \sigma \cdot \frac{x^T\lambda}{n}$$ với $$\sigma \in (0, 1)$$
 
 **Yêu cầu:**  
-a) Explain intuition cho 2 steps  
-b) Compute $$\sigma$$ từ predictor step  
-c) Apply to LP từ Bài tập 1
+a) Giải thích trực giác của hai bước này.  
+b) Trình bày cách tính $$\sigma$$ từ bước dự báo.  
+c) Áp dụng minh họa cho bài toán LP từ Bài tập 1.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Intuition:**
+**a) Trực giác:**
 
-**Predictor (affine):** Aim toward optimal set ($$\mu = 0$$), aggressive move.
+**Bước dự báo (affine):** Hướng thẳng về tập nghiệm tối ưu ($$\mu = 0$$), tạo bước tiến mạnh nhằm giảm nhanh khoảng cách đối ngẫu.
 
-**Corrector (centering):** Pull back toward central path, ensure feasibility and good convergence.
+**Bước hiệu chỉnh (centering):** Kéo điểm lặp trở lại gần đường trung tâm, giúp duy trì tính khả thi và đảm bảo hội tụ ổn định.
 
-**Adaptive $$\sigma$$:** Based on predictor quality:
-- Good predictor → small $$\sigma$$ (more aggressive)
-- Bad predictor → large $$\sigma$$ (more conservative)
+**Tham số $$\sigma$$ thích nghi** dựa trên chất lượng của bước dự báo:
+- Nếu bước dự báo giảm mạnh khoảng cách đối ngẫu → chọn $$\sigma$$ nhỏ (tiến mạnh hơn).
+- Nếu bước dự báo tiến được ít → chọn $$\sigma$$ lớn (ưu tiên định tâm an toàn hơn).
 
 ---
 
-**b) Computing $$\sigma$$:**
+**b) Tính $$\sigma$$:**
 
-After affine step $$(\tilde{x}, \tilde{\lambda})$$:
+Sau bước dự báo affine thu được $$(\tilde{x}, \tilde{\lambda})$$:
 
 $$\tilde{\mu} = \frac{\tilde{x}^T\tilde{\lambda}}{n}$$
 
 $$\sigma = \left(\frac{\tilde{\mu}}{\mu}\right)^3$$
 
-(cubic heuristic for fast convergence)
+(quy tắc lũy thừa bậc ba mang lại tốc độ hội tụ nhanh trong thực tế).
 
 ---
 
-**c) Example:**
+**c) Ví dụ minh họa:**
 
-Current: $$x = (2, 1)$$, $$\lambda = (1, 2)$$, $$\mu = \frac{2 \cdot 1 + 1 \cdot 2}{2} = 2$$
+Điểm hiện tại: $$x = (2, 1)$$, $$\lambda = (1, 2)$$, $$\mu = \frac{2 \cdot 1 + 1 \cdot 2}{2} = 2$$.
 
-**Predictor ($$\mu_{\text{aff}} = 0$$):**
+**Bước dự báo ($$\mu_{\text{aff}} = 0$$):**
 
 $$\tilde{x} = (2.5, 0.5)$$, $$\tilde{\lambda} = (0.5, 1.5)$$
 
@@ -291,31 +293,29 @@ $$\tilde{\mu} = \frac{2.5 \cdot 0.5 + 0.5 \cdot 1.5}{2} = \frac{2}{2} = 1$$
 
 $$\sigma = \left(\frac{1}{2}\right)^3 = 0.125$$
 
-**Corrector:** Target $$\mu_{\text{new}} = 0.125 \cdot 2 = 0.25$$
+**Bước hiệu chỉnh:** Mục tiêu mới $$\mu_{\text{new}} = 0.125 \cdot 2 = 0.25$$.
 
-Small $$\sigma$$ → aggressive reduction!
+Giá trị $$\sigma$$ nhỏ cho phép giảm mạnh tham số rào cản ở bước này.
 
 </details>
 
 ---
 
-## 📝 **Bài tập 4: Infeasible Start**
+## 📝 **Bài tập 4: Khởi tạo không khả thi (Infeasible Start)**
 
-Cho infeasible start $$(x^{(0)}, \lambda^{(0)}, \nu^{(0)})$$ không satisfy $$Ax = b$$.
+Cho điểm khởi tạo không khả thi $$(x^{(0)}, \lambda^{(0)}, \nu^{(0)})$$ không thỏa mãn ràng buộc đẳng thức $$Ax = b$$.
 
 **Yêu cầu:**  
-a) Modify residuals để handle infeasibility  
-b) Show convergence đến primal-dual feasibility  
-c) Apply to LP với $$x^{(0)} = (1, 1)$$ (infeasible cho $$x_1 + x_2 = 3$$)
+a) Trình bày cách xử lý phần dư để cho phép điểm khởi tạo không khả thi.  
+b) Giải thích cơ chế hội tụ về miền khả thi gốc – đối ngẫu.  
+c) Minh họa với bài toán LP và $$x^{(0)} = (1, 1)$$ (không thỏa mãn $$x_1 + x_2 = 3$$).
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Modified residuals:**
+**a) Xử lý phần dư:**
 
-Allow primal infeasibility $$r_p = Ax - b \neq 0$$ initially.
-
-Newton system remains:
+Cho phép phần dư gốc ban đầu $$r_p = Ax - b \neq 0$$. Hệ phương trình Newton giữ nguyên cấu trúc:
 
 $$
 \begin{bmatrix}
@@ -336,53 +336,49 @@ r_c
 \end{bmatrix}
 $$
 
-As iterations progress, $$\|r_p\| \to 0$$.
+Qua các vòng lặp, chuẩn phần dư $$\|r_p\|$$ giảm dần về $$0$$.
 
 ---
 
-**b) Convergence:**
+**b) Hội tụ:**
 
-Each Newton step reduces $$\|(r_d, r_p, r_c)\|$$ quadratically near solution.
-
-**Infeasible primal-dual:** Both $$x$$ and $$(\lambda, \nu)$$ converge simultaneously.
+Mỗi bước Newton làm giảm đồng thời chuẩn tổng hợp $$\|(r_d, r_p, r_c)\|$$ (và hội tụ bậc hai khi ở gần nghiệm). Trong phương pháp điểm trong gốc-đối ngẫu khởi tạo không khả thi, cả biến gốc $$x$$ và biến đối ngẫu $$(\lambda, \nu)$$ cùng tiến về miền khả thi và nghiệm tối ưu.
 
 ---
 
-**c) Example:**
+**c) Ví dụ minh họa:**
 
-$$x^{(0)} = (1, 1)$$, $$r_p = 1 + 1 - 3 = -1$$
+Với $$x^{(0)} = (1, 1)$$, ta có $$r_p = 1 + 1 - 3 = -1$$.
 
-Sau 1 bước Newton đầy đủ ($$\alpha = 1$$), ví dụ $$x^{(1)} = (1.5, 1.5)$$ thì $$r_p = 0$$ (khả thi!), vì $$A\Delta x = -r_p$$. (Nếu dùng bước $$\alpha < 1$$ thì $$r_p$$ chỉ giảm theo hệ số $$1-\alpha$$.)
-
-Then continue as standard primal-dual IPM.
+Sau một bước Newton đầy đủ ($$\alpha = 1$$), chẳng hạn $$x^{(1)} = (1.5, 1.5)$$, ta có $$r_p = 0$$ (đạt khả thi gốc) vì phương trình hàng 2 đảm bảo $$A\Delta x = -r_p$$. (Nếu dùng độ dài bước $$\alpha < 1$$ thì $$r_p$$ giảm theo hệ số $$1 - \alpha$$.) Sau đó thuật toán tiếp tục như PD-IPM chuẩn.
 
 </details>
 
 ---
 
-## 📝 **Bài tập 5: Self-Concordance and Polynomial Complexity**
+## 📝 **Bài tập 5: Tính tự tương thích (Self-Concordance) và độ phức tạp đa thức**
 
-Interior point methods có polynomial complexity nhờ self-concordant barriers.
+Các phương pháp điểm trong đạt độ phức tạp thời gian đa thức nhờ sử dụng hàm chắn tự tương thích (self-concordant barriers).
 
 **Yêu cầu:**  
-a) Define self-concordance  
-b) Show $$\phi(x) = -\sum \log x_i$$ is self-concordant  
-c) Explain why this gives $$O(\sqrt{n} \log(1/\epsilon))$$ iterations
+a) Phát biểu định nghĩa tính tự tương thích.  
+b) Chứng minh hàm chắn logarit $$\phi(x) = -\sum \log x_i$$ là hàm tự tương thích.  
+c) Giải thích vì sao tính chất này dẫn đến số vòng lặp $$O(\sqrt{n} \log(1/\epsilon))$$.
 
 <details>
 <summary><strong>💡 Lời giải</strong></summary>
 
-**a) Self-concordance:**
+**a) Tính tự tương thích:**
 
-$$\phi$$ is self-concordant if:
+Hàm lồi khả vi ba lần $$\phi$$ được gọi là tự tương thích nếu với mọi hướng $$h$$:
 
-$$|\phi'''(x)[h, h, h]| \leq 2(\phi''(x)[h, h])^{3/2} \quad \forall h$$
+$$|\phi'''(x)[h, h, h]| \leq 2(\phi''(x)[h, h])^{3/2}$$
 
-**Ý nghĩa:** Third derivative controlled by second derivative.
+**Ý nghĩa:** Đạo hàm bậc ba bị chặn bởi lũy thừa $$3/2$$ của đạo hàm bậc hai, đảm bảo xấp xỉ bậc hai cục bộ của phương pháp Newton có độ ổn định nhất quán trên toàn miền.
 
 ---
 
-**b) Log barrier:**
+**b) Chứng minh cho hàm chắn logarit:**
 
 $$\phi(x) = -\sum_{i=1}^n \log x_i$$
 
@@ -392,23 +388,19 @@ $$\phi''(x) = \sum \frac{1}{x_i^2} e_i e_i^T = \text{diag}(1/x_1^2, \ldots, 1/x_
 
 $$\phi'''(x)[h, h, h] = -\sum \frac{2}{x_i^3} h_i^3$$
 
-Check:
+Kiểm tra bất đẳng thức:
 
-$$|\phi'''[h,h,h]| = 2\sum \frac{|h_i|^3}{x_i^3} \leq 2\left(\sum \frac{h_i^2}{x_i^2}\right)^{3/2}$$
-
-$$= 2(\phi''[h,h])^{3/2}$$ ✓
+$$|\phi'''[h,h,h]| = 2\sum \frac{|h_i|^3}{x_i^3} \leq 2\left(\sum \frac{h_i^2}{x_i^2}\right)^{3/2} = 2(\phi''[h,h])^{3/2}$$ ✓
 
 ---
 
-**c) Polynomial complexity:**
+**c) Độ phức tạp thời gian đa thức:**
 
-Self-concordance → Newton step has predictable damping.
+Tính tự tương thích đảm bảo bước Newton có miền hội tụ bậc hai xác định trước và mức giảm hàm mục tiêu ổn định.
 
-**Ý chính:** tham số barrier của $$\phi(x) = -\sum_{i=1}^n \log x_i$$ trên orthant $$\mathbb{R}^n_+$$ là $$\vartheta = n$$. Mỗi vòng lặp giảm $$\mu$$ theo hệ số $$\left(1 - \frac{1}{\sqrt{\vartheta}}\right)$$ chỉ với $$O(1)$$ bước Newton, nên cần $$O(\sqrt{\vartheta}\log(1/\epsilon)) = O(\sqrt{n}\log(1/\epsilon))$$ vòng lặp để giảm $$\mu$$ xuống dưới $$\epsilon$$.
+**Ý chính:** Tham số chắn của $$\phi(x) = -\sum_{i=1}^n \log x_i$$ trên góc phần tư dương $$\mathbb{R}^n_+$$ là $$\vartheta = n$$. Mỗi vòng lặp cho phép giảm $$\mu$$ theo hệ số $$\left(1 - \frac{1}{\sqrt{\vartheta}}\right)$$ chỉ với $$O(1)$$ bước Newton, nên chỉ cần tổng cộng $$O(\sqrt{\vartheta}\log(1/\epsilon)) = O(\sqrt{n}\log(1/\epsilon))$$ vòng lặp để đưa $$\mu$$ xuống dưới $$\epsilon$$.
 
-**Total:** $$O(\sqrt{n} \log(1/\epsilon))$$ iterations.
-
-**Đa thức!** (so với độ phức tạp hàm mũ trong trường hợp xấu nhất của phương pháp simplex)
+Đây là **độ phức tạp đa thức** (so với độ phức tạp hàm mũ trong trường hợp xấu nhất của phương pháp đơn hình).
 
 </details>
 
@@ -416,27 +408,26 @@ Self-concordance → Newton step has predictable damping.
 
 ## 💡 **Tổng kết**
 
-### **Primal-Dual IPM Components:**
+### **Các thành phần chính của PD-IPM:**
 
-| Component | Purpose |
+| Thành phần | Vai trò |
 |-----------|---------|
-| **Central path** | Smooth trajectory to optimum |
-| **Perturbed KKT** | $$\lambda x = \mu e$$ replaces complementarity |
-| **Newton system** | Solve 3×3 block system |
-| **Predictor-Corrector** | Balance progress vs centering |
-| **Infeasible start** | Handle infeasibility gracefully |
+| **Đường trung tâm (Central path)** | Quỹ đạo trơn dẫn về nghiệm tối ưu |
+| **Điều kiện KKT bị nhiễu** | Thay điều kiện bù chặt bằng $$\lambda x = \mu e$$ |
+| **Hệ Newton** | Hệ phương trình tuyến tính khối $$3\times 3$$ cập nhật đồng thời biến gốc và đối ngẫu |
+| **Dự báo – Hiệu chỉnh (Predictor-Corrector)** | Cân bằng giữa tốc độ giảm khoảng cách đối ngẫu và bước định tâm |
+| **Khởi tạo không khả thi (Infeasible start)** | Xử lý trực tiếp điểm khởi tạo chưa thỏa mãn $$Ax = b$$ |
 
-### **Complexity:**
+### **Độ phức tạp tính toán:**
 
-- **Per iteration:** $$O(n^3)$$ (matrix factorization)
-- **Total iterations:** $$O(\sqrt{n} \log(1/\epsilon))$$
-- **Overall:** $$O(n^{3.5} \log(1/\epsilon))$$ for LP
+- **Mỗi vòng lặp:** $$O(n^3)$$ (phân rã ma trận)
+- **Tổng số vòng lặp:** $$O(\sqrt{n} \log(1/\epsilon))$$
+- **Tổng thể cho LP:** $$O(n^{3.5} \log(1/\epsilon))$$
 
 ---
 
-## 📚 **Tài liệu Tham khảo**
+## 📚 **Tài liệu tham khảo**
 
 1. Wright, S. J. (1997). *Primal-Dual Interior-Point Methods*. SIAM.
 2. Nesterov, Y., & Nemirovskii, A. (1994). *Interior-Point Polynomial Algorithms*.
 3. Mehrotra, S. (1992). "On the Implementation of a Primal-Dual IPM". *SIAM Journal*.
-

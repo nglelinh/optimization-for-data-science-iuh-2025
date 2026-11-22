@@ -11,15 +11,15 @@ redirect_from:
   - /contents/vi/chapter11/11_09_Dual_of_Dual_General_Case/
 ---
 
-Trong chương trước, chúng ta đã thấy rằng đối với Linear Programming, tính chất "dual của dual là primal" luôn đúng. Vậy tính chất này có còn đúng với bài toán tối ưu convex tổng quát không? Bài học này sẽ làm rõ điều đó.
+Trong Chương 10, chúng ta đã chứng minh rằng đối với quy hoạch tuyến tính (LP), đối ngẫu của bài toán đối ngẫu luôn quay trở về đúng bài toán gốc. Bài học này làm rõ câu hỏi mở rộng: tính chất đó có còn đúng trong tối ưu lồi tổng quát hay không và cần thêm những điều kiện nào.
 
 ---
 
-## **Nhắc Lại: Dual của Dual trong LP**
+## Nhắc lại: Đối ngẫu kép trong quy hoạch tuyến tính
 
-Trong Linear Programming, chúng ta có tính chất đẹp:
+Với cặp bài toán LP:
 
-**Bài toán Primal:**
+**Bài toán gốc (Primal):**
 $$
 \begin{align}
 \text{minimize} \quad & c^T x \\
@@ -28,7 +28,7 @@ $$
 \end{align}
 $$
 
-**Bài toán Dual:**
+**Bài toán đối ngẫu (Dual):**
 $$
 \begin{align}
 \text{maximize} \quad & b^T y \\
@@ -37,17 +37,13 @@ $$
 \end{align}
 $$
 
-**Dual của Dual = Primal** (luôn đúng với LP)
-
-Nhưng với bài toán convex tổng quát, điều này có còn đúng không?
+Ta luôn có **Đối ngẫu của đối ngẫu = Bài toán gốc**. Hãy xem điều gì xảy ra khi mở rộng sang bài toán tối ưu lồi tổng quát.
 
 ---
 
-## **Bài Toán Convex Tổng Quát**
+## Bài toán tối ưu lồi tổng quát
 
-### **Trường Hợp Tổng Quát**
-
-Xét bài toán convex tổng quát (không chỉ LP):
+Xét bài toán tối ưu lồi tổng quát:
 
 $$
 \begin{align}
@@ -58,33 +54,33 @@ $$
 $$
 
 trong đó:
-- $f_0, f_1, \ldots, f_m$ là các hàm convex
-- $h_1, \ldots, h_p$ là các hàm affine
-- $x \in \mathbb{R}^n$ là biến quyết định
+- $$f_0, f_1, \ldots, f_m$$ là các hàm lồi,
+- $$h_1, \ldots, h_p$$ là các hàm affine,
+- $$x \in \mathbb{R}^n$$ là vector biến quyết định.
 
 ---
 
-## **Xây Dựng Dual Problem**
+## Xây dựng bài toán đối ngẫu
 
-### **Hàm Lagrangian**
+### Hàm Lagrangian
 
-Dual được định nghĩa qua Lagrangian:
+Hàm Lagrangian được định nghĩa là:
 
 $$
 \mathcal{L}(x, \lambda, \nu) = f_0(x) + \sum_{i=1}^m \lambda_i f_i(x) + \sum_{j=1}^p \nu_j h_j(x)
 $$
 
 với:
-- $\lambda \in \mathbb{R}^m$, $\lambda \geq 0$: nhân tử Lagrange cho bất đẳng thức
-- $\nu \in \mathbb{R}^p$: nhân tử Lagrange cho đẳng thức
+- $$\lambda \in \mathbb{R}^m, \lambda \geq 0$$: vector nhân tử Lagrange cho các ràng buộc bất đẳng thức,
+- $$\nu \in \mathbb{R}^p$$: vector nhân tử Lagrange cho các ràng buộc đẳng thức.
 
-### **Dual Function**
+### Hàm đối ngẫu
 
 $$
 g(\lambda, \nu) = \inf_x \mathcal{L}(x, \lambda, \nu)
 $$
 
-### **Bài toán Dual**
+### Bài toán đối ngẫu
 
 $$
 \begin{align}
@@ -95,83 +91,60 @@ $$
 
 ---
 
-## **Dual của Dual Cho Convex Problem**
+## Đối ngẫu của đối ngẫu cho bài toán lồi
 
-### **Câu Hỏi Chính**
-
-Nếu ta lấy dual của bài toán dual, có được lại bài toán primal ban đầu không?
-
-### **Kết Quả**
+Khi lấy đối ngẫu thêm một lần nữa từ bài toán đối ngẫu ở trên, ta có thu lại được bài toán gốc ban đầu hay không?
 
 <div class="textbook-theorem" markdown="1">
-**Định lý:** Nếu thỏa mãn các điều kiện sau:
-1. Bài toán primal là **convex**
-2. **Strong duality** thỏa mãn (duality gap = 0)
-3. Thoả mãn **constraint qualification** (như Slater's condition)
+**Định lý:** Nếu bài toán thỏa mãn các điều kiện sau:
+1. Bài toán gốc là **lồi** (và hàm mục tiêu đóng / nửa liên tục dưới),
+2. **Tính đối ngẫu mạnh** thỏa mãn (khoảng cách đối ngẫu bằng 0),
+3. Thỏa mãn một **điều kiện chuẩn hóa ràng buộc** (constraint qualification, chẳng hạn điều kiện Slater),
 </div>
 
-Thì:
+thì:
 
 $$
 \boxed{\text{Dual của Dual} = \text{Primal}}
 $$
 
-### **Điều Kiện Quan Trọng**
+### Điều kiện Slater
 
-**Slater's Condition:** Tồn tại điểm strictly feasible:
-- $f_i(\tilde{x}) < 0$ với mọi $i = 1, \ldots, m$
-- $h_j(\tilde{x}) = 0$ với mọi $j = 1, \ldots, p$
+Điều kiện Slater yêu cầu tồn tại một điểm khả thi chặt $$\tilde{x}$$:
+- $$f_i(\tilde{x}) < 0$$ với mọi $$i = 1, \ldots, m$$ (không bắt buộc chặt đối với các ràng buộc affine),
+- $$h_j(\tilde{x}) = 0$$ với mọi $$j = 1, \ldots, p$$.
 
-**Lưu ý quan trọng:** Điều này **không luôn đúng** cho bài toán không convex!
-
-**Ghi chú về độ chặt chẽ:** Điều kiện Slater đảm bảo strong duality; việc dual của dual (hay "bidual") thực sự khôi phục lại đúng bài toán primal còn đòi hỏi bài toán primal convex và "đóng" (closed, tức hàm mục tiêu nửa liên tục dưới). Với bài toán không convex, dual của dual nói chung chỉ cho bài toán primal đã được convex hóa (convex relaxation).
+**Lưu ý về độ chặt chẽ:** Điều kiện Slater đảm bảo tính đối ngẫu mạnh. Để bài toán đối ngẫu kép (bidual) khôi phục chính xác bài toán gốc, bài toán gốc cần có thêm tính lồi và tính đóng (hàm mục tiêu nửa liên tục dưới). Với các bài toán không lồi, đối ngẫu kép nói chung chỉ cho ra bản lồi hóa (convex relaxation) của bài toán gốc.
 
 ---
 
-## **So Sánh: LP vs Convex Optimization**
+## So sánh: Quy hoạch tuyến tính và tối ưu lồi tổng quát
 
-| Tính chất | Linear Programming | Convex Optimization |
-|-----------|-------------------|---------------------|
-| **Dual của Dual = Primal** | Luôn đúng | Cần điều kiện |
-| **Strong Duality** | Luôn đúng (nếu khả thi) | Cần Slater's condition |
-| **Cấu trúc** | Đối xứng hoàn hảo | Đối xứng có điều kiện |
-| **Constraint Qualification** | Tự động thỏa mãn | Cần kiểm tra |
-
----
-
-## **Tại Sao LP Đặc Biệt?**
-
-LP có những tính chất đặc biệt làm cho "dual của dual = primal" luôn đúng:
-
-### **1. Luôn Convex**
-
-- Hàm mục tiêu tuyến tính → convex
-- Miền ràng buộc là polyhedron → convex
-
-### **2. Strong Duality Tự Động**
-
-- Không cần điều kiện Slater
-- Chỉ cần một trong hai bài toán khả thi
-- Duality gap = 0 (nếu optimal tồn tại)
-
-### **3. Cấu Trúc Đối Xứng Hoàn Hảo**
-
-- Ma trận: $(A^T)^T = A$
-- Chuyển vị hai lần trả về ban đầu
-- Hoán đổi $(b, c)$ hai lần trở về $(b, c)$
-
-### **4. Constraint Qualification**
-
-- Slater's condition tự động thỏa mãn với LP
-- Không cần kiểm tra điều kiện strictly feasible
+| Tính chất | Quy hoạch tuyến tính (LP) | Tối ưu lồi tổng quát |
+|-----------|---------------------------|----------------------|
+| **Dual của Dual = Primal** | Luôn đúng | Cần thêm điều kiện |
+| **Đối ngẫu mạnh** | Đúng nếu ít nhất một bài toán khả thi | Cần điều kiện Slater (hoặc CQ tương đương) |
+| **Cấu trúc** | Đối xứng trực tiếp | Đối xứng có điều kiện |
+| **Điều kiện ràng buộc (CQ)** | Tự động thỏa mãn (ràng buộc affine) | Cần kiểm tra |
 
 ---
 
-## **Ví Dụ Minh Họa**
+## Vì sao LP là trường hợp đặc biệt?
 
-### **Ví dụ 1: Quadratic Programming - Convex Case**
+Trong LP, tính chất đối ngẫu kép luôn đúng nhờ bốn đặc điểm sau:
 
-**Bài toán Primal:**
+1. **Luôn là bài toán lồi:** Hàm mục tiêu tuyến tính và miền khả thi là đa diện lồi.
+2. **Đối ngẫu mạnh không cần điều kiện chặt:** Chỉ cần bài toán gốc hoặc bài toán đối ngẫu khả thi, khoảng cách đối ngẫu bằng 0 khi tồn tại nghiệm tối ưu hữu hạn.
+3. **Cấu trúc ma trận đối xứng:** Phép chuyển vị hai lần trả về ma trận ban đầu ($$(A^T)^T = A$$), và việc hoán đổi $$(b, c)$$ hai lần khôi phục đúng vị trí cũ.
+4. **Ràng buộc đều là affine:** Điều kiện chuẩn hóa ràng buộc dạng mở rộng tự động được thỏa mãn khi bài toán khả thi.
+
+---
+
+## Ví dụ minh họa
+
+### Ví dụ 1: Quy hoạch bậc hai lồi (Convex QP)
+
+**Bài toán gốc:**
 $$
 \begin{align}
 \text{minimize} \quad & \frac{1}{2}x^T Q x + c^T x \\
@@ -179,156 +152,100 @@ $$
 \end{align}
 $$
 
-với $Q \succ 0$ (positive definite).
+với $$Q \succ 0$$ (xác định dương).
 
-**Tính chất:**
-- Hàm mục tiêu strictly convex
-- Constraint affine
-- Nếu khả thi → Slater's condition thỏa mãn
-- **Dual của dual = Primal** ✓
+- Hàm mục tiêu lồi chặt và các ràng buộc là affine.
+- Khi bài toán khả thi, điều kiện Slater dạng mở rộng được thỏa mãn.
+- Do đó **Đối ngẫu của đối ngẫu = Bài toán gốc** ✓.
 
-### **Ví dụ 2: Non-Convex Case**
+### Ví dụ 2: Bài toán không lồi
 
-**Bài toán Primal:**
+**Bài toán gốc:**
 $$
 \text{minimize} \quad -x^2 \quad \text{subject to} \quad 0 \leq x \leq 1
 $$
 
-**Vấn đề:**
-- Hàm mục tiêu $-x^2$ là hàm lõm, không convex
-- Strong duality không đúng
-- **Dual của dual ≠ Primal** ✗
+- Hàm mục tiêu $$-x^2$$ là hàm lõm (không lồi).
+- Nghiệm tối ưu gốc: $$x^* = 1$$, $$p^* = -1$$.
+- Với nhân tử $$\lambda_1 \geq 0$$ (cho $$-x \leq 0$$) và $$\lambda_2 \geq 0$$ (cho $$x - 1 \leq 0$$), hàm đối ngẫu là:
 
-**Minh chứng:**
-
-Primal optimal: $x^* = 1$, $p^* = -1$
-
-Dual (với $\lambda_1 \geq 0$ cho ràng buộc $-x \leq 0$ và $\lambda_2 \geq 0$ cho ràng buộc $x - 1 \leq 0$):
 $$
 g(\lambda_1, \lambda_2) = \inf_{x \in \mathbb{R}} \left( -x^2 - \lambda_1 x + \lambda_2 (x - 1) \right) = -\infty \quad \text{với mọi } \lambda_1, \lambda_2 \geq 0,
 $$
-vì $-x^2 \to -\infty$ khi $|x| \to \infty$.
 
-- Dual problem có giá trị tối ưu $d^* = -\infty$
-- $d^* = -\infty < p^* = -1$
+vì $$-x^2 \to -\infty$$ khi $$|x| \to \infty$$.
 
-→ Duality gap > 0 (thực tế là vô hạn), dual của dual không trở về primal
+- Giá trị tối ưu đối ngẫu là $$d^* = -\infty < p^* = -1$$. Khoảng cách đối ngẫu bằng vô hạn, đối ngẫu mạnh không xảy ra và đối ngẫu kép không quay về bài toán gốc ✗.
 
-### **Ví dụ 3: Convex Không Thỏa Slater**
+### Ví dụ 3: Bài toán lồi không thỏa điều kiện Slater
 
-**Bài toán:**
+**Bài toán gốc:**
 $$
 \text{minimize} \quad x^2 \quad \text{subject to} \quad x^2 \leq 0
 $$
 
-**Phân tích:**
-- Hàm mục tiêu convex ✓
-- Miền khả thi chỉ có một điểm: $x = 0$
-- Không tồn tại strictly feasible point
-- **Slater's condition không thỏa mãn** ✗
-
-**Kết quả:**
-- Primal: $p^* = 0$
-- Dual: $d^* = 0$ 
-- Strong duality vẫn đúng (may mắn)
-- Nhưng cấu trúc không đối xứng hoàn hảo
+- Hàm mục tiêu và hàm ràng buộc đều lồi, nhưng miền khả thi chỉ gồm đúng một điểm $$x = 0$$ nên không tồn tại điểm khả thi chặt ($$x^2 < 0$$ vô nghiệm).
+- Điều kiện Slater **không thỏa mãn** ✗.
+- Dù vậy, trong trường hợp cụ thể này ta vẫn có $$p^* = d^* = 0$$ (đối ngẫu mạnh vẫn xảy ra vì điều kiện Slater chỉ là điều kiện đủ, không phải điều kiện cần).
 
 ---
 
-## **Ứng Dụng và Ý Nghĩa**
+## Ứng dụng và ý nghĩa
 
-### **1. Phân Tích Duality Gap**
-
-Khi dual của dual không trở về primal:
-- Duality gap > 0
-- Cần kiểm tra điều kiện convexity
-- Xem xét relaxation methods
-
-### **2. Thiết Kế Thuật Toán**
-
-- **LP**: Có thể chọn giải primal hoặc dual tuỳ ý
-- **Convex**: Cần kiểm tra điều kiện trước khi chọn
-- **Non-convex**: Dual chỉ cho lower bound
-
-### **3. Lý Thuyết Tối Ưu**
-
-Tính chất này giúp:
-- Hiểu sâu về cấu trúc bài toán
-- Phát triển điều kiện tối ưu (KKT)
-- Thiết kế primal-dual algorithms
+1. **Phân tích khoảng cách đối ngẫu:** Khi đối ngẫu kép không trùng với bài toán gốc, khoảng cách đối ngẫu thường dương; ta cần kiểm tra lại tính lồi hoặc sử dụng các phương pháp nới lỏng lồi.
+2. **Lựa chọn chiến lược giải:** Với LP, có thể giải bài toán gốc hay bài toán đối ngẫu tùy theo kích thước. Với bài toán lồi tổng quát, cần kiểm tra điều kiện đối ngẫu mạnh trước khi chuyển sang giải đối ngẫu. Với bài toán không lồi, bài toán đối ngẫu chỉ bảo đảm cung cấp cận dưới.
+3. **Cơ sở lý thuyết:** Tính chất này gắn trực tiếp với điều kiện tối ưu KKT (Chương 12) và thiết kế các thuật toán gốc – đối ngẫu.
 
 ---
 
-## **Bài Tập Thực Hành**
+## Bài tập thực hành
 
-### **Bài Tập 1: Kiểm Tra Slater's Condition**
+### Bài tập 1: Kiểm tra điều kiện Slater
 
-Cho các bài toán sau, kiểm tra Slater's condition và xác định dual của dual có bằng primal không:
+Kiểm tra điều kiện Slater và xác định xem đối ngẫu kép có trùng với bài toán gốc không đối với các bài toán sau:
 
-a) $\min x^2 + y^2$ s.t. $x + y \geq 2$
+a) $$\min x^2 + y^2$$ s.t. $$x + y \geq 2$$
 
-b) $\min e^x$ s.t. $x \geq 0$
+b) $$\min e^x$$ s.t. $$x \geq 0$$
 
-c) $\min -\log x$ s.t. $x \leq 1$, $x > 0$
+c) $$\min -\log x$$ s.t. $$x \leq 1$$, $$x > 0$$
 
-### **Bài Tập 2: So Sánh LP và QP**
+### Bài tập 2: So sánh LP và QP
 
 Cho hai bài toán:
 
-**LP:** $\min c^T x$ s.t. $Ax \leq b$
+- **LP:** $$\min c^T x$$ s.t. $$Ax \leq b$$
+- **QP:** $$\min \frac{1}{2}x^T Q x$$ s.t. $$Ax \leq b$$ với $$Q \succ 0$$
 
-**QP:** $\min \frac{1}{2}x^T Q x$ s.t. $Ax \leq b$ với $Q \succ 0$
+a) Xây dựng bài toán đối ngẫu của mỗi bài toán.
+b) Kiểm tra tính chất đối ngẫu kép.
+c) So sánh các điều kiện cần thiết giữa hai bài toán.
 
-a) Xây dựng dual của mỗi bài toán
-
-b) Kiểm tra tính chất "dual của dual = primal"
-
-c) So sánh điều kiện cần thiết
-
-### **Bài Tập 3: Non-Convex Example**
+### Bài tập 3: Ví dụ không lồi
 
 Xét bài toán:
+
 $$
 \min_{x \in \mathbb{R}} x^3 \quad \text{s.t.} \quad x \geq 1
 $$
 
-a) Giải bài toán primal
-
-b) Xây dựng bài toán dual
-
-c) Chứng minh dual của dual không trở về primal
+a) Giải bài toán gốc.
+b) Xây dựng bài toán đối ngẫu.
+c) Chứng minh đối ngẫu kép không quay về bài toán gốc.
 
 ---
 
-## **Tóm Tắt**
+## Tóm tắt
 
-### **Kết Luận Chính**
-
-1. **LP**: Dual của dual = Primal (luôn đúng)
-
-2. **Convex Optimization**: Dual của dual = Primal (cần điều kiện)
-   - Cần: Convexity + Strong duality + Constraint qualification
-
-3. **Non-Convex**: Dual của dual ≠ Primal (thường không đúng)
-
-### **Điều Kiện Quan Trọng**
-
-| Điều kiện | LP | Convex | Non-Convex |
-|-----------|-------|---------|------------|
-| Convexity | ✓ (tự động) | ✓ (cần check) | ✗ |
-| Strong Duality | ✓ (nếu khả thi) | ✓ (cần Slater) | ✗ (thường) |
-| Dual = Dual = Primal | ✓ | ✓ (có điều kiện) | ✗ |
-
-### **Ứng Dụng**
-
-- Thiết kế thuật toán primal-dual
-- Phân tích sensitivity
-- Kiểm tra optimality
-- Relaxation methods
+| Điều kiện | LP | Tối ưu lồi | Không lồi |
+|-----------|----|------------|-----------|
+| Tính lồi | ✓ (tự động) | ✓ (cần kiểm tra) | ✗ |
+| Đối ngẫu mạnh | ✓ (nếu khả thi) | ✓ (cần điều kiện Slater) | ✗ (nói chung) |
+| Dual của Dual = Primal | ✓ | ✓ (có điều kiện) | ✗ |
 
 ---
 
-## **Tài Liệu Tham Khảo**
+## Tài liệu tham khảo
 
 1. **Boyd, S., & Vandenberghe, L. (2004).** *Convex Optimization.* Cambridge University Press.
    - Chapter 5: Duality (đặc biệt Section 5.2 và 5.3)
@@ -345,7 +262,6 @@ c) Chứng minh dual của dual không trở về primal
 ---
 
 **Kết nối với các chương khác:**
-- **Chương 10**: Dual của dual trong LP (trường hợp đặc biệt)
-- **Chương 12**: KKT conditions (ứng dụng của duality)
-- **Chương 15 và 17**: Barrier method và Primal-Dual Interior-Point Methods (algorithms dựa trên duality)
-
+- **Chương 10:** Đối ngẫu kép trong LP (trường hợp đặc biệt).
+- **Chương 12:** Điều kiện KKT.
+- **Chương 15 và 17:** Phương pháp hàm rào (barrier method) và phương pháp điểm trong gốc – đối ngẫu (primal-dual interior-point methods).

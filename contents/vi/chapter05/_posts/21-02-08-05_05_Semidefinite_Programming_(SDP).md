@@ -9,9 +9,9 @@ categories:
 lang: vi
 ---
 
-Nếu ràng buộc bất đẳng thức trong một LP tổng quát được thay thế bằng một bất đẳng thức ma trận tuyến tính (LMI), bài toán được gọi là *Chương trình Bán xác định* (SDP).
+Nếu ràng buộc bất đẳng thức tuyến tính trong một bài toán LP tổng quát được thay bằng một **bất đẳng thức ma trận tuyến tính** (Linear Matrix Inequality - LMI), ta thu được **bài toán quy hoạch nửa xác định** (hay *quy hoạch bán xác định*, Semidefinite Programming - SDP).
 
-### Chương trình Bán xác định
+### Bài toán Quy hoạch Nửa xác định (dạng bất đẳng thức)
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{c^T x + d} \\\\
@@ -20,12 +20,12 @@ Nếu ràng buộc bất đẳng thức trong một LP tổng quát được tha
 >    & \text{where } &&G, F_1, \dotsb, F_n \in \mathbb{S}^{k} \text{ và } A \in \mathbb{R}^{p \times n}.
 >\end{align}$$
 
-* Nếu $$G, F_1, \dotsb, F_n$$ đều là các ma trận đường chéo, ràng buộc bất đẳng thức trên tương đương với $$n$$ bất đẳng thức tuyến tính, và SDP rút gọn thành một LP.
-* Nhiều LMI có thể được biểu diễn thành một LMI duy nhất sử dụng các ma trận đường chéo khối:
+* Nếu $$G, F_1, \dotsb, F_n$$ đều là các ma trận đường chéo kích thước $$k \times k$$, ràng buộc LMI trên tương đương với $$k$$ bất đẳng thức tuyến tính, và bài toán SDP rút gọn thành một bài toán LP.
+* Nhiều ràng buộc LMI có thể gộp thành một LMI duy nhất bằng cách ghép thành các ma trận đường chéo khối:
 > $$
 > x_1\hat{F_1} + \dotsb + x_n\hat{F_n} + \hat{G} \preceq 0, \quad x_1\tilde{F_1} + \dotsb + x_n\tilde{F_n} + \tilde{G} \preceq 0
 > $$
-> is equivalent to a single LMI:
+> tương đương với một LMI duy nhất:
 > $$
 > x_1
 > \begin{bmatrix}
@@ -51,169 +51,120 @@ Nếu ràng buộc bất đẳng thức trong một LP tổng quát được tha
 > \preceq 0
 > $$
 
-## SDP ở Dạng chuẩn
-Khi được biểu diễn như sau, nó được gọi là dạng chuẩn của một chương trình bán xác định.
+## SDP ở dạng chuẩn
+Bài toán quy hoạch nửa xác định ở dạng chuẩn được biểu diễn theo biến ma trận $$X \in \mathbb{S}^n$$ như sau:
 
-### SDP dạng chuẩn
+### Bài toán SDP dạng chuẩn
 >$$
 >\begin{align}
 >    &\text{minimize}_{X} &&{\mathrm{tr}(CX)} \\\\
 >    &\text{subject to } &&{\mathrm{tr}(A_i X) = b_i, \quad i = 1, \dotsc, m} \\\\
 >    & &&{X \succeq 0},\\\\
->    & \text{where } &&C, A_i \in \mathbb{S}^n, X \in \mathbb{S}^n.
+>    & \text{where } &&C, A_i \in \mathbb{S}^n, \; X \in \mathbb{S}^n.
 >\end{align}$$
 
-* Nhắc lại: $$\mathrm{tr}(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$
+* Nhắc lại: tích vô hướng Frobenius giữa hai ma trận đối xứng là $$\mathrm{tr}(CX) = \sum_{i,j=1}^n C_{ij}X_{ij}$$.
 
-Tất cả các SDP đều có thể được biến đổi thành SDP dạng chuẩn thông qua quá trình sau.
+Mọi bài toán SDP ở dạng bất đẳng thức đều có thể chuyển về SDP dạng chuẩn theo các bước sau:
 
 ### Chuyển đổi SDP về dạng chuẩn
-**Step1.**  Use a slack variable S to convert the inequality constraint into an equality constraint.
+
+**Bước 1.** Đưa thêm ma trận biến phụ $$S \succeq 0$$ để chuyển ràng buộc bất đẳng thức LMI thành ràng buộc đẳng thức:
 >$$
 >\begin{align}
->    &\text{minimize}_{x} &&{c^T x + d} \\\\
+>    &\text{minimize}_{x, S} &&{c^T x + d} \\\\
 >    &\text{subject to } &&{\sum_{l=1}^n F_l x_l+ S = -G} \\\\
 >    & &&{Ax = b}\\\\
 >    & &&{S \succeq 0}
 >\end{align}
 >$$
 
-**Step2.** Transform the equality constraints derived in Step 1 into component-wise equations.
+**Bước 2.** Viết lại ràng buộc đẳng thức ma trận ở Bước 1 theo từng phần tử $$(i, j)$$:
 >$$
 >\begin{align}
->    &\text{minimize}_{x} &&{c^T x + d} \\\\
->    &\text{subject to } &&{\sum_{l=1}^n (F_l x_l)_{ij} + S_{ij} = -G_{ij}, i,j = 1, \dotsc, k} \\\\
+>    &\text{minimize}_{x, S} &&{c^T x + d} \\\\
+>    &\text{subject to } &&{\sum_{l=1}^n (F_l x_l)_{ij} + S_{ij} = -G_{ij}, \quad i,j = 1, \dotsc, k} \\\\
 >    & &&{Ax = b}\\\\
 >    & &&{S \succeq 0}
 >\end{align}
 >$$
 
-**Step3.** Replace x with two nonnegative variables.
-$$x = x^{+}  - x^{-}$$, where $$x^{+} \text{ and } x^{-} \succeq 0.$$
+**Bước 3.** Tách biến tự do $$x$$ thành hiệu của hai biến không âm:
+$$x = x^{+} - x^{-}$$, với $$x^{+} \succeq 0$$ và $$x^{-} \succeq 0$$.
 >$$
 >\begin{align}
->    &\text{minimize}_{x} &&{c^T (x^{+}  - x^{-}) + d} \\\\
->    &\text{subject to } &&{\sum_{l=1}^n (F_l x^{+} _l)_{ij} - \sum_{l=1}^n (F_l x^{-} _l)_{ij} + S_{ij} = -G_{ij}, i,j = 1, \dotsc, k} \\\\
->    & &&{Ax^{+}  - Ax^{-} = b}\\\\
+>    &\text{minimize}_{x^{+}, x^{-}, S} &&{c^T (x^{+} - x^{-}) + d} \\\\
+>    &\text{subject to } &&{\sum_{l=1}^n (F_l x^{+}_l)_{ij} - \sum_{l=1}^n (F_l x^{-}_l)_{ij} + S_{ij} = -G_{ij}, \quad i,j = 1, \dotsc, k} \\\\
+>    & &&{Ax^{+} - Ax^{-} = b}\\\\
 >    & &&{S \succeq 0}\\\\
->    & &&{x^{+} \text{, } x^{-} \succeq 0}.
+>    & &&{x^{+}, \; x^{-} \succeq 0}.
 >\end{align}
 >$$
 
-**Step4.** Define $$X, C, \tilde{A}, \tilde{b}$$.
-
-* All the blanks are zero.
+**Bước 4.** Định nghĩa các ma trận đường chéo khối $$X, C, \tilde{A}, \tilde{b}$$ (các ô để trống đều bằng 0):
 
 > $$
 > X = 
 > \begin{bmatrix}
-> diag(x^{+})\\\\
->  & diag(x^{-})\\\\
-> && s_{11}\\\\
-> &&& s_{12}\\\\
-> &&&&\dotsc\\\
-> &&&&&s_{ij}\\\\
-> &&&&&&\dotsc \\\
-> &&&&&&&s_{kk}\\\\
+> \operatorname{diag}(x^{+})\\\\
+>  & \operatorname{diag}(x^{-})\\\\
+> && S \\\\
 > \end{bmatrix}
-> ,$$
-> $$
+> , \quad
 > C = 
 > \begin{bmatrix}
-> diag(c)\\\\
-> & -diag(c) &\\\\
-> & & O_{k^2 \text{ x } k^2}\\\\
+> \operatorname{diag}(c)\\\\
+> & -\operatorname{diag}(c) &\\\\
+> & & O_{k \times k}\\\\
 > \end{bmatrix}
 > ,$$
-> $$
-> P_{ij} = 
-> \begin{bmatrix}
-> (F_1)_{ij}\\\\
-> &(F_2)_{ij}\\\\
-> &&\dotsc\\\\
-> &&&(F_n)_{ij}\\\\
-> &&&&-(F_1)_{ij}\\\\
-> &&&&&-(F_2)_{ij}\\\\
-> &&&&&&\dotsc\\\\
-> &&&&&&&-(F_n)_{ij}\\\\
-> &&&&&&&&0&\\\\
-> &&&&&&&&&\dotsc\\\\
-> &&&&&&&&&&1 \phantom{1} (\text{ij th position})\\\\
-> &&&&&&&&&&&\dotsc\\\\
-> &&&&&&&&&&&&0\\\\
-> \end{bmatrix}
-> ,$$
->
+> với các ma trận ràng buộc đối xứng $$P_{ij}$$ (có khối ứng với $$S$$ đặt $$1$$ ở vị trí $$(i,i)$$ nếu $$i=j$$ hoặc $$1/2$$ ở hai vị trí $$(i,j), (j,i)$$ nếu $$i \neq j$$) và
 > $$
 > Q_{i}= 
 > \begin{bmatrix}
-> diag(A_i)\\\\
-> &-diag(A_i)\\\\
-> &&O_{k^2 \text{ x } k^2}\\\\
+> \operatorname{diag}(A_i)\\\\
+> &-\operatorname{diag}(A_i)\\\\
+> &&O_{k \times k}\\\\
 > \end{bmatrix}
 > $$
-> ($$A_i$$ is ith row of A),
+> (trong đó $$A_i$$ là hàng thứ $$i$$ của ma trận $$A$$), sao cho
 > $$
-> \tilde{A} = 
-> \begin{bmatrix}
-> P_{11}\\\\
-> \dotsc\\\\
-> P_{kk}\\\\
-> Q_{1}\\\\
-> \dotsc\\\\
-> Q_{p}\\\\
-> \end{bmatrix}
-> -G_{ij} = \mathrm{tr}(P_{ij}X)
-> ,$$
->
+> \mathrm{tr}(P_{ij}X) = -G_{ij}, \qquad \mathrm{tr}(Q_i X) = b_i.
 > $$
-> b_i = \mathrm{tr}(Q_iX)
-> $$,
->
-> $$
-> \tilde{b} = 
-> \begin{bmatrix}
-> -G_{11}\\\\
-> \dotsc\\\\
-> -G_{kk}\\\\
-> b_{1}\\\\
-> \dotsc\\\\
-> b_{p}\\\\
-> \end{bmatrix}
-> $$.
+> Gom tất cả các ma trận $$P_{ij}$$ và $$Q_i$$ thành danh sách $$\tilde{A}_1, \dotsc, \tilde{A}_m$$ cùng vectơ vế phải $$\tilde{b}$$ tương ứng.
 
-**Step5.** Substitute the problem from *Step3* with $$X, C, \tilde{A}, \tilde{b}$$.
+**Bước 5.** Thay các biểu thức trên vào bài toán ở Bước 3 (bỏ qua hằng số $$d$$), ta thu được dạng chuẩn của SDP:
 
 >$$
 >\begin{align}
 >    &\text{minimize}_{X} &&{\mathrm{tr}(CX)} \\\\
->    &\text{subject to } &&{\mathrm{tr}(\tilde{A}_iX) = \tilde{b}_i, \quad i=1,\dotsc,k^2+p} \\\\
+>    &\text{subject to } &&{\mathrm{tr}(\tilde{A}_i X) = \tilde{b}_i, \quad i = 1, \dotsc, m} \\\\
 >    & &&{X \succeq 0}.
 >\end{align}
 >$$
 
-## SOCP và SDP tương đương
-Bằng cách sử dụng bù Schur[[8](https://en.wikipedia.org/wiki/Schur_complement)], ràng buộc bất đẳng thức của SOCP có thể được biểu diễn theo cách mà SOCP được biến đổi thành một trường hợp đặc biệt của SDP. Tức là, có một mối quan hệ bao hàm: SOCP $$\subseteq$$ SDP.
+## Mối quan hệ giữa SOCP và SDP
+Nhờ sử dụng **bù Schur** ([[8](https://en.wikipedia.org/wiki/Schur_complement)]), mọi ràng buộc nón bậc hai của SOCP đều có thể viết tương đương dưới dạng một LMI. Do đó, SOCP là một trường hợp đặc biệt của SDP, tức là $$SOCP \subseteq SDP$$.
 
-### Nhắc lại: Chương trình Nón Bậc hai
+### Nhắc lại: Bài toán Quy hoạch Nón Bậc hai
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{f^T x} \\\\
->    &\text{subject to } &&{\| A_i x + b_i \|_2 \leq c_i^T x + d_i, i = 1, \dotsc, m}\\\\
+>    &\text{subject to } &&{\| A_i x + b_i \|_2 \leq c_i^T x + d_i, \quad i = 1, \dotsc, m}\\\\
 >    & &&{Fx = g}.
 >\end{align}
 >$$
 
-### SOCP thành SDP bằng bù Schur
+### Chuyển đổi SOCP sang SDP bằng bù Schur
 >$$
 >\begin{align}
 >    &\text{minimize}_{x} &&{f^T x} \\\\
 >    &\text{subject to } 
 >    &&
 >    \begin{bmatrix}
->    (c_i^T x + d)I    & A_i x + b_i \\\\
->    (A_i x + b_i)^T & c_i^T x + d \\\\
->    \end{bmatrix} \succeq 0, i = 1, \dotsc, m\\\\
+>    (c_i^T x + d_i)I    & A_i x + b_i \\\\
+>    (A_i x + b_i)^T & c_i^T x + d_i \\\\
+>    \end{bmatrix} \succeq 0, \quad i = 1, \dotsc, m\\\\
 >    & &&{Fx = g}.
 >\end{align}
 >$$

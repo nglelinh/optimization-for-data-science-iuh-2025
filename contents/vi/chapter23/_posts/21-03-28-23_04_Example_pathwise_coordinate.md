@@ -9,14 +9,14 @@ categories:
 lang: vi
 ---
 
-Trong phần này, ta giới thiệu ngắn gọn tổng quan về Pathwise coordinate descent cho lasso [[Friedman et al. (2007)](https://arxiv.org/pdf/0708.1485.pdf)] [[Friedman et al. (2009)](https://www.jstatsoft.org/article/view/v033i01/v33i01.pdf)]. 
+Mục này trình bày tổng quan thuật toán hạ theo tọa độ dọc đường chính quy hóa (pathwise coordinate descent) cho bài toán hồi quy Lasso [[Friedman et al. (2007)](https://arxiv.org/pdf/0708.1485.pdf)] [[Friedman et al. (2009)](https://www.jstatsoft.org/article/view/v033i01/v33i01.pdf)].
 
->**Bài toán hồi quy lasso:**
+>**Bài toán hồi quy Lasso:**
 > $$
 > \min_{\beta} \frac{1}{2} \| y - X\beta \|_2^2 + \lambda \|\beta\|_1
 > $$
 
-Ở [07-03-03 Ví dụ: Điều kiện tối ưu của Lasso]({% multilang_post_url contents/chapter07/21-03-25-07_03_03_example_lasso_optimality_condition %}) ta đã suy ra điều kiện tối ưu cho bài toán hồi quy lasso. Nghiệm tối ưu của bài toán trên thỏa mãn các điều kiện sau.
+Ở [07-03-03 Ví dụ: Điều kiện tối ưu của Lasso]({% multilang_post_url contents/chapter07/21-03-25-07_03_03_example_lasso_optimality_condition %}), ta đã suy ra điều kiện tối ưu bậc nhất cho bài toán này. Nghiệm tối ưu $$\beta$$ thỏa mãn hệ điều kiện sau:
 
 >
 > $$
@@ -28,10 +28,8 @@ Trong phần này, ta giới thiệu ngắn gọn tổng quan về Pathwise coor
 > \end{align}
 > $$
 
-**Note:**
-$$X_i,i \in \{ 1,2,…,p \}$$ là dữ liệu cột thứ $$i$$ của ma trận $$X$$ đã cho.
+**Lưu ý:** $$X_i$$ ($$i \in \{ 1,2,\dots,p \}$$) là cột thứ $$i$$ của ma trận $$X$$, còn $$v=(v_1,v_2,\dots,v_p)$$ là một dưới đạo hàm (subgradient) của $$\|\beta\|_1$$ tại $$\beta=(\beta_1,\beta_2,\dots,\beta_p)$$:
 
-Ở đây $$v=(v_1,v_2,\dots,v_p)$$ là một dưới đạo hàm (subgradient) của $$\|\beta\|_1$$ tại $$\beta=(\beta_1,\beta_2,\dots,\beta_p )$$. 
 >
 $$
 v_i, i \in \{1,2,\dots,p \} = 
@@ -42,20 +40,21 @@ v_i, i \in \{1,2,\dots,p \} =
 \end{cases}
 $$
 
-Nhờ điều kiện tối ưu này, ta có thể biết từng phần tử của $$\beta$$ hiện đã ở trạng thái tối ưu hay chưa. Với thuật toán coordinate descent, ta có thể giải bài toán lasso hiệu quả hơn bằng cách chỉ cập nhật các phần tử chưa đạt trạng thái tối ưu. Ngoài ra, coordinate descent trên bài toán hồi quy lasso có xu hướng chạy nhanh hơn khi $$\lambda$$ lớn; tận dụng điều này, bằng cách giảm dần $$\lambda$$ (warm start), ta tiếp cận nghiệm nhanh hơn nữa.
+Nhờ hệ điều kiện tối ưu này, ta có thể kiểm tra riêng từng thành phần của $$\beta$$ xem đã tối ưu hay chưa, từ đó chỉ tập trung cập nhật những tọa độ chưa thỏa điều kiện. Ngoài ra, coordinate descent trên Lasso hội tụ rất nhanh khi $$\lambda$$ lớn (vì nghiệm rất thưa); tận dụng tính chất này bằng cách giảm dần $$\lambda$$ và dùng nghiệm trước làm điểm khởi tạo (warm start) giúp tăng tốc đáng kể.
 
 ## Thuật toán
 
 ### Vòng ngoài (chiến lược pathwise):
-* Tính nghiệm tối ưu theo thứ tự $$\lambda_1 > \lambda_2 > \dots > \lambda_r$$.
-* Kết quả tính được tại tham số điều chỉnh $$\lambda_k$$ được dùng để khởi tạo thuật toán coordinate descent cho $$\lambda_{k+1}$$. (warm start)
+* Giải lần lượt theo dãy tham số giảm dần $$\lambda_1 > \lambda_2 > \dots > \lambda_r$$.
+* Dùng nghiệm tối ưu tìm được tại $$\lambda_k$$ làm điểm khởi tạo (warm start) cho coordinate descent tại $$\lambda_{k+1}$$.
 
-### Vòng trong (chiến lược active set):
-* Thực hiện một hoặc một vài chu trình tọa độ. Các phần tử khác 0 của $$\beta$$ được ghi vào tập active set $$A$$.
-* Thực hiện các chu trình tọa độ chỉ trên các phần tử thuộc $$A$$ cho đến khi hội tụ.
-* Kiểm tra điều kiện tối ưu cho mọi phần tử của $$\beta$$. Nếu có phần tử không thỏa điều kiện thì thêm nó vào $$A$$ và quay lại bước đầu của vòng trong.
+### Vòng trong (chiến lược tập hoạt động — active set):
+* Thực hiện một hoặc vài chu trình tọa độ đầy đủ, rồi ghi nhận các tọa độ khác 0 của $$\beta$$ vào tập hoạt động $$A$$.
+* Lặp các chu trình coordinate descent chỉ trên tập $$A$$ cho đến khi hội tụ.
+* Kiểm tra điều kiện tối ưu cho toàn bộ $$p$$ tọa độ của $$\beta$$; nếu có tọa độ nào vi phạm, bổ sung tọa độ đó vào $$A$$ và quay lại bước trước.
 
 ## Ghi chú
-* Về mặt thực nghiệm, chiến lược pathwise hoạt động hiệu quả hơn nhiều so với việc giải trực tiếp bài toán tại một giá trị $$\lambda$$ cho trước.
-* Chiến lược active set có lợi thế nhờ tính thưa. Vì vậy coordinate descent chạy nhanh hơn nhiều với hồi quy lasso so với hồi quy ridge. (tham khảo: [phân tích xu hướng của hồi quy ridge và lasso](https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-ridge-lasso-regression-python/))
-* Pathwise coordinate descent cho lasso chạy nhanh ngang với các thuật toán khác được biết là nhanh nhất cho bài toán hồi quy lasso.
+
+* Về mặt thực nghiệm, giải dọc theo đường tham số $$\lambda$$ (pathwise) thường nhanh hơn nhiều so với việc giải trực tiếp tại một giá trị $$\lambda$$ nhỏ riêng lẻ.
+* Chiến lược tập hoạt động tận dụng triệt để tính thưa của nghiệm; do đó coordinate descent cho hồi quy Lasso chạy nhanh hơn nhiều so với hồi quy ridge (tham khảo: [phân tích so sánh hồi quy ridge và lasso](https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-ridge-lasso-regression-python/)).
+* Pathwise coordinate descent hiện vẫn là một trong những thuật toán nhanh nhất cho bài toán hồi quy Lasso.

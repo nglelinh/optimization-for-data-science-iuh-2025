@@ -10,55 +10,55 @@ lang: vi
 lesson_type: required
 ---
 
-## Likelihood và Ước Lượng Hợp Lý Tối Đa
+## Likelihood và ước lượng hợp lý tối đa
 
-Trong xác suất thống kê, **likelihood** (tạm dịch: khả năng xảy ra hoặc độ hợp lý) là một khái niệm quan trọng, biểu thị xác suất quan sát được dữ liệu cụ thể khi giả định một mô hình hoặc một tập hợp các tham số nhất định là đúng. Tuy nhiên, likelihood không phải là xác suất thông thường mà là một hàm đo lường mức độ phù hợp của mô hình với dữ liệu.
+Trong xác suất thống kê, **hàm hợp lý (likelihood)** đo mức độ phù hợp của một mô hình hay một bộ tham số với dữ liệu đã quan sát. Khi giữ cố định dữ liệu và xem biểu thức xác suất như một hàm theo tham số, ta thu được hàm hợp lý; lưu ý rằng đây không phải là một phân phối xác suất theo tham số.
 
-### Định Nghĩa Likelihood
+### Định nghĩa hàm hợp lý (Likelihood)
 
-Likelihood của một tham số $$\theta$$ (hoặc một mô hình) được định nghĩa là xác suất của dữ liệu quan sát được, giả sử tham số $$\theta$$ là đúng. Nó thường được ký hiệu là $$L(\theta \mid x)$$, trong đó $$x$$ là dữ liệu quan sát được.
+Hàm hợp lý của tham số $$	heta$$ ứng với dữ liệu quan sát $$x$$ được định nghĩa bằng xác suất (hoặc mật độ xác suất) quan sát được dữ liệu $$x$$ khi tham số nhận giá trị $$	heta$$. Hàm này thường ký hiệu là $$L(	heta \mid x)$$:
 
 **Công thức:**
-$$L(\theta \mid x) = P(x \mid \theta)$$
+$$L(	heta \mid x) = P(x \mid 	heta)$$
 
-Ở đây, $$P(x \mid \theta)$$ là xác suất xảy ra dữ liệu $$x$$ khi tham số $$\theta$$ được cho trước.
+Trong đó, $$P(x \mid 	heta)$$ là xác suất (hoặc mật độ) của dữ liệu $$x$$ khi tham số $$	heta$$ đã cho trước.
 
-### Điểm Khác Biệt với Xác Suất
+### Điểm khác biệt với xác suất
 
-- **Xác suất** mô tả khả năng xảy ra của một sự kiện trong tương lai, với các tham số đã biết.
-- **Likelihood** ngược lại, đo lường mức độ phù hợp của các tham số khác nhau đối với dữ liệu đã quan sát.
+- **Xác suất** mô tả khả năng xảy ra của các kết quả ngẫu nhiên trong tương lai khi tham số của phân phối đã biết.
+- **Hàm hợp lý (likelihood)** ngược lại: dữ liệu đã được quan sát và giữ cố định, còn ta thay đổi tham số để đánh giá mức độ phù hợp của từng giá trị tham số với dữ liệu đó.
 
 <div style="background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0;">
-<strong>⚠️ Lưu ý quan trọng:</strong> Likelihood không phải là xác suất của tham số θ, vì nó không được chuẩn hóa như một phân phối xác suất (tổng tích phân của likelihood không nhất thiết bằng 1).
+<strong>⚠️ Lưu ý quan trọng:</strong> Hàm hợp lý không phải là phân phối xác suất của tham số θ, vì tổng hoặc tích phân của nó theo θ không nhất thiết bằng 1.
 </div>
 
-### Ví Dụ Minh Họa: Tung Đồng Xu
+### Ví dụ minh họa: Tung đồng xu
 
-Giả sử bạn tung một đồng xu và quan sát được kết quả là 3 lần "mặt sấp" (S) và 2 lần "mặt ngửa" (N) trong 5 lần tung. Bạn muốn biết xác suất tung được mặt sấp là $$p$$.
+Giả sử bạn tung một đồng xu 5 lần và quan sát được 3 lần "mặt sấp" (S) cùng 2 lần "mặt ngửa" (N). Gọi $$p$$ là xác suất xuất hiện mặt sấp.
 
-Likelihood của $$p$$ là xác suất quan sát được dữ liệu (3 sấp, 2 ngửa) khi $$p$$ được cho trước:
+Hàm hợp lý của $$p$$ ứng với dữ liệu (3 sấp, 2 ngửa) là:
 
-$$L(p \mid \text{dữ liệu}) = P(\text{3 sấp, 2 ngửa} \mid p) = \binom{5}{3} p^3 (1-p)^2$$
+$$L(p \mid 	ext{dữ liệu}) = P(	ext{3 sấp, 2 ngửa} \mid p) = inom{5}{3} p^3 (1-p)^2$$
 
 Trong đó:
-- $$\binom{5}{3}$$ là hệ số nhị thức
-- $$p^3$$ là xác suất cho 3 lần sấp
-- $$(1-p)^2$$ là xác suất cho 2 lần ngửa
+- $$inom{5}{3}$$ là hệ số nhị thức (số cách chọn 3 lần ra mặt sấp trong 5 lần tung).
+- $$p^3$$ là xác suất cho 3 lần mặt sấp.
+- $$(1-p)^2$$ là xác suất cho 2 lần mặt ngửa.
 
-**Thử nghiệm với các giá trị khác nhau:**
+**Thử tính với các giá trị $$p$$ khác nhau:**
 
 Với $$p = 0.6$$:
-$$L(0.6 \mid \text{dữ liệu}) = \binom{5}{3} (0.6)^3 (0.4)^2 = 10 \times 0.216 \times 0.16 \approx 0.3456$$
+$$L(0.6 \mid 	ext{dữ liệu}) = inom{5}{3} (0.6)^3 (0.4)^2 = 10 	imes 0.216 	imes 0.16 pprox 0.3456$$
 
 Với $$p = 0.5$$:
-$$L(0.5 \mid \text{dữ liệu}) = \binom{5}{3} (0.5)^3 (0.5)^2 = 10 \times 0.125 \times 0.25 \approx 0.3125$$
+$$L(0.5 \mid 	ext{dữ liệu}) = inom{5}{3} (0.5)^3 (0.5)^2 = 10 	imes 0.125 	imes 0.25 pprox 0.3125$$
 
-Likelihood cao hơn với $$p = 0.6$$ cho thấy giá trị này phù hợp hơn với dữ liệu quan sát được so với $$p = 0.5$$.
+Giá trị hàm hợp lý tại $$p = 0.6$$ cao hơn tại $$p = 0.5$$, cho thấy $$p = 0.6$$ phù hợp với dữ liệu quan sát hơn so với $$p = 0.5$$.
 
-### Ví Dụ Tương Tác: Tung Đồng Xu
+### Ví dụ tương tác: Tung đồng xu
 
 <div id="coin-flip-example" style="border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 8px;">
-    <h4>Thí Nghiệm Tung Đồng Xu</h4>
+    <h4>Thí nghiệm tung đồng xu</h4>
     
     <div style="margin: 15px 0;">
         <label for="p-slider">Xác suất mặt sấp (p): <span id="p-value">0.5</span></label><br>
@@ -209,43 +209,43 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-### Maximum Likelihood Estimation (MLE)
+### Ước lượng hợp lý tối đa (MLE)
 
-**Ước lượng hợp lý tối đa** là phương pháp tìm giá trị của tham số $$\theta$$ sao cho hàm likelihood $$L(\theta \mid x)$$ đạt giá trị lớn nhất.
+**Ước lượng hợp lý tối đa (Maximum Likelihood Estimation — MLE)** là phương pháp tìm giá trị tham số $$	heta$$ làm cực đại hàm hợp lý $$L(	heta \mid x)$$.
 
 **Công thức MLE:**
-$$\hat{\theta}_{MLE} = \arg\max_{\theta} L(\theta \mid x)$$
+$$\hat{	heta}_{MLE} = rg\max_{	heta} L(	heta \mid x)$$
 
-Thường thì việc tối đa hóa log-likelihood dễ dàng hơn:
-$$\hat{\theta}_{MLE} = \arg\max_{\theta} \log L(\theta \mid x)$$
+Trong thực hành, vì hàm logarit đơn điệu tăng, ta thường cực đại hóa hàm log-likelihood để chuyển tích thành tổng và tránh tràn số:
+$$\hat{	heta}_{MLE} = rg\max_{	heta} \log L(	heta \mid x)$$
 
-### Ví Dụ MLE: Phân Phối Chuẩn
+### Ví dụ MLE: Phân phối chuẩn
 
-Giả sử chúng ta có $$n$$ quan sát độc lập $$x_1, x_2, \ldots, x_n$$ từ phân phối chuẩn $$N(\mu, \sigma^2)$$.
+Giả sử ta có $$n$$ quan sát độc lập và cùng phân phối $$x_1, x_2, \ldots, x_n$$ từ phân phối chuẩn $$N(\mu, \sigma^2)$$.
 
-**Hàm likelihood:**
-$$L(\mu, \sigma^2 \mid x_1, \ldots, x_n) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i - \mu)^2}{2\sigma^2}\right)$$
+**Hàm hợp lý:**
+$$L(\mu, \sigma^2 \mid x_1, \ldots, x_n) = \prod_{i=1}^{n} rac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-rac{(x_i - \mu)^2}{2\sigma^2}ight)$$
 
 **Log-likelihood:**
-$$\ell(\mu, \sigma^2) = -\frac{n}{2}\log(2\pi) - \frac{n}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{n}(x_i - \mu)^2$$
+$$\ell(\mu, \sigma^2) = -rac{n}{2}\log(2\pi) - rac{n}{2}\log(\sigma^2) - rac{1}{2\sigma^2}\sum_{i=1}^{n}(x_i - \mu)^2$$
 
-**Ước lượng MLE:**
+**Tìm ước lượng MLE:**
 
-Để tìm $$\hat{\mu}$$, lấy đạo hàm theo $$\mu$$ và đặt bằng 0:
-$$\frac{\partial \ell}{\partial \mu} = \frac{1}{\sigma^2}\sum_{i=1}^{n}(x_i - \mu) = 0$$
+Lấy đạo hàm riêng theo $$\mu$$ và cho bằng 0:
+$$rac{\partial \ell}{\partial \mu} = rac{1}{\sigma^2}\sum_{i=1}^{n}(x_i - \mu) = 0$$
 
-Giải được: $$\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n} x_i = \bar{x}$$
+Giải phương trình này, ta thu được trung bình mẫu: $$\hat{\mu}_{MLE} = rac{1}{n}\sum_{i=1}^{n} x_i = ar{x}$$
 
-Tương tự cho $$\sigma^2$$:
-$$\hat{\sigma^2}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
+Tương tự, lấy đạo hàm theo $$\sigma^2$$ và cho bằng 0 ta thu được:
+$$\hat{\sigma^2}_{MLE} = rac{1}{n}\sum_{i=1}^{n}(x_i - ar{x})^2$$
 
-### Ví Dụ Tương Tác: MLE cho Phân Phối Chuẩn
+### Ví dụ tương tác: MLE cho phân phối chuẩn
 
 <div id="normal-mle-example" style="border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 8px;">
-    <h4>MLE cho Phân Phối Chuẩn</h4>
+    <h4>MLE cho phân phối chuẩn</h4>
     
     <div style="margin: 15px 0;">
-        <button id="generate-data" style="background: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Tạo Dữ Liệu Mới</button>
+        <button id="generate-data" style="background: #4CAF50; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Tạo dữ liệu mới</button>
         <span style="margin-left: 20px;">Số mẫu: </span>
         <input type="number" id="sample-size" value="50" min="10" max="200" style="width: 60px;">
     </div>
@@ -266,7 +266,7 @@ $$\hat{\sigma^2}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
     
     <div id="mle-results" style="background: #f8f9fa; padding: 10px; border-radius: 4px; margin: 10px 0;">
         <div><strong>Dữ liệu thực:</strong> μ = <span id="true-mu">1.0</span>, σ = <span id="true-sigma">1.5</span></div>
-        <div><strong>MLE ước lượng:</strong> μ̂ = <span id="mle-mu">0.95</span>, σ̂ = <span id="mle-sigma">1.48</span></div>
+        <div><strong>Ước lượng MLE:</strong> μ̂ = <span id="mle-mu">0.95</span>, σ̂ = <span id="mle-sigma">1.48</span></div>
         <div><strong>Ước lượng hiện tại:</strong> μ = <span id="current-mu">0</span>, σ = <span id="current-sigma">1</span></div>
         <div><strong>Log-likelihood hiện tại:</strong> <span id="current-ll">-75.2</span></div>
         <div><strong>Log-likelihood tối đa:</strong> <span id="max-ll">-72.1</span></div>
@@ -446,74 +446,67 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-### Tính Chất của MLE
+### Tính chất của MLE
 
-1. **Tính Nhất Quán (Consistency)**: Khi kích thước mẫu tăng, ước lượng MLE hội tụ về giá trị thực của tham số.
+1. **Tính vững (Consistency)**: khi kích thước mẫu tăng lên vô hạn, ước lượng MLE hội tụ theo xác suất về giá trị thực của tham số.
+2. **Tính chuẩn tiệm cận (Asymptotic Normality)**: với kích thước mẫu đủ lớn, phân phối của ước lượng MLE xấp xỉ phân phối chuẩn.
+3. **Tính hiệu quả tiệm cận (Asymptotic Efficiency)**: MLE đạt cận dưới Cramér–Rao về mặt tiệm cận, tức có phương sai nhỏ nhất trong lớp các ước lượng không chệch.
+4. **Tính bất biến (Invariance)**: nếu $$\hat{	heta}$$ là MLE của $$	heta$$ thì $$g(\hat{	heta})$$ là MLE của $$g(	heta)$$ với mọi hàm khả nghịch $$g$$ (và mở rộng cho hàm $$g$$ tổng quát thông qua hàm hợp lý cảm sinh).
 
-2. **Tính Tiệm Cận Chuẩn (Asymptotic Normality)**: Với mẫu lớn, phân phối của ước lượng MLE xấp xỉ phân phối chuẩn.
+### Ứng dụng của MLE
 
-3. **Tính Hiệu Quả Tiệm Cận (Asymptotic Efficiency)**: MLE đạt được cận Cramér-Rao, nghĩa là có phương sai nhỏ nhất trong các ước lượng không thiên lệch.
+#### 1. Ước lượng tham số
 
-4. **Bất Biến (Invariance)**: Nếu $$\hat{\theta}$$ là MLE của $$\theta$$, thì $$g(\hat{\theta})$$ là MLE của $$g(\theta)$$ với $$g$$ là hàm khả nghịch (tính chất này mở rộng cho mọi hàm $$g$$ thông qua likelihood cảm sinh).
+MLE được sử dụng rộng rãi để ước lượng tham số trong nhiều mô hình thống kê:
+- Phân phối chuẩn: ước lượng kỳ vọng và phương sai.
+- Phân phối Poisson: ước lượng tham số tốc độ $$\lambda$$.
+- Hồi quy tuyến tính: ước lượng vector hệ số hồi quy.
 
-### Ứng Dụng của MLE
+#### 2. So sánh mô hình
 
-#### 1. Ước Lượng Tham Số
+Hàm hợp lý là cơ sở của nhiều tiêu chí đánh giá và chọn mô hình:
+- **Kiểm định tỷ số hợp lý (Likelihood Ratio Test)**: so sánh hai mô hình lồng nhau.
+- **AIC / BIC**: các tiêu chí lựa chọn mô hình cân bằng giữa log-likelihood và độ phức tạp mô hình.
 
-MLE được sử dụng rộng rãi để ước lượng tham số trong các mô hình thống kê:
-- Phân phối chuẩn: ước lượng trung bình và phương sai
-- Phân phối Poisson: ước lượng tham số λ
-- Hồi quy tuyến tính: ước lượng hệ số hồi quy
+#### 3. Thống kê Bayes
 
-#### 2. So Sánh Mô Hình
+Trong suy luận Bayes, hàm hợp lý kết hợp với phân phối tiên nghiệm (prior) để xác định phân phối hậu nghiệm (posterior):
 
-Likelihood được dùng để so sánh các mô hình thống kê khác nhau:
-- **Likelihood Ratio Test**: So sánh hai mô hình lồng nhau
-- **AIC/BIC**: Tiêu chí lựa chọn mô hình dựa trên likelihood
+$$P(	heta \mid x) \propto L(	heta \mid x) \cdot P(	heta)$$
 
-#### 3. Thống Kê Bayes
+### Kết nối với tối ưu hóa
 
-Trong thống kê Bayes, likelihood kết hợp với phân phối tiên nghiệm (prior) để tính phân phối hậu nghiệm (posterior):
+Bài toán MLE trực tiếp dẫn đến một bài toán tối ưu hóa:
 
-$$P(\theta \mid x) \propto L(\theta \mid x) \cdot P(\theta)$$
+$$\max_{	heta} L(	heta \mid x) \quad 	ext{hoặc} \quad \max_{	heta} \log L(	heta \mid x)$$
 
-### Kết Nối với Tối Ưu Hóa
-
-MLE tạo ra một bài toán tối ưu hóa:
-
-$$\max_{\theta} L(\theta \mid x) \quad \text{hoặc} \quad \max_{\theta} \log L(\theta \mid x)$$
-
-Điều này thường dẫn đến:
-- **Tối ưu hóa không ràng buộc**: Khi không có ràng buộc trên tham số
-- **Tối ưu hóa có ràng buộc**: Khi tham số phải thỏa mãn điều kiện nhất định
-- **Bài toán lồi**: Với nhiều mô hình, log-likelihood là hàm lõm (tương đương, âm log-likelihood là hàm lồi), nên việc cực đại hóa nó là bài toán lồi và đảm bảo nghiệm tối ưu toàn cục
+Tùy cấu trúc mô hình, bài toán này có thể thuộc các dạng:
+- **Tối ưu hóa không ràng buộc**: khi tham số nhận giá trị tự do trên $$\mathbb{R}^d$$.
+- **Tối ưu hóa có ràng buộc**: khi tham số phải thỏa mãn miền điều kiện (ví dụ $$p \in [0, 1]$$ hoặc $$\sigma > 0$$).
+- **Bài toán tối ưu hóa lồi**: với nhiều mô hình, hàm log-likelihood là hàm lõm (tương đương, âm log-likelihood là hàm lồi), nên bài toán có nghiệm tối ưu toàn cục.
 
 <div style="background: #e8f4fd; padding: 15px; border-left: 4px solid #2196F3; margin: 20px 0;">
-<strong>💡 Kết Nối với Tối Ưu Hóa Lồi:</strong> Nhiều bài toán MLE dẫn đến tối ưu hóa lồi, đặc biệt trong họ phân phối mũ. Điều này đảm bảo rằng nghiệm tìm được là tối ưu toàn cục và các thuật toán tối ưu hóa sẽ hội tụ đến nghiệm đúng.
+<strong>💡 Kết nối với tối ưu hóa lồi:</strong> Nhiều bài toán MLE — đặc biệt trong họ phân phối mũ — dẫn đến bài toán tối ưu hóa lồi. Nhờ đó, mọi cực tiểu địa phương đều là cực tiểu toàn cục và các thuật toán tối ưu hội tụ ổn định về nghiệm đúng.
 </div>
 
-### Ví Dụ Thực Tế: Hồi Quy Logistic
+### Ví dụ thực tế: Hồi quy logistic
 
-Trong hồi quy logistic, chúng ta mô hình hóa xác suất của biến nhị phân:
+Trong hồi quy logistic, xác suất của biến nhị phân $$y \in \{0, 1\}$$ được mô hình hóa theo đặc trưng $$x$$:
 
-$$P(y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x)}}$$
+$$P(y = 1 \mid x) = rac{1}{1 + e^{-(eta_0 + eta_1 x)}}$$
 
 **Log-likelihood** (với $$p_i = P(y_i = 1 \mid x_i)$$):
-$$\ell(\beta_0, \beta_1) = \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1-y_i) \log(1-p_i) \right]$$
+$$\ell(eta_0, eta_1) = \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1-y_i) \log(1-p_i) ight]$$
 
-Đây là bài toán cực đại hóa hàm lõm (tương đương, cực tiểu hóa lồi của âm log-likelihood), có thể giải bằng gradient descent hoặc Newton's method.
+Đây là bài toán cực đại hóa hàm lõm (tương đương cực tiểu hóa hàm lồi là âm log-likelihood), có thể giải hiệu quả bằng gradient descent hoặc phương pháp Newton.
 
-### Tóm Tắt
+### Tóm tắt
 
-- **Likelihood** đo lường mức độ phù hợp của tham số với dữ liệu quan sát
-- **MLE** tìm tham số tối đa hóa likelihood
-- MLE có nhiều tính chất thống kê tốt: nhất quán, hiệu quả, tiệm cận chuẩn
-- MLE tạo ra các bài toán tối ưu hóa, nhiều trong số đó là lồi
-- Ứng dụng rộng rãi trong thống kê, học máy và khoa học dữ liệu
+- **Hàm hợp lý (Likelihood)** đo mức độ phù hợp của tham số với dữ liệu đã quan sát.
+- **MLE** tìm bộ tham số làm cực đại hàm hợp lý (hoặc log-likelihood).
+- MLE sở hữu nhiều tính chất tiệm cận tốt: tính vững, tính chuẩn tiệm cận và tính hiệu quả tiệm cận.
+- MLE chuyển trực tiếp bài toán ước lượng thống kê thành bài toán tối ưu hóa, trong đó nhiều trường hợp quan trọng là tối ưu hóa lồi.
 
 <div style="background: #d4edda; padding: 15px; border-left: 4px solid #28a745; margin: 20px 0;">
-<strong>🎯 Điểm Quan Trọng:</strong> MLE là cầu nối quan trọng giữa thống kê và tối ưu hóa. Hiểu rõ MLE giúp bạn nắm vững cách các mô hình thống kê được ước lượng thông qua các phương pháp tối ưu hóa, đặc biệt là tối ưu hóa lồi.
+<strong>🎯 Điểm cốt lõi:</strong> MLE là cầu nối trực tiếp giữa thống kê và tối ưu hóa, giúp ta hiểu cách tham số của các mô hình thống kê được ước lượng bằng các phương pháp tối ưu hóa, đặc biệt là tối ưu hóa lồi.
 </div>
-
-
-

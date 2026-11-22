@@ -9,25 +9,31 @@ categories:
 lang: vi
 ---
 
-Nếu ta ký hiệu nghiệm của bài toán rào cản sau ($$t > 0$$) là $$x^*(t)$$, thì **đường trung tâm** (central path) là tập $$\{x^*(t) | t > 0 \}$$.
+Ký hiệu $$x^*(t)$$ là nghiệm của bài toán chắn ứng với tham số $$t > 0$$:
 
->$$\begin{align}
+>$$
+>\begin{align}
 > &\min_{x} \ &&  tf(x) + \phi(x) \\
 > &\text{thỏa mãn } \ && Ax = b \\
-> \end{align}$$
+> \end{align}
+>$$
 
-Với các điều kiện phù hợp, tập **đường trung tâm** tạo thành một đường cong trơn trong $$\mathbb{R}^n$$, và khi $$t \to \infty$$ thì $$x^*(t) \to x^*$$, trong đó $$x^*$$ là nghiệm của bài toán gốc.
+Khi đó, tập hợp $$\{x^*(t) \mid t > 0 \}$$ được gọi là **đường trung tâm (central path)**.
 
-**Đường trung tâm** là tập các nghiệm thu được bằng cách định nghĩa lại bài toán dần dần với các giá trị $$t$$ mới, di chuyển từ bên trong tiến ra biên, khi việc tìm trực tiếp nghiệm tối ưu trên biên là khó.
+Dưới các điều kiện phù hợp, đường trung tâm tạo thành một đường cong trơn trong $$\mathbb{R}^n$$ và hội tụ về nghiệm tối ưu $$x^*$$ của bài toán gốc khi $$t \to \infty$$.
 
-## Ví dụ: đường trung tâm của một bài LP
-Hãy tìm đường trung tâm của bài toán LP sau.
->$$\begin{align*}
+Nói cách khác, thay vì tìm trực tiếp nghiệm tối ưu nằm trên biên, ta giải một chuỗi bài toán chắn với các giá trị $$t$$ tăng dần để đi dọc theo đường trung tâm từ bên trong miền khả thi tiến dần ra biên.
+
+## Ví dụ: đường trung tâm của một bài toán LP
+Xét bài toán quy hoạch tuyến tính (LP):
+>$$
+>\begin{align*}
 >&\min_{x} \ && c^Tx \\
 >&\text{thỏa mãn } \ && a_i^Tx \le b_i, \quad i = 1, \cdots , 6 \\
->\end{align*}$$
+>\end{align*}
+>$$
 
-Trong hình dưới đây, đường nét đứt biểu diễn hàm rào logarit $$\phi$$. <br>
+Trong hình dưới đây, các đường nét đứt biểu diễn đường đồng mức của hàm chắn logarit $$\phi$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -36,7 +42,7 @@ Trong hình dưới đây, đường nét đứt biểu diễn hàm rào logarit
 </p>
 </figure>
 
-Ta thấy rằng khi $$t \to \infty$$, đường trung tâm hội tụ về nghiệm tối ưu $$x^*$$. Tại điểm đó, siêu phẳng $$c^Tx = c^Tx(t)$$ là tiếp tuyến của đường mức của $$\phi$$ đi qua $$c^Tx(t)$$.
+Khi $$t \to \infty$$, đường trung tâm hội tụ về đỉnh tối ưu $$x^*$$. Tại mỗi điểm $$x^*(t)$$ trên đường trung tâm, siêu phẳng $$c^Tx = c^Tx^*(t)$$ tiếp xúc với đường đồng mức của $$\phi$$ đi qua $$x^*(t)$$.
 
 ### Đường trung tâm trong 10 giây
 
@@ -44,7 +50,7 @@ Ta thấy rằng khi $$t \to \infty$$, đường trung tâm hội tụ về nghi
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/central-path_vi.mp4"></video>
 </div>
 
-Khi $$t$$ tăng, nghiệm $$x^*(t)$$ của bài toán rào cản trượt dọc đường trung tâm tới đỉnh tối ưu.
+Khi $$t$$ tăng dần, nghiệm $$x^*(t)$$ của bài toán chắn trượt dọc theo đường trung tâm tiến về đỉnh tối ưu.
 
 ### Tự tay thử: trượt dọc đường trung tâm
 

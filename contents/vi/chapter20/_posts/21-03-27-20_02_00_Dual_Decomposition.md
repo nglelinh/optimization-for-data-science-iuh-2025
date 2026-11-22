@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-Trong phần này, chúng ta xem xét các kỹ thuật phân rã bài toán bằng đối ngẫu.
+Trong phần này, chúng ta tìm hiểu các kỹ thuật phân rã bài toán tối ưu thành nhiều bài toán con độc lập thông qua hàm đối ngẫu.

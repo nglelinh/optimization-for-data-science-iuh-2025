@@ -11,26 +11,26 @@ lesson_type: required
 ---
 
 
-[Chương 21]({{ site.baseurl }}/contents/vi/chapter21/) nghiên cứu **phương pháp hướng xen kẽ của nhân tử**. Dạng đồng thuận giải
+[Chương 21]({{ site.baseurl }}/contents/vi/chapter21/) đã trình bày **phương pháp hướng luân phiên của các nhân tử (ADMM)**. Dạng đồng thuận giải bài toán:
 
 $$
 \min_{x_1,\ldots,x_P,z} \sum_{p=1}^P f_p(x_p) \quad\text{subject to}\quad x_p=z,
 $$
 
-bằng yên ngựa Lagrangian tăng cường: cập nhật nguyên thủy $$x_p$$ (thường là proximal), một trung bình $$z$$, và lên dual trên phần dư. Khi mỗi $$f_p$$ lồi và các bước đúng, ADMM có lý thuyết hội tụ chín và là đúng công cụ cho các tách **lồi có cấu trúc** (Lasso phân tán, QP đồng thuận, một số nới SDP).
+thông qua hàm Lagrangian tăng cường: cập nhật các biến gốc cục bộ $$x_p$$ (thường dưới dạng toán tử proximal), lấy trung bình cập nhật biến toàn cục $$z$$, và cập nhật biến đối ngẫu theo phần dư. Khi mỗi $$f_p$$ lồi và các bước con được giải đủ chính xác, ADMM có lý thuyết hội tụ hoàn chỉnh và là công cụ chuẩn mực cho các bài toán tách **lồi có cấu trúc** (Lasso phân tán, quy hoạch bậc hai đồng thuận, một số bài toán nới lỏng SDP).
 
-SGD song song dữ liệu và FedAvg sống ở không gian thiết kế khác:
+Ngược lại, SGD song song dữ liệu và FedAvg được thiết kế cho bối cảnh khác hẳn:
 
-| | ADMM (Ch.21) | SGD song song dữ liệu | FedAvg |
-|--|--------------|----------------------|--------|
-| $$f$$ điển hình | lồi, thường hợp thành | ERM không lồi / mạng sâu | không lồi, ERM cục bộ *dị thể* |
-| Thứ được trung bình | nguyên thủy $$z$$ và dual | **gradient** (hoặc trọng số đồng bộ) mỗi bước | **trọng số** sau $$E$$ bước cục bộ |
-| Biến đối ngẫu | có, phần dư dẫn đồng thuận | không | không |
-| Tài nguyên khan | vòng lặp của bài lồi cỡ vừa | băng thông interconnect mỗi bước | **vòng** (máy ngủ, Wi-Fi) |
-| Chứng chỉ | duality gap / phần dư | không (không lồi) | không |
+| Tiêu chí | ADMM (Ch. 21) | SGD song song dữ liệu | FedAvg |
+|----------|---------------|-----------------------|--------|
+| Hàm mục tiêu $$f$$ điển hình | lồi, thường có cấu trúc hợp thành | ERM không lồi / mạng sâu | không lồi, ERM cục bộ *không đồng nhất* |
+| Đại lượng lấy trung bình | biến gốc $$z$$ và biến đối ngẫu | **gradient** (hoặc trọng số đồng bộ) mỗi bước | **trọng số** sau $$E$$ bước cục bộ |
+| Biến đối ngẫu | có, phần dư thúc đẩy đồng thuận | không | không |
+| Tài nguyên khan hiếm | số vòng lặp của bài toán lồi cỡ vừa | băng thông kết nối liên nút mỗi bước | **số vòng truyền thông** (thiết bị gián đoạn, Wi-Fi) |
+| Tiêu chí chứng nhận | khoảng cách đối ngẫu / phần dư | không (bài toán không lồi) | không |
 
-Gọi FedAvg là “ADMM không dual” che mất điểm chính: FedAvg *cố ý* để client trôi rồi mới trung bình tham số. ADMM *phạt* sự không đồng thuận mỗi vòng. Dùng ADMM khi viết được chương trình đồng thuận lồi và muốn phần dư để theo dõi. Dùng SGD song song dữ liệu khi huấn luyện một mạng dùng chung trên cụm bạn kiểm soát. Dùng FedAvg khi dữ liệu không được chuyển và truyền thông đắt.
+Gọi FedAvg là “ADMM bỏ biến đối ngẫu” dễ làm mờ đi sự khác biệt bản chất: FedAvg *chủ động* cho phép các máy khách chạy nhiều bước cục bộ và chấp nhận độ trôi trước khi trung bình hóa tham số, trong khi ADMM *phạt trực tiếp* sự sai lệch giữa các nút qua biến đối ngẫu ở mọi vòng lặp. Nên dùng ADMM khi bài toán viết được dưới dạng đồng thuận lồi và cần theo dõi phần dư; dùng SGD song song dữ liệu khi huấn luyện mô hình lớn trên cụm máy chủ tập trung; và dùng FedAvg khi dữ liệu phải ở lại thiết bị đầu cuối còn chi phí truyền thông là nút thắt chính.
 
-Lab IUH thực tế: ba client, một mục tiêu logistic lồi chia theo mẫu — giải bằng (i) ADMM đồng thuận và (ii) FedAvg với $$E\in\{1,5\}$$. So loss huấn luyện theo *vòng truyền thông*, không theo số lần tính gradient cục bộ.
+**Bài thực hành.** Với 3 máy khách chia nhau dữ liệu của một bài toán hồi quy logistic lồi, hãy giải cùng bài toán bằng (i) ADMM đồng thuận và (ii) FedAvg với $$E\in\{1,5\}$$, sau đó so sánh hàm mất mát huấn luyện theo *số vòng truyền thông* thay vì theo số lượt tính gradient cục bộ.
 
-**Câu hỏi.** Trong tình huống nào một phương pháp không chiếu hoặc tách (Frank–Wolfe, ADMM) vẫn có thể thắng SGD song song dữ liệu trên một cụm — ngay cả năm 2026?
+**Câu hỏi.** Trong những tình huống nào một phương pháp không cần phép chiếu hoặc phương pháp tách biến (như Frank–Wolfe hay ADMM) vẫn có thể vượt trội hơn SGD song song dữ liệu trên cùng một cụm tính toán?

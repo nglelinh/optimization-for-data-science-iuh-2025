@@ -18,16 +18,16 @@ MathJax.Hub.Config({
 
 ## 1. Giới thiệu
 
-**Support Vector Machine (SVM)** là một trong những thuật toán máy học cổ điển và mạnh mẽ nhất cho bài toán phân loại. Được phát triển bởi Vladimir Vapnik và cộng sự vào những năm 1990, SVM đã tạo nên một cuộc cách mạng trong lĩnh vực machine learning nhờ nền tảng toán học vững chắc và khả năng xử lý dữ liệu chiều cao một cách hiệu quả.
+**Máy vector hỗ trợ (Support Vector Machine — SVM)** là một thuật toán học máy kinh điển cho bài toán phân loại, được Vladimir Vapnik và cộng sự phát triển vào thập niên 1990. SVM dựa trên nền tảng tối ưu hóa lồi chặt chẽ và hoạt động hiệu quả trên dữ liệu nhiều chiều.
 
-**Ý tưởng cốt lõi:** Hãy tưởng tượng bạn cần vẽ một đường thẳng để phân chia hai nhóm điểm trên mặt phẳng. Có vô số cách vẽ, nhưng đường nào là "tốt nhất"? SVM trả lời câu hỏi này bằng cách tìm **đường phân chia có khoảng cách lớn nhất** đến các điểm gần nhất của cả hai nhóm. Khoảng cách này được gọi là **margin (biên độ)**. Margin càng lớn, mô hình càng "tự tin" trong việc phân loại và có khả năng tổng quát hóa tốt hơn trên dữ liệu mới.
+**Ý tưởng cốt lõi:** Khi cần vẽ một đường thẳng phân chia hai nhóm điểm trên mặt phẳng, có vô số đường phân cách khả dĩ. SVM chọn **đường phân cách có khoảng cách lớn nhất** đến các điểm gần nhất của cả hai nhóm. Khoảng cách này được gọi là **lề (margin)**. Lề càng lớn, mô hình thường có khả năng tổng quát hóa tốt hơn trên dữ liệu mới.
 
 **Lộ trình bài học:** Chúng ta sẽ cùng nhau đi từ trực giác hình học đến công thức toán học một cách tự nhiên:
 - Bắt đầu với **trực giác hình học**: Tại sao margin lớn lại quan trọng?
 - Chuyển sang **công thức toán học**: Biểu diễn bài toán dưới dạng tối ưu lồi (Quadratic Programming)
 - Khám phá **support vectors**: Những điểm dữ liệu "quyết định" siêu phẳng phân cách
 - Mở rộng sang **Soft-Margin SVM**: Xử lý dữ liệu thực tế có nhiễu và không tách được hoàn toàn
-- Nghiên cứu **bài toán đối ngẫu**: Cánh cửa dẫn đến kernel trick và các ứng dụng nâng cao
+- Nghiên cứu **bài toán đối ngẫu**: Cơ sở để áp dụng kỹ thuật hạt nhân (kernel trick) cho dữ liệu phi tuyến
 
 ### 1.1. Kiến thức nền tảng: Khoảng cách từ điểm tới siêu phẳng
 
@@ -63,9 +63,9 @@ Trước khi đi vào chi tiết, hãy nắm vững ba khái niệm nền tảng
 
 - **Siêu phẳng phân cách**: Trong không gian nhiều chiều, siêu phẳng $$\beta^T x + \beta_0 = 0$$ đóng vai trò như một "bức tường" chia không gian thành hai vùng, mỗi vùng chứa một lớp dữ liệu.
 
-- **Margin (Biên độ)**: Đây là khoảng cách từ siêu phẳng đến điểm gần nhất trong mỗi lớp. Khi siêu phẳng nằm ở vị trí tối ưu, margin bằng $$\frac{2}{\|\beta\|}$$ (chúng ta sẽ chứng minh điều này sau).
+- **Lề (Margin)**: Khoảng cách giữa hai siêu phẳng biên đi qua các điểm gần nhất của mỗi lớp; sau khi chuẩn hóa, độ rộng toàn phần của lề là $$\frac{2}{\|\beta\|}$$ (khoảng cách từ siêu phẳng phân cách đến mỗi biên là $$\frac{1}{\|\beta\|}$$).
 
-- **Mục tiêu tối ưu**: Maximize margin $$\Leftrightarrow$$ Minimize $$\|\beta\|$$. Tại sao lại tương đương? Vì margin tỉ lệ nghịch với $$\|\beta\|$$, nên margin lớn nhất khi $$\|\beta\|$$ nhỏ nhất.
+- **Mục tiêu tối ưu**: Cực đại hóa lề $$\Leftrightarrow$$ cực tiểu hóa $$\|\beta\|$$, vì độ rộng lề tỉ lệ nghịch với chuẩn $$\|\beta\|$$.
 
 ### 1.3. Minh họa trực quan: Khoảng cách và phân loại
 
@@ -199,11 +199,11 @@ Trước khi đi vào chi tiết, hãy nắm vững ba khái niệm nền tảng
 
 ## 2. Bài toán phân chia hai lớp dữ liệu
 
-Hãy bắt đầu với một tình huống đơn giản nhưng đầy thách thức: chúng ta có hai nhóm (lớp) điểm dữ liệu trong không gian nhiều chiều, và hai nhóm này **tách được tuyến tính** (linearly separable). Điều này có nghĩa là tồn tại ít nhất một siêu phẳng có thể phân chia hoàn toàn hai nhóm - tất cả điểm của nhóm A nằm về một phía, tất cả điểm của nhóm B nằm về phía đối diện.
+Xét tình huống cơ bản: ta có hai lớp điểm dữ liệu trong không gian nhiều chiều và hai lớp này **tách được tuyến tính** (linearly separable). Điều này có nghĩa là tồn tại ít nhất một siêu phẳng có thể phân chia hoàn toàn hai nhóm - tất cả điểm của nhóm A nằm về một phía, tất cả điểm của nhóm B nằm về phía đối diện.
 
 **Nhiệm vụ của chúng ta:** Tìm một siêu phẳng phân chia sao cho không có điểm nào "đi lạc" - mỗi điểm phải nằm đúng phía của siêu phẳng tương ứng với nhãn của nó.
 
-**Thách thức đầu tiên:** Nếu dữ liệu tách được tuyến tính, chúng ta có **vô số cách chọn** siêu phẳng phân chia! Minh họa dưới đây cho thấy ba đường thẳng khác nhau đều phân chia chính xác hai lớp:
+**Vấn đề đặt ra:** Khi dữ liệu tách được tuyến tính, có **vô số cách chọn** siêu phẳng phân chia. Hình minh họa dưới đây cho thấy ba đường thẳng khác nhau đều phân loại đúng cả hai lớp:
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -212,15 +212,15 @@ Hãy bắt đầu với một tình huống đơn giản nhưng đầy thách th
 </p>
 </figure>
 
-**Câu hỏi then chốt:** Trong vô số các mặt phân chia đều "đúng" về mặt phân loại, **đâu là mặt phân chia TỐT NHẤT**? 
+**Câu hỏi đặt ra:** Trong vô số siêu phẳng phân loại đúng tập huấn luyện, nên chọn siêu phẳng nào? 
 
 Hãy quan sát kỹ hình minh họa phía trên. Bạn có nhận thấy gì không? Hai đường thẳng đầu tiên "lệch" khá nhiều về phía các điểm hình tròn đỏ - chúng dường như "sợ" các điểm hình vuông xanh và né tránh chúng. Trong khi đó, đường thẳng thứ ba nằm gần như chính giữa hai nhóm, tạo ra một "vùng an toàn" xung quanh nó.
 
-Trực giác cho chúng ta biết: đường phân chia ở giữa sẽ "tự tin" và "robust" hơn khi gặp dữ liệu mới. Nhưng làm thế nào để biến trực giác này thành một công thức toán học cụ thể?
+Về mặt trực giác, đường phân chia nằm chính giữa hai lớp sẽ ổn định hơn trước nhiễu và dữ liệu mới. Tiếp theo, ta sẽ lượng hóa trực giác này thành bài toán tối ưu.
 
-### 2.1. Tiêu chuẩn: Maximum Margin - Từ trực giác đến định lượng
+### 2.1. Tiêu chuẩn lề cực đại (Maximum Margin)
 
-SVM giải quyết vấn đề này bằng một ý tưởng cực kỳ tinh tế: sử dụng khái niệm **margin** (lề, biên độ) để định lượng mức độ "an toàn" của một đường phân chia.
+SVM định lượng độ an toàn của một siêu phẳng phân chia thông qua khái niệm **lề (margin)**.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -231,11 +231,11 @@ SVM giải quyết vấn đề này bằng một ý tưởng cực kỳ tinh t�
 
 **Margin là gì?** Đơn giản nhất, margin là khoảng cách từ siêu phẳng phân cách đến **điểm gần nhất** của mỗi lớp dữ liệu. Hãy nghĩ về nó như "vùng đệm an toàn" xung quanh đường phân chia.
 
-**Siêu phẳng tối ưu phải thỏa mãn hai nguyên tắc vàng:**
+**Siêu phẳng tối ưu cần thỏa mãn hai yêu cầu:**
 
-1. **Công bằng (Đối xứng)**: Khoảng cách từ siêu phẳng đến điểm gần nhất của lớp A phải **bằng** khoảng cách đến điểm gần nhất của lớp B. Không thiên vị lớp nào cả!
+1. **Đối xứng:** Khoảng cách từ siêu phẳng đến điểm gần nhất của lớp A bằng khoảng cách đến điểm gần nhất của lớp B.
 
-2. **Tối đa hóa an toàn**: Trong tất cả các siêu phẳng công bằng, chọn cái có margin **lớn nhất** - tức "vùng đệm" rộng nhất.
+2. **Lề lớn nhất:** Trong tất cả các siêu phẳng đối xứng, chọn siêu phẳng có lề lớn nhất.
 
 **Tại sao margin lớn lại quan trọng?** Ba lý do thực tiễn:
 
@@ -243,7 +243,7 @@ SVM giải quyết vấn đề này bằng một ý tưởng cực kỳ tinh t�
   
 - **Độ tin cậy**: Điểm dữ liệu càng xa siêu phẳng, quyết định phân loại càng "tự tin". Margin lớn nghĩa là hầu hết điểm đều được phân loại với độ tin cậy cao.
   
-- **Chống nhiễu**: Nếu có vài điểm bị nhiễu (đo đạc sai, outliers), margin lớn giúp mô hình ít bị ảnh hưởng.
+- **Ổn định trước nhiễu**: Khi dữ liệu mới có sai số đo nhỏ, lề rộng giúp hạn chế thay đổi nhãn dự đoán.
 
 **Kết luận quan trọng**: Bài toán SVM chính là bài toán tìm mặt phân cách có **margin lớn nhất**. Vì vậy, SVM còn được gọi là **Maximum Margin Classifier** - bộ phân loại margin cực đại.
 
@@ -251,7 +251,7 @@ SVM giải quyết vấn đề này bằng một ý tưởng cực kỳ tinh t�
 
 ## 3. Xây dựng bài toán tối ưu cho SVM
 
-Chúng ta đã có trực giác rõ ràng: cần tìm siêu phẳng có margin lớn nhất. Giờ là lúc biến trực giác này thành **ngôn ngữ toán học chính xác** - một bài toán tối ưu mà máy tính có thể giải được. Hành trình này sẽ đưa chúng ta từ hình học trực quan đến một bài toán Quadratic Programming chuẩn.
+Từ tiêu chuẩn lề cực đại, ta sẽ xây dựng mô hình toán học tương ứng và đưa bài toán về dạng quy hoạch bậc hai (Quadratic Programming) chuẩn.
 
 ### 3.1. Thiết lập ký hiệu
 
@@ -276,7 +276,7 @@ Chúng ta đã có trực giác rõ ràng: cần tìm siêu phẳng có margin l
 - Mặt $$w^T x + b = w_1 x_1 + w_2 x_2 + b = 0$$ là mặt phân chia
 - Class +1 nằm về **phía dương**, class -1 nằm về **phía âm**
 
-### 3.2. Công thức khoảng cách - Một mẹo toán học tinh tế
+### 3.2. Công thức khoảng cách có dấu
 
 Với cặp dữ liệu $$(x_n, y_n)$$ bất kỳ, khoảng cách từ điểm $$x_n$$ tới siêu phẳng phân chia được tính bởi:
 
@@ -284,7 +284,7 @@ $$
 \frac{y_n(w^T x_n + b)}{\|w\|_2}
 $$
 
-**Tại sao lại có $$y_n$$ ở tử số?** Đây là một mẹo thông minh! Nhớ lại rằng:
+**Vai trò của hệ số $$y_n$$ ở tử số:**
 - Nếu $$x_n$$ thuộc lớp +1, nó nằm ở phía dương của siêu phẳng → $$w^T x_n + b > 0$$
 - Nếu $$x_n$$ thuộc lớp -1, nó nằm ở phía âm của siêu phẳng → $$w^T x_n + b < 0$$
 
@@ -293,7 +293,7 @@ $$
 y_n(w^T x_n + b) > 0 \quad \text{(luôn dương!)}
 $$
 
-Nhân với $$y_n$$ giúp ta **loại bỏ dấu giá trị tuyệt đối** trong công thức khoảng cách, làm cho các phép toán sau này đơn giản hơn rất nhiều!
+Nhân với $$y_n$$ giúp loại bỏ dấu giá trị tuyệt đối trong công thức khoảng cách, thuận tiện cho bước biến đổi đại số tiếp theo.
 
 ### 3.3. Định nghĩa Margin
 
@@ -316,22 +316,22 @@ $$
 
 **Vấn đề**: Việc giải trực tiếp bài toán này sẽ rất phức tạp.
 
-### 3.5. Biến đổi về bài toán đơn giản - Thủ thuật chuẩn hóa
+### 3.5. Chuẩn hóa tham số siêu phẳng
 
 Trước khi tiếp tục, chúng ta cần một **quan sát quan trọng** giúp đơn giản hóa bài toán đáng kể.
 
-**Tính bất định về tỷ lệ:** Giả sử ta có một siêu phẳng $$w^T x + b = 0$$. Nếu nhân cả $$w$$ và $$b$$ với cùng một hằng số dương $$k > 0$$, ta được siêu phẳng mới $$(kw)^T x + kb = 0$$. Điều kỳ diệu là:
+**Tính bất biến theo tỷ lệ:** Xét siêu phẳng $$w^T x + b = 0$$. Nếu nhân cả $$w$$ và $$b$$ với một hằng số dương $$k > 0$$, ta thu được phương trình $$(kw)^T x + kb = 0$$ có các tính chất sau:
 - Mặt phân chia **vẫn là cùng một mặt** (vì phương trình vẫn cho cùng tập hợp các điểm thỏa mãn)
 - Khoảng cách từ mỗi điểm đến mặt phân chia **không đổi** (phép chia cho $$\|kw\| = k\|w\|$$ triệt tiêu hệ số $$k$$)
 - Do đó, margin cũng **không đổi**!
 
-**Thủ thuật chuẩn hóa thông minh:** Vì tỷ lệ của $$w$$ và $$b$$ không quan trọng, ta có thể tự do chọn tỷ lệ sao cho tiện tính toán nhất. Cụ thể, ta sẽ **chuẩn hóa** sao cho với những điểm **gần siêu phẳng nhất** (sau này gọi là support vectors), ta có:
+**Phép chuẩn hóa:** Vì tỷ lệ của $$(w, b)$$ không làm thay đổi siêu phẳng, ta có thể cố định tỷ lệ sao cho tại các điểm gần siêu phẳng nhất (các vector hỗ trợ):
 
 $$
 y_n(w^T x_n + b) = 1
 $$
 
-Đây là một quy ước tuyệt vời vì nó biến margin thành công thức rất đẹp: $$\text{margin} = \frac{1}{\|w\|}$$.
+Với quy ước chuẩn hóa này, khoảng cách từ siêu phẳng đến điểm gần nhất rút gọn thành $$\text{margin} = \frac{1}{\|w\|}$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -373,7 +373,7 @@ $$
 **Giải thích các biến đổi**:
 1. Lấy **nghịch đảo** hàm mục tiêu (max → min)
 2. **Bình phương** để được hàm khả vi
-3. Nhân với $$\frac{1}{2}$$ để biểu thức đạo hàm đẹp hơn
+3. Nhân thêm hệ số $$\frac{1}{2}$$ để rút gọn hệ số khi lấy đạo hàm
 4. Đổi dấu ràng buộc
 
 ### 3.8. Tính chất của bài toán
@@ -388,9 +388,9 @@ $$
 
 4. **Hơn nữa**: Đây là một **Quadratic Programming (QP)** problem
 
-5. **Strictly convex**: Hàm mục tiêu là strictly convex vì $$\|w\|_2^2 = w^T I w$$ và $$I$$ là ma trận đơn vị - một ma trận **xác định dương**
+5. **Lồi chặt theo $$w$$:** Hàm mục tiêu $$\frac{1}{2}\|w\|_2^2 = \frac{1}{2}w^T I w$$ lồi chặt theo $$w$$ vì ma trận đơn vị $$I$$ xác định dương.
 
-6. **Nghiệm duy nhất**: Từ tính strictly convex, suy ra nghiệm cho SVM là **duy nhất**
+6. **Tính duy nhất của $$w^*$$:** Nhờ tính lồi chặt theo $$w$$, vector pháp tuyến tối ưu $$w^*$$ là duy nhất (và khi hai lớp đều có điểm, $$b^*$$ cũng xác định duy nhất từ các điểm trên biên lề).
 
 ### 3.9. Xác định class cho điểm mới
 
@@ -686,7 +686,7 @@ $$
 
 Cho đến nay, chúng ta đã làm việc với một giả thiết lý tưởng: dữ liệu **hoàn toàn tách được tuyến tính**, không có điểm nào vi phạm margin. Đây là **Hard-Margin SVM** - một mô hình "cứng nhắc" không cho phép bất kỳ ngoại lệ nào.
 
-Nhưng thực tế không hoàn hảo như vậy!
+Trong dữ liệu thực tế, giả thiết tách tuyến tính hoàn toàn thường không thỏa mãn.
 
 ### 5.0. Khi lý thuyết gặp thực tiễn: Tại sao cần Slack Variables?
 
@@ -701,7 +701,7 @@ $$
 1. Được phân loại **hoàn toàn đúng** (nằm đúng phía của siêu phẳng)
 2. Nằm **ngoài vùng margin** (cách siêu phẳng ít nhất 1 đơn vị chuẩn hóa)
 
-**Ba tình huống phổ biến khiến Hard-Margin SVM "bó tay":**
+**Ba tình huống phổ biến khiến Hard-Margin SVM không phù hợp:**
 
 **1) Dữ liệu không tách được tuyến tính (Linearly Non-separable):**
 ```
@@ -723,7 +723,7 @@ Class -1:  ● ● ● ●
 - Trong nhiều bài toán thực tế (y tế, tài chính), hai class có **vùng chồng lấn** tự nhiên
 - Không có ranh giới rõ ràng 100%
 
-**Giải pháp tinh tế: Slack Variables (Biến nới lỏng) $$\xi_i$$**
+**Giải pháp: Biến nới lỏng (Slack Variables) $$\xi_i$$**
 
 Thay vì bắt buộc tất cả điểm phải tuân thủ nghiêm ngặt, chúng ta cho phép **nới lỏng có kiểm soát**:
 
@@ -731,19 +731,19 @@ $$
 y_i (\beta^T x_i + \beta_0) \geq 1 - \xi_i, \quad \xi_i \geq 0
 $$
 
-**Diễn giải bằng ngôn ngữ đời thường:**
+**Ý nghĩa trực quan:**
 
 - Mỗi điểm dữ liệu có một **"quyền vi phạm"** riêng, được đo bằng $$\xi_i$$
 - Nếu điểm $$i$$ là "outlier" hoặc gần biên quyết định, nó có thể sử dụng $$\xi_i > 0$$ để "xin phép" vi phạm margin
 - Nhưng vi phạm **không miễn phí**! Điểm đó phải "trả giá" bằng cách đóng góp $$C \cdot \xi_i$$ vào hàm mục tiêu
 - Tham số $$C$$ quyết định "mức phạt": $$C$$ lớn = phạt nặng = ít vi phạm được chấp nhận
 
-**Tại sao đây là ý tưởng xuất sắc:**
+**Ưu điểm của Soft-Margin SVM:**
 
-- ✅ **Luôn có nghiệm**: Bài toán không bao giờ vô nghiệm (infeasible), vì ta luôn có thể chọn $$\xi_i$$ đủ lớn
-- ✅ **Robust với outliers**: Vài điểm lạc không làm sụp đổ toàn bộ mô hình
-- ✅ **Linh hoạt**: Xử lý được cả dữ liệu tách được và không tách được tuyến tính
-- ✅ **Cân bằng thông minh**: Trade-off giữa "margin rộng" (tổng quát hóa tốt) và "ít lỗi huấn luyện" (độ chính xác cao)
+- ✅ **Luôn khả thi**: Bài toán luôn có nghiệm vì luôn có thể chọn $$\xi_i$$ đủ lớn.
+- ✅ **Ổn định trước điểm ngoại lai**: Một vài điểm nhiễu không làm lệch mạnh siêu phẳng phân cách.
+- ✅ **Linh hoạt**: Áp dụng được cho cả dữ liệu tách được và không tách được tuyến tính.
+- ✅ **Cân bằng rõ ràng**: Kiểm soát trực tiếp sự đánh đổi giữa độ rộng lề và tổng mức vi phạm trên tập huấn luyện.
 
 ### 5.1. Công thức toán học của Soft-Margin SVM
 
@@ -789,7 +789,7 @@ Slack variable đo lường **mức độ vi phạm** của từng điểm dữ 
 
 - **$$\xi_i > 1$$**: Điểm **bị phân loại sai**
   - Nằm **sai phía** siêu phẳng
-  - Misclassified point
+  - Điểm bị phân loại sai
   - Bị phạt nặng trong hàm mục tiêu
   - Giá trị $$\xi_i$$ càng lớn, sai càng nghiêm trọng
 
@@ -829,7 +829,7 @@ $$
 \min \frac{1}{2}\|\beta\|^2 + \underbrace{C\sum \xi_i}_{\text{phải } \approx 0} 
 \Rightarrow \xi_i \to 0, \, \forall i
 $$
-→ Trở về Hard-Margin SVM!
+→ Khi dữ liệu tách được tuyến tính, bài toán tiến về Hard-Margin SVM.
 
 **3) Hàm mục tiêu - Hai thành phần:**
 
@@ -1206,18 +1206,16 @@ với ký hiệu $$[\cdot]_+ = \max\{0, \cdot\}$$ (phần dương).
 ```
 Loss
   |
-4 |           /
-  |          /
-3 |         /  
-  |        /   
-2 |       /    
-  |      /     
-1 |_____/      
-  |            
-0 |____________
+3 | \
+  |  \
+2 |   \
+  |    \
+1 |     \
+  |      \
+0 |_______\_____
   -2  -1  0  1  2  yf(x)
-      ↑     ↑
-    sai   đúng
+      ↑      ↑
+    sai    đúng (ngoài lề)
 ```
 
 ### 5A.3. So sánh với các Loss Function khác
@@ -1353,14 +1351,14 @@ $$
 
 **Giải pháp**: Dùng **subgradient**
 
-Tại điểm $$yf = 1$$, subgradient của $$[1 - yf]_+$$ là bất kỳ giá trị trong $$[-1, 0]$$.
+Tại điểm $$yf = 1$$, dưới vi phân của hàm $$z \mapsto [1 - z]_+$$ theo $$z = yf$$ là đoạn $$[-1, 0]$$; theo quy tắc dây chuyền, dưới vi phân theo $$f$$ là $$\{-y\alpha : \alpha \in [0, 1]\}$$ (tức $$[-1, 0]$$ nếu $$y = +1$$ và $$[0, 1]$$ nếu $$y = -1$$).
 
-**Subgradient của hinge loss:**
+**Dưới vi phân của hinge loss theo $$f$$:**
 
 $$
-\partial \ell_{\text{hinge}}(y, f) = \begin{cases}
+\partial_f \ell_{\text{hinge}}(y, f) = \begin{cases}
 \{0\} & \text{nếu } yf > 1 \\
-[-1, 0] & \text{nếu } yf = 1 \\
+\{-y\alpha : \alpha \in [0, 1]\} & \text{nếu } yf = 1 \\
 \{-y\} & \text{nếu } yf < 1
 \end{cases}
 $$
@@ -1410,15 +1408,13 @@ Ba formulation này **hoàn toàn tương đương**, cho cùng một nghiệm t
 
 ## 6. Bài toán Đối ngẫu (Dual Problem)
 
-### 6.1. Tại sao cần Dual Problem? - Cánh cửa dẫn đến sức mạnh thực sự của SVM
+### 6.1. Động lực xây dựng bài toán đối ngẫu
 
 Có vẻ như chúng ta đã có bài toán Soft-Margin SVM hoàn chỉnh ở dạng **primal** (gốc). Tại sao lại cần một "phiên bản đối ngẫu" (dual)?
 
-Câu trả lời là: **Bài toán đối ngẫu mở ra những khả năng mà bài toán gốc không thể làm được!**
+Việc chuyển sang bài toán đối ngẫu mang lại ba lợi ích quan trọng trong thực hành:
 
-**Ba lý do then chốt khiến Dual Problem trở thành "ngôi sao" trong thực tế:**
-
-1. **Kernel Trick - Phép màu của SVM**: 
+1. **Áp dụng kỹ thuật hạt nhân (Kernel Trick)**: 
    - Dual form chỉ phụ thuộc vào **tích vô hướng** $$\langle x_i, x_j \rangle$$ giữa các điểm dữ liệu
    - Ta có thể thay thế bằng **kernel function** $$K(x_i, x_j)$$ để ánh xạ ngầm lên không gian vô hạn chiều
    - Điều này cho phép SVM xử lý dữ liệu **phi tuyến phức tạp** mà không tăng độ phức tạp tính toán!
@@ -1480,24 +1476,24 @@ $$
 \end{align}
 $$
 
-### 6.3. Ý nghĩa sâu sắc của Dual Variables - "Giá trị" của mỗi điểm dữ liệu
+### 6.3. Ý nghĩa của các biến đối ngẫu
 
-**Biến đối ngẫu $$w_i$$** (Lagrange multiplier) không chỉ là một con số trừu tượng - nó **"định giá"** tầm quan trọng của mỗi điểm dữ liệu trong việc quyết định siêu phẳng!
+Mỗi nhân tử đối ngẫu $$w_i$$ phản ánh trực tiếp vai trò của điểm dữ liệu $$x_i$$ trong việc xác định siêu phẳng tối ưu:
 
 Hãy "đọc" ý nghĩa của $$w_i$$:
 
-- **$$w_i = 0$$**: Điểm $$x_i$$ là **"người ngoài cuộc"**
+- **$$w_i = 0$$**: Điểm $$x_i$$ không ảnh hưởng đến siêu phẳng
   - Nằm xa margin, phân loại đúng và an toàn
   - **Không đóng góp gì** vào siêu phẳng: có thể xóa điểm này mà mô hình không đổi!
   - Chiếm đa số các điểm trong dataset
 
-- **$$0 < w_i < C$$**: Điểm $$x_i$$ là **"support vector lý tưởng"**
+- **$$0 < w_i < C$$**: Điểm $$x_i$$ là **vector hỗ trợ nằm trên biên lề**
   - Nằm **chính xác trên margin boundary** ($$\xi_i = 0$$)
   - Phân loại đúng, nhưng ở vị trí "nguy hiểm" nhất
   - Đây là những điểm **quan trọng nhất**, quyết định độ nghiêng và vị trí của siêu phẳng
   - Thường rất ít: chỉ 5-20% số điểm
 
-- **$$w_i = C$$**: Điểm $$x_i$$ là **"support vector vấn đề"**
+- **$$w_i = C$$**: Điểm $$x_i$$ là **vector hỗ trợ chạm biên trên**
   - Vi phạm margin ($$\xi_i > 0$$): hoặc nằm trong margin, hoặc bị phân loại sai
   - "Đóng góp" vào siêu phẳng nhưng cũng **bị phạt** trong hàm mục tiêu
   - Thường là outliers, điểm nhiễu, hoặc điểm thuộc vùng chồng lấn giữa hai lớp
@@ -1528,7 +1524,7 @@ Sau khi giải dual problem và có $$w^\star$$, ta tính:
 
 ---
 
-## 7. Support Vectors: Những "trụ cột" của mô hình
+## 7. Các vector hỗ trợ (Support Vectors)
 
 Giờ đây chúng ta đến với **khái niệm trung tâm** mà SVM được đặt tên theo: **Support Vectors** (các vector hỗ trợ).
 
@@ -1544,10 +1540,10 @@ $$
 \beta^\star = \sum_{i: w_i^\star > 0} w_i^\star y_i x_i = \sum_{\text{support vectors}} w_i^\star y_i x_i
 $$
 
-**Phát hiện sửng sốt:** Siêu phẳng tối ưu **CHỈ phụ thuộc vào support vectors!**
+**Hệ quả quan trọng:** Siêu phẳng tối ưu **chỉ phụ thuộc vào các vector hỗ trợ**.
 
 - Tất cả điểm khác ($$w_i = 0$$) có thể bỏ đi mà mô hình không thay đổi
-- Siêu phẳng "đứng trên vai" của một số ít điểm quan trọng
+- Siêu phẳng được xác định hoàn toàn bởi một tập con nhỏ các điểm dữ liệu
 - Đây là lý do SVM có tính **sparse** tự nhiên
 
 ### Ba loại Support Vectors - Mỗi loại một vai trò
@@ -1580,7 +1576,7 @@ $$
 
 Cho đến giờ, chúng ta mới chỉ làm việc với **siêu phẳng tuyến tính** - một "đường thẳng" (hoặc mặt phẳng trong không gian nhiều chiều) để phân chia dữ liệu. Nhưng dữ liệu thực tế thường có **ranh giới phức tạp, phi tuyến**. Ví dụ: hai lớp dữ liệu phân bố theo hình tròn đồng tâm - không có đường thẳng nào tách được chúng!
 
-Đây chính là lúc **Kernel Trick** - một trong những ý tưởng tinh tế và mạnh mẽ nhất trong machine learning - phát huy tác dụng.
+Để mở rộng SVM sang các ranh giới phi tuyến, ta sử dụng **kỹ thuật hạt nhân (Kernel Trick)**.
 
 ### 8.0. Nhìn lại: Dual Problem và vai trò của tích vô hướng
 
@@ -1606,7 +1602,7 @@ $$
 K_{\text{linear}}(x, z) = \langle x, z \rangle = x^T z = \sum_{j=1}^d x_j z_j
 $$
 
-**Có vẻ quá đơn giản phải không?** Nhưng đây chính là ví dụ HOÀN HẢO để hiểu kernel!
+Dù đơn giản, đây là ví dụ cơ bản nhất để hình dung khái niệm hàm hạt nhân (kernel).
 
 **Tại sao Linear Kernel là một kernel?**
 
@@ -1682,7 +1678,7 @@ Class -1:  (+1, -1)  và  (-1, +1)  (hai góc chéo còn lại)
 
 Không có đường thẳng nào có thể phân chia hai lớp này trong không gian 2D!
 
-**Ý tưởng đột phá:** Nếu không tách được ở không gian hiện tại, hãy **ánh xạ lên không gian chiều cao hơn** - nơi dữ liệu có thể tách được!
+**Ý tưởng chính:** Khi dữ liệu không tách được tuyến tính trong không gian ban đầu, ta ánh xạ dữ liệu sang một không gian đặc trưng có số chiều cao hơn, nơi hai lớp có thể tách được tuyến tính.
 
 ### 8.3. Feature Mapping: Từ Linear đến Polynomial
 
@@ -1761,11 +1757,9 @@ $$
 
 **Vấn đề lớn:** Nếu $$\phi(x)$$ có số chiều rất cao (ví dụ: 1000 chiều), việc tính toán $$\langle \phi(x_i), \phi(x_j) \rangle$$ sẽ **cực kỳ tốn kém**!
 
-### 8.5. Kernel Trick: Phép màu không cần ánh xạ tường minh
+### 8.5. Kỹ thuật hạt nhân (Kernel Trick): Tính tích vô hướng không cần ánh xạ tường minh
 
-Đây là **bước đột phá** biến kernel methods từ ý tưởng đẹp thành công cụ thực tiễn!
-
-**Ý tưởng thiên tài:** Thay vì tính $$\phi(x)$$ rồi tính tích vô hướng, ta tìm một **hàm kernel** $$K$$ sao cho:
+Thay vì tính tường minh $$\phi(x)$$ trong không gian chiều cao rồi lấy tích vô hướng, ta chọn một **hàm hạt nhân** $$K$$ thỏa mãn:
 
 $$
 K(x_i, x_j) = \langle \phi(x_i), \phi(x_j) \rangle
@@ -1773,7 +1767,7 @@ $$
 
 mà **KHÔNG cần tính $$\phi(x)$$ tường minh**!
 
-**Tại sao đây là phép màu?**
+**Lợi ích tính toán của kỹ thuật hạt nhân:**
 
 - Tính $$K(x_i, x_j)$$ trực tiếp trong không gian gốc: **$$O(d)$$ - rất nhanh!**
 - Tránh tính $$\phi(x_i)$$ và $$\phi(x_j)$$ trong không gian chiều cao: tiết kiệm tài nguyên khổng lồ
@@ -1818,9 +1812,9 @@ Với polynomial kernel bậc 3 trong không gian 100 chiều:
 
 **Kết luận về Kernel Trick:**
 
-1. **Tiết kiệm tính toán khổng lồ**: Không cần tính $$\phi(x)$$ tường minh
-2. **Cho phép không gian vô hạn chiều**: RBF kernel ánh xạ lên $$\mathbb{R}^\infty$$ nhưng vẫn tính được!
-3. **Elegant và powerful**: Đơn giản nhưng mạnh mẽ
+1. **Giảm chi phí tính toán:** Không cần biểu diễn tường minh $$\phi(x)$$.
+2. **Xử lý được không gian vô hạn chiều:** Chẳng hạn hạt nhân RBF tương ứng với không gian đặc trưng vô hạn chiều nhưng vẫn tính được trực tiếp trong $$\mathbb{R}^d$$.
+3. **Cấu trúc gọn gàng:** Chỉ cần thay tích vô hướng trong bài toán đối ngẫu bằng hàm $$K(x, z)$$.
 
 > **Kernel trick** là lý do SVM có thể xử lý dữ liệu phi tuyến phức tạp mà vẫn hiệu quả về mặt tính toán!
 
@@ -2139,7 +2133,7 @@ $$
 
 ### 8.11. Ưu và nhược điểm của Kernel Methods
 
-**✅ Ưu điểm vượt trội:**
+**✅ Ưu điểm:**
 
 1. **Không gian vô hạn chiều**: RBF kernel ánh xạ lên không gian vô hạn chiều mà vẫn tính toán nhanh
 2. **Không cần feature engineering**: Kernel tự động tạo features phi tuyến
@@ -2462,7 +2456,7 @@ $$
 
 Cho nghiệm SVM với $$C = 1$$:
 ```
-w = (0, 0.5, 0.3, 1, 0, 1, 0.2)
+w = (0, 0.5, 1, 1, 0, 1, 0.2)
 ξ = (0, 0, 0.2, 0.8, 0, 1.5, 0)
 ```
 
@@ -2521,11 +2515,11 @@ $$1(1 - 0.2 - (-0.5)) = 1.3 \neq 0$$ ✗
 
 ---
 
-## 10. Tóm tắt: Nhìn lại hành trình chinh phục SVM
+## 10. Tóm tắt về Máy vector hỗ trợ (SVM)
 
 ### 10.1. Từ trực giác hình học đến toán học chặt chẽ
 
-Chúng ta vừa hoàn thành một hành trình đầy thú vị, đi từ **câu hỏi tự nhiên** đến **công cụ toán học mạnh mẽ**:
+Các bước xây dựng mô hình SVM đi từ trực giác hình học đến bài toán tối ưu hóa hoàn chỉnh:
 
 **🔹 Xuất phát điểm (Trực giác):** 
 "Trong vô số đường phân chia, đường nào là *tốt nhất*?" → Câu hỏi đơn giản nhưng sâu sắc
@@ -2583,7 +2577,7 @@ Một framework hoàn chỉnh, vừa có nền tảng lý thuyết vững chắc
 
 ### 10.4. Kernel Methods: Chìa khóa cho phi tuyến
 
-**Kernel Trick** là bước đột phá quan trọng nhất của SVM, biến nó từ một classifier tuyến tính thành một công cụ mạnh mẽ cho dữ liệu phi tuyến.
+**Kỹ thuật hạt nhân (Kernel Trick)** cho phép mở rộng SVM từ bộ phân loại tuyến tính sang các ranh giới quyết định phi tuyến.
 
 **Ý tưởng cốt lõi:**
 

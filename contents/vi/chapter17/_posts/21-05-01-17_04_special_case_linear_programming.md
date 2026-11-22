@@ -9,33 +9,33 @@ categories:
 lang: vi
 ---
 
-Trong phần này, hãy xem một ví dụ về phương pháp gốc-đối ngẫu cho bài toán LP (quy hoạch tuyến tính).
+Trong phần này, chúng ta xét áp dụng phương pháp gốc-đối ngẫu cho trường hợp đặc biệt là bài toán quy hoạch tuyến tính (LP).
 
 ## Quy hoạch tuyến tính
-Xét bài toán LP gốc sau.
+Xét bài toán LP gốc dạng chuẩn:
 >$$
 >\begin{align}
 >    &\min_{x} && {c^Tx} \\\\
 >    &\text{subject to } && {Ax = b} \\\\
->    & &&{x ≥ 0} \\\
+>    & &&{x \ge 0} \\\
 >\end{align}
 >$$
 >
-> $$\text{với } c ∈R^n, A ∈R^{m×n}, b ∈R^m$$
+> $$\text{với } c \in \mathbb{R}^n, A \in \mathbb{R}^{m\times n}, b \in \mathbb{R}^m$$
 
 
-Bài toán đối ngẫu của bài toán LP gốc ở trên như sau.
+Bài toán đối ngẫu tương ứng là:
 >$$
 >\begin{align}
 >    &\max_{y,s}  && {b^Ty} \\\\
 >    &\text{subject to } && {A^Ty + s = c} \\\\
->    & &&{s ≥ 0} \\\
+>    & &&{s \ge 0} \\\
 >\end{align}
 >$$
 
 
 ## Điều kiện tối ưu và phương trình đường trung tâm
-Sau đây là các điều kiện tối ưu (điều kiện KKT) cho bài toán gốc-đối ngẫu của LP ở trên.
+Hệ điều kiện tối ưu (KKT) cho cặp bài toán LP gốc – đối ngẫu trên là:
 > $$
 > \begin{array}{rcl}
 > A^Ty + s & = & c \\\
@@ -46,20 +46,20 @@ Sau đây là các điều kiện tối ưu (điều kiện KKT) cho bài toán 
 > $$
 
 
-Phương trình đường trung tâm
+Hệ phương trình đường trung tâm:
 > $$
 > \begin{array}{rcl}
 > A^Ty + s & = & c \\\
 > Ax & = & b \\\
-> XS\mathbb{1} & = & τ\mathbb{1} \\\
+> XS\mathbb{1} & = & \tau\mathbb{1} \\\
 > x,s  & > & 0
 > \end{array}
 > $$
 
 
 ## Phương pháp gốc-đối ngẫu so với phương pháp chắn
-### Các bước Newton của phương pháp gốc-đối ngẫu
-Sau đây là phương trình Newton của phương pháp gốc-đối ngẫu cho bài toán LP.
+### Bước Newton của phương pháp gốc-đối ngẫu
+Hệ phương trình Newton cho bài toán LP trong phương pháp gốc-đối ngẫu có dạng:
 
 > $$\begin{bmatrix}
 0 & A^T & I \\\
@@ -67,70 +67,69 @@ A & 0 & 0 \\\
 S & 0 & X 
 \end{bmatrix}
 \begin{bmatrix}
-∆x \\\
-∆y \\\
-∆s 
-\end{bmatrix}= −
+\Delta x \\\
+\Delta y \\\
+\Delta s 
+\end{bmatrix}= -
 \begin{bmatrix}
-A^Ty + s−c \\\
-Ax−b \\\
-XS\mathbb{1}−τ\mathbb{1} 
+A^Ty + s-c \\\
+Ax-b \\\
+XS\mathbb{1}-\tau\mathbb{1} 
 \end{bmatrix}$$
 
-Từ điều kiện tối ưu, ta biết được quan hệ sau.
+Từ điều kiện bù nhiễu, ta có quan hệ tương đương:
 
-$$XS\mathbb{1} = \tau \mathbb{1} \iff s = \tau X^{−1}\mathbb{1} \iff x = \tau S^{−1}\mathbb{1}$$
+$$XS\mathbb{1} = \tau \mathbb{1} \iff s = \tau X^{-1}\mathbb{1} \iff x = \tau S^{-1}\mathbb{1}$$
 
-Theo đó, ta có thể thu được điều kiện tối ưu của bài toán chắn gốc bằng cách khử $$s$$, hoặc thu được điều kiện tối ưu của bài toán chắn đối ngẫu bằng cách khử $$x$$.
+Nhờ đó, ta có thể khử $$s$$ để thu về hệ điều kiện tối ưu của bài toán chắn gốc, hoặc khử $$x$$ để thu về hệ điều kiện tối ưu của bài toán chắn đối ngẫu.
 
-### Các bước Newton cho các bài toán chắn
-Sau đây là các phương trình đường trung tâm gốc và đối ngẫu cho bài toán chắn. (Bên trái là gốc, bên phải là đối ngẫu)
+### Bước Newton của phương pháp chắn
+Hệ phương trình đường trung tâm cho bài toán chắn gốc (bên trái) và bài toán chắn đối ngẫu (bên phải):
 > $$
 > \begin{array}{rcr}
-> A^Ty + τX^{−1}1 & = & c & \qquad \qquad & A^Ty + s & = & c \\\
-> Ax & = & b & \qquad \qquad & τAS^{−1}\mathbb{1} & = & b\\\
+> A^Ty + \tau X^{-1}\mathbb{1} & = & c & \qquad \qquad & A^Ty + s & = & c \\\
+> Ax & = & b & \qquad \qquad & \tau AS^{-1}\mathbb{1} & = & b\\\
 > x & > & 0 & \qquad \qquad & s & > & 0
 > \end{array}
 > $$
 > 
 
-Sử dụng các phương trình đường trung tâm ở trên, các bước Newton cho bài toán gốc và đối ngẫu như sau.
+Tuyến tính hóa các phương trình đường trung tâm trên, ta thu được hệ bước Newton cho bài toán gốc và bài toán đối ngẫu:
 
 **Bước Newton gốc**
 > $$\begin{bmatrix}
-τX^{−2} & A^T \\\
+-\tau X^{-2} & A^T \\\
 A & 0
 \end{bmatrix}
 \begin{bmatrix}
-∆x \\\
-∆y
-\end{bmatrix}= −
+\Delta x \\\
+\Delta y
+\end{bmatrix}= -
 \begin{bmatrix}
-A^Ty + τX^{−1}\mathbb{1}−c \\\
-Ax−b 
+A^Ty + \tau X^{-1}\mathbb{1}-c \\\
+Ax-b 
 \end{bmatrix}$$ 
 
 **Bước Newton đối ngẫu**
 > $$\begin{bmatrix}
 A^T & I \\\
-0 & τAS^{−2}
+0 & -\tau AS^{-2}
 \end{bmatrix}
 \begin{bmatrix}
-∆y \\\
-∆s
-\end{bmatrix}= −
+\Delta y \\\
+\Delta s
+\end{bmatrix}= -
 \begin{bmatrix}
-A^Ty + s −c \\\
-τAS^{−1}\mathbb{1}−b
+A^Ty + s -c \\\
+\tau AS^{-1}\mathbb{1}-b
 \end{bmatrix}$$ 
 
 
-## Ví dụ: phương pháp chắn so với phương pháp gốc-đối ngẫu
-### LP chuẩn: $$n = 50$$, $$m = 100$$
-Để kiểm chứng hiệu năng của phương pháp gốc-đối ngẫu, hãy xem ví dụ về một bài toán LP chuẩn với $$n = 50$$ biến và $$m = 100$$ ràng buộc đẳng thức. (Ví dụ từ B & V 11.3.2 và 11.7.4)
+## Ví dụ: so sánh phương pháp chắn và phương pháp gốc-đối ngẫu
+### Bài toán LP chuẩn: $$n = 50$$, $$m = 100$$
+Để so sánh hiệu năng, ta xét ví dụ một bài toán LP chuẩn với $$n = 50$$ biến và $$m = 100$$ ràng buộc (ví dụ từ Boyd & Vandenberghe, mục 11.3.2 và 11.7.4).
 
-Phương pháp chắn dùng nhiều giá trị $$\mu$$ khác nhau (2, 50, 150) trong khi phương pháp gốc-đối ngẫu cố định $$\mu$$ bằng 10.
-Cả hai phương pháp đều dùng $$\alpha = 0.01, \beta = 0.5$$.
+Phương pháp chắn được thử với nhiều giá trị $$\mu$$ khác nhau ($$2, 50, 150$$), trong khi phương pháp gốc-đối ngẫu cố định $$\mu = 10$$. Cả hai phương pháp đều sử dụng $$\alpha = 0.01, \beta = 0.5$$.
 
 
 <figure class="image" style="align: center;">
@@ -140,13 +139,13 @@ Cả hai phương pháp đều dùng $$\alpha = 0.01, \beta = 0.5$$.
 </p>
 </figure>
 
-Như có thể thấy từ đồ thị, phương pháp gốc-đối ngẫu hội tụ nhanh đồng thời cho độ chính xác cao.
+Đồ thị cho thấy phương pháp gốc-đối ngẫu hội tụ nhanh hơn đồng thời đạt độ chính xác cao hơn.
 
 ### Chuỗi bài toán: $$n = 2m$$ với $$n$$ tăng dần
-Bây giờ hãy xem hiệu năng đối với một dãy bài toán có $$n = 2m$$ và $$n$$ tăng dần.
+Tiếp theo, xét hiệu năng trên một dãy bài toán LP với $$n = 2m$$ khi kích thước $$n$$ tăng dần:
 
-* Phương pháp chắn dùng $$\mu = 100$$ và vòng lặp ngoài chỉ thực hiện khoảng 2 lần. (Khoảng cách đối ngẫu được giảm xuống $$10^4$$)
-* Phương pháp gốc-đối ngẫu dùng $$\mu = 10$$ và dừng khi khoảng cách đối ngẫu và khoảng cách khả thi xấp xỉ $$10^{-8}$$.
+* Phương pháp chắn dùng $$\mu = 100$$ và thực hiện khoảng 2 vòng lặp ngoài (khoảng cách đối ngẫu giảm xuống $$10^{-4}$$).
+* Phương pháp gốc-đối ngẫu dùng $$\mu = 10$$ và dừng khi khoảng cách đối ngẫu và sai số khả thi đạt xấp xỉ $$10^{-8}$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -155,7 +154,7 @@ Bây giờ hãy xem hiệu năng đối với một dãy bài toán có $$n = 2m
 </p>
 </figure>
 
-Như có thể thấy từ hình trên, phương pháp gốc-đối ngẫu tìm nghiệm với độ chính xác cao hơn nhưng cần thêm một số vòng lặp.
+Như hình trên cho thấy, phương pháp gốc-đối ngẫu đạt độ chính xác cao hơn nhiều dù chỉ cần thêm một lượng nhỏ vòng lặp Newton.
 
 ### Gốc - đối ngẫu trong 18 giây
 
@@ -163,7 +162,7 @@ Như có thể thấy từ hình trên, phương pháp gốc-đối ngẫu tìm 
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/primal-dual-ipm_vi.mp4"></video>
 </div>
 
-Phương pháp rào cản định tâm lại sau mỗi lần cập nhật $$t$$; phương pháp gốc - đối ngẫu chỉ thực hiện một bước Newton trên các điều kiện KKT nhiễu theo $$(x,\lambda)$$ và thu hẹp khoảng cách đối ngẫu với ít bước hơn nhiều.
+Phương pháp rào cản phải định tâm lại sau mỗi lần cập nhật $$t$$; trong khi đó, phương pháp gốc – đối ngẫu chỉ thực hiện một bước Newton trên hệ điều kiện KKT bị nhiễu theo $$(x,\lambda)$$ và thu hẹp khoảng cách đối ngẫu với ít bước hơn đáng kể.
 
 ### Tự tay thử: gốc - đối ngẫu so với rào cản
 

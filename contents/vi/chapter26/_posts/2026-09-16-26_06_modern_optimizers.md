@@ -11,43 +11,43 @@ lesson_type: optional
 ---
 
 
-Các bài 26-01 đến 26-05 là ngăn xếp được kiểm tra: SGD, momentum kiểu Distill, AdaGrad → Adam, **AdamW**, và SVRG / SAGA. Seminar tùy chọn này là vườn thú bộ tối ưu 2021–2026 ở độ sâu *thuật toán* — một hệ thức mỗi phương pháp, không phải bài AdamW thứ hai. [26-04]({% multilang_post_url contents/chapter26/2026-09-15-26_04_adamw_and_practice %}) đã sở hữu weight decay tách. Câu chuyện tiền điều kiện Hessian của Sophia như họ hàng Newton nằm ở [14-10]({% multilang_post_url contents/chapter14/2026-09-16-14_10_modern_applications %}); ở đây ta chỉ cần *cập nhật*, để đặt SAM, Sophia và Muon lên cùng bảng với AdamW. Không phương pháp nào trong ba cái được kiểm tra kỳ này.
+Các bài từ 26-01 đến 26-05 bao quát bộ công cụ cốt lõi trong chương trình: SGD, momentum theo trực giác Distill, AdaGrad → Adam, **AdamW**, cùng SVRG và SAGA. Bài seminar tùy chọn này điểm qua các bộ tối ưu hiện đại giai đoạn 2021–2026 ở mức *công thức cập nhật* — trình bày ngắn gọn từng phương pháp để đặt SAM, Sophia và Muon lên cùng bảng so sánh với AdamW. Cơ chế tách weight decay đã trình bày ở [26-04]({% multilang_post_url contents/chapter26/2026-09-15-26_04_adamw_and_practice %}), còn góc nhìn tiền điều kiện Hessian của Sophia như họ hàng phương pháp Newton nằm ở [14-10]({% multilang_post_url contents/chapter14/2026-09-16-14_10_modern_applications %}). Cả ba phương pháp trong bài này đều không thuộc nội dung kiểm tra.
 
-Câu hỏi: *người ta thực sự huấn luyện mô hình lớn bằng gì sau khi AdamW thành mặc định, và mỗi phương pháp mua thêm hình học nào?*
+Câu hỏi trọng tâm của seminar là: *sau khi AdamW trở thành tiêu chuẩn mặc định, cộng đồng huấn luyện mô hình lớn đang thử nghiệm những bộ tối ưu nào, và mỗi phương pháp khai thác thêm cấu trúc hình học gì?*
 
-## AdamW vẫn là baseline
+## AdamW vẫn là chuẩn đối chiếu
 
-Loshchilov và Hutter, ICLR 2019, [arXiv:1711.05101](https://arxiv.org/abs/1711.05101), vẫn là bộ tối ưu được nêu trong công thức kiểu Llama / GPT: $$\eta$$ cỡ $$10^{-4}$$, $$\beta=(0.9,0.95)$$ hoặc $$(0.9,0.999)$$, $$\lambda\approx 0.1$$ tách, warmup rồi cosine. Mọi phương pháp dưới đây được đo *so với* công thức đó. Nếu chỉ nhớ một thuật toán từ Chương 26, nhớ AdamW.
+AdamW (Loshchilov & Hutter, ICLR 2019, [arXiv:1711.05101](https://arxiv.org/abs/1711.05101)) vẫn là bộ tối ưu chuẩn trong các công thức huấn luyện mô hình ngôn ngữ lớn kiểu Llama hay GPT: $$\eta$$ cỡ $$10^{-4}$$, $$\beta=(0.9,0.95)$$ hoặc $$(0.9,0.999)$$, hệ số suy giảm trọng số tách rời $$\lambda\approx 0.1$$, kết hợp warmup và lịch giảm cosine. Mọi bộ tối ưu dưới đây đều được đánh giá dựa trên chuẩn đối chiếu này.
 
-## SAM: một max cục bộ, rồi một bước xuống
+## SAM: cực đại hóa cục bộ trước khi hạ bước
 
-Sharpness-Aware Minimization (Foret, Kleiner, Mobahi, Neyshabur, ICLR 2021, [OpenReview](https://openreview.net/forum?id=6Tm1mposlrM)) thay rủi ro từng điểm $$F(w)$$ bằng trường hợp xấu nhất trên *lân cận*
+Sharpness-Aware Minimization (Foret, Kleiner, Mobahi, Neyshabur, ICLR 2021, [OpenReview](https://openreview.net/forum?id=6Tm1mposlrM)) thay mục tiêu rủi ro tại một điểm $$F(w)$$ bằng giá trị xấu nhất trong một *lân cận bán kính $$\rho$$*:
 
 $$
 \min_w\ \max_{\|\varepsilon\|_2\le\rho} F(w+\varepsilon)
 \approx F\bigl(w+\rho\,\nabla F(w)/\|\nabla F(w)\|_2\bigr).
 $$
 
-Thuật toán là hai gradient mỗi bước, không phải tiền điều kiện mới.
+Mỗi bước cập nhật của SAM thực hiện hai lượt tính gradient chứ không tạo ma trận tiền điều kiện mới:
 
-1. **Leo (nhiễu).** $$g\leftarrow\nabla F(w)$$, rồi $$\varepsilon\leftarrow\rho\,g/\|g\|_2$$ (hoặc họ hàng chuẩn đối ngẫu).
-2. **Xuống (gradient SAM).** Tính $$g_{\mathrm{SAM}}\leftarrow\nabla F(w+\varepsilon)$$ và bước $$w\leftarrow w-\eta\,g_{\mathrm{SAM}}$$ (hoặc đưa $$g_{\mathrm{SAM}}$$ cho AdamW / SGD+momentum).
+1. **Bước nhiễu (ascent):** Tính $$g\leftarrow\nabla F(w)$$, sau đó đặt $$\varepsilon\leftarrow\rho\,g/\|g\|_2$$ (hoặc dạng tổng quát theo chuẩn đối ngẫu).
+2. **Bước hạ (SAM gradient):** Tính $$g_{\mathrm{SAM}}\leftarrow\nabla F(w+\varepsilon)$$ và cập nhật $$w\leftarrow w-\eta\,g_{\mathrm{SAM}}$$ (hoặc đưa $$g_{\mathrm{SAM}}$$ vào bộ tối ưu nền như AdamW hay SGD+momentum).
 
-Bước leo thêm thiên vòng lặp về cực tiểu **phẳng**: một quả cầu nhỏ quanh $$w$$ vẫn có loss nhỏ. Bartlett, Long và Bousquet, *The Dynamics of Sharpness-Aware Minimization*, *JMLR* 24(43), 2023, cho thấy gần một cực tiểu trơn, bước thêm là một cú nảy qua hướng Hessian sắc nhất cộng một trôi *giảm* $$\|\nabla^2 F\|$$. Shin, Lee, Andriushchenko và Lee ([arXiv:2311.17539](https://arxiv.org/abs/2311.17539)) thấy lợi tổng quát hóa của SAM *tăng* theo quá tham số — một cầu tới Chương 28 và câu chuyện PL ở [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}). SAM dùng trong thị giác và một số fine-tune; tiền huấn luyện LLM đầy đủ thường bỏ qua chi phí gradient nhân đôi. Các biến thể bán kính thích nghi (ASAM, GSAM) đổi quả cầu, không đổi khuôn hai bước.
+Bước nhiễu hướng quá trình tối ưu về các cực tiểu **phẳng**, nơi hàm mất mát ít tăng khi tham số dao động trong một hình cầu nhỏ quanh $$w$$. Bartlett, Long và Bousquet (*The Dynamics of Sharpness-Aware Minimization*, *JMLR* 24(43), 2023) chứng minh rằng gần một cực tiểu trơn, bước bổ sung này tạo ra dao động dọc phương Hessian có độ cong lớn nhất kèm xu hướng *giảm* $$\|\nabla^2 F\|$$. Shin, Lee, Andriushchenko và Lee ([arXiv:2311.17539](https://arxiv.org/abs/2311.17539)) ghi nhận lợi ích tổng quát hóa của SAM *tăng* khi mô hình quá tham số hóa — kết nối trực tiếp với Chương 28 và điều kiện PL ở [28-05]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}). Trong thực tế, SAM thường dùng cho thị giác máy tính và tinh chỉnh mô hình; tiền huấn luyện LLM đầy đủ thường tránh dùng vì chi phí tính gradient tăng gấp đôi. Các biến thể bán kính thích nghi (ASAM, GSAM) chỉ thay đổi hình dạng lân cận, giữ nguyên cấu trúc hai bước.
 
-## Sophia: AdamW với Hessian đường chéo bị cắt
+## Sophia: AdamW với ước lượng Hessian đường chéo có cắt ngưỡng
 
-Liu, Li, Hall, Liang và Ma, *Sophia*, ICLR 2024, [OpenReview](https://openreview.net/forum?id=3xHDeA8Noi), giữ moment một kiểu Adam nhưng thay bộ tích lũy moment hai bằng ước lượng Hessian đường chéo *bị cắt*. Viết $$m$$ cho EMA của gradient và $$\hat h$$ cho EMA của ước lượng độ cong đường chéo,
+Liu, Li, Hall, Liang và Ma (*Sophia*, ICLR 2024, [OpenReview](https://openreview.net/forum?id=3xHDeA8Noi)) giữ nguyên mô-men bậc nhất kiểu Adam nhưng thay bộ tích lũy mô-men bậc hai bằng ước lượng đường chéo của ma trận Hessian kèm phép *cắt ngưỡng*. Gọi $$m$$ là trung bình trượt mũ của gradient và $$\hat h$$ là trung bình trượt mũ của ước lượng độ cong đường chéo:
 
 $$
 w\leftarrow w-\eta\cdot\operatorname{clip}\bigl(m/(\hat h+\varepsilon),\,\tau\bigr),
 $$
 
-với $$\hat h$$ chỉ được làm mới mỗi vài bước (tích Hessian–vector Hutchinson, hoặc ước lượng Gauss–Newton–Bartlett rút một nhãn từ mô hình và bình phương gradient đó). Phép cắt là một vùng tin cậy: một đường chéo cũ hoặc không xác định không được làm nổ bước. Coi Sophia là “AdamW có mẫu số biết độ cong,” không phải Newton đầy đủ — thảo luận bất biến affine và phân tích Hessian thuộc 14-10. Khẳng định là ít bước hơn AdamW trên tiền huấn luyện mô hình ngôn ngữ với chi phí mỗi bước khiêm tốn.
+trong đó $$\hat h$$ chỉ cần cập nhật định kỳ sau mỗi vài bước (bằng tích Hessian–vector Hutchinson hoặc ước lượng Gauss–Newton–Bartlett lấy mẫu nhãn từ đầu ra mô hình rồi bình phương gradient). Phép cắt ngưỡng đóng vai trò vùng tin cậy nhằm ngăn bước cập nhật bùng nổ khi ước lượng đường chéo cũ hoặc không xác định dương. Có thể xem Sophia như “AdamW với mẫu số mang thông tin độ cong” thay vì phương pháp Newton đầy đủ (phần thảo luận về bất biến affine và Hessian nằm ở mục 14-10). Các tác giả báo cáo Sophia cần ít bước hơn AdamW trong tiền huấn luyện mô hình ngôn ngữ với chi phí bổ sung mỗi bước tương đối nhỏ.
 
-## Muon: trực giao hóa cập nhật lớp ẩn
+## Muon: trực giao hóa bước cập nhật cho ma trận trọng số ẩn
 
-Jordan, Jin, Boza, Cesista, Newhouse và Bernstein, *Muon*, 2024, [kellerjordan.github.io/posts/muon](https://kellerjordan.github.io/posts/muon/), lấy momentum Nesterov trên mỗi tham số *ma trận* $$W\in\mathbb{R}^{m\times n}$$ và thay cập nhật bằng ma trận trực giao gần nhất, tính bằng vài vòng Newton–Schulz (không SVD trong vòng trong):
+Jordan, Jin, Boza, Cesista, Newhouse và Bernstein (*Muon*, 2024, [kellerjordan.github.io/posts/muon](https://kellerjordan.github.io/posts/muon/)) áp dụng momentum Nesterov lên từng tham số dạng *ma trận* $$W\in\mathbb{R}^{m\times n}$$ rồi thay hướng cập nhật bằng ma trận trực giao gần nhất, tính xấp xỉ qua vài vòng lặp Newton–Schulz (không cần SVD):
 
 $$
 \begin{align}
@@ -57,24 +57,24 @@ W &\leftarrow W-\eta\,O.
 \end{align}
 $$
 
-Embedding, đầu ra, và vector ở lại AdamW — trọng số ẩn 2-D muốn một bước trực giao (một phép quay đặc trưng, chuẩn phổ gần hằng); bảng embedding token thì không. NanoGPT speedrunning (cuối 2024) khiến Muon thành mặc định trong cộng đồng đó. Jingyuan Liu et al., *Muon is Scalable for LLM Training*, [arXiv:2502.16982](https://arxiv.org/abs/2502.16982), 2025, thêm weight decay và một tỷ lệ theo tham số, huấn luyện MoE 3B/16B (Moonlight) trên 5.7T token, và báo khoảng $$2\times$$ hiệu quả tính so với AdamW trên đồ thị định luật tỷ lệ. Shah et al., [arXiv:2505.02222](https://arxiv.org/abs/2505.02222), 2025, đẩy biên Pareto đánh đổi tính–thời gian tới 4B tham số. Đây là đối thủ *biết ma trận* nghiêm túc đầu tiên của AdamW đường chéo.
+Các lớp nhúng (embedding), lớp đầu ra và tham số vector vẫn dùng AdamW: các ma trận trọng số ẩn 2 chiều hưởng lợi từ bước cập nhật trực giao (chuẩn phổ gần như đồng nhất giữa các phương), trong khi bảng nhúng token có cấu trúc cập nhật thưa theo hàng không phù hợp với trực giao hóa. Sau khi trở nên phổ biến trong cộng đồng tối ưu tốc độ huấn luyện NanoGPT cuối năm 2024, Jingyuan Liu và cộng sự (*Muon is Scalable for LLM Training*, [arXiv:2502.16982](https://arxiv.org/abs/2502.16982), 2025) bổ sung weight decay và hệ số tỉ lệ theo kích thước tham số, huấn luyện mô hình MoE 3B/16B (Moonlight) trên 5,7 nghìn tỷ token và báo cáo hiệu quả tính toán gấp khoảng $$2\times$$ AdamW trên đường cong định luật tỉ lệ. Shah và cộng sự ([arXiv:2505.02222](https://arxiv.org/abs/2505.02222), 2025) tiếp tục khảo sát biên Pareto đánh đổi giữa chi phí tính toán và thời gian đến quy mô 4 tỷ tham số. Đây là đối thủ *nhận biết cấu trúc ma trận* đáng chú ý đầu tiên đối với tiền điều kiện đường chéo của AdamW.
 
-Bản thân Newton–Schulz là một vòng lặp đa thức rẻ trên $$X^\top X$$ đẩy trị riêng singular về $$1$$. Bạn không cần hệ số cho giáo trình này; bạn cần khẩu hiệu: **Muon tiền điều kiện bằng thừa số cực, AdamW tiền điều kiện bằng RMS từng tọa độ**.
+Vòng lặp Newton–Schulz thực chất là một phép lặp đa thức chi phí thấp trên $$X^\top X$$ nhằm kéo các giá trị kỳ dị về $$1$$. Điểm cốt lõi cần nhớ là: **Muon tiền điều kiện bằng nhân tử cực (polar factor) của ma trận, còn AdamW tiền điều kiện bằng căn trung bình bình phương (RMS) từng tọa độ**.
 
-## Schedule-free AdamW (con trỏ)
+## AdamW không cần lịch tốc độ học (Schedule-free AdamW)
 
-Defazio và cộng sự (2024) đề xuất AdamW *không lịch* thay $$\eta_t$$ giảm bằng trung bình Polyak–Ruppert ẩn. Hữu ích như bài seminar; không phải bộ núm bài tập thứ hai. Ghi chú tùy chọn Chương 06 [06-08]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}) đã đặt bài đó cạnh Lion và mép ổn định.
+Defazio và cộng sự (2024) đề xuất phiên bản AdamW *không dùng lịch giảm tốc độ học* bằng cách thay lịch giảm $$\eta_t$$ bởi cơ chế lấy trung bình Polyak–Ruppert nội suy. Đây là tài liệu tham khảo tốt cho seminar; phần ghi chú tùy chọn ở [06-08]({% multilang_post_url contents/chapter06/2026-09-16-06_08_Applications_Recent %}) cũng đã đặt phương pháp này cạnh Lion và hiện tượng mép ổn định (edge of stability).
 
-| Phương pháp | Việc / bộ nhớ thêm | Hình học thêm | Sân nhà điển hình (2026) | Kiểm tra? |
-|-------------|--------------------|---------------|--------------------------|-----------|
-| AdamW | hai EMA | RMS từng tọa độ | mặc định LLM / thị giác | có (26-04) |
-| SAM | gradient $$2\times$$ | cực tiểu phẳng (max trong) | thị giác, một số fine-tune | không |
-| Sophia | Hessian đường chéo rẻ + cắt | mẫu số biết độ cong | thí nghiệm tiền huấn luyện LM | không |
-| Muon | Newton–Schulz trên ma trận ẩn | cập nhật cực / trực giao | NanoGPT, một số tiền huấn luyện LLM | không |
+| Phương pháp | Chi phí / bộ nhớ thêm | Cấu trúc hình học khai thác | Ứng dụng điển hình | Kiểm tra? |
+|-------------|-----------------------|-----------------------------|--------------------|-----------|
+| AdamW | hai trung bình trượt mũ | RMS theo từng tọa độ | chuẩn mặc định cho LLM / thị giác | có (26-04) |
+| SAM | gấp đôi lượt tính gradient | cực tiểu phẳng (bài toán max cục bộ) | thị giác, tinh chỉnh mô hình | không |
+| Sophia | ước lượng Hessian đường chéo + cắt ngưỡng | mẫu số mang thông tin độ cong | thử nghiệm tiền huấn luyện LM | không |
+| Muon | lặp Newton–Schulz trên ma trận ẩn | bước cập nhật trực giao / cực | NanoGPT, một số cấu hình tiền huấn luyện LLM | không |
 
-**Bài tập (khảo sát, không phải cuộc đua).** Đọc đoạn blog Muon “dùng AdamW trên embedding và đầu ra” và viết bốn câu: (i) vì sao trọng số ẩn 2-D muốn cập nhật trực giao, (ii) vì sao bảng embedding thì không, (iii) điều này khác $$1/\sqrt{\hat v}$$ *từng tọa độ* của AdamW thế nào, và (iv) vì sao max trong của SAM là phát biểu *phong cảnh* (Ch.28) chứ không phải tiền điều kiện. Không cần chạy huấn luyện.
+**Bài tập (khảo sát lý thuyết).** Đọc phần giải thích trong bài viết Muon về lý do “dùng AdamW cho lớp nhúng và đầu ra” rồi trả lời ngắn gọn bốn ý: (i) vì sao ma trận trọng số ẩn 2 chiều phù hợp với bước cập nhật trực giao, (ii) vì sao bảng nhúng token lại không phù hợp, (iii) cơ chế này khác gì với hệ số $$1/\sqrt{\hat v}$$ *từng tọa độ* của AdamW, và (iv) vì sao bài toán cực đại hóa cục bộ của SAM phản ánh tính chất *địa hình hàm mất mát* (Chương 28) hơn là phép tiền điều kiện.
 
-**Câu hỏi.** Phương pháp nào trong ba cái vẫn còn nghĩa nếu bạn chỉ được *một* gradient mỗi bước — và nó gần đối tượng Chương 26 nào nhất (momentum, moment hai đường chéo, hay giảm phương sai)?
+**Câu hỏi.** Trong ba phương pháp (SAM, Sophia, Muon), phương pháp nào vẫn hoạt động được nếu chỉ cho phép tính đúng *một* gradient ở mỗi bước, và nó gần với thành phần nào nhất của Chương 26 (momentum, mô-men bậc hai đường chéo, hay giảm phương sai)?
 
 ## Nguồn
 

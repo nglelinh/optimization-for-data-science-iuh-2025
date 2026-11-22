@@ -12,36 +12,36 @@ lesson_type: optional
 
 # Ứng dụng hiện đại của proximal GD và tăng tốc
 
-Chương 09 nghiên cứu bài toán tổng hợp $$\min_x g(x)+h(x)$$ với $$g$$ trơn và $$h$$ thân thiện với prox, vòng proximal-gradient, và tăng tốc Nesterov / FISTA. Bài tùy chọn này ở lại khuôn ấy và chỉ ra nơi nó chạy trong tạo ảnh, GLM thưa, và mạng *unroll* từ 2022 đến 2026.
+Chương 09 nghiên cứu bài toán tối ưu tổng hợp $$\min_x g(x)+h(x)$$ với $$g$$ trơn và $$h$$ có toán tử gần kề dễ tính, cùng vòng lặp gradient gần kề và kỹ thuật tăng tốc Nesterov / FISTA. Bài đọc tùy chọn này chỉ ra cách khuôn mẫu đó được ứng dụng trong tái tạo ảnh y sinh, mô hình tuyến tính tổng quát thưa, và các mạng nơ-ron *trải phẳng thuật toán (algorithm unrolling)* giai đoạn 2022–2026.
 
-Nhắc cặp FISTA đã có trong [09-05-03]({% multilang_post_url contents/chapter09/20-01-08-09_05_03_example_FISTA %}):
+Nhắc lại cặp công thức cập nhật FISTA trong [09-05-03]({% multilang_post_url contents/chapter09/20-01-08-09_05_03_example_FISTA %}) (với kích thước bước $$\alpha \le 1/L$$ và dãy hệ số động lượng $$t_k$$):
 
 $$
 y^{k}=x^{k-1}+\frac{t_{k-1}-1}{t_k}(x^{k-1}-x^{k-2}),\qquad
-x^{k}=\operatorname{prox}_{t_k h}\bigl(y^{k}-t_k\nabla g(y^{k})\bigr).
+x^{k}=\operatorname{prox}_{\alpha h}\bigl(y^{k}-\alpha\nabla g(y^{k})\bigr).
 $$
 
-Khi $$h=\lambda\|\cdot\|_1$$ thì prox là soft-thresholding — cùng ánh xạ với Chương 07.
+Khi $$h=\lambda\|\cdot\|_1$$, toán tử gần kề chính là phép ngưỡng mềm (soft-thresholding) — cùng ánh xạ đã gặp ở Chương 07.
 
-## 1. Tái tạo MRI / CT: FISTA, rồi PnP-FISTA
+## 1. Tái tạo ảnh MRI / CT: từ FISTA đến PnP-FISTA
 
-MRI nén và CT góc thưa là bình phương tối thiểu tổng hợp cộng regularizer thưa hoặc biến phân toàn phần. FISTA cổ điển (Beck và Teboulle, 2009) vẫn là đường cơ sở CPU/GPU trong mã nghiên cứu bệnh viện. Bài hướng dẫn IEEE SPM 2023 của Kamilov, Bouman, Buzzard và Wohlberg giải thích vì sao phòng thí nghiệm **thay prox của $$h$$ bằng bộ khử nhiễu học được** và giữ bước gradient của $$g$$ (mô hình vật lý thuận). Lai đó là **plug-and-play (PnP)**; Algorithm 4 của họ đúng là **PnP-FISTA**. Ứng dụng họ khảo sát gồm kính hiển vi sinh học, CT, MRI, và ptycho-tomography.
+Bài toán tái tạo MRI nén và CT góc thưa có dạng bình phương tối thiểu kết hợp thành phần chính quy hóa thưa hoặc biến phân toàn phần (total variation). FISTA cổ điển (Beck và Teboulle, 2009) vẫn là thuật toán cơ sở trên CPU/GPU trong nhiều hệ thống nghiên cứu y sinh. Bài tổng quan trên *IEEE SPM* năm 2023 của Kamilov, Bouman, Buzzard và Wohlberg phân tích lý do các phòng thí nghiệm **thay toán tử gần kề của $$h$$ bằng một bộ khử nhiễu học được**, trong khi vẫn giữ nguyên bước gradient của phần trung thực dữ liệu $$g$$ (mô hình vật lý thuận). Phương pháp lai này được gọi là **plug-and-play (PnP)**; Thuật toán 4 trong bài báo của họ chính là **PnP-FISTA**. Các lĩnh vực ứng dụng được khảo sát gồm kính hiển vi sinh học, chụp CT, MRI và chụp cắt lớp ptycho-tomography.
 
-Mảnh trung thành dữ liệu là $$g$$ trơn của chương này; bộ khử nhiễu đóng vai $$\operatorname{prox}_{t h}$$. Bạn phải viết được vòng lặp trước khi bàn mạng nơ-ron.
+Thành phần trung thực dữ liệu đóng vai trò hàm trơn $$g$$ của chương này, còn bộ khử nhiễu đảm nhiệm vai trò $$\operatorname{prox}_{\alpha h}$$. Do đó, việc nắm vững vòng lặp gradient gần kề là bước cần thiết trước khi tích hợp mạng nơ-ron.
 
-## 2. Unrolling thuật toán: FISTA-Net và pFISTA-DR
+## 2. Trải phẳng thuật toán (Algorithm Unrolling): FISTA-Net và pFISTA-DR
 
-Unrolling (Monga, Li và Eldar, 2021) biến một số bước proximal-gradient / FISTA cố định thành kiến trúc nơ-ron mà bước, ngưỡng, thậm chí prox được huấn luyện. Xiang, Dong và Yang (2021) công bố **FISTA-Net** trên *IEEE TMI*: cascade gồm module gradient, proximal, và momentum, đánh giá trên tomography điện từ và CT tia X. Qu, Zhang, Kang, Lin, Lin, She, Wu, Wang và Zheng (2024) unroll **FISTA chiếu** cho MRI hướng kính (**pFISTA-DR**) và báo thời gian tái tạo giảm từ khoảng 48 s/lát xuống 0,55 s/lát trên dữ liệu lâm sàng. Zhang, Chen, Xiong và Zhang (2023) khảo sát cùng ý tưởng dưới tên *compressed sensing lấy cảm hứng vật lý*: khung ISTA/FISTA ở lại, các ánh xạ tuyến tính trở thành học được.
+Kỹ thuật trải phẳng thuật toán (Monga, Li và Eldar, 2021) chuyển một số bước lặp cố định của proximal gradient / FISTA thành một kiến trúc mạng nơ-ron, trong đó kích thước bước, ngưỡng co và thậm chí cả toán tử gần kề đều có thể học từ dữ liệu. Xiang, Dong và Yang (2021) giới thiệu **FISTA-Net** trên *IEEE TMI*: một chuỗi các khối gồm mô-đun gradient, mô-đun gần kề và mô-đun động lượng, được đánh giá trên chụp cắt lớp điện từ và CT tia X. Qu, Zhang, Kang, Lin, Lin, She, Wu, Wang và Zheng (2024) trải phẳng **FISTA có chiếu** cho ảnh MRI quét hướng kính (**pFISTA-DR**), ghi nhận thời gian tái tạo giảm từ khoảng 48 giây/lát xuống 0,55 giây/lát trên dữ liệu lâm sàng. Zhang, Chen, Xiong và Zhang (2023) tổng hợp hướng nghiên cứu này dưới tên gọi *cảm biến nén lấy cảm hứng vật lý (physics-inspired compressed sensing)*: khung thuật toán ISTA/FISTA được giữ nguyên, còn các ánh xạ tuyến tính và bộ lọc được học từ dữ liệu.
 
-**Nối với giáo trình.** Nếu không viết được FISTA trên giấy, mạng unroll chỉ là một hộp đen khác. Điểm của chương này là liên kết skip / momentum *chính là* dãy $$t_k$$ của Nesterov.
+**Liên hệ với giáo trình.** Nếu không nắm được công thức lặp FISTA trên giấy, các mạng trải phẳng sẽ chỉ là một hộp đen. Điểm cốt lõi của chương này là các kết nối tắt (skip connection) và động lượng trong mạng thực chất tương ứng với dãy hệ số $$t_k$$ của Nesterov.
 
-## 3. Elastic net và hoàn thiện ma trận trong bộ giải sản xuất
+## 3. Elastic net và hoàn thiện ma trận trong các bộ giải thực tế
 
-Elastic net $$\tfrac12\|X\beta-y\|_2^2+\lambda\bigl(\alpha\|\beta\|_1+(1-\alpha)\tfrac12\|\beta\|_2^2\bigr)$$ là proximal gradient (hoặc descent theo tọa độ trên toàn phương cộng $$\ell_1$$) với **soft-threshold chỉnh ridge**. Tay, Narasimhan và Hastie (2023) biến đường ấy thành mặc định cho mọi họ GLM trong glmnet — gồm genomics, dự báo nhấp, và mô hình Cox. Ví dụ hoàn thiện ma trận [09-03]({% multilang_post_url contents/chapter09/20-01-08-09_03_example_matrix_completion %}) là cùng khuôn tổng hợp (số hạng dữ liệu trơn + prox chuẩn hạt nhân = ngưỡng giá trị singular) vẫn nằm dưới pipeline gợi ý và điền dữ liệu đơn bào.
+Bài toán elastic net $$\tfrac12\|X\beta-y\|_2^2+\lambda\bigl(\alpha\|\beta\|_1+(1-\alpha)\tfrac12\|\beta\|_2^2\bigr)$$ có thể giải bằng phương pháp gradient gần kề (hoặc giảm theo tọa độ trên hàm bậc hai cộng chuẩn $$\ell_1$$) với **toán tử ngưỡng mềm có điều chỉnh Ridge**. Tay, Narasimhan và Hastie (2023) đưa đường chính quy hóa này thành lựa chọn mặc định cho mọi họ GLM trong `glmnet` — phục vụ phân tích hệ gene, dự báo tỷ lệ nhấp chuột và mô hình sống còn Cox. Ví dụ hoàn thiện ma trận ở bài [09-03]({% multilang_post_url contents/chapter09/20-01-08-09_03_example_matrix_completion %}) cũng tuân theo đúng khuôn mẫu tổng hợp (số hạng sai số dữ liệu trơn cộng toán tử gần kề của chuẩn hạt nhân là ngưỡng mềm trên giá trị kỳ dị), hiện vẫn là nền tảng cho nhiều hệ thống gợi ý và bài toán điền khuyết dữ liệu đơn bào.
 
-ISTA / FISTA không phải lúc nào cũng là phương pháp *CPU* nhanh nhất cho Lasso (descent tọa độ cộng screening thường thắng; xem Chương 13), nhưng chúng là phương pháp bạn có thể **gói GPU, unroll, hoặc đổi prox**. Đó là lý do tạo ảnh và lập trình khả vi chuẩn hóa trên chúng.
+ISTA và FISTA không phải lúc nào cũng là thuật toán chạy *CPU* nhanh nhất cho Lasso (giảm theo tọa độ kết hợp quy tắc sàng lọc biến thường nhanh hơn; xem Chương 13), nhưng chúng đặc biệt thuận tiện để **triển khai song song trên GPU, trải phẳng thành mạng nơ-ron, hoặc thay thế toán tử gần kề**. Đó là lý do các lĩnh vực tái tạo ảnh và lập trình khả vi chuẩn hóa dựa trên họ thuật toán này.
 
-## 4. Một bước ISTA nhỏ
+## 4. Một bước lặp ISTA tối giản
 
 ```python
 import numpy as np
@@ -54,13 +54,13 @@ def ista_step(x, A, b, lam, t):
     return soft_threshold(x - t * A.T @ (A @ x - b), t * lam)
 ```
 
-FISTA chỉ đổi *điểm* bạn đánh giá $$\nabla g$$, dùng momentum của mục 09-05. PnP-FISTA đổi `soft_threshold` thành `denoiser`. FISTA-Net làm `t` và bộ khử nhiễu học được.
+FISTA chỉ thay đổi *điểm* tính gradient $$\nabla g$$ bằng cách dùng bước ngoại suy động lượng ở bài 09-05. PnP-FISTA thay `soft_threshold` bằng một bộ khử nhiễu (`denoiser`), còn FISTA-Net cho phép học trực tiếp cả bước `t` lẫn bộ khử nhiễu đó.
 
-## Cần nhớ
+## Tóm lược
 
-Cấu trúc tổng hợp (likelihood trơn + regularizer thân thiện prox) là lý do proximal gradient tồn tại. Tăng tốc là lịch $$t_k$$, không phải mô hình khác. Từ 2022 đến 2026 cùng lịch ấy là (i) một bộ giải, (ii) một vỏ plug-and-play quanh CNN khử nhiễu, và (iii) một mạng nơ-ron nhận được khi unroll mười đến bốn mươi bước.
+Cấu trúc tổng hợp (hàm mất mát trơn cộng thành phần chính quy hóa có toán tử gần kề tính được) là lý do ra đời của phương pháp gradient gần kề, còn kỹ thuật tăng tốc là một lịch trình hệ số $$t_k$$ chứ không làm thay đổi mô hình bài toán. Trong giai đoạn 2022–2026, cùng một lịch trình này vừa đóng vai trò (i) bộ giải tối ưu chuẩn, (ii) khung plug-and-play bao quanh các mạng CNN khử nhiễu, và (iii) kiến trúc mạng nơ-ron thu được khi trải phẳng từ 10 đến 40 bước lặp.
 
-**Câu hỏi.** Khi nào bạn giữ prox thật (soft-threshold, SVT) thay vì thay bằng bộ khử nhiễu học được — và lý thuyết Chương 09 còn bảo đảm gì trong trường hợp PnP?
+**Câu hỏi.** Khi nào nên giữ nguyên toán tử gần kề giải tích (như ngưỡng mềm, SVT) thay vì thay bằng bộ khử nhiễu học được — và trong trường hợp PnP, những bảo đảm lý thuyết nào của Chương 09 vẫn còn giữ được?
 
 ## Nguồn
 

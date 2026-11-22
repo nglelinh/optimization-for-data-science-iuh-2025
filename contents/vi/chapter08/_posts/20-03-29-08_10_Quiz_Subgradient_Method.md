@@ -19,16 +19,16 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
 ### ⚡ **Phương Pháp Subgradient**
 
 #### **Định nghĩa thuật toán**
-Phương pháp subgradient là mở rộng của gradient descent cho hàm lồi không khả vi:
+Phương pháp subgradient mở rộng gradient descent cho các hàm lồi không khả vi:
 
 $$x^{(k)} = x^{(k-1)} - t_k \cdot g^{(k-1)}, \quad k = 1, 2, 3, \ldots$$
 
-với $$g^{(k-1)} \in \partial f(x^{(k-1)})$$ là một subgradient của $$f$$ tại $$x^{(k-1)}$$
+với $$g^{(k-1)} \in \partial f(x^{(k-1)})$$ là một subgradient của $$f$$ tại $$x^{(k-1)}$$.
 
-#### **Khác biệt quan trọng với Gradient Descent**
-- **Không đảm bảo descent:** Giá trị hàm số có thể tăng ở một số bước
-- **Theo dõi best value:** $$f(x_{\text{best}}^{(k)}) = \min_{i=0,\ldots,k} f(x^{(i)})$$
-- **Step size cố định:** Không thể sử dụng line search như gradient descent
+#### **Khác biệt quan trọng so với Gradient Descent**
+- **Không đảm bảo giảm đơn điệu:** Giá trị hàm mục tiêu có thể tăng ở một số bước.
+- **Theo dõi giá trị tốt nhất:** $$f(x_{\text{best}}^{(k)}) = \min_{i=0,\ldots,k} f(x^{(i)})$$.
+- **Kích thước bước định trước:** Không dùng tìm kiếm đường thẳng lùi như gradient descent.
 
 ### 📏 **Lựa Chọn Kích Thước Bước**
 
@@ -36,198 +36,197 @@ với $$g^{(k-1)} \in \partial f(x^{(k-1)})$$ là một subgradient của $$f$$ 
 $$t_k = t > 0, \quad \forall k$$
 
 **Đặc điểm:**
-- Đơn giản để implement
-- Hội tụ đến lân cận của giá trị tối ưu
-- Không đạt được nghiệm chính xác
+- Dễ cài đặt.
+- Hội tụ đến một lân cận của giá trị tối ưu.
+- Không đạt tới nghiệm chính xác.
 
 #### **2. Kích thước bước giảm dần**
-Thỏa mãn điều kiện:
+Thỏa mãn điều kiện tổng phân kỳ nhưng tổng bình phương hội tụ:
 $$\sum_{k=1}^{\infty} t_k = \infty, \quad \sum_{k=1}^{\infty} t_k^2 < \infty$$
 
 **Ví dụ phổ biến:**
 - $$t_k = \frac{1}{k}$$ (chuỗi điều hòa)
-- $$t_k = \frac{1}{\sqrt{k}}$$
 - $$t_k = \frac{a}{b + k}$$ với $$a, b > 0$$
+- (Lưu ý: $$t_k = \frac{1}{\sqrt{k}}$$ chỉ thỏa $$\sum t_k = \infty, t_k \to 0$$ chứ không thỏa $$\sum t_k^2 < \infty$$, nhưng vẫn cho hội tụ với cận $$O(\log k / \sqrt{k})$$.)
 
 **Đặc điểm:**
-- Hội tụ chính xác đến giá trị tối ưu ($$f_{\text{best}}^{(k)} \to f^*$$)
-- Tốc độ hội tụ chậm hơn kích thước bước cố định ban đầu
+- Hội tụ chính xác đến giá trị tối ưu ($$f_{\text{best}}^{(k)} \to f^*$$).
+- Tốc độ hội tụ ban đầu chậm hơn so với kích thước bước cố định.
 
-#### **3. Polyak step sizes**
+#### **3. Kích thước bước Polyak**
 $$t_k = \frac{f(x^{(k)}) - f^*}{\lVert g^{(k)} \rVert_2^2}$$
 
-**Yêu cầu:** Biết giá trị tối ưu $$f^*$$
-**Ưu điểm:** Hội tụ nhanh hơn khi biết $$f^*$$
+**Yêu cầu:** Biết trước giá trị tối ưu $$f^*$$.
+**Ưu điểm:** Hội tụ nhanh hơn trong thực hành khi biết $$f^*$$.
 
 ### 📊 **Phân Tích Hội Tụ**
 
-#### **Giả định cơ bản**
-- $$f$$ là hàm lồi với $$\text{dom}(f) = \mathbb{R}^n$$
+#### **Giả thiết cơ bản**
+- $$f$$ là hàm lồi với $$\text{dom}(f) = \mathbb{R}^n$$.
 - $$f$$ thỏa mãn điều kiện Lipschitz:
   $$|f(x) - f(y)| \le G \lVert x - y \rVert_2, \quad \forall x, y$$
-- Subgradients bị chặn: $$\lVert g \rVert_2 \le G$$ với $$g \in \partial f(x)$$
+- Các subgradient bị chặn chuẩn: $$\lVert g \rVert_2 \le G$$ với mọi $$g \in \partial f(x)$$.
 
 #### **Định lý hội tụ cho kích thước bước cố định**
 $$\lim_{k \to \infty} f(x_{\text{best}}^{(k)}) \le f^* + \frac{G^2 t}{2}$$
 
 **Ý nghĩa:**
-- Hội tụ đến lân cận của giá trị tối ưu
-- Sai số cuối cùng tỷ lệ với kích thước bước $$t$$
-- Trade-off: $$t$$ nhỏ → sai số nhỏ nhưng hội tụ chậm
+- Hội tụ đến lân cận của giá trị tối ưu.
+- Sai số giới hạn tỷ lệ thuận với kích thước bước $$t$$.
+- Đánh đổi: $$t$$ nhỏ cho sai số nhỏ nhưng hội tụ chậm hơn.
 
 #### **Định lý hội tụ cho kích thước bước giảm dần**
 $$\lim_{k \to \infty} f(x_{\text{best}}^{(k)}) = f^*$$
 
 **Ý nghĩa:**
-- Hội tụ chính xác đến giá trị tối ưu ($$f_{\text{best}}^{(k)} \to f^*$$)
-- Tốc độ hội tụ: $$O(1/\sqrt{k})$$ (sublinear)
+- Hội tụ chính xác đến giá trị tối ưu ($$f_{\text{best}}^{(k)} \to f^*$$).
+- Tốc độ hội tụ bậc dưới tuyến tính: $$O(1/\sqrt{k})$$ (khi chọn bước tối ưu theo số bước).
 
-#### **Chứng minh cơ bản**
-Từ bất đẳng thức cơ bản:
+#### **Bất đẳng thức cơ bản**
 $$f_{\text{best}}^{(k)} - f^* \le \frac{R^2 + G^2 \sum_{i=1}^k t_i^2}{2 \sum_{i=1}^k t_i}$$
 
-với $$R = \lVert x^{(0)} - x^* \rVert_2$$
+với $$R = \lVert x^{(0)} - x^* \rVert_2$$.
 
 ### 🎯 **Ứng Dụng Thực Tế**
 
-#### **1. LASSO Regression**
+#### **1. Hồi quy LASSO**
 $$\min_\beta \frac{1}{2} \lVert y - X\beta \rVert_2^2 + \lambda \lVert \beta \rVert_1$$
 
-**Subgradient:**
+**Vi phân dưới:**
 $$\partial f(\beta) = X^T(X\beta - y) + \lambda \partial \lVert \beta \rVert_1$$
 
-#### **2. Regularized Logistic Regression**
+#### **2. Hồi quy Logistic có chính quy hóa**
 $$\min_\beta \sum_{i=1}^n \left[-y_i x_i^T \beta + \log(1 + \exp(x_i^T \beta))\right] + \lambda \lVert \beta \rVert_1$$
 
 **So sánh:**
-- **Ridge (L2):** Khả vi → Gradient descent
-- **LASSO (L1):** Không khả vi → Subgradient method
+- **Ridge (L2):** Khả vi → dùng gradient descent.
+- **LASSO (L1):** Không khả vi → dùng phương pháp subgradient.
 
-#### **3. Support Vector Machine**
+#### **3. Máy vector hỗ trợ (SVM)**
 $$\min_w \frac{1}{2} \lVert w \rVert_2^2 + C \sum_{i=1}^n \max(0, 1 - y_i w^T x_i)$$
 
-**Hinge loss:** $$\max(0, 1 - z)$$ không khả vi tại $$z = 1$$
+**Hàm mất mát hinge:** $$\max(0, 1 - z)$$ không khả vi tại $$z = 1$$.
 
-### 🔄 **Stochastic Subgradient Method**
+### 🔄 **Phương Pháp Subgradient Ngẫu Nhiên**
 
-#### **Bài toán tổng**
+#### **Bài toán dạng tổng**
 $$\min_x f(x) = \min_x \sum_{i=1}^m f_i(x)$$
 
-#### **Stochastic update**
+#### **Bước cập nhật ngẫu nhiên**
 $$x^{(k)} = x^{(k-1)} - t_k g_i^{(k-1)}$$
 
-với $$g_i^{(k-1)} \in \partial f_i(x^{(k-1)})$$ và $$i$$ được chọn ngẫu nhiên
+với $$g_i^{(k-1)} \in \partial f_i(x^{(k-1)})$$ và chỉ số $$i$$ được chọn ngẫu nhiên.
 
 #### **Ưu điểm**
-- Chi phí tính toán: $$O(1)$$ thay vì $$O(m)$$
-- Phù hợp với big data
-- Có thể thoát khỏi saddle points
+- Chi phí mỗi bước là $$O(1)$$ hàm thành phần thay vì $$O(m)$$.
+- Phù hợp với tập dữ liệu lớn.
+- Tiến nhanh về vùng lân cận nghiệm trong giai đoạn đầu.
 
 #### **Nhược điểm**
-- Nhiễu cao hơn batch method
-- Cần tuning learning rate cẩn thận
-- Hội tụ chậm hơn gần nghiệm tối ưu
+- Phương sai cao hơn phương pháp batch.
+- Cần điều chỉnh tốc độ học cẩn thận.
+- Hội tụ chậm hơn khi đã tiến gần nghiệm tối ưu.
 
-### 📈 **Projected Subgradient Method**
+### 📈 **Phương Pháp Subgradient Có Chiếu**
 
 #### **Bài toán có ràng buộc**
 $$\min_{x \in C} f(x)$$
 
-với $$C$$ là tập lồi đóng
+với $$C$$ là tập lồi đóng.
 
 #### **Thuật toán**
 $$x^{(k)} = P_C(x^{(k-1)} - t_k g^{(k-1)})$$
 
-với $$P_C(\cdot)$$ là phép chiếu lên tập $$C$$
+với $$P_C(\cdot)$$ là phép chiếu Euclid lên tập $$C$$.
 
-#### **Ví dụ: Intersection of Sets**
-$$\min_x \frac{1}{2} \lVert x \rVert_2^2 \quad \text{s.t.} \quad x \in \bigcap_{i=1}^m C_i$$
+#### **Ví dụ: Tìm điểm giao của các tập lồi**
+$$\min_x \max_{i=1,\ldots,m} \text{dist}(x, C_i)$$
 
-**Thuật toán:**
-1. Chọn tập $$C_i$$ vi phạm nhất
-2. Chiếu lên $$C_i$$: $$x^{(k)} = P_{C_i}(x^{(k-1)})$$
+**Thuật toán (với bước Polyak khi $$f^* = 0$$):**
+1. Chọn tập $$C_i$$ xa điểm hiện tại nhất (khoảng cách lớn nhất).
+2. Chiếu lên $$C_i$$: $$x^{(k)} = P_{C_i}(x^{(k-1)})$$.
 
 ### 🔄 **So Sánh Các Phương Pháp**
 
 | Phương pháp | Điều kiện | Tốc độ hội tụ | Ứng dụng |
 |-------------|-----------|---------------|----------|
-| **Gradient Descent** | Hàm khả vi | $$O(1/k)$$ hoặc linear | Smooth optimization |
-| **Subgradient** | Hàm lồi | $$O(1/\sqrt{k})$$ | Non-smooth optimization |
-| **SGD** | Hàm khả vi | $$O(1/\sqrt{k})$$ | Large-scale problems |
-| **Stochastic Subgradient** | Hàm lồi | $$O(1/\sqrt{k})$$ | Large-scale non-smooth |
+| **Gradient Descent** | Hàm khả vi | $$O(1/k)$$ (hoặc tuyến tính khi lồi mạnh) | Tối ưu hàm trơn |
+| **Subgradient** | Hàm lồi | $$O(1/\sqrt{k})$$ | Tối ưu hàm không trơn |
+| **SGD** | Hàm khả vi | $$O(1/\sqrt{k})$$ | Bài toán quy mô lớn |
+| **Subgradient ngẫu nhiên** | Hàm lồi | $$O(1/\sqrt{k})$$ | Bài toán không trơn quy mô lớn |
 
 ### 🛠️ **Kỹ Thuật Thực Hành**
 
-#### **Chọn step size**
-1. **Fixed step size:** Thử $$t = 0.01, 0.1, 1$$ và chọn tốt nhất
-2. **Diminishing:** Sử dụng $$t_k = \frac{1}{\sqrt{k}}$$ hoặc $$t_k = \frac{1}{k}$$
-3. **Polyak:** Nếu biết $$f^*$$, sử dụng công thức Polyak
+#### **Chọn kích thước bước**
+1. **Bước cố định:** Thử các giá trị như $$t = 0.01, 0.1, 1$$ và chọn giá trị phù hợp.
+2. **Bước giảm dần:** Sử dụng $$t_k = \frac{1}{\sqrt{k}}$$ hoặc $$t_k = \frac{1}{k}$$.
+3. **Bước Polyak:** Áp dụng khi biết trước $$f^*$$.
 
-#### **Monitoring convergence**
-- Theo dõi $$f(x_{\text{best}}^{(k)})$$ thay vì $$f(x^{(k)})$$
-- Vẽ đồ thị convergence để kiểm tra
-- Sử dụng moving average để làm mượt
+#### **Theo dõi hội tụ**
+- Theo dõi $$f(x_{\text{best}}^{(k)})$$ thay vì chỉ nhìn $$f(x^{(k)})$$.
+- Vẽ đồ thị quá trình hội tụ để kiểm tra.
+- Có thể lấy trung bình trượt để làm mượt đường cong.
 
-#### **Debugging**
-- Kiểm tra tính đúng đắn của subgradient
-- Verify Lipschitz constant $$G$$
-- Thử nhiều step size khác nhau
-- So sánh với gradient descent (nếu hàm khả vi)
+#### **Kiểm tra và gỡ lỗi**
+- Kiểm tra tính chính xác của công thức subgradient.
+- Ước lượng hằng số Lipschitz $$G$$.
+- Thử nhiều lịch trình kích thước bước khác nhau.
+- Đối chiếu với gradient descent trên trường hợp hàm khả vi.
 
-### ⚡ **Cải Tiến Subgradient Method**
+### ⚡ **Các Hướng Cải Tiến**
 
-#### **1. Averaging**
+#### **1. Lấy trung bình (Averaging)**
 $$\bar{x}^{(k)} = \frac{1}{k} \sum_{i=1}^k x^{(i)}$$
 
-**Ưu điểm:** Giảm nhiễu, cải thiện convergence rate
+**Ưu điểm:** Giảm dao động và cải thiện độ ổn định hội tụ.
 
-#### **2. Momentum**
+#### **2. Động lượng (Momentum)**
 $$x^{(k)} = x^{(k-1)} - t_k g^{(k-1)} + \beta(x^{(k-1)} - x^{(k-2)})$$
 
-**Ưu điểm:** Tăng tốc hội tụ, giảm oscillation
+**Ưu điểm:** Tăng tốc tiến triển dọc theo hướng ổn định, giảm dao động.
 
-#### **3. Adaptive step sizes**
-- **AdaGrad for subgradients**
-- **RMSprop variants**
-- **Adam-like methods**
+#### **3. Kích thước bước thích nghi**
+- **AdaGrad cho subgradient**
+- **Các biến thể kiểu RMSprop**
+- **Các phương pháp kiểu Adam**
 
 ### 🎯 **Ví Dụ Minh Họa**
 
 #### **Bài toán:** $$\min_x |x - 2| + |x + 1|$$
 
-**Bước 1:** Tính subgradient
+**Bước 1:** Tính vi phân dưới
 $$\partial f(x) = \partial |x - 2| + \partial |x + 1|$$
 
-**Bước 2:** Subgradient method với $$t_k = 0.1$$
-- Bắt đầu từ $$x^{(0)} = 5$$
-- $$g^{(0)} = 1 + 1 = 2$$
-- $$x^{(1)} = 5 - 0.1 \times 2 = 4.8$$
-- Tiếp tục cho đến hội tụ
+**Bước 2:** Chạy phương pháp subgradient với $$t_k = 0.1$$
+- Xuất phát từ $$x^{(0)} = 5$$.
+- $$g^{(0)} = 1 + 1 = 2$$.
+- $$x^{(1)} = 5 - 0.1 \times 2 = 4.8$$.
+- Tiếp tục lặp cho đến khi đi vào vùng nghiệm.
 
-**Kết quả:** Hội tụ đến $$x^* \in [-1, 2]$$
+**Kết quả:** Hội tụ đến miền nghiệm $$x^* \in [-1, 2]$$.
 
-### 💡 **Mẹo Thực Hành**
+### 💡 **Lưu Ý Khi Áp Dụng**
 
-#### **Khi nào sử dụng Subgradient Method:**
-- Hàm mục tiêu không khả vi (chứa $$\lvert \cdot \rvert$$, $$\max\{\cdot\}$$)
-- Regularization với L1 norm
-- Constraint optimization với indicator functions
-- Large-scale problems với stochastic variants
+#### **Khi nào nên dùng phương pháp Subgradient:**
+- Hàm mục tiêu không khả vi (chứa $$\lvert \cdot \rvert$$, $$\max\{\cdot\}$$).
+- Bài toán có chính quy hóa chuẩn $$\ell_1$$.
+- Bài toán tối ưu có ràng buộc qua phép chiếu.
+- Bài toán quy mô lớn với biến thể ngẫu nhiên.
 
-#### **Khi nào KHÔNG sử dụng:**
-- Hàm khả vi (dùng gradient descent)
-- Cần convergence nhanh (dùng Newton methods)
-- Hàm không lồi (không đảm bảo global optimum)
+#### **Khi nào KHÔNG nên dùng:**
+- Hàm mục tiêu trơn khả vi (nên dùng gradient descent).
+- Cần hội tụ rất nhanh với độ chính xác cao (nên dùng phương pháp bậc hai hoặc proximal).
+- Hàm không lồi (không đảm bảo tìm được cực tiểu toàn cục).
 
-#### **Best practices:**
-- Luôn theo dõi $$f_{\text{best}}^{(k)}$$
-- Thử nhiều step size strategies
-- Sử dụng averaging để giảm nhiễu
-- Kết hợp với projection cho constrained problems
+#### **Nguyên tắc thực hành tốt:**
+- Luôn lưu giữ $$f_{\text{best}}^{(k)}$$.
+- Thử nhiều chiến lược kích thước bước.
+- Dùng trung bình hóa để giảm dao động.
+- Kết hợp phép chiếu cho bài toán có ràng buộc.
 
 ---
 
-💡 **Mẹo:** Subgradient method là công cụ mạnh mẽ cho non-smooth optimization, đặc biệt quan trọng trong machine learning với regularization và robust optimization!
+💡 **Ghi chú:** Phương pháp subgradient là công cụ cơ bản cho tối ưu hóa không trơn, được sử dụng rộng rãi trong học máy có chính quy hóa và tối ưu bền vững.
 
 ---
 

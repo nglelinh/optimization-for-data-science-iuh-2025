@@ -9,51 +9,51 @@ categories:
 lang: vi
 ---
 # Phân tích hội tụ
-Trong phần này, chúng ta phân tích sự hội tụ của phương pháp gradient gần kề.
+Trong phần này, chúng ta phân tích tính chất hội tụ của phương pháp gradient gần kề đối với bước cố định và tìm kiếm đường thẳng lùi.
 
-## Phân tích hội tụ
-Đối với hàm mục tiêu $$f(x) = g(x) + h(x)$$, chúng ta giả định như sau:
+## Giả thiết hội tụ
+Đối với hàm mục tiêu $$f(x) = g(x) + h(x)$$, ta giả thiết:
 
-* $$g$$ là hàm lồi, khả vi, và **dom**$$(g) = \mathbb{R}^n$$, và $$\nabla g$$ liên tục Lipschitz ($$L > 0$$).
-* $$h$$ là hàm lồi, và $$\text{prox}_{t}(x) = \underset{z} {\text{argmin}} \{ \parallel x - z \parallel_2^2/ (2t) + h(z) \}$$ cần được tính toán.
+* $$g$$ là hàm lồi, khả vi, **dom**$$(g) = \mathbb{R}^n$$, và $$\nabla g$$ liên tục Lipschitz với hằng số $$L > 0$$.
+* $$h$$ là hàm lồi, và ánh xạ gần kề $$\text{prox}_{t}(x) = \underset{z} {\text{argmin}} \{ \parallel x - z \parallel_2^2/ (2t) + h(z) \}$$ có thể tính được.
 
-### Định lý hội tụ
-> **Phương pháp gradient gần kề** thỏa mãn phương trình sau với kích thước bước cố định $$t \le 1/L$$: 
+### Định lý hội tụ với kích thước bước cố định
+> **Phương pháp gradient gần kề** với kích thước bước cố định $$t \le 1/L$$ thỏa mãn: 
 >\begin{align}
 f(x^{(k)}) - f^{\*} \le  \frac{ \lVert x^{(0)} - x^{\*} \rVert^2_2 }{2tk}
 \end{align}
 
-Phương pháp gradient gần kề có tốc độ hội tụ $$O(1/k)$$ hoặc $$O(1/\epsilon)$$, đây là hiệu suất tương tự như gradient descent. Tuy nhiên, hiệu suất này dựa trên số lần lặp, không phải số phép toán. (Số phép toán có thể thay đổi tùy thuộc vào hàm $$h$$.)
+Như vậy, phương pháp gradient gần kề đạt tốc độ hội tụ $$O(1/k)$$ hay $$O(1/\epsilon)$$, tương đương với gradient descent trên hàm trơn. Tuy nhiên, đánh giá này tính theo số bước lặp chứ không phải tổng số phép toán (vì chi phí tính $$\text{prox}_t$$ phụ thuộc vào hàm $$h$$).
 
 ## Tìm kiếm đường thẳng lùi (Backtracking line search)
-Phương pháp tìm kiếm đường thẳng lùi của gradient gần kề tương tự như gradient descent nhưng chỉ hoạt động trên phần trơn $$g$$, không phải hàm $$f$$.
+Tìm kiếm đường thẳng lùi cho phương pháp gradient gần kề có nguyên lý tương tự gradient descent, nhưng điều kiện kiểm tra chỉ áp dụng trên phần trơn $$g$$ chứ không phải toàn bộ hàm $$f$$.
 
-Đầu tiên, đặt tham số $$0 < \beta < 1$$ và bắt đầu với $$t=1$$. Trong mỗi lần lặp, giảm $$t$$ thành $$t = \beta t$$ trong khi thỏa mãn điều kiện sau, và cập nhật gradient gần kề nếu điều kiện không được thỏa mãn.
+Chọn tham số $$0 < \beta < 1$$ và khởi tạo $$t=1$$. Ở mỗi bước lặp, ta lặp lại phép co $$t = \beta t$$ chừng nào điều kiện sau còn đúng, và thực hiện bước cập nhật khi điều kiện này không còn thỏa mãn:
 > \begin{align}
 g(x - tG_t(x)) > g(x) - t \nabla g(x)^T G_t(x) + \frac{t}{2} \parallel G_t(x) \parallel_2 ^2
 \end{align}
 
-Điều kiện lùi này có nghĩa là giá trị của hàm $$g$$ tại vị trí bước tiếp theo $$x - tG_t(x)$$ lớn hơn giá trị của xấp xỉ Taylor bậc hai của hàm $$g$$.
+Điều kiện trên kiểm tra xem giá trị của $$g$$ tại điểm đề xuất $$x - tG_t(x)$$ có vượt quá cận trên bậc hai của $$g$$ hay không.
 
-Nếu $$G_t(x) = \nabla g(x)$$ trong phương trình này, chúng ta có thể thấy rằng $$g(x - t \nabla g(x)) > g(x) - \alpha t \lVert \nabla g(x) \rVert_2^2 $$, điều này trở nên giống hệt với điều kiện lùi của gradient descent.
+Khi $$h = 0$$ (nên $$G_t(x) = \nabla g(x)$$), bất đẳng thức này trở thành $$g(x - t \nabla g(x)) > g(x) - \frac{t}{2} \lVert \nabla g(x) \rVert_2^2$$, trùng với điều kiện lùi của gradient descent với $$\alpha = 1/2$$.
 
-**Ghi chú:** Để biết thêm chi tiết về backtracking của gradient descent, tham khảo [06-02-02 backtracking line search]({% multilang_post_url contents/chapter06/21-03-20-06_02_02_backtracking_line_search %}).
+**Ghi chú:** Xem thêm chi tiết về tìm kiếm đường thẳng lùi cho gradient descent tại [06-02-02 backtracking line search]({% multilang_post_url contents/chapter06/21-03-20-06_02_02_backtracking_line_search %}).
 
 ### Thuật toán tìm kiếm đường thẳng lùi
-Nếu chúng ta tóm tắt điều này trong một thuật toán, nó như sau. (Tuy nhiên, $$\nabla x = - t G_t(x)$$)
+Tóm tắt quy trình thực hiện (với độ dịch chuyển $$\Delta x = - t G_t(x)$$):
 
-1. Khởi tạo các tham số. ($$0 \lt \beta \lt 1$$, $$0 \lt \alpha \le 1/2$$)
-2. Trong mỗi lần lặp, khởi tạo $$t = t_{\text{init}}$$. ($$t_{\text{init}} = 1$$)
-3. Nếu điều kiện $$g(x - tG_t(x)) \gt g(x) - t \nabla g(x)^T G_t(x) + \frac{t}{2} \parallel G_t(x) \parallel_2 ^2 $$ được thỏa mãn, giảm $$t = \beta t$$. Lặp lại bước 3 trong khi điều kiện này được thỏa mãn.
-4. Thực hiện cập nhật gradient descent $$ x^+ = x - t G_t(x) = \text{prox}_t(x - t \nabla g(x))$$.
-5. Nếu điều kiện dừng không được thỏa mãn, quay lại bước 2.
+1. Khởi tạo tham số co bước $$0 \lt \beta \lt 1$$.
+2. Ở mỗi bước lặp, đặt lại $$t = t_{\text{init}}$$ (thường chọn $$t_{\text{init}} = 1$$).
+3. Nếu điều kiện $$g(x - tG_t(x)) \gt g(x) - t \nabla g(x)^T G_t(x) + \frac{t}{2} \parallel G_t(x) \parallel_2 ^2 $$ thỏa mãn, cập nhật $$t = \beta t$$ và lặp lại bước kiểm tra này.
+4. Thực hiện bước cập nhật gradient gần kề: $$ x^+ = x - t G_t(x) = \text{prox}_t(x - t \nabla g(x))$$.
+5. Nếu chưa thỏa mãn điều kiện dừng, quay lại bước 2.
 
-Khi lùi trong gradient gần kề, vì $$G_t(x)$$ được tính toán lặp đi lặp lại, ánh xạ gần kề được bao gồm trong $$G_t(x)$$ cũng được tính toán lặp đi lặp lại. Vì ánh xạ gần kề rất tốn kém để tính toán, chi phí tính toán tổng thể của backtracking có thể cao.
+Lưu ý rằng trong mỗi lần thử $$t$$ khi lùi, ta phải tính lại $$G_t(x)$$, kéo theo việc tính lại ánh xạ gần kề $$\text{prox}_t$$. Nếu $$\text{prox}_t$$ có chi phí tính toán cao, tổng chi phí của tìm kiếm đường thẳng lùi sẽ tăng lên đáng kể.
 
-### Định lý hội tụ
-Dưới các giả định tương tự như trên, phương pháp tìm kiếm đường thẳng lùi cũng thỏa mãn hiệu suất tương tự.
+### Định lý hội tụ với tìm kiếm đường thẳng lùi
+Dưới cùng các giả thiết như trên, phương pháp gradient gần kề kết hợp tìm kiếm đường thẳng lùi vẫn giữ được bậc tốc độ hội tụ $$O(1/k)$$.
 
->**Phương pháp gradient gần kề** thỏa mãn phương trình sau cho tìm kiếm đường thẳng lùi. Kích thước bước là $$t_{\text{min}} = \text{min} \{1,\beta /L \}$$.
+>**Phương pháp gradient gần kề** với tìm kiếm đường thẳng lùi thỏa mãn bất đẳng thức sau, với $$t_{\text{min}} = \text{min} \{1,\beta /L \}$$:
 
 > $$
 f(x^{(k)})−f^{\star} ≤ \frac{\lVert x^{(0)} − x^{\star} \rVert_{2}^{2}}{2 t_{min}k}, \space t_{\text{min}} = \text{min} \{ 1, \beta / L \} \\

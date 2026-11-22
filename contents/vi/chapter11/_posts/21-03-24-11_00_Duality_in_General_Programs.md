@@ -12,9 +12,9 @@ lesson_type: required
 
 ### Ôn tập: Tính đối ngẫu trong quy hoạch tuyến tính
 
-Cho $$c \in \mathbb{R}^n$$, $$A \in \mathbb{R}^{m \times n}$$, $$b \in \mathbb{R}^m$$, $$G \in \mathbb{R}^{r \times n}$$, $$h \in \mathbb{R}^r$$, 
+Cho $$c \in \mathbb{R}^n$$, $$A \in \mathbb{R}^{m \times n}$$, $$b \in \mathbb{R}^m$$, $$G \in \mathbb{R}^{r \times n}$$, $$h \in \mathbb{R}^r$$.
 
-#### Bài toán gốc (Primal LP): 
+#### Bài toán gốc (Primal LP)
 >
 $$
 \begin{alignat}{1}
@@ -24,8 +24,7 @@ $$
 \end{alignat}
 $$
 
-
-#### Bài toán đối ngẫu (Dual LP): 
+#### Bài toán đối ngẫu (Dual LP)
 >
 $$
 \begin{alignat}{1}
@@ -35,9 +34,10 @@ $$
 \end{alignat}
 $$
 
-### Giải thích 1: 
+### Cách giải thích 1
 
-Với mọi $$u$$ và $$v \geq 0$$, và với bất kỳ $$x$$ khả thi của bài toán gốc nào, ta có: 
+Với mọi $$u$$, mọi $$v \geq 0$$ và mọi $$x$$ khả thi của bài toán gốc, ta có:
+
 >
 $$
 \begin{equation}
@@ -45,7 +45,7 @@ u^T (Ax-b) + v^T(Gx-h) \leq 0
 \end{equation}
 $$
 
-Tức là,
+Biến đổi bất đẳng thức này, ta thu được:
 
 >
 $$
@@ -54,12 +54,11 @@ $$
 \end{equation}
 $$
 
-Từ mối quan hệ này, nếu $$c=-A^Tu - G^Tv$$, ta thu được một cận dưới cho giá trị tối ưu của bài toán gốc. 
+Do đó, nếu $$c = -A^Tu - G^Tv$$, thì $$-b^Tu - h^Tv$$ là một cận dưới cho giá trị tối ưu của bài toán gốc.
 
+### Cách giải thích 2
 
-### Giải thích 2: 
-
-Với mọi $$u$$ và $$v \geq 0$$, và với bất kỳ $$x$$ khả thi của bài toán gốc nào,
+Với mọi $$u$$, mọi $$v \geq 0$$ và mọi $$x$$ khả thi của bài toán gốc, ta có:
 
 >
 $$
@@ -68,7 +67,7 @@ c^T x \geq c^T x + u^T (Ax-b) + v^T (Gx -h) := L(x,u,v)
 \end{equation}
 $$
 
-Do đó, nếu $$C$$ là tập khả thi của bài toán gốc và $$f^*$$ là giá trị tối ưu của bài toán gốc, thì 
+Gọi $$C$$ là tập khả thi của bài toán gốc và $$f^*$$ là giá trị tối ưu gốc, khi đó:
 
 >
 $$
@@ -77,7 +76,7 @@ f^* \geq \min_{x \in C} L(x,u,v) \geq \min_x L(x,u,v) := g(u,v)
 \end{equation}
 $$
 
-Nói cách khác, $$g(u,v)$$ là một cận dưới của $$f^*$$. 
+Nói cách khác, $$g(u,v)$$ luôn là một cận dưới của $$f^*$$, với biểu thức tường minh:
 
 >
 $$
@@ -88,8 +87,8 @@ g(u,v) =
 \end{cases}
 $$
 
-Giải thích thứ hai cho ra cùng một bài toán đối ngẫu như giải thích thứ nhất, nhưng nó hoàn toàn tổng quát và áp dụng được cho các bài toán tối ưu bất kỳ (bao gồm cả những bài toán không lồi).
+Cách giải thích thứ hai cho ra cùng bài toán đối ngẫu như cách thứ nhất, nhưng hoàn toàn tổng quát và áp dụng được cho mọi bài toán tối ưu bất kỳ (kể cả các bài toán không lồi).
 
 ## Ứng dụng hiện đại (2022–2026)
 
-Một bài tùy chọn đi kèm dùng cùng đối ngẫu Lagrange như tín hiệu huấn luyện hoặc chứng chỉ trong DRO, mạng AC-OPF (DC3 / OPF-DNN), reduction Fairlearn, và SVM kernel. Xem [11-08 Ứng dụng hiện đại của đối ngẫu Lagrange]({% multilang_post_url contents/chapter11/2026-09-16-11_08_modern_applications %}).
+Bài đọc tùy chọn đi kèm trình bày cách sử dụng đối ngẫu Lagrange như tín hiệu huấn luyện hoặc chứng chỉ trong tối ưu bền vững theo phân phối (DRO), mạng nơ-ron giải AC-OPF (DC3 / OPF-DNN), phương pháp quy giảm công bằng của Fairlearn và SVM nhân (kernel SVM). Xem [11-08 Ứng dụng hiện đại của đối ngẫu Lagrange]({% multilang_post_url contents/chapter11/2026-09-16-11_08_modern_applications %}).

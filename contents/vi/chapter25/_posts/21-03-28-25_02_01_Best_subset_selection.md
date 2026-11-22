@@ -9,73 +9,78 @@ categories:
 lang: vi
 ---
 
-Chọn tập con tốt nhất, một trong những ví dụ tiêu biểu của quy hoạch nguyên, là bài toán chọn $$k$$ phần tử trong $$p$$ phần tử.
+Chọn tập con tốt nhất là một bài toán tiêu biểu của quy hoạch nguyên hỗn hợp trong thống kê, nhằm lựa chọn tối đa $$k$$ đặc trưng quan trọng nhất trong số $$p$$ đặc trưng sẵn có.
 
-## Chọn tập con tốt nhất
-Khi $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n×p}$$ và $$y \in \mathbb{R}^{n}$$, bài toán chọn tập con tốt nhất như sau:
+## Phát biểu bài toán
+
+Cho ma trận đặc trưng $$X = [x^{1} \quad \dotsc \quad x^{p}] \in \mathbb{R}^{n \times p}$$ và vector phản hồi $$y \in \mathbb{R}^{n}$$, bài toán chọn tập con tốt nhất có dạng:
 
 > $$
 > \begin{align}
 > \min_{\beta} & \quad \frac{1}{2} \parallel y - X\beta \parallel^{2} \\\\
-> \text{subject to } & \quad \parallel \beta \parallel_{0}  \  \leq  k
+> \text{subject to } & \quad \parallel \beta \parallel_{0} \leq k
 > \end{align}
 > $$
 
-Ở đây, $$\parallel \beta \parallel_{0}$$ là số phần tử khác không của $$\beta$$.
+trong đó $$\parallel \beta \parallel_{0}$$ là số phần tử khác không của $$\beta$$.
 
-Ở các chương trước, ta đã định nghĩa loại bài toán này là bài toán Lasso và làm cho $$\beta$$ thưa bằng chuẩn $$l_1$$. Trong bài toán này, nó được định nghĩa là bài toán ràng buộc số phần tử khác không bằng chuẩn $$l_0$$, nhưng vì điều kiện ràng buộc $$\parallel \beta \parallel_{0}  \  \leq  k$$ không lồi nên bài toán không thể giải bằng các kỹ thuật tối ưu lồi đã học cho đến nay.
+Ở các chương trước, bài toán Lasso tạo tính thưa một cách xấp xỉ thông qua chuẩn $$l_1$$. Ở đây, ràng buộc chuẩn giả $$l_0$$ ($$\parallel \beta \parallel_{0} \leq k$$) giới hạn trực tiếp số biến được chọn nhưng lại không lồi, nên không thể giải trực tiếp bằng các phương pháp tối ưu lồi thông thường.
 
-### Công thức quy hoạch nguyên
-Vậy hãy viết lại bài toán này bằng quy hoạch nguyên.
+### Mô hình quy hoạch nguyên hỗn hợp
+
+Ta biểu diễn lại bài toán trên dưới dạng quy hoạch nguyên hỗn hợp:
 
 > $$
 > \begin{align}
 > \min_{\beta, z} & \quad \frac{1}{2} \parallel y - X\beta \parallel^{2} \\\\
-> \text{subject to } & \quad \left\vert  \beta_{i} \right\vert  \leq M_{i} \cdot z_{i} \quad i = 1 \dotsc p \\\\
+> \text{subject to } & \quad \left\vert \beta_{i} \right\vert \leq M_{i} \cdot z_{i}, \quad i = 1, \dotsc, p \\\\
 > & \quad \sum_{i = 1}^{p} z_{i} \leq k \\\\
-> & \quad z_{i} \in \lbrace 0, 1 \rbrace \quad i = 1 \dotsc p
+> & \quad z_{i} \in \lbrace 0, 1 \rbrace, \quad i = 1, \dotsc, p
 > \end{align}
 > $$
 
-Bằng cách đưa vào biến nhị phân $$z_i$$ và làm cho tổng các $$z_i$$ nhỏ hơn hoặc bằng $$k$$, ta làm cho bài toán trên tương đương với bài toán gốc. $$M_i$$ là một cận trên đã biết trước của $$\left\vert  \beta_{i} \right\vert$$, là giá trị có thể tính bằng cách tiền xử lý $$X$$ và $$y$$.
+Các biến nhị phân $$z_i$$ kèm ràng buộc $$\sum_{i=1}^{p} z_i \leq k$$ đảm bảo tối đa $$k$$ hệ số $$\beta_i$$ khác không. Các hằng số $$M_i$$ là cận trên của $$\left\vert \beta_{i} \right\vert$$ tại nghiệm tối ưu và có thể ước lượng trước bằng cách tiền xử lý $$X$$ và $$y$$. Khi đã viết ở dạng này, ta có thể giải bài toán bằng các bộ giải quy hoạch nguyên hỗn hợp.
 
-Bây giờ vì đã định nghĩa bài toán bằng quy hoạch nguyên, từ đây ta có thể giải bằng các kỹ thuật quy hoạch nguyên.
+## Cách tạo điểm khởi động khả thi tốt
 
-## Một cách khéo léo để có nghiệm khả thi tốt
-Hãy tổng quát hóa bài toán để giải thích thuật toán. Giả sử hàm mục tiêu $$g : \mathbb{R}^{p} \to \mathbb{R}$$ lồi trơn và $$\nabla g$$ là L-Lipschitz.
->
-$$\min_{\beta} g(\beta) \quad \text{subject to} \quad \parallel \beta \parallel_{0} \le k$$
+Để trình bày thuật toán tìm nghiệm khả thi ban đầu (warm start), ta xét bài toán tổng quát với hàm mục tiêu $$g : \mathbb{R}^{p} \to \mathbb{R}$$ lồi, trơn và có gradient $$\nabla g$$ liên tục $$L$$-Lipschitz:
 
-Với chọn tập con tốt nhất, $$g(\beta) = \frac{1}{2} \parallel X\beta - y \parallel^2_2$$.
+> $$\min_{\beta} g(\beta) \quad \text{subject to} \quad \parallel \beta \parallel_{0} \le k$$
 
-### Quan sát
-Nhờ hàm $$H_k(u)$$ được định nghĩa như sau, ta có thể tìm $$k$$ phần tử có giá trị tuyệt đối lớn nhất của $$u \in \mathbb{R}^p$$.
->
-$$ H_k(u) = \underset{\beta : \parallel \beta \parallel_{0} \le k}{\text{argmin}} \parallel \beta - u \parallel^2_2$$
+Với bài toán chọn tập con tốt nhất, $$g(\beta) = \frac{1}{2} \parallel X\beta - y \parallel^2_2$$.
 
-Khi đó, hàm $$H_k(u)$$ thực hiện hard thresholding. Cũng có thể xem nó là phép chiếu $$u$$ lên tập $$\beta$$ thỏa $$\parallel \beta \parallel_{0} \le k$$.
+### Nhận xét
+
+Định nghĩa toán tử $$H_k(u)$$ giữ lại đúng $$k$$ phần tử có trị tuyệt đối lớn nhất của vector $$u \in \mathbb{R}^p$$ và gán các phần tử còn lại bằng 0:
+
+> $$ H_k(u) = \underset{\beta : \parallel \beta \parallel_{0} \le k}{\text{argmin}} \parallel \beta - u \parallel^2_2 $$
+
+Toán tử $$H_k(u)$$ chính là phép co ngưỡng cứng (hard thresholding), hay phép chiếu Euclid của $$u$$ lên tập $$\{\beta : \parallel \beta \parallel_{0} \le k\}$$.
 
 ### Thuật toán bậc nhất rời rạc (Discrete first-order algorithm)
-Bây giờ hãy định nghĩa thuật toán bằng gradient descent và hàm $$H_k(u)$$.
 
-1. Bắt đầu với $$\beta^{(0)}$$
-2. với $$i = 0, 1, ...$$ <br>
-$$\quad \beta^{(i+1)} = H_k \left(\beta^{(i)} - \frac{1}{L} \nabla g(\beta^{(i)})\right)$$<br>
-kết thúc vòng lặp<br>
+Kết hợp bước hạ gradient với toán tử $$H_k$$:
 
-Lặp lại quá trình trên thì $$\beta^{(i)} \to \bar{\beta}$$ hội tụ. Đây có thể gọi là một nghiệm cục bộ của bài toán cực tiểu hóa ở trên.
->
-$$ \bar{\beta} =  H_k \left(\bar{\beta} - \frac{1}{L} \nabla g(\bar{\beta})\right)$$
+1. Khởi tạo $$\beta^{(0)}$$.
+2. Với $$i = 0, 1, \dots$$: <br>
+$$\quad \beta^{(i+1)} = H_k \left(\beta^{(i)} - \frac{1}{L} \nabla g(\beta^{(i)})\right)$$ <br>
+Kết thúc vòng lặp.
 
-Về kết quả, thuật toán này có thể xem là thuật toán proximal gradient, vì hàm $$H_k(u)$$ đóng vai trò là toán tử proximal.
-## Kết quả tính toán
-### Khoảng cách của quy hoạch số nguyên hỗn hợp (Mixed integer programming gap)
-Hãy xem kết quả thí nghiệm của bài toán chọn tập con ở hình dưới.
+Quá trình lặp này hội tụ về một điểm $$\bar{\beta}$$ thỏa mãn điều kiện điểm bất động (tương ứng một nghiệm cục bộ tốt để làm điểm khởi động nóng cho MIP):
 
-Ở đồ thị bên trái, cận trên đã đạt tối ưu ngay từ sớm nhưng cận dưới tăng chậm và chỉ đến điểm gặp cận trên ta mới biết đó là nghiệm tối ưu. Đó là vì trong quy hoạch tuyến tính không có cách kiểm tra nghiệm có tối ưu hay không, và chỉ khi cận trên và cận dưới bằng nhau ta mới biết nghiệm là tối ưu.
-(Tham khảo: hiệu giữa cận trên và cận dưới được gọi là mixed integer programming gap.)
+> $$ \bar{\beta} = H_k \left(\bar{\beta} - \frac{1}{L} \nabla g(\bar{\beta})\right) $$
 
-Hình bên phải cho thấy cùng kết quả thí nghiệm đó dưới dạng mixed integer programming gap thu nhỏ dần. Đồ thị màu cam biểu diễn mixed integer programming gap, tức hiệu giữa cận trên và cận dưới, đang giảm dần.
+Về cấu trúc, thuật toán này có dạng tương tự proximal gradient descent với $$H_k$$ đóng vai trò toán tử proximal trên tập ràng buộc $$l_0$$.
+
+## Kết quả thực nghiệm
+
+### Khoảng cách tối ưu trong quy hoạch nguyên hỗn hợp (MIP gap)
+
+Hình 1 trình bày kết quả thực nghiệm cho bài toán chọn tập con tốt nhất.
+
+Ở đồ thị bên trái, cận trên sớm đạt tới giá trị tối ưu nhưng cận dưới tăng chậm hơn; chỉ khi cận dưới gặp cận trên ta mới chứng nhận được nghiệm hiện tại là tối ưu toàn cục. Điều này phản ánh đặc thù của quy hoạch nguyên: không có điều kiện tối ưu đơn giản để kiểm tra trực tiếp mà phải dựa vào việc thu hẹp hiệu giữa cận trên và cận dưới (gọi là *MIP gap*).
+
+Đồ thị bên phải minh họa quá trình MIP gap (đường màu cam) giảm dần theo thời gian.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -85,8 +90,9 @@ Hình bên phải cho thấy cùng kết quả thí nghiệm đó dưới dạng
 </figure>
 <br>
 
-### Khởi động nguội và khởi động ấm (Cold and Warm Starts)
-Hình tiếp theo cho thấy warm start nhìn chung có hiệu năng vượt trội so với cold start.
+### Khởi động nguội và khởi động nóng (Cold và Warm Starts)
+
+Hình 2 cho thấy việc dùng nghiệm từ thuật toán bậc nhất rời rạc làm điểm khởi động nóng (warm start) mang lại hiệu năng vượt trội so với khởi động nguội (cold start).
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -96,9 +102,9 @@ Hình tiếp theo cho thấy warm start nhìn chung có hiệu năng vượt tr�
 </figure>
 <br>
 
-### Phát hiện tính thưa (Sparsity Detection)
-Hình tiếp theo so sánh tính thưa của MIP (Mixed Integer Programming), Lasso, Step regression và Sparsenet. Kết quả cho thấy MIP cho kết quả thưa nhất.
+### Khả năng phát hiện tính thưa (Sparsity Detection)
 
+Hình 3 so sánh độ thưa của nghiệm thu được giữa MIP, Lasso, hồi quy từng bước (Stepwise regression) và SparseNet trên dữ liệu tổng hợp; kết quả cho thấy MIP đạt độ thưa chính xác nhất.
 
 <figure class="image" style="align: center;">
 <p align="center">

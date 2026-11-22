@@ -11,7 +11,7 @@ lang: vi
 
 # Các Bài Toán Chuẩn
 
-Trong [Chương 1](/chapter01/2021/01/07/optimization_problems/), chúng ta đã học rằng một bài toán tối ưu lồi được định nghĩa như sau:
+Trong [Chương 1](/chapter01/2021/01/07/optimization_problems/), ta đã biết một bài toán tối ưu hóa lồi dạng chuẩn được định nghĩa như sau:
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -20,20 +20,20 @@ Trong [Chương 1](/chapter01/2021/01/07/optimization_problems/), chúng ta đã
 </p>
 </figure>
 
-* Tập miền xác định là lồi
-* Hàm mục tiêu $$ f $$ và hàm ràng buộc bất đẳng thức $$ g_i $$ là lồi
-* Hàm ràng buộc đẳng thức $$ h_j $$ là affine
+* Miền xác định là tập lồi.
+* Hàm mục tiêu $$ f $$ và các hàm ràng buộc bất đẳng thức $$ g_i $$ là các hàm lồi.
+* Các hàm ràng buộc đẳng thức $$ h_j $$ là các hàm affine.
 
-Tùy thuộc vào loại hàm mục tiêu và hàm ràng buộc, các bài toán tối ưu được phân loại thành nhiều danh mục khác nhau. Trong chương này, chúng ta sẽ tìm hiểu về sáu lớp con chính:
+Tùy vào cấu trúc của hàm mục tiêu và các hàm ràng buộc, các bài toán tối ưu hóa lồi được phân loại thành nhiều lớp chuẩn khác nhau. Chương này trình bày sáu lớp bài toán tiêu biểu:
 
 - Quy hoạch tuyến tính (Linear Programming - LP)
 - Quy hoạch bậc hai (Quadratic Programming - QP)
-- Quy hoạch bậc hai với ràng buộc bậc hai (Quadratically Constrained Quadratic Programming - QCQP)
+- Quy hoạch bậc hai có ràng buộc bậc hai (Quadratically Constrained Quadratic Programming - QCQP)
 - Quy hoạch nón bậc hai (Second-Order Cone Programming - SOCP)
-- Quy hoạch bán xác định (Semidefinite Programming - SDP)
+- Quy hoạch nửa xác định (Semidefinite Programming - SDP)
 - Quy hoạch nón (Conic Programming - CP)
 
-Các bài toán này có mối quan hệ bao hàm như sau và trở nên tổng quát hơn khi di chuyển xuống dưới trong danh sách:
+Sáu lớp bài toán này tạo thành một hệ thống phân cấp bao hàm, với mức độ tổng quát tăng dần từ trái sang phải:
 
 $$ LP \subseteq QP \subseteq QCQP \subseteq SOCP \subseteq SDP \subseteq CP $$
 <figure class="image" style="align: center;">
@@ -43,4 +43,4 @@ $$ LP \subseteq QP \subseteq QCQP \subseteq SOCP \subseteq SDP \subseteq CP $$
 </p>
 </figure>
 
-Sau phân loại và lab DCP, bài tùy chọn [05-08 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter05/2026-09-16-05_08_Applications_Recent %}) chỉ tới Clarabel, QP danh mục, kiểm chứng SDP, và khôi phục thưa đã bung.
+Sau phần phân loại và bài thực hành DCP/CVXPY, bài tùy chọn [05-08 Ứng dụng và phát triển gần đây]({% multilang_post_url contents/chapter05/2026-09-16-05_08_Applications_Recent %}) giới thiệu các ứng dụng hiện đại gắn với những dạng chuẩn này, bao gồm bộ giải Clarabel, bài toán QP tối ưu hóa danh mục đầu tư, nới lỏng SDP trong kiểm chứng mạng nơ-ron và khôi phục thưa bằng khai triển thuật toán.

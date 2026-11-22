@@ -11,24 +11,24 @@ lang: vi
 
 # Giới thiệu
 
-LBFGS là một ví dụ của các phương pháp quasi-Newton bộ nhớ hạn chế, và rất hữu ích khi chi phí tính toán hoặc lưu trữ ma trận Hessian là không hợp lý. Phương pháp này ước lượng (xấp xỉ) ma trận Hessian bằng cách chỉ duy trì một vài vector $$n$$-chiều thay vì lưu trữ một ma trận Hessian dày đặc $$n \times n$$.
+L-BFGS (Limited-memory BFGS) là đại diện tiêu biểu của lớp phương pháp Quasi-Newton bộ nhớ hạn chế, đặc biệt hữu ích khi chi phí tính toán hoặc lưu trữ ma trận Hessian dày đặc kích thước $$n \times n$$ quá lớn. Thay vì lưu toàn bộ ma trận $$n \times n$$, L-BFGS chỉ lưu một số ít vector $$n$$-chiều để biểu diễn ngầm xấp xỉ nghịch đảo Hessian.
 
-Thuật toán LBFGS dựa trên BFGS, như tên gọi của nó. Ý tưởng chính là sử dụng thông tin độ cong từ các vòng lặp gần nhất để ước lượng Hessian. Mặt khác, thông tin độ cong từ các vòng lặp cũ hơn không được sử dụng để tiết kiệm không gian lưu trữ, vì nó có thể khá xa với hành vi được thể hiện bởi Hessian của vòng lặp hiện tại.
+Như tên gọi, L-BFGS được xây dựng trực tiếp từ BFGS. Ý tưởng cốt lõi là chỉ sử dụng thông tin độ cong từ $$m$$ vòng lặp gần nhất để xấp xỉ Hessian nghịch đảo, đồng thời loại bỏ thông tin từ các vòng lặp quá cũ — vừa tiết kiệm bộ nhớ, vừa tránh dùng thông tin độ cong đã không còn phản ánh đúng tính chất cục bộ tại điểm lặp hiện tại.
 
-Lưu ý phụ, các phiên bản bộ nhớ hạn chế của các thuật toán quasi-Newton khác (ví dụ: SR1) cũng có thể được suy ra bằng cách sử dụng cùng kỹ thuật [14].
+Ngoài ra, phiên bản bộ nhớ hạn chế của các thuật toán Quasi-Newton khác (chẳng hạn SR1) cũng có thể được xây dựng theo cùng nguyên lý [14].
 
-# LBFGS
+# L-BFGS
 
-Để giải thích LBFGS, trước tiên hãy xem xét phương pháp BFGS. Tại mỗi bước, BFGS cập nhật $$x$$ như sau:
+Để hiểu L-BFGS, trước hết nhắc lại phép cập nhật của BFGS ở mỗi vòng lặp:
 
 >$$
 >x^+ = x - t H \nabla f, \\\\
->\text{trong đó } t \text{ là độ dài bước và } H \text{ được cập nhật tại mỗi vòng lặp bằng công thức, }\\\\
+>\text{trong đó } t \text{ là độ dài bước và } H \text{ được cập nhật theo công thức:}\\\\
 >\text{ }\\\\
 >H^+ = \big( I - \frac{sy^T}{y^Ts} \big) H \big( I - \frac{ys^T}{y^Ts} \big) + \frac{ss^T}{y^Ts}. \\\\
 >$$
 
-Với $$H$$ như trên, $$H^+q, q \in \mathbb{R}^n$$ có thể được biểu diễn bằng các số vô hướng $$\alpha, \beta \in \mathbb{R}$$ và các vector $$p, s \in \mathbb{R}^n$$.
+Với cấu trúc trên, tích ma trận–vector $$H^+q$$ (với $$q \in \mathbb{R}^n$$) có thể được tính chỉ bằng các phép tích vô hướng tạo thành các đại lượng vô hướng $$\alpha, \beta \in \mathbb{R}$$ và các phép cộng vector theo $$p, s \in \mathbb{R}^n$$:
 
 >$$
 >\begin{align}
@@ -37,11 +37,11 @@ Với $$H$$ như trên, $$H^+q, q \in \mathbb{R}^n$$ có thể được biểu d
 > &= \big( I - \frac{sy^T}{y^Ts} \big) p + \alpha s\\\\
 > &= p - \underbrace{\frac{y^Tp}{y^Ts}}_{\beta}s + \alpha s \\\\
 > &= p + (\alpha - \beta) s, \\\\
->& \text{trong đó } \alpha = \frac{s^Tq}{y^Ts}, q^+ = q - \alpha y, p = Hq^+, \beta = \frac{y^Tp}{y^Ts}.
+>& \text{trong đó } \alpha = \frac{s^Tq}{y^Ts}, \ q^+ = q - \alpha y, \ p = Hq^+, \ \beta = \frac{y^Tp}{y^Ts}.
 >\end{align} \\\\
 >$$
 
-Khi $$H$$ được cập nhật qua k lần cập nhật BFGS, thì $$Hq= -H\nabla f(x)$$ có thể được tính toán trong độ phức tạp $$O(kn)$$ (xem thuật toán bên dưới). Để sử dụng bộ nhớ hiệu quả, chúng ta chỉ sử dụng thông tin độ cong từ $$m$$ vòng lặp gần nhất. (với $$k \ge m$$)
+Nếu $$H$$ được hình thành sau $$k$$ bước cập nhật BFGS, thì hướng bước $$-H\nabla f(x)$$ có thể được tính trực tiếp với độ phức tạp $$O(kn)$$ mà không cần tạo tường minh ma trận $$H$$ (xem thuật toán đệ quy hai vòng bên dưới). Để tiết kiệm bộ nhớ khi $$k$$ lớn, L-BFGS chỉ giữ lại thông tin độ cong từ $$m$$ vòng lặp gần nhất (với $$k \ge m$$), đưa chi phí mỗi bước xuống $$O(mn)$$.
 
 # Thuật toán
 
@@ -52,13 +52,13 @@ Khi $$H$$ được cập nhật qua k lần cập nhật BFGS, thì $$Hq= -H\nab
 </p>
 </figure>
 
-Thông thường, xấp xỉ Hessian nghịch đảo $$H_k$$ là dày đặc, và trong trường hợp có nhiều biến, phép toán trở nên rất nặng. LBFGS thu được $$H_k \nabla f_k$$ bằng tổng và tích của các vector liên tiếp, giải quyết vấn đề tính toán của $$H_k$$.
+Ma trận xấp xỉ nghịch đảo Hessian $$H_k$$ nhìn chung là ma trận dày đặc nên phép nhân ma trận trực tiếp rất tốn kém khi số biến lớn. L-BFGS tính trực tiếp tích $$H_k \nabla f_k$$ thông qua chuỗi các tích vô hướng và phép cộng vector, khắc phục hoàn toàn nút thắt bộ nhớ và tính toán của $$H_k$$.
 
-Trong tính toán, xấp xỉ Hessian ban đầu $$H^{0, k}$$ thường (và đã được xác minh là rất hiệu quả) là tích của ma trận đơn vị với một số hằng số ($$H^{0, k} = \gamma_k I$$), do đó việc tính toán không quá lớn ([14] mục 7.2).
+Trong thực hành, xấp xỉ khởi đầu $$H^{0, k}$$ ở mỗi vòng lặp thường được chọn là bội số của ma trận đơn vị $$H^{0, k} = \gamma_k I$$ — lựa chọn đơn giản nhưng đã được chứng minh rất hiệu quả ([14] mục 7.2):
 
 >$$
 H^{0, k} = \gamma_k I, \\\\
 >\text{trong đó } \: \gamma_k = \frac{s^T_{k-1}y_{k-1}}{y^T_{k-1}y_{k-1}}.
 >$$
 
-* **Lưu ý:** $$H^{0, k}$$ thay đổi theo mỗi vòng lặp.
+* **Lưu ý:** Hệ số co giãn $$\gamma_k$$ (và do đó $$H^{0, k}$$) được cập nhật lại ở mỗi vòng lặp.

@@ -16,18 +16,18 @@ Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chư
 
 ### ⚡ **Phương Pháp Gradient Gần Kề (Proximal Gradient)**
 
-#### **Bài toán composite**
-Xét hàm mục tiêu có thể phân tách:
+#### **Bài toán tổng hợp (Composite)**
+Xét hàm mục tiêu có thể phân tách thành hai phần:
 $$f(x) = g(x) + h(x)$$
 
-với:
-- $$g(x)$$: hàm lồi, khả vi, $$\text{dom}(g) = \mathbb{R}^n$$
-- $$h(x)$$: hàm lồi, có thể không khả vi
+trong đó:
+- $$g(x)$$: hàm lồi, khả vi, $$\text{dom}(g) = \mathbb{R}^n$$.
+- $$h(x)$$: hàm lồi, có thể không khả vi.
 
 #### **Ý tưởng chính**
-- **Xấp xỉ $$g$$:** Sử dụng Taylor bậc hai với Hessian $$\frac{1}{t}I$$
-- **Giữ nguyên $$h$$:** Không xấp xỉ phần không khả vi
-- **Kết hợp tối ưu:** Tìm điểm tối ưu của hàm xấp xỉ + $$h$$
+- **Xấp xỉ $$g$$:** Dùng khai triển Taylor bậc hai với ma trận Hessian thay bằng $$\frac{1}{t}I$$.
+- **Giữ nguyên $$h$$:** Không xấp xỉ phần không khả vi.
+- **Kết hợp tối ưu:** Tìm điểm cực tiểu của tổng hàm xấp xỉ bậc hai và $$h$$.
 
 #### **Thuật toán cơ bản**
 $$x^{(k)} = \text{prox}_{t_k}(x^{(k-1)} - t_k \nabla g(x^{(k-1)}))$$
@@ -35,10 +35,10 @@ $$x^{(k)} = \text{prox}_{t_k}(x^{(k-1)} - t_k \nabla g(x^{(k-1)}))$$
 với **ánh xạ gần kề (proximal mapping):**
 $$\text{prox}_t(x) = \underset{z}{\arg\min} \left\{ \frac{1}{2t} \lVert x - z \rVert_2^2 + h(z) \right\}$$
 
-#### **Giải thích trực quan**
-1. **Bước gradient:** $$x - t\nabla g(x)$$ (gradient descent cho $$g$$)
-2. **Điều chỉnh proximal:** Tìm điểm gần với bước gradient nhưng làm nhỏ $$h$$
-3. **Trade-off:** Cân bằng giữa "gần với gradient step" và "nhỏ $$h$$"
+#### **Diễn giải trực quan**
+1. **Bước gradient:** $$x - t\nabla g(x)$$ (một bước gradient descent trên $$g$$).
+2. **Điều chỉnh gần kề:** Tìm điểm vừa gần kết quả bước gradient, vừa làm nhỏ $$h$$.
+3. **Cân bằng:** Tham số $$t$$ điều tiết giữa việc bám theo bước gradient và việc làm nhỏ $$h$$.
 
 ### 📏 **Ánh Xạ Gần Kề (Proximal Mapping)**
 
@@ -46,51 +46,51 @@ $$\text{prox}_t(x) = \underset{z}{\arg\min} \left\{ \frac{1}{2t} \lVert x - z \r
 $$\text{prox}_t(x) = \underset{z}{\arg\min} \left\{ \frac{1}{2t} \lVert x - z \rVert_2^2 + h(z) \right\}$$
 
 #### **Tính chất quan trọng**
-- **Chỉ phụ thuộc vào $$h$$:** Không phụ thuộc vào $$g$$
-- **Có thể tính giải tích:** Cho nhiều hàm $$h$$ quan trọng
-- **Đơn trị:** Nghiệm duy nhất (do tính lồi chặt)
-- **Non-expansive:** $$\lVert \text{prox}_t(x) - \text{prox}_t(y) \rVert \le \lVert x - y \rVert$$
+- **Chỉ phụ thuộc vào $$h$$:** Độc lập với hàm $$g$$.
+- **Có dạng đóng:** Tính được trực tiếp cho nhiều hàm $$h$$ phổ biến.
+- **Đơn trị:** Nghiệm tồn tại duy nhất do tính lồi chặt của bài toán con.
+- **Không giãn (Non-expansive):** $$\lVert \text{prox}_t(x) - \text{prox}_t(y) \rVert \le \lVert x - y \rVert$$.
 
-#### **Ví dụ quan trọng**
+#### **Các ví dụ tiêu biểu**
 
-**1. L1 norm (LASSO):**
+**1. Chuẩn L1 (LASSO):**
 $$h(x) = \lambda \lVert x \rVert_1 \Rightarrow \text{prox}_t(x) = S_{\lambda t}(x)$$
 
-**Soft-thresholding operator:**
+**Toán tử ngưỡng mềm (Soft-thresholding):**
 $$[S_{\lambda t}(x)]_i = \begin{cases}
-x_i - \lambda t & \text{if } x_i > \lambda t \\
-0 & \text{if } |x_i| \le \lambda t \\
-x_i + \lambda t & \text{if } x_i < -\lambda t
+x_i - \lambda t & \text{nếu } x_i > \lambda t \\
+0 & \text{nếu } |x_i| \le \lambda t \\
+x_i + \lambda t & \text{nếu } x_i < -\lambda t
 \end{cases}$$
 
-**2. Indicator function (Projection):**
+**2. Hàm chỉ thị (Phép chiếu):**
 $$h(x) = I_C(x) \Rightarrow \text{prox}_t(x) = P_C(x)$$
 
-**3. L2 norm:**
+**3. Chuẩn L2:**
 $$h(x) = \lambda \lVert x \rVert_2 \Rightarrow \text{prox}_t(x) = \max\left\{0, 1 - \frac{\lambda t}{\lVert x \rVert_2}\right\} x$$
 
 ### 📊 **Phân Tích Hội Tụ**
 
-#### **Giả định**
-- $$g$$ lồi, khả vi với $$\nabla g$$ Lipschitz liên tục (hằng số $$L$$)
-- $$h$$ lồi, $$\text{prox}_t$$ tính được
+#### **Giả thiết**
+- $$g$$ lồi, khả vi với $$\nabla g$$ liên tục Lipschitz (hằng số $$L$$).
+- $$h$$ lồi và $$\text{prox}_t$$ tính được.
 
 #### **Định lý hội tụ**
-Với step size $$t \le 1/L$$:
+Với kích thước bước cố định $$t \le 1/L$$:
 $$f(x^{(k)}) - f^* \le \frac{\lVert x^{(0)} - x^* \rVert_2^2}{2tk}$$
 
 **Ý nghĩa:**
-- **Tốc độ hội tụ:** $$O(1/k)$$ (giống gradient descent)
-- **Điều kiện step size:** $$t \le 1/L$$ (giống gradient descent)
-- **Hiệu suất:** Tương đương gradient descent về số iterations
+- **Tốc độ hội tụ:** $$O(1/k)$$ (cùng bậc với gradient descent).
+- **Điều kiện kích thước bước:** $$t \le 1/L$$ (tương tự gradient descent).
+- **Hiệu quả:** Tương đương gradient descent xét theo số bước lặp.
 
-#### **Backtracking line search**
-**Điều kiện:** 
+#### **Tìm kiếm đường thẳng lùi (Backtracking line search)**
+**Điều kiện kiểm tra:**
 $$g(x - tG_t(x)) > g(x) - t\nabla g(x)^T G_t(x) + \frac{t}{2} \lVert G_t(x) \rVert_2^2$$
 
-với $$G_t(x) = \frac{x - \text{prox}_t(x - t\nabla g(x))}{t}$$
+với $$G_t(x) = \frac{x - \text{prox}_t(x - t\nabla g(x))}{t}$$.
 
-**Lưu ý:** Chỉ kiểm tra điều kiện trên $$g$$, không phải $$f$$
+**Lưu ý:** Điều kiện lùi chỉ đánh giá trên phần trơn $$g$$, không đánh giá trên toàn bộ $$f$$.
 
 ### 🎯 **Ví Dụ: ISTA (Iterative Soft-Thresholding Algorithm)**
 
@@ -98,132 +98,132 @@ với $$G_t(x) = \frac{x - \text{prox}_t(x - t\nabla g(x))}{t}$$
 $$\min_\beta \frac{1}{2} \lVert y - X\beta \rVert_2^2 + \lambda \lVert \beta \rVert_1$$
 
 **Phân tách:**
-- $$g(\beta) = \frac{1}{2} \lVert y - X\beta \rVert_2^2$$ (khả vi)
-- $$h(\beta) = \lambda \lVert \beta \rVert_1$$ (không khả vi)
+- $$g(\beta) = \frac{1}{2} \lVert y - X\beta \rVert_2^2$$ (khả vi).
+- $$h(\beta) = \lambda \lVert \beta \rVert_1$$ (không khả vi).
 
 #### **Gradient của $$g$$**
 $$\nabla g(\beta) = -X^T(y - X\beta) = X^T(X\beta - y)$$
 
-#### **ISTA update**
+#### **Bước cập nhật ISTA**
 $$\beta^{(k)} = S_{\lambda t}(\beta^{(k-1)} + tX^T(y - X\beta^{(k-1)}))$$
 
-**Ưu điểm:** Đơn giản, hiệu quả hơn subgradient method nhiều
+**Ưu điểm:** Công thức đơn giản và hội tụ nhanh hơn nhiều so với phương pháp subgradient.
 
-### 🎯 **Ví Dụ: Matrix Completion**
+### 🎯 **Ví Dụ: Hoàn Thiện Ma Trận (Matrix Completion)**
 
 #### **Bài toán**
 $$\min_B \frac{1}{2} \sum_{(i,j) \in \Omega} (Y_{ij} - B_{ij})^2 + \lambda \lVert B \rVert_{tr}$$
 
 **Phân tách:**
-- $$g(B) = \frac{1}{2} \lVert P_\Omega(Y) - P_\Omega(B) \rVert_F^2$$ (khả vi)
-- $$h(B) = \lambda \lVert B \rVert_{tr}$$ (trace norm, không khả vi)
+- $$g(B) = \frac{1}{2} \lVert P_\Omega(Y) - P_\Omega(B) \rVert_F^2$$ (khả vi).
+- $$h(B) = \lambda \lVert B \rVert_{tr}$$ (chuẩn vết, không khả vi).
 
 #### **Toán tử chiếu**
 $$[P_\Omega(B)]_{ij} = \begin{cases}
-B_{ij} & \text{if } (i,j) \in \Omega \\
-0 & \text{otherwise}
+B_{ij} & \text{nếu } (i,j) \in \Omega \\
+0 & \text{trường hợp khác}
 \end{cases}$$
 
 #### **Gradient của $$g$$**
 $$\nabla g(B) = -(P_\Omega(Y) - P_\Omega(B))$$
 
-#### **Proximal mapping cho trace norm**
-$$\text{prox}_t(B) = S_{\lambda t}(B)$$ (matrix soft-thresholding)
+#### **Ánh xạ gần kề cho chuẩn vết**
+$$\text{prox}_t(B) = S_{\lambda t}(B)$$ (ngưỡng mềm ma trận).
 
-Nếu $$B = U\Sigma V^T$$ (SVD), thì:
+Nếu $$B = U\Sigma V^T$$ (phân tích SVD), thì:
 $$S_{\lambda t}(B) = U\Sigma_{\lambda t} V^T$$
 
-với $$(\Sigma_{\lambda t})_{ii} = \max\{\Sigma_{ii} - \lambda t, 0\}$$
+với $$(\Sigma_{\lambda t})_{ii} = \max\{\Sigma_{ii} - \lambda t, 0\}$$.
 
-#### **Soft-Impute Algorithm**
+#### **Thuật toán Soft-Impute**
 $$B^{(k)} = S_{\lambda}(P_\Omega(Y) + P_\Omega^\perp(B^{(k-1)}))$$
 
 ### 🔄 **Các Trường Hợp Đặc Biệt**
 
-Proximal gradient là **phương pháp tổng quát** bao gồm:
+Phương pháp gradient gần kề là **khuôn khổ tổng quát** bao gồm:
 
 #### **1. Gradient Descent**
 $$h = 0 \Rightarrow \text{prox}_t(x) = x$$
 $$x^{(k)} = x^{(k-1)} - t\nabla g(x^{(k-1)})$$
 
-#### **2. Projected Gradient Descent**
+#### **2. Gradient Descent có chiếu (Projected Gradient Descent)**
 $$h = I_C \Rightarrow \text{prox}_t(x) = P_C(x)$$
 $$x^{(k)} = P_C(x^{(k-1)} - t\nabla g(x^{(k-1)}))$$
 
-#### **3. Proximal Minimization Algorithm (PMA)**
+#### **3. Thuật toán tối ưu gần kề (PMA)**
 $$g = 0 \Rightarrow x^{(k)} = \text{prox}_t(x^{(k-1)})$$
 
-### ⚡ **Accelerated Proximal Gradient (FISTA)**
+### ⚡ **Gradient Gần Kề Tăng Tốc (FISTA)**
 
 #### **Ý tưởng**
-Thêm **momentum** để tăng tốc hội tụ từ $$O(1/k)$$ lên $$O(1/k^2)$$
+Bổ sung **động lượng** để nâng tốc độ hội tụ từ $$O(1/k)$$ lên $$O(1/k^2)$$.
 
 #### **Thuật toán**
 $$v = x^{(k-1)} + \frac{k-2}{k+1}(x^{(k-1)} - x^{(k-2)})$$
 $$x^{(k)} = \text{prox}_{t_k}(v - t_k \nabla g(v))$$
 
-#### **Momentum weight**
-$$\frac{k-2}{k+1} \to 1$$ khi $$k \to \infty$$
+#### **Trọng số động lượng**
+$$\frac{k-2}{k+1} \to 1$$ khi $$k \to \infty$$.
 
 #### **Đặc điểm**
-- **Tốc độ hội tụ:** $$O(1/k^2)$$ - tối ưu cho first-order methods
-- **Không monotonic:** Có thể tăng tạm thời ("Nesterov ripples")
-- **Hiệu quả cao:** Đặc biệt tốt cho các bài toán có condition number lớn
+- **Tốc độ hội tụ:** $$O(1/k^2)$$ — tối ưu trong lớp các phương pháp bậc nhất.
+- **Không đơn điệu:** Giá trị hàm mục tiêu có thể tăng tạm thời ("gợn sóng Nesterov").
+- **Hiệu quả:** Cải thiện rõ rệt trên các bài toán có số điều kiện lớn.
 
 #### **FISTA cho LASSO**
-Cải thiện đáng kể so với ISTA và subgradient method
+Giảm đáng kể số bước lặp so với cả ISTA và phương pháp subgradient.
 
 ### 🔄 **So Sánh Các Phương Pháp**
 
 | Phương pháp | Điều kiện | Tốc độ hội tụ | Ứng dụng |
 |-------------|-----------|---------------|----------|
-| **Gradient Descent** | $$f$$ khả vi | $$O(1/k)$$ | Smooth optimization |
-| **Subgradient** | $$f$$ lồi | $$O(1/\sqrt{k})$$ | Non-smooth |
-| **Proximal Gradient** | $$f = g + h$$, $$g$$ smooth | $$O(1/k)$$ | Composite problems |
-| **Accelerated Proximal** | $$f = g + h$$, $$g$$ smooth | $$O(1/k^2)$$ | Fast composite |
+| **Gradient Descent** | $$f$$ khả vi | $$O(1/k)$$ | Tối ưu hàm trơn |
+| **Subgradient** | $$f$$ lồi | $$O(1/\sqrt{k})$$ | Hàm không trơn tổng quát |
+| **Gradient gần kề** | $$f = g + h$$, $$g$$ trơn | $$O(1/k)$$ | Bài toán tổng hợp |
+| **Gradient gần kề tăng tốc** | $$f = g + h$$, $$g$$ trơn | $$O(1/k^2)$$ | Bài toán tổng hợp cần hội tụ nhanh |
 
 ### 🛠️ **Kỹ Thuật Thực Hành**
 
-#### **Khi nào sử dụng Proximal Gradient:**
-- **Composite functions:** $$f = g + h$$ với $$g$$ smooth, $$h$$ non-smooth
-- **Regularization problems:** LASSO, elastic net, group LASSO
-- **Constrained optimization:** Projected gradient descent
-- **Matrix problems:** Matrix completion, robust PCA
-- **Sparse optimization:** Feature selection, compressed sensing
+#### **Khi nào nên dùng Gradient gần kề:**
+- **Hàm tổng hợp:** $$f = g + h$$ với $$g$$ trơn, $$h$$ không trơn.
+- **Bài toán chính quy hóa:** LASSO, elastic net, group LASSO.
+- **Tối ưu có ràng buộc:** Gradient descent có chiếu.
+- **Bài toán ma trận:** Hoàn thiện ma trận, phân tích thành phần chính bền vững (robust PCA).
+- **Tối ưu thưa:** Chọn đặc trưng, cảm biến nén.
 
-#### **Yêu cầu implementation:**
-1. **Tính $$\nabla g$$:** Phải tính được gradient của phần smooth
-2. **Tính $$\text{prox}_t$$:** Phải có công thức giải tích hoặc solver hiệu quả
-3. **Lipschitz constant $$L$$:** Để chọn step size phù hợp
+#### **Điều kiện triển khai hiệu quả:**
+1. **Tính $$\nabla g$$:** Gradient của phần trơn phải tính được nhanh.
+2. **Tính $$\text{prox}_t$$:** Có công thức giải tích hoặc bộ giải con hiệu quả.
+3. **Hằng số Lipschitz $$L$$:** Giúp chọn kích thước bước ổn định.
 
-#### **Debugging và tuning:**
-- **Kiểm tra proximal mapping:** Verify tính đúng đắn
-- **Step size selection:** Fixed ($$t = 1/L$$) hoặc backtracking
-- **Convergence monitoring:** Theo dõi $$f(x^{(k)})$$
-- **Acceleration:** Thử FISTA nếu cần tăng tốc
+#### **Gỡ lỗi và tinh chỉnh:**
+- **Kiểm tra ánh xạ gần kề:** Xác minh công thức trên các ví dụ nhỏ.
+- **Chọn kích thước bước:** Bước cố định ($$t = 1/L$$) hoặc tìm kiếm đường thẳng lùi.
+- **Theo dõi hội tụ:** Quan sát $$f(x^{(k)})$$ qua các vòng lặp.
+- **Tăng tốc:** Thử FISTA nếu phương pháp cơ bản hội tụ chậm.
 
 ### 📈 **Ứng Dụng Thực Tế**
 
-#### **1. Machine Learning**
-- **LASSO Regression:** Feature selection
-- **Elastic Net:** Kết hợp L1 và L2 regularization
-- **Group LASSO:** Structured sparsity
-- **Sparse Logistic Regression:** Classification với feature selection
+#### **1. Học máy**
+- **Hồi quy LASSO:** Chọn lọc đặc trưng.
+- **Elastic Net:** Kết hợp chính quy hóa L1 và L2.
+- **Group LASSO:** Tạo tính thưa theo nhóm biến.
+- **Hồi quy Logistic thưa:** Phân loại kết hợp chọn đặc trưng.
 
-#### **2. Signal Processing**
-- **Compressed Sensing:** Khôi phục tín hiệu sparse
-- **Image Denoising:** Total variation regularization
-- **Matrix Completion:** Collaborative filtering, recommender systems
+#### **2. Xử lý tín hiệu**
+- **Cảm biến nén (Compressed Sensing):** Khôi phục tín hiệu thưa.
+- **Khử nhiễu ảnh:** Chính quy hóa biến phân toàn phần (Total Variation).
+- **Hoàn thiện ma trận:** Lọc cộng tác, hệ thống gợi ý.
 
-#### **3. Computer Vision**
-- **Image Segmentation:** Total variation methods
-- **Optical Flow:** Regularized motion estimation
-- **Structure from Motion:** Bundle adjustment với sparsity
+#### **3. Thị giác máy tính**
+- **Phân đoạn ảnh:** Các phương pháp biến phân toàn phần.
+- **Dòng quang học (Optical Flow):** Ước lượng chuyển động có chính quy hóa.
+- **Tái tạo cấu trúc từ chuyển động:** Tối ưu thưa trong bundle adjustment.
 
-#### **4. Statistics**
-- **Variable Selection:** High-dimensional regression
-- **Robust Statistics:** Huber loss, quantile regression
-- **Graphical Models:** Sparse precision matrix estimation
+#### **4. Thống kê**
+- **Chọn biến:** Hồi quy nhiều chiều.
+- **Thống kê bền vững:** Hàm mất mát Huber, hồi quy phân vị.
+- **Mô hình đồ thị:** Ước lượng ma trận độ chính xác thưa.
 
 ### 💡 **Ví Dụ Minh Họa**
 
@@ -233,75 +233,75 @@ Cải thiện đáng kể so với ISTA và subgradient method
 - $$g(x) = \frac{1}{2}(x-2)^2$$, $$\nabla g(x) = x-2$$
 - $$h(x) = |x|$$
 
-**Proximal mapping:**
+**Ánh xạ gần kề:**
 $$\text{prox}_t(x) = S_t(x) = \begin{cases}
-x - t & \text{if } x > t \\
-0 & \text{if } |x| \le t \\
-x + t & \text{if } x < -t
+x - t & \text{nếu } x > t \\
+0 & \text{nếu } |x| \le t \\
+x + t & \text{nếu } x < -t
 \end{cases}$$
 
-**Proximal gradient step:**
-1. Gradient step: $$x - t(x-2) = (1-t)x + 2t$$
-2. Soft-thresholding: $$\text{prox}_t((1-t)x + 2t)$$
+**Một bước gradient gần kề:**
+1. Bước gradient: $$x - t(x-2) = (1-t)x + 2t$$.
+2. Áp dụng ngưỡng mềm: $$\text{prox}_t((1-t)x + 2t)$$.
 
 ### 🎯 **Kết Nối Với Các Chương Khác**
 
-#### **Từ chương trước:**
-- **Chương 08:** Subgradient method cho non-smooth functions
-- **Chương 07:** Subgradient và subdifferential
-- **Chương 06:** Gradient descent cho smooth functions
+#### **Từ các chương trước:**
+- **Chương 08:** Phương pháp subgradient cho hàm không trơn.
+- **Chương 07:** Gradient dưới và vi phân dưới.
+- **Chương 06:** Gradient descent cho hàm trơn.
 
-#### **Ưu điểm của Proximal Gradient:**
-- **Nhanh hơn subgradient:** $$O(1/k)$$ vs $$O(1/\sqrt{k})$$
-- **Tổng quát hơn gradient descent:** Xử lý được non-smooth components
-- **Có thể tăng tốc:** FISTA đạt $$O(1/k^2)$$
+#### **Ưu điểm của Gradient gần kề:**
+- **Nhanh hơn subgradient:** $$O(1/k)$$ so với $$O(1/\sqrt{k})$$.
+- **Tổng quát hơn gradient descent:** Xử lý trực tiếp thành phần không trơn.
+- **Có thể tăng tốc:** FISTA đạt tốc độ $$O(1/k^2)$$.
 
-#### **Hướng phát triển:**
-- **ADMM:** Alternating Direction Method of Multipliers
-- **Primal-dual methods:** Xử lý constrained problems
-- **Stochastic variants:** Mini-batch và online versions
+#### **Hướng mở rộng:**
+- **ADMM:** Phương pháp nhân tử theo hướng luân phiên.
+- **Phương pháp gốc–đối ngẫu:** Xử lý bài toán có ràng buộc phức tạp.
+- **Biến thể ngẫu nhiên:** Phiên bản mini-batch và trực tuyến.
 
 ### 🌟 **Ý Nghĩa Lý Thuyết**
 
-#### **Proximal operator như "generalized gradient":**
-- **Gradient:** $$\nabla f(x)$$ cho smooth functions
-- **Subgradient:** $$\partial f(x)$$ cho non-smooth functions  
-- **Proximal operator:** $$\text{prox}_t$$ cho composite functions
+#### **Toán tử gần kề như "gradient tổng quát":**
+- **Gradient:** $$\nabla f(x)$$ cho hàm trơn.
+- **Subgradient:** $$\partial f(x)$$ cho hàm không trơn.
+- **Toán tử gần kề:** $$\text{prox}_t$$ cho bài toán tổng hợp.
 
-#### **Moreau envelope:**
+#### **Bao Moreau (Moreau envelope):**
 $$f_t(x) = \min_z \left\{ f(z) + \frac{1}{2t}\lVert x - z \rVert^2 \right\}$$
 
-**Tính chất:** $$f_t$$ smooth với $$\nabla f_t(x) = \frac{x - \text{prox}_t(x)}{t}$$
+**Tính chất:** $$f_t$$ là hàm trơn với $$\nabla f_t(x) = \frac{x - \text{prox}_t(x)}{t}$$.
 
-#### **Kết nối với variational analysis:**
-- Proximal gradient ↔ Forward-backward splitting
-- Acceleration ↔ Inertial methods
-- Convergence rates ↔ Complexity theory
+#### **Liên hệ với giải tích biến phân:**
+- Gradient gần kề ↔ Tách xuôi–ngược (forward-backward splitting).
+- Tăng tốc ↔ Các phương pháp có quán tính.
+- Tốc độ hội tụ ↔ Lý thuyết độ phức tạp tối ưu.
 
 ### 💡 **Mẹo Thực Hành**
 
-#### **Chọn phương pháp:**
-1. **Smooth function:** Gradient descent
-2. **Non-smooth function:** Subgradient method
-3. **Composite function với prox tính được:** Proximal gradient
-4. **Cần tăng tốc:** FISTA
-5. **Constrained:** Projected gradient descent
+#### **Lựa chọn phương pháp phù hợp:**
+1. **Hàm trơn:** Gradient descent.
+2. **Hàm không trơn tổng quát:** Phương pháp subgradient.
+3. **Hàm tổng hợp có prox dễ tính:** Phương pháp gradient gần kề.
+4. **Cần hội tụ nhanh hơn:** FISTA.
+5. **Có ràng buộc tập lồi:** Gradient descent có chiếu.
 
-#### **Implementation tips:**
-- **Vectorization:** Tận dụng parallel computation
-- **Warm start:** Sử dụng nghiệm trước làm khởi tạo
-- **Adaptive step size:** Backtracking line search
-- **Early stopping:** Monitoring convergence criteria
+#### **Kinh nghiệm cài đặt:**
+- **Vector hóa phép tính:** Tận dụng tính toán song song.
+- **Khởi tạo ấm (Warm start):** Dùng nghiệm của tham số trước làm điểm khởi tạo.
+- **Bước thích nghi:** Dùng tìm kiếm đường thẳng lùi khi không biết $$L$$.
+- **Dừng sớm:** Theo dõi tiêu chuẩn hội tụ qua từng bước.
 
-#### **Common pitfalls:**
-- **Sai proximal mapping:** Kiểm tra công thức cẩn thận
-- **Step size quá lớn:** Có thể không hội tụ
-- **Không kiểm tra Lipschitz constant:** Ảnh hưởng convergence
-- **Quên normalize data:** Ảnh hưởng numerical stability
+#### **Lỗi thường gặp:**
+- **Sai công thức toán tử gần kề:** Cần kiểm tra kỹ ngưỡng và hệ số $$t$$.
+- **Kích thước bước quá lớn:** Có thể gây phân kỳ.
+- **Bỏ qua hằng số Lipschitz:** Ảnh hưởng trực tiếp đến điều kiện hội tụ.
+- **Không chuẩn hóa dữ liệu:** Làm xấu số điều kiện và giảm ổn định số học.
 
 ---
 
-💡 **Mẹo:** Proximal gradient method là cầu nối hoàn hảo giữa smooth và non-smooth optimization, đặc biệt mạnh mẽ cho machine learning với regularization!
+💡 **Ghi chú:** Phương pháp gradient gần kề là cầu nối tự nhiên giữa tối ưu hàm trơn và tối ưu hàm không trơn, giữ vai trò trọng tâm trong học máy có chính quy hóa.
 
 ---
 

@@ -23,36 +23,36 @@ $$\begin{align}
 \mathcal{D} = \text{dom } f \cap \bigcap_{i=1}^{m} \text{dom } h_i
 \end{align}$$
 
-*Lưu ý: Để đơn giản, chúng ta chỉ xét ràng buộc bất đẳng thức. Ràng buộc đẳng thức có thể được biểu diễn bằng hai ràng buộc bất đẳng thức.*
+*Lưu ý: Để đơn giản, ta chỉ xét các ràng buộc bất đẳng thức; mỗi ràng buộc đẳng thức có thể viết tương đương thành hai ràng buộc bất đẳng thức.*
 
-## 🎭 "Bí ẩn" của Dual
+## 🎭 Ý tưởng của bài toán đối ngẫu
 
-Theo quy trình chuẩn, chúng ta xây dựng hàm Lagrangian:
+Theo quy trình chuẩn, ta xây dựng hàm Lagrangian:
 
 $$L(x, \lambda) = f(x) + \lambda^T h(x), \quad \lambda \succeq 0$$
 
-Sau đó định nghĩa hàm dual "bí ẩn":
+Sau đó định nghĩa hàm đối ngẫu Lagrange:
 
 $$\begin{align}
 g(\lambda) &= \inf_{x \in \mathcal{D}} L(x, \lambda) \\
 &= \inf_{x \in \mathcal{D}} (f(x) + \lambda^T h(x))
 \end{align}$$
 
-*Lưu ý: Để tìm infimum, x vẫn trong miền $$\mathcal{D}$$, không phải trong vùng khả thi từ các ràng buộc.*
+*Lưu ý: Phép lấy infimum được thực hiện trên toàn bộ miền xác định $$\mathcal{D}$$, chứ không giới hạn trong tập khả thi của các ràng buộc.*
 
-Cuối cùng, bằng cách giải bài toán dual:
+Cuối cùng, bằng cách giải bài toán đối ngẫu:
 
 $$\max_{\lambda} g(\lambda) \quad \text{s.t. } \lambda \succeq 0$$
 
-Chúng ta có thể tìm được một cận dưới tốt cho bài toán nguyên thủy.
+ta thu được cận dưới tốt nhất có thể cho giá trị tối ưu của bài toán gốc.
 
 ## 🤔 Tại sao cần hàm Lagrangian?
 
-> **Câu hỏi:** Tại sao chúng ta cần xây dựng hàm Lagrangian này?
+> **Câu hỏi:** Vì sao ta cần xây dựng hàm Lagrangian?
 > 
-> **Trả lời:** Vì vấn đề về **nhiễu động (perturbation)**
+> **Trả lời:** Để xử lý các ràng buộc thông qua **nhiễu động (perturbation)** của hàm mục tiêu.
 
-Chúng ta không thể giải bài toán nguyên thủy bằng cách đơn giản tính $$\frac{\partial f(x)}{\partial x} = 0$$ vì có vùng khả thi từ các ràng buộc. Một giải pháp khả thi là thêm các ràng buộc như các số hạng nhiễu động, sau đó ước lượng cận dưới tốt nhất.
+Ta không thể giải bài toán gốc chỉ bằng cách đặt $$\frac{\partial f(x)}{\partial x} = 0$$ vì biến $$x$$ bị giới hạn bởi tập khả thi của các ràng buộc. Một hướng tiếp cận là đưa các ràng buộc vào hàm mục tiêu như những số hạng phạt/nhiễu động, rồi tìm cận dưới chặt nhất.
 
 ### 💡 Ví dụ minh họa
 
@@ -64,7 +64,7 @@ $$\begin{align}
 \mathcal{D} = \mathbb{R}
 \end{align}$$
 
-Nghiệm tối ưu dễ đoán: $$p^* = 0$$ khi $$x = 0$$.
+Nghiệm tối ưu của bài toán gốc là $$x^* = 0$$ với giá trị $$p^* = 0$$.
 
 **Hàm Lagrangian:**
 $$L(x, \lambda) = x^2 + \lambda(x - 1), \quad \lambda \geq 0$$
@@ -82,7 +82,7 @@ $$g(\lambda) = \frac{\lambda^2}{4} - \lambda \cdot \frac{\lambda}{2} - \lambda =
 **Bài toán dual:**
 $$\max_{\lambda} g(\lambda) \quad \text{s.t. } \lambda \geq 0$$
 
-Điểm cực đại không ràng buộc của $$g$$ là $$\lambda = -2$$ (với $$g(-2) = 1$$), nhưng điều này không được phép vì $$\lambda \geq 0$$. Trên miền $$\lambda \geq 0$$, $$g$$ giảm dần nên nghiệm dual là $$\lambda = 0$$ với $$d^* = g(0) = 0 = p^*$$ (strong duality)
+Điểm cực đại không ràng buộc của $$g$$ là $$\lambda = -2$$ (với $$g(-2) = 1$$), nhưng không hợp lệ do ràng buộc $$\lambda \geq 0$$. Trên miền $$\lambda \geq 0$$, $$g$$ giảm dần nên nghiệm đối ngẫu tối ưu là $$\lambda^* = 0$$ với $$d^* = g(0) = 0 = p^*$$ (tính đối ngẫu mạnh).
 
 <div id="lagrangian-visualization" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
     <canvas id="lagrangianCanvas" width="900" height="500" style="border: 2px solid #dee2e6; display: block; margin: 0 auto; background: white; border-radius: 5px;"></canvas>
@@ -404,22 +404,20 @@ $$\max_{\lambda} g(\lambda) \quad \text{s.t. } \lambda \geq 0$$
 })();
 </script>
 
-**Hình 1:** *Hàm Lagrangian và hàm dual. Đường cong đen là bài toán gốc, đường cong xanh và xanh lá là bài toán gốc với nhiễu động. Chúng ta có thể thấy các giá trị của $$\inf_{x \in \mathcal{D}} L(x, \lambda)$$ (điểm yên ngựa trên đường cong xanh và xanh lá) luôn nhỏ hơn hoặc bằng nghiệm tối ưu $$p^*$$.*
+**Hình 1:** *Hàm Lagrangian và hàm đối ngẫu. Đường cong đen biểu thị hàm mục tiêu gốc, các đường cong xanh dương và xanh lá biểu thị hàm Lagrangian khi thêm nhiễu động. Có thể thấy giá trị $$\inf_{x \in \mathcal{D}} L(x, \lambda)$$ (điểm cực tiểu của các đường cong xanh dương và xanh lá) luôn nhỏ hơn hoặc bằng giá trị tối ưu gốc $$p^*$$.*
 
 <div style="text-align: center; margin: 20px 0;">
     <img src="/img/chapter_img/lagrangian_function_example.png" alt="Lagrangian Function Example" style="max-width: 100%; height: auto;">
     <p><em>Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
-## 🎯 Tại sao giải bài toán dual?
+## 🎯 Vì sao nên giải bài toán đối ngẫu?
 
-> **Câu hỏi:** Tại sao chúng ta chọn giải bài toán dual để ước lượng cận dưới? Có dễ hơn không?
+> **Câu hỏi:** Vì sao ta giải bài toán đối ngẫu để tìm cận dưới? Bài toán này có dễ giải hơn không?
 > 
-> **Trả lời:** **CÓ**. Nó dễ giải hơn.
+> **Trả lời:** Có, về mặt cấu trúc toán học nó luôn là bài toán tối ưu lồi.
 
-Thực tế, hàm dual $$g(\lambda)$$ là **lõm (concave)**, hay nói cách khác $$-g(\lambda)$$ là **lồi (convex)**.
-
-Từ phương trình (3), chúng ta biết $$-g(\lambda)$$ là supremum theo từng điểm của một tập các hàm affine theo $$\lambda$$, điều này có nghĩa $$-g(\lambda)$$ là lồi.
+Thật vậy, hàm đối ngẫu $$g(\lambda)$$ luôn là hàm **lõm (concave)**, tức $$-g(\lambda)$$ là hàm **lồi (convex)**. Từ định nghĩa của $$g(\lambda)$$, ta thấy $$-g(\lambda)$$ là supremum theo từng điểm của một họ các hàm affine theo $$\lambda$$, do đó luôn lồi.
 
 <div id="dual-function-visualization" style="margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
     <canvas id="dualCanvas" width="800" height="450" style="border: 2px solid #dee2e6; display: block; margin: 0 auto; background: white; border-radius: 5px;"></canvas>
@@ -744,11 +742,11 @@ Từ phương trình (3), chúng ta biết $$-g(\lambda)$$ là supremum theo t�
     <p><em>Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
-Hình 2 cho thấy một tập các hàm affine, đường đỏ đại diện cho supremum theo từng điểm. Rõ ràng trong hình này đường đỏ là một hàm lồi. Chúng ta biết rằng đối với hàm và tập lồi, việc giải cực trị toàn cục là dễ dàng. Bất kể $$f(x)$$ có lồi hay không, hàm dual của nó luôn lõm, đây là một tính chất thuận tiện.
+Hình 2 minh họa một họ các hàm affine và đường màu đỏ là supremum theo từng điểm của chúng — rõ ràng là một hàm lồi. Với hàm mục tiêu và tập ràng buộc lồi, cực trị địa phương cũng là cực trị toàn cục. Nhờ đó, bất kể $$f(x)$$ có lồi hay không, hàm đối ngẫu $$g(\lambda)$$ luôn lõm.
 
 ## 🔗 Kết nối với hàm liên hợp (Conjugate Function)
 
-Khi các ràng buộc trong phương trình (1) là tuyến tính, hàm dual thường trông giống với hàm liên hợp.
+Khi các ràng buộc trong bài toán gốc là tuyến tính, hàm đối ngẫu liên hệ trực tiếp với hàm liên hợp (conjugate function).
 
 ### 📐 Hàm liên hợp
 
@@ -1116,7 +1114,7 @@ $$f^*(λ) = \sup_x (λ^T x - f(x))$$
 })();
 </script>
 
-**Hình 3:** *Hàm liên hợp. Đường cong xanh lá là $$f(x)$$, đường thẳng đen là $$λ^T x$$, các vector (có dấu) giữa $$λ^T x$$ và $$f(x)$$ là $$λ^T x - f(x)$$. Vậy hàm liên hợp $$f^*(λ)$$ là về khoảng cách lớn nhất giữa đường thẳng $$λ^T x$$ và $$f(x)$$.*
+**Hình 3:** *Minh họa hình học hàm liên hợp. Đường cong xanh lá biểu thị $$f(x)$$, đường thẳng đen biểu thị $$\lambda^T x$$, và độ chênh lệch có dấu theo phương thẳng đứng là $$\lambda^T x - f(x)$$. Hàm liên hợp $$f^*(\lambda)$$ chính là giá trị lớn nhất của khoảng cách có dấu này.*
 
 <div style="text-align: center; margin: 20px 0;">
     <img src="/img/chapter_img/conjugate_function_geometric.png" alt="Conjugate Function Geometric Interpretation" style="max-width: 100%; height: auto;">
@@ -1137,7 +1135,7 @@ g(λ) &= \inf_x (f(x) + λ^T(Ax - b)) \quad \text{với } λ \succeq 0 \\
 &= -f^*(-λ^T A) - λ^T b \quad \text{theo phương trình (9)}
 \end{align}$$
 
-Trực quan, vì $$-λ^T b$$ là số hạng tuyến tính, các giá trị cực trị chỉ bị ảnh hưởng bởi miền, vì vậy nếu chúng ta tập trung vào số hạng $$-f^*(-λ^T A)$$, việc giải $$\max_λ g(λ)$$ có nghĩa là giải $$\min f^*(-λ^T A)$$.
+Trong biểu thức trên, khi xét riêng số hạng $$-f^*(-\lambda^T A)$$, việc cực đại hóa $$g(\lambda)$$ gắn trực tiếp với việc cực tiểu hóa hàm liên hợp $$f^*(-\lambda^T A)$$ cộng thêm số hạng tuyến tính $$\lambda^T b$$.
 
 <div style="text-align: center; margin: 20px 0;">
     <img src="/img/chapter_img/conjugate_minimum_example.png" alt="Minimum of Conjugate Function" style="max-width: 100%; height: auto;">
@@ -1649,25 +1647,22 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
     <p><em>Hình 5: Tổng quan về Framework Lagrange Duality - Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
-Lagrange Duality cung cấp một cách tiếp cận mạnh mẽ để giải quyết các bài toán tối ưu phức tạp bằng cách:
+Đối ngẫu Lagrange cung cấp một khung phân tích thống nhất cho các bài toán tối ưu có ràng buộc thông qua bốn ý chính:
 
-1. **Chuyển đổi ràng buộc thành nhiễu động:** Hàm Lagrangian thêm các ràng buộc như penalty terms
-2. **Tạo cận dưới:** Hàm dual luôn cung cấp lower bound cho bài toán gốc
-3. **Đảm bảo tính lồi:** Bài toán dual luôn lồi, dễ giải hơn
-4. **Kết nối với hình học:** Hàm liên hợp cung cấp góc nhìn hình học trực quan
+1. **Đưa ràng buộc vào hàm mục tiêu:** Hàm Lagrangian chuyển ràng buộc thành các số hạng phạt có trọng số.
+2. **Cung cấp cận dưới:** Hàm đối ngẫu luôn cho một cận dưới hợp lệ của giá trị tối ưu gốc.
+3. **Luôn là bài toán lồi:** Bài toán đối ngẫu luôn lồi bất kể bài toán gốc có lồi hay không.
+4. **Liên hệ hình học:** Hàm liên hợp giải thích rõ mối quan hệ giữa tiếp tuyến và hàm đối ngẫu khi ràng buộc tuyến tính.
 
 ### 🔍 Ý nghĩa thực tiễn
 
-- **Thuật toán:** Nhiều thuật toán tối ưu hiện đại dựa trên duality
-- **Phân tích độ nhạy:** Dual variables cho biết "giá" của việc thay đổi ràng buộc  
-- **Kiểm tra tối ưu:** Duality gap giúp đánh giá chất lượng nghiệm
-- **Thiết kế thuật toán:** Primal-dual methods kết hợp cả hai quan điểm
-
-Lagrange Duality không chỉ là một công cụ toán học trừu tượng, mà là một framework mạnh mẽ giúp chúng ta hiểu sâu hơn về bản chất của các bài toán tối ưu và thiết kế các thuật toán hiệu quả để giải chúng.
+- **Thiết kế thuật toán:** Nhiều thuật toán tối ưu (như phương pháp gốc – đối ngẫu) khai thác đồng thời cả hai bài toán.
+- **Phân tích độ nhạy:** Biến đối ngẫu phản ánh mức thay đổi của giá trị tối ưu khi nới lỏng hoặc siết chặt ràng buộc.
+- **Tiêu chí dừng:** Khoảng cách đối ngẫu giúp đánh giá cận trên của sai số nghiệm hiện tại.
 
 ## 🖼️ Ghi chú về hình ảnh
 
-Các hình ảnh trong bài học này được lấy cảm hứng và tham khảo từ bài viết gốc của Zhiliang Zhou. Các visualization tương tác được tạo bằng JavaScript để bổ sung và làm rõ hơn các khái niệm được trình bày trong bài gốc.
+Các hình vẽ tĩnh trong bài học này được tham khảo từ bài viết gốc của Zhiliang Zhou; các minh họa tương tác bằng JavaScript được bổ sung để hỗ trợ quan sát trực tiếp sự thay đổi của hàm Lagrangian và hàm đối ngẫu.
 
 ## 📚 Tài liệu tham khảo
 

@@ -11,37 +11,34 @@ lang: vi
 
 # Ví dụ: hoàn thiện ma trận (Matrix completion)
 
-Trong nhiều ứng dụng, dữ liệu đo được thường được biểu diễn dưới dạng ma trận. Trong những trường hợp này, hầu hết các phần tử trong ma trận có thể trống, chỉ có một vài phần tử chứa dữ liệu quan sát được, dẫn đến một ma trận thưa. Thách thức điền vào các phần tử bị thiếu trong ma trận như vậy được gọi là bài toán **hoàn thiện ma trận**.
+Trong nhiều bài toán thực tế, dữ liệu đo đạc được biểu diễn dưới dạng ma trận, trong đó phần lớn các phần tử bị thiếu và chỉ một số ít phần tử được quan sát. Bài toán dự đoán các phần tử bị thiếu từ các phần tử đã biết được gọi là **hoàn thiện ma trận (matrix completion)**.
 
-Ví dụ, vấn đề này có thể xảy ra trong các hệ thống gợi ý khi đề xuất sản phẩm hoặc dịch vụ cho khách hàng chưa từng mua hàng.
+Một ứng dụng quen thuộc là hệ thống gợi ý, nơi ta cần ước lượng mức độ quan tâm của người dùng đối với những sản phẩm hoặc dịch vụ mà họ chưa từng đánh giá.
 
-## Bài toán hoàn thiện ma trận
-Bài toán **hoàn thiện ma trận** có thể được phát biểu như sau:
-
-Gọi ma trận $$Y \in \mathbb{R}^{m\times n}$$ biểu diễn dữ liệu quan sát được, và $$Y_{ij}, (i,j) \in \Omega$$ ký hiệu các phần tử chứa dữ liệu quan sát được. Ma trận $$B$$ là ma trận ước lượng được sử dụng để dự đoán các phần tử bị thiếu.
+## Phát biểu bài toán hoàn thiện ma trận
+Cho ma trận dữ liệu quan sát $$Y \in \mathbb{R}^{m\times n}$$, với $$\Omega$$ là tập hợp các chỉ số $$(i,j)$$ tại đó giá trị $$Y_{ij}$$ đã được quan sát. Ta cần tìm ma trận ước lượng $$B$$ để điền vào các vị trí bị thiếu thông qua bài toán tối ưu:
 
 > $$\min_B \frac{1}{2} \sum_{(i,j)\in\Omega} (Y_{ij} −B_{ij})^2 + \lambda\lVert B \rVert_{tr}$$
 
-Số hạng đầu tiên trong hàm mục tiêu nhằm tối thiểu hóa lỗi giữa ma trận $$B$$ và dữ liệu quan sát được, trong khi số hạng thứ hai khuyến khích ma trận $$B$$ có hạng thấp. (Giả định rằng ma trận B nằm trên một đa tạp chiều thấp.) Do đó, ma trận $$B$$ điền vào các phần tử bị thiếu với các giá trị chiều thấp nhất phù hợp với dữ liệu quan sát được.
+Số hạng thứ nhất đo sai số bình phương giữa $$B$$ và dữ liệu quan sát được trên $$\Omega$$, còn số hạng thứ hai khuyến khích ma trận $$B$$ có hạng thấp (dựa trên giả định rằng ma trận dữ liệu nằm gần một không gian chiều thấp). Nhờ đó, $$B$$ khôi phục các phần tử còn thiếu theo cấu trúc hạng thấp phù hợp với các quan sát hiện có.
 
 ### [Tham khảo] Chuẩn vết (Trace Norm)
-Chuẩn vết của một ma trận được định nghĩa là tổng các giá trị kỳ dị của nó.
+Chuẩn vết (hay chuẩn hạt nhân — nuclear norm) của một ma trận được định nghĩa là tổng các giá trị kỳ dị của nó:
 
 > $$\lVert B \rVert_{tr} = \text{trace}(\sqrt{B^* B}) = \sum_{i=1}^r \sigma_i(B), \quad r = rank(B)$$
 
-Ở đây, $$B^* B$$ là nửa xác định dương, và các giá trị kỳ dị được sắp xếp theo thứ tự $$\sigma_1(X) \ge ... \ge \sigma_r(X) \ge 0$$.
+trong đó $$B^* B$$ là ma trận nửa xác định dương và các giá trị kỳ dị được sắp theo thứ tự giảm dần $$\sigma_1(B) \ge ... \ge \sigma_r(B) \ge 0$$.
 
-### [Tham khảo] Bộ chính quy hóa chuẩn **L1** so với Bộ chính quy hóa chuẩn vết
-Bài toán này có thể được hiểu như ngưỡng mềm ma trận, trong đó vector trong ngưỡng mềm ban đầu được thay thế bằng ma trận. Trong số hạng chính quy hóa, bộ chính quy hóa chuẩn **L1** cho vector ($$\lVert \cdot \rVert_{1}$$) được thay thế bằng bộ chính quy hóa chuẩn vết ($$\lVert \cdot \rVert_{tr}$$) cho ma trận, và thực sự, chức năng của hai bộ chính quy hóa này là tương tự.
+### [Tham khảo] Chính quy hóa chuẩn $$\ell_1$$ và chuẩn vết
+Bài toán trên có thể xem như phiên bản ma trận của bài toán ngưỡng mềm vector: chuẩn $$\ell_1$$ cho vector ($$\lVert \cdot \rVert_{1}$$) được thay bằng chuẩn vết cho ma trận ($$\lVert \cdot \rVert_{tr}$$), với vai trò hoàn toàn tương tự.
 
-Bộ chính quy hóa chuẩn **L1** tạo ra tính thưa trong vector, trong khi bộ chính quy hóa chuẩn vết tương tự tạo ra tính thưa trong vector giá trị kỳ dị của ma trận. Khi ma trận là đường chéo, các phần tử đường chéo có thể được xem như vector giá trị kỳ dị, và bộ chính quy hóa chuẩn vết tối thiểu hóa tổng các giá trị kỳ dị, thúc đẩy tính thưa trong vector giá trị kỳ dị.
+Trong khi chuẩn $$\ell_1$$ thúc đẩy tính thưa của các phần tử trong vector, chuẩn vết thúc đẩy tính thưa trên vector các giá trị kỳ dị của ma trận. Với ma trận đường chéo, các phần tử đường chéo chính là các giá trị kỳ dị, nên cực tiểu hóa chuẩn vết tương đương với cực tiểu hóa chuẩn $$\ell_1$$ của vector đường chéo. Theo nghĩa đó, chuẩn vết $$\lVert B \rVert_{tr}$$ đóng vai trò là xấp xỉ lồi cho $$\text{Rank}(B)$$.
 
-Trong bối cảnh này, chuẩn vết $$\lVert B \rVert_{tr}$$ đóng vai trò như một xấp xỉ cho $$\text{Rank}(B)$$.
+## Áp dụng phương pháp gradient gần kề
+Để đưa bài toán về dạng tổng hợp chuẩn của phương pháp gradient gần kề, ta định nghĩa toán tử chiếu lên tập chỉ số quan sát.
 
-## Phương pháp gradient gần kề
-Khi bài toán này được đóng khung bằng toán tử chiếu, phương pháp gradient gần kề có thể được sử dụng hiệu quả.
 ### Toán tử chiếu
-Hãy định nghĩa toán tử chiếu $$P_\Omega$$ cho các giá trị quan sát được như sau:
+Định nghĩa toán tử chiếu $$P_\Omega$$ như sau:
 
 > $$[ P_\Omega(B) ] _{ij} =
 > \begin{cases}
@@ -50,41 +47,39 @@ B_{ij}, & (i,j) ∈ \Omega \\\
 > \end{cases}$$
 
 ### Hàm mục tiêu
-Sử dụng toán tử chiếu, hàm mục tiêu được định nghĩa là:
+Sử dụng toán tử chiếu, hàm mục tiêu được viết gọn thành:
 
 >$$f(B) = \underbrace{ \frac{1}{2} \lVert P_\Omega(Y) − P_\Omega(B) \rVert_F^2 }_{g(B)} + \underbrace{ \lambda \lVert B \rVert_{tr} }_{h(B)}$$
 
-Bây giờ, hàm $$f(B)$$ bao gồm một phần khả vi $$g(B)$$ và một phần không khả vi $$h(B)$$.
+Khi đó, $$f(B)$$ được tách thành phần khả vi $$g(B)$$ và phần không khả vi $$h(B)$$.
 
 ### Ánh xạ gần kề
-Để áp dụng phương pháp gradient gần kề, chúng ta cần tính gradient của hàm $$g(B)$$ và định nghĩa ánh xạ gần kề.
+Để áp dụng phương pháp gradient gần kề, ta cần gradient của $$g(B)$$ và ánh xạ gần kề của $$h(B)$$:
 
-* Gradient của $$g(B)$$: $$\nabla g(B) = −(P_\Omega(Y )−P_\Omega(B))$$
-* Ánh xạ gần kề: 
+* Gradient của $$g(B)$$: $$\nabla g(B) = −(P_\Omega(Y )−P_\Omega(B))$$.
+* Ánh xạ gần kề:
 
 > $$ \begin{align}
 \text{prox}_t (B) = \underset{Z}{\text{argmin}} \frac{1}{2t} \Vert B−Z \Vert_F^2 + \lambda \Vert Z \Vert_{tr}
 \end{align} $$
 
-### SVD ma trận & Ngưỡng mềm
-Ánh xạ gần kề tương ứng với ngưỡng mềm ma trận ở mức $$\lambda$$: $$\text{prox}_t(B) = S_{\lambda t}(B)$$.
+### Phân tích SVD và toán tử ngưỡng mềm ma trận
+Ánh xạ gần kề trên chính là toán tử ngưỡng mềm ma trận ở mức $$\lambda t$$: $$\text{prox}_t(B) = S_{\lambda t}(B)$$.
 
-Thông thường, ma trận $$B$$ có kích thước lớn, vì vậy Phân tích Giá trị Kỳ dị (SVD) được sử dụng để tối thiểu hóa tải tính toán. Nếu chúng ta thực hiện SVD sao cho $$B = U \Sigma V^T$$, thì $$S_\lambda(B)$$ có thể được định nghĩa là:
+Nếu phân tích giá trị kỳ dị (SVD) của $$B$$ là $$B = U \Sigma V^T$$, thì toán tử ngưỡng mềm ma trận $$S_\lambda(B)$$ được tính bởi:
 
 > $$ S_\lambda(B) = U \Sigma_\lambda V^T$$
 
-Ở đây, $$\Sigma_\lambda$$ là một ma trận đường chéo được định nghĩa như sau:
+trong đó $$\Sigma_\lambda$$ là ma trận đường chéo với các phần tử:
 
 > $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$
- 
 
-### [Reference] $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$  inducement
-How is this expression derived? Assuming $$\text{prox}_t(B) = Z$$, we have:
-(Differentiating the right-hand side of $$\text{prox}_t(B)$$ with respect to Z yields the following result.)
+### [Tham khảo] Cách suy ra công thức $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$
+Đặt $$Z = \text{prox}_t(B)$$. Từ điều kiện tối ưu bậc một theo biến $$Z$$ của bài toán định nghĩa $$\text{prox}_t(B)$$, ta có:
 
 > $$0 ∈ Z − B + \lambda t \cdot \partial \lVert Z \rVert_{tr}$$
 
-Rearranging this expression gives:
+Biến đổi biểu thức trên với $$t = 1$$ (tương ứng hằng số Lipschitz $$L = 1$$) và chọn thành phần $$W = 0$$ cho các giá trị kỳ dị dương:
 
 >$$\begin{align}
 Z & = B - \lambda t \cdot \partial \lVert Z \rVert_{tr} \\
@@ -93,38 +88,32 @@ Z & = B - \lambda t \cdot \partial \lVert Z \rVert_{tr} \\
  & = U (\Sigma - \lambda ) V^T  \\
 \end{align}$$
 
-The final expression can be obtained when the Lipschitz constant is $$L=1$$ and $$W$$ is 0.
-
-Thus, we have $$\text{prox}_t(B) = S_\lambda(B) = Z$$, leading to the derivation of the following expression:
+Do đó $$\text{prox}_1(B) = S_\lambda(B) = Z$$, với các giá trị kỳ dị được co ngưỡng mềm theo công thức:
 
 > $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$
 
-### [Reference] Derivative of Trace Norm
-If $$Z = U \Sigma V^T$$, the derivative of the trace norm is given by: 
+### [Tham khảo] Vi phân dưới của chuẩn vết
+Với phân tích SVD rút gọn $$Z = U \Sigma V^T$$, vi phân dưới của chuẩn vết được cho bởi:
 > $$\partial \lVert Z \rVert_{tr} = \{UV^T + W : \lVert W \rVert_{op} ≤ 1, U^TW = 0, WV = 0 \}$$
 
-Here, $$\lVert W \rVert_{op}$$ represents the operator norm, with the largest singular value being less than 1. Additionally, $$W$$ is orthogonal to both $$U^T$$ and $$V$$.
+trong đó $$\lVert W \rVert_{op}$$ là chuẩn toán tử (giá trị kỳ dị lớn nhất của $$W$$) không vượt quá 1, và không gian cột/hàng của $$W$$ trực giao với $$U$$ và $$V$$.
 
-* For proof, refer to [Derivative of the nuclear norm with respect to its argument](https://math.stackexchange.com/questions/701062/derivative-of-the-nuclear-norm-with-respect-to-its-argument)
+* Tham khảo chứng minh chi tiết tại: [Derivative of the nuclear norm with respect to its argument](https://math.stackexchange.com/questions/701062/derivative-of-the-nuclear-norm-with-respect-to-its-argument)
 
-### Proximal gradient update
-Now, let's define the proximal gradient update equation.
+### Bước cập nhật gradient gần kề
+Công thức cập nhật gradient gần kề cho bài toán hoàn thiện ma trận là:
 
 > $$B^+ = S_{\lambda t} ( B + t( P_\Omega(Y) − P_\Omega(B) ) )$$
 
-When $$L = 1$$, $$\nabla g(B)$$ is Lipschitz continuous, allowing us to choose a fixed step size of $$t = 1$$.
-
-Consequently, the update equation simplifies to:
+Vì $$\nabla g(B)$$ liên tục Lipschitz với hằng số $$L = 1$$, ta có thể chọn kích thước bước cố định $$t = 1$$. Khi đó, công thức cập nhật rút gọn thành:
 
 > $$B^+ = S_\lambda (P_\Omega(Y) + P_\Omega^\bot (B) )$$
 
-Ở đây, $$P_\Omega^\bot$$ biểu diễn phép chiếu lên các giá trị không quan sát được, thỏa mãn phương trình $$P_\Omega(B) + P_\Omega^\bot (B) = B$$.
+trong đó $$P_\Omega^\bot$$ là phép chiếu lên tập các vị trí không quan sát được, thỏa mãn $$P_\Omega(B) + P_\Omega^\bot (B) = B$$.
 
-Trong phương trình này, $$P_\Omega(Y)$$ biểu thị phần quan sát được, trong khi $$P_\Omega^\bot (B)$$ biểu thị phần bị thiếu. Hàm $$S_\lambda$$ rất đơn giản để tính toán, vì nó chỉ yêu cầu thực hiện SVD và tính toán $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$.
+Trong biểu thức này, $$P_\Omega(Y)$$ giữ nguyên các giá trị đã quan sát, còn $$P_\Omega^\bot (B)$$ lấy các giá trị ước lượng hiện tại ở các vị trí bị thiếu. Sau đó, phép tính $$S_\lambda$$ chỉ cần thực hiện phân tích SVD và áp dụng co ngưỡng $$(\Sigma_\lambda)_{ii} = \max \{ \Sigma_{ii} −\lambda,0 \}$$.
 
 ## Thuật toán Soft-Impute
-Thuật toán này được biết đến với tên **Soft-Impute** và cung cấp một giải pháp đơn giản nhưng hiệu quả cho bài toán hoàn thiện ma trận. Khi xử lý các ma trận lớn, chi phí tính toán của SVD có thể cao. Tuy nhiên, do tính thưa của $$P_\Omega(Y)$$ và hạng thấp của $$P_\Omega^\bot (B)$$ trong thuật toán này, SVD có thể được thực hiện một cách hiệu quả.
+Thuật toán thu được có tên gọi là **Soft-Impute**, mang lại cách giải đơn giản và hiệu quả cho bài toán hoàn thiện ma trận. Dù chi phí SVD trên ma trận cỡ lớn có thể cao, nhưng nhờ cấu trúc đặc biệt gồm một ma trận thưa $$P_\Omega(Y)$$ cộng với một ma trận hạng thấp $$P_\Omega^\bot (B)$$, phép phân tích SVD trong Soft-Impute có thể được thực hiện rất hiệu quả.
 
-* Để biết thêm thông tin chi tiết, vui lòng tham khảo bài báo: Mazumder et al. (2011), "Spectral regularization algorithms for learning
-large incomplete matrices"
-
+* Tham khảo thêm: Mazumder et al. (2011), "Spectral regularization algorithms for learning large incomplete matrices".

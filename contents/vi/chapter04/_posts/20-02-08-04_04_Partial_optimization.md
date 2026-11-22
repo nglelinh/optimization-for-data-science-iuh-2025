@@ -8,10 +8,10 @@ categories:
 - chapter04
 lang: vi
 ---
-[Nhắc lại: ]({% multilang_post_url contents/chapter03/21-02-12-03_02_operations_that_preserve_convexity %})
-Nếu $$C$$ là tập lồi và $$f$$ lồi theo $$(x,y)$$, thì $$g(x) = \min_{y \in C} f(x, y)$$ lồi theo $$x$$.
+[Nhắc lại:]({% multilang_post_url contents/chapter03/21-02-12-03_02_operations_that_preserve_convexity %})
+Nếu $$C$$ là tập lồi và $$f$$ là hàm lồi đồng thời theo $$(x, y)$$, thì hàm $$g(x) = \min_{y \in C} f(x, y)$$ là hàm lồi theo $$x$$.
 
-Vậy, tối ưu hóa từng phần trong một bài toán lồi được xây dựng với các hàm nhiều biến bảo toàn tính lồi.
+Do đó, phép tối ưu hóa từng phần trên một tập con các biến trong bài toán tối ưu hóa lồi vẫn bảo toàn tính lồi.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -21,36 +21,35 @@ Vậy, tối ưu hóa từng phần trong một bài toán lồi được xây d
 </figure>
 <br>
 
-### Ví dụ: Dạng hinge của SVM
-Đối với tập không tách được, bài toán SVM được định nghĩa như:
+### Ví dụ: Dạng hàm mất mát hinge của SVM
+Đối với tập dữ liệu không tách tuyến tính được, bài toán máy vectơ hỗ trợ (SVM) biên mềm được phát biểu như sau:
 >$$
 \begin{aligned}
 &\min_{\beta, \beta_{0}, \xi} &&\frac{1}{2}\|\beta\|_2^2 + C \sum_{i=1}^{n} \xi_{i} \\
 &\text{subject to} &&{\xi}_{i} \ge 0, \\ 
 &&&y_{i}(x_{i}^T \beta + \beta_{0}) \ge 1 - {\xi}_{i}, \\
-&&&i = 1, .., n \\
+&&&i = 1, \dotsc, n. \\
 \end{aligned}
 $$
 
-Các ràng buộc trên có thể được biểu diễn thành một ràng buộc duy nhất:
+Hai nhóm ràng buộc trên có thể gộp lại thành một ràng buộc duy nhất theo $$\xi_i$$:
 > $$
 \begin{aligned}
 {\xi}_{i} \ge \max\{0, 1 - y_{i} (x_{i}^T \beta + \beta_{0})\} \\
 \end{aligned}
 $$
 
-Trong trường hợp này, $$\max\{0, 1 - y_{i} (x_{i}^T \beta + \beta_{0})\}$$ là giá trị nhỏ nhất cho $$\xi_{i}$$, và chúng ta có thể định nghĩa $$\tilde{f}$$ như:
+Với mỗi cặp $$(\beta, \beta_0)$$ cố định, giá trị nhỏ nhất có thể của $$\xi_{i}$$ chính là $$\max\{0, 1 - y_{i} (x_{i}^T \beta + \beta_{0})\}$$. Khi tối ưu hóa riêng theo biến $$\xi$$, ta định nghĩa hàm mục tiêu rút gọn $$\tilde{f}$$ như sau:
 
 > $$
 \begin{aligned}
 \frac{1}{2} \|\beta\|_{2}^{2} + C \sum_{i=1}^{n} {\xi}_{i} &\ge \frac{1}{2} \|\beta\|_{2}^{2} + C \sum_{i=1}^{n} \max({0, 1 - y_{i} (x_{i}^T \beta + \beta_{0})})\\
-&= \min\{\frac{1}{2} \|\beta\|_{2}^{2} + C \sum_{i=1}^{n} \xi_{i} \quad | \quad \xi_{i} \ge 0, \ y_{i}(x_{i}^T \beta + \beta_{0}) \ge 1 - \xi_{i}, \ i = 1, .., n\} \\
-&= \tilde{f}(\beta, \beta_{0}) \\
+&= \min\left\{\frac{1}{2} \|\beta\|_{2}^{2} + C \sum_{i=1}^{n} \xi_{i} \;\middle|\; \xi_{i} \ge 0, \ y_{i}(x_{i}^T \beta + \beta_{0}) \ge 1 - \xi_{i}, \ i = 1, \dotsc, n\right\} \\
+&= \tilde{f}(\beta, \beta_{0}). \\
 \end{aligned}
 $$
 
-
-Bằng cách sử dụng $$\tilde{f}$$ được đơn giản hóa làm hàm mục tiêu, một nghiệm đơn giản hơn có thể được thu được. Trong bài toán đã cho, $$\xi$$ đã bị loại bỏ, và nó cũng đã được chuyển đổi từ bài toán có ràng buộc thành bài toán không ràng buộc.
+Sử dụng hàm mục tiêu rút gọn $$\tilde{f}$$ giúp loại bỏ hoàn toàn các biến phụ $$\xi$$, đồng thời chuyển bài toán ban đầu từ dạng có ràng buộc sang bài toán tối ưu hóa lồi không ràng buộc tương đương:
 
 >$$
 \begin{aligned}

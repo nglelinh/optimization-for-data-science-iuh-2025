@@ -10,10 +10,12 @@ lang: vi
 lesson_type: required
 ---
 
-Khi một bài toán thỏa mãn $$f^* = g^*$$, điều này được gọi là **tính đối ngẫu mạnh**. **Điều kiện Slater** là một điều kiện đủ cho tính đối ngẫu mạnh.
+Khi giá trị tối ưu của bài toán gốc và bài toán đối ngẫu bằng nhau ($$f^* = g^*$$), ta nói **tính đối ngẫu mạnh (strong duality)** thỏa mãn. **Điều kiện Slater** là một điều kiện đủ phổ biến bảo đảm tính đối ngẫu mạnh.
 
-## Điều kiện Slater: 
-Nếu bài toán gốc là lồi và tồn tại ít nhất một $$x \in \mathbb{R}^n$$ khả thi nghiêm ngặt, thì tính đối ngẫu mạnh xảy ra.
+## Điều kiện Slater
+
+Nếu bài toán gốc là bài toán tối ưu lồi và tồn tại ít nhất một điểm $$x \in \mathbb{R}^n$$ **khả thi chặt** (strictly feasible), tức thỏa mãn:
+
 >
 $$
 \begin{equation}
@@ -21,9 +23,13 @@ h_1(x)<0,\dots,h_m(x)<0, \text{ and } l_1(x) = 0,\dots,l_r(x) = 0,
 \end{equation}
 $$
 
-Lưu ý quan trọng: Bất đẳng thức nghiêm ngặt không cần được thỏa mãn khi hàm là affine.
-## Ví dụ: Bài toán đối ngẫu Support Vector Machine 
-Cho $$y \in \{-1,1\}^n$$, $$X \in \mathbb{R}^{n \times p}$$ (các cột của $$X$$ là $$x_1, ..., x_n$$), bài toán SVM(Support Vector Machine) được định nghĩa như sau:
+thì tính đối ngẫu mạnh được thỏa mãn ($$f^* = g^*$$).
+
+**Lưu ý quan trọng:** Đối với các ràng buộc bất đẳng thức là hàm affine, điều kiện bất đẳng thức chặt ($$< 0$$) không bắt buộc — chỉ cần thỏa mãn bất đẳng thức không chặt ($$\leq 0$$).
+
+## Ví dụ: Bài toán đối ngẫu của Support Vector Machine (SVM)
+
+Cho $$y \in \{-1, 1\}^n$$ và ma trận dữ liệu $$X \in \mathbb{R}^{n \times p}$$ (với các hàng của $$X$$ là các mẫu $$x_1^T, \dots, x_n^T$$), bài toán SVM lề mềm được phát biểu như sau:
 
 >
 $$
@@ -34,14 +40,17 @@ $$
 \end{alignat}
 $$
 
-Sử dụng các biến đối ngẫu $$v, w \geq 0$$, hãy định nghĩa hàm Lagrangian:
+Đưa vào các biến đối ngẫu $$v, w \geq 0$$, ta lập hàm Lagrangian:
+
 >
+$$
 \begin{equation}
-L(\beta,\beta_0,\xi,v,w) = \frac{1}{2} \parallel\beta\parallel\_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i +  \sum_{i=1}^n w_i (1-\xi_i - y_i(x_i^T\beta + \beta_o))
+L(\beta,\beta_0,\xi,v,w) = \frac{1}{2} \parallel\beta\parallel_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i +  \sum_{i=1}^n w_i (1-\xi_i - y_i(x_i^T\beta + \beta_o))
 \end{equation}
+$$
 
+Cực tiểu hóa theo $$\beta, \beta_0, \xi$$, ta thu được hàm đối ngẫu Lagrange:
 
-Tối thiểu hóa theo $$\beta, \beta_0, \xi$$, ta có thể tìm được hàm đối ngẫu Lagrangian như sau:
 >
 $$
 g(v,w) = 
@@ -51,7 +60,8 @@ g(v,w) =
 \end{cases}
 $$
 
-Ở đây $$\tilde{X}=\text{diag}(y) X$$. Do đó, bài toán đối ngẫu SVM (sau khi loại bỏ biến slack $$v$$) trở thành: 
+trong đó $$\tilde{X} = \text{diag}(y) X$$. Khử biến bù $$v \geq 0$$ (từ $$w = C\mathbf{1} - v$$ suy ra $$w \leq C\mathbf{1}$$), ta thu được bài toán đối ngẫu của SVM:
+
 >
 $$
 \begin{alignat}{1}
@@ -60,7 +70,4 @@ $$
 \end{alignat}
 $$
 
-Vì bài toán gốc thỏa mãn điều kiện Slater, tính đối ngẫu mạnh xảy ra. (Đó là, hàm mục tiêu là lồi và các ràng buộc bất đẳng thức là affine theo $$\beta, \beta_0, \xi$$.)
-
-
-
+Vì bài toán gốc có hàm mục tiêu lồi, các ràng buộc bất đẳng thức đều là hàm affine theo $$(\beta, \beta_0, \xi)$$ và luôn tồn tại điểm khả thi, nên điều kiện Slater được thỏa mãn và tính đối ngẫu mạnh đúng đối với SVM.

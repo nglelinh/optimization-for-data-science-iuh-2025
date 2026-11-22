@@ -9,70 +9,70 @@ categories:
 lang: vi
 ---
 
-Trong không gian thực một chiều $$\mathbb{R}$$, cho hai số 1 và 2, chúng ta có thể nói 2 lớn hơn 1. Nhưng trong không gian thực $$n$$ chiều $$\mathbb{R}^n$$, cho hai điểm $$x_1$$ và $$x_2$$, liệu chúng ta có thể nói điểm nào lớn hơn? Điều này không đơn giản.
+Trên trục số thực một chiều $$\mathbb{R}$$, với hai số bất kỳ như 1 và 2, ta luôn so sánh được 2 lớn hơn 1. Tuy nhiên, trong không gian thực $$n$$ chiều $$\mathbb{R}^n$$, việc so sánh hai điểm $$x_1$$ và $$x_2$$ không còn hiển nhiên như vậy.
 
-Phần này giới thiệu **bất đẳng thức tổng quát** để so sánh thứ tự giữa hai điểm trong $$\mathbb{R}^n$$, và cũng thảo luận về các khái niệm phần tử cực tiểu và tối tiểu của một tập hợp.
+Phần này giới thiệu **bất đẳng thức tổng quát** để xác định quan hệ thứ tự giữa các điểm trong $$\mathbb{R}^n$$, cùng hai khái niệm phần tử tối tiểu (minimum) và phần tử cực tiểu (minimal) của một tập hợp.
 
 ## Hình nón thích hợp
 
-Một hình nón lồi $$K \subseteq \mathbb{R}^n$$ được gọi là **hình nón thích hợp** nếu nó thỏa mãn:
+Một hình nón lồi $$K \subseteq \mathbb{R}^n$$ được gọi là **hình nón thích hợp** (proper cone) nếu thỏa mãn ba điều kiện sau:
 
-* K là đóng (bao gồm biên của nó).
-* K là rắn (phần trong của nó không rỗng).
-* K là nhọn (không chứa bất kỳ đường thẳng nào) (tức là $$x \in K, -x \in K \implies x = 0$$).
+* $$K$$ là tập đóng (chứa biên của chính nó).
+* $$K$$ là hình nón đặc (solid), tức là phần trong của nó khác rỗng.
+* $$K$$ là hình nón nhọn (pointed), tức là không chứa đường thẳng nào đi qua gốc tọa độ ($$x \in K, -x \in K \implies x = 0$$).
 
-Nếu một hình nón lồi nhọn & đóng được định nghĩa trong một không gian con có chiều $$n-1$$ hoặc ít hơn, phần trong của nó sẽ rỗng, vì nó không thể chứa một hình cầu mở trong $$n$$ chiều. Do đó, nó không rắn và không thể là hình nón thích hợp. Ví dụ, một hình nón lồi nhọn & đóng hình quạt 2D trong $$\mathbb{R}^3$$ không phải là hình nón thích hợp.
+Nếu một hình nón lồi đóng và nhọn chỉ nằm trong một không gian con có số chiều từ $$n-1$$ trở xuống, phần trong của nó trong $$\mathbb{R}^n$$ sẽ rỗng vì nó không thể chứa bất kỳ hình cầu mở $$n$$ chiều nào. Khi đó, hình nón không đặc và không phải là hình nón thích hợp. Ví dụ, một hình quạt 2D đóng và nhọn đặt trong không gian $$\mathbb{R}^3$$ không phải là hình nón thích hợp.
 
-Xem *[Wikipedia: Interior (topology)](https://en.wikipedia.org/wiki/Interior_(topology))* để biết định nghĩa về phần trong.
+Xem thêm *[Wikipedia: Interior (topology)](https://en.wikipedia.org/wiki/Interior_(topology))* để biết định nghĩa về phần trong của một tập hợp.
 
 ## Bất đẳng thức tổng quát
 
-Sử dụng một hình nón thích hợp, chúng ta có thể định nghĩa một thứ tự từng phần trong $$\mathbb{R}^n$$ được gọi là **bất đẳng thức tổng quát**. Nó có các tính chất tương tự như thứ tự tiêu chuẩn trong $$\mathbb{R}$$:
+Dựa trên một hình nón thích hợp $$K$$, ta định nghĩa một quan hệ thứ tự bộ phận trong $$\mathbb{R}^n$$ gọi là **bất đẳng thức tổng quát**, mang nhiều tính chất tương tự thứ tự thông thường trên $$\mathbb{R}$$:
 
-> $$x \preceq_{K} y \iff y − x \in K$$
+> $$x \preceq_{K} y \iff y - x \in K$$
 
-Tương tự, thứ tự từng phần nghiêm ngặt được định nghĩa như:
+Tương tự, bất đẳng thức tổng quát nghiêm ngặt được định nghĩa bởi:
 
-> $$x \prec_{K} y \iff y − x \in $$ **int** $$K$$
+> $$x \prec_{K} y \iff y - x \in $$ **int** $$K$$
 
-Nếu $$K = \mathbb{R}_{+}$$, thì $$\preceq_{K}$$ là $$\le$$ thông thường trong $$\mathbb{R}$$.
+Khi $$K = \mathbb{R}_{+}$$, quan hệ $$\preceq_{K}$$ chính là dấu $$\le$$ quen thuộc trên $$\mathbb{R}$$.
 
 ### Tính chất của bất đẳng thức tổng quát
 
-Bất đẳng thức tổng quát $$\preceq_{K}$$ thỏa mãn:
+Bất đẳng thức tổng quát $$\preceq_{K}$$ có các tính chất sau:
 
-* **Bảo toàn dưới phép cộng**: nếu $$x \preceq_{K} y$$ và $$u \preceq_{K} v$$, thì $$ x+u \preceq_{K} y +v$$.
-* **Bắc cầu**: nếu $$x \preceq_{K} y$$ và $$y \preceq_{K} z$$ thì $$x \preceq_{K}  z$$.
-* **Bảo toàn dưới co giãn không âm**: nếu $$x \preceq_{K} y$$ và $$α \ge 0$$ thì $$αx \preceq_{K} αy$$.
-* **Phản xạ**: $$x \preceq_{K} x$$.
-* **Phản đối xứng**: nếu $$x \preceq_{K} y$$ và $$y \preceq_{K} x$$, thì $$x = y$$.
-* **Bảo toàn dưới giới hạn**: nếu $$x_i \preceq_{K}  y_i$$ với $$i = 1, 2, ..., x_i \to x$$ và $$y_i \to y$$ khi $$i \to ∞$$, thì $$x \preceq_{K} y$$.
+* **Bảo toàn dưới phép cộng**: nếu $$x \preceq_{K} y$$ và $$u \preceq_{K} v$$ thì $$ x+u \preceq_{K} y +v$$.
+* **Tính bắc cầu**: nếu $$x \preceq_{K} y$$ và $$y \preceq_{K} z$$ thì $$x \preceq_{K}  z$$.
+* **Bảo toàn dưới phép nhân vô hướng không âm**: nếu $$x \preceq_{K} y$$ và $$\alpha \ge 0$$ thì $$\alpha x \preceq_{K} \alpha y$$.
+* **Tính phản xạ**: $$x \preceq_{K} x$$.
+* **Tính phản đối xứng**: nếu $$x \preceq_{K} y$$ và $$y \preceq_{K} x$$ thì $$x = y$$.
+* **Bảo toàn qua giới hạn**: nếu $$x_i \preceq_{K}  y_i$$ với mọi $$i = 1, 2, \dots$$, $$x_i \to x$$ và $$y_i \to y$$ khi $$i \to \infty$$, thì $$x \preceq_{K} y$$.
 
-Bất đẳng thức tổng quát nghiêm ngặt có các tính chất tương ứng.
+Bất đẳng thức tổng quát nghiêm ngặt $$\prec_{K}$$ cũng có các tính chất tương ứng (trừ tính phản xạ và tính bảo toàn qua giới hạn).
 
 ## Phần tử tối tiểu và cực tiểu
 
-Sự khác biệt quan trọng nhất giữa thứ tự trong $$\mathbb{R}$$ và thứ tự tổng quát trong $$\mathbb{R}^n$$ là **thứ tự tuyến tính**. Trong $$\mathbb{R}$$, chúng ta có thể so sánh bất kỳ hai điểm nào với $$x \lt y$$ hoặc $$x \gt y$$, nhưng bất đẳng thức tổng quát không thể luôn làm điều này. Do đó, việc định nghĩa các khái niệm cực đại và cực tiểu trong bối cảnh bất đẳng thức tổng quát được dự kiến sẽ phức tạp hơn nhiều.
+Điểm khác biệt quan trọng nhất giữa thứ tự thông thường trên $$\mathbb{R}$$ và bất đẳng thức tổng quát trong $$\mathbb{R}^n$$ nằm ở **tính toàn phần (thứ tự tuyến tính)**. Trên $$\mathbb{R}$$, hai số bất kỳ luôn so sánh được với nhau ($$x \le y$$ hoặc $$y \le x$$), nhưng với bất đẳng thức tổng quát thì không nhất thiết như vậy. Vì thế, khái niệm nhỏ nhất được tách thành hai khái niệm phân biệt: tối tiểu và cực tiểu.
 
 ### Phần tử tối tiểu
 
-Nếu $$x \in S$$ thỏa mãn $$x \preceq_{K} y$$ với mọi $$y \in S$$, thì $$x$$ là phần tử **tối tiểu** của tập $$S$$. Tương tự, **tối đại** có thể được định nghĩa theo cách tương tự. Nếu một tối tiểu tồn tại trong một tập hợp, nó là duy nhất. Tức là, chỉ tồn tại một tối tiểu.
+Điểm $$x \in S$$ được gọi là phần tử **tối tiểu** (minimum) của tập $$S$$ nếu $$x \preceq_{K} y$$ với mọi $$y \in S$$. Phần tử **tối đại** (maximum) được định nghĩa tương tự. Nếu tập $$S$$ có phần tử tối tiểu thì phần tử đó là duy nhất.
 
-Nếu một điểm $$x \in S$$ là tối tiểu của $$S$$, thì $$S \subseteq x + K$$. Ở đây, $$x + K$$ có nghĩa là (theo $$\preceq_{K}$$) tất cả các điểm đều có thể so sánh với $$x$$ và lớn hơn hoặc bằng $$x$$.
+Về mặt tập hợp, $$x \in S$$ là phần tử tối tiểu của $$S$$ khi và chỉ khi $$S \subseteq x + K$$, trong đó $$x + K$$ là tập tất cả các điểm so sánh được với $$x$$ và lớn hơn hoặc bằng $$x$$ theo $$\preceq_{K}$$.
 
 ### Phần tử cực tiểu
 
-Một khái niệm tương tự là **cực tiểu**. Nếu $$x \in S$$ và với mọi $$y \in S$$, điều kiện $$y \preceq_{K} x$$ chỉ đúng khi $$y=x$$, thì $$x$$ là phần tử **cực tiểu** của tập $$S$$. Tương tự, **cực đại** có thể được định nghĩa theo cách tương tự. Một tập hợp có thể có nhiều phần tử cực tiểu.
+Điểm $$x \in S$$ được gọi là phần tử **cực tiểu** (minimal) của tập $$S$$ nếu không tồn tại điểm $$y \in S$$ nào khác $$x$$ sao cho $$y \preceq_{K} x$$ (tức là với mọi $$y \in S$$, $$y \preceq_{K} x \implies y = x$$). Phần tử **cực đại** (maximal) được định nghĩa tương tự. Khác với phần tử tối tiểu, một tập hợp có thể có nhiều phần tử cực tiểu.
 
-Nếu một điểm $$x \in S$$ là cực tiểu trong $$S$$, thì $$(x - K) \cap S = \{x\}$$. Ở đây, $$x - K$$ có nghĩa là (theo $$\preceq_{K}$$) tất cả các điểm đều có thể so sánh với $$x$$ và nhỏ hơn hoặc bằng $$x$$.
+Về mặt tập hợp, $$x \in S$$ là phần tử cực tiểu của $$S$$ khi và chỉ khi $$(x - K) \cap S = \{x\}$$, trong đó $$x - K$$ là tập tất cả các điểm so sánh được với $$x$$ và nhỏ hơn hoặc bằng $$x$$ theo $$\preceq_{K}$$.
 
-Trong trường hợp $$K = \mathbb{R}_{+}$$, cực tiểu và tối tiểu là giống nhau và tương ứng với định nghĩa chung của tối tiểu.
+Khi $$K = \mathbb{R}_{+}$$, hai khái niệm phần tử tối tiểu và phần tử cực tiểu trùng nhau.
 
 ### Tối tiểu và cực tiểu trong hình nón $$\mathbb{R}^2_{+}$$
 
-Xét hình nón $$\mathbb{R}^2_{+}$$ $$K$$. Bất đẳng thức $$x \preceq_{K} y$$ có nghĩa là $$y$$ nằm ở phía trên bên phải của $$x$$. Khi $$x \in S$$, nói rằng $$x$$ là tối tiểu có nghĩa là tất cả các điểm trong $$S$$ đều nằm ở phía trên bên phải của $$x$$. Nói rằng $$x$$ là cực tiểu có nghĩa là không có điểm nào trong $$S$$ nằm ở phía dưới bên trái của $$x$$.
+Xét hình nón $$K = \mathbb{R}^2_{+}$$. Bất đẳng thức $$x \preceq_{K} y$$ có nghĩa là $$y$$ nằm ở phía trên bên phải của $$x$$. Do đó, với $$x \in S$$, nói $$x$$ là phần tử tối tiểu nghĩa là mọi điểm của $$S$$ đều nằm ở phía trên bên phải của $$x$$; còn nói $$x$$ là phần tử cực tiểu nghĩa là không có điểm nào khác của $$S$$ nằm ở phía dưới bên trái của $$x$$.
 
-Trong hình dưới đây, $$S_1$$ có một tối tiểu $$x_1$$. Tập $$x + K$$ được hiển thị bằng màu xám nhạt, và vì $$S_1 \subseteq x + K$$, $$x_1$$ là tối tiểu. $$S_2$$ có một phần tử cực tiểu $$x_2$$. Tập $$x - K$$ được hiển thị bằng màu xám nhạt, và vì $$(x - K) \cap S = \{x\}$$, $$x_2$$ là cực tiểu.
+Trong hình dưới đây, tập $$S_1$$ có phần tử tối tiểu $$x_1$$ vì vùng $$x_1 + K$$ (tô màu xám nhạt) bao trọn $$S_1$$ ($$S_1 \subseteq x_1 + K$$). Tập $$S_2$$ có phần tử cực tiểu $$x_2$$ vì vùng $$x_2 - K$$ (tô màu xám nhạt) chỉ giao với $$S_2$$ tại đúng điểm $$x_2$$ ($$(x_2 - K) \cap S_2 = \{x_2\}$$).
 
 <figure class="image" style="align: center;">
 <p align="center">

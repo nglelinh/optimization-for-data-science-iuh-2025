@@ -11,39 +11,39 @@ lesson_type: optional
 ---
 
 
-Các bài 29-01 đến 29-03 đã sở hữu SGD song song dữ liệu, **FedAvg**, và tương phản ADMM. Ghi chú tùy chọn này là lớp *ứng dụng* 2020–2026: làm gì khi client non-IID (FedProx, SCAFFOLD), bước server thích nghi vào thế nào (FedOpt), và phương pháp thực sự chạy ở đâu (y tế xuyên kho). Nó không suy diễn lại vòng ba bước FedAvg.
+Các bài 29-01 đến 29-03 đã trình bày SGD song song dữ liệu, **FedAvg** và sự khác biệt với ADMM. Bài đọc tùy chọn này mở rộng sang các phương pháp và ứng dụng học liên kết giai đoạn 2020–2026: xử lý dữ liệu non-IID giữa các máy khách (FedProx, SCAFFOLD), đưa bộ tối ưu thích nghi lên máy chủ (FedOpt) và ứng dụng thực tế trong y tế liên viện.
 
-## 1. FedProx: dây proximal trên trôi cục bộ
+## 1. FedProx: bổ sung số hạng proximal hạn chế trôi cục bộ
 
-Li, Sahu, Zaheer, Sanjabi, Talwalkar và Smith, *Federated Optimization in Heterogeneous Networks*, MLSys 2020, [proceedings.mlsys.org](https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html), thay mục tiêu cục bộ $$F_c(w)$$ bằng
+Li, Sahu, Zaheer, Sanjabi, Talwalkar và Smith (*Federated Optimization in Heterogeneous Networks*, MLSys 2020, [proceedings.mlsys.org](https://proceedings.mlsys.org/paper_files/paper/2020/hash/1f5fe83998a09396ebe6477d9475ba0c-Abstract.html)) thay hàm mục tiêu cục bộ $$F_c(w)$$ bằng:
 
 $$
 F_c(w)+\frac{\mu}{2}\|w-w_t\|_2^2.
 $$
 
-Đó là số hạng proximal về mô hình toàn cục vừa phát — cùng *ý tưởng* với phạt Lagrangian tăng cường, không có biến đối ngẫu. FedProx là bài đầu tiên đọc sau FedAvg khi hệ thống client rớt và dữ liệu cục bộ non-IID. Nó **không** phải ADMM (không nâng đối ngẫu, không chứng nhận phần dư); Chương 29-03 đã làm sắc phân biệt đó. Dùng $$\mu>0$$ như núm bền, không như chứng minh bạn đã có đồng thuận.
+Số hạng phạt bậc hai này kéo nghiệm cục bộ không đi quá xa khỏi mô hình toàn cục $$w_t$$ vừa nhận — có ý tưởng gần với số hạng phạt trong Lagrangian tăng cường nhưng không có biến đối ngẫu. FedProx là phương pháp mở rộng phổ biến ngay sau FedAvg khi hệ thống có sự không đồng nhất cả về dữ liệu (non-IID) lẫn phần cứng (máy khách thực hiện số bước cục bộ không đều hoặc ngắt kết nối). Tuy nhiên, FedProx **không** phải ADMM vì không có bước cập nhật đối ngẫu hay phần dư kiểm chứng đồng thuận như đã phân biệt ở mục 29-03.
 
-## 2. SCAFFOLD: biến kiểm soát cho trôi client
+## 2. SCAFFOLD: biến kiểm soát triệt tiêu trôi máy khách
 
-Karimireddy, Kale, Mohri, Reddi, Stich và Suresh, *SCAFFOLD: Stochastic Controlled Averaging for Federated Learning*, ICML 2020, [PMLR v119](https://proceedings.mlr.press/v119/karimireddy20a.html), giữ một *biến kiểm soát* trên server và trên mỗi client để SGD cục bộ được hiệu chỉnh bởi ước lượng chệch gradient client $$(\nabla F_c-\nabla F)$$. Truyền thông mỗi vòng tăng một vector; phần thưởng là tốc độ không nổ theo số bước cục bộ $$E$$. Nếu FedAvg là “hy vọng trung bình các mô hình đã trôi vẫn ổn,” SCAFFOLD là “trừ trôi ước lượng.” Sinh viên giảm phương sai (26-05) sẽ nhận ra nước đi.
+Karimireddy, Kale, Mohri, Reddi, Stich và Suresh (*SCAFFOLD: Stochastic Controlled Averaging for Federated Learning*, ICML 2020, [PMLR v119](https://proceedings.mlr.press/v119/karimireddy20a.html)) duy trì các *biến kiểm soát (control variates)* trên máy chủ và trên từng máy khách để hiệu chỉnh trực tiếp độ lệch gradient cục bộ $$(\nabla F_c-\nabla F)$$ trong mỗi bước SGD cục bộ. Chi phí truyền thông mỗi vòng tăng thêm một vector tham số, nhưng đổi lại tốc độ hội tụ không bị suy giảm theo số bước cục bộ $$E$$. Nếu FedAvg chỉ lấy trung bình các mô hình đã bị trôi, SCAFFOLD chủ động trừ đi thành phần trôi ước lượng — cùng cơ chế biến kiểm soát như trong SVRG/SAGA ở mục 26-05.
 
-## 3. FedOpt / FedAdam: server được phép là Adam
+## 3. FedOpt / FedAdam: dùng bộ tối ưu thích nghi ở phía máy chủ
 
-Reddi, Charles, Zaheer, Garrett, Rush, Konečný, Kumar và McMahan, *Adaptive Federated Optimization*, ICLR 2021, [OpenReview](https://openreview.net/forum?id=LkFG3lB13U5), coi *pseudo-gradient* $$w_t-\bar w_{t+1}$$ (delta client đã trung bình) như một quan sát và áp Adam / Yogi / Adagrad **trên server**. Client có thể ở lại SGD; tiền điều kiện thích nghi sống nơi bộ nhớ rẻ. Kết hợp với bước cục bộ kiểu FedAvg thường gọi là FedAdam. Đây là bộ tối ưu Chương 26, nâng một tầng trong phân cấp — câu hỏi thi hữu ích: *ai* giữ $$\hat m,\hat v$$?
+Reddi, Charles, Zaheer, Garrett, Rush, Konečný, Kumar và McMahan (*Adaptive Federated Optimization*, ICLR 2021, [OpenReview](https://openreview.net/forum?id=LkFG3lB13U5)) xem độ chênh lệch trung bình của các máy khách $$w_t-\bar w_{t+1}$$ như một *giả gradient (pseudo-gradient)* và áp dụng các bộ tối ưu thích nghi (Adam, Yogi, AdaGrad) ngay **tại máy chủ**. Nhờ đó, máy khách chỉ cần chạy SGD đơn giản với bộ nhớ thấp, còn trạng thái mô-men $$\hat m, \hat v$$ của tiền điều kiện thích nghi được lưu ở máy chủ. Khi kết hợp với bước cục bộ kiểu FedAvg, biến thể này thường được gọi là **FedAdam**.
 
-## 4. Y tế: ứng dụng khiến FL bắt buộc
+## 4. Y tế liên viện: ứng dụng thực tế nổi bật của học liên kết
 
-Dự đoán ảnh y khoa xuyên kho và EHR là lý do phương pháp liên federated rời bài bàn phím di động. Guan, Yap, Bozoki và Liu, *Federated learning for medical image analysis: A survey*, *Pattern Recognition* 151:110424, 2024, [doi:10.1016/j.patcog.2024.110424](https://doi.org/10.1016/j.patcog.2024.110424), là bản đồ ảnh (phân đoạn u, X-quang ngực, modality thiếu). Nguyen et al., *Federated Learning for Smart Healthcare: A Survey*, *ACM Comput. Surv.* 55(3), 2022, và khảo sát CSBJ 2025 (hơn 250 bài, 2019–2024, [doi:10.1016/j.csbj.2025.06.009](https://doi.org/10.1016/j.csbj.2025.06.009)) liệt kê kiến trúc hệ thống, phân hoạch ngang/dọc, và aggregator nào (FedAvg / FedProx / SCAFFOLD / FedAdam) triển khai thực sự dùng. Bài học tối ưu điềm tĩnh: FedAvg vẫn là *hiện thực* mặc định; FedProx và SCAFFOLD là *câu trả lời* mặc định khi cân bằng lớp của một bệnh viện không khớp bệnh viện khác; riêng tư hình thức (DP-SGD, tổng hợp an toàn) là môn khác, như 29-02 đã cảnh báo.
+Các bài toán chẩn đoán ảnh y khoa và hồ sơ bệnh án điện tử (EHR) liên bệnh viện (cross-silo) là lĩnh vực đưa học liên kết vượt ra ngoài bài toán dự đoán gõ phím trên điện thoại. Guan, Yap, Bozoki và Liu (*Federated learning for medical image analysis: A survey*, *Pattern Recognition* 151:110424, 2024, [doi:10.1016/j.patcog.2024.110424](https://doi.org/10.1016/j.patcog.2024.110424)) hệ thống hóa các bài toán phân đoạn khối u, ảnh X-quang ngực và dữ liệu đa phương thức. Các bài khảo sát của Nguyen và cộng sự (*Federated Learning for Smart Healthcare: A Survey*, *ACM Comput. Surv.* 55(3), 2022) cùng bài tổng quan trên *CSBJ* 2025 (hơn 250 công trình giai đoạn 2019–2024, [doi:10.1016/j.csbj.2025.06.009](https://doi.org/10.1016/j.csbj.2025.06.009)) tổng hợp kiến trúc hệ thống, phân hoạch ngang/dọc và các bộ tổng hợp được triển khai thực tế: FedAvg vẫn là lựa chọn khởi đầu phổ biến nhất; FedProx và SCAFFOLD được dùng khi phân phối lớp giữa các bệnh viện lệch mạnh; còn bảo vệ quyền riêng tư hình thức (DP-SGD, tổng hợp an toàn) được kết hợp ở tầng bảo mật riêng như đã nêu ở mục 29-02.
 
-| Phương pháp | Ý thêm | Truyền thông thêm | Khi nào thử |
-|-------------|--------|-------------------|-------------|
-| FedAvg (29-02) | trung bình trọng số sau $$E$$ bước cục bộ | một mô hình / vòng | baseline, gần IID |
-| FedProx | proximal $$\mu$$ về $$w_t$$ | như FedAvg | rớt mạng, non-IID vừa |
-| SCAFFOLD | biến kiểm soát client/server | $$+1$$ vector / client | trôi client mạnh |
-| FedAdam | Adam trên pseudo-gradient server | như FedAvg (+ trạng thái server) | server thích nghi, client rẻ |
-| FedADMM (21-08) | phần dư đối ngẫu | cùng bậc | khi muốn chứng nhận gốc–đối ngẫu |
+| Phương pháp | Cơ chế bổ sung | Chi phí truyền thông thêm | Khi nào nên thử |
+|-------------|----------------|---------------------------|-----------------|
+| FedAvg (29-02) | trung bình trọng số sau $$E$$ bước cục bộ | 1 mô hình / vòng | chuẩn đối chiếu, dữ liệu gần IID |
+| FedProx | số hạng proximal $$\mu$$ kéo về $$w_t$$ | tương đương FedAvg | thiết bị không đồng đều, non-IID vừa |
+| SCAFFOLD | biến kiểm soát máy khách / máy chủ | $$+1$$ vector / máy khách | trôi cục bộ mạnh (non-IID cao) |
+| FedAdam | áp dụng Adam lên giả gradient tại máy chủ | tương đương FedAvg (+ bộ nhớ máy chủ) | muốn cập nhật thích nghi ở máy chủ, máy khách nhẹ |
+| FedADMM (21-07) | phần dư đối ngẫu | cùng bậc với FedAvg | cần theo dõi phần dư gốc–đối ngẫu |
 
-**Bài tập.** Tái sử dụng phân hoạch MNIST 3 client, mỗi client một lớp (hoặc hỗn hợp Gauss 2-D) từ 29-02. Chạy $$E=5$$ bước cục bộ với (i) FedAvg, (ii) FedProx ở hai $$\mu$$, (iii) SCAFFOLD *hoạt họa* trừ trung bình chạy của gradient mỗi client khỏi bước cục bộ. Vẽ độ chính xác kiểm tra toàn cục theo vòng, không theo bước cục bộ. Viết bốn câu về phương pháp nào thu nhỏ dao động bạn thấy ở 29-02.
+**Bài tập.** Dùng lại cách chia dữ liệu MNIST (hoặc hỗn hợp Gaussian 2 chiều) cho 3 máy khách, mỗi máy khách một lớp từ mục 29-02. Chạy $$E=5$$ bước cục bộ với: (i) FedAvg, (ii) FedProx tại hai giá trị $$\mu$$ khác nhau, và (iii) một phiên bản đơn giản của SCAFFOLD trừ trung bình trượt của gradient cục bộ. Vẽ độ chính xác kiểm tra toàn cục theo *số vòng truyền thông* (không theo số bước cục bộ) và nhận xét phương pháp nào làm giảm dao động rõ nhất so với mục 29-02.
 
 ## Nguồn
 

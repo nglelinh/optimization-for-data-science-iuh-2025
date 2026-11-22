@@ -9,15 +9,15 @@ categories:
 lang: vi
 ---
 
-Các ví dụ về hình nón lồi bao gồm hình nón chuẩn, hình nón pháp tuyến và hình nón nửa xác định dương.
+Các ví dụ tiêu biểu về hình nón lồi gồm hình nón chuẩn, hình nón pháp tuyến và hình nón nửa xác định dương.
 
 ## Hình nón chuẩn
 
-**Hình nón chuẩn** là một hình nón được định nghĩa bởi tất cả các điểm $$(x, t)$$ sao cho $$\| x \| \le t$$ trong $$\mathbb{R}^{n+1}$$, trong đó chuẩn có thể là bất kỳ chuẩn nào.
+**Hình nón chuẩn** là tập hợp các điểm $$(x, t) \in \mathbb{R}^{n+1}$$ thỏa mãn $$\| x \| \le t$$, với $$\|\cdot\|$$ là một chuẩn bất kỳ trên $$\mathbb{R}^n$$:
 
 > $$C = \{(x, t) : \| x \| \le t\} \subseteq \mathbb{R}^{n+1}$$, với chuẩn $$\|·\|$$
 
-Hình dưới đây cho thấy hình nón chuẩn cho chuẩn $$l_2$$ $$\|·\|_2$$, còn được gọi là hình nón bậc hai hoặc hình nón kem.
+Hình dưới đây minh họa hình nón chuẩn ứng với chuẩn $$\ell_2$$ ($$\|·\|_2$$), còn gọi là hình nón bậc hai (second-order cone) hay hình nón kem.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -28,17 +28,17 @@ Hình dưới đây cho thấy hình nón chuẩn cho chuẩn $$l_2$$ $$\|·\|_2
 
 ## Hình nón pháp tuyến
 
-Với một tập $$C$$ và một điểm $$x \in C$$, **hình nón pháp tuyến** được định nghĩa như sau:
+Cho một tập $$C$$ và điểm $$x \in C$$, **hình nón pháp tuyến** tại $$x$$ được định nghĩa là:
 
 > $$N_C(x) = \{ g: g^T (y - x) \le 0, \text{ với mọi } y \in C \}$$
 
-Hình nón pháp tuyến bao gồm tất cả các vector $$g$$ sao cho tích vô hướng với $$y-x$$ luôn nhỏ hơn hoặc bằng không với mọi $$y \in C$$. Điều này có nghĩa là góc giữa $$g$$ và $$y-x$$ nằm trong khoảng từ 90 đến 270 độ (tức là $$\cos\theta < 0$$).
+Hình nón pháp tuyến chứa tất cả các vector $$g$$ có tích vô hướng không dương với $$y - x$$ với mọi $$y \in C$$, nghĩa là góc $$\theta$$ giữa $$g$$ và $$y - x$$ thỏa mãn $$\cos\theta \le 0$$ (từ $$90^\circ$$ đến $$270^\circ$$).
 
-* Nếu $$x$$ nằm trên biên, thì $$g$$ duy nhất là pháp tuyến của siêu phẳng hỗ trợ.
-* Nếu $$x$$ là một đỉnh, có nhiều siêu phẳng hỗ trợ, vậy $$g$$ tạo thành hình quạt.
-* Nếu $$x$$ nằm trong phần trong, thì $$g$$ duy nhất là vector không.
+* Nếu $$x$$ nằm trên phần biên trơn của $$C$$, các vector $$g \ne 0$$ cùng phương với vector pháp tuyến ngoài duy nhất của siêu phẳng hỗ trợ tại $$x$$.
+* Nếu $$x$$ là một đỉnh, tồn tại nhiều siêu phẳng hỗ trợ nên tập các vector $$g$$ tạo thành hình quạt.
+* Nếu $$x$$ nằm ở phần trong của $$C$$, vector duy nhất thuộc $$N_C(x)$$ là vector không.
 
-Hình dưới đây cho thấy vector pháp tuyến.
+Hình dưới đây minh họa các vector pháp tuyến tương ứng với từng vị trí của $$x$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -47,16 +47,15 @@ Hình dưới đây cho thấy vector pháp tuyến.
 </p>
 </figure>
 
-
 ## Hình nón nửa xác định dương
 
-**Hình nón nửa xác định dương** $$\mathbb{S}^n_+$$ được định nghĩa như sau, trong đó $$\mathbb{S}^n$$ biểu diễn các ma trận đối xứng $$n \times n$$:
+Ký hiệu $$\mathbb{S}^n$$ là tập các ma trận đối xứng cỡ $$n \times n$$. **Hình nón nửa xác định dương** $$\mathbb{S}^n_+$$ được định nghĩa là:
 
 > $$\mathbb{S}^n_+ = \{ X \in \mathbb{S}^n : X \succeq 0 \}$$
 
-$$\mathbb{S}^n_+$$ là một hình nón lồi vì với $$\theta_1, \theta_2 \ge 0$$ và $$A, B \in \mathbb{S}^n_+$$, ta có $$\theta_1 A + \theta_2 B \in \mathbb{S}^n_+$$. Đây được gọi là **hình nón nửa xác định dương**.
+Tập $$\mathbb{S}^n_+$$ là một hình nón lồi vì với mọi $$\theta_1, \theta_2 \ge 0$$ và $$A, B \in \mathbb{S}^n_+$$, ta luôn có $$\theta_1 A + \theta_2 B \in \mathbb{S}^n_+$$.
 
-Hình dưới đây cho thấy biên của hình nón nửa xác định dương trong $$\mathbb{S}^2_+$$ được vẽ trong $$(x, y, z) \in \mathbb{R}^3$$. Vì ma trận $$X$$ là nửa xác định dương, định thức của nó phải không âm.
+Hình dưới đây minh họa biên của hình nón nửa xác định dương $$\mathbb{S}^2_+$$ trong không gian tọa độ $$(x, y, z) \in \mathbb{R}^3$$. Một ma trận đối xứng $$2 \times 2$$ là nửa xác định dương khi và chỉ khi các phần tử trên đường chéo và định thức của nó đều không âm:
 
 $$
 X = 

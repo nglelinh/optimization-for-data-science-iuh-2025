@@ -13,45 +13,45 @@ lesson_type: required
 <script src="../../../public/js/script.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-## Động lực: Thử thách của Big Data
+## Động lực: Thách thức của Dữ liệu Lớn
 
-Hãy tưởng tượng bạn đang huấn luyện một mô hình machine learning trên hàng triệu điểm dữ liệu. Gradient descent truyền thống yêu cầu tính toán gradient cho **tất cả** các điểm dữ liệu trước khi thực hiện một lần cập nhật duy nhất. Điều này trở nên tốn kém về mặt tính toán và tiêu tốn bộ nhớ đối với các tập dữ liệu lớn.
+Hãy hình dung bài toán huấn luyện một mô hình học máy trên hàng triệu điểm dữ liệu. Gradient descent truyền thống yêu cầu tính gradient trên **toàn bộ** tập dữ liệu trước khi thực hiện một bước cập nhật duy nhất. Cách làm này nhanh chóng trở nên tốn kém cả về thời gian tính toán lẫn bộ nhớ khi quy mô dữ liệu lớn.
 
-**Câu hỏi**: Điều gì sẽ xảy ra nếu chúng ta có thể tiến bộ bằng cách chỉ xem xét một điểm dữ liệu tại một thời điểm?
+**Câu hỏi đặt ra**: Liệu ta có thể cập nhật tham số dần dần bằng cách chỉ xét một điểm dữ liệu tại mỗi bước hay không?
 
 ## Nền tảng Toán học
 
-Xem xét bài toán tối ưu hóa để tối thiểu hóa một tổng các hàm:
+Xét bài toán cực tiểu hóa tổng của nhiều hàm thành phần:
 
 $$ \begin{equation}
 \min_x f(x) = \min_x \sum_{i=1}^m f_i(x)
 \end{equation} $$
 
-**Diễn giải thực tế**: Trong machine learning, $$f_i(x)$$ thường đại diện cho mất mát trên ví dụ huấn luyện thứ $$i$$, trong đó $$x$$ là các tham số mô hình.
+**Ý nghĩa thực tế**: Trong học máy, $$f_i(x)$$ thường là hàm mất mát trên mẫu huấn luyện thứ $$i$$, còn $$x$$ là vector tham số của mô hình.
 
-### Batch Gradient Descent (Phương pháp Truyền thống)
+### Batch Gradient Descent (Phương pháp Toàn tập)
 
-Gradient của tổng bằng tổng các gradient:
+Gradient của tổng bằng tổng các gradient thành phần:
 $$\nabla f(x) = \nabla \sum_{i=1}^m f_i(x) = \sum_{i=1}^m \nabla f_i(x)$$
 
-Quy tắc cập nhật trở thành:
+Quy tắc cập nhật của batch gradient descent là:
 $$ \begin{equation}
-x^{(k)} = x^{(k-1)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k-1)}), \,  k=1,2,3,\dots
+x^{(k)} = x^{(k-1)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k-1)}), \quad k=1,2,3,\dots
 \end{equation} $$
 
-**Chi phí tính toán**: $$O(m)$$ lần đánh giá gradient mỗi lần lặp, trong đó $$m$$ là số lượng hàm (hoặc điểm dữ liệu).
+**Chi phí tính toán**: $$O(m)$$ lần tính gradient trên mỗi bước lặp, trong đó $$m$$ là số hàm thành phần (hoặc số mẫu dữ liệu).
 
-## Stochastic Gradient Descent: Giải pháp thay thế hiệu quả
+## Stochastic Gradient Descent: Giải pháp Thay thế Hiệu quả
 
-**Ý tưởng chính**: Thay vì tính toán gradient cho tất cả $$m$$ hàm, SGD chỉ sử dụng **một** hàm tại mỗi lần lặp.
+**Ý tưởng cốt lõi**: Thay vì tính gradient của toàn bộ $$m$$ hàm thành phần, Stochastic Gradient Descent (SGD) chỉ sử dụng **một** hàm tại mỗi lần lặp:
 
 $$ \begin{equation}
 x^{(k)} = x^{(k-1)} - t_k \cdot \nabla f_{i_k} (x^{(k-1)}), \quad i_k \in \{1,2,\dots,m\}
 \end{equation} $$
 
-**Chi phí tính toán**: $$O(1)$$ lần đánh giá gradient mỗi lần lặp - một cải thiện to lớn!
+**Chi phí tính toán**: Chỉ $$O(1)$$ lần tính gradient cho mỗi lần lặp, giảm đáng kể chi phí trên mỗi bước cập nhật.
 
-### Interactive Visualization: GD vs SGD with Step Control
+### Trực quan hóa Tương tác: So sánh GD và SGD theo Từng Bước
 
 <div id="gd-sgd-comparison" style="margin: 20px 0;">
     <!-- Parameter Controls -->
@@ -143,47 +143,47 @@ x^{(k)} = x^{(k-1)} - t_k \cdot \nabla f_{i_k} (x^{(k-1)}), \quad i_k \in \{1,2,
     </div>
 </div>
 
-### Các chiến lược lựa chọn cho SGD
+### Các Chiến lược Chọn Mẫu trong SGD
 
-Chỉ số hàm $$i_k$$ có thể được chọn bằng các chiến lược khác nhau:
+Chỉ số hàm $$i_k$$ có thể được lựa chọn theo hai quy tắc phổ biến:
 
-#### 1. Quy tắc vòng tròn (Cyclic Rule)
-**Mẫu**: $$i_k = 1,2,\dots,m, 1,2,\dots,m, \ldots$$
-- **Ưu điểm**: Có tính quyết định, đảm bảo tất cả các hàm đều được thăm
-- **Nhược điểm**: Có thể bị kẹt trong các mẫu tuần hoàn
+#### 1. Quy tắc Tuần hoàn (Cyclic Rule)
+**Thứ tự**: $$i_k = 1,2,\dots,m, 1,2,\dots,m, \ldots$$
+- **Ưu điểm**: Có tính tất định, đảm bảo mọi hàm thành phần đều được duyệt qua đều đặn.
+- **Nhược điểm**: Có thể chịu ảnh hưởng của chu kỳ lặp cố định nếu thứ tự dữ liệu có quy luật.
 
-#### 2. Quy tắc ngẫu nhiên (Randomized Rule)
-**Mẫu**: $$i_k$$ được chọn ngẫu nhiên đều từ $$\{1,2,\dots,m\}$$
-- **Ưu điểm**: Tránh các mẫu tuần hoàn, đảm bảo lý thuyết tốt hơn
-- **Nhược điểm**: Một số hàm có thể được thăm thường xuyên hơn những hàm khác
+#### 2. Quy tắc Ngẫu nhiên (Randomized Rule)
+**Thứ tự**: Chọn $$i_k$$ ngẫu nhiên đều từ $$\{1,2,\dots,m\}$$.
+- **Ưu điểm**: Tránh chu kỳ cố định và có đảm bảo lý thuyết về hội tụ tốt hơn.
+- **Nhược điểm**: Trong ngắn hạn, một số hàm thành phần có thể được chọn nhiều lần hơn các hàm khác.
 
-**Trong thực tế**: Lựa chọn ngẫu nhiên được ưa chuộng hơn do có tính chất hội tụ tốt hơn và khả năng thoát khỏi các mẫu cục bộ.
+**Trong thực tế**: Quy tắc ngẫu nhiên (hoặc xáo trộn ngẫu nhiên tập dữ liệu ở đầu mỗi epoch) được ưu tiên sử dụng vì mang lại tính chất hội tụ tốt hơn.
 
-## Phân tích hội tụ: Lý thuyết so với Thực tế
+## Phân tích Hội tụ: Lý thuyết và Thực tế
 
-### So sánh Toán học
+### So sánh Công thức Cập nhật
 
-**Batch GD (một epoch)**: 
+**Batch GD (một epoch)**:
 $$x^{(k+1)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k)})$$
 
-**SGD (một epoch với quy tắc vòng tròn)**:
+**SGD (một epoch với quy tắc tuần hoàn, kích thước bước cố định $$t_k$$ trong epoch)**:
 $$x^{(k+m)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k+i-1)})$$
 
-### Hiểu công thức quy tắc vòng tròn SGD
+### Phân tích Quy tắc Tuần hoàn của SGD
 
-Hãy phân tích công thức này từng bước để hiểu điều gì xảy ra trong một epoch hoàn chỉnh của SGD với quy tắc vòng tròn:
+Hãy xem xét chi tiết điều gì diễn ra trong một epoch hoàn chỉnh của SGD theo quy tắc tuần hoàn.
 
-**Epoch là gì?** Một epoch có nghĩa là chúng ta đã xử lý tất cả $$m$$ hàm đúng một lần.
+**Epoch là gì?** Một epoch tương ứng với việc thuật toán duyệt qua toàn bộ $$m$$ hàm thành phần đúng một lần.
 
-**Quy trình quy tắc vòng tròn:**
-- Bắt đầu tại vị trí $$x^{(k)}$$
-- **Bước 1**: Sử dụng hàm $$f_1$$, tính $$\nabla f_1(x^{(k)})$$, cập nhật thành $$x^{(k+1)}$$
-- **Bước 2**: Sử dụng hàm $$f_2$$, tính $$\nabla f_2(x^{(k+1)})$$, cập nhật thành $$x^{(k+2)}$$
-- **Bước 3**: Sử dụng hàm $$f_3$$, tính $$\nabla f_3(x^{(k+2)})$$, cập nhật thành $$x^{(k+3)}$$
+**Trình tự cập nhật trong một epoch:**
+- Xuất phát tại điểm $$x^{(k)}$$.
+- **Bước 1**: Dùng $$f_1$$, tính $$\nabla f_1(x^{(k)})$$, cập nhật sang $$x^{(k+1)}$$.
+- **Bước 2**: Dùng $$f_2$$, tính $$\nabla f_2(x^{(k+1)})$$, cập nhật sang $$x^{(k+2)}$$.
+- **Bước 3**: Dùng $$f_3$$, tính $$\nabla f_3(x^{(k+2)})$$, cập nhật sang $$x^{(k+3)}$$.
 - ...
-- **Bước m**: Sử dụng hàm $$f_m$$, tính $$\nabla f_m(x^{(k+m-1)})$$, cập nhật thành $$x^{(k+m)}$$
+- **Bước $$m$$**: Dùng $$f_m$$, tính $$\nabla f_m(x^{(k+m-1)})$$, cập nhật sang $$x^{(k+m)}$$.
 
-**Các cập nhật SGD riêng lẻ:**
+**Các bước cập nhật riêng lẻ:**
 $$\begin{align}
 x^{(k+1)} &= x^{(k)} - t_k \nabla f_1(x^{(k)}) \\
 x^{(k+2)} &= x^{(k+1)} - t_k \nabla f_2(x^{(k+1)}) \\
@@ -192,151 +192,149 @@ x^{(k+3)} &= x^{(k+2)} - t_k \nabla f_3(x^{(k+2)}) \\
 x^{(k+m)} &= x^{(k+m-1)} - t_k \nabla f_m(x^{(k+m-1)})
 \end{align}$$
 
-**Thu gọn các cập nhật:**
-Nếu chúng ta thay thế đệ quy và thu thập tất cả các số hạng, chúng ta được:
+**Gộp các bước cập nhật:**
+Thay thế liên tiếp các biểu thức trên, ta thu được:
 $$x^{(k+m)} = x^{(k)} - t_k \left[ \nabla f_1(x^{(k)}) + \nabla f_2(x^{(k+1)}) + \cdots + \nabla f_m(x^{(k+m-1)}) \right]$$
 
-This can be written compactly as:
+Viết gọn lại:
 $$x^{(k+m)} = x^{(k)} - t_k \cdot \sum_{i=1}^{m} \nabla f_i (x^{(k+i-1)})$$
 
-**Ý tưởng chính:** Mỗi gradient $$\nabla f_i$$ được đánh giá tại một vị trí **khác nhau** $$x^{(k+i-1)}$$, không phải tại cùng vị trí bắt đầu $$x^{(k)}$$.
+**Điểm cốt lõi:** Mỗi gradient $$\nabla f_i$$ được tính tại một vị trí **khác nhau** $$x^{(k+i-1)}$$, thay vì cùng tính tại điểm đầu $$x^{(k)}$$.
 
-**Key difference in update directions**:
+**Độ lệch giữa hướng cập nhật của SGD và Batch GD**:
 $$\sum_{i=1}^{m}[ \nabla f_i (x^{(k+i-1)}) - \nabla f_i (x^{(k)})]$$
 
-This difference represents how much the SGD path deviates from what batch GD would do. If the functions don't change much locally (Lipschitz continuous gradients), this difference is small and SGD behaves similarly to batch GD.
+Biểu thức này đo mức độ sai lệch của quỹ đạo SGD so với bước cập nhật của batch GD. Nếu các hàm thành phần biến thiên chậm cục bộ (gradient liên tục Lipschitz), độ lệch này nhỏ và SGD hành xử gần với batch GD.
 
-### Concrete Example with m = 3 Functions
+### Ví dụ Cụ thể với $$m = 3$$ Hàm Thành phần
 
-Let's illustrate with $$m = 3$$ functions to make this crystal clear:
+Xét trường hợp $$m = 3$$ để thấy rõ sự khác biệt.
 
-**Starting position:** $$x^{(k)} = [1, 2]$$
+**Điểm xuất phát:** $$x^{(k)} = [1, 2]$$
 
-**SGD Cyclic Rule Process:**
-1. **Use $$f_1$$**: Compute $$\nabla f_1(x^{(k)}) = \nabla f_1([1,2])$$, update:
+**Quá trình SGD theo quy tắc tuần hoàn:**
+1. **Dùng $$f_1$$**: Tính $$\nabla f_1(x^{(k)}) = \nabla f_1([1,2])$$, cập nhật:
    $$x^{(k+1)} = x^{(k)} - t_k \nabla f_1(x^{(k)}) = [1,2] - t_k \nabla f_1([1,2])$$
-   
-2. **Use $$f_2$$**: Compute $$\nabla f_2(x^{(k+1)})$$ at the **new** position, update:
+2. **Dùng $$f_2$$**: Tính $$\nabla f_2(x^{(k+1)})$$ tại vị trí **mới**, cập nhật:
    $$x^{(k+2)} = x^{(k+1)} - t_k \nabla f_2(x^{(k+1)})$$
-   
-3. **Use $$f_3$$**: Compute $$\nabla f_3(x^{(k+2)})$$ at the **newest** position, update:
+3. **Dùng $$f_3$$**: Tính $$\nabla f_3(x^{(k+2)})$$ tại vị trí **mới nhất**, cập nhật:
    $$x^{(k+3)} = x^{(k+2)} - t_k \nabla f_3(x^{(k+2)})$$
 
-**Final SGD result after one epoch:**
+**Kết quả SGD sau một epoch:**
 $$x^{(k+3)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k+1)}) + \nabla f_3(x^{(k+2)})]$$
 
-**Compare with Batch GD:**
+**So sánh với Batch GD:**
 $$x^{(k+1)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k)}) + \nabla f_3(x^{(k)})]$$
 
-**The crucial difference:** 
-- **Batch GD**: All gradients evaluated at the **same** starting point $$x^{(k)}$$
-- **SGD**: Each gradient evaluated at a **different** point along the optimization path
+**Sự khác biệt then chốt:**
+- **Batch GD**: Toàn bộ gradient được tính tại **cùng một điểm** $$x^{(k)}$$.
+- **SGD**: Mỗi gradient được tính tại một điểm **cập nhật liên tiếp** dọc theo quỹ đạo tối ưu.
 
-This is why SGD can make faster initial progress (it's already "exploring" the landscape) but can be noisier near the optimum.
+Vì vậy, SGD thường giảm mất mát rất nhanh ở giai đoạn đầu nhưng dao động nhiều hơn khi tiến gần tới điểm cực tiểu.
 
-### Convergence Properties
+### Tính chất Hội tụ
 
 <div id="convergence-analysis" style="margin: 20px 0;">
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
             <h4>Batch Gradient Descent</h4>
             <ul>
-                <li><strong>Direction</strong>: Always in steepest descent direction</li>
-                <li><strong>Convergence</strong>: Smooth, monotonic decrease</li>
-                <li><strong>Speed</strong>: Slower per epoch, but stable</li>
-                <li><strong>Memory</strong>: Requires full dataset in memory</li>
+                <li><strong>Hướng di chuyển</strong>: Luôn theo hướng giảm dốc nhất chính xác</li>
+                <li><strong>Hội tụ</strong>: Mượt mà, giảm đơn điệu</li>
+                <li><strong>Tốc độ</strong>: Chậm hơn trên mỗi epoch, nhưng ổn định</li>
+                <li><strong>Bộ nhớ</strong>: Cần nạp toàn bộ tập dữ liệu để tính gradient đầy đủ</li>
             </ul>
         </div>
         <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
             <h4>Stochastic Gradient Descent</h4>
             <ul>
-                <li><strong>Direction</strong>: Noisy, approximate descent direction</li>
-                <li><strong>Convergence</strong>: Oscillatory, but faster initial progress</li>
-                <li><strong>Speed</strong>: Faster per epoch, especially for large datasets</li>
-                <li><strong>Memory</strong>: Processes one sample at a time</li>
+                <li><strong>Hướng di chuyển</strong>: Có nhiễu, xấp xỉ hướng giảm</li>
+                <li><strong>Hội tụ</strong>: Có dao động, nhưng tiến triển nhanh ở giai đoạn đầu</li>
+                <li><strong>Tốc độ</strong>: Nhanh hơn rõ rệt trên mỗi epoch với tập dữ liệu lớn</li>
+                <li><strong>Bộ nhớ</strong>: Chỉ cần xử lý từng mẫu một</li>
             </ul>
         </div>
     </div>
 </div>
 
-### Theoretical Guarantees
+### Đảm bảo Lý thuyết
 
-**Lipschitz Continuity Condition**: If $$\nabla f_i(x)$$ is Lipschitz continuous with constant $$L$$:
+**Điều kiện liên tục Lipschitz**: Nếu mỗi $$\nabla f_i(x)$$ liên tục Lipschitz với hằng số $$L$$:
 $$\|\nabla f_i(x) - \nabla f_i(y)\| \leq L \|x - y\|$$
 
-Then SGD converges to the same optimal solution as batch GD, provided the learning rate satisfies appropriate conditions.
+thì SGD hội tụ về cùng nghiệm tối ưu với batch GD khi tốc độ học thỏa mãn các điều kiện giảm dần phù hợp.
 
-**Practical Observation**: 
-- SGD excels in the **exploration phase** (far from optimum)
-- SGD struggles in the **exploitation phase** (near optimum) due to noise
+**Quan sát thực tế**:
+- SGD hoạt động hiệu quả trong **giai đoạn đầu** (khi còn ở xa nghiệm tối ưu).
+- SGD gặp khó khăn hơn trong **giai đoạn tinh chỉnh** (khi ở gần nghiệm tối ưu) do nhiễu gradient.
 
-## Mini-Batch Gradient Descent: The Best of Both Worlds
+## Mini-Batch Gradient Descent: Dung hòa Hai Phương pháp
 
-A compromise between batch GD and SGD uses **mini-batches** of size $$b$$:
+Một phương án trung gian giữa batch GD và SGD là sử dụng các **mini-batch** kích thước $$b$$:
 
 $$x^{(k)} = x^{(k-1)} - t_k \cdot \frac{1}{b} \sum_{i \in \mathcal{B}_k} \nabla f_i (x^{(k-1)})$$
 
-where $$\mathcal{B}_k$$ is a mini-batch of $$b$$ randomly selected indices.
+trong đó $$\mathcal{B}_k$$ là tập con gồm $$b$$ chỉ số được chọn ngẫu nhiên.
 
 <div id="minibatch-comparison" style="margin: 20px 0;">
-    <h4>Comparison: Batch vs Mini-batch vs SGD</h4>
+    <h4>So sánh: Batch GD, Mini-batch GD và SGD</h4>
     <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
         <thead>
             <tr style="background-color: #f5f5f5;">
-                <th style="border: 1px solid #ddd; padding: 10px;">Method</th>
-                <th style="border: 1px solid #ddd; padding: 10px;">Batch Size</th>
-                <th style="border: 1px solid #ddd; padding: 10px;">Computation/Update</th>
-                <th style="border: 1px solid #ddd; padding: 10px;">Convergence</th>
-                <th style="border: 1px solid #ddd; padding: 10px;">Memory Usage</th>
+                <th style="border: 1px solid #ddd; padding: 10px;">Phương pháp</th>
+                <th style="border: 1px solid #ddd; padding: 10px;">Kích thước lô (Batch Size)</th>
+                <th style="border: 1px solid #ddd; padding: 10px;">Chi phí / Cập nhật</th>
+                <th style="border: 1px solid #ddd; padding: 10px;">Hành vi hội tụ</th>
+                <th style="border: 1px solid #ddd; padding: 10px;">Mức dùng bộ nhớ</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td style="border: 1px solid #ddd; padding: 10px;"><strong>Batch GD</strong></td>
-                <td style="border: 1px solid #ddd; padding: 10px;">$$m$$ (full dataset)</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">$$m$$ (toàn bộ tập dữ liệu)</td>
                 <td style="border: 1px solid #ddd; padding: 10px;">$$O(m)$$</td>
-                <td style="border: 1px solid #ddd; padding: 10px;">Smooth, stable</td>
-                <td style="border: 1px solid #ddd; padding: 10px;">High</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Mượt, ổn định</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Cao</td>
             </tr>
             <tr>
                 <td style="border: 1px solid #ddd; padding: 10px;"><strong>Mini-batch GD</strong></td>
-                <td style="border: 1px solid #ddd; padding: 10px;">$$b$$ (typically 32-256)</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">$$b$$ (thường 32–256)</td>
                 <td style="border: 1px solid #ddd; padding: 10px;">$$O(b)$$</td>
-                <td style="border: 1px solid #ddd; padding: 10px;">Balanced</td>
-                <td style="border: 1px solid #ddd; padding: 10px;">Medium</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Cân bằng</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Trung bình</td>
             </tr>
             <tr>
                 <td style="border: 1px solid #ddd; padding: 10px;"><strong>SGD</strong></td>
                 <td style="border: 1px solid #ddd; padding: 10px;">1</td>
                 <td style="border: 1px solid #ddd; padding: 10px;">$$O(1)$$</td>
-                <td style="border: 1px solid #ddd; padding: 10px;">Fast but noisy</td>
-                <td style="border: 1px solid #ddd; padding: 10px;">Low</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Nhanh nhưng nhiều nhiễu</td>
+                <td style="border: 1px solid #ddd; padding: 10px;">Thấp</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-## Những điểm chính và Hiểu biết thực tế
+## Tổng kết và Kinh nghiệm Thực hành
 
-### Khi nào sử dụng SGD
-1. **Tập dữ liệu lớn** (hàng triệu mẫu)
-2. **Các tình huống học trực tuyến**
-3. **Môi trường bộ nhớ hạn chế**
-4. **Các giai đoạn huấn luyện đầu** để tiến bộ nhanh
+### Khi nào nên dùng SGD
+1. **Tập dữ liệu lớn** (hàng triệu mẫu).
+2. **Bài toán học trực tuyến (online learning)** khi dữ liệu đến theo luồng.
+3. **Môi trường hạn chế bộ nhớ**.
+4. **Giai đoạn huấn luyện đầu** cần giảm nhanh hàm mất mát.
 
-### Khi nào sử dụng Batch GD
-1. **Tập dữ liệu nhỏ đến trung bình**
-2. **Yêu cầu độ chính xác cao**
-3. **Cần hội tụ ổn định**
-4. **Các giai đoạn tinh chỉnh cuối cùng**
+### Khi nào nên dùng Batch GD
+1. **Tập dữ liệu nhỏ đến trung bình**.
+2. **Yêu cầu độ chính xác nghiệm cao**.
+3. **Cần quỹ đạo hội tụ ổn định, không nhiễu**.
+4. **Giai đoạn tinh chỉnh cuối** sau khi đã tiến gần nghiệm.
 
-### Thực hành tốt nhất
-- **Lập lịch tốc độ học**: Bắt đầu cao, giảm dần theo thời gian
-- **Xáo trộn**: Ngẫu nhiên hóa thứ tự dữ liệu mỗi epoch
-- **Mini-batch**: Thường là lựa chọn thực tế tốt nhất
-- **Momentum**: Giúp SGD vượt qua nhiễu và tăng tốc hội tụ
+### Thực hành Khuyến nghị
+- **Lập lịch tốc độ học**: Bắt đầu với bước lớn vừa phải rồi giảm dần theo thời gian.
+- **Xáo trộn dữ liệu**: Đảo ngẫu nhiên thứ tự mẫu trước mỗi epoch.
+- **Mini-batch**: Thường là lựa chọn thực tế tốt nhất nhờ tận dụng tính toán song song trên phần cứng.
+- **Momentum**: Giúp SGD giảm dao động do nhiễu và tăng tốc hội tụ.
 
-**Thực tế hiện đại**: Hầu hết các framework deep learning sử dụng mini-batch SGD với các optimizer tinh vi (Adam, RMSprop) tự động điều chỉnh tốc độ học.
+**Trong thực tế hiện đại**: Hầu hết các thư viện học sâu đều sử dụng mini-batch SGD kết hợp với các thuật toán tối ưu thích ứng (như Adam, RMSprop) để tự động điều chỉnh tốc độ học cho từng tham số.
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -15,9 +15,10 @@ MathJax.Hub.Config({
     displayAlign: "center"
 });
 </script>
-Trong trường hợp tính đối ngẫu được thảo luận trước đó, đối với LP, chúng ta đã nhân các ràng buộc của bài toán nguyên thủy với các biến đối ngẫu, thu được tổ hợp tuyến tính của chúng, và sau đó tổ chức nó để tách ra hàm mục tiêu của bài toán nguyên thủy nhằm có được một cận. Các số hạng còn lại được tách ra (một cái gì đó trong công thức dưới đây) đóng vai trò là cận cho bài toán nguyên thủy. Tức là, chúng trở thành hàm mục tiêu của bài toán đối ngẫu, và các điều kiện được tạo ra trong quá trình phát triển công thức trở thành các ràng buộc của bài toán đối ngẫu.
 
-Viết quá trình một phần này (phần của nội dung trên tách ra hàm mục tiêu nguyên thủy để có được một cận) dưới dạng công thức, nó trông như thế này:
+Trong cách tiếp cận ở các bài trước, để xây dựng đối ngẫu của một LP, ta nhân các ràng buộc của bài toán gốc với các biến đối ngẫu, lấy tổ hợp tuyến tính rồi biến đổi để tách riêng hàm mục tiêu gốc nhằm thu được một cận dưới. Phần số hạng còn lại (ký hiệu là $$\text{something}$$ trong biểu thức dưới đây) đóng vai trò là cận dưới của bài toán gốc — tức hàm mục tiêu của bài toán đối ngẫu — còn các điều kiện phát sinh trong quá trình biến đổi trở thành ràng buộc của bài toán đối ngẫu.
+
+Tóm tắt lại quá trình này bằng công thức:
 
 >$$
 >\begin{align}
@@ -37,19 +38,19 @@ Viết quá trình một phần này (phần của nội dung trên tách ra hà
 >\end{align}
 >$$
 
-Tuy nhiên, đối với các bài toán tối ưu hóa không phải là chương trình tuyến tính, hầu hết không thể biểu diễn hàm mục tiêu như một tổ hợp tuyến tính của các ràng buộc.
+Tuy nhiên, với các bài toán tối ưu không phải là quy hoạch tuyến tính, nhìn chung ta không thể biểu diễn hàm mục tiêu dưới dạng tổ hợp tuyến tính của các ràng buộc.
 
-Trong chương này, chúng ta xem xét góc nhìn về tính đối ngẫu có thể áp dụng cho các bài toán phổ biến hơn (tất cả bài toán lồi, hầu hết bài toán không lồi). Chúng ta sẽ tìm tính đối ngẫu của LP bằng phương pháp này được gọi là Lagrangian, và xem xét các thảo luận chi tiết hơn trong Chương 11.
+Trong bài này, chúng ta xét một góc nhìn tổng quát hơn về tính đối ngẫu, áp dụng được cho mọi bài toán tối ưu (cả lồi lẫn không lồi): phương pháp **Lagrangian**. Ta sẽ dùng cách tiếp cận này để xây dựng lại đối ngẫu của LP, trước khi nghiên cứu sâu hơn trong Chương 11.
 
-Nhìn vào các phương trình cho đến dạng tổ hợp tuyến tính cho bài toán LP nguyên thủy được mô tả ở trên, chúng ta có thể hiểu mối quan hệ sau:
+Từ tổ hợp tuyến tính của các ràng buộc trong bài toán LP gốc, với mọi $$x$$ khả thi và mọi $$u$$, $$v \geq 0$$, ta có bất đẳng thức:
+
 >$$
 >\begin{align}
 >c^{T}x\geq c^{T}x+\overbrace{u^{T} \underbrace{(Ax-b)} _ {=0}+\underbrace{v^{T}} _ {\geq 0} \underbrace{(Gx-h)} _ {\leq 0}} ^ {\leq 0} := L(x,u,v).
 >\end{align}
 >$$
 
-Vế phải của bất đẳng thức có giá trị nhỏ hơn hoặc bằng vế trái theo các điều kiện. Ngoài ra, chúng ta định nghĩa biểu thức này là một hàm $$L(x, u, v)$$ cho x, u, v.
-Ở đây, nếu chúng ta gọi tập hợp thỏa mãn các ràng buộc của LP nguyên thủy (tập khả thi nguyên thủy) là C, chúng ta có thể hiểu mối quan hệ sau:
+Do $$Ax - b = 0$$, $$Gx - h \leq 0$$ và $$v \geq 0$$, vế phải luôn nhỏ hơn hoặc bằng vế trái. Ta định nghĩa vế phải là hàm $$L(x, u, v)$$ theo các biến $$x, u, v$$. Gọi $$C$$ là tập khả thi của LP gốc, ta suy ra chuỗi bất đẳng thức:
 
 >$$
 >\begin{align}
@@ -62,8 +63,7 @@ Vế phải của bất đẳng thức có giá trị nhỏ hơn hoặc bằng v
 >\end{align}
 >$$
 
-Nói cách khác, $$g(u,v)$$ trở thành cận dưới của $$f^{*}$$ cho bất kỳ u hoặc $$v$$ nào thỏa mãn $$v\geq0$$.
-Hãy xem xét giá trị cận dưới được xác định bởi $$g(u,v)$$.
+Nói cách khác, với mọi $$u$$ và $$v \geq 0$$, giá trị $$g(u, v)$$ luôn là một cận dưới của giá trị tối ưu gốc $$f^{*}$$. Hãy tính tường minh hàm $$g(u, v)$$ đối với LP:
 
 >$$
 >\begin{align}
@@ -75,9 +75,7 @@ g(u,v) = min_{x} c^{T}x+u^{T}(Ax-b) + v^{T}(Gx-h) \\\\
 >\end{align}
 >$$
 
-
-Như có thể thấy từ phương trình, khi $$c = -A^{T}u-G^{T}v$$ không được thỏa mãn, nó có giá trị $$-\infty$$ do số hạng $$x$$.
-Vì chúng ta muốn tìm cận dưới gần nhất với $$f^{*}$$, chúng ta muốn tìm giá trị làm tối đa hóa $$g(u, v)$$. Đây là $$-b^{T}u-h^{T}v$$, giá trị khi $$c = -A^{T}u-G^{T}v$$ được thỏa mãn, và điều này khớp với LP đối ngẫu mà chúng ta thu được bằng phương pháp đầu tiên.
+Từ biểu thức trên, nếu $$c + A^{T}u + G^{T}v \neq 0$$ thì hàm tuyến tính theo $$x$$ không bị chặn dưới, nên giá trị cực tiểu bằng $$-\infty$$. Để tìm cận dưới chặt nhất cho $$f^{*}$$, ta cực đại hóa $$g(u, v)$$ trên miền $$v \geq 0$$. Khi đó, ta buộc phải có $$c = -A^{T}u - G^{T}v$$ và hàm mục tiêu trở thành $$-b^{T}u - h^{T}v$$ — trùng khớp hoàn toàn với bài toán LP đối ngẫu thu được theo cách tiếp cận đầu tiên:
 
 >$$
 >\begin{align}
@@ -88,4 +86,4 @@ Vì chúng ta muốn tìm cận dưới gần nhất với $$f^{*}$$, chúng ta 
 >\end{align}
 >$$
 
-Phương pháp này cũng có thể áp dụng cho các loại bài toán tối ưu hóa khác không ở dạng LP.
+Ưu điểm của cách tiếp cận này là nó có thể mở rộng trực tiếp cho các bài toán tối ưu tổng quát ngoài LP.

@@ -11,13 +11,13 @@ lang: vi
 
 # Tăng tốc
 
-Proximal gradient descent trên bài toán tổng hợp $$\min_x g(x)+h(x)$$ đã có tốc độ sạch $$O(1/k)$$ khi $$\nabla g$$ Lipschitz (bài 09-02). **Tăng tốc** là bộ nhớ thêm nâng tốc độ đó lên $$O(1/k^2)$$ bậc nhất tối ưu trên $$g$$ lồi trơn, mà không lập Hessian. Trang này là *bức tranh* kiểu Distill đứng trước đại số FISTA. Thuật toán và chứng minh $$O(1/k^2)$$ nằm ở [09-05-01]({% multilang_post_url contents/chapter09/20-01-08-09_05_01_accelerated_proximal_gradient_method %}) và [09-05-02]({% multilang_post_url contents/chapter09/20-01-08-09_05_02_convergence_analysis %}); họ hàng ngẫu nhiên, $$\beta$$ hằng dùng để huấn luyện mạng là [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}).
+Phương pháp gradient gần kề trên bài toán tổng hợp $$\min_x g(x)+h(x)$$ đã đạt tốc độ hội tụ $$O(1/k)$$ khi $$\nabla g$$ liên tục Lipschitz (bài 09-02). **Tăng tốc (acceleration)** là kỹ thuật bổ sung thành phần động lượng giúp nâng tốc độ hội tụ lên mức tối ưu bậc nhất $$O(1/k^2)$$ cho lớp hàm lồi trơn $$g$$ mà không cần tính ma trận Hessian. Bài học này trình bày góc nhìn trực quan theo phong cách Distill trước khi đi vào phần biến đổi đại số của FISTA. Thuật toán và chứng minh tốc độ $$O(1/k^2)$$ nằm ở [09-05-01]({% multilang_post_url contents/chapter09/20-01-08-09_05_01_accelerated_proximal_gradient_method %}) và [09-05-02]({% multilang_post_url contents/chapter09/20-01-08-09_05_02_convergence_analysis %}); biến thể ngẫu nhiên với hệ số $$\beta$$ cố định dùng trong huấn luyện mạng nơ-ron nằm ở [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}).
 
-## Vì sao một bước proximal trần đi zíc-zac
+## Vì sao bước gradient gần kề tiêu chuẩn dễ dao động zíc-zắc
 
-Viết một bước proximal gradient như “bước gradient trên phần trơn, rồi bật lại bằng $$\operatorname{prox}_{t h}$$.” Khi $$h=0$$ đây là gradient descent thường, và phản ví dụ lớp học lại là thung lũng dài $$g(x)=\tfrac12 x^\top\operatorname{diag}(1,L)\,x$$. Bước đủ nhỏ để không nảy tường sắc thì bò dọc sàn. Momentum — ý tưởng Nesterov đưa vào cho bài lồi trơn năm 1983, và Beck–Teboulle (2009) quấn quanh ánh xạ proximal thành **FISTA** — lưu vị trí *trước đó* và ngoại suy trước prox.
+Có thể hình dung một bước gradient gần kề là: thực hiện một bước gradient trên phần trơn, sau đó điều chỉnh lại bằng $$\operatorname{prox}_{t h}$$. Khi $$h=0$$, thuật toán trở về gradient descent thông thường, và ví dụ kinh điển là thung lũng hẹp $$g(x)=\tfrac12 x^\top\operatorname{diag}(1,L)\,x$$: kích thước bước đủ nhỏ để không dao động theo chiều dốc lại khiến thuật toán tiến rất chậm dọc theo đáy thung lũng. Kỹ thuật động lượng — do Nesterov đề xuất cho hàm lồi trơn năm 1983, và được Beck–Teboulle (2009) mở rộng kèm ánh xạ gần kề thành **FISTA** — lưu lại điểm lặp *trước đó* để ngoại suy vị trí trước khi áp dụng toán tử gần kề.
 
-Look-ahead FISTA của 09-05-01 là
+Bước ngoại suy nhìn trước (look-ahead) của FISTA ở bài 09-05-01 có dạng:
 
 $$
 \begin{align}
@@ -26,24 +26,24 @@ x^{(k)} &= \operatorname{prox}_{t_k h}\bigl(v^{(k)}-t_k\nabla g(v^{(k)})\bigr).
 \end{align}
 $$
 
-Trọng số $$(k-2)/(k+1)$$ bắt đầu từ không (bước đầu *chính là* proximal gradient) và leo tới $$1$$. Lịch đó không phải mặc định thẩm mỹ; nó là analogue rời rạc của tắt dần thời gian liên tục làm khép chứng minh $$O(1/k^2)$$ của Nesterov. Bài Distill của Goh *[Why Momentum Really Works](https://distill.pub/2017/momentum/)* là cùng hình học không có prox: một hệ thức bậc hai mà nghiệm đặc trưng có thể đặt trên đường tròn bán kính $$(\sqrt{\kappa}-1)/(\sqrt{\kappa}+1)$$, biến cuộc bò $$1-\Theta(1/\kappa)$$ thành cú lướt $$1-\Theta(1/\sqrt{\kappa})$$.
+Trọng số $$(k-2)/(k+1)$$ khởi đầu từ $$0$$ (bước đầu tiên trùng với gradient gần kề tiêu chuẩn) và tăng dần tiến tới $$1$$. Lịch trình này không phải lựa chọn tùy ý, mà là phiên bản rời rạc của cơ chế tắt dần trong thời gian liên tục giúp hoàn tất chứng minh tốc độ $$O(1/k^2)$$ của Nesterov. Bài viết trên Distill của Goh, *[Why Momentum Really Works](https://distill.pub/2017/momentum/)*, minh họa đúng hình học này trong trường hợp không có prox: một hệ thức truy hồi bậc hai với nghiệm đặc trưng nằm trên đường tròn bán kính $$(\sqrt{\kappa}-1)/(\sqrt{\kappa}+1)$$, cải thiện hệ số co từ $$1-\Theta(1/\kappa)$$ thành $$1-\Theta(1/\sqrt{\kappa})$$.
 
-## Nesterov so với “Nesterov PyTorch”
+## Tăng tốc Nesterov lý thuyết và “Nesterov trong PyTorch”
 
-Hai đối tượng cùng tên trong giáo trình này, và chúng không hoán đổi được.
+Hai khái niệm mang cùng tên trong giáo trình này có bản chất khác nhau và không thể dùng thay thế cho nhau một cách tùy tiện.
 
-Trên $$g$$ *lồi trơn* (hoặc tổng hợp $$g+h$$ với $$h$$ lồi), Nesterov / FISTA dùng trọng số momentum **lên lịch** và tính gradient trơn tại điểm ngoại suy $$v$$. Định lý là $$g(x^{(k)})+h(x^{(k)})-F^\star=O(1/k^2)$$, khớp cận dưới bậc nhất của [06-03-06]({% multilang_post_url contents/chapter06/21-03-20-06_03_06_can_we_do_better %}). Các đường ISTA-đối-FISTA trên Lasso ở [09-05-03]({% multilang_post_url contents/chapter09/20-01-08-09_05_03_example_FISTA %}) là hình bạn phải vẽ lại được.
+Trên hàm $$g$$ *lồi trơn* (hoặc bài toán tổng hợp $$g+h$$ với $$h$$ lồi), Nesterov / FISTA sử dụng trọng số động lượng **thay đổi theo lịch trình** và tính gradient của phần trơn tại điểm ngoại suy $$v$$. Khi đó ta có bảo đảm $$g(x^{(k)})+h(x^{(k)})-F^\star=O(1/k^2)$$, đạt đúng cận dưới lý thuyết của các phương pháp bậc nhất ở [06-03-06]({% multilang_post_url contents/chapter06/21-03-20-06_03_06_can_we_do_better %}). Biểu đồ so sánh ISTA và FISTA trên bài toán Lasso ở [09-05-03]({% multilang_post_url contents/chapter09/20-01-08-09_05_03_example_FISTA %}) là kết quả thực nghiệm cần nắm vững.
 
-Trên *mạng sâu*, `torch.optim.SGD(..., nesterov=True)` thường là look-ahead $$\beta\approx 0.9$$ **hằng** trên mất mát không lồi. Trực giác bộ lọc còn lại — hướng nhất quán được nhớ lâu hơn, hướng dao động triệt nhau, nhìn trước giảm vượt đích — nhưng giấy chứng nhận $$O(1/k^2)$$ thì không. Bài 26-02 là chỗ phân biệt đó được viết đủ, gồm đa thức đặc trưng heavy-ball và so sánh NumPy hai dòng.
+Trên *mạng nơ-ron sâu*, `torch.optim.SGD(..., nesterov=True)` thường dùng hệ số động lượng **cố định** $$\beta\approx 0.9$$ trên hàm mất mát không lồi. Trực giác về bộ lọc vẫn hữu ích — các hướng nhất quán được tích lũy, các hướng dao động triệt tiêu nhau, và bước nhìn trước giúp giảm hiện tượng vượt đích — nhưng không còn bảo đảm lý thuyết $$O(1/k^2)$$. Bài 26-02 phân tích chi tiết sự khác biệt này, bao gồm đa thức đặc trưng của phương pháp heavy-ball và đoạn mã so sánh ngắn bằng NumPy.
 
 <div class="content-box insight-box">
-<strong>Một câu để giữ.</strong> FISTA là look-ahead của Nesterov <em>cộng</em> một prox, với trọng số phụ thuộc $$k$$. Momentum học sâu là cùng look-ahead với trọng số bị đóng băng. Dùng định lý lên lịch trên Lasso và hồi quy logistic; dùng thung lũng Distill cho mọi thứ khác.
+<strong>Điểm cốt lõi cần nhớ.</strong> FISTA là bước nhìn trước Nesterov <em>kết hợp</em> toán tử gần kề với trọng số thay đổi theo $$k$$. Động lượng trong học sâu dùng cùng ý tưởng nhìn trước nhưng cố định trọng số. Áp dụng định lý theo lịch trình cho các bài toán lồi như Lasso hay hồi quy logistic; dùng trực giác thung lũng của Distill cho các bài toán khác.
 </div>
 
-## Khi tăng tốc là núm sai để vặn trước
+## Khi tăng tốc chưa chắc là lựa chọn tối ưu
 
-Tăng tốc không phải tốc độ miễn phí. Cùng quán tính lướt xuống thung lũng lồi có thể vượt một gấp không trơn hoặc một lưu vực nhỏ, đó là vì sao [09-05-04]({% multilang_post_url contents/chapter09/20-01-08-09_05_04_is_acceleration_always_useful %}) tồn tại và vì sao FISTA khởi động lại là cách sửa chuẩn. Nếu phần trơn rẻ và lồi mạnh, một bước proximal gradient chỉnh tốt (hoặc anh em giảm phương sai ở [26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %})) có thể thắng phương pháp tăng tốc không restart trên thời gian tường. Theo dõi hàm mục tiêu; nếu thấy “gợn Nesterov” nổi tiếng, hãy restart hoặc hạ $$\beta$$.
+Tăng tốc không mang lại lợi ích miễn phí trong mọi trường hợp. Chính quán tính giúp di chuyển nhanh dọc đáy thung lũng lồi cũng có thể khiến quỹ đạo vượt quá điểm gấp khúc không trơn hoặc vùng cực tiểu hẹp — đó là lý do tồn tại bài [09-05-04]({% multilang_post_url contents/chapter09/20-01-08-09_05_04_is_acceleration_always_useful %}) và kỹ thuật khởi động lại (restart) cho FISTA. Nếu phần trơn có chi phí tính thấp và lồi mạnh, phương pháp gradient gần kề được tinh chỉnh tốt (hoặc các phương pháp giảm phương sai ở [26-05]({% multilang_post_url contents/chapter26/2026-09-15-26_05_variance_reduction %})) có thể nhanh hơn phương pháp tăng tốc không có restart xét theo thời gian thực thi thực tế. Cần theo dõi giá trị hàm mục tiêu: nếu xuất hiện dao động kiểu “gợn sóng Nesterov”, hãy áp dụng restart hoặc giảm $$\beta$$.
 
-**Bài tập.** Trên thung lũng $$g(x)=\tfrac12 x^\top\operatorname{diag}(1,100)\,x$$ với $$h=0$$, vẽ ISTA (GD trần), FISTA với trọng số $$(k-2)/(k+1)$$, và Nesterov $$\beta$$ hằng từ 26-02. Lịch nào tới $$\|x\|_2\le 10^{-4}$$ trước, và lịch nào rung quanh gốc nếu bạn quên restart?
+**Bài tập.** Trên thung lũng $$g(x)=\tfrac12 x^\top\operatorname{diag}(1,100)\,x$$ với $$h=0$$, hãy vẽ đường hội tụ của ISTA (GD tiêu chuẩn), FISTA với trọng số $$(k-2)/(k+1)$$, và Nesterov với $$\beta$$ cố định từ bài 26-02. Phương pháp nào đạt $$\|x\|_2\le 10^{-4}$$ sớm nhất, và phương pháp nào dao động quanh gốc tọa độ nếu không dùng restart?
 
-**Câu hỏi.** Trọng số FISTA tiến tới $$1$$. $$\beta^\star$$ heavy-ball tối ưu của Distill khi biết $$\kappa$$ thì nhỏ hơn $$1$$ nghiêm ngặt. Vì sao cả hai đều có thể đúng — và điều gì đổi khi bạn *không* biết $$\kappa$$?
+**Câu hỏi.** Trọng số của FISTA tiến tới $$1$$, trong khi trọng số heavy-ball tối ưu $$\beta^\star$$ theo bài Distill (khi biết số điều kiện $$\kappa$$) luôn nhỏ hơn $$1$$ nghiêm ngặt. Vì sao cả hai kết quả này đều đúng — và điều gì thay đổi khi ta *không* biết trước $$\kappa$$?

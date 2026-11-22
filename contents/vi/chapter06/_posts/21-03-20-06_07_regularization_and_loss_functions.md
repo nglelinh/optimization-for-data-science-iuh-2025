@@ -12,48 +12,49 @@ lang: vi
 <script src="../../../public/js/script.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
-## Giới thiệu: Vấn đề Overfitting trong Machine Learning
+## Giới thiệu: Vấn đề Quá khớp (Overfitting) trong Học máy
 
-Trong machine learning, một trong những thử thách lớn nhất là **overfitting** - hiện tượng mô hình học quá chi tiết từ dữ liệu huấn luyện, dẫn đến hiệu suất kém trên dữ liệu mới. **Regularization** là kỹ thuật quan trọng để giải quyết vấn đề này.
+Trong học máy, một thách thức phổ biến là hiện tượng **quá khớp (overfitting)** — khi mô hình khớp quá sát vào nhiễu của dữ liệu huấn luyện, dẫn đến khả năng tổng quát hóa kém trên dữ liệu mới. **Điều chuẩn (regularization)** là kỹ thuật nền tảng giúp kiểm soát độ phức tạp của mô hình và giảm thiểu quá khớp.
 
-### Tại sao cần Regularization?
+### Vì sao cần Điều chuẩn?
 
-Hãy xem xét bài toán hồi quy tuyến tính cơ bản:
-$$\min_{\mathbf{w}} \frac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2$$
+Xét bài toán hồi quy tuyến tính cơ bản:
+$$\min_{\mathbf{w}} rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2$$
 
-**Vấn đề**: Khi số lượng đặc trưng lớn hoặc dữ liệu ít, mô hình có thể tìm được nghiệm với training error = 0 nhưng generalization kém.
+**Vấn đề**: Khi số lượng đặc trưng lớn hoặc số mẫu ít, mô hình có thể đạt sai số huấn luyện gần bằng 0 nhưng lại cho sai số lớn trên dữ liệu kiểm tra.
 
-**Giải pháp**: Thêm **regularization term** để "phạt" các trọng số lớn:
-$$\min_{\mathbf{w}} \frac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda R(\mathbf{w})$$
+**Giải pháp**: Bổ sung một **số hạng điều chuẩn (regularization term)** để phạt các trọng số có độ lớn quá cao:
+$$\min_{\mathbf{w}} rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda R(\mathbf{w})$$
 
 trong đó:
-- $$\lambda > 0$$ là **regularization parameter**
-- $$R(\mathbf{w})$$ là **regularization function**
+- $$\lambda > 0$$ là **tham số điều chuẩn** (kiểm soát mức độ phạt).
+- $$R(\mathbf{w})$$ là **hàm điều chuẩn**.
 
-## Ridge Regression (L2 Regularization)
+## Hồi quy Ridge (Điều chuẩn L2)
 
 ### Định nghĩa Toán học
 
-Ridge regression sử dụng L2 norm làm regularization term:
+Hồi quy Ridge sử dụng bình phương chuẩn L2 làm số hạng điều chuẩn:
 
-$$\min_{\mathbf{w}} \frac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \frac{\lambda}{2} \|\mathbf{w}\|_2^2$$
+$$\min_{\mathbf{w}} rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + rac{\lambda}{2} \|\mathbf{w}\|_2^2$$
 
-**Giải thích các thành phần:**
-- **Loss term**: $$\frac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2$$ - đo lường độ lệch giữa dự đoán và thực tế
-- **Regularization term**: $$\frac{\lambda}{2} \|\mathbf{w}\|_2^2 = \frac{\lambda}{2} \sum_{j=1}^p w_j^2$$ - phạt các trọng số lớn
-- **Regularization strength**: $$\lambda$$ kiểm soát mức độ regularization
+**Các thành phần của hàm mục tiêu:**
+- **Hàm mất mát**: $$rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2$$ đo độ lệch giữa giá trị dự đoán và giá trị thực.
+- **Số hạng điều chuẩn**: $$rac{\lambda}{2} \|\mathbf{w}\|_2^2 = rac{\lambda}{2} \sum_{j=1}^p w_j^2$$ phạt các trọng số có độ lớn cao.
+- **Cường độ điều chuẩn**: $$\lambda$$ điều chỉnh sự đánh đổi giữa độ khớp dữ liệu và độ nhỏ của trọng số.
 
 ### Nghiệm Giải tích
 
-Ridge regression có nghiệm dạng đóng:
-$$\mathbf{w}^* = (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}$$
+Hồi quy Ridge có nghiệm dạng đóng:
+$$\mathbf{w}^* = (\mathbf{X}^T\mathbf{X} + n\lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}$$
+(Nếu bỏ hệ số $$rac{1}{n}$$ ở hàm mất mát, nghiệm có dạng gọn là $$\mathbf{w}^* = (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T \mathbf{y}$$.)
 
 **Ưu điểm của nghiệm này:**
-- Ma trận $$(\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})$$ luôn khả nghịch khi $$\lambda > 0$$
-- Giải quyết vấn đề multicollinearity
-- Tính toán hiệu quả
+- Ma trận $$(\mathbf{X}^T\mathbf{X} + n\lambda \mathbf{I})$$ luôn khả nghịch với mọi $$\lambda > 0$$.
+- Khắc phục hiệu quả hiện tượng đa cộng tuyến (multicollinearity).
+- Tính toán trực tiếp được bằng các thuật toán đại số tuyến tính chuẩn.
 
-### Hiệu ứng của Ridge Regularization
+### Minh họa Hiệu ứng Điều chuẩn Ridge
 
 <div id="ridge-effect-demo" style="margin: 20px 0;">
     <div style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
@@ -98,36 +99,38 @@ $$\mathbf{w}^* = (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T
     </div>
 </div>
 
-## Practical Example: Minimizing a Quadratic Function
+## Ví dụ Thực tế: Cực tiểu hóa Hàm Bậc hai
 
-Để hiểu sâu hơn về regularization, hãy xem xét một ví dụ cụ thể với quadratic function. Đây là nền tảng toán học cho nhiều thuật toán machine learning.
+Để thấy rõ tác động toán học của điều chuẩn, ta xét bài toán cực tiểu hóa hàm bậc hai — cấu trúc nền tảng của nhiều mô hình học máy và tài chính định lượng.
 
-### Bài toán: Portfolio Optimization với Regularization
+### Bài toán: Tối ưu hóa Danh mục Đầu tư có Điều chuẩn
 
-Giả sử chúng ta có bài toán tối ưu hóa danh mục đầu tư:
+Xét bài toán tối ưu hóa danh mục đầu tư:
 
-$$\min_{\mathbf{w}} \frac{1}{2} \mathbf{w}^T \mathbf{Q} \mathbf{w} - \mathbf{\mu}^T \mathbf{w} + \frac{\lambda}{2} \|\mathbf{w}\|_2^2$$
+$$\min_{\mathbf{w}} rac{1}{2} \mathbf{w}^T \mathbf{Q} \mathbf{w} - \mathbf{\mu}^T \mathbf{w} + rac{\lambda}{2} \|\mathbf{w}\|_2^2$$
 
 trong đó:
-- $$\mathbf{w} \in \mathbb{R}^n$$: trọng số đầu tư cho $$n$$ tài sản
-- $$\mathbf{Q} \in \mathbb{R}^{n \times n}$$: ma trận hiệp phương sai (risk matrix)
-- $$\mathbf{\mu} \in \mathbb{R}^n$$: vector lợi nhuận kỳ vọng
-- $$\lambda > 0$$: tham số regularization (risk aversion)
+- $$\mathbf{w} \in \mathbb{R}^n$$: vector trọng số đầu tư cho $$n$$ tài sản.
+- $$\mathbf{Q} \in \mathbb{R}^{n 	imes n}$$: ma trận hiệp phương sai (đo rủi ro).
+- $$\mathbf{\mu} \in \mathbb{R}^n$$: vector lợi suất kỳ vọng.
+- $$\lambda > 0$$: tham số điều chuẩn (phản ánh mức độ ngại rủi ro hoặc ổn định hóa trọng số).
 
-### Phân tích Toán học Chi tiết
+### Phân tích Toán học
 
-#### 1. Gradient của Objective Function
+#### 1. Gradient của Hàm Mục tiêu
 
-$$\nabla f(\mathbf{w}) = \mathbf{Q}\mathbf{w} - \mathbf{\mu} + \lambda \mathbf{w} = (\mathbf{Q} + \lambda \mathbf{I})\mathbf{w} - \mathbf{\mu}$$
+$$
+abla f(\mathbf{w}) = \mathbf{Q}\mathbf{w} - \mathbf{\mu} + \lambda \mathbf{w} = (\mathbf{Q} + \lambda \mathbf{I})\mathbf{w} - \mathbf{\mu}$$
 
-#### 2. Hessian Matrix
+#### 2. Ma trận Hessian
 
-$$\nabla^2 f(\mathbf{w}) = \mathbf{Q} + \lambda \mathbf{I}$$
+$$
+abla^2 f(\mathbf{w}) = \mathbf{Q} + \lambda \mathbf{I}$$
 
-**Quan sát quan trọng**: 
-- Khi $$\lambda > 0$$, Hessian luôn positive definite (nếu $$\mathbf{Q}$$ positive semidefinite)
-- Điều này đảm bảo hàm mục tiêu là strongly convex
-- Nghiệm tối ưu duy nhất tồn tại
+**Nhận xét quan trọng**:
+- Khi $$\lambda > 0$$ và $$\mathbf{Q}$$ nửa xác định dương, ma trận Hessian $$\mathbf{Q} + \lambda \mathbf{I}$$ luôn xác định dương.
+- Hàm mục tiêu trở nên lồi mạnh.
+- Nghiệm tối ưu tồn tại và là duy nhất.
 
 #### 3. Nghiệm Tối ưu
 
@@ -136,7 +139,7 @@ $$(\mathbf{Q} + \lambda \mathbf{I})\mathbf{w}^* = \mathbf{\mu}$$
 
 $$\mathbf{w}^* = (\mathbf{Q} + \lambda \mathbf{I})^{-1} \mathbf{\mu}$$
 
-### Interactive Quadratic Function Explorer
+### Minh họa Tương tác cho Hàm Bậc hai
 
 <div id="quadratic-function-demo" style="margin: 20px 0;">
     <div style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
@@ -201,27 +204,20 @@ $$\mathbf{w}^* = (\mathbf{Q} + \lambda \mathbf{I})^{-1} \mathbf{\mu}$$
     </div>
 </div>
 
-### Gradient Descent cho Quadratic Functions
+### Gradient Descent trên Hàm Bậc hai
 
-Đối với quadratic function, gradient descent có dạng đặc biệt:
+Với hàm mục tiêu bậc hai có điều chuẩn, bước lặp gradient descent có dạng:
 
-$$\mathbf{w}^{(k+1)} = \mathbf{w}^{(k)} - \alpha [(\mathbf{Q} + \lambda \mathbf{I})\mathbf{w}^{(k)} - \mathbf{\mu}]$$
+$$\mathbf{w}^{(k+1)} = \mathbf{w}^{(k)} - lpha [(\mathbf{Q} + \lambda \mathbf{I})\mathbf{w}^{(k)} - \mathbf{\mu}]$$
 
-#### Phân tích Convergence Rate
+#### Phân tích Tốc độ Hội tụ
 
-**Eigenvalue decomposition**: $$\mathbf{Q} + \lambda \mathbf{I} = \mathbf{V} \mathbf{\Lambda} \mathbf{V}^T$$
+- **Phân rã trị riêng**: $$\mathbf{Q} + \lambda \mathbf{I} = \mathbf{V} \mathbf{\Lambda} \mathbf{V}^T$$
+- **Hệ số co**: $$ho = \max_i \left|1 - lpha \lambda_iight|$$, trong đó $$\lambda_i$$ là các trị riêng của $$\mathbf{Q} + \lambda \mathbf{I}$$.
+- **Kích thước bước tối ưu**: $$lpha^* = rac{2}{\lambda_{\min} + \lambda_{\max}}$$.
+- **Hệ số hội tụ tối ưu**: $$ho^* = rac{\kappa - 1}{\kappa + 1}$$, trong đó $$\kappa = rac{\lambda_{\max}}{\lambda_{\min}}$$ là chỉ số điều kiện.
 
-**Convergence rate**: $$\rho = \max_i \left|1 - \alpha \lambda_i\right|$$
-
-trong đó $$\lambda_i$$ là eigenvalues của $$\mathbf{Q} + \lambda \mathbf{I}$$.
-
-**Optimal step size**: $$\alpha^* = \frac{2}{\lambda_{\min} + \lambda_{\max}}$$
-
-**Convergence factor**: $$\rho^* = \frac{\kappa - 1}{\kappa + 1}$$
-
-trong đó $$\kappa = \frac{\lambda_{\max}}{\lambda_{\min}}$$ là condition number.
-
-### Hiệu ứng của Regularization lên Convergence
+### Ảnh hưởng của Điều chuẩn lên Tốc độ Hội tụ
 
 <div id="regularization-convergence-demo" style="margin: 20px 0;">
     <div style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #fff3e0;">
@@ -264,96 +260,93 @@ trong đó $$\kappa = \frac{\lambda_{\max}}{\lambda_{\min}}$$ là condition numb
     </div>
 </div>
 
-### Case Study: Ill-conditioned Problems
+### Tình huống Minh họa: Bài toán Điều kiện Xấu
 
-#### Vấn đề: Multicollinearity trong Linear Regression
+#### Vấn đề: Đa cộng tuyến trong Hồi quy Tuyến tính
 
-Xem xét ma trận thiết kế $$\mathbf{X}$$ với các cột gần như phụ thuộc tuyến tính:
+Xét ma trận đặc trưng $$\mathbf{X}$$ có các cột gần như phụ thuộc tuyến tính:
 
-$$\mathbf{X} = \begin{bmatrix}
-1 & 1 & 1.001 \\
-1 & 2 & 2.001 \\
-1 & 3 & 3.001 \\
-\vdots & \vdots & \vdots
+$$\mathbf{X} = egin{bmatrix}
+1 & 1 & 1.001 \
+1 & 2 & 2.001 \
+1 & 3 & 3.001 \
+dots & dots & dots
 \end{bmatrix}$$
 
-**Normal equations**: $$\mathbf{X}^T\mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}$$
+**Hệ phương trình chuẩn (normal equations)**: $$\mathbf{X}^T\mathbf{X} \mathbf{w} = \mathbf{X}^T \mathbf{y}$$
 
-**Vấn đề**: $$\mathbf{X}^T\mathbf{X}$$ có condition number rất lớn → numerical instability
+**Vấn đề**: Ma trận $$\mathbf{X}^T\mathbf{X}$$ có chỉ số điều kiện rất lớn, gây mất ổn định số học khi nghịch đảo.
 
-#### Giải pháp: Ridge Regularization
+#### Giải pháp: Điều chuẩn Ridge
 
 $$(\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I}) \mathbf{w} = \mathbf{X}^T \mathbf{y}$$
 
-**Hiệu quả**:
-- Condition number giảm từ $$10^{12}$$ xuống $$10^2$$
-- Numerical stability được cải thiện đáng kể
-- Trade-off: bias tăng nhưng variance giảm
+**Tác dụng**:
+- Giảm mạnh chỉ số điều kiện (chẳng hạn từ $$10^{12}$$ xuống $$10^2$$).
+- Cải thiện rõ rệt độ ổn định số học.
+- Đánh đổi hợp lý: chấp nhận tăng nhẹ độ chệch (bias) để giảm đáng kể phương sai (variance).
 
-### Mathematical Insights
+### Phân tích Thống kê
 
-#### 1. Bias-Variance Decomposition
+#### 1. Phân tích Độ chệch – Phương sai (Bias–Variance)
 
-Đối với Ridge regression:
+Đối với hồi quy Ridge:
 
-$$\text{MSE} = \text{Bias}^2 + \text{Variance} + \text{Noise}$$
+$$	ext{MSE} = 	ext{Bias}^2 + 	ext{Variance} + 	ext{Noise}$$
 
-**Bias**: $$\mathbb{E}[\hat{\mathbf{w}}] - \mathbf{w}^* = -\lambda (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{w}^*$$
+- **Độ chệch (Bias)**: $$\mathbb{E}[\hat{\mathbf{w}}] - \mathbf{w}^* = -\lambda (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{w}^*$$
+- **Phương sai (Variance)**: $$	ext{Var}[\hat{\mathbf{w}}] = \sigma^2 (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T\mathbf{X} (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1}$$
 
-**Variance**: $$\text{Var}[\hat{\mathbf{w}}] = \sigma^2 (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T\mathbf{X} (\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1}$$
+#### 2. Bậc Tự do Hiệu dụng (Effective Degrees of Freedom)
 
-#### 2. Effective Degrees of Freedom
+$$	ext{df}(\lambda) = 	ext{tr}[\mathbf{X}(\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T] = \sum_{i=1}^p rac{\sigma_i^2}{\sigma_i^2 + \lambda}$$
 
-$$\text{df}(\lambda) = \text{tr}[\mathbf{X}(\mathbf{X}^T\mathbf{X} + \lambda \mathbf{I})^{-1}\mathbf{X}^T] = \sum_{i=1}^p \frac{\sigma_i^2}{\sigma_i^2 + \lambda}$$
+trong đó $$\sigma_i$$ là các giá trị kỳ dị của $$\mathbf{X}$$ (và $$\sigma_i^2$$ là các trị riêng của $$\mathbf{X}^T\mathbf{X}$$).
 
-trong đó $$\sigma_i^2$$ là singular values của $$\mathbf{X}$$.
+**Ý nghĩa**: Tăng $$\lambda$$ làm giảm bậc tự do hiệu dụng, qua đó thu hẹp độ phức tạp của mô hình.
 
-**Interpretation**: Regularization effectively reduces model complexity.
+### Cân nhắc về Tính toán
 
-### Computational Considerations
+#### 1. Giải Trực tiếp so với Phương pháp Lặp
 
-#### 1. Direct Solution vs Iterative Methods
+**Giải trực tiếp (phân rã Cholesky)**:
+- Độ phức tạp: $$O(p^3)$$.
+- Phù hợp khi số đặc trưng $$p < 10^4$$.
+- Ổn định số học tốt nhờ số hạng điều chuẩn.
 
-**Direct (Cholesky decomposition)**:
-- Complexity: $$O(p^3)$$
-- Suitable for $$p < 10^4$$
-- Numerically stable with regularization
+**Phương pháp lặp (Gradient descent)**:
+- Độ phức tạp mỗi bước lặp: $$O(np)$$.
+- Phù hợp khi số đặc trưng $$p$$ lớn.
+- Tốc độ hội tụ phụ thuộc vào chỉ số điều kiện.
 
-**Iterative (Gradient descent)**:
-- Complexity per iteration: $$O(np)$$
-- Suitable for large $$p$$
-- Convergence depends on condition number
+#### 2. Tiền điều kiện hóa (Preconditioning)
 
-#### 2. Preconditioning
+- **Tiền điều kiện Jacobi**: $$\mathbf{P} = 	ext{diag}(\mathbf{Q} + \lambda \mathbf{I})$$.
+- **Hệ sau tiền điều kiện**: $$\mathbf{P}^{-1}(\mathbf{Q} + \lambda \mathbf{I})\mathbf{w} = \mathbf{P}^{-1}\mathbf{\mu}$$.
+- **Lợi ích**: Cải thiện chỉ số điều kiện của hệ phương trình, giúp phương pháp lặp hội tụ nhanh hơn.
 
-**Jacobi preconditioning**: $$\mathbf{P} = \text{diag}(\mathbf{Q} + \lambda \mathbf{I})$$
-
-**Preconditioned system**: $$\mathbf{P}^{-1}(\mathbf{Q} + \lambda \mathbf{I})\mathbf{w} = \mathbf{P}^{-1}\mathbf{\mu}$$
-
-**Benefit**: Improved condition number → faster convergence
-
-## Lasso Regression (L1 Regularization)
+## Hồi quy Lasso (Điều chuẩn L1)
 
 ### Định nghĩa Toán học
 
-Lasso (Least Absolute Shrinkage and Selection Operator) sử dụng L1 norm:
+Lasso (Least Absolute Shrinkage and Selection Operator) sử dụng chuẩn L1 làm số hạng điều chuẩn:
 
-$$\min_{\mathbf{w}} \frac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \|\mathbf{w}\|_1$$
+$$\min_{\mathbf{w}} rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \|\mathbf{w}\|_1$$
 
-trong đó $$\|\mathbf{w}\|_1 = \sum_{j=1}^p |w_j|$$
+trong đó $$\|\mathbf{w}\|_1 = \sum_{j=1}^p |w_j|$$.
 
-### Đặc điểm Quan trọng của Lasso
+### Đặc điểm Chính của Lasso
 
-**1. Sparse Solutions (Nghiệm thưa):**
-- Lasso có thể đặt một số coefficients về **chính xác bằng 0**
-- Tự động thực hiện **feature selection**
-- Tạo ra mô hình đơn giản, dễ diễn giải
+**1. Nghiệm thưa (Sparse Solutions):**
+- Lasso có thể đưa nhiều hệ số về **chính xác bằng 0**.
+- Tự động thực hiện **chọn lọc đặc trưng (feature selection)**.
+- Tạo ra mô hình gọn nhẹ và dễ diễn giải hơn.
 
-**2. Không có nghiệm dạng đóng:**
-- Cần sử dụng thuật toán tối ưu hóa (coordinate descent, proximal gradient)
-- Phức tạp tính toán hơn Ridge
+**2. Không có nghiệm dạng đóng tổng quát:**
+- Cần giải bằng các thuật toán tối ưu lặp (như hạ tọa độ — coordinate descent, hoặc gradient gần kề — proximal gradient).
+- Chi phí tối ưu thường phức tạp hơn hồi quy Ridge.
 
-### So sánh Ridge vs Lasso
+### So sánh Ridge và Lasso
 
 <div id="ridge-lasso-comparison" style="margin: 20px 0;">
     <div style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f0f8ff;">
@@ -400,73 +393,72 @@ trong đó $$\|\mathbf{w}\|_1 = \sum_{j=1}^p |w_j|$$
     </div>
 </div>
 
-### Hình học của Regularization
+### Diễn giải Hình học của Điều chuẩn
 
-**Hiểu trực quan tại sao Lasso tạo sparse solutions:**
+**Vì sao Lasso tạo ra nghiệm thưa:**
 
-1. **L1 constraint**: $$\|\mathbf{w}\|_1 \leq t$$ tạo ra **diamond shape** trong 2D
-2. **L2 constraint**: $$\|\mathbf{w}\|_2 \leq t$$ tạo ra **circular shape** trong 2D
-3. **Intersection với loss contours**: 
-   - L1: Có khả năng cao giao với contour tại các góc (sparse solutions)
-   - L2: Thường giao tại các điểm smooth (non-sparse solutions)
+1. **Miền ràng buộc L1**: $$\|\mathbf{w}\|_1 \leq t$$ có dạng **hình thoi** trong không gian hai chiều (có các đỉnh nhọn nằm trên trục tọa độ).
+2. **Miền ràng buộc L2**: $$\|\mathbf{w}\|_2 \leq t$$ có dạng **hình tròn** trơn.
+3. **Điểm tiếp xúc với đường đồng mức hàm mất mát**:
+   - Với L1, đường đồng mức elip rất dễ tiếp xúc tại các đỉnh nhọn trên trục tọa độ, khiến một số thành phần của $$\mathbf{w}$$ bằng 0.
+   - Với L2, biên hình tròn trơn nên điểm tiếp xúc thường nằm ngoài các trục tọa độ (các hệ số đều co nhỏ nhưng hiếm khi bằng 0 tuyệt đối).
 
 ## Elastic Net: Kết hợp Ridge và Lasso
 
-Elastic Net kết hợp cả L1 và L2 regularization:
+Elastic Net kết hợp đồng thời hai số hạng phạt L1 và L2:
 
-$$\min_{\mathbf{w}} \frac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \left[ \alpha \|\mathbf{w}\|_1 + \frac{1-\alpha}{2} \|\mathbf{w}\|_2^2 \right]$$
+$$\min_{\mathbf{w}} rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \left[ lpha \|\mathbf{w}\|_1 + rac{1-lpha}{2} \|\mathbf{w}\|_2^2 ight]$$
 
-**Tham số:**
-- $$\alpha \in [0,1]$$: mixing parameter
-- $$\alpha = 1$$: Pure Lasso
-- $$\alpha = 0$$: Pure Ridge
-- $$0 < \alpha < 1$$: Combination
+**Vai trò tham số trộn $$lpha \in [0, 1]$$:**
+- $$lpha = 1$$: Trở về hồi quy Lasso thuần túy.
+- $$lpha = 0$$: Trở về hồi quy Ridge thuần túy.
+- $$0 < lpha < 1$$: Kết hợp cả hai cơ chế.
 
 **Ưu điểm:**
-- Kết hợp sparsity của Lasso với stability của Ridge
-- Xử lý tốt grouped variables
-- Hoạt động tốt khi $$p > n$$
+- Kết hợp tính thưa của Lasso với độ ổn định của Ridge.
+- Xử lý tốt các nhóm biến có tương quan cao.
+- Hoạt động ổn định cả khi số đặc trưng vượt quá số mẫu ($$p > n$$).
 
-## Loss Functions trong Machine Learning
+## Các Hàm Mất mát trong Học máy
 
-### 1. Regression Loss Functions
+### 1. Hàm Mất mát cho Hồi quy
 
-#### Mean Squared Error (MSE)
-$$L_{MSE}(\mathbf{w}) = \frac{1}{n} \sum_{i=1}^n (y_i - \mathbf{w}^T \mathbf{x}_i)^2$$
-
-**Đặc điểm:**
-- Smooth, differentiable everywhere
-- Sensitive to outliers
-- Convex optimization problem
-
-#### Mean Absolute Error (MAE)
-$$L_{MAE}(\mathbf{w}) = \frac{1}{n} \sum_{i=1}^n |y_i - \mathbf{w}^T \mathbf{x}_i|$$
+#### Sai số Bình phương Trung bình (MSE)
+$$L_{MSE}(\mathbf{w}) = rac{1}{n} \sum_{i=1}^n (y_i - \mathbf{w}^T \mathbf{x}_i)^2$$
 
 **Đặc điểm:**
-- Robust to outliers
-- Non-differentiable at zero
-- Convex but requires subgradient methods
+- Trơn và khả vi tại mọi điểm.
+- Nhạy cảm với các điểm ngoại lai (outliers) do bình phương sai số.
+- Tạo thành bài toán tối ưu lồi.
 
-#### Huber Loss
-$$L_{Huber}(\mathbf{w}) = \frac{1}{n} \sum_{i=1}^n \begin{cases}
-\frac{1}{2}(y_i - \mathbf{w}^T \mathbf{x}_i)^2 & \text{if } |y_i - \mathbf{w}^T \mathbf{x}_i| \leq \delta \\
-\delta |y_i - \mathbf{w}^T \mathbf{x}_i| - \frac{1}{2}\delta^2 & \text{otherwise}
+#### Sai số Tuyệt đối Trung bình (MAE)
+$$L_{MAE}(\mathbf{w}) = rac{1}{n} \sum_{i=1}^n |y_i - \mathbf{w}^T \mathbf{x}_i|$$
+
+**Đặc điểm:**
+- Bền vững hơn trước các điểm ngoại lai.
+- Không khả vi tại điểm sai số bằng 0.
+- Lồi nhưng cần phương pháp dưới gradient (subgradient) hoặc quy hoạch tuyến tính.
+
+#### Hàm Mất mát Huber (Huber Loss)
+$$L_{Huber}(\mathbf{w}) = rac{1}{n} \sum_{i=1}^n egin{cases}
+rac{1}{2}(y_i - \mathbf{w}^T \mathbf{x}_i)^2 & 	ext{nếu } |y_i - \mathbf{w}^T \mathbf{x}_i| \leq \delta \
+\delta |y_i - \mathbf{w}^T \mathbf{x}_i| - rac{1}{2}\delta^2 & 	ext{ngược lại}
 \end{cases}$$
 
 **Đặc điểm:**
-- Combines MSE (small errors) and MAE (large errors)
-- Smooth and robust
-- Parameter $$\delta$$ controls transition point
+- Kết hợp ưu điểm của MSE (với sai số nhỏ) và MAE (với sai số lớn).
+- Vừa trơn (khả vi liên tục) vừa bền vững trước ngoại lai.
+- Tham số $$\delta$$ kiểm soát ngưỡng chuyển tiếp giữa phần bậc hai và phần tuyến tính.
 
-### 2. Classification Loss Functions
+### 2. Hàm Mất mát cho Phân lớp
 
-#### Logistic Loss (Cross-entropy)
-$$L_{logistic}(\mathbf{w}) = \frac{1}{n} \sum_{i=1}^n \log(1 + \exp(-y_i \mathbf{w}^T \mathbf{x}_i))$$
+#### Hàm Mất mát Logistic (Cross-Entropy)
+$$L_{logistic}(\mathbf{w}) = rac{1}{n} \sum_{i=1}^n \log(1 + \exp(-y_i \mathbf{w}^T \mathbf{x}_i))$$
 
-#### Hinge Loss (SVM)
-$$L_{hinge}(\mathbf{w}) = \frac{1}{n} \sum_{i=1}^n \max(0, 1 - y_i \mathbf{w}^T \mathbf{x}_i)$$
+#### Hàm Mất mát Hinge (SVM)
+$$L_{hinge}(\mathbf{w}) = rac{1}{n} \sum_{i=1}^n \max(0, 1 - y_i \mathbf{w}^T \mathbf{x}_i)$$
 
-### Interactive Loss Functions Comparison
+### Minh họa Tương tác: So sánh Các Hàm Mất mát
 
 <div id="loss-functions-demo" style="margin: 20px 0;">
     <div style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
@@ -516,18 +508,18 @@ $$L_{hinge}(\mathbf{w}) = \frac{1}{n} \sum_{i=1}^n \max(0, 1 - y_i \mathbf{w}^T 
     </div>
 </div>
 
-## Regularization Path và Model Selection
+## Đường Điều chuẩn (Regularization Path) và Chọn Mô hình
 
-### Cross-Validation cho Regularization
+### Kiểm định Chéo (Cross-Validation) để Chọn $$\lambda$$
 
-Việc chọn $$\lambda$$ tối ưu thường được thực hiện thông qua cross-validation:
+Giá trị $$\lambda$$ tối ưu thường được xác định bằng kiểm định chéo:
 
-1. **Chia dữ liệu**: Training, validation, test sets
-2. **Grid search**: Thử nhiều giá trị $$\lambda$$
-3. **Evaluate**: Tính validation error cho mỗi $$\lambda$$
-4. **Select**: Chọn $$\lambda$$ có validation error thấp nhất
+1. **Chia tập dữ liệu**: Tách thành các tập huấn luyện (training), thẩm định (validation) và kiểm tra (test).
+2. **Tìm kiếm lưới (grid search)**: Khảo sát dãy giá trị $$\lambda$$ theo thang logarit.
+3. **Đánh giá**: Tính sai số trên tập thẩm định cho từng giá trị $$\lambda$$.
+4. **Lựa chọn**: Chọn $$\lambda$$ cho sai số thẩm định thấp nhất.
 
-### Regularization Path Visualization
+### Minh họa Đường Điều chuẩn
 
 <div id="regularization-path-demo" style="margin: 20px 0;">
     <div style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f0f8ff;">
@@ -570,39 +562,39 @@ Việc chọn $$\lambda$$ tối ưu thường được thực hiện thông qua 
     </div>
 </div>
 
-## Practical Guidelines và Best Practices
+## Hướng dẫn Thực hành
 
-### 1. Khi nào sử dụng Ridge vs Lasso?
+### 1. Khi nào chọn Ridge hay Lasso?
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
     <div style="border: 1px solid #4CAF50; padding: 15px; border-radius: 5px; background-color: #f1f8e9;">
-        <h4 style="color: #4CAF50;">Sử dụng Ridge khi:</h4>
+        <h4 style="color: #4CAF50;">Nên dùng Ridge khi:</h4>
         <ul>
-            <li>Tất cả features đều có ý nghĩa</li>
-            <li>Multicollinearity cao</li>
-            <li>Cần stability trong predictions</li>
-            <li>Dataset nhỏ, nhiều features</li>
-            <li>Không cần feature selection tự động</li>
+            <li>Phần lớn đặc trưng đều đóng góp thông tin</li>
+            <li>Có hiện tượng đa cộng tuyến cao</li>
+            <li>Ưu tiên tính ổn định của ước lượng</li>
+            <li>Tập dữ liệu nhỏ nhưng nhiều đặc trưng</li>
+            <li>Không cần loại bỏ đặc trưng tự động</li>
         </ul>
     </div>
     <div style="border: 1px solid #FF9800; padding: 15px; border-radius: 5px; background-color: #fff8e1;">
-        <h4 style="color: #FF9800;">Sử dụng Lasso khi:</h4>
+        <h4 style="color: #FF9800;">Nên dùng Lasso khi:</h4>
         <ul>
-            <li>Cần feature selection tự động</li>
-            <li>Nhiều features không liên quan</li>
-            <li>Muốn mô hình đơn giản, dễ diễn giải</li>
-            <li>Sparse solutions được ưa chuộng</li>
-            <li>High-dimensional data</li>
+            <li>Cần chọn lọc đặc trưng tự động</li>
+            <li>Nhiều đặc trưng thừa hoặc không liên quan</li>
+            <li>Ưu tiên mô hình gọn nhẹ, dễ diễn giải</li>
+            <li>Mong muốn nghiệm thưa</li>
+            <li>Dữ liệu số chiều cao</li>
         </ul>
     </div>
 </div>
 
-### 2. Hyperparameter Tuning Strategy
+### 2. Chiến lược Tinh chỉnh Siêu tham số
 
 ```python
-# Pseudo-code cho regularization tuning
+# Mã giả tinh chỉnh tham số điều chuẩn
 def tune_regularization(X_train, y_train, X_val, y_val):
-    lambda_values = np.logspace(-4, 2, 50)  # Log-spaced values
+    lambda_values = np.logspace(-4, 2, 50)  # Các giá trị cách đều theo thang log
     best_lambda = None
     best_score = float('inf')
     
@@ -617,34 +609,32 @@ def tune_regularization(X_train, y_train, X_val, y_val):
     return best_lambda, best_score
 ```
 
-### 3. Feature Scaling
+### 3. Chuẩn hóa Đặc trưng (Feature Scaling)
 
-**Quan trọng**: Regularization nhạy cảm với scale của features!
+**Lưu ý quan trọng**: Các phương pháp điều chuẩn rất nhạy cảm với thang đo của đặc trưng.
 
-- **Ridge/Lasso**: Yêu cầu feature scaling (standardization)
-- **Lý do**: Regularization penalty phụ thuộc vào magnitude của coefficients
-- **Giải pháp**: Standardize features trước khi áp dụng regularization
+- **Ridge/Lasso**: Cần chuẩn hóa đặc trưng (standardization) trước khi huấn luyện.
+- **Lý do**: Số hạng phạt phụ thuộc trực tiếp vào độ lớn của các hệ số $$w_j$$; nếu các đặc trưng có đơn vị đo chênh lệch lớn, mức phạt sẽ không công bằng giữa chúng.
+- **Cách xử lý**: Đưa các đặc trưng về trung bình 0 và độ lệch chuẩn 1 trước khi áp dụng điều chuẩn.
 
-## Kết luận và Takeaways
+## Tóm tắt
 
-### Những điểm chính:
+### Những Điểm Chính
+1. **Điều chuẩn (Regularization)** giúp kiểm soát độ phức tạp mô hình và hạn chế quá khớp.
+2. **Ridge (L2)** co nhỏ đồng đều các hệ số và tăng tính ổn định số học.
+3. **Lasso (L1)** tạo ra nghiệm thưa và thực hiện chọn lọc đặc trưng tự động.
+4. **Elastic Net** kết hợp ưu điểm của cả L1 và L2.
+5. **Lựa chọn hàm mất mát** quyết định tính trơn và độ bền vững của mô hình trước nhiễu ngoại lai.
+6. **Kiểm định chéo (Cross-validation)** là công cụ tiêu chuẩn để chọn siêu tham số $$\lambda$$.
 
-1. **Regularization** là công cụ mạnh mẽ để chống overfitting
-2. **Ridge (L2)** tạo smooth shrinkage, tốt cho stability
-3. **Lasso (L1)** tạo sparse solutions, tốt cho feature selection
-4. **Elastic Net** kết hợp ưu điểm của cả hai
-5. **Loss function choice** ảnh hưởng lớn đến model behavior
-6. **Cross-validation** là key cho hyperparameter tuning
+### Quy trình Thực hành
+1. **Tiền xử lý dữ liệu**: Chuẩn hóa thang đo các đặc trưng.
+2. **Chọn phương pháp**: Dựa trên cấu trúc dữ liệu và mục tiêu bài toán.
+3. **Tinh chỉnh siêu tham số**: Dùng kiểm định chéo trên lưới giá trị $$\lambda$$.
+4. **Đánh giá mô hình**: Kiểm tra trên tập dữ liệu độc lập (test set).
+5. **Phân tích kết quả**: Kiểm tra độ lớn và độ thưa của các hệ số học được.
 
-### Practical Workflow:
-
-1. **Data preprocessing**: Scale features appropriately
-2. **Method selection**: Choose based on problem characteristics
-3. **Hyperparameter tuning**: Use cross-validation
-4. **Model evaluation**: Test on held-out data
-5. **Interpretation**: Analyze coefficient patterns
-
-**Nhớ rằng**: Regularization không phải là magic bullet - hiểu rõ data và problem domain vẫn là quan trọng nhất!
+Điều chuẩn là công cụ hiệu quả nhưng không thay thế được việc hiểu rõ dữ liệu và bản chất bài toán.
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

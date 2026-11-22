@@ -11,26 +11,29 @@ lesson_type: required
 ---
 
 ## Mục tiêu
-Mục tiêu của khóa học này là phát triển các khả năng sau:
 
-* Nhận biết khi nào một bài toán cho trước là bài toán tối ưu hóa lồi
-* Xây dựng một tình huống cho trước thành bài toán tối ưu hóa lồi
-* Lựa chọn thuật toán phù hợp nhất để giải một bài toán tối ưu hóa lồi đã định nghĩa
+Khóa học này hướng tới việc rèn luyện ba năng lực chính:
+
+* Nhận biết khi nào một bài toán cho trước là bài toán tối ưu hóa lồi.
+* Mô hình hóa một bài toán thực tế thành bài toán tối ưu hóa lồi.
+* Lựa chọn thuật toán phù hợp nhất để giải một bài toán tối ưu hóa lồi cụ thể.
 
 ## Chủ đề
-Để đạt được những mục tiêu này, các chủ đề sau sẽ được đề cập:
 
-* Tập lồi, hàm số, bài toán tối ưu hóa
-* Ví dụ và ứng dụng
-* Thuật toán (gradient, proximal, Newton, điểm trong, ADMM, …)
-* Lộ trình hiện đại 2026 trên site này: SGD / Adam / AdamW (Ch.26), autodiff (Ch.27), phong cảnh không lồi (Ch.28), SGD song song dữ liệu và FedAvg (Ch.29)
+Để đạt được các mục tiêu trên, khóa học sẽ đi qua các nội dung:
 
-Đặc biệt, trọng tâm chính sẽ là thuật toán.
+* Tập lồi, hàm lồi và bài toán tối ưu hóa lồi.
+* Các ví dụ và ứng dụng điển hình.
+* Các lớp thuật toán tối ưu (gradient, proximal, Newton, điểm trong, ADMM, …).
+* Lộ trình hiện đại 2026 trên trang này: SGD / Adam / AdamW (Chương 26), vi phân tự động (Chương 27), bề mặt hàm mục tiêu không lồi (Chương 28), SGD song song dữ liệu và FedAvg (Chương 29).
+
+Trong đó, trọng tâm xuyên suốt của khóa học là thuật toán.
 
 ## Thuật toán
-Có nhiều phương pháp khác nhau để giải bài toán tối ưu hóa. Hiệu suất của mỗi phương pháp phụ thuộc vào tính chất của bài toán được giải. Để chọn thuật toán hiệu quả nhất, cần có hiểu biết sâu sắc về cả bài toán và thuật toán. Hãy xem một ví dụ: khử nhiễu total variation.
 
-### Ví dụ: Khử nhiễu Total variation
+Có nhiều phương pháp khác nhau để giải cùng một bài toán tối ưu hóa, và hiệu quả của từng phương pháp phụ thuộc chặt chẽ vào cấu trúc của bài toán. Để chọn được thuật toán phù hợp nhất, cần hiểu rõ cả đặc điểm của bài toán lẫn cơ chế hoạt động của thuật toán. Ta minh họa điều này qua ví dụ khử nhiễu toàn biến phân (total variation denoising).
+
+### Ví dụ: Khử nhiễu Total Variation
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -39,15 +42,15 @@ Có nhiều phương pháp khác nhau để giải bài toán tối ưu hóa. Hi
 </p>
 </figure>
 
-Giả sử bạn nhận được một hình ảnh nhiễu (giữa), và bạn muốn loại bỏ nhiễu để có được nghiệm (phải) gần với hình ảnh thật (trái). Nếu mỗi giá trị pixel là $$y_i, i = 1, ..., n$$, bài toán này có thể được xây dựng thành bài toán tối ưu hóa sau, thường được gọi là bài toán 2D fused lasso hoặc khử nhiễu 2D total variation:
+Giả sử bạn có một bức ảnh bị nhiễu (hình giữa) và muốn khử nhiễu để khôi phục ảnh (hình phải) gần với ảnh gốc (hình trái). Nếu ký hiệu giá trị từng điểm ảnh là $$y_i, i = 1, ..., n$$, ta có thể mô hình hóa yêu cầu này thành bài toán tối ưu hóa sau — thường gọi là bài toán **2D fused lasso** hay **khử nhiễu 2D total variation**:
 
 >$$\min_{\theta} \frac{1}{2} \sum_{i=1}^n (y_i - \theta_{i})^2 + \lambda \sum_{(i,j) \in E} \vert \theta_i - \theta_j \vert$$
 
-* E: tập hợp các cạnh giữa tất cả các $$\theta$$ lân cận
-* $$\frac{1}{2} \sum_{i=1}^n (y_i - \theta_{i})^2$$: Mất mát bình phương tối thiểu. Buộc $$\theta$$ gần với $$y$$
-* $$\sum_{(i,j) \in E} \vert \theta_i - \theta_j \vert$$: Làm mịn total variation. Được sử dụng khi sự thay đổi giữa các pixel lân cận không lớn (từng phần hằng số). Việc chọn phương pháp làm mịn phù hợp đòi hỏi xem xét cẩn thận đặc điểm của bài toán. (Để biết thêm chi tiết về làm mịn total variation, xem Chương 6.1.2 và 6.3 trong Tài liệu tham khảo 1.)
+* $$E$$: tập hợp các cạnh nối giữa các điểm ảnh lân cận.
+* $$\frac{1}{2} \sum_{i=1}^n (y_i - \theta_{i})^2$$: hàm mất mát bình phương tối thiểu, giữ cho ảnh khôi phục $$\theta$$ bám sát ảnh quan sát $$y$$.
+* $$\sum_{(i,j) \in E} \vert \theta_i - \theta_j \vert$$: thành phần làm mịn toàn biến phân (total variation), phù hợp khi giá trị các điểm ảnh lân cận ít thay đổi (dạng hằng số từng khúc). Việc chọn thành phần điều chuẩn thích hợp đòi hỏi cân nhắc kỹ đặc thù của bài toán (xem thêm Chương 6.1.2 và 6.3 trong Tài liệu tham khảo 1).
 
-Bài toán tối ưu hóa lồi ở trên có thể được giải bằng thuật toán [Specialized ADMM](http://stanford.edu/~boyd/admm.html), mang lại nghiệm bên phải sau 20 lần lặp.
+Bài toán tối ưu hóa lồi trên có thể được giải bằng thuật toán [Specialized ADMM](http://stanford.edu/~boyd/admm.html), cho kết quả như hình bên phải chỉ sau 20 lần lặp.
 
 ### Specialized ADMM, 20 lần lặp
 <figure class="image" style="align: center;">
@@ -65,7 +68,7 @@ Bài toán tối ưu hóa lồi ở trên có thể được giải bằng thu�
 </p>
 </figure>
 
-### Coordinate descent, 10K chu kỳ
+### Coordinate descent, 10.000 chu kỳ
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter01/result3.png" alt="Result3" width="50%">
@@ -73,4 +76,4 @@ Bài toán tối ưu hóa lồi ở trên có thể được giải bằng thu�
 </p>
 </figure>
 
-Như được chỉ ra ở trên, đối với bài toán 2D fused lasso, Specialized ADMM hoạt động tốt nhất trong ba phương pháp. Tuy nhiên, đối với các bài toán khác, hai phương pháp còn lại có thể vượt trội hơn Specialized ADMM. Trong các chương sau, chúng ta sẽ phân tích các thuật toán và bài toán khác nhau để học cách lựa chọn thuật toán phù hợp nhất.
+Như kết quả minh họa ở trên, với bài toán 2D fused lasso, Specialized ADMM vượt trội hơn hai phương pháp còn lại. Tuy nhiên, trên những bài toán khác, proximal gradient descent hoặc coordinate descent có thể lại hiệu quả hơn. Trong các chương tiếp theo, chúng ta sẽ phân tích sâu từng lớp thuật toán và lớp bài toán để biết cách lựa chọn phương pháp thích hợp nhất.

@@ -8,7 +8,7 @@ categories:
 - chapter16
 lang: vi
 ---
-Trong chương này, chúng ta hệ thống lại những kiến thức nền tảng về tính đối ngẫu trước khi đi vào phương pháp điểm trong nguyên thủy - đối ngẫu (Primal-Dual Interior-Point). Phương pháp điểm trong nguyên thủy - đối ngẫu có thể xem là một mở rộng của phương pháp rào cản (Barrier method), và khái niệm đối ngẫu nổi lên như một chủ đề then chốt trong quá trình xây dựng nội dung.
+Trong chương này, chúng ta hệ thống lại những kiến thức nền tảng về tính đối ngẫu trước khi đi vào phương pháp điểm trong nguyên thủy – đối ngẫu (Primal-Dual Interior-Point). Phương pháp điểm trong nguyên thủy – đối ngẫu có thể xem là một mở rộng của phương pháp rào cản (Barrier method), trong đó khái niệm đối ngẫu đóng vai trò then chốt xuyên suốt quá trình xây dựng thuật toán.
 
 ## Tài liệu tham khảo và đọc thêm
 

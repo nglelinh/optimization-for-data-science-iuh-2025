@@ -10,24 +10,25 @@ lang: vi
 ---
 
 ## Glmnet và QUIC
-Có hai gói phần mềm rất nổi tiếng được xây dựng trên phương pháp Newton proximal.
+Có hai thư viện phần mềm nổi tiếng được xây dựng dựa trên phương pháp Newton proximal:
 
-* **glmnet** (Friedman et al., 2009): cài đặt prox Newton cho các mô hình tuyến tính tổng quát (generalized linear models) có phạt $$l_1$$. Bài toán bên trong được giải bằng coordinate descent.
+* **glmnet** (Friedman et al., 2009): Cài đặt Newton proximal cho các mô hình tuyến tính tổng quát (generalized linear models) có phạt $$\ell_1$$, với bài toán con bên trong giải bằng hạ theo tọa độ (coordinate descent).
 
-* **QUIC** (Hsieh et al., 2011): cài đặt prox Newton cho bài toán graphical lasso. Nó dùng một mẹo phân rã (factorization trick) và giải bài toán bên trong bằng coordinate descent.
+* **QUIC** (Hsieh et al., 2011): Cài đặt Newton proximal cho bài toán graphical lasso, kết hợp kỹ thuật phân rã ma trận và giải bài toán con bên trong bằng hạ theo tọa độ.
 
-Cả hai gói đều được sử dụng rộng rãi cho các mục đích tương ứng và có thể coi là hiện đại nhất (state of the art).
+Cả hai thư viện đều được sử dụng rộng rãi và là chuẩn tham chiếu trong lĩnh vực ứng dụng tương ứng.
 
-Phương pháp Newton proximal tính gradient của $$g$$ ít thường xuyên hơn proximal gradient descent. Do đó, $$g$$ càng đắt để tính thì Newton proximal càng có lợi. Việc chọn bộ giải bên trong cẩn thận cũng giúp đạt hiệu năng tốt hơn.
+Phương pháp Newton proximal đánh giá gradient của $$g$$ ít lần hơn nhiều so với proximal gradient descent. Do đó, chi phí tính $$g$$ và $$\nabla g$$ càng lớn thì Newton proximal càng phát huy lợi thế, đặc biệt khi kết hợp với một bộ giải bên trong phù hợp.
 
 ## Ví dụ: hồi quy logistic lasso
-Hãy xem ví dụ trong Lee et al. (2012).
+Xét thí nghiệm thực nghiệm trong Lee et al. (2012) trên bài toán hồi quy logistic có điều chuẩn $$\ell_1$$, so sánh ba thuật toán:
 
-Với hồi quy logistic chính quy hóa $$l_1$$, ba phương pháp sau được so sánh:
-1. FISTA: proximal gradient tăng tốc 2. spaRSA: phương pháp gradient chiếu phổ (spectral projected gradient) 3. PN: Newton proximal
+1. **FISTA:** Proximal gradient tăng tốc.
+2. **spaRSA:** Phương pháp gradient chiếu phổ (spectral projected gradient).
+3. **PN:** Phương pháp Newton proximal.
 
-#### Hessian dày đặc (n=5000, p=6000)
-Bài toán đầu tiên có ma trận đặc trưng dày đặc $$X$$ với n = 5000 mẫu và p = 6000 đặc trưng. Vì Hessian dày đặc nên đây là bài toán rất thách thức. Hiệu năng quan sát được như sau.
+#### Trường hợp Hessian dày đặc ($$n = 5000, p = 6000$$)
+Bài toán đầu tiên có ma trận đặc trưng dày đặc $$X$$ với $$n = 5000$$ mẫu và $$p = 6000$$ đặc trưng. Do Hessian dày đặc, đây là trường hợp rất thách thức. Kết quả hiệu năng như sau:
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -36,13 +37,11 @@ Bài toán đầu tiên có ma trận đặc trưng dày đặc $$X$$ với n = 
 </p>
 </figure>
 
-Đồ thị bên phải đo hiệu năng theo số lần gọi hàm và đồ thị bên trái đo theo thời gian. Xét theo số lần gọi hàm, PN rõ ràng vượt trội.
+Đồ thị bên phải đo hiệu năng theo số lần đánh giá hàm và đồ thị bên trái đo theo thời gian chạy. Xét theo số lần đánh giá hàm, PN vượt trội rõ rệt. Trong bài toán này, phần lớn thời gian nằm ở việc tính $$g$$ và $$\nabla g$$ (đặc biệt là các hàm $$\exp$$ và $$\log$$).
 
-Ở đây phần lớn chi phí dành cho việc tính $$g$$ và $$\nabla g$$, đặc biệt là việc tính các hàm $$\exp$$ và $$\log$$.
+#### Trường hợp Hessian thưa ($$n = 542{,}000, p = 47{,}000$$)
 
-#### Hessian thưa (n=542,000, p=47,000)
-
-Trong trường hợp tiếp theo $$X$$ thưa nên việc tính $$g$$ và $$\nabla g$$ tốn ít thời gian hơn.
+Trong thí nghiệm thứ hai, ma trận đặc trưng $$X$$ thưa nên thời gian tính $$g$$ và $$\nabla g$$ giảm đáng kể:
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -51,13 +50,13 @@ Trong trường hợp tiếp theo $$X$$ thưa nên việc tính $$g$$ và $$\nab
 </p>
 </figure>
 
-## Tính prox không chính xác
-Khi phương pháp Newton proximal tính toán tử proximal, prox nói chung không có dạng đóng nên không thể tính chính xác. Tuy vậy, nếu prox được tính với độ chính xác cao thì đó là một tính chất rất tốt.
+## Tính toán tử prox không chính xác
+Trong phương pháp Newton proximal, toán tử prox có tỉ lệ nhìn chung không có nghiệm dạng đóng nên phải giải gần đúng bằng thuật toán lặp bên trong. Tuy vậy, ta vẫn muốn giữ được tốc độ hội tụ nhanh mà không lãng phí công tính toán ở các vòng ngoài đầu tiên.
 
-Lee (2014) đã đề xuất các quy tắc dừng cho bài toán bên trong, đảm bảo hội tụ toàn cục và hội tụ siêu tuyến tính cục bộ.
+Lee, Sun và Saunders (2014) đề xuất các quy tắc dừng cho bộ giải bên trong nhằm vẫn bảo đảm hội tụ toàn cục và tốc độ hội tụ siêu tuyến tính (hoặc bậc hai) cục bộ.
 
-#### Ba quy tắc dừng
-Ba quy tắc dừng cho tối ưu bên trong được so sánh trên bài toán ước lượng graphical lasso với n = 72 mẫu và p = 1255 đặc trưng.
+#### So sánh ba quy tắc dừng
+Ba quy tắc dừng cho bài toán con bên trong được so sánh trên bài toán ước lượng graphical lasso với $$n = 72$$ mẫu và $$p = 1255$$ đặc trưng:
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -66,21 +65,21 @@ Ba quy tắc dừng cho tối ưu bên trong được so sánh trên bài toán 
 </p>
 </figure>
 
-Ba quy tắc dừng là adaptive, maxiter = 10 và exact. Maxiter thực hiện tối đa 10 vòng lặp bên trong; exact lặp cho đến khi tìm được nghiệm chính xác.
+Ba quy tắc dừng gồm: `adaptive` (thích nghi), `maxiter = 10` (chạy tối đa 10 vòng lặp bên trong) và `exact` (giải đến độ chính xác rất cao).
 
-Vì phương pháp Newton proximal hội tụ bậc hai, quy tắc exact thể hiện hội tụ bậc hai. Với maxiter = 10, tối đa 10 vòng lặp bên trong là không đủ để giữ hội tụ bậc hai, trong khi quy tắc adaptive đạt được hội tụ bậc hai và là nhanh nhất trong ba quy tắc.
+Quy tắc `exact` thể hiện rõ tốc độ hội tụ bậc hai nhưng tốn nhiều thời gian cho mỗi bước ngoài. Với `maxiter = 10`, số vòng lặp bên trong không đủ để duy trì hội tụ bậc hai. Trong khi đó, quy tắc `adaptive` vừa giữ được hội tụ bậc hai vừa đạt thời gian chạy nhanh nhất trong ba phương án.
 
-#### Quy tắc dừng của phương pháp Newton thông thường
-Trong phương pháp Newton thông thường, bài toán bên trong cực tiểu hóa xấp xỉ bậc hai $$\tilde{g}_{k-1}$$ của $$g$$ tại $$x^{(k-1)}$$. Ta chọn một dãy $$\eta_k, k=1,2,3,...$$ (gọi là dãy cưỡng bức, forcing sequence) và dừng khi điều kiện sau được thỏa mãn.
+#### Quy tắc dừng trong phương pháp Newton cổ điển
+Trong phương pháp Newton không chính xác cổ điển, bài toán con bên trong cực tiểu hóa mô hình bậc hai $$\tilde{g}_{k-1}$$ của $$g$$ tại $$x^{(k-1)}$$. Ta chọn một dãy cưỡng bức (forcing sequence) $$\eta_k \ (k = 1, 2, 3, \dots)$$ và dừng giải bài toán con khi:
 
 > \begin{align}
 \parallel \nabla \tilde{g}_{k-1}(x^{(k)}) \parallel_2 & \le \eta_k \parallel  \nabla g(x^{(k-1)})  \parallel_2 \\\\
 \end{align}
 
-Điều kiện này nói rằng gradient của mô hình tại điểm tiếp theo nhỏ hơn gradient tại điểm hiện tại tối đa $$\eta_k$$ lần. Ở đây xấp xỉ bậc hai là $$\tilde{g}_{k-1}(z) = \nabla g(x^{(k-1)})^T (z-x^{(k-1)}) + \frac{1}{2} (z - x^{(k-1)})^T \nabla^2 g(x^{(k-1)}) (z - x^{(k-1)})$$.
+Điều kiện này yêu cầu chuẩn gradient của mô hình bậc hai tại điểm mới nhỏ hơn tối đa $$\eta_k$$ lần chuẩn gradient hiện tại, trong đó $$\tilde{g}_{k-1}(z) = \nabla g(x^{(k-1)})^T (z-x^{(k-1)}) + \frac{1}{2} (z - x^{(k-1)})^T \nabla^2 g(x^{(k-1)}) (z - x^{(k-1)})$$.
 
-#### Quy tắc dừng của phương pháp Newton proximal
-Lee et al. (2012) đề xuất dùng gradient tổng quát thay cho gradient trong trường hợp proximal.
+#### Quy tắc dừng trong phương pháp Newton proximal
+Lee et al. (2012) mở rộng quy tắc trên cho trường hợp bài toán tổng hợp bằng cách thay gradient bằng ánh xạ gradient tổng quát:
 
 > $$
 > \begin{align}
@@ -88,9 +87,9 @@ Lee et al. (2012) đề xuất dùng gradient tổng quát thay cho gradient tro
 \end{align}
 > $$
 
-Ở đây $$\tilde{f}_{k-1} = \tilde{g}_{k-1} + h$$ và $$mI \preceq \nabla^2 g \preceq MI$$.
+trong đó $$\tilde{f}_{k-1} = \tilde{g}_{k-1} + h$$ và $$mI \preceq \nabla^2 g \preceq MI$$.
 
-Sau đó họ chứng minh rằng nếu $$\eta_k$$ được chọn như sau thì phương pháp Newton proximal không chính xác có tốc độ siêu tuyến tính cục bộ.
+Các tác giả chứng minh rằng nếu chọn dãy $$\eta_k$$ thỏa mãn điều kiện dưới đây, phương pháp Newton proximal không chính xác vẫn đạt tốc độ hội tụ siêu tuyến tính cục bộ:
 
 > $$
 > \begin{align}

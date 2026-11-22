@@ -10,26 +10,26 @@ categories:
 lesson_type: required
 ---
 
-Hầu hết mọi vòng lặp tối ưu là một vector, mọi ràng buộc tuyến tính là tích ma trận–vector, và mọi câu chuyện độ cong địa phương là trị riêng của Hessian hoặc ma trận Gram. Trang này định hướng ba bài đại số tuyến tính phía sau.
+Trong hầu hết các thuật toán tối ưu hóa, mỗi bước lặp đều thao tác trên vector, mỗi ràng buộc tuyến tính là một tích ma trận–vector, và độ cong cục bộ được mô tả qua các giá trị riêng của ma trận Hessian hoặc ma trận Gram. Trang này giới thiệu tổng quan cho ba bài đại số tuyến tính tiếp theo.
 
-## Các đối tượng dùng cả học kỳ
+## Các đối tượng sử dụng xuyên suốt khóa học
 
-- **Vector và tích trong.** Hình học Euclid $$\langle g, d\rangle = g^\top d$$ quyết định $$d$$ có phải hướng giảm ($$g^\top d < 0$$). Các hình học khác (Mahalanobis, mirror map) xuất hiện sau như tiền điều kiện và chuẩn đối ngẫu (Chương 13).
-- **Ma trận như ánh xạ tuyến tính.** Đẳng thức $$Ax = b$$ cắt một không gian affine; hạt nhân của $$A$$ là tập bước khả thi. Bình phương tối thiểu (Chương 05) giải $$A^\top A \hat{x} = A^\top y$$ khi $$A$$ đủ hạng cột.
-- **Trị riêng và dạng toàn phương.** Nếu $$Q\succeq 0$$ thì $$x\mapsto x^\top Q x$$ lồi; số điều kiện $$\kappa = \lambda_{\max}(Q)/\lambda_{\min}(Q)$$ của một toàn phương lồi mạnh chính là đại lượng làm chậm gradient descent thuần và thúc đẩy tăng tốc (Chương 06, 09, 26).
+- **Vector và tích trong.** Hình học Euclid $$\langle g, d\rangle = g^\top d$$ quyết định $$d$$ có phải hướng giảm hay không ($$g^\top d < 0$$). Các hình học khác (Mahalanobis, ánh xạ gương) sẽ xuất hiện ở phần sau dưới dạng tiền điều kiện và chuẩn đối ngẫu (Chương 13).
+- **Ma trận như ánh xạ tuyến tính.** Ràng buộc đẳng thức $$Ax = b$$ xác định một không gian affine; hạt nhân (kernel) của $$A$$ là không gian các hướng bước khả thi. Bài toán bình phương tối thiểu (Chương 05) giải hệ $$A^\top A \hat{x} = A^\top y$$ khi $$A$$ đủ hạng cột.
+- **Giá trị riêng và dạng toàn phương.** Nếu $$Q\succeq 0$$ thì hàm $$x\mapsto x^\top Q x$$ là hàm lồi; số điều kiện $$\kappa = \lambda_{\max}(Q)/\lambda_{\min}(Q)$$ của một hàm toàn phương lồi mạnh chính là yếu tố làm chậm gradient descent thuần và là động lực cho các phương pháp tăng tốc (Chương 06, 09, 26).
 
-Ma trận đối xứng $$Q$$ chéo hóa trực giao $$Q = U\Lambda U^\top$$. Thương Rayleigh
+Mọi ma trận đối xứng $$Q$$ đều chéo hóa trực giao được dưới dạng $$Q = U\Lambda U^\top$$. Thương Rayleigh
 
 $$
 \lambda_{\min}(Q) = \min_{\|x\|_2=1} x^\top Q x, \qquad \lambda_{\max}(Q) = \max_{\|x\|_2=1} x^\top Q x
 $$
 
-là cách sạch nhất để *nhìn thấy* các hằng số lồi mạnh và trơn.
+là cách trực quan nhất để xác định các hằng số lồi mạnh và độ trơn.
 
-## Các bài trong khối này
+## Các bài trong phần này
 
 1. Vector và không gian vector
-2. Ma trận và biến đổi tuyến tính
-3. Trị riêng và vector riêng
+2. Ma trận và phép biến đổi tuyến tính
+3. Giá trị riêng và vector riêng
 
-Điểm kiểm: giải thích trong một câu vì sao $$\nabla^2 f(x)\succeq 0$$ mọi nơi kéo theo hàm $$f$$ khả vi hai lần là lồi. (Chương 03 sẽ chứng minh; đại số tuyến tính làm cho mệnh đề có nghĩa.)
+Tự kiểm tra: hãy giải thích trong một câu vì sao điều kiện $$\nabla^2 f(x)\succeq 0$$ tại mọi điểm kéo theo hàm $$f$$ khả vi hai lần là hàm lồi. (Chương 03 sẽ chứng minh đầy đủ; đại số tuyến tính giúp ta hiểu rõ ý nghĩa của mệnh đề này.)

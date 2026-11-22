@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-Trong phần này, chúng ta xem xét các điều kiện tối ưu sử dụng gradient dưới, và cung cấp một số ví dụ để minh họa ứng dụng và tính hữu ích của chúng.
+Trong phần này, chúng ta trình bày điều kiện tối ưu phát biểu qua gradient dưới, đồng thời phân tích một số ví dụ cụ thể để minh họa cách áp dụng và vai trò của điều kiện này.

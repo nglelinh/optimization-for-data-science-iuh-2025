@@ -11,22 +11,22 @@ lang: vi
 
 ## Giới thiệu
 
-**Cận trên bậc hai** là một tính chất cơ bản của các hàm lồi trơn, cung cấp một công cụ quan trọng để phân tích và thiết kế các thuật toán tối ưu hóa. Tính chất này thiết lập rằng bất kỳ hàm lồi trơn nào cũng có thể được chặn trên bởi một hàm bậc hai, điều này có những ý nghĩa quan trọng cho việc phân tích hội tụ của các phương pháp dựa trên gradient.
+**Cận trên bậc hai** là một tính chất nền tảng của các hàm lồi trơn, đóng vai trò công cụ cốt lõi trong việc phân tích và thiết kế thuật toán tối ưu hóa. Tính chất này khẳng định rằng mọi hàm lồi có gradient liên tục Lipschitz đều có thể được chặn trên bởi một hàm bậc hai, tạo cơ sở trực tiếp cho việc phân tích hội tụ của các phương pháp dựa trên gradient.
 
-## Động lực
+## Vai trò và Ý nghĩa
 
-Tại sao chúng ta quan tâm đến cận trên bậc hai?
+Vì sao cận trên bậc hai lại quan trọng trong tối ưu hóa?
 
-1. **Thiết kế thuật toán**: Nhiều thuật toán tối ưu hóa (như gradient descent) dựa vào các xấp xỉ cục bộ của hàm mục tiêu. Cận trên bậc hai cung cấp một cách hệ thống để xây dựng các xấp xỉ này.
+1. **Thiết kế thuật toán**: Nhiều thuật toán tối ưu (như gradient descent) xây dựng bước cập nhật dựa trên xấp xỉ cục bộ của hàm mục tiêu. Cận trên bậc hai cung cấp một khuôn khổ nhất quán để thiết lập các xấp xỉ này.
 
-2. **Phân tích hội tụ**: Cận trên bậc hai cho phép chúng ta chứng minh tốc độ hội tụ cho các thuật toán tối ưu hóa bằng cách chặn mức độ thay đổi của hàm.
+2. **Phân tích hội tụ**: Bất đẳng thức cận trên bậc hai giúp chặn mức thay đổi giá trị hàm sau mỗi bước lặp, từ đó chứng minh tốc độ hội tụ của thuật toán.
 
-3. **Lựa chọn bước nhảy**: Hằng số Lipschitz $$L$$ trong cận trực tiếp xác định bước nhảy an toàn cho gradient descent.
+3. **Lựa chọn kích thước bước**: Hằng số Lipschitz $$L$$ trong cận trên trực tiếp xác định ngưỡng kích thước bước an toàn cho gradient descent.
 
 ## Tính chất Cận trên Bậc hai
 
 <div class="textbook-theorem" markdown="1">
-**Định lý**: Nếu $$f$$ là lồi và $$\nabla f$$ liên tục Lipschitz với hằng số $$L$$, thì $$f$$ thỏa mãn cận trên bậc hai:
+**Định lý**: Nếu $$f$$ là hàm lồi và $$\nabla f$$ liên tục Lipschitz với hằng số $$L$$, thì $$f$$ thỏa mãn cận trên bậc hai:
 
 > $$ \begin{align}
 f(y) & \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \| y - x \|^2_2 \quad \forall x, y
@@ -35,97 +35,97 @@ f(y) & \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \| y - x \|^2_2 \quad \foral
 
 ### Diễn giải Hình học
 
-Bất đẳng thức này phát biểu rằng:
-- **Xấp xỉ tuyến tính** $$f(x) + \nabla f(x)^T (y-x)$$ (khai triển Taylor bậc nhất) ước lượng thấp $$f(y)$$ do tính lồi
-- **Cận trên bậc hai** $$f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \| y - x \|^2_2$$ ước lượng cao $$f(y)$$
-- Hàm $$f(y)$$ được "kẹp" giữa hai cận này
+Bất đẳng thức trên cho thấy:
+- **Xấp xỉ tuyến tính** $$f(x) + \nabla f(x)^T (y-x)$$ (khai triển Taylor bậc nhất) luôn nằm dưới $$f(y)$$ nhờ tính lồi.
+- **Cận trên bậc hai** $$f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \| y - x \|^2_2$$ luôn nằm trên $$f(y)$$.
+- Đồ thị của $$f(y)$$ được kẹp giữa hai cận này.
 
 ### Đặc trưng Tương đương
 
 <div class="textbook-theorem" markdown="1">
-**Hệ quả**: Đối với bất kỳ hàm lồi trơn $$f$$ nào, hàm sau đây là lồi:
+**Hệ quả**: Đối với mọi hàm lồi trơn $$f$$ có gradient $$L$$-Lipschitz, hàm số sau đây là hàm lồi:
 
 > $$ \begin{align}
 g(x) & = \frac{L}{2} \| x \|^2_2 - f(x) \quad \text{với } dom(g) = dom(f)
 \end{align} $$
 </div>
 
-Điều này có nghĩa là $$f(x)$$ có thể được viết như hiệu của một hàm bậc hai và một hàm lồi.
+Nói cách khác, $$f(x)$$ có thể biểu diễn dưới dạng hiệu giữa một hàm bậc hai và một hàm lồi.
 
 ## Chứng minh
 
-Chúng ta sẽ chứng minh cả cận trên bậc hai và đặc trưng tương đương. Chứng minh dựa trên hai tính chất chính của các hàm lồi trơn.
+Ta sẽ chứng minh cả cận trên bậc hai lẫn đặc trưng tương đương dựa trên hai tính chất cơ bản của hàm lồi trơn.
 
-### Kiến thức Cần thiết
+### Kiến thức Chuẩn bị
 
 <div class="textbook-definition" markdown="1">
-**Định nghĩa 1 (Toán tử Đơn điệu)**: Trong không gian vector $$X$$, toán tử $$T : X \to X^*$$ là đơn điệu nếu:
+**Định nghĩa 1 (Toán tử đơn điệu)**: Trên không gian vector $$X$$, toán tử $$T : X \to X^*$$ được gọi là đơn điệu nếu:
 > $$(Tu - Tv, u-v) \ge 0, \quad \forall u, v \in X$$
 </div>
 
-**Tính chất 1 (Tính đơn điệu của Gradient)**: Nếu $$f$$ là lồi và khả vi, thì $$\nabla f$$ là toán tử đơn điệu:
+**Tính chất 1 (Tính đơn điệu của gradient)**: Nếu $$f$$ lồi và khả vi thì $$\nabla f$$ là toán tử đơn điệu:
 > $$(\nabla f(y) - \nabla f(x))^T (y-x) \ge 0, \quad \forall x, y$$
 
-**Tính chất 2 (Liên tục Lipschitz)**: $$\nabla f$$ liên tục Lipschitz với hằng số $$L$$:
+**Tính chất 2 (Tính liên tục Lipschitz)**: $$\nabla f$$ liên tục Lipschitz với hằng số $$L$$:
 > $$ \| \nabla f(x) - \nabla f(y) \|_2 \le L \| x - y \|_2, \quad \forall x, y$$
 
 ### Chứng minh Cận trên Bậc hai
 
-**Bước 1**: Xét hàm $$h(t) = f(x + t(y-x))$$ với $$t \in [0,1]$$. Theo định lý cơ bản của giải tích:
+**Bước 1**: Xét hàm một biến $$h(t) = f(x + t(y-x))$$ trên $$t \in [0,1]$$. Theo định lý cơ bản của giải tích:
 
 > $$ \begin{align}
 f(y) - f(x) &= h(1) - h(0) = \int_0^1 h'(t) dt \\
 &= \int_0^1 \nabla f(x + t(y-x))^T (y-x) dt
 \end{align} $$
 
-**Bước 2**: Chúng ta có thể viết lại như sau:
+**Bước 2**: Tách số hạng $$\nabla f(x)^T (y-x)$$ ra ngoài dấu tích phân:
 > $$ \begin{align}
 f(y) - f(x) &= \nabla f(x)^T (y-x) + \int_0^1 [\nabla f(x + t(y-x)) - \nabla f(x)]^T (y-x) dt
 \end{align} $$
 
-**Bước 3**: Sử dụng bất đẳng thức Cauchy-Schwarz và tính liên tục Lipschitz:
+**Bước 3**: Áp dụng bất đẳng thức Cauchy–Schwarz và tính liên tục Lipschitz của $$\nabla f$$:
 > $$ \begin{align}
 &[\nabla f(x + t(y-x)) - \nabla f(x)]^T (y-x) \\
 &\le \|\nabla f(x + t(y-x)) - \nabla f(x)\| \cdot \|y-x\| \\
 &\le L \cdot t\|y-x\| \cdot \|y-x\| = Lt\|y-x\|^2
 \end{align} $$
 
-**Bước 4**: Tích phân trên $$t \in [0,1]$$:
+**Bước 4**: Lấy tích phân trên $$t \in [0,1]$$:
 > $$ \begin{align}
 f(y) - f(x) &\le \nabla f(x)^T (y-x) + \int_0^1 Lt\|y-x\|^2 dt \\
 &= \nabla f(x)^T (y-x) + L\|y-x\|^2 \int_0^1 t dt \\
 &= \nabla f(x)^T (y-x) + \frac{L}{2}\|y-x\|^2
 \end{align} $$
 
-Do đó: $$f(y) \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2}\|y-x\|^2$$
+Suy ra $$f(y) \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2}\|y-x\|^2$$.
 
 ### Chứng minh Đặc trưng Tương đương
 
 <div class="textbook-theorem" markdown="1">
-**Định lý**: Hàm $$g(x) = \frac{L}{2} \| x \|^2_2 - f(x)$$ là lồi.
+**Định lý**: Hàm $$g(x) = \frac{L}{2} \| x \|^2_2 - f(x)$$ là hàm lồi.
 </div>
 
-**Chứng minh**: Chúng ta cần chỉ ra rằng $$\nabla^2 g(x) \succeq 0$$ (nửa xác định dương).
+**Chứng minh**: Ta cần chứng minh $$\nabla^2 g(x) \succeq 0$$ (nửa xác định dương).
 
-Vì $$g(x) = \frac{L}{2} \| x \|^2_2 - f(x)$$, ta có:
+Từ $$g(x) = \frac{L}{2} \| x \|^2_2 - f(x)$$, ta có:
 - $$\nabla g(x) = Lx - \nabla f(x)$$
 - $$\nabla^2 g(x) = LI - \nabla^2 f(x)$$
 
-Với bất kỳ vector $$v$$ nào, chúng ta cần chỉ ra $$v^T \nabla^2 g(x) v \ge 0$$:
+Với mọi vector $$v$$, xét dạng toàn phương $$v^T \nabla^2 g(x) v$$:
 
 > $$ \begin{align}
 v^T \nabla^2 g(x) v &= v^T (LI - \nabla^2 f(x)) v \\
 &= L\|v\|^2 - v^T \nabla^2 f(x) v
 \end{align} $$
 
-Từ tính liên tục Lipschitz của $$\nabla f$$, chúng ta có thể chỉ ra rằng $$\nabla^2 f(x) \preceq LI$$, có nghĩa là:
+Do $$\nabla f$$ liên tục Lipschitz với hằng số $$L$$, ta có $$\nabla^2 f(x) \preceq LI$$, nghĩa là:
 $$v^T \nabla^2 f(x) v \le L\|v\|^2$$
 
-Do đó: $$v^T \nabla^2 g(x) v = L\|v\|^2 - v^T \nabla^2 f(x) v \ge 0$$
+Từ đó suy ra $$v^T \nabla^2 g(x) v = L\|v\|^2 - v^T \nabla^2 f(x) v \ge 0$$.
 
-Điều này chứng minh rằng $$g$$ là lồi. $$\square$$
+Vậy $$g$$ là hàm lồi. $$\square$$
 
-## Ví dụ
+## Các Ví dụ
 
 ### Ví dụ 1: Hàm Bậc hai
 
@@ -133,9 +133,9 @@ Xét $$f(x) = \frac{1}{2}x^T A x + b^T x + c$$ với $$A \succeq 0$$ (nửa xác
 
 - $$\nabla f(x) = Ax + b$$
 - $$\nabla^2 f(x) = A$$
-- Nếu $$\lambda_{max}(A) = L$$, thì $$\|\nabla f(x) - \nabla f(y)\| = \|A(x-y)\| \le L\|x-y\|$$
+- Với $$\lambda_{max}(A) = L$$, ta có $$\|\nabla f(x) - \nabla f(y)\| = \|A(x-y)\| \le L\|x-y\|$$.
 
-Cận trên bậc hai trở thành:
+Cận trên bậc hai có dạng:
 $$f(y) \le f(x) + (Ax + b)^T(y-x) + \frac{L}{2}\|y-x\|^2$$
 
 Đối với hàm bậc hai, cận này là **chặt** khi $$L = \lambda_{max}(A)$$.
@@ -153,65 +153,61 @@ $$\nabla^2 f(x) \preceq \frac{1}{4} aa^T \preceq \frac{\|a\|^2}{4} I$$
 Do đó, $$L = \frac{\|a\|^2}{4}$$ và cận trên bậc hai là:
 $$f(y) \le f(x) + \sigma(a^T x) a^T(y-x) + \frac{\|a\|^2}{8}\|y-x\|^2$$
 
-### Ví dụ 3: Bình phương Tối thiểu
+### Ví dụ 3: Bài toán Bình phương Tối thiểu
 
 Với $$f(x) = \frac{1}{2}\|Ax - b\|^2$$ trong đó $$A \in \mathbb{R}^{m \times n}$$:
 
 - $$\nabla f(x) = A^T(Ax - b)$$
 - $$\nabla^2 f(x) = A^T A$$
-- $$L = \lambda_{max}(A^T A) = \sigma_{max}^2(A)$$ (bình phương giá trị kỳ dị lớn nhất)
+- $$L = \lambda_{max}(A^T A) = \sigma_{max}^2(A)$$ (bình phương giá trị kỳ dị lớn nhất của $$A$$).
 
-Cận trên bậc hai là:
+Cận trên bậc hai có dạng:
 $$f(y) \le f(x) + (A^T(Ax - b))^T(y-x) + \frac{\sigma_{max}^2(A)}{2}\|y-x\|^2$$
 
 ## Ứng dụng trong Tối ưu hóa
 
-### 1. Kích thước Bước nhảy của Gradient Descent
+### 1. Chọn Kích thước Bước cho Gradient Descent
 
-Cận trên bậc hai trực tiếp xác định **kích thước bước nhảy an toàn tối đa** cho gradient descent. Nếu chúng ta sử dụng kích thước bước $$\alpha \le \frac{1}{L}$$, thì:
+Cận trên bậc hai cho phép xác định trực tiếp ngưỡng kích thước bước an toàn. Nếu chọn $$\alpha \le \frac{1}{L}$$, ta có:
 
 $$f(x - \alpha \nabla f(x)) \le f(x) - \alpha \|\nabla f(x)\|^2 + \frac{L\alpha^2}{2}\|\nabla f(x)\|^2$$
 
-Khi $$\alpha \le \frac{1}{L}$$, vế phải đơn giản hóa thành:
+Khi $$\alpha \le \frac{1}{L}$$, vế phải được thu gọn thành:
 $$f(x - \alpha \nabla f(x)) \le f(x) - \frac{\alpha}{2}\|\nabla f(x)\|^2$$
 
-Điều này đảm bảo **giảm đủ** tại mỗi lần lặp.
+Bất đẳng thức này đảm bảo hàm mục tiêu **giảm đủ** sau mỗi lần lặp.
 
 ### 2. Phân tích Tốc độ Hội tụ
 
-Đối với gradient descent với kích thước bước $$\alpha = \frac{1}{L}$$, cận trên bậc hai cho phép chúng ta chứng minh:
+Với gradient descent dùng bước $$\alpha = \frac{1}{L}$$ trên hàm $$\mu$$-lồi mạnh, cận trên bậc hai giúp chứng minh:
 
 $$f(x_{k+1}) - f^* \le \left(1 - \frac{\mu}{L}\right)(f(x_k) - f^*)$$
 
-trong đó $$\mu$$ là tham số lồi mạnh. Điều này cho **hội tụ tuyến tính** với tốc độ $$\left(1 - \frac{\mu}{L}\right)$$.
+trong đó $$\mu$$ là hằng số lồi mạnh. Kết quả này cho thấy thuật toán đạt **hội tụ tuyến tính** với hệ số co $$\left(1 - \frac{\mu}{L}\right)$$.
 
-### 3. Phương pháp Gradient Gần kề
+### 3. Phương pháp Gradient Gần kề (Proximal Gradient)
 
-Trong tối ưu hóa tổng hợp $$\min_x f(x) + g(x)$$ với $$f$$ trơn và $$g$$ không trơn, cận trên bậc hai của $$f$$ dẫn đến cập nhật gradient gần kề:
+Đối với bài toán tối ưu hợp $$\min_x f(x) + g(x)$$ gồm phần trơn $$f$$ và phần không trơn $$g$$, cận trên bậc hai của $$f$$ dẫn đến bước cập nhật gradient gần kề:
 
 $$x_{k+1} = \text{prox}_{\alpha g}\left(x_k - \alpha \nabla f(x_k)\right)$$
 
-trong đó $$\alpha \le \frac{1}{L}$$ đảm bảo hội tụ.
+trong đó điều kiện $$\alpha \le \frac{1}{L}$$ đảm bảo hội tụ.
 
-### 4. Phương pháp Tăng tốc
+### 4. Các Phương pháp Tăng tốc
 
-Các phương pháp tiên tiến như **gradient tăng tốc Nesterov** và **FISTA** cũng dựa vào cận trên bậc hai để đạt được tốc độ hội tụ tối ưu $$O(1/k^2)$$ cho các hàm lồi trơn.
+Những thuật toán tăng tốc như **gradient tăng tốc Nesterov** và **FISTA** cũng dựa trên cận trên bậc hai để đạt tốc độ hội tụ tối ưu $$O(1/k^2)$$ trên lớp hàm lồi trơn.
 
-## Những Điểm Chính
+## Tóm tắt Các Điểm Chính
 
-1. **Tính chất Cơ bản**: Cận trên bậc hai là nền tảng của lý thuyết tối ưu hóa lồi trơn.
+1. **Tính chất nền tảng**: Cận trên bậc hai là trụ cột của lý thuyết tối ưu hóa lồi trơn.
+2. **Thiết kế thuật toán**: Cung cấp cơ sở lý thuyết để chọn kích thước bước trong các phương pháp bậc nhất.
+3. **Phân tích hội tụ**: Cho phép chứng minh chặt chẽ tốc độ hội tụ của nhiều thuật toán tối ưu.
+4. **Ý nghĩa thực hành**: Ước lượng hằng số $$L$$ giúp điều chỉnh siêu tham số hiệu quả hơn.
+5. **Trực giác hình học**: Hình thức hóa nhận định rằng hàm lồi trơn có độ cong bị chặn trên và luôn nằm dưới một parabol bậc hai.
 
-2. **Thiết kế Thuật toán**: Nó cung cấp cơ sở lý thuyết để chọn kích thước bước trong các phương pháp dựa trên gradient.
+## Minh họa Hình học
 
-3. **Phân tích Hội tụ**: Nó cho phép chứng minh nghiêm ngặt tốc độ hội tụ của các thuật toán tối ưu hóa.
-
-4. **Tác động Thực tế**: Hiểu biết về $$L$$ giúp các nhà thực hành điều chỉnh thuật toán hiệu quả.
-
-5. **Trực giác Hình học**: Nó hình thức hóa ý tưởng rằng các hàm lồi trơn không "cong quá mức" - chúng được chặn trên bởi các parabola.
-
-## Trực quan Tương tác
-
-Sơ đồ sau minh họa tính chất cận trên bậc hai:
+Sơ đồ dưới đây minh họa quan hệ giữa hàm thực, xấp xỉ tuyến tính và cận trên bậc hai:
 
 ```
       f(y)
@@ -233,24 +229,24 @@ Sơ đồ sau minh họa tính chất cận trên bậc hai:
         |
 ```
 
-**Những Quan sát Chính**:
-- **Xấp xỉ tuyến tính** (đường tiếp tuyến) nằm dưới $$f(y)$$ do tính lồi
-- **Cận trên bậc hai** nằm trên $$f(y)$$ 
-- **Hàm thực** $$f(y)$$ được kẹp giữa hai cận này
-- Khoảng cách giữa các cận phụ thuộc vào $$L$$ (hằng số Lipschitz) và $$\|y-x\|^2$$
+**Nhận xét chính**:
+- **Xấp xỉ tuyến tính** (đường tiếp tuyến) luôn nằm dưới $$f(y)$$ do tính lồi.
+- **Cận trên bậc hai** luôn nằm trên $$f(y)$$.
+- **Hàm thực** $$f(y)$$ nằm kẹp giữa hai cận này.
+- Khoảng cách giữa hai cận phụ thuộc vào hằng số Lipschitz $$L$$ và bình phương khoảng cách $$\|y-x\|^2$$.
 
-## Cân nhắc Tính toán
+## Cân nhắc khi Triển khai
 
 ### Ước lượng Hằng số Lipschitz
 
-Trong thực tế, việc tìm hằng số Lipschitz chính xác $$L$$ có thể khó khăn. Các phương pháp phổ biến:
+Trong thực tế, việc xác định chính xác hằng số Lipschitz $$L$$ thường không đơn giản. Các cách tiếp cận phổ biến gồm:
 
-1. **Phân tích Lý thuyết**: Đối với các lớp hàm cụ thể (bậc hai, logistic, v.v.)
-2. **Phương pháp Phổ**: $$L = \lambda_{max}(\nabla^2 f)$$ khi có Hessian
-3. **Phương pháp Thích ứng**: Bắt đầu với ước lượng và điều chỉnh dựa trên điều kiện giảm đủ
-4. **Tìm kiếm Đường**: Sử dụng backtracking để tìm kích thước bước phù hợp
+1. **Tính giải tích**: Áp dụng cho các lớp hàm cụ thể (bậc hai, logistic, bình phương tối thiểu...).
+2. **Phương pháp phổ**: Tính $$L = \lambda_{max}(\nabla^2 f)$$ khi có thể tính ma trận Hessian.
+3. **Ước lượng thích ứng**: Khởi tạo một ước lượng ban đầu rồi điều chỉnh dần dựa trên điều kiện giảm đủ.
+4. **Tìm kiếm đường**: Dùng tìm kiếm đường lùi (backtracking) để tự động tìm bước nhảy phù hợp.
 
-### Triển khai Thuật toán Thực tế
+### Cài đặt Minh họa
 
 ```python
 def gradient_descent_with_lipschitz(f, grad_f, x0, L_estimate=1.0, max_iter=1000):
@@ -281,4 +277,4 @@ def gradient_descent_with_lipschitz(f, grad_f, x0, L_estimate=1.0, max_iter=1000
     return x
 ```
 
-Phương pháp thích ứng này đảm bảo hội tụ trong khi tự động điều chỉnh ước lượng hằng số Lipschitz.
+Cách tiếp cận thích ứng này đảm bảo hàm mục tiêu giảm ổn định đồng thời tự động hiệu chỉnh ước lượng hằng số Lipschitz $$L$$.

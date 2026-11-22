@@ -9,24 +9,24 @@ categories:
 lang: vi
 ---
 
-**Phương pháp Newton proximal** có thể được viết lại theo cùng dạng với **proximal gradient descent**.
+**Phương pháp Newton proximal** có thể được viết lại dưới dạng hoàn toàn tương đồng với **proximal gradient descent** nhờ khái niệm ánh xạ proximal có tỉ lệ.
 
 ## Ánh xạ proximal có tỉ lệ
-Nếu $$H \succ 0$$, **ánh xạ proximal có tỉ lệ (scaled proximal map)** được định nghĩa như sau.
+Với ma trận xác định dương $$H \succ 0$$, **ánh xạ proximal có tỉ lệ (scaled proximal map)** ứng với hàm $$h$$ được định nghĩa là:
 
 > \begin{align}
-\text{prox}_{H}(x) = \underset{z}{\text{argmin}}  \frac{1}{2} \parallel x - z \parallel_H^2 + h(z)
+\text{prox}_{H}(x) = \underset{z}{\text{argmin}} \ \frac{1}{2} \parallel x - z \parallel_H^2 + h(z)
 \end{align}
 
-Ở đây $$\parallel x\parallel_H^2 = x^THx$$ là bình phương chuẩn $$H$$. Khi $$H = \frac{1}{t} I$$, ta thu được **ánh xạ proximal không tỉ lệ** thông thường.
+trong đó $$\parallel x \parallel_H^2 = x^THx$$ là bình phương chuẩn cảm sinh bởi $$H$$. Khi $$H = \frac{1}{t} I$$, biểu thức này quay về **ánh xạ proximal thông thường**.
 
-Nói chung, **ánh xạ proximal có tỉ lệ** có các tính chất tốt giống như prox thông thường.
+Nhìn chung, **ánh xạ proximal có tỉ lệ** giữ nguyên các tính chất tốt của toán tử prox chuẩn:
 
-* **tính duy nhất**: nghiệm là duy nhất (điều này đúng vì $$H \succ 0$$ làm bài toán lồi chặt).
-* **tính không giãn (non-expansiveness)**: ánh xạ không làm giãn khoảng cách (điều này đúng vì ánh xạ proximal có tỉ lệ là tổng quát hóa của toán tử chiếu, vốn không giãn).
+* **Tính duy nhất:** Nghiệm cực tiểu là duy nhất vì $$H \succ 0$$ làm bài toán con lồi chặt.
+* **Tính không giãn (non-expansiveness):** Ánh xạ không làm tăng khoảng cách theo chuẩn $$H$$ (tổng quát hóa trực tiếp tính không giãn của phép chiếu lên tập lồi).
 
 #### [Ghi chú] Tính không giãn của toán tử chiếu
-Với hai điểm $$x$$, $$y$$ và toán tử chiếu $$P_C$$ lên tập lồi $$C$$, tính không giãn nghĩa là $$\parallel P_C(x) - P_C(y) \parallel_2 \le \parallel x - y \parallel_2$$. Nói cách khác, $$P_C$$ là 1-Lipschitz, điều này đúng bất cứ khi nào $$C$$ lồi.
+Với hai điểm $$x, y$$ và toán tử chiếu Euclid $$P_C$$ lên tập lồi $$C$$, tính không giãn có nghĩa là $$\parallel P_C(x) - P_C(y) \parallel_2 \le \parallel x - y \parallel_2$$. Nói cách khác, $$P_C$$ là ánh xạ 1-Lipschitz với mọi tập lồi $$C$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -35,8 +35,8 @@ Với hai điểm $$x$$, $$y$$ và toán tử chiếu $$P_C$$ lên tập lồi $
 </p>
 </figure>
 
-## Cập nhật Newton proximal
-Sử dụng **ánh xạ proximal có tỉ lệ**, cập nhật Newton proximal có thể được viết lại như sau.
+## Biểu diễn cập nhật Newton proximal
+Sử dụng **ánh xạ proximal có tỉ lệ**, bài toán con của phương pháp Newton proximal có thể viết gọn lại như sau:
 
 > $$
 > \begin{align}
@@ -45,7 +45,7 @@ Sử dụng **ánh xạ proximal có tỉ lệ**, cập nhật Newton proximal c
 > \end{align}
 > $$
 
-Tương đương:
+Do đó, phép cập nhật Newton proximal tương đương với:
 
 > $$
 > \begin{align}
@@ -54,12 +54,12 @@ Tương đương:
 > \end{align}
 > $$
 
-Một cách trực quan, ta thực hiện một bước Newton trên $$g$$, áp dụng toán tử prox có tỉ lệ theo $$H^{(k-1)}$$, rồi di chuyển theo hướng đó.
+Về mặt trực giác, thuật toán thực hiện một bước Newton trên phần trơn $$g$$, áp dụng toán tử proximal có tỉ lệ theo ma trận $$H^{(k-1)}$$, rồi di chuyển theo hướng thu được.
 
-Từ đây ta thấy:
+Từ công thức trên có thể rút ra ba nhận xét quan trọng:
 
-* Khi $$h(z) = 0$$, toán tử proximal là phép đồng nhất và ta thu lại cập nhật Newton thông thường.
-* Nếu thay $$H^{(k-1)}$$ bằng $$\frac{1}{r_k} I$$ và đặt $$t_k = 1$$, ta thu được cập nhật proximal gradient với kích thước bước $$r_k$$.
-* Độ khó của prox không chỉ phụ thuộc vào $$h$$ mà còn phụ thuộc vào cấu trúc Hessian của $$g$$. Ví dụ, nếu $$H$$ là ma trận đường chéo hoặc dải (banded) thì bài toán dễ hơn nhiều so với khi $$H$$ dày đặc (dense).
+* Khi $$h(z) = 0$$, toán tử proximal trở thành phép đồng nhất và ta thu lại phương pháp Newton cổ điển.
+* Khi thay $$H^{(k-1)}$$ bằng $$\frac{1}{r_k} I$$ và đặt $$t_k = 1$$, ta thu lại proximal gradient descent với kích thước bước $$r_k$$.
+* Độ khó tính toán của toán tử prox không chỉ phụ thuộc vào $$h$$ mà còn phụ thuộc mạnh vào cấu trúc của ma trận $$H$$: nếu $$H$$ là ma trận đường chéo hoặc ma trận dải (banded), việc giải bài toán con dễ hơn nhiều so với khi $$H$$ dày đặc (dense).
 
-Như vậy, phương pháp Newton proximal tổng quát hóa cả proximal gradient descent lẫn phương pháp Newton.
+Như vậy, phương pháp Newton proximal thống nhất cả proximal gradient descent và phương pháp Newton trong cùng một khuôn khổ.

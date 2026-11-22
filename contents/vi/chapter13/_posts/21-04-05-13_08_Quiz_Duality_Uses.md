@@ -14,345 +14,131 @@ redirect_from:
 
 ## 📚 Ôn tập lý thuyết
 
-Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
+Trước khi làm bài tập trắc nghiệm, hãy ôn lại các khái niệm chính trong chương này:
 
-### ⚡ **Ứng Dụng Của Đối Ngẫu (Duality Uses)**
+### ⚡ **Hai ứng dụng chính của tính đối ngẫu**
 
-#### **Hai ứng dụng chính của duality**
+**1. Khoảng cách đối ngẫu làm tiêu chí dừng:**
+- **Khoảng cách đối ngẫu (duality gap):** $$f(x) - g(u,v)$$ với $$x$$ khả thi nguyên thủy và $$(u,v)$$ khả thi đối ngẫu.
+- **Chặn trên sai số tối ưu:** $$f(x) - f^* \le f(x) - g(u,v)$$.
+- **Kiểm tra tính tối ưu:** Nếu khoảng cách đối ngẫu bằng $$0$$ thì $$x$$ là nghiệm tối ưu.
+- **Tiêu chí dừng thực tế:** Dừng thuật toán khi khoảng cách đối ngẫu nhỏ hơn ngưỡng $$\epsilon$$ cho trước.
 
-**1. Duality Gap như Stopping Criterion:**
-- **Duality gap:** $$f(x) - g(u,v)$$ với $$x$$ primal feasible, $$(u,v)$$ dual feasible
-- **Upper bound cho suboptimality:** $$f(x) - f^* \le f(x) - g(u,v)$$
-- **Optimality test:** Nếu duality gap = 0 thì $$x$$ optimal
-- **Practical stopping:** Stop algorithm khi duality gap $$< \epsilon$$
-
-**2. Solving Primal via Dual:**
-Khi có dual optimal $$u^*, v^*$$ và strong duality:
+**2. Giải bài toán nguyên thủy thông qua bài toán đối ngẫu:**
+Khi có nghiệm đối ngẫu tối ưu $$(u^*, v^*)$$ và tính đối ngẫu mạnh thỏa mãn:
 $$x^* = \arg\min_x L(x, u^*, v^*) = \arg\min_x \left\{ f(x) + \sum u_i^* h_i(x) + \sum v_j^* l_j(x) \right\}$$
 
-**Ưu điểm:** Dual có thể easier to solve than primal
+Cách tiếp cận này đặc biệt hữu ích khi bài toán đối ngẫu dễ giải hơn bài toán nguyên thủy.
 
-### 🔄 **Giải Primal Thông Qua Dual**
+### 🔄 **Giải bài toán tách biến thông qua đối ngẫu**
 
-#### **Separable problems**
-**Bài toán:** $$\min_x \sum_{i=1}^n f_i(x_i) \quad \text{s.t.} \quad a^T x = b$$
+**Bài toán nguyên thủy:** $$\min_x \sum_{i=1}^n f_i(x_i) \quad \text{s.t.} \quad a^T x = b$$
 
-**Dual function:**
+**Hàm đối ngẫu:**
 $$g(v) = bv - \sum_{i=1}^n f_i^*(a_i v)$$
 
-**Dual problem:** $$\max_v bv - \sum_{i=1}^n f_i^*(a_i v)$$
+**Bài toán đối ngẫu:** $$\max_v bv - \sum_{i=1}^n f_i^*(a_i v)$$
 
-**Recovery primal solution:**
-Khi có $$v^*$$, solve: $$\nabla f_i(x_i^*) = a_i v^*$$ cho mỗi $$i$$
+**Khôi phục nghiệm nguyên thủy:** Khi đã có $$v^*$$ (và các $$f_i$$ lồi chặt, khả vi), giải độc lập từng phương trình $$\nabla f_i(x_i^*) = a_i v^*$$ theo từng tọa độ $$i$$.
 
-**Ưu điểm:**
-- **Scalar optimization:** Dual chỉ có 1 biến $$v$$
-- **Parallel computation:** Mỗi $$f_i^*$$ tính độc lập
-- **Closed-form:** Nhiều $$f_i^*$$ có analytical form
+**Ưu điểm:** Bài toán đối ngẫu chỉ còn một biến vô hướng $$v$$; các hàm liên hợp $$f_i^*$$ có thể tính song song và nhiều trường hợp có công thức dạng đóng.
 
-### 📏 **Dual Norms (Chuẩn Đối Ngẫu)**
+### 📏 **Chuẩn đối ngẫu (Dual Norms)**
 
 #### **Định nghĩa**
-Cho norm $$\lVert x \rVert$$, **dual norm** $$\lVert x \rVert_*$$ được định nghĩa:
+Với chuẩn $$\lVert x \rVert$$, **chuẩn đối ngẫu** $$\lVert z \rVert_*$$ được định nghĩa là:
 $$\lVert z \rVert_* = \max_{\lVert x \rVert \le 1} z^T x$$
 
 #### **Tính chất cơ bản**
-- **Generalized Cauchy-Schwarz:** $$\lvert z^T x \rvert \le \lVert z \rVert_* \lVert x \rVert$$
-- **Double dual:** $$\lVert x \rVert_{**} = \lVert x \rVert$$
-- **Always a norm:** $$\lVert \cdot \rVert_*$$ luôn là một norm (là supremum của các hàm tuyến tính, nên luôn lồi)
+- **Bất đẳng thức Cauchy–Schwarz tổng quát:** $$\lvert z^T x \rvert \le \lVert z \rVert_* \lVert x \rVert$$
+- **Đối ngẫu kép:** $$\lVert x \rVert_{**} = \lVert x \rVert$$
+- **Luôn là một chuẩn:** $$\lVert \cdot \rVert_*$$ là supremum của họ hàm tuyến tính nên luôn lồi và thỏa các tiên đề chuẩn.
 
-#### **Ví dụ quan trọng**
-- **$$\ell_p$$ norms:** $$(\lVert x \rVert_p)_* = \lVert x \rVert_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$
+#### **Các cặp chuẩn đối ngẫu quan trọng**
+- **Chuẩn $$\ell_p$$:** $$(\lVert x \rVert_p)_* = \lVert x \rVert_q$$ với $$\frac{1}{p} + \frac{1}{q} = 1$$:
   - $$(\lVert x \rVert_1)_* = \lVert x \rVert_\infty$$
   - $$(\lVert x \rVert_2)_* = \lVert x \rVert_2$$
   - $$(\lVert x \rVert_\infty)_* = \lVert x \rVert_1$$
-- **Matrix norms:** $$(\lVert X \rVert_{tr})_* = \lVert X \rVert_{op} = \sigma_1(X)$$ (largest singular value)
+- **Chuẩn ma trận:** $$(\lVert X \rVert_{tr})_* = \lVert X \rVert_{op} = \sigma_1(X)$$ (giá trị kỳ dị lớn nhất).
 
-#### **Dual norm characterization**
-**Bài toán:** $$\min_y \lVert y \rVert \quad \text{s.t.} \quad y = x$$
+#### **Biểu diễn chuẩn qua bài toán đối ngẫu**
+Từ bài toán $$\min_y \lVert y \rVert \text{ s.t. } y = x$$, ta thu được bài toán đối ngẫu $$\max_{\lVert u \rVert_* \le 1} u^T x$$ và đẳng thức $$\lVert x \rVert = \max_{\lVert u \rVert_* \le 1} u^T x$$.
 
-**Dual problem:** $$\max_{\lVert u \rVert_* \le 1} u^T x$$
+### 🎯 **Ví dụ: Đối ngẫu của bài toán LASSO**
 
-**Kết quả:** $$\lVert x \rVert = \max_{\lVert u \rVert_* \le 1} u^T x$$
-
-### 🎯 **Ví Dụ: LASSO Dual**
-
-#### **Primal LASSO**
+#### **Bài toán LASSO nguyên thủy**
 $$\min_\beta \frac{1}{2}\lVert y - X\beta \rVert_2^2 + \lambda \lVert \beta \rVert_1$$
 
-#### **Reformulation**
+#### **Đưa về dạng có ràng buộc**
 $$\min_{\beta,z} \frac{1}{2}\lVert y - z \rVert_2^2 + \lambda \lVert \beta \rVert_1 \quad \text{s.t.} \quad z = X\beta$$
 
-#### **Dual derivation**
-**Lagrangian:**
+#### **Hàm Lagrangian và hàm đối ngẫu**
 $$L(\beta,z,u) = \frac{1}{2}\lVert y - z \rVert_2^2 + \lambda \lVert \beta \rVert_1 + u^T(z - X\beta)$$
 
-**Dual function:**
 $$g(u) = \frac{1}{2}\lVert y \rVert_2^2 - \frac{1}{2}\lVert y - u \rVert_2^2 - I_{\{\lVert X^T u \rVert_\infty \le \lambda\}}(u)$$
 
-#### **LASSO dual problem**
+#### **Bài toán LASSO đối ngẫu (dạng tương đương)**
 $$\min_u \lVert y - u \rVert_2^2 \quad \text{s.t.} \quad \lVert X^T u \rVert_\infty \le \lambda$$
 
-#### **Primal-dual relationship**
-- **Strong duality:** Slater's condition satisfied
-- **Primal recovery:** $$X\beta^* = y - u^*$$
-- **Residual interpretation:** $$u^*$$ là dual residual
+#### **Quan hệ nguyên thủy–đối ngẫu**
+Điều kiện Slater được thỏa mãn nên có tính đối ngẫu mạnh, và nghiệm liên hệ bởi $$X\beta^* = y - u^*$$ (tức $$u^*$$ chính là phần dư).
 
-### 🔗 **Conjugate Functions và Dual Problems**
+### 🔗 **Hàm liên hợp và bài toán đối ngẫu**
 
-#### **Conjugate function**
-$$f^*(u) = \sup_x \{u^T x - f(x)\}$$
+#### **Hàm liên hợp**
+$$f^*(u) = \sup_x \{u^T x - f(x)\} \iff -f^*(u) = \min_x \{f(x) - u^T x\}$$
 
-**Equivalent:** $$-f^*(u) = \min_x \{f(x) - u^T x\}$$
-
-#### **Composite problems**
-**Bài toán:** $$\min_x f(x) + g(x)$$
-
-**Equivalent constrained form:**
-$$\min_{x,z} f(x) + g(z) \quad \text{s.t.} \quad x = z$$
-
-**Dual function:**
+#### **Bài toán tổng hai hàm**
+Với bài toán $$\min_x f(x) + g(x)$$, viết lại thành $$\min_{x,z} f(x) + g(z) \text{ s.t. } x = z$$, ta thu được hàm đối ngẫu:
 $$g(u) = \min_{x,z} f(x) + g(z) + u^T(z - x) = -f^*(u) - g^*(-u)$$
 
-**Dual problem:** $$\max_u -f^*(u) - g^*(-u)$$
+và bài toán đối ngẫu: $$\max_u -f^*(u) - g^*(-u)$$.
 
-#### **Ví dụ ứng dụng**
+#### **Ví dụ áp dụng**
+1. **Hàm chỉ thị:** $$\min_x f(x) + I_C(x) \Rightarrow \max_u -f^*(u) - I_C^*(-u)$$, với $$I_C^*$$ là hàm hỗ trợ của tập $$C$$.
+2. **Thành phần chuẩn:** $$\min_x f(x) + \lVert x \rVert \Rightarrow \max_{\lVert u \rVert_* \le 1} -f^*(u)$$.
 
-**1. Indicator function:**
-$$\min_x f(x) + I_C(x) \Rightarrow \max_u -f^*(u) - I_C^*(-u)$$
-
-với $$I_C^*$$ là support function của $$C$$
-
-**2. Norm regularization:**
-$$\min_x f(x) + \lVert x \rVert \Rightarrow \max_{\lVert u \rVert_* \le 1} -f^*(u)$$
-
-### 🔺 **Dual Cones (Nón Đối Ngẫu)**
+### 🔺 **Nón đối ngẫu (Dual Cones)**
 
 #### **Định nghĩa**
-Cho cone $$K \subseteq \mathbb{R}^n$$, **dual cone** $$K^*$$ là:
+Cho nón $$K \subseteq \mathbb{R}^n$$, **nón đối ngẫu** $$K^*$$ là:
 $$K^* = \{y : y^T x \ge 0 \quad \forall x \in K\}$$
 
 #### **Tính chất**
-- **Always convex:** $$K^*$$ luôn convex ngay cả khi $$K$$ không convex
-- **Double dual:** Nếu $$K$$ closed convex cone thì $$K^{**} = K$$
-- **Geometric interpretation:** $$y \in K^* \Leftrightarrow$$ halfspace $$\{x : y^T x \ge 0\}$$ contains $$K$$
+- $$K^*$$ luôn là nón lồi ngay cả khi $$K$$ không lồi.
+- Nếu $$K$$ là nón lồi và đóng thì $$K^{**} = K$$.
+- Về mặt hình học: $$y \in K^* \Leftrightarrow$$ nửa không gian $$\{x : y^T x \ge 0\}$$ chứa toàn bộ nón $$K$$.
 
-#### **Ví dụ quan trọng**
+#### **Các ví dụ quan trọng**
+1. **Không gian con tuyến tính $$V$$:** $$V^* = V^\perp$$ (phần bù trực giao); ví dụ $$(\text{row}(A))^* = \text{null}(A)$$.
+2. **Nón chuẩn:** Với $$K = \{(x,t) : \lVert x \rVert \le t\}$$, nón đối ngẫu là $$K^* = \{(y,s) : \lVert y \rVert_* \le s\}$$.
+3. **Nón ma trận nửa xác định dương:** Tự đối ngẫu $$(\mathbb{S}_+^n)^* = \mathbb{S}_+^n$$, vì $$Y \succeq 0 \Leftrightarrow \text{tr}(YX) \ge 0 \; \forall X \succeq 0$$.
 
-**1. Linear subspace:**
-- **$$V$$ subspace:** $$V^* = V^\perp$$ (orthogonal complement)
-- **Row space:** $$(row(A))^* = null(A)$$
+### 🎯 **Đối ngẫu trong quy hoạch nón (Conic Programming)**
 
-**2. Norm cones:**
-- **Norm cone:** $$K = \{(x,t) : \lVert x \rVert \le t\}$$
-- **Dual:** $$K^* = \{(y,s) : \lVert y \rVert_* \le s\}$$
+- **Bài toán nguyên thủy:** $$\min_x f(x) \quad \text{s.t.} \quad Ax \in K$$
+- **Bài toán đối ngẫu:** $$\max_u -f^*(A^T u) \quad \text{s.t.} \quad u \in K^*$$ (suy ra từ hàm hỗ trợ $$I_K^*(-u) = I_{K^*}(u)$$).
+- **Ví dụ SOCP:** Bài toán $$\min c^T x \text{ s.t. } \lVert A_i x + b_i \rVert_2 \le c_i^T x + d_i$$ viết gọn thành $$Ax + b \in K$$ (với $$K$$ là tích các nón bậc hai) có đối ngẫu $$\max -b^T u \text{ s.t. } A^T u = c, u \in K^*$$.
 
-**3. Positive semidefinite cone:**
-- **Self-dual:** $$(\mathbb{S}_+^n)^* = \mathbb{S}_+^n$$
-- **Verification:** $$Y \succeq 0 \Leftrightarrow tr(YX) \ge 0 \quad \forall X \succeq 0$$
+### 💡 **Ví dụ minh họa**
 
-### 🎯 **Conic Programming Duality**
+#### **Cực tiểu hóa chuẩn $$\ell_2$$ có ràng buộc tuyến tính**
+- **Bài toán nguyên thủy:** $$\min_x \lVert x \rVert_2 \quad \text{s.t.} \quad Ax = b$$
+- **Bài toán đối ngẫu:** $$\max_{\lVert A^T u \rVert_2 \le 1} b^T u$$ (suy từ hàm Lagrangian $$L(x, u) = \lVert x \rVert_2 + u^T(b - Ax)$$).
+- **Diễn giải:** Tìm $$u$$ thỏa $$\lVert A^T u \rVert_2 \le 1$$ để cực đại hóa $$b^T u$$; khi hệ $$Ax = b$$ khả thi, giá trị tối ưu bằng chuẩn nhỏ nhất $$\lVert x^* \rVert_2$$ của nghiệm chuẩn cực tiểu $$x^* = A^+ b$$.
 
-#### **Primal conic problem**
-$$\min_x f(x) \quad \text{s.t.} \quad Ax \in K$$
+#### **Cực tiểu hóa chuẩn $$\ell_1$$ có ràng buộc tuyến tính**
+- **Bài toán nguyên thủy:** $$\min_x \lVert x \rVert_1 \quad \text{s.t.} \quad Ax = b$$
+- **Bài toán đối ngẫu:** $$\max_{\lVert A^T u \rVert_\infty \le 1} b^T u$$
+- **Diễn giải hình học:** Tìm $$u$$ thuộc đa diện khả thi đối ngẫu $$\{u : \lVert A^T u \rVert_\infty \le 1\}$$ sao cho tích vô hướng $$b^T u$$ đạt cực đại.
 
-#### **Dual conic problem**
-$$\max_u -f^*(A^T u) \quad \text{s.t.} \quad u \in K^*$$
+### 🛠️ **Lưu ý thực hành và ứng dụng**
 
-**Derivation:** Sử dụng support function $$I_K^*(y) = \max_{z \in K} z^T y$$
-
-#### **Ví dụ: Second-Order Cone Programming (SOCP)**
-**Primal:** $$\min c^T x \quad \text{s.t.} \quad \lVert A_i x + b_i \rVert_2 \le c_i^T x + d_i$$
-
-**Equivalent conic form:** $$Ax + b \in K$$ (xếp chồng $$(A_i x + b_i, c_i^T x + d_i)$$) với $$K$$ là product của second-order cones
-
-**Dual:** $$\max -b^T u \quad \text{s.t.} \quad A^T u = c, \quad u \in K^*$$
-
-### 🛠️ **Kỹ Thuật Thực Hành**
-
-#### **Khi nào sử dụng duality:**
-1. **Dual easier:** Fewer variables, simpler structure
-2. **Bounds needed:** Duality gap cho convergence monitoring
-3. **Sensitivity analysis:** Dual variables như shadow prices
-4. **Parallel computation:** Separable problems
-
-#### **Computational strategies:**
-- **Primal-dual methods:** Update both simultaneously
-- **Dual decomposition:** Exploit separable structure
-- **Augmented Lagrangian:** Improve convergence
-- **Barrier methods:** Interior point approaches
-
-#### **Common applications:**
-- **Machine learning:** SVM, regularized regression, matrix completion
-- **Signal processing:** Compressed sensing, image denoising
-- **Network optimization:** Flow problems, resource allocation
-- **Finance:** Portfolio optimization, risk management
-
-### 💡 **Ví Dụ Minh Họa**
-
-#### **Simple norm minimization:**
-**Problem:** $$\min_x \lVert x \rVert_2 \quad \text{s.t.} \quad Ax = b$$
-
-**Dual:** $$\max_{A^T u = 0} -b^T u$$
-
-**Interpretation:** Find $$u \perp row(A)$$ maximizing $$-b^T u$$
-
-**Solution:** $$u^* = -A^+ b$$ (pseudoinverse)
-
-#### **$$\ell_1$$ minimization:**
-**Problem:** $$\min_x \lVert x \rVert_1 \quad \text{s.t.} \quad Ax = b$$
-
-**Dual:** $$\max_{\lVert A^T u \rVert_\infty \le 1} b^T u$$
-
-**Geometric interpretation:** Find $$u$$ trong dual feasible set maximizing $$b^T u$$
-
-### 🎯 **Kết Nối Với Các Chương**
-
-#### **Từ chương trước:**
-- **Chương 12:** KKT conditions - dual variables interpretation
-- **Chương 11:** General duality theory - foundation
-- **Chương 10:** LP duality - special case
-
-#### **Tầm quan trọng của Duality Uses:**
-- **Computational efficiency:** Solve easier dual instead of primal
-- **Algorithm design:** Primal-dual methods, decomposition
-- **Theoretical insights:** Optimality conditions, sensitivity
-- **Practical applications:** Machine learning, signal processing
-
-#### **Hướng phát triển:**
-- **Interior point methods:** Barrier function approaches
-- **Decomposition methods:** ADMM, dual decomposition
-- **Stochastic optimization:** Online dual methods
-- **Robust optimization:** Worst-case analysis
-
-### 🌟 **Ý Nghĩa Lý Thuyết**
-
-#### **Duality như computational tool:**
-- **Alternative solution path:** Dual có thể easier than primal
-- **Parallel computation:** Separable structure exploitation
-- **Convergence monitoring:** Duality gap như stopping criterion
-- **Sensitivity analysis:** Dual variables interpretation
-
-#### **Geometric insights:**
-- **Dual norms:** Characterize unit balls của different norms
-- **Dual cones:** Geometric duality trong cone programming
-- **Support functions:** Convex analysis foundation
-- **Conjugate functions:** Legendre-Fenchel transform
-
-#### **Algorithmic implications:**
-- **Primal-dual methods:** Simultaneous updates
-- **Decomposition:** Exploit problem structure
-- **Interior point:** Barrier function approaches
-- **Augmented Lagrangian:** Penalty method improvements
-
-### 💡 **Mẹo Thực Hành**
-
-#### **Choosing primal vs dual:**
-1. **Variable count:** Fewer variables often easier
-2. **Constraint structure:** Simple constraints preferred
-3. **Separability:** Dual exploits separable structure
-4. **Computational resources:** Parallel vs sequential
-
-#### **Implementation tips:**
-- **Numerical stability:** Check condition numbers
-- **Convergence monitoring:** Use duality gap
-- **Warm starting:** Initialize với previous solutions
-- **Regularization:** Add small regularization for stability
-
-#### **Common pitfalls:**
-- **Constraint qualifications:** Ensure strong duality
-- **Numerical precision:** Duality gap sensitivity
-- **Infeasibility:** Handle primal/dual infeasible cases
-- **Scaling:** Proper problem scaling important
-
-### 🔬 **Advanced Topics**
-
-#### **Fenchel duality:**
-- **General framework:** Conjugate function approach
-- **Minimax theorems:** Saddle point theory
-- **Variational problems:** Calculus of variations
-- **Optimal transport:** Kantorovich duality
-
-#### **Conic duality:**
-- **Semidefinite programming:** Matrix optimization
-- **Second-order cone programming:** Robust optimization
-- **Exponential cone:** Entropy optimization
-- **Power cone:** Geometric programming
-
-#### **Algorithmic developments:**
-- **First-order methods:** Accelerated gradient, FISTA
-- **Primal-dual algorithms:** ADMM, Chambolle-Pock
-- **Interior point methods:** Polynomial-time algorithms
-- **Stochastic methods:** Online optimization
-
-### 📈 **Ứng Dụng Thực Tế**
-
-#### **Machine Learning:**
-- **SVM:** Dual formulation enables kernel trick
-- **LASSO:** Dual provides geometric insights
-- **Matrix completion:** Nuclear norm dual
-- **Deep learning:** Regularization via duality
-
-#### **Signal Processing:**
-- **Compressed sensing:** $$\ell_1$$ minimization dual
-- **Image denoising:** Total variation dual
-- **Filter design:** Frequency domain duality
-- **Beamforming:** Array processing applications
-
-#### **Operations Research:**
-- **Network flows:** Max-flow min-cut duality
-- **Resource allocation:** Shadow price interpretation
-- **Production planning:** Capacity constraint duals
-- **Transportation:** Assignment problem duality
-
-#### **Finance:**
-- **Portfolio optimization:** Risk-return duality
-- **Option pricing:** Risk-neutral measure duality
-- **Risk management:** Coherent risk measure duality
-- **Algorithmic trading:** Execution cost optimization
-
-### 🔮 **Future Directions**
-
-#### **Emerging applications:**
-- **Quantum optimization:** Quantum duality theory
-- **Distributed optimization:** Consensus và duality
-- **Robust optimization:** Distributionally robust duality
-- **Online learning:** Regret minimization duality
-
-#### **Computational advances:**
-- **GPU acceleration:** Parallel dual methods
-- **Quantum computing:** Quantum optimization algorithms
-- **Approximate methods:** Inexact dual solutions
-- **Adaptive algorithms:** Problem-specific dual methods
-
-### 💎 **Key Insights**
-
-#### **Duality transformations:**
-1. **Problem reformulation:** Convert hard primal to easy dual
-2. **Geometric interpretation:** Dual norms, cones provide insights
-3. **Computational efficiency:** Exploit separable structure
-4. **Theoretical understanding:** Optimality, sensitivity analysis
-
-#### **Practical impact:**
-- **Algorithm design:** Foundation cho modern optimization
-- **Software implementation:** Dual methods trong solvers
-- **Real-world problems:** Enable solution của large-scale problems
-- **Interdisciplinary applications:** Across science và engineering
-
-### 🌟 **Legacy của chương 13:**
-
-- **Computational revolution:** Duality enables efficient algorithms
-- **Theoretical unification:** Connects diverse optimization areas
-- **Practical impact:** Solves real-world problems efficiently
-- **Educational value:** Bridges theory và applications
-- **Scientific influence:** Foundation cho modern optimization
+- **Khi nào nên giải bài toán đối ngẫu:** Khi bài toán đối ngẫu có ít biến hơn, cấu trúc ràng buộc đơn giản hơn, tách biến tốt cho tính toán song song, hoặc khi cần theo dõi khoảng cách đối ngẫu làm tiêu chí dừng.
+- **Các lỗi cần tránh:** Bỏ qua điều kiện chuẩn ràng buộc đảm bảo đối ngẫu mạnh, đánh giá sai sai số số học của khoảng cách đối ngẫu, hoặc chuẩn hóa tỷ lệ biến chưa phù hợp.
+- **Ứng dụng thực tế:** Học máy (SVM, LASSO, hoàn thiện ma trận với chuẩn hạt nhân), xử lý tín hiệu (cảm biến nén với chuẩn $$\ell_1$$, khử nhiễu ảnh tổng biến phân), vận trù học (luồng cực đại–lát cắt cực tiểu, phân bổ tài nguyên) và tài chính (tối ưu danh mục đầu tư, quản trị rủi ro).
 
 ---
-
-💡 **Thông điệp cuối cùng:** Duality không chỉ là mathematical curiosity - nó là **powerful computational tool** enabling efficient solution của complex optimization problems across science, engineering, và machine learning!
-
----
-
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -477,7 +263,7 @@ mjx-container[jax="CHTML"][display="false"] {
 }
 </style>
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các ứng dụng và tương ứng của duality, bao gồm conjugate functions, dual norms, LASSO dual, dual cones và các khái niệm advanced duality.
+Bài tập trắc nghiệm này kiểm tra kiến thức về các ứng dụng và tương ứng của tính đối ngẫu, gồm hàm liên hợp, chuẩn đối ngẫu, đối ngẫu LASSO, nón đối ngẫu và các tính chất đối ngẫu liên quan.
 
 ---
 
@@ -502,7 +288,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f^*(y) = \max_x (y^T x - f(x))$$</strong><br>
-                Conjugate function (Legendre-Fenchel transform) là supremum của linear function $$y^T x$$ trừ đi $$f(x)$$.
+                Hàm liên hợp (biến đổi Legendre–Fenchel) là giá trị supremum của hiệu giữa hàm tuyến tính $$y^T x$$ và $$f(x)$$.
             </div>
         </div>
 
@@ -517,7 +303,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Luôn convex</strong><br>
-                Conjugate function luôn convex vì là supremum của các affine functions, bất kể $$f$$ có convex hay không.
+                Hàm liên hợp luôn lồi vì là supremum theo điểm của một họ các hàm affine, bất kể bản thân $$f$$ có lồi hay không.
             </div>
         </div>
 
@@ -532,7 +318,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f$$</strong><br>
-                Fenchel-Moreau theorem: nếu $$f$$ convex và lower semicontinuous thì $$f^{**} = f$$.
+                Theo định lý Fenchel–Moreau, nếu $$f$$ là hàm lồi và nửa liên tục dưới (đóng) thì $$f^{**} = f$$.
             </div>
         </div>
 
@@ -547,7 +333,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\|x\|_* = \max_{\|z\| \leq 1} z^T x$$</strong><br>
-                Dual norm là maximum inner product với vectors trong unit ball của primal norm.
+                Chuẩn đối ngẫu là giá trị lớn nhất của tích vô hướng với các vector nằm trong quả cầu đơn vị của chuẩn gốc.
             </div>
         </div>
 
@@ -562,7 +348,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$\ell_q$$ norm với $$1/p + 1/q = 1$$</strong><br>
-                Hölder conjugate: dual của $$\ell_p$$ là $$\ell_q$$ với $$1/p + 1/q = 1$$. Đặc biệt: dual của $$\ell_1$$ là $$\ell_\infty$$.
+                Theo cặp liên hợp Hölder, chuẩn đối ngẫu của $$\ell_p$$ là $$\ell_q$$ với $$1/p + 1/q = 1$$; đặc biệt chuẩn đối ngẫu của $$\ell_1$$ là $$\ell_\infty$$.
             </div>
         </div>
 
@@ -577,7 +363,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$|x^T y| \leq \|x\|_p \|y\|_q$$ với $$1/p + 1/q = 1$$</strong><br>
-                Hölder inequality là generalization của Cauchy-Schwarz, liên hệ dual norms với inner product.
+                Bất đẳng thức Hölder là dạng tổng quát của bất đẳng thức Cauchy–Schwarz, liên hệ tích vô hướng với cặp chuẩn đối ngẫu.
             </div>
         </div>
 
@@ -592,7 +378,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Operator norm (spectral norm)</strong><br>
-                Dual của nuclear norm $$\|X\|_* = \sum \sigma_i$$ là operator norm $$\|X\|_{op} = \sigma_1$$ (largest singular value).
+                Chuẩn đối ngẫu của chuẩn hạt nhân (nuclear/trace norm) $$\|X\|_* = \sum \sigma_i$$ là chuẩn toán tử $$\|X\|_{op} = \sigma_1$$ (giá trị kỳ dị lớn nhất).
             </div>
         </div>
 
@@ -607,7 +393,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\|A^T u\|_\infty \leq \lambda$$</strong><br>
-                LASSO dual constraint: $$\|A^T u\|_\infty \leq \lambda$$ vì dual của $$\ell_1$$ norm là $$\ell_\infty$$ norm.
+                Bài toán LASSO đối ngẫu có ràng buộc $$\|A^T u\|_\infty \leq \lambda$$ vì chuẩn đối ngẫu của chuẩn $$\ell_1$$ là chuẩn $$\ell_\infty$$.
             </div>
         </div>
 
@@ -622,7 +408,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f^*(y) = \frac{1}{2}y^T Q^{-1} y$$</strong><br>
-                Conjugate của quadratic form với $$Q \succ 0$$ là quadratic form với $$Q^{-1}$$.
+                Hàm liên hợp của dạng toàn phương $$\frac{1}{2}x^T Q x$$ (với $$Q \succ 0$$) là dạng toàn phương $$\frac{1}{2}y^T Q^{-1} y$$.
             </div>
         </div>
 
@@ -637,7 +423,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$I_C^*(y) = \sup_{x \in C} y^T x$$</strong><br>
-                Conjugate của indicator function là support function của tập $$C$$.
+                Hàm liên hợp của hàm chỉ thị $$I_C$$ chính là hàm hỗ trợ (support function) của tập $$C$$.
             </div>
         </div>
 
@@ -652,7 +438,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$K^* = \{y : y^T x \geq 0 \text{ với mọi } x \in K\}$$</strong><br>
-                Dual cone gồm các vector tạo góc không tù với mọi vector trong cone gốc.
+                Nón đối ngẫu gồm tất cả các vector tạo góc không tù (tích vô hướng không âm) với mọi vector trong nón gốc.
             </div>
         </div>
 
@@ -667,7 +453,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các cone trên</strong><br>
-                Positive orthant, second-order cone và PSD cone đều là self-dual: $$K^* = K$$.
+                Nón không âm $$\mathbb{R}_+^n$$, nón bậc hai và nón ma trận nửa xác định dương đều tự đối ngẫu ($$K^* = K$$).
             </div>
         </div>
 
@@ -682,7 +468,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f^*(y) = I_{\{\|y\|_* \leq 1\}}(y)$$</strong><br>
-                Conjugate của norm là indicator function của dual norm unit ball.
+                Hàm liên hợp của một chuẩn là hàm chỉ thị của quả cầu đơn vị ứng với chuẩn đối ngẫu.
             </div>
         </div>
 
@@ -697,7 +483,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\min f(x) + g(Ax) = \max -f^*(-A^T y) - g^*(y)$$</strong><br>
-                Fenchel duality kết nối primal problem với dual problem thông qua conjugate functions.
+                Định lý đối ngẫu Fenchel liên kết bài toán nguyên thủy và bài toán đối ngẫu thông qua các hàm liên hợp.
             </div>
         </div>
 
@@ -712,7 +498,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f$$ là convex và differentiable</strong><br>
-                Legendre transform là trường hợp đặc biệt của conjugate function khi $$f$$ convex và differentiable.
+                Biến đổi Legendre là trường hợp riêng của hàm liên hợp khi $$f$$ lồi và khả vi.
             </div>
         </div>
 
@@ -727,7 +513,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Moreau envelope kết nối proximal operator, conjugate function và cung cấp smooth approximation của $$f$$.
+                Bao Moreau liên hệ chặt với toán tử cận (proximal operator), hàm liên hợp và tạo ra xấp xỉ trơn cho hàm $$f$$.
             </div>
         </div>
 
@@ -742,7 +528,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f(x) + f^*(y) \geq x^T y$$</strong><br>
-                Fenchel-Young inequality: $$f(x) + f^*(y) \geq x^T y$$ với equality khi $$y \in \partial f(x)$$.
+                Bất đẳng thức Fenchel–Young khẳng định $$f(x) + f^*(y) \geq x^T y$$, và dấu bằng xảy ra khi $$y \in \partial f(x)$$.
             </div>
         </div>
 
@@ -757,7 +543,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các trường hợp trên</strong><br>
-                Giải dual có lợi khi: fewer variables, simpler structure, hoặc computational advantages, với điều kiện có strong duality.
+                Giải bài toán đối ngẫu có lợi khi số biến ít hơn, cấu trúc ràng buộc đơn giản hơn hoặc thuận tiện tính toán hơn, với điều kiện thỏa mãn tính đối ngẫu mạnh.
             </div>
         </div>
 
@@ -787,7 +573,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các lĩnh vực trên</strong><br>
-                Conjugate duality có ứng dụng rộng rãi: ML (regularization), signal processing (sparsity), economics (utility maximization), và nhiều lĩnh vực khác.
+                Đối ngẫu liên hợp được ứng dụng rộng rãi trong học máy (điều chuẩn), xử lý tín hiệu (biểu diễn thưa), kinh tế học (tối đa hóa độ thỏa dụng) và nhiều lĩnh vực khác.
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->
@@ -801,7 +587,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Thay đổi nghiệm khi tham số thay đổi</strong><br>
-                Sensitivity analysis phân tích cách nghiệm tối ưu thay đổi khi các tham số bài toán thay đổi.
+                Phân tích độ nhạy nghiên cứu mức độ thay đổi của giá trị và nghiệm tối ưu khi các tham số của bài toán biến thiên.
             </div>
         </div>
 
@@ -816,7 +602,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Giá trị của dual variable $$y_i^*$$</strong><br>
-                Shadow price = dual variable, cho biết mức tăng giá trị tối ưu khi nới lỏng ràng buộc một đơn vị.
+                Giá bóng (shadow price) chính là biến đối ngẫu tối ưu, phản ánh tốc độ thay đổi biên của giá trị tối ưu khi nới lỏng ràng buộc thêm một đơn vị.
             </div>
         </div>
 
@@ -831,7 +617,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\frac{\partial f^*(\theta)}{\partial \theta} = \frac{\partial L}{\partial \theta}$$</strong><br>
-                Envelope theorem: đạo hàm của giá trị tối ưu theo tham số bằng đạo hàm riêng của Lagrangian.
+                Định lý bao (envelope theorem) cho biết đạo hàm của hàm giá trị tối ưu theo tham số bằng đạo hàm riêng của hàm Lagrangian theo tham số đó tại điểm tối ưu.
             </div>
         </div>
 
@@ -861,7 +647,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các �
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Chọn portfolio ít rủi ro hơn</strong><br>
-                Risk aversion cao dẫn đến việc chọn portfolio có phương sai (rủi ro) thấp hơn.
+                Hệ số ngại rủi ro (risk aversion) càng cao thì danh mục đầu tư tối ưu càng ưu tiên phương sai (rủi ro) thấp hơn.
             </div>
         </div>
 

@@ -8,22 +8,25 @@ categories:
 - chapter03
 lang: vi
 ---
-## Đặc trưng epigraph
-Như đã thảo luận trong Mục 1.2, $$f$$ lồi khi và chỉ khi epigraph của nó là một tập lồi, và ngược lại.
 
-> $$f$$ lồi $$\iff epi(f) = \{(x,t) \in \mathbb{R}^{n+1} \mid x \in \text{dom} f, f(x) \le t \}$$ là một tập lồi
+## Đặc trưng epigraph
+
+Như đã nêu ở Mục 1.2, hàm $$f$$ lồi khi và chỉ khi epigraph (tập trên đồ thị) của nó là một tập lồi:
+
+> $$f$$ lồi $$\iff \text{epi}(f) = \{(x,t) \in \mathbb{R}^{n+1} \mid x \in \text{dom} f, f(x) \le t \}$$ là một tập lồi
 
 ## Tập mức dưới lồi
-Nếu một hàm $$f$$ lồi, các tập mức dưới của nó cũng lồi.
+
+Nếu $$f$$ là hàm lồi thì mọi tập mức dưới của nó đều là tập lồi:
 
 > $$\{x \in \text{dom } f: f(x) \leq t\}$$, với mọi $$t \in \mathbb{R}$$
 
 ### [Lưu ý] Tập mức dưới
-Với một hàm $$f:\mathbb{R}^n \mapsto \mathbb{R}$$, $$C_\alpha = \{x \in \text{dom} f | f(x) \leq \alpha\}$$ được gọi là *tập mức dưới $$\alpha$$*.
+Với một hàm $$f:\mathbb{R}^n \mapsto \mathbb{R}$$, tập $$C_\alpha = \{x \in \text{dom} f \mid f(x) \leq \alpha\}$$ được gọi là *tập mức dưới mức $$\alpha$$*.
 
 ## Đặc trưng bậc nhất
-Nếu một hàm $$f$$ **khả vi**, điều sau đây đúng:
-Nếu miền $$\text{dom} f$$ lồi và với mọi $$x, y \in \text{dom} f$$, $$f(y) \geq f(x) +\nabla f(x)^T(y-x)$$, thì $$f$$ lồi, và ngược lại.
+
+Giả sử $$f$$ là hàm **khả vi**. Khi đó $$f$$ lồi khi và chỉ khi miền xác định $$\text{dom} f$$ lồi và với mọi $$x, y \in \text{dom} f$$, ta có $$f(y) \geq f(x) +\nabla f(x)^T(y-x)$$:
 
 > $$f$$ lồi $$\iff \text{dom}f$$ lồi, và $$f(y) \geq f(x) +\nabla f(x)^T(y-x)$$ với mọi $$x,y \in \text{dom} f$$
 
@@ -36,58 +39,44 @@ Hình dưới đây minh họa điều kiện bậc nhất cho một hàm lồi 
 </p>
 </figure>
 
-Điều kiện này được gọi là **điều kiện đường tiếp tuyến** (hoặc điều kiện siêu phẳng tiếp tuyến trong không gian nhiều chiều). Nó cơ bản nói rằng một hàm lồi luôn nằm trên hoặc trên tất cả các đường tiếp tuyến (hoặc siêu phẳng) của nó. Bất kể bạn vẽ đường tiếp tuyến ở đâu trên hàm lồi, giá trị thực tế của hàm sẽ không bao giờ xuống dưới đường tiếp tuyến đó.
+Điều kiện này còn gọi là **điều kiện tiếp tuyến** (hoặc siêu phẳng tiếp tuyến trong không gian nhiều chiều): xấp xỉ tuyến tính bậc nhất của $$f$$ tại bất kỳ điểm $$x$$ nào luôn là một chặn dưới toàn cục của $$f$$. Nói cách khác, đồ thị của hàm lồi luôn nằm phía trên (hoặc trùng với) mọi tiếp tuyến của nó.
 
 ### Ví dụ
 
-Xem xét hàm lồi đơn giản $$f(x) = x^2$$. Đạo hàm của nó (là gradient trong 1D) là $$f'(x) = 2x$$.
+Xét hàm $$f(x) = x^2$$ với đạo hàm $$f'(x) = 2x$$. Tại một điểm bất kỳ $$x_0$$, phương trình tiếp tuyến với đồ thị $$f$$ là:
+$$L(x) = f(x_0) + f'(x_0)(x - x_0) = x_0^2 + 2x_0(x - x_0)$$
 
-Hãy chọn một điểm tùy ý $$x_0$$. Phương trình của đường tiếp tuyến với $$f(x)$$ tại $$x_0$$ được cho bởi:
-$$L(x) = f(x_0) + f'(x_0)(x - x_0)$$
+Điều kiện bậc nhất đòi hỏi với mọi $$x \in \mathbb{R}$$:
+$$f(x) \geq L(x) \iff x^2 \geq x_0^2 + 2x_0(x - x_0)$$
 
-Thế $$f(x_0) = x_0^2$$ và $$f'(x_0) = 2x_0$$:
-$$L(x) = x_0^2 + 2x_0(x - x_0)$$
+Rút gọn vế phải và chuyển vế, ta được:
+$$x^2 - 2x_0x + x_0^2 \geq 0 \iff (x - x_0)^2 \geq 0$$
 
-Điều kiện lồi yêu cầu rằng với mọi $$x$$:
-$$f(x) \geq L(x)$$
-$$x^2 \geq x_0^2 + 2x_0(x - x_0)$$
-
-Hãy rút gọn vế phải:
-$$x^2 \geq x_0^2 + 2x_0x - 2x_0^2$$
-$$x^2 \geq 2x_0x - x_0^2$$
-
-Bây giờ, chuyển tất cả các số hạng sang một bên:
-$$x^2 - 2x_0x + x_0^2 \geq 0$$
-
-Biểu thức này là một bình phương hoàn hảo:
-$$(x - x_0)^2 \geq 0$$
-
-Bất đẳng thức này luôn đúng với bất kỳ số thực $$x$$ và $$x_0$$, vì bình phương của bất kỳ số thực nào luôn không âm. Điều này xác nhận rằng $$f(x) = x^2$$ thỏa mãn điều kiện đường tiếp tuyến và thực sự là một hàm lồi.
+Bất đẳng thức này luôn đúng với mọi số thực $$x$$ và $$x_0$$, khẳng định $$f(x) = x^2$$ thỏa mãn điều kiện bậc nhất và là hàm lồi.
 
 ## Đặc trưng bậc hai
-Nếu một hàm $$f$$ khả vi hai lần, nó có tính chất sau:
 
-- Nếu đạo hàm bậc hai $$\nabla^2f(x)$$ là nửa xác định dương với mọi $$x \in \text{dom} f$$ và $$\text{dom} f$$ lồi, thì $$f$$ lồi, và ngược lại.
-> $$f$$ lồi $$\iff \nabla^2f(x) \succeq 0$$ với mọi $$x \in \text{dom} f, \text{dom} f$$: lồi
+Nếu $$f$$ khả vi hai lần với miền xác định $$\text{dom} f$$ lồi, ta có các tiêu chuẩn sau:
 
-- Nếu đạo hàm bậc hai $$\nabla^2f(x)$$ là xác định dương với mọi $$x \in \text{dom} f$$, thì $$f$$ lồi chặt.
+- $$f$$ lồi khi và chỉ khi ma trận Hessian $$\nabla^2 f(x)$$ nửa xác định dương với mọi $$x \in \text{dom} f$$:
+> $$f$$ lồi $$\iff \nabla^2f(x) \succeq 0$$ với mọi $$x \in \text{dom} f$$, $$\text{dom} f$$ lồi
+
+- Nếu $$\nabla^2 f(x)$$ xác định dương với mọi $$x \in \text{dom} f$$ thì $$f$$ lồi chặt:
 > nếu $$\nabla^2f(x) \succ 0$$ với mọi $$x \in \text{dom} f$$, thì $$f$$ lồi chặt
 
-- Nói cách khác, độ cong luôn không âm.
-
+Nói cách khác, độ cong của hàm theo mọi phương đều không âm.
 
 ## Bất đẳng thức Jensen
 
-Gọi $$f$$ là một hàm lồi và $$w_1, ..., w_n$$ là các trọng số dương sao cho $$\sum_{i=1}^{n} w_i = 1$$. Khi đó, bất đẳng thức sau đây đúng:
+Cho $$f$$ là hàm lồi và $$w_1, \dots, w_n \ge 0$$ là các trọng số không âm thỏa mãn $$\sum_{i=1}^{n} w_i = 1$$. Khi đó, với mọi $$x_1, \dots, x_n \in \text{dom} f$$:
 
 $$\sum_{i=1}^{n} w_i f(x_i) \geq f \left ( \sum_{i=1}^{n} w_i x_i \right )$$
 
-
-Nếu một hàm $$f$$ lồi, nó thỏa mãn bất đẳng thức sau:
+Trong trường hợp hai điểm, bất đẳng thức này trở về dạng quen thuộc:
 >$$f(tx_1 + (1 - t)x_2) \le tf(x_1) + (1 - t)f(x_2) \text{ với } 0 \le t \le 1 $$
 
->*Mở rộng*:<br>
->$$X$$ là một biến ngẫu nhiên được hỗ trợ trên $$\text{dom } f$$, thì $$f(E[X]) \le E[f(X)]$$
+>*Mở rộng xác suất:*<br>
+>Nếu $$X$$ là biến ngẫu nhiên nhận giá trị trong $$\text{dom } f$$ thì $$f(E[X]) \le E[f(X)]$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -96,30 +85,23 @@ Nếu một hàm $$f$$ lồi, nó thỏa mãn bất đẳng thức sau:
 </p>
 </figure>
 
-### **Bất đẳng thức Jensen có phải chính xác là định nghĩa của hàm lồi không?** 
+### **Bất đẳng thức Jensen có trùng với định nghĩa hàm lồi không?**
 
-Câu trả lời là không—Bất đẳng thức Jensen là một hệ quả và sự tổng quát hóa của định nghĩa tính lồi, chứ không phải là định nghĩa.
+Không hoàn toàn — bất đẳng thức Jensen là hệ quả và là dạng tổng quát hóa của định nghĩa hàm lồi:
 
-- Điều này mở rộng trường hợp hai điểm ($$k=2$$) trong định nghĩa thành bất kỳ số hữu hạn điểm (và có thể được tổng quát hóa thêm thành tích phân cho các đo lường xác suất).
-- **Tại sao đây là một sự tổng quát hóa:** Định nghĩa cơ bản là cho hai điểm (tổ hợp lồi nhị phân). Jensen áp dụng nó một cách lặp đi lặp lại cho nhiều điểm hơn. Ví dụ:
-  - Với $$k=2$$, Jensen rút gọn chính xác thành định nghĩa.
-  - Với $$k=3$$, bạn có thể áp dụng định nghĩa một cách đệ quy: Trước tiên kết hợp hai điểm, sau đó với điểm thứ ba.
+- Định nghĩa hàm lồi chỉ xét tổ hợp lồi của hai điểm ($$k=2$$), còn bất đẳng thức Jensen mở rộng cho số điểm hữu hạn bất kỳ và sang dạng tích phân / kỳ vọng đối với độ đo xác suất.
+- Với $$k=2$$, bất đẳng thức Jensen trùng khớp với định nghĩa hàm lồi; với $$k \ge 3$$, ta suy ra nó bằng quy nạp từ trường hợp hai điểm.
 
 ---
-### Ví dụ ngắn
 
-Hãy sử dụng hàm lồi $$f(x) = x^2$$.
-Xem xét hai số: $$x_1 = 1$$ và $$x_2 = 3$$.
-Chúng ta muốn so sánh $$f\left(\frac{x_1+x_2}{2}\right)$$ với $$\frac{f(x_1)+f(x_2)}{2}$$.
+### Ví dụ minh họa
 
-1.  **Tính hàm của giá trị trung bình:**
-    Giá trị trung bình của $$x_1$$ và $$x_2$$ là $$\frac{1+3}{2} = \frac{4}{2} = 2$$.
-    Áp dụng hàm: $$f(2) = 2^2 = 4$$.
+Xét hàm lồi $$f(x) = x^2$$ với hai điểm $$x_1 = 1$$ và $$x_2 = 3$$. Ta so sánh $$f\left(\frac{x_1+x_2}{2}\right)$$ và $$\frac{f(x_1)+f(x_2)}{2}$$:
 
-2.  **Tính giá trị trung bình của các giá trị hàm:**
-    $$f(x_1) = f(1) = 1^2 = 1$$.
-    $$f(x_2) = f(3) = 3^2 = 9$$.
-    Giá trị trung bình của các giá trị hàm này là $$\frac{1+9}{2} = \frac{10}{2} = 5$$.
+1. **Giá trị hàm tại trung bình cộng:**
+   Trung bình cộng là $$\frac{1+3}{2} = 2$$, nên $$f(2) = 2^2 = 4$$.
 
-So sánh hai kết quả: $$4 \le 5$$.
-Điều này minh họa bất đẳng thức Jensen: $$f\left(\frac{1+3}{2}\right) \le \frac{f(1)+f(3)}{2}$$.
+2. **Trung bình cộng của các giá trị hàm:**
+   Ta có $$f(1) = 1$$ và $$f(3) = 9$$, nên trung bình cộng là $$\frac{1+9}{2} = 5$$.
+
+So sánh hai giá trị cho thấy $$4 \le 5$$, đúng với bất đẳng thức Jensen: $$f\left(\frac{1+3}{2}\right) \le \frac{f(1)+f(3)}{2}$$.

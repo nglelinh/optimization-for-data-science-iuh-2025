@@ -10,19 +10,19 @@ lang: vi
 lesson_type: optional
 ---
 
-Chương 05 phân loại chương trình lồi theo *dáng* mục tiêu và các nón trong ràng buộc: LP, QP, QCQP, SOCP, SDP và quy hoạch hình học. Phân loại đó cũng là API của ngôn ngữ mô hình hóa. Bài này xem ba chỗ các dạng chuẩn ấy là đối tượng sản xuất 2022–2026 — một bộ giải điểm trong hiện đại đi kèm CVXPY, các QP danh mục bạn backtest được, và nới SDP chứng nhận mạng nơ-ron — cùng lời nhắc rằng Lasso và khôi phục thưa vẫn là QP (hoặc QP dạng mở rộng) bạn nên mô hình, không nên tự viết tay.
+Chương 05 phân loại các bài toán tối ưu hóa lồi theo cấu trúc hàm mục tiêu và các loại nón trong ràng buộc: LP, QP, QCQP, SOCP, SDP và quy hoạch hình học. Hệ phân loại này cũng chính là giao diện nền tảng của các ngôn ngữ mô hình hóa tối ưu hiện đại. Bài học này điểm qua ba ứng dụng thực tiễn tiêu biểu trong giai đoạn 2022–2026 — bộ giải điểm trong thế hệ mới tích hợp sẵn trong CVXPY, bài toán QP tối ưu hóa danh mục đầu tư có thể kiểm thử trên dữ liệu lịch sử, và kỹ thuật nới lỏng SDP để kiểm chứng độ bền vững của mạng nơ-ron — kèm theo nhận xét về vai trò của dạng QP chuẩn trong bài toán Lasso và khôi phục thưa.
 
-Bạn đã có lab DCP/CVXPY ở [05-07]({% multilang_post_url contents/chapter05/2026-09-15-05_07_Modeling_with_DCP_CVXPY %}). Coi bài này là phần bạn đồng hành *vì sao các nón này*.
+Phần thực hành DCP/CVXPY đã được trình bày ở bài [05-07]({% multilang_post_url contents/chapter05/2026-09-15-05_07_Modeling_with_DCP_CVXPY %}); bài này bổ sung góc nhìn về lý do các lớp nón chuẩn đó quan trọng trong thực tế.
 
-## Clarabel: động cơ điểm trong 2024 cho cả phân loại
+## Clarabel: Bộ giải điểm trong hiện đại cho các bài toán nón
 
-Goulart và Chen (*Clarabel: An interior-point solver for conic programs with quadratic objectives*, [arXiv:2405.12762](https://arxiv.org/abs/2405.12762), 2024; tài liệu [clarabel.org](https://clarabel.org/); [trang trích dẫn](https://oxfordcontrol.github.io/ClarabelDocs/stable/citing/)) xây phương pháp điểm trong nhúng thuần nhất cho chương trình lồi với ràng buộc nón và mục tiêu toàn phương. Bộ giải nói các nón mà chương này đã đặt tên — không âm, bậc hai, nửa xác định (kèm phân rã chordal), và một số nón không đối xứng — và được phân phối như bộ giải chuẩn trong CVXPY. Hồ sơ số của họ đặc biệt mạnh trên QP so với vài mã nguồn mở và thương mại.
+Goulart và Chen (*Clarabel: An interior-point solver for conic programs with quadratic objectives*, [arXiv:2405.12762](https://arxiv.org/abs/2405.12762), 2024; tài liệu [clarabel.org](https://clarabel.org/); [trang trích dẫn](https://oxfordcontrol.github.io/ClarabelDocs/stable/citing/)) xây dựng phương pháp điểm trong nhúng thuần nhất cho các bài toán quy hoạch nón có hàm mục tiêu bậc hai. Bộ giải hỗ trợ trực tiếp các loại nón đã học trong chương này — nón không âm, nón bậc hai, nón nửa xác định (có hỗ trợ phân rã chordal) và một số nón không đối xứng — đồng thời được tích hợp làm bộ giải mặc định trong CVXPY. Kết quả thực nghiệm cho thấy Clarabel đạt hiệu năng cao trên các bài toán QP so với nhiều bộ giải mã nguồn mở và thương mại.
 
-Điểm sư phạm rất thẳng: một khi mô hình DCP đã chuẩn hóa, bạn không còn “làm Lasso bằng Python.” Bạn đang đưa một chương trình nón cho một IPM. Đổi `solver=cp.CLARABEL` versus `cp.OSQP` versus `cp.SCS` là thí nghiệm trên *dạng chuẩn + thuật toán*, không phải viết lại khoa học. OSQP (Stellato, Banjac, O’Donoghue, Bemporad và Boyd, *Math. Prog. Comp.* 2020) vẫn là bộ giải QP cấp một đầu tiên cho nhiều QP điều khiển và danh mục; Clarabel là đối tác điểm trong 2024 bạn cần biết tên.
+Điểm đáng chú ý về mặt thực hành là: khi mô hình đã được chuẩn hóa theo DCP, ta không cần tự cài đặt thuật toán giải Lasso bằng tay mà chỉ cần chuyển bài toán quy hoạch nón chuẩn cho một bộ giải điểm trong (IPM). Việc chuyển đổi giữa `solver=cp.CLARABEL`, `cp.OSQP` hay `cp.SCS` thực chất là so sánh hiệu quả của các thuật toán trên cùng một dạng chuẩn. OSQP (Stellato, Banjac, O’Donoghue, Bemporad và Boyd, *Math. Prog. Comp.* 2020) vẫn là lựa chọn bậc nhất quen thuộc cho nhiều bài toán QP điều khiển và tài chính, còn Clarabel là bộ giải điểm trong hiện đại tiêu biểu của năm 2024.
 
-## Xây danh mục như QP có thể đưa vào vận hành
+## Tối ưu hóa danh mục đầu tư dưới dạng QP thực tế
 
-Phân bổ trung bình–phương sai Markowitz là QP
+Bài toán phân bổ danh mục trung bình–phương sai của Markowitz là một bài toán QP:
 
 $$
 \begin{align}
@@ -31,25 +31,25 @@ $$
 \end{align}
 $$
 
-với $$\mathcal{X}$$ là polytope long-only, đòn bẩy, hoặc giới hạn doanh số. Boyd, Busseti, Diamond, Kahn, Koh, Nystrup và Speth (*Multi-Period Trading via Convex Optimization*, [*Found. Trends Optim.* 2017](https://stanford.edu/~boyd/papers/cvx_portfolio.html)) đặt phiên bản một kỳ và nhiều kỳ của QP này — cộng chi phí giao dịch và nắm giữ — trong một khung. Thư viện kèm [cvxportfolio](https://www.cvxportfolio.com/) (vẫn được duy trì giữa thập niên 2020, tài liệu hiện tại v1.5) là cách *chạy* bài báo đó trên dữ liệu thị trường gần đây: chính sách `SinglePeriodOptimization` / `MultiPeriodOptimization` trong `StockMarketSimulator`.
+trong đó $$\mathcal{X}$$ là tập đa diện biểu diễn các ràng buộc như không bán khống (long-only), giới hạn đòn bẩy hoặc giới hạn vòng quay danh mục. Boyd, Busseti, Diamond, Kahn, Koh, Nystrup và Speth (*Multi-Period Trading via Convex Optimization*, [*Found. Trends Optim.* 2017](https://stanford.edu/~boyd/papers/cvx_portfolio.html)) mở rộng mô hình QP này cho cả bài toán một kỳ và nhiều kỳ có tính đến chi phí giao dịch và chi phí nắm giữ. Thư viện đi kèm [cvxportfolio](https://www.cvxportfolio.com/) (tiếp tục được bảo trì đến giữa thập niên 2020, phiên bản v1.5) cho phép kiểm thử trực tiếp các chiến lược `SinglePeriodOptimization` và `MultiPeriodOptimization` trên dữ liệu thị trường thực tế thông qua `StockMarketSimulator`.
 
-Chuyên khảo 2017 cũ hơn 2022; lý do nó thuộc đây là *dạng chuẩn* chưa bị thay, chỉ stack bộ giải (OSQP / Clarabel) và API phần mềm thay đổi. Nếu cần đối tác khoa học 2022–2023, danh mục DRO Wasserstein (Gao và Kleywegt, [*Math. Oper. Res.* 2023](https://doi.org/10.1287/moor.2022.1275); xem Chương 02) là QP hoặc SOCP sau khi viết đối ngẫu.
+Dù chuyên khảo gốc công bố năm 2017, mô hình QP chuẩn vẫn giữ nguyên giá trị nền tảng, trong khi hệ sinh thái bộ giải (OSQP, Clarabel) và phần mềm mô phỏng liên tục được cập nhật. Với hướng mở rộng bền vững theo phân phối (DRO) dùng khoảng cách Wasserstein gần đây hơn (Gao và Kleywegt, [*Math. Oper. Res.* 2023](https://doi.org/10.1287/moor.2022.1275); xem Chương 02), bài toán sau khi lấy đối ngẫu cũng quy về dạng QP hoặc SOCP.
 
-## Nới SDP cho kiểm chứng mạng nơ-ron
+## Nới lỏng SDP trong kiểm chứng mạng nơ-ron
 
-Hỏi một mạng ReLU có vững địa phương không — “không nhiễu bán kính $$\varepsilon$$ nào đổi lớp dự đoán” — là bài khả thi không lồi. Thay tích các kích hoạt bằng ma trận moment nửa xác định dương cho một *nới* SDP (cùng ý nới như 04-08, nay trong nón SDP của 05-05). Lan, Zheng và Lomuscio (*Tight Neural Network Verification via Semidefinite Relaxations and Linear Reformulations*, [AAAI 2022](https://doi.org/10.1609/aaai.v36i7.20689)) kết hợp SDP theo lớp với lát cắt reformulation-linearization (RLT) và báo cáo tăng lớn tỷ lệ chứng nhận vững trên mạng MNIST (ví dụ từ 0% lên 82% chứng nhận trên mạng ~10k nút trong bảng của họ). SDP theo lớp cộng lát cắt tam giác sớm hơn nằm ở Batten, Kouvaros, Lomuscio và Zheng ([IJCAI 2021](https://doi.org/10.24963/ijcai.2021/301)).
+Bài toán kiểm tra độ bền vững cục bộ của mạng nơ-ron ReLU — xác minh rằng không có nhiễu đầu vào trong bán kính $$\varepsilon$$ nào làm thay đổi nhãn dự đoán — vốn là một bài toán khả thi không lồi. Bằng cách thay tích của các đầu ra kích hoạt bằng một ma trận mô-men nửa xác định dương, ta thu được một bài toán *nới lỏng* SDP (kết hợp ý tưởng nới lỏng ở bài 04-08 với nón SDP của bài 05-05). Lan, Zheng và Lomuscio (*Tight Neural Network Verification via Semidefinite Relaxations and Linear Reformulations*, [AAAI 2022](https://doi.org/10.1609/aaai.v36i7.20689)) kết hợp nới lỏng SDP theo từng lớp với các lát cắt tuyến tính hóa (RLT), giúp tăng mạnh tỉ lệ chứng nhận bền vững trên mạng MNIST (chẳng hạn tăng từ 0% lên 82% trên mạng khoảng 10 nghìn nút trong thực nghiệm của họ). Trước đó, hướng nới lỏng SDP theo lớp kết hợp lát cắt tam giác cũng đã được Batten, Kouvaros, Lomuscio và Zheng giới thiệu tại [IJCAI 2021](https://doi.org/10.24963/ijcai.2021/301).
 
-Bạn sẽ không giải SDP cỡ ImageNet trong môn này. Bạn *sẽ* nhận ra khuôn mẫu: ràng buộc tổ hợp hoặc song tuyến được thay bằng $$X\succeq 0$$ cộng đẳng thức tuyến tính, và một bộ giải cho lớp SDP của Chương 05 hoặc chứng nhận tính chất hoặc trả về một chặn.
+Mặc dù khó áp dụng SDP trực tiếp cho các mạng cỡ ImageNet, khuôn mẫu mô hình hóa ở đây rất rõ ràng: các ràng buộc tổ hợp hoặc song tuyến được thay bằng điều kiện $$X\succeq 0$$ kèm các đẳng thức tuyến tính, sau đó bộ giải SDP của Chương 05 sẽ giúp chứng nhận tính chất hoặc đưa ra chặn chặt.
 
-## Khôi phục thưa vẫn là QP chuẩn
+## Khôi phục thưa vẫn dựa trên nền tảng QP chuẩn
 
-Lasso
+Bài toán Lasso:
 
 $$
 \min_x \tfrac12\|Ax-b\|_2^2 + \lambda \|x\|_1
 $$
 
-là công cụ khôi phục thưa trong ảnh y và thống kê chiều cao. Trong CVXPY chỉ vài nguyên tử (xem 05-07). *Khoa học* sau 2021 thường là *bung* vòng lặp proximal-gradient của QP đó thành mạng (Monga, Li và Eldar, “Algorithm Unrolling,” [*IEEE Signal Processing Magazine*, 2021](https://doi.org/10.1109/MSP.2020.3016905)) để bước và từ điển trở thành huấn luyện được. Đối tượng trong vẫn là cùng QP. Nếu viết được Lasso như QP với slack, bạn đọc được bài ISTA đã bung mà không cần lý thuyết mới.
+là công cụ quen thuộc cho bài toán khôi phục thưa trong xử lý ảnh y khoa và thống kê chiều cao, đồng thời dễ dàng biểu diễn trong CVXPY bằng vài hàm nguyên tử (xem bài 05-07). Nhiều nghiên cứu sau năm 2021 phát triển hướng *khai triển thuật toán* (algorithm unrolling), chuyển các bước lặp hạ gradient cận kề (như ISTA) của bài toán QP này thành các lớp mạng nơ-ron có thể học bước nhảy và từ điển từ dữ liệu (Monga, Li và Eldar, “Algorithm Unrolling,” [*IEEE Signal Processing Magazine*, 2021](https://doi.org/10.1109/MSP.2020.3016905)). Tuy vậy, cấu trúc toán học cốt lõi vẫn là cùng một bài toán QP; nắm vững cách viết Lasso về dạng QP với biến phụ giúp người học tiếp cận các mô hình ISTA khai triển một cách trực tiếp.
 
 ## Nguồn
 

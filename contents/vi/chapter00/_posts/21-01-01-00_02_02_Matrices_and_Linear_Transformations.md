@@ -10,15 +10,15 @@ categories:
 lesson_type: required
 ---
 
-Bài học này bao gồm ma trận, các phép toán ma trận, và phép biến đổi tuyến tính, là những công cụ cơ bản để biểu diễn và giải quyết các bài toán tối ưu hóa.
+Bài học này trình bày về ma trận, các phép toán trên ma trận và phép biến đổi tuyến tính — những công cụ cơ bản để biểu diễn và giải các bài toán tối ưu hóa.
 
 ---
 
-## Ma trận và Các Phép toán Ma trận
+## Ma trận và các phép toán ma trận
 
 ### Ma trận là gì?
 
-Một **ma trận** (matrix) là một lưới số hình chữ nhật được sắp xếp theo hàng và cột. Ma trận biểu diễn dữ liệu, các phép biến đổi, hệ phương trình và quan hệ giữa các biến.
+Một **ma trận** (matrix) là một bảng số hình chữ nhật gồm các phần tử sắp xếp theo hàng và cột. Ma trận được dùng để biểu diễn dữ liệu, phép biến đổi, hệ phương trình và mối quan hệ giữa các biến.
 
 **Dạng tổng quát:**
 $$\mathbf{A} = \begin{pmatrix} 
@@ -28,14 +28,14 @@ a_{21} & a_{22} & \cdots & a_{2n} \\
 a_{m1} & a_{m2} & \cdots & a_{mn}
 \end{pmatrix}$$
 
-Đây là ma trận $$m \times n$$ ($$m$$ hàng, $$n$$ cột).
+Đây là ma trận cỡ $$m \times n$$ ($$m$$ hàng, $$n$$ cột).
 
 **Ví dụ:**
-$$\mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$$ là ma trận $$2 \times 3$$.
+$$\mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$$ là ma trận cỡ $$2 \times 3$$.
 
 ### Phép cộng ma trận
 
-Hai ma trận được cộng bằng cách cộng các phần tử tương ứng. Cả hai ma trận phải có cùng kích thước.
+Hai ma trận cùng kích thước được cộng bằng cách cộng từng cặp phần tử ở vị trí tương ứng:
 
 $$\mathbf{A} + \mathbf{B} = \begin{pmatrix} a_{11} + b_{11} & a_{12} + b_{12} \\ a_{21} + b_{21} & a_{22} + b_{22} \end{pmatrix}$$
 
@@ -44,35 +44,35 @@ $$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} + \begin{pmatrix} 5 & 6 \\ 7 & 8 
 
 ### Phép nhân vô hướng
 
-Nhân mọi phần tử của ma trận với vô hướng:
+Nhân mọi phần tử của ma trận với một số vô hướng $$c$$:
 
 $$c\mathbf{A} = \begin{pmatrix} ca_{11} & ca_{12} \\ ca_{21} & ca_{22} \end{pmatrix}$$
 
 ### Phép nhân ma trận
 
-Với các ma trận $$\mathbf{A}_{m \times n}$$ và $$\mathbf{B}_{n \times p}$$, tích $$\mathbf{C}_{m \times p}$$ được tạo bằng cách lấy tích vô hướng của các hàng của $$\mathbf{A}$$ với các cột của $$\mathbf{B}$$:
+Với hai ma trận $$\mathbf{A}_{m \times n}$$ và $$\mathbf{B}_{n \times p}$$, ma trận tích $$\mathbf{C}_{m \times p} = \mathbf{AB}$$ có phần tử ở hàng $$i$$, cột $$j$$ bằng tích vô hướng của hàng $$i$$ của $$\mathbf{A}$$ với cột $$j$$ của $$\mathbf{B}$$:
 
 $$c_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj}$$
 
 **Ví dụ:**
 $$\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} \begin{pmatrix} 5 & 6 \\ 7 & 8 \end{pmatrix} = \begin{pmatrix} 1 \cdot 5 + 2 \cdot 7 & 1 \cdot 6 + 2 \cdot 8 \\ 3 \cdot 5 + 4 \cdot 7 & 3 \cdot 6 + 4 \cdot 8 \end{pmatrix} = \begin{pmatrix} 19 & 22 \\ 43 & 50 \end{pmatrix}$$
 
-**Quan trọng:** Phép nhân ma trận **không giao hoán**: nói chung $$\mathbf{AB} \neq \mathbf{BA}$$.
+**Lưu ý:** Phép nhân ma trận **không có tính giao hoán** — nói chung $$\mathbf{AB} \neq \mathbf{BA}$$.
 
 ---
 
 ## Phép biến đổi tuyến tính
 
-Một **phép biến đổi tuyến tính** là hàm $$T: \mathbb{R}^n \to \mathbb{R}^m$$ bảo toàn phép cộng vector và phép nhân vô hướng. Mọi phép biến đổi tuyến tính đều có thể biểu diễn bằng một ma trận.
+Một **phép biến đổi tuyến tính** là ánh xạ $$T: \mathbb{R}^n \to \mathbb{R}^m$$ bảo toàn phép cộng vector và phép nhân vô hướng. Mọi phép biến đổi tuyến tính giữa các không gian hữu hạn chiều đều có thể biểu diễn bằng một ma trận.
 
 ### Định nghĩa
 
-Phép biến đổi $$T(\mathbf{v}) = \mathbf{Av}$$ là tuyến tính khi và chỉ khi:
+Ánh xạ $$T(\mathbf{v}) = \mathbf{Av}$$ là tuyến tính khi và chỉ khi:
 
-1. **Tính cộng tính:** $$T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$$
+1. **Tính cộng:** $$T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$$
 2. **Tính thuần nhất:** $$T(c\mathbf{v}) = cT(\mathbf{v})$$
 
-Hai tính chất này có thể gộp thành: $$T(c_1\mathbf{u} + c_2\mathbf{v}) = c_1T(\mathbf{u}) + c_2T(\mathbf{v})$$
+Hai điều kiện trên có thể gộp thành một điều kiện tương đương: $$T(c_1\mathbf{u} + c_2\mathbf{v}) = c_1T(\mathbf{u}) + c_2T(\mathbf{v})$$.
 
 ### Phép nhân ma trận với vector
 
@@ -92,30 +92,29 @@ $$\begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix} \begin{pmatrix} 4 \\ 5 \end{pmatr
 
 ## Các phép biến đổi 2D thường gặp
 
-Hiểu các phép biến đổi hình học giúp hình dung ma trận tác động lên vector như thế nào.
+Quan sát các phép biến đổi hình học trong mặt phẳng giúp hình dung rõ cách ma trận tác động lên vector.
 
 ### Phép co giãn (Scaling)
 
 **Ma trận co giãn:**
 $$\mathbf{S} = \begin{pmatrix} s_x & 0 \\ 0 & s_y \end{pmatrix}$$
 
-- Co giãn tọa độ x với hệ số $$s_x$$ và tọa độ y với hệ số $$s_y$$
-- **Ví dụ:** $$\begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix}$$ nhân đôi giá trị x và nhân ba giá trị y
+- Co giãn tọa độ $$x$$ theo hệ số $$s_x$$ và tọa độ $$y$$ theo hệ số $$s_y$$.
+- **Ví dụ:** $$\begin{pmatrix} 2 & 0 \\ 0 & 3 \end{pmatrix}$$ nhân đôi tọa độ $$x$$ và nhân ba tọa độ $$y$$.
 
 ### Phép quay (Rotation)
 
-**Ma trận quay (ngược chiều kim đồng hồ một góc $$\theta$$):**
+**Ma trận quay ngược chiều kim đồng hồ một góc $$\theta$$:**
 $$\mathbf{R} = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
 
-- **Ví dụ:** phép quay 90°: $$\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$$
-- Biến đổi $$(x, y) \mapsto (-y, x)$$
+- **Ví dụ:** phép quay $$90°$$ có ma trận $$\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$$, biến điểm $$(x, y)$$ thành $$(-y, x)$$.
 
 ### Phép phản xạ (Reflection)
 
-**Phản xạ qua trục x:**
+**Phản xạ qua trục $$x$$:**
 $$\mathbf{F}_x = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$$
 
-**Phản xạ qua trục y:**
+**Phản xạ qua trục $$y$$:**
 $$\mathbf{F}_y = \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}$$
 
 **Phản xạ qua đường thẳng $$y = x$$:**
@@ -126,7 +125,7 @@ $$\mathbf{F}_{y=x} = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$$
 **Trượt ngang:**
 $$\mathbf{H} = \begin{pmatrix} 1 & k \\ 0 & 1 \end{pmatrix}$$
 
-Biến đổi $$(x, y) \mapsto (x + ky, y)$$
+Biến điểm $$(x, y)$$ thành $$(x + ky, y)$$.
 
 ---
 
@@ -134,7 +133,7 @@ Biến đổi $$(x, y) \mapsto (x + ky, y)$$
 
 ### Ma trận đơn vị
 
-**Ma trận đơn vị** $$\mathbf{I}$$ đóng vai trò như số 1 đối với phép nhân ma trận:
+**Ma trận đơn vị** $$\mathbf{I}$$ đóng vai trò phần tử đơn vị (tương tự số 1) đối với phép nhân ma trận:
 
 $$\mathbf{I}_n = \begin{pmatrix} 
 1 & 0 & \cdots & 0 \\
@@ -143,11 +142,11 @@ $$\mathbf{I}_n = \begin{pmatrix}
 0 & 0 & \cdots & 1
 \end{pmatrix}$$
 
-**Tính chất:** $$\mathbf{AI} = \mathbf{IA} = \mathbf{A}$$ với mọi ma trận $$\mathbf{A}$$ tương thích.
+**Tính chất:** $$\mathbf{AI} = \mathbf{IA} = \mathbf{A}$$ với mọi ma trận $$\mathbf{A}$$ có kích thước tương thích.
 
 ### Ma trận chuyển vị
 
-**Chuyển vị** $$\mathbf{A}^T$$ lật ma trận qua đường chéo chính:
+**Chuyển vị** $$\mathbf{A}^T$$ thu được bằng cách đổi hàng thành cột (lật ma trận qua đường chéo chính):
 
 $$\text{Nếu } \mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}, \text{ thì } \mathbf{A}^T = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix}$$
 
@@ -158,62 +157,62 @@ $$\text{Nếu } \mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix
 
 ### Ma trận đối xứng
 
-Một ma trận là **đối xứng** nếu $$\mathbf{A} = \mathbf{A}^T$$:
+Một ma trận vuông là **đối xứng** nếu $$\mathbf{A} = \mathbf{A}^T$$:
 
 $$\mathbf{A} = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 5 \\ 3 & 5 & 6 \end{pmatrix}$$
 
-Ma trận đối xứng có những tính chất đặc biệt quan trọng trong tối ưu hóa.
+Ma trận đối xứng có nhiều tính chất đặc biệt (như giá trị riêng thực và khả năng chéo hóa trực giao) rất quan trọng trong tối ưu hóa.
 
 ### Ma trận nghịch đảo
 
-**Nghịch đảo** $$\mathbf{A}^{-1}$$ của một ma trận vuông $$\mathbf{A}$$ thỏa mãn:
+**Ma trận nghịch đảo** $$\mathbf{A}^{-1}$$ của ma trận vuông $$\mathbf{A}$$ thỏa mãn:
 
 $$\mathbf{A}\mathbf{A}^{-1} = \mathbf{A}^{-1}\mathbf{A} = \mathbf{I}$$
 
-**Với ma trận 2×2:**
+**Với ma trận $$2 \times 2$$:**
 $$\mathbf{A}^{-1} = \frac{1}{\det(\mathbf{A})} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$$
 
 trong đó $$\mathbf{A} = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$$ và $$\det(\mathbf{A}) = ad - bc$$.
 
-**Lưu ý:** Không phải ma trận nào cũng có nghịch đảo. Một ma trận **khả nghịch** (không suy biến) khi và chỉ khi định thức của nó khác không.
+**Lưu ý:** Không phải ma trận vuông nào cũng có nghịch đảo. Một ma trận **khả nghịch** (không suy biến) khi và chỉ khi định thức của nó khác không.
 
 ---
 
 ## Ứng dụng trong tối ưu hóa
 
-Ma trận và phép biến đổi tuyến tính là nền tảng của tối ưu hóa vì nhiều lý do:
+Ma trận và phép biến đổi tuyến tính xuất hiện xuyên suốt các bài toán tối ưu hóa:
 
 ### 1. Hệ phương trình tuyến tính
 
-Nhiều bài toán tối ưu hóa liên quan đến việc giải $$\mathbf{Ax} = \mathbf{b}$$:
-- **Nghiệm duy nhất:** $$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$ (khi $$\mathbf{A}$$ khả nghịch)
-- **Bình phương tối thiểu:** cực tiểu hóa $$\|\mathbf{Ax} - \mathbf{b}\|^2$$ khi không có nghiệm chính xác
+Nhiều bài toán tối ưu hóa quy về việc giải hệ $$\mathbf{Ax} = \mathbf{b}$$:
+- **Nghiệm duy nhất:** $$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$ (khi $$\mathbf{A}$$ vuông và khả nghịch).
+- **Bình phương tối thiểu:** cực tiểu hóa $$\|\mathbf{Ax} - \mathbf{b}\|^2$$ khi hệ không có nghiệm chính xác.
 
 ### 2. Dạng toàn phương
 
-Các hàm toàn phương xuất hiện thường xuyên trong tối ưu hóa:
+Các hàm toàn phương rất phổ biến trong tối ưu hóa:
 $$f(\mathbf{x}) = \mathbf{x}^T\mathbf{Q}\mathbf{x} + \mathbf{c}^T\mathbf{x} + d$$
 
-Ma trận $$\mathbf{Q}$$ quyết định tính chất độ cong của hàm.
+Ma trận $$\mathbf{Q}$$ quyết định độ cong và tính lồi của hàm số.
 
 ### 3. Quy hoạch tuyến tính
 
-Dạng chuẩn: cực tiểu hóa $$\mathbf{c}^T\mathbf{x}$$ với điều kiện $$\mathbf{Ax} = \mathbf{b}$$, $$\mathbf{x} \geq \mathbf{0}$$
+Dạng chuẩn: cực tiểu hóa $$\mathbf{c}^T\mathbf{x}$$ với điều kiện $$\mathbf{Ax} = \mathbf{b}$$, $$\mathbf{x} \geq \mathbf{0}$$.
 
 ### 4. Biểu diễn ràng buộc
 
 - **Ràng buộc đẳng thức:** $$\mathbf{Ax} = \mathbf{b}$$
 - **Ràng buộc bất đẳng thức:** $$\mathbf{Ax} \leq \mathbf{b}$$
 
-### 5. Phép biến đổi biến
+### 5. Phép đổi biến
 
-Đổi biến $$\mathbf{y} = \mathbf{T}\mathbf{x}$$ có thể đơn giản hóa các bài toán tối ưu hóa.
+Áp dụng phép đổi biến tuyến tính $$\mathbf{y} = \mathbf{T}\mathbf{x}$$ có thể đơn giản hóa cấu trúc của bài toán tối ưu hóa.
 
 ### Ví dụ: Tối ưu danh mục đầu tư
 
-Trong tài chính, ta có thể cực tiểu hóa rủi ro của danh mục:
+Trong tài chính định lượng, bài toán cực tiểu hóa rủi ro danh mục có dạng:
 $$\text{cực tiểu hóa } \mathbf{w}^T\mathbf{\Sigma}\mathbf{w}$$
 
-trong đó $$\mathbf{w}$$ là vector trọng số của danh mục và $$\mathbf{\Sigma}$$ là ma trận hiệp phương sai của lợi suất các tài sản.
+trong đó $$\mathbf{w}$$ là vector trọng số phân bổ vốn và $$\mathbf{\Sigma}$$ là ma trận hiệp phương sai lợi suất của các tài sản.
 
-Hiểu về ma trận và phép biến đổi tuyến tính cung cấp công cụ để xây dựng, phân tích và giải hiệu quả nhiều bài toán tối ưu hóa.
+Nắm vững ma trận và phép biến đổi tuyến tính cung cấp nền tảng để mô hình hóa, phân tích và giải hiệu quả nhiều bài toán tối ưu hóa.

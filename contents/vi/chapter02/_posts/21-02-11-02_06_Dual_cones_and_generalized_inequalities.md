@@ -9,4 +9,4 @@ categories:
 lang: vi
 ---
 
-Phần này thảo luận về hình nón đối ngẫu được ghép đôi với hình nón, và bất đẳng thức tổng quát đối ngẫu. Sử dụng bất đẳng thức tổng quát đối ngẫu cho phép so sánh bằng cách sử dụng tích vô hướng, làm cho việc so sánh trở nên dễ dàng hơn nhiều.
+Phần này giới thiệu khái niệm hình nón đối ngẫu gắn với mỗi hình nón và bất đẳng thức tổng quát đối ngẫu tương ứng. Nhờ bất đẳng thức tổng quát đối ngẫu, ta có thể chuyển việc so sánh theo thứ tự hình nón về so sánh các tích vô hướng, giúp việc phân tích trở nên thuận tiện hơn nhiều.

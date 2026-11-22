@@ -43,8 +43,8 @@ $$\begin{aligned}
 - **Điểm khả thi:** $$x$$ thỏa mãn tất cả ràng buộc
 - **Giá trị tối ưu:** $$f^* = \min\{f(x) \mid x \text{ khả thi}\}$$
 - **Nghiệm tối ưu:** $$x^*$$ khả thi và $$f(x^*) = f^*$$
-- **$$\epsilon$$-dưới tối ưu:** $$x$$ khả thi và $$f(x) \le f^* + \epsilon$$
-- **Ràng buộc hoạt động:** $$g_i(x^*) = 0$$ tại nghiệm tối ưu
+- **$$\epsilon$$-cận tối ưu (dưới tối ưu):** $$x$$ khả thi và $$f(x) \le f^* + \epsilon$$
+- **Ràng buộc tích cực (hoạt động):** $$g_i(x^*) = 0$$ tại nghiệm tối ưu
 
 **Tập khả thi:**
 $$S = \{x \in D \mid g_i(x) \le 0, h_j(x) = 0\}$$
@@ -100,23 +100,23 @@ $$\begin{aligned}
 \end{aligned}$$
 
 **Ý nghĩa:**
-- $$s_i > 0$$: ràng buộc $$i$$ không hoạt động
-- $$s_i = 0$$: ràng buộc $$i$$ hoạt động (chặt)
+- $$s_i > 0$$: ràng buộc $$i$$ không tích cực (không hoạt động)
+- $$s_i = 0$$: ràng buộc $$i$$ tích cực (chặt)
 
 **Lưu ý:** Chỉ bảo toàn tính lồi khi $$g_i(x)$$ là hàm affine
 
-### 🔧 **Làm Giản (Relaxation)**
+### 🔧 **Nới Lỏng (Relaxation / Làm Giản)**
 
 <div class="textbook-definition" markdown="1">
 **Định nghĩa:** Thay thế tập khả thi $$C$$ bằng siêu tập $$\tilde{C} \supseteq C$$
 </div>
 
 **Bài toán gốc:** $$\min_x f(x)$$ s.t. $$x \in C$$
-**Bài toán làm giản:** $$\min_x f(x)$$ s.t. $$x \in \tilde{C}$$
+**Bài toán nới lỏng:** $$\min_x f(x)$$ s.t. $$x \in \tilde{C}$$
 
-**Tính chất:** Giá trị tối ưu của bài toán làm giản $$\le$$ giá trị tối ưu gốc
+**Tính chất:** Giá trị tối ưu của bài toán nới lỏng $$\le$$ giá trị tối ưu gốc
 
-**Ví dụ quan trọng:** Làm giản ràng buộc đẳng thức
+**Ví dụ quan trọng:** Nới lỏng ràng buộc đẳng thức
 $$h_j(x) = 0 \quad \Rightarrow \quad h_j(x) \le 0$$
 
 **Ứng dụng:** Chuyển bài toán phi lồi thành lồi (khi $$h_j$$ lồi nhưng phi-affine)
@@ -140,7 +140,7 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$\text{range}(F) = \text{null}(A)$$
 | Kỹ thuật | Mục đích | Ưu điểm | Nhược điểm |
 |----------|----------|---------|------------|
 | **Biến phụ** | Chuyển bất đẳng thức → đẳng thức | Đơn giản hóa thuật toán | Tăng số biến |
-| **Làm giản** | Mở rộng tập khả thi | Chuyển phi lồi → lồi | Nghiệm có thể không chính xác |
+| **Nới lỏng (làm giản)** | Mở rộng tập khả thi | Chuyển phi lồi → lồi | Nghiệm có thể không khả thi với bài toán gốc |
 | **Loại bỏ ràng buộc** | Giảm số ràng buộc | Giảm chiều bài toán | Yêu cầu phân tích đặc biệt |
 
 ### 🔍 **Nhận Biết Bài Toán Lồi**
@@ -155,7 +155,7 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$\text{range}(F) = \text{null}(A)$$
 
 ---
 
-💡 **Mẹo:** Trong tối ưu hóa lồi, mọi cực tiểu địa phương đều là cực tiểu toàn cục. Điều này làm cho việc giải bài toán trở nên đáng tin cậy và hiệu quả!
+💡 **Lưu ý:** Trong tối ưu hóa lồi, mọi cực tiểu địa phương đều là cực tiểu toàn cục, giúp các thuật toán giải bài toán đạt độ tin cậy cao.
 
 ---
 
@@ -480,7 +480,7 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$\text{range}(F) = \text{null}(A)$$
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Đủ cho tối ưu, và cũng cần thiết khi điều kiện Slater thỏa mãn</strong><br>
-                Đối với bài toán tối ưu lồi, điều kiện KKT luôn đủ cho tối ưu toàn cục; chúng cũng cần thiết khi có điều kiện chính quy như Slater (khi đó strong duality đúng). Không có Slater, nghiệm tối ưu có thể không thỏa KKT (ví dụ $$\min x$$ với $$x^2 \leq 0$$).
+                Đối với bài toán tối ưu lồi, điều kiện KKT luôn đủ cho tối ưu toàn cục; chúng cũng cần thiết khi có điều kiện chính quy như Slater (khi đó đối ngẫu mạnh đúng). Không có Slater, nghiệm tối ưu có thể không thỏa KKT (ví dụ $$\min x$$ với $$x^2 \leq 0$$).
             </div>
         </div>
 
@@ -516,7 +516,7 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$\text{range}(F) = \text{null}(A)$$
 
         <!-- Câu hỏi 24: Thực hành -->
         <div class="question" id="q24" style="display: none;">
-            <h3>Câu 24: Điều kiện bổ sung trong KKT là:</h3>
+            <h3>Câu 24: Điều kiện bù lỏng (complementary slackness) trong KKT là:</h3>
             <div class="options">
                 <label><input type="radio" name="q24" value="a"> A) $$\lambda_i g_i(x) = 0$$</label>
                 <label><input type="radio" name="q24" value="b"> B) $$\lambda_i + g_i(x) = 0$$</label>
@@ -525,7 +525,7 @@ $$x = x_0 + Fz$$ với $$Ax_0 = b$$ và $$\text{range}(F) = \text{null}(A)$$
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\lambda_i g_i(x) = 0$$</strong><br>
-                Điều kiện bổ sung $$\lambda_i g_i(x) = 0$$ đảm bảo rằng hoặc ràng buộc không tích cực hoặc nhân tử Lagrange bằng 0.
+                Điều kiện bù lỏng $$\lambda_i g_i(x) = 0$$ đảm bảo rằng với mỗi ràng buộc, hoặc ràng buộc đó tích cực ($$g_i(x) = 0$$) hoặc nhân tử Lagrange tương ứng bằng 0 ($$\lambda_i = 0$$).
             </div>
         </div>
 

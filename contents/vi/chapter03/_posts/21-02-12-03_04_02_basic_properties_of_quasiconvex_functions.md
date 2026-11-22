@@ -9,13 +9,14 @@ categories:
 lang: vi
 ---
 
-Phần này đề cập các tính chất cơ bản của hàm giả lồi, bao gồm mối quan hệ của chúng với hàm lồi và hành vi của chúng dưới các phép toán khác nhau.
+Phần này trình bày các tính chất cơ bản của hàm giả lồi, bao gồm bất đẳng thức Jensen biến đổi và đặc trưng của hàm giả lồi liên tục một biến.
 
 ## Bất đẳng thức Jensen biến đổi
-Các hàm giả lồi có thể được định nghĩa thông qua bất đẳng thức Jensen như sau:
->$$f(\theta x + (1 - \theta)y) \leq \max\{f(x), f(y)\}$$ với mọi $$x, y \in \text{dom}f, 0 \leq \theta \leq 1$$
 
-Hình dưới đây cho thấy rằng nếu hàm $$f$$ là giả lồi, thì giá trị của $$f$$ dọc theo đoạn thẳng giữa hai điểm không vượt quá giá trị lớn nhất của $$f$$ tại các điểm cuối.
+Hàm $$f$$ là giả lồi khi và chỉ khi miền xác định $$\text{dom}f$$ lồi và thỏa mãn bất đẳng thức Jensen biến đổi sau:
+>$$f(\theta x + (1 - \theta)y) \leq \max\{f(x), f(y)\}$$ với mọi $$x, y \in \text{dom}f$$, $$0 \leq \theta \leq 1$$
+
+Nói cách khác, dọc theo đoạn thẳng nối hai điểm $$x$$ và $$y$$, giá trị của hàm giả lồi $$f$$ không bao giờ vượt quá giá trị lớn hơn trong hai giá trị $$f(x)$$ và $$f(y)$$.
 <br><br>
 
 <figure class="image" style="align: center;">
@@ -24,16 +25,17 @@ Hình dưới đây cho thấy rằng nếu hàm $$f$$ là giả lồi, thì gi�
  <figcaption style="text-align: center;">[Fig1]</figcaption>
 </p>
 </figure>
-**hàm giả lồi trên $$\mathbb{R}$$. Các giá trị của $$f$$ giữa $$x$$ và $$y$$ nhỏ hơn $$\max\{f(x), f(y)\}$$.**
+**Hàm giả lồi trên $$\mathbb{R}$$: giá trị của $$f$$ giữa $$x$$ và $$y$$ luôn nhỏ hơn hoặc bằng $$\max\{f(x), f(y)\}$$.**
 
 <br>
 
 ## Hàm giả lồi trên $$\mathbb{R}$$
-Một hàm liên tục $$f : \mathbb{R} \mapsto \mathbb{R}$$ là giả lồi khi và chỉ khi nó thỏa mãn ít nhất một trong các điều kiện sau:
 
-• $$f$$ không giảm
-• $$f$$ không tăng  
-• Tồn tại một điểm $$c \in \text{dom} f$$ sao cho $$f$$ không tăng trên $$\{t \in \text{dom}f \mid t \leq c\}$$ và không giảm trên $$\{t \in \text{dom}f \mid t \geq c\}$$.
+Một hàm liên tục $$f : \mathbb{R} \mapsto \mathbb{R}$$ là giả lồi khi và chỉ khi nó thỏa mãn ít nhất một trong ba điều kiện sau:
+
+* $$f$$ không giảm trên $$\text{dom}f$$.
+* $$f$$ không tăng trên $$\text{dom}f$$.
+* Tồn tại một điểm $$c \in \text{dom} f$$ sao cho $$f$$ không tăng trên $$\{t \in \text{dom}f \mid t \leq c\}$$ và không giảm trên $$\{t \in \text{dom}f \mid t \geq c\}$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -41,4 +43,4 @@ Một hàm liên tục $$f : \mathbb{R} \mapsto \mathbb{R}$$ là giả lồi khi
  <figcaption style="text-align: center;">[Fig2]</figcaption>
 </p>
 </figure>
-**hàm giả lồi trên $$\mathbb{R}$$. Nó không tăng với $$t \leq c$$ trong đó $$t \in \text{dom} f$$, và không giảm với $$t \geq c$$ trong đó $$t \in \text{dom} f$$.**
+**Hàm giả lồi trên $$\mathbb{R}$$: không tăng với $$t \leq c$$ và không giảm với $$t \geq c$$ ($$t \in \text{dom} f$$).**

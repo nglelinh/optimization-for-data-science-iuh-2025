@@ -12,79 +12,87 @@ redirect_from:
   - /contents/vi/chapter06/06_08_Quiz_Gradient_Descent/
 ---
 
-## 📚 Ôn tập lý thuyết
+## 📚 Ôn tập Lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
 
-### 🎯 **Gradient Descent Cơ Bản**
+### 🎯 **Gradient Descent Cơ bản**
 
 **Bài toán tối ưu:**
-$$\min_x f(x), \quad f \text{ khả vi và } \text{dom}(f) = \mathbb{R}^n$$
+$$\min_x f(x), \quad f 	ext{ khả vi và } 	ext{dom}(f) = \mathbb{R}^n$$
 
 **Quy tắc cập nhật:**
-$$x^{(k)} = x^{(k-1)} - t \nabla f(x^{(k-1)}), \quad k = 1, 2, 3, \ldots$$
+$$x^{(k)} = x^{(k-1)} - t 
+abla f(x^{(k-1)}), \quad k = 1, 2, 3, \ldots$$
 
 **Mã giả:**
-1. **Cho điểm bắt đầu** $$x \in \text{dom}(f)$$
+1. **Cho điểm khởi tạo** $$x \in 	ext{dom}(f)$$
 2. **Lặp lại:**
-   - Xác định hướng giảm: $$\Delta x = -\nabla f(x)$$
+   - Xác định hướng giảm: $$\Delta x = -
+abla f(x)$$
    - Tìm kiếm đường: chọn kích thước bước $$t > 0$$
    - Cập nhật: $$x = x + t \Delta x$$
 3. **Cho đến khi** tiêu chuẩn dừng được thỏa mãn
 
-**Giải thích hình học:**
-- Gradient $$\nabla f(x)$$ chỉ hướng tăng dốc nhất
-- Gradient âm $$-\nabla f(x)$$ chỉ hướng giảm dốc nhất
-- Tại cực tiểu: $$\nabla f(x^*) = 0$$
+**Diễn giải hình học:**
+- Gradient $$
+abla f(x)$$ chỉ hướng tăng dốc nhất.
+- Gradient âm $$-
+abla f(x)$$ chỉ hướng giảm dốc nhất.
+- Tại điểm cực tiểu không ràng buộc: $$
+abla f(x^*) = 0$$.
 
-### 📏 **Cách Chọn Kích Thước Bước**
+### 📏 **Cách Chọn Kích thước Bước**
 
 #### **1. Kích thước bước cố định**
-$$t = \text{const} > 0$$
+$$t = 	ext{const} > 0$$
 
-**Ưu điểm:** Đơn giản, tính toán nhanh
-**Nhược điểm:** Khó chọn giá trị phù hợp
+- **Ưu điểm:** Đơn giản, chi phí mỗi bước thấp.
+- **Nhược điểm:** Khó chọn trước giá trị phù hợp cho mọi bài toán.
 
-#### **2. Tìm kiếm đường lùi (Backtracking)**
+#### **2. Tìm kiếm đường lùi (Backtracking Line Search)**
 **Điều kiện Armijo:**
-$$f(x + t\Delta x) \le f(x) + \alpha t \nabla f(x)^T \Delta x$$
+$$f(x + t\Delta x) \le f(x) + lpha t 
+abla f(x)^T \Delta x$$
 
 **Thuật toán:**
-- Bắt đầu với $$t = t_0$$
-- Nếu điều kiện Armijo không thỏa mãn: $$t := \beta t$$ (với $$0 < \beta < 1$$)
-- Lặp lại cho đến khi thỏa mãn
+- Khởi tạo $$t = t_0$$.
+- Nếu điều kiện Armijo chưa thỏa mãn: giảm $$t := eta t$$ (với $$0 < eta < 1$$).
+- Lặp lại cho đến khi điều kiện được đáp ứng.
 
-**Tham số thông dụng:** $$\alpha = 0.01 \div 0.3$$, $$\beta = 0.1 \div 0.8$$
+**Tham số thường dùng:** $$lpha = 0.01 \div 0.3$$, $$eta = 0.1 \div 0.8$$.
 
-#### **3. Tìm kiếm đường chính xác**
-$$t^* = \arg\min_{t > 0} f(x + t\Delta x)$$
+#### **3. Tìm kiếm đường chính xác (Exact Line Search)**
+$$t^* = rg\min_{t > 0} f(x + t\Delta x)$$
 
-**Ưu điểm:** Tối ưu về lý thuyết
-**Nhược điểm:** Tốn kém tính toán
+- **Ưu điểm:** Tối ưu theo hướng hiện tại.
+- **Nhược điểm:** Tốn kém về tính toán với hàm phi tuyến tổng quát.
 
-### 📊 **Phân Tích Hội Tụ**
+### 📊 **Phân tích Hội tụ**
 
 #### **Điều kiện Lipschitz**
-Gradient $$\nabla f$$ là Lipschitz liên tục với hằng số $$L > 0$$:
-$$\lVert \nabla f(x) - \nabla f(y) \rVert_2 \le L \lVert x - y \rVert_2$$
+Gradient $$
+abla f$$ liên tục Lipschitz với hằng số $$L > 0$$:
+$$\lVert 
+abla f(x) - 
+abla f(y) Vert_2 \le L \lVert x - y Vert_2$$
 
 #### **Định lý hội tụ cho hàm lồi**
-Với kích thước bước cố định $$t \le \frac{1}{L}$$:
-$$f(x^{(k)}) - f^* \le \frac{\lVert x^{(0)} - x^* \rVert_2^2}{2tk}$$
+Với kích thước bước cố định $$t \le rac{1}{L}$$:
+$$f(x^{(k)}) - f^* \le rac{\lVert x^{(0)} - x^* Vert_2^2}{2tk}$$
 
-**Tốc độ hội tụ:** $$O(1/k)$$ - hội tụ sublinear
+**Tốc độ hội tụ:** $$O(1/k)$$ — hội tụ dưới tuyến tính (sublinear).
 
 #### **Định lý hội tụ cho hàm lồi mạnh**
-Nếu $$f$$ lồi mạnh với tham số $$m > 0$$:
-$$f(x^{(k)}) - f^* \le \left(1 - \frac{m}{L}\right)^k \left(f(x^{(0)}) - f^*\right) \quad (t = 1/L)$$
+Nếu $$f$$ lồi mạnh với hằng số $$m > 0$$:
+$$f(x^{(k)}) - f^* \le \left(1 - rac{m}{L}ight)^k \left(f(x^{(0)}) - f^*ight) \quad (t = 1/L)$$
 
-**Tốc độ hội tụ:** $$O(\rho^k)$$ với $$\rho < 1$$ - hội tụ linear
+**Tốc độ hội tụ:** $$O(ho^k)$$ với $$ho < 1$$ — hội tụ tuyến tính (linear).
 
-#### **Số điều kiện**
-$$\kappa = \frac{L}{m}$$ - tỷ lệ giữa Lipschitz constant và strong convexity parameter
-
-- $$\kappa$$ nhỏ: hội tụ nhanh
-- $$\kappa$$ lớn: hội tụ chậm (ill-conditioned)
+#### **Chỉ số điều kiện**
+$$\kappa = rac{L}{m}$$ — tỉ số giữa hằng số Lipschitz và hằng số lồi mạnh:
+- $$\kappa$$ nhỏ: hội tụ nhanh.
+- $$\kappa$$ lớn: hội tụ chậm (bài toán điều kiện xấu).
 
 ### 🎲 **Stochastic Gradient Descent (SGD)**
 
@@ -92,139 +100,142 @@ $$\kappa = \frac{L}{m}$$ - tỷ lệ giữa Lipschitz constant và strong convex
 $$\min_x f(x) = \min_x \sum_{i=1}^m f_i(x)$$
 
 #### **Batch Gradient Descent**
-$$x^{(k)} = x^{(k-1)} - t_k \sum_{i=1}^m \nabla f_i(x^{(k-1)})$$
-
-**Chi phí:** $$O(m)$$ lần đánh giá gradient mỗi lần lặp
+$$x^{(k)} = x^{(k-1)} - t_k \sum_{i=1}^m 
+abla f_i(x^{(k-1)})$$
+**Chi phí:** $$O(m)$$ lần tính gradient trên mỗi bước lặp.
 
 #### **Stochastic Gradient Descent**
-$$x^{(k)} = x^{(k-1)} - t_k \nabla f_{i_k}(x^{(k-1)})$$
-
-**Chi phí:** $$O(1)$$ lần đánh giá gradient mỗi lần lặp
+$$x^{(k)} = x^{(k-1)} - t_k 
+abla f_{i_k}(x^{(k-1)})$$
+**Chi phí:** $$O(1)$$ lần tính gradient trên mỗi bước lặp.
 
 #### **Chiến lược chọn chỉ số**
-- **Quy tắc vòng tròn:** $$i_k = 1, 2, \ldots, m, 1, 2, \ldots$$
-- **Quy tắc ngẫu nhiên:** $$i_k$$ chọn ngẫu nhiên từ $$\{1, 2, \ldots, m\}$$
+- **Quy tắc tuần hoàn:** $$i_k = 1, 2, \ldots, m, 1, 2, \ldots$$
+- **Quy tắc ngẫu nhiên:** Chọn $$i_k$$ ngẫu nhiên đều từ $$\{1, 2, \ldots, m\}$$.
 
 #### **Mini-batch SGD**
-$$x^{(k)} = x^{(k-1)} - t_k \frac{1}{b} \sum_{i \in \mathcal{B}_k} \nabla f_i(x^{(k-1)})$$
+$$x^{(k)} = x^{(k-1)} - t_k rac{1}{b} \sum_{i \in \mathcal{B}_k} 
+abla f_i(x^{(k-1)})$$
+trong đó $$\mathcal{B}_k$$ là mini-batch gồm $$b$$ mẫu.
 
-Với $$\mathcal{B}_k$$ là mini-batch kích thước $$b$$
+### ⚡ **Gradient Descent có Momentum**
 
-### ⚡ **Gradient Descent với Momentum**
-
-#### **Classical Momentum**
-$$\begin{align}
-v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)}) \\
+#### **Momentum cổ điển**
+$$egin{align}
+v^{(k)} &= eta v^{(k-1)} + 
+abla f(x^{(k-1)}) \
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align}$$
 
-#### **Nesterov Accelerated Gradient**
-$$\begin{align}
-v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)} - t\beta v^{(k-1)}) \\
+#### **Nesterov Accelerated Gradient (NAG)**
+$$egin{align}
+v^{(k)} &= eta v^{(k-1)} + 
+abla f(x^{(k-1)} - teta v^{(k-1)}) \
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align}$$
 
-**Tham số thông dụng:** $$\beta = 0.9$$
+**Tham số thường dùng:** $$eta = 0.9$$.
 
 **Ưu điểm:**
-- Tăng tốc hội tụ
-- Vượt qua local oscillations
-- Giảm ảnh hưởng của nhiễu
+- Tăng tốc độ hội tụ dọc theo các hướng nhất quán.
+- Giảm dao động cục bộ.
+- Hạn chế ảnh hưởng của nhiễu gradient.
 
-### 🔄 **So Sánh Các Phương Pháp**
+### 🔄 **So sánh Các Phương pháp**
 
-| Phương pháp | Tốc độ/lần lặp | Bộ nhớ | Hội tụ | Ứng dụng |
-|-------------|----------------|--------|--------|----------|
+| Phương pháp | Tốc độ/lần lặp | Bộ nhớ | Hội tụ | Ứng dụng phù hợp |
+|-------------|----------------|--------|--------|------------------|
 | **Batch GD** | Chậm | Cao | Ổn định | Tập dữ liệu nhỏ |
-| **SGD** | Nhanh | Thấp | Nhiễu | Tập dữ liệu lớn |
-| **Mini-batch** | Trung bình | Trung bình | Cân bằng | Thực tế |
-| **Momentum** | Nhanh | Thấp | Tăng tốc | Deep learning |
+| **SGD** | Nhanh | Thấp | Có nhiễu | Tập dữ liệu lớn |
+| **Mini-batch** | Trung bình | Trung bình | Cân bằng | Thực tế phổ biến |
+| **Momentum** | Nhanh | Thấp | Tăng tốc | Học sâu (deep learning) |
 
-### 🛠️ **Các Kỹ Thuật Thực Tế**
+### 🛠️ **Các Kỹ thuật Thực tế**
 
-#### **Learning Rate Scheduling**
-- **Step decay:** $$t_k = t_0 \cdot \gamma^{\lfloor k/s \rfloor}$$
-- **Exponential decay:** $$t_k = t_0 \cdot e^{-\lambda k}$$
-- **Polynomial decay:** $$t_k = t_0 \cdot (1 + \lambda k)^{-p}$$
+#### **Lập lịch tốc độ học (Learning Rate Scheduling)**
+- **Giảm theo bậc (Step decay):** $$t_k = t_0 \cdot \gamma^{\lfloor k/s floor}$$
+- **Giảm theo hàm mũ (Exponential decay):** $$t_k = t_0 \cdot e^{-\lambda k}$$
+- **Giảm theo đa thức (Polynomial decay):** $$t_k = t_0 \cdot (1 + \lambda k)^{-p}$$
 
-#### **Adaptive Methods**
-- **AdaGrad:** Điều chỉnh learning rate theo lịch sử gradient
-- **RMSprop:** Cải tiến AdaGrad với exponential moving average
-- **Adam:** Kết hợp momentum và adaptive learning rate
+#### **Phương pháp thích ứng (Adaptive Methods)**
+- **AdaGrad:** Điều chỉnh tốc độ học dựa trên tổng bình phương gradient quá khứ.
+- **RMSprop:** Cải tiến AdaGrad bằng trung bình trượt có trọng số mũ.
+- **Adam:** Kết hợp momentum và tốc độ học thích ứng.
 
-#### **Regularization**
-- **L1 regularization:** $$f(x) + \lambda \lVert x \rVert_1$$
-- **L2 regularization:** $$f(x) + \frac{\lambda}{2} \lVert x \rVert_2^2$$
-- **Dropout:** Ngẫu nhiên hóa trong neural networks
+#### **Điều chuẩn (Regularization)**
+- **Điều chuẩn L1:** $$f(x) + \lambda \lVert x Vert_1$$
+- **Điều chuẩn L2:** $$f(x) + rac{\lambda}{2} \lVert x Vert_2^2$$
+- **Dropout:** Tắt ngẫu nhiên các nút trong mạng nơ-ron khi huấn luyện.
 
-### 📈 **Ứng Dụng Thực Tế**
+### 📈 **Ứng dụng Thực tế**
 
-#### **Machine Learning**
-- **Linear regression:** $$\min_w \lVert Xw - y \rVert_2^2$$
-- **Logistic regression:** $$\min_w \sum_i \log(1 + e^{-y_i w^T x_i})$$
-- **Neural networks:** Backpropagation + SGD
+#### **Học máy (Machine Learning)**
+- **Hồi quy tuyến tính:** $$\min_w \lVert Xw - y Vert_2^2$$
+- **Hồi quy logistic:** $$\min_w \sum_i \log(1 + e^{-y_i w^T x_i})$$
+- **Mạng nơ-ron:** Lan truyền ngược (backpropagation) kết hợp SGD.
 
-#### **Deep Learning**
-- **Convolutional Neural Networks (CNNs)**
-- **Recurrent Neural Networks (RNNs)**
-- **Transformer models**
+#### **Học sâu (Deep Learning)**
+- **Mạng tích chập (CNNs)**
+- **Mạng hồi quy (RNNs)**
+- **Mô hình Transformer**
 
-#### **Optimization Problems**
-- **Portfolio optimization**
-- **Signal processing**
-- **Computer vision**
+#### **Các bài toán tối ưu hóa khác**
+- **Tối ưu hóa danh mục đầu tư**
+- **Xử lý tín hiệu**
+- **Thị giác máy tính**
 
-### 🔍 **Tiêu Chuẩn Dừng**
+### 🔍 **Tiêu chí Dừng**
 
-#### **Gradient-based**
-$$\lVert \nabla f(x^{(k)}) \rVert_2 < \epsilon$$
+#### **Theo chuẩn gradient**
+$$\lVert 
+abla f(x^{(k)}) Vert_2 < \epsilon$$
 
-#### **Function value-based**
+#### **Theo độ thay đổi giá trị hàm**
 $$|f(x^{(k)}) - f(x^{(k-1)})| < \epsilon$$
 
-#### **Parameter-based**
-$$\lVert x^{(k)} - x^{(k-1)} \rVert_2 < \epsilon$$
+#### **Theo độ thay đổi tham số**
+$$\lVert x^{(k)} - x^{(k-1)} Vert_2 < \epsilon$$
 
-#### **Maximum iterations**
+#### **Theo số lần lặp tối đa**
 $$k > k_{\max}$$
 
-### ⚠️ **Thách Thức và Giải Pháp**
+### ⚠️ **Thách thức và Giải pháp**
 
-#### **Vấn đề thường gặp:**
-- **Vanishing/exploding gradients:** Gradient quá nhỏ hoặc quá lớn
-- **Saddle points:** Điểm yên ngựa trong không gian nhiều chiều
-- **Local minima:** Cực tiểu địa phương (với hàm không lồi)
-- **Ill-conditioning:** Số điều kiện lớn
+#### **Các vấn đề thường gặp:**
+- **Gradient tiêu biến / bùng nổ (Vanishing/exploding gradients):** Gradient quá nhỏ hoặc quá lớn qua nhiều tầng.
+- **Điểm yên ngựa (Saddle points):** Xuất hiện phổ biến trong không gian nhiều chiều.
+- **Cực tiểu cục bộ (Local minima):** Với các hàm mục tiêu không lồi.
+- **Điều kiện xấu (Ill-conditioning):** Chỉ số điều kiện $$\kappa$$ lớn.
 
-#### **Giải pháp:**
-- **Gradient clipping:** Giới hạn độ lớn gradient
-- **Batch normalization:** Chuẩn hóa input của từng layer
-- **Residual connections:** Skip connections trong deep networks
-- **Preconditioning:** Biến đổi không gian tối ưu
+#### **Các giải pháp phổ biến:**
+- **Cắt ngưỡng gradient (Gradient clipping):** Giới hạn chuẩn của gradient.
+- **Chuẩn hóa theo lô (Batch normalization):** Ổn định phân phối đầu vào của từng tầng.
+- **Kết nối tắt (Residual connections):** Giúp lan truyền gradient ổn định hơn trong mạng sâu.
+- **Tiền điều kiện hóa (Preconditioning):** Biến đổi thang đo không gian tối ưu.
 
-### 💡 **Mẹo Thực Hành**
+### 💡 **Kinh nghiệm Thực hành**
 
-#### **Chọn learning rate:**
-1. Bắt đầu với $$t = 0.01$$
-2. Tăng/giảm theo powers of 10
-3. Quan sát loss curve
-4. Sử dụng learning rate scheduling
+#### **Chọn tốc độ học:**
+1. Bắt đầu thử từ $$t = 0.01$$.
+2. Điều chỉnh tăng hoặc giảm theo lũy thừa của 10.
+3. Theo dõi đường cong mất mát (loss curve).
+4. Kết hợp lập lịch giảm tốc độ học.
 
-#### **Debugging:**
-- Kiểm tra gradient implementation
-- Visualize loss curve
-- Monitor gradient norms
-- Use validation set
+#### **Kiểm tra và gỡ lỗi:**
+- Kiểm tra lại công thức tính gradient (so sánh với đạo hàm số).
+- Trực quan hóa đường cong mất mát.
+- Theo dõi chuẩn của gradient trong quá trình huấn luyện.
+- Đánh giá định kỳ trên tập thẩm định (validation set).
 
-#### **Tăng tốc:**
-- Sử dụng mini-batch thay vì full batch
-- Parallel/distributed training
-- GPU acceleration
-- Mixed precision training
+#### **Tăng tốc huấn luyện:**
+- Dùng mini-batch thay vì toàn tập.
+- Huấn luyện song song hoặc phân tán.
+- Tận dụng phần cứng tăng tốc (GPU).
+- Huấn luyện với độ chính xác hỗn hợp (mixed precision).
 
 ---
 
-💡 **Mẹo:** Gradient descent là nền tảng của machine learning hiện đại. Hiểu rõ các biến thể và kỹ thuật tối ưu sẽ giúp bạn huấn luyện mô hình hiệu quả hơn!
+💡 **Ghi chú:** Gradient descent là nền tảng của phần lớn thuật toán học máy hiện đại. Nắm vững các biến thể và kỹ thuật điều chỉnh sẽ giúp huấn luyện mô hình ổn định và hiệu quả hơn.
 
 ---
 
@@ -346,7 +357,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Bắt đầu với kích thước bước lớn và giảm dần</strong><br>
-                Backtracking bắt đầu với bước lớn và giảm dần cho đến khi đạt được sự giảm đủ (Armijo condition).
+                Backtracking bắt đầu với bước lớn và giảm dần cho đến khi đạt được mức giảm đủ (điều kiện Armijo).
             </div>
         </div>
 
@@ -406,7 +417,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$O(1/k)$$</strong><br>
-                Gradient descent có tốc độ hội tụ sublinear $$O(1/k)$$ cho hàm lồi với gradient Lipschitz.
+                Gradient descent có tốc độ hội tụ dưới tuyến tính (sublinear) $$O(1/k)$$ cho hàm lồi với gradient Lipschitz.
             </div>
         </div>
 
@@ -421,7 +432,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) SGD chỉ sử dụng một mẫu dữ liệu mỗi lần cập nhật</strong><br>
-                SGD cập nhật tham số dựa trên gradient của một mẫu duy nhất thay vì toàn bộ dataset.
+                SGD cập nhật tham số dựa trên gradient của một mẫu duy nhất thay vì toàn bộ tập dữ liệu.
             </div>
         </div>
 
@@ -436,7 +447,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Chi phí tính toán thấp hơn mỗi lần cập nhật</strong><br>
-                SGD có độ phức tạp O(1) mỗi lần cập nhật so với O(m) của Batch GD, rất hiệu quả cho big data.
+                SGD có độ phức tạp $$O(1)$$ mỗi lần cập nhật so với $$O(m)$$ của Batch GD, rất hiệu quả với tập dữ liệu lớn.
             </div>
         </div>
 
@@ -492,7 +503,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
                 <label><input type="radio" name="q15" value="a"> A) Giảm dao động và tăng tốc hội tụ</label>
                 <label><input type="radio" name="q15" value="b"> B) Tăng độ chính xác tính toán</label>
                 <label><input type="radio" name="q15" value="c"> C) Giảm bộ nhớ sử dụng</label>
-                <label><input type="radio" name="q15" value="d"> D) Loại bỏ hoàn toàn local minima</label>
+                <label><input type="radio" name="q15" value="d"> D) Loại bỏ hoàn toàn cực tiểu cục bộ</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Giảm dao động và tăng tốc hội tụ</strong><br>
@@ -556,7 +567,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: C) $$O(\rho^k)$$ với $$\rho < 1$$ (linear)</strong><br>
-                Hàm lồi mạnh cho phép gradient descent đạt tốc độ hội tụ tuyến tính (geometric), nhanh hơn nhiều.
+                Hàm lồi mạnh cho phép gradient descent đạt tốc độ hội tụ tuyến tính (geometric), nhanh hơn nhiều so với tốc độ dưới tuyến tính.
             </div>
         </div>
 
@@ -571,7 +582,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Cách hiệu quả để tính gradient cho gradient descent</strong><br>
-                Backpropagation sử dụng chain rule để tính gradient hiệu quả trong neural networks, sau đó dùng gradient descent để cập nhật trọng số.
+                Backpropagation sử dụng quy tắc dây chuyền (chain rule) để tính gradient hiệu quả trong mạng nơ-ron, sau đó dùng gradient descent để cập nhật trọng số.
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->
@@ -615,7 +626,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Sử dụng một mẫu ngẫu nhiên</strong><br>
-                Stochastic Gradient Descent sử dụng một mẫu (hoặc mini-batch) ngẫu nhiên thay vì toàn bộ dataset.
+                Stochastic Gradient Descent sử dụng một mẫu (hoặc mini-batch) ngẫu nhiên thay vì toàn bộ tập dữ liệu.
             </div>
         </div>
 
@@ -624,13 +635,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về thuậ
             <h3>Câu 24: Momentum trong gradient descent giúp:</h3>
             <div class="options">
                 <label><input type="radio" name="q24" value="a"> A) Tăng tốc độ hội tụ</label>
-                <label><input type="radio" name="q24" value="b"> B) Vượt qua local minima</label>
+                <label><input type="radio" name="q24" value="b"> B) Vượt qua cực tiểu cục bộ nông</label>
                 <label><input type="radio" name="q24" value="c"> C) Giảm dao động</label>
                 <label><input type="radio" name="q24" value="d"> D) Tất cả các lý do trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các lý do trên</strong><br>
-                Momentum giúp tăng tốc hội tụ, giảm dao động và có thể vượt qua một số local minima nhỏ.
+                Momentum giúp tăng tốc hội tụ, giảm dao động và có thể vượt qua một số cực tiểu cục bộ nông.
             </div>
         </div>
 

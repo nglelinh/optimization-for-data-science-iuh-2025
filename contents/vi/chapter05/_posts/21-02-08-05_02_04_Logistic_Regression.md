@@ -12,7 +12,7 @@ lesson_type: required
 
 # Hồi quy Logistic (Logistic Regression)
 
-Hồi quy logistic là một trong những ứng dụng quan trọng nhất của tối ưu hóa lồi trong machine learning, được sử dụng rộng rãi cho các bài toán phân loại nhị phân.
+Hồi quy logistic là một trong những ứng dụng tiêu biểu của tối ưu hóa lồi trong học máy, được sử dụng rộng rãi cho bài toán phân loại nhị phân.
 
 ## 🎯 Bài toán Phân loại Nhị phân
 
@@ -21,17 +21,17 @@ Khác với hồi quy tuyến tính dự đoán giá trị liên tục, **phân 
 **Ví dụ thực tế:**
 - **Y tế**: Dự đoán bệnh nhân có mắc bệnh hay không (0: khỏe mạnh, 1: bệnh)
 - **Marketing**: Khách hàng có mua sản phẩm hay không (0: không mua, 1: mua)
-- **Tài chính**: Email có phải spam hay không (0: không spam, 1: spam)
-- **Công nghệ**: Giao dịch có gian lận hay không (0: hợp lệ, 1: gian lận)
+- **Tài chính**: Giao dịch có gian lận hay không (0: hợp lệ, 1: gian lận)
+- **Công nghệ**: Email có phải thư rác (spam) hay không (0: không spam, 1: spam)
 
 **Dữ liệu huấn luyện:**
 - $$\{(\mathbf{x}_i, y_i)\}_{i=1}^n$$ với $$\mathbf{x}_i \in \mathbb{R}^p$$, $$y_i \in \{0, 1\}$$
 - $$\mathbf{x}_i$$: vector đặc trưng (features)
 - $$y_i$$: nhãn lớp (class label)
 
-## 📊 Từ Linear Regression đến Logistic Regression
+## 📊 Từ Hồi quy Tuyến tính đến Hồi quy Logistic
 
-### Vấn đề với Linear Regression cho Phân loại
+### Hạn chế khi dùng Hồi quy Tuyến tính cho phân loại
 
 Nếu áp dụng hồi quy tuyến tính trực tiếp: $$\hat{y} = \mathbf{w}^T \mathbf{x} + b$$
 
@@ -40,7 +40,7 @@ Nếu áp dụng hồi quy tuyến tính trực tiếp: $$\hat{y} = \mathbf{w}^T
 - Nhưng xác suất phải trong khoảng $$[0, 1]$$
 - Không phù hợp với bản chất xác suất của phân loại
 
-### Sigmoid Function - Cầu nối Quan trọng
+### Hàm Sigmoid
 
 **Hàm Sigmoid:**
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
@@ -55,7 +55,7 @@ $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
 
 
-### Mô hình Logistic Regression
+### Mô hình Hồi quy Logistic
 
 **Xác suất dự đoán:**
 $$P(y = 1 | \mathbf{x}) = \sigma(\mathbf{w}^T \mathbf{x}) = \frac{1}{1 + e^{-\mathbf{w}^T \mathbf{x}}}$$
@@ -70,16 +70,16 @@ $$\hat{y} = \begin{cases}
 
 ## 🧮 Hàm Mất mát Cross-Entropy
 
-Trong logistic regression, chúng ta sử dụng **Cross-Entropy Loss** để đo lường sự khác biệt giữa dự đoán và thực tế:
+Trong hồi quy logistic, ta sử dụng **hàm mất mát Cross-Entropy** để đo độ sai lệch giữa xác suất dự đoán và nhãn thực tế:
 
 $$J(\mathbf{w}) = -\sum_{i=1}^n \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right]$$
 
 với $$p_i = \sigma(\mathbf{w}^T \mathbf{x}_i)$$ là xác suất dự đoán.
 
 **Đặc điểm quan trọng:**
-- **Phạt nặng dự đoán sai:** Khi dự đoán càng sai, loss càng lớn và không bị chặn trên
-- **Smooth và convex:** Đảm bảo tối ưu hóa hiệu quả
-- **Probabilistic:** Phù hợp với bản chất xác suất của bài toán
+- **Phạt nặng dự đoán sai:** Khi dự đoán càng lệch khỏi nhãn thực tế, giá trị mất mát càng lớn và không bị chặn trên.
+- **Trơn và lồi:** Thuận lợi cho các thuật toán tối ưu hóa dựa trên gradient.
+- **Có cơ sở xác suất:** Xuất phát trực tiếp từ ước lượng hợp lý cực đại.
 
 ## 🔍 Chứng minh Tính Lồi
 
@@ -136,24 +136,24 @@ Vì $$\mathbf{S} \succ 0$$, ta có $$\nabla^2_{\mathbf{w}} J(\mathbf{w}) \succeq
 
 **Tại sao tính lồi quan trọng?**
 
-1. **Đảm bảo Global Optimum:**
-   - Mọi **điểm cực tiểu địa phương đều là cực tiểu toàn cục** (tập nghiệm tối ưu là tập lồi)
-   - Không có local minima "giả" như trong neural networks
-   - Các thuật toán tối ưu đều hướng về nghiệm tối ưu toàn cục
+1. **Đảm bảo cực tiểu toàn cục:**
+   - Mọi **điểm cực tiểu địa phương đều là cực tiểu toàn cục** (và tập nghiệm tối ưu là một tập lồi).
+   - Không gặp tình trạng cực tiểu địa phương như trong mạng nơ-ron sâu.
+   - Các thuật toán tối ưu đều hướng về nghiệm tối ưu toàn cục.
 
-2. **Gradient Descent hoạt động hiệu quả:**
-   - **Luôn hội tụ** về nghiệm tối ưu (với learning rate phù hợp, khi nghiệm tối ưu tồn tại; với dữ liệu tách được tuyến tính hoàn toàn, nghiệm tối ưu nằm ở vô cực và $$\|\mathbf{w}\|$$ tăng mãi)
-   - **Không bị kẹt** tại local minima
-   - **Đơn giản và ổn định** - không cần kỹ thuật phức tạp
+2. **Hạ gradient (Gradient Descent) hoạt động ổn định:**
+   - **Hội tụ** về nghiệm tối ưu với tốc độ học (learning rate) phù hợp khi nghiệm hữu hạn tồn tại (lưu ý: nếu dữ liệu tách tuyến tính hoàn toàn và không có chính quy hóa, chuẩn $$\|\mathbf{w}\|$$ tăng ra vô cực).
+   - **Không bị mắc kẹt** tại cực tiểu địa phương.
+   - **Đơn giản và dễ cài đặt**.
 
-3. **Lý thuyết tối ưu mạnh mẽ:**
+3. **Cơ sở lý thuyết chặt chẽ:**
    - Có thể chứng minh **tốc độ hội tụ**
    - Có thể **ước lượng sai số**
    - Có **điều kiện dừng** rõ ràng
 
 ### 🚀 Từ Tính Lồi đến Gradient Descent
 
-**Vì hàm mất mát logistic là lồi và khả vi**, chúng ta có thể sử dụng **Gradient Descent** một cách tự tin:
+**Vì hàm mất mát logistic là lồi và khả vi**, chúng ta có thể sử dụng **Gradient Descent** một cách tin cậy:
 
 **Thuật toán cơ bản:**
 $$\mathbf{w}^{(k+1)} = \mathbf{w}^{(k)} - \alpha \nabla J(\mathbf{w}^{(k)})$$
@@ -162,9 +162,9 @@ với gradient:
 $$\nabla J(\mathbf{w}) = \mathbf{X}^T (\boldsymbol{\sigma} - \mathbf{y})$$
 
 **Đảm bảo hội tụ:**
-- Chọn learning rate $$\alpha$$ phù hợp → **luôn hội tụ**
-- Không cần lo lắng về local minima
-- Có thể dự đoán được hành vi của thuật toán
+- Chọn tốc độ học $$\alpha$$ phù hợp giúp thuật toán hội tụ ổn định.
+- Không gặp vấn đề cực tiểu địa phương.
+- Dễ phân tích tốc độ hội tụ và sai số.
 
 **Kết nối với Chương 6:**
 Trong **Chương 6 - Gradient Descent**, chúng ta sẽ học chi tiết:
@@ -173,7 +173,7 @@ Trong **Chương 6 - Gradient Descent**, chúng ta sẽ học chi tiết:
 - Các biến thể như Stochastic Gradient Descent
 - **Logistic Regression sẽ là ví dụ chính** để minh họa các khái niệm này!
 
-## 🔄 So sánh với Linear Regression
+## 🔄 So sánh với Hồi quy Tuyến tính
 
 | Khía cạnh | Linear Regression | Logistic Regression |
 |-----------|-------------------|---------------------|
@@ -687,13 +687,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-💡 **Bài tập thực hành:** Hãy thử thay đổi các tham số trong visualization trên để hiểu rõ hơn về cách logistic regression hoạt động!
+💡 **Bài tập thực hành:** Hãy thử thay đổi các tham số trong công cụ minh họa ở trên để quan sát trực tiếp hành vi của mô hình hồi quy logistic.
 
 ---
 
-## 📖 Đọc thêm: Các Link Functions thay thế cho Sigmoid
+## 📖 Đọc thêm: Các hàm liên kết (Link Functions) thay thế cho Sigmoid
 
-*Phần này dành cho những bạn muốn tìm hiểu sâu hơn về lý do chọn sigmoid function, tại sao sử dụng cross-entropy loss, và các lựa chọn thay thế trong generalized linear models.*
+*Phần này giải thích sâu hơn cơ sở của hàm sigmoid, nguồn gốc hàm mất mát cross-entropy và các hàm liên kết thay thế trong mô hình tuyến tính tổng quát (GLM).*
 
 ## 🧮 Tại sao Cross-Entropy là Hàm Mất mát?
 
@@ -713,12 +713,12 @@ Với mỗi mẫu dữ liệu $$(\mathbf{x}_i, y_i)$$, mô hình dự đoán:
 
 #### **Bước 2: Likelihood - "Khả năng xảy ra"**
 
-**Câu hỏi:** Với trọng số $$\mathbf{w}$$ hiện tại, khả năng quan sát được toàn bộ dữ liệu là bao nhiều?
+**Câu hỏi:** Với trọng số $$\mathbf{w}$$ hiện tại, xác suất quan sát được toàn bộ tập dữ liệu là bao nhiêu?
 
 **Trả lời:** Nhân xác suất của tất cả các mẫu:
 $$\text{Likelihood} = p_1^{y_1} \cdot (1-p_1)^{1-y_1} \times p_2^{y_2} \cdot (1-p_2)^{1-y_2} \times \ldots$$
 
-#### **Bước 3: Maximum Likelihood Principle**
+#### **Bước 3: Nguyên lý Hợp lý Cực đại (Maximum Likelihood)**
 
 **Nguyên lý:** Chọn $$\mathbf{w}$$ để **tối đa hóa likelihood** = chọn $$\mathbf{w}$$ làm cho dữ liệu quan sát được có khả năng xảy ra cao nhất.
 
@@ -733,9 +733,9 @@ $$\log(\text{Likelihood}) = \sum_{i=1}^n \left[ y_i \log p_i + (1-y_i) \log (1-p
 - Tính toán ổn định hơn
 - Tối đa hóa log-likelihood = tối đa hóa likelihood
 
-#### **Bước 5: Cross-Entropy Loss**
+#### **Bước 5: Hàm mất mát Cross-Entropy**
 
-**Chuyển đổi cuối cùng:** Tối đa hóa = Tối thiểu hóa âm của nó
+**Chuyển sang bài toán cực tiểu hóa:** Cực đại hóa log-likelihood tương đương với cực tiểu hóa đối của nó:
 
 $$J(\mathbf{w}) = -\log(\text{Likelihood}) = -\sum_{i=1}^n \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right]$$
 
@@ -783,24 +783,24 @@ Khác với accuracy (0-1 loss), cross-entropy:
 2. **Tính chất toán học tốt** - convex, smooth, differentiable  
 3. **Ý nghĩa thực tế** - phạt nặng dự đoán sai, khuyến khích tự tin
 
-**Đây là lý do tại sao cross-entropy là "gold standard" cho classification problems!**
+**Đây là lý do cross-entropy trở thành hàm mất mát tiêu chuẩn cho bài toán phân loại.**
 
-## 🤔 Tại sao chọn Sigmoid Function?
+## 🤔 Vì sao chọn hàm Sigmoid?
 
-### 1. **Yêu cầu Toán học cho Activation Function**
+### 1. **Yêu cầu toán học đối với hàm ánh xạ xác suất**
 
 Để chuyển đổi từ $$\mathbb{R}$$ sang xác suất $$[0,1]$$, ta cần một hàm $$g: \mathbb{R} \to [0,1]$$ thỏa mãn:
 
 **Yêu cầu bắt buộc:**
-- ✅ **Monotonic**: $$g'(z) > 0$$ (đảm bảo thứ tự)
-- ✅ **Bounded**: $$g(z) \in [0,1]$$ (xác suất hợp lệ)
-- ✅ **Smooth**: Khả vi để tính gradient
-- ✅ **Asymptotic**: $$\lim_{z \to -\infty} g(z) = 0$$, $$\lim_{z \to +\infty} g(z) = 1$$
+- ✅ **Đơn điệu tăng:** $$g'(z) > 0$$ (bảo toàn thứ tự).
+- ✅ **Bị chặn trong $$[0,1]$$:** đảm bảo đầu ra là xác suất hợp lệ.
+- ✅ **Trơn:** khả vi để tính gradient.
+- ✅ **Tiệm cận:** $$\lim_{z \to -\infty} g(z) = 0$$, $$\lim_{z \to +\infty} g(z) = 1$$.
 
-**Yêu cầu mong muốn:**
-- 🎯 **Simple derivative**: Đạo hàm dễ tính
-- 🎯 **Probabilistic interpretation**: Có ý nghĩa xác suất
-- 🎯 **Symmetric**: $$g(-z) = 1 - g(z)$$
+**Các tính chất thuận lợi khác:**
+- 🎯 **Đạo hàm đơn giản:** thuận tiện cho tính toán số.
+- 🎯 **Ý nghĩa xác suất rõ ràng.**
+- 🎯 **Đối xứng:** $$g(-z) = 1 - g(z)$$.
 
 ### 2. **Nguồn gốc từ Odds và Logit**
 
@@ -828,7 +828,7 @@ $$P(y=1|x) = \frac{e^{\mathbf{w}^T \mathbf{x}}}{1 + e^{\mathbf{w}^T \mathbf{x}}}
 
 ### 3. **Ưu điểm Đặc biệt của Sigmoid**
 
-#### **a) Đạo hàm Elegant**
+#### **a) Đạo hàm gọn đẹp**
 $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
 
 **Lợi ích:**
@@ -848,12 +848,11 @@ $$\sigma(-z) = 1 - \sigma(z)$$
 
 ### 🔄 Tại sao cần các hàm thay thế?
 
-Mặc dù sigmoid là lựa chọn phổ biến nhất, trong một số trường hợp đặc biệt, các link functions khác có thể phù hợp hơn:
+Mặc dù sigmoid là lựa chọn phổ biến nhất, trong một số bài toán cụ thể, các hàm liên kết khác có thể phù hợp hơn:
 
-- **Dữ liệu có tail behavior khác biệt**
-- **Rare events hoặc imbalanced data**
-- **Yêu cầu mô hình hóa đặc biệt**
-- **Theoretical assumptions khác nhau**
+- **Dữ liệu có hành vi đuôi phân phối khác biệt.**
+- **Sự kiện hiếm hoặc dữ liệu mất cân bằng.**
+- **Các giả định thống kê hoặc yêu cầu mô hình hóa đặc thù.**
 
 ### 1. **Tanh Function**
 
@@ -1213,11 +1212,11 @@ document.addEventListener('DOMContentLoaded', () => {
 - Heavy-tailed distributions
 - Robust modeling cần thiết
 
-## 💡 Kết luận về Link Functions
+## 💡 Tổng kết về các hàm liên kết
 
 ### **Tại sao Sigmoid vẫn là lựa chọn tốt nhất?**
 
-1. **🧮 Toán học Elegant:**
+1. **🧮 Biểu thức toán học gọn gàng:**
    - Đạo hàm đơn giản: $$\sigma'(z) = \sigma(z)(1-\sigma(z))$$
    - Tính toán nhanh, ổn định số học
    - Không cần tra bảng hay tính tích phân
@@ -1225,7 +1224,7 @@ document.addEventListener('DOMContentLoaded', () => {
 2. **📊 Ý nghĩa Xác suất Tự nhiên:**
    - Xuất phát từ log-odds model
    - Giải thích trực quan (odds ratio)
-   - Symmetric around 0.5
+   - Đối xứng quanh mức 0.5
 
 3. **⚡ Hiệu suất Tính toán:**
    - Chỉ cần một phép chia và exponential
@@ -1234,10 +1233,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 4. **🔄 Tính Lồi Đảm bảo:**
    - Cross-entropy với sigmoid luôn lồi
-   - Global optimum guaranteed
+   - Đảm bảo nghiệm tối ưu toàn cục
    - Thuật toán hội tụ ổn định
 
-**Khuyến nghị:** Bắt đầu với sigmoid, chỉ chuyển sang link function khác khi có lý do cụ thể và đã thử nghiệm so sánh hiệu suất.
+**Khuyến nghị:** Nên bắt đầu với hàm sigmoid và chỉ chuyển sang hàm liên kết khác khi có lý do mô hình hóa cụ thể cùng kết quả thực nghiệm rõ ràng.
 
 ## 🔢 Mở rộng: Softmax Regression (Multi-class Classification)
 
@@ -1583,20 +1582,18 @@ document.addEventListener('DOMContentLoaded', () => {
 ### 💡 Tóm tắt Softmax Regression
 
 **Ưu điểm:**
-- ✅ **Mở rộng tự nhiên** từ binary classification
-- ✅ **Probabilistic output** có ý nghĩa
-- ✅ **Convex optimization** → đáng tin cậy
-- ✅ **Efficient training** với gradient descent
+- ✅ **Mở rộng tự nhiên** từ phân loại nhị phân sang đa lớp.
+- ✅ **Đầu ra dạng xác suất** dễ diễn giải.
+- ✅ **Bài toán tối ưu hóa lồi**, đảm bảo hội tụ ổn định.
+- ✅ **Huấn luyện hiệu quả** bằng hạ gradient.
 
 **Nhược điểm:**
-- ❌ **Linear decision boundaries** (như logistic)
-- ❌ **Assumes linear separability**
-- ❌ **May struggle** với complex patterns
+- ❌ **Biên quyết định tuyến tính** (tương tự hồi quy logistic).
+- ❌ **Khó mô hình hóa** các ranh giới phi tuyến phức tạp nếu không biến đổi đặc trưng.
 
-**Khi nào sử dụng:**
-- Multi-class classification problems
-- Cần probabilistic outputs
-- Baseline model trước khi thử complex methods
-- Interpretability quan trọng
+**Khi nào nên sử dụng:**
+- Bài toán phân loại đa lớp cần đầu ra xác suất.
+- Làm mô hình cơ sở (baseline) trước khi thử các mô hình phức tạp hơn.
+- Các bài toán yêu cầu khả năng giải thích hệ số.
 
-**Softmax Regression là bước đệm hoàn hảo** giữa simple logistic regression và complex neural networks!
+**Hồi quy Softmax là bước chuyển tự nhiên** từ hồi quy logistic nhị phân sang các kiến trúc mạng nơ-ron đa lớp.

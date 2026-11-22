@@ -14,287 +14,176 @@ redirect_from:
 
 ## 📚 Ôn tập lý thuyết
 
-Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
+Trước khi làm bài tập trắc nghiệm, hãy ôn lại các khái niệm trọng tâm trong chương này:
 
-### ⚡ **Điều Kiện Karush-Kuhn-Tucker (KKT)**
+### ⚡ **Điều kiện Karush–Kuhn–Tucker (KKT)**
 
 #### **Bài toán tối ưu tổng quát**
 $$\min_x f(x) \quad \text{s.t.} \quad h_i(x) \le 0, \quad l_j(x) = 0$$
 
-với $$i = 1,\ldots,m$$ và $$j = 1,\ldots,r$$
+với $$i = 1,\ldots,m$$ và $$j = 1,\ldots,r$$.
 
 #### **Bốn điều kiện KKT**
-Cho nghiệm $$x^*, \lambda^*, \nu^*$$:
+Với bộ điểm $$(x^*, \lambda^*, \nu^*)$$:
 
-1. **Stationarity (Tính dừng):**
+1. **Điều kiện dừng (Stationarity):**
    $$0 \in \partial \left( f(x^*) + \sum_{i=1}^m \lambda_i^* h_i(x^*) + \sum_{j=1}^r \nu_j^* l_j(x^*) \right)$$
 
-2. **Complementary Slackness (Bù yếu):**
+2. **Điều kiện bù yếu (Complementary slackness):**
    $$\lambda_i^* \cdot h_i(x^*) = 0 \quad \forall i$$
 
-3. **Primal Feasibility (Tính khả thi nguyên thủy):**
+3. **Tính khả thi nguyên thủy (Primal feasibility):**
    $$h_i(x^*) \le 0, \quad l_j(x^*) = 0 \quad \forall i,j$$
 
-4. **Dual Feasibility (Tính khả thi đối ngẫu):**
+4. **Tính khả thi đối ngẫu (Dual feasibility):**
    $$\lambda_i^* \ge 0 \quad \forall i$$
 
-#### **Ý nghĩa các điều kiện**
-- **Stationarity:** Gradient của Lagrangian bằng 0
-- **Complementary slackness:** Hoặc constraint active ($$h_i = 0$$) hoặc dual variable = 0 ($$\lambda_i = 0$$)
-- **Primal feasibility:** Thỏa mãn tất cả constraints của bài toán gốc
-- **Dual feasibility:** Dual variables cho inequality constraints phải non-negative
+#### **Ý nghĩa của từng điều kiện**
+- **Điều kiện dừng:** Gradient (hoặc dưới vi phân) của hàm Lagrangian theo $$x$$ bằng $$0$$ (chứa $$0$$).
+- **Điều kiện bù yếu:** Với mỗi ràng buộc bất đẳng thức, hoặc ràng buộc đang chặt ($$h_i(x^*) = 0$$), hoặc nhân tử đối ngẫu bằng không ($$\lambda_i^* = 0$$).
+- **Tính khả thi nguyên thủy:** Điểm $$x^*$$ thỏa mãn mọi ràng buộc của bài toán gốc.
+- **Tính khả thi đối ngẫu:** Các nhân tử ứng với ràng buộc bất đẳng thức phải không âm.
 
-### 📊 **Tính Đủ và Tính Cần Thiết**
+### 📊 **Điều kiện đủ và điều kiện cần**
 
-#### **Tính đủ (Sufficiency)**
-**Nếu** $$x^*, \lambda^*, \nu^*$$ thỏa mãn KKT conditions và bài toán **convex**, **thì** chúng là optimal solutions.
+#### **Điều kiện đủ (Sufficiency)**
+Nếu $$(x^*, \lambda^*, \nu^*)$$ thỏa mãn các điều kiện KKT và bài toán là **bài toán lồi**, thì đây là cặp nghiệm tối ưu nguyên thủy và đối ngẫu.
 
-**Chứng minh:**
+**Chứng minh ngắn:**
 $$g(\lambda^*, \nu^*) = \min_x L(x, \lambda^*, \nu^*) = L(x^*, \lambda^*, \nu^*) = f(x^*)$$
 
-Do đó: $$g(\lambda^*, \nu^*) = f(x^*)$$ ⟹ duality gap = 0 ⟹ optimal
+Do đó $$g(\lambda^*, \nu^*) = f(x^*)$$, tức khoảng cách đối ngẫu bằng $$0$$ nên nghiệm đạt tối ưu toàn cục.
 
-#### **Tính cần thiết (Necessity)**
-**Nếu** $$x^*, \lambda^*, \nu^*$$ là optimal solutions với **strong duality**, **thì** chúng thỏa mãn KKT conditions.
+#### **Điều kiện cần (Necessity)**
+Nếu $$(x^*, \lambda^*, \nu^*)$$ là cặp nghiệm tối ưu và bài toán thỏa mãn **tính đối ngẫu mạnh** (chẳng hạn thỏa điều kiện Slater), thì chúng bắt buộc thỏa mãn các điều kiện KKT.
 
-**Điều kiện:** Strong duality (ví dụ: Slater's condition)
+#### **Tổng kết**
+Đối với bài toán lồi có tính đối ngẫu mạnh:
+$$x^*, \lambda^*, \nu^* \text{ tối ưu} \Leftrightarrow x^*, \lambda^*, \nu^* \text{ thỏa mãn các điều kiện KKT}$$
 
-#### **Tổng hợp**
-Cho convex problems với strong duality:
-$$x^*, \lambda^*, \nu^* \text{ optimal} \Leftrightarrow x^*, \lambda^*, \nu^* \text{ satisfy KKT}$$
-
-### 🔄 **Ví Dụ: Quadratic Programming với Equality Constraints**
+### 🔄 **Ví dụ: Quy hoạch bậc hai với ràng buộc đẳng thức**
 
 #### **Bài toán**
 $$\min_x \frac{1}{2}x^T P x + q^T x + r \quad \text{s.t.} \quad Ax = b$$
 
-với $$P \in \mathbb{S}_+^n$$ (positive semidefinite)
+với $$P \in \mathbb{S}_+^n$$ (ma trận nửa xác định dương).
 
-#### **KKT conditions**
-- **Stationarity:** $$Px^* + q + A^T \nu^* = 0$$
-- **Primal feasibility:** $$Ax^* = b$$
-- **Complementary slackness:** Không có (no inequality constraints)
-- **Dual feasibility:** Không có (no inequality constraints)
+#### **Điều kiện KKT**
+- **Điều kiện dừng:** $$Px^* + q + A^T \nu^* = 0$$
+- **Khả thi nguyên thủy:** $$Ax^* = b$$
+- **Bù yếu và khả thi đối ngẫu:** Không xuất hiện vì không có ràng buộc bất đẳng thức.
 
-#### **Hệ Ma Trận KKT**
+#### **Hệ ma trận KKT**
 $$\begin{bmatrix} P & A^T \\ A & 0 \end{bmatrix} \begin{bmatrix} x^* \\ \nu^* \end{bmatrix} = \begin{bmatrix} -q \\ b \end{bmatrix}$$
 
-**Ý nghĩa:** Đây chính là **Newton step** cho constrained optimization!
+**Ý nghĩa:** Hệ phương trình này cũng chính là hệ tính **bước Newton** trong bài toán tối ưu có ràng buộc đẳng thức.
 
-### 🌊 **Ví Dụ: Water-Filling Algorithm**
+### 🌊 **Ví dụ: Thuật toán Water-Filling**
 
 #### **Bài toán**
 $$\min_x -\sum_{i=1}^n \log(\alpha_i + x_i) \quad \text{s.t.} \quad x \succeq 0, \quad \mathbf{1}^T x = 1$$
 
-với $$\alpha_i > 0$$
+với $$\alpha_i > 0$$.
 
-#### **KKT conditions**
-- **Stationarity:** $$-\frac{1}{\alpha_i + x_i^*} - \lambda_i^* + \nu^* = 0$$
-- **Complementary slackness:** $$\lambda_i^* x_i^* = 0$$
-- **Primal feasibility:** $$x^* \succeq 0, \mathbf{1}^T x^* = 1$$
-- **Dual feasibility:** $$\lambda^* \succeq 0$$
+#### **Điều kiện KKT**
+- **Điều kiện dừng:** $$-\frac{1}{\alpha_i + x_i^*} - \lambda_i^* + \nu^* = 0$$
+- **Bù yếu:** $$\lambda_i^* x_i^* = 0$$
+- **Khả thi nguyên thủy:** $$x^* \succeq 0, \mathbf{1}^T x^* = 1$$
+- **Khả thi đối ngẫu:** $$\lambda^* \succeq 0$$
 
-#### **Analytical solution**
+#### **Nghiệm giải tích**
 $$x_i^* = \max\left\{0, \frac{1}{\nu^*} - \alpha_i\right\}$$
 
-với $$\nu^*$$ được xác định từ: $$\sum_{i=1}^n \max\left\{0, \frac{1}{\nu^*} - \alpha_i\right\} = 1$$
+với $$\nu^*$$ xác định duy nhất từ phương trình $$\sum_{i=1}^n \max\left\{0, \frac{1}{\nu^*} - \alpha_i\right\} = 1$$.
 
-#### **Water-filling interpretation**
-- $$\alpha_i$$: "Ground level" của channel $$i$$
-- $$\frac{1}{\nu^*}$$: "Water level" chung
-- $$x_i^*$$: "Water depth" trong channel $$i$$
-- **Thuật toán:** Đổ nước cho đến khi tổng volume = 1
+#### **Diễn giải trực quan**
+- $$\alpha_i$$: Độ cao đáy của kênh thứ $$i$$.
+- $$\frac{1}{\nu^*}$$: Mực nước chung.
+- $$x_i^*$$: Lượng nước (công suất) phân bổ cho kênh thứ $$i$$ sao cho tổng lượng nước bằng $$1$$.
 
-### 🎯 **Ví Dụ: Support Vector Machine (SVM)**
+### 🎯 **Ví dụ: Máy vector hỗ trợ (SVM)**
 
-#### **Primal problem**
+#### **Bài toán nguyên thủy**
 $$\min_{\beta,\beta_0,\xi} \frac{1}{2}\|\beta\|_2^2 + C\sum_{i=1}^n \xi_i$$
 $$\text{s.t.} \quad \xi_i \ge 0, \quad y_i(x_i^T\beta + \beta_0) \ge 1 - \xi_i$$
 
-#### **KKT conditions**
-- **Stationarity:**
+#### **Điều kiện KKT**
+- **Điều kiện dừng:**
   - $$\beta^* = \sum_{i=1}^n w_i^* y_i x_i$$
   - $$\sum_{i=1}^n w_i^* y_i = 0$$
   - $$w^* = C\mathbf{1} - v^*$$
 
-- **Complementary slackness:**
+- **Điều kiện bù yếu:**
   - $$v_i^* \xi_i^* = 0$$
   - $$w_i^* (1 - \xi_i^* - y_i(x_i^T\beta^* + \beta_0^*)) = 0$$
 
-#### **Support vectors**
-**Điểm $$i$$ là support vector** ⟺ $$w_i^* > 0$$
+#### **Các vector hỗ trợ**
+Điểm $$i$$ là vector hỗ trợ khi và chỉ khi $$w_i^* > 0$$, gồm hai nhóm:
+- **Trên biên lề:** $$\xi_i^* = 0$$, $$w_i^* \in (0, C]$$
+- **Bên trong lề hoặc phân loại sai:** $$\xi_i^* > 0$$, $$w_i^* = C$$
 
-**Hai loại support vectors:**
-- **On margin:** $$\xi_i^* = 0$$, $$w_i^* \in (0, C]$$
-- **Inside margin:** $$\xi_i^* > 0$$, $$w_i^* = C$$
+#### **Hệ quả thực hành**
+- **Tính thưa:** Chỉ các vector hỗ trợ mới có $$w_i^* > 0$$ và tham gia vào biểu thức siêu phẳng.
+- **Tính diễn giải:** Các điều kiện KKT giải thích rõ vai trò của từng điểm dữ liệu trong nghiệm SVM.
 
-#### **Practical implications**
-- **Sparsity:** Chỉ support vectors có $$w_i^* > 0$$
-- **Efficiency:** Có thể filter non-support points trước khi optimize
-- **Interpretation:** KKT conditions giải thích structure của SVM solution
+### 🔄 **Dạng ràng buộc và dạng Lagrange**
 
-### 🔄 **Constrained Form vs Lagrangian Form**
-
-#### **Constrained form (C)**
+#### **Dạng ràng buộc (C)**
 $$\min_x f(x) \quad \text{s.t.} \quad h(x) \le t$$
 
-#### **Lagrangian form (L)**
+#### **Dạng Lagrange (L)**
 $$\min_x f(x) + \lambda h(x)$$
 
-#### **Equivalence conditions**
-**Khi nào (C) và (L) equivalent?**
+#### **Điều kiện tương đương**
+1. **(C) → (L):** Nếu (C) thỏa điều kiện Slater (đối ngẫu mạnh), tồn tại $$\lambda^* \ge 0$$ sao cho nghiệm của (C) cũng là nghiệm của (L).
+2. **(L) → (C):** Nếu $$x^*$$ là nghiệm của (L), thì $$x^*$$ cũng là nghiệm của (C) khi đặt $$t = h(x^*)$$.
 
-1. **(C) → (L):** Nếu (C) thỏa mãn Slater + strong duality, tồn tại $$\lambda^* \ge 0$$ sao cho solution của (C) cũng là solution của (L)
+#### **Tương đương tại biên**
+Khi $$h(x) \ge 0$$ (như chuẩn), $$t = 0$$ và $$\lambda = \infty$$, cả hai dạng đều áp đặt cùng một ràng buộc $$h(x) = 0$$.
 
-2. **(L) → (C):** Nếu $$x^*$$ solve (L) và KKT conditions hold, thì $$x^*$$ cũng solve (C) với $$t = h(x^*)$$
+### 🛠️ **Kỹ thuật thực hành**
 
-#### **Perfect equivalence**
-**Khi:** $$h(x) \ge 0$$ (như norm), $$t = 0$$, $$\lambda = \infty$$
+#### **Quy trình kiểm tra điều kiện KKT**
+1. Kiểm tra điều kiện dừng: $$\nabla_x L(x^*, \lambda^*, \nu^*) = 0$$ (hoặc $$0 \in \partial_x L$$).
+2. Kiểm tra điều kiện bù yếu: $$\lambda_i^* h_i(x^*) = 0$$ với mọi $$i$$.
+3. Kiểm tra tính khả thi nguyên thủy và đối ngẫu.
+4. Kết luận tối ưu: nếu bài toán lồi và thỏa KKT thì điểm đó là nghiệm tối ưu toàn cục.
 
-**Kết quả:** Cả hai đều enforce $$h(x) = 0$$
+#### **Chiến lược giải bài toán giải tích**
+1. Viết đầy đủ hệ điều kiện KKT cho bài toán.
+2. Dùng điều kiện bù yếu để xét các trường hợp tập ràng buộc tích cực.
+3. Giải hệ phương trình từ điều kiện dừng và các ràng buộc đang chặt.
+4. Kiểm tra lại toàn bộ điều kiện khả thi để loại nghiệm ngoại lai.
 
-### 🛠️ **Kỹ Thuật Thực Hành**
+#### **Ứng dụng trong thuật toán số**
+- **Phương pháp tập tích cực (Active set):** Xác định dần tập ràng buộc chặt qua từng bước lặp.
+- **Phương pháp điểm trong (Interior point):** Bám theo đường trung tâm thỏa mãn hệ KKT đã làm trơn.
+- **Phương pháp nguyên thủy–đối ngẫu:** Cập nhật đồng thời biến nguyên thủy và biến đối ngẫu.
 
-#### **Kiểm tra KKT conditions:**
-1. **Verify stationarity:** $$\nabla_x L(x^*, \lambda^*, \nu^*) = 0$$
-2. **Check complementary slackness:** $$\lambda_i^* h_i(x^*) = 0 \quad \forall i$$
-3. **Verify feasibility:** Primal và dual constraints
-4. **Confirm optimality:** Nếu convex + KKT ⟹ optimal
+### 💡 **Ví dụ minh họa**
 
-#### **Analytical solution strategy:**
-1. **Write KKT conditions** cho specific problem
-2. **Use complementary slackness** để identify active constraints
-3. **Solve system of equations** từ stationarity + feasibility
-4. **Verify solution** thỏa mãn tất cả KKT conditions
-
-#### **Computational applications:**
-- **Active set methods:** Identify active constraints iteratively
-- **Interior point methods:** Follow central path satisfying KKT
-- **Primal-dual methods:** Update primal và dual simultaneously
-
-### 💡 **Ví Dụ Minh Họa**
-
-#### **Bài toán đơn giản:**
+#### **Bài toán đơn giản**
 $$\min_x x^2 + y^2 \quad \text{s.t.} \quad x + y = 1, \quad x \ge 0$$
 
-**KKT conditions:**
-- **Stationarity:** $$2x^* - \lambda^* + \nu^* = 0$$, $$2y^* + \nu^* = 0$$
-- **Complementary slackness:** $$\lambda^* x^* = 0$$
-- **Primal feasibility:** $$x^* + y^* = 1$$, $$x^* \ge 0$$
-- **Dual feasibility:** $$\lambda^* \ge 0$$
+**Điều kiện KKT:**
+- **Điều kiện dừng:** $$2x^* - \lambda^* + \nu^* = 0$$, $$2y^* + \nu^* = 0$$
+- **Bù yếu:** $$\lambda^* x^* = 0$$
+- **Khả thi nguyên thủy:** $$x^* + y^* = 1$$, $$x^* \ge 0$$
+- **Khả thi đối ngẫu:** $$\lambda^* \ge 0$$
 
-**Case analysis:**
-- **Case 1:** $$x^* > 0$$ ⟹ $$\lambda^* = 0$$ ⟹ $$x^* = y^* = 1/2$$
-- **Case 2:** $$x^* = 0$$ ⟹ $$y^* = 1$$ ⟹ $$\nu^* = -2$$ ⟹ $$\lambda^* = -2 < 0$$ (vi phạm dual feasibility, loại)
+**Phân tích trường hợp:**
+- **Trường hợp 1:** $$x^* > 0 \implies \lambda^* = 0 \implies x^* = y^* = 1/2$$, $$\nu^* = -1$$ (thỏa mãn).
+- **Trường hợp 2:** $$x^* = 0 \implies y^* = 1 \implies \nu^* = -2 \implies \lambda^* = -2 < 0$$ (vi phạm tính khả thi đối ngẫu, loại).
 
-**Optimal solution:** $$x^* = 1/2, y^* = 1/2$$, $$\nu^* = -1$$, $$\lambda^* = 0$$ (chỉ Case 1 thỏa mãn KKT)
+**Nghiệm tối ưu:** $$x^* = 1/2, y^* = 1/2$$, $$\nu^* = -1$$, $$\lambda^* = 0$$.
 
-### 🎯 **Kết Nối Với Các Chương**
+### 🎯 **Kết nối với các chương khác và ứng dụng**
 
-#### **Từ chương trước:**
-- **Chương 11:** General duality theory - KKT là direct consequence
-- **Chương 10:** LP duality - KKT generalizes optimality conditions
-- **Chương 04:** First-order optimality conditions - KKT extends to constrained
-
-#### **Tầm quan trọng của KKT:**
-- **Optimality characterization:** Necessary và sufficient conditions
-- **Algorithm design:** Active set, interior point, SQP methods
-- **Theoretical analysis:** Sensitivity, perturbation theory
-- **Machine learning:** SVM, regularization, constrained learning
-
-#### **Hướng phát triển:**
-- **Second-order conditions:** Bordered Hessian, LICQ, MFCQ
-- **Nonlinear programming:** SQP, trust region methods
-- **Variational inequalities:** Complementarity problems
-- **Optimal control:** Pontryagin maximum principle
-
-### 🌟 **Ý Nghĩa Lý Thuyết**
-
-#### **KKT như universal optimality conditions:**
-- **Unifies:** Unconstrained ($$\nabla f = 0$$) và constrained optimization
-- **Characterizes:** Exactly when point is optimal
-- **Enables:** Systematic algorithm design
-- **Connects:** Primal và dual perspectives
-
-#### **Geometric interpretation:**
-- **Stationarity:** Gradient orthogonal to feasible directions
-- **Complementary slackness:** Either constraint active hoặc multiplier zero
-- **Feasibility:** Point lies in feasible region
-- **Non-negativity:** Consistent với constraint directions
-
-#### **Computational significance:**
-- **Algorithm foundation:** Most constrained optimization algorithms
-- **Convergence criteria:** KKT residual như stopping condition
-- **Sensitivity analysis:** Dual variables như shadow prices
-- **Problem structure:** Active set identification
-
-### 💡 **Mẹo Thực Hành**
-
-#### **Khi nào sử dụng KKT:**
-1. **Analytical solutions:** Small problems với closed-form solutions
-2. **Algorithm design:** Foundation cho numerical methods
-3. **Optimality verification:** Check if candidate point optimal
-4. **Sensitivity analysis:** Understand parameter changes
-
-#### **Common pitfalls:**
-- **Forget constraint qualifications:** LICQ, MFCQ for necessity
-- **Wrong complementary slackness:** $$\lambda_i h_i = 0$$ chỉ có nghĩa là ít nhất một trong hai bằng 0; ràng buộc active vẫn có thể có $$\lambda_i = 0$$
-- **Non-convex problems:** KKT necessary but not sufficient
-- **Numerical issues:** KKT matrix có thể ill-conditioned
-
-#### **Debugging strategies:**
-- **Check each condition separately:** Stationarity, slackness, feasibility
-- **Verify constraint qualifications:** For necessity
-- **Use geometric intuition:** Gradient orthogonality
-- **Compare với known solutions:** Simple test cases
-
-### 🔬 **Advanced Topics**
-
-#### **Constraint qualifications:**
-- **LICQ:** Linear Independence Constraint Qualification
-- **MFCQ:** Mangasarian-Fromovitz Constraint Qualification
-- **CPLD:** Constant Positive Linear Dependence
-- **Applications:** When KKT conditions are necessary
-
-#### **Second-order conditions:**
-- **SOSC:** Second-Order Sufficient Conditions
-- **Bordered Hessian:** For equality-constrained problems
-- **Critical cone:** Directions of potential descent
-- **Applications:** Algorithm convergence rates
-
-#### **Variational inequalities:**
-- **Complementarity problems:** Generalize KKT conditions
-- **Nash equilibria:** Game theory applications
-- **Contact mechanics:** Engineering applications
-
-### 📈 **Ứng Dụng Thực Tế**
-
-#### **Machine Learning:**
-- **SVM:** Dual formulation và support vector identification
-- **Regularization:** L1, L2 penalties via constrained formulation
-- **Neural networks:** Constrained training, fairness constraints
-
-#### **Engineering:**
-- **Optimal control:** Pontryagin maximum principle
-- **Signal processing:** Filter design, beamforming
-- **Structural optimization:** Weight minimization với stress constraints
-
-#### **Economics và Finance:**
-- **Portfolio optimization:** Risk-return tradeoffs
-- **Mechanism design:** Incentive compatibility
-- **Resource allocation:** Utility maximization
-
-#### **Operations Research:**
-- **Production planning:** Capacity constraints
-- **Supply chain:** Inventory optimization
-- **Transportation:** Network flow problems
+- **Liên hệ lý thuyết:** Chương 11 cung cấp lý thuyết đối ngẫu tổng quát làm nền tảng cho KKT; Chương 10 là trường hợp riêng cho quy hoạch tuyến tính; Chương 04 xét điều kiện tối ưu bậc nhất không ràng buộc.
+- **Lưu ý khi áp dụng:** Cần kiểm tra điều kiện chuẩn ràng buộc (LICQ, MFCQ hoặc Slater) khi dùng KKT như điều kiện cần; không nhầm lẫn rằng ràng buộc tích cực luôn có $$\lambda_i > 0$$ (vẫn có thể có $$\lambda_i = 0$$); với bài toán không lồi, KKT chỉ là điều kiện cần chứ không đủ.
+- **Ứng dụng phổ biến:** Học máy (SVM, điều chuẩn, ràng buộc công bằng), kỹ thuật (điều khiển tối ưu, xử lý tín hiệu, tối ưu kết cấu), kinh tế–tài chính (tối ưu danh mục đầu tư, phân bổ nguồn lực) và vận trù học (luồng mạng, lập kế hoạch sản xuất).
 
 ---
-
-💡 **Mẹo:** KKT conditions là **crown jewel** của optimization theory - chúng provide exact characterization của optimality cho constrained problems và là foundation cho hầu hết modern optimization algorithms!
-
----
-
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -419,7 +308,7 @@ mjx-container[jax="CHTML"][display="false"] {
 }
 </style>
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điều kiện Karush-Kuhn-Tucker (KKT), bao gồm các ví dụ thực tế như SVM, water-filling algorithm, quadratic programming và L1 penalized problems.
+Bài tập trắc nghiệm này kiểm tra mức độ nắm vững điều kiện Karush–Kuhn–Tucker (KKT) cùng các ví dụ ứng dụng như SVM, thuật toán water-filling, quy hoạch bậc hai và bài toán phạt L1.
 
 ---
 
@@ -444,7 +333,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Stationarity, complementary slackness, primal feasibility, dual feasibility</strong><br>
-                KKT conditions gồm 4 thành phần: (1) Stationarity, (2) Complementary slackness, (3) Primal feasibility, (4) Dual feasibility.
+                Điều kiện KKT gồm 4 thành phần: (1) Điều kiện dừng (stationarity), (2) Điều kiện bù yếu (complementary slackness), (3) Tính khả thi nguyên thủy (primal feasibility) và (4) Tính khả thi đối ngẫu (dual feasibility).
             </div>
         </div>
 
@@ -459,7 +348,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$\nabla f(x^*) + \sum \lambda_i \nabla h_i(x^*) + \sum \nu_j \nabla l_j(x^*) = 0$$</strong><br>
-                Stationarity: gradient của Lagrangian theo $$x$$ bằng 0, tức là gradient của objective cân bằng với tổ hợp tuyến tính của gradients của constraints.
+                Điều kiện dừng yêu cầu gradient của hàm Lagrangian theo $$x$$ bằng 0, tức gradient của hàm mục tiêu cân bằng với tổ hợp tuyến tính các gradient của những ràng buộc.
             </div>
         </div>
 
@@ -474,7 +363,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Complementary slackness có thể phát biểu theo nhiều cách tương đương: $$\lambda_i h_i(x^*) = 0$$, hoặc $$\lambda_i = 0$$ hoặc $$h_i(x^*) = 0$$, hoặc inactive constraints có dual variable = 0.
+                Điều kiện bù yếu có nhiều cách phát biểu tương đương: $$\lambda_i h_i(x^*) = 0$$, hoặc ít nhất một trong hai đại lượng $$\lambda_i$$ và $$h_i(x^*)$$ bằng 0, hay mọi ràng buộc không chặt đều có biến đối ngẫu bằng 0.
             </div>
         </div>
 
@@ -489,7 +378,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Bài toán là convex</strong><br>
-                KKT conditions là necessary (với constraint qualification) cho mọi bài toán, nhưng chỉ sufficient cho global optimality khi bài toán convex.
+                Điều kiện KKT là điều kiện cần (khi có điều kiện chuẩn ràng buộc) cho mọi bài toán, nhưng chỉ là điều kiện đủ cho cực tiểu toàn cục khi bài toán là bài toán lồi.
             </div>
         </div>
 
@@ -504,7 +393,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$h_i(x^*) = 0$$</strong><br>
-                Constraint active có nghĩa là nó được thỏa mãn với dấu bằng tại optimal point.
+                Một ràng buộc bất đẳng thức được gọi là tích cực (active) khi nó đạt dấu bằng tại điểm tối ưu.
             </div>
         </div>
 
@@ -534,7 +423,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\max \sum \log(\alpha_i + x_i)$$ s.t. $$\sum x_i = P, x_i \geq 0$$</strong><br>
-                Water-filling maximizes sum of log capacities subject to total power constraint và non-negativity.
+                Thuật toán water-filling cực đại hóa tổng dung lượng logarit của các kênh dưới ràng buộc tổng công suất cố định và công suất không âm.
             </div>
         </div>
 
@@ -549,7 +438,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$x_i^* = \max(0, \mu - \alpha_i)$$</strong><br>
-                Water-filling solution: allocate power $$\mu - \alpha_i$$ to channel $$i$$ if $$\mu > \alpha_i$$, otherwise allocate 0.
+                Nghiệm water-filling phân bổ công suất $$\mu - \alpha_i$$ cho kênh $$i$$ nếu $$\mu > \alpha_i$$, ngược lại phân bổ bằng 0.
             </div>
         </div>
 
@@ -564,7 +453,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\min \frac{1}{2}\|w\|^2$$ s.t. $$y_i(w^T x_i + b) \geq 1$$</strong><br>
-                SVM primal: minimize $$\frac{1}{2}\|w\|^2$$, tức là maximize margin $$2/\|w\|$$, subject to classification constraints.
+                Bài toán SVM nguyên thủy cực tiểu hóa $$\frac{1}{2}\|w\|^2$$ (tương đương cực đại hóa độ rộng lề $$2/\|w\|$$) dưới các ràng buộc phân loại đúng.
             </div>
         </div>
 
@@ -579,7 +468,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$\max \sum \alpha_i - \frac{1}{2}\sum \alpha_i \alpha_j y_i y_j x_i^T x_j$$</strong><br>
-                SVM dual maximizes linear term minus quadratic term subject to constraints $$\sum \alpha_i y_i = 0, \alpha_i \geq 0$$.
+                Bài toán SVM đối ngẫu cực đại hóa hiệu giữa số hạng tuyến tính và số hạng bậc hai dưới ràng buộc $$\sum \alpha_i y_i = 0$$ và $$\alpha_i \geq 0$$.
             </div>
         </div>
 
@@ -594,7 +483,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$\alpha_i > 0$$</strong><br>
-                Support vectors có dual variables $$\alpha_i > 0$$ và nằm trên margin boundary: $$y_i(w^T x_i + b) = 1$$.
+                Các vector hỗ trợ có nhân tử đối ngẫu $$\alpha_i > 0$$ và (trong Hard-Margin SVM) nằm đúng trên biên lề: $$y_i(w^T x_i + b) = 1$$.
             </div>
         </div>
 
@@ -609,7 +498,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Gradients của active constraints độc lập tuyến tính</strong><br>
-                LICQ đảm bảo gradients của active constraints tại optimal point độc lập tuyến tính, guarantee KKT necessity.
+                LICQ yêu cầu các gradient của những ràng buộc tích cực tại điểm tối ưu độc lập tuyến tính, qua đó đảm bảo điều kiện KKT là điều kiện cần.
             </div>
         </div>
 
@@ -639,7 +528,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$f$$ là strictly convex</strong><br>
-                Strict convexity của $$f$$ đảm bảo uniqueness của nghiệm, ngay cả khi L1 term không strictly convex.
+                Tính lồi chặt của $$f$$ đảm bảo bài toán có nghiệm duy nhất, ngay cả khi thành phần phạt L1 chỉ lồi chứ không lồi chặt.
             </div>
         </div>
 
@@ -669,7 +558,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Đảm bảo KKT conditions necessary</strong><br>
-                Constraint qualification (LICQ, MFCQ, etc.) đảm bảo KKT conditions là necessary cho local optimality.
+                Điều kiện chuẩn ràng buộc (như LICQ, MFCQ) đảm bảo điều kiện KKT là điều kiện cần cho cực tiểu địa phương.
             </div>
         </div>
 
@@ -684,7 +573,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Positive definite trên tangent space của active constraints</strong><br>
-                SOSC: Hessian của Lagrangian positive definite trên tangent space, đảm bảo local minimum.
+                Điều kiện đủ bậc hai (SOSC) yêu cầu ma trận Hessian của hàm Lagrangian xác định dương trên không gian tiếp tuyến của các ràng buộc tích cực, đảm bảo điểm đang xét là cực tiểu địa phương chặt.
             </div>
         </div>
 
@@ -699,7 +588,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Ước lượng multiplier của penalty method hội tụ đến KKT multipliers</strong><br>
-                Khi penalty parameter $$\to \infty$$, nghiệm của penalized problem hội tụ và multipliers hội tụ đến KKT multipliers.
+                Khi tham số phạt tiến ra vô cùng, nghiệm của bài toán phạt hội tụ về nghiệm tối ưu gốc và các đại lượng ước lượng nhân tử hội tụ về nhân tử KKT.
             </div>
         </div>
 
@@ -714,7 +603,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Sensitivity của optimal value đối với thay đổi constraints</strong><br>
-                KKT multipliers là shadow prices: cho biết optimal value thay đổi bao nhiêu khi constraint bounds thay đổi.
+                Các nhân tử KKT đóng vai trò giá bóng (shadow price), phản ánh tốc độ thay đổi của giá trị tối ưu khi nới lỏng hoặc siết chặt các ràng buộc.
             </div>
         </div>
 
@@ -729,7 +618,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về điề
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các lĩnh vực trên</strong><br>
-                KKT conditions là công cụ fundamental trong constrained optimization với ứng dụng rộng rãi trong ML, signal processing, economics và nhiều lĩnh vực khác.
+                Điều kiện KKT là công cụ nền tảng của tối ưu hóa có ràng buộc, được ứng dụng rộng rãi trong học máy, xử lý tín hiệu, kinh tế học và nhiều ngành kỹ thuật khác.
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->

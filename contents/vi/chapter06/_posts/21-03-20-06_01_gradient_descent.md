@@ -10,80 +10,77 @@ lang: vi
 lesson_type: required
 ---
 
-Gradient descent là thuật toán đơn giản nhất để giải quyết các bài toán tối ưu hóa lồi và khả vi không ràng buộc.
+Gradient descent là thuật toán cơ bản nhất để giải các bài toán tối ưu hóa lồi, khả vi và không ràng buộc:
 
 > $$\min_x f(x),$$
 > trong đó $$f$$ khả vi và $$dom(f) = \mathbb{R}^n$$.
 
-Giá trị tối ưu là $$f^* = \min_x f(x)$$, và điểm tối ưu là $$x^*$$.
+Giá trị tối ưu được ký hiệu là $$f^* = \min_x f(x)$$ và điểm tối ưu tương ứng là $$x^*$$.
 
-## Tại sao Gradient Descent quan trọng trong Khoa học Dữ liệu
+## Vai trò của Gradient Descent trong Khoa học Dữ liệu
 
-**Gradient descent là công cụ chủ lực của machine learning!** Đây là thuật toán đằng sau:
+Gradient descent là một trong những thuật toán nền tảng của học máy (machine learning), được sử dụng rộng rãi trong:
 
-- **Huấn luyện mạng nơ-ron**: Backpropagation sử dụng gradient descent để cập nhật trọng số
-- **Hồi quy tuyến tính**: Tìm các hệ số tối ưu để giảm thiểu MSE
-- **Hồi quy logistic**: Tối ưu hóa tham số cho phân loại
-- **Deep learning**: Huấn luyện các mô hình phức tạp với hàng triệu tham số
-- **Hệ thống gợi ý**: Học sở thích người dùng và đặc trưng sản phẩm
+- **Huấn luyện mạng nơ-ron**: Thuật toán lan truyền ngược (backpropagation) kết hợp với gradient descent để cập nhật trọng số.
+- **Hồi quy tuyến tính**: Tìm bộ hệ số tối ưu nhằm cực tiểu hóa sai số bình phương trung bình (MSE).
+- **Hồi quy logistic**: Tối ưu hóa tham số cho bài toán phân loại.
+- **Học sâu (Deep learning)**: Huấn luyện các mô hình lớn với hàng triệu tham số.
+- **Hệ thống gợi ý**: Học biểu diễn sở thích người dùng và đặc trưng sản phẩm.
 
-**Hiểu biết quan trọng**: Mỗi khi bạn thấy "training" hoặc "learning" trong ML, gradient descent (hoặc các biến thể của nó) có khả năng được sử dụng!
-
+**Lưu ý**: Trong hầu hết các bài toán huấn luyện mô hình học máy, gradient descent hoặc các biến thể của nó đều đóng vai trò thuật toán tối ưu cốt lõi.
 
 ## Gradient Descent cho Hàm Một Biến
 
-Đối với hàm một biến $$f: \mathbb{R} \to \mathbb{R}$$, gradient descent được đơn giản hóa đáng kể. Gradient trở thành đạo hàm, và quy tắc cập nhật trở thành:
+Đối với hàm một biến $$f: \mathbb{R} \to \mathbb{R}$$, gradient descent có dạng rất đơn giản. Gradient lúc này chính là đạo hàm bậc nhất, và quy tắc cập nhật được viết như sau:
 
 > $$x^{(k)} = x^{(k-1)} - t f'(x^{(k-1)}), \quad k = 1, 2, 3, ...$$
 
 trong đó $$f'(x)$$ là đạo hàm của $$f$$ tại điểm $$x$$.
 
-### Giải thích Hình học
+### Diễn giải Hình học
 
-Trong trường hợp hàm một biến, đạo hàm $$f'(x)$$ biểu thị độ dốc của đường tiếp tuyến tại điểm $$x$$:
-- Nếu $$f'(x) > 0$$, hàm số đang tăng, vì vậy chúng ta di chuyển sang trái (trừ đi một giá trị dương)
-- Nếu $$f'(x) < 0$$, hàm số đang giảm, vì vậy chúng ta di chuyển sang phải (trừ đi một giá trị âm)
-- Nếu $$f'(x) = 0$$, chúng ta đã đạt đến điểm tới hạn (cực tiểu tiềm năng)
+Trong trường hợp một biến, đạo hàm $$f'(x)$$ là độ dốc của đường tiếp tuyến với đồ thị hàm số tại điểm $$x$$:
+- Nếu $$f'(x) > 0$$, hàm số đang tăng tại $$x$$, nên ta di chuyển sang trái (trừ đi một đại lượng dương).
+- Nếu $$f'(x) < 0$$, hàm số đang giảm tại $$x$$, nên ta di chuyển sang phải (trừ đi một đại lượng âm).
+- Nếu $$f'(x) = 0$$, ta đã đạt tới điểm dừng (ứng viên cực tiểu).
 
 ### Tốc độ học $$t$$
 
-Tốc độ học $$t$$ (còn gọi là kích thước bước) là một siêu tham số quan trọng có thể được thiết lập bởi người thiết kế thuật toán. Nó kiểm soát chúng ta thực hiện các bước lớn như thế nào theo hướng của gradient âm.
+Tốc độ học $$t$$ (còn gọi là kích thước bước) là siêu tham số quan trọng do người thiết kế thuật toán lựa chọn. Tham số này quyết định độ dài mỗi bước di chuyển theo hướng ngược chiều gradient.
 
-**Tác động của Tốc độ Học:**
+**Ảnh hưởng của tốc độ học:**
 
-- **Quá nhỏ ($$t \ll 1$$)**: Thuật toán sẽ cập nhật rất chậm, yêu cầu nhiều lần lặp để hội tụ đến nghiệm tối ưu. Mặc dù điều này đảm bảo tính ổn định, nhưng có thể tốn kém về mặt tính toán.
-
-- **Quá lớn ($$t \gg 1$$)**: Thuật toán có thể vượt quá cực tiểu và có khả năng phân kỳ, dao động xung quanh điểm tối ưu hoặc thậm chí di chuyển ra khỏi nó.
-
-- **Vừa phải**: Thuật toán hội tụ nhanh chóng và mượt mà đến nghiệm tối ưu.
+- **Quá nhỏ ($$t \ll 1$$)**: Các bước cập nhật rất nhỏ, đòi hỏi nhiều lần lặp để tiến tới nghiệm tối ưu. Dù đảm bảo tính ổn định, cách chọn này có thể tốn kém về chi phí tính toán.
+- **Quá lớn ($$t \gg 1$$)**: Thuật toán có thể nhảy vượt qua điểm cực tiểu, dẫn đến dao động quanh nghiệm tối ưu hoặc thậm chí phân kỳ ra xa nghiệm.
+- **Phù hợp**: Thuật toán hội tụ nhanh và ổn định về nghiệm tối ưu.
 
 **Các chiến lược phổ biến để chọn tốc độ học:**
-1. **Kích thước bước cố định**: Sử dụng một giá trị không đổi trong suốt quá trình tối ưu hóa
-2. **Tìm kiếm đường chính xác**: Tại mỗi lần lặp, chọn $$t$$ để giảm thiểu $$f(x^{(k-1)} - t\nabla f(x^{(k-1)}))$$
-3. **Tìm kiếm đường lùi**: Bắt đầu với kích thước bước lớn và giảm dần cho đến khi đạt được sự giảm đủ
-4. **Phương pháp thích ứng**: Điều chỉnh tốc độ học dựa trên tiến độ tối ưu hóa (ví dụ: Adam, RMSprop)
+1. **Kích thước bước cố định**: Giữ nguyên một giá trị $$t$$ không đổi trong suốt quá trình tối ưu hóa.
+2. **Tìm kiếm đường chính xác (exact line search)**: Tại mỗi bước lặp, chọn $$t$$ sao cho cực tiểu hóa $$f(x^{(k-1)} - t\nabla f(x^{(k-1)}))$$.
+3. **Tìm kiếm đường lùi (backtracking line search)**: Bắt đầu với kích thước bước lớn rồi giảm dần cho đến khi đạt được mức giảm đủ lớn của hàm mục tiêu.
+4. **Phương pháp thích ứng**: Tự động điều chỉnh tốc độ học dựa trên lịch sử cập nhật (ví dụ: Adam, RMSprop).
 
 ### Ví dụ: Hàm Bậc Hai
 
-Xem xét hàm bậc hai $$f(x) = \frac{1}{2}(x - 2)^2 + 1$$ với đạo hàm $$f'(x) = x - 2$$.
+Xét hàm bậc hai $$f(x) = \frac{1}{2}(x - 2)^2 + 1$$ với đạo hàm $$f'(x) = x - 2$$.
 
-Cập nhật gradient descent trở thành:
+Quy tắc cập nhật của gradient descent là:
 > $$x^{(k)} = x^{(k-1)} - t(x^{(k-1)} - 2)$$
 
 Bắt đầu từ $$x^{(0)} = 0$$ với kích thước bước $$t = 0.1$$:
-> $$x^{(1)} = 0 - 0.1(0 - 2) = 0.2 \\ $$ 
+> $$x^{(1)} = 0 - 0.1(0 - 2) = 0.2$$
 > $$x^{(2)} = 0.2 - 0.1(0.2 - 2) = 0.38$$
 > $$x^{(3)} = 0.38 - 0.1(0.38 - 2) = 0.542$$
 > ...
 
-Dãy số hội tụ về $$x^* = 2$$, đây là cực tiểu toàn cục.
+Dãy lặp này hội tụ về $$x^* = 2$$, cũng là điểm cực tiểu toàn cục của hàm số.
 
 ### Lựa chọn Kích thước Bước
 
-Việc lựa chọn kích thước bước $$t$$ là rất quan trọng:
-- **Quá nhỏ**: Hội tụ rất chậm
-- **Quá lớn**: Thuật toán có thể vượt quá và phân kỳ
-- **Tối ưu**: Đối với hàm bậc hai $$f(x) = \frac{1}{2}ax^2 + bx + c$$ với $$a > 0$$, kích thước bước tối ưu là $$t = \frac{1}{a}$$
+Việc chọn kích thước bước $$t$$ ảnh hưởng trực tiếp đến quá trình hội tụ:
+- **Quá nhỏ**: Hội tụ rất chậm.
+- **Quá lớn**: Có thể vượt quá cực tiểu và phân kỳ.
+- **Tối ưu**: Với hàm bậc hai một biến $$f(x) = \frac{1}{2}ax^2 + bx + c$$ ($$a > 0$$), kích thước bước tối ưu là $$t = \frac{1}{a}$$, giúp đạt cực tiểu chỉ sau một bước.
 
 ### Trực quan Hóa Tương tác
 
@@ -386,57 +383,57 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-
 ## Phương pháp Gradient Descent cho Hàm Nhiều Biến
 
-Gradient descent bắt đầu từ một điểm ban đầu $$x^{(0)} \in \mathbb{R}^n$$ và cập nhật lặp đi lặp lại như sau cho đến khi đáp ứng tiêu chuẩn dừng:
-> $$x^{(k)} = x^{(k-1)} - t \nabla f(x^{(k-1)}), \quad k = 1, 2, 3, ...$$, $$t > 0$$
+Gradient descent bắt đầu từ một điểm khởi tạo $$x^{(0)} \in \mathbb{R}^n$$ và cập nhật lặp cho đến khi tiêu chuẩn dừng được thỏa mãn:
+> $$x^{(k)} = x^{(k-1)} - t \nabla f(x^{(k-1)}), \quad k = 1, 2, 3, ..., \quad t > 0$$
 
 Mã giả:
-> **Cho điểm bắt đầu** $$x \in dom(f)$$ <br>
-> **Lặp lại**  <br>
+> **Cho điểm khởi tạo** $$x \in dom(f)$$ <br>
+> **Lặp lại** <br>
 > 1. Xác định hướng giảm $$\Delta x = -\nabla f(x)$$. <br>
-> 2. Tìm kiếm đường: chọn kích thước bước $$t > 0$$. <br>
+> 2. Tìm kiếm đường (line search): chọn kích thước bước $$t > 0$$. <br>
 > 3. Cập nhật $$x = x + t \Delta x$$. <br>
 > **Cho đến khi** tiêu chuẩn dừng được thỏa mãn <br>
 
 ### Ví dụ
 
-Hình dưới đây cho thấy gradient descent trên một hàm lồi. Trong trường hợp này, cực tiểu cục bộ cũng là cực tiểu toàn cục.
+Hình dưới đây minh họa gradient descent trên một hàm lồi. Trong trường hợp này, mọi cực tiểu cục bộ đều là cực tiểu toàn cục.
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter06/06_01_gradientdescent1.png" alt="gradientdescent1" width="80%" height="80%">
-  <figcaption style="text-align: center;">[Hình 1] Gradient descent trong hàm lồi[3]</figcaption>
+  <figcaption style="text-align: center;">[Hình 1] Gradient descent trên hàm lồi [3]</figcaption>
 </p>
 </figure>
 
-Hình tiếp theo cho thấy gradient descent trên một hàm không lồi. Ở đây, điểm ban đầu quyết định cực tiểu cục bộ nào được đạt tới.
+Hình tiếp theo minh họa gradient descent trên một hàm không lồi. Khi đó, điểm khởi tạo quyết định thuật toán sẽ hội tụ về cực tiểu cục bộ nào.
 
 <figure class="image" style="align: center;">
 <p align="center">
   <img src="{{ site.baseurl }}/img/chapter_img/chapter06/06_01_gradientdescent2.png" alt="gradientdescent2" width="80%" height="80%">
-  <figcaption style="text-align: center;">[Hình 2] Gradient descent trong hàm không lồi[3]</figcaption>
+  <figcaption style="text-align: center;">[Hình 2] Gradient descent trên hàm không lồi [3]</figcaption>
 </p>
 </figure>
 
-## Giải thích Gradient Descent
-Gradient descent có thể được giải thích là việc chọn điểm tiếp theo bằng cách giảm thiểu một xấp xỉ bậc hai của hàm số.
+## Diễn giải Gradient Descent
 
-Đối với hàm $$f$$, khai triển Taylor bậc hai quanh $$x$$ là:
->$$f(y) \approx f(x) + \nabla f(x)^T (y - x) +  \frac{1}{2} \nabla^2 f(x)  \|y - x\|_2^2$$
+Gradient descent có thể được hiểu như quá trình chọn điểm tiếp theo bằng cách cực tiểu hóa một xấp xỉ bậc hai cục bộ của hàm mục tiêu.
 
-Nếu chúng ta xấp xỉ ma trận Hessian $$\nabla^2 f(x)$$ bằng $$\frac{1}{t}I$$, thì:
->$$f(y) \approx f(x) + \nabla f(x)^T (y - x) +  \frac{1}{2t}  \|y - x\|_2^2$$
+Đối với hàm $$f$$, khai triển Taylor bậc hai quanh điểm $$x$$ có dạng:
+>$$f(y) \approx f(x) + \nabla f(x)^T (y - x) + \frac{1}{2} (y - x)^T \nabla^2 f(x) (y - x)$$
+
+Nếu ta xấp xỉ ma trận Hessian $$\nabla^2 f(x)$$ bằng $$\frac{1}{t}I$$, ta thu được:
+>$$f(y) \approx f(x) + \nabla f(x)^T (y - x) + \frac{1}{2t} \|y - x\|_2^2$$
 trong đó $$t$$ là kích thước bước.
 
-Vì vậy, trong gradient descent, hàm số được xấp xỉ bởi một hàm bậc hai có ma trận Hessian với các giá trị riêng bằng nghịch đảo của kích thước bước. Số hạng $$f(x) + \nabla f(x)^T (y - x)$$ biểu thị một xấp xỉ tuyến tính của $$f$$, và $$\frac{1}{2t}  \|y - x\|_2^2$$ đóng vai trò là số hảng gần kề chỉ ra $$y$$ gần $$x$$ như thế nào.
+Như vậy, gradient descent xấp xỉ hàm mục tiêu bằng một hàm bậc hai có ma trận Hessian đẳng hướng với mọi giá trị riêng đều bằng $$\frac{1}{t}$$. Biểu thức $$f(x) + \nabla f(x)^T (y - x)$$ là xấp xỉ tuyến tính của $$f$$ quanh $$x$$, còn $$\frac{1}{2t} \|y - x\|_2^2$$ đóng vai trò là số hạng gần kề (proximal term), kiểm soát khoảng cách giữa $$y$$ và $$x$$.
 
-Vị trí tiếp theo được chọn là cực tiểu của hàm bậc hai xấp xỉ này. Đặt gradient của $$f(y)$$ bằng không để tìm vị trí tiếp theo $$y = x^+$$ dẫn đến:
+Điểm tiếp theo $$y = x^+$$ được chọn làm cực tiểu của hàm bậc hai xấp xỉ này. Đặt gradient theo $$y$$ bằng 0, ta thu được:
 
 > $$x^+ = x - t \nabla f(x)$$
 
-Trong hình minh họa dưới đây, chấm xanh biểu thị vị trí hiện tại $$x$$, và chấm đỏ biểu thị vị trí tiếp theo $$y$$. Đường cong bên dưới là hàm thực tế $$f$$, và đường cong bên trên là xấp xỉ bậc hai của $$f$$. Vì vậy, chấm đỏ chỉ ra cực tiểu của xấp xỉ bậc hai.
+Trong hình minh họa bên dưới, chấm xanh biểu diễn vị trí hiện tại $$x$$ và chấm đỏ biểu diễn vị trí tiếp theo $$x^+$$. Đường cong phía dưới là hàm thực $$f$$, còn đường cong phía trên là hàm bậc hai xấp xỉ của $$f$$; chấm đỏ chính là điểm cực tiểu của hàm bậc hai xấp xỉ đó.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -445,7 +442,7 @@ Trong hình minh họa dưới đây, chấm xanh biểu thị vị trí hiện 
 </p>
 </figure>
 
-Độ gần kề của vị trí tiếp theo $$y$$ đến vị trí hiện tại $$x$$ bị ảnh hưởng bởi trọng số của số hạng gần kề $$\frac{1}{2t}$$. Một $$t$$ nhỏ hơn dẫn đến trọng số lớn hơn cho số hạng gần kề, dẫn đến các bước nhỏ hơn. Quá trình này có thể được biểu thị như:
+Khoảng cách từ vị trí mới $$y$$ tới vị trí hiện tại $$x$$ chịu ảnh hưởng trực tiếp bởi trọng số $$\frac{1}{2t}$$ của số hạng gần kề. Khi $$t$$ nhỏ, trọng số này lớn hơn, buộc thuật toán chỉ thực hiện các bước nhỏ quanh $$x$$. Quy tắc cập nhật này có thể viết gọn dưới dạng bài toán tối ưu:
 
 > \begin{align}
 x^+ = \underset{y}{\arg \min} \ f(x) + \nabla f(x)^T (y - x) + \frac{1}{2t} \parallel y - x \parallel_2^2

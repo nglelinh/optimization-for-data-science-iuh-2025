@@ -43,7 +43,7 @@ $$\begin{align}
 - Có thể giải hiệu quả bằng **thuật toán Simplex**
 
 **Chuyển đổi về dạng chuẩn:**
-1. Thêm biến slack: $$g_i(x) \le 0 \Rightarrow g_i(x) + s_i = 0, s_i \ge 0$$
+1. Thêm biến phụ (slack): $$g_i(x) \le 0 \Rightarrow g_i(x) + s_i = 0, s_i \ge 0$$
 2. Tách biến: $$x = x^+ - x^-$$ với $$x^+, x^- \ge 0$$
 
 ### 📈 **Quy Hoạch Bậc Hai (QP)**
@@ -58,7 +58,7 @@ $$\begin{align}
 **Điều kiện lồi:** $$P \in \mathbb{S}_+^n$$ (ma trận bán xác định dương)
 
 **Kiểm tra $$P \succeq 0$$:**
-- Tất cả eigenvalue $$\lambda_i \ge 0$$
+- Tất cả giá trị riêng $$\lambda_i \ge 0$$
 - $$v^T P v \ge 0$$ với mọi $$v$$
 - Với ma trận $$2 \times 2$$: $$a \ge 0, c \ge 0, ac \ge b^2$$
 
@@ -124,10 +124,10 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 **Linear Programming:**
 - **Simplex Method:** Di chuyển từ đỉnh này sang đỉnh khác
 - **Interior Point Methods:** Đi qua phần trong của tập khả thi
-- **Dual Simplex:** Bắt đầu từ nghiệm dual khả thi
+- **Dual Simplex:** Bắt đầu từ nghiệm khả thi đối ngẫu
 
 **Quadratic Programming:**
-- **Active Set Methods:** Xác định ràng buộc hoạt động
+- **Phương pháp tập tích cực (Active Set):** Xác định các ràng buộc tích cực
 - **Interior Point Methods:** Mở rộng từ LP
 - **Gradient Projection:** Chiếu gradient lên tập khả thi
 
@@ -141,7 +141,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 
 **Linear Programming:**
 - Tối ưu hóa sản xuất và phân phối
-- Lập kế hoạch chế độ ăn uống
+- Bài toán khẩu phần ăn
 - Quản lý danh mục đầu tư
 - Lịch trình nhân viên
 
@@ -179,7 +179,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 
 ---
 
-💡 **Mẹo:** Luôn bắt đầu với bài toán đơn giản nhất có thể giải quyết vấn đề của bạn. LP nhanh hơn QP, QP nhanh hơn SDP!
+💡 **Lưu ý:** Nên ưu tiên mô hình hóa bài toán ở lớp đơn giản nhất phù hợp với cấu trúc thực tế; thông thường LP giải nhanh hơn QP, và QP nhanh hơn SDP.
 
 ---
 
@@ -391,7 +391,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 
         <!-- Câu hỏi 14: Ứng dụng LP -->
         <div class="question" id="q14" style="display: none;">
-            <h3>Câu 14: Bài toán chế độ ăn uống là ví dụ của:</h3>
+            <h3>Câu 14: Bài toán khẩu phần ăn (diet problem) là ví dụ của:</h3>
             <div class="options">
                 <label><input type="radio" name="q14" value="a"> A) Quy hoạch tuyến tính</label>
                 <label><input type="radio" name="q14" value="b"> B) Quy hoạch bậc hai</label>
@@ -400,7 +400,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Quy hoạch tuyến tính</strong><br>
-                Bài toán chế độ ăn uống có hàm mục tiêu và ràng buộc đều tuyến tính.
+                Bài toán khẩu phần ăn có hàm mục tiêu và các ràng buộc đều tuyến tính.
             </div>
         </div>
 
@@ -470,7 +470,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
             <div class="options">
                 <label><input type="radio" name="q19" value="a"> A) Đa thức</label>
                 <label><input type="radio" name="q19" value="b"> B) Mũ trong trường hợp xấu nhất nhưng hiệu quả trong thực tế</label>
-                <label><input type="radio" name="q19" value="c"> C) Logarithmic</label>
+                <label><input type="radio" name="q19" value="c"> C) Lôgarit</label>
                 <label><input type="radio" name="q19" value="d"> D) Hằng số</label>
             </div>
             <div class="explanation" style="display: none;">
@@ -555,7 +555,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
 
         <!-- Câu hỏi 25: Thực hành -->
         <div class="question" id="q25" style="display: none;">
-            <h3>Câu 25: Trong bài toán portfolio optimization, hàm mục tiêu thường là:</h3>
+            <h3>Câu 25: Trong bài toán tối ưu hóa danh mục đầu tư (portfolio optimization), hàm mục tiêu thường là:</h3>
             <div class="options">
                 <label><input type="radio" name="q25" value="a"> A) Tối thiểu hóa rủi ro (phương sai)</label>
                 <label><input type="radio" name="q25" value="b"> B) Tối đa hóa lợi nhuận</label>
@@ -564,7 +564,7 @@ LP ⊆ QP ⊆ QCQP ⊆ SDP
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các trường hợp trên</strong><br>
-                Portfolio optimization có thể tối thiểu rủi ro, tối đa lợi nhuận, hoặc cân bằng cả hai (Markowitz model).
+                Bài toán tối ưu hóa danh mục đầu tư có thể cực tiểu hóa rủi ro, cực đại hóa lợi suất hoặc cân bằng giữa rủi ro và lợi suất (mô hình Markowitz).
             </div>
         </div>
 

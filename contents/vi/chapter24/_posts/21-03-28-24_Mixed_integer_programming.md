@@ -9,8 +9,8 @@ categories:
 lang: vi
 ---
 
-Chương này giới thiệu định nghĩa, các mối quan hệ và ví dụ của quy hoạch số nguyên hỗn hợp (Mixed Integer Programming), và trình bày các phương pháp tìm nghiệm tối ưu bằng cách gián tiếp dùng nới lỏng (relaxation) để tìm nghiệm cho quy hoạch nguyên.
+Chương này giới thiệu định nghĩa, tính chất và các ví dụ kinh điển của quy hoạch số nguyên hỗn hợp (Mixed Integer Programming — MIP), đồng thời trình bày cách tiếp cận tìm nghiệm tối ưu gián tiếp thông qua các bài toán nới lỏng (relaxation) và thuật toán nhánh và cận.
 
-## Ứng dụng 2026 (tùy chọn)
+## Ứng dụng giai đoạn 2022–2026 (tùy chọn)
 
-Gán, knapsack và định vị cơ sở không phải đồ bảo tàng: ghép kíp (MIPLIB air05), định tuyến last-mile với nhu cầu học được, và đặt kho / site GPU biên tái sử dụng khuôn 24-02. Một ngành thứ hai — học rẽ nhánh bên trong branch-and-bound — lớn lên quanh các mô hình đó sau NeurIPS 2019. Xem [24-06 Ứng dụng hiện đại của mô hình nguyên hỗn hợp]({% multilang_post_url contents/chapter24/2026-09-16-24_06_modern_applications %}). Chọn đặc trưng, kiểm chứng mạng nơ-ron và cây tối ưu chờ Chương 25.
+Các mô hình phân công, bài toán cái túi (knapsack) và đặt cơ sở không chỉ là ví dụ kinh điển trong giáo trình: xếp lịch phi hành đoàn (bộ chuẩn MIPLIB `air05`), định tuyến giao hàng chặng cuối (last-mile) kết hợp dự báo nhu cầu, và lựa chọn vị trí kho hàng hay cụm GPU biên đều trực tiếp kế thừa khung mô hình ở mục 24-02. Bên cạnh đó, từ sau NeurIPS 2019, một hướng nghiên cứu mới — học quy tắc rẽ nhánh ngay bên trong thuật toán nhánh và cận — đã phát triển mạnh quanh các mô hình này. Bạn có thể đọc tiếp tại [24-06 Ứng dụng hiện đại của mô hình nguyên hỗn hợp]({% multilang_post_url contents/chapter24/2026-09-16-24_06_modern_applications %}); các chủ đề chọn đặc trưng, kiểm chứng mạng nơ-ron và cây quyết định tối ưu sẽ được trình bày ở Chương 25.

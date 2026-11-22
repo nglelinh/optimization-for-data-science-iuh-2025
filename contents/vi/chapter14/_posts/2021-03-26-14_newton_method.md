@@ -8,9 +8,9 @@ categories:
 - chapter14
 lang: vi
 ---
-Trong chương này, chúng ta sẽ tìm hiểu về Phương pháp Newton.
+Trong chương này, chúng ta sẽ tìm hiểu về phương pháp Newton.
 
-Phương pháp Newton là một cách tiếp cận để tìm giá trị nhỏ nhất của một hàm số có đạo hàm bậc hai bằng cách sử dụng khai triển Taylor bậc hai. Phương pháp này tìm giá trị tối ưu bằng cách xấp xỉ hàm số và cập nhật nghiệm một cách lặp đi lặp lại. Gần điểm tối ưu, nó đạt được sự hội tụ bậc hai và nhanh hơn nhiều so với phương pháp gradient descent.
+Phương pháp Newton là thuật toán tìm giá trị nhỏ nhất của hàm khả vi hai lần dựa trên khai triển Taylor bậc hai. Tại mỗi vòng lặp, phương pháp xấp xỉ hàm mục tiêu bằng một hàm bậc hai và cập nhật nghiệm theo điểm cực tiểu của hàm xấp xỉ đó. Trong vùng lân cận điểm tối ưu, phương pháp đạt tốc độ hội tụ bậc hai, nhanh hơn đáng kể so với phương pháp gradient descent.
 
 ## Tài liệu tham khảo và đọc thêm
 * S. Boyd and L. Vandenberghe (2004), "Convex optimization", Chapter 9 and 10

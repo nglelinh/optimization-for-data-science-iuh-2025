@@ -14,7 +14,8 @@ MathJax.Hub.Config({
     displayAlign: "center"
 });
 </script>
-Hãy xét bài toán tối ưu lồi sau.
+
+Xét bài toán tối ưu lồi sau:
 >
 $$\begin{align}
 &\min_{x}           && f(x) \\ 
@@ -22,30 +23,30 @@ $$\begin{align}
                     &&& h_{i}(x) \leq 0, i = 1, \dotsc, m
 \end{align}$$
 
-Trong các bài toán có ràng buộc bất đẳng thức như thế này, rất khó phân biệt ràng buộc chặt (binding) và ràng buộc không chặt (non-binding), đặc biệt là ở biên của miền khả thi. Ràng buộc chặt là các ràng buộc ảnh hưởng đến nghiệm.
+Với các bài toán có ràng buộc bất đẳng thức, việc phân biệt ràng buộc chặt (binding — ràng buộc ảnh hưởng trực tiếp đến nghiệm tối ưu) và ràng buộc không chặt (non-binding) thường khó khăn, đặc biệt khi xét trên biên của miền khả thi.
 
-Do đó, **phương pháp điểm trong (interior method)** là cách tiếp cận cố gắng giải bài toán từ bên trong miền khả thi chứ không phải ở biên.
+Do đó, **phương pháp điểm trong (interior-point method)** tiếp cận bài toán bằng cách tìm nghiệm đi từ bên trong miền khả thi thay vì lần theo biên.
 
 ## Bối cảnh của phương pháp điểm trong
-**Phương pháp điểm trong** cho các bài toán tổng quát được Anthony V. Fiacco và Garth P. McCormick đề xuất vào những năm 1960. Vào thời điểm đó, nó bị lu mờ bởi các phương pháp phổ biến như quy hoạch toàn phương tuần tự (sequential quadratic programming) và phương pháp tập tích cực (active set method), và chỉ được chú ý trở lại vào những năm 1980.
+**Phương pháp điểm trong** cho các bài toán tối ưu tổng quát được Anthony V. Fiacco và Garth P. McCormick đề xuất vào những năm 1960. Thời điểm đó, cách tiếp cận này ít được chú ý hơn so với các phương pháp phổ biến như quy hoạch toàn phương tuần tự (sequential quadratic programming) hay phương pháp tập tích cực (active set method), và chỉ thực sự phát triển mạnh trở lại từ thập niên 1980.
 
-Phương pháp tập tích cực là một lý thuyết để xác định ràng buộc nào ảnh hưởng đến kết quả tối ưu. Trong phương pháp tập tích cực, một ràng buộc được coi là tích cực (active) nếu nó bằng 0, và các ràng buộc như vậy được gọi là tập tích cực. Tuy nhiên, để tìm tập tích cực cần tính biên của miền khả thi, và khi số ràng buộc tăng lên thì chi phí tính toán cũng tăng theo.
+Phương pháp tập tích cực tìm cách xác định tập các ràng buộc đang có giá trị bằng 0 tại nghiệm (gọi là tập tích cực). Tuy nhiên, việc xác định tập này đòi hỏi phải khảo sát biên của miền khả thi, nên chi phí tính toán tăng nhanh khi số lượng ràng buộc lớn.
 
-Nhận ra những vấn đề này, phương pháp điểm trong được phát triển để giải bài toán từ bên trong thay vì từ biên. Ví dụ, trong LP, nếu có $$m$$ ràng buộc thì việc tính biên đòi hỏi $$O(m^2)$$ phép tính, nhưng với phương pháp điểm trong, ngay cả khi $$m$$ lớn, nghiệm vẫn có thể tìm được trong 20–30 bước Newton. Chi tiết hơn về hiệu năng sẽ được bàn ở phần sau.
+Nhằm khắc phục hạn chế đó, phương pháp điểm trong giải bài toán ngay từ phần trong của miền khả thi. Chẳng hạn, với quy hoạch tuyến tính (LP) gồm $$m$$ ràng buộc, việc tính toán trên biên có thể tốn $$O(m^2)$$ phép tính, trong khi phương pháp điểm trong thường chỉ cần khoảng 20–30 bước Newton ngay cả khi $$m$$ lớn. Hiệu năng của phương pháp sẽ được phân tích chi tiết ở các mục sau.
 
 * Tham khảo: [Interior point method](https://en.wikipedia.org/wiki/Interior-point_method)
 * Tham khảo: [Active set method](https://en.wikipedia.org/wiki/Active_set_method)
 
-## Rút gọn bài toán cực tiểu hóa có ràng buộc đẳng thức
-Bài toán trên có thể được viết lại với $$C := \{x : h_i(x) \le 0, i = 1, \cdots , m \}$$. Các ràng buộc bất đẳng thức có thể được đưa vào hàm mục tiêu dưới dạng hàm chỉ thị (indicator function).
+## Đưa về bài toán cực tiểu hóa có ràng buộc đẳng thức
+Đặt $$C := \{x : h_i(x) \le 0, i = 1, \cdots , m \}$$. Ta có thể đưa toàn bộ các ràng buộc bất đẳng thức vào hàm mục tiêu thông qua hàm chỉ thị (indicator function) $$I_C(x)$$:
 
 >$$\begin{align}
 &\min_{x} \ && f(x) + I_C(x) \\
 &\text{subject to }\  && Ax = b \\
 \end{align}$$
 
-Bằng cách này, bài toán được chuyển thành bài toán cực tiểu hóa có ràng buộc đẳng thức. Tuy nhiên, vì hàm chỉ thị vẫn bao gồm biên nên vẫn còn khó khăn về việc tính biên như ở bài toán ban đầu, và vì nó không khả vi nên khó áp dụng phương pháp Newton.
+Dạng bài toán này chỉ còn ràng buộc đẳng thức. Tuy nhiên, vì hàm chỉ thị $$I_C$$ vẫn chứa biên của $$C$$ và không khả vi, khó khăn ở biên chưa được giải quyết và ta vẫn không thể áp dụng trực tiếp phương pháp Newton.
 
-Điều gì xảy ra nếu ta xấp xỉ hàm chỉ thị $$I_C$$ bằng một **hàm chắn (barrier function)**? Khi đó biên sẽ không được bao gồm, và vì hàm chắn khả vi nên có thể áp dụng phương pháp Newton.
+Nếu thay hàm chỉ thị $$I_C$$ bằng một **hàm chắn (barrier function)** trơn, miền xác định sẽ nằm hoàn toàn trong phần trong của $$C$$ (không chứa biên) và hàm mục tiêu trở nên khả vi hai lần, cho phép áp dụng phương pháp Newton.
 
-Phương pháp giải bài toán được định nghĩa lại bằng hàm chắn như vậy được gọi là phương pháp chắn (barrier method), sẽ được giới thiệu chi tiết ở phần tiếp theo.
+Cách tiếp cận giải bài toán xấp xỉ bằng hàm chắn này được gọi là **phương pháp chắn (barrier method)**, sẽ được trình bày chi tiết ở mục tiếp theo.

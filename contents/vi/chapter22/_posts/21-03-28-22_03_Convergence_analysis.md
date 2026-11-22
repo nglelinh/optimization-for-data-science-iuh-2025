@@ -10,105 +10,99 @@ lang: vi
 ---
 
 ## Phân tích hội tụ
-Để tìm hiểu các đặc tính hội tụ của phương pháp Frank-Wolfe, cần định nghĩa hằng số độ cong (curvature constant) của $$f$$ đối với $$C$$ như sau. [Jaggi (2011)]
-> $$M = \max_{x,s,y∈C, y = (1−γ)x+γs} \frac{2}{γ^2} \Bigl( f(y) − f(x) − ∇f(x)^T(y − x) \Bigr)$$
-> $$γ ∈ [0, 1]$$
 
-Thông qua $$M$$, ta có thể đo mức độ mà hàm $$f$$ lệch khỏi xấp xỉ tuyến tính (linear approximation) của nó.
-Ở đây $$M = 0$$ nghĩa là $$f$$ tuyến tính. Đại lượng $$f (y) - f (x) - ∇f (x)^T(y - x)$$ được gọi là độ phân kỳ Bregman (Bregman divergence) xác định bởi $$f$$.
+Để phân tích tốc độ hội tụ của thuật toán Frank-Wolfe, trước hết ta định nghĩa hằng số độ cong (curvature constant) của hàm $$f$$ trên tập $$C$$ [Jaggi (2011)]:
+> $$M = \max_{x,s,y\in C,\; y = (1−\gamma)x+\gamma s,\; \gamma \in [0, 1]} \frac{2}{\gamma^2} \Bigl( f(y) − f(x) − \nabla f(x)^T(y − x) \Bigr)$$
 
-> Định lý: Phương pháp gradient có điều kiện (conditional gradient method) với kích thước bước cố định $$γ_k = 2 / (k + 1), k = 1,2,3, ...$$ thỏa mãn
->  $$f(x^{(k)}) − f^{\star} ≤ \frac{2M}{k + 2}$$
+Hằng số $$M$$ đo mức độ sai lệch của hàm $$f$$ so với xấp xỉ tuyến tính của nó trên $$C$$; chẳng hạn $$M = 0$$ khi $$f$$ là hàm tuyến tính. Đại lượng $$f(y) - f(x) - \nabla f(x)^T(y - x)$$ chính là độ phân kỳ Bregman (Bregman divergence) sinh bởi $$f$$.
 
-Do đó, số vòng lặp cần thiết để đạt $$f(x^{(k)}) − f^{\star} ≤ \epsilon$$ là $$O(1/\epsilon)$$.
+> **Định lý:** Phương pháp gradient có điều kiện với kích thước bước cố định $$\gamma_k = 2 / (k + 1)$$ ($$k = 1, 2, 3, \ldots$$) thỏa mãn:
+> $$f(x^{(k)}) − f^{\star} \leq \frac{2M}{k + 2}$$
 
-Ta sẽ chứng minh định lý này bằng quy nạp. Tuy nhiên, trước khi vào chứng minh, cần giới thiệu một khái niệm.
+Do đó, số vòng lặp cần thiết để đạt sai số $$f(x^{(k)}) − f^{\star} \leq \epsilon$$ là $$O(1/\epsilon)$$.
+
+Ta sẽ chứng minh định lý này bằng quy nạp dựa trên một bất đẳng thức cơ bản dưới đây.
 
 ## Bất đẳng thức cơ bản
-**Bất đẳng thức then chốt** dùng để chứng minh tốc độ hội tụ của Frank-Wolfe như sau:
-> $$f(x^{(k)}) ≤  f(x^{(k−1)}) − γ_kg(x^{(k−1)}) + \frac{γ^2_k}{2}M$$
 
-Ở đây $$g(x) = \max_{s∈C} ∇f(x)^T(x − s)$$ là khoảng cách đối ngẫu (duality gap) đã thảo luận trước đó; ta sẽ dùng bất đẳng thức này trong chứng minh quy nạp.
+**Bất đẳng thức then chốt** dùng trong chứng minh hội tụ của Frank-Wolfe là:
+> $$f(x^{(k)}) \leq f(x^{(k−1)}) − \gamma_k g(x^{(k−1)}) + \frac{\gamma^2_k}{2}M$$
+
+trong đó $$g(x) = \max_{s\in C} \nabla f(x)^T(x − s)$$ là khoảng cách đối ngẫu đã giới thiệu ở bài trước.
 
 ### [Chứng minh]
-Để chứng minh bất đẳng thức cơ bản, đặt $$x^+ = x^{(k)}, x = x^{(k−1)}, s = s^{(k−1)}, γ = γ_k$$. Khi đó ta có:
+
+Đặt $$x^+ = x^{(k)}, x = x^{(k−1)}, s = s^{(k−1)}, \gamma = \gamma_k$$. Khi đó:
 > $$\begin{align}
-> f(x^+) &= f\bigl( x + γ(s − x) \bigr) \\\\
-> &≤ f(x) + γ∇f(x)^T(s − x) + \frac{γ^2}{2}M \\\\
-> &= f(x) − γg(x) + \frac{γ^2}{2}M
+> f(x^+) &= f\bigl( x + \gamma(s − x) \bigr) \\\\
+> &\leq f(x) + \gamma\nabla f(x)^T(s − x) + \frac{\gamma^2}{2}M \\\\
+> &= f(x) − \gamma g(x) + \frac{\gamma^2}{2}M
 > \end{align}$$
 
-Trong phương trình trên, dòng thứ hai dùng định nghĩa của $$M$$, còn dòng thứ ba dùng định nghĩa của $$g$$.
+Ở đây, bất đẳng thức thứ hai suy trực tiếp từ định nghĩa của $$M$$ và đẳng thức thứ ba suy từ định nghĩa của $$g(x)$$.
 
-Bây giờ, dùng bất đẳng thức cơ bản, ta chứng minh định lý về tốc độ hội tụ bằng quy nạp.
+Bây giờ, ta dùng bất đẳng thức cơ bản để chứng minh định lý bằng quy nạp.
 
-Với $$k=1$$, dễ dàng kiểm tra định lý thỏa mãn.
-Với $$k > 1$$ bất kỳ, giả sử $$f(x^{(k−1)}) − f^{\star} ≤ 2M/(k + 1)$$.
+Với $$k=1$$, định lý dễ dàng kiểm tra là đúng (khi $$\gamma_1 = 1$$, ta có $$f(x^{(1)}) - f^\star \leq f(x^{(0)}) - f^\star - g(x^{(0)}) + \frac{M}{2} \leq \frac{M}{2} \leq \frac{2M}{3}$$).  
+Với $$k > 1$$, giả sử theo giả thiết quy nạp rằng $$f(x^{(k−1)}) − f^{\star} \leq 2M/(k + 1)$$.
 
-Hãy nhớ lại khoảng cách đối ngẫu $$g(x)$$ nói trên.
-> $$g(x^{(k−1)}) ≥ f(x^{(k−1)}) − f^{\star}$$
-> $$γ_k = 2/(k + 1)$$
+Nhắc lại hai quan hệ:
+> $$g(x^{(k−1)}) \geq f(x^{(k−1)}) − f^{\star}$$
+> $$\gamma_k = 2/(k + 1)$$
 
-Bây giờ áp dụng bất đẳng thức cơ bản.
-> $$f(x^{(k)}) ≤ f(x^{(k−1)}) − \frac{2}{k + 1}\bigl(f(x^{(k−1)}) − f^{\star}\bigr) + \frac{2M}{(k + 1)^2}$$
-> $$f(x^{(k)}) − f^{\star} ≤ \Bigl(1 − \frac{2}{k + 1}\Bigr)\bigl(f(x^{(k−1)}) − f^{\star}\bigr) + \frac{2M}{(k + 1)^2}$$
-> $$f(x^{(k)}) − f^{\star} ≤ \frac{k − 1}{k + 1} · \frac{2M}{k + 1} + \frac{2M}{(k + 1)^2} = \frac{2Mk}{(k + 1)^2} ≤ \frac{2M}{k + 2} $$
+Áp dụng bất đẳng thức cơ bản:
+> $$f(x^{(k)}) \leq f(x^{(k−1)}) − \frac{2}{k + 1}\bigl(f(x^{(k−1)}) − f^{\star}\bigr) + \frac{2M}{(k + 1)^2}$$
+> $$f(x^{(k)}) − f^{\star} \leq \Bigl(1 − \frac{2}{k + 1}\Bigr)\bigl(f(x^{(k−1)}) − f^{\star}\bigr) + \frac{2M}{(k + 1)^2}$$
+> $$f(x^{(k)}) − f^{\star} \leq \frac{k − 1}{k + 1} \cdot \frac{2M}{k + 1} + \frac{2M}{(k + 1)^2} = \frac{2Mk}{(k + 1)^2} \leq \frac{2M}{k + 2}$$
 
-(Ở đây ta dùng $$g(x) ≥ f(x) − f^{\star}$$, nên $$-γ_k g(x^{(k-1)}) ≤ -γ_k (f(x^{(k-1)}) - f^{\star})$$, và bất đẳng thức cuối đúng vì $$k(k+2) ≤ (k+1)^2$$.)
+(Bất đẳng thức trên dùng $$g(x) \geq f(x) − f^{\star}$$ nên $$-\gamma_k g(x^{(k-1)}) \leq -\gamma_k (f(x^{(k-1)}) - f^{\star})$$, và bất đẳng thức cuối đúng vì $$k(k+2) = k^2 + 2k \leq (k+1)^2$$.)
 
-Tốc độ hội tụ đã chứng minh này khớp với tốc độ đã biết của projected gradient descent khi $$∇f$$ là Lipschitz.
+Tốc độ hội tụ $$O(1/k)$$ này trùng với tốc độ của projected gradient descent khi $$\nabla f$$ liên tục Lipschitz.
 
-Bây giờ hãy so sánh các giả thiết này.
-Thật vậy, nếu $$∇f$$ là Lipschitz với hằng số $$L$$ thì $$M ≤ diam^2(C) · L$$, trong đó $$diam^2(C) = max_{x,s∈C} ||x − s||^2$$.
+Hãy so sánh giả thiết của hai phương pháp. Nếu $$\nabla f$$ là $$L$$-Lipschitz thì $$M \leq \text{diam}^2(C) \cdot L$$, trong đó $$\text{diam}^2(C) = \max_{x,s\in C} \|x − s\|_2^2$$. Thật vậy, tính chất $$L$$-Lipschitz của $$\nabla f$$ cho:
+> $$f(y) − f(x) − \nabla f(x)^T(y − x) \leq \frac{L}{2} \| y − x \|^2_2$$
 
-Để kiểm tra điều này, cần nhớ rằng $$∇f$$ Lipschitz với hằng số $$L$$ tương đương với bất đẳng thức sau.
-> $$f(y) − f(x) − ∇f(x)^T(y − x) ≤ \frac{L}{2} \| y − x \|^2_2$$
+Thay $$y = (1-\gamma) x + \gamma s$$, nhân cả hai vế với $$\frac{2}{\gamma^2}$$ và lấy cực đại trên $$C$$:
+> $$M \leq \max_{x,s,y\in C,\; y=(1−\gamma)x+\gamma s} \frac{2}{\gamma^2}\cdot\frac{L}{2} \| y − x \|^2_2 = \max_{x,s\in C} L \| x − s \|^2_2$$
 
-Lấy cực đại trên mọi $$y = (1-γ) x + γs$$ và nhân với $$\frac{2}{γ^2}$$ ta được:
-> $$M ≤ \max_{x,s,y∈C, y=(1−γ)x+γs} \frac{2}{γ^2}·\frac{L}{2} \| y − x \|^2_2 = \max_{x,s∈C} L \| x − s \|^2_2$$
-
-Như vậy ta đã có một cận cho $$M$$. Về cơ bản, độ cong bị chặn ở đây không lớn hơn độ cong được giả định cho proximal gradient.
+Như vậy, điều kiện hằng số độ cong $$M$$ bị chặn không mạnh hơn giả thiết độ trơn Lipschitz dùng trong proximal gradient descent.
 
 ## Tính bất biến affine
-Hãy nhớ lại các khái niệm đã học.
 
-* Gradient Descent: $$x^+ = x − t∇f(x)$$
-* Phương pháp Newton thuần túy: $$x^+ = x − ∇^2f(x)^{−1}∇f(x)$$
+Nhắc lại hai phương pháp đã học:
 
-Gradient descent không bất biến affine (affine invariant). Nghĩa là, hiệu năng của gradient descent có thể được cải thiện bằng cách co giãn các tọa độ. Ngược lại, phương pháp Newton bất biến affine. Nghĩa là thuật toán này hoạt động như nhau dưới mọi phép biến đổi affine của biến.
+* Gradient descent: $$x^+ = x − t\nabla f(x)$$
+* Phương pháp Newton thuần túy: $$x^+ = x − \nabla^2f(x)^{−1}\nabla f(x)$$
 
-Phương pháp gradient có điều kiện tương tự gradient descent nhưng bất biến affine.
+Gradient descent không bất biến affine (affine invariant), tức tốc độ hội tụ của nó thay đổi khi ta co giãn hệ tọa độ. Ngược lại, phương pháp Newton bất biến affine — hoạt động như nhau dưới mọi phép biến đổi tuyến tính khả nghịch của biến.
 
-Tính chất quan trọng của Frank-Wolfe: bước cập nhật **bất biến affine**.
-Cho ma trận không suy biến $$A : \mathbb{R}^n → \mathbb{R}^n$$, ta có thể định nghĩa $$x = Ax', h(x') = f(Ax')$$.
-Khi đó Frank-Wolfe trên $$h(x')$$ có thể được tính như sau.
+Phương pháp gradient có điều kiện (Frank-Wolfe) là phương pháp bậc nhất nhưng lại có **tính bất biến affine**.
+
+Xét một ma trận khả nghịch $$A : \mathbb{R}^n \to \mathbb{R}^n$$ và đặt phép đổi biến $$x = Ax',\; h(x') = f(Ax')$$. Khi áp dụng Frank-Wolfe cho $$h(x')$$ trên tập $$A^{-1}C$$:
 
 > $$\begin{array}{rcl}
-> s' & = & \arg\min_{z∈A^{−1}C} ∇h(x')^Tz \\\\
-> (x')^+ & = & (1 − γ)x' + γs'
+> s' & = & \arg\min_{z\in A^{−1}C} \nabla h(x')^Tz \\\\
+> (x')^+ & = & (1 − \gamma)x' + \gamma s'
 > \end{array}$$
 
-Nhân với $$A$$ ta được đúng bước cập nhật Frank-Wolfe thực hiện trên $$f (x)$$.
-Thậm chí phân tích hội tụ cũng bất biến affine.
+Nhân hai vế với $$A$$ ta thu được chính xác bước cập nhật Frank-Wolfe trên $$f(x)$$ và tập $$C$$. Hơn nữa, ngay cả phân tích hội tụ cũng bất biến affine vì hằng số độ cong $$M$$ của $$h$$:
+> $$M = \max_{x',s',y'\in A^{−1}C,\; y'=(1−\gamma)x'+\gamma s'} \frac{2}{\gamma^2} \Bigl( h(y') − h(x') − \nabla h(x')^T(y' − x') \Bigr)$$
 
-Hằng số độ cong $$M$$ của $$h$$ như sau.
-> $$M = \max_{x',s',y'∈A^{−1}C, y'=(1−γ)x'+γs'} \frac{2}{γ^2} \Bigl( h(y') − h(x') − ∇h(x')^T(y' − x') \Bigr)$$
+bằng đúng hằng số độ cong của $$f$$ do $$\nabla h(x')^T(y' − x') = \nabla f(x)^T(y − x)$$.
 
-Nó trùng với của $$f$$ vì $$∇h(x')^T(y' − x') = ∇f(x)^T(y − x)$$.
+Tuy nhiên, tính bất biến affine không thể hiện rõ trong cận trên:
+> $$M \leq \max_{x,s\in C} L\|x − s\|^2_2$$
 
-Tuy nhiên, tính bất biến affine không hiển nhiên trong cận của $$M$$.
-> $$M ≤ \max_{x,s∈C} L||x − s||^2_2$$
-
-Vì đường kính của $$C$$ không bất biến affine, đây là điều đáng suy ngẫm thêm.
+vì đường kính của tập $$C$$ (theo chuẩn Euclid) không bất biến affine.
 
 ## Cập nhật không chính xác
-Các cập nhật Frank-Wolfe không chính xác cũng đã được phân tích. [Jaggi (2011)]</br>
-Chọn $$s^{(k−1)}$$ sao cho
-> $$∇f(x^{(k−1)})^Ts^{(k−1)} ≤ \min_{s∈C} ∇f(x^{(k−1)})^Ts + \frac{Mγ_k}{2} · δ$$
 
-trong đó $$δ ≥ 0$$ là tham số không chính xác. Dùng điều này, ta thu được tốc độ như sau.
+Trường hợp bài toán con tuyến tính được giải gần đúng cũng đã được phân tích trong [Jaggi (2011)]. Giả sử tại bước $$k$$, ta chọn $$s^{(k−1)} \in C$$ sao cho:
+> $$\nabla f(x^{(k−1)})^Ts^{(k−1)} \leq \min_{s\in C} \nabla f(x^{(k−1)})^Ts + \frac{M\gamma_k}{2} \cdot \delta$$
 
-> Định lý: Phương pháp gradient có điều kiện với kích thước bước cố định $$γ_k=2/(k+1),k=1,2,3, ... $$ và tham số không chính xác $$δ≥0$$ thỏa mãn
-> $$f(x^{(k)}) − f^{\star} ≤ \frac{2M}{k + 2} (1 + δ)$$
+trong đó $$\delta \geq 0$$ là tham số sai số. Khi đó tốc độ hội tụ thu được là:
 
-Lưu ý: Sai số tối ưu hóa ở bước $$k$$ là $$\frac{Mγ_k}{2} · δ.$$ Vì $$γ_k → 0$$, ý đồ là sai số biến mất dần theo thời gian.
+> **Định lý:** Phương pháp gradient có điều kiện với kích thước bước cố định $$\gamma_k=2/(k+1)$$ ($$k=1,2,3,\ldots$$) và tham số sai số $$\delta \geq 0$$ thỏa mãn:
+> $$f(x^{(k)}) − f^{\star} \leq \frac{2M}{k + 2} (1 + \delta)$$
+
+Lưu ý rằng ngưỡng sai số cho phép ở bước $$k$$ là $$\frac{M\gamma_k}{2} \cdot \delta$$. Vì $$\gamma_k \to 0$$, yêu cầu về độ chính xác của bộ giải bài toán con cần siết chặt dần theo thời gian.

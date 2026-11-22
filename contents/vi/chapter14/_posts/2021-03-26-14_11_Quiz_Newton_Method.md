@@ -14,371 +14,272 @@ redirect_from:
 
 ## 📚 Ôn tập lý thuyết
 
-Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
+Trước khi làm bài tập trắc nghiệm, hãy ôn lại các khái niệm chính của chương này:
 
-### ⚡ **Newton Method (Phương Pháp Newton)**
+### ⚡ **Phương pháp Newton (Newton Method)**
 
-#### **Từ First-Order đến Second-Order**
-- **First-order methods:** Gradient Descent - sử dụng $$\nabla f(x)$$
-- **Second-order methods:** Newton Method - sử dụng $$\nabla^2 f(x)$$ (Hessian)
-- **Ý tưởng:** Thay vì xấp xỉ Hessian bằng $$\frac{1}{t}I$$, tính chính xác $$\nabla^2 f(x)$$
+#### **Từ phương pháp bậc nhất đến bậc hai**
+- **Phương pháp bậc nhất:** Gradient descent sử dụng đạo hàm bậc nhất $$
+abla f(x)$$.
+- **Phương pháp bậc hai:** Phương pháp Newton sử dụng thêm đạo hàm bậc hai $$
+abla^2 f(x)$$ (ma trận Hessian).
+- **Ý tưởng:** Thay vì xấp xỉ ma trận Hessian bằng $$rac{1}{t}I$$, ta tính trực tiếp $$
+abla^2 f(x)$$.
 
 #### **Bài toán**
-$$\min_x f(x)$$ với $$f$$ convex, twice differentiable, $$\text{dom}(f) = \mathbb{R}^n$$
+$$\min_x f(x)$$ với $$f$$ lồi, khả vi hai lần và $$	ext{dom}(f) = \mathbb{R}^n$$.
 
-#### **Newton update rule**
-$$x^{(k)} = x^{(k-1)} - (\nabla^2 f(x^{(k-1)}))^{-1} \nabla f(x^{(k-1)})$$
+#### **Công thức cập nhật Newton**
+$$x^{(k)} = x^{(k-1)} - (
+abla^2 f(x^{(k-1)}))^{-1} 
+abla f(x^{(k-1)})$$
 
 **So sánh với Gradient Descent:**
-- **GD:** $$x^{(k)} = x^{(k-1)} - t \nabla f(x^{(k-1)})$$
-- **Newton:** $$x^{(k)} = x^{(k-1)} - (\nabla^2 f(x^{(k-1)}))^{-1} \nabla f(x^{(k-1)})$$
+- **Gradient Descent:** $$x^{(k)} = x^{(k-1)} - t 
+abla f(x^{(k-1)})$$
+- **Newton:** $$x^{(k)} = x^{(k-1)} - (
+abla^2 f(x^{(k-1)}))^{-1} 
+abla f(x^{(k-1)})$$
 
-### 🔍 **Giải Thích và Tính Chất**
+### 🔍 **Diễn giải và tính chất**
 
-#### **Newton step interpretation**
-**Newton direction:** $$\Delta x_{nt} = -(\nabla^2 f(x))^{-1} \nabla f(x)$$
+#### **Diễn giải bước Newton**
+**Hướng Newton:** $$\Delta x_{nt} = -(
+abla^2 f(x))^{-1} 
+abla f(x)$$
 
-**Geometric interpretation:**
-- Minimize quadratic approximation: $$f(x) + \nabla f(x)^T (y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x) (y-x)$$
-- Solution: $$y^* = x - (\nabla^2 f(x))^{-1} \nabla f(x)$$
+**Ý nghĩa hình học:**
+- Cực tiểu hóa xấp xỉ bậc hai: $$f(x) + 
+abla f(x)^T (y-x) + rac{1}{2}(y-x)^T 
+abla^2 f(x) (y-x)$$
+- Điểm cực tiểu: $$y^* = x - (
+abla^2 f(x))^{-1} 
+abla f(x)$$
 
-#### **Root finding connection**
-Newton method cho optimization ≡ Newton-Raphson cho root finding của $$\nabla f(x) = 0$$
+#### **Liên hệ với bài toán tìm nghiệm**
+Phương pháp Newton cho bài toán tối ưu tương đương với phương pháp Newton–Raphson giải phương trình $$
+abla f(x) = 0$$.
 
-**Newton-Raphson:** $$x^{(k)} = x^{(k-1)} - \frac{g(x^{(k-1)})}{g'(x^{(k-1)})}$$
+**Newton–Raphson:** $$x^{(k)} = x^{(k-1)} - rac{g(x^{(k-1)})}{g'(x^{(k-1)})}$$
 
-**For $$g(x) = \nabla f(x)$$:** $$x^{(k)} = x^{(k-1)} - (\nabla^2 f(x^{(k-1)}))^{-1} \nabla f(x^{(k-1)})$$
+**Khi $$g(x) = 
+abla f(x)$$:** $$x^{(k)} = x^{(k-1)} - (
+abla^2 f(x^{(k-1)}))^{-1} 
+abla f(x^{(k-1)})$$
 
-#### **Affine invariance**
-**Tính chất quan trọng:** Newton method không thay đổi dưới affine transformation
+#### **Tính bất biến affine**
+**Tính chất:** Phương pháp Newton bất biến dưới các phép biến đổi affine khả nghịch của hệ tọa độ.
 
-**Nếu:** $$g(y) = f(Ay + b)$$ với $$A$$ nonsingular
-**Thì:** Newton steps cho $$g$$ và $$f$$ tương đương
+**Nếu:** $$g(y) = f(Ay + b)$$ với $$A$$ không suy biến,  
+**Thì:** các bước Newton của $$g$$ và $$f$$ tương đương nhau qua phép biến đổi đó.
 
-**Ý nghĩa:** Không bị ảnh hưởng bởi conditioning như Gradient Descent
+**Ý nghĩa:** Thuật toán không bị ảnh hưởng bởi số điều kiện của hệ tọa độ như gradient descent.
 
-### 📐 **Newton Decrement**
+### 📐 **Đại lượng giảm Newton (Newton Decrement)**
 
 #### **Định nghĩa**
-$$\lambda(x) = (\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x))^{1/2}$$
+$$\lambda(x) = (
+abla f(x)^T (
+abla^2 f(x))^{-1} 
+abla f(x))^{1/2}$$
 
-#### **Ý nghĩa vật lý**
-1. **Approximation quality:** $$\frac{1}{2}\lambda^2(x) = f(x) - \min_y \hat{f}(y)$$
-   - $$\hat{f}(y)$$: quadratic approximation của $$f$$ tại $$x$$
-   - $$\frac{1}{2}\lambda^2(x)$$: ước lượng cho $$f(x) - f^*$$ (dựa trên xấp xỉ bậc hai; chưa phải cận trên chặt chẽ)
+#### **Ý nghĩa**
+1. **Chất lượng xấp xỉ bậc hai:** $$rac{1}{2}\lambda^2(x) = f(x) - \min_y \hat{f}(y)$$, trong đó $$\hat{f}(y)$$ là xấp xỉ bậc hai của $$f$$ tại $$x$$. Đại lượng $$rac{1}{2}\lambda^2(x)$$ là ước lượng cho khoảng cách tối ưu $$f(x) - f^*$$ (dựa trên xấp xỉ bậc hai, không phải cận trên chặt trong mọi trường hợp).
+2. **Độ dài bước Newton:** $$\lambda(x) = \lVert \Delta x_{nt} Vert_{
+abla^2 f(x)}$$ (theo chuẩn cảm sinh bởi ma trận Hessian).
+3. **Khoảng cách Mahalanobis:** Đo độ lớn bước Newton tính từ điểm hiện tại trong hệ đo xác định bởi Hessian.
 
-2. **Step length:** $$\lambda(x) = \lVert \Delta x_{nt} \rVert_{\nabla^2 f(x)}$$ (Hessian norm)
+#### **Các biểu thức tương đương**
+- $$\lambda(x) = (\Delta x_{nt}^T 
+abla^2 f(x) \Delta x_{nt})^{1/2}$$
+- $$
+abla f(x)^T \Delta x_{nt} = -\lambda^2(x)$$
 
-3. **Mahalanobis distance:** Distance từ current point đến Newton step
+#### **Tính bất biến affine**
+Đại lượng giảm Newton cũng bất biến affine: $$\lambda_g(y) = \lambda_f(x)$$.
 
-#### **Alternative expressions**
-- $$\lambda(x) = (\Delta x_{nt}^T \nabla^2 f(x) \Delta x_{nt})^{1/2}$$
-- $$\nabla f(x)^T \Delta x_{nt} = -\lambda^2(x)$$
+### 🎯 **Phương pháp Newton có giảm chấn (Damped Newton Method)**
 
-#### **Affine invariance**
-Newton decrement cũng affine invariant: $$\lambda_g(y) = \lambda_f(x)$$
+#### **Hạn chế của phương pháp Newton thuần túy**
+- **Không đảm bảo hội tụ toàn cục:** Giá trị $$f(x^{(k)})$$ có thể tăng.
+- **Chỉ hội tụ cục bộ:** Cần điểm khởi tạo đủ gần điểm tối ưu.
 
-### 🎯 **Damped Newton Method**
-
-#### **Vấn đề với Pure Newton**
-- **Không đảm bảo convergence:** $$f(x^{(k)})$$ có thể tăng
-- **Chỉ có local convergence:** Cần starting point gần optimal
-
-#### **Backtracking line search**
-**Algorithm:**
-1. Compute Newton direction: $$v = -(\nabla^2 f(x))^{-1} \nabla f(x)$$
-2. **Backtracking:** với parameters $$0 < \alpha \le 1/2$$, $$0 < \beta < 1$$
+#### **Tìm kiếm đường backtracking**
+**Thuật toán:**
+1. Tính hướng Newton: $$v = -(
+abla^2 f(x))^{-1} 
+abla f(x)$$.
+2. **Backtracking:** Với tham số $$0 < lpha \le 1/2$$, $$0 < eta < 1$$:
    ```
    t = 1
    while f(x + tv) > f(x) + α t ∇f(x)^T v:
        t = βt
    ```
-3. **Update:** $$x^+ = x + tv$$
+3. **Cập nhật:** $$x^+ = x + tv$$.
 
-#### **Armijo condition**
-$$f(x + tv) \le f(x) + \alpha t \nabla f(x)^T v$$
+#### **Điều kiện Armijo**
+$$f(x + tv) \le f(x) + lpha t 
+abla f(x)^T v$$
 
-với $$\nabla f(x)^T v = -\lambda^2(x) < 0$$
+với $$
+abla f(x)^T v = -\lambda^2(x) < 0$$.
 
-### 📊 **Convergence Analysis**
+### 📊 **Phân tích hội tụ**
 
-#### **Assumptions**
-1. **$$\nabla f$$ Lipschitz:** $$\lVert \nabla f(x) - \nabla f(y) \rVert_2 \le L \lVert x-y \rVert_2$$
-2. **Strong convexity:** $$mI \preceq \nabla^2 f(x) \preceq LI$$
-3. **$$\nabla^2 f$$ Lipschitz:** $$\lVert \nabla^2 f(x) - \nabla^2 f(y) \rVert_2 \le M \lVert x-y \rVert_2$$
+#### **Các giả thiết**
+1. **$$
+abla f$$ liên tục Lipschitz:** $$\lVert 
+abla f(x) - 
+abla f(y) Vert_2 \le L \lVert x-y Vert_2$$
+2. **Tính lồi mạnh:** $$mI \preceq 
+abla^2 f(x) \preceq LI$$
+3. **$$
+abla^2 f$$ liên tục Lipschitz:** $$\lVert 
+abla^2 f(x) - 
+abla^2 f(y) Vert_2 \le M \lVert x-y Vert_2$$
 
-#### **Two-phase convergence**
-**Phase I - Damped phase:** $$\lVert \nabla f(x^{(k)}) \rVert_2 \ge \eta$$
+#### **Hội tụ hai giai đoạn**
+**Giai đoạn I — Giai đoạn giảm chấn (Damped phase):** $$\lVert 
+abla f(x^{(k)}) Vert_2 \ge \eta$$
 $$f(x^{(k+1)}) - f(x^{(k)}) \le -\gamma$$
 
-**Phase II - Pure phase:** $$\lVert \nabla f(x^{(k)}) \rVert_2 < \eta$$
-$$\frac{M}{2m^2} \lVert \nabla f(x^{(k+1)}) \rVert_2 \le \left(\frac{M}{2m^2} \lVert \nabla f(x^{(k)}) \rVert_2\right)^2$$
+**Giai đoạn II — Giai đoạn thuần túy (Pure phase):** $$\lVert 
+abla f(x^{(k)}) Vert_2 < \eta$$
+$$rac{M}{2m^2} \lVert 
+abla f(x^{(k+1)}) Vert_2 \le \left(rac{M}{2m^2} \lVert 
+abla f(x^{(k)}) Vert_2ight)^2$$
 
-#### **Convergence rates**
-**Phase I (damped phase):** Giá trị hàm giảm ít nhất một lượng cố định $$\gamma$$ mỗi bước
+#### **Tốc độ hội tụ**
+**Giai đoạn I:** Giá trị hàm giảm ít nhất một lượng cố định $$\gamma$$ ở mỗi bước:
 $$f(x^{(k)}) - f^* \le (f(x^{(0)}) - f^*) - \gamma k$$
 
-**Phase II:** Quadratic convergence
-$$f(x^{(k)}) - f^* \le \frac{2m^3}{M^2}\left(\frac{1}{2}\right)^{2^{k-k_0+1}}$$
+**Giai đoạn II:** Hội tụ bậc hai:
+$$f(x^{(k)}) - f^* \le rac{2m^3}{M^2}\left(rac{1}{2}ight)^{2^{k-k_0+1}}$$
 
-#### **Total complexity**
-$$\frac{f(x^{(0)}) - f^*}{\gamma} + \log\log\left(\frac{\epsilon_0}{\epsilon}\right)$$
+#### **Tổng độ phức tạp vòng lặp**
+$$rac{f(x^{(0)}) - f^*}{\gamma} + \log\log\left(rac{\epsilon_0}{\epsilon}ight)$$
 
-**Practical estimate:** $$\frac{f(x^{(0)}) - f^*}{\gamma} + 6$$
+**Ước lượng thực hành:** $$rac{f(x^{(0)}) - f^*}{\gamma} + 6$$.
 
-### 🌟 **Self-Concordant Functions**
+### 🌟 **Hàm tự hài hòa (Self-Concordant Functions)**
 
-#### **Motivation**
-**Problems với standard analysis:**
-1. **Hard to find constants:** $$L, m, M$$ khó xác định trong thực tế
-2. **Not affine invariant:** Analysis phụ thuộc coordinate system
+#### **Động lực**
+Phân tích hội tụ cổ điển có hai hạn chế:
+1. **Khó xác định hằng số:** Các hằng số $$L, m, M$$ thường không biết trước trong thực tế.
+2. **Không bất biến affine:** Cận hội tụ phụ thuộc vào hệ tọa độ.
 
-#### **Self-concordance definition**
-Hàm $$f$$ là **self-concordant** nếu:
-$$|f'''(x)| \le 2(f''(x))^{3/2}$$ (univariate case)
+#### **Định nghĩa**
+Hàm $$f$$ là **tự hài hòa** nếu với trường hợp một biến:
+$$|f'''(x)| \le 2(f''(x))^{3/2}$$
 
-**Multivariate:** $$\lvert D^3 f(x)[h,h,h] \rvert \le 2(h^T \nabla^2 f(x) h)^{3/2}$$
+**Trường hợp nhiều biến:** $$\lvert D^3 f(x)[h,h,h] vert \le 2(h^T 
+abla^2 f(x) h)^{3/2}$$.
 
-#### **Key properties**
-1. **Affine invariant:** Self-concordance preserved under affine transformation
-2. **No constants needed:** Analysis không cần $$L, m, M$$
-3. **Barrier functions:** Logarithmic barriers are self-concordant
+#### **Tính chất chính**
+1. **Bất biến affine:** Tính tự hài hòa được bảo toàn qua phép biến đổi affine.
+2. **Không phụ thuộc hằng số $$L, m, M$$:** Phân tích hội tụ không cần các hằng số này.
+3. **Liên hệ với hàm chắn:** Các hàm chắn logarit của ràng buộc affine là hàm tự hài hòa.
 
-#### **Convergence for self-concordant**
-**Simpler analysis:** Chỉ cần Newton decrement $$\lambda(x)$$
-- **Damped phase:** $$\lambda(x) \ge \eta$$
-- **Pure phase:** $$\lambda(x) < \eta$$
+#### **Hội tụ với hàm tự hài hòa**
+Phân tích chỉ dựa vào đại lượng giảm Newton $$\lambda(x)$$:
+- **Giai đoạn giảm chấn:** $$\lambda(x) \ge \eta$$
+- **Giai đoạn thuần túy:** $$\lambda(x) < \eta$$
 
-### 🔄 **Newton vs Gradient Descent**
+### 🔄 **So sánh phương pháp Newton và Gradient Descent**
 
-#### **Computational comparison**
-
-| Aspect | Newton Method | Gradient Descent |
+| Khía cạnh | Phương pháp Newton | Gradient Descent |
 |--------|---------------|------------------|
-| **Memory** | $$O(n^2)$$ (Hessian storage) | $$O(n)$$ (gradient storage) |
-| **Computation** | $$O(n^3)$$ (linear system) | $$O(n)$$ (vector operations) |
-| **Convergence** | Quadratic (near optimum) | Linear |
-| **Conditioning** | Affine invariant | Sensitive to conditioning |
-| **Robustness** | Sensitive to numerical errors | More robust |
+| **Bộ nhớ** | $$O(n^2)$$ (lưu ma trận Hessian) | $$O(n)$$ (lưu vector gradient) |
+| **Chi phí tính toán mỗi bước** | $$O(n^3)$$ (giải hệ tuyến tính) | $$O(n)$$ (phép toán vector) |
+| **Tốc độ hội tụ** | Bậc hai (gần điểm tối ưu) | Tuyến tính |
+| **Ảnh hưởng của số điều kiện** | Bất biến affine | Nhạy cảm với số điều kiện |
+| **Độ ổn định số học** | Nhạy cảm hơn với sai số số học | Ổn định hơn |
 
-#### **When to use Newton**
-**Advantages:**
-- **Fast convergence:** Quadratic near optimum
-- **Affine invariant:** Not affected by conditioning
-- **Fewer iterations:** Especially for high accuracy
+#### **Ưu và nhược điểm của phương pháp Newton**
+**Ưu điểm:**
+- Hội tụ bậc hai khi gần điểm tối ưu.
+- Bất biến affine, không phụ thuộc số điều kiện của hệ tọa độ.
+- Cần ít vòng lặp, đặc biệt khi yêu cầu độ chính xác cao.
 
-**Disadvantages:**
-- **Expensive per iteration:** $$O(n^3)$$ cost
-- **Memory intensive:** $$O(n^2)$$ storage
-- **Numerical sensitivity:** Hessian inversion issues
+**Nhược điểm:**
+- Chi phí mỗi bước cao: $$O(n^3)$$.
+- Tốn bộ nhớ lưu trữ ma trận Hessian: $$O(n^2)$$.
+- Nhạy cảm với sai số số học khi giải hệ với Hessian.
 
-#### **Practical considerations**
-- **Small to medium $$n$$:** Newton often better
-- **Large $$n$$:** Gradient descent or quasi-Newton
-- **High accuracy needed:** Newton's quadratic convergence wins
-- **Ill-conditioned:** Newton's affine invariance helps
+#### **Lựa chọn trong thực tế**
+- **Số chiều $$n$$ nhỏ đến trung bình:** Phương pháp Newton thường hiệu quả hơn.
+- **Số chiều $$n$$ lớn:** Nên dùng gradient descent hoặc các phương pháp quasi-Newton.
+- **Cần độ chính xác cao hoặc bài toán có số điều kiện xấu:** Phương pháp Newton có lợi thế rõ rệt.
 
-### 🛠️ **Implementation Details**
+### 🛠️ **Lưu ý cài đặt**
 
-#### **Computing Newton step**
-1. **Form Hessian:** $$H = \nabla^2 f(x)$$
-2. **Solve linear system:** $$H \Delta x = -\nabla f(x)$$
-3. **Don't invert explicitly:** Use Cholesky, LU, or CG
+#### **Tính bước Newton**
+1. Lập ma trận Hessian $$H = 
+abla^2 f(x)$$.
+2. Giải hệ tuyến tính $$H \Delta x = -
+abla f(x)$$.
+3. Không tính nghịch đảo tường minh; dùng phân rã Cholesky, LU hoặc phương pháp gradient liên hợp (CG).
 
-#### **Numerical considerations**
-- **Hessian positive definite:** Ensure convexity
-- **Regularization:** Add $$\epsilon I$$ if needed
-- **Condition number:** Monitor $$\kappa(H)$$
-- **Line search:** Always use backtracking for global convergence
+#### **Ổn định số học**
+- Đảm bảo Hessian xác định dương (bổ sung điều chuẩn $$\epsilon I$$ nếu cần).
+- Theo dõi số điều kiện $$\kappa(H)$$.
+- Luôn dùng tìm kiếm đường backtracking để đảm bảo hội tụ toàn cục.
 
-#### **Stopping criteria**
-1. **Newton decrement:** $$\lambda^2(x)/2 < \epsilon$$
-2. **Gradient norm:** $$\lVert \nabla f(x) \rVert_2 < \epsilon$$
-3. **Function decrease:** $$\lvert f(x^{(k)}) - f(x^{(k-1)}) \rvert < \epsilon$$
+#### **Tiêu chí dừng**
+1. Đại lượng giảm Newton: $$\lambda^2(x)/2 < \epsilon$$.
+2. Chuẩn gradient: $$\lVert 
+abla f(x) Vert_2 < \epsilon$$.
+3. Độ giảm giá trị hàm: $$\lvert f(x^{(k)}) - f(x^{(k-1)}) vert < \epsilon$$.
 
-### 🎯 **Special Cases và Extensions**
+### 🎯 **Trường hợp đặc biệt và mở rộng**
 
-#### **Quasi-Newton methods**
-**Motivation:** Avoid computing exact Hessian
+#### **Các phương pháp Quasi-Newton**
+**Mục tiêu:** Tránh tính và phân rã ma trận Hessian chính xác.
 
-**BFGS update:**
-$$B_{k+1} = B_k + \frac{y_k y_k^T}{y_k^T s_k} - \frac{B_k s_k s_k^T B_k}{s_k^T B_k s_k}$$
+**Công thức cập nhật BFGS:**
+$$B_{k+1} = B_k + rac{y_k y_k^T}{y_k^T s_k} - rac{B_k s_k s_k^T B_k}{s_k^T B_k s_k}$$
 
-với $$s_k = x_{k+1} - x_k$$, $$y_k = \nabla f(x_{k+1}) - \nabla f(x_k)$$
+với $$s_k = x_{k+1} - x_k$$ và $$y_k = 
+abla f(x_{k+1}) - 
+abla f(x_k)$$.
 
-**L-BFGS:** Limited memory version cho large-scale problems
+**L-BFGS:** Phiên bản bộ nhớ giới hạn cho các bài toán quy mô lớn.
 
-#### **Trust region methods**
-**Alternative to line search:**
-$$\min_p f(x) + \nabla f(x)^T p + \frac{1}{2}p^T \nabla^2 f(x) p$$
-subject to $$\lVert p \rVert \le \Delta$$
+#### **Phương pháp miền tin cậy (Trust Region)**
+Thay thế tìm kiếm đường bằng bài toán con có ràng buộc bán kính $$\Delta$$:
+$$\min_p f(x) + 
+abla f(x)^T p + rac{1}{2}p^T 
+abla^2 f(x) p \quad 	ext{với} \quad \lVert p Vert \le \Delta$$
 
-### 💡 **Ví Dụ Minh Họa**
+### 💡 **Ví dụ minh họa**
 
-#### **Logistic regression**
-**Problem:** $$\min_\beta \sum_{i=1}^n \log(1 + \exp(-y_i x_i^T \beta))$$
+#### **Hồi quy logistic**
+- **Bài toán:** $$\min_eta \sum_{i=1}^n \log(1 + \exp(-y_i x_i^T eta))$$
+- **Gradient:** $$
+abla f(eta) = -\sum_{i=1}^n rac{y_i x_i}{1 + \exp(y_i x_i^T eta)}$$
+- **Hessian:** $$
+abla^2 f(eta) = \sum_{i=1}^n rac{\exp(y_i x_i^T eta)}{(1 + \exp(y_i x_i^T eta))^2} x_i x_i^T$$
+- **Bước Newton:** Giải hệ $$
+abla^2 f(eta) \Delta eta = -
+abla f(eta)$$.
 
-**Gradient:** $$\nabla f(\beta) = -\sum_{i=1}^n \frac{y_i x_i}{1 + \exp(y_i x_i^T \beta)}$$
+#### **Hàm bậc hai**
+- **Bài toán:** $$f(x) = rac{1}{2}x^T Q x + b^T x + c$$ với $$Q \succ 0$$.
+- **Bước Newton:** $$\Delta x = -Q^{-1}(Qx + b) = -(x + Q^{-1}b)$$.
+- **Hội tụ trong 1 bước:** $$x^{(1)} = x^{(0)} - (x^{(0)} + Q^{-1}b) = -Q^{-1}b = x^*$$.
 
-**Hessian:** $$\nabla^2 f(\beta) = \sum_{i=1}^n \frac{\exp(y_i x_i^T \beta)}{(1 + \exp(y_i x_i^T \beta))^2} x_i x_i^T$$
+### 🎯 **Kết nối với các chương khác**
 
-**Newton step:** Solve $$\nabla^2 f(\beta) \Delta \beta = -\nabla f(\beta)$$
+- **Từ các chương trước:** Gradient descent (Chương 06), điều kiện KKT (Chương 12) và ứng dụng đối ngẫu (Chương 13).
+- **Hướng phát triển tiếp theo:** Phương pháp chắn (Chương 15), các phương pháp điểm trong, các phương pháp quasi-Newton (Chương 18) và phương pháp miền tin cậy.
 
-#### **Quadratic function**
-**Problem:** $$f(x) = \frac{1}{2}x^T Q x + b^T x + c$$ với $$Q \succ 0$$
+### 💡 **Tóm tắt thực hành**
 
-**Newton step:** $$\Delta x = -Q^{-1}(Qx + b) = -(x + Q^{-1}b)$$
-
-**One-step convergence:** $$x^{(1)} = x^{(0)} - (x^{(0)} + Q^{-1}b) = -Q^{-1}b = x^*$$
-
-### 🎯 **Kết Nối Với Các Chương**
-
-#### **Từ chương trước:**
-- **Chương 06:** Gradient Descent - first-order foundation
-- **Chương 13:** Duality uses - computational efficiency
-- **Chương 12:** KKT conditions - optimality characterization
-
-#### **Tầm quan trọng của Newton Method:**
-- **Second-order information:** Sử dụng curvature information
-- **Quadratic convergence:** Fastest local convergence rate
-- **Affine invariance:** Robust to problem conditioning
-- **Interior point foundation:** Basis cho barrier methods
-
-#### **Hướng phát triển:**
-- **Chương 15:** Barrier methods - Newton for constrained problems
-- **Interior point methods:** Polynomial-time algorithms
-- **Quasi-Newton methods:** Practical approximations
-- **Trust region methods:** Alternative globalization strategy
-
-### 🌟 **Ý Nghĩa Lý Thuyết**
-
-#### **Newton như optimal second-order method:**
-- **Natural step:** Minimizes quadratic approximation
-- **Affine invariant:** Coordinate-free algorithm
-- **Optimal convergence:** Fastest possible local rate
-- **Self-correcting:** Adapts to local curvature
-
-#### **Computational trade-offs:**
-- **Per-iteration cost:** $$O(n^3)$$ vs $$O(n)$$ for gradient
-- **Total iterations:** Much fewer than first-order
-- **Memory requirements:** $$O(n^2)$$ vs $$O(n)$$
-- **Numerical stability:** More sensitive than gradient methods
-
-#### **Theoretical foundations:**
-- **Quadratic approximation:** Natural extension of linear approximation
-- **Self-concordance:** Elegant analysis framework
-- **Affine invariance:** Geometric rather than algebraic property
-- **Root finding connection:** Unifies optimization và equation solving
-
-### 💡 **Mẹo Thực Hành**
-
-#### **When to use Newton:**
-1. **Medium-scale problems:** $$n \le 10^3$$ typically
-2. **High accuracy needed:** Quadratic convergence valuable
-3. **Well-conditioned:** Or when affine invariance helps
-4. **Smooth problems:** Hessian computable và reliable
-
-#### **Implementation tips:**
-- **Never invert Hessian:** Always solve linear system
-- **Check positive definiteness:** Ensure Hessian $$\succ 0$$
-- **Use regularization:** Add $$\epsilon I$$ if needed
-- **Monitor condition number:** Watch for numerical issues
-- **Always use line search:** For global convergence
-
-#### **Common pitfalls:**
-- **Singular Hessian:** At saddle points or boundaries
-- **Expensive Hessian:** When second derivatives costly
-- **Poor starting point:** May not reach quadratic phase
-- **Numerical errors:** Hessian inversion amplifies errors
-
-### 🔬 **Advanced Topics**
-
-#### **Modified Newton methods:**
-- **Regularized Newton:** $$H + \epsilon I$$
-- **Levenberg-Marquardt:** Adaptive regularization
-- **Cubic regularization:** Third-order methods
-- **Inexact Newton:** Approximate linear system solution
-
-#### **Large-scale adaptations:**
-- **Quasi-Newton:** BFGS, L-BFGS approximations
-- **Gauss-Newton:** For least squares problems
-- **Truncated Newton:** CG for linear system
-- **Limited memory:** Avoid storing full Hessian
-
-#### **Constrained extensions:**
-- **Sequential Quadratic Programming (SQP):** Newton for constrained
-- **Interior point methods:** Barrier function approach
-- **Augmented Lagrangian:** Penalty method combination
-- **Active set methods:** Constraint identification
-
-### 📈 **Ứng Dụng Thực Tế**
-
-#### **Machine Learning:**
-- **Logistic regression:** Standard Newton application
-- **Neural network training:** Second-order optimization
-- **Gaussian processes:** Hyperparameter optimization
-- **SVM training:** Interior point methods
-
-#### **Statistics:**
-- **Maximum likelihood estimation:** Natural Newton application
-- **Generalized linear models:** Iteratively reweighted least squares
-- **Robust regression:** M-estimators
-- **Survival analysis:** Cox regression
-
-#### **Engineering:**
-- **Structural optimization:** Design optimization
-- **Control systems:** Optimal control problems
-- **Signal processing:** Parameter estimation
-- **Image processing:** Reconstruction problems
-
-#### **Finance:**
-- **Portfolio optimization:** Risk management
-- **Option pricing:** Calibration problems
-- **Risk modeling:** Parameter estimation
-- **Algorithmic trading:** Strategy optimization
-
-### 🔮 **Future Directions**
-
-#### **Emerging developments:**
-- **Stochastic Newton:** Online second-order methods
-- **Distributed Newton:** Parallel computation
-- **Quantum Newton:** Quantum optimization algorithms
-- **Adaptive methods:** Problem-specific modifications
-
-#### **Computational advances:**
-- **GPU acceleration:** Parallel linear algebra
-- **Automatic differentiation:** Efficient Hessian computation
-- **Sparse methods:** Structured Hessian exploitation
-- **Randomized algorithms:** Sketching techniques
-
-### 💎 **Key Insights**
-
-#### **Newton's fundamental contributions:**
-1. **Second-order information:** Uses curvature for faster convergence
-2. **Affine invariance:** Coordinate-free optimization
-3. **Quadratic convergence:** Optimal local convergence rate
-4. **Natural algorithm:** Minimizes quadratic approximation
-
-#### **Practical impact:**
-- **Interior point revolution:** Enabled polynomial-time algorithms
-- **Machine learning:** Foundation for many optimization algorithms
-- **Scientific computing:** Standard tool for nonlinear equations
-- **Engineering design:** Enables complex optimization problems
-
-### 🌟 **Legacy của chương 14:**
-
-- **Algorithmic breakthrough:** Second-order optimization methods
-- **Theoretical foundation:** Convergence analysis framework
-- **Practical impact:** Enables solution của complex problems
-- **Educational value:** Bridges linear algebra và optimization
-- **Scientific influence:** Foundation cho modern optimization
+- **Nên dùng phương pháp Newton khi:** số chiều vừa phải (thường $$n \le 10^3$$), hàm mục tiêu trơn, cần độ chính xác cao hoặc bài toán có số điều kiện xấu.
+- **Lỗi thường gặp:** Hessian suy biến tại điểm yên ngựa hoặc gần biên, chi phí tính đạo hàm bậc hai quá cao, điểm khởi tạo xa vùng hội tụ bậc hai, hoặc tính nghịch đảo ma trận tường minh gây khuếch đại sai số số học.
+- **Các biến thể và lĩnh vực ứng dụng:** Newton điều chuẩn ($$H + \epsilon I$$), Levenberg–Marquardt, điều chuẩn bậc ba, Newton không chính xác (dùng CG), L-BFGS, Gauss–Newton, SQP, phương pháp điểm trong; ứng dụng trong hồi quy logistic, ước lượng hợp lý cực đại, mô hình tuyến tính tổng quát (IRLS), điều khiển tối ưu, xử lý tín hiệu và tối ưu danh mục đầu tư.
 
 ---
-
-💡 **Thông điệp cuối cùng:** Newton Method không chỉ là faster gradient descent - nó là **paradigm shift** từ first-order sang second-order thinking, enabling quadratic convergence và affine invariance cho optimization problems!
-
----
-
 
 <style>
 /* Sửa lỗi alignment cho MathJax inline math */
@@ -503,203 +404,233 @@ mjx-container[jax="CHTML"][display="false"] {
 }
 </style>
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton method, bao gồm second-order optimization, convergence analysis, backtracking line search, self-concordant functions và quasi-Newton methods.
+Bài tập trắc nghiệm này kiểm tra kiến thức về phương pháp Newton, bao gồm tối ưu bậc hai, phân tích hội tụ, tìm kiếm đường backtracking, hàm tự hài hòa và các phương pháp quasi-Newton.
 
 ---
 
 <div id="quiz-container">
     <div id="quiz-header">
-        <h2>🔢 Quiz: Phương Pháp Newton</h2>
+        <h2>🔢 Bài tập trắc nghiệm: Phương pháp Newton</h2>
         <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill" style="width: 5%"></div>
+            <div class="progress-fill" id="progress-fill" style="width: 4%"></div>
         </div>
-        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">20</span></div>
+        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">25</span></div>
     </div>
 
     <div id="quiz-content">
         <!-- Câu hỏi 1: Newton method update -->
         <div class="question" id="q1" style="display: block;">
-            <h3>Câu 1: Công thức cập nhật của pure Newton method (không line search) là:</h3>
+            <h3>Câu 1: Công thức cập nhật của phương pháp Newton thuần túy (không dùng tìm kiếm đường) là:</h3>
             <div class="options">
-                <label><input type="radio" name="q1" value="a"> A) \(x^{(k+1)} = x^{(k)} - t_k \nabla f(x^{(k)})\)</label>
-                <label><input type="radio" name="q1" value="b"> B) \(x^{(k+1)} = x^{(k)} - t_k [\nabla^2 f(x^{(k)})]^{-1} \nabla f(x^{(k)})\)</label>
-                <label><input type="radio" name="q1" value="c"> C) \(x^{(k+1)} = x^{(k)} - [\nabla^2 f(x^{(k)})]^{-1} \nabla f(x^{(k)})\)</label>
-                <label><input type="radio" name="q1" value="d"> D) \(x^{(k+1)} = x^{(k)} - \nabla^2 f(x^{(k)}) \nabla f(x^{(k)})\)</label>
+                <label><input type="radio" name="q1" value="a"> A) \(x^{(k+1)} = x^{(k)} - t_k 
+abla f(x^{(k)})\)</label>
+                <label><input type="radio" name="q1" value="b"> B) \(x^{(k+1)} = x^{(k)} - t_k [
+abla^2 f(x^{(k)})]^{-1} 
+abla f(x^{(k)})\)</label>
+                <label><input type="radio" name="q1" value="c"> C) \(x^{(k+1)} = x^{(k)} - [
+abla^2 f(x^{(k)})]^{-1} 
+abla f(x^{(k)})\)</label>
+                <label><input type="radio" name="q1" value="d"> D) \(x^{(k+1)} = x^{(k)} - 
+abla^2 f(x^{(k)}) 
+abla f(x^{(k)})\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: C) $$x^{(k+1)} = x^{(k)} - [\nabla^2 f(x^{(k)})]^{-1} \nabla f(x^{(k)})$$</strong><br>
-                Pure Newton method sử dụng full Newton step với step size = 1, không cần line search khi gần optimal.
+                <strong>Đáp án đúng: C) $$x^{(k+1)} = x^{(k)} - [
+abla^2 f(x^{(k)})]^{-1} 
+abla f(x^{(k)})$$</strong><br>
+                Phương pháp Newton thuần túy dùng bước Newton đầy đủ với kích thước bước $$t = 1$$.
             </div>
         </div>
 
         <!-- Câu hỏi 2: Newton direction -->
         <div class="question" id="q2" style="display: none;">
-            <h3>Câu 2: Newton direction \(\Delta x_{nt}\) được tính bằng cách giải:</h3>
+            <h3>Câu 2: Hướng Newton \(\Delta x_{nt}\) được xác định bằng cách giải hệ phương trình:</h3>
             <div class="options">
-                <label><input type="radio" name="q2" value="a"> A) \(\nabla^2 f(x) \Delta x_{nt} = \nabla f(x)\)</label>
-                <label><input type="radio" name="q2" value="b"> B) \(\nabla^2 f(x) \Delta x_{nt} = -\nabla f(x)\)</label>
-                <label><input type="radio" name="q2" value="c"> C) \(\nabla f(x) \Delta x_{nt} = -\nabla^2 f(x)\)</label>
-                <label><input type="radio" name="q2" value="d"> D) \(\Delta x_{nt} = -\nabla f(x)\)</label>
+                <label><input type="radio" name="q2" value="a"> A) \(
+abla^2 f(x) \Delta x_{nt} = 
+abla f(x)\)</label>
+                <label><input type="radio" name="q2" value="b"> B) \(
+abla^2 f(x) \Delta x_{nt} = -
+abla f(x)\)</label>
+                <label><input type="radio" name="q2" value="c"> C) \(
+abla f(x) \Delta x_{nt} = -
+abla^2 f(x)\)</label>
+                <label><input type="radio" name="q2" value="d"> D) \(\Delta x_{nt} = -
+abla f(x)\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) $$\nabla^2 f(x) \Delta x_{nt} = -\nabla f(x)$$</strong><br>
-                Newton direction được tìm bằng cách giải hệ tuyến tính với Hessian matrix và negative gradient.
+                <strong>Đáp án đúng: B) $$
+abla^2 f(x) \Delta x_{nt} = -
+abla f(x)$$</strong><br>
+                Hướng Newton được tìm bằng cách giải hệ phương trình tuyến tính với ma trận Hessian và vế phải là đối của gradient.
             </div>
         </div>
 
         <!-- Câu hỏi 3: Second-order method -->
         <div class="question" id="q3" style="display: none;">
-            <h3>Câu 3: Newton method được gọi là second-order method vì:</h3>
+            <h3>Câu 3: Phương pháp Newton được gọi là phương pháp bậc hai vì:</h3>
             <div class="options">
-                <label><input type="radio" name="q3" value="a"> A) Sử dụng đạo hàm bậc hai (Hessian)</label>
+                <label><input type="radio" name="q3" value="a"> A) Sử dụng đạo hàm bậc hai (ma trận Hessian)</label>
                 <label><input type="radio" name="q3" value="b"> B) Hội tụ trong 2 bước</label>
                 <label><input type="radio" name="q3" value="c"> C) Cần 2 lần tính gradient</label>
-                <label><input type="radio" name="q3" value="d"> D) Có quadratic convergence</label>
+                <label><input type="radio" name="q3" value="d"> D) Có tốc độ hội tụ bậc hai</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Sử dụng đạo hàm bậc hai (Hessian)</strong><br>
-                Second-order methods sử dụng thông tin từ đạo hàm bậc hai, khác với first-order methods chỉ dùng gradient.
+                <strong>Đáp án đúng: A) Sử dụng đạo hàm bậc hai (ma trận Hessian)</strong><br>
+                Các phương pháp bậc hai sử dụng thông tin đạo hàm bậc hai (Hessian), khác với phương pháp bậc nhất chỉ dùng gradient.
             </div>
         </div>
 
         <!-- Câu hỏi 4: Convergence rate -->
         <div class="question" id="q4" style="display: none;">
-            <h3>Câu 4: Tốc độ hội tụ của Newton method là:</h3>
+            <h3>Câu 4: Tốc độ hội tụ cục bộ của phương pháp Newton là:</h3>
             <div class="options">
-                <label><input type="radio" name="q4" value="a"> A) Linear</label>
-                <label><input type="radio" name="q4" value="b"> B) Superlinear</label>
-                <label><input type="radio" name="q4" value="c"> C) Quadratic</label>
-                <label><input type="radio" name="q4" value="d"> D) Cubic</label>
+                <label><input type="radio" name="q4" value="a"> A) Tuyến tính (Linear)</label>
+                <label><input type="radio" name="q4" value="b"> B) Siêu tuyến tính (Superlinear)</label>
+                <label><input type="radio" name="q4" value="c"> C) Bậc hai (Quadratic)</label>
+                <label><input type="radio" name="q4" value="d"> D) Bậc ba (Cubic)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: C) Quadratic</strong><br>
-                Newton method có quadratic convergence khi gần optimal point: $$\lVert x^{(k+1)} - x^* \rVert \leq C \lVert x^{(k)} - x^* \rVert^2$$.
+                <strong>Đáp án đúng: C) Bậc hai (Quadratic)</strong><br>
+                Trong vùng lân cận điểm tối ưu, phương pháp Newton đạt hội tụ bậc hai: $$\lVert x^{(k+1)} - x^* Vert \leq C \lVert x^{(k)} - x^* Vert^2$$.
             </div>
         </div>
 
         <!-- Câu hỏi 5: Newton decrement -->
         <div class="question" id="q5" style="display: none;">
-            <h3>Câu 5: Newton decrement \(\lambda(x)\) được định nghĩa là:</h3>
+            <h3>Câu 5: Đại lượng giảm Newton (Newton decrement) \(\lambda(x)\) được định nghĩa là:</h3>
             <div class="options">
-                <label><input type="radio" name="q5" value="a"> A) \(\lambda(x) = \sqrt{\nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)}\)</label>
-                <label><input type="radio" name="q5" value="b"> B) \(\lambda(x) = \nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)\)</label>
-                <label><input type="radio" name="q5" value="c"> C) $$\lambda(x) = \lVert \nabla f(x) \rVert$$</label>
-                <label><input type="radio" name="q5" value="d"> D) $$\lambda(x) = \lVert \nabla^2 f(x) \rVert$$</label>
+                <label><input type="radio" name="q5" value="a"> A) \(\lambda(x) = \sqrt{
+abla f(x)^T [
+abla^2 f(x)]^{-1} 
+abla f(x)}\)</label>
+                <label><input type="radio" name="q5" value="b"> B) \(\lambda(x) = 
+abla f(x)^T [
+abla^2 f(x)]^{-1} 
+abla f(x)\)</label>
+                <label><input type="radio" name="q5" value="c"> C) $$\lambda(x) = \lVert 
+abla f(x) Vert$$</label>
+                <label><input type="radio" name="q5" value="d"> D) $$\lambda(x) = \lVert 
+abla^2 f(x) Vert$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\lambda(x) = \sqrt{\nabla f(x)^T [\nabla^2 f(x)]^{-1} \nabla f(x)}$$</strong><br>
-                Newton decrement là natural stopping criterion cho Newton method, affine invariant.
+                <strong>Đáp án đúng: A) $$\lambda(x) = \sqrt{
+abla f(x)^T [
+abla^2 f(x)]^{-1} 
+abla f(x)}$$</strong><br>
+                Đại lượng giảm Newton là tiêu chí dừng tự nhiên và bất biến affine cho phương pháp Newton.
             </div>
         </div>
 
         <!-- Câu hỏi 6: Affine invariance -->
         <div class="question" id="q6" style="display: none;">
-            <h3>Câu 6: Newton method có tính chất affine invariant có nghĩa là:</h3>
+            <h3>Câu 6: Tính chất bất biến affine của phương pháp Newton có nghĩa là:</h3>
             <div class="options">
-                <label><input type="radio" name="q6" value="a"> A) Không thay đổi khi transform tọa độ affine</label>
-                <label><input type="radio" name="q6" value="b"> B) Chỉ hoạt động với affine functions</label>
-                <label><input type="radio" name="q6" value="c"> C) Cần affine constraints</label>
-                <label><input type="radio" name="q6" value="d"> D) Hội tụ tuyến tính</label>
+                <label><input type="radio" name="q6" value="a"> A) Quỹ đạo lặp không thay đổi dưới các phép biến đổi tọa độ affine khả nghịch</label>
+                <label><input type="radio" name="q6" value="b"> B) Chỉ hoạt động với các hàm affine</label>
+                <label><input type="radio" name="q6" value="c"> C) Yêu cầu phải có ràng buộc affine</label>
+                <label><input type="radio" name="q6" value="d"> D) Chỉ đạt hội tụ tuyến tính</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Không thay đổi khi transform tọa độ affine</strong><br>
-                Newton method không phụ thuộc vào hệ tọa độ: nếu transform $$x \mapsto Ax + b$$, Newton steps tương ứng cũng transform theo.
+                <strong>Đáp án đúng: A) Quỹ đạo lặp không thay đổi dưới các phép biến đổi tọa độ affine khả nghịch</strong><br>
+                Phương pháp Newton không phụ thuộc hệ tọa độ: nếu biến đổi $$x \mapsto Ax + b$$ (với $$A$$ khả nghịch), các bước Newton biến đổi tương ứng theo đúng phép biến đổi đó.
             </div>
         </div>
 
         <!-- Câu hỏi 7: Backtracking line search -->
         <div class="question" id="q7" style="display: none;">
-            <h3>Câu 7: Backtracking line search trong Newton method sử dụng:</h3>
+            <h3>Câu 7: Tìm kiếm đường backtracking trong phương pháp Newton sử dụng:</h3>
             <div class="options">
-                <label><input type="radio" name="q7" value="a"> A) Armijo condition với Newton direction</label>
-                <label><input type="radio" name="q7" value="b"> B) Exact line search</label>
-                <label><input type="radio" name="q7" value="c"> C) Fixed step size</label>
-                <label><input type="radio" name="q7" value="d"> D) Golden section search</label>
+                <label><input type="radio" name="q7" value="a"> A) Điều kiện Armijo dọc theo hướng Newton</label>
+                <label><input type="radio" name="q7" value="b"> B) Tìm kiếm đường chính xác (exact line search)</label>
+                <label><input type="radio" name="q7" value="c"> C) Kích thước bước cố định</label>
+                <label><input type="radio" name="q7" value="d"> D) Tìm kiếm tỷ lệ vàng (golden section search)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Armijo condition với Newton direction</strong><br>
-                Backtracking line search kiểm tra sufficient decrease condition: $$f(x + t\Delta x_{nt}) \leq f(x) + \alpha t \nabla f(x)^T \Delta x_{nt}$$.
+                <strong>Đáp án đúng: A) Điều kiện Armijo dọc theo hướng Newton</strong><br>
+                Tìm kiếm đường backtracking kiểm tra điều kiện giảm đủ (Armijo): $$f(x + t\Delta x_{nt}) \leq f(x) + lpha t 
+abla f(x)^T \Delta x_{nt}$$.
             </div>
         </div>
 
         <!-- Câu hỏi 8: When Newton method fails -->
         <div class="question" id="q8" style="display: none;">
-            <h3>Câu 8: Newton method có thể thất bại khi:</h3>
+            <h3>Câu 8: Phương pháp Newton thuần túy có thể gặp sự cố hoặc không hội tụ khi:</h3>
             <div class="options">
-                <label><input type="radio" name="q8" value="a"> A) Hessian không positive definite</label>
-                <label><input type="radio" name="q8" value="b"> B) Starting point xa optimal</label>
-                <label><input type="radio" name="q8" value="c"> C) Hessian singular</label>
+                <label><input type="radio" name="q8" value="a"> A) Ma trận Hessian không xác định dương</label>
+                <label><input type="radio" name="q8" value="b"> B) Điểm khởi tạo ở quá xa điểm tối ưu</label>
+                <label><input type="radio" name="q8" value="c"> C) Ma trận Hessian suy biến</label>
                 <label><input type="radio" name="q8" value="d"> D) Tất cả các trường hợp trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các trường hợp trên</strong><br>
-                Newton method cần Hessian positive definite, có thể diverge từ starting point xa, và fail khi Hessian singular.
+                Phương pháp Newton cần Hessian xác định dương để đảm bảo hướng giảm, không xác định khi Hessian suy biến, và có thể phân kỳ nếu xuất phát quá xa nghiệm.
             </div>
         </div>
 
         <!-- Câu hỏi 9: Self-concordant functions -->
         <div class="question" id="q9" style="display: none;">
-            <h3>Câu 9: Self-concordant functions quan trọng vì:</h3>
+            <h3>Câu 9: Lớp hàm tự hài hòa (self-concordant functions) quan trọng vì:</h3>
             <div class="options">
-                <label><input type="radio" name="q9" value="a"> A) Convergence analysis không phụ thuộc constants</label>
-                <label><input type="radio" name="q9" value="b"> B) Affine invariant analysis</label>
-                <label><input type="radio" name="q9" value="c"> C) Barrier functions trong interior point methods</label>
+                <label><input type="radio" name="q9" value="a"> A) Phân tích hội tụ không phụ thuộc vào các hằng số $$L, m, M$$</label>
+                <label><input type="radio" name="q9" value="b"> B) Phân tích hội tụ có tính bất biến affine</label>
+                <label><input type="radio" name="q9" value="c"> C) Xuất hiện tự nhiên trong các hàm chắn của phương pháp điểm trong</label>
                 <label><input type="radio" name="q9" value="d"> D) Tất cả các lý do trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các lý do trên</strong><br>
-                Self-concordant functions giải quyết vấn đề constants trong analysis, affine invariant, và xuất hiện tự nhiên trong barrier methods.
+                Hàm tự hài hòa loại bỏ sự phụ thuộc vào các hằng số khó ước lượng, giữ nguyên tính bất biến affine trong phân tích hội tụ và là cơ sở lý thuyết cho các hàm chắn logarit.
             </div>
         </div>
 
         <!-- Câu hỏi 10: Self-concordance definition -->
         <div class="question" id="q10" style="display: none;">
-            <h3>Câu 10: Hàm \(f\) là self-concordant nếu:</h3>
+            <h3>Câu 10: Hàm lồi \(f\) là hàm tự hài hòa nếu thỏa mãn:</h3>
             <div class="options">
                 <label><input type="radio" name="q10" value="a"> A) \(|f'''(x)[h,h,h]| \leq 2(f''(x)[h,h])^{3/2}\)</label>
                 <label><input type="radio" name="q10" value="b"> B) \(f''(x) \succ 0\)</label>
-                <label><input type="radio" name="q10" value="c"> C) \(f\) là convex</label>
-                <label><input type="radio" name="q10" value="d"> D) \(f\) là smooth</label>
+                <label><input type="radio" name="q10" value="c"> C) \(f\) là hàm lồi</label>
+                <label><input type="radio" name="q10" value="d"> D) \(f\) là hàm trơn</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$|f'''(x)[h,h,h]| \leq 2(f''(x)[h,h])^{3/2}$$</strong><br>
-                Self-concordance condition kiểm soát third derivative relative to second derivative.
+                Điều kiện tự hài hòa chặn độ lớn đạo hàm bậc ba theo đạo hàm bậc hai dọc theo mọi hướng $$h$$.
             </div>
         </div>
 
         <!-- Câu hỏi 11: Quasi-Newton methods -->
         <div class="question" id="q11" style="display: none;">
-            <h3>Câu 11: Quasi-Newton methods khác với Newton method ở chỗ:</h3>
+            <h3>Câu 11: Các phương pháp quasi-Newton khác phương pháp Newton ở điểm nào?</h3>
             <div class="options">
-                <label><input type="radio" name="q11" value="a"> A) Không cần tính Hessian chính xác</label>
-                <label><input type="radio" name="q11" value="b"> B) Sử dụng approximation của Hessian</label>
-                <label><input type="radio" name="q11" value="c"> C) Chi phí tính toán thấp hơn</label>
-                <label><input type="radio" name="q11" value="d"> D) Tất cả các điều trên</label>
+                <label><input type="radio" name="q11" value="a"> A) Không cần tính ma trận Hessian chính xác</label>
+                <label><input type="radio" name="q11" value="b"> B) Dùng ma trận xấp xỉ cho Hessian (hoặc nghịch đảo Hessian)</label>
+                <label><input type="radio" name="q11" value="c"> C) Chi phí tính toán mỗi bước thấp hơn</label>
+                <label><input type="radio" name="q11" value="d"> D) Tất cả các điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Quasi-Newton methods approximate Hessian để giảm computational cost, phù hợp khi Hessian expensive to compute.
+                <strong>Đáp án đúng: D) Tất cả các điểm trên</strong><br>
+                Các phương pháp quasi-Newton xấp xỉ Hessian từ thông tin gradient để giảm chi phí tính toán mỗi vòng lặp.
             </div>
         </div>
 
         <!-- Câu hỏi 12: BFGS update -->
         <div class="question" id="q12" style="display: none;">
-            <h3>Câu 12: BFGS method cập nhật approximation của:</h3>
+            <h3>Câu 12: Phương pháp BFGS (dạng thông dụng) trực tiếp cập nhật xấp xỉ của:</h3>
             <div class="options">
-                <label><input type="radio" name="q12" value="a"> A) Chỉ đường chéo của Hessian</label>
-                <label><input type="radio" name="q12" value="b"> B) Inverse Hessian matrix</label>
-                <label><input type="radio" name="q12" value="c"> C) Gradient vector</label>
-                <label><input type="radio" name="q12" value="d"> D) Objective function</label>
+                <label><input type="radio" name="q12" value="a"> A) Chỉ đường chéo của ma trận Hessian</label>
+                <label><input type="radio" name="q12" value="b"> B) Ma trận nghịch đảo của Hessian</label>
+                <label><input type="radio" name="q12" value="c"> C) Vector gradient</label>
+                <label><input type="radio" name="q12" value="d"> D) Giá trị hàm mục tiêu</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Inverse Hessian matrix</strong><br>
-                BFGS (dạng thường dùng) directly updates approximation $$H_k$$ của inverse Hessian, tránh việc phải solve linear system. (Cũng có dạng tương đương cập nhật xấp xỉ $$B_k$$ của chính Hessian.)
+                <strong>Đáp án đúng: B) Ma trận nghịch đảo của Hessian</strong><br>
+                Ở dạng thường dùng, BFGS cập nhật trực tiếp ma trận xấp xỉ $$H_k$$ của nghịch đảo Hessian để tránh giải hệ tuyến tính (cũng có dạng tương đương cập nhật xấp xỉ $$B_k$$ của chính Hessian).
             </div>
         </div>
 
         <!-- Câu hỏi 13: Computational complexity -->
         <div class="question" id="q13" style="display: none;">
-            <h3>Câu 13: Computational cost mỗi iteration của Newton method là:</h3>
+            <h3>Câu 13: Chi phí tính toán tổng quát cho mỗi vòng lặp của phương pháp Newton (với $$n$$ biến) là:</h3>
             <div class="options">
                 <label><input type="radio" name="q13" value="a"> A) \(O(n)\)</label>
                 <label><input type="radio" name="q13" value="b"> B) \(O(n^2)\)</label>
@@ -708,177 +639,182 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: C) $$O(n^3)$$</strong><br>
-                Newton method cần $$O(n^2)$$ để tính Hessian và $$O(n^3)$$ để solve linear system $$H \Delta x = -g$$.
+                Phương pháp Newton cần lưu trữ $$O(n^2)$$ cho ma trận Hessian và tốn $$O(n^3)$$ phép tính để giải hệ tuyến tính $$H \Delta x = -g$$.
             </div>
         </div>
 
         <!-- Câu hỏi 14: Damped Newton method -->
         <div class="question" id="q14" style="display: none;">
-            <h3>Câu 14: Damped Newton method sử dụng:</h3>
+            <h3>Câu 14: Phương pháp Newton có giảm chấn (damped Newton method) sử dụng:</h3>
             <div class="options">
-                <label><input type="radio" name="q14" value="a"> A) Fixed step size nhỏ</label>
-                <label><input type="radio" name="q14" value="b"> B) Line search với Newton direction</label>
-                <label><input type="radio" name="q14" value="c"> C) Modified Hessian</label>
-                <label><input type="radio" name="q14" value="d"> D) Gradient descent direction</label>
+                <label><input type="radio" name="q14" value="a"> A) Kích thước bước nhỏ cố định</label>
+                <label><input type="radio" name="q14" value="b"> B) Tìm kiếm đường dọc theo hướng Newton</label>
+                <label><input type="radio" name="q14" value="c"> C) Ma trận Hessian hiệu chỉnh cố định</label>
+                <label><input type="radio" name="q14" value="d"> D) Hướng của gradient descent</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Line search với Newton direction</strong><br>
-                Damped Newton method kết hợp Newton direction với line search để đảm bảo global convergence.
+                <strong>Đáp án đúng: B) Tìm kiếm đường dọc theo hướng Newton</strong><br>
+                Phương pháp Newton có giảm chấn kết hợp hướng Newton với tìm kiếm đường backtracking để đảm bảo hội tụ toàn cục.
             </div>
         </div>
 
         <!-- Câu hỏi 15: Trust region vs line search -->
         <div class="question" id="q15" style="display: none;">
-            <h3>Câu 15: Trust region Newton method khác với line search Newton ở chỗ:</h3>
+            <h3>Câu 15: Phương pháp Newton miền tin cậy (trust region) khác phương pháp Newton tìm kiếm đường ở chỗ:</h3>
             <div class="options">
-                <label><input type="radio" name="q15" value="a"> A) Giới hạn step size trong một region</label>
-                <label><input type="radio" name="q15" value="b"> B) Modify direction thay vì step size</label>
-                <label><input type="radio" name="q15" value="c"> C) Chọn step bằng cách giải bài toán con với ràng buộc $$\lVert p \rVert \leq \Delta$$</label>
-                <label><input type="radio" name="q15" value="d"> D) Tất cả các điều trên</label>
+                <label><input type="radio" name="q15" value="a"> A) Giới hạn độ dài bước đi trong một miền tin cậy</label>
+                <label><input type="radio" name="q15" value="b"> B) Có thể thay đổi cả hướng bước đi thay vì chỉ thu nhỏ kích thước bước</label>
+                <label><input type="radio" name="q15" value="c"> C) Chọn bước bằng cách giải bài toán con với ràng buộc $$\lVert p Vert \leq \Delta$$</label>
+                <label><input type="radio" name="q15" value="d"> D) Tất cả các điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Trust region methods giới hạn step trong trusted region, có thể modify direction, và chọn step bằng cách tối thiểu hóa quadratic model trong ràng buộc $$\lVert p \rVert \leq \Delta$$.
+                <strong>Đáp án đúng: D) Tất cả các điểm trên</strong><br>
+                Phương pháp miền tin cậy cực tiểu hóa mô hình bậc hai trong vùng bán kính $$\Delta$$, qua đó đồng thời kiểm soát cả độ dài lẫn hướng bước đi.
             </div>
         </div>
 
         <!-- Câu hỏi 16: Newton method for root finding -->
         <div class="question" id="q16" style="display: none;">
-            <h3>Câu 16: Newton method cho root finding \(g(x) = 0\) có công thức:</h3>
+            <h3>Câu 16: Phương pháp Newton tìm nghiệm cho phương trình một biến \(g(x) = 0\) có công thức lặp:</h3>
             <div class="options">
-                <label><input type="radio" name="q16" value="a"> A) \(x^{(k+1)} = x^{(k)} - \frac{g(x^{(k)})}{g'(x^{(k)})}\)</label>
+                <label><input type="radio" name="q16" value="a"> A) \(x^{(k+1)} = x^{(k)} - rac{g(x^{(k)})}{g'(x^{(k)})}\)</label>
                 <label><input type="radio" name="q16" value="b"> B) \(x^{(k+1)} = x^{(k)} - g(x^{(k)})\)</label>
                 <label><input type="radio" name="q16" value="c"> C) \(x^{(k+1)} = x^{(k)} - g'(x^{(k)})\)</label>
-                <label><input type="radio" name="q16" value="d"> D) \(x^{(k+1)} = x^{(k)} + \frac{g(x^{(k)})}{g'(x^{(k)})}\)</label>
+                <label><input type="radio" name="q16" value="d"> D) \(x^{(k+1)} = x^{(k)} + rac{g(x^{(k)})}{g'(x^{(k)})}\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$x^{(k+1)} = x^{(k)} - \frac{g(x^{(k)})}{g'(x^{(k)})}$$</strong><br>
-                Newton method cho root finding là trường hợp đặc biệt khi $$g(x) = \nabla f(x)$$ và tìm $$\nabla f(x) = 0$$.
+                <strong>Đáp án đúng: A) $$x^{(k+1)} = x^{(k)} - rac{g(x^{(k)})}{g'(x^{(k)})}$$</strong><br>
+                Phương pháp Newton cho tối ưu hóa chính là áp dụng công thức tìm nghiệm này cho phương trình $$
+abla f(x) = 0$$.
             </div>
         </div>
 
         <!-- Câu hỏi 17: Hessian modification -->
         <div class="question" id="q17" style="display: none;">
-            <h3>Câu 17: Khi Hessian không positive definite, có thể:</h3>
+            <h3>Câu 17: Khi ma trận Hessian không xác định dương, ta có thể xử lý bằng cách:</h3>
             <div class="options">
-                <label><input type="radio" name="q17" value="a"> A) Thêm regularization: \(H + \lambda I\)</label>
-                <label><input type="radio" name="q17" value="b"> B) Sử dụng absolute eigenvalues</label>
-                <label><input type="radio" name="q17" value="c"> C) Modified Cholesky decomposition</label>
+                <label><input type="radio" name="q17" value="a"> A) Thêm điều chuẩn: \(H + \lambda I\)</label>
+                <label><input type="radio" name="q17" value="b"> B) Điều chỉnh các giá trị riêng âm (lấy trị tuyệt đối hoặc cắt ngưỡng dương)</label>
+                <label><input type="radio" name="q17" value="c"> C) Dùng phân rã Cholesky hiệu chỉnh (modified Cholesky)</label>
                 <label><input type="radio" name="q17" value="d"> D) Tất cả các phương pháp trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các phương pháp trên</strong><br>
-                Có nhiều cách modify Hessian để đảm bảo positive definiteness: regularization, eigenvalue modification, modified Cholesky.
+                Cả ba kỹ thuật (thêm điều chuẩn, hiệu chỉnh giá trị riêng, phân rã Cholesky hiệu chỉnh) đều giúp thu được ma trận xác định dương để đảm bảo hướng giảm.
             </div>
         </div>
 
         <!-- Câu hỏi 18: L-BFGS -->
         <div class="question" id="q18" style="display: none;">
-            <h3>Câu 18: L-BFGS (Limited-memory BFGS) có ưu điểm:</h3>
+            <h3>Câu 18: Ưu điểm của thuật toán L-BFGS (Limited-memory BFGS) là:</h3>
             <div class="options">
-                <label><input type="radio" name="q18" value="a"> A) Memory requirement \(O(n)\) thay vì \(O(n^2)\)</label>
-                <label><input type="radio" name="q18" value="b"> B) Phù hợp cho large-scale problems</label>
-                <label><input type="radio" name="q18" value="c"> C) Không cần store full matrix</label>
+                <label><input type="radio" name="q18" value="a"> A) Yêu cầu bộ nhớ \(O(n)\) thay vì \(O(n^2)\)</label>
+                <label><input type="radio" name="q18" value="b"> B) Phù hợp với các bài toán tối ưu quy mô lớn</label>
+                <label><input type="radio" name="q18" value="c"> C) Không cần lưu trữ ma trận đầy đủ cỡ \(n 	imes n\)</label>
                 <label><input type="radio" name="q18" value="d"> D) Tất cả các ưu điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các ưu điểm trên</strong><br>
-                L-BFGS chỉ store limited history (thường 5-20 vectors) thay vì full matrix, rất hiệu quả cho large-scale optimization.
+                L-BFGS chỉ lưu một số lượng nhỏ các cặp vector lịch sử (thường từ 5 đến 20 cặp) thay vì ma trận đầy đủ, nên rất phù hợp cho bài toán nhiều biến.
             </div>
         </div>
 
         <!-- Câu hỏi 19: Newton method applications -->
         <div class="question" id="q19" style="display: none;">
-            <h3>Câu 19: Newton method được ứng dụng trong:</h3>
+            <h3>Câu 19: Phương pháp Newton được ứng dụng trong lĩnh vực nào sau đây?</h3>
             <div class="options">
-                <label><input type="radio" name="q19" value="a"> A) Interior point methods</label>
-                <label><input type="radio" name="q19" value="b"> B) Neural network training</label>
-                <label><input type="radio" name="q19" value="c"> C) Maximum likelihood estimation</label>
+                <label><input type="radio" name="q19" value="a"> A) Các phương pháp điểm trong (interior-point methods)</label>
+                <label><input type="radio" name="q19" value="b"> B) Huấn luyện mô hình học máy và mạng nơ-ron (các biến thể bậc hai)</label>
+                <label><input type="radio" name="q19" value="c"> C) Ước lượng hợp lý cực đại (maximum likelihood estimation)</label>
                 <label><input type="radio" name="q19" value="d"> D) Tất cả các ứng dụng trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các ứng dụng trên</strong><br>
-                Newton method có ứng dụng rộng rãi: interior point methods, second-order optimization trong ML, statistical estimation.
+                Phương pháp Newton và các biến thể của nó được dùng rộng rãi trong phương pháp điểm trong, học máy và ước lượng thống kê.
             </div>
         </div>
 
         <!-- Câu hỏi 20: Comparison with first-order methods -->
         <div class="question" id="q20" style="display: none;">
-            <h3>Câu 20: So với first-order methods, Newton method:</h3>
+            <h3>Câu 20: So với các phương pháp bậc nhất, phương pháp Newton có đặc điểm:</h3>
             <div class="options">
-                <label><input type="radio" name="q20" value="a"> A) Ít iterations hơn nhưng mỗi iteration expensive hơn</label>
-                <label><input type="radio" name="q20" value="b"> B) Quadratic convergence vs linear convergence</label>
-                <label><input type="radio" name="q20" value="c"> C) Affine invariant vs coordinate dependent</label>
-                <label><input type="radio" name="q20" value="d"> D) Tất cả các điều trên</label>
+                <label><input type="radio" name="q20" value="a"> A) Cần ít vòng lặp hơn nhưng chi phí mỗi vòng lặp cao hơn</label>
+                <label><input type="radio" name="q20" value="b"> B) Hội tụ bậc hai (cục bộ) so với hội tụ tuyến tính</label>
+                <label><input type="radio" name="q20" value="c"> C) Bất biến affine so với phụ thuộc hệ tọa độ</label>
+                <label><input type="radio" name="q20" value="d"> D) Tất cả các đặc điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Newton method trade-off: fewer iterations với faster convergence, nhưng mỗi iteration expensive hơn. Affine invariant là advantage lớn.
+                <strong>Đáp án đúng: D) Tất cả các đặc điểm trên</strong><br>
+                Phương pháp Newton đánh đổi chi phí mỗi bước cao hơn để đạt số vòng lặp ít hơn, hội tụ bậc hai gần nghiệm và tính bất biến affine.
             </div>
         </div>
+
         <!-- Câu hỏi 21: Thực hành -->
         <div class="question" id="q21" style="display: none;">
-            <h3>Câu 21: Newton method sử dụng thông tin:</h3>
+            <h3>Câu 21: Phương pháp Newton sử dụng thông tin nào của hàm mục tiêu?</h3>
             <div class="options">
-                <label><input type="radio" name="q21" value="a"> A) Gradient và Hessian</label>
+                <label><input type="radio" name="q21" value="a"> A) Cả gradient và ma trận Hessian</label>
                 <label><input type="radio" name="q21" value="b"> B) Chỉ gradient</label>
-                <label><input type="radio" name="q21" value="c"> C) Chỉ Hessian</label>
-                <label><input type="radio" name="q21" value="d"> D) Chỉ giá trị hàm</label>
+                <label><input type="radio" name="q21" value="c"> C) Chỉ ma trận Hessian</label>
+                <label><input type="radio" name="q21" value="d"> D) Chỉ giá trị hàm số</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Gradient và Hessian</strong><br>
-                Newton method: $$x^{(k+1)} = x^{(k)} - [\nabla^2 f(x^{(k)})]^{-1} \nabla f(x^{(k)})$$.
+                <strong>Đáp án đúng: A) Cả gradient và ma trận Hessian</strong><br>
+                Công thức cập nhật Newton: $$x^{(k+1)} = x^{(k)} - [
+abla^2 f(x^{(k)})]^{-1} 
+abla f(x^{(k)})$$.
             </div>
         </div>
 
         <!-- Câu hỏi 22: Thực hành -->
         <div class="question" id="q22" style="display: none;">
-            <h3>Câu 22: Tốc độ hội tụ của Newton method là:</h3>
+            <h3>Câu 22: Tốc độ hội tụ của phương pháp Newton gần điểm tối ưu là:</h3>
             <div class="options">
-                <label><input type="radio" name="q22" value="a"> A) Quadratic (bậc 2)</label>
-                <label><input type="radio" name="q22" value="b"> B) Linear</label>
-                <label><input type="radio" name="q22" value="c"> C) Sublinear</label>
-                <label><input type="radio" name="q22" value="d"> D) Cubic</label>
+                <label><input type="radio" name="q22" value="a"> A) Bậc hai (Quadratic)</label>
+                <label><input type="radio" name="q22" value="b"> B) Tuyến tính (Linear)</label>
+                <label><input type="radio" name="q22" value="c"> C) Dưới tuyến tính (Sublinear)</label>
+                <label><input type="radio" name="q22" value="d"> D) Bậc ba (Cubic)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Quadratic (bậc 2)</strong><br>
-                Newton method có tốc độ hội tụ quadratic khi gần nghiệm và Hessian khả nghịch.
+                <strong>Đáp án đúng: A) Bậc hai (Quadratic)</strong><br>
+                Phương pháp Newton hội tụ bậc hai khi ở gần nghiệm với Hessian khả nghịch và liên tục Lipschitz.
             </div>
         </div>
 
         <!-- Câu hỏi 23: Thực hành -->
         <div class="question" id="q23" style="display: none;">
-            <h3>Câu 23: Quasi-Newton methods khác Newton method ở chỗ:</h3>
+            <h3>Câu 23: Các phương pháp quasi-Newton khác phương pháp Newton ở chỗ:</h3>
             <div class="options">
-                <label><input type="radio" name="q23" value="a"> A) Xấp xỉ Hessian thay vì tính chính xác</label>
+                <label><input type="radio" name="q23" value="a"> A) Xấp xỉ ma trận Hessian thay vì tính chính xác</label>
                 <label><input type="radio" name="q23" value="b"> B) Không dùng gradient</label>
-                <label><input type="radio" name="q23" value="c"> C) Chỉ cho hàm tuyến tính</label>
-                <label><input type="radio" name="q23" value="d"> D) Luôn chậm hơn</label>
+                <label><input type="radio" name="q23" value="c"> C) Chỉ áp dụng cho hàm tuyến tính</label>
+                <label><input type="radio" name="q23" value="d"> D) Luôn chậm hơn trong mọi bài toán</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Xấp xỉ Hessian thay vì tính chính xác</strong><br>
-                Quasi-Newton (BFGS, L-BFGS) xây dựng xấp xỉ Hessian từ thông tin gradient.
+                <strong>Đáp án đúng: A) Xấp xỉ ma trận Hessian thay vì tính chính xác</strong><br>
+                Các phương pháp quasi-Newton (như BFGS, L-BFGS) xây dựng xấp xỉ Hessian từ thông tin gradient qua các bước lặp.
             </div>
         </div>
 
         <!-- Câu hỏi 24: Thực hành -->
         <div class="question" id="q24" style="display: none;">
-            <h3>Câu 24: BFGS update formula cập nhật:</h3>
+            <h3>Câu 24: Công thức cập nhật BFGS (dạng thông dụng) cập nhật:</h3>
             <div class="options">
-                <label><input type="radio" name="q24" value="a"> A) Xấp xỉ Hessian nghịch đảo</label>
-                <label><input type="radio" name="q24" value="b"> B) Gradient</label>
-                <label><input type="radio" name="q24" value="c"> C) Điểm hiện tại</label>
+                <label><input type="radio" name="q24" value="a"> A) Ma trận xấp xỉ nghịch đảo Hessian</label>
+                <label><input type="radio" name="q24" value="b"> B) Vector gradient</label>
+                <label><input type="radio" name="q24" value="c"> C) Điểm lặp hiện tại</label>
                 <label><input type="radio" name="q24" value="d"> D) Kích thước bước</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Xấp xỉ Hessian nghịch đảo</strong><br>
-                BFGS cập nhật ma trận xấp xỉ $$H_k \approx [\nabla^2 f]^{-1}$$ sử dụng thông tin gradient.
+                <strong>Đáp án đúng: A) Ma trận xấp xỉ nghịch đảo Hessian</strong><br>
+                BFGS cập nhật ma trận xấp xỉ $$H_k pprox [
+abla^2 f]^{-1}$$ dựa trên hiệu vị trí và hiệu gradient giữa hai bước liên tiếp.
             </div>
         </div>
 
         <!-- Câu hỏi 25: Thực hành -->
         <div class="question" id="q25" style="display: none;">
-            <h3>Câu 25: Với hàm $$f(x) = x^2$$, một bước Newton từ $$x_0 = 2$$ cho:</h3>
+            <h3>Câu 25: Với hàm $$f(x) = x^2$$, một bước Newton xuất phát từ $$x_0 = 2$$ cho:</h3>
             <div class="options">
                 <label><input type="radio" name="q25" value="a"> A) $$x_1 = 0$$</label>
                 <label><input type="radio" name="q25" value="b"> B) $$x_1 = 1$$</label>
@@ -887,7 +823,9 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$x_1 = 0$$</strong><br>
-                $$\nabla f(2) = 4$$, $$\nabla^2 f(2) = 2$$. $$x_1 = 2 - 4/2 = 0$$.
+                Ta có $$
+abla f(2) = 4$$ và $$
+abla^2 f(2) = 2$$, nên $$x_1 = 2 - 4/2 = 0$$.
             </div>
         </div>
 
@@ -901,7 +839,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Newton
     </div>
 
     <div id="final-result" style="display: none;" class="final-score">
-        <h2>🎉 Hoàn thành Quiz!</h2>
+        <h2>🎉 Hoàn thành bài tập trắc nghiệm!</h2>
         <p>Điểm số của bạn: <span id="final-score-text"></span></p>
         <p id="performance-message"></p>
     </div>

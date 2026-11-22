@@ -11,37 +11,37 @@ lesson_type: required
 ---
 
 
-Rủi ro thực nghiệm là một trung bình. Gradient của nó cũng vậy:
+Hàm rủi ro thực nghiệm là trung bình cộng trên $$n$$ mẫu dữ liệu, và gradient của nó cũng có dạng trung bình tương ứng:
 
 $$
 \nabla F(w) = \frac{1}{n}\sum_{i=1}^n \nabla f_i(w).
 $$
 
-**Hạ gradient ngẫu nhiên** thay tổng bằng một chỉ số ngẫu nhiên $$I_k$$ rút (có hoặc không hoàn lại) từ $$\{1,\ldots,n\}$$:
+**Hạ gradient ngẫu nhiên (Stochastic Gradient Descent — SGD)** thay toàn bộ tổng trên bằng gradient tại một chỉ số ngẫu nhiên $$I_k$$ rút (có hoàn lại hoặc không hoàn lại) từ $$\{1,\ldots,n\}$$:
 
 $$
 w_{k+1} = w_k - \eta_k \nabla f_{I_k}(w_k).
 $$
 
-Nếu $$I_k$$ đều và độc lập với $$w_k$$, cập nhật là ước lượng **không chệch**: $$\mathbb{E}[\nabla f_{I_k}(w_k)\mid w_k]=\nabla F(w_k)$$. Một **minibatch** kích thước $$B$$ trung bình $$B$$ số hạng như vậy. Phương sai giảm như $$1/B$$ với các lần rút độc lập; thời gian tường mỗi bước tăng gần tuyến tính theo $$B$$ cho đến khi bão hòa GPU. Đó là đánh đổi nền tảng.
+Nếu $$I_k$$ được chọn đều và độc lập với $$w_k$$, ước lượng gradient là **không chệch**: $$\mathbb{E}[\nabla f_{I_k}(w_k)\mid w_k]=\nabla F(w_k)$$. Một **minibatch** kích thước $$B$$ lấy trung bình trên $$B$$ mẫu như vậy. Khi các mẫu độc lập, phương sai của ước lượng giảm theo tỉ lệ $$1/B$$, trong khi thời gian tính mỗi bước tăng gần tuyến tính theo $$B$$ cho tới khi tận dụng hết năng lực song song của GPU. Đây là sự đánh đổi cơ bản khi chọn kích thước lô.
 
-## Các tốc độ cần thuộc
+## Các tốc độ hội tụ cần nắm
 
-Dưới giả thiết Lipschitz / phương sai bị chặn chuẩn, SGD trên mục tiêu lồi Lipschitz với bước $$\eta_k \propto 1/\sqrt{k}$$ (hoặc bước hằng rồi lấy trung bình) thỏa
+Dưới các giả thiết chuẩn về tính Lipschitz và phương sai bị chặn, SGD trên hàm mục tiêu lồi Lipschitz với tốc độ học giảm dần $$\eta_k \propto 1/\sqrt{k}$$ (hoặc bước hằng kết hợp lấy trung bình điểm lặp) thỏa mãn:
 
 $$
 \mathbb{E}\bigl[F(\bar w_T)-F^\star\bigr] = O\bigl(\sigma / \sqrt{T}\bigr)
 $$
 
-theo số bước *ngẫu nhiên* (Bubeck, Ch. 6). Bài toán trơn lồi mạnh có thể đạt tốc độ tuyến tính nếu nhiễu tắt tại cực tiểu, nhưng mạng sâu không lồi mạnh. Thông điệp thực hành: **nhiều bước với gradient nhiễu thường thắng ít gradient chính xác**.
+theo số bước *ngẫu nhiên* $$T$$ (Bubeck, Chương 6). Với bài toán trơn và lồi mạnh, SGD có thể đạt tốc độ tuyến tính nếu nhiễu triệt tiêu tại điểm cực tiểu, nhưng mạng nơ-ron sâu nhìn chung không lồi mạnh. Bài học thực hành rút ra là: **nhiều bước cập nhật rẻ với gradient nhiễu thường đạt hiệu quả thực tế tốt hơn ít bước với gradient chính xác**.
 
-Chương 06 đã so GD và SGD trên tổng nhỏ. Mở lại [stochastic_gradient_demo.html](https://nglelinh.github.io/interactive_math/optimization/stochastic_gradient_demo.html) và xem một quỹ đạo nhiễu vẫn xuôi dốc.
+Chương 06 đã so sánh GD và SGD trên tổng nhỏ; bạn có thể mở lại [stochastic_gradient_demo.html](https://nglelinh.github.io/interactive_math/optimization/stochastic_gradient_demo.html) để quan sát quỹ đạo nhiễu vẫn tiến đều về đáy.
 
-## Xáo trộn so với i.i.d.
+## Xáo trộn dữ liệu so với lấy mẫu i.i.d.
 
-Lý thuyết thích mẫu độc lập. Thực hành dùng **xáo lại ngẫu nhiên**: hoán vị $$n$$ mẫu mỗi epoch rồi đi hết hoán vị. Vòng không hoàn lại thường hội tụ nhanh hơn trên thực nghiệm; chứng minh là chủ đề nghiên cứu 2010–2020. Với môn này: xáo mỗi epoch, đừng tái sử dụng cùng thứ tự (dễ tuần hoàn).
+Phân tích lý thuyết thường giả sử các chỉ số được rút độc lập cùng phân phối (i.i.d.). Tuy nhiên, trong thực hành người ta hầu như luôn dùng **xáo trộn ngẫu nhiên (random reshuffling)**: hoán vị toàn bộ $$n$$ mẫu ở đầu mỗi epoch rồi duyệt tuần tự không hoàn lại. Lấy mẫu không hoàn lại thường hội tụ nhanh hơn về mặt thực nghiệm và cũng là chủ đề nghiên cứu lý thuyết tích cực giai đoạn 2010–2020. Về mặt triển khai, nên xáo trộn lại dữ liệu ở mỗi epoch để tránh lặp cố định cùng một thứ tự.
 
-## Một vòng logistic nhỏ
+## Minh họa với hồi quy logistic
 
 ```python
 import numpy as np
@@ -62,6 +62,6 @@ def sgd_logistic(X, y, eta=0.1, batch=16, epochs=20):
     return w
 ```
 
-So `batch=1`, `batch=16`, và `batch=n` (gradient đầy đủ) trên một đám mây hai lớp: thời gian tường tới một mất mát huấn luyện cố định, không chỉ số epoch.
+Hãy thử so sánh `batch=1`, `batch=16` và `batch=n` (gradient đầy đủ) trên một tập dữ liệu phân loại nhị phân theo thời gian thực thi (wall-clock time) cần để đạt cùng một mức hàm mất mát, chứ không chỉ đếm số epoch.
 
-**Câu hỏi.** Nếu SGD thường thoát lưu vực nông giỏi hơn GD cả lô, điều đó nên ảnh hưởng thế nào tới lựa chọn batch size đầu tiên trên mô hình quá tham số?
+**Câu hỏi.** Nếu SGD thường dễ thoát khỏi các vùng trũng nông hơn so với GD toàn lô, nhận xét này nên ảnh hưởng thế nào đến cách chọn kích thước minibatch ban đầu cho một mô hình quá tham số hóa?

@@ -9,85 +9,86 @@ categories:
 lang: vi
 ---
 
-Nếu $$f$$ thỏa mãn điều kiện sau thì $$f$$ lồi mạnh (giả sử $$f$$ khả vi hai lần và $$m > 0$$):
+Một hàm $$f$$ khả vi được gọi là lồi mạnh với hằng số $$m > 0$$ nếu thỏa mãn điều kiện sau:
 > $$ \begin{align}
 f(y) \ge f(x) + \nabla f(x)^T(y-x) + \frac{m}{2} \| y-x \|_2^2, \quad \forall x, y
 \end{align} $$
 
-Ở đây $$f$$ có một cận dưới bậc hai, và hằng số $$m$$ được xác định bởi giá trị riêng nhỏ nhất của Hessian của $$f$$.
+Nói cách khác, $$f$$ có một cận dưới bậc hai. Khi $$f$$ khả vi hai lần, hằng số $$m$$ được chặn trên bởi giá trị riêng nhỏ nhất của ma trận Hessian của $$f$$.
 
-Với một hàm $$f$$ bất kỳ, $$f$$ lồi mạnh nếu:
+Tổng quát hơn, hàm $$f$$ lồi mạnh với hằng số $$m > 0$$ khi và chỉ khi:
 > $$ \begin{align}
-g(x) = f(x) - \frac{m}{2} \| x \|_2^2 \quad \text{là hàm lồi với mọi } x \text{ và } m > 0
+g(x) = f(x) - \frac{m}{2} \| x \|_2^2 \quad \text{là hàm lồi trên miền xác định của } f
 \end{align} $$
 
-## Định lý hội tụ
-Với tính liên tục Lipschitz và tính lồi mạnh, định lý sau đây được thỏa mãn (với $$L$$ là hằng số Lipschitz và $$m$$ là hằng số lồi mạnh):
+## Định lý Hội tụ
 
-**Gradient descent** với kích thước bước cố định ($$t \le 2/(m + L)$$) hoặc backtracking line search thỏa mãn:
+Khi $$f$$ vừa có gradient liên tục Lipschitz với hằng số $$L$$ vừa lồi mạnh với hằng số $$m$$, ta có kết quả sau:
+
+Thuật toán **gradient descent** với kích thước bước cố định ($$t \le 2/(m + L)$$) hoặc tìm kiếm đường lùi thỏa mãn:
 > $$ \begin{align}
-f(x^{(k)}) - f^* \le c^k \frac{L}{2} \| x^{(0)} - x^* \|_2^2, \quad c = (1 - \frac{m}{L}), \quad 0 < c < 1
+f(x^{(k)}) - f^* \le c^k \frac{L}{2} \| x^{(0)} - x^* \|_2^2, \quad c = 1 - \frac{m}{L}, \quad 0 < c < 1
 \end{align} $$
 
 ## Chứng minh
-Nếu $$\nabla f$$ liên tục Lipschitz và $$f$$ lồi mạnh thì $$f$$ có một cận trên bậc hai (xem [06-03-02]({% multilang_post_url contents/chapter06/21-03-20-06_03_02_convex_function_quadratic_upper_bound %})).
 
-Với gradient descent $$x^+ = x - t \nabla f(x)$$, kích thước bước $$t = 1/L$$ cho ta:
+Vì $$f$$ có gradient liên tục Lipschitz với hằng số $$L$$, hàm $$f$$ thỏa mãn cận trên bậc hai (xem [06-03-01]({% multilang_post_url contents/chapter06/21-03-20-06_03_02_convex_function_quadratic_upper_bound %})).
+
+Với bước cập nhật gradient descent $$x^+ = x - t \nabla f(x)$$ và chọn kích thước bước $$t = 1/L$$, ta thu được:
 > $$ \begin{align}
-f(x^+) \le f(x) -  \frac{1}{2L} \| \nabla f(x) \|_2^2
+f(x^+) \le f(x) - \frac{1}{2L} \| \nabla f(x) \|_2^2
 \end{align} $$
 
-Trừ cả hai vế cho $$f(x^*)$$:
+Trừ hai vế cho $$f(x^*)$$:
 > $$ \begin{align}
-f(x^+) - f(x^*) \le f(x) - f(x^*) -  \frac{1}{2L} \| \nabla f(x) \|_2^2
+f(x^+) - f(x^*) \le f(x) - f(x^*) - \frac{1}{2L} \| \nabla f(x) \|_2^2
 \end{align} $$
 
-Vì $$f$$ lồi mạnh nên thỏa mãn điều kiện:
+Do $$f$$ lồi mạnh với hằng số $$m$$, ta có bất đẳng thức:
 > $$ \begin{align}
 f(x) - f(x^*) \le \frac{1}{2m} \| \nabla f(x) \|_2^2
 \end{align} $$
 
-Thay vào, ta được:
+Thay bất đẳng thức này vào vế phải ở trên, ta được:
 > $$ \begin{align}
-f(x^+) - f(x^*) & \le f(x) - f(x^*) -  \frac{m}{L} ( f(x) - f(x^*) ) \\
-& =  (1 -  \frac{m}{L} ) ( f(x) - f(x^*) ) \\
-& = c  ( f(x) - f(x^*) ) \\
+f(x^+) - f(x^*) & \le f(x) - f(x^*) - \frac{m}{L} ( f(x) - f(x^*) ) \\
+& = \left(1 - \frac{m}{L} \right) ( f(x) - f(x^*) ) \\
+& = c ( f(x) - f(x^*) )
 \end{align} $$
 
-Lặp lại quá trình này, ta được:
+Áp dụng quy nạp qua $$k$$ bước lặp:
 > $$ \begin{align}
-f(x^{(k)}) - f(x^*) \le c^k ( f(x^{(0)}) - f(x^*) ) \\
+f(x^{(k)}) - f(x^*) \le c^k ( f(x^{(0)}) - f(x^*) )
 \end{align} $$
 
-Từ khai triển Taylor (cận trên bậc hai) của hàm với $$y = x^{(0)}$$ và $$x = x^*$$:
+Mặt khác, từ cận trên bậc hai áp dụng tại $$y = x^{(0)}$$ và $$x = x^*$$:
 > $$ \begin{align}
-f(y) \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \lVert y - x \rVert^2_2  \space \space \forall x, y
+f(y) \le f(x) + \nabla f(x)^T (y-x) + \frac{L}{2} \lVert y - x \rVert^2_2 \quad \forall x, y
 \end{align} $$
 
-Do $$\nabla f(x^*) = 0$$, ta có:
+Vì $$\nabla f(x^*) = 0$$, ta thu được:
 > $$ \begin{align}
-f(x^{(0)}) & \le f(x^{*}) + \nabla f(x^{*})^T (x^{(0)}- x^{*} ) + \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2 \\\\
-& =  f(x^{*}) + \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2 \\\\
+f(x^{(0)}) & \le f(x^{*}) + \nabla f(x^{*})^T (x^{(0)}- x^{*} ) + \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2 \\
+& = f(x^{*}) + \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2
 \end{align} $$
 
-Sắp xếp lại:
+Suy ra:
 > $$ \begin{align}
-f(x^{(0)}) - f(x^{*}) & \le \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2 \\\\
+f(x^{(0)}) - f(x^{*}) & \le \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2
 \end{align} $$
 
-Thay vào bất đẳng thức trước đó, ta được:
+Thay vào bất đẳng thức quy nạp trước đó, ta có:
 > $$ \begin{align}
-f(x^{(k)}) - f(x^{*}) & \le c^k \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2  \\\
+f(x^{(k)}) - f(x^{*}) & \le c^k \frac{L}{2} \lVert x^{(0)} - x^{*} \rVert^2_2
 \end{align} $$
 
-Điều này chứng minh định lý hội tụ của gradient descent dưới tính lồi mạnh.
+Điều này hoàn tất chứng minh định lý hội tụ của gradient descent dưới giả thiết lồi mạnh.
 
-## Hội tụ tuyến tính
-Khi $$f$$ lồi mạnh, tốc độ hội tụ là $$O(c^k)$$, tức là hội tụ theo hàm mũ.
-Để đạt $$f(x^{(k)}) - f^{*} \le \epsilon$$ cần $$O(\log(1/\epsilon))$$ vòng lặp.
-(Nếu không có tính lồi mạnh thì cần $$O(1/\epsilon)$$ vòng lặp.)
+## Hội tụ Tuyến tính
 
-Tốc độ hội tụ $$O(c^k)$$ trông như một đường thẳng trên đồ thị bán logarit, như hình dưới đây.
+Khi $$f$$ lồi mạnh, sai số giảm theo tốc độ $$O(c^k)$$, tức là hội tụ theo cấp số nhân (hội tụ tuyến tính). Để đạt $$f(x^{(k)}) - f^{*} \le \epsilon$$, thuật toán chỉ cần $$O(\log(1/\epsilon))$$ vòng lặp (so với $$O(1/\epsilon)$$ vòng lặp khi không có tính lồi mạnh).
+
+Trên đồ thị bán logarit, tốc độ hội tụ $$O(c^k)$$ có dạng một đường thẳng như minh họa dưới đây.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -96,9 +97,6 @@ Tốc độ hội tụ $$O(c^k)$$ trông như một đường thẳng trên đ�
 </p>
 </figure>
 
-Ở đây, hằng số $$c$$ trong $$O(c^k)$$ bằng $$1 - \frac{m}{L}$$ và phụ thuộc vào số điều kiện $$L/m$$. Số điều kiện càng lớn thì hội tụ càng chậm (số điều kiện là tỉ số giữa giá trị riêng lớn nhất và giá trị riêng nhỏ nhất).
+Ở đây, hằng số $$c = 1 - \frac{m}{L}$$ phụ thuộc trực tiếp vào chỉ số điều kiện $$L/m$$ (tỉ số giữa giá trị riêng lớn nhất và nhỏ nhất của Hessian). Chỉ số điều kiện càng lớn thì $$c$$ càng gần 1 và tốc độ hội tụ càng chậm.
 
-Đại số của chứng minh này — bổ đề xuống cộng một cận dưới biến $$\|\nabla f\|^2$$ thành khe giá trị hàm — vẫn chạy nếu lồi mạnh được nới thành bất đẳng thức Polyak–Łojasiewicz. Câu chuyện tốc độ hiện đại tùy chọn đó, và ví dụ bình phương tối thiểu quá tham số nơi cực tiểu không duy nhất, là [28-05 Điều kiện PL và câu chuyện tốc độ hiện đại]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).
-
-Đại số của chứng minh này — bổ đề xuống cộng một cận dưới biến $$\|\nabla f\|^2$$ thành khe giá trị hàm — vẫn chạy nếu lồi mạnh được nới thành bất đẳng thức Polyak–Łojasiewicz. Câu chuyện tốc độ hiện đại tùy chọn đó, và ví dụ bình phương tối thiểu quá tham số nơi cực tiểu không duy nhất, là [28-05 Điều kiện PL và câu chuyện tốc độ hiện đại]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).
-
+Cấu trúc đại số của chứng minh này — kết hợp bổ đề giảm (descent lemma) với một cận dưới liên hệ $$\|\nabla f\|^2$$ và độ chênh lệch giá trị hàm — vẫn giữ nguyên hiệu lực khi giả thiết lồi mạnh được nới lỏng thành bất đẳng thức Polyak–Łojasiewicz. Nội dung mở rộng tùy chọn về tốc độ hội tụ hiện đại này, cùng ví dụ bài toán bình phương tối thiểu quá tham số (nơi nghiệm cực tiểu không duy nhất), được trình bày tại [28-05 Điều kiện PL và câu chuyện tốc độ hiện đại]({% multilang_post_url contents/chapter28/2026-09-18-28_05_pl_condition %}).

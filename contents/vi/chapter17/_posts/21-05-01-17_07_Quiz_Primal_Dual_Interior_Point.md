@@ -16,24 +16,23 @@ redirect_from:
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
 
-### ⚡ **Primal-Dual Interior Point Method**
+### ⚡ **Phương pháp điểm trong gốc-đối ngẫu (Primal-Dual Interior-Point Method)**
 
-#### **Motivation và so sánh với Barrier Method**
-**Barrier Method limitations:**
-- **Multiple Newton steps:** Centering steps require many iterations
-- **Must stay feasible:** Always maintain $$h_i(x) < 0$$
-- **Sequential approach:** Solve sequence of barrier problems
-- **Less efficient:** Many outer iterations needed
+#### **Động lực và so sánh với phương pháp chắn**
+**Hạn chế của phương pháp chắn (Barrier Method):**
+- **Nhiều bước Newton cho mỗi giá trị $$t$$:** Bước định tâm (centering) đòi hỏi nhiều vòng lặp trong.
+- **Bắt buộc duy trì tính khả thi:** Luôn phải giữ $$Ax = b$$ và $$h_i(x) < 0$$.
+- **Giải tuần tự:** Phải giải từng bài toán con rào cản kế tiếp nhau.
 
-**Primal-Dual advantages:**
-- **Single Newton step:** One Newton step per iteration
-- **Infeasible start OK:** Can start from infeasible points (không cần $$Ax^0 = b$$; trong dạng này vẫn cần $$h(x^0) < 0, u^0 > 0$$)
-- **Simultaneous updates:** Update primal và dual variables together
-- **More efficient:** Generally superior performance
+**Ưu điểm của phương pháp gốc-đối ngẫu:**
+- **Một bước Newton mỗi vòng lặp:** Không cần giải chính xác bước định tâm ở mỗi giá trị $$\tau$$.
+- **Cho phép khởi tạo không khả thi:** Không yêu cầu $$Ax^0 = b$$ ở điểm bắt đầu (trong dạng này vẫn cần $$h(x^0) < 0, u^0 > 0$$).
+- **Cập nhật đồng thời:** Cập nhật cùng lúc cả biến gốc và biến đối ngẫu.
+- **Hiệu năng thực tế tốt hơn:** Thường cần ít vòng lặp hơn và đạt độ chính xác cao hơn.
 
-### 🎯 **Central Path Equations Revisited**
+### 🎯 **Phương trình đường trung tâm**
 
-#### **Original KKT conditions**
+#### **Điều kiện KKT gốc**
 $$\begin{align}
 \nabla f(x) + \nabla h(x)u + A^T v &= 0 \\
 Uh(x) &= 0 \\
@@ -41,7 +40,7 @@ Ax &= b \\
 u \ge 0, \quad -h(x) &\ge 0
 \end{align}$$
 
-#### **Perturbed KKT conditions (Central Path)**
+#### **Điều kiện KKT bị nhiễu (Đường trung tâm)**
 $$\begin{align}
 \nabla f(x) + \nabla h(x)u + A^T v &= 0 \\
 Uh(x) + \tau\mathbf{1} &= 0 \\
@@ -49,25 +48,19 @@ Ax - b &= 0 \\
 u > 0, \quad -h(x) &> 0
 \end{align}$$
 
-#### **Key differences:**
-- **Complementary slackness:** $$Uh(x) = 0$$ vs $$Uh(x) = -\tau\mathbf{1}$$
-- **Feasibility:** $$\ge 0$$ vs $$> 0$$ (strict interior)
-- **Parameter:** $$\tau = 1/t$$ controls perturbation level
-
-#### **Duality gap property**
-**Important fact:** Solution $$(x(\tau), u(\tau), v(\tau))$$ has duality gap:
+**Điểm khác biệt chính:** Điều kiện bù chặt $$Uh(x) = 0$$ được thay bằng $$Uh(x) = -\tau\mathbf{1}$$, điều kiện không âm $$\ge 0$$ chuyển thành điểm trong ngặt $$> 0$$, với tham số $$\tau = 1/t$$ kiểm soát mức độ nhiễu. Nghiệm $$(x(\tau), u(\tau), v(\tau))$$ trên đường trung tâm có khoảng cách đối ngẫu đúng bằng:
 $$f(x(\tau)) - \min_x L(x, u(\tau), v(\tau)) = m\tau = \frac{m}{t}$$
 
-### 🔄 **Newton Step for Central Path**
+### 🔄 **Bước Newton cho đường trung tâm**
 
-#### **Residual function definition**
+**Vector phần dư:**
 $$r(x,u,v) = \begin{bmatrix}
 \nabla f(x) + \nabla h(x)u + A^T v \\
 Uh(x) + \tau\mathbf{1} \\
 Ax - b
 \end{bmatrix}$$
 
-#### **Newton system**
+**Hệ phương trình Newton:**
 $$\begin{bmatrix}
 \nabla^2 f(x) + \sum u_i \nabla^2 h_i(x) & \nabla h(x) & A^T \\
 U \nabla h(x)^T & H(x) & 0 \\
@@ -79,91 +72,35 @@ A & 0 & 0
 \Delta v
 \end{bmatrix} = -r(x,u,v)$$
 
-với $$H(x) = \text{diag}(h(x))$$, $$U = \text{diag}(u)$$
+với $$H(x) = \text{diag}(h(x))$$ và $$U = \text{diag}(u)$$. Hệ tuyến tính này xác định đồng thời hướng cập nhật $$(\Delta x, \Delta u, \Delta v)$$ cho cả biến gốc lẫn biến đối ngẫu theo phiên bản tìm nghiệm (root-finding) của phương pháp Newton.
 
-#### **Solution interpretation**
-- $$(\Delta x, \Delta u, \Delta v)$$: Newton direction
-- **Simultaneous update:** Both primal ($$x$$) và dual ($$u,v$$) variables
-- **Root finding:** Solve $$r(x,u,v) = 0$$ using Newton method
+### 📊 **Các phần dư và khoảng cách đối ngẫu thay thế**
 
-### 📊 **Residuals và Surrogate Duality Gap**
+1. **Phần dư đối ngẫu:** $$r_{\text{dual}} = \nabla f(x) + \nabla h(x)u + A^T v$$ ($$r_{\text{dual}} = 0$$ ứng với khả thi đối ngẫu).
+2. **Phần dư trung tâm:** $$r_{\text{cent}} = Uh(x) + \tau\mathbf{1}$$ (điều kiện bù chặt bị nhiễu với tham số $$\tau$$).
+3. **Phần dư gốc:** $$r_{\text{prim}} = Ax - b$$ ($$r_{\text{prim}} = 0$$ ứng với khả thi gốc).
 
-#### **Three types of residuals**
-1. **Dual residual:** $$r_{\text{dual}} = \nabla f(x) + \nabla h(x)u + A^T v$$
-2. **Central residual:** $$r_{\text{cent}} = Uh(x) + \tau\mathbf{1}$$
-3. **Primal residual:** $$r_{\text{prim}} = Ax - b$$
+**Khoảng cách đối ngẫu thay thế (Surrogate duality gap):**
+$$\eta = -h(x)^T u \quad \text{với} \quad h(x) \le 0, \ u \ge 0$$
 
-#### **Residual interpretations**
-- **$$r_{\text{dual}} = 0$$:** Dual feasibility ($$u,v$$ in domain of $$g$$)
-- **$$r_{\text{prim}} = 0$$:** Primal feasibility
-- **$$r_{\text{cent}} = 0$$:** Complementary slackness with perturbation $$\tau$$
+Khi điểm lặp đồng thời khả thi gốc và đối ngẫu ($$r_{\text{prim}} = 0, r_{\text{dual}} = 0$$), khoảng cách đối ngẫu thay thế trùng với khoảng cách đối ngẫu thực sự $$m\tau = m/t$$, với $$t = -\frac{m}{h(x)^T u}$$.
 
-#### **Surrogate duality gap**
-**Definition:** $$-h(x)^T u$$ for $$h(x) \le 0, u \ge 0$$
+### 🔄 **Thuật toán gốc-đối ngẫu và tìm kiếm theo đường lui nhiều giai đoạn**
 
-**Properties:**
-- **If feasible:** Surrogate gap = true duality gap = $$m\tau$$
-- **Parameter relationship:** $$t = -\frac{m}{h(x)^T u}$$
-- **Central path condition:** $$r(x,u,v) = 0$$ for $$\tau = -\frac{h(x)^T u}{m}$$
+Đặt $$\tau(x,u) = -\frac{h(x)^T u}{m}$$, chọn $$\sigma \in (0,1)$$ ($$\sigma = 1/\mu$$) và khởi tạo $$(x^0, u^0, v^0)$$ với $$h(x^0) < 0, u^0 > 0$$. Ở mỗi vòng lặp $$k$$:
+1. Đặt $$\tau = \sigma \tau(x^k, u^k)$$ và giải hệ Newton tìm $$(\Delta x, \Delta u, \Delta v)$$.
+2. Tìm độ dài bước $$\theta_k$$ bằng **tìm kiếm theo đường lui nhiều giai đoạn (multi-stage backtracking line search)** với $$\alpha, \beta \in (0,1)$$ (thường $$\alpha = 0.01, \beta = 0.5$$):
+   - **Giai đoạn 1 (khả thi đối ngẫu):** $$\theta_{\max} = \min\left\{1, \min\left\{-\frac{u_i}{\Delta u_i} : \Delta u_i < 0\right\}\right\}$$, rồi đặt $$\theta = 0.99\theta_{\max}$$.
+   - **Giai đoạn 2 (khả thi gốc ngặt):** Giảm $$\theta = \beta\theta$$ cho đến khi $$h_i(x^+) < 0$$ với mọi $$i$$.
+   - **Giai đoạn 3 (giảm chuẩn phần dư):** Tiếp tục giảm $$\theta = \beta\theta$$ cho đến khi $$\|r(x^+, u^+, v^+)\| \le (1 - \alpha\theta)\|r(x, u, v)\|$$.
+3. Cập nhật $$(x^{k+1}, u^{k+1}, v^{k+1}) = (x^k, u^k, v^k) + \theta_k(\Delta x, \Delta u, \Delta v)$$.
+4. Dừng khi $$-h(x)^T u \le \epsilon$$ và $$\lVert r_{\text{prim}} \rVert^2 + \lVert r_{\text{dual}} \rVert^2 \le \epsilon^2$$.
 
-### 🔄 **Primal-Dual Algorithm**
+### 📈 **Trường hợp đặc biệt: LP và SDP**
 
-#### **Parameter definitions**
-- $$\tau(x,u) = -\frac{h(x)^T u}{m}$$ (current perturbation)
-- $$\sigma \in (0,1)$$ (centering parameter, $$\sigma = 1/\mu$$)
-- $$\tau = \sigma \tau(x^k, u^k)$$ (target perturbation)
-
-#### **Algorithm steps**
-1. **Choose parameters:** $$\sigma \in (0,1)$$
-2. **Initialize:** $$(x^0, u^0, v^0)$$ với $$h(x^0) < 0, u^0 > 0$$
-3. **Main loop:** For $$k = 0, 1, 2, \ldots$$
-   - **Compute Newton step:** Solve for $$(\Delta x, \Delta u, \Delta v)$$
-   - **Backtracking line search:** Find step size $$\theta_k$$
-   - **Update:** $$(x^{k+1}, u^{k+1}, v^{k+1}) = (x^k, u^k, v^k) + \theta_k(\Delta x, \Delta u, \Delta v)$$
-4. **Termination:** Stop when $$-h(x)^T u \le \epsilon$$ và $$\lVert r_{\text{prim}} \rVert^2 + \lVert r_{\text{dual}} \rVert^2 \le \epsilon^2$$
-
-### 🎯 **Multi-Stage Backtracking Line Search**
-
-#### **Stage 1: Dual feasibility ($$u > 0$$)**
-$$\theta_{\max} = \min\left\{1, \min\left\{-\frac{u_i}{\Delta u_i} : \Delta u_i < 0\right\}\right\}$$
-
-**Goal:** Ensure $$u + \theta \Delta u \ge 0$$
-
-#### **Stage 2: Primal feasibility ($$h(x) < 0$$)**
-- Start với $$\theta = 0.99\theta_{\max}$$
-- Update $$\theta = \beta\theta$$ until $$h_i(x^+) < 0$$ for all $$i$$
-
-**Goal:** Ensure $$h(x + \theta \Delta x) < 0$$
-
-#### **Stage 3: Residual reduction**
-Update $$\theta = \beta\theta$$ until:
-$$\|r(x^+, u^+, v^+)\| \le (1 - \alpha\theta)\|r(x, u, v)\|$$
-
-**Goal:** Sufficient decrease in residual norm
-
-#### **Parameters**
-- $$\alpha, \beta \in (0,1)$$ (typical: $$\alpha = 0.01, \beta = 0.5$$)
-- **Multi-objective:** Maintain feasibility + reduce residuals
-
-### 📈 **Linear Programming Special Case**
-
-#### **Primal LP**
-$$\min c^T x \quad \text{s.t.} \quad Ax = b, \quad x \ge 0$$
-
-#### **Dual LP**
-$$\max b^T y \quad \text{s.t.} \quad A^T y + s = c, \quad s \ge 0$$
-
-#### **Central path conditions**
-$$\begin{align}
-A^T y + s &= c \\
-Ax &= b \\
-XS\mathbf{1} &= \tau\mathbf{1} \\
-x, s &> 0
-\end{align}$$
-
-với $$X = \text{diag}(x)$$, $$S = \text{diag}(s)$$
-
-#### **Newton system for LP**
+#### **Quy hoạch tuyến tính (LP)**
+- **Điều kiện đường trung tâm:** $$A^T y + s = c$$, $$Ax = b$$, $$XS\mathbf{1} = \tau\mathbf{1}$$, $$x, s > 0$$.
+- **Hệ Newton:**
 $$\begin{bmatrix}
 0 & A^T & I \\
 A & 0 & 0 \\
@@ -179,28 +116,9 @@ Ax - b \\
 XS\mathbf{1} - \tau\mathbf{1}
 \end{bmatrix}$$
 
-#### **Relationship to barrier methods**
-- **Primal barrier:** $$x = \tau S^{-1}\mathbf{1}$$
-- **Dual barrier:** $$s = \tau X^{-1}\mathbf{1}$$
-- **Primal-dual:** Simultaneous updates of both
-
-### 📊 **Semidefinite Programming (SDP)**
-
-#### **Primal SDP**
-$$\min C \bullet X \quad \text{s.t.} \quad \mathcal{A}(X) = b, \quad X \succeq 0$$
-
-#### **Dual SDP**
-$$\max b^T y \quad \text{s.t.} \quad \mathcal{A}^*(y) + S = C, \quad S \succeq 0$$
-
-#### **Central path conditions**
-$$\begin{align}
-\mathcal{A}^*(y) + S &= C \\
-\mathcal{A}(X) &= b \\
-XS &= \tau I \\
-X, S &\succ 0
-\end{align}$$
-
-#### **Newton system for SDP**
+#### **Quy hoạch bán xác định (SDP)**
+- **Điều kiện đường trung tâm:** $$\mathcal{A}^*(y) + S = C$$, $$\mathcal{A}(X) = b$$, $$XS = \tau I$$, $$X, S \succ 0$$ (với tích vô hướng $$X \bullet S = \text{tr}(XS)$$).
+- **Hệ Newton:**
 $$\begin{bmatrix}
 0 & \mathcal{A}^* & I \\
 \mathcal{A} & 0 & 0 \\
@@ -216,257 +134,21 @@ S & 0 & X
 XS - \tau I
 \end{bmatrix}$$
 
-#### **Matrix operations**
-- $$X \bullet S = \text{tr}(XS)$$ (trace inner product)
-- $$XS = \tau I$$ (matrix complementary slackness)
-- $$\mathcal{A}: \mathbb{S}^n \to \mathbb{R}^m$$ (linear map)
+### 🔄 **So sánh phương pháp chắn và phương pháp gốc-đối ngẫu**
 
-### 🔄 **Comparison: Barrier vs Primal-Dual**
-
-| **Aspect** | **Barrier Method** | **Primal-Dual Method** |
+| **Tiêu chí** | **Phương pháp chắn (Barrier)** | **Phương pháp gốc-đối ngẫu (Primal-Dual)** |
 |------------|-------------------|------------------------|
-| **Newton steps** | Multiple per centering | Single per iteration |
-| **Feasibility** | Must maintain | Can start infeasible |
-| **Variables** | Primal only | Primal + dual simultaneous |
-| **Convergence** | Linear | Often superlinear |
-| **Efficiency** | Good | Generally superior |
-| **Intuition** | Clear (central path) | Less intuitive |
+| **Số bước Newton** | Nhiều bước cho mỗi pha định tâm | Một bước ở mỗi vòng lặp |
+| **Tính khả thi trung gian** | Phải luôn duy trì khả thi | Cho phép khởi tạo không khả thi ($$Ax^0 \neq b$$) |
+| **Biến cập nhật** | Chỉ biến gốc | Cập nhật đồng thời cả gốc và đối ngẫu |
+| **Tốc độ hội tụ** | Tuyến tính (vòng ngoài) | Thường đạt siêu tuyến tính dưới điều kiện thích hợp |
+| **Độ phức tạp (LP)** | Đa thức | $$O(\sqrt{n}\log(1/\epsilon))$$ vòng lặp, tổng $$O(n^{3.5}\log(1/\epsilon))$$ |
 
-### 🎯 **Performance Analysis**
+### 🛠️ **Lưu ý thực hành và mở rộng**
 
-#### **Theoretical advantages**
-- **Polynomial-time:** $$O(\sqrt{n}\log(1/\epsilon))$$ iterations, tổng $$O(n^{3.5} \log(1/\epsilon))$$ complexity
-- **Superlinear convergence:** Under appropriate conditions
-- **Robust performance:** Works across problem classes
-- **Infeasible start:** No need for Phase I (chỉ cần điểm trong strict interior của ràng buộc bất đẳng thức)
-
-#### **Practical benefits**
-- **Fewer iterations:** Compared to barrier method
-- **Higher accuracy:** Can achieve very high precision
-- **Warm starts:** Efficient reoptimization
-- **Large-scale capability:** Handle millions of variables
-
-#### **Experimental results (LP example)**
-- **Standard LP:** $$n = 50, m = 100$$
-- **Primal-dual:** Fixed $$\mu = 10$$, fast convergence
-- **Barrier:** Various $$\mu$$ values, more iterations needed
-- **Accuracy:** Primal-dual achieves higher precision
-
-### 🛠️ **Implementation Considerations**
-
-#### **Linear system solution**
-- **Sparse factorization:** Exploit problem structure
-- **Iterative methods:** For very large problems
-- **Numerical stability:** Monitor condition numbers
-- **Regularization:** Handle near-singular systems
-
-#### **Step size selection**
-- **Conservative factors:** 0.99 for feasibility margin
-- **Adaptive parameters:** Adjust $$\alpha, \beta$$ based on performance
-- **Feasibility monitoring:** Ensure strict interior maintenance
-- **Convergence tracking:** Monitor residual norms
-
-#### **Stopping criteria**
-- **Duality gap:** $$-h(x)^T u \le \epsilon$$
-- **Feasibility:** $$\lVert r_{\text{prim}} \rVert^2 + \lVert r_{\text{dual}} \rVert^2 \le \epsilon^2$$
-- **Relative criteria:** Scale by problem data
-- **Multiple conditions:** All must be satisfied
-
-### 🎯 **Kết Nối Với Các Chương**
-
-#### **From previous chapters:**
-- **Chương 15:** Barrier method foundation
-- **Chương 16:** Duality theory, perturbed KKT
-- **Chương 14:** Newton method for root finding
-- **Chương 12:** KKT conditions framework
-
-#### **Advanced connections:**
-- **Central path:** Geometric interpretation of optimization
-- **Perturbed optimality:** Bridge between exact và approximate
-- **Simultaneous updates:** Primal-dual variable coordination
-- **Polynomial-time algorithms:** Theoretical complexity guarantees
-
-#### **Practical applications:**
-- **Commercial solvers:** CPLEX, Gurobi, Mosek
-- **Large-scale optimization:** Industrial applications
-- **Machine learning:** SVM, regularized regression
-- **Engineering design:** Control, signal processing
-
-### 🌟 **Ý Nghĩa Lý Thuyết**
-
-#### **Algorithmic innovation:**
-- **Primal-dual paradigm:** Simultaneous variable updates
-- **Infeasible start capability:** No Phase I required
-- **Superlinear convergence:** Beyond linear rates
-- **Unified framework:** Works for LP, QP, SDP
-
-#### **Theoretical elegance:**
-- **Central path following:** Smooth trajectory to optimality
-- **Perturbed KKT:** Systematic perturbation approach
-- **Polynomial-time guarantee:** Worst-case complexity bounds
-- **Self-dual structure:** Exploits problem symmetry
-
-#### **Practical impact:**
-- **Software revolution:** Foundation of modern solvers
-- **Industrial applications:** Large-scale optimization capability
-- **Research foundation:** Basis for advanced methods
-- **Educational value:** Beautiful theory-practice connection
-
-### 💡 **Mẹo Thực Hành**
-
-#### **When to use primal-dual methods:**
-1. **Large-scale problems:** More efficient than barrier methods
-2. **High accuracy needed:** Can achieve very high precision
-3. **Infeasible start:** When feasible starting point hard to find
-4. **Warm starts:** Efficient reoptimization scenarios
-
-#### **Parameter selection:**
-- **$$\sigma$$:** Thường từ 0.1 đến 0.9 (0.1 để tiến nhanh, 0.9 để ổn định)
-- **$$\alpha, \beta$$:** Standard values 0.01, 0.5 work well
-- **$$\epsilon$$:** Problem-dependent tolerance
-- **Feasibility margin:** 0.99 factor for numerical stability
-
-#### **Implementation tips:**
-- **Sparse linear algebra:** Essential for large problems
-- **Numerical conditioning:** Monitor và regularize if needed
-- **Convergence monitoring:** Track multiple criteria
-- **Warm starts:** Use previous solutions as initialization
-
-#### **Common pitfalls:**
-- **Poor conditioning:** Large problems may have numerical issues
-- **Step size too aggressive:** Can lead to infeasibility
-- **Inadequate stopping criteria:** May terminate prematurely
-- **Memory requirements:** Large Newton systems need careful handling
-
-### 🔬 **Advanced Topics**
-
-#### **Mehrotra's predictor-corrector:**
-- **Predictor step:** Estimate progress along central path
-- **Corrector step:** Adjust for better centering
-- **Adaptive $$\sigma$$:** Dynamic centering parameter
-- **Superior performance:** State-of-the-art implementation
-
-#### **Homogeneous methods:**
-- **Infeasibility detection:** Distinguish infeasible from unbounded
-- **Unified treatment:** Handle all problem types
-- **Theoretical completeness:** Covers all cases
-- **Practical robustness:** More reliable than standard methods
-
-#### **Higher-order methods:**
-- **Beyond Newton:** Higher-order corrections
-- **Faster convergence:** Potential for cubic convergence
-- **Computational trade-offs:** More work per iteration
-- **Research frontier:** Active area of development
-
-### 📈 **Ứng Dụng Thực Tế**
-
-#### **Linear và Quadratic Programming:**
-- **Portfolio optimization:** Large-scale mean-variance models
-- **Network flows:** Transportation và communication
-- **Production planning:** Resource allocation problems
-- **Machine learning:** SVM training, regularized regression
-
-#### **Semidefinite Programming:**
-- **Control theory:** LMI-based controller design
-- **Combinatorial optimization:** SDP relaxations
-- **Machine learning:** Kernel methods, matrix completion
-- **Signal processing:** Beamforming, robust filtering
-
-#### **Engineering Applications:**
-- **Structural optimization:** Truss design, topology optimization
-- **Circuit design:** Analog circuit sizing
-- **Power systems:** Optimal power flow
-- **Robotics:** Motion planning, control
-
-#### **Finance và Economics:**
-- **Risk management:** Value-at-Risk optimization
-- **Algorithmic trading:** Execution optimization
-- **Market design:** Auction mechanisms
-- **Insurance:** Portfolio optimization
-
-### 🔮 **Future Directions**
-
-#### **Algorithmic developments:**
-- **Distributed methods:** Parallel primal-dual algorithms
-- **Online algorithms:** Streaming optimization
-- **Stochastic methods:** Uncertainty handling
-- **Quantum algorithms:** Quantum optimization
-
-#### **Application areas:**
-- **Deep learning:** Neural network training
-- **Autonomous systems:** Real-time optimization
-- **Smart grids:** Energy system optimization
-- **Bioinformatics:** Computational biology
-
-#### **Theoretical advances:**
-- **Non-convex extensions:** Beyond convex optimization
-- **Robust optimization:** Worst-case analysis
-- **Multi-objective:** Pareto optimization
-- **Dynamic optimization:** Time-varying problems
-
-### 💎 **Key Insights**
-
-#### **Primal-dual advantages:**
-1. **Simultaneous updates:** Both primal và dual variables
-2. **Infeasible start:** No Phase I required
-3. **Superior efficiency:** Fewer iterations than barrier methods
-4. **High accuracy:** Can achieve very high precision
-
-#### **Algorithmic elegance:**
-- **Newton framework:** Root finding for perturbed KKT
-- **Multi-stage line search:** Systematic feasibility maintenance
-- **Residual minimization:** Clear optimization objective
-- **Polynomial-time guarantee:** Theoretical complexity bounds
-
-#### **Practical power:**
-- **Commercial software:** Foundation of modern solvers
-- **Large-scale capability:** Handle millions of variables
-- **Robust performance:** Works across diverse problems
-- **Industrial impact:** Enables complex optimization applications
-
-### 🌟 **Legacy của chương 17:**
-
-- **Algorithmic breakthrough:** Primal-dual interior point revolution
-- **Theoretical completeness:** Unified framework for convex optimization
-- **Practical impact:** Foundation of commercial optimization software
-- **Industrial transformation:** Large-scale optimization capability
-- **Educational significance:** Beautiful synthesis of theory và practice
-
-### 🎯 **Takeaway messages:**
-
-1. **Primal-dual is superior:** More efficient than pure barrier methods
-2. **Simultaneous updates:** Key to algorithmic efficiency
-3. **Infeasible start OK:** No need for feasible initialization
-4. **Polynomial-time guarantee:** Theoretical và practical efficiency
-5. **Commercial foundation:** Basis of modern optimization software
-
-### 💫 **Philosophical impact:**
-
-Chương 17 **completes interior point revolution**:
-- **From primal-only to primal-dual:** Simultaneous variable updates
-- **From feasible to infeasible start:** Greater algorithmic flexibility
-- **From barrier to direct approach:** More efficient path following
-- **From academic to commercial:** Industrial optimization software
-- **From theory to practice:** Complete optimization framework
-
-### 🔮 **Synthesis:**
-
-Primal-Dual Interior Point Method represents **culmination** của interior point approach:
-- **Theoretical elegance:** Perturbed KKT conditions framework
-- **Algorithmic efficiency:** Simultaneous primal-dual updates
-- **Practical power:** Foundation of commercial software
-- **Industrial impact:** Large-scale optimization capability
-- **Educational value:** Beautiful theory-practice synthesis
-
-### 💡 **Final insight:**
-
-Chương 17 demonstrates that **optimization theory can be both beautiful và practical**. From perturbed KKT conditions đến Newton systems, từ central path following đến multi-stage line search, từ theoretical polynomial-time guarantees đến commercial software implementations - **primal-dual interior point methods represent perfect marriage** của mathematical elegance với computational efficiency.
-
-**Primal-Dual = Simultaneous optimization of dual perspectives!**
-
----
-
-💡 **Thông điệp cuối cùng:** Primal-Dual Interior Point Method không chỉ là algorithmic improvement - nó là **completion của interior point revolution**, enabling both theoretical understanding và practical solution của large-scale optimization problems across science, engineering, finance, và technology!
+- **Dự báo – hiệu chỉnh Mehrotra (Predictor-Corrector):** Kết hợp bước dự báo affine ($$\mu = 0$$) để giảm nhanh khoảng cách đối ngẫu với bước hiệu chỉnh dùng tham số $$\sigma$$ thích nghi để giữ gần đường trung tâm.
+- **Nhúng đồng nhất tự đối ngẫu (Homogeneous self-dual):** Cho phép phát hiện đồng thời tính không khả thi và không bị chặn mà không cần điểm khởi tạo khả thi.
+- **Giải hệ tuyến tính:** Sử dụng phân rã ma trận thưa (chẳng hạn phân rã LDL thưa cho hệ khối đối xứng rút gọn), theo dõi số điều kiện và điều chuẩn khi cần.
 
 ---
 
@@ -594,68 +276,68 @@ mjx-container[jax="CHTML"][display="false"] {
 }
 </style>
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal-Dual Interior Point Method, bao gồm primal-dual algorithms, central path equations, semidefinite programming và advanced interior point concepts.
+Bài tập trắc nghiệm này kiểm tra kiến thức về phương pháp điểm trong gốc-đối ngẫu, bao gồm phương trình đường trung tâm, hệ Newton, phần dư, khoảng cách đối ngẫu thay thế và quy hoạch bán xác định (SDP).
 
 ---
 
 <div id="quiz-container">
     <div id="quiz-header">
-        <h2>⚡ Quiz: Primal-Dual Interior Point Method</h2>
+        <h2>⚡ Bài tập trắc nghiệm: Phương pháp điểm trong gốc-đối ngẫu</h2>
         <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill" style="width: 5%"></div>
+            <div class="progress-fill" id="progress-fill" style="width: 4%"></div>
         </div>
-        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">20</span></div>
+        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">25</span></div>
     </div>
 
     <div id="quiz-content">
         <!-- Câu hỏi 1: Primal-dual vs barrier method -->
         <div class="question" id="q1" style="display: block;">
-            <h3>Câu 1: Primal-dual interior point method khác barrier method ở chỗ:</h3>
+            <h3>Câu 1: Phương pháp điểm trong gốc-đối ngẫu khác phương pháp chắn ở điểm nào?</h3>
             <div class="options">
-                <label><input type="radio" name="q1" value="a"> A) Update cả primal và dual variables simultaneously</label>
-                <label><input type="radio" name="q1" value="b"> B) Chỉ cần one Newton step per iteration</label>
-                <label><input type="radio" name="q1" value="c"> C) Không cần feasible starting point</label>
-                <label><input type="radio" name="q1" value="d"> D) Tất cả các điều trên</label>
+                <label><input type="radio" name="q1" value="a"> A) Cập nhật đồng thời cả biến gốc và biến đối ngẫu</label>
+                <label><input type="radio" name="q1" value="b"> B) Chỉ thực hiện một bước Newton ở mỗi vòng lặp</label>
+                <label><input type="radio" name="q1" value="c"> C) Không yêu cầu điểm khởi tạo phải thỏa mãn ràng buộc đẳng thức khả thi</label>
+                <label><input type="radio" name="q1" value="d"> D) Tất cả các điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: D) Tất cả các điều trên</strong><br>
-                Primal-dual methods update cả primal và dual, thường chỉ cần 1 Newton step, và có thể start từ infeasible points.
+                <strong>Đáp án đúng: D) Tất cả các điểm trên</strong><br>
+                Phương pháp gốc-đối ngẫu cập nhật đồng thời biến gốc và đối ngẫu, thường chỉ cần một bước Newton mỗi vòng lặp và cho phép khởi tạo không khả thi ($$Ax^0 \neq b$$).
             </div>
         </div>
 
         <!-- Câu hỏi 2: Central path equations -->
         <div class="question" id="q2" style="display: none;">
-            <h3>Câu 2: Central path equations cho inequality constraints $$g_i(x) \leq 0$$ là:</h3>
+            <h3>Câu 2: Hệ phương trình đường trung tâm cho bài toán có ràng buộc bất đẳng thức $$g_i(x) \leq 0$$ là:</h3>
             <div class="options">
-                <label><input type="radio" name="q2" value="a"> A) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = -\frac{1}{t}$$</label>
-                <label><input type="radio" name="q2" value="b"> B) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = 0$$</label>
-                <label><input type="radio" name="q2" value="c"> C) $$\nabla f(x) = 0, g_i(x) = 0$$</label>
-                <label><input type="radio" name="q2" value="d"> D) $$\lambda_i = \frac{1}{t}, g_i(x) = -1$$</label>
+                <label><input type="radio" name="q2" value="a"> A) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \ \lambda_i g_i(x) = -\frac{1}{t}$$</label>
+                <label><input type="radio" name="q2" value="b"> B) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \ \lambda_i g_i(x) = 0$$</label>
+                <label><input type="radio" name="q2" value="c"> C) $$\nabla f(x) = 0, \ g_i(x) = 0$$</label>
+                <label><input type="radio" name="q2" value="d"> D) $$\lambda_i = \frac{1}{t}, \ g_i(x) = -1$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \lambda_i g_i(x) = -\frac{1}{t}$$</strong><br>
-                Central path equations: stationarity condition và modified complementary slackness với parameter $$t$$.
+                <strong>Đáp án đúng: A) $$\nabla f(x) + \sum \lambda_i \nabla g_i(x) = 0, \ \lambda_i g_i(x) = -\frac{1}{t}$$</strong><br>
+                Phương trình đường trung tâm gồm điều kiện dừng và điều kiện bù chặt bị nhiễu theo tham số $$t$$ (hay $$\tau = 1/t$$).
             </div>
         </div>
 
         <!-- Câu hỏi 3: Newton system -->
         <div class="question" id="q3" style="display: none;">
-            <h3>Câu 3: Newton system trong primal-dual method solve cho:</h3>
+            <h3>Câu 3: Hệ phương trình Newton trong phương pháp gốc-đối ngẫu được giải để tìm đại lượng nào?</h3>
             <div class="options">
-                <label><input type="radio" name="q3" value="a"> A) $$(\Delta x, \Delta \lambda, \Delta \nu)$$ - directions cho cả primal và dual</label>
-                <label><input type="radio" name="q3" value="b"> B) Chỉ $$\Delta x$$ - primal direction</label>
-                <label><input type="radio" name="q3" value="c"> C) Chỉ $$\Delta \lambda$$ - dual direction</label>
-                <label><input type="radio" name="q3" value="d"> D) Parameter $$t$$</label>
+                <label><input type="radio" name="q3" value="a"> A) $$(\Delta x, \Delta \lambda, \Delta \nu)$$ — hướng cập nhật cho cả biến gốc và biến đối ngẫu</label>
+                <label><input type="radio" name="q3" value="b"> B) Chỉ $$\Delta x$$ — hướng cập nhật biến gốc</label>
+                <label><input type="radio" name="q3" value="c"> C) Chỉ $$\Delta \lambda$$ — hướng cập nhật biến đối ngẫu</label>
+                <label><input type="radio" name="q3" value="d"> D) Tham số $$t$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$(\Delta x, \Delta \lambda, \Delta \nu)$$ - directions cho cả primal và dual</strong><br>
-                Newton system solve simultaneously cho primal direction $$\Delta x$$ và dual directions $$\Delta \lambda, \Delta \nu$$.
+                <strong>Đáp án đúng: A) $$(\Delta x, \Delta \lambda, \Delta \nu)$$ — hướng cập nhật cho cả biến gốc và biến đối ngẫu</strong><br>
+                Hệ Newton giải đồng thời hướng cập nhật biến gốc $$\Delta x$$ và các hướng cập nhật biến đối ngẫu $$\Delta \lambda, \Delta \nu$$.
             </div>
         </div>
 
         <!-- Câu hỏi 4: Surrogate duality gap -->
         <div class="question" id="q4" style="display: none;">
-            <h3>Câu 4: Surrogate duality gap trong primal-dual method là:</h3>
+            <h3>Câu 4: Khoảng cách đối ngẫu thay thế (surrogate duality gap) trong phương pháp gốc-đối ngẫu là:</h3>
             <div class="options">
                 <label><input type="radio" name="q4" value="a"> A) $$\eta = -\sum_{i=1}^m \lambda_i g_i(x)$$</label>
                 <label><input type="radio" name="q4" value="b"> B) \(\eta = f(x) - g(\lambda, \nu)\)</label>
@@ -664,103 +346,103 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\eta = -\sum_{i=1}^m \lambda_i g_i(x)$$</strong><br>
-                Surrogate duality gap estimate duality gap từ current primal-dual point, không cần compute dual function.
+                Khoảng cách đối ngẫu thay thế ước lượng độ chênh lệch đối ngẫu trực tiếp từ điểm gốc-đối ngẫu hiện tại mà không cần đánh giá hàm đối ngẫu hay yêu cầu điểm lặp khả thi.
             </div>
         </div>
 
         <!-- Câu hỏi 5: Residuals -->
         <div class="question" id="q5" style="display: none;">
-            <h3>Câu 5: Residuals trong primal-dual method gồm:</h3>
+            <h3>Câu 5: Ba thành phần phần dư (residuals) trong phương pháp gốc-đối ngẫu gồm:</h3>
             <div class="options">
-                <label><input type="radio" name="q5" value="a"> A) Dual residual, primal residual, centrality residual</label>
-                <label><input type="radio" name="q5" value="b"> B) Chỉ dual residual</label>
-                <label><input type="radio" name="q5" value="c"> C) Chỉ primal residual</label>
-                <label><input type="radio" name="q5" value="d"> D) Chỉ centrality residual</label>
+                <label><input type="radio" name="q5" value="a"> A) Phần dư đối ngẫu, phần dư gốc và phần dư trung tâm</label>
+                <label><input type="radio" name="q5" value="b"> B) Chỉ phần dư đối ngẫu</label>
+                <label><input type="radio" name="q5" value="c"> C) Chỉ phần dư gốc</label>
+                <label><input type="radio" name="q5" value="d"> D) Chỉ phần dư trung tâm</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Dual residual, primal residual, centrality residual</strong><br>
-                Ba residuals: dual (stationarity), primal (feasibility), centrality (complementary slackness).
+                <strong>Đáp án đúng: A) Phần dư đối ngẫu, phần dư gốc và phần dư trung tâm</strong><br>
+                Ba thành phần phần dư tương ứng với điều kiện dừng (đối ngẫu), điều kiện khả thi đẳng thức (gốc) và điều kiện bù chặt bị nhiễu (trung tâm).
             </div>
         </div>
 
         <!-- Câu hỏi 6: Predictor-corrector -->
         <div class="question" id="q6" style="display: none;">
-            <h3>Câu 6: Predictor-corrector method trong primal-dual:</h3>
+            <h3>Câu 6: Trong phương pháp dự báo – hiệu chỉnh (predictor-corrector):</h3>
             <div class="options">
-                <label><input type="radio" name="q6" value="a"> A) Predictor step giảm duality gap, corrector step improve centrality</label>
-                <label><input type="radio" name="q6" value="b"> B) Predictor step tăng feasibility, corrector step giảm gap</label>
-                <label><input type="radio" name="q6" value="c"> C) Chỉ có predictor step</label>
-                <label><input type="radio" name="q6" value="d"> D) Chỉ có corrector step</label>
+                <label><input type="radio" name="q6" value="a"> A) Bước dự báo giảm khoảng cách đối ngẫu, bước hiệu chỉnh cải thiện độ gần đường trung tâm</label>
+                <label><input type="radio" name="q6" value="b"> B) Bước dự báo tăng tính khả thi, bước hiệu chỉnh giảm khoảng cách đối ngẫu</label>
+                <label><input type="radio" name="q6" value="c"> C) Chỉ có bước dự báo</label>
+                <label><input type="radio" name="q6" value="d"> D) Chỉ có bước hiệu chỉnh</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Predictor step giảm duality gap, corrector step improve centrality</strong><br>
-                Predictor-corrector: predictor step approach optimal, corrector step maintain central path proximity.
+                <strong>Đáp án đúng: A) Bước dự báo giảm khoảng cách đối ngẫu, bước hiệu chỉnh cải thiện độ gần đường trung tâm</strong><br>
+                Bước dự báo (affine) tiến mạnh về phía nghiệm tối ưu để giảm khoảng cách đối ngẫu, còn bước hiệu chỉnh kéo điểm lặp trở lại gần đường trung tâm.
             </div>
         </div>
 
         <!-- Câu hỏi 7: Mehrotra's algorithm -->
         <div class="question" id="q7" style="display: none;">
-            <h3>Câu 7: Mehrotra's predictor-corrector algorithm là:</h3>
+            <h3>Câu 7: Thuật toán dự báo – hiệu chỉnh Mehrotra là:</h3>
             <div class="options">
-                <label><input type="radio" name="q7" value="a"> A) Practical primal-dual algorithm với adaptive centering</label>
-                <label><input type="radio" name="q7" value="b"> B) Pure Newton method</label>
-                <label><input type="radio" name="q7" value="c"> C) Barrier method variant</label>
-                <label><input type="radio" name="q7" value="d"> D) First-order method</label>
+                <label><input type="radio" name="q7" value="a"> A) Thuật toán gốc-đối ngẫu thực tế với tham số định tâm thích nghi</label>
+                <label><input type="radio" name="q7" value="b"> B) Phương pháp Newton thuần túy</label>
+                <label><input type="radio" name="q7" value="c"> C) Biến thể của phương pháp chắn thuần gốc</label>
+                <label><input type="radio" name="q7" value="d"> D) Phương pháp bậc nhất</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Practical primal-dual algorithm với adaptive centering</strong><br>
-                Mehrotra's algorithm là widely used primal-dual method với adaptive centering parameter selection.
+                <strong>Đáp án đúng: A) Thuật toán gốc-đối ngẫu thực tế với tham số định tâm thích nghi</strong><br>
+                Thuật toán Mehrotra là biến thể gốc-đối ngẫu được sử dụng rộng rãi nhờ cách chọn tham số định tâm $$\sigma$$ thích nghi dựa trên chất lượng bước dự báo.
             </div>
         </div>
 
         <!-- Câu hỏi 8: Infeasible start -->
         <div class="question" id="q8" style="display: none;">
-            <h3>Câu 8: Primal-dual method có thể start từ infeasible point bằng cách:</h3>
+            <h3>Câu 8: Phương pháp gốc-đối ngẫu có thể bắt đầu từ điểm không khả thi nhờ:</h3>
             <div class="options">
-                <label><input type="radio" name="q8" value="a"> A) Backtracking line search đảm bảo progress toward feasibility</label>
-                <label><input type="radio" name="q8" value="b"> B) Ignore feasibility constraints</label>
-                <label><input type="radio" name="q8" value="c"> C) Project lên feasible region</label>
-                <label><input type="radio" name="q8" value="d"> D) Không thể start từ infeasible point</label>
+                <label><input type="radio" name="q8" value="a"> A) Tìm kiếm theo đường lui (backtracking line search) làm giảm chuẩn phần dư về 0</label>
+                <label><input type="radio" name="q8" value="b"> B) Bỏ qua các ràng buộc khả thi</label>
+                <label><input type="radio" name="q8" value="c"> C) Chiếu trực tiếp lên tập khả thi ở mỗi bước</label>
+                <label><input type="radio" name="q8" value="d"> D) Không thể bắt đầu từ điểm không khả thi</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Backtracking line search đảm bảo progress toward feasibility</strong><br>
-                Infeasible-start primal-dual methods sử dụng line search để maintain progress toward feasibility và optimality.
+                <strong>Đáp án đúng: A) Tìm kiếm theo đường lui (backtracking line search) làm giảm chuẩn phần dư về 0</strong><br>
+                Tìm kiếm theo đường lui nhiều giai đoạn vừa giữ điểm lặp trong miền $$h(x) < 0, u > 0$$ vừa đảm bảo chuẩn phần dư tổng hợp (gồm cả phần dư khả thi) giảm dần về $$0$$.
             </div>
         </div>
 
         <!-- Câu hỏi 9: SDP primal problem -->
         <div class="question" id="q9" style="display: none;">
-            <h3>Câu 9: Semidefinite Programming (SDP) primal problem có dạng:</h3>
+            <h3>Câu 9: Bài toán gốc của quy hoạch bán xác định (SDP) có dạng:</h3>
             <div class="options">
-                <label><input type="radio" name="q9" value="a"> A) \(\min C \bullet X\) s.t. \(A_i \bullet X = b_i, X \succeq 0\)</label>
-                <label><input type="radio" name="q9" value="b"> B) \(\min c^T x\) s.t. \(Ax = b, x \geq 0\)</label>
-                <label><input type="radio" name="q9" value="c"> C) \(\min \frac{1}{2}x^T Q x\) s.t. \(Ax \leq b\)</label>
-                <label><input type="radio" name="q9" value="d"> D) \(\min f(x)\) s.t. \(g_i(x) \leq 0\)</label>
+                <label><input type="radio" name="q9" value="a"> A) \(\min C \bullet X\) thỏa mãn \(A_i \bullet X = b_i, \ X \succeq 0\)</label>
+                <label><input type="radio" name="q9" value="b"> B) \(\min c^T x\) thỏa mãn \(Ax = b, \ x \geq 0\)</label>
+                <label><input type="radio" name="q9" value="c"> C) \(\min \frac{1}{2}x^T Q x\) thỏa mãn \(Ax \leq b\)</label>
+                <label><input type="radio" name="q9" value="d"> D) \(\min f(x)\) thỏa mãn \(g_i(x) \leq 0\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\min C \bullet X$$ s.t. $$A_i \bullet X = b_i, X \succeq 0$$</strong><br>
-                SDP: minimize linear function của matrix variable với linear equality constraints và positive semidefinite constraint.
+                <strong>Đáp án đúng: A) $$\min C \bullet X$$ thỏa mãn $$A_i \bullet X = b_i, \ X \succeq 0$$</strong><br>
+                SDP cực tiểu hóa hàm tuyến tính trên biến ma trận đối xứng với các ràng buộc đẳng thức tuyến tính và ràng buộc nửa xác định dương $$X \succeq 0$$.
             </div>
         </div>
 
         <!-- Câu hỏi 10: SDP dual -->
         <div class="question" id="q10" style="display: none;">
-            <h3>Câu 10: SDP dual problem có dạng:</h3>
+            <h3>Câu 10: Bài toán đối ngẫu của SDP có dạng:</h3>
             <div class="options">
-                <label><input type="radio" name="q10" value="a"> A) \(\max b^T y\) s.t. \(\sum y_i A_i + S = C, S \succeq 0\)</label>
-                <label><input type="radio" name="q10" value="b"> B) \(\min b^T y\) s.t. \(A^T y \leq c\)</label>
-                <label><input type="radio" name="q10" value="c"> C) \(\max c^T z\) s.t. \(A^T z = b\)</label>
-                <label><input type="radio" name="q10" value="d"> D) \(\min \|y\|^2\) s.t. \(Ay = b\)</label>
+                <label><input type="radio" name="q10" value="a"> A) \(\max b^T y\) thỏa mãn \(\sum y_i A_i + S = C, \ S \succeq 0\)</label>
+                <label><input type="radio" name="q10" value="b"> B) \(\min b^T y\) thỏa mãn \(A^T y \leq c\)</label>
+                <label><input type="radio" name="q10" value="c"> C) \(\max c^T z\) thỏa mãn \(A^T z = b\)</label>
+                <label><input type="radio" name="q10" value="d"> D) \(\min \|y\|^2\) thỏa mãn \(Ay = b\)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) $$\max b^T y$$ s.t. $$\sum y_i A_i + S = C, S \succeq 0$$</strong><br>
-                SDP dual: maximize linear function với dual matrix variable $$S \succeq 0$$ và linear constraint.
+                <strong>Đáp án đúng: A) $$\max b^T y$$ thỏa mãn $$\sum y_i A_i + S = C, \ S \succeq 0$$</strong><br>
+                Bài toán đối ngẫu của SDP cực đại hóa $$b^T y$$ với ma trận bù đối ngẫu nửa xác định dương $$S \succeq 0$$.
             </div>
         </div>
 
         <!-- Câu hỏi 11: SDP complementary slackness -->
         <div class="question" id="q11" style="display: none;">
-            <h3>Câu 11: Complementary slackness trong SDP là:</h3>
+            <h3>Câu 11: Điều kiện bù chặt trong SDP là:</h3>
             <div class="options">
                 <label><input type="radio" name="q11" value="a"> A) \(X \bullet S = 0\) (tức \(\text{tr}(XS) = 0\))</label>
                 <label><input type="radio" name="q11" value="b"> B) \(X \bullet S = 1\)</label>
@@ -769,13 +451,13 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$X \bullet S = 0$$ (tức $$\text{tr}(XS) = 0$$)</strong><br>
-                SDP complementary slackness: inner product (trace) của primal và dual matrix variables bằng 0. (Với $$X, S \succeq 0$$, điều này tương đương với $$XS = 0$$.)
+                Điều kiện bù chặt của SDP yêu cầu tích vô hướng vết giữa ma trận gốc và ma trận đối ngẫu bằng $$0$$ (với $$X, S \succeq 0$$, điều này tương đương với $$XS = 0$$).
             </div>
         </div>
 
         <!-- Câu hỏi 12: Central path for SDP -->
         <div class="question" id="q12" style="display: none;">
-            <h3>Câu 12: Central path condition cho SDP là:</h3>
+            <h3>Câu 12: Điều kiện đường trung tâm cho SDP là:</h3>
             <div class="options">
                 <label><input type="radio" name="q12" value="a"> A) \(XS = \frac{1}{t}I\)</label>
                 <label><input type="radio" name="q12" value="b"> B) \(X \bullet S = \frac{n}{t}\)</label>
@@ -784,147 +466,147 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$XS = \frac{1}{t}I$$</strong><br>
-                SDP central path: matrix product $$XS = \frac{1}{t}I$$ thay vì scalar complementary slackness.
+                Trên đường trung tâm của SDP, tích ma trận $$XS$$ bằng bội số của ma trận đơn vị: $$XS = \tau I = \frac{1}{t}I$$.
             </div>
         </div>
 
         <!-- Câu hỏi 13: Newton direction for SDP -->
         <div class="question" id="q13" style="display: none;">
-            <h3>Câu 13: Newton direction trong SDP primal-dual method solve:</h3>
+            <h3>Câu 13: Hướng Newton trong phương pháp gốc-đối ngẫu cho SDP được tìm bằng cách giải:</h3>
             <div class="options">
-                <label><input type="radio" name="q13" value="a"> A) Linearized system cho \((\Delta X, \Delta y, \Delta S)\)</label>
-                <label><input type="radio" name="q13" value="b"> B) Chỉ cho \(\Delta X\)</label>
-                <label><input type="radio" name="q13" value="c"> C) Chỉ cho \(\Delta S\)</label>
-                <label><input type="radio" name="q13" value="d"> D) Eigenvalue decomposition</label>
+                <label><input type="radio" name="q13" value="a"> A) Hệ phương trình tuyến tính hóa theo \((\Delta X, \Delta y, \Delta S)\)</label>
+                <label><input type="radio" name="q13" value="b"> B) Chỉ theo \(\Delta X\)</label>
+                <label><input type="radio" name="q13" value="c"> C) Chỉ theo \(\Delta S\)</label>
+                <label><input type="radio" name="q13" value="d"> D) Bài toán phân rã trị riêng</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Linearized system cho $$(\Delta X, \Delta y, \Delta S)$$</strong><br>
-                SDP Newton system solve simultaneously cho primal matrix $$\Delta X$$, dual vector $$\Delta y$$, và dual matrix $$\Delta S$$.
+                <strong>Đáp án đúng: A) Hệ phương trình tuyến tính hóa theo $$(\Delta X, \Delta y, \Delta S)$$</strong><br>
+                Hệ Newton cho SDP giải đồng thời bước cập nhật ma trận gốc $$\Delta X$$, vector đối ngẫu $$\Delta y$$ và ma trận đối ngẫu $$\Delta S$$.
             </div>
         </div>
 
         <!-- Câu hỏi 14: Polynomial complexity -->
         <div class="question" id="q14" style="display: none;">
-            <h3>Câu 14: Primal-dual interior point methods có complexity:</h3>
+            <h3>Câu 14: Độ phức tạp tính toán trong trường hợp xấu nhất của phương pháp điểm trong gốc-đối ngẫu là:</h3>
             <div class="options">
-                <label><input type="radio" name="q14" value="a"> A) Polynomial-time trong worst case</label>
-                <label><input type="radio" name="q14" value="b"> B) Exponential-time</label>
-                <label><input type="radio" name="q14" value="c"> C) NP-hard</label>
-                <label><input type="radio" name="q14" value="d"> D) Không có theoretical guarantees</label>
+                <label><input type="radio" name="q14" value="a"> A) Thời gian đa thức (polynomial-time)</label>
+                <label><input type="radio" name="q14" value="b"> B) Thời gian hàm mũ (exponential-time)</label>
+                <label><input type="radio" name="q14" value="c"> C) Thuộc lớp NP-hard</label>
+                <label><input type="radio" name="q14" value="d"> D) Không có đảm bảo lý thuyết</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Polynomial-time trong worst case</strong><br>
-                Interior point methods có polynomial-time complexity, breakthrough trong optimization theory.
+                <strong>Đáp án đúng: A) Thời gian đa thức (polynomial-time)</strong><br>
+                Các phương pháp điểm trong có độ phức tạp thời gian đa thức trong trường hợp xấu nhất cho LP, SOCP và SDP.
             </div>
         </div>
 
         <!-- Câu hỏi 15: Warm start -->
         <div class="question" id="q15" style="display: none;">
-            <h3>Câu 15: Warm start trong primal-dual methods có nghĩa là:</h3>
+            <h3>Câu 15: Khởi động ấm (warm start) trong phương pháp gốc-đối ngẫu có nghĩa là:</h3>
             <div class="options">
-                <label><input type="radio" name="q15" value="a"> A) Start từ solution của similar problem</label>
-                <label><input type="radio" name="q15" value="b"> B) Start từ origin</label>
-                <label><input type="radio" name="q15" value="c"> C) Start từ random point</label>
-                <label><input type="radio" name="q15" value="d"> D) Start từ boundary</label>
+                <label><input type="radio" name="q15" value="a"> A) Khởi tạo từ nghiệm của một bài toán tương tự đã giải trước đó</label>
+                <label><input type="radio" name="q15" value="b"> B) Luôn bắt đầu từ gốc tọa độ</label>
+                <label><input type="radio" name="q15" value="c"> C) Bắt đầu từ một điểm ngẫu nhiên</label>
+                <label><input type="radio" name="q15" value="d"> D) Bắt đầu từ biên của tập khả thi</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Start từ solution của similar problem</strong><br>
-                Warm start sử dụng solution từ previous/similar problem làm starting point, rất hiệu quả trong practice.
+                <strong>Đáp án đúng: A) Khởi tạo từ nghiệm của một bài toán tương tự đã giải trước đó</strong><br>
+                Khởi động ấm tận dụng nghiệm của bài toán liên quan làm điểm khởi đầu nhằm rút ngắn số vòng lặp hội tụ.
             </div>
         </div>
 
         <!-- Câu hỏi 16: Homogeneous self-dual -->
         <div class="question" id="q16" style="display: none;">
-            <h3>Câu 16: Homogeneous self-dual formulation có ưu điểm:</h3>
+            <h3>Câu 16: Dạng nhúng đồng nhất tự đối ngẫu (homogeneous self-dual) có ưu điểm nào sau đây?</h3>
             <div class="options">
-                <label><input type="radio" name="q16" value="a"> A) Detect infeasibility và unboundedness</label>
-                <label><input type="radio" name="q16" value="b"> B) Không cần feasible starting point</label>
-                <label><input type="radio" name="q16" value="c"> C) Unified treatment của different cases</label>
+                <label><input type="radio" name="q16" value="a"> A) Phát hiện được cả trường hợp bài toán không khả thi và không bị chặn</label>
+                <label><input type="radio" name="q16" value="b"> B) Không cần tìm điểm khởi tạo khả thi</label>
+                <label><input type="radio" name="q16" value="c"> C) Xử lý thống nhất mọi trạng thái nghiệm trong cùng một khuôn khổ</label>
                 <label><input type="radio" name="q16" value="d"> D) Tất cả các ưu điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các ưu điểm trên</strong><br>
-                Homogeneous self-dual formulation handle tất cả cases (optimal, infeasible, unbounded) trong unified framework.
+                Dạng đồng nhất tự đối ngẫu xử lý thống nhất cả ba trường hợp (có nghiệm tối ưu, không khả thi, không bị chặn) mà không cần pha tìm điểm khả thi ban đầu.
             </div>
         </div>
 
         <!-- Câu hỏi 17: Centering parameter -->
         <div class="question" id="q17" style="display: none;">
-            <h3>Câu 17: Centering parameter \(\sigma\) trong primal-dual method:</h3>
+            <h3>Câu 17: Tham số định tâm (centering parameter) \(\sigma\) trong phương pháp gốc-đối ngẫu có vai trò:</h3>
             <div class="options">
-                <label><input type="radio" name="q17" value="a"> A) Control balance giữa centrality và progress toward optimality</label>
-                <label><input type="radio" name="q17" value="b"> B) Luôn bằng 0</label>
-                <label><input type="radio" name="q17" value="c"> C) Luôn bằng 1</label>
-                <label><input type="radio" name="q17" value="d"> D) Không ảnh hưởng đến algorithm</label>
+                <label><input type="radio" name="q17" value="a"> A) Cân bằng giữa việc bám sát đường trung tâm và tốc độ tiến về nghiệm tối ưu</label>
+                <label><input type="radio" name="q17" value="b"> B) Luôn được cố định bằng 0</label>
+                <label><input type="radio" name="q17" value="c"> C) Luôn được cố định bằng 1</label>
+                <label><input type="radio" name="q17" value="d"> D) Không ảnh hưởng đến thuật toán</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Control balance giữa centrality và progress toward optimality</strong><br>
-                Centering parameter $$\sigma \in [0,1]$$: $$\sigma = 0$$ (pure affine), $$\sigma = 1$$ (pure centering).
+                <strong>Đáp án đúng: A) Cân bằng giữa việc bám sát đường trung tâm và tốc độ tiến về nghiệm tối ưu</strong><br>
+                Với $$\sigma \in [0, 1]$$, $$\sigma = 0$$ tương ứng với bước affine thuần túy (tiến nhanh nhất), còn $$\sigma = 1$$ tương ứng với bước định tâm thuần túy.
             </div>
         </div>
 
         <!-- Câu hỏi 18: Linear programming special case -->
         <div class="question" id="q18" style="display: none;">
-            <h3>Câu 18: Cho LP, primal-dual method có đặc điểm:</h3>
+            <h3>Câu 18: Với bài toán LP, phương pháp điểm trong gốc-đối ngẫu có đặc điểm nào sau đây?</h3>
             <div class="options">
-                <label><input type="radio" name="q18" value="a"> A) Newton system trở thành linear system đơn giản</label>
-                <label><input type="radio" name="q18" value="b"> B) Complementary slackness: \(x_i s_i = \frac{1}{t}\)</label>
-                <label><input type="radio" name="q18" value="c"> C) Highly efficient implementation</label>
+                <label><input type="radio" name="q18" value="a"> A) Hệ phương trình Newton có cấu trúc tuyến tính thưa đơn giản</label>
+                <label><input type="radio" name="q18" value="b"> B) Điều kiện bù chặt bị nhiễu có dạng \(x_i s_i = \frac{1}{t}\)</label>
+                <label><input type="radio" name="q18" value="c"> C) Cho phép cài đặt với hiệu năng tính toán rất cao</label>
                 <label><input type="radio" name="q18" value="d"> D) Tất cả các đặc điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các đặc điểm trên</strong><br>
-                LP là special case với structure đơn giản, leading to highly efficient primal-dual algorithms.
+                LP là trường hợp đặc biệt có cấu trúc đơn giản, giúp phương pháp điểm trong gốc-đối ngẫu đạt hiệu quả rất cao trong thực tế.
             </div>
         </div>
 
         <!-- Câu hỏi 19: Convergence rate -->
         <div class="question" id="q19" style="display: none;">
-            <h3>Câu 19: Primal-dual interior point methods có convergence rate:</h3>
+            <h3>Câu 19: Tốc độ hội tụ của phương pháp điểm trong gốc-đối ngẫu là:</h3>
             <div class="options">
-                <label><input type="radio" name="q19" value="a"> A) Superlinear under nondegeneracy conditions</label>
-                <label><input type="radio" name="q19" value="b"> B) Luôn linear</label>
-                <label><input type="radio" name="q19" value="c"> C) Luôn quadratic</label>
-                <label><input type="radio" name="q19" value="d"> D) Sublinear</label>
+                <label><input type="radio" name="q19" value="a"> A) Siêu tuyến tính dưới các điều kiện không suy biến phù hợp</label>
+                <label><input type="radio" name="q19" value="b"> B) Luôn chỉ tuyến tính</label>
+                <label><input type="radio" name="q19" value="c"> C) Luôn bậc hai ở mọi vòng lặp</label>
+                <label><input type="radio" name="q19" value="d"> D) Dưới tuyến tính (sublinear)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Superlinear under nondegeneracy conditions</strong><br>
-                Primal-dual methods có superlinear convergence under appropriate nondegeneracy assumptions.
+                <strong>Đáp án đúng: A) Siêu tuyến tính dưới các điều kiện không suy biến phù hợp</strong><br>
+                Dưới các giả thiết không suy biến thích hợp, phương pháp điểm trong gốc-đối ngẫu đạt tốc độ hội tụ siêu tuyến tính (thậm chí tiệm cận bậc hai).
             </div>
         </div>
 
         <!-- Câu hỏi 20: Modern applications -->
         <div class="question" id="q20" style="display: none;">
-            <h3>Câu 20: Primal-dual interior point methods được sử dụng trong:</h3>
+            <h3>Câu 20: Phương pháp điểm trong gốc-đối ngẫu được ứng dụng rộng rãi trong:</h3>
             <div class="options">
-                <label><input type="radio" name="q20" value="a"> A) Commercial optimization solvers</label>
-                <label><input type="radio" name="q20" value="b"> B) Large-scale linear và semidefinite programming</label>
-                <label><input type="radio" name="q20" value="c"> C) Machine learning optimization</label>
+                <label><input type="radio" name="q20" value="a"> A) Các bộ giải tối ưu thương mại và mã nguồn mở</label>
+                <label><input type="radio" name="q20" value="b"> B) Quy hoạch tuyến tính và quy hoạch bán xác định quy mô lớn</label>
+                <label><input type="radio" name="q20" value="c"> C) Các bài toán tối ưu trong học máy</label>
                 <label><input type="radio" name="q20" value="d"> D) Tất cả các ứng dụng trên</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các ứng dụng trên</strong><br>
-                Primal-dual methods là backbone của modern optimization: CPLEX, Gurobi, MOSEK, và many ML applications.
+                Phương pháp điểm trong gốc-đối ngẫu là thuật toán lõi của nhiều bộ giải hiện đại (như CPLEX, Gurobi, MOSEK, Clarabel) dùng trong công nghiệp và học máy.
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->
         <div class="question" id="q21" style="display: none;">
-            <h3>Câu 21: Primal-dual interior point method kết hợp:</h3>
+            <h3>Câu 21: Phương pháp điểm trong gốc-đối ngẫu kết hợp hai ý tưởng nền tảng nào?</h3>
             <div class="options">
-                <label><input type="radio" name="q21" value="a"> A) Barrier method + Newton method</label>
-                <label><input type="radio" name="q21" value="b"> B) Gradient descent + momentum</label>
-                <label><input type="radio" name="q21" value="c"> C) Simplex + dual simplex</label>
-                <label><input type="radio" name="q21" value="d"> D) SGD + Adam</label>
+                <label><input type="radio" name="q21" value="a"> A) Hàm chắn (đường trung tâm) và phương pháp Newton</label>
+                <label><input type="radio" name="q21" value="b"> B) Hạ gradient và động lượng (momentum)</label>
+                <label><input type="radio" name="q21" value="c"> C) Đơn hình gốc và đơn hình đối ngẫu</label>
+                <label><input type="radio" name="q21" value="d"> D) SGD và Adam</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Barrier method + Newton method</strong><br>
-                Primal-dual IPM sử dụng barrier function và Newton method để giải đồng thời primal và dual.
+                <strong>Đáp án đúng: A) Hàm chắn (đường trung tâm) và phương pháp Newton</strong><br>
+                Phương pháp điểm trong gốc-đối ngẫu dùng hệ KKT bị nhiễu từ hàm chắn kết hợp với phương pháp Newton để cập nhật đồng thời biến gốc và biến đối ngẫu.
             </div>
         </div>
 
         <!-- Câu hỏi 22: Thực hành -->
         <div class="question" id="q22" style="display: none;">
-            <h3>Câu 22: Trong primal-dual IPM, hệ phương trình Newton rút gọn (sau khi khử \(\Delta \lambda\)) có dạng:</h3>
+            <h3>Câu 22: Trong phương pháp điểm trong gốc-đối ngẫu, hệ phương trình Newton rút gọn (sau khi khử \(\Delta \lambda\)) có dạng:</h3>
             <div class="options">
                 <label><input type="radio" name="q22" value="a"> A) Ma trận khối đối xứng</label>
                 <label><input type="radio" name="q22" value="b"> B) Ma trận tam giác</label>
@@ -933,28 +615,28 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) Ma trận khối đối xứng</strong><br>
-                Sau khi khử $$\Delta \lambda$$, hệ KKT trong IPM trở thành ma trận khối đối xứng (augmented system) với cấu trúc đặc biệt; hệ Newton đầy đủ ban đầu nói chung không đối xứng.
+                Sau khi khử $$\Delta \lambda$$, hệ KKT trở thành hệ ma trận khối đối xứng (augmented system) thuận lợi cho phân rã LDL; hệ Newton đầy đủ ban đầu nhìn chung không đối xứng.
             </div>
         </div>
 
         <!-- Câu hỏi 23: Thực hành -->
         <div class="question" id="q23" style="display: none;">
-            <h3>Câu 23: Predictor-corrector approach trong IPM:</h3>
+            <h3>Câu 23: Cách tiếp cận dự báo – hiệu chỉnh (predictor-corrector) trong IPM thực hiện:</h3>
             <div class="options">
-                <label><input type="radio" name="q23" value="a"> A) Dự đoán hướng + hiệu chỉnh centrality</label>
-                <label><input type="radio" name="q23" value="b"> B) Chỉ dự đoán</label>
-                <label><input type="radio" name="q23" value="c"> C) Chỉ hiệu chỉnh</label>
-                <label><input type="radio" name="q23" value="d"> D) Không liên quan</label>
+                <label><input type="radio" name="q23" value="a"> A) Dự báo hướng tiến về nghiệm và hiệu chỉnh độ gần đường trung tâm</label>
+                <label><input type="radio" name="q23" value="b"> B) Chỉ thực hiện bước dự báo</label>
+                <label><input type="radio" name="q23" value="c"> C) Chỉ thực hiện bước hiệu chỉnh</label>
+                <label><input type="radio" name="q23" value="d"> D) Không liên quan đến đường trung tâm</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Dự đoán hướng + hiệu chỉnh centrality</strong><br>
-                Predictor step tìm hướng giảm duality gap, corrector step cải thiện centrality.
+                <strong>Đáp án đúng: A) Dự báo hướng tiến về nghiệm và hiệu chỉnh độ gần đường trung tâm</strong><br>
+                Bước dự báo tìm hướng giảm nhanh khoảng cách đối ngẫu, còn bước hiệu chỉnh đảm bảo điểm lặp không lệch quá xa đường trung tâm.
             </div>
         </div>
 
         <!-- Câu hỏi 24: Thực hành -->
         <div class="question" id="q24" style="display: none;">
-            <h3>Câu 24: Complexity của IPM cho LP là:</h3>
+            <h3>Câu 24: Độ phức tạp tính toán tổng thể của phương pháp điểm trong cho LP là:</h3>
             <div class="options">
                 <label><input type="radio" name="q24" value="a"> A) $$O(n^{3.5} \log(1/\epsilon))$$</label>
                 <label><input type="radio" name="q24" value="b"> B) $$O(2^n)$$</label>
@@ -963,22 +645,22 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về Primal
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$O(n^{3.5} \log(1/\epsilon))$$</strong><br>
-                IPM có complexity polynomial: $$O(\sqrt{n}\log(1/\epsilon))$$ iterations, mỗi iteration $$O(n^3)$$, tổng $$O(n^{3.5} \log(1/\epsilon))$$ cho LP.
+                Thuật toán cần $$O(\sqrt{n}\log(1/\epsilon))$$ vòng lặp, mỗi vòng lặp tốn $$O(n^3)$$ phép toán phân rã ma trận, cho tổng độ phức tạp $$O(n^{3.5} \log(1/\epsilon))$$.
             </div>
         </div>
 
         <!-- Câu hỏi 25: Thực hành -->
         <div class="question" id="q25" style="display: none;">
-            <h3>Câu 25: Mehrotra's algorithm là:</h3>
+            <h3>Câu 25: Thuật toán Mehrotra thuộc lớp thuật toán nào?</h3>
             <div class="options">
-                <label><input type="radio" name="q25" value="a"> A) Predictor-corrector IPM thực tế</label>
-                <label><input type="radio" name="q25" value="b"> B) Simplex method</label>
-                <label><input type="radio" name="q25" value="c"> C) Gradient descent</label>
-                <label><input type="radio" name="q25" value="d"> D) Branch and bound</label>
+                <label><input type="radio" name="q25" value="a"> A) Phương pháp điểm trong gốc-đối ngẫu dự báo – hiệu chỉnh thực tế</label>
+                <label><input type="radio" name="q25" value="b"> B) Phương pháp đơn hình (Simplex)</label>
+                <label><input type="radio" name="q25" value="c"> C) Hạ gradient (Gradient descent)</label>
+                <label><input type="radio" name="q25" value="d"> D) Nhánh và cận (Branch and bound)</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Predictor-corrector IPM thực tế</strong><br>
-                Mehrotra's algorithm là implementation thực tế phổ biến nhất của primal-dual IPM.
+                <strong>Đáp án đúng: A) Phương pháp điểm trong gốc-đối ngẫu dự báo – hiệu chỉnh thực tế</strong><br>
+                Thuật toán dự báo – hiệu chỉnh của Mehrotra là một trong những cài đặt thực tế phổ biến nhất của phương pháp điểm trong gốc-đối ngẫu.
             </div>
         </div>
 

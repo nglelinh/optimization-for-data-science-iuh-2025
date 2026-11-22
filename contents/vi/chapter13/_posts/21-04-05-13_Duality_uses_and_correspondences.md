@@ -10,12 +10,12 @@ lang: vi
 ---
 
 
-Trong chương này, chúng ta sẽ học về các ứng dụng của Đối ngẫu (Duality) và các tương ứng liên quan thông qua các ví dụ.
+Trong chương này, chúng ta sẽ tìm hiểu các ứng dụng của tính đối ngẫu (duality) và những khái niệm tương ứng liên quan thông qua các ví dụ cụ thể.
 
-### [Lưu ý]
+### Lưu ý về ký hiệu
 
-Trong chương này, nghiệm tối ưu $$x^{\star}$$ và hàm liên hợp $$x^{*}$$ của $$x$$ được phân biệt và ký hiệu như vậy.
+Trong chương này, nghiệm tối ưu được ký hiệu là $$x^{\star}$$, còn phép liên hợp (conjugate) được ký hiệu bằng dấu sao $$f^{*}$$ để phân biệt rõ ràng.
 
 ## Ứng dụng hiện đại (2022–2026)
 
-Một bài tùy chọn đi kèm gắn các cách dùng 2022–2026 vào cùng các tương ứng: chuẩn đối ngẫu trên RobustBench, đối ngẫu Lasso trong screening skglm, liên hợp trong Clarabel / CVXPY, và nón đối ngẫu trong α,β-CROWN. Xem [13-07 Cách dùng hiện đại của liên hợp, chuẩn đối ngẫu và nón đối ngẫu]({% multilang_post_url contents/chapter13/2026-09-16-13_07_modern_applications %}).
+Bài đọc tùy chọn đi kèm gắn các khái niệm của chương với các ứng dụng giai đoạn 2022–2026: chuẩn đối ngẫu trong RobustBench, đối ngẫu Lasso trong kỹ thuật sàng lọc (screening) của skglm, hàm liên hợp trong Clarabel và CVXPY, cùng nón đối ngẫu trong $$\alpha,\beta$$-CROWN. Xem [13-07 Cách dùng hiện đại của liên hợp, chuẩn đối ngẫu và nón đối ngẫu]({% multilang_post_url contents/chapter13/2026-09-16-13_07_modern_applications %}).

@@ -11,14 +11,14 @@ lang: vi
 
 # Tăng tốc có luôn hữu ích không?
 
-Các phương pháp tăng tốc như FISTA có thể đạt được tốc độ hội tụ nhanh hơn về mặt lý thuyết, nhưng trong thực tế, tăng tốc không luôn có lợi.
+Mặc dù các phương pháp tăng tốc như FISTA đạt tốc độ hội tụ lý thuyết nhanh hơn, trong thực tế việc dùng tăng tốc không phải lúc nào cũng mang lại hiệu quả tốt hơn.
 
-## Khi nào tăng tốc có thể không giúp được
-- Nếu bài toán có điều kiện xấu, tăng tốc có thể gây dao động hoặc mất ổn định.
-- Đối với một số bài toán không trơn, tăng tốc có thể không cải thiện hội tụ.
-- Hiện tượng "gợn sóng Nesterov" có thể gây ra hành vi không đơn điệu trong giá trị hàm mục tiêu.
+## Khi nào tăng tốc có thể kém hiệu quả
+- Với các bài toán có điều kiện xấu, thành phần động lượng có thể gây dao động mạnh hoặc làm giảm độ ổn định số học.
+- Trên một số bài toán không trơn hoặc có cấu trúc phức tạp, tăng tốc chưa chắc cải thiện tốc độ hội tụ thực tế.
+- Hiện tượng "gợn sóng Nesterov" khiến giá trị hàm mục tiêu không giảm đơn điệu qua các bước lặp.
 
-## Lời khuyên thực tế
-- Sử dụng các phương pháp tăng tốc khi bài toán có điều kiện tốt và trơn.
-- Giám sát hội tụ và ổn định khi áp dụng tăng tốc.
-- Nếu xảy ra mất ổn định, hãy xem xét chuyển sang các phương pháp gradient gần kề tiêu chuẩn.
+## Kinh nghiệm thực hành
+- Ưu tiên dùng phương pháp tăng tốc khi phần trơn của bài toán có điều kiện tốt.
+- Theo dõi chặt chẽ giá trị hàm mục tiêu và độ ổn định trong quá trình chạy thuật toán.
+- Nếu quan sát thấy dao động lớn hoặc mất ổn định, cân nhắc áp dụng cơ chế khởi động lại (restart) hoặc quay về phương pháp gradient gần kề tiêu chuẩn.

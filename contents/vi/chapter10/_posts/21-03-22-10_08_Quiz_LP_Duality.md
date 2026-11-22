@@ -16,21 +16,21 @@ redirect_from:
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
 
-### **Tính Đối Ngẫu trong Linear Programming (LP Duality)**
+### Tính đối ngẫu trong quy hoạch tuyến tính (LP Duality)
 
-#### **Ý tưởng cơ bản**
-Tính đối ngẫu trong LP xuất phát từ việc tìm **cận dưới** cho giá trị tối ưu của bài toán nguyên thủy (primal).
+#### Ý tưởng cơ bản
+Tính đối ngẫu trong LP xuất phát từ bài toán tìm **cận dưới** cho giá trị tối ưu của bài toán gốc (primal).
 
-**Nguyên lý:** Nếu có thể biểu diễn hàm mục tiêu như **tổ hợp tuyến tính** của các ràng buộc, ta có thể tìm được cận dưới.
+**Nguyên lý:** Nếu biểu diễn được hàm mục tiêu dưới dạng **tổ hợp tuyến tính** (với hệ số phù hợp) của các ràng buộc, ta thu được một cận dưới cho bài toán gốc.
 
-#### **Từ ví dụ đơn giản đến tổng quát**
+#### Từ ví dụ đơn giản đến tổng quát
 
-**Ví dụ 1:** Ràng buộc chứa hàm mục tiêu
+**Ví dụ 1:** Ràng buộc chứa trực tiếp hàm mục tiêu
 $$\min_{x,y} x + y \quad \text{s.t.} \quad x + y \ge 2, \quad x,y \ge 0$$
 
-**Cận dưới hiển nhiên:** $$B = 2$$
+**Cận dưới trực tiếp:** $$B = 2$$
 
-**Ví dụ 2:** Biểu diễn hàm mục tiêu qua tổ hợp tuyến tính
+**Ví dụ 2:** Biểu diễn hàm mục tiêu qua tổ hợp tuyến tính của các ràng buộc
 $$\min_{x,y} x + 3y \quad \text{s.t.} \quad x + y \ge 2, \quad x,y \ge 0$$
 
 **Tổ hợp tuyến tính:**
@@ -38,49 +38,49 @@ $$1 \cdot (x + y) + 0 \cdot x + 2 \cdot y = x + 3y \ge 2$$
 
 **Cận dưới:** $$B = 2$$
 
-### 📏 **Xây Dựng Bài Toán Đối Ngẫu**
+### 📏 Xây dựng bài toán đối ngẫu
 
-#### **Bài toán nguyên thủy tổng quát**
+#### Bài toán gốc tổng quát
 $$\min_x c^T x \quad \text{s.t.} \quad Ax = b, \quad Gx \le h$$
 
-#### **Phương pháp xây dựng đối ngẫu**
-1. **Định nghĩa biến đối ngẫu:** $$u$$ (cho ràng buộc đẳng thức), $$v \ge 0$$ (cho ràng buộc bất đẳng thức)
-2. **Tạo tổ hợp tuyến tính:** $$u^T(Ax - b) + v^T(Gx - h) \le 0$$
-3. **Sắp xếp để tách hàm mục tiêu:** $$(-A^T u - G^T v)^T x \ge -b^T u - h^T v$$
-4. **Điều kiện khớp:** $$c = -A^T u - G^T v$$
+#### Các bước xây dựng bài toán đối ngẫu
+1. **Định nghĩa biến đối ngẫu:** $$u$$ (cho ràng buộc đẳng thức), $$v \ge 0$$ (cho ràng buộc bất đẳng thức).
+2. **Lập tổ hợp tuyến tính:** $$u^T(Ax - b) + v^T(Gx - h) \le 0$$.
+3. **Biến đổi để tách hàm mục tiêu:** $$(-A^T u - G^T v)^T x \ge -b^T u - h^T v$$.
+4. **Điều kiện khớp hệ số:** $$c = -A^T u - G^T v$$.
 
-#### **Bài toán đối ngẫu**
+#### Bài toán đối ngẫu
 $$\max_{u,v} -b^T u - h^T v \quad \text{s.t.} \quad c = -A^T u - G^T v, \quad v \ge 0$$
 
-### 🔄 **Quy Tắc Chuyển Đổi Primal-Dual**
+### 🔄 Quy tắc chuyển đổi gốc – đối ngẫu
 
-| **Primal** | **Dual** |
-|------------|----------|
+| **Bài toán gốc (Primal)** | **Bài toán đối ngẫu (Dual)** |
+|---------------------------|------------------------------|
 | $$\min$$ | $$\max$$ |
-| $$Ax = b$$ | $$u$$ không ràng buộc |
+| $$Ax = b$$ | $$u$$ không ràng buộc dấu |
 | $$Gx \le h$$ | $$v \ge 0$$ |
-| $$x \ge 0$$ | Ràng buộc bất đẳng thức trong dual |
-| $$x$$ không ràng buộc | Ràng buộc đẳng thức trong dual |
+| $$x \ge 0$$ | Ràng buộc bất đẳng thức trong bài toán đối ngẫu |
+| $$x$$ không ràng buộc dấu | Ràng buộc đẳng thức trong bài toán đối ngẫu |
 
-#### **Ví dụ chuyển đổi**
-**Primal:**
+#### Ví dụ chuyển đổi
+**Bài toán gốc:**
 $$\min_{x,y} px + qy \quad \text{s.t.} \quad x \ge 0, \quad y \le 1, \quad 3x + y = 2$$
 
-**Dual:**
+**Bài toán đối ngẫu:**
 $$\max_{a,b,c} 2c - b \quad \text{s.t.} \quad a + 3c = p, \quad -b + c = q, \quad a,b \ge 0$$
 
-### 🌊 **Ví Dụ: Max Flow - Min Cut**
+### 🌊 Ví dụ: Luồng cực đại – lát cắt cực tiểu
 
-#### **Bài toán Max Flow**
-Tìm luồng tối đa từ nguồn $$s$$ đến đích $$t$$ trong đồ thị có hướng.
+#### Bài toán luồng cực đại (Max Flow)
+Tìm luồng lớn nhất từ nguồn $$s$$ đến đích $$t$$ trong đồ thị có hướng:
 
 $$\max \sum_{(s,j) \in E} f_{sj} \quad \text{s.t.} \begin{cases}
 f_{ij} \ge 0, \quad f_{ij} \le c_{ij} & \forall (i,j) \in E \\
 \sum_{(i,k) \in E} f_{ik} = \sum_{(k,j) \in E} f_{kj} & \forall k \in V \setminus \{s,t\}
 \end{cases}$$
 
-#### **Bài toán Min Cut**
-Tìm cắt có công suất tối thiểu phân tách $$s$$ và $$t$$.
+#### Bài toán lát cắt cực tiểu (Min Cut)
+Tìm lát cắt có dung lượng nhỏ nhất phân tách $$s$$ và $$t$$:
 
 $$\min \sum_{(i,j) \in E} b_{ij} c_{ij} \quad \text{s.t.} \begin{cases}
 b_{ij} \ge x_i - x_j & \forall (i,j) \in E \\
@@ -88,31 +88,31 @@ x_i, b_{ij} \in \{0,1\} & \forall i,j \\
 x_s = 1, x_t = 0
 \end{cases}$$
 
-#### **Mối quan hệ đối ngẫu**
-**Dual của Max Flow = LP relaxation của Min Cut**
+#### Mối quan hệ đối ngẫu
+**Đối ngẫu của luồng cực đại = Bản nới lỏng LP của lát cắt cực tiểu**
 
 $$\text{Max Flow Value} \le \text{Dual LP} = \text{LP Relaxed Min Cut} \le \text{Min Cut Capacity}$$
 
-**Định lý Max-Flow Min-Cut:** Cả ba giá trị đều bằng nhau!
+**Định lý luồng cực đại – lát cắt cực tiểu:** Cả ba giá trị trên đều bằng nhau.
 
-### **Lagrangian Approach**
+### Cách tiếp cận Lagrangian
 
-#### **Hàm Lagrangian**
-Cho bài toán tối ưu tổng quát:
+#### Hàm Lagrangian
+Với bài toán tối ưu tổng quát:
 $$\min_x f(x) \quad \text{s.t.} \quad Ax = b, \quad Gx \le h$$
 
 **Hàm Lagrangian:**
 $$L(x,u,v) = f(x) + u^T(Ax - b) + v^T(Gx - h)$$
 
-#### **Dual function**
+#### Hàm đối ngẫu
 $$g(u,v) = \min_x L(x,u,v)$$
 
-**Tính chất:** $$g(u,v) \le f^*$$ với mọi $$v \ge 0$$ (weak duality)
+**Tính chất:** $$g(u,v) \le f^*$$ với mọi $$v \ge 0$$ (đối ngẫu yếu).
 
-#### **Bài toán đối ngẫu Lagrangian**
+#### Bài toán đối ngẫu Lagrangian
 $$\max_{u,v} g(u,v) \quad \text{s.t.} \quad v \ge 0$$
 
-#### **Cho LP:**
+#### Áp dụng cho LP
 $$g(u,v) = \min_x (c + A^T u + G^T v)^T x - b^T u - h^T v$$
 
 $$= \begin{cases}
@@ -120,172 +120,125 @@ $$= \begin{cases}
 -\infty & \text{otherwise}
 \end{cases}$$
 
-**Kết quả:** Giống dual LP truyền thống!
+**Kết quả:** Trùng khớp với bài toán LP đối ngẫu xây dựng theo tổ hợp tuyến tính.
 
-### 🎮 **Matrix Games**
+### 🎮 Trò chơi ma trận
 
-#### **Thiết lập game**
-- **Hai người chơi:** J (hàng) và R (cột)
-- **Ma trận payout:** $$P$$ (J trả cho R)
-- **Mixed strategies:** $$x$$ (J), $$y$$ (R)
-- **Expected payout:** $$x^T P y$$
+#### Thiết lập trò chơi
+- **Hai người chơi:** $$J$$ (chọn hàng) và $$R$$ (chọn cột).
+- **Ma trận chi trả:** $$P$$ (khoản tiền $$J$$ trả cho $$R$$).
+- **Chiến lược hỗn hợp:** phân phối xác suất $$x$$ (của $$J$$) và $$y$$ (của $$R$$).
+- **Chi trả kỳ vọng:** $$x^T P y$$.
 
-#### **Quan điểm của J (minimizer)**
-R được biết trước strategy của J, nên J muốn minimize expected payout trong trường hợp xấu nhất:
+#### Góc nhìn của J (người cực tiểu hóa)
+Khi $$R$$ biết trước chiến lược của $$J$$, $$J$$ muốn cực tiểu hóa chi trả kỳ vọng trong trường hợp xấu nhất:
 $$\min_x \max_{i=1,\ldots,n} (P^T x)_i \quad \text{s.t.} \quad x \ge 0, \quad \mathbf{1}^T x = 1$$
 
-**Reformulation:**
+**Dạng LP tương đương:**
 $$\min_{x,t} t \quad \text{s.t.} \quad x \ge 0, \quad \mathbf{1}^T x = 1, \quad P^T x \preceq t \mathbf{1}$$
 
-#### **Quan điểm của R (maximizer)**
-J được biết trước strategy của R, nên R muốn maximize expected payout trong trường hợp xấu nhất:
+#### Góc nhìn của R (người cực đại hóa)
+Khi $$J$$ biết trước chiến lược của $$R$$, $$R$$ muốn cực đại hóa chi trả kỳ vọng trong trường hợp xấu nhất:
 $$\max_y \min_{j=1,\ldots,m} (Py)_j \quad \text{s.t.} \quad y \ge 0, \quad \mathbf{1}^T y = 1$$
 
-**Reformulation:**
+**Dạng LP tương đương:**
 $$\max_{y,v} v \quad \text{s.t.} \quad y \ge 0, \quad \mathbf{1}^T y = 1, \quad Py \succeq v \mathbf{1}$$
 
-#### **Von Neumann's Minimax Theorem**
-Hai bài toán trên là **primal-dual** của nhau và có cùng giá trị tối ưu:
+#### Định lý minimax của von Neumann
+Hai bài toán trên là cặp **gốc – đối ngẫu** của nhau và có cùng giá trị tối ưu:
 $$\min_x \max_y x^T P y = \max_y \min_x x^T P y$$
 
-**Lý do:** $$x^T P y$$ song tuyến tính (lồi theo $$x$$, lõm theo $$y$$) và các simplex là compact, lồi; hơn nữa đây là một cặp LP đối ngẫu nên strong duality luôn đúng.
+**Lý do:** $$x^T P y$$ là hàm song tuyến tính (lồi theo $$x$$, lõm theo $$y$$) trên các đơn hình lồi compact; đồng thời đây là một cặp LP đối ngẫu khả thi nên tính đối ngẫu mạnh luôn đúng.
 
-### **Weak vs Strong Duality**
+### Đối ngẫu yếu và đối ngẫu mạnh
 
-#### **Weak Duality**
-**Luôn đúng:** Giá trị dual ≤ Giá trị primal
+#### Đối ngẫu yếu (Weak Duality)
+**Luôn đúng:** giá trị đối ngẫu $$\le$$ giá trị gốc:
 $$\max_{u,v} g(u,v) \le \min_x f(x)$$
 
-**Duality gap:** $$f^* - g^* \ge 0$$
+**Khoảng cách đối ngẫu (Duality gap):** $$f^* - g^* \ge 0$$.
 
-#### **Strong Duality**
-**Điều kiện đặc biệt:** Giá trị dual = Giá trị primal
+#### Đối ngẫu mạnh (Strong Duality)
+**Đẳng thức:** giá trị đối ngẫu = giá trị gốc:
 $$\max_{u,v} g(u,v) = \min_x f(x)$$
 
-**Duality gap:** $$f^* - g^* = 0$$
+**Khoảng cách đối ngẫu:** $$f^* - g^* = 0$$.
 
-#### **Khi nào Strong Duality xảy ra trong LP:**
-- **Slater's condition:** Tồn tại điểm strictly feasible
-- **Cho LP:** Nếu một trong primal hoặc dual khả thi thì strong duality xảy ra
-- **Trường hợp ngoại lệ:** Cả primal và dual đều infeasible
+#### Điều kiện đối ngẫu mạnh trong LP
+- Nếu ít nhất một trong hai bài toán (gốc hoặc đối ngẫu) khả thi thì tính đối ngẫu mạnh luôn đúng.
+- Trường hợp ngoại lệ duy nhất: cả hai bài toán đều vô nghiệm (infeasible).
 
-### 🔄 **Các Dạng Chuẩn của LP**
+### 🔄 Các dạng chuẩn của LP
 
-#### **Standard form**
+#### Dạng chuẩn (Standard form)
 $$\min c^T x \quad \text{s.t.} \quad Ax = b, \quad x \ge 0$$
 
-**Dual:**
+**Đối ngẫu:**
 $$\max b^T u \quad \text{s.t.} \quad A^T u \le c$$
 
-#### **Inequality form**
+#### Dạng bất đẳng thức (Inequality form)
 $$\min c^T x \quad \text{s.t.} \quad Ax \le b$$
 
-**Dual:**
+**Đối ngẫu:**
 $$\max -b^T u \quad \text{s.t.} \quad A^T u = -c, \quad u \ge 0$$
 
-#### **General form**
+#### Dạng tổng quát (General form)
 $$\min c^T x \quad \text{s.t.} \quad Ax = b, \quad Gx \le h$$
 
-**Dual:**
+**Đối ngẫu:**
 $$\max -b^T u - h^T v \quad \text{s.t.} \quad -A^T u - G^T v = c, \quad v \ge 0$$
 
-### 🛠️ **Kỹ Thuật Thực Hành**
+### 🛠️ Kỹ năng thực hành
 
-#### **Xây dựng dual từ primal:**
-1. **Xác định dạng bài toán:** Min hay max, ràng buộc đẳng thức hay bất đẳng thức
-2. **Áp dụng quy tắc chuyển đổi:** Theo bảng primal-dual
-3. **Kiểm tra tính đúng đắn:** Weak duality phải thỏa mãn
-4. **Tìm điều kiện strong duality:** Slater's condition hoặc feasibility
+#### Xây dựng bài toán đối ngẫu từ bài toán gốc
+1. Xác định dạng bài toán (cực tiểu hay cực đại, loại ràng buộc).
+2. Áp dụng bảng quy tắc chuyển đổi gốc – đối ngẫu.
+3. Kiểm tra lại tính hợp lý bằng bất đẳng thức đối ngẫu yếu.
+4. Xác định điều kiện để đối ngẫu mạnh thỏa mãn.
 
-#### **Giải thích ý nghĩa kinh tế:**
-- **Primal variables:** Quyết định sản xuất, phân bổ tài nguyên
-- **Dual variables:** Giá bóng (shadow prices), giá trị biên của ràng buộc
-- **Duality gap:** Độ chênh lệch giữa cận trên và cận dưới
+#### Ý nghĩa kinh tế
+- **Biến gốc:** mức sản xuất hoặc phương án phân bổ nguồn lực.
+- **Biến đối ngẫu:** giá bóng (shadow prices), phản ánh giá trị biên của từng ràng buộc nguồn lực.
+- **Khoảng cách đối ngẫu:** độ chênh lệch giữa giá trị mục tiêu gốc và đối ngẫu.
 
-#### **Ứng dụng thực tế:**
-- **Network flows:** Internet routing, transportation
-- **Game theory:** Strategic decision making, auction design
-- **Economics:** Market equilibrium, resource allocation
-- **Machine learning:** SVM dual formulation
+#### Một số ứng dụng tiêu biểu
+- **Luồng trên mạng:** định tuyến mạng, vận tải.
+- **Lý thuyết trò chơi:** chiến lược hỗn hợp, thiết kế đấu giá.
+- **Kinh tế học:** cân bằng thị trường, phân bổ tài nguyên.
+- **Học máy:** dạng đối ngẫu của máy vector hỗ trợ (SVM).
 
-### **Ví Dụ Minh Họa**
+### Ví dụ minh họa
 
-#### **Bài toán đơn giản:**
-**Primal:**
+#### Bài toán đơn giản
+**Bài toán gốc:**
 $$\min 2x_1 + 3x_2 \quad \text{s.t.} \quad x_1 + x_2 \ge 1, \quad x_1, x_2 \ge 0$$
 
-**Dual:**
+**Bài toán đối ngẫu:**
 $$\max u \quad \text{s.t.} \quad u \le 2, \quad u \le 3, \quad u \ge 0$$
 
-**Giải:**
-- **Primal optimal:** $$x_1^* = 1, x_2^* = 0$$, $$f^* = 2$$
-- **Dual optimal:** $$u^* = 2$$, $$g^* = 2$$
-- **Strong duality:** $$f^* = g^* = 2$$
+**Nghiệm:**
+- Nghiệm tối ưu gốc: $$x_1^* = 1, x_2^* = 0$$, $$f^* = 2$$.
+- Nghiệm tối ưu đối ngẫu: $$u^* = 2$$, $$g^* = 2$$.
+- Đối ngẫu mạnh: $$f^* = g^* = 2$$.
 
-#### **Complementary slackness:**
-- $$x_1^* > 0 \Rightarrow u^* = 2$$ (tight)
-- $$x_2^* = 0 \Rightarrow u^* \le 3$$ (slack OK)
-- $$u^* > 0 \Rightarrow x_1^* + x_2^* = 1$$ (ràng buộc primal tight)
+#### Điều kiện bù (Complementary slackness)
+- $$x_1^* > 0 \Rightarrow u^* = 2$$ (ràng buộc đối ngẫu chặt).
+- $$x_2^* = 0 \Rightarrow u^* \le 3$$ (ràng buộc đối ngẫu được phép lỏng).
+- $$u^* > 0 \Rightarrow x_1^* + x_2^* = 1$$ (ràng buộc gốc chặt).
 
-### **Kết Nối Với Các Chương Khác**
+### Kết nối với các chương khác
 
-#### **Từ chương trước:**
-- **Chương 05:** LP như canonical problem
-- **Chương 04:** Optimality conditions
-- **Chương 03:** Convex functions và properties
+- **Các chương trước:** LP như bài toán chuẩn (Chương 05), điều kiện tối ưu (Chương 04), hàm lồi và tính chất (Chương 03).
+- **Hướng phát triển:** Lý thuyết đối ngẫu tổng quát (Chương 11), điều kiện KKT (Chương 12), cùng các ứng dụng trong tối ưu có ràng buộc và lý thuyết trò chơi.
 
-#### **Tầm quan trọng của LP Duality:**
-- **Nền tảng lý thuyết:** Cho general duality (Chương 11)
-- **Computational:** Dual simplex, interior point methods
-- **Economic interpretation:** Shadow prices, sensitivity analysis
-- **Machine learning:** SVM, robust optimization
+### Lưu ý khi làm bài
 
-#### **Hướng phát triển:**
-- **Chương 11:** General duality theory
-- **Chương 12:** KKT conditions
-- **Applications:** Constrained optimization, game theory
-
-### **Ý Nghĩa Lý Thuyết**
-
-#### **Duality như công cụ phân tích:**
-- **Bounds:** Cận trên và cận dưới cho optimal value
-- **Sensitivity:** Ảnh hưởng của thay đổi ràng buộc
-- **Optimality:** Điều kiện cần và đủ cho optimal solution
-- **Algorithms:** Dual-based methods (dual simplex, etc.)
-
-#### **Geometric interpretation:**
-- **Primal:** Tìm điểm trong feasible region
-- **Dual:** Tìm hyperplane supporting optimal value
-- **Strong duality:** Hyperplane touches feasible region
-
-#### **Economic interpretation:**
-- **Primal:** Direct resource allocation
-- **Dual:** Price-based market mechanism
-- **Equilibrium:** Primal-dual optimal solutions
-
-### **Mẹo Thực Hành**
-
-#### **Nhận biết khi nào dùng duality:**
-1. **Primal khó giải:** Dual có thể đơn giản hơn
-2. **Sensitivity analysis:** Dual variables cho shadow prices
-3. **Bounds:** Dual cung cấp cận cho primal
-4. **Algorithm design:** Primal-dual methods
-
-#### **Common mistakes:**
-- **Sai quy tắc chuyển đổi:** Nhầm min/max, ≤/≥
-- **Quên điều kiện non-negativity:** Dual variables
-- **Không kiểm tra feasibility:** Của cả primal và dual
-- **Hiểu sai ý nghĩa:** Dual variables không phải primal variables
-
-#### **Debugging tips:**
-- **Verify weak duality:** $$g^* \le f^*$$ luôn đúng
-- **Check complementary slackness:** Tại optimal solutions
-- **Geometric intuition:** Visualize trong 2D khi có thể
-- **Economic meaning:** Dual variables như prices
+- **Lỗi thường gặp:** Nhầm chiều bất đẳng thức ($$\le / \ge$$) hoặc nhầm $$\min / \max$$ khi chuyển đổi; quên điều kiện dấu không âm của biến đối ngẫu; không kiểm tra tính khả thi của cả hai bài toán.
+- **Cách tự kiểm tra:** Luôn kiểm tra bất đẳng thức đối ngẫu yếu $$g^* \le f^*$$, kiểm tra điều kiện bù tại nghiệm tối ưu, và đối chiếu ý nghĩa kinh tế của biến đối ngẫu.
 
 ---
 
-💡 **Mẹo:** LP Duality là nền tảng cho toàn bộ duality theory trong optimization. Hiểu rõ LP duality sẽ giúp bạn nắm vững các khái niệm duality nâng cao hơn!
+💡 **Ghi chú:** Tính đối ngẫu LP là cơ sở trực tiếp cho lý thuyết đối ngẫu tổng quát ở Chương 11.
 
 ---
 
@@ -413,7 +366,7 @@ mjx-container[jax="CHTML"][display="false"] {
 }
 </style>
 
-Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính đối ngẫu trong quy hoạch tuyến tính (LP duality), weak/strong duality, complementary slackness, max flow-min cut theorem và matrix games.
+Bài tập trắc nghiệm này kiểm tra kiến thức về tính đối ngẫu trong quy hoạch tuyến tính (LP), đối ngẫu yếu và mạnh, điều kiện bù, định lý luồng cực đại – lát cắt cực tiểu và trò chơi ma trận.
 
 ---
 
@@ -423,7 +376,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
         <div class="progress-bar">
             <div class="progress-fill" id="progress-fill" style="width: 5%"></div>
         </div>
-        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">20</span></div>
+        <div class="score-display" id="score-display">Câu hỏi: <span id="current-q">1</span> / <span id="total-q">25</span></div>
     </div>
 
     <div id="quiz-content">
@@ -438,28 +391,28 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\max -b^T u - h^T v$$ s.t. $$-A^T u - G^T v = c, v \geq 0$$</strong><br>
-                Dual của minimization problem là maximization problem. Biến dual $$u$$ cho equality constraint không có ràng buộc dấu, $$v$$ cho inequality constraint phải non-negative. Từ Lagrangian $$L = c^Tx + u^T(Ax-b) + v^T(Gx-h)$$, cực tiểu theo $$x$$ hữu hạn khi và chỉ khi $$c + A^Tu + G^Tv = 0$$, khi đó $$g(u,v) = -b^Tu - h^Tv$$.
+                Đối ngẫu của bài toán cực tiểu hóa là bài toán cực đại hóa. Biến đối ngẫu $$u$$ ứng với ràng buộc đẳng thức không bị ràng buộc dấu, còn $$v$$ ứng với ràng buộc bất đẳng thức phải không âm. Từ Lagrangian $$L = c^Tx + u^T(Ax-b) + v^T(Gx-h)$$, cực tiểu theo $$x$$ hữu hạn khi và chỉ khi $$c + A^Tu + G^Tv = 0$$, khi đó $$g(u,v) = -b^Tu - h^Tv$$.
             </div>
         </div>
 
         <!-- Câu hỏi 2: Weak duality -->
         <div class="question" id="q2" style="display: none;">
-            <h3>Câu 2: Weak duality theorem phát biểu rằng:</h3>
+            <h3>Câu 2: Định lý đối ngẫu yếu (weak duality) phát biểu rằng:</h3>
             <div class="options">
-                <label><input type="radio" name="q2" value="a"> A) Giá trị optimal của primal bằng giá trị optimal của dual</label>
-                <label><input type="radio" name="q2" value="b"> B) Giá trị optimal của primal luôn lớn hơn hoặc bằng giá trị optimal của dual</label>
-                <label><input type="radio" name="q2" value="c"> C) Giá trị optimal của primal luôn nhỏ hơn giá trị optimal của dual</label>
-                <label><input type="radio" name="q2" value="d"> D) Primal và dual không thể cùng có nghiệm optimal</label>
+                <label><input type="radio" name="q2" value="a"> A) Giá trị tối ưu của bài toán gốc bằng giá trị tối ưu của bài toán đối ngẫu</label>
+                <label><input type="radio" name="q2" value="b"> B) Giá trị tối ưu của bài toán gốc luôn lớn hơn hoặc bằng giá trị tối ưu của bài toán đối ngẫu</label>
+                <label><input type="radio" name="q2" value="c"> C) Giá trị tối ưu của bài toán gốc luôn nhỏ hơn giá trị tối ưu của bài toán đối ngẫu</label>
+                <label><input type="radio" name="q2" value="d"> D) Bài toán gốc và bài toán đối ngẫu không thể cùng có nghiệm tối ưu</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Giá trị optimal của primal luôn lớn hơn hoặc bằng giá trị optimal của dual</strong><br>
-                Weak duality: $$p^* \geq d^*$$ trong đó $$p^*$$ là giá trị optimal của primal (minimization) và $$d^*$$ là giá trị optimal của dual (maximization).
+                <strong>Đáp án đúng: B) Giá trị tối ưu của bài toán gốc luôn lớn hơn hoặc bằng giá trị tối ưu của bài toán đối ngẫu</strong><br>
+                Đối ngẫu yếu: $$p^* \geq d^*$$, trong đó $$p^*$$ là giá trị tối ưu của bài toán gốc (cực tiểu hóa) và $$d^*$$ là giá trị tối ưu của bài toán đối ngẫu (cực đại hóa).
             </div>
         </div>
 
         <!-- Câu hỏi 3: Strong duality -->
         <div class="question" id="q3" style="display: none;">
-            <h3>Câu 3: Strong duality xảy ra khi:</h3>
+            <h3>Câu 3: Tính đối ngẫu mạnh (strong duality) xảy ra khi:</h3>
             <div class="options">
                 <label><input type="radio" name="q3" value="a"> A) $$p^* < d^*$$</label>
                 <label><input type="radio" name="q3" value="b"> B) $$p^* = d^*$$</label>
@@ -468,7 +421,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$p^* = d^*$$</strong><br>
-                Strong duality có nghĩa là không có duality gap: giá trị optimal của primal bằng giá trị optimal của dual.
+                Đối ngẫu mạnh có nghĩa là khoảng cách đối ngẫu bằng 0: giá trị tối ưu của bài toán gốc bằng giá trị tối ưu của bài toán đối ngẫu.
             </div>
         </div>
 
@@ -483,7 +436,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$x_i > 0 \Rightarrow (A^T y)_i = c_i$$ và $$y_j > 0 \Rightarrow (Ax)_j = b_j$$</strong><br>
-                Complementary slackness: nếu primal variable dương thì dual constraint tight, nếu dual variable dương thì primal constraint tight.
+                Điều kiện bù (complementary slackness): nếu biến gốc dương thì ràng buộc đối ngẫu tương ứng chặt, và nếu biến đối ngẫu dương thì ràng buộc gốc tương ứng chặt.
             </div>
         </div>
 
@@ -498,7 +451,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) $$p^* - d^*$$</strong><br>
-                Duality gap là hiệu số giữa giá trị optimal của primal và dual. Do weak duality, gap này luôn non-negative.
+                Khoảng cách đối ngẫu là hiệu giữa giá trị tối ưu của bài toán gốc và bài toán đối ngẫu; theo đối ngẫu yếu, hiệu này luôn không âm.
             </div>
         </div>
 
@@ -513,7 +466,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\max b^T y$$ s.t. $$A^T y \leq c$$</strong><br>
-                Dual của standard form LP: biến dual $$y$$ không có ràng buộc dấu vì primal có equality constraints.
+                Đối ngẫu của LP dạng chuẩn: biến đối ngẫu $$y$$ không bị ràng buộc dấu vì bài toán gốc chỉ có ràng buộc đẳng thức.
             </div>
         </div>
 
@@ -521,89 +474,89 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
         <div class="question" id="q7" style="display: none;">
             <h3>Câu 7: Trong bài toán max flow, mục tiêu là:</h3>
             <div class="options">
-                <label><input type="radio" name="q7" value="a"> A) Tối thiểu hóa tổng capacity của các cạnh</label>
-                <label><input type="radio" name="q7" value="b"> B) Tối đa hóa luồng từ source đến sink</label>
-                <label><input type="radio" name="q7" value="c"> C) Tối thiểu hóa số cạnh trong đường đi</label>
-                <label><input type="radio" name="q7" value="d"> D) Tối đa hóa số đỉnh được ghé thăm</label>
+                <label><input type="radio" name="q7" value="a"> A) Cực tiểu hóa tổng dung lượng của các cạnh</label>
+                <label><input type="radio" name="q7" value="b"> B) Cực đại hóa luồng từ nguồn đến đích</label>
+                <label><input type="radio" name="q7" value="c"> C) Cực tiểu hóa số cạnh trong đường đi</label>
+                <label><input type="radio" name="q7" value="d"> D) Cực đại hóa số đỉnh được ghé thăm</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Tối đa hóa luồng từ source đến sink</strong><br>
-                Max flow problem tìm luồng lớn nhất có thể gửi từ source node đến sink node thông qua network.
+                <strong>Đáp án đúng: B) Cực đại hóa luồng từ nguồn đến đích</strong><br>
+                Bài toán luồng cực đại tìm tổng lưu lượng lớn nhất có thể truyền từ đỉnh nguồn đến đỉnh đích qua mạng.
             </div>
         </div>
 
         <!-- Câu hỏi 8: Min cut problem -->
         <div class="question" id="q8" style="display: none;">
-            <h3>Câu 8: Min cut problem tìm:</h3>
+            <h3>Câu 8: Bài toán lát cắt cực tiểu (min cut) tìm:</h3>
             <div class="options">
-                <label><input type="radio" name="q8" value="a"> A) Tập cạnh có tổng capacity nhỏ nhất để ngắt kết nối source và sink</label>
-                <label><input type="radio" name="q8" value="b"> B) Đường đi ngắn nhất từ source đến sink</label>
+                <label><input type="radio" name="q8" value="a"> A) Tập cạnh có tổng dung lượng nhỏ nhất để tách rời nguồn và đích</label>
+                <label><input type="radio" name="q8" value="b"> B) Đường đi ngắn nhất từ nguồn đến đích</label>
                 <label><input type="radio" name="q8" value="c"> C) Số cạnh tối thiểu để kết nối tất cả đỉnh</label>
                 <label><input type="radio" name="q8" value="d"> D) Cây khung nhỏ nhất của đồ thị</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Tập cạnh có tổng capacity nhỏ nhất để ngắt kết nối source và sink</strong><br>
-                Min cut tìm partition của đỉnh thành hai tập sao cho tổng capacity của cạnh giữa hai tập là nhỏ nhất.
+                <strong>Đáp án đúng: A) Tập cạnh có tổng dung lượng nhỏ nhất để tách rời nguồn và đích</strong><br>
+                Lát cắt cực tiểu tìm phân hoạch tập đỉnh thành hai tập chứa nguồn và đích sao cho tổng dung lượng các cạnh đi từ tập nguồn sang tập đích là nhỏ nhất.
             </div>
         </div>
 
         <!-- Câu hỏi 9: Max flow min cut theorem -->
         <div class="question" id="q9" style="display: none;">
-            <h3>Câu 9: Max flow-min cut theorem phát biểu rằng:</h3>
+            <h3>Câu 9: Định lý luồng cực đại – lát cắt cực tiểu phát biểu rằng:</h3>
             <div class="options">
-                <label><input type="radio" name="q9" value="a"> A) Giá trị max flow bằng capacity của min cut</label>
+                <label><input type="radio" name="q9" value="a"> A) Giá trị luồng cực đại bằng dung lượng của lát cắt cực tiểu</label>
                 <label><input type="radio" name="q9" value="b"> B) Max flow luôn nhỏ hơn min cut</label>
                 <label><input type="radio" name="q9" value="c"> C) Min cut luôn nhỏ hơn max flow</label>
                 <label><input type="radio" name="q9" value="d"> D) Max flow và min cut không liên quan</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Giá trị max flow bằng capacity của min cut</strong><br>
-                Đây là một ví dụ kinh điển của strong duality: max flow problem và min cut problem là dual của nhau.
+                <strong>Đáp án đúng: A) Giá trị luồng cực đại bằng dung lượng của lát cắt cực tiểu</strong><br>
+                Đây là một ví dụ kinh điển về tính đối ngẫu mạnh giữa bài toán luồng cực đại và lát cắt cực tiểu.
             </div>
         </div>
 
         <!-- Câu hỏi 10: Matrix games -->
         <div class="question" id="q10" style="display: none;">
-            <h3>Câu 10: Trong matrix game với payout matrix $$P$$, player J muốn:</h3>
+            <h3>Câu 10: Trong trò chơi ma trận với ma trận chi trả $$P$$, người chơi J muốn:</h3>
             <div class="options">
-                <label><input type="radio" name="q10" value="a"> A) Tối đa hóa expected payout</label>
-                <label><input type="radio" name="q10" value="b"> B) Tối thiểu hóa maximum loss (minimax)</label>
-                <label><input type="radio" name="q10" value="c"> C) Tối đa hóa minimum gain</label>
-                <label><input type="radio" name="q10" value="d"> D) Tối thiểu hóa expected payout</label>
+                <label><input type="radio" name="q10" value="a"> A) Cực đại hóa chi trả kỳ vọng</label>
+                <label><input type="radio" name="q10" value="b"> B) Cực tiểu hóa mức lỗ tối đa (minimax)</label>
+                <label><input type="radio" name="q10" value="c"> C) Cực đại hóa mức lãi tối thiểu</label>
+                <label><input type="radio" name="q10" value="d"> D) Cực tiểu hóa chi trả kỳ vọng</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Tối thiểu hóa maximum loss (minimax)</strong><br>
-                Player J (row player) muốn minimize maximum possible loss, tức là tìm mixed strategy để minimize worst-case payout.
+                <strong>Đáp án đúng: B) Cực tiểu hóa mức lỗ tối đa (minimax)</strong><br>
+                Người chơi J (người chọn hàng) tìm chiến lược hỗn hợp để cực tiểu hóa mức chi trả xấu nhất có thể phải trả cho R.
             </div>
         </div>
 
         <!-- Câu hỏi 11: Feasible region -->
         <div class="question" id="q11" style="display: none;">
-            <h3>Câu 11: Nếu primal LP có feasible region rỗng, thì dual LP:</h3>
+            <h3>Câu 11: Nếu LP gốc có miền khả thi rỗng (vô nghiệm), thì LP đối ngẫu:</h3>
             <div class="options">
-                <label><input type="radio" name="q11" value="a"> A) Cũng có feasible region rỗng</label>
-                <label><input type="radio" name="q11" value="b"> B) Có thể unbounded hoặc infeasible</label>
-                <label><input type="radio" name="q11" value="c"> C) Luôn có nghiệm optimal</label>
-                <label><input type="radio" name="q11" value="d"> D) Luôn unbounded</label>
+                <label><input type="radio" name="q11" value="a"> A) Cũng có miền khả thi rỗng</label>
+                <label><input type="radio" name="q11" value="b"> B) Có thể không bị chặn (unbounded) hoặc vô nghiệm (infeasible)</label>
+                <label><input type="radio" name="q11" value="c"> C) Luôn có nghiệm tối ưu</label>
+                <label><input type="radio" name="q11" value="d"> D) Luôn không bị chặn</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: B) Có thể unbounded hoặc infeasible</strong><br>
-                Khi primal infeasible, dual có thể unbounded (nếu dual feasible) hoặc cũng infeasible.
+                <strong>Đáp án đúng: B) Có thể không bị chặn (unbounded) hoặc vô nghiệm (infeasible)</strong><br>
+                Khi bài toán gốc vô nghiệm, bài toán đối ngẫu có thể không bị chặn (nếu khả thi) hoặc cũng vô nghiệm.
             </div>
         </div>
 
         <!-- Câu hỏi 12: Economic interpretation -->
         <div class="question" id="q12" style="display: none;">
-            <h3>Câu 12: Trong kinh tế học, dual variables thường được hiểu là:</h3>
+            <h3>Câu 12: Trong kinh tế học, các biến đối ngẫu thường được hiểu là:</h3>
             <div class="options">
-                <label><input type="radio" name="q12" value="a"> A) Shadow prices (giá bóng)</label>
+                <label><input type="radio" name="q12" value="a"> A) Giá bóng (shadow prices)</label>
                 <label><input type="radio" name="q12" value="b"> B) Production quantities</label>
                 <label><input type="radio" name="q12" value="c"> C) Market demands</label>
                 <label><input type="radio" name="q12" value="d"> D) Cost coefficients</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Shadow prices (giá bóng)</strong><br>
-                Dual variables biểu thị marginal value của resources, tức là giá trị gia tăng khi tăng resource constraint một đơn vị.
+                <strong>Đáp án đúng: A) Giá bóng (shadow prices)</strong><br>
+                Biến đối ngẫu biểu thị giá trị biên của nguồn lực, tức mức thay đổi của hàm mục tiêu khi tăng thêm một đơn vị nguồn lực.
             </div>
         </div>
 
@@ -633,58 +586,58 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Không cần điều kiện gì, LP luôn có strong duality</strong><br>
-                Linear programs luôn thỏa mãn strong duality (hoặc cả hai infeasible) do tính chất đặc biệt của linear constraints.
+                Trong LP, nếu ít nhất một trong hai bài toán gốc hoặc đối ngẫu khả thi thì đối ngẫu mạnh luôn thỏa mãn mà không cần thêm điều kiện Slater; ngoại lệ duy nhất là khi cả hai bài toán đều vô nghiệm.
             </div>
         </div>
 
         <!-- Câu hỏi 15: Primal-dual algorithm -->
         <div class="question" id="q15" style="display: none;">
-            <h3>Câu 15: Primal-dual algorithms giải LP bằng cách:</h3>
+            <h3>Câu 15: Các thuật toán gốc – đối ngẫu (primal-dual) giải LP bằng cách:</h3>
             <div class="options">
                 <label><input type="radio" name="q15" value="a"> A) Chỉ giải primal problem</label>
                 <label><input type="radio" name="q15" value="b"> B) Chỉ giải dual problem</label>
-                <label><input type="radio" name="q15" value="c"> C) Đồng thời cập nhật cả primal và dual variables</label>
+                <label><input type="radio" name="q15" value="c"> C) Đồng thời cập nhật cả biến gốc và biến đối ngẫu</label>
                 <label><input type="radio" name="q15" value="d"> D) Giải tuần tự primal rồi dual</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: C) Đồng thời cập nhật cả primal và dual variables</strong><br>
-                Primal-dual methods maintain và cập nhật cả primal và dual solutions, sử dụng duality để guide convergence.
+                <strong>Đáp án đúng: C) Đồng thời cập nhật cả biến gốc và biến đối ngẫu</strong><br>
+                Các phương pháp gốc – đối ngẫu duy trì và cập nhật đồng thời cả nghiệm gốc lẫn nghiệm đối ngẫu, sử dụng khoảng cách đối ngẫu để kiểm soát hội tụ.
             </div>
         </div>
 
         <!-- Câu hỏi 16: Sensitivity analysis -->
         <div class="question" id="q16" style="display: none;">
-            <h3>Câu 16: Dual optimal solution cung cấp thông tin về:</h3>
+            <h3>Câu 16: Nghiệm tối ưu đối ngẫu cung cấp thông tin về:</h3>
             <div class="options">
-                <label><input type="radio" name="q16" value="a"> A) Sensitivity của objective value đối với thay đổi constraints</label>
+                <label><input type="radio" name="q16" value="a"> A) Độ nhạy của giá trị mục tiêu đối với sự thay đổi của các ràng buộc</label>
                 <label><input type="radio" name="q16" value="b"> B) Số lượng iterations cần thiết</label>
                 <label><input type="radio" name="q16" value="c"> C) Complexity của algorithm</label>
                 <label><input type="radio" name="q16" value="d"> D) Condition number của matrix</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Sensitivity của objective value đối với thay đổi constraints</strong><br>
-                Dual variables cho biết objective value thay đổi bao nhiêu khi right-hand side của constraints thay đổi.
+                <strong>Đáp án đúng: A) Độ nhạy của giá trị mục tiêu đối với sự thay đổi của các ràng buộc</strong><br>
+                Biến đối ngẫu cho biết giá trị tối ưu thay đổi như thế nào khi vế phải của các ràng buộc biến động.
             </div>
         </div>
 
         <!-- Câu hỏi 17: Game theory equilibrium -->
         <div class="question" id="q17" style="display: none;">
-            <h3>Câu 17: Nash equilibrium trong matrix game tương ứng với:</h3>
+            <h3>Câu 17: Cân bằng Nash trong trò chơi ma trận tương ứng với:</h3>
             <div class="options">
                 <label><input type="radio" name="q17" value="a"> A) Primal optimal solution</label>
                 <label><input type="radio" name="q17" value="b"> B) Dual optimal solution</label>
-                <label><input type="radio" name="q17" value="c"> C) Cặp primal-dual optimal solutions</label>
+                <label><input type="radio" name="q17" value="c"> C) Cặp nghiệm tối ưu của bài toán gốc và bài toán đối ngẫu</label>
                 <label><input type="radio" name="q17" value="d"> D) Feasible solution bất kỳ</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: C) Cặp primal-dual optimal solutions</strong><br>
-                Nash equilibrium mixed strategies tương ứng với optimal solutions của cặp primal-dual LP problems.
+                <strong>Đáp án đúng: C) Cặp nghiệm tối ưu của bài toán gốc và bài toán đối ngẫu</strong><br>
+                Cặp chiến lược hỗn hợp ở cân bằng Nash tương ứng với cặp nghiệm tối ưu của hai bài toán LP gốc – đối ngẫu.
             </div>
         </div>
 
         <!-- Câu hỏi 18: Unbounded LP -->
         <div class="question" id="q18" style="display: none;">
-            <h3>Câu 18: Nếu primal LP unbounded below, thì dual LP:</h3>
+            <h3>Câu 18: Nếu LP gốc không bị chặn dưới (unbounded below), thì LP đối ngẫu:</h3>
             <div class="options">
                 <label><input type="radio" name="q18" value="a"> A) Cũng unbounded</label>
                 <label><input type="radio" name="q18" value="b"> B) Infeasible</label>
@@ -693,22 +646,22 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: B) Infeasible</strong><br>
-                Nếu primal (minimization) unbounded below, thì dual (maximization) phải infeasible theo weak duality.
+                Nếu bài toán gốc (cực tiểu hóa) không bị chặn dưới, bài toán đối ngẫu (cực đại hóa) bắt buộc phải vô nghiệm theo định lý đối ngẫu yếu.
             </div>
         </div>
 
         <!-- Câu hỏi 19: Flow conservation -->
         <div class="question" id="q19" style="display: none;">
-            <h3>Câu 19: Trong max flow problem, flow conservation constraint yêu cầu:</h3>
+            <h3>Câu 19: Trong bài toán luồng cực đại, ràng buộc bảo toàn luồng yêu cầu:</h3>
             <div class="options">
-                <label><input type="radio" name="q19" value="a"> A) Tổng flow vào mỗi node bằng tổng flow ra (trừ source/sink)</label>
-                <label><input type="radio" name="q19" value="b"> B) Flow trên mỗi cạnh không vượt quá capacity</label>
-                <label><input type="radio" name="q19" value="c"> C) Flow phải non-negative</label>
+                <label><input type="radio" name="q19" value="a"> A) Tổng luồng vào mỗi nút bằng tổng luồng ra (trừ nguồn và đích)</label>
+                <label><input type="radio" name="q19" value="b"> B) Luồng trên mỗi cạnh không vượt quá dung lượng</label>
+                <label><input type="radio" name="q19" value="c"> C) Luồng phải không âm</label>
                 <label><input type="radio" name="q19" value="d"> D) Tất cả các điều kiện trên</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Tổng flow vào mỗi node bằng tổng flow ra (trừ source/sink)</strong><br>
-                Flow conservation: $$\sum_{i} f_{ij} = \sum_{k} f_{jk}$$ tại mỗi intermediate node $$j$$.
+                <strong>Đáp án đúng: A) Tổng luồng vào mỗi nút bằng tổng luồng ra (trừ nguồn và đích)</strong><br>
+                Bảo toàn luồng: $$\sum_{i} f_{ij} = \sum_{k} f_{jk}$$ tại mọi nút trung gian $$j$$.
             </div>
         </div>
 
@@ -723,7 +676,7 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: D) Tất cả các lĩnh vực trên</strong><br>
-                LP duality có ứng dụng rộng rãi: economics (shadow prices), networks (max flow-min cut), game theory (minimax), và nhiều lĩnh vực khác.
+                Tính đối ngẫu LP được ứng dụng trong kinh tế học (giá bóng), mạng luồng (luồng cực đại – lát cắt cực tiểu), lý thuyết trò chơi (định lý minimax) và nhiều lĩnh vực khác.
             </div>
         </div>
         <!-- Câu hỏi 21: Thực hành -->
@@ -758,16 +711,16 @@ Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tính 
 
         <!-- Câu hỏi 23: Thực hành -->
         <div class="question" id="q23" style="display: none;">
-            <h3>Câu 23: Điều kiện bổ sung trong LP: nếu $$x_i > 0$$ thì:</h3>
+            <h3>Câu 23: Theo điều kiện bù trong LP, nếu $$x_i > 0$$ thì:</h3>
             <div class="options">
-                <label><input type="radio" name="q23" value="a"> A) Ràng buộc dual tương ứng tích cực</label>
-                <label><input type="radio" name="q23" value="b"> B) Ràng buộc dual tương ứng không tích cực</label>
+                <label><input type="radio" name="q23" value="a"> A) Ràng buộc đối ngẫu tương ứng chặt (active)</label>
+                <label><input type="radio" name="q23" value="b"> B) Ràng buộc đối ngẫu tương ứng lỏng (inactive)</label>
                 <label><input type="radio" name="q23" value="c"> C) $$y_i = 0$$</label>
                 <label><input type="radio" name="q23" value="d"> D) $$y_i > 0$$</label>
             </div>
             <div class="explanation" style="display: none;">
-                <strong>Đáp án đúng: A) Ràng buộc dual tương ứng tích cực</strong><br>
-                Điều kiện bổ sung: nếu $$x_i > 0$$ thì ràng buộc dual $$\sum_j a_{ji}y_j = c_i$$ phải tích cực.
+                <strong>Đáp án đúng: A) Ràng buộc đối ngẫu tương ứng chặt (active)</strong><br>
+                Điều kiện bù: nếu $$x_i > 0$$ thì ràng buộc đối ngẫu $$\sum_j a_{ji}y_j = c_i$$ phải xảy ra dấu bằng (chặt).
             </div>
         </div>
 
@@ -926,15 +879,15 @@ function submitQuiz() {
     
     let message = '';
     if (percentage >= 90) {
-        message = '🌟 Xuất sắc! Bạn đã nắm vững LP duality theory!';
+        message = '🌟 Xuất sắc! Bạn đã nắm vững lý thuyết đối ngẫu LP.';
     } else if (percentage >= 80) {
-        message = '👍 Rất tốt! Bạn hiểu tốt về primal-dual relationships.';
+        message = '👍 Rất tốt! Bạn hiểu tốt mối quan hệ gốc – đối ngẫu.';
     } else if (percentage >= 70) {
-        message = '📚 Khá ổn! Hãy xem lại complementary slackness và applications.';
+        message = '📚 Khá ổn! Hãy xem lại điều kiện bù và các ứng dụng.';
     } else if (percentage >= 60) {
-        message = '💪 Cần cải thiện! Ôn lại weak/strong duality và formulations.';
+        message = '💪 Cần cải thiện! Ôn lại đối ngẫu yếu/mạnh và cách lập bài toán đối ngẫu.';
     } else {
-        message = '📖 Hãy học lại từ đầu về LP duality nhé!';
+        message = '📖 Hãy ôn lại từ đầu các khái niệm về đối ngẫu LP.';
     }
     
     document.getElementById('performance-message').textContent = message;

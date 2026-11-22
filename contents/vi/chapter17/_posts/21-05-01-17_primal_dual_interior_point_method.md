@@ -9,9 +9,9 @@ categories:
 lang: vi
 ---
 
-Trong chương này, chúng ta sẽ tìm hiểu **phương pháp điểm trong gốc-đối ngẫu (Primal-Dual Interior-Point Method)**, phương pháp cải thiện hiệu năng bằng cách rút gọn bước centering của phương pháp chắn đã học trước đó xuống chỉ còn một bước.
+Trong chương này, chúng ta tìm hiểu **phương pháp điểm trong gốc-đối ngẫu (Primal-Dual Interior-Point Method)** — phương pháp cải thiện hiệu năng bằng cách rút gọn bước định tâm (centering) của phương pháp chắn xuống chỉ còn một bước Newton ở mỗi vòng lặp.
 
-**Phương pháp điểm trong gốc-đối ngẫu** nới lỏng ràng buộc rằng bước centering phải khả thi, và dùng phiên bản tìm nghiệm của phương pháp Newton để xấp xỉ các phương trình phi tuyến bằng phương trình tuyến tính nhằm tìm nghiệm, nhờ đó nhanh hơn và chính xác hơn phương pháp chắn.
+**Phương pháp điểm trong gốc-đối ngẫu** nới lỏng yêu cầu phải giữ nghiệm luôn khả thi trong bước định tâm, đồng thời áp dụng phiên bản tìm nghiệm (root-finding) của phương pháp Newton để tuyến tính hóa hệ phương trình phi tuyến. Nhờ đó, thuật toán thường hội tụ nhanh hơn và đạt độ chính xác cao hơn so với phương pháp chắn.
 
 ## Tài liệu tham khảo và đọc thêm
 * S. Boyd and L. Vandenberghe (2004), “Convex optimization,” Chapter 11

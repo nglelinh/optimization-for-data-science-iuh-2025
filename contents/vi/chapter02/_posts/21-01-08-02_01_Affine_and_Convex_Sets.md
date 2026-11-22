@@ -10,6 +10,6 @@ lang: vi
 lesson_type: required
 ---
 
-Trong chương này, chúng ta sẽ khám phá các khái niệm và định nghĩa xoay quanh tập lồi. Chúng tôi giới thiệu ba loại tập hợp: cơ bản nhất là tập affine, và bằng cách áp đặt các ràng buộc bổ sung lên tập affine, chúng ta định nghĩa tập lồi và hình nón.
+Phần này giới thiệu các khái niệm và định nghĩa cơ bản xoay quanh tập lồi. Chúng ta sẽ lần lượt xét ba loại tập hợp: cơ bản nhất là tập affine, sau đó bằng cách đặt thêm điều kiện lên tập affine, ta định nghĩa tập lồi và hình nón.
 
-Thú vị là, các tập hợp này có thể được coi như các tập hợp của nhiều đường thẳng (line), đoạn thẳng hoặc tia. Một tập affine được hình thành bằng cách tập hợp nhiều đường thẳng, một tập lồi bằng cách tập hợp nhiều đoạn thẳng, và một hình nón bằng cách tập hợp nhiều tia. Góc nhìn này giúp việc hiểu các khái niệm này trở nên dễ dàng hơn. Ngoài ra, một hình nón đôi khi được gọi là tập đồng nhất không âm, có nghĩa là tính chất mở rộng chỉ theo một hướng từ gốc tọa độ, giúp làm rõ cách đặt tên.
+Một cách trực quan, ba loại tập hợp này có thể được hình dung như tập hợp tạo thành từ các đường thẳng, đoạn thẳng hoặc tia: tập affine được xây dựng từ các đường thẳng, tập lồi từ các đoạn thẳng và hình nón từ các tia. Cách nhìn này giúp việc nắm bắt sự khác nhau giữa chúng trở nên rõ ràng hơn. Ngoài ra, hình nón còn được gọi là tập thuần nhất không âm (nonnegative homogeneous set), phản ánh tính chất kéo dài vô hạn chỉ theo một hướng tính từ gốc tọa độ.

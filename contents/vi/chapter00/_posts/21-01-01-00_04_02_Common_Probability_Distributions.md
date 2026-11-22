@@ -10,15 +10,15 @@ lang: vi
 lesson_type: required
 ---
 
-## Các Phân Phối Xác Suất Thông Dụng
+## Các phân phối xác suất thông dụng
 
-Hiểu các phân phối xác suất chính là điều thiết yếu cho các bài toán tối ưu hóa trong học máy và thống kê. Các phân phối này thường xuất hiện như giả thuyết trong mô hình, prior trong phương pháp Bayes, và mô hình lỗi trong hồi quy.
+Hiểu rõ các phân phối xác suất cốt lõi là yêu cầu thiết yếu đối với nhiều bài toán tối ưu hóa trong học máy và thống kê. Các phân phối này thường đóng vai trò là giả định phân phối dữ liệu, phân phối tiên nghiệm (prior) trong suy luận Bayes hoặc mô hình nhiễu trong hồi quy.
 
-### 1. Phân Phối Rời Rạc
+### 1. Phân phối rời rạc
 
-#### Phân Phối Bernoulli
+#### Phân phối Bernoulli
 
-Mô hình một thí nghiệm đơn với hai kết quả (thành công/thất bại).
+Mô hình hóa một phép thử đơn với hai kết quả có thể xảy ra (thành công hoặc thất bại).
 
 **Tham số**: $$p \in [0,1]$$ (xác suất thành công)
 
@@ -26,38 +26,38 @@ Mô hình một thí nghiệm đơn với hai kết quả (thành công/thất b
 
 **Kỳ vọng**: $$\mathbb{E}[X] = p$$
 
-**Phương sai**: $$\text{Var}(X) = p(1-p)$$
+**Phương sai**: $$	ext{Var}(X) = p(1-p)$$
 
-**Ứng dụng**: Phân loại nhị phân, tung đồng xu, kiểm định A/B
+**Ứng dụng**: phân loại nhị phân, tung đồng xu, kiểm định A/B.
 
-#### Phân Phối Nhị Thức
+#### Phân phối nhị thức
 
-Mô hình số lần thành công trong $n$ thí nghiệm Bernoulli độc lập.
+Mô hình hóa số lần thành công trong $$n$$ phép thử Bernoulli độc lập có cùng xác suất thành công.
 
-**Tham số**: $$n \in \mathbb{N}$$ (số thí nghiệm), $$p \in [0,1]$$ (xác suất thành công)
+**Tham số**: $$n \in \mathbb{N}$$ (số phép thử), $$p \in [0,1]$$ (xác suất thành công)
 
-**PMF**: $$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$ với $$k = 0,1,\ldots,n$$
+**PMF**: $$P(X = k) = inom{n}{k} p^k (1-p)^{n-k}$$ với $$k = 0,1,\ldots,n$$
 
 **Kỳ vọng**: $$\mathbb{E}[X] = np$$
 
-**Phương sai**: $$\text{Var}(X) = np(1-p)$$
+**Phương sai**: $$	ext{Var}(X) = np(1-p)$$
 
-#### Phân Phối Poisson
+#### Phân phối Poisson
 
-Mô hình số sự kiện trong một khoảng thời gian cố định khi các sự kiện xảy ra độc lập với tốc độ không đổi.
+Mô hình hóa số sự kiện xảy ra trong một khoảng thời gian (hoặc không gian) cố định khi các sự kiện diễn ra độc lập với tốc độ trung bình không đổi.
 
-**Tham số**: $$\lambda > 0$$ (tham số tốc độ)
+**Tham số**: $$\lambda > 0$$ (tốc độ trung bình)
 
-**PMF**: $$P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}$$ với $$k = 0,1,2,\ldots$$
+**PMF**: $$P(X = k) = rac{\lambda^k e^{-\lambda}}{k!}$$ với $$k = 0,1,2,\ldots$$
 
 **Kỳ vọng**: $$\mathbb{E}[X] = \lambda$$
 
-**Phương sai**: $$\text{Var}(X) = \lambda$$
+**Phương sai**: $$	ext{Var}(X) = \lambda$$
 
-**Ứng dụng**: Dữ liệu đếm, sự kiện hiếm, lý thuyết hàng đợi
+**Ứng dụng**: dữ liệu đếm, sự kiện hiếm, lý thuyết hàng đợi.
 
 <div id="discrete-distributions-demo" style="border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; background-color: #f9f9f9;">
-    <h4 style="text-align: center; color: #333;">Phân Phối Rời Rạc Tương Tác</h4>
+    <h4 style="text-align: center; color: #333;">Phân phối rời rạc tương tác</h4>
     
     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 400px;">
@@ -69,14 +69,14 @@ Mô hình số sự kiện trong một khoảng thời gian cố định khi cá
         
         <div style="flex: 1; min-width: 250px;">
             <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h5 style="margin-top: 0; color: #444;">Loại Phân Phối</h5>
+                <h5 style="margin-top: 0; color: #444;">Loại phân phối</h5>
                 
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 10px;">
                         <input type="radio" name="discrete-dist" value="bernoulli" checked> Bernoulli
                     </label>
                     <label style="display: block; margin-bottom: 10px;">
-                        <input type="radio" name="discrete-dist" value="binomial"> Nhị Thức
+                        <input type="radio" name="discrete-dist" value="binomial"> Nhị thức
                     </label>
                     <label style="display: block; margin-bottom: 10px;">
                         <input type="radio" name="discrete-dist" value="poisson"> Poisson
@@ -101,7 +101,7 @@ Mô hình số sự kiện trong một khoảng thời gian cố định khi cá
                 </div>
                 
                 <div id="discrete-stats" style="font-family: monospace; font-size: 12px; line-height: 1.4; background: #f8f9fa; padding: 10px; border-radius: 4px;">
-                    <div><strong>Thống Kê:</strong></div>
+                    <div><strong>Thống kê:</strong></div>
                     <div>Kỳ vọng: <span id="discrete-mean">0.500</span></div>
                     <div>Phương sai: <span id="discrete-variance">0.250</span></div>
                     <div>Mode: <span id="discrete-mode">0 hoặc 1</span></div>
@@ -111,68 +111,68 @@ Mô hình số sự kiện trong một khoảng thời gian cố định khi cá
     </div>
 </div>
 
-### 2. Phân Phối Liên Tục
+### 2. Phân phối liên tục
 
-#### Phân Phối Đều
+#### Phân phối đều
 
-Tất cả các giá trị trong một khoảng đều có khả năng xảy ra như nhau.
+Mọi giá trị trong một đoạn cho trước đều có mật độ xác suất như nhau.
 
 **Tham số**: $$a, b \in \mathbb{R}$$ với $$a < b$$
 
-**PDF**: $$f(x) = \frac{1}{b-a}$$ với $$x \in [a,b]$$, 0 nếu ngược lại
+**PDF**: $$f(x) = rac{1}{b-a}$$ với $$x \in [a,b]$$, và bằng $$0$$ ở ngoài đoạn này
 
-**Kỳ vọng**: $$\mathbb{E}[X] = \frac{a+b}{2}$$
+**Kỳ vọng**: $$\mathbb{E}[X] = rac{a+b}{2}$$
 
-**Phương sai**: $$\text{Var}(X) = \frac{(b-a)^2}{12}$$
+**Phương sai**: $$	ext{Var}(X) = rac{(b-a)^2}{12}$$
 
-**Ứng dụng**: Lấy mẫu ngẫu nhiên, khởi tạo trong thuật toán
+**Ứng dụng**: lấy mẫu ngẫu nhiên, khởi tạo tham số trong thuật toán.
 
-#### Phân Phối Chuẩn (Gaussian)
+#### Phân phối chuẩn (Gaussian)
 
-Phân phối quan trọng nhất trong thống kê và tối ưu hóa.
+Phân phối có vai trò trung tâm trong thống kê và tối ưu hóa.
 
 **Tham số**: $$\mu \in \mathbb{R}$$ (kỳ vọng), $$\sigma^2 > 0$$ (phương sai)
 
-**PDF**: $$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$
+**PDF**: $$f(x) = rac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-rac{(x-\mu)^2}{2\sigma^2}ight)$$
 
 **Kỳ vọng**: $$\mathbb{E}[X] = \mu$$
 
-**Phương sai**: $$\text{Var}(X) = \sigma^2$$
+**Phương sai**: $$	ext{Var}(X) = \sigma^2$$
 
 **Tính chất**:
-- Đối xứng quanh $$\mu$$
-- Quy tắc 68-95-99.7
-- Định lý giới hạn trung tâm
-- Entropy tối đa với kỳ vọng và phương sai cho trước
+- Đối xứng quanh $$\mu$$.
+- Quy tắc 68–95–99.7.
+- Gắn với định lý giới hạn trung tâm.
+- Đạt entropy cực đại trong số các phân phối trên $$\mathbb{R}$$ có cùng kỳ vọng và phương sai cho trước.
 
-#### Phân Phối Mũ
+#### Phân phối mũ
 
-Mô hình thời gian chờ giữa các sự kiện trong quá trình Poisson.
+Mô hình hóa thời gian chờ giữa hai sự kiện liên tiếp trong một quá trình Poisson.
 
 **Tham số**: $$\lambda > 0$$ (tham số tốc độ)
 
 **PDF**: $$f(x) = \lambda e^{-\lambda x}$$ với $$x \geq 0$$
 
-**Kỳ vọng**: $$\mathbb{E}[X] = \frac{1}{\lambda}$$
+**Kỳ vọng**: $$\mathbb{E}[X] = rac{1}{\lambda}$$
 
-**Phương sai**: $$\text{Var}(X) = \frac{1}{\lambda^2}$$
+**Phương sai**: $$	ext{Var}(X) = rac{1}{\lambda^2}$$
 
-**Tính chất**: Tính chất không nhớ
+**Tính chất**: tính không nhớ (memoryless).
 
-#### Phân Phối Beta
+#### Phân phối Beta
 
-Phân phối linh hoạt trên $$[0,1]$$, thường dùng để mô hình hóa xác suất.
+Phân phối liên tục linh hoạt trên đoạn $$[0,1]$$, thường dùng để mô hình hóa xác suất hoặc tỷ lệ.
 
-**Tham số**: $$\alpha, \beta > 0$$ (tham số hình dạng)
+**Tham số**: $$lpha, eta > 0$$ (các tham số hình dạng)
 
-**PDF**: $$f(x) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1}(1-x)^{\beta-1}$$ với $$x \in [0,1]$$
+**PDF**: $$f(x) = rac{\Gamma(lpha+eta)}{\Gamma(lpha)\Gamma(eta)} x^{lpha-1}(1-x)^{eta-1}$$ với $$x \in [0,1]$$
 
-**Kỳ vọng**: $$\mathbb{E}[X] = \frac{\alpha}{\alpha+\beta}$$
+**Kỳ vọng**: $$\mathbb{E}[X] = rac{lpha}{lpha+eta}$$
 
-**Phương sai**: $$\text{Var}(X) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
+**Phương sai**: $$	ext{Var}(X) = rac{lphaeta}{(lpha+eta)^2(lpha+eta+1)}$$
 
 <div id="continuous-distributions-demo" style="border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; background-color: #f9f9f9;">
-    <h4 style="text-align: center; color: #333;">Phân Phối Liên Tục Tương Tác</h4>
+    <h4 style="text-align: center; color: #333;">Phân phối liên tục tương tác</h4>
     
     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 400px;">
@@ -184,7 +184,7 @@ Phân phối linh hoạt trên $$[0,1]$$, thường dùng để mô hình hóa x
         
         <div style="flex: 1; min-width: 250px;">
             <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h5 style="margin-top: 0; color: #444;">Loại Phân Phối</h5>
+                <h5 style="margin-top: 0; color: #444;">Loại phân phối</h5>
                 
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 10px;">
@@ -244,7 +244,7 @@ Phân phối linh hoạt trên $$[0,1]$$, thường dùng để mô hình hóa x
                 </div>
                 
                 <div id="continuous-stats" style="font-family: monospace; font-size: 12px; line-height: 1.4; background: #f8f9fa; padding: 10px; border-radius: 4px;">
-                    <div><strong>Thống Kê:</strong></div>
+                    <div><strong>Thống kê:</strong></div>
                     <div>Kỳ vọng: <span id="continuous-mean">0.500</span></div>
                     <div>Phương sai: <span id="continuous-variance">0.083</span></div>
                     <div>Miền xác định: <span id="continuous-support">[0, 1]</span></div>
@@ -254,35 +254,35 @@ Phân phối linh hoạt trên $$[0,1]$$, thường dùng để mô hình hóa x
     </div>
 </div>
 
-### 3. Phân Phối Đa Biến
+### 3. Phân phối đa biến
 
-#### Phân Phối Chuẩn Đa Biến
+#### Phân phối chuẩn đa biến
 
-Mở rộng của phân phối chuẩn cho nhiều chiều.
+Tổng quát hóa phân phối chuẩn sang không gian nhiều chiều.
 
-**Tham số**: $$\boldsymbol{\mu} \in \mathbb{R}^d$$ (vector kỳ vọng), $$\boldsymbol{\Sigma} \in \mathbb{R}^{d \times d}$$ (ma trận hiệp phương sai, xác định dương)
+**Tham số**: $$oldsymbol{\mu} \in \mathbb{R}^d$$ (vector kỳ vọng), $$oldsymbol{\Sigma} \in \mathbb{R}^{d 	imes d}$$ (ma trận hiệp phương sai đối xứng xác định dương)
 
-**PDF**: $$f(\mathbf{x}) = \frac{1}{(2\pi)^{d/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})\right)$$
+**PDF**: $$f(\mathbf{x}) = rac{1}{(2\pi)^{d/2}|oldsymbol{\Sigma}|^{1/2}} \exp\left(-rac{1}{2}(\mathbf{x}-oldsymbol{\mu})^Toldsymbol{\Sigma}^{-1}(\mathbf{x}-oldsymbol{\mu})ight)$$
 
 **Tính chất**:
-- Phân phối biên là chuẩn
-- Tổ hợp tuyến tính là chuẩn
-- Phân phối có điều kiện là chuẩn
+- Các phân phối biên đều là phân phối chuẩn.
+- Tổ hợp tuyến tính của các thành phần tuân theo phân phối chuẩn.
+- Các phân phối có điều kiện đều là phân phối chuẩn.
 
 <div id="multivariate-demo" style="border: 2px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 10px; background-color: #f0f8ff;">
-    <h4 style="text-align: center; color: #333;">Phân Phối Chuẩn Đa Biến</h4>
+    <h4 style="text-align: center; color: #333;">Phân phối chuẩn đa biến</h4>
     
     <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
         <div style="flex: 1; min-width: 400px;">
             <canvas id="multivariateCanvas" width="400" height="300" style="border: 1px solid #ccc; background: white;"></canvas>
             <p style="font-size: 12px; color: #666; margin-top: 5px;">
-                <strong>Trực Quan 2D:</strong> Đồ thị đường đồng mức của phân phối chuẩn hai biến. Các mẫu hiển thị dưới dạng chấm.
+                <strong>Trực quan 2D:</strong> Đồ thị đường mức của phân phối chuẩn hai biến. Các điểm mẫu được hiển thị dưới dạng chấm.
             </p>
         </div>
         
         <div style="flex: 1; min-width: 250px;">
             <div style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                <h5 style="margin-top: 0; color: #444;">Tham Số</h5>
+                <h5 style="margin-top: 0; color: #444;">Tham số</h5>
                 
                 <div style="margin-bottom: 15px;">
                     <label for="mu1-slider" style="display: block; margin-bottom: 5px; font-weight: bold;">μ₁: <span id="mu1-value">0.0</span></label>
@@ -309,10 +309,10 @@ Mở rộng của phân phối chuẩn cho nhiều chiều.
                     <input type="range" id="rho-slider" min="-0.9" max="0.9" step="0.1" value="0" style="width: 100%;">
                 </div>
                 
-                <button id="generate-samples" style="width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 15px;">Tạo Mẫu</button>
+                <button id="generate-samples" style="width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 15px;">Tạo mẫu</button>
                 
                 <div id="multivariate-stats" style="font-family: monospace; font-size: 12px; line-height: 1.4; background: #f8f9fa; padding: 10px; border-radius: 4px;">
-                    <div><strong>Ma Trận Hiệp Phương Sai:</strong></div>
+                    <div><strong>Ma trận hiệp phương sai:</strong></div>
                     <div>Σ₁₁: <span id="cov11">1.000</span></div>
                     <div>Σ₁₂: <span id="cov12">0.000</span></div>
                     <div>Σ₂₂: <span id="cov22">1.000</span></div>
@@ -323,35 +323,35 @@ Mở rộng của phân phối chuẩn cho nhiều chiều.
     </div>
 </div>
 
-### 4. Ứng Dụng trong Tối Ưu Hóa
+### 4. Ứng dụng trong tối ưu hóa
 
-#### Ước Lượng Hợp Lý Tối Đa
-Nhiều bài toán tối ưu hóa liên quan đến việc tìm tham số để tối đa hóa likelihood của dữ liệu quan sát dưới một phân phối cụ thể:
+#### Ước lượng hợp lý tối đa
+Nhiều bài toán tối ưu hóa tìm bộ tham số làm cực đại hàm hợp lý của dữ liệu quan sát dưới một phân phối giả định:
 
-$$\hat{\theta} = \arg\max_\theta \prod_{i=1}^n f(x_i; \theta)$$
+$$\hat{	heta} = rg\max_	heta \prod_{i=1}^n f(x_i; 	heta)$$
 
-#### Tối Ưu Hóa Bayes
-Phân phối prior mã hóa niềm tin về tham số trước khi thấy dữ liệu:
+#### Tối ưu hóa Bayes
+Phân phối tiên nghiệm (prior) mã hóa tri thức ban đầu về tham số trước khi quan sát dữ liệu:
 
-$$p(\theta|dữ\ liệu) \propto p(dữ\ liệu|\theta) \cdot p(\theta)$$
+$$p(	heta|dữ\ liệu) \propto p(dữ\ liệu|	heta) \cdot p(	heta)$$
 
-#### Regularization
-Phân phối có thể được sử dụng như prior để regularize bài toán tối ưu hóa:
-- L2 regularization ↔ Prior Gaussian
-- L1 regularization ↔ Prior Laplace
+#### Điều chuẩn (Regularization)
+Các phân phối tiên nghiệm tương ứng trực tiếp với các thành phần điều chuẩn trong tối ưu hóa:
+- Điều chuẩn $$L_2$$ ↔ phân phối tiên nghiệm Gaussian.
+- Điều chuẩn $$L_1$$ ↔ phân phối tiên nghiệm Laplace.
 
-#### Tối Ưu Hóa Ngẫu Nhiên
-Phân phối mô hình nhiễu và sự bất định trong hàm mục tiêu và ràng buộc.
+#### Tối ưu hóa ngẫu nhiên
+Các phân phối xác suất được dùng để mô hình hóa nhiễu và tính bất định trong hàm mục tiêu cũng như ràng buộc.
 
-### Những Hiểu Biết Quan Trọng cho Tối Ưu Hóa
+### Những điểm quan trọng cho tối ưu hóa
 
-1. **Lựa Chọn Mô Hình**: Chọn phân phối phù hợp với đặc điểm dữ liệu của bạn
-2. **Ước Lượng Tham Số**: Sử dụng MLE hoặc phương pháp Bayes để ước lượng tham số phân phối
-3. **Định Lượng Sự Bất Định**: Phân phối cung cấp cách tự nhiên để định lượng sự bất định
-4. **Regularization**: Phân phối prior có thể ngăn overfitting
-5. **Hiệu Quả Tính Toán**: Một số phân phối có nghiệm dạng đóng cho các phép toán thông dụng
+1. **Lựa chọn mô hình**: chọn phân phối phù hợp với bản chất dữ liệu.
+2. **Ước lượng tham số**: dùng MLE hoặc phương pháp Bayes để ước lượng tham số phân phối.
+3. **Định lượng tính bất định**: phân phối xác suất cho cách biểu diễn tự nhiên đối với sai số và độ không chắc chắn.
+4. **Điều chuẩn**: phân phối tiên nghiệm giúp hạn chế quá khớp (overfitting).
+5. **Hiệu quả tính toán**: nhiều phân phối kinh điển có công thức nghiệm dạng đóng cho các phép toán thống kê thông dụng.
 
-Hiểu các phân phối này và tính chất của chúng là quan trọng để xây dựng và giải quyết các bài toán tối ưu hóa trong học máy, thống kê và các ứng dụng kỹ thuật.
+Hiểu rõ các phân phối này cùng tính chất của chúng là nền tảng để xây dựng và giải các bài toán tối ưu hóa trong học máy, thống kê và kỹ thuật.
 
 <script>
 // Discrete Distributions Demo

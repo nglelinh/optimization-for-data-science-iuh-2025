@@ -9,7 +9,7 @@ categories:
 lang: vi
 ---
 
-Chương này nhằm xem xét chi tiết hơn ADMM, đã được đề cập ở [Chương 20]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %}). Các khái niệm cơ bản không khác biệt đáng kể về độ sâu so với những gì đã học ở Chương 20, và chúng ta chủ yếu sẽ xem các trường hợp ứng dụng.
+Chương này đi sâu hơn vào phương pháp ADMM đã được giới thiệu ở [Chương 20]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %}). Về mặt khái niệm cơ bản, nội dung không mở rộng thêm nhiều so với Chương 20 mà chủ yếu tập trung vào các bài toán và trường hợp ứng dụng cụ thể.
 
 ### Các bài báo tham khảo
 
@@ -25,13 +25,12 @@ Chương này nhằm xem xét chi tiết hơn ADMM, đã được đề cập �
 * Wytock, Matt, Suvrit Sra, and Jeremy Z. Kolter. [WSK14] "Fast Newton methods for the group fused lasso." UAI. 2014.
 * Barbero, Alvaro, and Suvrit Sra. [BS14] "Modular proximal optimization for multidimensional total-variation regularization." arXiv preprint arXiv:1411.0589 (2014).
 
-
-Quan hệ hội tụ của ADMM: [BPCPE11], [HL12], [DY16], [IBCH14], [NLRPJ15]  
+Phân tích hội tụ của ADMM: [BPCPE11], [HL12], [DY16], [IBCH14], [NLRPJ15]  
 Ước lượng không gian con thưa: [VCLR13]  
 Phân rã thưa cộng hạng thấp: [CLMW09]  
 ADMM đồng thuận (Consensus ADMM): [BPCPE11], [NB13]  
 Tham số hóa bài toán con: [RT16], [WSK14], [BS14]
 
-## Ứng dụng 2026 (tùy chọn)
+## Ứng dụng giai đoạn 2022–2026 (tùy chọn)
 
-Các ví dụ cổ điển ở trên (Lasso, thưa-cộng-hạng-thấp, đồng thuận, fused lasso) vẫn là lượt đầu đúng. Một bài tùy chọn 2022–2026 ánh xạ *cùng* tách đồng thuận / proximal sang học sâu liên federated (**FedADMM**), tạo ảnh plug-and-play với bộ khử nhiễu CNN, và OPF phân tán trực tuyến. Bắt đầu tại [21-07 Ứng dụng hiện đại của ADMM]({% multilang_post_url contents/chapter21/2026-09-16-21_07_modern_applications %}). Bài đó không thay Boyd et al.; nó nói phần dư đang được theo dõi ở đâu trong sản xuất.
+Các ví dụ cổ điển trên (Lasso, phân rã thưa cộng hạng thấp, đồng thuận, fused lasso) vẫn là nền tảng cốt lõi để tiếp cận ADMM. Bên cạnh đó, một bài học tùy chọn tổng hợp giai đoạn 2022–2026 sẽ mở rộng *cùng* cấu trúc tách đồng thuận và toán tử proximal sang học sâu liên kết (**FedADMM**), tạo ảnh plug-and-play với bộ khử nhiễu CNN, và bài toán tối ưu dòng công suất (OPF) phân tán trực tuyến. Bạn có thể đọc tiếp tại [21-07 Ứng dụng hiện đại của ADMM]({% multilang_post_url contents/chapter21/2026-09-16-21_07_modern_applications %}). Bài học này không thay thế tài liệu của Boyd và cộng sự, mà minh họa những hệ thống thực tế nơi phần dư vẫn đóng vai trò giám sát quan trọng.
