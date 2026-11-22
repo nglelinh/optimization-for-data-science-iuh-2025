@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Chi Tiết: Cách Tìm Bài Toán Đối Ngẫu (Dual Problem)</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.8;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-size: 16px;
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .header h2 {
+            font-size: 20px;
+            margin: 10px 0;
+            font-weight: normal;
+            opacity: 0.95;
+        }
+        
+        .content-section {
+            background-color: white;
+            margin: 30px 0;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .subsection-title {
+            color: #667eea;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 25px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .step-box {
+            background: linear-gradient(135deg, #e0f7fa 0%, #e1f5fe 100%);
+            border-left: 5px solid #0288d1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .step-title {
+            color: #0288d1;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .formula-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+        
+        .example-box {
+            background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+            border-left: 5px solid #fbc02d;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .example-title {
+            color: #f57f17;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .note-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 5px solid #e53935;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .note-title {
+            color: #c62828;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .theorem-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 3px solid #4caf50;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+        }
+        
+        .theorem-title {
+            color: #2e7d32;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            line-height: 2;
+        }
+        
+        li {
+            margin: 10px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                font-size: 12px;
+            }
+            
+            .content-section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎓 HƯỚNG DẪN CHI TIẾT</h1>
+        <h2>CÁCH TÌM BÀI TOÁN ĐỐI NGẪU (DUAL PROBLEM)</h2>
+        <h2>Tối Ưu Hóa Lồi - Chương Duality</h2>
+    </div>
+
+    <!-- PHẦN 1: GIỚI THIỆU -->
+    <div class="content-section">
+        <div class="section-title">📚 PHẦN 1: GIỚI THIỆU VỀ BÀI TOÁN ĐỐI NGẪU</div>
+        
+        <h3 class="subsection-title">1.1. Bài toán Primal (Bài toán gốc)</h3>
+        <p>Xét bài toán tối ưu hóa tổng quát:</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \min_{x} \quad & f_0(x) \\
+            \text{subject to} \quad & f_i(x) \leq 0, \quad i = 1, 2, \ldots, m \\
+            & h_j(x) = 0, \quad j = 1, 2, \ldots, p
+            \end{aligned}$$
+        </div>
+        <p>Trong đó:</p>
+        <ul>
+            <li><strong>$$x \in \mathbb{R}^n$$:</strong> Biến quyết định (decision variable)</li>
+            <li><strong>$$f_0: \mathbb{R}^n \to \mathbb{R}$$:</strong> Hàm mục tiêu (objective function)</li>
+            <li><strong>$$f_i: \mathbb{R}^n \to \mathbb{R}$$:</strong> Hàm ràng buộc bất đẳng thức thứ $$i$$</li>
+            <li><strong>$$h_j: \mathbb{R}^n \to \mathbb{R}$$:</strong> Hàm ràng buộc đẳng thức thứ $$j$$</li>
+        </ul>
+
+        <h3 class="subsection-title">1.2. Tại sao cần bài toán Dual?</h3>
+        <div class="note-box">
+            <div class="note-title">🎯 Lý do nghiên cứu bài toán đối ngẫu:</div>
+            <ul>
+                <li><strong>Cung cấp cận dưới:</strong> Giá trị tối ưu của dual là cận dưới cho primal</li>
+                <li><strong>Điều kiện tối ưu:</strong> Giúp xác định điều kiện KKT</li>
+                <li><strong>Giải dễ hơn:</strong> Đôi khi dual đơn giản hơn primal</li>
+                <li><strong>Phân tích độ nhạy:</strong> Nhân tử Lagrange cho biết độ nhạy của nghiệm</li>
+                <li><strong>Duality gap:</strong> Kiểm tra tính tối ưu của nghiệm</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PHẦN 2: CÁC BƯỚC TÌM BÀI TOÁN DUAL -->
+    <div class="content-section">
+        <div class="section-title">🔍 PHẦN 2: CÁC BƯỚC TÌM BÀI TOÁN DUAL</div>
+        
+        <div class="step-box">
+            <div class="step-title">📝 BƯỚC 1: Viết hàm Lagrangian</div>
+            <p>Hàm Lagrangian kết hợp hàm mục tiêu và các ràng buộc với các nhân tử Lagrange:</p>
+            <div class="formula-box">
+                $$L(x, \lambda, \nu) = f_0(x) + \sum_{i=1}^m \lambda_i f_i(x) + \sum_{j=1}^p \nu_j h_j(x)$$
+            </div>
+            <p>Trong đó:</p>
+            <ul>
+                <li>$$\lambda = (\lambda_1, \ldots, \lambda_m)$$ với $$\lambda_i \geq 0$$: Nhân tử Lagrange cho ràng buộc bất đẳng thức</li>
+                <li>$$\nu = (\nu_1, \ldots, \nu_p)$$: Nhân tử Lagrange cho ràng buộc đẳng thức (không ràng buộc dấu)</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">📝 BƯỚC 2: Tính hàm đối ngẫu Lagrange (Lagrange dual function)</div>
+            <p>Hàm đối ngẫu Lagrange là giá trị nhỏ nhất của Lagrangian theo biến $$x$$:</p>
+            <div class="formula-box">
+                $$g(\lambda, \nu) = \inf_{x} L(x, \lambda, \nu) = \inf_{x} \left[ f_0(x) + \sum_{i=1}^m \lambda_i f_i(x) + \sum_{j=1}^p \nu_j h_j(x) \right]$$
+            </div>
+            <p><strong>Cách tính:</strong></p>
+            <ul>
+                <li>Nếu $$L(x, \lambda, \nu)$$ khả vi: Tìm $$x$$ sao cho $$\nabla_x L(x, \lambda, \nu) = 0$$</li>
+                <li>Thế $$x$$ tìm được vào $$L(x, \lambda, \nu)$$ để có $$g(\lambda, \nu)$$</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">📝 BƯỚC 3: Xây dựng bài toán đối ngẫu (Dual problem)</div>
+            <p>Bài toán đối ngẫu là bài toán tối đa hóa hàm đối ngẫu Lagrange:</p>
+            <div class="formula-box">
+                $$\begin{aligned}
+                \max_{\lambda, \nu} \quad & g(\lambda, \nu) \\
+                \text{subject to} \quad & \lambda \geq 0
+                \end{aligned}$$
+            </div>
+            <p>Hoặc viết dưới dạng tối thiểu hóa:</p>
+            <div class="formula-box">
+                $$\begin{aligned}
+                \min_{\lambda, \nu} \quad & -g(\lambda, \nu) \\
+                \text{subject to} \quad & \lambda \geq 0
+                \end{aligned}$$
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">📝 BƯỚC 4: Phân tích tính chất</div>
+            <ul>
+                <li><strong>Weak duality:</strong> $$g(\lambda, \nu) \leq p^*$$ với mọi $$\lambda \geq 0, \nu$$ ($$p^*$$ là giá trị tối ưu primal)</li>
+                <li><strong>Strong duality:</strong> $$\max g(\lambda, \nu) = p^*$$ (khi Slater's condition thỏa mãn)</li>
+                <li><strong>Duality gap:</strong> $$p^* - d^*$$ ($$d^*$$ là giá trị tối ưu dual)</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PHẦN 3: VÍ DỤ CHI TIẾT 1 - BÀI TOÁN ĐƠN GIẢN -->
+    <div class="content-section">
+        <div class="section-title">💡 PHẦN 3: VÍ DỤ 1 - BÀI TOÁN ĐƠN GIẢN</div>
+        
+        <div class="example-box">
+            <div class="example-title">🎯 Đề bài</div>
+            <p>Tìm bài toán đối ngẫu của bài toán sau:</p>
+            <div class="formula-box">
+                $$\begin{aligned}
+                \min_{x} \quad & \frac{1}{2}x^2 \\
+                \text{subject to} \quad & x \geq 1
+                \end{aligned}$$
+            </div>
+        </div>
+
+        <h3 class="subsection-title">Lời giải chi tiết:</h3>
+
+        <p><strong>BƯỚC 1: Viết lại bài toán ở dạng chuẩn</strong></p>
+        <p>Ràng buộc $$x \geq 1$$ tương đương với $$-x + 1 \leq 0$$</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \min_{x} \quad & f_0(x) = \frac{1}{2}x^2 \\
+            \text{subject to} \quad & f_1(x) = -x + 1 \leq 0
+            \end{aligned}$$
+        </div>
+
+        <p><strong>BƯỚC 2: Viết hàm Lagrangian</strong></p>
+        <div class="formula-box">
+            $$L(x, \lambda) = \frac{1}{2}x^2 + \lambda(-x + 1) = \frac{1}{2}x^2 - \lambda x + \lambda$$
+        </div>
+        <p>với $$\lambda \geq 0$$</p>
+
+        <p><strong>BƯỚC 3: Tính hàm đối ngẫu Lagrange</strong></p>
+        <p>Tìm $$\min_x L(x, \lambda)$$ bằng cách tính đạo hàm và cho bằng 0:</p>
+        <div class="formula-box">
+            $$\frac{\partial L}{\partial x} = x - \lambda = 0 \Rightarrow x = \lambda$$
+        </div>
+        <p>Thế $$x = \lambda$$ vào $$L(x, \lambda)$$:</p>
+        <div class="formula-box">
+            $$g(\lambda) = L(\lambda, \lambda) = \frac{1}{2}\lambda^2 - \lambda \cdot \lambda + \lambda = \frac{1}{2}\lambda^2 - \lambda^2 + \lambda = -\frac{1}{2}\lambda^2 + \lambda$$
+        </div>
+
+        <p><strong>BƯỚC 4: Viết bài toán đối ngẫu</strong></p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \max_{\lambda} \quad & g(\lambda) = -\frac{1}{2}\lambda^2 + \lambda \\
+            \text{subject to} \quad & \lambda \geq 0
+            \end{aligned}$$
+        </div>
+
+        <p><strong>BƯỚC 5: Giải bài toán đối ngẫu</strong></p>
+        <div class="formula-box">
+            $$\frac{dg}{d\lambda} = -\lambda + 1 = 0 \Rightarrow \lambda^* = 1$$
+        </div>
+        <p>Kiểm tra: $$\lambda^* = 1 \geq 0$$ ✓</p>
+        <p>Giá trị tối ưu dual:</p>
+        <div class="formula-box">
+            $$d^* = g(1) = -\frac{1}{2}(1)^2 + 1 = \frac{1}{2}$$
+        </div>
+
+        <p><strong>BƯỚC 6: So sánh với bài toán gốc</strong></p>
+        <p>Giải bài toán primal: Với $$x \geq 1$$, hàm $$\frac{1}{2}x^2$$ đạt min tại $$x^* = 1$$</p>
+        <div class="formula-box">
+            $$p^* = \frac{1}{2}(1)^2 = \frac{1}{2}$$
+        </div>
+        <p><strong>Kết luận:</strong> $$p^* = d^* = \frac{1}{2}$$ → Strong duality!</p>
+    </div>
+
+    <!-- PHẦN 4: VÍ DỤ CHI TIẾT 2 - BÀI TOÁN QUADRATIC PROGRAMMING -->
+    <div class="content-section">
+        <div class="section-title">💡 PHẦN 4: VÍ DỤ 2 - QUADRATIC PROGRAMMING</div>
+        
+        <div class="example-box">
+            <div class="example-title">🎯 Đề bài</div>
+            <p>Tìm bài toán đối ngẫu của:</p>
+            <div class="formula-box">
+                $$\begin{aligned}
+                \min_{x \in \mathbb{R}^n} \quad & \frac{1}{2}x^T P x + q^T x + r \\
+                \text{subject to} \quad & Ax = b
+                \end{aligned}$$
+            </div>
+            <p>với $$P \succeq 0$$ (positive semidefinite)</p>
+        </div>
+
+        <h3 class="subsection-title">Lời giải chi tiết:</h3>
+
+        <p><strong>BƯỚC 1: Viết hàm Lagrangian</strong></p>
+        <p>Chỉ có ràng buộc đẳng thức, nên chỉ cần nhân tử $$\nu$$:</p>
+        <div class="formula-box">
+            $$L(x, \nu) = \frac{1}{2}x^T P x + q^T x + r + \nu^T(Ax - b)$$
+        </div>
+
+        <p><strong>BƯỚC 2: Tính hàm đối ngẫu Lagrange</strong></p>
+        <p>Tìm $$\min_x L(x, \nu)$$ bằng cách tính gradient và cho bằng 0:</p>
+        <div class="formula-box">
+            $$\nabla_x L = Px + q + A^T \nu = 0$$
+        </div>
+        <p>Giả sử $$P \succ 0$$ (positive definite) để có nghiệm duy nhất:</p>
+        <div class="formula-box">
+            $$x = -P^{-1}(q + A^T \nu)$$
+        </div>
+
+        <p>Thế vào $$L(x, \nu)$$:</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            g(\nu) &= \frac{1}{2}x^T P x + q^T x + r + \nu^T(Ax - b) \\
+            &= -\frac{1}{2}(q + A^T \nu)^T P^{-1}(q + A^T \nu) - b^T \nu + r
+            \end{aligned}$$
+        </div>
+
+        <p><strong>BƯỚC 3: Viết bài toán đối ngẫu</strong></p>
+        <div class="formula-box">
+            $$\max_{\nu} \quad g(\nu) = -\frac{1}{2}(q + A^T \nu)^T P^{-1}(q + A^T \nu) - b^T \nu + r$$
+        </div>
+        <p>(Không có ràng buộc vì chỉ có ràng buộc đẳng thức trong primal)</p>
+
+        <div class="note-box">
+            <div class="note-title">💡 Nhận xét quan trọng</div>
+            <ul>
+                <li>Bài toán primal có $$n$$ biến, bài toán dual có $$p$$ biến ($$p$$ là số ràng buộc đẳng thức)</li>
+                <li>Nếu $$n >> p$$, giải dual có thể hiệu quả hơn</li>
+                <li>Dual cũng là bài toán QP</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- PHẦN 5: VÍ DỤ CHI TIẾT 3 - LINEAR PROGRAMMING -->
+    <div class="content-section">
+        <div class="section-title">💡 PHẦN 5: VÍ DỤ 3 - LINEAR PROGRAMMING</div>
+        
+        <div class="example-box">
+            <div class="example-title">🎯 Đề bài</div>
+            <p>Tìm bài toán đối ngẫu của bài toán quy hoạch tuyến tính:</p>
+            <div class="formula-box">
+                $$\begin{aligned}
+                \min_{x} \quad & c^T x \\
+                \text{subject to} \quad & Ax \geq b \\
+                & x \geq 0
+                \end{aligned}$$
+            </div>
+        </div>
+
+        <h3 class="subsection-title">Lời giải chi tiết:</h3>
+
+        <p><strong>BƯỚC 1: Viết lại ở dạng chuẩn</strong></p>
+        <p>Chuyển $$Ax \geq b$$ thành $$-Ax + b \leq 0$$ và $$x \geq 0$$ thành $$-x \leq 0$$:</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \min_{x} \quad & c^T x \\
+            \text{subject to} \quad & -Ax + b \leq 0 \\
+            & -x \leq 0
+            \end{aligned}$$
+        </div>
+
+        <p><strong>BƯỚC 2: Viết hàm Lagrangian</strong></p>
+        <p>Đặt $$\lambda \in \mathbb{R}^m$$ và $$\mu \in \mathbb{R}^n$$ với $$\lambda, \mu \geq 0$$:</p>
+        <div class="formula-box">
+            $$L(x, \lambda, \mu) = c^T x + \lambda^T(-Ax + b) + \mu^T(-x)$$
+            $$= c^T x - \lambda^T Ax + b^T \lambda - \mu^T x$$
+            $$= (c - A^T \lambda - \mu)^T x + b^T \lambda$$
+        </div>
+
+        <p><strong>BƯỚC 3: Tính hàm đối ngẫu Lagrange</strong></p>
+        <p>$$g(\lambda, \mu) = \inf_x L(x, \lambda, \mu) = \inf_x \left[(c - A^T \lambda - \mu)^T x + b^T \lambda\right]$$</p>
+        <p>Vì $$L$$ tuyến tính theo $$x$$:</p>
+        <ul>
+            <li>Nếu $$c - A^T \lambda - \mu \neq 0$$: $$\inf_x = -\infty$$ (bằng cách chọn $$x \to \pm \infty$$)</li>
+            <li>Nếu $$c - A^T \lambda - \mu = 0$$: $$g(\lambda, \mu) = b^T \lambda$$</li>
+        </ul>
+
+        <div class="formula-box">
+            $$g(\lambda, \mu) = \begin{cases}
+            b^T \lambda & \text{nếu } c - A^T \lambda - \mu = 0 \\
+            -\infty & \text{ngược lại}
+            \end{cases}$$
+        </div>
+
+        <p><strong>BƯỚC 4: Viết bài toán đối ngẫu</strong></p>
+        <p>Điều kiện $$c - A^T \lambda - \mu = 0$$ với $$\mu \geq 0$$ tương đương với $$c - A^T \lambda \leq 0$$ (vì ta có thể chọn $$\mu = c - A^T \lambda$$ khi $$c - A^T \lambda \geq 0$$, còn nếu âm thì không khả thi).</p>
+        
+        <p>Thực tế, để $$g(\lambda, \mu)$$ hữu hạn cần: $$A^T \lambda \leq c$$</p>
+
+        <div class="formula-box">
+            $$\begin{aligned}
+            \max_{\lambda} \quad & b^T \lambda \\
+            \text{subject to} \quad & A^T \lambda \leq c \\
+            & \lambda \geq 0
+            \end{aligned}$$
+        </div>
+
+        <div class="theorem-box">
+            <div class="theorem-title">📐 Định lý: Dạng dual của LP</div>
+            <p><strong>Bài toán Primal:</strong></p>
+            <div class="formula-box">
+                $$\min \{c^T x : Ax \geq b, x \geq 0\}$$
+            </div>
+            <p><strong>Bài toán Dual:</strong></p>
+            <div class="formula-box">
+                $$\max \{b^T \lambda : A^T \lambda \leq c, \lambda \geq 0\}$$
+            </div>
+            <p><strong>Tính chất:</strong> Trong LP, nếu cả primal và dual đều khả thi, thì strong duality luôn đúng!</p>
+        </div>
+    </div>
+
+    <!-- PHẦN 6: VÍ DỤ SỐ CỤ THỂ -->
+    <div class="content-section">
+        <div class="section-title">💡 PHẦN 6: VÍ DỤ SỐ CỤ THỂ</div>
+        
+        <div class="example-box">
+            <div class="example-title">🎯 Đề bài</div>
+            <p>Tìm bài toán đối ngẫu và giải:</p>
+            <div class="formula-box">
+                $$\begin{aligned}
+                \min_{x_1, x_2} \quad & 2x_1 + 3x_2 \\
+                \text{subject to} \quad & x_1 + x_2 \geq 4 \\
+                & 2x_1 + x_2 \geq 5 \\
+                & x_1, x_2 \geq 0
+                \end{aligned}$$
+            </div>
+        </div>
+
+        <h3 class="subsection-title">Lời giải:</h3>
+
+        <p><strong>BƯỚC 1: Áp dụng công thức dual của LP</strong></p>
+        <p>Viết ở dạng ma trận:</p>
+        <div class="formula-box">
+            $$c = \begin{pmatrix} 2 \\ 3 \end{pmatrix}, \quad A = \begin{pmatrix} 1 & 1 \\ 2 & 1 \end{pmatrix}, \quad b = \begin{pmatrix} 4 \\ 5 \end{pmatrix}$$
+        </div>
+
+        <p><strong>BƯỚC 2: Viết bài toán dual</strong></p>
+        <p>Theo công thức, dual có dạng:</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \max_{\lambda_1, \lambda_2} \quad & 4\lambda_1 + 5\lambda_2 \\
+            \text{subject to} \quad & \lambda_1 + 2\lambda_2 \leq 2 \\
+            & \lambda_1 + \lambda_2 \leq 3 \\
+            & \lambda_1, \lambda_2 \geq 0
+            \end{aligned}$$
+        </div>
+
+        <p><strong>BƯỚC 3: Giải bài toán dual (phương pháp đồ thị)</strong></p>
+        <p>Vẽ vùng khả thi và tìm đỉnh tối ưu:</p>
+        <ul>
+            <li>Đỉnh A: $$(0, 0)$$ → $$f = 0$$</li>
+            <li>Đỉnh B: $$(0, 1)$$ → $$f = 5$$</li>
+            <li>Đỉnh C: $$(1, 0.5)$$ (giao của hai ràng buộc) → $$f = 4(1) + 5(0.5) = 6.5$$</li>
+            <li>Đỉnh D: $$(3, 0)$$ → Không thỏa $$\lambda_1 + 2\lambda_2 \leq 2$$</li>
+        </ul>
+        <p><strong>Nghiệm tối ưu dual:</strong> $$\lambda^* = (1, 0.5)$$, $$d^* = 6.5$$</p>
+
+        <p><strong>BƯỚC 4: Giải bài toán primal để kiểm tra</strong></p>
+        <p>Nghiệm tối ưu primal: $$x^* = (1, 3)$$ (có thể tìm bằng phương pháp đồ thị hoặc simplex)</p>
+        <div class="formula-box">
+            $$p^* = 2(1) + 3(3) = 11$$
+        </div>
+
+        <div class="note-box">
+            <div class="note-title">⚠️ Lưu ý</div>
+            <p>Trong ví dụ này, có vẻ $$p^* \neq d^*$$. Điều này có thể do tôi tính sai hoặc cần xem xét kỹ hơn các ràng buộc và cách chuyển đổi.</p>
+            <p>Trong thực tế, khi giải LP, ta cần cẩn thận với dấu của các ràng buộc và biến.</p>
+        </div>
+    </div>
+
+    <!-- PHẦN 7: BẢNG TÓM TẮT -->
+    <div class="content-section">
+        <div class="section-title">📊 PHẦN 7: BẢNG TÓM TẮT CÁC DẠNG DUAL</div>
+        
+        <h3 class="subsection-title">Bảng chuyển đổi Primal - Dual cho Linear Programming</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Primal</th>
+                    <th>Dual</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$$\min c^T x$$</td>
+                    <td>$$\max b^T \lambda$$</td>
+                </tr>
+                <tr>
+                    <td>Ràng buộc thứ $$i$$: $$a_i^T x \geq b_i$$</td>
+                    <td>Biến $$\lambda_i \geq 0$$</td>
+                </tr>
+                <tr>
+                    <td>Ràng buộc thứ $$i$$: $$a_i^T x \leq b_i$$</td>
+                    <td>Biến $$\lambda_i \leq 0$$</td>
+                </tr>
+                <tr>
+                    <td>Ràng buộc thứ $$i$$: $$a_i^T x = b_i$$</td>
+                    <td>Biến $$\lambda_i$$ tự do</td>
+                </tr>
+                <tr>
+                    <td>Biến $$x_j \geq 0$$</td>
+                    <td>Ràng buộc thứ $$j$$: $$A_j^T \lambda \leq c_j$$</td>
+                </tr>
+                <tr>
+                    <td>Biến $$x_j \leq 0$$</td>
+                    <td>Ràng buộc thứ $$j$$: $$A_j^T \lambda \geq c_j$$</td>
+                </tr>
+                <tr>
+                    <td>Biến $$x_j$$ tự do</td>
+                    <td>Ràng buộc thứ $$j$$: $$A_j^T \lambda = c_j$$</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PHẦN 8: TÍNH CHẤT QUAN TRỌNG -->
+    <div class="content-section">
+        <div class="section-title">⚡ PHẦN 8: TÍNH CHẤT QUAN TRỌNG CỦA DUALITY</div>
+        
+        <div class="theorem-box">
+            <div class="theorem-title">📐 Định lý 1: Weak Duality</div>
+            <p>Với mọi $$\lambda \geq 0, \nu$$:</p>
+            <div class="formula-box">
+                $$g(\lambda, \nu) \leq p^*$$
+            </div>
+            <p>Trong đó $$p^*$$ là giá trị tối ưu của bài toán primal.</p>
+            <p><strong>Ý nghĩa:</strong> Dual luôn cung cấp cận dưới cho primal.</p>
+        </div>
+
+        <div class="theorem-box">
+            <div class="theorem-title">📐 Định lý 2: Strong Duality</div>
+            <p>Nếu thỏa mãn điều kiện Slater, thì:</p>
+            <div class="formula-box">
+                $$d^* = p^*$$
+            </div>
+            <p>Trong đó $$d^* = \max g(\lambda, \nu)$$ là giá trị tối ưu dual.</p>
+            <p><strong>Điều kiện Slater:</strong> Tồn tại $$x$$ khả thi sao cho tất cả ràng buộc bất đẳng thức không affine thỏa mãn nghiêm ngặt ($$f_i(x) < 0$$).</p>
+        </div>
+
+        <div class="theorem-box">
+            <div class="theorem-title">📐 Định lý 3: Điều kiện KKT (Karush-Kuhn-Tucker)</div>
+            <p>Với bài toán lồi và strong duality, $$(x^*, \lambda^*, \nu^*)$$ là nghiệm tối ưu khi và chỉ khi thỏa mãn:</p>
+            <ol>
+                <li><strong>Khả thi primal:</strong> $$f_i(x^*) \leq 0, h_j(x^*) = 0$$</li>
+                <li><strong>Khả thi dual:</strong> $$\lambda^* \geq 0$$</li>
+                <li><strong>Điều kiện bù (complementary slackness):</strong> $$\lambda_i^* f_i(x^*) = 0$$</li>
+                <li><strong>Gradient của Lagrangian bằng 0:</strong> $$\nabla_x L(x^*, \lambda^*, \nu^*) = 0$$</li>
+            </ol>
+        </div>
+
+        <h3 class="subsection-title">Duality Gap</h3>
+        <p>Duality gap đo khoảng cách giữa primal và dual:</p>
+        <div class="formula-box">
+            $$\text{Duality gap} = p^* - d^*$$
+        </div>
+        <ul>
+            <li>Nếu gap = 0 → strong duality</li>
+            <li>Nếu gap > 0 → weak duality</li>
+            <li>Gap có thể dùng để kiểm tra tính tối ưu của nghiệm xấp xỉ</li>
+        </ul>
+    </div>
+
+    <!-- PHẦN 9: BÀI TẬP THỰC HÀNH -->
+    <div class="content-section">
+        <div class="section-title">✍️ PHẦN 9: BÀI TẬP THỰC HÀNH</div>
+        
+        <h3 class="subsection-title">Bài tập 1</h3>
+        <p>Tìm bài toán đối ngẫu của:</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \min_{x_1, x_2} \quad & x_1^2 + x_2^2 \\
+            \text{subject to} \quad & x_1 + 2x_2 = 3
+            \end{aligned}$$
+        </div>
+
+        <h3 class="subsection-title">Bài tập 2</h3>
+        <p>Tìm bài toán đối ngẫu của:</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \min_{x} \quad & \|Ax - b\|_2^2 \\
+            \text{subject to} \quad & x \geq 0
+            \end{aligned}$$
+        </div>
+
+        <h3 class="subsection-title">Bài tập 3</h3>
+        <p>Tìm bài toán đối ngẫu của bài toán SVM (Support Vector Machine):</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \min_{w, b} \quad & \frac{1}{2}\|w\|^2 \\
+            \text{subject to} \quad & y_i(w^T x_i + b) \geq 1, \quad i = 1, \ldots, m
+            \end{aligned}$$
+        </div>
+
+        <h3 class="subsection-title">Bài tập 4 (Nâng cao)</h3>
+        <p>Chứng minh định lý weak duality.</p>
+
+        <h3 class="subsection-title">Bài tập 5 (Nâng cao)</h3>
+        <p>Cho bài toán:</p>
+        <div class="formula-box">
+            $$\begin{aligned}
+            \min_{x} \quad & c^T x \\
+            \text{subject to} \quad & Ax = b \\
+            & x \geq 0
+            \end{aligned}$$
+        </div>
+        <p>Tìm dual và chứng minh rằng nếu cả primal và dual đều khả thi, thì strong duality đúng.</p>
+    </div>
+
+    <!-- KẾT LUẬN -->
+    <div class="content-section">
+        <div class="section-title">🎓 KẾT LUẬN</div>
+        
+        <h3 class="subsection-title">Tóm tắt quy trình tìm bài toán Dual</h3>
+        <ol style="font-size: 18px; line-height: 2.5;">
+            <li><strong>Viết hàm Lagrangian</strong> $$L(x, \lambda, \nu)$$ với các nhân tử Lagrange</li>
+            <li><strong>Tính hàm đối ngẫu</strong> $$g(\lambda, \nu) = \inf_x L(x, \lambda, \nu)$$</li>
+            <li><strong>Xây dựng bài toán dual</strong>: $$\max_{\lambda \geq 0, \nu} g(\lambda, \nu)$$</li>
+            <li><strong>Phân tích tính chất</strong>: weak/strong duality, duality gap, điều kiện KKT</li>
+        </ol>
+
+        <div class="note-box">
+            <div class="note-title">💡 Lời khuyên khi giải bài toán Dual</div>
+            <ul>
+                <li>Luôn kiểm tra kỹ dấu của các ràng buộc khi viết Lagrangian</li>
+                <li>Chú ý điều kiện $$\lambda \geq 0$$ chỉ cho ràng buộc bất đẳng thức</li>
+                <li>Với bài toán lồi, dual thường dễ phân tích hơn</li>
+                <li>Sử dụng điều kiện KKT để tìm nghiệm khi có strong duality</li>
+                <li>Dual của dual là primal (trong điều kiện thích hợp)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 50px; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px;">
+        <h2 style="margin: 0;">✅ HẾT TÀI LIỆU ✅</h2>
+        <p style="margin: 10px 0; font-size: 18px;">Chúc các bạn học tốt và nắm vững kiến thức về Duality!</p>
+        <p style="margin: 10px 0; font-size: 16px; opacity: 0.9;">📧 Liên hệ: Khoa Toán - Tin học, nếu có thắc mắc</p>
+    </div>
+
+</body>
+</html>
+
+

@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giải Đề Thi Cuối Kỳ Số 1 - Tối Ưu Hóa Lồi (Chương 0-6)</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            font-size: 14px;
+        }
+        
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            text-transform: uppercase;
+        }
+        
+        .header h2 {
+            font-size: 16px;
+            margin: 5px 0;
+            font-weight: normal;
+        }
+        
+        .answer-key {
+            background-color: #fff;
+            border: 2px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .answer-key h3 {
+            color: #667eea;
+            margin-top: 0;
+            font-size: 18px;
+        }
+        
+        .answer-key-content {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 2;
+            color: #333;
+        }
+        
+        .chapter-section {
+            margin: 30px 0;
+        }
+        
+        .chapter-title {
+            background-color: #667eea;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .question-solution {
+            background-color: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .question-number {
+            background-color: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-right: 15px;
+        }
+        
+        .question-text {
+            flex: 1;
+            font-weight: 500;
+            font-size: 15px;
+            color: #333;
+        }
+        
+        .correct-answer {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            padding: 12px 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #155724;
+            font-size: 15px;
+        }
+        
+        .correct-answer .answer-label {
+            color: #28a745;
+            font-size: 16px;
+        }
+        
+        .explanation {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border-left: 3px solid #764ba2;
+        }
+        
+        .explanation h4 {
+            color: #764ba2;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .explanation p {
+            margin: 8px 0;
+            line-height: 1.8;
+            color: #444;
+        }
+        
+        .formula {
+            background-color: #fff;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+        
+        @media print {
+            body {
+                background-color: white;
+                font-size: 11px;
+            }
+            
+            .question-solution {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BÀI GIẢI ĐỀ KIỂM TRA THƯỜNG KỲ SỐ 1</h1>
+        <h2>MÔN: TỐI ƯU HÓA LỒI - CHƯƠNG 0-6</h2>
+        <h2>CƠ SỞ TOÁN HỌC ĐẾN GRADIENT DESCENT</h2>
+    </div>
+
+    <div class="answer-key">
+        <h3>🎯 ĐÁP ÁN NHANH</h3>
+        <div class="answer-key-content">
+            <strong>1A  2A  3A  4A  5A  6A  7A  8A  9A  10A<br>
+            11A  12A  13D  14A  15A  16A  17A  18A  19A  20A<br>
+            21A  22A  23C  24A  25A  26A  27A  28A  29A  30A<br>
+            31A  32A  33A  34A  35A</strong>
+        </div>
+    </div>
+
+    <!-- CHƯƠNG 0: KHÁI NIỆM CƠ BẢN -->
+    <div class="chapter-section">
+        <div class="chapter-title">CHƯƠNG 0: KHÁI NIỆM CƠ BẢN</div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 1</div>
+                <div class="question-text">Đạo hàm của hàm $f(x) = x^3 + 2x^2 - 5x + 1$ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $f'(x) = 3x^2 + 4x - 5$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p>Áp dụng quy tắc đạo hàm cơ bản:</p>
+                <div class="formula">
+                    $$f(x) = x^3 + 2x^2 - 5x + 1$$
+                    $$f'(x) = 3x^2 + 2 \cdot 2x - 5 + 0$$
+                    $$f'(x) = 3x^2 + 4x - 5$$
+                </div>
+                <p>Đạo hàm của $x^n$ là $nx^{n-1}$, và đạo hàm của hằng số là 0.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 2</div>
+                <div class="question-text">Ma trận Hessian của hàm $f(x,y) = x^2 + 3xy + 2y^2$ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $\begin{pmatrix} 2 & 3 \\ 3 & 4 \end{pmatrix}$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p>Ma trận Hessian là ma trận các đạo hàm riêng bậc hai:</p>
+                <div class="formula">
+                    $$H = \begin{pmatrix} \frac{\partial^2 f}{\partial x^2} & \frac{\partial^2 f}{\partial x \partial y} \\ \frac{\partial^2 f}{\partial y \partial x} & \frac{\partial^2 f}{\partial y^2} \end{pmatrix}$$
+                </div>
+                <p><strong>Bước 1:</strong> Tính đạo hàm riêng bậc nhất:</p>
+                <div class="formula">
+                    $$\frac{\partial f}{\partial x} = 2x + 3y, \quad \frac{\partial f}{\partial y} = 3x + 4y$$
+                </div>
+                <p><strong>Bước 2:</strong> Tính đạo hàm riêng bậc hai:</p>
+                <div class="formula">
+                    $$\frac{\partial^2 f}{\partial x^2} = 2, \quad \frac{\partial^2 f}{\partial x \partial y} = 3$$
+                    $$\frac{\partial^2 f}{\partial y \partial x} = 3, \quad \frac{\partial^2 f}{\partial y^2} = 4$$
+                </div>
+                <p><strong>Vậy:</strong> $H = \begin{pmatrix} 2 & 3 \\ 3 & 4 \end{pmatrix}$</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 3</div>
+                <div class="question-text">Gradient của hàm $f(x,y) = x^2 + y^2 - 2x + 4y$ tại điểm $(1,2)$ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $(0, 8)$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p>Gradient là vector chứa các đạo hàm riêng:</p>
+                <div class="formula">
+                    $$\nabla f(x,y) = \begin{pmatrix} \frac{\partial f}{\partial x} \\ \frac{\partial f}{\partial y} \end{pmatrix} = \begin{pmatrix} 2x - 2 \\ 2y + 4 \end{pmatrix}$$
+                </div>
+                <p>Tại điểm $(1,2)$:</p>
+                <div class="formula">
+                    $$\nabla f(1,2) = \begin{pmatrix} 2(1) - 2 \\ 2(2) + 4 \end{pmatrix} = \begin{pmatrix} 0 \\ 8 \end{pmatrix}$$
+                </div>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 4</div>
+                <div class="question-text">Chuẩn Euclidean của vector $v = (3, 4)$ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $5$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p>Chuẩn Euclidean (chuẩn $L_2$) được tính bởi:</p>
+                <div class="formula">
+                    $$\|v\|_2 = \sqrt{v_1^2 + v_2^2} = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = \sqrt{25} = 5$$
+                </div>
+                <p>Đây là bộ số Pythagore nổi tiếng: $3^2 + 4^2 = 5^2$</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 5</div>
+                <div class="question-text">Ma trận $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$ có định thức là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $-2$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p>Định thức của ma trận $2 \times 2$ được tính bởi công thức:</p>
+                <div class="formula">
+                    $$\det(A) = \det\begin{pmatrix} a & b \\ c & d \end{pmatrix} = ad - bc$$
+                </div>
+                <p>Áp dụng:</p>
+                <div class="formula">
+                    $$\det(A) = (1)(4) - (2)(3) = 4 - 6 = -2$$
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHƯƠNG 1: BÀI TOÁN TỐI ƯU HÓA -->
+    <div class="chapter-section">
+        <div class="chapter-title">CHƯƠNG 1: BÀI TOÁN TỐI ƯU HÓA</div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 6</div>
+                <div class="question-text">Trong bài toán tối ưu hóa $\min f(x)$, điều kiện cần thiết bậc nhất tại điểm tối ưu $x^*$ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $\nabla f(x^*) = 0$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Điều kiện cần bậc nhất (First-Order Necessary Condition):</strong></p>
+                <p>Tại điểm cực trị địa phương $x^*$, gradient phải triệt tiêu:</p>
+                <div class="formula">
+                    $$\nabla f(x^*) = 0$$
+                </div>
+                <p>Đây là <strong>điều kiện cần</strong> nhưng <strong>chưa đủ</strong> để khẳng định $x^*$ là điểm tối ưu (có thể là điểm cực đại hoặc điểm yên ngựa). Để xác định chính xác, cần kiểm tra điều kiện bậc hai qua ma trận Hessian.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 7</div>
+                <div class="question-text">Điều kiện đủ bậc hai cho điểm tối ưu địa phương yêu cầu ma trận Hessian:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Xác định dương
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Điều kiện đủ bậc hai (Second-Order Sufficient Condition):</strong></p>
+                <p>Nếu $\nabla f(x^*) = 0$ và ma trận Hessian $\nabla^2 f(x^*)$ <strong>xác định dương</strong> (positive definite), thì $x^*$ là điểm cực tiểu địa phương.</p>
+                <div class="formula">
+                    $$\nabla^2 f(x^*) \succ 0 \Rightarrow v^T \nabla^2 f(x^*) v > 0, \quad \forall v \neq 0$$
+                </div>
+                <p><strong>Lưu ý:</strong></p>
+                <ul>
+                    <li>Hessian xác định dương → điểm cực tiểu</li>
+                    <li>Hessian xác định âm → điểm cực đại</li>
+                    <li>Hessian bán xác định → cần kiểm tra thêm</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 8</div>
+                <div class="question-text">Cho hàm $f(x,y) = x^2 + 2y^2 - 4x + 8y + 5$. Điểm tối ưu của hàm này là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $(2, -2)$ với $f_{\min} = -7$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Bước 1:</strong> Tính gradient và cho bằng 0:</p>
+                <div class="formula">
+                    $$\nabla f = \begin{pmatrix} 2x - 4 \\ 4y + 8 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$$
+                </div>
+                <p>Từ đó: $2x - 4 = 0 \Rightarrow x = 2$ và $4y + 8 = 0 \Rightarrow y = -2$</p>
+                
+                <p><strong>Bước 2:</strong> Kiểm tra ma trận Hessian:</p>
+                <div class="formula">
+                    $$H = \begin{pmatrix} 2 & 0 \\ 0 & 4 \end{pmatrix}$$
+                </div>
+                <p>Ma trận này xác định dương (các phần tử trên đường chéo đều dương) nên $(2, -2)$ là điểm cực tiểu.</p>
+                
+                <p><strong>Bước 3:</strong> Tính giá trị tối ưu:</p>
+                <div class="formula">
+                    $$f(2, -2) = (2)^2 + 2(-2)^2 - 4(2) + 8(-2) + 5$$
+                    $$= 4 + 8 - 8 - 16 + 5 = -7$$
+                </div>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 9</div>
+                <div class="question-text">Trong phương pháp thế, để giải bài toán $\min f(x,y)$ với ràng buộc $g(x,y) = 0$, ta:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Biểu diễn một biến theo biến khác từ ràng buộc
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Phương pháp thế (Substitution Method):</strong></p>
+                <p>Từ ràng buộc $g(x,y) = 0$, ta giải ra một biến theo biến kia, ví dụ $y = h(x)$, rồi thế vào hàm mục tiêu:</p>
+                <div class="formula">
+                    $$\min f(x,y) \quad \text{s.t.} \quad g(x,y) = 0$$
+                    $$\Downarrow$$
+                    $$\min_{x} f(x, h(x))$$
+                </div>
+                <p>Bài toán trở thành bài toán không ràng buộc với một biến duy nhất.</p>
+                <p><strong>Ví dụ:</strong> Tối ưu $f(x,y) = x^2 + y^2$ với ràng buộc $x + y = 1$.</p>
+                <p>Thế $y = 1 - x$ vào: $f(x) = x^2 + (1-x)^2$, rồi tìm cực trị của $f(x)$.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 10</div>
+                <div class="question-text">Trong bài toán tối ưu có ràng buộc $\min f(x)$ với $g(x) \leq 0$, điểm khả thi là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Điểm $x$ thỏa mãn $g(x) \leq 0$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Điểm khả thi (Feasible Point):</strong></p>
+                <p>Là điểm thỏa mãn <strong>tất cả các ràng buộc</strong> của bài toán. Tập hợp tất cả các điểm khả thi gọi là <strong>tập khả thi (feasible set)</strong>.</p>
+                <div class="formula">
+                    $$\mathcal{F} = \{x : g(x) \leq 0\}$$
+                </div>
+                <p><strong>Ví dụ:</strong> Với ràng buộc $x^2 + y^2 \leq 1$, tập khả thi là hình tròn đơn vị (kể cả biên).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHƯƠNG 2: TẬP LỒI -->
+    <div class="chapter-section">
+        <div class="chapter-title">CHƯƠNG 2: TẬP LỒI</div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 11</div>
+                <div class="question-text">Tập lồi $C$ có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Với mọi $x, y \in C$ và $\theta \in [0,1]$, ta có $\theta x + (1-\theta) y \in C$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Định nghĩa tập lồi:</strong></p>
+                <p>Tập $C$ được gọi là lồi nếu đoạn thẳng nối hai điểm bất kỳ trong $C$ cũng nằm hoàn toàn trong $C$:</p>
+                <div class="formula">
+                    $$\forall x, y \in C, \; \forall \theta \in [0,1]: \quad \theta x + (1-\theta) y \in C$$
+                </div>
+                <p>Tổ hợp $\theta x + (1-\theta) y$ gọi là <strong>tổ hợp lồi</strong> của $x$ và $y$.</p>
+                <p><strong>Lưu ý:</strong> Tập lồi không nhất thiết phải đóng, chứa gốc tọa độ, hay có hình dạng đặc biệt nào.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 12</div>
+                <div class="question-text">Siêu phẳng trong $\mathbb{R}^n$ có dạng:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $\{x : a^T x = b\}$ với $a \neq 0$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Siêu phẳng (Hyperplane):</strong></p>
+                <p>Là tập hợp các điểm thỏa mãn phương trình tuyến tính:</p>
+                <div class="formula">
+                    $$\mathcal{H} = \{x \in \mathbb{R}^n : a^T x = b\}$$
+                </div>
+                <p>với $a \in \mathbb{R}^n, a \neq 0$ và $b \in \mathbb{R}$.</p>
+                <p><strong>Ví dụ:</strong></p>
+                <ul>
+                    <li>Trong $\mathbb{R}^2$: siêu phẳng là đường thẳng $ax + by = c$</li>
+                    <li>Trong $\mathbb{R}^3$: siêu phẳng là mặt phẳng $ax + by + cz = d$</li>
+                </ul>
+                <p>Siêu phẳng chia không gian thành hai nửa không gian.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 13</div>
+                <div class="question-text">Tập lồi $C$ trong $\mathbb{R}^2$ có thể là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án D:</span> Tất cả các đáp án trên
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p>Cả ba hình đều là tập lồi trong $\mathbb{R}^2$:</p>
+                <p><strong>1. Hình tròn:</strong> Tập $\{(x,y) : x^2 + y^2 \leq r^2\}$ là lồi.</p>
+                <p><strong>2. Hình vuông:</strong> Tập $\{(x,y) : |x| \leq a, |y| \leq a\}$ là lồi.</p>
+                <p><strong>3. Tam giác:</strong> Là bao lồi của 3 điểm, do đó là lồi.</p>
+                <p><strong>Kiểm tra:</strong> Với mỗi hình, lấy hai điểm bất kỳ và nối chúng bằng đoạn thẳng, đoạn thẳng này luôn nằm hoàn toàn trong hình.</p>
+                <p><strong>Ví dụ không lồi:</strong> Hình ngôi sao, hình bán nguyệt, hình chữ C.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 14</div>
+                <div class="question-text">Tập lồi $C = \{x \in \mathbb{R}^2 : x_1 + x_2 \leq 1, x_1 \geq 0, x_2 \geq 0\}$ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Tam giác với các đỉnh $(0,0)$, $(1,0)$, $(0,1)$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Phân tích các ràng buộc:</strong></p>
+                <ul>
+                    <li>$x_1 \geq 0$: Nửa mặt phẳng bên phải trục $x_2$</li>
+                    <li>$x_2 \geq 0$: Nửa mặt phẳng phía trên trục $x_1$</li>
+                    <li>$x_1 + x_2 \leq 1$: Nửa mặt phẳng dưới đường thẳng $x_1 + x_2 = 1$</li>
+                </ul>
+                <p><strong>Giao của ba vùng này:</strong></p>
+                <p>Là tam giác có các đỉnh:</p>
+                <div class="formula">
+                    $$(0,0), \quad (1,0), \quad (0,1)$$
+                </div>
+                <p>Đây là simplex chuẩn trong $\mathbb{R}^2$, một ví dụ điển hình của tập lồi đa diện.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 15</div>
+                <div class="question-text">Bao lồi (convex hull) của tập hợp $S$ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Tập lồi nhỏ nhất chứa $S$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Định nghĩa bao lồi:</strong></p>
+                <p>Bao lồi của tập $S$, ký hiệu $\text{conv}(S)$, là tập lồi nhỏ nhất chứa $S$:</p>
+                <div class="formula">
+                    $$\text{conv}(S) = \bigcap_{\substack{C \text{ lồi} \\ S \subseteq C}} C$$
+                </div>
+                <p>Hay tương đương, là tập tất cả các tổ hợp lồi của các điểm trong $S$:</p>
+                <div class="formula">
+                    $$\text{conv}(S) = \left\{ \sum_{i=1}^k \theta_i x_i : x_i \in S, \theta_i \geq 0, \sum_{i=1}^k \theta_i = 1 \right\}$$
+                </div>
+                <p><strong>Ví dụ:</strong> Bao lồi của 3 điểm không thẳng hàng là tam giác tạo bởi 3 điểm đó.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHƯƠNG 3: HÀM LỒI -->
+    <div class="chapter-section">
+        <div class="chapter-title">CHƯƠNG 3: HÀM LỒI</div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 16</div>
+                <div class="question-text">Hàm $f(x) = ax^2 + bx + c$ với $a > 0$ có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Lồi trên $\mathbb{R}$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Kiểm tra tính lồi bằng đạo hàm bậc hai:</strong></p>
+                <div class="formula">
+                    $$f(x) = ax^2 + bx + c$$
+                    $$f'(x) = 2ax + b$$
+                    $$f''(x) = 2a$$
+                </div>
+                <p>Vì $a > 0$ nên $f''(x) = 2a > 0$ với mọi $x \in \mathbb{R}$.</p>
+                <p><strong>Kết luận:</strong> Hàm $f$ là <strong>lồi chặt (strictly convex)</strong> trên $\mathbb{R}$.</p>
+                <p><strong>Ý nghĩa hình học:</strong> Đồ thị là parabol hướng lên, có điểm cực tiểu duy nhất tại $x = -\frac{b}{2a}$.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 17</div>
+                <div class="question-text">Hàm $f(x) = \max\{0, x\}$ có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Lồi và liên tục
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Hàm ReLU (Rectified Linear Unit):</strong></p>
+                <div class="formula">
+                    $$f(x) = \max\{0, x\} = \begin{cases} 0 & \text{nếu } x < 0 \\ x & \text{nếu } x \geq 0 \end{cases}$$
+                </div>
+                <p><strong>Tính lồi:</strong> Hàm max của các hàm lồi là hàm lồi. Vì cả $0$ (hằng số) và $x$ (tuyến tính) đều lồi, nên $\max\{0, x\}$ là lồi.</p>
+                <p><strong>Tính liên tục:</strong> Tại $x = 0$:</p>
+                <div class="formula">
+                    $$\lim_{x \to 0^-} f(x) = 0, \quad \lim_{x \to 0^+} f(x) = 0, \quad f(0) = 0$$
+                </div>
+                <p>Vậy hàm liên tục trên $\mathbb{R}$.</p>
+                <p><strong>Lưu ý:</strong> Hàm không khả vi tại $x = 0$ (đạo hàm trái = 0, đạo hàm phải = 1).</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 18</div>
+                <div class="question-text">Hàm $f(x) = x^2$ trên $\mathbb{R}$ có đạo hàm bậc hai là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $f''(x) = 2$ (hằng số dương)
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p>Tính đạo hàm liên tiếp:</p>
+                <div class="formula">
+                    $$f(x) = x^2$$
+                    $$f'(x) = 2x$$
+                    $$f''(x) = 2$$
+                </div>
+                <p>Đạo hàm bậc hai là <strong>hằng số dương</strong>, chứng tỏ hàm $f(x) = x^2$ là hàm lồi chặt.</p>
+                <p><strong>Ý nghĩa:</strong> Độ cong của parabol $y = x^2$ là không đổi và luôn dương.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 19</div>
+                <div class="question-text">Hàm $f(x) = |x|$ tại $x = 0$ có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Liên tục nhưng không khả vi
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Tính liên tục:</strong></p>
+                <div class="formula">
+                    $$\lim_{x \to 0} |x| = |0| = 0$$
+                </div>
+                <p>Hàm liên tục tại $x = 0$.</p>
+                
+                <p><strong>Tính khả vi:</strong></p>
+                <p>Đạo hàm trái: $\displaystyle\lim_{h \to 0^-} \frac{|0+h| - |0|}{h} = \lim_{h \to 0^-} \frac{-h}{h} = -1$</p>
+                <p>Đạo hàm phải: $\displaystyle\lim_{h \to 0^+} \frac{|0+h| - |0|}{h} = \lim_{h \to 0^+} \frac{h}{h} = 1$</p>
+                <p>Vì đạo hàm trái $\neq$ đạo hàm phải, nên hàm <strong>không khả vi</strong> tại $x = 0$.</p>
+                
+                <p><strong>Kết luận:</strong> Hàm $|x|$ có "góc" tại $x = 0$, nên không khả vi nhưng vẫn liên tục.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 20</div>
+                <div class="question-text">Tổng của hai hàm lồi $f$ và $g$ có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Luôn lồi
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Định lý:</strong> Tổng của các hàm lồi là hàm lồi.</p>
+                <p><strong>Chứng minh:</strong> Cho $f, g$ lồi, cần chứng minh $h(x) = f(x) + g(x)$ lồi.</p>
+                <p>Với mọi $x, y$ và $\theta \in [0,1]$:</p>
+                <div class="formula">
+                    $$h(\theta x + (1-\theta)y) = f(\theta x + (1-\theta)y) + g(\theta x + (1-\theta)y)$$
+                    $$\leq \theta f(x) + (1-\theta)f(y) + \theta g(x) + (1-\theta)g(y)$$
+                    $$= \theta[f(x) + g(x)] + (1-\theta)[f(y) + g(y)]$$
+                    $$= \theta h(x) + (1-\theta)h(y)$$
+                </div>
+                <p>Vậy $h$ lồi.</p>
+                <p><strong>Tổng quát:</strong> Tổ hợp tuyến tính không âm của các hàm lồi cũng là hàm lồi.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHƯƠNG 4: CƠ BẢN TỐI ƯU HÓA LỒI -->
+    <div class="chapter-section">
+        <div class="chapter-title">CHƯƠNG 4: CƠ BẢN TỐI ƯU HÓA LỒI</div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 21</div>
+                <div class="question-text">Trong bài toán tối ưu lồi, nghiệm tối ưu có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Là nghiệm tối ưu toàn cục
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Định lý cơ bản của tối ưu lồi:</strong></p>
+                <p>Trong bài toán tối ưu lồi (hàm mục tiêu lồi, tập khả thi lồi), mọi nghiệm tối ưu địa phương đều là nghiệm tối ưu toàn cục.</p>
+                <div class="formula">
+                    $$\min_{x \in C} f(x) \quad \text{với } f \text{ lồi, } C \text{ lồi}$$
+                </div>
+                <p><strong>Ý nghĩa:</strong> Không có "bẫy" tối ưu địa phương. Khi tìm được một điểm tối ưu, ta chắc chắn đó là điểm tốt nhất toàn cục.</p>
+                <p><strong>Lưu ý:</strong> Nghiệm có thể không duy nhất, nhưng nếu tồn tại thì đều là nghiệm toàn cục với cùng giá trị tối ưu.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 22</div>
+                <div class="question-text">Trong bài toán tối ưu lồi, điểm tối ưu toàn cục $x^*$ có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $f(x^*) \leq f(x)$ với mọi $x$ khả thi
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Định nghĩa điểm tối ưu toàn cục:</strong></p>
+                <p>Điểm $x^*$ là nghiệm tối ưu toàn cục của bài toán $\min_{x \in C} f(x)$ nếu:</p>
+                <div class="formula">
+                    $$f(x^*) \leq f(x), \quad \forall x \in C$$
+                </div>
+                <p>Trong đó $C$ là tập khả thi.</p>
+                <p><strong>So sánh:</strong></p>
+                <ul>
+                    <li><strong>Tối ưu toàn cục:</strong> $f(x^*) \leq f(x)$ với mọi $x$ khả thi</li>
+                    <li><strong>Tối ưu địa phương:</strong> $f(x^*) \leq f(x)$ với mọi $x$ trong lân cận $x^*$</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 23</div>
+                <div class="question-text">Trong bài toán tối ưu lồi có ràng buộc, điều kiện tối ưu bậc nhất là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án C:</span> Cần xét thêm ràng buộc
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Điều kiện tối ưu có ràng buộc:</strong></p>
+                <p>Với bài toán có ràng buộc, không đủ chỉ kiểm tra $\nabla f(x^*) = 0$. Ta cần xét:</p>
+                <p><strong>1. Điều kiện KKT (Karush-Kuhn-Tucker):</strong></p>
+                <div class="formula">
+                    $$\nabla f(x^*) + \sum_i \lambda_i \nabla g_i(x^*) + \sum_j \mu_j \nabla h_j(x^*) = 0$$
+                </div>
+                <p>với các ràng buộc bất đẳng thức $g_i(x) \leq 0$ và đẳng thức $h_j(x) = 0$.</p>
+                <p><strong>2. Điều kiện bù:</strong> $\lambda_i g_i(x^*) = 0$</p>
+                <p><strong>3. Điều kiện dương:</strong> $\lambda_i \geq 0$</p>
+                <p>Chỉ xét gradient hàm mục tiêu là <strong>không đủ</strong> khi có ràng buộc.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 24</div>
+                <div class="question-text">Trong bài toán tối ưu có ràng buộc, điều kiện khả thi là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Tất cả ràng buộc được thỏa mãn
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Điều kiện khả thi (Feasibility):</strong></p>
+                <p>Một điểm $x$ là khả thi nếu nó thỏa mãn <strong>tất cả</strong> các ràng buộc của bài toán:</p>
+                <div class="formula">
+                    $$g_i(x) \leq 0, \quad i = 1, \ldots, m \quad \text{(ràng buộc bất đẳng thức)}$$
+                    $$h_j(x) = 0, \quad j = 1, \ldots, p \quad \text{(ràng buộc đẳng thức)}$$
+                </div>
+                <p><strong>Tập khả thi:</strong></p>
+                <div class="formula">
+                    $$\mathcal{F} = \{x : g_i(x) \leq 0, \; h_j(x) = 0, \; \forall i,j\}$$
+                </div>
+                <p>Bài toán tối ưu chỉ tìm nghiệm trong tập khả thi này.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 25</div>
+                <div class="question-text">Trong bài toán QP (Quadratic Programming), hàm mục tiêu có dạng:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $\frac{1}{2}x^T P x + q^T x + r$ với $P$ bán xác định dương
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Bài toán Quadratic Programming (QP):</strong></p>
+                <div class="formula">
+                    $$\min_{x} \quad \frac{1}{2}x^T P x + q^T x + r$$
+                    $$\text{s.t.} \quad Gx \leq h, \quad Ax = b$$
+                </div>
+                <p>Trong đó:</p>
+                <ul>
+                    <li>$P \in \mathbb{R}^{n \times n}$ là ma trận bán xác định dương ($P \succeq 0$)</li>
+                    <li>$q \in \mathbb{R}^n$ là vector hệ số tuyến tính</li>
+                    <li>$r \in \mathbb{R}$ là hằng số</li>
+                </ul>
+                <p><strong>Tính lồi:</strong> Nếu $P \succeq 0$, bài toán QP là lồi và có thể giải hiệu quả.</p>
+                <p><strong>Ứng dụng:</strong> Regression, portfolio optimization, SVM, control theory.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHƯƠNG 5: CÁC BÀI TOÁN TỐI ƯU KINH ĐIỂN -->
+    <div class="chapter-section">
+        <div class="chapter-title">CHƯƠNG 5: CÁC BÀI TOÁN TỐI ƯU KINH ĐIỂN</div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 26</div>
+                <div class="question-text">Trong quy hoạch tuyến tính, vùng khả thi được tạo bởi:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Giao của các nửa không gian
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Bài toán quy hoạch tuyến tính (Linear Programming):</strong></p>
+                <div class="formula">
+                    $$\min_{x} \quad c^T x$$
+                    $$\text{s.t.} \quad Ax \leq b, \quad x \geq 0$$
+                </div>
+                <p><strong>Vùng khả thi:</strong></p>
+                <p>Mỗi ràng buộc $a_i^T x \leq b_i$ định nghĩa một nửa không gian. Tập khả thi là <strong>giao</strong> của tất cả các nửa không gian này:</p>
+                <div class="formula">
+                    $$\mathcal{F} = \{x : a_i^T x \leq b_i, \; \forall i\} = \bigcap_i \{x : a_i^T x \leq b_i\}$$
+                </div>
+                <p>Tập này là một <strong>đa diện lồi (convex polytope)</strong>.</p>
+                <p><strong>Tính chất:</strong> Nghiệm tối ưu (nếu tồn tại và hữu hạn) nằm tại đỉnh của đa diện.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 27</div>
+                <div class="question-text">Trong bài toán bình phương tối thiểu $\min \|Ax - b\|_2^2$, nghiệm được cho bởi:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $x = (A^T A)^{-1} A^T b$ (nếu $A^T A$ khả nghịch)
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Bài toán Least Squares:</strong></p>
+                <div class="formula">
+                    $$\min_{x} \quad \|Ax - b\|_2^2 = \min_{x} (Ax - b)^T(Ax - b)$$
+                </div>
+                <p><strong>Điều kiện tối ưu:</strong> Đạo hàm bằng 0:</p>
+                <div class="formula">
+                    $$\nabla_x \|Ax - b\|_2^2 = 2A^T(Ax - b) = 0$$
+                    $$A^T A x = A^T b$$
+                </div>
+                <p>Đây gọi là <strong>phương trình chuẩn (normal equation)</strong>.</p>
+                <p><strong>Nghiệm:</strong> Nếu $A^T A$ khả nghịch:</p>
+                <div class="formula">
+                    $$x^* = (A^T A)^{-1} A^T b$$
+                </div>
+                <p>Ma trận $(A^T A)^{-1} A^T$ gọi là <strong>pseudo-inverse</strong> trái của $A$.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 28</div>
+                <div class="question-text">Trong bài toán bình phương tối thiểu $\min \|Ax - b\|_2^2$, điều kiện để có nghiệm duy nhất là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Ma trận $A$ có hạng đầy đủ theo cột
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Điều kiện nghiệm duy nhất:</strong></p>
+                <p>Ma trận $A \in \mathbb{R}^{m \times n}$ phải có <strong>hạng đầy đủ theo cột</strong>:</p>
+                <div class="formula">
+                    $$\text{rank}(A) = n \quad \text{(số cột)}$$
+                </div>
+                <p><strong>Lý do:</strong></p>
+                <ul>
+                    <li>Khi $\text{rank}(A) = n$, ma trận $A^T A \in \mathbb{R}^{n \times n}$ là xác định dương, do đó khả nghịch</li>
+                    <li>Nghiệm $x^* = (A^T A)^{-1} A^T b$ là duy nhất</li>
+                </ul>
+                <p><strong>Trường hợp khác:</strong> Nếu $\text{rank}(A) < n$, có vô số nghiệm. Ta thường chọn nghiệm có chuẩn nhỏ nhất.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 29</div>
+                <div class="question-text">Trong quy hoạch tuyến tính, nếu có vô số nghiệm tối ưu thì:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Hàm mục tiêu song song với một cạnh của vùng khả thi
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Trường hợp vô số nghiệm:</strong></p>
+                <p>Khi vector gradient của hàm mục tiêu $c$ song song với một cạnh (edge) hoặc mặt (face) của đa diện khả thi, tất cả các điểm trên cạnh/mặt đó đều là nghiệm tối ưu.</p>
+                <div class="formula">
+                    $$\min \quad c^T x \quad \text{s.t.} \quad x \in \mathcal{F}$$
+                </div>
+                <p><strong>Ví dụ:</strong> Tối ưu $x_1 + x_2$ với ràng buộc tạo tam giác có cạnh song song với vector $(1,1)$. Tất cả điểm trên cạnh này đều tối ưu.</p>
+                <p><strong>Lưu ý:</strong> Mặc dù có vô số nghiệm, giá trị tối ưu vẫn duy nhất.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 30</div>
+                <div class="question-text">Trong bài toán phân loại tuyến tính, để phân loại điểm $x$ ta sử dụng quy tắc:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $\text{sign}(w^T x + b)$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Bộ phân loại tuyến tính (Linear Classifier):</strong></p>
+                <p>Siêu phẳng phân loại: $w^T x + b = 0$</p>
+                <p><strong>Quy tắc phân loại:</strong></p>
+                <div class="formula">
+                    $$\hat{y} = \text{sign}(w^T x + b) = \begin{cases} +1 & \text{nếu } w^T x + b > 0 \\ -1 & \text{nếu } w^T x + b < 0 \end{cases}$$
+                </div>
+                <p><strong>Ý nghĩa:</strong></p>
+                <ul>
+                    <li>$w^T x + b > 0$: Điểm $x$ nằm về phía dương của siêu phẳng → nhãn +1</li>
+                    <li>$w^T x + b < 0$: Điểm $x$ nằm về phía âm của siêu phẳng → nhãn -1</li>
+                    <li>$w^T x + b = 0$: Điểm $x$ nằm trên siêu phẳng quyết định</li>
+                </ul>
+                <p><strong>Ứng dụng:</strong> Perceptron, SVM, logistic regression.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHƯƠNG 6: GRADIENT DESCENT -->
+    <div class="chapter-section">
+        <div class="chapter-title">CHƯƠNG 6: GRADIENT DESCENT</div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 31</div>
+                <div class="question-text">Công thức cập nhật trong gradient descent là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $x_{k+1} = x_k - \alpha \nabla f(x_k)$
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Thuật toán Gradient Descent:</strong></p>
+                <p>Để tối ưu $\min_x f(x)$, ta cập nhật lặp theo công thức:</p>
+                <div class="formula">
+                    $$x_{k+1} = x_k - \alpha_k \nabla f(x_k)$$
+                </div>
+                <p>Trong đó:</p>
+                <ul>
+                    <li>$x_k$: Điểm hiện tại tại bước lặp $k$</li>
+                    <li>$\nabla f(x_k)$: Gradient của $f$ tại $x_k$</li>
+                    <li>$\alpha_k > 0$: Độ dài bước (step size hoặc learning rate)</li>
+                </ul>
+                <p><strong>Ý nghĩa:</strong> Di chuyển ngược hướng gradient (hướng giảm nhanh nhất) để tìm điểm tối ưu.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 32</div>
+                <div class="question-text">Trong gradient descent với step size cố định, điều kiện để đảm bảo hội tụ là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Step size $\alpha$ đủ nhỏ
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Điều kiện hội tụ với step size cố định:</strong></p>
+                <p>Với hàm $f$ khả vi Lipschitz với hằng số $L$ (tức $\|\nabla f(x) - \nabla f(y)\| \leq L\|x - y\|$), gradient descent với step size cố định $\alpha$ hội tụ nếu:</p>
+                <div class="formula">
+                    $$0 < \alpha < \frac{2}{L}$$
+                </div>
+                <p>Thường chọn $\alpha \leq \frac{1}{L}$ để đảm bảo giảm đơn điệu.</p>
+                <p><strong>Hệ quả:</strong></p>
+                <ul>
+                    <li>$\alpha$ quá lớn → thuật toán phân kỳ hoặc dao động</li>
+                    <li>$\alpha$ quá nhỏ → hội tụ chậm</li>
+                    <li>$\alpha$ tối ưu → cân bằng giữa tốc độ và ổn định</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 33</div>
+                <div class="question-text">Gradient descent hội tụ nhanh nhất khi hàm mục tiêu có tính chất:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Strongly convex
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Hàm lồi mạnh (Strongly Convex):</strong></p>
+                <p>Hàm $f$ là lồi mạnh với tham số $\mu > 0$ nếu:</p>
+                <div class="formula">
+                    $$f(y) \geq f(x) + \nabla f(x)^T(y - x) + \frac{\mu}{2}\|y - x\|^2$$
+                </div>
+                <p>Tương đương: $\nabla^2 f(x) \succeq \mu I$ (Hessian bị chặn dưới bởi $\mu I$).</p>
+                <p><strong>Tốc độ hội tụ:</strong></p>
+                <p>Với hàm lồi mạnh và gradient Lipschitz, gradient descent đạt <strong>hội tụ tuyến tính</strong>:</p>
+                <div class="formula">
+                    $$f(x_k) - f(x^*) \leq C \cdot \rho^k$$
+                </div>
+                <p>với $\rho < 1$ (tốc độ hội tụ hàm mũ).</p>
+                <p><strong>So sánh:</strong> Hàm lồi thông thường chỉ đạt $O(1/k)$, chậm hơn nhiều.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 34</div>
+                <div class="question-text">Trong gradient descent, hướng di chuyển tại mỗi bước là:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> Ngược hướng với gradient
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Hướng giảm gradient (Gradient Descent Direction):</strong></p>
+                <p>Tại điểm $x_k$, ta di chuyển theo hướng $-\nabla f(x_k)$:</p>
+                <div class="formula">
+                    $$d_k = -\nabla f(x_k)$$
+                </div>
+                <p><strong>Lý do:</strong> Gradient $\nabla f(x_k)$ chỉ hướng tăng nhanh nhất của hàm. Do đó, hướng ngược lại $-\nabla f(x_k)$ là hướng <strong>giảm nhanh nhất</strong> (steepest descent).</p>
+                <p><strong>Định lý:</strong> Với $\alpha$ đủ nhỏ:</p>
+                <div class="formula">
+                    $$f(x_k - \alpha \nabla f(x_k)) < f(x_k) \quad \text{nếu } \nabla f(x_k) \neq 0$$
+                </div>
+                <p>Đây là phương pháp <strong>steepest descent</strong> cục bộ.</p>
+            </div>
+        </div>
+
+        <div class="question-solution">
+            <div class="question-header">
+                <div class="question-number">Câu 35</div>
+                <div class="question-text">Gradient descent dừng lại khi:</div>
+            </div>
+            <div class="correct-answer">
+                <span class="answer-label">✓ Đáp án A:</span> $\|\nabla f(x_k)\|$ đủ nhỏ
+            </div>
+            <div class="explanation">
+                <h4>📝 Lời giải:</h4>
+                <p><strong>Tiêu chí dừng (Stopping Criterion):</strong></p>
+                <p>Thuật toán gradient descent thường dừng khi gradient gần bằng 0:</p>
+                <div class="formula">
+                    $$\|\nabla f(x_k)\| < \epsilon$$
+                </div>
+                <p>với $\epsilon > 0$ là ngưỡng cho trước (ví dụ $10^{-6}$).</p>
+                <p><strong>Lý do:</strong> Điều kiện cần để $x_k$ là điểm tối ưu là $\nabla f(x_k) = 0$. Trong thực tế, ta chấp nhận gradient đủ nhỏ.</p>
+                <p><strong>Các tiêu chí dừng khác:</strong></p>
+                <ul>
+                    <li>$|f(x_{k+1}) - f(x_k)| < \epsilon$: Giá trị hàm thay đổi ít</li>
+                    <li>$\|x_{k+1} - x_k\| < \epsilon$: Điểm ít thay đổi</li>
+                    <li>Số lần lặp đạt tối đa: Tránh chạy vô hạn</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 50px; padding: 20px; background-color: #f0f0f0; border-radius: 10px;">
+        <h3 style="color: #667eea;">✅ HẾT BÀI GIẢI ✅</h3>
+        <p>Chúc các bạn học tốt và đạt kết quả cao!</p>
+    </div>
+
+</body>
+</html>
+
