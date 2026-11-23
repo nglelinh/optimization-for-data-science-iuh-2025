@@ -105,3 +105,11 @@ Xét hàm lồi $$f(x) = x^2$$ với hai điểm $$x_1 = 1$$ và $$x_2 = 3$$. Ta
    Ta có $$f(1) = 1$$ và $$f(3) = 9$$, nên trung bình cộng là $$\frac{1+9}{2} = 5$$.
 
 So sánh hai giá trị cho thấy $$4 \le 5$$, đúng với bất đẳng thức Jensen: $$f\left(\frac{1+3}{2}\right) \le \frac{f(1)+f(3)}{2}$$.
+
+### Bốn cách kiểm tra hàm lồi trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/convexity-tests_vi.mp4"></video>
+</div>
+
+Dây cung và Jensen trên x² (ví dụ 1 và 3), tiếp tuyến nằm dưới đồ thị, đạo hàm bậc hai và Hessian, epigraph và tập mức dưới, đối chiếu với hàm hình chữ W x⁴ − 3x².

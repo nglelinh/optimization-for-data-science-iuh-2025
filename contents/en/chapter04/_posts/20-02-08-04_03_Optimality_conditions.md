@@ -199,6 +199,14 @@ The interactive tool demonstrates:
 - **Contour plots** showing local curvature behavior
 - **Step-by-step calculations** for second-order tests
 
+### The first-order optimality condition in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/first-order-optimality_en.mp4"></video>
+</div>
+
+∇f(x*)ᵀ(y − x*) ≥ 0 on a triangle: checking at the vertices, the normal cone, projected gradient, a vertex solution, and the 9 stationary points of the nonconvex example.
+
 ## Summary and Key Takeaways
 
 Second-order optimality conditions provide **stronger characterization** of optimal points:

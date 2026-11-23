@@ -123,3 +123,11 @@ We want to compare $$f\left(\frac{x_1+x_2}{2}\right)$$ with $$\frac{f(x_1)+f(x_2
 
 Comparing the two results: $$4 \le 5$$.
 This demonstrates Jensen's inequality: $$f\left(\frac{1+3}{2}\right) \le \frac{f(1)+f(3)}{2}$$.
+
+### Four ways to check convexity in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/convexity-tests_en.mp4"></video>
+</div>
+
+The chord and Jensen on x² (the 1 and 3 example), the tangent below the graph, second derivatives and the Hessian, epigraph and sublevel sets, contrasted with the W-shaped x⁴ − 3x².

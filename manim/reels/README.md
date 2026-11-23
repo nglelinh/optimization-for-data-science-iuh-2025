@@ -14,3 +14,10 @@ r_mom Mom momentum-nesterov | r_sgd Sgd sgd-minibatch | r_ada Ada adagrad-rmspro
 r_kktw KktW kkt-water-filling | r_slater Slater strong-duality-slater | r_ls Ls line-search | r_fista Fista ista-fista |
 r_maxflow MaxFlow max-flow-min-cut | r_saddle Saddle saddle-escape
 Preview fast: `FAST=1 REEL_LANG=vi manim -ql r_mom.py Mom`. Compress: `ffmpeg -i in.mp4 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart -an out.mp4`.
+
+Fourth wave (23/11, about 2:45–3:10, silent, same 5 stages; numbers checked by numpy asserts at import):
+r_cvx Cvx convexity-tests (03-01-01, 03-01-03) | r_foc Foc first-order-optimality (04-03) | r_ndec NDec newton-decrement (14-03) |
+r_lbfgs Lbfgs l-bfgs (18-07) | r_admmg AdmmG admm-general (20-04-01) | r_ad Ad autodiff-forward-reverse (27-02, 27-03) |
+r_pl Pl pl-condition (28-05) | r_fedavg FedAvg fedavg-drift (29-02)
+Preview fast: `FAST=1 REEL_LANG=vi manim -ql r_cvx.py Cvx`. Final: `REEL_LANG=vi manim -qh r_cvx.py Cvx` (and `en`), then the same ffmpeg command as above.
+Vietnamese narration drafts for later dubbing, with measured stage/caption times: `vo_scripts_batch2.py` (same `(k, offset, text)` format as `vo/narration_vi.py`).

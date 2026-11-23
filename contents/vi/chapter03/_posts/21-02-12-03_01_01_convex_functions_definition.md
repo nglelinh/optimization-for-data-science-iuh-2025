@@ -55,3 +55,11 @@ $$
 > $$\text{với mọi } x,y \in \text{dom} f, \text{ và } 0 \le \theta \le 1$$
 
 Do đó, mọi hàm affine đều vừa lồi vừa lõm.
+
+### Bốn cách kiểm tra hàm lồi trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/convexity-tests_vi.mp4"></video>
+</div>
+
+Dây cung và Jensen trên x² (ví dụ 1 và 3), tiếp tuyến nằm dưới đồ thị, đạo hàm bậc hai và Hessian, epigraph và tập mức dưới, đối chiếu với hàm hình chữ W x⁴ − 3x².

@@ -62,3 +62,11 @@ In the computation, the initial Hessian approximation $$H^{0, k}$$ is usually (a
 >$$
 
 * **Note:** $$H^{0, k}$$ changes at every iteration.
+
+### L-BFGS in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/l-bfgs_en.mp4"></video>
+</div>
+
+Why BFGS needs n² memory, m pairs (s, y) and H₀ = γI, the two-loop recursion by hand in 2D, then step counts on logistic regression.

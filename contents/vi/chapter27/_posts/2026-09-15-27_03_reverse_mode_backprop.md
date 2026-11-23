@@ -50,3 +50,11 @@ Bạn có thể đối chiếu kết quả trên với PyTorch bằng cách dự
 **Đánh đổi bộ nhớ.** Chế độ nghịch phải lưu lại các giá trị trung gian của lượt thuận để dùng khi duyệt ngược. Kỹ thuật *gradient checkpointing* (tính lại một phần lượt thuận khi cần) đánh đổi thời gian tính toán lấy dung lượng bộ nhớ RAM/VRAM khi huấn luyện mô hình lớn — đây là kỹ thuật quản lý bộ nhớ trong cài đặt, không làm thay đổi giá trị đạo hàm.
 
 Tóm lại, hãy ưu tiên chế độ thuận khi bài toán có ít đầu vào và nhiều đầu ra, còn ưu tiên chế độ nghịch khi có một hàm mất mát vô hướng và rất nhiều tham số. Sự kết hợp hai chế độ (chẳng hạn tính tích Hessian–vector bằng lược đồ thuận-trên-nghịch) cho phép các phương pháp bậc hai và tối ưu hai mức giữ chi phí tuyến tính theo số chiều.
+
+### Chế độ thuận và nghịch trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/autodiff-forward-reverse_vi.mp4"></video>
+</div>
+
+Đồ thị tính toán của x₁x₂ + sin x₁: tiếp tuyến và số đối ngẫu, adjoint đi ngược, ví dụ ReLU của bài 27-03, và đếm số lượt quét.

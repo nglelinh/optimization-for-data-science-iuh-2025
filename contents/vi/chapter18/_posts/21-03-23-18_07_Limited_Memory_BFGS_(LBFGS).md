@@ -62,3 +62,11 @@ H^{0, k} = \gamma_k I, \\\\
 >$$
 
 * **Lưu ý:** Hệ số co giãn $$\gamma_k$$ (và do đó $$H^{0, k}$$) được cập nhật lại ở mỗi vòng lặp.
+
+### L-BFGS trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/l-bfgs_vi.mp4"></video>
+</div>
+
+Vì sao BFGS tốn n² bộ nhớ, m cặp (s, y) và H₀ = γI, làm tay đệ quy hai vòng trong 2 chiều, rồi so sánh số bước trên hồi quy logistic.

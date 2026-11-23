@@ -196,6 +196,14 @@ Công cụ tương tác này minh họa:
 - **Đồ thị đường đồng mức** thể hiện hành vi độ cong cục bộ của hàm số.
 - **Các bước tính toán chi tiết** cho kiểm tra điều kiện bậc hai.
 
+### Điều kiện tối ưu bậc nhất trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/first-order-optimality_vi.mp4"></video>
+</div>
+
+∇f(x*)ᵀ(y − x*) ≥ 0 trên một tam giác: kiểm tra bằng các đỉnh, nón pháp tuyến, gradient chiếu, nghiệm ở đỉnh, và 9 điểm dừng của ví dụ không lồi.
+
 ## Tóm tắt và điểm chính
 
 Các điều kiện tối ưu bậc hai cho phép **đặc trưng hóa chính xác hơn** bản chất của các điểm dừng:

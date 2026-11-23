@@ -52,3 +52,11 @@ Compare with PyTorch: build the same expression as tensors with `requires_grad=T
 **Memory.** Reverse mode stores the forward tape. Checkpointing / rematerialization trades compute for RAM — the reason gradient checkpointing appears in large-model training. That is an implementation footnote, not a different derivative.
 
 When you have *many* outputs and few inputs, prefer forward mode. When you have one loss and a sea of weights, prefer reverse. Mixed mode (forward-over-reverse Hessian–vector products) is how some second-order and bilevel methods stay linear in dimension.
+
+### Forward and reverse mode in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/autodiff-forward-reverse_en.mp4"></video>
+</div>
+
+The computation graph of x₁x₂ + sin x₁: tangents and dual numbers, adjoints flowing backward, the ReLU toy of lesson 27-03, and counting sweeps.

@@ -58,3 +58,11 @@ Từ các hệ thức trên, ta viết lại Newton decrement dưới dạng:
 >\end{align}
 
 Cuối cùng, tương tự bước Newton, Newton decrement cũng bất biến affine. Cụ thể, với mọi ma trận không suy biến $$A$$, nếu đặt $$g(y) = f(Ay)$$ thì tại $$x = Ay$$ ta có $$\lambda_{g(y)} = \lambda_{f(x)}$$.
+
+### Newton decrement trong khoảng 3 phút
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/newton-decrement_vi.mp4"></video>
+</div>
+
+½λ² là mức hạ của mô hình bậc hai, so với f − f* trên eˣ − 2x và trên hàm log-sum-exp, rồi so sánh tiêu chuẩn dừng λ với ‖∇f‖ khi đổi biến.

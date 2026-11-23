@@ -52,3 +52,11 @@ $$
 > $$\text{for all } x,y \in \text{dom} f, \text{with } \theta \le \theta \le 1$$
 
 That is, affine functions are always convex, and simultaneously concave.
+
+### Four ways to check convexity in about 3 minutes
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/convexity-tests_en.mp4"></video>
+</div>
+
+The chord and Jensen on x² (the 1 and 3 example), the tangent below the graph, second derivatives and the Hessian, epigraph and sublevel sets, contrasted with the W-shaped x⁴ − 3x².
