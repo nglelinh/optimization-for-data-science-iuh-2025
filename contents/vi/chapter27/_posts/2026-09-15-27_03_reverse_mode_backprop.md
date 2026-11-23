@@ -20,10 +20,10 @@ $$
 
 Chỉ trong một lượt duyệt ngược duy nhất, thuật toán thu được toàn bộ gradient $$\nabla_w \ell$$ — tương ứng với một **tích vector–Jacobian (VJP)** $$(\nabla \ell)^\top J$$. Chi phí tính toán chỉ gấp một hằng số nhỏ lần chi phí lượt thuận và *không phụ thuộc vào số lượng tham số*. Tính chất này chính là nền tảng giúp việc huấn luyện các mạng nơ-ron sâu hàng triệu hoặc hàng tỷ tham số trở nên khả thi.
 
-**Lan truyền ngược (backpropagation)** là trường hợp riêng của AD chiều nghịch áp dụng cho mạng nơ-ron nhiều lớp, trong đó biến liên hợp tại lớp $$\ell$$ chính là tín hiệu sai số $$\delta^{(\ell)}$$ quen thuộc:
+**Lan truyền ngược (backpropagation)** là trường hợp riêng của AD chiều nghịch áp dụng cho mạng nơ-ron nhiều lớp, trong đó biến liên hợp tại lớp $$k$$ chính là tín hiệu sai số $$\delta^{(k)}$$ quen thuộc (dùng $$k$$ cho chỉ số lớp vì $$\ell$$ đã là hàm mất mát):
 
 $$
-\delta^{(\ell)} = \bigl(W^{(\ell+1)\top}\delta^{(\ell+1)}\bigr)\odot \phi'(z^{(\ell)}).
+\delta^{(k)} = \bigl(W^{(k+1)\top}\delta^{(k+1)}\bigr)\odot \phi'(z^{(k)}).
 $$
 
 Về bản chất, không có phép biến đổi đặc biệt nào ngoài quy tắc dây chuyền: mỗi phép nhân ma trận và hàm kích hoạt chỉ là một nút sơ cấp với Jacobian cục bộ đã biết.

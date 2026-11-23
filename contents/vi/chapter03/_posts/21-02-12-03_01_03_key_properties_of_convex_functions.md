@@ -11,7 +11,7 @@ lang: vi
 
 ## Đặc trưng epigraph
 
-Như đã nêu ở Mục 1.2, hàm $$f$$ lồi khi và chỉ khi epigraph (tập trên đồ thị) của nó là một tập lồi:
+Như đã nêu ở [bài 01-02]({% multilang_post_url contents/chapter01/21-01-28-01_02_convex_optimization_problem %}), hàm $$f$$ lồi khi và chỉ khi epigraph (tập trên đồ thị) của nó là một tập lồi:
 
 > $$f$$ lồi $$\iff \text{epi}(f) = \{(x,t) \in \mathbb{R}^{n+1} \mid x \in \text{dom} f, f(x) \le t \}$$ là một tập lồi
 
@@ -89,8 +89,8 @@ Trong trường hợp hai điểm, bất đẳng thức này trở về dạng q
 
 Không hoàn toàn — bất đẳng thức Jensen là hệ quả và là dạng tổng quát hóa của định nghĩa hàm lồi:
 
-- Định nghĩa hàm lồi chỉ xét tổ hợp lồi của hai điểm ($$k=2$$), còn bất đẳng thức Jensen mở rộng cho số điểm hữu hạn bất kỳ và sang dạng tích phân / kỳ vọng đối với độ đo xác suất.
-- Với $$k=2$$, bất đẳng thức Jensen trùng khớp với định nghĩa hàm lồi; với $$k \ge 3$$, ta suy ra nó bằng quy nạp từ trường hợp hai điểm.
+- Định nghĩa hàm lồi chỉ xét tổ hợp lồi của hai điểm ($$n=2$$), còn bất đẳng thức Jensen mở rộng cho số điểm hữu hạn bất kỳ và sang dạng tích phân / kỳ vọng đối với độ đo xác suất.
+- Với $$n=2$$, bất đẳng thức Jensen trùng khớp với định nghĩa hàm lồi; với $$n \ge 3$$, ta suy ra nó bằng quy nạp từ trường hợp hai điểm.
 
 ---
 

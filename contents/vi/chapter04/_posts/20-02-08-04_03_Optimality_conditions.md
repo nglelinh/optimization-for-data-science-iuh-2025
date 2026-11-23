@@ -12,7 +12,7 @@ lesson_type: required
 
 ## Điều kiện tối ưu bậc nhất
 
-Để ôn lại các tính chất của hàm lồi, xem [Chương 3: Các Tính chất Chính của Hàm Lồi]({% multilang_post_url contents/chapter03/20-02-08-03_01_key_properties_of_convex_functions %}).
+Để ôn lại các tính chất của hàm lồi, xem [Chương 3: Các Tính chất Chính của Hàm Lồi]({% multilang_post_url contents/chapter03/21-02-12-03_01_03_key_properties_of_convex_functions %}).
 
 Xét bài toán tối ưu hóa lồi:
 

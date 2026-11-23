@@ -20,10 +20,10 @@ $$
 
 One reverse sweep produces the full gradient $$\nabla_w \ell$$ — a **vector–Jacobian product** $$(\nabla \ell)^\top J$$. Cost is a small constant times the forward cost, *independent of the number of parameters*. That single sentence is why deep learning is computationally possible.
 
-**Backpropagation** is reverse-mode AD applied to a layered net, with the adjoint of a layer being the familiar $$\delta$$:
+**Backpropagation** is reverse-mode AD applied to a layered net, with the adjoint at layer $$k$$ being the familiar $$\delta^{(k)}$$ (we write $$k$$ for the layer index, since $$\ell$$ already denotes the loss):
 
 $$
-\delta^{(\ell)} = \bigl(W^{(\ell+1)\top}\delta^{(\ell+1)}\bigr)\odot \phi'(z^{(\ell)}).
+\delta^{(k)} = \bigl(W^{(k+1)\top}\delta^{(k+1)}\bigr)\odot \phi'(z^{(k)}).
 $$
 
 Nothing mystical: matrix multiplies are elementary nodes with known local Jacobians.

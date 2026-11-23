@@ -9,7 +9,7 @@ categories:
 lang: en
 ---
 ## Epigraph characterization
-As discussed in Section 1.2, $$f$$ is convex if and only if its epigraph is a convex set, and vice versa.
+As discussed in [lesson 01-02]({% multilang_post_url contents/chapter01/21-01-28-01_02_convex_optimization_problem %}), $$f$$ is convex if and only if its epigraph is a convex set, and vice versa.
 
 > $$f$$ is convex $$\iff epi(f) = \{(x,t) \in \mathbb{R}^{n+1} \mid x \in \text{dom} f, f(x) \le t \}$$ is a convex set
 
@@ -100,10 +100,10 @@ If a function $$f$$ is convex, it satisfies the following inequality:
 
 The answer is no—Jensen's inequality is a consequence and generalization of the convexity definition, not the definition itself.
 
-- This extends the two-point case ($$k=2$$) in the definition to any finite number of points (and can be further generalized to integrals for probability measures).
+- This extends the two-point case ($$n=2$$) in the definition to any finite number of points (and can be further generalized to integrals for probability measures).
 - **Why It's a Generalization:** The basic definition is for two points (binary convex combination). Jensen applies it iteratively to more points. For instance:
-  - For $$k=2$$, Jensen reduces exactly to the definition.
-  - For $$k=3$$, you can apply the definition recursively: First combine two points, then with the third.
+  - For $$n=2$$, Jensen reduces exactly to the definition.
+  - For $$n=3$$, you can apply the definition recursively: First combine two points, then with the third.
 
 ---
 ### Short Example

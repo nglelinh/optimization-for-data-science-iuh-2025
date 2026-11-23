@@ -16,7 +16,7 @@ A function $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ is convex if its domain is 
 >
 > with $$0 \le \theta \le 1$$, for all $$x,y \in \text{dom} f$$
 
-This means that for any two points $$x, y$$, the value of $$f$$ at their convex combination is less than or equal to the convex combination of their function values. Geometrically, the graph of $$f$$ lies below the line segment connecting $$f(x)$$ and $$f(y)$$.
+This means that for any two points $$x, y$$, the value of $$f$$ at their convex combination is less than or equal to the convex combination of their function values. Geometrically, the graph of $$f$$ lies below the line segment connecting the points $$(x, f(x))$$ and $$(y, f(y))$$.
 
 <figure class="image" style="align: center;">
 <p align="center">
@@ -49,7 +49,7 @@ f(\theta x+(1-\theta)y) &= a^T (\theta x+(1-\theta)y) +b \\
 &= \theta f(x)+(1-\theta)f(y) \\
 \end{aligned} 
 $$
-> $$\text{for all } x,y \in \text{dom} f, \text{with } \theta \le \theta \le 1$$
+> $$\text{for all } x,y \in \text{dom} f, \text{with } 0 \le \theta \le 1$$
 
 That is, affine functions are always convex, and simultaneously concave.
 

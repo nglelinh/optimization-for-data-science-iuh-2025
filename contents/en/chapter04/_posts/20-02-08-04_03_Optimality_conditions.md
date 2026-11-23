@@ -12,7 +12,7 @@ lesson_type: required
 
 ## First order optimality condition
 
-For more background on convex functions, see [Chapter 3: Key Properties of Convex Functions]({% multilang_post_url contents/chapter03/20-02-08-03_01_key_properties_of_convex_functions %}).
+For more background on convex functions, see [Chapter 3: Key Properties of Convex Functions]({% multilang_post_url contents/chapter03/21-02-12-03_01_03_key_properties_of_convex_functions %}).
 
 >$$
 \begin{aligned}
@@ -47,7 +47,7 @@ When $$C = \mathbb{R}^n$$ (unconstrained optimization),
 the optimality condition is:
 > $$\nabla f(x) = 0$$
 
-In this case, $$-\nabla f(x)$$ points toward the optimal point $$x$$, and $$\nabla f(x) = 0$$ means there is no further direction to move to decrease $$f$$ at $$x$$.
+In this case every direction in $$\mathbb{R}^n$$ is feasible. Whenever $$\nabla f(x) \ne 0$$, the direction $$-\nabla f(x)$$ is a descent direction (it decreases $$f$$ locally, although it need not point straight at a minimizer), so $$\nabla f(x) = 0$$ means there is no direction left that decreases $$f$$ at $$x$$.
 
 ---
 
@@ -129,7 +129,7 @@ Solving: $$x^* = (0, 0)$$
 $$\nabla^2 f(x) = \begin{bmatrix} 2 & 1 \\ 1 & 4 \end{bmatrix}$$
 
 **Step 3: Check positive definiteness**
-- Eigenvalues: $$\lambda_1 = \frac{6 + \sqrt{12}}{2} > 0$$, $$\lambda_2 = \frac{6 - \sqrt{12}}{2} > 0$$
+- Eigenvalues: $$\lambda_1 = \frac{6 + \sqrt{8}}{2} = 3 + \sqrt{2} > 0$$, $$\lambda_2 = \frac{6 - \sqrt{8}}{2} = 3 - \sqrt{2} > 0$$
 - Leading principal minors: $$2 > 0$$, $$\det = 8 - 1 = 7 > 0$$
 
 **Conclusion**: $$\nabla^2 f(0,0) \succ 0$$ → $$(0,0)$$ is a strict local minimum.
@@ -177,7 +177,7 @@ $$\mathcal{L}(x,\lambda) = f(x) + \sum_{i=1}^m \lambda_i h_i(x)$$
 |--------|-------------|--------------|
 | **Information** | Gradient (slope) | Hessian (curvature) |
 | **Necessary condition** | $$\nabla f(x^*) = 0$$ | $$\nabla f(x^*) = 0$$ and $$\nabla^2 f(x^*) \succeq 0$$ |
-| **Sufficient condition** | Not available for unconstrained | $$\nabla f(x^*) = 0$$ and $$\nabla^2 f(x^*) \succ 0$$ |
+| **Sufficient condition (unconstrained)** | Not sufficient for general $$f$$ (sufficient if $$f$$ is convex) | $$\nabla f(x^*) = 0$$ and $$\nabla^2 f(x^*) \succ 0$$ |
 | **Strength** | Weaker | Stronger |
 | **Computational cost** | $$O(n)$$ | $$O(n^2)$$ |
 | **Distinguishes** | Critical points | Minima, maxima, saddle points |
