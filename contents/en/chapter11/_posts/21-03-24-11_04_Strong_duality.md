@@ -30,14 +30,14 @@ $$
 \begin{alignat}{1}
 \min_{\beta, \beta_0, \xi} & \quad \frac{1}{2}\parallel\beta\parallel_2^2 + C \sum_{i=1}^n \xi_i   \\\\
                                   s.t. & \quad \xi_i \geq 0, i=1,\dots,n   \\\\
-                                       & \quad y_i(x_i^T \beta + \beta_o) \geq 1 - \xi_i, i=1,\dots,n
+                                       & \quad y_i(x_i^T \beta + \beta_0) \geq 1 - \xi_i, i=1,\dots,n
 \end{alignat}
 $$
 
 Using dual variables $$v, w \geq 0$$, let us define the Lagrangian:
 >
 \begin{equation}
-L(\beta,\beta_0,\xi,v,w) = \frac{1}{2} \parallel\beta\parallel\_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i +  \sum_{i=1}^n w_i (1-\xi_i - y_i(x_i^T\beta + \beta_o))
+L(\beta,\beta_0,\xi,v,w) = \frac{1}{2} \parallel\beta\parallel_2^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n v_i \xi_i +  \sum_{i=1}^n w_i (1-\xi_i - y_i(x_i^T\beta + \beta_0))
 \end{equation}
 
 

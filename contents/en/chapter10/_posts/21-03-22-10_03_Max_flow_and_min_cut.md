@@ -35,7 +35,7 @@ As a simple example, this can be understood as a graph representation of some fl
 Here, the flow satisfies three conditions.
 
 1. $$f_{ij}$$ is always a positive number greater than or equal to 0: $$f_{ij} \geq 0,\, (i,j)\in E$$
-2. $$f_{ij}$$ must be less than the maximum flow determined for the edge, i.e., the capacity (limit capacity) $$c_{ij}$$: $$f_{ij}<c_{ij}, \, (i,j)\in E$$
+2. $$f_{ij}$$ must not exceed the maximum flow allowed on the edge, i.e., the capacity $$c_{ij}$$: $$f_{ij}\leq c_{ij}, \, (i,j)\in E$$
 3. For vertex k excluding the source (the point where flow comes out, s) or sink (the point where flow goes out, t), the total amount of flow entering k equals the total amount of flow leaving k: $$\sum_{(i,k)\in E}f_{ik} = \sum_{(k,j)\in E}f_{kj}, \, k\in V\backslash{s,t}$$
 
 ## Relationship between Max flow and Min cut problem(1)
@@ -138,7 +138,7 @@ Therefore, the sigma for the x term of the second term can be organized as follo
 
 >$$
 >\begin{align}
->&=\sum_{(s,j)\in E}{\Big((b_{sj}-a_{sj})f_{sj}\Big)}+x_{j}\sum_{(s,j)\in E}{f_{sj}}+\sum_{k\in V\backslash \\{s,t,j\\}}{x_{k}\Big(\underbrace{\sum_{(s,k)\in E}{f_{sk}}-\sum_{(k,j)\in E}{f_{kj}}}_{=0}\Big)} \\\\
+>&=\sum_{(s,j)\in E}{\Big((b_{sj}-a_{sj})f_{sj}\Big)}+x_{j}\sum_{(s,j)\in E}{f_{sj}}+\sum_{k\in V\backslash \{s,t,j\}}{x_{k}\Big(\underbrace{\sum_{(s,k)\in E}{f_{sk}}-\sum_{(k,j)\in E}{f_{kj}}}_{=0}\Big)} \\\\
 >&=\sum_{(s,j)\in E}{\Big(b_{sj}-a_{sj}+x_{j}\Big)f_{sj}}, \ j \in V \backslash \{s,t\},\\\\
 >\end{align}
 >$$

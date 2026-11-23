@@ -31,4 +31,4 @@ In high dimension, if eigenvalues of a “typical” Hessian at a critical point
 
 GD pulled into the saddle of x² − y² + ½y⁴, sitting long with a tiny offset, escaping with noise, and why most critical points are saddles in high dimensions.
 
-**Exercise.** For $$F(x,y)=x^2-y^2$$ (the hyperbolic paraboloid) write $$\nabla F$$ and $$H$$. Starting at $$(0,10^{-3})$$, take two gradient steps. Starting at $$(0,0)$$, explain why GD with exact arithmetic never leaves.
+**Exercise.** For $$F(x,y)=x^2-y^2$$ (the hyperbolic paraboloid) write $$\nabla F$$ and $$H$$. Starting at $$(0,10^{-3})$$, take two gradient steps with step size $$\eta = 0.1$$. Starting at $$(0,0)$$, explain why GD with exact arithmetic never leaves.

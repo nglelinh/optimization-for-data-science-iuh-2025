@@ -120,7 +120,7 @@ Chapter 09’s FISTA is the *proximal* sibling of the same look-ahead (composite
 
 Heavy ball and Nesterov on the valley ½(w₁² + 100w₂²): step counts, a β sweep, and a case where Nesterov diverges because η is too large.
 
-**Exercise 1.** Implement the three updates above. For $$\eta=2/(\lambda_{\min}+\lambda_{\max})$$ (the optimal GD step) and $$\beta=\beta^\star$$, count iterations to $$\|w\|_2\le 10^{-4}$$. Then break the tuning: keep $$\eta$$ and set $$\beta=0.99$$. Which method oscillates more, and why does look-ahead help?
+**Exercise 1.** Implement the three updates above on $$A=\operatorname{diag}(1,100)$$ ($$\kappa=100$$), starting from $$w_0=(1,1)$$, $$v_0=0$$. Count the iterations until $$\Vert w\Vert_2\le 10^{-4}$$ for: (a) GD with $$\eta=2/(\lambda_{\min}+\lambda_{\max})$$, the optimal GD step; (b) heavy ball with Goh's pair $$(\eta^\star,\beta^\star)$$; (c) Nesterov with $$\eta=1/\lambda_{\max}$$ and $$\beta=(\sqrt{\kappa}-1)/(\sqrt{\kappa}+1)$$. (For checking: 478, 71 and 112 iterations.) Then run Nesterov with $$\eta^\star$$ and explain why it diverges. Hint: $$\eta^\star\lambda_{\max}\approx 3.3>2$$. Heavy ball is stable as long as $$\eta\lambda<2(1+\beta)$$, but Nesterov applies the gradient step at the look-ahead point, so it needs a step close to $$1/\lambda_{\max}$$. Finally, break the tuning: keep $$\eta=1/\lambda_{\max}$$ for both momentum methods and set $$\beta=0.99$$. Which method oscillates more, and why does look-ahead help? (For checking: heavy ball needs about 1430 iterations, Nesterov about 390.)
 
 **Exercise 2.** On the same quadratic, replace $$A$$ by a random SPD matrix with the same eigenvalues ($$A=Q\operatorname{diag}(\lambda)Q^\top$$). Convince yourself that momentum’s benefit is *spectral*, not axis-aligned.
 

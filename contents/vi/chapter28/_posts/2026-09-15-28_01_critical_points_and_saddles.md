@@ -31,4 +31,4 @@ Trong không gian nhiều chiều, nếu dấu các trị riêng của ma trận
 
 GD bị hút vào yên ngựa của x² − y² + ½y⁴, ngồi lâu khi lệch rất nhỏ, thoát nhờ nhiễu, và vì sao ở chiều cao hầu hết điểm tới hạn là yên ngựa.
 
-**Bài tập.** Xét hàm yên ngựa $$F(x,y)=x^2-y^2$$: hãy viết $$\nabla F$$ và ma trận Hessian $$H$$. Thực hiện hai bước gradient descent xuất phát từ $$(0, 10^{-3})$$, sau đó giải thích vì sao nếu xuất phát chính xác từ $$(0, 0)$$ thì gradient descent lý tưởng sẽ không bao giờ rời khỏi điểm đó.
+**Bài tập.** Xét hàm yên ngựa $$F(x,y)=x^2-y^2$$: hãy viết $$\nabla F$$ và ma trận Hessian $$H$$. Thực hiện hai bước gradient descent với bước $$\eta = 0.1$$, xuất phát từ $$(0, 10^{-3})$$, sau đó giải thích vì sao nếu xuất phát chính xác từ $$(0, 0)$$ thì gradient descent lý tưởng sẽ không bao giờ rời khỏi điểm đó.

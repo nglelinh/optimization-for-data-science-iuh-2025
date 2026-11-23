@@ -45,8 +45,8 @@ Tóm tắt kết quả chính trước khi đi vào chứng minh: bài toán lu�
 >$$
 >\begin{align}
 >\text{Giá trị luồng cực đại} &\leq \text{LP đối ngẫu của luồng cực đại}\\
->&= \text{Giá trị tối ưu cho cắt cực tiểu nới lỏng LP}\\
->&\leq \text{Công suất của cắt cực tiểu}\\
+>&= \text{Giá trị tối ưu của lát cắt cực tiểu nới lỏng LP}\\
+>&\leq \text{Dung lượng của lát cắt cực tiểu}\\
 >\end{align}
 >$$
 
@@ -123,7 +123,7 @@ Trong tổng theo $$x_k$$, mọi số hạng với $$k \neq j$$ đều triệt t
 
 >$$
 >\begin{align}
->&=\sum_{(s,j)\in E}{\Big((b_{sj}-a_{sj})f_{sj}\Big)}+x_{j}\sum_{(s,j)\in E}{f_{sj}}+\sum_{k\in V\backslash \\{s,t,j\\}}{x_{k}\Big(\underbrace{\sum_{(s,k)\in E}{f_{sk}}-\sum_{(k,j)\in E}{f_{kj}}}_{=0}\Big)} \\\\
+>&=\sum_{(s,j)\in E}{\Big((b_{sj}-a_{sj})f_{sj}\Big)}+x_{j}\sum_{(s,j)\in E}{f_{sj}}+\sum_{k\in V\backslash \{s,t,j\}}{x_{k}\Big(\underbrace{\sum_{(s,k)\in E}{f_{sk}}-\sum_{(k,j)\in E}{f_{kj}}}_{=0}\Big)} \\\\
 >&=\sum_{(s,j)\in E}{\Big(b_{sj}-a_{sj}+x_{j}\Big)f_{sj}}, \ j \in V \backslash \{s,t\},\\\\
 >\end{align}
 >$$
@@ -157,7 +157,7 @@ Trong trường hợp này, tổng theo $$x_k$$ giữ lại cả hai phần tử
 >&b_{sj}-a_{sj}+x_{j} = 1\\\\
 >&b_{it}-a_{it}-x_{i} = 0\\\\
 >&b_{ij}-a_{ij}+x_{j}-x_{i} = 0\\\\
->&\text{Result in,} \\\\
+>&\text{Do đó,} \\\\
 >&\sum_{(s,j)\in E}{f_{sj}} \leq \sum_{(i,j)\in E}{b_{ij}c_{ij}}.
 >\end{align}
 >$$
@@ -167,7 +167,7 @@ Bài toán đối ngẫu nhằm cực tiểu hóa cận trên $$\sum_{(i,j)\in E
 >$$
 >\begin{align}
 >&\min_{b\in {\mathbb{R}^{|E|}},\, x\in{\mathbb{R}^{|V|}}}  &&{\sum_{(i,j)\in E} b_{ij}c_{ij}} \\\\
->&\text{subject to} &&{b_{ij}+x_{j}-x_{i}\geq 0 \,\, \text{for all } (i,j)\in E}\\\\
+>&\text{với điều kiện} &&{b_{ij}+x_{j}-x_{i}\geq 0 \,\, \text{với mọi } (i,j)\in E}\\\\
 >&&&{b\geq 0, x_{s}=1,x_{t}=0}.\\\\
 >\end{align}
 >$$
@@ -178,7 +178,7 @@ Bây giờ ta chỉ ra rằng LP đối ngẫu trên chính là bản nới lỏ
 
 >$$
 >\begin{align}
->x_{i} \in \{0,1 \} \ \ \text{ for all }i\in V.
+>x_{i} \in \{0,1 \} \ \ \text{ với mọi }i\in V.
 >\end{align}
 >$$
 
@@ -186,14 +186,14 @@ Bây giờ ta chỉ ra rằng LP đối ngẫu trên chính là bản nới lỏ
 
 >$$
 >\begin{align}
->&\text{Let } A= \{ i:x_{i}=1 \} ,\, B= \{ i:x_{i}=0 \} \\\\
->&\text{note that  } s \in A, \,t \in B, \text{ and  }b_{ij}\geq x_{i}-x_{j} \,\,\,\, \text{for }\,(i,j) \in E, \,\, b\geq 0,\\\\
+>&\text{Đặt } A= \{ i:x_{i}=1 \} ,\, B= \{ i:x_{i}=0 \} \\\\
+>&\text{khi đó } s \in A, \,t \in B, \text{ và }b_{ij}\geq x_{i}-x_{j} \,\,\,\, \text{với }\,(i,j) \in E, \,\, b\geq 0,\\\\
 >\end{align}
 >$$
 >$$
 >\begin{align}
->\text{Simply say, } \qquad \begin{cases} b_{ij}=1 \qquad \text{if } i\in A, j\in B\\\\
->0 \qquad\qquad \text{otherwise}.\end{cases}
+>\text{Nói gọn, } \qquad \begin{cases} b_{ij}=1 \qquad \text{nếu } i\in A, j\in B\\\\
+>0 \qquad\qquad \text{trường hợp còn lại}.\end{cases}
 >\end{align}
 >$$
 
@@ -205,9 +205,9 @@ Như vậy, LP đối ngẫu của bài toán luồng cực đại thu được 
 
 >$$
 >\begin{align}
->\text{Value of max flow} &\leq \text{Dual LP of max flow}\\\\
->&= \text{Optimal value for LP relaxed min cut}\\\\
->&\leq \text{Capacity of min cut}\\\\
+>\text{Giá trị luồng cực đại} &\leq \text{LP đối ngẫu của luồng cực đại}\\\\
+>&= \text{Giá trị tối ưu của lát cắt cực tiểu nới lỏng LP}\\\\
+>&\leq \text{Dung lượng của lát cắt cực tiểu}\\\\
 >\end{align}
 >$$
 

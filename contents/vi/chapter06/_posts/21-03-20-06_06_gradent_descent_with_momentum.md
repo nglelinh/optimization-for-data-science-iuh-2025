@@ -50,7 +50,7 @@ v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
-**Ý nghĩa chính**: Vector momentum $$v^{(k)}$$ đóng vai trò là trung bình trượt có trọng số mũ của các gradient trước đó.
+**Ý nghĩa chính**: Ở cả hai dạng, $$v^{(k)}$$ là tổ hợp có trọng số mũ của các gradient trước đó: dạng đầu là trung bình trượt, dạng sau là tổng có trọng số. Cả hai vẫn là phương pháp heavy ball thông thường, không phải Nesterov.
 
 ## Ý nghĩa của Hệ số Momentum $$\beta$$
 
@@ -74,7 +74,7 @@ Công thức này cho thấy trọng số của các gradient cũ giảm dần t
     <!-- Parameter Controls -->
     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
         <div>
-            <label for="momentum-lr">Learning Rate: </label>
+            <label for="momentum-lr">Tốc độ học: </label>
             <input type="range" id="momentum-lr" min="0.01" max="0.3" step="0.01" value="0.1">
             <span id="momentum-lr-value">0.1</span>
         </div>
@@ -84,7 +84,7 @@ Công thức này cho thấy trọng số của các gradient cũ giảm dần t
             <span id="momentum-beta-value">0.9</span>
         </div>
         <div>
-            <label for="momentum-speed">Animation Speed: </label>
+            <label for="momentum-speed">Tốc độ hoạt ảnh: </label>
             <input type="range" id="momentum-speed" min="1" max="10" step="1" value="5">
             <span id="momentum-speed-value">5</span>
         </div>
@@ -92,10 +92,10 @@ Công thức này cho thấy trọng số của các gradient cũ giảm dần t
     
     <!-- Control Buttons -->
     <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-        <button id="start-vanilla-gd" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Start Vanilla GD</button>
-        <button id="start-momentum-gd" style="background-color: #FF9800; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Start Momentum GD</button>
-        <button id="start-both" style="background-color: #2196F3; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Compare Both</button>
-        <button id="reset-momentum" style="background-color: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Reset</button>
+        <button id="start-vanilla-gd" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Chạy GD thường</button>
+        <button id="start-momentum-gd" style="background-color: #FF9800; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Chạy GD momentum</button>
+        <button id="start-both" style="background-color: #2196F3; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">So sánh cả hai</button>
+        <button id="reset-momentum" style="background-color: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Đặt lại</button>
     </div>
     
     <!-- Visualization Canvas -->
@@ -106,12 +106,12 @@ Công thức này cho thấy trọng số của các gradient cũ giảm dần t
     <!-- Algorithm Status -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
         <div style="padding: 10px; border: 1px solid #4CAF50; border-radius: 5px; background-color: #f1f8e9;">
-            <h4 style="margin: 0 0 5px 0; color: #4CAF50;">Vanilla Gradient Descent</h4>
-            <p id="vanilla-gd-info" style="margin: 0; font-size: 14px;">Ready to start</p>
+            <h4 style="margin: 0 0 5px 0; color: #4CAF50;">Gradient Descent thường</h4>
+            <p id="vanilla-gd-info" style="margin: 0; font-size: 14px;">Sẵn sàng</p>
         </div>
         <div style="padding: 10px; border: 1px solid #FF9800; border-radius: 5px; background-color: #fff8e1;">
-            <h4 style="margin: 0 0 5px 0; color: #FF9800;">Momentum Gradient Descent</h4>
-            <p id="momentum-gd-info" style="margin: 0; font-size: 14px;">Ready to start</p>
+            <h4 style="margin: 0 0 5px 0; color: #FF9800;">Gradient Descent với momentum</h4>
+            <p id="momentum-gd-info" style="margin: 0; font-size: 14px;">Sẵn sàng</p>
         </div>
     </div>
 </div>
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .attr("font-size", "12px")
         .attr("font-weight", "bold")
         .attr("fill", "red")
-        .text("Global Minimum");
+        .text("Cực tiểu toàn cục");
     
     // Add axes
     svg.append("g")
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .attr("text-anchor", "middle")
         .attr("font-size", "16px")
         .attr("font-weight", "bold")
-        .text("f(x,y) = 0.5x² + 5y² - Optimization Paths Comparison");
+        .text("f(x,y) = 0.5x² + 5y² - So sánh đường đi tối ưu");
     
     // Variables for animation
     let vanillaPath = [], momentumPath = [];
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const current = vanillaPath[vanillaPath.length - 1];
             const fValue = f(current.x, current.y);
             document.getElementById('vanilla-gd-info').innerHTML = 
-                `Iteration: ${vanillaPath.length - 1}<br>Position: (${current.x.toFixed(3)}, ${current.y.toFixed(3)})<br>f(x,y): ${fValue.toFixed(4)}`;
+                `Vòng lặp: ${vanillaPath.length - 1}<br>Vị trí: (${current.x.toFixed(3)}, ${current.y.toFixed(3)})<br>f(x,y): ${fValue.toFixed(4)}`;
         }
         
         // Update momentum GD status
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const current = momentumPath[momentumPath.length - 1];
             const fValue = f(current.x, current.y);
             document.getElementById('momentum-gd-info').innerHTML = 
-                `Iteration: ${momentumPath.length - 1}<br>Position: (${current.x.toFixed(3)}, ${current.y.toFixed(3)})<br>f(x,y): ${fValue.toFixed(4)}`;
+                `Vòng lặp: ${momentumPath.length - 1}<br>Vị trí: (${current.x.toFixed(3)}, ${current.y.toFixed(3)})<br>f(x,y): ${fValue.toFixed(4)}`;
         }
     }
     
@@ -394,8 +394,8 @@ document.addEventListener('DOMContentLoaded', function() {
         vanillaPath = [];
         momentumPath = [];
         updateVisualization();
-        document.getElementById('vanilla-gd-info').innerHTML = 'Ready to start';
-        document.getElementById('momentum-gd-info').innerHTML = 'Ready to start';
+        document.getElementById('vanilla-gd-info').innerHTML = 'Sẵn sàng';
+        document.getElementById('momentum-gd-info').innerHTML = 'Sẵn sàng';
     });
     
     // Update display values

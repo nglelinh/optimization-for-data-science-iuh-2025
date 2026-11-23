@@ -57,17 +57,17 @@ x^{(k)} = x^{(k-1)} - t_k \cdot \nabla f_{i_k} (x^{(k-1)}), \quad i_k \in \{1,2,
     <!-- Parameter Controls -->
     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #f9f9f9;">
         <div>
-            <label for="learning-rate">Learning Rate: </label>
+            <label for="learning-rate">Tốc độ học: </label>
             <input type="range" id="learning-rate" min="0.01" max="0.5" step="0.01" value="0.1">
             <span id="lr-value">0.1</span>
         </div>
         <div>
-            <label for="num-functions">Number of Functions (m): </label>
+            <label for="num-functions">Số hàm thành phần (m): </label>
             <input type="range" id="num-functions" min="3" max="10" step="1" value="5">
             <span id="m-value">5</span>
         </div>
         <div>
-            <label for="animation-speed">Animation Speed: </label>
+            <label for="animation-speed">Tốc độ hoạt ảnh: </label>
             <input type="range" id="animation-speed" min="1" max="10" step="1" value="5">
             <span id="speed-value">5</span>
         </div>
@@ -75,66 +75,66 @@ x^{(k)} = x^{(k-1)} - t_k \cdot \nabla f_{i_k} (x^{(k-1)}), \quad i_k \in \{1,2,
     
     <!-- Execution Mode Selection -->
     <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; background-color: #f0f8ff;">
-        <h4 style="margin: 0 0 10px 0;">Execution Mode:</h4>
+        <h4 style="margin: 0 0 10px 0;">Chế độ chạy:</h4>
         <div style="display: flex; gap: 15px;">
-            <label><input type="radio" name="exec-mode" value="auto" checked> Auto Run</label>
-            <label><input type="radio" name="exec-mode" value="manual"> Manual Step-by-Step</label>
+            <label><input type="radio" name="exec-mode" value="auto" checked> Tự động chạy</label>
+            <label><input type="radio" name="exec-mode" value="manual"> Chạy từng bước</label>
         </div>
     </div>
     
     <!-- Control Buttons -->
     <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-        <button id="start-gd" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Start Gradient Descent</button>
-        <button id="start-sgd" style="background-color: #FF9800; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Start SGD</button>
-        <button id="pause-resume" style="background-color: #2196F3; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;" disabled>Pause</button>
-        <button id="step-forward" style="background-color: #9C27B0; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;" disabled>Step Forward</button>
-        <button id="reset-demo" style="background-color: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Reset</button>
+        <button id="start-gd" style="background-color: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Chạy Gradient Descent</button>
+        <button id="start-sgd" style="background-color: #FF9800; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Chạy SGD</button>
+        <button id="pause-resume" style="background-color: #2196F3; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;" disabled>Tạm dừng</button>
+        <button id="step-forward" style="background-color: #9C27B0; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;" disabled>Bước tiếp</button>
+        <button id="reset-demo" style="background-color: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Đặt lại</button>
     </div>
     
     <!-- Algorithm Status -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 15px;">
         <div style="padding: 10px; border: 1px solid #4CAF50; border-radius: 5px; background-color: #f1f8e9;">
-            <h4 style="margin: 0 0 5px 0; color: #4CAF50;">Gradient Descent Status</h4>
-            <p id="gd-detailed-info" style="margin: 0; font-size: 14px;">Ready to start</p>
+            <h4 style="margin: 0 0 5px 0; color: #4CAF50;">Trạng thái Gradient Descent</h4>
+            <p id="gd-detailed-info" style="margin: 0; font-size: 14px;">Sẵn sàng</p>
         </div>
         <div style="padding: 10px; border: 1px solid #FF9800; border-radius: 5px; background-color: #fff8e1;">
-            <h4 style="margin: 0 0 5px 0; color: #FF9800;">SGD Status</h4>
-            <p id="sgd-detailed-info" style="margin: 0; font-size: 14px;">Ready to start</p>
+            <h4 style="margin: 0 0 5px 0; color: #FF9800;">Trạng thái SGD</h4>
+            <p id="sgd-detailed-info" style="margin: 0; font-size: 14px;">Sẵn sàng</p>
         </div>
     </div>
     
     <!-- Visualization Plots -->
     <div style="display: flex; gap: 20px; justify-content: center;">
         <div style="text-align: center;">
-            <h4>Gradient Descent (Batch)</h4>
+            <h4>Gradient Descent (toàn bộ dữ liệu)</h4>
             <svg id="gd-plot" width="350" height="350" style="border: 1px solid #ddd;"></svg>
             <div style="margin-top: 10px; padding: 8px; background-color: #f5f5f5; border-radius: 4px;">
-                <p id="gd-info" style="margin: 0; font-weight: bold;">Iterations: 0, Cost: 0</p>
+                <p id="gd-info" style="margin: 0; font-weight: bold;">Số vòng lặp: 0, Chi phí: 0</p>
                 <p id="gd-gradient-info" style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Gradient: [0, 0]</p>
             </div>
         </div>
         <div style="text-align: center;">
-            <h4>Stochastic Gradient Descent</h4>
+            <h4>Gradient Descent ngẫu nhiên (SGD)</h4>
             <svg id="sgd-plot" width="350" height="350" style="border: 1px solid #ddd;"></svg>
             <div style="margin-top: 10px; padding: 8px; background-color: #f5f5f5; border-radius: 4px;">
-                <p id="sgd-info" style="margin: 0; font-weight: bold;">Iterations: 0, Cost: 0</p>
-                <p id="sgd-gradient-info" style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Selected Function: -, Gradient: [0, 0]</p>
+                <p id="sgd-info" style="margin: 0; font-weight: bold;">Số vòng lặp: 0, Chi phí: 0</p>
+                <p id="sgd-gradient-info" style="margin: 5px 0 0 0; font-size: 12px; color: #666;">Hàm được chọn: -, Gradient: [0, 0]</p>
             </div>
         </div>
     </div>
     
     <!-- Progress Visualization -->
     <div style="margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background-color: #fafafa;">
-        <h4>Convergence Progress</h4>
+        <h4>Quá trình hội tụ</h4>
         <div style="display: flex; gap: 20px;">
             <div style="flex: 1;">
-                <p><strong>GD Progress:</strong></p>
+                <p><strong>Tiến trình GD:</strong></p>
                 <div style="width: 100%; background-color: #e0e0e0; border-radius: 10px; height: 20px;">
                     <div id="gd-progress" style="width: 0%; background-color: #4CAF50; height: 100%; border-radius: 10px; transition: width 0.3s;"></div>
                 </div>
             </div>
             <div style="flex: 1;">
-                <p><strong>SGD Progress:</strong></p>
+                <p><strong>Tiến trình SGD:</strong></p>
                 <div style="width: 100%; background-color: #e0e0e0; border-radius: 10px; height: 20px;">
                     <div id="sgd-progress" style="width: 0%; background-color: #FF9800; height: 100%; border-radius: 10px; transition: width 0.3s;"></div>
                 </div>
@@ -212,6 +212,10 @@ Xét trường hợp $$m = 3$$ để thấy rõ sự khác biệt.
 
 **Điểm xuất phát:** $$x^{(k)} = [1, 2]$$
 
+**Hàm cụ thể (để kiểm tra bằng số):** khớp đường thẳng $$y \approx w s + c$$ qua ba điểm $$(s_i, y_i) = (0, 1), (1, 3), (2, 2)$$. Với $$x = [w, c]$$, đặt
+$$f_i(x) = \tfrac{1}{2}(w s_i + c - y_i)^2, \qquad \nabla f_i(x) = (w s_i + c - y_i)\,[s_i, 1].$$
+Tại $$x^{(k)} = [1, 2]$$: $$\nabla f_1 = [0, 1]$$, $$\nabla f_2 = [0, 0]$$, $$\nabla f_3 = [4, 2]$$ và $$f(x^{(k)}) = 2.5$$. Nghiệm tối ưu là $$x^\star = [0.5, 1.5]$$ với $$f(x^\star) = 0.75$$.
+
 **Quá trình SGD theo quy tắc tuần hoàn:**
 1. **Dùng $$f_1$$**: Tính $$\nabla f_1(x^{(k)}) = \nabla f_1([1,2])$$, cập nhật:
    $$x^{(k+1)} = x^{(k)} - t_k \nabla f_1(x^{(k)}) = [1,2] - t_k \nabla f_1([1,2])$$
@@ -225,6 +229,17 @@ $$x^{(k+3)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k+1)}) + \nabla
 
 **So sánh với Batch GD:**
 $$x^{(k+1)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k)}) + \nabla f_3(x^{(k)})]$$
+
+**Với các hàm cụ thể ở trên và $$t_k = 0.15$$:**
+
+| Phương pháp | Bước | Gradient dùng | Điểm mới | $$f$$ |
+|-------------|------|---------------|----------|-------|
+| Batch GD | 1 | $$[4, 3]$$ (tổng tại $$[1, 2]$$) | $$[0.4, 1.55]$$ | 0.76375 |
+| SGD | 1 | $$\nabla f_1([1, 2]) = [0, 1]$$ | $$[1, 1.85]$$ | 2.08375 |
+| SGD | 2 | $$\nabla f_2([1, 1.85]) = [-0.15, -0.15]$$ | $$[1.0225, 1.8725]$$ | 2.2245 |
+| SGD | 3 | $$\nabla f_3([1.0225, 1.8725]) = [3.835, 1.9175]$$ | $$[0.44725, 1.584875]$$ | 0.7543 |
+
+Tổng các gradient SGD đã dùng là $$[3.685, 2.7675]$$ thay vì $$[4, 3]$$. Hiệu $$[-0.315, -0.2325]$$ chính là độ lệch ở công thức trên. Để ý rằng bước 2 làm $$f$$ *tăng*: gradient của một hàm $$f_i$$ không phải lúc nào cũng là hướng giảm của cả tổng.
 
 **Sự khác biệt then chốt:**
 - **Batch GD**: Toàn bộ gradient được tính tại **cùng một điểm** $$x^{(k)}$$.
@@ -246,7 +261,7 @@ Vì vậy, SGD thường giảm mất mát rất nhanh ở giai đoạn đầu n
             </ul>
         </div>
         <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
-            <h4>Stochastic Gradient Descent</h4>
+            <h4>Gradient Descent ngẫu nhiên (SGD)</h4>
             <ul>
                 <li><strong>Hướng di chuyển</strong>: Có nhiễu, xấp xỉ hướng giảm</li>
                 <li><strong>Hội tụ</strong>: Có dao động, nhưng tiến triển nhanh ở giai đoạn đầu</li>
@@ -275,6 +290,8 @@ Một phương án trung gian giữa batch GD và SGD là sử dụng các **min
 $$x^{(k)} = x^{(k-1)} - t_k \cdot \frac{1}{b} \sum_{i \in \mathcal{B}_k} \nabla f_i (x^{(k-1)})$$
 
 trong đó $$\mathcal{B}_k$$ là tập con gồm $$b$$ chỉ số được chọn ngẫu nhiên.
+
+**Tổng hay trung bình?** Ở trên, batch GD dùng **tổng** $$\sum_{i=1}^m \nabla f_i$$, tức gradient của $$f = \sum_i f_i$$. Công thức mini-batch dùng **trung bình** trên $$b$$ chỉ số. Đây là ước lượng không chệch của gradient trung bình $$\frac{1}{m}\sum_{i=1}^m \nabla f_i$$, cách viết quen thuộc trong học máy khi ta cực tiểu hóa mất mát trung bình. Hai cách viết chỉ khác nhau một hằng số, và hằng số này được gộp vào kích thước bước. Nếu muốn ước lượng tổng thì dùng $$\frac{m}{b}\sum_{i \in \mathcal{B}_k} \nabla f_i$$. Với $$b = m$$ và cách viết trung bình, mini-batch GD chính là batch GD với bước $$t_k/m$$.
 
 <div id="minibatch-comparison" style="margin: 20px 0;">
     <h4>So sánh: Batch GD, Mini-batch GD và SGD</h4>
@@ -455,7 +472,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (pauseResumeBtn) {
             pauseResumeBtn.disabled = !isRunning;
-            pauseResumeBtn.textContent = isPaused ? 'Resume' : 'Pause';
+            pauseResumeBtn.textContent = isPaused ? 'Tiếp tục' : 'Tạm dừng';
         }
         
         if (stepForwardBtn) {
@@ -551,7 +568,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update detailed info
         const detailedInfoId = algorithm === 'gd' ? 'gd-detailed-info' : 'sgd-detailed-info';
         document.getElementById(detailedInfoId).textContent = 
-            isManualMode ? 'Ready for manual stepping' : 'Running automatically...';
+            isManualMode ? 'Sẵn sàng chạy từng bước' : 'Đang tự động chạy...';
     }
     
     // Run algorithm in auto mode
@@ -575,7 +592,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateControlButtons();
                 
                 const detailedInfoId = algorithm === 'gd' ? 'gd-detailed-info' : 'sgd-detailed-info';
-                document.getElementById(detailedInfoId).textContent = 'Converged!';
+                document.getElementById(detailedInfoId).textContent = 'Đã hội tụ!';
             }
         }
         
@@ -684,14 +701,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const gradientInfoId = algorithm === 'gd' ? 'gd-gradient-info' : 'sgd-gradient-info';
         
         document.getElementById(infoId).textContent = 
-            `Iterations: ${state.iteration}, Cost: ${state.totalCost.toFixed(4)}`;
+            `Số vòng lặp: ${state.iteration}, Chi phí: ${state.totalCost.toFixed(4)}`;
         
         if (algorithm === 'gd') {
             document.getElementById(gradientInfoId).textContent = 
                 `Gradient: [${state.gradient[0].toFixed(3)}, ${state.gradient[1].toFixed(3)}]`;
         } else {
             document.getElementById(gradientInfoId).textContent = 
-                `Selected Function: f${state.selectedFunc + 1}, Gradient: [${state.gradient[0].toFixed(3)}, ${state.gradient[1].toFixed(3)}]`;
+                `Hàm được chọn: f${state.selectedFunc + 1}, Gradient: [${state.gradient[0].toFixed(3)}, ${state.gradient[1].toFixed(3)}]`;
         }
         
         // Update progress bar
@@ -704,7 +721,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const detailedInfoId = algorithm === 'gd' ? 'gd-detailed-info' : 'sgd-detailed-info';
         const gradMagnitude = Math.sqrt(state.gradient[0] ** 2 + state.gradient[1] ** 2);
         document.getElementById(detailedInfoId).textContent = 
-            `Step ${state.iteration}: Position [${state.position[0].toFixed(3)}, ${state.position[1].toFixed(3)}], |∇| = ${gradMagnitude.toFixed(4)}`;
+            `Bước ${state.iteration}: Vị trí [${state.position[0].toFixed(3)}, ${state.position[1].toFixed(3)}], |∇| = ${gradMagnitude.toFixed(4)}`;
     }
     
     function updatePath(plot, path, color) {
@@ -752,14 +769,14 @@ document.addEventListener('DOMContentLoaded', function() {
         d3.select('#sgd-plot').selectAll("*").remove();
         
         // Reset info displays
-        document.getElementById('gd-info').textContent = 'Iterations: 0, Cost: 0';
-        document.getElementById('sgd-info').textContent = 'Iterations: 0, Cost: 0';
+        document.getElementById('gd-info').textContent = 'Số vòng lặp: 0, Chi phí: 0';
+        document.getElementById('sgd-info').textContent = 'Số vòng lặp: 0, Chi phí: 0';
         document.getElementById('gd-gradient-info').textContent = 'Gradient: [0, 0]';
-        document.getElementById('sgd-gradient-info').textContent = 'Selected Function: -, Gradient: [0, 0]';
+        document.getElementById('sgd-gradient-info').textContent = 'Hàm được chọn: -, Gradient: [0, 0]';
         
         // Reset detailed info
-        document.getElementById('gd-detailed-info').textContent = 'Ready to start';
-        document.getElementById('sgd-detailed-info').textContent = 'Ready to start';
+        document.getElementById('gd-detailed-info').textContent = 'Sẵn sàng';
+        document.getElementById('sgd-detailed-info').textContent = 'Sẵn sàng';
         
         // Reset progress bars
         document.getElementById('gd-progress').style.width = '0%';

@@ -54,14 +54,14 @@ $$f(x - t \nabla f(x)) \leq f(x) - \alpha t \|\nabla f(x)\|_2^2$$
 where:
 - **Left side:** The actual function value after taking the step
 - **Right side:** The current function value minus a threshold for "sufficient decrease"
-- $$\alpha \in (0, 0.5)$$ is a parameter that controls how much decrease we require (typically $$\alpha = 0.5$$)
+- $$\alpha \in (0, 0.5]$$ is a parameter that controls how much decrease we require (typically $$\alpha = 0.5$$)
 
 **Intuition:** The right side represents a linear approximation of how much the function *should* decrease. If the actual decrease (left side) is at least this much, we accept the step.
 
 ## The Backtracking Line Search Algorithm
 
 ### Parameters
-- $$\alpha \in (0, 0.5)$$: Controls how much decrease we require (typically $$\alpha = 0.5$$)
+- $$\alpha \in (0, 0.5]$$: Controls how much decrease we require (typically $$\alpha = 0.5$$)
 - $$\beta \in (0, 1)$$: Controls how much we shrink the step size when backtracking (typically $$\beta = 0.8$$ or $$\beta = 0.9$$)
 
 ### Algorithm Steps
@@ -149,178 +149,64 @@ Let's work through a detailed example to see backtracking line search in action!
 
 **Result:** We reached the optimum in one step! This is because the quadratic function is "well-behaved."
 
-### Example 2: More Realistic Scenario
+### Example 2: A Non-Convex Function
 
 **Problem:** Minimize $$f(x) = x^2 + 10\sin(x)$$ starting from $$x_0 = 3$$
 
-This function has local minima and is more challenging. Let's see how backtracking handles it:
+This function is not convex. It has a local minimum near $$x \approx 3.84$$ and its global minimum near $$x \approx -1.31$$. Let's see what backtracking does here.
 
 **Setup:**
 - Parameters: $$\alpha = 0.3$$, $$\beta = 0.7$$
 - Gradient: $$\nabla f(x) = 2x + 10\cos(x)$$
 
 **Iteration 1:**
-- Current: $$x = 3$$, $$\nabla f(x) = 6 + 10\cos(3) \approx 6 - 9.9 = -3.9$$, $$f(x) \approx 7.41$$
+- Current: $$x = 3$$, $$\nabla f(3) = 6 + 10\cos(3) \approx -3.900$$, $$\vert\nabla f(3)\vert^2 \approx 15.21$$, $$f(3) = 9 + 10\sin(3) \approx 10.41$$
+- The gradient is negative, so the step $$-t\nabla f(x)$$ moves to the right.
 
-**Step 1: Try $$t = 1$$**
-- New point: $$x - t\nabla f(x) = 3 - 1 \cdot (-3.9) = 6.9$$
-- Function value: $$f(6.9) \approx 46.37$$
-- Check: $$46.37 \leq 7.41 - 0.3 \cdot 1 \cdot 15.21 \approx 2.85$$ ✗ (Too big step!)
+| Try | $$t$$ | $$x - t\nabla f(x)$$ | $$f(x - t\nabla f(x))$$ | $$f(x) - \alpha t \vert\nabla f(x)\vert^2$$ | Accept? |
+|-----|-------|----------------------|--------------------------|----------------------------------------------|---------|
+| 1 | 1 | 6.900 | 53.39 | 5.85 | ✗ |
+| 2 | 0.7 | 5.730 | 27.58 | 7.22 | ✗ |
+| 3 | 0.49 | 4.911 | 14.31 | 8.18 | ✗ |
+| 4 | 0.343 | 4.338 | 9.51 | 8.85 | ✗ |
+| 5 | 0.2401 | 3.936 | 8.36 | 9.32 | ✓ |
 
-**Step 2: Try $$t = 0.7$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.7 \cdot (-3.9) = 5.73$$
-- Function value: $$f(5.73) \approx 31.87$$
-- Check: $$31.87 \leq 7.41 - 0.3 \cdot 0.7 \cdot 15.21 \approx 4.21$$ ✗ (Still too big!)
+After 4 backtracking steps we accept $$t = 0.2401$$ and move to $$x_1 \approx 3.936$$, with $$f(x_1) \approx 8.36$$.
 
-**Step 3: Try $$t = 0.49$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.49 \cdot (-3.9) = 4.91$$
-- Function value: $$f(4.91) \approx 23.16$$
-- Check: $$23.16 \leq 7.41 - 0.3 \cdot 0.49 \cdot 15.21 \approx 5.17$$ ✗ (Still too big!)
+**Iteration 2:**
+- Current: $$x_1 \approx 3.936$$, $$\nabla f(x_1) \approx 0.868$$ (now positive, so we step to the left).
+- The trials $$t = 1, 0.7, 0.49, 0.343, 0.2401, 0.168$$ are all rejected. The step $$t = 0.7^6 \approx 0.1176$$ is accepted, which gives $$x_2 \approx 3.834$$, $$f(x_2) \approx 8.3156$$.
 
-**Step 4: Try $$t = 0.34$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.34 \cdot (-3.9) = 4.33$$
-- Function value: $$f(4.33) \approx 17.26$$
-- Check: $$17.26 \leq 7.41 - 0.3 \cdot 0.34 \cdot 15.21 \approx 5.85$$ ✗ (Still too big!)
+**Next iterations:** the gradient drops quickly: $$\vert\nabla f(x_3)\vert \approx 3 \times 10^{-4}$$ and $$\vert\nabla f(x_4)\vert \approx 3 \times 10^{-6}$$. The method converges to $$x \approx 3.8375$$ with $$f \approx 8.3156$$.
 
-**Step 5: Try $$t = 0.24$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.24 \cdot (-3.9) = 3.94$$
-- Function value: $$f(3.94) \approx 14.12$$
-- Check: $$14.12 \leq 7.41 - 0.3 \cdot 0.24 \cdot 15.21 \approx 6.31$$ ✗ (Getting closer!)
+**Result:** Backtracking always gives a decrease in $$f$$, but on a non-convex function it only finds the **local** minimum near the starting point. The global minimum $$f(-1.3064) \approx -7.946$$ is on the other side of a hill, and gradient descent from $$x_0 = 3$$ never gets there.
 
-**Step 6: Try $$t = 0.17$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.17 \cdot (-3.9) = 3.66$$
-- Function value: $$f(3.66) \approx 12.51$$
-- Check: $$12.51 \leq 7.41 - 0.3 \cdot 0.17 \cdot 15.21 \approx 6.63$$ ✗ (Almost there!)
-
-**Step 7: Try $$t = 0.12$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.12 \cdot (-3.9) = 3.47$$
-- Function value: $$f(3.47) \approx 11.58$$
-- Check: $$11.58 \leq 7.41 - 0.3 \cdot 0.12 \cdot 15.21 \approx 6.86$$ ✗ (Very close!)
-
-**Step 8: Try $$t = 0.08$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.08 \cdot (-3.9) = 3.31$$
-- Function value: $$f(3.31) \approx 10.54$$
-- Check: $$10.54 \leq 7.41 - 0.3 \cdot 0.08 \cdot 15.21 \approx 7.05$$ ✗ (So close!)
-
-**Step 9: Try $$t = 0.056$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.056 \cdot (-3.9) = 3.22$$
-- Function value: $$f(3.22) \approx 9.93$$
-- Check: $$9.93 \leq 7.41 - 0.3 \cdot 0.056 \cdot 15.21 \approx 7.15$$ ✗ (Almost!)
-
-**Step 10: Try $$t = 0.039$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.039 \cdot (-3.9) = 3.15$$
-- Function value: $$f(3.15) \approx 9.33$$
-- Check: $$9.33 \leq 7.41 - 0.3 \cdot 0.039 \cdot 15.21 \approx 7.23$$ ✗ (Getting very small steps now...)
-
-**Step 11: Try $$t = 0.027$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.027 \cdot (-3.9) = 3.11$$
-- Function value: $$f(3.11) \approx 8.81$$
-- Check: $$8.81 \leq 7.41 - 0.3 \cdot 0.027 \cdot 15.21 \approx 7.29$$ ✗
-
-**Step 12: Try $$t = 0.019$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.019 \cdot (-3.9) = 3.074$$
-- Function value: $$f(3.074) \approx 8.51$$
-- Check: $$8.51 \leq 7.41 - 0.3 \cdot 0.019 \cdot 15.21 \approx 7.32$$ ✗
-
-**Step 13: Try $$t = 0.013$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.013 \cdot (-3.9) = 3.051$$
-- Function value: $$f(3.051) \approx 8.36$$
-- Check: $$8.36 \leq 7.41 - 0.3 \cdot 0.013 \cdot 15.21 \approx 7.35$$ ✗
-
-**Step 14: Try $$t = 0.009$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.009 \cdot (-3.9) = 3.035$$
-- Function value: $$f(3.035) \approx 8.28$$
-- Check: $$8.28 \leq 7.41 - 0.3 \cdot 0.009 \cdot 15.21 \approx 7.37$$ ✗
-
-**Step 15: Try $$t = 0.006$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.006 \cdot (-3.9) = 3.023$$
-- Function value: $$f(3.023) \approx 8.23$$
-- Check: $$8.23 \leq 7.41 - 0.3 \cdot 0.006 \cdot 15.21 \approx 7.38$$ ✗
-
-**Step 16: Try $$t = 0.004$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.004 \cdot (-3.9) = 3.016$$
-- Function value: $$f(3.016) \approx 8.20$$
-- Check: $$8.20 \leq 7.41 - 0.3 \cdot 0.004 \cdot 15.21 \approx 7.39$$ ✗
-
-**Step 17: Try $$t = 0.003$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.003 \cdot (-3.9) = 3.012$$
-- Function value: $$f(3.012) \approx 8.18$$
-- Check: $$8.18 \leq 7.41 - 0.3 \cdot 0.003 \cdot 15.21 \approx 7.396$$ ✗
-
-**Step 18: Try $$t = 0.002$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.002 \cdot (-3.9) = 3.008$$
-- Function value: $$f(3.008) \approx 8.17$$
-- Check: $$8.17 \leq 7.41 - 0.3 \cdot 0.002 \cdot 15.21 \approx 7.40$$ ✗
-
-**Step 19: Try $$t = 0.001$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.001 \cdot (-3.9) = 3.004$$
-- Function value: $$f(3.004) \approx 8.16$$
-- Check: $$8.16 \leq 7.41 - 0.3 \cdot 0.001 \cdot 15.21 \approx 7.405$$ ✗
-
-**Step 20: Try $$t = 0.0007$$**
-- New point: $$x - t\nabla f(x) = 3 - 0.0007 \cdot (-3.9) = 3.003$$
-- Function value: $$f(3.003) \approx 8.155$$
-- Check: $$8.155 \leq 7.41 - 0.3 \cdot 0.0007 \cdot 15.21 \approx 7.407$$ ✗
-
-Wait, let me recalculate this more carefully. I think there might be an error in my calculations. Let me redo this with a simpler but more accurate approach.
-
-### Example 2 (Corrected): A More Realistic Function
+### Example 3: A Smooth Convex Function
 
 **Problem:** Minimize $$f(x) = x^2 + 0.1x^4$$ starting from $$x_0 = 2$$
 
 **Setup:**
 - Parameters: $$\alpha = 0.5$$, $$\beta = 0.8$$
 - Gradient: $$\nabla f(x) = 2x + 0.4x^3$$
-- At $$x = 2$$: $$\nabla f(2) = 4 + 3.2 = 7.2$$, $$f(2) = 4 + 1.6 = 5.6$$
+- At $$x = 2$$: $$\nabla f(2) = 4 + 3.2 = 7.2$$, $$\vert\nabla f(2)\vert^2 = 51.84$$, $$f(2) = 4 + 1.6 = 5.6$$
 
 **Iteration 1:**
 
-**Try $$t = 1$$:**
-- New point: $$2 - 1 \cdot 7.2 = -5.2$$
-- Function value: $$f(-5.2) = 27.04 + 73.44 = 100.48$$
-- Check: $$100.48 \leq 5.6 - 0.5 \cdot 1 \cdot 51.84 = -20.32$$ ✗ (Way too big!)
+| Try | $$t$$ | $$2 - 7.2\,t$$ | $$f(2 - 7.2\,t)$$ | $$5.6 - 0.5 \cdot 51.84\, t$$ | Accept? |
+|-----|-------|----------------|--------------------|-------------------------------|---------|
+| 1 | 1 | -5.200 | 100.16 | -20.32 | ✗ |
+| 2 | 0.8 | -3.760 | 34.12 | -15.14 | ✗ |
+| 3 | 0.64 | -2.608 | 11.43 | -10.99 | ✗ |
+| 4 | 0.512 | -1.686 | 3.653 | -7.671 | ✗ |
+| 5 | 0.4096 | -0.949 | 0.982 | -5.017 | ✗ |
+| 6 | 0.3277 | -0.359 | 0.131 | -2.893 | ✗ |
+| 7 | 0.2621 | 0.113 | 0.0127 | -1.195 | ✗ |
+| 8 | 0.2097 | 0.490 | 0.246 | 0.164 | ✗ |
+| 9 | 0.1678 | 0.792 | 0.667 | 1.251 | ✓ **Accept!** |
 
-**Try $$t = 0.8$$:**
-- New point: $$2 - 0.8 \cdot 7.2 = -3.76$$
-- Function value: $$f(-3.76) = 14.14 + 20.06 = 34.2$$
-- Check: $$34.2 \leq 5.6 - 0.5 \cdot 0.8 \cdot 51.84 = -15.14$$ ✗ (Still too big!)
+**Result:** After 8 backtracking steps, we accept $$t = 0.8^8 \approx 0.168$$ and update to $$x_1 \approx 0.792$$.
 
-**Try $$t = 0.64$$:**
-- New point: $$2 - 0.64 \cdot 7.2 = -2.61$$
-- Function value: $$f(-2.61) = 6.81 + 4.63 = 11.44$$
-- Check: $$11.44 \leq 5.6 - 0.5 \cdot 0.64 \cdot 51.84 = -11.0$$ ✗
-
-**Try $$t = 0.51$$:**
-- New point: $$2 - 0.51 \cdot 7.2 = -1.67$$
-- Function value: $$f(-1.67) = 2.79 + 0.78 = 3.57$$
-- Check: $$3.57 \leq 5.6 - 0.5 \cdot 0.51 \cdot 51.84 = -7.62$$ ✗
-
-**Try $$t = 0.41$$:**
-- New point: $$2 - 0.41 \cdot 7.2 = -0.95$$
-- Function value: $$f(-0.95) = 0.90 + 0.08 = 0.98$$
-- Check: $$0.98 \leq 5.6 - 0.5 \cdot 0.41 \cdot 51.84 = -5.02$$ ✗
-
-**Try $$t = 0.33$$:**
-- New point: $$2 - 0.33 \cdot 7.2 = -0.38$$
-- Function value: $$f(-0.38) = 0.14 + 0.002 = 0.142$$
-- Check: $$0.142 \leq 5.6 - 0.5 \cdot 0.33 \cdot 51.84 = -3.0$$ ✗
-
-**Try $$t = 0.26$$:**
-- New point: $$2 - 0.26 \cdot 7.2 = 0.13$$
-- Function value: $$f(0.13) = 0.017 + 0.000003 = 0.017$$
-- Check: $$0.017 \leq 5.6 - 0.5 \cdot 0.26 \cdot 51.84 = -1.14$$ ✗
-
-**Try $$t = 0.21$$:**
-- New point: $$2 - 0.21 \cdot 7.2 = 0.49$$
-- Function value: $$f(0.49) = 0.24 + 0.006 = 0.246$$
-- Check: $$0.246 \leq 5.6 - 0.5 \cdot 0.21 \cdot 51.84 = 0.157$$ ✗
-
-**Try $$t = 0.17$$:**
-- New point: $$2 - 0.17 \cdot 7.2 = 0.78$$
-- Function value: $$f(0.78) = 0.61 + 0.037 = 0.647$$
-- Check: $$0.647 \leq 5.6 - 0.5 \cdot 0.17 \cdot 51.84 = 1.19$$ ✓ **Accept!**
-
-**Result:** After 8 backtracking steps, we accept $$t = 0.17$$ and update to $$x_1 = 0.78$$
+Note that some rejected steps (for example $$t = 0.2621$$, which lands at $$x \approx 0.113$$) give a much smaller $$f$$ than the accepted one. They are rejected because the right-hand side is negative there, and $$f \ge 0$$ everywhere. With $$\alpha = 0.5$$, the condition demands a large decrease, so it only accepts small enough steps.
 
 ### Key Insights from These Examples
 
@@ -343,20 +229,22 @@ Let's see a head-to-head comparison! We'll minimize $$f(x) = x^2 - 2x + 5$$ star
 
 ### Method 1: Fixed Small Step Size ($$t = 0.1$$)
 
+Here $$x_{k+1} - 1 = 0.8\,(x_k - 1)$$, so the error shrinks by only 20% per step.
+
 | Iteration | $$x_k$$ | $$\nabla f(x_k)$$ | $$x_{k+1} = x_k - 0.1 \nabla f(x_k)$$ | $$f(x_{k+1})$$ |
 |-----------|---------|-------------------|---------------------------------------|----------------|
-| 0 | 4.0 | 6.0 | 3.4 | 8.96 |
-| 1 | 3.4 | 4.8 | 2.92 | 6.4864 |
-| 2 | 2.92 | 3.84 | 2.536 | 5.548896 |
-| 3 | 2.536 | 3.072 | 2.2288 | 5.103194 |
-| 4 | 2.2288 | 2.4576 | 1.98304 | 4.835481 |
-| 5 | 1.98304 | 1.96608 | 1.786432 | 4.693904 |
+| 0 | 4.0 | 6.0 | 3.4 | 9.76 |
+| 1 | 3.4 | 4.8 | 2.92 | 7.6864 |
+| 2 | 2.92 | 3.84 | 2.536 | 6.359296 |
+| 3 | 2.536 | 3.072 | 2.2288 | 5.509949 |
+| 4 | 2.2288 | 2.4576 | 1.98304 | 4.966368 |
+| 5 | 1.98304 | 1.96608 | 1.786432 | 4.618475 |
 | ... | ... | ... | ... | ... |
-| 20 | 1.24537 | 0.49074 | 1.196296 | 4.192934 |
+| 20 | 1.034588 | 0.069175 | 1.027670 | 4.000766 |
 | ... | ... | ... | ... | ... |
-| **50** | **1.049** | **0.098** | **1.0392** | **4.0038** |
+| **50** | **1.000043** | **0.000086** | **1.000034** | **4.000000001** |
 
-**Result:** After 50 iterations, we're still not very close to the optimum!
+**Result:** It does converge, but slowly: it needs 36 iterations to reach $$\vert x_k - 1\vert < 10^{-3}$$ and 67 iterations to reach $$\vert x_k - 1\vert < 10^{-6}$$.
 
 ### Method 2: Fixed Large Step Size ($$t = 1.5$$)
 
@@ -364,11 +252,11 @@ Let's see a head-to-head comparison! We'll minimize $$f(x) = x^2 - 2x + 5$$ star
 |-----------|---------|-------------------|---------------------------------------|----------------|
 | 0 | 4.0 | 6.0 | -5.0 | 40 |
 | 1 | -5.0 | -12.0 | 13.0 | 148 |
-| 2 | 13.0 | 24.0 | -23.0 | 568 |
+| 2 | 13.0 | 24.0 | -23.0 | 580 |
 | 3 | -23.0 | -48.0 | 49.0 | 2308 |
-| 4 | 49.0 | 96.0 | -95.0 | 9028 |
+| 4 | 49.0 | 96.0 | -95.0 | 9220 |
 
-**Result:** Diverges catastrophically! The algorithm explodes and never converges.
+**Result:** Diverges! Here $$x_{k+1} - 1 = -2\,(x_k - 1)$$, so the error doubles and changes sign at every step.
 
 ### Method 3: Fixed Medium Step Size ($$t = 0.5$$)
 
@@ -377,51 +265,47 @@ Let's see a head-to-head comparison! We'll minimize $$f(x) = x^2 - 2x + 5$$ star
 | 0 | 4.0 | 6.0 | 1.0 | 4.0 |
 | 1 | 1.0 | 0.0 | 1.0 | 4.0 |
 
-**Result:** Lucky guess! Converges in 2 steps, but this only works because we happened to choose exactly the right step size for this particular function.
+**Result:** Lucky guess! It reaches the optimum in one step, because $$t = 0.5 = 1/f''(x)$$ is exactly the Newton step for this quadratic. For another function, $$t = 0.5$$ could be too small or too large.
 
 ### Method 4: Backtracking Line Search ($$\alpha = 0.5$$, $$\beta = 0.8$$)
 
 **Iteration 1:**
-- Current: $$x = 4$$, $$\nabla f(x) = 6$$, $$f(x) = 13$$
-- Try $$t = 1$$: $$x - t\nabla f(x) = 4 - 1 \cdot 6 = -2$$, $$f(-2) = 13$$
+- Current: $$x = 4$$, $$\nabla f(x) = 6$$, $$\vert\nabla f(x)\vert^2 = 36$$, $$f(x) = 13$$
+- Try $$t = 1$$: $$x - t\nabla f(x) = 4 - 6 = -2$$, $$f(-2) = 13$$
 - Check: $$13 \leq 13 - 0.5 \cdot 1 \cdot 36 = -5$$ ✗ (Too big!)
-- Try $$t = 0.8$$: $$x - t\nabla f(x) = 4 - 0.8 \cdot 6 = -0.8$$, $$f(-0.8) = 8.44$$
-- Check: $$8.44 \leq 13 - 0.5 \cdot 0.8 \cdot 36 = -1.4$$ ✗ (Still too big!)
-- Try $$t = 0.64$$: $$x - t\nabla f(x) = 4 - 0.64 \cdot 6 = 0.16$$, $$f(0.16) = 4.3344$$
-- Check: $$4.3344 \leq 13 - 0.5 \cdot 0.64 \cdot 36 = 1.48$$ ✗ (Still too big!)
-- Try $$t = 0.51$$: $$x - t\nabla f(x) = 4 - 0.51 \cdot 6 = 0.94$$, $$f(0.94) = 4.0036$$
-- Check: $$4.0036 \leq 13 - 0.5 \cdot 0.51 \cdot 36 = 3.82$$ ✓ **Accept!**
-- Update: $$x_1 = 0.94$$
+- Try $$t = 0.8$$: $$x - t\nabla f(x) = 4 - 4.8 = -0.8$$, $$f(-0.8) = 7.24$$
+- Check: $$7.24 \leq 13 - 0.5 \cdot 0.8 \cdot 36 = -1.4$$ ✗ (Still too big!)
+- Try $$t = 0.64$$: $$x - t\nabla f(x) = 4 - 3.84 = 0.16$$, $$f(0.16) = 4.7056$$
+- Check: $$4.7056 \leq 13 - 0.5 \cdot 0.64 \cdot 36 = 1.48$$ ✗ (Still too big!)
+- Try $$t = 0.512$$: $$x - t\nabla f(x) = 4 - 3.072 = 0.928$$, $$f(0.928) = 4.005184$$
+- Check: $$4.005184 \leq 13 - 0.5 \cdot 0.512 \cdot 36 = 3.784$$ ✗ (Rejected, even though $$x = 0.928$$ is close to the optimum!)
+- Try $$t = 0.4096$$: $$x - t\nabla f(x) = 4 - 2.4576 = 1.5424$$, $$f(1.5424) \approx 4.2942$$
+- Check: $$4.2942 \leq 13 - 0.5 \cdot 0.4096 \cdot 36 = 5.6272$$ ✓ **Accept!**
+- Update: $$x_1 = 1.5424$$
+
+**Why is $$t = 0.512$$ rejected?** For this function, $$f(x - tg) = f(x) - t g^2 + t^2 g^2$$ with $$g = \nabla f(x)$$. The condition $$f(x - tg) \leq f(x) - 0.5\, t g^2$$ is then the same as $$t \leq 0.5$$. So at every iteration, the trials $$1, 0.8, 0.64, 0.512$$ are rejected and $$t = 0.4096$$ is accepted.
 
 **Iteration 2:**
-- Current: $$x = 0.94$$, $$\nabla f(x) = -0.12$$, $$f(x) = 4.0036$$
-- Try $$t = 1$$: $$x - t\nabla f(x) = 0.94 - 1 \cdot (-0.12) = 1.06$$, $$f(1.06) = 4.0036$$
-- Check: $$4.0036 \leq 4.0036 - 0.5 \cdot 1 \cdot 0.0144 = 3.9964$$ ✗ (Very close!)
-- Try $$t = 0.8$$: $$x - t\nabla f(x) = 0.94 - 0.8 \cdot (-0.12) = 1.036$$, $$f(1.036) = 4.001296$$
-- Check: $$4.001296 \leq 4.0036 - 0.5 \cdot 0.8 \cdot 0.0144 = 3.997824$$ ✗
-- Try $$t = 0.64$$: $$x - t\nabla f(x) = 0.94 - 0.64 \cdot (-0.12) = 1.0168$$, $$f(1.0168) = 4.00028$$
-- Check: $$4.00028 \leq 4.0036 - 0.5 \cdot 0.64 \cdot 0.0144 = 3.99899$$ ✗
-- Try $$t = 0.51$$: $$x - t\nabla f(x) = 0.94 - 0.51 \cdot (-0.12) = 1.0012$$, $$f(1.0012) = 4.0000144$$
-- Check: $$4.0000144 \leq 4.0036 - 0.5 \cdot 0.51 \cdot 0.0144 = 3.999923$$ ✗
-- Try $$t = 0.41$$: $$x - t\nabla f(x) = 0.94 - 0.41 \cdot (-0.12) = 0.9908$$, $$f(0.9908) = 4.0000846$$
-- Check: $$4.0000846 \leq 4.0036 - 0.5 \cdot 0.41 \cdot 0.0144 = 4.000648$$ ✓ **Accept!**
-- Update: $$x_2 = 0.9908$$
+- Current: $$x = 1.5424$$, $$\nabla f(x) = 1.0848$$, $$f(x) \approx 4.2942$$
+- Again $$t = 1, 0.8, 0.64, 0.512$$ are rejected, and $$t = 0.4096$$ is accepted.
+- Update: $$x_2 = 1.5424 - 0.4096 \cdot 1.0848 \approx 1.0981$$
 
-**Iteration 3:**
-- Current: $$x = 0.9908$$, $$\nabla f(x) = -0.0184$$, $$f(x) = 4.0000846$$
-- The gradient is very small, so we're very close to the optimum
-- After one more step: $$x_3 \approx 1.000$$ (essentially converged!)
+**Next iterations:** each iteration multiplies the error by $$\vert 1 - 2 \cdot 0.4096\vert = 0.1808$$:
 
-**Result:** Converges to the optimum in just **3 iterations**!
+| Iteration $$k$$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|-----------------|---|---|---|---|---|---|---|---|---|
+| $$x_k$$ | 1.5424 | 1.0981 | 1.0177 | 1.0032 | 1.00058 | 1.000105 | 1.000019 | 1.0000034 | 1.0000006 |
+
+**Result:** Backtracking reaches $$\vert x_k - 1\vert < 10^{-3}$$ after 5 iterations and $$\vert x_k - 1\vert < 10^{-6}$$ after **9 iterations**, using 45 function evaluations in total (5 trials per iteration). It needs no tuning, while the fixed step $$t = 0.1$$ needs 67 iterations for the same accuracy.
 
 ## Performance Summary
 
-| Method | Iterations to Convergence | Final Error | Comments |
-|--------|---------------------------|-------------|----------|
-| Fixed Small ($$t = 0.1$$) | 50+ | High | Very slow, conservative |
-| Fixed Large ($$t = 1.5$$) | ∞ | ∞ | Diverges completely |
-| Fixed Medium ($$t = 0.5$$) | 2 | Very Low | Lucky guess only! |
-| **Backtracking** | **3** | **Very Low** | **Robust and fast** |
+| Method | Iterations to $$\vert x_k - 1\vert < 10^{-6}$$ | Comments |
+|--------|-------------------------------------------------|----------|
+| Fixed Small ($$t = 0.1$$) | 67 | Safe but slow |
+| Fixed Large ($$t = 1.5$$) | ∞ | Diverges |
+| Fixed Medium ($$t = 0.5$$) | 1 | Lucky guess only! |
+| **Backtracking** | **9** (45 function evaluations) | **Robust, no tuning** |
 
 ## Key Insights
 

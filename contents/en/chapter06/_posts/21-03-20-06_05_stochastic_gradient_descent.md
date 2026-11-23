@@ -214,6 +214,10 @@ Let's illustrate with $$m = 3$$ functions to make this crystal clear:
 
 **Starting position:** $$x^{(k)} = [1, 2]$$
 
+**Concrete functions (optional, to check the numbers):** fit a line $$y \approx w s + c$$ through the three points $$(s_i, y_i) = (0, 1), (1, 3), (2, 2)$$. With $$x = [w, c]$$, take
+$$f_i(x) = \tfrac{1}{2}(w s_i + c - y_i)^2, \qquad \nabla f_i(x) = (w s_i + c - y_i)\,[s_i, 1].$$
+At $$x^{(k)} = [1, 2]$$: $$\nabla f_1 = [0, 1]$$, $$\nabla f_2 = [0, 0]$$, $$\nabla f_3 = [4, 2]$$, and $$f(x^{(k)}) = 2.5$$. The minimizer is $$x^\star = [0.5, 1.5]$$ with $$f(x^\star) = 0.75$$.
+
 **SGD Cyclic Rule Process:**
 1. **Use $$f_1$$**: Compute $$\nabla f_1(x^{(k)}) = \nabla f_1([1,2])$$, update:
    $$x^{(k+1)} = x^{(k)} - t_k \nabla f_1(x^{(k)}) = [1,2] - t_k \nabla f_1([1,2])$$
@@ -229,6 +233,17 @@ $$x^{(k+3)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k+1)}) + \nabla
 
 **Compare with Batch GD:**
 $$x^{(k+1)} = x^{(k)} - t_k[\nabla f_1(x^{(k)}) + \nabla f_2(x^{(k)}) + \nabla f_3(x^{(k)})]$$
+
+**With the concrete functions and $$t_k = 0.15$$:**
+
+| Method | Step | Gradient used | New point | $$f$$ |
+|--------|------|---------------|-----------|-------|
+| Batch GD | 1 | $$[4, 3]$$ (sum at $$[1, 2]$$) | $$[0.4, 1.55]$$ | 0.76375 |
+| SGD | 1 | $$\nabla f_1([1, 2]) = [0, 1]$$ | $$[1, 1.85]$$ | 2.08375 |
+| SGD | 2 | $$\nabla f_2([1, 1.85]) = [-0.15, -0.15]$$ | $$[1.0225, 1.8725]$$ | 2.2245 |
+| SGD | 3 | $$\nabla f_3([1.0225, 1.8725]) = [3.835, 1.9175]$$ | $$[0.44725, 1.584875]$$ | 0.7543 |
+
+The SGD gradients add up to $$[3.685, 2.7675]$$ instead of $$[4, 3]$$. The difference $$[-0.315, -0.2325]$$ is exactly the deviation term above. Notice that step 2 *increases* $$f$$: a single $$f_i$$ does not always point downhill for the full sum.
 
 **The crucial difference:** 
 - **Batch GD**: All gradients evaluated at the **same** starting point $$x^{(k)}$$
@@ -279,6 +294,8 @@ A compromise between batch GD and SGD uses **mini-batches** of size $$b$$:
 $$x^{(k)} = x^{(k-1)} - t_k \cdot \frac{1}{b} \sum_{i \in \mathcal{B}_k} \nabla f_i (x^{(k-1)})$$
 
 where $$\mathcal{B}_k$$ is a mini-batch of $$b$$ randomly selected indices.
+
+**Sum or mean?** Above, batch GD used the **sum** $$\sum_{i=1}^m \nabla f_i$$, the gradient of $$f = \sum_i f_i$$. The mini-batch formula uses a **mean** over $$b$$ indices, which is an unbiased estimate of the mean gradient $$\frac{1}{m}\sum_{i=1}^m \nabla f_i$$ (the usual convention in machine learning, where we minimize the average loss). The two only differ by a constant factor that goes into the step size: to estimate the sum instead, use $$\frac{m}{b}\sum_{i \in \mathcal{B}_k} \nabla f_i$$. With $$b = m$$ and the mean convention, mini-batch GD is batch GD with step $$t_k/m$$.
 
 <div id="minibatch-comparison" style="margin: 20px 0;">
     <h4>Comparison: Batch vs Mini-batch vs SGD</h4>

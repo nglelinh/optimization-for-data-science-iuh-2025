@@ -42,15 +42,15 @@ where:
 - $$t > 0$$ is the learning rate
 - $$v^{(0)} = 0$$ (initial velocity is zero)
 
-### Alternative Formulation (Nesterov-style)
+### Equivalent Formulation (without the factor $$1-\beta$$)
 
-Some implementations use a slightly different form:
+Some implementations (for example PyTorch's `SGD` with `momentum`) use a slightly different form. It is still the plain heavy-ball method, not Nesterov; it only rescales the learning rate (by a factor $$1/(1-\beta)$$ in the long run):
 $$ \begin{align}
 v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
-**Key insight**: The momentum term $$v^{(k)}$$ is an exponentially weighted moving average of past gradients.
+**Key insight**: In both forms, $$v^{(k)}$$ is an exponentially weighted combination of past gradients: a moving average in the first form, and a weighted sum in the second form.
 
 ## Understanding the Momentum Coefficient $$\beta$$
 
@@ -433,7 +433,7 @@ The accumulated momentum can help the algorithm "roll through" small local minim
 Instead of computing the gradient at the current position, NAG computes it at the "look-ahead" position:
 
 $$ \begin{align}
-v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)} - \beta v^{(k-1)}) \\
+v^{(k)} &= \beta v^{(k-1)} + \nabla f(x^{(k-1)} - t\beta v^{(k-1)}) \\
 x^{(k)} &= x^{(k-1)} - t v^{(k)}
 \end{align} $$
 
@@ -445,7 +445,7 @@ While momentum helps the ball overcome local minima, there's a limitation we can
 
 #### The Key Insight
 
-The fundamental idea is to **predict the future direction** - essentially looking ahead one step! Specifically, if we use the momentum term $$\beta v^{(k-1)}$$ for updating, we can approximate the next position as $$x^{(k-1)} - \beta v^{(k-1)}$$ (we don't include the gradient term here as we'll use it in the final step).
+The fundamental idea is to **predict the future direction** - essentially looking ahead one step! Specifically, the momentum part of the update moves the iterate by $$-t\beta v^{(k-1)}$$, so we can approximate the next position as $$x^{(k-1)} - t\beta v^{(k-1)}$$ (we don't include the gradient term here as we'll use it in the final step).
 
 Instead of using the gradient at the current position, NAG takes a step forward and uses the gradient at the anticipated next position.
 
