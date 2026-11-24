@@ -105,7 +105,7 @@ This result has the following characteristics:
 >R_{t}(x) = (1-\frac{x}{\lVert x \rVert_{2}})_{+}x
 >\end{align}
 
-### ADMM in 18 seconds
+### ADMM for the lasso (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/admm-lasso_en.mp4"></video>

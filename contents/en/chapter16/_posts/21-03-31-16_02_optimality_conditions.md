@@ -146,7 +146,7 @@ x^\star, s^\star &\gt 0,\\\\
 
 Conditions 3 and 4 show differences from the KKT conditions of the primal LP.
 
-### KKT in 18 seconds
+### KKT: normals and Lagrange multipliers (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/kkt-normals_en.mp4"></video>

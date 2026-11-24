@@ -24,7 +24,7 @@ Ví dụ, hình dưới đây minh họa gradient descent áp dụng cho hàm $$
 * Trong trường hợp B, kích thước bước $$t$$ quá nhỏ, khiến tốc độ hội tụ rất chậm và chưa đạt được điểm cực tiểu ngay cả sau 100 bước.
 * Trong trường hợp C, kích thước bước có độ lớn phù hợp, giúp thuật toán hội tụ trong khoảng 40 bước. (Cách xác định khoảng giá trị phù hợp này sẽ được phân tích ở các mục sau trong chương.)
 
-### Kích thước bước: ba quy tắc trong 20 giây
+### Kích thước bước: ổn định, quá lớn, quá nhỏ (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/gd-step-sizes_vi.mp4"></video>

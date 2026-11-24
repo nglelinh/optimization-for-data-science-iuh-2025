@@ -40,7 +40,7 @@ BFGS also preserves positive definiteness, just like DFP. (If $$B$$ is positive 
 
 An advantage of BFGS is its self-correcting property. If the matrix $$H$$ in some iteration is a poor approximation of the inverse Hessian, $$H$$ can correct itself within a few more steps. DFP cannot correct itself when the Hessian approximation is wrong, so BFGS usually performs better [14].
 
-### Quasi-Newton in 15 seconds
+### BFGS vs. gradient descent (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/bfgs-vs-gd_en.mp4"></video>

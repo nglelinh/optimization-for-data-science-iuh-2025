@@ -72,7 +72,7 @@ Xét hàm $$f = (10x_{1}^{2}+x_{2}^{2})/2+5\log(1+e^{-x_{1}-x_{2}})$$. Giả s�
 
 Như minh họa trong Hình 1, vì thay đạo hàm bậc hai bằng một hằng số nhân ma trận đơn vị, gradient descent luôn di chuyển vuông góc với tiếp tuyến của các đường đồng mức và hội tụ chậm hơn phương pháp Newton. Các mục tiếp theo sẽ trình bày tính chất, đặc điểm, phân tích hội tụ và các ví dụ của phương pháp Newton.
 
-### Phương pháp Newton trong một chiều
+### Phương pháp Newton: một chiều, hai chiều và khi nào thất bại (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/newton-parabola_vi.mp4"></video>

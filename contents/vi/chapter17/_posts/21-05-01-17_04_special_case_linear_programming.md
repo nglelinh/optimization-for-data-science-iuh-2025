@@ -156,7 +156,7 @@ Tiếp theo, xét hiệu năng trên một dãy bài toán LP với $$n = 2m$$ k
 
 Như hình trên cho thấy, phương pháp gốc-đối ngẫu đạt độ chính xác cao hơn nhiều dù chỉ cần thêm một lượng nhỏ vòng lặp Newton.
 
-### Gốc - đối ngẫu trong 18 giây
+### Gốc - đối ngẫu so với phương pháp rào cản (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/primal-dual-ipm_vi.mp4"></video>

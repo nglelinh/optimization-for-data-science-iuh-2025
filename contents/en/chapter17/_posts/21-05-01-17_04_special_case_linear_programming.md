@@ -156,7 +156,7 @@ Now let's look at the performance for a series of problems where $$n = 2m$$ and 
 
 As can be seen from the above figure, the Primal-dual method finds solutions with higher accuracy but requires some additional iterations.
 
-### Primal-dual in 18 seconds
+### Primal-dual vs. barrier method (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/primal-dual-ipm_en.mp4"></video>

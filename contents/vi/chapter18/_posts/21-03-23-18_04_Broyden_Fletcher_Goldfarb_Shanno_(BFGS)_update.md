@@ -40,7 +40,7 @@ Tương tự DFP, BFGS bảo toàn tính xác định dương: nếu $$B \succ 0
 
 Ưu điểm nổi bật của BFGS là **khả năng tự hiệu chỉnh (self-correcting)**: nếu ma trận $$H$$ ở một vòng lặp là xấp xỉ kém của Hessian nghịch đảo, các bước cập nhật tiếp theo có thể nhanh chóng điều chỉnh lại sai lệch này. Trong khi đó, DFP kém hiệu quả hơn nhiều trong việc tự hiệu chỉnh xấp xỉ Hessian kém, nên trên thực tế BFGS thường cho hiệu năng vượt trội hơn [14].
 
-### Quasi-Newton trong 15 giây
+### BFGS so với gradient descent (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/bfgs-vs-gd_vi.mp4"></video>

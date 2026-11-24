@@ -21,3 +21,8 @@ r_lbfgs Lbfgs l-bfgs (18-07) | r_admmg AdmmG admm-general (20-04-01) | r_ad Ad a
 r_pl Pl pl-condition (28-05) | r_fedavg FedAvg fedavg-drift (29-02)
 Preview fast: `FAST=1 REEL_LANG=vi manim -ql r_cvx.py Cvx`. Final: `REEL_LANG=vi manim -qh r_cvx.py Cvx` (and `en`), then the same ffmpeg command as above.
 Vietnamese narration drafts for later dubbing, with measured stage/caption times: `vo_scripts_batch2.py` (same `(k, offset, text)` format as `vo/narration_vi.py`).
+
+Fifth wave (23/11, extended in place to about 2:50–3:30, silent, same 5 stages, same output names): the 9 shortest long reels
+r_admm Admm admm-lasso | r_bfgs QN bfgs-vs-gd | r_dd Dec dual-decomposition | r_cut Cut gomory-cut | r_kkt Kkt kkt-normals |
+r_pd Pdip primal-dual-ipm | r_newton Newton newton-parabola | r_bnb Bnb branch-bound | r_gd GD gd-step-sizes
+now add derivations, worked hand-computed rounds and extra contrasts (numbers checked by numpy asserts at import). Narration drafts with measured times: `vo_scripts_batch3.py`.

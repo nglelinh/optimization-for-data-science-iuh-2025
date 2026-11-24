@@ -65,7 +65,7 @@ The problem is solved recursively.
 * If the lower bound of a subproblem is greater than the current upper bound, there is no need to consider the subproblems below it.
 * The most reliable method for computing the lower bound is through convex relaxation, but other methods (e.g., Lagrangian relaxation) are also used.
 
-### Branch and bound in 18 seconds
+### Branch and bound, step by step (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/branch-bound_en.mp4"></video>

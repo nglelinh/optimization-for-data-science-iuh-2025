@@ -61,7 +61,7 @@ Thuật toán nhánh và cận giải đệ quy trên từng nút bài toán con
 * Bất kỳ bài toán con nào có cận dưới lớn hơn hoặc bằng cận trên hiện tại đều bị cắt tỉa mà không cần phân nhánh thêm.
 * Nới lỏng lồi là cách phổ biến và đáng tin cậy nhất để tính cận dưới, bên cạnh các lựa chọn khác như nới lỏng Lagrange.
 
-### Nhánh và cận trong 18 giây
+### Nhánh và cận từng bước (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/branch-bound_vi.mp4"></video>

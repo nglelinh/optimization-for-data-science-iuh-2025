@@ -24,7 +24,7 @@ For example, in the figure below, gradient descent is applied to $$f(x) = (10 x_
 * In case B, the step size $$t$$ is too small, so convergence is very slow and the minimum is not reached even after 100 steps.
 * In case C, the step size is "appropriate," and convergence is achieved in about 40 steps. (How to find this "appropriate" value is discussed later in this chapter.)
 
-### Step size: three rules in 20 seconds
+### Step size: stable, too large, too small (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/gd-step-sizes_en.mp4"></video>

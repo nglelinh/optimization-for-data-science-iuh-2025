@@ -108,7 +108,7 @@ Thuật toán này có các đặc điểm sau:
 >\end{align}
 >$$
 
-### ADMM trong 18 giây
+### ADMM cho lasso (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/admm-lasso_vi.mp4"></video>

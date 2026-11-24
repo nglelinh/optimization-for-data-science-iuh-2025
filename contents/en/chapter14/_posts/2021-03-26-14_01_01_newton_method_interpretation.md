@@ -73,7 +73,7 @@ As an example, for the function $$f = (10x_{1}^{2}+x_{2}^{2})/2+5log(1+e^{-x_{1}
 
 As can be seen in Fig 1, gradient descent assumes the second derivative term as a constant multiplied by the identity matrix when calculating the gradient, so it converges perpendicularly to the tangent direction of the contour lines, and shows slower convergence speed compared to Newton's method. The remaining chapters will cover the properties, characteristics, convergence, examples, etc. of Newton's method.
 
-### Newton's method in one dimension
+### Newton's method: 1D, 2D, and when it fails (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/newton-parabola_en.mp4"></video>

@@ -42,7 +42,7 @@ Thuật toán lặp lại hai bước sau với $$k = 1, 2, 3, \dots$$:
 </p>
 </figure>
 
-### Phân rã đối ngẫu trong 18 giây
+### Phân rã đối ngẫu: giá và các tác tử (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/dual-decomposition_vi.mp4"></video>
