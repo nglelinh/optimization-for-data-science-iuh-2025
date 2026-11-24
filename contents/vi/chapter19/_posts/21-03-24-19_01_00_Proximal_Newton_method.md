@@ -13,7 +13,7 @@ Trong phần này, chúng ta ôn lại **phương pháp hạ gradient lân cận
 
 Chúng ta cũng tìm hiểu định nghĩa của **phương pháp Newton proximal** và **ánh xạ proximal có tỉ lệ (scaled proximal map)** — toán tử kế thừa những tính chất quan trọng như tính duy nhất và tính không giãn (non-expansiveness) của ánh xạ proximal thông thường.
 
-### Newton gần kề trong 18 giây
+### Newton gần kề so với gradient gần kề (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/prox-newton_vi.mp4"></video>

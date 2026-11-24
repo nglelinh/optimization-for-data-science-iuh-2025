@@ -198,7 +198,7 @@ trong đó $$I_C^{*}$$ là hàm tựa (support function) của $$C$$ (hàm liên
 
 (và dấu bằng xảy ra khi $$u = \nabla f(x)$$, cho đúng đại lượng $$g(x) = \max_{s \in C} \nabla f(x)^T(x - s)$$).
 
-### Frank-Wolfe trong 18 giây
+### Frank-Wolfe: tiến về một đỉnh, không cần chiếu (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/frank-wolfe_vi.mp4"></video>

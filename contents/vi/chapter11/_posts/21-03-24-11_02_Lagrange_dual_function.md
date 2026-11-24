@@ -151,7 +151,7 @@ Trong Hình 3, $$f(x_1, x_2)$$ là một hàm bậc hai xét trên miền không
 * Với mọi $$u \ge 0$$, hàm đối ngẫu $$g(u)$$ luôn cho một cận dưới của $$f^*$$.
 * Giá trị cực đại của hàm đối ngẫu $$g(u)$$ trùng khớp với giá trị tối ưu gốc $$f^*$$.
 
-### Hàm đối ngẫu trong 18 giây
+### Hàm đối ngẫu luôn là một cận dưới (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/dual-lower-bound_vi.mp4"></video>

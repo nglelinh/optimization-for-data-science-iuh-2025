@@ -57,7 +57,7 @@ $$ \begin{align}
 
 If we let $$\frac{RG}{\sqrt{k}}=\epsilon$$, then $$k=\big(\frac{RG}{\epsilon}\big)^2$$, so the number of trials required to reach a suboptimal point with respect to $$\epsilon$$ is on the order of $$\big(\frac{RG}{\epsilon}\big)^2$$. In other words, the convergence rate is $$O(1/\epsilon^{2})$$, which is the same as other subgradient methods.
 
-### The Polyak step in 18 seconds
+### The Polyak step: choosing the step from f* (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/polyak-step_en.mp4"></video>

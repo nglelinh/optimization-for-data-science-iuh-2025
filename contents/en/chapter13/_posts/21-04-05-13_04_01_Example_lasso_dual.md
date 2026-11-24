@@ -81,7 +81,7 @@ Therefore, lasso satisfies the dual residual.
 </p>
 </figure>
 
-### The lasso dual in 18 seconds
+### The lasso dual as a projection (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/lasso-dual_en.mp4"></video>

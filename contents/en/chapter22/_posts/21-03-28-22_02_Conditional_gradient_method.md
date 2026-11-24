@@ -198,7 +198,7 @@ When $$x = x^{(k-1)}, u = \nabla f(x^{(k-1)})$$, the duality gap occurring at $$
 
 >$$f(x) + f^{*}(u) + I^{*}_C(−u) \geq x^Tu + I^{*}_C(−u)$$
 
-### Frank-Wolfe in 18 seconds
+### Frank-Wolfe: step toward a vertex, no projection (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/frank-wolfe_en.mp4"></video>

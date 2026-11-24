@@ -116,6 +116,8 @@ Thuật toán này có các đặc điểm sau:
 
 ADMM thực hiện luân phiên một bước cập nhật $$x$$ kiểu hồi quy ridge, một bước cập nhật $$z$$ bằng co ngưỡng mềm, và một bước cập nhật biến đối ngẫu $$u$$ nhằm kéo $$x$$ và $$z$$ tiến lại gần nhau.
 
+Video dùng ký hiệu chung của ADMM: $$x$$ ứng với $$\beta$$, $$z$$ ứng với $$\alpha$$, $$u$$ ứng với $$w$$ (biến đối ngẫu đã chia cho $$\rho$$); ma trận $$X$$ và vectơ $$y$$ của bài được viết là $$A$$ và $$b$$. Trong video, $$y$$ là nhân tử Lagrange chứ không phải vectơ đáp ứng.
+
 ### Tự tay thử: ADMM trên bài toán Lasso
 
 <div class="opx-explainer" data-opx="admm" data-lang="vi"></div>

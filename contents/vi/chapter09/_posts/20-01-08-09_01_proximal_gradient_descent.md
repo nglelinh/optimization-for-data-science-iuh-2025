@@ -114,7 +114,7 @@ Hình dưới đây minh họa sự khác biệt rõ rệt về tốc độ hộ
 </p>
 </figure>
 
-### Co ngưỡng mềm trong 15 giây
+### Co ngưỡng mềm: prox của λ|x| và vì sao có số 0 thật (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/prox-shrink_vi.mp4"></video>

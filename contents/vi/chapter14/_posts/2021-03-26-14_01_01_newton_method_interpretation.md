@@ -27,7 +27,7 @@ Xấp xỉ Taylor bậc hai của hàm $$f$$ quanh điểm $$x$$ có dạng:
 
 Trong đó, $$y$$ đại diện cho điểm ở bước tiếp theo ($$x^{+}$$), còn $$f_{approx}$$ là hàm xấp xỉ bậc hai của $$f$$.
 
-Ta cần tìm $$y$$ để cực tiểu hóa $$f_{approx}(y)$$. Vì $$f_{approx}$$ là hàm lồi, điểm $$y$$ làm triệt tiêu gradient theo biến $$y$$ chính là điểm cực tiểu và cho ta công thức cập nhật của phương pháp Newton:
+Ta cần tìm $$y$$ để cực tiểu hóa $$f_{approx}(y)$$. Đây là hàm bậc hai theo $$y$$ với Hessian $$\nabla^2 f(x)$$, nên nó lồi khi $$\nabla^2 f(x) \succeq 0$$. Nếu $$\nabla^2 f(x) \succ 0$$ thì $$f_{approx}$$ lồi chặt và có đúng một điểm cực tiểu, chính là điểm làm gradient theo $$y$$ bằng 0. (Nếu Hessian chỉ nửa xác định dương, mô hình có thể không có cực tiểu hoặc có vô số cực tiểu.) Từ đó ta có công thức cập nhật của phương pháp Newton:
 
 >$$
 >\begin{align}

@@ -13,7 +13,7 @@ In this section, we will review the **proximal gradient method** and examine how
 
 We will also examine the definition of the **proximal newton method** and the scaled proximal map that has good properties such as uniqueness and non-expansiveness compared to the general proximal map.
 
-### Proximal Newton in 18 seconds
+### Proximal Newton vs. proximal gradient (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/prox-newton_en.mp4"></video>

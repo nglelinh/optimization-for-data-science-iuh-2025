@@ -73,6 +73,8 @@ The problem is solved recursively.
 
 Solve the LP relaxation, branch on a fractional variable, and discard any node whose bound cannot beat the best integer solution found so far.
 
+Note: the video solves a maximization problem ($$\max\ 5x_1 + 4x_2$$), while this lesson uses the minimization form. They are equivalent because $$\max_x c^Tx = -\min_x (-c^Tx)$$. In the maximization form the bounds swap roles: the LP relaxation value at a node is an **upper** bound, the best integer solution so far is a **lower** bound, and a node is pruned when its upper bound cannot exceed the best integer value.
+
 ### Try it yourself: step through branch and bound
 
 <div class="opx-explainer" data-opx="bnb" data-lang="en"></div>

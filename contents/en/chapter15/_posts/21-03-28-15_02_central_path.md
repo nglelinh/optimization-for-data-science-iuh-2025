@@ -38,7 +38,7 @@ In the following figure, the dotted line represents the logarithmic barrier func
 
 You can see that as $$t \to \infty$$, the central path converges to the optimal $$x^*$$. At this point, the hyperplane $$c^Tx = c^Tx(t)$$ is the tangent to the level curve of $$\phi$$ passing through $$c^Tx(t)$$.
 
-### The central path in 10 seconds
+### The central path to the optimal vertex (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/central-path_en.mp4"></video>

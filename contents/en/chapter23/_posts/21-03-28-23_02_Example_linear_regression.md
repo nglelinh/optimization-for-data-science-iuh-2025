@@ -47,7 +47,7 @@ According to the above results, coordinate descent shows significantly better co
 
 * **Gradient descent update:** $$\beta \leftarrow \beta + tX^T(y-X\beta)$$, the time complexity of the $$X\beta$$ operation becomes $$O(np)$$ flops.
 
-### Coordinate descent in 18 seconds
+### Coordinate descent: one coordinate at a time (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/coordinate-descent_en.mp4"></video>

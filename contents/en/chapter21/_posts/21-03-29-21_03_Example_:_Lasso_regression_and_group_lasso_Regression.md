@@ -101,9 +101,11 @@ This result has the following characteristics:
 * If we precompute the factorization (typically Cholesky factorization) in $$O(p^{3})$$ flops, then the $$\beta$$ update takes $$O(p^{2})$$ flops.
 * The $$\alpha$$ update applies the group soft-thresholding operator $$R_{t}$$, which is defined as follows:
 
+>$$
 >\begin{align}
->R_{t}(x) = (1-\frac{x}{\lVert x \rVert_{2}})_{+}x
+>R_{t}(x) = \left(1-\frac{t}{\lVert x \rVert_{2}}\right)_{+}x
 >\end{align}
+>$$
 
 ### ADMM for the lasso (video)
 
@@ -112,6 +114,8 @@ This result has the following characteristics:
 </div>
 
 ADMM alternates a ridge-like $$x$$-update, a soft-thresholding $$z$$-update and a dual update of $$u$$, pulling $$x$$ and $$z$$ together.
+
+The video uses generic ADMM notation: $$x$$ corresponds to $$\beta$$, $$z$$ to $$\alpha$$, and $$u$$ to $$w$$ (the scaled dual variable); the lesson's $$X$$ and $$y$$ are written $$A$$ and $$b$$. In the video, $$y$$ denotes the Lagrange multiplier, not the response vector.
 
 ### Try it yourself: ADMM on a lasso
 

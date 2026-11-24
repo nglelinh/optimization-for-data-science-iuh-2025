@@ -27,7 +27,7 @@ The second-order Taylor approximation (quadratic approximation) of function $$f$
 
 Here, $$y$$ is the next step's $$x$$ value, which is $$x^{+}$$. We also define the quadratic approximation as $$f_{approx}$$.
 
-We want to find the input $$y$$ that minimizes this $$f_{approx}$$, i.e., the quadratic approximation. Since $$f_{approx}$$ is convex, the input $$y$$ that makes the gradient of the above equation equal to zero will minimize $$f_{approx}$$. This result becomes the step update formula in Newton's method. Remember that the differentiation in the equation below is with respect to y.
+We want to find the input $$y$$ that minimizes this $$f_{approx}$$, i.e., the quadratic approximation. It is a quadratic in $$y$$ with Hessian $$\nabla^2 f(x)$$, so it is convex when $$\nabla^2 f(x) \succeq 0$$. If $$\nabla^2 f(x) \succ 0$$, it is strictly convex and has a unique minimizer: the $$y$$ that makes its gradient zero. (If the Hessian is only positive semidefinite, the model may have no minimizer or infinitely many.) This result becomes the step update formula in Newton's method. Remember that the differentiation in the equation below is with respect to y.
 
 >$$
 >\begin{align}

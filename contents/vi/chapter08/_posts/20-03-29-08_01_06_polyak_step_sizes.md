@@ -57,7 +57,7 @@ $$ \begin{align}
 
 Đặt $$\frac{RG}{\sqrt{k}}=\epsilon$$, ta thu được $$k=\big(\frac{RG}{\epsilon}\big)^2$$. Như vậy, số bước lặp cần thiết để đạt sai số $$\epsilon$$ có bậc $$\big(\frac{RG}{\epsilon}\big)^2$$, tức tốc độ hội tụ là $$O(1/\epsilon^{2})$$ — cùng bậc với các quy tắc chọn bước khác của phương pháp subgradient.
 
-### Bước Polyak trong 18 giây
+### Bước Polyak: chọn độ dài bước từ f* (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/polyak-step_vi.mp4"></video>

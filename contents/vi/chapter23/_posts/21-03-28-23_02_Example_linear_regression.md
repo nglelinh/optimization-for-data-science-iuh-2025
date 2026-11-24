@@ -47,7 +47,7 @@ Kết quả cho thấy coordinate descent hội tụ nhanh hơn đáng kể so v
 * **Cập nhật gradient descent:** $$\beta \leftarrow \beta + tX^T(y-X\beta)$$, tốn $$O(np)$$ flops để tính $$X\beta$$ và $$X^T r$$.
 * **Cập nhật coordinate descent:** duy trì sẵn vector phần dư $$r = y - X\beta$$; khi đó mỗi bước chỉ cần cập nhật $$\beta_i \leftarrow \beta_i + \frac{X_i^T r}{X_i^T X_i}$$ rồi cập nhật phần dư $$r \leftarrow r - X_i (\beta_i^{\text{new}} - \beta_i^{\text{old}})$$, tốn $$O(n)$$ flops mỗi tọa độ.
 
-### Coordinate descent trong 18 giây
+### Coordinate descent: mỗi lần một tọa độ (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/coordinate-descent_vi.mp4"></video>

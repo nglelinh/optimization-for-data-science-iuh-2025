@@ -118,7 +118,7 @@ In the following figure, you can clearly see the performance difference between 
 </p>
 </figure>
 
-### Soft-thresholding in 15 seconds
+### Soft-thresholding: the prox of λ|x| and exact zeros (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/prox-shrink_en.mp4"></video>

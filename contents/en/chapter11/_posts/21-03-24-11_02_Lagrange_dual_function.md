@@ -141,7 +141,7 @@ For example, in the following figure, $$f(x_1,x_2)$$ is a quadratic function ove
 * For all $$u>0$$, the dual function $$g(u)$$ provides a lower bound on $$f^*$$.
 * The maximum of the dual function $$g(u)$$ matches exactly the value $$f^*$$.
 
-### The dual function in 18 seconds
+### The dual function is a lower bound (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/dual-lower-bound_en.mp4"></video>

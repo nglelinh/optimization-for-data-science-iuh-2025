@@ -44,7 +44,7 @@ Trong hình dưới đây, các đường nét đứt biểu diễn đường đ
 
 Khi $$t \to \infty$$, đường trung tâm hội tụ về đỉnh tối ưu $$x^*$$. Tại mỗi điểm $$x^*(t)$$ trên đường trung tâm, siêu phẳng $$c^Tx = c^Tx^*(t)$$ tiếp xúc với đường đồng mức của $$\phi$$ đi qua $$x^*(t)$$.
 
-### Đường trung tâm trong 10 giây
+### Đường trung tâm dẫn tới đỉnh tối ưu (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/central-path_vi.mp4"></video>

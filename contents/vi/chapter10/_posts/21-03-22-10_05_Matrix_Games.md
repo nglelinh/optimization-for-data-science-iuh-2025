@@ -166,7 +166,7 @@ Khử biến bù $$u \geq 0$$ từ điều kiện $$Py - u - v\mathbf{1} = 0$$ (
 
 Tổng quát đối với quy hoạch tuyến tính (sẽ được trình bày kỹ hơn ở Chương 11), chỉ cần bài toán gốc hoặc bài toán đối ngẫu khả thi thì tính đối ngẫu mạnh luôn được bảo đảm.
 
-### Trò chơi ma trận trong 18 giây
+### Trò chơi ma trận: minimax và đối ngẫu (video)
 
 <div class="reel-video" style="text-align:center;margin:1.5rem 0;">
 <video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:12px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/matrix-game_vi.mp4"></video>

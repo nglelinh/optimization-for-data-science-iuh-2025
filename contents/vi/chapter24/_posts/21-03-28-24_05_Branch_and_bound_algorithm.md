@@ -69,6 +69,8 @@ Thuật toán nhánh và cận giải đệ quy trên từng nút bài toán con
 
 Thuật toán giải LP nới lỏng, rẽ nhánh theo một biến đang nhận giá trị phân số, và cắt bỏ mọi nút có cận dưới không thể cải thiện nghiệm nguyên tốt nhất đã tìm được.
 
+Lưu ý: video giải bài toán dạng cực đại ($$\max\ 5x_1 + 4x_2$$), còn bài viết dùng dạng cực tiểu. Hai dạng tương đương vì $$\max_x c^Tx = -\min_x (-c^Tx)$$. Khi làm với dạng cực đại, hai cận đổi vai: giá trị LP nới lỏng ở mỗi nút là cận **trên**, nghiệm nguyên tốt nhất đã có là cận **dưới**, và nút bị cắt tỉa khi cận trên của nó không vượt được nghiệm nguyên tốt nhất.
+
 ### Tự tay thử: duyệt qua nhánh và cận
 
 <div class="opx-explainer" data-opx="bnb" data-lang="vi"></div>
