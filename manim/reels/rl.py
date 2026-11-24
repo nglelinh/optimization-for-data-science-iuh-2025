@@ -65,14 +65,36 @@ def rtime(d):
     return max(1.8, 1.0 + 0.052 * len(s))
 
 
+# Voiceover sync (VI only): vo/pads.json = {"Scene": {"k": extra_sec}} adds a pause at the end of the k-th stage chip (1-based)
+# so the narration of that stage ends before the next one; VO_LOG=file writes stage/caption times as JSON.
+import json as _json
+_VO_PADS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "vo", "pads.json")
+
+
 class Reel(Scene):
     def setup(self):
         self.capm = None; self.chipm = None; self.rom = None; self.titlem = None
+        self._vo_stage = None; self._vo_ev = []
+        pads = _json.load(open(_VO_PADS)) if LANG == "vi" and os.path.exists(_VO_PADS) else {}
+        self._vo_pad = {int(k): v for k, v in pads.get(type(self).__name__, {}).items()}
+
+    def _vo_log(self, kind, val):
+        self._vo_ev.append([round(self.renderer.time, 3), kind, val])
+
+    def _vo_close_stage(self):
+        if self._vo_stage is not None and self._vo_pad.get(self._vo_stage, 0) > 0:
+            self.wait(self._vo_pad[self._vo_stage])
+
+    def tear_down(self):
+        self._vo_close_stage(); self._vo_log("end", None)
+        if os.environ.get("VO_LOG"):
+            _json.dump(self._vo_ev, open(os.environ["VO_LOG"], "w"), ensure_ascii=False, indent=0)
 
     def title(self, d):
         self.titlem = para(d, 33, WHITE, 8.0).move_to([0, 6.3, 0]); self.add(self.titlem)
 
     def stage(self, i):
+        self._vo_close_stage(); self._vo_stage = (self._vo_stage or 0) + 1; self._vo_log("stage", i)
         t = Text(tr(STAGES[i]), font=FONT, font_size=24, color=SC[i])
         box = RoundedRectangle(corner_radius=0.22, width=t.width + 0.6, height=0.52, stroke_color=SC[i], stroke_width=2.5, fill_color=CARD, fill_opacity=1)
         chip = VGroup(box, t.move_to(box)).move_to([0, 5.0, 0])
@@ -81,6 +103,7 @@ class Reel(Scene):
         self.chipm = chip
 
     def say(self, d, color=WHITE, hold=None, size=27, wait=True):
+        self._vo_log("say", tr(d) if isinstance(d, dict) else d)
         m = para(d, size, color, 7.9)
         m.move_to([0, -5.35, 0])
         if m.get_top()[1] > -4.35: m.shift(UP * (-4.35 - m.get_top()[1]))
@@ -118,7 +141,7 @@ class Reel(Scene):
             p = para(("• " if True else "") + tr(d), 29, WHITE if i % 2 == 0 else SUN, 7.8)
             p.next_to([0, y, 0], DOWN, buff=0).set_x(0); y = p.get_bottom()[1] - 0.45
             for row in p: row.align_to(p, LEFT)
-            self.play(FadeIn(p, shift=UP * 0.15), run_time=0.45); self.wait(rtime(d) * 0.85); ms.append(p)
+            self._vo_log("say", tr(d)); self.play(FadeIn(p, shift=UP * 0.15), run_time=0.45); self.wait(rtime(d) * 0.85); ms.append(p)
         self.wait(tail)
 
     def reading(self, d):

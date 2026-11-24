@@ -1,0 +1,88 @@
+"""Vietnamese voiceover for the 10 optimization reels (third wave).
+Each segment: (k, offset, text). k = k-th stage chip of the reel (1-based), offset = seconds after that
+stage starts. A segment must end before stage k+1 starts; vo_build.py checks this and asks for pads."""
+
+REELS = {
+"momentum-nesterov": ("r_mom.py", "Mom", [
+ (1, 0.5, "Mình bắt đầu với bài toán của bài học nhé. Hàm F bằng một nửa của w một bình, cộng một trăm lần w hai bình, cực tiểu ở gốc. Theo w hai, độ cong gấp một trăm lần, nên thung lũng vừa dài vừa hẹp. Muốn gradient descent không nổ, thì ê-ta phải nhỏ hơn không phẩy không hai. Thử ê-ta bằng không phẩy không mười chín xem... Theo w hai, điểm nảy qua lại giữa hai vách. Còn theo w một, mỗi bước chỉ nhích một chút xíu. Mất sáu trăm lẻ một bước, đấy chính là zíc-zắc."),
+ (2, 1.3, "Giờ thêm cho nó một vận tốc v nhé. Mỗi bước, v giữ lại một phần bê-ta của chính nó, rồi cộng thêm gradient mới. Với bê-ta bằng không phẩy chín, hướng nào cứ cùng dấu thì được khuếch đại lên tới mười lần, còn hướng đổi dấu liên tục thì gần như triệt tiêu. Giống một bộ lọc thông thấp vậy đó."),
+ (2, 28.7, "Nesterov chỉ đổi đúng một chỗ thôi: tính gradient ở điểm mà vận tốc sắp đưa mình tới, chứ không phải ở chỗ đang đứng. Nhìn số thật ở bước hai nhé. Heavy ball thấy độ dốc còn nhỏ, nên vẫn đi lên, vượt qua đáy. Nesterov nhìn trước, thấy dốc hơn nhiều, nên phanh sớm và quay xuống. Sửa hướng sớm hơn một nhịp, nên dao động nhỏ hơn hẳn."),
+ (3, 1.5, "Bây giờ cho ba phương pháp chạy cùng lúc: cùng hàm, cùng điểm đầu, cùng bước ê-ta bằng không phẩy không mười ba... Để ý xem, GD vẫn đang lò dò, còn hai đường có quán tính thì lao tới gần đáy, vượt qua rồi quay lại, y như quả bóng lăn. Đếm số bước: GD cần tám trăm tám mươi, heavy ball một trăm sáu mươi chín, Nesterov một trăm bốn mươi bốn. Nhanh hơn năm, sáu lần đấy."),
+ (4, 1.5, "Bê-ta giống như ma sát vậy. Bê-ta bằng không phẩy năm thì ma sát nhiều, bò chậm về không. Bê-ta không phẩy chín chín thì ma sát quá ít, lắc lư mãi mới tắt. Không phẩy tám thì vừa đẹp, chỉ một trăm mười bước. Nếu biết trước kap-pa thì có công thức cho cặp tốt nhất, chỉ bảy mươi ba bước. Nhưng ngoài thực tế, người ta hay để bê-ta bằng không phẩy chín."),
+ (4, 40.4, "Nhưng nhìn trước không miễn phí đâu nhé. Với bước sát giới hạn, heavy ball vẫn hội tụ, còn Nesterov thì nổ. Nó cần bước nhỏ hơn."),
+ (5, 0.4, "Tóm lại nhé. GD trong thung lũng hẹp thì nảy vách và bò dọc đáy. Momentum cộng dồn gradient cũ, nên đi nhanh hơn nhiều. Nesterov nhìn trước nên phanh sớm hơn, nhưng cần bước nhỏ hơn. Còn bê-ta là ma sát, không phẩy chín là lựa chọn an toàn."),
+]),
+"sgd-minibatch": ("r_sgd.py", "Sgd", [
+ (1, 0.5, "Mình làm cụ thể ví dụ ba hàm trong bài nhé: khớp một đường thẳng qua ba điểm dữ liệu. Mỗi điểm cho một hàm mất mát f i, là bình phương sai số tại điểm đó, và mục tiêu là tổng của cả ba. Xuất phát từ đường màu xanh, còn đường tốt nhất là đường xanh lá. Giờ mình chuyển sang nhìn trong mặt phẳng tham số w và c."),
+ (2, 0.7, "Tại điểm xuất phát, ba gradient riêng khác nhau rất nhiều, gradient của f hai còn bằng không. Batch GD cộng cả ba gradient tại cùng một điểm, rồi đi một bước. SGD thì khác: dùng f một, rồi f hai, rồi f ba, mỗi lần tại điểm mới nhất. Cùng ba lần tính gradient, nhưng đi được ba bước. Nếu chọn i ngẫu nhiên, thì trung bình vẫn đúng hướng, chỉ có nhiễu quanh nó thôi."),
+ (3, 0.7, "Cho chạy ba trăm lần tính gradient, cùng bước hằng không phẩy mười lăm. GD đi thẳng về đích, còn SGD thì nhảy lung tung, vì mỗi bước chỉ nghe theo một điểm dữ liệu. Mà nó không chịu dừng đâu: tại nghiệm, tổng gradient bằng không, nhưng từng gradient riêng thì không, nên cứ bị đẩy ra mãi."),
+ (3, 32.2, "Cách sửa là giảm bước dần theo thời gian. Nhiễu nhỏ lại, điểm co dần về nghiệm, sai số trung bình giảm từ không phẩy một bốn bảy, xuống còn chưa tới một phần trăm."),
+ (4, 1.5, "Giờ sang bài lớn hơn: bốn mươi tám điểm dữ liệu, cùng ngân sách chín trăm sáu mươi lần tính gradient. GD đầy đủ chỉ đi được hai mươi bước, mượt nhưng chậm. SGD một mẫu thì xuống rất nhanh lúc đầu, rồi kẹt ở mức nhiễu. Minibatch tám mẫu ít nhiễu hơn, xuống thấp hơn hẳn. Vì sao vậy? Trung bình B gradient làm phương sai giảm khoảng B lần, đổi lại mỗi bước tốn B lần tính. Còn SGD với bước giảm dần, đường xanh lá, thì vượt qua được mức nhiễu luôn."),
+ (5, 0.4, "Ghi nhớ nhé: SGD rẻ, trung bình đúng hướng, nhưng nhiễu. Bước hằng thì lượn mãi quanh nghiệm, bước giảm dần thì dập được nhiễu. Còn minibatch, chọn B ở giữa thường là lợi nhất."),
+]),
+"adagrad-rmsprop-adam": ("r_ada.py", "Ada", [
+ (1, 0.5, "Xét một bài toán lệch thang nhé: theo w hai, độ cong gấp một trăm lần theo w một. Ở điểm đầu, gradient theo tọa độ thứ hai lớn gấp gần hai mươi lần, dù w một mới là chỗ phải đi xa. GD dùng một ê-ta chung cho cả hai, nên nảy qua lại theo w hai, bò chậm theo w một, mất hai trăm mười một bước."),
+ (2, 1.5, "AdaGrad thì sao? Nó cộng dồn bình phương gradient của từng tọa độ, rồi chia bước theo căn của tổng đó. Bước đầu, tọa độ nào cũng đi đúng ê-ta, bất kể gradient lớn hay nhỏ. Nhược điểm là nó không bao giờ quên, nên bước cứ co lại mãi. RMSProp chỉ nhớ các gradient gần đây. Còn Adam thêm momentum, và hiệu chỉnh chệch lúc đầu."),
+ (3, 1.9, "Cho ba phương pháp chạy một trăm năm mươi bước. Ngay từ đầu, cả ba đều đi chéo về tâm, không nảy như GD. Nhưng AdaGrad chậm dần rồi gần như dừng hẳn, vì bước của w một co lại còn rất nhỏ. RMSProp tới đích nhanh nhất, nhưng rồi rung quanh tâm. Adam tới chậm hơn một chút, và vẫn tiếp tục hội tụ."),
+ (4, 1.5, "Nhìn kích thước bước hiệu dụng sẽ rõ: của AdaGrad chỉ giảm, còn của RMSProp lớn lên lại khi gradient nhỏ dần. Vì thế nó nhanh, mà cũng vì thế nó rung. Còn hiệu chỉnh chệch để làm gì? Ở bước một, m và v bắt đầu từ không nên bị kéo nhỏ, bước đầu dài gấp ba lần ê-ta. Không hiệu chỉnh thì đà tích quá mạnh, vượt tâm rất xa. Có hiệu chỉnh thì chỉ vượt một chút."),
+ (5, 0.4, "Tóm lại: một ê-ta chung làm GD bò theo tọa độ phẳng. AdaGrad chia theo từng tọa độ, nhưng bước co mãi. RMSProp lớn lại được, nhưng có thể rung. Và Adam là momentum, cộng RMSProp, cộng hiệu chỉnh chệch."),
+]),
+"simplex-pivots": ("r_simplex.py", "Simplex", [
+ (1, 0.5, "Ví dụ trong bài: tối đa hóa ba x một cộng hai x hai, với hai ràng buộc. Miền khả thi là đa giác xanh, có bốn đỉnh. Đẩy đường mức lên dần, chỗ cuối cùng còn chạm đa giác là đỉnh hai, hai, giá trị mười. Đấy là ý hình học của LP: nghiệm tối ưu nằm ở một đỉnh."),
+ (2, 0.6, "Thêm biến bù để biến bất đẳng thức thành đẳng thức. Mỗi đỉnh là chỗ có đúng hai biến bằng không. Đi sang đỉnh kề nghĩa là đổi một biến: một biến vào, một biến ra. Đó là một bước xoay. Biến vào được chọn nhờ chi phí rút gọn: còn âm thì còn cải thiện được."),
+ (3, 1.4, "Bắt đầu ở gốc nhé. Chi phí rút gọn âm nhất nằm ở cột x một, nên x một vào. Kiểm định tỉ số: bốn chia một, và sáu chia hai. Lấy cái nhỏ hơn là ba, nên s hai ra. Xoay quanh phần tử hai, ta tới đỉnh ba, không, giá trị chín."),
+ (3, 31.3, "Hàng chi phí còn một số âm ở cột x hai, vậy x hai vào. Tỉ số nhỏ nhất là hai, s một ra. Tới đỉnh hai, hai, giá trị mười, và hàng chi phí không còn số âm nào: tối ưu rồi. Thêm một điều thú vị: chi phí của hai biến bù chính là nghiệm đối ngẫu."),
+ (4, 1.5, "Nếu cho x hai vào trước, simplex đi lối khác, nhưng vẫn về cùng đích."),
+ (5, 1.0, "Giờ thử một bài khác, miền khả thi không bị chặn. Sau bước một, x hai muốn vào, nhưng cột của nó không có số dương nào. Tăng x hai bao nhiêu cũng được, mục tiêu tăng mãi. Simplex báo: bài toán không bị chặn."),
+ (6, 0.4, "Ghi nhớ nhé: nghiệm tối ưu nằm ở đỉnh. Mỗi bước xoay đổi một biến vào, một biến ra, sang đỉnh kề. Dừng khi chi phí rút gọn không còn âm. Còn không có tỉ số dương nào, thì bài toán không bị chặn."),
+]),
+"kkt-water-filling": ("r_kktw.py", "KktW", [
+ (1, 0.5, "Bài toán đổ nước: chia một đơn vị công suất cho bốn kênh, sao cho tổng log của nhiễu cộng công suất là lớn nhất. Kênh một nhiễu thấp nhất, kênh bốn tệ nhất. Vậy nên cho kênh nào bao nhiêu? Bài này lồi, lại có điểm trong khả thi, nên giải KKT là giải xong bài toán."),
+ (2, 0.4, "Ta có nhân tử lam-đa i cho ràng buộc x i không âm, và nu cho ràng buộc tổng. Điều kiện bù chia mỗi kênh thành hai trường hợp. Kênh đang mở thì lam-đa bằng không, và x i bằng mực nước trừ đi đáy. Kênh bị đóng thì đáy cao hơn mực nước. Gộp lại, chỉ còn tìm mực nước sao cho tổng bằng một."),
+ (3, 0.6, "Giờ đổ nước nhé: nâng mực nước lên dần, nước chỉ chảy vào kênh có đáy thấp hơn. Dừng ở mực không phẩy bảy lăm, tổng vừa đúng bằng một. Nước chưa chạm tới kênh ba và kênh bốn. Nghiệm là không phẩy sáu lăm, không phẩy ba lăm, không, và không. Kiểm tra đủ bốn điều kiện, đều đúng cả."),
+ (3, 35.4, "Lam-đa i chính là cái giá: ép một chút công suất vào kênh bốn, thì mục tiêu thay đổi khoảng lam-đa bốn nhân lượng ép. Tính lại bằng số, khớp luôn."),
+ (4, 1.7, "Nếu đoán sai tập ràng buộc hoạt động thì sao? Coi mọi kênh đều mở, kênh bốn bị nước âm, sai. Chỉ đóng kênh bốn, kênh ba vẫn âm, lại sai. Dồn hết vào kênh một thì khả thi, nhưng lam-đa hai lại âm. Cách đọc chung: x âm thì đóng kênh đó, lam-đa âm thì mở ra. Sửa đến khi không còn dấu sai."),
+ (5, 0.4, "Ghi nhớ: KKT gồm tính dừng, khả thi gốc, lam-đa không âm, và điều kiện bù. Bài lồi có Slater thì KKT tương đương tối ưu. Đoán sai tập hoạt động sẽ lộ ra ngay: hoặc x âm, hoặc lam-đa âm."),
+]),
+"strong-duality-slater": ("r_slater.py", "Slater", [
+ (1, 0.5, "Xét bài gốc lồi: cực tiểu x bình cộng một, với x lớn hơn hoặc bằng hai. Nghiệm là x bằng hai, p sao bằng năm. Từ đó ta lập Lagrangian, và hàm đối ngẫu g."),
+ (2, 3.4, "Đồ thị g màu vàng luôn nằm dưới p sao: đó là đối ngẫu yếu. Và g luôn lõm, nên bài cực đại g luôn là bài lồi. Cận dưới tốt nhất là g tại bốn, bằng năm, đúng bằng p sao. Khoảng cách bằng không: đối ngẫu mạnh. Một cặp khả thi bất kỳ cũng cho một chứng chỉ để dừng thuật toán."),
+ (3, 2.5, "Một hình nhìn rõ hơn nhé: vẽ mọi cặp h của x và f của x, ta được đường cong G. Khả thi là nằm bên trái trục dọc. Với mỗi lam-đa, lấy một đường thẳng dốc trừ lam-đa, tì sát dưới G, thì g chính là chỗ nó cắt trục. Lam-đa bằng một, cắt khá thấp. Lam-đa bằng hai, vẫn còn khe hở. Lam-đa bằng sáu thì dốc quá."),
+ (3, 38.9, "Lam-đa bằng bốn: đường tì đúng vào điểm không, năm. Hết khe hở. Điều kiện Slater bảo đảm điều này: bài lồi, và có một điểm khả thi nghiêm ngặt."),
+ (4, 1.8, "Nhưng nếu Slater sai thì sao? Xét cực tiểu e mũ trừ x, với x bình chia y không dương. Ràng buộc này chỉ đúng khi x bằng không, nên không có điểm khả thi nghiêm ngặt nào, và p sao bằng một. Lần này G không có điểm nào bên trái trục, mọi đường tì đều đi qua gốc, nên d sao bằng không. Khoảng cách bằng một, dù bài toán lồi. Lồi thôi là chưa đủ đâu."),
+ (5, 0.4, "Tóm lại: đối ngẫu yếu luôn đúng. Một cặp khả thi cho chứng chỉ. Lồi cộng Slater thì d sao bằng p sao. Không có Slater, bài lồi vẫn có thể có khoảng cách."),
+]),
+"line-search": ("r_ls.py", "Ls", [
+ (1, 0.5, "Ví dụ trong bài: f bằng x bình trừ hai x cộng năm, xuất phát từ x bằng bốn. Câu hỏi là: chọn bước t bằng bao nhiêu? Thử t bằng không phẩy một nhé... đi được, nhưng chậm, mất ba mươi sáu bước. t bằng một phẩy năm thì bước quá dài, phân kỳ luôn. Còn t bằng không phẩy năm thì tới ngay, nhưng đó là may thôi, phải biết độ cong mới chọn được."),
+ (2, 2.2, "Đứng ở x bằng bốn, xét phi của t, là giá trị f sau một bước dài t. Đường đứt nét là tiếp tuyến, tức mức giảm mà xấp xỉ tuyến tính hứa hẹn. Tìm kiếm đường lùi chỉ đòi một phần an-pha của mức đó, ở đây là một nửa."),
+ (2, 25.2, "Bắt đầu với t bằng một, bị loại thì nhân với không phẩy tám rồi thử lại. Để ý nhé, t bằng không phẩy năm một hai bị loại sát nút. t bằng không phẩy bốn không chín sáu thì được nhận. Vùng được nhận ở đây là t không quá một nửa, và lùi kiểu này luôn rơi vào vùng đó."),
+ (3, 1.9, "Sang ví dụ hai biến. Tìm kiếm đường chính xác chọn t làm phi nhỏ nhất, hàm bậc hai nên giải được luôn. Mỗi bước tới điểm thấp nhất trên đường thẳng, nên gradient mới vuông góc với hướng cũ, đường đi là zíc-zắc vuông góc."),
+ (3, 30.5, "Đường lùi màu vàng thì không cần giải gì, chỉ thử f vài lần, mà bước đầu đã gần bước chính xác. Đếm số vòng: bước cố định cần sáu mươi hai, đường lùi mười hai, chính xác cũng mười hai. Còn bước cố định không phẩy năm lăm thì phân kỳ."),
+ (4, 2.1, "Vì sao an-pha phải nhỏ hơn một? Với an-pha bằng một, đường chấp nhận trùng tiếp tuyến, mà f lồi nên luôn nằm trên, không bước nào được nhận cả. Thường chọn an-pha tới một nửa, bê-ta từ không phẩy năm đến không phẩy chín. Tìm chính xác cho bước tốt nhất, nhưng đắt, nên thực tế hay dùng đường lùi."),
+ (5, 0.4, "Ghi nhớ: bước cố định nhỏ thì chậm, lớn thì phân kỳ. Đường lùi bắt đầu từ một, nhân bê-ta tới khi đủ giảm. An-pha phải nhỏ hơn một. Tìm chính xác thì tốt, nhưng đắt."),
+]),
+"ista-fista": ("r_fista.py", "Fista", [
+ (1, 0.5, "Bài toán lasso: phần bình phương sai số thì trơn, còn phần chuẩn một thì không trơn. Ví dụ hai biến ở đây là một thung lũng hẹp và nghiêng, đường mức bị gãy trên hai trục. Bước cố định là một chia L. Nghiệm nằm đúng trên trục, x hai bằng không: lasso cho nghiệm thưa."),
+ (2, 2.6, "ISTA là gradient gần kề: một bước gradient trên phần trơn, rồi áp ngưỡng mềm. Ngưỡng mềm kéo mỗi tọa độ về không một đoạn, nhỏ quá thì cắt hẳn về không, đó là lý do nghiệm thưa. FISTA giữ nguyên bước đó, chỉ ngoại suy thêm theo hướng vừa đi, giống momentum Nesterov."),
+ (3, 1.7, "Cùng điểm xuất phát, xanh là ISTA, hồng là FISTA. Bước đầu giống nhau, sau đó FISTA lấy đà, đi dọc thung lũng nhanh hơn, có lúc vượt quá nghiệm. Đếm vòng: ISTA một trăm hai mốt, FISTA sáu mươi mốt. ISTA chậm vì dọc đáy thung lũng, mỗi bước chỉ rút ngắn hai phần trăm. Nhưng FISTA không đơn điệu đâu, F có lúc tăng lại."),
+ (4, 1.5, "Một bài lasso lớn hơn: năm mươi mẫu, một trăm biến. Lúc đầu FISTA nhanh gấp đôi. Rồi đường hồng bắt đầu gợn sóng, F lên xuống liên tục. Đó là gợn sóng Nesterov: đà tiến tới một, nên gần nghiệm vẫn chạy quá rồi quay lại. ISTA giảm đều và gần như đuổi kịp."),
+ (4, 31.8, "Khi bài toán có điều kiện tốt, đà còn có thể làm chậm. Cách sửa chuẩn là khởi động lại: thấy F tăng thì bỏ đà, đặt lại từ đầu. Đường xanh lá giảm đều, tới đích chỉ sau bốn mươi ba vòng, mà chỉ tốn thêm một lần tính F mỗi vòng."),
+ (5, 0.4, "Ghi nhớ: ISTA là bước gradient cộng ngưỡng mềm. FISTA ngoại suy thêm nên nhanh hơn, nhưng có gợn sóng. Khởi động lại khi F tăng: vừa giữ tốc độ, vừa bỏ dao động."),
+]),
+"max-flow-min-cut": ("r_maxflow.py", "MaxFlow", [
+ (1, 1.0, "Đây là một mạng có hướng sáu đỉnh, số trên cạnh là công suất. Luồng phải nằm trong công suất, và ở mỗi đỉnh giữa thì vào bằng ra. Câu hỏi là: luồng lớn nhất từ s tới t bằng bao nhiêu?"),
+ (2, 1.4, "Tìm một đường từ s tới t còn chỗ trống, đẩy được ba đơn vị. Bây giờ hai cạnh đã đầy. Nếu chỉ đi xuôi chiều thì kẹt luôn ở ba. Nhưng ba chưa phải là cực đại đâu."),
+ (2, 22.6, "Mẹo ở đây là đồ thị dư: mỗi cạnh có phần còn trống, và một cạnh ngược để rút lại luồng đã đẩy. Có đường mới rồi: đi ngược từ b về a, rồi a, c, t. Đẩy thêm hai đơn vị nữa."),
+ (3, 1.2, "Luồng mới bằng năm, kiểm tra cân bằng ở từng đỉnh đều ổn. Đồ thị dư bây giờ không còn đường tới t, các đỉnh tới được từ s là s, a, b. Đây chính là thuật toán Ford Fulkerson. Lát cắt gồm hai cạnh a sang c và b sang d, công suất hai cộng ba bằng năm, đúng bằng luồng. Kiểm hết mười sáu lát cắt, nhỏ nhất cũng là năm."),
+ (4, 0.4, "Vì sao luồng không thể vượt lát cắt? Mọi đơn vị đi từ s tới t đều phải qua một cạnh từ A sang B. Nên luồng nào cũng không vượt quá lát cắt nào. Khi hai số bằng nhau, cả hai đều tối ưu. Bài học còn viết thành LP và lấy đối ngẫu: nghiệm đối ngẫu chính là lát cắt. Luồng cực đại bằng lát cắt cực tiểu, đó là đối ngẫu mạnh."),
+ (5, 0.4, "Ghi nhớ: đường tăng luồng đẩy thêm bằng nút cổ chai. Cần cạnh ngược, không thì kẹt. Và luồng cực đại bằng lát cắt cực tiểu."),
+]),
+"saddle-escape": ("r_saddle.py", "Saddle", [
+ (1, 0.5, "Điểm tới hạn là chỗ gradient bằng không. Hessian sẽ phân loại nó: trị riêng toàn dương là cực tiểu, có cả dương lẫn âm là yên ngựa. Ví dụ ở đây có ba điểm tới hạn: gốc là yên ngựa, còn hai cực tiểu nằm ở trên và dưới."),
+ (2, 0.4, "Gần gốc, mỗi bước GD kéo x vào, nhưng đẩy y ra. Từ một điểm lệch rất nhỏ theo y, điểm rời yên ngựa, nhưng rất chậm. Còn đứng đúng tại gốc thì không bao giờ nhúc nhích."),
+ (3, 6.8, "Xuất phát từ một điểm trên trục x, GD trượt thẳng vào yên ngựa và đứng luôn ở đó. Gradient rất nhỏ, trông như hội tụ rồi, nhưng không phải cực tiểu. Lệch đi một chút xíu theo y, thì GD ngồi lì gần yên ngựa khá lâu, rồi mới thoát ra."),
+ (3, 33.4, "Nhiễu sẽ giúp thoát. GD có nhiễu bị hất một cú rồi thoát ra. Nhiễu kiểu SGD thì không bao giờ nằm yên trên trục, nên thoát còn sớm hơn."),
+ (4, 4.7, "Nhìn theo giá trị F, đường nào cũng có một đoạn bằng phẳng, đó là lúc ngồi gần yên ngựa. Có nhiễu thì đoạn phẳng ngắn hơn nhiều. Ở chiều cao thì sao? Xác suất để mọi trị riêng đều dương giảm rất nhanh, nên hầu hết điểm tới hạn là yên ngựa. Bị kẹt ở cực tiểu địa phương thường là chẩn đoán sai đấy. Momentum có thể giúp, nhưng không bảo đảm. Và khi batch lớn dần, nhiễu yếu đi, cơ chế thoát này cũng yếu theo."),
+ (5, 0.4, "Ghi nhớ: yên ngựa có gradient bằng không, nhưng Hessian có cả trị riêng âm và dương. Gradient nhỏ chưa chắc là cực tiểu. Nhiễu giúp đẩy ra theo hướng cong âm."),
+]),
+}

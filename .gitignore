@@ -53,3 +53,6 @@ vendor/bundle/
 search-index.json
 search-index-vi.json
 
+
+# voiceover cache (manim reels)
+manim/reels/.vo_cache/
