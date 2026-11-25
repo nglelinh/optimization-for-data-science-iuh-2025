@@ -56,3 +56,10 @@ search-index-vi.json
 
 # voiceover cache (manim reels)
 manim/reels/.vo_cache/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Manim render output (local only)
+manim/reels/media/
