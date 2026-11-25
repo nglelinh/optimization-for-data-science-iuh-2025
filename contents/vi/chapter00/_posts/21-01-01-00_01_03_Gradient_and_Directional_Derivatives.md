@@ -14,14 +14,14 @@ lesson_type: required
 
 Đây là công thức nền tảng đứng sau mọi phương pháp hạ bậc nhất (first-order methods), từ Gradient Descent cổ điển cho đến Conditional Gradient (Frank–Wolfe).
 
-## Bản đồ kiến thức nền: Hình học của hướng đi và độ dốc
+## Kiến thức cần nhớ: Hình học của hướng đi và độ dốc
 
 - **Đạo hàm theo hướng ($$D_u f(x)$$):** Đo tốc độ thay đổi tức thời của $$f$$ khi ta di chuyển từ $$x$$ dọc theo vector đơn vị $$u$$ ($$\|u\|_2 = 1$$). Với hàm khả vi, $$D_u f(x) = \nabla f(x)^T u = \|\nabla f(x)\|_2 \cos\theta$$.
 - **Bất đẳng thức Cauchy–Schwarz và hướng dốc nhất:** Vì $$-1 \le \cos\theta \le 1$$, giá trị lớn nhất của $$D_u f(x)$$ là $$+\|\nabla f(x)\|_2$$ khi $$u$$ cùng hướng $$\nabla f(x)$$, và giá trị nhỏ nhất là $$-\|\nabla f(x)\|_2$$ khi $$u$$ ngược hướng $$\nabla f(x)$$.
 - **Hướng giảm (Descent Direction):** Bất kỳ vector $$d$$ nào thỏa mãn $$\nabla f(x)^T d < 0$$ (tạo góc tù với gradient) đều bảo đảm $$f(x + \alpha d) < f(x)$$ với bước $$\alpha > 0$$ đủ nhỏ — nền tảng của mọi thuật toán tìm kiếm đường thẳng (line search).
 - **Tính trực giao với đường mức:** Khi $$u$$ tiếp tuyến với đường mức $$f(x) = c$$, hàm không đổi dọc theo $$u$$ nên $$\nabla f(x)^T u = 0$$, tức gradient luôn vuông góc với đường mức.
 
-### Khung giải thích (nên đọc chậm): So sánh tốc độ giảm dọc theo hai hướng khác nhau
+### Giải thích: So sánh tốc độ giảm dọc theo hai hướng khác nhau
 
 Xét hàm $$f(x, y) = x^2 + 2y^2$$ tại điểm $$p = (1, 1)^T$$ (giá trị $$f(1, 1) = 3$$):
 

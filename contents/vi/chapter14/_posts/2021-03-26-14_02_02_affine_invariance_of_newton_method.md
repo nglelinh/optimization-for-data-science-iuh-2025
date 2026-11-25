@@ -13,7 +13,7 @@ Trong học máy, một trong những quy tắc đầu tiên bạn được dặ
 
 Thế nhưng, nếu bạn dùng **Phương pháp Newton**, bạn có thể đổi đơn vị từ mét sang nanômét, xoay trục tọa độ hay kéo xiên hệ trục bằng bất kỳ phép biến đổi affine khả nghịch $$x = Ay$$ nào — và **quỹ đạo hội tụ của phương pháp Newton không hề thay đổi dù chỉ một phần tỷ**! Tính chất đáng kinh ngạc này gọi là **tính bất biến affine (affine invariance)**.
 
-## Bản đồ kiến thức nền: Vì sao phép đổi hệ tọa độ không làm phương pháp Newton nao núng?
+## Kiến thức cần nhớ: Vì sao phép đổi hệ tọa độ không làm phương pháp Newton nao núng?
 
 - **Quy tắc dây chuyền cho gradient và Hessian:** Khi đặt $$x = Ay$$ và xét hàm $$g(y) = f(Ay)$$, ta có $$\nabla g(y) = A^T \nabla f(Ay)$$ và $$\nabla^2 g(y) = A^T \nabla^2 f(Ay) A$$.
 - **Sự triệt tiêu kỳ diệu của ma trận $$A$$:** Khi lấy nghịch đảo Hessian của $$g$$ nhân với gradient của $$g$$:
@@ -21,7 +21,7 @@ Thế nhưng, nếu bạn dùng **Phương pháp Newton**, bạn có thể đổ
   Do đó $$y^+ = y - A^{-1}\Delta x_{\text{nt}} \implies Ay^+ = x - \Delta x_{\text{nt}} = x^+$$!
 - **Tại sao Gradient Descent thất bại:** Trong GD, bước cập nhật $$y^+ = y - t A^T \nabla f(Ay)$$ khi nhân ngược với $$A$$ trở thành $$Ay^+ = x - t (A A^T) \nabla f(x)$$, bị méo đi bởi ma trận $$A A^T$$ trừ khi $$A$$ là ma trận trực giao.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng số tính bất biến affine dưới phép kéo giãn trục 10 lần
+### Giải thích: Kiểm chứng số tính bất biến affine dưới phép kéo giãn trục 10 lần
 
 Xét hàm 1 chiều $$f(x) = e^x - 2x$$ tại $$x^{(0)} = 1$$, và thực hiện phép đổi đơn vị kéo giãn 10 lần $$x = 10y$$ (tức $$A = 10$$, điểm khởi tạo tương ứng $$y^{(0)} = 0.1$$). Hàm mới là $$g(y) = f(10y) = e^{10y} - 20y$$.
 

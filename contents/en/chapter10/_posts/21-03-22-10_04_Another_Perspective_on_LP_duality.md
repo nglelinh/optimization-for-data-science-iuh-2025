@@ -12,14 +12,14 @@ lesson_type: required
 
 Up to now, we derived the LP dual by manually combining inequalities—a clean trick for linear programs, but one that stops working the moment constraints become nonlinear. Here we unlock a far more powerful viewpoint: fold the constraints directly into the objective via a **Lagrangian** $$L(x, u, v) = c^\top x + u^\top(Gx - h) + v^\top(Ax - b)$$, and minimize $$L$$ over *unconstrained* $$x \in \mathbb{R}^n$$! Not only does this reproduce the exact same LP dual in two lines—it serves as the universal bridge to general nonlinear and convex duality in Chapter 11.
 
-## Background Knowledge Map: The Lagrangian Bridge from LPs to General Duality
+## Key ideas: The Lagrangian Bridge from LPs to General Duality
 
 - **Pillar 1 — Soft Penalty Relaxation:** For any primal-feasible $$x$$ ($$Ax = b, Gx \le h$$) and any $$u \ge 0$$, the extra terms $$u^\top(Gx - h) \le 0$$ and $$v^\top(Ax - b) = 0$$ can only *decrease* the objective: $$L(x, u, v) \le c^\top x$$.
 - **Pillar 2 — Unconstrained Infimum as Dual Function:** Minimizing $$L(x, u, v)$$ over all $$x \in \mathbb{R}^n$$ (dropping constraints entirely!) gives $$g(u, v) = \inf_x L(x, u, v) \le \min_{x \in C} L(x, u, v) \le p^\star$$.
 - **Pillar 3 — Why Linear Infima Create Hard Dual Constraints:** Rewriting $$L(x, u, v) = (c + G^\top u + A^\top v)^\top x - h^\top u - b^\top v$$ shows that a linear function of $$x$$ is bounded below on $$\mathbb{R}^n$$ *if and only if* its slope is zero: $$c + G^\top u + A^\top v = 0$$. Otherwise $$\inf_x L = -\infty$$!
 - **Pillar 4 — Domain Restriction = Dual Feasibility:** Maximizing $$g(u, v)$$ over $$u \ge 0$$ automatically restricts $$(u, v)$$ to the finite domain $$c + G^\top u + A^\top v = 0$$, recovering the exact LP dual without guessing a single multiplier sign.
 
-### Step-by-Step Worked Example (Read Slowly): Computing $$\inf_x L(x, u, v)$$ Explicitly
+### Worked example: Computing $$\inf_x L(x, u, v)$$ Explicitly
 
 Consider the 1D LP: minimize $$3x$$ subject to $$x \ge 2$$ (written as $$-x + 2 \le 0$$).
 

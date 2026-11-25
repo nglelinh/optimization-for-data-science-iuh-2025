@@ -14,14 +14,14 @@ redirect_from:
 
 If you thought the subgradient method was a 1970s relic replaced by Adam and second-order solvers, look inside today's adversarial robustness benchmarks, algorithmic fairness pipelines, and nonsmooth empirical risk trainers: the exact projected stochastic subgradient loop from Chapter 08 is running at their core. Whenever an engineer crafts an $$\ell_\infty$$ adversarial perturbation or enforces a demographic parity constraint on a black-box classifier, the workhorse iteration is still $$x^{(k+1)} = P_C(x^{(k)} - \alpha_k g^{(k)})$$.
 
-## Background Knowledge Map: Why Subgradient Loops Power 2022–2026 ML Pipelines
+## Key ideas: Why Subgradient Loops Power 2022–2026 ML Pipelines
 
 - **Pillar 1 — Nonsmooth Empirical Risk & Conservative Fields:** Hinge losses, quantile (pinball) losses, and ReLU networks are non-differentiable on sets of measure zero, yet autograd engines (PyTorch/JAX) routinely return a single conservative-field / subgradient element and step along it with stochastic schedules.
 - **Pillar 2 — Projected PGD on $$\ell_p$$ Threat Balls:** Adversarial training solves a min-max saddle problem whose inner maximization projects subgradient (or signed-gradient) steps onto an $$\ell_\infty$$ box or $$\ell_2$$ ball—literally projected subgradient ascent on the perturbation $$\delta$$.
 - **Pillar 3 — Lagrangian Fairness & Rate Constraints:** Enforcing group-fairness bounds (such as equalized odds in Fairlearn) introduces Lagrange multipliers $$\lambda \ge 0$$ updated via projected exponentiated/subgradient ascent while the learner minimizes the reweighted classification loss.
 - **Pillar 4 — Precision Regime Fit:** In adversarial attacks (7–40 PGD steps) and statistical learning (where generalization error dominates optimization error below $$\varepsilon \sim 10^{-2}$$), the $$O(1/\varepsilon^2)$$ rate is not a liability—cheap per-step cost and simple projections are what matter most.
 
-### Step-by-Step Worked Example (Read Slowly): Two Projected Subgradient Steps for an $$\ell_\infty$$ Adversarial Perturbation
+### Worked example: Two Projected Subgradient Steps for an $$\ell_\infty$$ Adversarial Perturbation
 
 Suppose a linear classifier has score $$s(\delta) = w^\top (x_0 + \delta)$$ with $$w = (3, -1)^\top$$, and an adversary wants to maximize $$L(\delta) = |w^\top \delta|$$ (equivalently minimize $$-L(\delta)$$) inside the $$\ell_\infty$$ threat ball $$C = \{ \delta \in \mathbb{R}^2 : \|\delta\|_\infty \le 0.3 \}$$, starting from $$\delta^{(0)} = (0.1, 0.1)^\top$$ with step size $$\alpha = 0.2$$.
 

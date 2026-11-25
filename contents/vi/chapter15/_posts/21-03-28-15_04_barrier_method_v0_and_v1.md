@@ -13,7 +13,7 @@ Sau khi biết công thức kỳ diệu $$f(x^*(t)) - f^* \le m/t$$, phản xạ
 
 Ý tưởng ngây thơ đó chính là **Phương pháp chắn v.0** — và trên thực tế nó **thất bại thảm hại**! Khi $$t = 10^7$$ quá lớn ngay từ đầu, hàm chắn gần như biến thành một vách đá dựng đứng với ma trận Hessian cực kỳ xấu (số điều kiện bùng nổ), khiến phương pháp Newton gần như đứng im hoặc mất hàng nghìn bước giảm chấn. Đó là lý do **Phương pháp chắn v.1** ra đời: khởi đầu với $$t^{(0)}$$ nhỏ (nơi địa hình tròn trịa, dễ đi), giải nhanh tới $$x^*(t^{(0)})$$, rồi tăng dần $$t \leftarrow \mu t$$ và dùng nghiệm cũ làm **điểm khởi tạo nóng (warm start)** cho vòng tiếp theo!
 
-## Bản đồ kiến thức nền: Sự đánh đổi khi chọn tham số $$\mu$$ trong Phương pháp chắn v.1
+## Kiến thức cần nhớ: Sự đánh đổi khi chọn tham số $$\mu$$ trong Phương pháp chắn v.1
 
 - **Tại sao v.0 thất bại còn v.1 thành công:** Ở v.0, điểm khởi tạo nằm rất xa $$x^*(m/\epsilon)$$ và địa hình bị méo gắt bởi $$t$$ khổng lồ. Ở v.1, nhờ tăng $$t$$ từng nấc nhân $$\mu$$, điểm $$x^*(t)$$ cũ luôn nằm rất gần điểm $$x^*(\mu t)$$ mới nên bước Newton định tâm chỉ mất khoảng 3–5 vòng lặp!
 - **Cấu trúc hai vòng lặp của v.1:**
@@ -24,7 +24,7 @@ Sau khi biết công thức kỳ diệu $$f(x^*(t)) - f^* \le m/t$$, phản xạ
   - $$\mu$$ lớn (ví dụ $$\mu = 100$$): ít vòng ngoài, nhưng mỗi vòng trong phải nhảy xa hơn nên tốn nhiều bước Newton hơn.
   - **Vùng ngọt thực tế:** $$\mu \in [10, 20]$$ thường cho tổng số bước Newton gần như tối ưu (thường chỉ 20–50 bước Newton tổng cộng cho mọi bài toán!).
 
-### Khung giải thích (nên đọc chậm): Tính tổng số vòng ngoài và ước lượng bước Newton cho các mức $$\mu$$ khác nhau
+### Giải thích: Tính tổng số vòng ngoài và ước lượng bước Newton cho các mức $$\mu$$ khác nhau
 
 Giả sử một bài toán có $$m = 20$$ ràng buộc bất đẳng thức, khởi tạo $$t^{(0)} = 1$$, và ta cần độ chính xác $$\epsilon = 10^{-6}$$ (tức cần tăng $$t$$ từ $$1$$ đến $$t_{\text{end}} = \frac{m}{\epsilon} = 2 \times 10^7$$).
 

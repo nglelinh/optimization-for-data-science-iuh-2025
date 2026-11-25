@@ -11,14 +11,14 @@ lang: en
 
 Here is one of the most astonishing symmetries in convex optimization: take a standard-form linear program, add a logarithmic barrier to its primal inequalities, and compute the Lagrange dual of that barrier problem. You don't get some messy new formula—you get the *exact* logarithmic barrier problem of the **dual** linear program! Seeing how min–max Lagrangians produce LP duals, QP duals, and this primal-dual barrier mirror lays the exact foundation for Chapter 17.
 
-## Background Knowledge Map: Min–Max Lagrangians and Conic/Barrier Duals
+## Key ideas: Min–Max Lagrangians and Conic/Barrier Duals
 
 - **Pillar 1 — Constraints as Implicit $$\max_{u \ge 0, v}$$ Penalties:** Rewriting the primal as $$\min_x \max_{u \ge 0, v} L(x, u, v)$$ uses $$\max_{u \ge 0} u_i h_i(x)$$ as an exact indicator function for $$h_i(x) \le 0$$, and swapping $$\min$$ and $$\max$$ yields the dual.
 - **Pillar 2 — Standard-Form LP & QP Duals:** Applying $$\min_x L(x, u, v)$$ to $$\min c^T x$$ s.t. $$Ax = b, x \ge 0$$ yields $$\max b^T y$$ s.t. $$A^T y \le c$$; for strictly convex QPs $$\frac{1}{2}x^T Q x + c^T x$$, minimizing the quadratic in $$x$$ replaces $$Q$$ with $$-Q^{-1}$$ in the dual.
 - **Pillar 3 — Dual of the Primal Barrier = Barrier of the Dual:** For the LP barrier $$\min t c^T x - \sum \log x_i$$ s.t. $$Ax = b$$, minimizing $$L(x, y)$$ over $$x > 0$$ yields $$x_i = 1/(t(c - A^T y)_i)$$ and dual objective $$t b^T y + \sum \log(c - A^T y)_i + \text{const}$$—the exact dual log barrier!
 - **Pillar 4 — Automatic Dual Slack Recovery:** Along the central path, $$s(t) = c - A^T y(t) > 0$$ satisfies $$x_i(t) s_i(t) = 1/t$$, linking primal variables and dual slacks symmetrically.
 
-### Step-by-Step Worked Example (Read Slowly): Deriving the Dual of a 1D LP Barrier Problem
+### Worked example: Deriving the Dual of a 1D LP Barrier Problem
 
 Consider the 1D LP $$\min_{x > 0} 3x$$ subject to $$x \ge 0$$ with a single equality constraint $$2x = 4$$? Better yet, to keep a free primal degree of freedom, consider $$\min_{x_1, x_2 > 0} x_1 + 2x_2$$ subject to $$x_1 + x_2 = 1$$ (so $$c = (1, 2)^T$$, $$A = [1, 1]$$, $$b = 1$$).
 

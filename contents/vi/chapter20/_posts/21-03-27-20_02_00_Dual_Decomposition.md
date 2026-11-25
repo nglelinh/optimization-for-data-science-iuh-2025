@@ -11,7 +11,7 @@ lang: vi
 
 Hãy tưởng tượng một tập đoàn quản lý 100 nhà máy khác nhau, mỗi nhà máy có hàm chi phí sản xuất riêng $$f_i(x_i)$$, nhưng cả 100 nhà máy lại dùng chung một nguồn điện hoặc một hạn mức phát thải chung $$\sum_{i=1}^{100} A_i x_i = b$$. Nếu gom toàn bộ biến của 100 nhà máy vào một máy tính duy nhất thì bài toán quá khổng lồ, còn nếu để từng nhà máy tự tối ưu riêng thì lại vi phạm nguồn lực chung. **Phân rã đối ngẫu (Dual Decomposition)** mang đến một lời giải vừa toán học vừa đậm chất kinh tế học: đặt một "người điều phối" chỉ phát đi duy nhất một **bảng giá** (biến đối ngẫu $$u$$), để 100 nhà máy tự tính toán hoàn toàn song song!
 
-## Bản đồ kiến thức nền: Ba trụ cột của tư duy phân rã đối ngẫu
+## Kiến thức cần nhớ: Ba trụ cột của tư duy phân rã đối ngẫu
 
 Phần 20-02 mở rộng phương pháp tăng đối ngẫu thành một kiến trúc tối ưu hóa phân tán hoàn chỉnh dựa trên ba nguyên lý:
 
@@ -19,7 +19,7 @@ Phần 20-02 mở rộng phương pháp tăng đối ngẫu thành một kiến 
 - **Chu trình Broadcast – Solve – Gather:** Ở mỗi vòng lặp, máy chủ trung tâm phát giá $$u^{(k-1)}$$ tới các nút (broadcast); mỗi nút tự giải bài toán con $$x_i^{(k)}$$ độc lập song song (solve); máy chủ thu gom phần dư tổng $$\sum_i A_i x_i^{(k)} - b$$ để điều chỉnh giá $$u^{(k)}$$ (gather).
 - **Quy luật cung–cầu tự nhiên:** Với ràng buộc bất đẳng thức (hạn mức tài nguyên $$\le b$$), nếu tổng mức dùng vượt hạn mức thì giá $$u$$ tăng lên để kìm hãm tiêu thụ; nếu dư thừa tài nguyên thì giá giảm xuống (nhưng không âm nhờ phép chiếu $$(\cdot)_+$$).
 
-### Khung giải thích (nên đọc chậm): Cơ chế "bảng giá điện" điều phối 2 nhà máy độc lập
+### Giải thích: Cơ chế "bảng giá điện" điều phối 2 nhà máy độc lập
 
 Giả sử 2 nhà máy cần cùng nhau sản xuất tổng cộng $$10$$ đơn vị sản phẩm ($$x_1 + x_2 = 10$$) với chi phí riêng $$f_1(x_1) = x_1^2$$ và $$f_2(x_2) = 4x_2^2$$:
 

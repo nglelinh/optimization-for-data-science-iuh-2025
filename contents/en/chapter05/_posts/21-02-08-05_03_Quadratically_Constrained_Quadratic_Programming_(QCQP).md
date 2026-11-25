@@ -11,14 +11,14 @@ lang: en
 
 Sometimes a quadratic objective is not enough—the *constraints* themselves are curved. When a robot must stay inside a circular safety zone, an antenna array must obey a total power budget $$\|w\|_2^2 \le P_{\max}$$, or a portfolio must cap its variance $$x^T \Sigma x \le \sigma_{\max}^2$$, the feasible region becomes an intersection of ellipsoids rather than flat walls. That is the domain of Quadratically Constrained Quadratic Programming (QCQP).
 
-## Background Knowledge Map: Geometry and Reformulations of QCQPs
+## Key ideas: Geometry and Reformulations of QCQPs
 
 1. **Convexity Condition on Every Matrix $$P_i$$**: A QCQP minimizes $$\frac{1}{2}x^T P_0 x + q_0^T x + r_0$$ subject to $$\frac{1}{2}x^T P_i x + q_i^T x + r_i \le 0$$ ($$i = 1, \dots, m$$) and $$Ax = b$$. The problem is convex if and only if **every** symmetric matrix $$P_0, P_1, \dots, P_m \in \mathbb{S}_+^n$$ is positive semidefinite.
 2. **Geometric Picture — Intersection of Ellipsoids**: Each inequality $$\frac{1}{2}x^T P_i x + q_i^T x + r_i \le 0$$ defines an ellipsoid (when $$P_i \succ 0$$) or an elliptic cylinder (when $$P_i \succeq 0$$ is singular). Notice that setting $$P_1 = \dots = P_m = 0$$ recovers a QP, and further setting $$P_0 = 0$$ recovers an LP.
 3. **Every Convex QCQP Rewrites as an SOCP**: Factoring $$P_i = L_i L_i^T$$ lets you complete the square and turn any convex quadratic inequality into a Euclidean norm constraint $$\|A_i x + b_i\|_2 \le c_i^T x + d_i$$, allowing modern conic solvers (like Clarabel or ECOS) to solve QCQPs natively.
 4. **Warning on Nonconvex QCQPs**: If even a single $$P_i$$ has a negative eigenvalue (or if a quadratic constraint is written as an *equality* $$x^T P_i x = 1$$), the problem becomes nonconvex and generally NP-hard—requiring SDP relaxation (Shor relaxation) to obtain tight lower bounds.
 
-### Step-by-Step Worked Example (Read Slowly): Solving a Disk-Constrained Quadratic Program
+### Worked example: Solving a Disk-Constrained Quadratic Program
 
 Minimize $$f_0(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 4)^2$$ subject to the quadratic ball constraint $$x_1^2 + x_2^2 \le 4$$.
 

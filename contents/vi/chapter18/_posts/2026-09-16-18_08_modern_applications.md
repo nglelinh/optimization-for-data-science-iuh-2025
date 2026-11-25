@@ -12,7 +12,7 @@ lesson_type: optional
 
 Trong cơn sốt học sâu hiện đại, nhiều người tưởng rằng Adam đã "đánh bại" mọi thuật toán tối ưu cổ điển. Thế nhưng giai đoạn 2022–2026 lại chứng kiến sự trở lại ngoạn mục của tư duy Quasi-Newton trên hai mặt trận lớn: trong **học máy khoa học (Scientific ML / PINN)**, chiến lược *Adam khởi động + L-BFGS về đích* là tiêu chuẩn bắt buộc để vượt qua số điều kiện khủng khiếp của phương trình đạo hàm riêng; còn trong **huấn luyện mô hình nền tảng quy mô lớn**, các bộ tiền điều kiện có cấu trúc như Shampoo và SOAP chính là hậu duệ phân rã Kronecker mang chung dòng máu độ cong với BFGS.
 
-## Bản đồ kiến thức nền: Ba hướng phát triển của Quasi-Newton trong giai đoạn 2022–2026
+## Kiến thức cần nhớ: Ba hướng phát triển của Quasi-Newton trong giai đoạn 2022–2026
 
 Để liên kết lý thuyết Chương 18 với các công trình hàng đầu tại ICML/NeurIPS gần đây, hãy chú ý ba cầu nối then chốt:
 
@@ -20,7 +20,7 @@ Trong cơn sốt học sâu hiện đại, nhiều người tưởng rằng Adam
 - **Chiến lược lai hai giai đoạn (Adam → L-BFGS):** L-BFGS đòi hỏi đánh giá gradient toàn lô (full-batch) chính xác và dễ mắc kẹt ở vùng yên ngựa không lồi nếu khởi tạo ngẫu nhiên. Chạy Adam trước để đi vào thung lũng lồi cục bộ rồi chuyển sang L-BFGS tận dụng trọn vẹn ưu thế của cả hai thế giới.
 - **Tiền điều kiện cấu trúc Kronecker (K-FAC, Shampoo, SOAP):** Thay vì xấp xỉ Hessian của toàn bộ mạng bằng một ma trận khổng lồ, các thuật toán này xấp xỉ độ cong cho từng ma trận trọng số $$W \in \mathbb{R}^{d_1 \times d_2}$$ dưới dạng tích Kronecker $$L \otimes R$$, giữ chi phí bộ nhớ cỡ $$O(d_1^2 + d_2^2)$$ nhưng nắm bắt được tương quan chéo giữa các tham số.
 
-### Khung giải thích (nên đọc chậm): Minh họa vì sao số điều kiện $$\kappa = 10^4$$ làm Adam chững lại còn L-BFGS bứt phá
+### Giải thích: Minh họa vì sao số điều kiện $$\kappa = 10^4$$ làm Adam chững lại còn L-BFGS bứt phá
 
 Xét một hàm mục tiêu bậc hai mô phỏng độ cong điển hình của bài toán PDE rời rạc hóa 2 chế độ (tần số thấp và tần số cao):
 

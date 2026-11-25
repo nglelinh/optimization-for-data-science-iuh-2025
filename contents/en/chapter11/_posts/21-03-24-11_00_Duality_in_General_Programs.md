@@ -12,14 +12,14 @@ lesson_type: required
 
 In Chapter 10, linear programming duality gave us a remarkable mirror world: every LP has a dual LP whose feasible solutions certify lower bounds, and strong duality closes the gap completely. What happens when the objective and constraints are no longer linear—when they are quadratic, logarithmic, semidefinite, or even **nonconvex**? Chapter 11 lifts duality to *completely general* optimization problems using the **Lagrangian** $$L(x, u, v)$$, revealing a deep surprise: even when the original primal problem is wildly nonconvex, its Lagrange dual problem is **always concave (convex to maximize)**!
 
-## Background Knowledge Map: Lifting Duality Beyond Linear Programs
+## Key ideas: Lifting Duality Beyond Linear Programs
 
 - **Pillar 1 — The Universal Lagrangian $$L(x, u, v)$$:** Attaching nonnegative prices $$u_i \ge 0$$ to inequalities $$h_i(x) \le 0$$ and free prices $$v_j \in \mathbb{R}$$ to equalities $$l_j(x) = 0$$ transforms *any* constrained problem—convex or nonconvex—into a parameterized unconstrained objective.
 - **Pillar 2 — Concavity of the Dual Function $$g(u, v)$$:** Because $$g(u, v) = \inf_x L(x, u, v)$$ is the pointwise infimum of a family of affine functions of $$(u, v)$$, $$g$$ is *always concave*, regardless of how complicated or nonconvex $$f, h_i, l_j$$ are.
 - **Pillar 3 — Weak Duality Always, Strong Duality Under Slater's Condition:** Weak duality ($$g^\star \le f^\star$$) holds universally with zero convexity assumptions. Strong duality ($$g^\star = f^\star$$) requires convexity plus a regularity condition—most famously **Slater's condition** (existence of a strictly feasible interior point).
 - **Pillar 4 — Duality Gap as a Real-Time Stopping Criterion:** For any primal-feasible $$x$$ and dual-feasible $$(u, v)$$, $$f(x) - f^\star \le f(x) - g(u, v)$$, giving interior-point and primal–dual solvers an exact, provable certificate of suboptimality without ever knowing $$f^\star$$.
 
-### Step-by-Step Worked Example (Read Slowly): From General LP Duality to Nonlinear Quadratic Duality
+### Worked example: From General LP Duality to Nonlinear Quadratic Duality
 
 Contrast how the Lagrangian works on an LP vs. a nonlinear quadratic problem: minimize $$f(x) = x^2$$ subject to $$x \ge 2$$ (i.e., $$h(x) = 2 - x \le 0$$).
 

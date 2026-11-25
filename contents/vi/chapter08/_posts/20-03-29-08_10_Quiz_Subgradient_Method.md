@@ -16,14 +16,14 @@ redirect_from:
 
 Bộ câu hỏi trắc nghiệm dưới đây được thiết kế như một phòng thí nghiệm chẩn đoán nhanh: mỗi câu hỏi chạm đúng vào một ngộ nhận kinh điển của Chương 08. Trước khi bấm chọn đáp án, hãy đi qua bản đồ kiến thức tổng hợp và khung kiểm tra nhanh bốn cạm bẫy kinh điển ngay dưới đây để chắc chắn bạn nắm vững bản chất thay vì đoán mò.
 
-## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cần chốt trước khi làm bài trắc nghiệm
+## Kiến thức cần nhớ: Bốn cụm kiến thức trọng tâm cần chốt trước khi làm bài trắc nghiệm
 
 - **Định nghĩa dưới vi phân và tính không đơn điệu:** Nhớ phân biệt $$\partial f(x)$$ (một tập hợp) với $$g \in \partial f(x)$$ (một vector đại diện); hiểu vì sao $$f(x^{(k+1)})$$ có thể lớn hơn $$f(x^{(k)})$$ nên luôn phải theo dõi $$f_{\text{best}}^{(k)}$$.
 - **Lịch kích thước bước và điều kiện hội tụ:** Phân biệt rạch ròi ba nhóm: bước cố định (hội tụ đến sàn $$G^2 t/2$$), bước giảm dần $$\sum t_k = \infty, \sum t_k^2 < \infty$$ (hội tụ về đúng $$f^*$$), và bước Polyak $$t_k = \frac{f^{(k-1)} - f^*}{\|g^{(k-1)}\|_2^2}$$ (dùng khi biết $$f^*$$).
 - **Tốc độ hội tụ và phép chiếu:** Khắc sâu tốc độ $$O(1/\epsilon^2)$$ (tức $$O(1/\sqrt{k})$$) dưới giả thiết $$f$$ là $$G$$-Lipschitz, và lý do phép chiếu $$P_C$$ lên tập lồi đóng không làm hỏng bất đẳng thức cơ bản.
 - **Biến thể ngẫu nhiên vs. batch:** Nắm rõ bản ngẫu nhiên giảm chi phí mỗi bước $$m$$ lần, cho kỳ vọng không chệch nhưng tạo nhiễu gần nghiệm nên cần giảm bước dần về $$0$$.
 
-### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh để né bẫy trắc nghiệm Chương 08
+### Giải thích: Bốn phép thử số nhanh để né bẫy trắc nghiệm Chương 08
 
 Hãy tự kiểm chứng 4 phép tính ngắn gọn sau trước khi bước vào bộ câu hỏi:
 

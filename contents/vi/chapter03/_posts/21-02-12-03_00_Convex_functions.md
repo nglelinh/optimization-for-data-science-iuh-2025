@@ -13,14 +13,14 @@ Nếu Chương 02 vẽ nên "sân chơi" nơi thuật toán được phép di ch
 
 Chương 03 sẽ dẫn bạn qua định nghĩa hàm lồi, kho ví dụ kinh điển, các phép toán bảo toàn tính lồi, hàm liên hợp Fenchel, hàm giả lồi, hàm log-lõm và tính lồi theo bất đẳng thức tổng quát.
 
-## Bản đồ kiến thức nền: Bốn nhánh trụ cột của Chương 03
+## Kiến thức cần nhớ: Bốn nhánh trụ cột của Chương 03
 
 - **Định nghĩa và ba đặc trưng (Bậc 0, Bậc 1, Bậc 2):** Bất đẳng thức Jensen (không cần khả vi), chặn dưới tiếp tuyến $$f(y) \ge f(x) + \nabla f(x)^T(y-x)$$ (khả vi cấp 1) và Hessian bán xác định dương $$\nabla^2 f(x) \succeq 0$$ (khả vi cấp 2).
 - **Quy tắc lắp ghép bảo toàn tính lồi (Disciplined Convex Programming):** Tổng trọng số dương, cực đại từng điểm (pointwise max), hợp thành affine, hàm phối cảnh và cực tiểu hóa từng phần — công cụ nhận diện hàm lồi không cần tính Hessian.
 - **Hàm liên hợp Fenchel ($$f^*$$):** Phép biến đổi sang không gian độ dốc $$y$$, tạo ra cặp bất đẳng thức Fenchel–Young và là viên gạch cốt lõi xây dựng bài toán đối ngẫu ở Chương 05.
 - **Mở rộng tính lồi (Giả lồi, Log-lõm và Lồi theo nón $$K$$):** Bao phủ những hàm cực kỳ quan trọng trong xác suất và kinh tế học (như mật độ chuẩn Gauss hay hàm phân thức tuyến tính) vốn không lồi theo nghĩa cổ điển nhưng vẫn giải tối ưu hiệu quả.
 
-### Khung giải thích (nên đọc chậm): Chặn dưới tiếp tuyến toàn cục của hàm lồi $$x^2$$ so với hàm không lồi $$x^3$$
+### Giải thích: Chặn dưới tiếp tuyến toàn cục của hàm lồi $$x^2$$ so với hàm không lồi $$x^3$$
 
 Đặc trưng bậc nhất phát biểu: hàm khả vi $$f$$ lồi khi và chỉ khi tiếp tuyến tại *mọi* điểm $$x$$ luôn nằm dưới đồ thị: $$f(y) \ge f(x) + f'(x)(y - x)\ \forall y$$.
 

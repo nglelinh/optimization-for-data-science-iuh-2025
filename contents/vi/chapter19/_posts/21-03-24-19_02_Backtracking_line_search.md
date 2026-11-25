@@ -11,7 +11,7 @@ lang: vi
 
 Cũng giống như phương pháp Newton cổ điển có thể "nhảy vọt" ra xa vô cùng nếu xuất phát ở vùng xa nghiệm và cứ cố chấp lấy bước đơn vị $$t_k = 1$$, phương pháp Newton proximal cũng cần một "bộ phanh" bảo đảm hội tụ toàn cục. Bộ phanh đó chính là **tìm kiếm theo đường lui (backtracking line search)** phiên bản tổng hợp: vì hàm $$h$$ không khả vi nên không thể thay bằng $$\nabla h(x)^T v$$, ta giữ nguyên độ chênh lệch thực $$h(x + tv) - h(x)$$ (hoặc cận trên tuyến tính $$t(h(x+v) - h(x))$$) trong điều kiện Armijo!
 
-## Bản đồ kiến thức nền: Ba cơ chế bảo đảm an toàn của Backtracking tổng hợp
+## Kiến thức cần nhớ: Ba cơ chế bảo đảm an toàn của Backtracking tổng hợp
 
 Để hiểu vì sao điều kiện dừng backtracking trong bài vừa luôn kết thúc sau hữu hạn bước, vừa tự động nhận $$t = 1$$ khi gần nghiệm, hãy chú ý ba điểm:
 
@@ -19,7 +19,7 @@ Cũng giống như phương pháp Newton cổ điển có thể "nhảy vọt" r
 - **Điều kiện giảm đủ Armijo tổng hợp:** Yêu cầu $$f(x + tv) \le f(x) + \alpha t \nabla g(x)^T v + \alpha(h(x + tv) - h(x))$$ (với $$0 < \alpha \le 1/2$$) đảm bảo mức giảm thực tế đạt ít nhất một tỉ lệ $$\alpha$$ của mức giảm mô hình bậc nhất–tổng hợp.
 - **Chuyển pha tự động sang bước đơn vị $$t = 1$$:** Khi $$x$$ tiến đủ gần $$x^\star$$ và $$\alpha < 1/2$$, khai triển Taylor bậc hai cho thấy điều kiện Armijo **luôn được thỏa mãn ngay tại $$t = 1$$**. Nhờ vậy, backtracking không bao giờ cản trở tốc độ hội tụ bậc hai cục bộ của Newton proximal!
 
-### Khung giải thích (nên đọc chậm): Chạy tay backtracking line search trên hàm mũ có phạt $$\ell_1$$
+### Giải thích: Chạy tay backtracking line search trên hàm mũ có phạt $$\ell_1$$
 
 Xét bài toán $$f(x) = \underbrace{e^x - x}_{g(x)} + \underbrace{0.5 |x|}_{h(x)}$$ tại $$x = 2$$, với $$\alpha = 0.25, \beta = 0.5$$:
 

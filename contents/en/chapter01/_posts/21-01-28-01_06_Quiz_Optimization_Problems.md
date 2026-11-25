@@ -14,14 +14,14 @@ redirect_from:
 
 Spotting convexity in the wild is a pattern-recognition skill that sharpens only when you test it against tricky counterexamples—like an optimization problem with a convex objective whose single quadratic *equality* constraint quietly breaks convexity. This Chapter 01 quiz tests your command of standard formulations, convex vs. nonconvex classification, and algorithm selection before we dive into the geometry of convex sets in Chapter 02.
 
-## Background Knowledge Map: Key Concepts Tested in This Quiz
+## Key ideas: Key Concepts Tested in This Quiz
 
 - **Standard Form Translation:** Mapping maximization, lower-bound inequalities ($$g(x) \ge c$$), and implicit domain constraints cleanly into standard minimization form.
 - **Convexity Verification Rules:** Checking all three pieces—objective $$f_0$$ convex, inequalities $$f_i \le 0$$ convex, and equalities $$h_j = 0$$ affine—never just the objective alone.
 - **Local vs. Global Optimality:** Distinguishing guarantees for convex problems (every local min is global) vs. strictly convex problems (unique global min) vs. nonconvex problems.
 - **Solver & Algorithm Awareness:** Matching problem families (LP, QP, nonsmooth composite) to the right algorithmic class (Simplex, interior-point, proximal gradient, ADMM).
 
-### Step-by-Step Worked Example (Read Slowly): Why One Symbol ($$\le$$ vs. $$=$$) Flips Convexity
+### Worked example: Why One Symbol ($$\le$$ vs. $$=$$) Flips Convexity
 
 Compare two nearly identical 1D problems:
 - **Problem A:** $$\min_x \; x^2 - 4x \quad \text{s.t.} \quad x^2 - 1 \le 0$$.

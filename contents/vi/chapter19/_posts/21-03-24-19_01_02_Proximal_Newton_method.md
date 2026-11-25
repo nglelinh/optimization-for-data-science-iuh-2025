@@ -11,7 +11,7 @@ lang: vi
 
 Ở bài 19-01-01, ta thấy proximal gradient descent chỉ đơn giản là cực tiểu hóa xấp xỉ bậc hai đẳng hướng của $$g$$ cộng với $$h$$. Bây giờ hãy thực hiện một cú nâng cấp trực diện: giữ nguyên hoàn toàn triết lý đó, nhưng thay ma trận đơn vị tỉ lệ $$\frac{1}{t}I$$ bằng **ma trận Hessian thực** $$H^{(k-1)} = \nabla^2 g(x^{(k-1)})$$! Kết quả là **phương pháp Newton proximal**: một thuật toán từng xuất hiện sớm trong thống kê dưới tên gọi *local score*, nay trở thành trụ cột của tối ưu hóa tổng hợp bậc hai.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép cấu thành thuật toán Newton proximal
+## Kiến thức cần nhớ: Bốn mảnh ghép cấu thành thuật toán Newton proximal
 
 Để hiểu thấu đáo cấu trúc hai bước (tìm hướng $$v^{(k)}$$ rồi chọn bước $$t_k$$) của thuật toán trong bài, hãy tách riêng bốn yếu tố:
 
@@ -20,7 +20,7 @@ lang: vi
 - **Độ dài bước $$t_k \in (0, 1]$$:** Ta cập nhật $$x^{(k)} = x^{(k-1)} + t_k v^{(k)}$$. Vì $$h$$ lồi, phép tổ hợp lồi $$x + t_k v = (1 - t_k)x + t_k(x + v)$$ luôn bảo toàn miền xác định của $$h$$ (ví dụ luôn giữ nghiệm khả thi nếu $$h = I_C$$).
 - **Khi $$h \equiv 0$$:** Bài toán con rút gọn về $$\min_v \nabla g(x)^T v + \frac{1}{2}v^T H v \implies v = -H^{-1}\nabla g(x)$$, quay về chính xác phương pháp Newton cổ điển!
 
-### Khung giải thích (nên đọc chậm): Tính tay 1 bước Newton proximal cho hồi quy Logistic có phạt $$\ell_1$$
+### Giải thích: Tính tay 1 bước Newton proximal cho hồi quy Logistic có phạt $$\ell_1$$
 
 Xét bài toán 1 chiều mô phỏng hồi quy logistic có điều chuẩn Lasso:
 

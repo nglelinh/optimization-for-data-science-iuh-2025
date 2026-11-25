@@ -14,14 +14,14 @@ redirect_from:
 
 Every time an AI safety researcher reports that an image classifier survives an $$\ell_\infty$$ adversarial attack of radius $$\varepsilon = 8/255$$, or a genomicist fits a million-feature sparse regression in seconds with `skglm`, they are not inventing new optimization theory—they are deploying the exact four correspondences of Chapter 13: dual norms, Lasso duals, Fenchel conjugates, and dual cones.
 
-## Background Knowledge Map: From Chapter 13 Theory to 2022–2026 Systems
+## Key ideas: From Chapter 13 Theory to 2022–2026 Systems
 
 - **Pillar 1 — Dual Norms Define Adversarial Geometry:** Maximizing a linearized loss $$g^T v$$ over an $$\ell_p$$ threat ball $$\|v\|_p \le \varepsilon$$ produces $$\varepsilon\|g\|_*$$; choosing $$p = \infty$$ automatically selects the $$\ell_1$$ dual norm and the FGSM/PGD sign direction.
 - **Pillar 2 — Gap-Safe Screening via the Lasso Dual:** Any dual-feasible $$\theta$$ defines a safe sphere around $$\theta^\star$$ of radius $$\sqrt{2(P(\beta) - D(\theta))}$$; features whose inner product with that entire sphere stays strictly below $$\lambda$$ are provably zero and deleted permanently.
 - **Pillar 3 — Moreau Identity Powers Modern Cone Solvers:** The conjugate identity $$\operatorname{prox}_f(v) + \operatorname{prox}_{f^*}(v) = v$$ lets solvers like OSQP, SCS, and Clarabel evaluate hard projections via easy dual projections.
 - **Pillar 4 — Dual Cones Certify Neural Networks:** Proving a ReLU network cannot misclassify inside an input ball reduces to exhibiting a dual-feasible point $$z \in K^*$$ in an LP/SDP relaxation (as in $$\alpha,\beta$$-CROWN and GCP-CROWN).
 
-### Step-by-Step Worked Example (Read Slowly): Computing an Exact Dual-Norm Adversarial Perturbation
+### Worked example: Computing an Exact Dual-Norm Adversarial Perturbation
 
 Suppose a classifier's loss gradient at an input image pixel vector $$x$$ is $$g = (0.3,\ -1.2,\ 0.4)^T$$, and the attacker has a perturbation budget $$\varepsilon = 0.1$$.
 

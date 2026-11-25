@@ -12,14 +12,14 @@ lesson_type: optional
 
 Once Lesson 29-02 exposed client drift under non-IID data, the 2020–2026 federated learning community set out to fix FedAvg without sacrificing its simplicity. Three algorithmic pillars emerged—and together they transformed federated learning into a clinical workhorse for cross-silo healthcare, where hospitals collaborate on cancer imaging and genomics without ever moving protected patient records off-premise: **FedProx** (a proximal leash), **SCAFFOLD** (SVRG-style control variates for client drift), and **FedOpt / FedAdam** (adaptive server-side optimization).
 
-## Background Knowledge Map: Taming Non-IID Heterogeneity (FedProx, SCAFFOLD, FedAdam)
+## Key ideas: Taming Non-IID Heterogeneity (FedProx, SCAFFOLD, FedAdam)
 
 - **FedProx (Proximal Leash):** Adds $$\frac{\mu}{2}\|w - w_t\|_2^2$$ to each client’s local objective, penalizing local iterates from wandering too far from the global broadcast $$w_t$$—simple, stateless, and tolerant of variable local work across heterogeneous devices.
 - **SCAFFOLD (Control Variates for Client Drift):** Borrows Chapter 26’s SVRG trick directly into federated learning! Each client maintains a local control variate $$c_i$$ and receives the global average $$c = \frac{1}{P}\sum_j c_j$$, correcting every local gradient to $$\nabla F_i(w) - c_i + c$$—eliminating client drift completely!
 - **FedOpt / FedAdam (Server-Side Adaptivity):** Treats the averaged client weight delta $$\Delta_t = \frac{1}{|\mathcal{S}_t|}\sum_{i \in \mathcal{S}_t}(w_{t+1}^{(i)} - w_t)$$ as a *pseudo-gradient* on the server and feeds $$-\Delta_t$$ into Adam or Yogi—stabilizing training on non-IID vision and language tasks without extra client memory.
 - **Cross-Silo Healthcare & Privacy Governance:** In multi-hospital radiology and EHR consortiums (10–100 reliable institutions), cross-silo FL pairs FedProx/FedAdam with secure aggregation and differential privacy to satisfy HIPAA/GDPR while pooling statistical power across rare diseases.
 
-### Step-by-Step Worked Example (Read Slowly): How SCAFFOLD Cancels Non-IID Client Drift in One Step
+### Worked example: How SCAFFOLD Cancels Non-IID Client Drift in One Step
 
 Return to our 2-client non-IID problem $$F_1(w) = 2(w - 1)^2$$ and $$F_2(w) = \frac{1}{2}(w + 1)^2$$ (global optimum $$w^\star = 0.6$$). Suppose we are at $$w_t = 0.6$$, and the control variates have tracked the local gradients at $$w_t$$:
 $$c_1 = F_1'(0.6) = -1.6, \qquad c_2 = F_2'(0.6) = +1.6, \qquad c = \frac{c_1 + c_2}{2} = 0.$$

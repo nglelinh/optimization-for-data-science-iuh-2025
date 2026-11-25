@@ -14,14 +14,14 @@ redirect_from:
 
 Mastering dual methods means being able to move fluidly between three representations of the same constrained problem: the **primal Lagrangian**, the **dual ascent / decomposition update**, and the **scaled ADMM splitting**. Before working through the exercises below (adapted from Bertsekas and Boyd et al.), test your intuition on this quick warm-up comparing plain dual decomposition against Augmented Lagrangian on a 2-variable equality problem—seeing firsthand how $$\rho$$ stabilizes the dual trajectory.
 
-## Background Knowledge Map: Key Techniques Practiced in These Exercises
+## Key ideas: Key Techniques Practiced in These Exercises
 
 - **Deriving Decomposed Subproblems:** Separate $$\sum_i f_i(x_i) + \nu^T(\sum_i A_i x_i - c)$$ into $$N$$ independent scalar or vector minimizations and compute the exact dual ascent residual.
 - **Constructing Augmented Lagrangians:** Add $$\frac{\rho}{2}\|Ax - b\|_2^2$$, solve the regularized primal step, and verify that updating $$\nu^{k+1} = \nu^k + \rho(Ax^{k+1} - b)$$ enforces dual feasibility automatically.
 - **Designing ADMM Splittings:** Introduce auxiliary variables $$z$$ so that the $$x$$-update is a clean linear solve (Cholesky cacheable!) and the $$z$$-update is a closed-form proximal operator (soft-thresholding or projection).
 - **Monitoring Stopping Criteria:** Track both primal residual $$\|r^{(k)}\|_2$$ and dual residual $$\|s^{(k)}\|_2$$ to diagnose whether $$\rho$$ is too large (tiny $$r$$, huge $$s$$) or too small (huge $$r$$, tiny $$s$$).
 
-### Step-by-Step Worked Example (Read Slowly): Diagnosing $$\rho$$ Imbalance from Residuals
+### Worked example: Diagnosing $$\rho$$ Imbalance from Residuals
 
 Suppose you run ADMM on $$\min_{x,z} \frac{1}{2}(x - 10)^2 + \frac{1}{2}z^2$$ s.t. $$x - z = 0$$ from $$z^0 = 0, w^0 = 0$$ (exact optimum $$x^\star = z^\star = 5$$). Compare one iteration with tiny $$\rho = 0.1$$ vs. balanced $$\rho = 1$$:
 

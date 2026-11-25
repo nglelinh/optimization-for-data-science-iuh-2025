@@ -14,7 +14,7 @@ Trong mạng nơ-ron sâu hay mô hình ngôn ngữ, các tham số sống trong
 
 Từ năm 2011 đến 2015, ba cột mốc liên tiếp — **AdaGrad**, **RMSProp** và **Adam** — đã cách mạng hóa việc huấn luyện học sâu bằng một ý tưởng đơn giản mà cực kỳ hiệu quả: **chia gradient của từng tọa độ cho căn bậc hai độ lớn lịch sử của chính nó**, giúp mọi tọa độ đều di chuyển với nhịp bước đồng đều bất kể độ thưa hay thang đo!
 
-## Bản đồ kiến thức nền: Ba bước tiến hóa từ AdaGrad đến Adam
+## Kiến thức cần nhớ: Ba bước tiến hóa từ AdaGrad đến Adam
 
 Đặt ba công thức cạnh nhau, bạn sẽ thấy một chuỗi tiến hóa logic vô cùng mạch lạc:
 
@@ -22,7 +22,7 @@ Từ năm 2011 đến 2015, ba cột mốc liên tiếp — **AdaGrad**, **RMSPr
 - **RMSProp (Trung bình trượt mũ — EMA $$v_k$$):** Thay tổng tích lũy bằng trung bình trượt mũ $$v_{k+1} = \gamma v_k + (1-\gamma)g_k^2$$ để "quên" quá khứ xa và chỉ chuẩn hóa theo biên độ gradient gần đây, giữ cho bước học luôn sống động trên địa hình phi lồi thay đổi liên tục.
 - **Adam (Kết hợp EMA bậc 1 + EMA bậc 2 + Hiệu chỉnh chệch):** Ghép động lượng $$m_k$$ (hướng đi mượt) với chuẩn hóa $$v_k$$ (thang đo thích nghi). Vì cả $$m_0 = 0, v_0 = 0$$ khởi tạo từ 0, ở các bước đầu chúng bị kéo lệch mạnh về 0 — do đó phép chia hiệu chỉnh $$\hat{m}_k = \frac{m_k}{1 - \beta_1^k},\; \hat{v}_k = \frac{v_k}{1 - \beta_2^k}$$ là bắt buộc để bước đi đầu tiên không bị méo!
 
-### Khung giải thích (nên đọc chậm): Tính tay 2 bước AdaGrad và kiểm chứng hiệu chỉnh chệch của Adam
+### Giải thích: Tính tay 2 bước AdaGrad và kiểm chứng hiệu chỉnh chệch của Adam
 
 Xét 2 tọa độ trọng số với dòng gradient: bước 1 là $$g^{(1)} = (10,\; 0)$$ (tọa độ 1 dày đặc, tọa độ 2 chưa xuất hiện), bước 2 là $$g^{(2)} = (10,\; 1)$$ (tọa độ 2 mới xuất hiện với gradient nhỏ). Lấy $$\eta = 0.1$$ và bỏ qua $$\varepsilon$$ nhỏ để tính tay sắc nét:
 

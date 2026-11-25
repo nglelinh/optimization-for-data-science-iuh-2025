@@ -11,14 +11,14 @@ lang: en
 
 Checking the line-segment definition $$\theta x + (1-\theta)y \in C$$ directly on a messy feasible region with 50 constraints is tedious and error-prone. Instead, convex analysts use a compositional calculus: start from simple convex building blocks (halfspaces, balls, cones) and apply operations guaranteed to preserve convexity—intersection, affine maps, perspective maps, and linear-fractional maps—to certify convexity in two lines.
 
-## Background Knowledge Map: The Calculus of Convex Sets
+## Key ideas: The Calculus of Convex Sets
 
 - **Arbitrary Intersections:** If every $$S_\alpha$$ is convex (even uncountably many!), $$\bigcap_\alpha S_\alpha$$ is convex—this single rule proves polyhedra, $$\mathbb{S}_+^n$$, and robust uncertainty constraints are convex.
 - **Affine Images & Preimages:** If $$S$$ is convex and $$f(x) = Ax + b$$ is affine, both the image $$f(S)$$ (scaling, rotation, translation, projection) and inverse image $$f^{-1}(S)$$ are convex.
 - **Minkowski Sums & Direct Products:** Sums $$S_1 + S_2$$ and Cartesian products $$S_1 \times S_2$$ of convex sets stay convex, letting us combine independent constraint blocks cleanly.
 - **Perspective & Linear-Fractional Functions:** $$P(z, t) = z/t$$ (for $$t > 0$$) and compositions $$x \mapsto \frac{Ax + b}{c^T x + d}$$ (for $$c^T x + d > 0$$) preserve convexity of both images and preimages—key to geometric and fractional programming.
 
-### Step-by-Step Worked Example (Read Slowly): Affine Image and Perspective Map on Simple Convex Sets
+### Worked example: Affine Image and Perspective Map on Simple Convex Sets
 
 1. **Affine image of the unit square $$S = [0, 1]^2$$:** Apply $$f(x) = Ax + b$$ with
    $$A = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}, \qquad b = \begin{pmatrix} 1 \\ -1 \end{pmatrix}.$$

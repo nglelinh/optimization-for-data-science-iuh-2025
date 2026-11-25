@@ -14,7 +14,7 @@ Nếu bạn đã học Chương 21 (ADMM đồng thuận) và vừa học xong B
 
 Câu trả lời gói gọn trong đúng **một thành phần bị thiếu ở FedAvg nhưng luôn hiện diện ở ADMM**: **biến đối ngẫu cục bộ $$u_p$$**! Nhờ duy trì lực bù đối ngẫu $$u_p$$ tại mỗi nút để cân bằng chính xác gradient cục bộ $$\nabla f_p(z^\star)$$, ADMM đồng thuận hội tụ về đúng nghiệm toàn cục không chút sai lệch ngay cả khi dữ liệu các nút khác nhau hoàn toàn — đổi lại nó đòi hỏi tính lồi và lưu trữ trạng thái đối ngẫu trên từng nút, điều khó làm khi có hàng triệu điện thoại di động chập chờn.
 
-## Bản đồ kiến thức nền: Ba trụ cột phân biệt ADMM, Data-Parallel SGD và FedAvg
+## Kiến thức cần nhớ: Ba trụ cột phân biệt ADMM, Data-Parallel SGD và FedAvg
 
 Bảng so sánh trong bài trở nên cực kỳ dễ nhớ khi bạn đối chiếu ba phương pháp qua ba trụ cột sau:
 
@@ -22,7 +22,7 @@ Bảng so sánh trong bài trở nên cực kỳ dễ nhớ khi bạn đối chi
 - **Lớp bài toán và Cấu trúc hàm mục tiêu:** ADMM phát huy sức mạnh tối đa trên bài toán **lồi có cấu trúc** (Lasso phân tán, quy hoạch bậc hai, ràng buộc cứng giữa các nút), nơi bước con proximal giải được chính xác. Data-Parallel SGD và FedAvg sinh ra cho **mạng nơ-ron sâu phi lồi** hàng triệu tham số, nơi chỉ có thể chạy vài bước SGD xấp xỉ.
 - **Môi trường hạ tầng (Data Center vs. Cross-Silo vs. Cross-Device):** Data-Parallel SGD thống trị cụm GPU tốc độ cao; ADMM và các biến thể có trạng thái (như SCAFFOLD) tỏa sáng trong liên kết liên tổ chức (*cross-silo*, ví dụ 10–50 bệnh viện ổn định); còn FedAvg là chuẩn mực cho hàng triệu thiết bị biên (*cross-device*).
 
-### Khung giải thích (nên đọc chậm): Tính tay cách biến đối ngẫu ADMM triệt tiêu 100% lỗi trôi cục bộ!
+### Giải thích: Tính tay cách biến đối ngẫu ADMM triệt tiêu 100% lỗi trôi cục bộ!
 
 Hãy mang đúng ví dụ 2 máy khách non-IID từ Bài 29-02 (nơi FedAvg bị trôi vĩnh viễn về $$2.0$$ thay vì nghiệm đúng $$z^\star = 3.0$$!) sang giải bằng **ADMM đồng thuận**:
 

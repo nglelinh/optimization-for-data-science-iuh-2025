@@ -14,14 +14,14 @@ redirect_from:
 
 Before you test your instincts on the multiple-choice quiz below, pause and think like an optimization theorist debugging a failing training loop. Most misconceptions about subgradient methods stem from unconsciously importing smooth-calculus habits—assuming $$-g$$ must go downhill, forgetting that subgradients do not vanish at $$x^\star$$, or confusing the $$O(1/\varepsilon^2)$$ nonsmooth rate with smooth $$O(1/\varepsilon)$$. Use the conceptual map and warm-up calculation below to sharpen your intuition before diving into the questions.
 
-## Background Knowledge Map: Core Diagnostic Pillars for Chapter 08 Mastery
+## Key ideas: Core Diagnostic Pillars for Chapter 08 Mastery
 
 - **Pillar 1 — Non-Descent vs. Distance Contraction:** Memorize the geometric contrast: $$f(x^{(k)})$$ can increase on any single step, so convergence is tracked via $$f_{\text{best}}^{(k)}$$, while the Lyapunov proof tracks Euclidean distance $$\|x^{(k)} - x^\star\|_2^2$$.
 - **Pillar 2 — Step-Size Regimes at a Glance:** Fixed step $$t$$ leaves an error floor $$G^2 t / 2$$; diminishing steps ($$\sum t_k = \infty, \sum t_k^2 < \infty$$) converge exactly; Polyak's step $$t_k = \frac{f(x^{(k-1)}) - f^\star}{\|g^{(k-1)}\|_2^2}$$ requires knowing $$f^\star$$ and needs no tuning.
 - **Pillar 3 — Projection & Feasibility Unification:** Projected subgradient preserves the exact $$O(1/\varepsilon^2)$$ rate because Euclidean projection $$P_C$$ is nonexpansive; minimizing $$\max_i d_{C_i}(x)$$ with Polyak's step size reproduces alternating projections onto the farthest set.
 - **Pillar 4 — Stochastic vs. Cyclic vs. Batch Trade-offs:** Batch costs $$O(m)$$ per step with zero variance; cyclic suffers $$O(m^3 G^2/\varepsilon^2)$$ worst-case updates due to coherent intra-cycle drift; randomized saves a factor of $$m$$ to reach $$O(m^2 G^2/\varepsilon^2)$$ updates.
 
-### Step-by-Step Worked Example (Read Slowly): A Quick 4-Check Sanity Audit Before Starting the Quiz
+### Worked example: A Quick 4-Check Sanity Audit Before Starting the Quiz
 
 Suppose a convex function $$f: \mathbb{R}^n \to \mathbb{R}$$ is $$G$$-Lipschitz with $$G = 3$$, initial distance $$R = 6$$, and known optimal value $$f^\star = 2$$. At $$x^{(0)}$$, we observe $$f(x^{(0)}) = 11$$ and a subgradient $$g^{(0)}$$ with $$\|g^{(0)}\|_2 = 3$$.
 

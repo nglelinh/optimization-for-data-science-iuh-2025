@@ -11,14 +11,14 @@ lang: en
 
 A relaxation is an intentional, mathematically disciplined lie: we replace an intractable discrete problem with an easier continuous one whose optimal value is *guaranteed* to sit below (for minimization) the true integer optimum. Not all relaxations are created equal, however. A sloppy relaxation gives a weak lower bound and forces millions of branch-and-bound nodes, whereas a tight **convex relaxation** or **Lagrangian relaxation** can close 90% of the integrality gap at the very root node.
 
-## Background Knowledge Map: Convex and Lagrangian Relaxations
+## Key ideas: Convex and Lagrangian Relaxations
 
 - **Formal Definition of a Relaxation:** A problem $$\min_{x \in \tilde{S}} \tilde{f}(x)$$ is a valid relaxation of $$\min_{x \in S} f(x)$$ if (i) $$S \subseteq \tilde{S}$$ and (ii) $$\tilde{f}(x) \le f(x)$$ for all $$x \in S$$. Together these guarantee $$\tilde{f}^\star \le f^\star$$.
 - **Convex (LP/SDP) Relaxations:** Dropping integrality $$x \in \{0, 1\}^n \to x \in [0, 1]^n$$ produces the canonical LP relaxation; replacing rank-1 binary matrices $$xx^\top$$ with positive semidefinite matrices $$X \succeq 0$$ produces tighter SDP relaxations (such as Goemans–Williamson for Max-Cut).
 - **Lagrangian Relaxation:** Instead of dropping integrality, dualize a set of "complicating" constraints $$Ax \le b$$ into the objective via multipliers $$\lambda \ge 0$$: $$g(\lambda) = \min_{x \in X} \{c^\top x + \lambda^\top(Ax - b)\}$$, then maximize the concave dual function $$g(\lambda)$$.
 - **Why Lagrangian Relaxation Can Beat LP Relaxation:** By Geoffrion’s theorem, if the remaining integer subproblem $$X$$ does *not* have the integrality property (i.e., $$\operatorname{conv}(X)$$ is strictly smaller than its LP relaxation), the Lagrangian dual $$\max_{\lambda \ge 0} g(\lambda)$$ equals the LP optimum over $$\operatorname{conv}(X) \cap \{Ax \le b\}$$—strictly tighter than the ordinary LP relaxation!
 
-### Step-by-Step Worked Example (Read Slowly): Computing a Lagrangian Relaxation Lower Bound
+### Worked example: Computing a Lagrangian Relaxation Lower Bound
 
 Consider the integer program $$\min_{x_1, x_2 \in \{0, 1\}} -3 x_1 - 4 x_2$$ subject to the complicating constraint $$2 x_1 + 3 x_2 \le 4$$. (By inspection, we cannot pick both $$x_1 = x_2 = 1$$ since $$5 > 4$$, so the true IP optimum is $$(0, 1)$$ with value $$-4$$.)
 

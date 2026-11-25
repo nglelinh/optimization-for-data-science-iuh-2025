@@ -11,14 +11,14 @@ lang: en
 
 Suppose a logistics team hands you a shipping schedule costing $4.2 million and claims it is the absolute cheapest plan possible. How could they *prove* to a skeptical CFO that no hidden route combination in a billion-variable network could shave off even $1? Checking every feasible plan is impossible, yet **Linear Programming (LP) duality** provides an astonishingly compact certificate: a set of nonnegative resource "shadow prices" whose weighted sum of constraints produces a mathematical lower bound equal to $4.2 million. Chapter 10 unpacks this primal–dual mirror world—from elementary lower bounds to max-flow/min-cut and von Neumann's minimax theorem.
 
-## Background Knowledge Map: The Architecture of LP Duality
+## Key ideas: The Architecture of LP Duality
 
 - **Pillar 1 — Primal Plans vs. Dual Certificates:** Every minimization LP (the *primal*) seeks the lowest-cost feasible decision $$x$$; its companion maximization LP (the *dual*) combines the primal constraints with multipliers $$(u, v)$$ to build the tightest possible lower bound $$B \le c^\top x$$.
 - **Pillar 2 — Weak vs. Strong Duality:** Weak duality ($$d^\star \le p^\star$$) holds universally by construction of valid constraint combinations. For feasible, bounded LPs, **strong duality** ($$d^\star = p^\star$$) closes the gap completely, guaranteeing that an exact optimality certificate always exists.
 - **Pillar 3 — Combinatorial & Game-Theoretic Dual Pairs:** LP duality unifies crown jewels across mathematics and computer science: the dual of maximum network flow is the minimum $$s\text{–}t$$ cut, and the dual of one player's minimax strategy in a zero-sum matrix game is the opponent's maximin strategy.
 - **Pillar 4 — Perfect Symmetry (Involution):** Taking the dual of the dual LP recovers the original primal LP verbatim—meaning neither problem is inherently "primary"; they are two equivalent views of the same polyhedral geometry.
 
-### Step-by-Step Worked Example (Read Slowly): Certifying Optimality of a 2-Variable LP in Three Lines
+### Worked example: Certifying Optimality of a 2-Variable LP in Three Lines
 
 Consider the primal LP: minimize $$x_1 + 2x_2$$ subject to $$x_1 + x_2 \ge 3$$, $$x_1 \ge 1$$, and $$x_2 \ge 0$$.
 

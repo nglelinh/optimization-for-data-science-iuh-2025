@@ -13,14 +13,14 @@ redirect_from:
 
 Many students can mechanically write down $$L(x, u, v)$$ and compute $$g(u, v)$$, yet still feel a nagging mystery: *where did this dual problem actually come from geometrically?* Picture plotting the set $$\mathcal{G} = \{ (h(x), f(x)) : x \in \mathcal{D} \}$$ of all achievable (constraint-value, objective-value) pairs in the 2D plane. The primal optimum $$f^\star$$ is the lowest point of $$\mathcal{G}$$ on or to the left of the vertical axis $$h \le 0$$; the dual optimum $$g^\star$$ is the highest vertical-axis intercept of any **non-vertical supporting line** lying underneath $$\mathcal{G}$$! This lesson unpacks that geometric lens—and connects it to economics, game theory, and Fenchel conjugates.
 
-## Background Knowledge Map: Four Intuitive Lenses on Lagrange Duality
+## Key ideas: Four Intuitive Lenses on Lagrange Duality
 
 - **Pillar 1 — Geometric Lens (Supporting Hyperplanes to $$\mathcal{G}$$):** Minimizing $$f(x) + u^\top h(x)$$ over $$x$$ slides a hyperplane with slope $$-u$$ upward from $$-\infty$$ until it just touches the achievable set $$\mathcal{G} = \{(h(x), f(x))\}$$. Its vertical-axis intercept is $$g(u)$$; strong duality holds precisely when $$\mathcal{G}$$'s convex epigraph admits a non-vertical supporting hyperplane at $$(0, f^\star)$$.
 - **Pillar 2 — Economic Lens (Resource Pricing & Sensitivity):** Viewing $$h_i(x) \le 0$$ as a resource budget, $$u_i \ge 0$$ is the market price per unit of resource $$i$$. An entrepreneur choosing $$x$$ to minimize $$f(x) + u^\top h(x)$$ sells unused quota ($$h_i < 0$$) or buys extra quota ($$h_i > 0$$); at the optimal dual price $$u^\star$$, the market clears with zero net excess demand.
 - **Pillar 3 — Game-Theoretic Lens (Minimax Saddle Points):** The primal is $$\min_x \max_{u \ge 0} L(x, u)$$ (the primal player moves first, then the dual adversary penalizes violations), while the dual is $$\max_{u \ge 0} \min_x L(x, u)$$ (the dual player commits to prices first). Strong duality means the Lagrangian has a Nash equilibrium saddle point $$(x^\star, u^\star)$$.
 - **Pillar 4 — Conjugate / Perturbation Lens:** Defining the optimal-value perturbation function $$p^\star(w) = \inf \{ f(x) : h(x) \le w \}$$, the dual value is literally its biconjugate at zero: $$g^\star = p^{\star\star}(0)$$. Thus strong duality is equivalent to $$p^\star$$ being convex and lower semicontinuous at $$w = 0$$!
 
-### Step-by-Step Worked Example (Read Slowly): Tracing the Supporting Line in the $$(h, f)$$ Plane
+### Worked example: Tracing the Supporting Line in the $$(h, f)$$ Plane
 
 Consider $$\min_{x \in \mathbb{R}} f(x) = x^2$$ subject to $$h(x) = 1 - x \le 0$$ (so $$x \ge 1$$, $$x^\star = 1, f^\star = 1$$).
 

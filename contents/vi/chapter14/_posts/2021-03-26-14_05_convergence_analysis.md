@@ -13,14 +13,14 @@ Khi ghép phương pháp Newton với tìm kiếm đường backtracking, một 
 
 Câu trả lời là một trong những định lý đẹp nhất của tối ưu lồi cổ điển: hành trình của Newton có giảm chấn luôn chia làm **hai giai đoạn tách biệt rõ ràng**. Trong **giai đoạn giảm chấn (damped phase)** khi gradient còn lớn, mỗi vòng lặp đảm bảo cắt giảm giá trị hàm mục tiêu ít nhất một hằng số dương $$\gamma$$ (hội tụ tuyến tính chắc chắn). Ngay khi gradient tụt xuống dưới một ngưỡng tới hạn $$\eta$$, thuật toán bước vào **giai đoạn thuần túy (pure phase)** — bước $$t = 1$$ luôn được chấp nhận và sai số rơi theo hàm mũ kép $$2^{2^k}$$, nghĩa là chỉ cần thêm $$\log_2\log_2(1/\epsilon)$$ vòng lặp (thực tế hầu như không bao giờ quá 6 bước!) để đạt độ chính xác máy tính.
 
-## Bản đồ kiến thức nền: Giải phẫu hai giai đoạn hội tụ toàn cục của Newton
+## Kiến thức cần nhớ: Giải phẫu hai giai đoạn hội tụ toàn cục của Newton
 
 - **Ba giả thiết tiêu chuẩn:** Hàm $$f$$ khả vi hai lần, lồi mạnh với tham số $$m > 0$$ ($$\nabla^2 f(x) \succeq mI$$), gradient Lipschitz $$L$$ ($$\nabla^2 f(x) \preceq LI$$), và Hessian Lipschitz $$M$$ ($$\|\nabla^2 f(x) - \nabla^2 f(y)\|_2 \le M\|x-y\|_2$$).
 - **Pha 1 — Giai đoạn giảm chấn ($$\|\nabla f(x)\|_2 \ge \eta$$):** Thuật toán có thể cần $$t < 1$$, nhưng mỗi vòng lặp luôn giảm $$f(x)$$ ít nhất một lượng hằng số $$\gamma > 0$$. Do đó số vòng lặp ở Pha 1 bị chặn trên bởi $$\frac{f(x^{(0)}) - f^\star}{\gamma}$$.
 - **Pha 2 — Giai đoạn thuần túy ($$\|\nabla f(x)\|_2 < \eta$$):** Ngay khi vượt ngưỡng $$\eta$$, bước $$t = 1$$ luôn thỏa Armijo và sai số giảm bình phương sau mỗi bước, nên chỉ cần thêm tối đa $$\log_2\log_2(\epsilon_0/\epsilon)$$ vòng lặp.
 - **Ý nghĩa thực tế của $$\log_2\log_2(1/\epsilon)$$:** Ngay cả khi bạn đòi hỏi độ chính xác cực khắt khe $$\epsilon = 10^{-15}$$, giá trị $$\log_2\log_2(10^{15}) \approx \log_2(50) \approx 5.6$$ — tức là một khi đã vào vùng bậc hai, **tối đa 6 bước Newton là xong!**
 
-### Khung giải thích (nên đọc chậm): Đếm số vòng lặp qua từng pha bằng con số cụ thể
+### Giải thích: Đếm số vòng lặp qua từng pha bằng con số cụ thể
 
 Giả sử một bài toán lồi mạnh có giá trị ban đầu $$f(x^{(0)}) - f^\star = 20$$, mức giảm đảm bảo mỗi bước ở Pha 1 là $$\gamma = 2$$, và ngưỡng chuyển pha tương ứng sai số mục tiêu $$\epsilon_0 = 0.5$$. Hãy tính tổng số vòng lặp tối đa để đạt hai mức độ chính xác khác nhau: $$\epsilon = 10^{-4}$$ và $$\epsilon = 10^{-16}$$:
 

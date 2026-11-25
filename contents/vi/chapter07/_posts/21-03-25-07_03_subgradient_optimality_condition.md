@@ -14,7 +14,7 @@ $$0 \in \partial f(x^\star).$$
 
 Mục 07-03 sẽ chứng minh định lý gọn nhẹ đến khó tin này, dùng nó để suy dẫn ngược lại điều kiện tối ưu bậc nhất của Chương 04 trong đúng 3 dòng, và giải tường minh ba ví dụ huyền thoại của học máy hiện đại: **Lasso**, **Ngưỡng mềm (Soft-Thresholding)** và **Khoảng cách đến tập lồi**.
 
-## Bản đồ kiến thức nền: Bốn nhánh ứng dụng xuất phát từ $$0 \in \partial f(x^\star)$$
+## Kiến thức cần nhớ: Bốn nhánh ứng dụng xuất phát từ $$0 \in \partial f(x^\star)$$
 
 Mọi bài học con trong phần 07-03 đều là một lát cắt trực tiếp của công thức $$0 \in \partial f(x^\star)$$:
 
@@ -23,7 +23,7 @@ Mọi bài học con trong phần 07-03 đều là một lát cắt trực tiế
 - **Giải mã Lasso & Soft-Thresholding:** Áp dụng $$0 \in X^T(X\beta - y) + \lambda \partial \|\beta\|_1$$ giải thích chính xác tại sao $$\beta_j^\star = 0$$ khi tương quan phần dư $$|X_j^T(y - X\beta^\star)| \le \lambda$$!
 - **Hình học Phép chiếu (Khoảng cách đến tập lồi):** Tính subgradient của $$\operatorname{dist}(x, C) = \min_{y \in C} \|x - y\|_2$$ cho thấy hướng ra xa tập lồi $$C$$ chính là vector đơn vị $$\frac{x - P_C(x)}{\|x - P_C(x)\|_2}$$.
 
-### Khung giải thích (nên đọc chậm): Giải bài toán không trơn 1 biến bằng $$0 \in \partial f(x^\star)$$
+### Giải thích: Giải bài toán không trơn 1 biến bằng $$0 \in \partial f(x^\star)$$
 
 Tìm cực tiểu toàn cục của hàm $$f(x) = |x - 1| + |x - 3| + |x - 8|$$ (bài toán tìm **trung vị — median** của 3 điểm $$1, 3, 8$$!):
 

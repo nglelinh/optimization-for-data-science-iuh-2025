@@ -11,7 +11,7 @@ lang: vi
 
 Ở ví dụ đơn giản trong bài mở đầu, ta dễ dàng viết được công thức tường minh cho hàm liên hợp $$f^*$$. Nhưng trong thực tế, phần lớn hàm $$f$$ phức tạp không hề có công thức dạng đóng cho $$f^*$$! Điều kỳ diệu của **phương pháp (dưới) gradient đối ngẫu** là ta **không bao giờ cần viết tường minh $$f^*$$**: nhờ định lý bao hàm thức liên hợp $$x \in \partial f^*(-A^T u) \iff x \in \arg\min_z (f(z) + u^T A z)$$, chỉ cần giải bài toán cực tiểu hóa theo $$x$$ với $$u$$ cố định, ta lập tức có ngay một dưới gradient của hàm đối ngẫu — chính là phần dư ràng buộc $$Ax - b$$!
 
-## Bản đồ kiến thức nền: Ba trụ cột vận hành phương pháp Dual (Sub)gradient
+## Kiến thức cần nhớ: Ba trụ cột vận hành phương pháp Dual (Sub)gradient
 
 Hiểu ba ý tưởng sau sẽ giúp bạn thấy công thức lặp $$x^{(k)}, u^{(k)}$$ hoàn toàn tự nhiên như hơi thở:
 
@@ -19,7 +19,7 @@ Hiểu ba ý tưởng sau sẽ giúp bạn thấy công thức lặp $$x^{(k)}, 
 - **Quy tắc cập nhật Dual Ascent (tăng theo phần dư ràng buộc):** Vì ta đang **cực đại hóa** hàm lõm $$g(u)$$, ta cộng thêm bước đi theo hướng gradient: $$u^{(k)} = u^{(k-1)} + t_k(Ax^{(k)} - b)$$. Nếu $$Ax^{(k)} > b$$, nhân tử $$u$$ tăng lên để "phạt" mạnh hơn ở bước sau; nếu $$Ax^{(k)} < b$$, $$u$$ giảm xuống!
 - **Xử lý ràng buộc bất đẳng thức $$Ax \le b$$:** Khi ràng buộc là bất đẳng thức, biến đối ngẫu phải giữ không âm $$u \ge 0$$, nên bước cập nhật đối ngẫu chỉ cần thêm phép chiếu đơn giản lên góc phần tư không âm: $$u^{(k)} = (u^{(k-1)} + t_k(Ax^{(k)} - b))_+$$.
 
-### Khung giải thích (nên đọc chậm): Chạy tay 2 vòng lặp Dual Gradient Ascent và quan sát phần dư thu hẹp
+### Giải thích: Chạy tay 2 vòng lặp Dual Gradient Ascent và quan sát phần dư thu hẹp
 
 Xét bài toán tối ưu lồi 1 biến có ràng buộc đẳng thức:
 

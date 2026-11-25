@@ -11,14 +11,14 @@ lang: en
 
 Imagine standing on a foggy mountain range where every valley might be a false bottom—that is general nonlinear optimization. Now imagine the fog lifts and reveals a single, giant smooth bowl: any step downhill eventually leads to the true lowest point on Earth. Chapter 04 formalizes the exact mathematical contract that turns messy engineering and machine-learning problems into that single-bowl world, and shows the legal algebraic moves that preserve it.
 
-## Background Knowledge Map: Architecture of a Convex Program
+## Key ideas: Architecture of a Convex Program
 
 1. **Standard-Form Modeling (Objective, Inequalities, and Affine Equalities)**: A convex program minimizes a convex objective $$f$$ over a domain $$D$$ subject to convex inequalities $$g_i(x) \le 0$$ and *affine* equalities $$h_j(x) = a_j^T x - b_j = 0$$. Requiring equalities to be affine ensures the feasible set stays convex—bending an equality constraint into a curve immediately destroys convexity of the slice.
 2. **Global Optimality and Geometry of Solutions**: In a convex program, every local minimum is automatically a global minimum, and the set of all optimal solutions $$X_{\mathrm{opt}}$$ is itself a convex set. When the objective is strictly convex, the solution collapses to a unique point.
 3. **First-Order Variational Optimality**: At a minimizer $$x^\star$$ on a convex feasible set $$C$$, moving toward any other feasible point $$y \in C$$ cannot decrease the objective to first order: $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$. Geometrically, $$-\nabla f(x^\star)$$ lies in the normal cone $$N_C(x^\star)$$, a unifying condition that also powers modern differentiable optimization layers.
 4. **Convexity-Preserving Reformulations**: Real-world models rarely arrive in textbook standard form. Partial minimization, monotone objective transformations, invertible changes of variables, equality elimination, slack variables, and convex relaxations let you reshape a problem into an equivalent—or tightly bounding—convex program without breaking its global-optimality guarantee.
 
-### Step-by-Step Worked Example (Read Slowly): Certifying and Solving a Constrained Convex Program
+### Worked example: Certifying and Solving a Constrained Convex Program
 
 Consider minimizing the quadratic objective $$f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 1)^2$$ subject to the halfspace constraint $$g_1(x) = x_1 + x_2 - 2 \le 0$$.
 

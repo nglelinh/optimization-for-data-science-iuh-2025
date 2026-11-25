@@ -14,7 +14,7 @@ Khi bạn viết một dòng code ngắn ngủi như `loss = (w1 * x1 + w2 * x2 
 
 Nhìn chương trình như một đồ thị có hướng không chu trình (DAG) là bước chuyển hóa tư duy then chốt của Chương 27: nhờ biểu diễn này, việc tính đạo hàm phức tạp cỡ nào cũng rút gọn thành việc **duyệt đồ thị theo thứ tự topo** (từ đầu vào đến đầu ra hoặc ngược lại) và nhân dồn các đạo hàm cục bộ siêu đơn giản trên từng cạnh.
 
-## Bản đồ kiến thức nền: Ba trụ cột của Đồ thị tính toán
+## Kiến thức cần nhớ: Ba trụ cột của Đồ thị tính toán
 
 Để nắm vững cấu trúc dữ liệu đứng sau `torch.autograd` và `jax.make_jaxpr`, hãy hiểu rõ ba trụ cột sau:
 
@@ -22,7 +22,7 @@ Nhìn chương trình như một đồ thị có hướng không chu trình (DAG
 - **Tính phân nhánh (Fan-out) và Quy tắc Cộng dồn (Multivariable Chain Rule):** Khi một biến $$u$$ được dùng làm đầu vào cho *nhiều* nút phía sau (ví dụ vừa vào phép nhân vừa vào hàm $$\cos$$), ảnh hưởng tổng của $$u$$ lên đầu ra bằng **tổng** đóng góp qua tất cả các đường đi xuất phát từ $$u$$ — nguồn gốc của phép cộng dồn `+=` trong lan truyền ngược.
 - **Đồ thị động (Define-by-Run) vs. Đồ thị tĩnh (Define-then-Run):** PyTorch dựng băng Wengert ngay khi chạy Python (linh hoạt với `if`/`for` phụ thuộc dữ liệu, cực dễ gỡ lỗi), trong khi JAX (`jit`) và `torch.compile` truy vết thành đồ thị tĩnh để tối ưu hóa cấp trình biên dịch (gộp nhân tử, loại bỏ bộ nhớ thừa).
 
-### Khung giải thích (nên đọc chậm): Tự tay lập Băng Wengert cho một hàm 2 biến
+### Giải thích: Tự tay lập Băng Wengert cho một hàm 2 biến
 
 Hãy phân rã hàm số $$f(x, y) = (x \cdot y + \cos x)^2$$ thành một đồ thị tính toán (băng Wengert) hoàn chỉnh và tính giá trị tại điểm $$(x, y) = (0,\; 2)$$:
 

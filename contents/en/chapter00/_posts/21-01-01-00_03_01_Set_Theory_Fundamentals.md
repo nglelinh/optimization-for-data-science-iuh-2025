@@ -12,14 +12,14 @@ lesson_type: required
 
 Every constrained optimization problem begins by carving a feasible set out of $$\mathbb{R}^n$$: budget limits, physical capacity bounds, and non-negativity requirements each define a set, and a valid decision must belong to their intersection. Clear fluency in set notation, subsets, complements, and De Morgan's laws prevents subtle logical errors when translating business or engineering rules into formal mathematical constraints.
 
-## Background Knowledge Map: Set Operations Behind Optimization Constraints
+## Key ideas: Set Operations Behind Optimization Constraints
 
 - **Set-Builder Notation:** Expresses feasible regions concisely as $$\{x \in \mathbb{R}^n : g_i(x) \le 0\}$$, separating the ambient space from the logical predicates defining membership.
 - **Intersection ($$\cap$$) for Simultaneous Constraints:** Imposing multiple constraints corresponds to intersecting their individual feasible sets; a crucial theorem in Chapter 02 shows that arbitrary intersections of convex sets remain convex.
 - **Union ($$\cup$$) and Non-Convexity:** Disjunctive constraints ("either machine A or machine B") correspond to set unions, which typically destroy convexity and introduce combinatorial branching.
 - **Complements & De Morgan's Laws:** $$(A \cap B)^c = A^c \cup B^c$$ formalizes infeasibility certificates—violating the intersection means violating *at least one* constituent constraint.
 
-### Step-by-Step Worked Example (Read Slowly): Intersecting Constraint Sets and Checking De Morgan's Law
+### Worked example: Intersecting Constraint Sets and Checking De Morgan's Law
 
 Let the universal space be $$\mathbb{R}$$ with two constraint sets:
 $$S_1 = \{x \in \mathbb{R} : x^2 \le 4\} = [-2, 2], \qquad S_2 = \{x \in \mathbb{R} : 2x - 1 > 0\} = (0.5, \infty).$$

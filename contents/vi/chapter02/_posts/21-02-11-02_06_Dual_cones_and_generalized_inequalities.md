@@ -13,13 +13,13 @@ Làm thế nào để kiểm tra một điểm $$x$$ có nằm trong một hình
 
 Phần 02-06 mở màn cho tư duy đối ngẫu — một trong những công cụ biến đổi góc nhìn mạnh mẽ nhất của toàn bộ lý thuyết tối ưu hóa.
 
-## Bản đồ kiến thức nền: Ba vai trò của Hình nón đối ngẫu
+## Kiến thức cần nhớ: Ba vai trò của Hình nón đối ngẫu
 
 - **Định nghĩa hình học qua góc nhọn:** $$K^* = \{y : y^T x \ge 0,\ \forall x \in K\}$$. Dù $$K$$ có lồi hay không, $$K^*$$ **luôn là hình nón lồi đóng** (vì là giao của vô số nửa không gian đi qua gốc tọa độ)!
 - **Tính tự đối ngẫu (Self-duality):** Ba hình nón quan trọng nhất trong tối ưu hóa — $$\mathbb{R}_+^n$$, nón bậc hai $$\ell_2$$ và nón ma trận $$\mathbb{S}_+^n$$ — đều có tính chất kỳ diệu $$K^* = K$$.
 - **Đặc trưng hóa bất đẳng thức và cực tiểu Pareto:** Nhờ $$K^*$$, bài toán tìm nghiệm cực tiểu theo thứ tự nón phức tạp chuyển thành bài toán vô hướng hóa (scalarization) $$\min_{x \in S} \lambda^T x$$ với trọng số $$\lambda \in K^*$$.
 
-### Khung giải thích (nên đọc chậm): Dùng nhân chứng đối ngẫu để kiểm tra $$x \succeq_K 0$$
+### Giải thích: Dùng nhân chứng đối ngẫu để kiểm tra $$x \succeq_K 0$$
 
 Xét hình nón thích hợp $$K = \mathbb{R}_+^2$$ (tự đối ngẫu: $$K^* = \mathbb{R}_+^2$$). Tính chất nền tảng khẳng định:
 $$x \in K \iff \lambda^T x \ge 0 \quad \text{với mọi } \lambda \in K^*.$$

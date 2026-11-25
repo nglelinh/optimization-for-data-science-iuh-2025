@@ -16,14 +16,14 @@ Phương pháp chắn kết nối rất nhiều chi tiết tinh tế từ cả C
 
 Bộ câu hỏi trắc nghiệm này giúp bạn kiểm tra sắc bén toàn bộ chuỗi lập luận của Chương 15 — từ hàm chắn logarit, đường trung tâm, KKT nhiễu, khoảng cách dưới tối ưu, đến các phiên bản thuật toán v.0/v.1/v.2 và Pha I. Hãy lướt qua bốn điểm hay gài bẫy nhất trước khi vào bài.
 
-## Bản đồ kiến thức nền: Bốn điểm hay nhầm lẫn nhất trong trắc nghiệm Chương 15
+## Kiến thức cần nhớ: Bốn điểm hay nhầm lẫn nhất trong trắc nghiệm Chương 15
 
 - **$$m$$ là số ràng buộc bất đẳng thức, KHÔNG phải số chiều $$n$$ hay số ràng buộc đẳng thức:** Công thức $$f(x^*(t)) - f^* \le m/t$$ chỉ đếm số hàm bất đẳng thức $$h_i(x) \le 0$$ tạo nên hàm chắn $$\phi(x)$$ (ràng buộc đẳng thức $$Ax = b$$ không nằm trong $$\phi$$ nên không đóng góp vào $$m$$!).
 - **Hàm mục tiêu chắn $$t f(x) + \phi(x)$$ vs. $$f(x) + \frac{1}{t}\phi(x)$$:** Hai dạng có cùng nghiệm $$x^*(t)$$, nhưng dạng $$t f(x) + \phi(x)$$ giữ nguyên tính tự hài hòa của $$\phi(x)$$ khi $$t$$ lớn.
 - **Tâm giải tích ($$t \to 0$$) vs. Nghiệm tối ưu ($$t \to \infty$$):** Đầu $$t \to 0$$ là tâm giải tích (chỉ phụ thuộc hình học ràng buộc); đầu $$t \to \infty$$ mới là nghiệm tối ưu $$x^*$$.
 - **Điều kiện dừng Pha I:** Không cần đợi Pha I hội tụ đến cực tiểu $$s^*$$; ngay khi tìm được bất kỳ cặp $$(x, s)$$ nào có $$s < 0$$ là $$x$$ đã khả thi chặt cho bài toán gốc (còn nếu $$s^* > 0$$ thì bài toán gốc vô nghiệm).
 
-### Khung giải thích (nên đọc chậm): Giải mẫu câu hỏi bẫy về số ràng buộc $$m$$ khi có cả ràng buộc đẳng thức
+### Giải thích: Giải mẫu câu hỏi bẫy về số ràng buộc $$m$$ khi có cả ràng buộc đẳng thức
 
 **Câu hỏi mẫu:** Một bài toán quy hoạch tuyến tính có $$n = 50$$ biến, $$p = 15$$ ràng buộc đẳng thức $$Ax = b$$, và $$m = 20$$ ràng buộc bất đẳng thức $$h_i(x) \le 0$$. Nếu điểm đường trung tâm $$x^*(t)$$ ứng với $$t = 100$$, chặn trên chắc chắn cho $$f(x^*(100)) - f^*$$ là bao nhiêu?
 

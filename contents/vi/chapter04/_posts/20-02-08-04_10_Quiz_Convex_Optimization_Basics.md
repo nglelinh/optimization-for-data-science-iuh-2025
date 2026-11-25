@@ -16,7 +16,7 @@ redirect_from:
 
 Bộ bài tập trắc nghiệm này được thiết kế như một phòng thí nghiệm chẩn đoán cho toàn bộ Chương 04. Thay vì đoán mò theo trực giác mơ hồ, hãy dùng mỗi câu hỏi để rèn thói quen phản xạ chuẩn của người làm tối ưu: kiểm tra miền xác định, kiểm tra độ cong Hessian, kiểm tra điều kiện bậc nhất và tìm phản ví dụ nhỏ nhất ngay khi nghi ngờ một mệnh đề sai.
 
-## Bản đồ kiến thức nền: Bốn "điểm mù" hay gặp nhất trong Chương 04
+## Kiến thức cần nhớ: Bốn "điểm mù" hay gặp nhất trong Chương 04
 
 Trước khi bắt đầu làm bài, hãy rà soát bốn bẫy tư duy kinh điển mà các câu hỏi trắc nghiệm thường khai thác:
 
@@ -25,7 +25,7 @@ Trước khi bắt đầu làm bài, hãy rà soát bốn bẫy tư duy kinh đi
 - **Bẫy 3 — Lồi vs. Lồi chặt và Số lượng nghiệm:** Bài toán lồi có thể vô nghiệm, có 1 nghiệm, hoặc có **vô số nghiệm** tạo thành một tập lồi (không bao giờ có đúng 2 nghiệm rời rạc!). Chỉ khi hàm mục tiêu **lồi chặt** mới đảm bảo nhiều nhất 1 nghiệm tối ưu.
 - **Bẫy 4 — Phép biến đổi tương đương vs. Phép nới lỏng:** Đổi biến song ánh hay biến đổi đơn điệu tăng giữ nguyên nghiệm tối ưu ($$f_{\text{new}}^\star$$ tương ứng 1-1 với $$f^\star$$), còn nới lỏng mở rộng tập khả thi nên chỉ cho cận dưới $$f_{\text{relax}}^\star \le f^\star$$.
 
-### Khung giải thích (nên đọc chậm): Thực hành phản xạ "30 giây kiểm tra một mệnh đề trắc nghiệm"
+### Giải thích: Thực hành phản xạ "30 giây kiểm tra một mệnh đề trắc nghiệm"
 
 **Câu hỏi mẫu:** *Xét bài toán $$\min_{x \in \mathbb{R}^2} \; f(x) = x_1^2 + x_2$$ trên tập $$C = \{x : x_1 \ge 0,\; x_2 \ge 0,\; x_1 + x_2 \ge 1\}$$. Điểm $$x^\star = (0.5, 0.5)$$ có phải là nghiệm tối ưu toàn cục không?*
 

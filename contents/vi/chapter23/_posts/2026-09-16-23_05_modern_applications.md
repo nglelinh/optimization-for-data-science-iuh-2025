@@ -14,7 +14,7 @@ Nếu bạn từng nghĩ hạ theo tọa độ chỉ là một mẹo hay cho bà
 
 Bài đọc này nối trực tiếp lý thuyết Chương 23 với các thư viện mã nguồn mở chuẩn mực đang vận hành hàng ngày trong thống kê sinh học, xử lý ngôn ngữ tự nhiên quy mô nhẹ và dữ liệu bảng nhiều chiều.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép công nghệ biến CD thành bộ giải triệu chiều
+## Kiến thức cần nhớ: Bốn mảnh ghép công nghệ biến CD thành bộ giải triệu chiều
 
 Để nắm được vì sao các thư viện hiện đại lại đạt tốc độ vượt trội trên dữ liệu siêu cao chiều ($$p \gg n$$), hãy chú ý bốn trụ cột kỹ thuật sau:
 
@@ -23,7 +23,7 @@ Bài đọc này nối trực tiếp lý thuyết Chương 23 với các thư vi
 - **Tập hoạt động + Tăng tốc Anderson (trong `skglm`):** Mở rộng ra ngoài chuẩn $$\ell_1$$ sang các hàm phạt không lồi (MCP, SCAD) hay chuẩn nhóm, kết hợp ngoại suy tổ hợp tuyến tính các bước lặp gần nhất (Anderson acceleration) để rút ngắn mạnh số vòng lặp.
 - **Hạ theo tọa độ đối ngẫu (Dual CD trong LIBLINEAR):** Với SVM tuyến tính khi số mẫu lớn và đặc trưng thưa (văn bản túi từ, dự đoán CTR), bài toán đối ngẫu có ràng buộc hộp $$0 \le \alpha_i \le C$$ đơn giản, nên mỗi bước CD chỉ là cắt ngưỡng một nghiệm bậc hai 1 chiều.
 
-### Khung giải thích (nên đọc chậm): Tính tay quy tắc sàng lọc an toàn (Gap-Safe Screening)
+### Giải thích: Tính tay quy tắc sàng lọc an toàn (Gap-Safe Screening)
 
 Hãy tự tay chứng nhận một đặc trưng chắc chắn bằng $$0$$ tại nghiệm tối ưu mà **chưa cần giải xong bài toán**! Xét Lasso với hai cột trực chuẩn $$X_1 = (1, 0)^T, X_2 = (0, 1)^T$$ ($$\|X_1\|_2 = \|X_2\|_2 = 1$$), nhãn $$y = (3,\; 0.2)^T$$ và $$\lambda = 1$$.
 

@@ -12,14 +12,14 @@ lesson_type: required
 
 Why do the four KKT conditions—stationarity, complementary slackness, primal feasibility, and dual feasibility—capture optimality so completely? The answer is not a long list of messy calculus lemmas; it is a breathtakingly short chain of inequalities linking the primal objective $$f(x^\star)$$, the Lagrangian $$L(x^\star, u^\star, v^\star)$$, and the dual function $$g(u^\star, v^\star)$$! Watching how zero duality gap collapses that chain into equalities shows immediately why KKT is necessary under strong duality and sufficient under convexity.
 
-## Background Knowledge Map: Proving Necessity & Sufficiency of KKT
+## Key ideas: Proving Necessity & Sufficiency of KKT
 
 - **Pillar 1 — The Collapse Chain Under Strong Duality (Necessity):** When $$f(x^\star) = g(u^\star, v^\star)$$, we have $$f(x^\star) = \inf_x L(x, u^\star, v^\star) \le L(x^\star, u^\star, v^\star) = f(x^\star) + \sum u_i^\star h_i(x^\star) \le f(x^\star)$$. Every inequality in the chain must be an equality!
 - **Pillar 2 — Reading Stationarity & Complementary Slackness Off the Chain:** The first equality forces $$x^\star \in \arg\min_x L(x, u^\star, v^\star)$$ (giving stationarity $$0 \in \partial_x L(x^\star, u^\star, v^\star)$$); the second equality forces $$\sum u_i^\star h_i(x^\star) = 0$$, and since every term is $$\le 0$$, each individual term $$u_i^\star h_i(x^\star) = 0$$ (complementary slackness)!
 - **Pillar 3 — Reverse Direction Under Convexity (Sufficiency):** When $$f, h_i$$ are convex and $$l_j$$ are affine, $$L(\cdot, u^\star, v^\star)$$ is convex in $$x$$. Stationarity then *guarantees* $$x^\star$$ minimizes $$L(\cdot, u^\star, v^\star)$$ globally, so $$g(u^\star, v^\star) = L(x^\star, u^\star, v^\star) = f(x^\star)$$ (via complementary slackness)—proving zero duality gap and global optimality!
 - **Pillar 4 — Caution on Nonconvex & Degenerate Problems:** For nonconvex problems, KKT points can be local minima, saddle points, or even maxima; for convex problems without Slater's condition, an optimal primal point may exist with *no* finite KKT multiplier!
 
-### Step-by-Step Worked Example (Read Slowly): A Convex Problem Where KKT Has No Solution (Slater Fails!)
+### Worked example: A Convex Problem Where KKT Has No Solution (Slater Fails!)
 
 Consider the convex problem $$\min_{x \in \mathbb{R}} f(x) = x$$ subject to $$h(x) = x^2 \le 0$$.
 

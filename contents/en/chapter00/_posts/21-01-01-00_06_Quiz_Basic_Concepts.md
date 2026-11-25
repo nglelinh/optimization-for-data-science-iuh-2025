@@ -14,14 +14,14 @@ redirect_from:
 
 Reading derivations feels effortless until you have to diagnose a Hessian, spot a non-compact domain, or compute a directional derivative on a blank sheet of paper. This diagnostic quiz stress-tests your Chapter 00 fluency across calculus, linear algebra, real analysis, and probability—catching any subtle blind spots now before we build convex sets, duality, and interior-point methods on top of them.
 
-## Background Knowledge Map: Four Diagnostic Checkpoints for This Quiz
+## Key ideas: Four Diagnostic Checkpoints for This Quiz
 
 - **Calculus Fluency:** Verify that you can rapidly compute gradients, directional derivatives, Hessians, and second-order Taylor expansions without sign or transpose slips.
 - **Linear Algebra Fluency:** Check your command of rank, nullspace, orthogonality, eigenvalues, and positive definiteness tests (principal minors and eigenvalues).
 - **Analysis & Topology Fluency:** Distinguish open vs. closed sets, bounded vs. compact domains, and continuity vs. uniform/Lipschitz continuity.
 - **Probability Fluency:** Confirm comfort with Bayes' rule, expectation/variance algebra, and turning log-likelihoods into concave maximization problems.
 
-### Step-by-Step Worked Example (Read Slowly): Integrated Pre-Quiz Warm-Up
+### Worked example: Integrated Pre-Quiz Warm-Up
 
 Before starting the quiz, test all core tools at once on $$f(x, y) = 2x^2 + 2xy + 3y^2 - 6x - 8y$$.
 

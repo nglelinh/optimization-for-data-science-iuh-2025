@@ -14,7 +14,7 @@ Nếu ba bài trước là bản đồ lý thuyết của thế giới không l�
 
 Điểm chung đáng kinh ngạc của cả bốn hiện tượng trong bài là chúng đều bắt nguồn trực tiếp từ hình học địa hình hàm mất mát và động lực học tối ưu mà bạn vừa học!
 
-## Bản đồ kiến thức nền: Bốn hiện tượng thực nghiệm định hình lý thuyết học sâu hiện đại
+## Kiến thức cần nhớ: Bốn hiện tượng thực nghiệm định hình lý thuyết học sâu hiện đại
 
 Khi đọc bốn nghiên cứu tình huống trong bài, hãy gắn từng hiện tượng với nguyên lý tối ưu tương ứng:
 
@@ -23,7 +23,7 @@ Khi đọc bốn nghiên cứu tình huống trong bài, hãy gắn từng hiệ
 - **Giảm kép (Double Descent):** Đường cong chữ U cổ điển của đánh đổi thiên lệch–phương sai chỉ mô tả nhánh trái ($$d < n$$). Tại ngưỡng nội suy $$d \approx n$$, ma trận thiết kế gần suy biến làm chuẩn nghiệm bùng nổ (đỉnh sai số test); vượt sang nhánh phải ($$d \gg n$$), thiên kiến ẩn chọn nghiệm chuẩn nhỏ lại kéo sai số test giảm sâu xuống lần thứ hai!
 - **Phổ Hessian thực nghiệm của mạng sâu:** Khi đo phổ Hessian của mạng đã huấn luyện, ta luôn thấy một "khối lớn" trị riêng tập trung quanh $$0$$ (hàng triệu phương phẳng) cùng đúng vài trị riêng tách rời lớn (thường bằng số lớp phân loại $$C$$) — xác nhận bức tranh hình học vừa phẳng vừa dị hướng của mạng sâu.
 
-### Khung giải thích (nên đọc chậm): Tính tay vì sao nội suy thẳng giữa hai cực tiểu hoán vị gặp "ngọn núi" mất mát
+### Giải thích: Tính tay vì sao nội suy thẳng giữa hai cực tiểu hoán vị gặp "ngọn núi" mất mát
 
 Xét mạng nơ-ron 1 lớp ẩn gồm 2 nơ-ron: $$f_\theta(x) = a_1 \max(0, b_1 x) + a_2 \max(0, b_2 x)$$ với 4 tham số $$\theta = (a_1, b_1, a_2, b_2)$$. Giả sử hàm đích là $$y(x) = \max(0, 2x) - \max(0, 3x)$$ (bằng $$-x$$ với $$x > 0$$ và $$0$$ với $$x \le 0$$).
 

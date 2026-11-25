@@ -14,7 +14,7 @@ redirect_from:
 
 Giữa vô vàn ký hiệu $$P \succeq 0$$, $$\|Ax + b\|_2 \le c^T x + d$$, $$F_0 + \sum x_i F_i \succeq 0$$ hay đơn thức dương $$c x_1^{a_1} x_2^{a_2}$$, ranh giới giữa LP, QP, QCQP, SOCP, SDP và GP rất dễ bị nhòa đi nếu bạn chỉ đọc lướt. Bài tập trắc nghiệm này giúp bạn rèn phản xạ "chẩn đoán nhanh" trong vài giây: nhìn thấy một bài toán mới là nhận ra ngay nó thuộc tầng nào, có lồi hay không, và liệu có chuyển đổi được về tầng chuẩn thấp hơn hay không.
 
-## Bản đồ kiến thức nền: Bảng phân biệt nhanh 6 lớp bài toán chuẩn
+## Kiến thức cần nhớ: Bảng phân biệt nhanh 6 lớp bài toán chuẩn
 
 Trước khi làm bài trắc nghiệm, hãy dùng bốn quy tắc vàng sau làm la bàn kiểm chứng:
 
@@ -26,7 +26,7 @@ Trước khi làm bài trắc nghiệm, hãy dùng bốn quy tắc vàng sau là
 - **Quy tắc nghiệm đóng vs. Thuật toán lặp:** Bình phương tối thiểu tuyến tính không ràng buộc có nghiệm đóng $$x^\star = (A^T A)^{-1} A^T b$$; còn LP, QP có ràng buộc bất đẳng thức, SOCP, SDP và Hồi quy Logistic nói chung **không có nghiệm đóng** và phải giải lặp.
 - **Quy tắc nhận diện nón ẩn:** Ràng buộc chuẩn $$\ell_1$$ hoặc $$\ell_\infty$$ ($$\|Ax - b\|_1 \le t$$) quy về **LP**; ràng buộc chuẩn $$\ell_2$$ ($$\|Ax - b\|_2 \le t$$) quy về **SOCP**; ràng buộc trị riêng lớn nhất ($$\lambda_{\max}(A(x)) \le t$$) quy về **SDP**.
 
-### Khung giải thích (nên đọc chậm): Chẩn đoán nhanh tầng thấp nhất cho 3 bài toán "đánh lừa thị giác"
+### Giải thích: Chẩn đoán nhanh tầng thấp nhất cho 3 bài toán "đánh lừa thị giác"
 
 1. **Bài A:** $$\min_{x \in \mathbb{R}^n} \; \|Ax - b\|_\infty$$.
    - Nhìn thấy chuẩn, nhiều người vội chọn SOCP. **Cẩn thận!**

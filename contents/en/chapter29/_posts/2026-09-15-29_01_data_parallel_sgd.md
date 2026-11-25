@@ -12,14 +12,14 @@ lesson_type: required
 
 Scale a training job from 1 GPU to 64 GPUs using synchronous **Data-Parallel SGD**, and something remarkably clean happens: if every worker computes a local minibatch gradient of size $$b$$ and averages them via an AllReduce collective, the resulting parameter update is mathematically *indistinguishable* from running single-GPU SGD with global batch size $$B = P \cdot b$$. The real engineering and optimization subtleties lie in what happens as $$P$$ grows huge: variance shrinks by $$1/P$$, learning rates must scale carefully, and eventually you hit the critical batch size where adding more GPUs yields diminishing returns.
 
-## Background Knowledge Map: Mathematics and Scaling Laws of Data-Parallel SGD
+## Key ideas: Mathematics and Scaling Laws of Data-Parallel SGD
 
 - **Exact Equivalence to Large-Batch SGD:** With $$P$$ workers each drawing $$b$$ i.i.d. samples, the averaged gradient $$g_k = \frac{1}{P}\sum_{p=1}^P g_k^{(p)}$$ is unbiased for $$\nabla F(w_k)$$ with variance $$\frac{\sigma^2}{Pb}$$—identical to a single worker with batch size $$B = Pb$$.
 - **Ring AllReduce Bandwidth Scaling:** Instead of funneling all $$P$$ gradients through one bottleneck parameter server ($$O(Pd)$$ traffic at the server), Ring AllReduce passes chunks around a logical ring so every worker sends and receives only $$2\frac{P-1}{P}d \approx 2d$$ bytes—independent of $$P$$!
 - **Linear Scaling Rule & Warmup:** When multiplying global batch size by $$P$$, multiplying the learning rate by $$P$$ (or $$\sqrt{P}$$ under Adam) keeps the noise-to-signal ratio balanced, paired with gradual warmup during early unstable epochs.
 - **Synchronous Stragglers vs. Asynchronous Stale Gradients:** Synchronous AllReduce waits for the slowest worker each step; asynchronous SGD eliminates straggler waits but injects delayed ("stale") gradients $$\nabla f(w_{k-\tau})$$, which degrade convergence unless delay $$\tau$$ is tightly bounded.
 
-### Step-by-Step Worked Example (Read Slowly): Computing Global Variance Reduction and Ring AllReduce Traffic
+### Worked example: Computing Global Variance Reduction and Ring AllReduce Traffic
 
 Suppose a single GPU trains with batch size $$b = 32$$, per-sample gradient variance $$\sigma^2 = 64$$, and model size $$d = 25\text{M}$$ float32 weights ($$100\text{ MB}$$). We scale synchronously to $$P = 8$$ GPUs.
 

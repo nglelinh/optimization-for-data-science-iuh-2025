@@ -11,14 +11,14 @@ lang: en
 
 At first glance, Coordinate Descent looks almost embarrassingly naive: instead of moving along the full gradient in $$\mathbb{R}^p$$, freeze $$p - 1$$ variables, minimize along a single coordinate axis, and cycle to the next. Why would anyone trade a sophisticated full-gradient direction for axis-aligned baby steps? Yet in modern high-dimensional statistics—most famously in `glmnet` for Lasso and Elastic Net—Coordinate Descent routinely crushes gradient descent and even accelerated proximal gradient by an order of magnitude. The secret is that every single coordinate update uses the *freshest* information immediately (Gauss–Seidel style) and exploits closed-form 1D minimizers with zero line-search overhead.
 
-## Background Knowledge Map: Why Coordinate-Wise Optimization Dominates High-Dimensional Regression
+## Key ideas: Why Coordinate-Wise Optimization Dominates High-Dimensional Regression
 
 - **Gauss–Seidel vs. Jacobi Updates:** Full gradient descent updates all $$p$$ coordinates simultaneously from the same stale point (Jacobi). Coordinate descent updates coordinate $$i$$ immediately and feeds the new $$x_i^{(k)}$$ into coordinate $$i+1$$ (Gauss–Seidel), enabling larger effective coordinate-wise step sizes $$1/L_i$$ instead of the conservative global $$1/L$$.
 - **Separability and Nonsmooth Convexity:** Tseng’s theorem guarantees global convergence of coordinate descent for composite functions $$f(x) = g(x) + \sum_{i=1}^p h_i(x_i)$$ whenever $$g$$ is smooth convex and the nonsmooth penalty separates across coordinates (like $$\lambda \|x\|_1$$). Without separability, coordinate descent can get stuck at non-optimal kinks!
 - **Coordinate Selection Rules:** Cyclic sweeps are cache-friendly and deterministic; randomized coordinate descent (sampling coordinate $$i$$ proportionally to $$L_i$$) yields clean complexity bounds; greedy (Gauss–Southwell) selection picks the coordinate with the largest gradient magnitude.
 - **Residual Maintenance for $$O(n)$$ Updates:** In linear models $$y - X\beta$$, updating a single coordinate $$\beta_j \to \beta_j^+$$ lets us refresh the residual vector $$r \leftarrow r - (\beta_j^+ - \beta_j) X_j$$ in $$O(n)$$ time, making one full sweep of $$p$$ coordinates cost $$O(np)$$—the exact same cost as a single full gradient!
 
-### Step-by-Step Worked Example (Read Slowly): One Cyclic Coordinate Descent Sweep on a 2D Quadratic
+### Worked example: One Cyclic Coordinate Descent Sweep on a 2D Quadratic
 
 Minimize $$f(x_1, x_2) = x_1^2 + 2 x_2^2 + 2 x_1 x_2 - 4 x_1 - 6 x_2$$ starting from $$x^{(0)} = (0, 0)^\top$$. (The exact minimizer satisfies $$2x_1 + 2x_2 = 4$$ and $$2x_1 + 4x_2 = 6$$, giving $$x^\star = (1, 1)^\top$$ with $$f(x^\star) = -5$$.)
 

@@ -11,14 +11,14 @@ lang: en
 
 At first glance, switching from the barrier method to a primal-dual interior-point method looks like a minor engineering tweak—dropping the inner loop and taking one Newton step per $$\tau$$ update. In practice, that single architectural shift transforms interior-point optimization from a textbook curiosity into the fastest general-purpose convex solver engine ever built. Understanding *why* one coupled primal-dual step outperforms an entire inner barrier loop is the conceptual heart of Chapter 17.
 
-## Background Knowledge Map: Barrier Method vs. Primal-Dual Philosophy
+## Key ideas: Barrier Method vs. Primal-Dual Philosophy
 
 - **Single-Loop Coupled Newton Dynamics:** The barrier method isolates primal updates inside an inner loop while holding $$t$$ fixed; PD-IPM updates $$(x, u, v)$$ simultaneously in one linearized KKT solve and decreases $$\tau$$ at every iteration.
 - **Infeasible-Start Flexibility:** Barrier methods demand a strictly feasible starting point satisfying $$Ax^0 = b$$ and $$h(x^0) < 0$$ (often requiring a full Phase I solve). PD-IPMs only require strict interiority of the inequalities and multipliers ($$h(x^0) < 0, u^0 > 0$$), driving $$Ax^k - b \to 0$$ automatically along the way.
 - **Direct Control of Complementarity:** Because $$u$$ is an independent variable rather than a post-hoc formula $$-1/(t h(x))$$, the linearized complementarity equation $$U \nabla h(x)\,\Delta x + H(x)\,\Delta u = -Uh(x) - \tau \mathbf{1}$$ directly balances primal slackness against dual magnitude.
 - **Superlinear Local Acceleration:** Near the solution, the coupled KKT Jacobian approaches the exact Newton system for the active constraints, allowing PD-IPMs to transition from linear global progress to superlinear (and in LP, quadratic) local convergence.
 
-### Step-by-Step Worked Example (Read Slowly): Handling an Infeasible Start
+### Worked example: Handling an Infeasible Start
 
 Suppose we want to solve the LP $$\min 2x_1 + 3x_2$$ subject to $$x_1 + x_2 = 4$$ and $$x_1, x_2 \ge 0$$ (exact optimum $$x^\star = (4, 0), v^\star = -2, u^\star = (0, 1)$$).
 

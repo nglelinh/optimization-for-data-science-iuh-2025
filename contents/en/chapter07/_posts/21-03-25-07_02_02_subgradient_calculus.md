@@ -11,7 +11,7 @@ lang: en
 
 Nobody computes ordinary derivatives of complicated expressions by taking $$\lim_{h \to 0}$$ from scratch every time—we use the sum rule, chain rule, and product rule. Subgradients have their own compact **subgradient calculus** (scaling, Minkowski addition, affine composition, and pointwise maxima) that lets you assemble $$\partial f(x)$$ for Lasso, SVMs, and composite losses in seconds.
 
-## Background Knowledge Map: The Five Workhorse Rules of Subgradient Calculus
+## Key ideas: The Five Workhorse Rules of Subgradient Calculus
 
 1. **Nonnegative Scaling**: For $$a > 0$$, $$\partial(af)(x) = a\,\partial f(x)$$. (Crucial warning: multiplying by $$a < 0$$ flips convexity to concavity, so scaling only holds for $$a > 0$$!)
 2. **Minkowski Addition**: For convex functions $$f_1, f_2$$ (whose domains overlap properly, e.g., finite on $$\mathbb{R}^n$$), $$\partial(f_1 + f_2)(x) = \partial f_1(x) + \partial f_2(x) = \{g_1 + g_2 : g_1 \in \partial f_1(x),\; g_2 \in \partial f_2(x)\}$$.
@@ -19,7 +19,7 @@ Nobody computes ordinary derivatives of complicated expressions by taking $$\lim
 4. **Finite Pointwise Maximum**: If $$f(x) = \max_{i=1,\dots,m} f_i(x)$$, let $$I(x) = \{i : f_i(x) = f(x)\}$$ be the *active* indices achieving the max at $$x$$. Then
    $$\partial f(x) = \operatorname{conv}\!\left(\bigcup_{i \in I(x)} \partial f_i(x)\right).$$
 
-### Step-by-Step Worked Example (Read Slowly): Combining Affine Composition and Addition
+### Worked example: Combining Affine Composition and Addition
 
 Compute the subdifferential of $$f(x_1, x_2) = 3|x_1 - x_2| + \frac{1}{2}x_1^2$$ at the kink point $$x = (2, 2)$$.
 

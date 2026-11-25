@@ -14,14 +14,14 @@ Nếu bạn từng nghĩ phương pháp chắn logarit chỉ là một chương 
 
 Điều kỳ diệu là dù giao diện lập trình hiện đại ngày càng thông minh và tự động, linh hồn toán học bên dưới vẫn y nguyên những gì bạn vừa học ở Chương 15: hàm chắn tự hài hòa, đường trung tâm và hệ điều kiện KKT nhiễu!
 
-## Bản đồ kiến thức nền: Bốn mặt trận ứng dụng của Phương pháp chắn (2022–2026)
+## Kiến thức cần nhớ: Bốn mặt trận ứng dụng của Phương pháp chắn (2022–2026)
 
 - **Clarabel và hệ sinh thái bộ giải nón hiện đại:** Bộ giải mã nguồn mở Clarabel xử lý đồng thời LP, QP, SOCP, SDP và nón hàm mũ bằng thuật toán điểm trong thuần nhất tự đối ngẫu — kế thừa trực tiếp lý thuyết hàm chắn tự hài hòa của mục 15-08.
 - **Tối ưu danh mục tài chính & Điều khiển MPC thời gian thực:** Các bài toán phân bổ tài sản có ràng buộc rủi ro phương sai và bài toán điều khiển quỹ đạo (như hạ cánh tên lửa SpaceX hay xe tự hành) đều được giải ở tần số hàng chục Hz nhờ bộ giải điểm trong khai thác độ thưa của Hessian.
 - **Hàm chắn trong Học tăng cường an toàn (Safe RL) & Control Barrier Functions (CBF):** Thay vì để robot vi phạm giới hạn an toàn rồi mới phạt, hàm chắn logarit/CBF tạo lực đẩy trơn giữ trạng thái robot luôn nằm chặt bên trong tập an toàn suốt quá trình học!
 - **Lớp tối ưu khả vi (DiffOpt / OptNet / CvxpyLayers):** Bằng cách áp dụng định lý hàm ẩn ngay lên hệ phương trình KKT (hoặc KKT nhiễu trên đường trung tâm), ta truyền ngược gradient (backpropagation) xuyên qua cả một bộ giải tối ưu lồi nằm giữa mạng nơ-ron!
 
-### Khung giải thích (nên đọc chậm): Tính đạo hàm ngược xuyên qua điểm đường trung tâm (trực giác Differentiable Optimization)
+### Giải thích: Tính đạo hàm ngược xuyên qua điểm đường trung tâm (trực giác Differentiable Optimization)
 
 Giả sử một tầng mạng nơ-ron nhận tham số đầu vào $$c > 0$$ và giải bài toán chắn 1 chiều để xuất ra hành động $$x^*(c) > 0$$:
 $$x^*(c) = \arg\min_{x > 0} \bigl(c x - \log x\bigr) \qquad (\text{tức } t = 1, \text{ ràng buộc an toàn } x > 0).$$

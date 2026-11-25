@@ -16,7 +16,7 @@ Bạn vừa đi qua gần một phần tư chặng đường đồ sộ nhất c
 
 Nếu từng chương riêng lẻ giống như những mảnh ghép tinh xảo, thì bài ôn tập tổng hợp này chính là lúc ta **lùi lại nhìn toàn bộ bức tranh ghép hình**: bạn sẽ thấy mọi định lý ở Chương 06 thực chất đều mọc rễ trực tiếp từ tập lồi của Chương 02 và hàm lồi của Chương 03!
 
-## Bản đồ kiến thức nền: Sợi chỉ đỏ xuyên suốt từ Chương 00 đến Chương 06
+## Kiến thức cần nhớ: Sợi chỉ đỏ xuyên suốt từ Chương 00 đến Chương 06
 
 Hãy xâu chuỗi toàn bộ 7 chương đầu thành bốn cầu nối không thể tách rời:
 
@@ -25,7 +25,7 @@ Hãy xâu chuỗi toàn bộ 7 chương đầu thành bốn cầu nối không t
 - **Cầu nối 3 (Chương 04 → 05): Từ Phép biến đổi tương đương đến Hệ phân cấp Nón.** Kỹ thuật đổi biến, thêm biến phụ, epigraph và bổ đề Schur ở Chương 04 chính là cầu nối chứng minh $$\text{LP} \subset \text{QP} \subset \text{QCQP} \subset \text{SOCP} \subset \text{SDP} \subset \text{CP}$$ và vận hành bộ biên dịch DCP của CVXPY.
 - **Cầu nối 4 (Chương 03 → 06): Từ Cận dưới/Cận trên bậc hai đến Tốc độ Thuật toán.** Tính $$L$$-trơn và tính lồi mạnh $$m$$ của hàm lồi quyết định trọn vẹn tốc độ hội tụ của Gradient Descent ($$O(1/k)$$ vs. $$O((1 - m/L)^k)$$), Momentum và SGD!
 
-### Khung giải thích (nên đọc chậm): Giải phẫu trọn gói một bài toán duy nhất qua ống kính cả 7 chương
+### Giải thích: Giải phẫu trọn gói một bài toán duy nhất qua ống kính cả 7 chương
 
 Xét bài toán Hồi quy Ridge: $$\min_{w \in \mathbb{R}^2} \; f(w) = \frac{1}{2}\|Xw - y\|_2^2 + \frac{1}{2}\|w\|_2^2$$ với $$X = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix},\; y = \begin{pmatrix} 2 \\ 5 \end{pmatrix}$$:
 

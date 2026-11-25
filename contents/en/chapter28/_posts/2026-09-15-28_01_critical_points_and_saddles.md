@@ -12,14 +12,14 @@ lesson_type: required
 
 When gradient descent slows to a crawl and $$\|\nabla F(w)\|_2 \approx 0$$, you might assume you have arrived at a valley floor. In high dimensions, that assumption is almost always wrong: you are far more likely perched on a mountain pass—a **saddle point** where the terrain slopes upward along some eigenvectors of the Hessian and downward along others. Classifying critical points cleanly through the Hessian spectrum is the first step toward designing optimizers that refuse to stall on high-dimensional passes.
 
-## Background Knowledge Map: Hessian Spectrum and Critical-Point Taxonomy
+## Key ideas: Hessian Spectrum and Critical-Point Taxonomy
 
 - **Second-Order Taylor Model:** Near any critical point $$w$$ where $$\nabla F(w) = 0$$, the landscape looks locally quadratic: $$F(w + \Delta) \approx F(w) + \frac{1}{2}\Delta^\top H \Delta$$, where $$H = \nabla^2 F(w)$$ is symmetric with real eigenvalues $$\lambda_1 \le \dots \le \lambda_d$$.
 - **Strict Saddles vs. Degenerate Saddles:** A critical point is a *strict saddle* if $$\lambda_{\min}(H) < 0$$—meaning there is a clear quadratic escape direction along the corresponding eigenvector. If $$\lambda_{\min}(H) = 0$$ (degenerate/monkey saddle), second derivatives are inconclusive and higher-order derivatives dictate geometry.
 - **Second-Order Necessary & Sufficient Conditions:** Every local minimum satisfies $$\nabla F(w) = 0$$ and $$H \succeq 0$$ (necessary); conversely, $$\nabla F(w) = 0$$ and $$H \succ 0$$ guarantees a strict local minimum (sufficient).
 - **The Saddle-to-Minimum Ratio in High Dimensions:** In random Gaussian landscapes (Dauphin et al. 2014), the fraction of critical points that are local minima shrinks like $$2^{-d}$$; nearly every high-loss critical point is a strict saddle with negative curvature waiting to be exploited.
 
-### Step-by-Step Worked Example (Read Slowly): Classifying All Critical Points of a 2D Nonconvex Surface
+### Worked example: Classifying All Critical Points of a 2D Nonconvex Surface
 
 Consider $$F(x, y) = x^3 - 3x + y^2$$.
 

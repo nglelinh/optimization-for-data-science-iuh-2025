@@ -12,14 +12,14 @@ lesson_type: required
 
 Before a pilot can fly by instruments, every dial on the cockpit panel needs an unambiguous name. In convex optimization, confusing the *domain* with the *feasible set*, or an *optimal value* with an *optimal point*, leads directly to broken proofs and silent modeling bugs. This lesson builds the exact vocabulary—feasible points, optimal values, active constraints, and local versus global minimizers—that every subsequent theorem in convex analysis relies on.
 
-## Background Knowledge Map: Core Vocabulary of Convex Programs
+## Key ideas: Core Vocabulary of Convex Programs
 
 1. **Implicit Domain vs. Feasible Set**: Every problem starts with the implicit intersection of function domains $$D = \operatorname{dom}(f) \cap \bigcap_i \operatorname{dom}(g_i) \cap \bigcap_j \operatorname{dom}(h_j)$$. The *feasible set* $$C \subseteq D$$ further filters $$D$$ to points satisfying all inequalities $$g_i(x) \le 0$$ and affine equalities $$h_j(x) = 0$$.
 2. **Optimal Value $$f^\star$$ vs. Optimal Points $$x^\star$$**: The optimal value $$f^\star = \inf_{x \in C} f(x)$$ always exists in $$\mathbb{R} \cup \{-\infty, +\infty\}$$ (with $$+\infty$$ for infeasible problems and $$-\infty$$ for unbounded-below problems). However, an *attaining* optimal point $$x^\star \in C$$ with $$f(x^\star) = f^\star$$ need not exist—for example, minimizing $$e^{-x}$$ over $$\mathbb{R}$$ has $$f^\star = 0$$ with no finite minimizer.
 3. **Active vs. Inactive Inequality Constraints**: At a feasible point $$x$$, an inequality $$g_i(x) \le 0$$ is *active* (binding) if $$g_i(x) = 0$$ and *inactive* (strictly satisfied) if $$g_i(x) < 0$$. Active constraints are the walls you are actually pressed against at the optimum; inactive constraints can be locally ignored without moving $$x^\star$$.
 4. **Local vs. Global Optimality under Convexity**: A point $$x$$ is locally optimal if it minimizes $$f$$ inside some ball $$\|y - x\|_2 \le R$$ intersected with $$C$$. Because every line segment connecting a local minimizer to a strictly better feasible point stays inside $$C$$ and has objective values bounded by convexity, any local minimizer of a convex problem is automatically globally optimal.
 
-### Step-by-Step Worked Example (Read Slowly): Dissecting Domain, Feasibility, and Active Constraints
+### Worked example: Dissecting Domain, Feasibility, and Active Constraints
 
 Consider the one-dimensional convex optimization problem:
 $$\text{minimize} \quad f(x) = -\ln(x) + \frac{1}{2}x^2 \quad \text{subject to} \quad g_1(x) = x - 2 \le 0, \quad g_2(x) = \frac{1}{2} - x \le 0.$$

@@ -12,14 +12,14 @@ lesson_type: required
 
 Imagine you have a budget cap of \$100 and you spend \$73. You can either write the inequality $$x \le 100$$, or you can name the unspent \$27 as a variable $$s = 27 \ge 0$$ and write the clean equation $$x + s = 100$$. That simple accounting move—introducing *slack variables*—is the backbone of the simplex method and interior-point solvers, turning awkward inequalities into structured equations plus simple nonnegativity boxes.
 
-## Background Knowledge Map: Turning Inequalities into Structured Equalities
+## Key ideas: Turning Inequalities into Structured Equalities
 
 1. **Exact Reformulation of Inequalities**: Any inequality $$g_i(x) \le 0$$ is equivalent to introducing a scalar variable $$s_i \ge 0$$ and enforcing $$g_i(x) + s_i = 0$$. In linear programming, $$Gx \le h$$ becomes $$Gx + s = h,\; s \ge 0$$—keeping the equality constraint affine!
 2. **The Convexity Trap for Nonlinear Inequalities**: Warning! If $$g_i(x)$$ is a *nonlinear* convex function (like $$x^2 - 1 \le 0$$), writing $$g_i(x) + s_i = 0$$ creates a *non-affine* equality constraint, which violates the standard convex-program rule. Therefore, slack variables preserve standard convexity **only for affine inequalities** (unless $$s_i$$ is kept in an inequality $$g_i(x) + s_i \le 0$$ or lifted into a cone constraint).
 3. **Physical and Economic Meaning of Slack**: At an optimal solution $$(x^\star, s^\star)$$, the value $$s_i^\star = -g_i(x^\star)$$ measures unused resource or safety margin. When $$s_i^\star = 0$$, the constraint is *active* (a bottleneck); when $$s_i^\star > 0$$, the constraint is *inactive* (surplus capacity exists).
 4. **Enabling Matrix Solvers and Duality**: Converting $$Gx \le h$$ to $$Gx + s = h, s \ge 0$$ lets simplex algorithms solve linear systems $$B x_B = h$$ at every pivot and lets interior-point methods place a clean logarithmic barrier $$-\sum_i \ln(s_i)$$ directly on the nonnegative slacks.
 
-### Step-by-Step Worked Example (Read Slowly): Converting a Production LP to Standard Slack Form
+### Worked example: Converting a Production LP to Standard Slack Form
 
 A small workshop produces $$x_1$$ chairs and $$x_2$$ tables to maximize profit $$3x_1 + 5x_2$$ (equivalently, minimize $$-3x_1 - 5x_2$$) subject to wood and labor limits:
 $$2x_1 + x_2 \le 10, \qquad x_1 + 3x_2 \le 12, \qquad x_1, x_2 \ge 0.$$

@@ -11,14 +11,14 @@ lang: en
 
 In 2016, Dimitris Bertsimas, Angela King, and Rahul Mazumder ignited a spirited debate across statistics and machine learning by showing that Best Subset Selection—minimizing $$\frac{1}{2}\|y - X\beta\|_2^2$$ subject to $$\|\beta\|_0 \le k$$—is no longer limited to $$p = 30$$ variables as in 1970s textbooks. By pairing a tight big-$$M$$ Mixed Integer Quadratic Program (MIQP) with **discrete first-order warm starts** (projected gradient descent onto the $$k$$-sparse set), modern MIP solvers routinely tackle $$p = 1000+$$ predictors with certified optimality gaps.
 
-## Background Knowledge Map: Formulating and Warm-Starting Best Subset Selection
+## Key ideas: Formulating and Warm-Starting Best Subset Selection
 
 - **MIQP Big-$$M$$ Formulation:** Introduce binary switches $$z_j \in \{0, 1\}$$ with $$\sum_{j=1}^p z_j \le k$$ and linking bounds $$-M_j z_j \le \beta_j \le M_j z_j$$. When $$z_j = 0$$, $$\beta_j$$ is forced to zero; when $$z_j = 1$$, $$\beta_j$$ is free within $$[-M_j, M_j]$$.
 - **Data-Driven Tight $$M$$ Bounds:** Guessing $$M = 10^6$$ wrecks the continuous relaxation. Instead, solving small auxiliary convex programs (or using Cauchy–Schwarz bounds from a feasible warm-start objective) produces tight, provably valid $$M_j$$ constants that dramatically strengthen the root lower bound.
 - **Discrete First-Order Algorithm (Iterative Hard Thresholding):** Updating $$\beta^{(m+1)} \in H_k\!\left(\beta^{(m)} - \frac{1}{L} X^\top(X\beta^{(m)} - y)\right)$$, where $$H_k$$ keeps only the $$k$$ largest-magnitude entries, monotonically decreases the objective and converges quickly to a near-optimal $$k$$-sparse incumbent.
 - **Cold Start vs. Warm Start:** Feeding the IHT solution into the MIQP gives an immediate tight primal upper bound $$U$$, allowing Branch and Cut to prune huge swathes of the tree right from node 0.
 
-### Step-by-Step Worked Example (Read Slowly): One Discrete First-Order (IHT) Warm-Start Step
+### Worked example: One Discrete First-Order (IHT) Warm-Start Step
 
 Consider $$X = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{pmatrix}$$, $$y = (4, 2)^\top$$, sparsity budget $$k = 1$$, starting at $$\beta^{(0)} = (0, 0, 0)^\top$$.
 

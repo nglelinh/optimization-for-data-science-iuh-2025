@@ -14,14 +14,14 @@ redirect_from:
 
 Reading a theorem and nodding along feels effortless; spotting a subtle non-affine equality constraint or a hidden violation of convexity under exam pressure is where real mastery shows up. This quiz checkpoints your command of Chapter 04's entire toolkit—from recognizing standard-form convex programs and testing first-order optimality to executing variable transformations, slack reformulations, and convex relaxations.
 
-## Background Knowledge Map: What This Chapter 04 Assessment Tests
+## Key ideas: What This Chapter 04 Assessment Tests
 
 1. **Formulation & Convexity Diagnostics**: Quickly verifying whether an objective $$f$$ and inequality constraints $$g_i$$ are convex and whether all equality constraints $$h_j$$ are strictly affine, as well as distinguishing implicit domains $$D$$ from feasible sets $$C$$.
 2. **Solution-Set Geometry & Uniqueness**: Predicting when $$X_{\mathrm{opt}}$$ is empty, a single point (strict convexity), or a convex face with infinitely many solutions, and applying the local-implies-global theorem.
 3. **First-Order Optimality Verification**: Checking $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ across unconstrained spaces, affine subspaces, and nonnegative orthants without getting tripped up by boundary constraints.
 4. **Equivalent Rewrites & Relaxations**: Identifying which transformations (monotone maps, bijections, partial minimization, affine slacks) preserve exact optimality and which widen the feasible set to provide a lower bound.
 
-### Step-by-Step Worked Example (Read Slowly): Warm-Up Diagnostic Before Starting the Quiz
+### Worked example: Warm-Up Diagnostic Before Starting the Quiz
 
 **Warm-Up Question**: Is the following problem a convex optimization problem in standard form? If not, can it be equivalently rewritten as one?
 $$\min_{x \in \mathbb{R}^2} \quad e^{x_1^2 + x_2^2} \quad \text{subject to} \quad x_1^2 + x_2^2 \le 4, \quad x_1 x_2 = 1.$$

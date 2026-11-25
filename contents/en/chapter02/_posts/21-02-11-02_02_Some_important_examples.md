@@ -12,14 +12,14 @@ lesson_type: required
 
 Just as a chemist learns the periodic table before synthesizing new molecules, an optimization practitioner memorizes a compact catalog of canonical convex sets. Almost every real-world feasible region—whether it is a probability distribution over classes, an uncertainty ellipsoid around a noisy forecast, or a covariance matrix constraint—is built directly from these standard shapes.
 
-## Background Knowledge Map: The Essential Catalog of Convex Sets
+## Key ideas: The Essential Catalog of Convex Sets
 
 - **Linear & Polyhedral Shapes:** Hyperplanes, halfspaces, polyhedra ($$Ax \preceq b, Cx = d$$), and probability simplexes—the geometry of linear programming and categorical probabilities.
 - **Norm-Induced & Ellipsoidal Shapes:** Euclidean balls, $$\ell_1/\ell_\infty$$ norm balls, and ellipsoids—central to regularization (Lasso vs. Ridge) and robust uncertainty sets.
 - **Conic Shapes:** Norm cones (second-order / Lorentz cones), normal cones, and positive semidefinite cones $$\mathbb{S}_+^n$$—the backbone of SOCP and SDP.
 - **Recognizing Structure Fast:** Identifying which canonical set a constraint matches immediately tells you which solver class (LP, QP, SOCP, SDP) can handle it natively.
 
-### Step-by-Step Worked Example (Read Slowly): Testing One Vector Across Three Canonical Convex Sets
+### Worked example: Testing One Vector Across Three Canonical Convex Sets
 
 Test the point $$x = (0.6, 0.4)^T \in \mathbb{R}^2$$ against three fundamental convex sets:
 

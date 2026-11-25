@@ -12,14 +12,14 @@ lesson_type: required
 
 In 1993, R. Tyrrell Rockafellar wrote a sentence that reshaped modern applied mathematics: *"The great watershed in optimization isn't between linearity and nonlinearity, but convexity and nonconvexity."* Chapter 01 opens the door to why that watershed matters—showing how casting an engineering, finance, or machine learning problem in convex form transforms an intractable search through exponential local traps into a reliable, polynomial-time computation.
 
-## Background Knowledge Map: The Architecture of Chapter 01
+## Key ideas: The Architecture of Chapter 01
 
 - **Standard Problem Formulation:** Translating real-world decisions into decision variables $$x$$, an objective $$f_0(x)$$, inequality constraints $$f_i(x) \le 0$$, and equality constraints $$h_j(x) = 0$$.
 - **The Convexity Watershed:** Recognizing when the objective and feasible region are convex so that *every local minimum is automatically a global minimum*.
 - **Modeling vs. Algorithm Selection:** Understanding the two-step workflow of recognizing/reformulating convexity first, then matching problem structure (LP, QP, SOCP, SDP, nonsmooth composite) to specialized solvers.
 - **Historical & Modern Perspective:** Tracing how simplex, ellipsoid, interior-point, and modern first-order splitting methods made convex optimization a universal computational primitive.
 
-### Step-by-Step Worked Example (Read Slowly): Nonconvex Traps vs. Convex Global Certifiability
+### Worked example: Nonconvex Traps vs. Convex Global Certifiability
 
 Compare two 1D unconstrained objectives: $$f_1(x) = x^4 - 4x^2 + x$$ (nonconvex) and $$f_2(x) = x^2 - 4x + 5$$ (convex).
 

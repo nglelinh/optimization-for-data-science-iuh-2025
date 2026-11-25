@@ -13,7 +13,7 @@ Khi Robert Tibshirani giới thiệu hồi quy **Lasso** năm 1996, bài toán n
 
 Chính phát hiện này đã đưa Lasso từ một khái niệm học thuật thành công cụ phân tích dữ liệu tiêu chuẩn trong y sinh, tài chính và học máy quy mô lớn, thường nhanh hơn cả Proximal Gradient và Accelerated Proximal Gradient hàng bậc độ lớn.
 
-## Bản đồ kiến thức nền: Ba trụ cột của Coordinate Descent cho Lasso
+## Kiến thức cần nhớ: Ba trụ cột của Coordinate Descent cho Lasso
 
 Để hiểu trọn vẹn công thức cập nhật chỉ vỏn vẹn một dòng của bài học này, hãy nắm vững ba trụ cột sau:
 
@@ -21,7 +21,7 @@ Chính phát hiện này đã đưa Lasso từ một khái niệm học thuật 
 - **Toán tử co ngưỡng mềm (Soft-Thresholding Operator):** Định nghĩa $$S_\tau(z) = \operatorname{sign}(z)\max(|z| - \tau, 0)$$. Nghiệm tối ưu theo từng tọa độ của Lasso chỉ gồm hai thao tác liên tiếp: (1) tính nghiệm hồi quy bình phương tối thiểu 1 biến trên phần dư riêng, rồi (2) kéo nó về phía $$0$$ một đoạn bằng đúng $$\tau_i = \lambda / \|X_i\|_2^2$$.
 - **Định lý Tseng và Tính thưa tức thì:** Nhờ $$\sum_{i=1}^p |\beta_i|$$ tách được hoàn toàn theo từng biến, Coordinate Descent được đảm bảo hội tụ tới nghiệm tối ưu toàn cục của Lasso. Hơn thế, nhiều hệ số lập tức bằng $$0$$ ngay từ các vòng đầu, mở đường cho kỹ thuật bỏ qua biến không hoạt động (*active set*) ở bài sau.
 
-### Khung giải thích (nên đọc chậm): Tính tay 1 chu trình CD cho Lasso và quan sát ngưỡng sinh tính thưa
+### Giải thích: Tính tay 1 chu trình CD cho Lasso và quan sát ngưỡng sinh tính thưa
 
 Ta giữ nguyên ma trận $$X$$ và vector $$y$$ từ bài trước để so sánh trực tiếp hồi quy tuyến tính thường với Lasso:
 

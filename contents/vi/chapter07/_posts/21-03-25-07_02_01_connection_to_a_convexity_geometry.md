@@ -13,7 +13,7 @@ Làm thế nào để biến một bài toán tối ưu **có ràng buộc** $$\
 
 Khi viết lại bài toán thành $$\min_{x \in \mathbb{R}^n} \big(f(x) + I_C(x)\big)$$, một câu hỏi tuyệt đẹp lập tức hiện ra: *vi phân dưới $$\partial I_C(x)$$ của hàm chỉ thị trông như thế nào?* Bổ đề trong bài học này chứng minh một kết nối hình học ngoạn mục: **$$\partial I_C(x)$$ chính xác là Nón pháp tuyến (Normal Cone) $$N_C(x)$$ của tập lồi $$C$$ tại $$x$$**!
 
-## Bản đồ kiến thức nền: Nhịp cầu giữa Giải tích Subgradient và Hình học Tập lồi
+## Kiến thức cần nhớ: Nhịp cầu giữa Giải tích Subgradient và Hình học Tập lồi
 
 Ba trụ cột dưới đây giải thích trọn vẹn sức mạnh của đẳng thức $$\partial I_C(x) = N_C(x)$$:
 
@@ -26,7 +26,7 @@ Ba trụ cột dưới đây giải thích trọn vẹn sức mạnh của đẳ
   $$I_C(y) \ge 0 + g^T(y - x) \; \forall y \in \mathbb{R}^n.$$
   Với $$y \notin C$$, vế trái là $$+\infty$$ nên luôn đúng; với $$y \in C$$, vế trái là $$0$$ nên điều kiện rút gọn thành $$g^T(y - x) \le 0 \; \forall y \in C$$ — chính xác là định nghĩa $$g \in N_C(x)$$!
 
-### Khung giải thích (nên đọc chậm): Tính tường minh Nón pháp tuyến $$N_C(x) = \partial I_C(x)$$ trên hình vuông đơn vị
+### Giải thích: Tính tường minh Nón pháp tuyến $$N_C(x) = \partial I_C(x)$$ trên hình vuông đơn vị
 
 Xét tập lồi $$C = [0, 1] \times [0, 1] \subset \mathbb{R}^2$$ (hình vuông đơn vị):
 

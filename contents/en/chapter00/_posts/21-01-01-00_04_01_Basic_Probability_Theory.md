@@ -11,14 +11,14 @@ lang: en
 
 Suppose a factory sensor flags a turbine blade as defective with 90% sensitivity and a 10% false-alarm rate, while true defects occur in only 5% of blades. Should you shut down the production line immediately? Intuition often misfires on base rates, whereas Kolmogorov's probability axioms and Bayes' theorem give the exact posterior probability needed to weigh shutdown costs against failure risks in an optimization decision.
 
-## Background Knowledge Map: Axiomatic Probability for Decision-Making
+## Key ideas: Axiomatic Probability for Decision-Making
 
 - **Sample Space, Events & Kolmogorov Axioms:** Non-negativity, unit total probability, and countable additivity enforce mathematical consistency across all probabilistic models and chance constraints.
 - **Conditional Probability & Law of Total Probability:** Decompose complex uncertainties across mutually exclusive scenarios via $$P(A) = \sum_i P(A \mid B_i)P(B_i)$$.
 - **Bayes' Theorem:** Updates prior beliefs into posterior probabilities after observing data—the cornerstone of Bayesian inference, MAP estimation, and online decision-making.
 - **Expectation & Variance:** Summarize random payoffs and risk; in stochastic optimization, $$\mathbb{E}[X]$$ often drives the objective while $$\text{Var}(X)$$ enters risk-aversion penalties.
 
-### Step-by-Step Worked Example (Read Slowly): Bayes' Theorem on a Rare-Defect Sensor Alarm
+### Worked example: Bayes' Theorem on a Rare-Defect Sensor Alarm
 
 Let $$D$$ be the event that a blade is defective ($$P(D) = 0.05$$, so $$P(D^c) = 0.95$$), and let $$+$$ be a positive alarm with $$P(+ \mid D) = 0.90$$ and $$P(+ \mid D^c) = 0.10$$.
 

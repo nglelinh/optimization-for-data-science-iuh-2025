@@ -11,7 +11,7 @@ lang: vi
 
 Trong phương pháp chắn cổ điển, mỗi khi tăng $$t$$ lên $$\mu t$$, ta phải dừng lại giữa đường để giải chính xác bài toán định tâm bằng nhiều bước Newton — giống như một người leo núi cứ đi được vài chục mét lại dựng lều đo đạc lại bản đồ thật tỉ mỉ. Phương pháp điểm trong gốc–đối ngẫu đặt ra một triết lý táo bạo hơn hẳn: **vừa bước đi, vừa chỉnh hướng**, cập nhật đồng thời cả $$(x, u, v)$$ bằng duy nhất một bước Newton mà thậm chí không cần bắt buộc điểm hiện tại phải nằm sẵn trên mặt phẳng khả thi $$Ax = b$$.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép tạo nên lợi thế của PD-IPM
+## Kiến thức cần nhớ: Bốn mảnh ghép tạo nên lợi thế của PD-IPM
 
 Để hiểu đúng bảng so sánh giữa phương pháp chắn và phương pháp điểm trong gốc–đối ngẫu, hãy tách riêng bốn khía cạnh thiết kế thuật toán:
 
@@ -20,7 +20,7 @@ Trong phương pháp chắn cổ điển, mỗi khi tăng $$t$$ lên $$\mu t$$, 
 - **Định hướng đồng thời gốc–đối ngẫu (Coupled Primal-Dual Direction):** Bước Newton của PD-IPM lấy thông tin độ cong từ cả $$\nabla^2 f(x)$$ lẫn các biến đối ngẫu $$u$$, giúp hướng đi bám đường trung tâm mượt hơn và tránh hiện tượng lệch hướng khi tiến gần biên.
 - **Tốc độ hội tụ siêu tuyến tính thực tiễn:** Khi đủ gần nghiệm tối ưu và giảm $$\tau$$ linh hoạt theo khoảng cách đối ngẫu hiện tại, PD-IPM thường đạt hội tụ siêu tuyến tính (thậm chí bậc hai trong các biến thể predictor-corrector), vượt xa tốc độ tuyến tính của phương pháp chắn thuần túy.
 
-### Khung giải thích (nên đọc chậm): Quan sát một điểm lặp không khả thi vẫn có thể "tự kéo" về miền khả thi
+### Giải thích: Quan sát một điểm lặp không khả thi vẫn có thể "tự kéo" về miền khả thi
 
 Xét bài toán quy hoạch bậc hai 2 biến:
 

@@ -11,14 +11,14 @@ lang: en
 
 Writing out both the linear term $$u^T(Ax + Bz - c)$$ and the quadratic term $$\frac{\rho}{2}\|Ax + Bz - c\|_2^2$$ in every ADMM derivation is clutter waiting to cause a sign error. Simply defining the **scaled dual variable** $$w = u / \rho$$ and completing the square folds both terms into a single clean squared norm $$\frac{\rho}{2}\|Ax + Bz - c + w\|_2^2$$! Not only is scaled ADMM far easier to memorize and code, it also reveals what $$w^{(k)}$$ really is: the **running cumulative sum of all past primal residuals**.
 
-## Background Knowledge Map: Completing the Square in Scaled ADMM
+## Key ideas: Completing the Square in Scaled ADMM
 
 - **Scaled Dual Variable ($$w = u / \rho$$):** Absorbing the linear Lagrangian term into the quadratic penalty via $$u^T r + \frac{\rho}{2}\|r\|_2^2 = \frac{\rho}{2}\|r + w\|_2^2 - \frac{\rho}{2}\|w\|_2^2$$ eliminates the cross-term completely (since $$-\frac{\rho}{2}\|w\|_2^2$$ does not depend on $$x$$ or $$z$$).
 - **Running Sum of Residuals:** The dual update simplifies to $$w^{(k)} = w^{(k-1)} + (Ax^{(k)} + Bz^{(k)} - c) = w^{(0)} + \sum_{j=1}^k r^{(j)}$$—literally an integral controller (the "I" term in PID control!) accumulating past constraint violations until they cancel out.
 - **Direct Bridge to Proximal Operators:** When $$A = I, B = -I, c = 0$$, the scaled $$x$$- and $$z$$-updates become pure proximal operators: $$x^{(k)} = \operatorname{prox}_{f/\rho}(z^{(k-1)} - w^{(k-1)})$$ and $$z^{(k)} = \operatorname{prox}_{g/\rho}(x^{(k)} + w^{(k-1)})$$.
 - **Exact Algebraic Equivalence:** Scaled and unscaled ADMM produce the *exact* same primal iterates $$(x^{(k)}, z^{(k)})$$ at every step; scaled form is strictly preferred in practice for cleaner implementation and numerical readability.
 
-### Step-by-Step Worked Example (Read Slowly): Solving a Constrained Box-Quadratic via Scaled ADMM
+### Worked example: Solving a Constrained Box-Quadratic via Scaled ADMM
 
 Minimize $$\frac{1}{2}(x - 3)^2$$ subject to $$x \in [0, 1]$$ by splitting $$\min_{x,z} \frac{1}{2}(x - 3)^2 + I_{[0,1]}(z)$$ s.t. $$x - z = 0$$ (exact optimum $$x^\star = z^\star = 1$$). Use scaled ADMM with $$\rho = 2$$ starting from $$z^0 = 0, \; w^0 = 0$$.
 

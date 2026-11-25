@@ -13,14 +13,14 @@ Hãy hình dung bạn đang đứng trong một căn phòng và muốn nhìn th�
 
 Chương 02 xây dựng toàn bộ hình học của không gian tìm kiếm lồi — từ đoạn thẳng, siêu phẳng, đa diện, hình nón bán xác định dương cho tới các định lý phân tách và hình nón đối ngẫu.
 
-## Bản đồ kiến thức nền: Bốn nhánh hình học của Chương 02
+## Kiến thức cần nhớ: Bốn nhánh hình học của Chương 02
 
 - **Phân cấp tổ hợp tuyến tính:** Từ đường thẳng (tập affine) $$\to$$ đoạn thẳng (tập lồi) $$\to$$ tia không âm (hình nón lồi), chỉ bằng cách thêm dần các ràng buộc đơn giản lên trọng số $$\theta_i$$.
 - **Kho tàng các tập lồi kinh điển:** Siêu phẳng, nửa không gian, đa diện (LP), hình cầu chuẩn và ellipsoid (SOCP/QP), và hình nón ma trận bán xác định dương $$\mathbb{S}_+^n$$ (SDP).
 - **Phép toán bảo toàn tính lồi:** Cách kiểm chứng một miền khả thi phức tạp là lồi mà không cần chứng minh trực tiếp từ định nghĩa, thông qua giao, ánh xạ affine và ánh xạ phối cảnh.
 - **Phân tách, hỗ trợ và đối ngẫu hình học:** Định lý siêu phẳng phân tách và hình nón đối ngẫu — chiếc cầu hình học trực tiếp dẫn tới lý thuyết đối ngẫu Lagrange và điều kiện KKT ở các chương sau.
 
-### Khung giải thích (nên đọc chậm): Phân biệt tập lồi và tập không lồi trên mặt phẳng $$\mathbb{R}^2$$
+### Giải thích: Phân biệt tập lồi và tập không lồi trên mặt phẳng $$\mathbb{R}^2$$
 
 So sánh hai miền trong $$\mathbb{R}^2$$: hình vuông đơn vị $$C = [0, 1]^2$$ và hình chữ L $$S = [0, 2]^2 \setminus (1, 2]^2$$:
 

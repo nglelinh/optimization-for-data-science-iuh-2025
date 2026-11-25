@@ -14,7 +14,7 @@ Nếu có một thuật toán duy nhất xứng đáng được gọi là "đòn
 
 Bí mật kinh tế phi thường của chế độ nghịch nằm ở định lý Baur–Strassen (1983): dù hàm mất mát vô hướng $$\ell(w)$$ phụ thuộc vào **100 tỷ tham số**, chỉ cần chạy một lượt thuận lưu lại các giá trị trung gian rồi đi ngược đồ thị đúng **một lần duy nhất**, ta thu được toàn bộ 100 tỷ đạo hàm riêng với tổng chi phí phép tính không quá $$4$$–$$5$$ lần chi phí lượt thuận! Không có định lý này, mọi mô hình AI hiện đại đều sẽ mất hàng thiên niên kỷ để tính nổi một bước gradient.
 
-## Bản đồ kiến thức nền: Ba trụ cột của AD chiều nghịch và Lan truyền ngược
+## Kiến thức cần nhớ: Ba trụ cột của AD chiều nghịch và Lan truyền ngược
 
 Để làm chủ hoàn toàn cơ chế của `loss.backward()` trong PyTorch và `jax.grad`, hãy nắm chắc ba trụ cột sau:
 
@@ -22,7 +22,7 @@ Bí mật kinh tế phi thường của chế độ nghịch nằm ở định l
 - **Tích Vector–Jacobian (VJP) và Chi phí $$O(m)$$:** Một lượt nghịch tính chính xác $$\bar{y}^T J_f(x)$$ (một tổ hợp tuyến tính các *hàng* của Jacobian). Khi đầu ra là hàm mất mát vô hướng ($$m = 1$$), chỉ cần đúng **1 lượt nghịch** để lấy toàn bộ gradient $$\nabla_w \ell \in \mathbb{R}^n$$ — độc lập hoàn toàn với $$n$$!
 - **Đánh đổi Bộ nhớ – Tính toán (Memory Wall & Gradient Checkpointing):** Điểm yếu duy nhất của chế độ nghịch là phải giữ lại các giá trị kích hoạt trung gian từ lượt thuận (ví dụ $$v_1, v_2$$ trong phép nhân $$v_1 v_2$$) cho tới khi lượt nghịch dùng xong. Khi huấn luyện mạng rất sâu, kỹ thuật *activation checkpointing* chấp nhận bỏ bớt một số nút trung gian rồi tính lại cục bộ lúc đi ngược để tiết kiệm bộ nhớ GPU.
 
-### Khung giải thích (nên đọc chậm): Chạy tay 1 lượt AD chiều nghịch lấy trọn gradient của $$f(x_1, x_2) = x_1 x_2 + e^{x_1}$$
+### Giải thích: Chạy tay 1 lượt AD chiều nghịch lấy trọn gradient của $$f(x_1, x_2) = x_1 x_2 + e^{x_1}$$
 
 Ta dùng lại đúng hàm và điểm $$(x_1, x_2) = (0,\; 3)$$ của Bài 27-02 để đối chiếu trực tiếp với chiều thuận!
 

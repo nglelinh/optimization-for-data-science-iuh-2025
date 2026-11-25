@@ -12,14 +12,14 @@ lesson_type: required
 
 Giving an optimizer the steepest-descent direction without a good step-size rule is like handing a driver a steering wheel with no gas pedal or brake. Step too small and your run burns hours making microscopic progress; step too big and the iterates rocket out of the valley. Section 06-02 compares the three classical step-size strategies—fixed step sizes, backtracking line search, and exact line search—so you know when each one wins.
 
-## Background Knowledge Map: Three Classical Step-Size Paradigms
+## Key ideas: Three Classical Step-Size Paradigms
 
 1. **Fixed Step Size ($$t_k = t$$)**: Zero extra function evaluations per iteration and trivial to implement, provided you know (or can bound) the global smoothness constant $$L$$ so that $$t \le 1/L$$. Fails or crawls when curvature varies wildly across the domain.
 2. **Backtracking (Armijo) Line Search**: Starts each iteration with an optimistic step $$t = 1$$ and shrinks $$t \leftarrow \beta t$$ (with $$\beta \in (0, 1)$$) until the sufficient-decrease test $$f(x - t\nabla f(x)) \le f(x) - \alpha t\|\nabla f(x)\|_2^2$$ passes. Adapts automatically to *local* curvature without ever needing to know $$L$$!
 3. **Exact Line Search**: Solves the 1D subproblem $$t_k = \arg\min_{s \ge 0} f(x_k - s\nabla f(x_k))$$ at every step. Achieves the steepest single-step drop (and makes consecutive steps orthogonal), but is only economical when the 1D minimization has a closed form—most notably for quadratic objectives.
 4. **Cost-per-Iteration vs. Iteration-Count Trade-Off**: Fixed steps have the cheapest iterations; exact line search takes the fewest iterations (on well-behaved quadratics); backtracking hits the practical sweet spot for general smooth convex objectives.
 
-### Step-by-Step Worked Example (Read Slowly): Comparing All Three Rules on One Quadratic Step
+### Worked example: Comparing All Three Rules on One Quadratic Step
 
 Minimize $$f(x) = \frac{1}{2}(x_1^2 + 9x_2^2)$$ from $$x^{(0)} = (3, 1)$$, where $$\nabla f(x^{(0)}) = (3, 9)$$ and $$f(x^{(0)}) = \frac{1}{2}(9 + 9) = 9$$.
 

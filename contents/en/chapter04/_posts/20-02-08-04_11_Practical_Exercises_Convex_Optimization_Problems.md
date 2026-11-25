@@ -14,14 +14,14 @@ redirect_from:
 
 Theory tells you *why* a convex problem has a global optimum; hands-on reformulation teaches you *how* to bend a messy real-world specification into a form a solver can actually ingest. In this practical workshop, you will convert mixed constraints, minimax objectives, robust least-squares models, and nonconvex relaxations step by step—building the exact modeling reflexes used in research and production optimization.
 
-## Background Knowledge Map: Practical Reformulation Toolkit
+## Key ideas: Practical Reformulation Toolkit
 
 1. **Epigraph Lifting for Nonsmooth Objectives**: Objectives containing $$\max_i f_i(x)$$ or $$\|Ax - b\|_\infty$$ are converted to smooth constraints by introducing a scalar variable $$t$$, minimizing $$t$$, and imposing $$f_i(x) \le t$$ for every $$i$$.
 2. **Standardizing Mixed Constraints**: Greater-than inequalities $$a^T x \ge b$$ flip to $$-a^T x + b \le 0$$; free variables split into $$x = x^+ - x^-$$ with $$x^+, x^- \ge 0$$ when nonnegativity is required; and affine inequalities convert to equalities via nonnegative slacks.
 3. **First-Order Optimality as a Solver Check**: Before trusting numerical output from any solver, plug the candidate $$x^\star$$ into $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ (or check complementary slackness on box/orthant constraints) to certify optimality by hand.
 4. **Convex Surrogates and Relaxations**: When an exercise includes cardinality, rank, or non-affine equality constraints, replace them with their tightest convex envelopes (e.g., $$\ell_1$$ norm for $$\ell_0$$, or $$g(x) \le 0$$ for $$g(x) = 0$$) and check whether the relaxed solution is feasible for the original problem.
 
-### Step-by-Step Worked Example (Read Slowly): Epigraph Reformulation of a Minimax Linear Problem
+### Worked example: Epigraph Reformulation of a Minimax Linear Problem
 
 Before tackling the exercises below, practice the epigraph trick on:
 $$\min_{x \in \mathbb{R}} \quad \max\{2x - 1,\; -x + 5,\; 3\}.$$

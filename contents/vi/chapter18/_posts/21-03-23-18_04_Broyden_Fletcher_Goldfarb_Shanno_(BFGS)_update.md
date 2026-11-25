@@ -11,7 +11,7 @@ lang: vi
 
 Năm 1970, một sự trùng hợp kỳ diệu xảy ra trong lịch sử tối ưu hóa: bốn nhà toán học — Charles Broyden, Roger Fletcher, Donald Goldfarb và David Shanno — đã độc lập công bố cùng một công thức cập nhật chỉ trong vòng vài tháng! Họ đơn giản chỉ hoán đổi vai trò của $$B$$ và $$H$$ trong công thức DFP, đặt bài toán "thay đổi ít nhất" lên ma trận nghịch đảo $$H^+$$ thay vì $$B^+$$. Thế nhưng sự hoán đổi tưởng chừng đối xứng hoàn toàn ấy lại tạo ra **thuật toán Quasi-Newton thành công nhất mọi thời đại**: BFGS tự hiệu chỉnh sai số độ cong vượt trội hơn hẳn DFP và vẫn là bộ giải mặc định trong `scipy.optimize` suốt hơn nửa thế kỷ.
 
-## Bản đồ kiến thức nền: Vì sao BFGS trở thành tiêu chuẩn vàng của tối ưu hóa trơn?
+## Kiến thức cần nhớ: Vì sao BFGS trở thành tiêu chuẩn vàng của tối ưu hóa trơn?
 
 Bốn trụ cột sau giải thích sức mạnh cả về đại số lẫn thực nghiệm của công thức BFGS:
 
@@ -20,7 +20,7 @@ Bốn trụ cột sau giải thích sức mạnh cả về đại số lẫn th�
 - **Khả năng tự hiệu chỉnh (Self-Correcting Property):** Khi xấp xỉ Hessian $$B_k$$ dự đoán độ cong quá lớn (hoặc $$H_k$$ có trị riêng quá nhỏ làm bước đi bị kẹt), BFGS tự động sửa lại trị riêng xấu chỉ sau vài vòng lặp dưới tìm kiếm đường thẳng không chính xác, trong khi DFP có thể ì ạch rất lâu.
 - **Nền tảng cho L-BFGS quy mô lớn:** Dạng nhân hai bên $$H^+ = V^T H V + \rho s s^T$$ cho phép khai triển đệ quy $$H_k \nabla f_k$$ mà không cần lưu ma trận $$n \times n$$ — chìa khóa trực tiếp dẫn sang L-BFGS ở bài 18-07.
 
-### Khung giải thích (nên đọc chậm): Tính tay một bước BFGS trên đúng dữ liệu bài DFP và so sánh trực tiếp
+### Giải thích: Tính tay một bước BFGS trên đúng dữ liệu bài DFP và so sánh trực tiếp
 
 Dùng lại đúng dữ liệu ở bài 18-03: $$B_0 = H_0 = I$$, $$s = (1, 0)^T$$, $$y = (2, 1)^T$$ ($$y^T s = 2 \implies \rho = 0.5$$):
 

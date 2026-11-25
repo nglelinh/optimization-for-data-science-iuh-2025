@@ -11,14 +11,14 @@ lang: en
 
 If you tried to apply Newton's method directly to the *unperturbed* KKT conditions, the complementarity equations $$u_i h_i(x) = 0$$ would form sharp L-shaped kinks at the boundary, trapping iterates on the wrong active face. By perturbing the right-hand side to $$u_i h_i(x) = -\tau$$, those kinks melt into smooth hyperbolas whose Jacobian is nonsingular everywhere in the strict interior. This lesson builds that exact residual map $$r_\tau(x, u, v)$$ and its block-structured Newton linear system.
 
-## Background Knowledge Map: Linearizing the Perturbed KKT Map
+## Key ideas: Linearizing the Perturbed KKT Map
 
 - **Perturbed KKT Residual Map:** Stacking stationarity, perturbed complementarity, and equality feasibility into $$r_\tau(x, u, v) = [r_{\text{dual}}; r_{\text{cent}}; r_{\text{prim}}]$$ converts a constrained optimization problem into a smooth square system of $$n + m + p$$ nonlinear equations in $$n + m + p$$ unknowns.
 - **Root-Finding Newton Linearization:** Expanding $$r_\tau(z + \Delta z) \approx r_\tau(z) + Dr_\tau(z)\,\Delta z = 0$$ yields the primal-dual search direction $$(\Delta x, \Delta u, \Delta v)$$ via a single linear solve $$Dr_\tau(z)\,\Delta z = -r_\tau(z)$$.
 - **Block Structure of the KKT Jacobian:** The derivative $$Dr_\tau$$ combines the Lagrangian Hessian $$\nabla^2 f(x) + \sum_i u_i \nabla^2 h_i(x)$$, the constraint Jacobians $$\nabla h(x)$$ and $$A$$, and the diagonal scaling matrices $$U = \operatorname{diag}(u)$$ and $$H = \operatorname{diag}(h(x))$$.
 - **Schur-Complement Reduction:** Because the complementarity block $$U \nabla h(x)\,\Delta x + H\,\Delta u = -r_{\text{cent}}$$ is diagonal in $$\Delta u$$, solvers eliminate $$\Delta u = -H^{-1}(r_{\text{cent}} + U \nabla h(x)\,\Delta x)$$ analytically, reducing the KKT system to a smaller symmetric system in $$(\Delta x, \Delta v)$$.
 
-### Step-by-Step Worked Example (Read Slowly): Solving the Primal-Dual Newton System by Hand
+### Worked example: Solving the Primal-Dual Newton System by Hand
 
 Consider the 1D quadratic problem $$\min_x \frac{1}{2} x^2 + x$$ subject to $$h(x) = -x \le 0$$ (exact optimum $$x^\star = 0, u^\star = 1$$).
 

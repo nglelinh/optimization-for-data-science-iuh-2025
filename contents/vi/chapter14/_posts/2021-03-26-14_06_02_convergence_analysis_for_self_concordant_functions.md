@@ -13,7 +13,7 @@ lang: vi
 
 Định lý Nesterov–Nemirovskii khẳng định rằng với mọi hàm tự hài hòa, phương pháp Newton có giảm chấn chỉ cần tối đa $$C(\alpha, \beta)\bigl(f(x^{(0)}) - f^\star\bigr) + \log_2\log_2(1/\epsilon)$$ vòng lặp. Toàn bộ độ phức tạp chỉ còn nằm ở đúng hai đại lượng mang ý nghĩa vật lý rõ ràng: khoảng cách hàm ban đầu $$f(x^{(0)}) - f^\star$$ và độ chính xác yêu cầu $$\epsilon$$.
 
-## Bản đồ kiến thức nền: Đọc hiểu định lý Nesterov–Nemirovskii
+## Kiến thức cần nhớ: Đọc hiểu định lý Nesterov–Nemirovskii
 
 - **Cấu trúc hai số hạng quen thuộc nhưng sạch hằng số ẩn:**
   - Số hạng thứ nhất $$C(\alpha, \beta)(f(x^{(0)}) - f^\star)$$ đếm số bước ở giai đoạn giảm chấn, trong đó hằng số $$C(\alpha, \beta)$$ **chỉ phụ thuộc duy nhất vào hai tham số backtracking $$\alpha, \beta$$** mà bạn tự chọn!
@@ -22,7 +22,7 @@ lang: vi
   $$f(x) - f^\star \le \lambda(x)^2 \quad (\text{khi } \lambda(x) \le 0.68).$$
 - **Tại sao định lý này làm thay đổi ngành tối ưu:** Nhờ không chứa $$m, L, M$$, định lý cho phép chứng minh phương pháp điểm trong giải được LP, QP, SOCP và SDP trong thời gian đa thức được đảm bảo chặt chẽ.
 
-### Khung giải thích (nên đọc chậm): Tính cụ thể cận số vòng lặp với tham số backtracking chuẩn
+### Giải thích: Tính cụ thể cận số vòng lặp với tham số backtracking chuẩn
 
 Trong sách của Boyd & Vandenberghe (Chương 9.6), hằng số trong định lý hội tụ hàm tự hài hòa có thể viết tường minh là:
 $$C(\alpha, \beta) = \frac{20 - 8\alpha}{\alpha\beta(1 - 2\alpha)^2} \quad \text{(hoặc cận chặt hơn cỡ } \frac{1}{\gamma}\text{ với } \gamma = \alpha\beta\frac{\eta^2}{1+\eta}\text{)}.$$

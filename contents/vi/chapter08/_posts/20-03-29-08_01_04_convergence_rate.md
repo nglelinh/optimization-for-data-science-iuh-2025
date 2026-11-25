@@ -13,13 +13,13 @@ Có một thực tế phũ phàng mà bất kỳ kỹ sư tối ưu nào cũng s
 
 Điều đặc biệt là tốc độ $$O(1/\epsilon^2)$$ không phải do ta chứng minh kém hay chọn bước chưa khéo. Trong lý thuyết độ phức tạp thông tin của Nemirovski và Yudin, tồn tại các hàm lồi không trơn (trong không gian chiều đủ lớn) mà *không một thuật toán bậc nhất hộp đen nào* chỉ hỏi giá trị hàm và subgradient có thể vượt qua cận dưới $$\Omega(1/\epsilon^2)$$. Nói cách khác, $$O(1/\epsilon^2)$$ vừa là giới hạn, vừa là thành tích tối ưu của lớp bài toán hoàn toàn không trơn.
 
-## Bản đồ kiến thức nền: Ba trụ cột của phân tích tốc độ hội tụ
+## Kiến thức cần nhớ: Ba trụ cột của phân tích tốc độ hội tụ
 
 - **Tối ưu hóa cận trên theo kích thước bước (Step-size Balancing):** Xuất phát từ cận $$f_{\text{best}}^{(k)} - f^* \le \frac{R^2}{2kt} + \frac{G^2 t}{2}$$, ta xem đây là hàm của $$t > 0$$. Dùng bất đẳng thức AM–GM (hoặc lấy đạo hàm theo $$t$$ bằng $$0$$), hai số hạng bằng nhau khi $$t^* = \frac{R}{G\sqrt{k}}$$, cho ra cận nhỏ nhất $$\frac{RG}{\sqrt{k}}$$.
 - **Chuyển đổi giữa tốc độ theo số bước $$k$$ và độ phức tạp theo sai số $$\epsilon$$:** Đặt $$\frac{RG}{\sqrt{k}} \le \epsilon$$ rồi giải tìm $$k$$, ta thu được $$k \ge \frac{R^2 G^2}{\epsilon^2} = O(1/\epsilon^2)$$. Như vậy tốc độ $$O(1/\sqrt{k})$$ theo số bước tương đương chính xác với độ phức tạp $$O(1/\epsilon^2)$$ theo độ chính xác mong muốn.
 - **Định lý cận dưới thông tin (Oracle Complexity Lower Bound):** Trên lớp hàm lồi $$G$$-Lipschitz trong $$\mathbb{R}^n$$ (với $$n$$ lớn), mọi phương pháp bậc nhất chỉ dùng tổ hợp tuyến tính các subgradient quá khứ đều có sai số ít nhất $$\Omega(RG/\sqrt{k})$$. Do đó, muốn phá vỡ rào cản $$O(1/\epsilon^2)$$, ta bắt buộc phải khai thác thêm cấu trúc (tính trơn, tính tách được, hoặc phép toán gần kề).
 
-### Khung giải thích (nên đọc chậm): Tính ngân sách vòng lặp cụ thể cho $$O(1/\epsilon^2)$$ so với $$O(1/\epsilon)$$
+### Giải thích: Tính ngân sách vòng lặp cụ thể cho $$O(1/\epsilon^2)$$ so với $$O(1/\epsilon)$$
 
 Giả sử bài toán có $$R = 10$$ và $$G = 2$$, nên tích $$RG = 20$$.
 

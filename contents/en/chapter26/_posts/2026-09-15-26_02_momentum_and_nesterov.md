@@ -12,14 +12,14 @@ lesson_type: required
 
 Drop a marble down a steep, narrow canyon whose floor slopes gently toward the sea: vanilla gradient descent behaves like a memoryless hiker who bounces violently from wall to wall while creeping painfully slowly down the valley. Give that marble **momentum**—a velocity vector that remembers past gradients—and the alternating cross-canyon forces cancel out while the steady downhill slope compounds. Boris Polyak’s Heavy Ball (1964) and Yurii Nesterov’s lookahead acceleration (1983) turn this physical intuition into an exact quadratic speedup over condition number $$\kappa$$.
 
-## Background Knowledge Map: Conditioning, Heavy Ball, and Nesterov Lookahead
+## Key ideas: Conditioning, Heavy Ball, and Nesterov Lookahead
 
 - **Condition Number $$\kappa = L/\mu$$ and Zig-Zagging:** On an $$L$$-smooth, $$\mu$$-strongly convex quadratic, GD needs $$\eta \le 2/L$$ for stability along the steepest axis, restricting progress along the flattest axis to rate $$1 - O(1/\kappa)$$—requiring $$O(\kappa \log(1/\varepsilon))$$ steps.
 - **Polyak Heavy Ball as a Low-Pass Filter:** Updating $$v_{k+1} = \beta v_k + \nabla f(w_k)$$, $$w_{k+1} = w_k - \eta v_{k+1}$$ cancels oscillating gradient components (high frequency) while amplifying consistent directions by up to $$\frac{1}{1 - \beta}$$, cutting quadratic complexity to $$O(\sqrt{\kappa}\log(1/\varepsilon))$$.
 - **Nesterov Lookahead (NAG):** Instead of evaluating the gradient at $$w_k$$, NAG evaluates $$\nabla f(w_k - \eta \beta v_k)$$ at the *predicted* next position. That lookahead acts as an automatic brake whenever velocity overshoots a valley wall—achieving the provable optimal $$O(1/k^2)$$ convex rate and $$O(\sqrt{\kappa}\log(1/\varepsilon))$$ strongly convex rate.
 - **Stochastic Momentum Caveat:** With noisy minibatch gradients, large $$\beta$$ (e.g., $$0.9$$) smooths noise and accelerates early progress, but does not reduce the asymptotic $$O(\sigma/\sqrt{T})$$ variance rate without step-size decay.
 
-### Step-by-Step Worked Example (Read Slowly): Watching Momentum Cancel Oscillations on an Ill-Conditioned Quadratic
+### Worked example: Watching Momentum Cancel Oscillations on an Ill-Conditioned Quadratic
 
 Consider the narrow canyon $$f(x, y) = \frac{1}{2}(x^2 + 9 y^2)$$ (so $$\mu = 1$$, $$L = 9$$, $$\kappa = 9$$, optimum $$(0, 0)$$). Start at $$(x_0, y_0) = (9, 1)$$ with velocity $$v_0 = (0, 0)$$. Take $$\eta = 0.2$$ (note $$\eta = 0.2 < 2/9 \approx 0.222$$ is stable for GD) and compare vanilla GD vs. Heavy Ball ($$\beta = 0.5$$) for 2 steps.
 

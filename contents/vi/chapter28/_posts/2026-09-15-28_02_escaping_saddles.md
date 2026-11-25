@@ -14,7 +14,7 @@ Biết rằng điểm yên ngựa chặt *luôn có lối thoát* về mặt to�
 
 Thế nhưng chỉ cần một cú huých cực nhỏ — **nhiễu ngẫu nhiên từ minibatch SGD** hoặc một lượng nhiễu Gaussian đẳng hướng nhỏ (Perturbed GD) — là đủ để biến thời gian hàm mũ thành thời gian đa thức! Và sau khi thoát yên ngựa để đáp xuống đáy cực tiểu, một câu hỏi hình học thứ hai lập tức xuất hiện: *giữa hai cực tiểu cùng có mất mát huấn luyện bằng 0, vì sao đáy phẳng (flat minimum) lại tổng quát hóa tốt hơn đáy sắc (sharp minimum)?*
 
-## Bản đồ kiến thức nền: Ba trụ cột của cơ chế Thoát yên ngựa và Hình học đáy cực tiểu
+## Kiến thức cần nhớ: Ba trụ cột của cơ chế Thoát yên ngựa và Hình học đáy cực tiểu
 
 Bài học này nối kết động lực học tối ưu với khả năng tổng quát hóa thông qua ba trụ cột sau:
 
@@ -22,7 +22,7 @@ Bài học này nối kết động lực học tối ưu với khả năng tổ
 - **Chi phí và Quy mô của các cơ chế thoát yên ngựa:** SGD thoát yên ngựa tự nhiên nhờ phương sai minibatch; Perturbed GD thêm nhiễu chủ động khi $$\|\nabla F\|$$ nhỏ để có bảo đảm lý thuyết; còn các phương pháp khai thác độ cong âm (Hessian–vector product) tìm thẳng hướng thoát nhưng tốn kém hơn trong thực tế mạng lớn.
 - **Cực tiểu phẳng vs. Cực tiểu sắc (Flat vs. Sharp Minima):** Khi phân phối tập test hơi dịch chuyển so với tập train (tương đương bề mặt hàm mất mát dịch ngang một đoạn $$\delta$$), mức tăng sai số tỉ lệ thuận với trị riêng lớn nhất của Hessian $$\frac{1}{2}\lambda_{\max} \delta^2$$. Do đó, các đáy phẳng ($$\lambda_{\max}$$ nhỏ, mục tiêu của SAM và SGD lô nhỏ) có sức chống chịu phân phối lệch vượt trội.
 
-### Khung giải thích (nên đọc chậm): Tính tay tốc độ thoát yên ngựa và độ nhạy của đáy sắc vs. đáy phẳng
+### Giải thích: Tính tay tốc độ thoát yên ngựa và độ nhạy của đáy sắc vs. đáy phẳng
 
 Hãy tự tay kiểm chứng cả hai hiện tượng cốt lõi của bài học bằng hai phép tính ngắn gọn:
 

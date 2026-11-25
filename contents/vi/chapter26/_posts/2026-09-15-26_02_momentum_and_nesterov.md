@@ -14,7 +14,7 @@ Hãy hình dung một viên bi nặng lăn xuống một hẻm núi hình lòng 
 
 Năm 1964, Boris Polyak mượn trực giác từ cơ học cổ điển để đề xuất **phương pháp quả cầu nặng (Heavy Ball / Momentum)**: cho viên bi giữ lại một phần vận tốc cũ $$\beta v_k$$. Các lực đập qua đập lại giữa hai vách núi ngược dấu nhau nên tự triệt tiêu, còn lực kéo xuôi dọc đáy hẻm cùng dấu nhau nên cộng hưởng mạnh mẽ! Gần hai thập kỷ sau, Yurii Nesterov (1983) tinh chỉnh thêm một bước thiên tài: **nhìn trước một đoạn theo quán tính rồi mới đo độ dốc**, giúp phanh kịp trước khi lao quá đà lên vách núi đối diện.
 
-## Bản đồ kiến thức nền: Ba trụ cột hình học của Momentum và Nesterov
+## Kiến thức cần nhớ: Ba trụ cột hình học của Momentum và Nesterov
 
 Bài học này giải thích sức mạnh của động lượng qua lăng kính trực giác của bài viết Distill nổi tiếng:
 
@@ -22,7 +22,7 @@ Bài học này giải thích sức mạnh của động lượng qua lăng kín
 - **Lọc thông thấp của Heavy Ball ($$\sqrt{\kappa}$$ Speedup):** Động lượng đóng vai trò bộ lọc thông thấp đối với dãy gradient: thành phần đổi dấu liên tục (tần số cao) bị dập tắt, thành phần cùng hướng (tần số thấp) được khuếch đại lên tới $$\frac{1}{1-\beta}$$ lần, rút số bước cần thiết từ $$O(\kappa)$$ xuống $$O(\sqrt{\kappa})$$!
 - **Cơ chế "Nhìn trước để phanh" của Nesterov (NAG):** Thay vì tính gradient tại $$w_k$$ rồi mới cộng quán tính $$\beta v_k$$, Nesterov tính gradient tại điểm dự đoán $$w_k + \beta v_k$$. Nếu quán tính sắp đưa điểm lặp vượt qua đáy thung lũng, gradient tại điểm nhìn trước lập tức đổi dấu để kéo ngược lại, tạo ra lực giảm chấn thông minh hơn Heavy Ball trên các hàm lồi tổng quát.
 
-### Khung giải thích (nên đọc chậm): So sánh tay 2 bước GD thuần và Momentum trên hẻm hẹp $$\kappa = 9$$
+### Giải thích: So sánh tay 2 bước GD thuần và Momentum trên hẻm hẹp $$\kappa = 9$$
 
 Xét hàm bậc hai 2 chiều có một phương phẳng ($$\lambda_1 = 1$$) và một phương dốc gấp 9 lần ($$\lambda_2 = 9$$):
 

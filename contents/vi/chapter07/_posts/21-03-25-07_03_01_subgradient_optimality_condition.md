@@ -14,7 +14,7 @@ Rất ít định lý trong toàn bộ lịch sử toán học vừa có **chứ
 
 Một chi tiết cực kỳ thú vị mà nhiều người đọc lướt hay bỏ qua: chứng minh của bổ đề này **thậm chí không cần dùng đến giả thiết $$f$$ là hàm lồi**! Tính lồi chỉ đóng vai trò đảm bảo rằng tập $$\partial f(x)$$ thực sự tồn tại (khác rỗng) để ta có thể tìm thấy vector $$0$$ bên trong nó.
 
-## Bản đồ kiến thức nền: Ba điểm tinh tế của Điều kiện $$0 \in \partial f(x^\star)$$
+## Kiến thức cần nhớ: Ba điểm tinh tế của Điều kiện $$0 \in \partial f(x^\star)$$
 
 Để vận dụng bổ đề này không bao giờ sai sót, hãy nắm chắc ba điểm sau:
 
@@ -24,7 +24,7 @@ Một chi tiết cực kỳ thú vị mà nhiều người đọc lướt hay b�
 - **Tác dụng của Tính Lồi:** Với hàm phi lồi, có thể tồn tại cực tiểu địa phương mà $$\partial f(x) = \emptyset$$ (không có mặt phẳng nào đỡ được toàn bộ đồ thị phía dưới). Tính lồi đảm bảo mọi cực tiểu địa phương đều là toàn cục và có mặt phẳng đỡ ngang ($$g = 0$$)!
 - **Tổng quát hóa trực tiếp phương trình Fermat:** Khi $$f$$ khả vi, $$\partial f(x^\star) = \{\nabla f(x^\star)\}$$, nên $$0 \in \partial f(x^\star)$$ lập tức trở về $$\nabla f(x^\star) = 0$$.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng $$0 \in \partial f(x^\star)$$ để tìm cực tiểu toàn cục của hàm bậc hai + trị tuyệt đối
+### Giải thích: Kiểm chứng $$0 \in \partial f(x^\star)$$ để tìm cực tiểu toàn cục của hàm bậc hai + trị tuyệt đối
 
 Xét bài toán $$f(x) = \frac{1}{2}(x - 5)^2 + 2|x - 1|$$ trên $$\mathbb{R}$$. Ta tìm điểm $$x^\star$$ thỏa $$0 \in \partial f(x^\star)$$:
 

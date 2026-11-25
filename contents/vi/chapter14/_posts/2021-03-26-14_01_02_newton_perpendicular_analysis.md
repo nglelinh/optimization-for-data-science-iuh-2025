@@ -13,13 +13,13 @@ Một hiểu lầm kinh điển mà rất nhiều người học tối ưu mắc
 
 Khi đường đồng mức là những hình elip dẹt, hướng vuông góc với đường đồng mức ($$-\nabla f(x)$$) lại chỉ chéo vào thành hẻm núi chứ không hề chỉ về tâm elip. Phương pháp Newton bẻ lệch hướng đi bằng cách nhân với $$(\nabla^2 f(x))^{-1}$$, bỏ qua sự "cám dỗ" của hướng dốc cục bộ để ngắm thẳng vào tâm đáy.
 
-## Bản đồ kiến thức nền: Hình học đường đồng mức và góc lệch của hướng Newton
+## Kiến thức cần nhớ: Hình học đường đồng mức và góc lệch của hướng Newton
 
 - **Trực giao của Gradient:** Đường đồng mức $$\{x : f(x) = c\}$$ có vectơ pháp tuyến chính là $$\nabla f(x)$$. Do đó $$-\nabla f(x)$$ luôn vuông góc tuyệt đối với tiếp tuyến của đường đồng mức.
 - **Điều kiện để hướng Newton vuông góc với đường đồng mức:** Hướng Newton $$d_{\text{nt}} = -(\nabla^2 f(x))^{-1}\nabla f(x)$$ chỉ cùng phương với $$-\nabla f(x)$$ (tức vuông góc đường đồng mức) khi và chỉ khi $$\nabla f(x)$$ là một **vectơ riêng** của ma trận Hessian $$\nabla^2 f(x)$$ (chẳng hạn khi $$\nabla^2 f(x) = \lambda I$$ đẳng hướng, hoặc $$x$$ nằm đúng trên một trục chính của elip).
 - **Tính chất hướng giảm bất chấp góc lệch:** Dù không vuông góc với đường đồng mức, miễn là $$\nabla^2 f(x) \succ 0$$, góc giữa $$d_{\text{nt}}$$ và $$-\nabla f(x)$$ luôn là góc nhọn vì $$(-\nabla f)^T d_{\text{nt}} = \nabla f^T (\nabla^2 f)^{-1}\nabla f > 0$$.
 
-### Khung giải thích (nên đọc chậm): Tính góc lệch giữa hướng Newton và pháp tuyến đường đồng mức
+### Giải thích: Tính góc lệch giữa hướng Newton và pháp tuyến đường đồng mức
 
 Xét hàm elip $$f(x_1, x_2) = \frac{1}{2}x_1^2 + 4x_2^2$$ tại điểm $$x = (2, 1)^T$$ (không nằm trên trục tọa độ).
 

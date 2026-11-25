@@ -11,7 +11,7 @@ lang: vi
 
 Nhìn vào bài toán tổng hợp $$f(x) = g(x) + h(x)$$, nhiều người từng nghi ngờ: *sự có mặt của hàm không khả vi $$h(x)$$ có phá hỏng tốc độ hội tụ bậc hai trứ danh của phương pháp Newton không?* Định lý kinh điển của Lee, Sun và Saunders (2014) đã đưa ra câu trả lời đầy bất ngờ: **KHÔNG!** Miễn là phần trơn $$g$$ lồi mạnh và có Hessian liên tục Lipschitz, phương pháp Newton proximal vẫn thừa kế nguyên vẹn hai giai đoạn hội tụ của Newton cổ điển — hội tụ toàn cục nhờ backtracking, rồi bứt tốc **hội tụ bậc hai cục bộ** với bước đơn vị $$t_k = 1$$!
 
-## Bản đồ kiến thức nền: Bốn giả thiết và cơ chế chứng minh hội tụ bậc hai
+## Kiến thức cần nhớ: Bốn giả thiết và cơ chế chứng minh hội tụ bậc hai
 
 Để nắm chắc định lý hội tụ của Lee, Sun và Saunders (2014), hãy xem vai trò chính xác của từng giả thiết:
 
@@ -20,7 +20,7 @@ Nhìn vào bài toán tổng hợp $$f(x) = g(x) + h(x)$$, nhiều người từ
 - **Tính điểm bất động và không giãn của $$\operatorname{prox}_H$$:** Nghiệm tối ưu $$x^\star$$ chính là điểm bất động $$x^\star = \operatorname{prox}_H(x^\star - H^{-1}\nabla g(x^\star))$$. Kết hợp với tính không giãn theo chuẩn $$H$$ giúp đánh giá trực tiếp $$\|x^+ - x^\star\|_H$$ theo sai số bậc hai của gradient!
 - **Trường hợp giải gần đúng bài toán con (Inexact Proximal Newton):** Trong thực tế không ai giải bài toán con chính xác tuyệt đối. Miễn là sai số bài toán con giảm nhanh tỉ lệ với $$\|v^{(k)}\|$$ (tiêu chuẩn cưỡng bức Eisenstat–Walker), thuật toán vẫn giữ được hội tụ siêu tuyến tính hoặc bậc hai!
 
-### Khung giải thích (nên đọc chậm): Theo dõi con số hội tụ bậc hai qua công thức $$\|x^{(k+1)} - x^\star\| \le \frac{M}{2m}\|x^{(k)} - x^\star\|^2$$
+### Giải thích: Theo dõi con số hội tụ bậc hai qua công thức $$\|x^{(k+1)} - x^\star\| \le \frac{M}{2m}\|x^{(k)} - x^\star\|^2$$
 
 Giả sử một bài toán tổng hợp có các hằng số $$m = 1$$ (lồi mạnh), $$M = 2$$ (Lipschitz của Hessian). Khi đó hệ số hội tụ bậc hai là $$C = \frac{M}{2m} = \frac{2}{2(1)} = 1$$, và vùng hội tụ bậc hai bắt đầu khi $$e_k = \|x^{(k)} - x^\star\|_2 < \frac{1}{C} = 1$$ (với $$t_k = 1$$).
 

@@ -11,7 +11,7 @@ lang: en
 
 How do you prove that a greedy local rule—just following the negative gradient—must eventually land arbitrarily close to the global minimum? The proof is one of the crown jewels of convex analysis: combine the quadratic upper bound with convexity's linear lower bound, and watch the squared distances $$\|x^{(i)} - x^\star\|_2^2$$ telescope like a collapsing accordion, leaving a clean $$O(1/k)$$ error bound.
 
-## Background Knowledge Map: Anatomy of the $$O(1/k)$$ Telescoping Proof
+## Key ideas: Anatomy of the $$O(1/k)$$ Telescoping Proof
 
 1. **Step 1 — Smoothness Gives a Drop**: From $$t \le 1/L$$, each step reduces the objective by at least $$\frac{t}{2}\|\nabla f(x^{(i)})\|_2^2$$:
    $$f(x^{(i+1)}) \le f(x^{(i)}) - \frac{t}{2}\|\nabla f(x^{(i)})\|_2^2.$$
@@ -22,7 +22,7 @@ How do you prove that a greedy local rule—just following the negative gradient
    $$f(x^{(i+1)}) - f(x^\star) \le \frac{1}{2t}\Bigl(\|x^{(i)} - x^\star\|_2^2 - \|x^{(i+1)} - x^\star\|_2^2\Bigr).$$
 4. **Step 4 — Summing & Monotonicity**: Summing from $$i = 0$$ to $$k - 1$$ cancels all intermediate distance terms, and because $$f(x^{(k)}) \le f(x^{(i)})$$ for all $$i \le k$$, we get $$f(x^{(k)}) - f(x^\star) \le \frac{\|x^{(0)} - x^\star\|_2^2}{2tk}$$.
 
-### Step-by-Step Worked Example (Read Slowly): Checking the Telescoping Inequality Numerically
+### Worked example: Checking the Telescoping Inequality Numerically
 
 Apply gradient descent to $$f(x) = \frac{1}{2}x^2$$ (so $$L = 1$$, $$x^\star = 0$$, $$f^\star = 0$$) from $$x^{(0)} = 4$$ with $$t = 0.5 \le 1/L$$ for $$k = 3$$ steps, and verify every term of the telescoping proof!
 

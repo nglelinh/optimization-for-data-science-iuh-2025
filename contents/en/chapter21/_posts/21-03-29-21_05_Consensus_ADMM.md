@@ -11,14 +11,14 @@ lang: en
 
 Suppose your training dataset is 500 gigabytes—far too big to fit on a single server, so you shard it across $$B = 100$$ machines, each holding its own local empirical loss $$f_i(x)$$. How do you minimize $$\sum_{i=1}^B f_i(x)$$ without shipping raw data over the network? **Consensus ADMM** gives every machine its own local parameter copy $$x_i$$, enforces the agreement constraint $$x_i = z$$ with a central consensus vector $$z$$, and turns the global $$z$$-update into a single **exact average** $$\bar{x}^{(k)}$$—producing a clean, fault-tolerant map-reduce optimization loop!
 
-## Background Knowledge Map: Distributed Map-Reduce via Consensus ADMM
+## Key ideas: Distributed Map-Reduce via Consensus ADMM
 
 - **Variable Replication ($$x_i = z$$):** Rewriting $$\min_x \sum_{i=1}^B f_i(x)$$ as $$\min \sum_{i=1}^B f_i(x_i) \text{ s.t. } x_i = z$$ decouples all $$B$$ local losses completely during the $$x$$-update, allowing all $$B$$ workers to compute $$\operatorname{prox}_{f_i/\rho}(z^{k-1} - w_i^{k-1})$$ in parallel.
 - **Exact Averaging in the $$z$$-Update:** Minimizing $$\sum_{i=1}^B \frac{\rho}{2}\|x_i^k - z + w_i^{k-1}\|_2^2$$ over $$z$$ yields $$z^k = \bar{x}^k + \bar{w}^{k-1}$$. Because $$\bar{w}^k = \bar{w}^{k-1} + \bar{x}^k - z^k = 0$$ for all $$k \ge 1$$, the consensus update simplifies to the pure average $$z^k = \bar{x}^k$$!
 - **Regularized Consensus (Adding $$g(z)$$):** Adding a global regularizer $$g(z)$$ (like $$\lambda\|z\|_1$$ for distributed Lasso) keeps all worker updates identical and changes only the coordinator step to $$z^k = \operatorname{prox}_{g/(B\rho)}(\bar{x}^k + \bar{w}^{k-1})$$.
 - **Zero-Mean Dual Invariant ($$\sum_i w_i^k = 0$$):** The dual variables act as local disagreement memories whose sum vanishes across the cluster, pulling stubborn workers smoothly toward the shared global optimum without sharing private data.
 
-### Step-by-Step Worked Example (Read Slowly): Two-Machine Consensus ADMM with Zero-Mean Duals
+### Worked example: Two-Machine Consensus ADMM with Zero-Mean Duals
 
 Minimize $$f_1(x) + f_2(x) = \frac{1}{2}(x - 1)^2 + \frac{1}{2}(x - 5)^2$$ across $$B = 2$$ machines (exact global optimum $$x^\star = 3$$). Split as $$x_1 = z, \; x_2 = z$$ with $$\rho = 1$$, starting from $$z^0 = 0, \; w_1^0 = 0, \; w_2^0 = 0$$.
 

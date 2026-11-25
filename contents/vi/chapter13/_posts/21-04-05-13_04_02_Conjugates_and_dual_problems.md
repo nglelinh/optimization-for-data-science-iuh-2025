@@ -13,13 +13,13 @@ Nếu từng phải tính hàm đối ngẫu bằng tay nhiều lần, bạn s�
 
 Thay vì mỗi lần gặp bài toán tổng hai hàm $$\min_x f(x) + g(x)$$ lại phải đạo hàm từng bước dài dòng, hàm liên hợp cho ta một "công thức rút gọn siêu tốc": tách biến $$x = z$$, đưa nhân tử $$u$$ vào, và chỉ sau hai dòng đại số, bài toán đối ngẫu hiện ra cực kỳ đối xứng: $$\max_u -f^*(u) - g^*(-u)$$.
 
-## Bản đồ kiến thức nền: Chiếc cầu giữa hàm liên hợp và bài toán đối ngẫu
+## Kiến thức cần nhớ: Chiếc cầu giữa hàm liên hợp và bài toán đối ngẫu
 
 - **Đồng nhất thức nền tảng:** $$\min_x \{f(x) - u^T x\} = -\max_x \{u^T x - f(x)\} = -f^*(u)$$. Bất cứ khi nào hàm mục tiêu cộng thêm một số hạng tuyến tính, cực tiểu hóa nó chính là tính âm của hàm liên hợp.
 - **Tách biến cho tổng hai hàm:** Bài toán $$\min_x f(x) + g(x)$$ được viết thành $$\min_{x=z} f(x) + g(z)$$. Nhân tử đối ngẫu $$u$$ buộc hai biến $$x, z$$ có cùng độ dốc ngược dấu ($$u$$ và $$-u$$), dẫn thẳng tới bài toán đối ngẫu Fenchel $$\max_u -f^*(u) - g^*(-u)$$.
 - **Mở rộng cho các hàm phạt chuẩn và hàm chỉ thị:** Khi $$g(x)$$ là hàm chỉ thị $$I_C(x)$$ của một tập lồi $$C$$, liên hợp $$g^*(v)$$ chính là **hàm tựa (support function)** $$\max_{x \in C} v^T x$$; khi $$g(x) = \|x\|$$, liên hợp là hàm chỉ thị của quả cầu chuẩn đối ngẫu.
 
-### Khung giải thích (nên đọc chậm): Suy dẫn đối ngẫu tức thì cho bài toán tổng hai hàm 1 chiều
+### Giải thích: Suy dẫn đối ngẫu tức thì cho bài toán tổng hai hàm 1 chiều
 
 Xét bài toán không ràng buộc:
 

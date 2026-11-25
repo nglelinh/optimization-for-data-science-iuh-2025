@@ -14,13 +14,13 @@ Khi cầm một hàm mục tiêu nhiều biến trên tay — ví dụ hàm mấ
 
 Phần 03-01 trang bị trọn bộ định nghĩa cơ bản, danh mục ví dụ mẫu mực và các đặc trưng bậc nhất – bậc hai cho hàm lồi.
 
-## Bản đồ kiến thức nền: Ba bộ công cụ nhận diện hàm lồi
+## Kiến thức cần nhớ: Ba bộ công cụ nhận diện hàm lồi
 
 - **Công cụ hình học (Định nghĩa Jensen & Epigraph):** Dùng được cho mọi hàm (kể cả hàm không trơn như chuẩn $$\ell_1$$, hàm chỉ thị $$I_C$$); nối trực tiếp với tính lồi của tập $$\operatorname{epi} f$$.
 - **Công cụ giải tích (Đặc trưng bậc 1 & bậc 2):** Với hàm khả vi, kiểm tra chặn dưới tiếp tuyến hoặc Hessian $$\nabla^2 f(x) \succeq 0$$ trên miền lồi.
 - **Công cụ cắt lát 1D (Restriction to a line):** Một hàm $$n$$ biến $$f(x)$$ là lồi khi và chỉ khi mọi lát cắt một biến $$g(t) = f(x_0 + t v)$$ đều lồi theo $$t \in \mathbb{R}$$ — cực kỳ lợi hại để chứng minh tính lồi của hàm trên ma trận như $$-\log\det(X)$$!
 
-### Khung giải thích (nên đọc chậm): Chứng minh $$f(x_1, x_2) = x_1^2 + x_1 x_2 + x_2^2$$ lồi theo 3 cách khác nhau
+### Giải thích: Chứng minh $$f(x_1, x_2) = x_1^2 + x_1 x_2 + x_2^2$$ lồi theo 3 cách khác nhau
 
 Xét hàm bậc hai hai biến $$f(x_1, x_2) = x_1^2 + x_1 x_2 + x_2^2$$ trên $$\mathbb{R}^2$$:
 

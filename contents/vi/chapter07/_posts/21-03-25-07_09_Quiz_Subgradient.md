@@ -16,7 +16,7 @@ Chuyển từ đạo hàm cổ điển $$\nabla f(x)$$ sang tập vi phân dư�
 
 Bộ bài tập trắc nghiệm này giúp bạn kiểm tra sắc bén mọi định nghĩa, ví dụ mẫu, phép tính vi phân dưới và điều kiện tối ưu của Chương 07 — đảm bảo bạn không bao giờ rơi vào các bẫy trực giác từ giải tích trơn.
 
-## Bản đồ kiến thức nền: Bốn điểm dễ nhầm nhất khi làm trắc nghiệm Chương 07
+## Kiến thức cần nhớ: Bốn điểm dễ nhầm nhất khi làm trắc nghiệm Chương 07
 
 Trước khi bắt đầu trả lời các câu hỏi, hãy rà nhanh bốn quy tắc phân biệt sau:
 
@@ -25,7 +25,7 @@ Trước khi bắt đầu trả lời các câu hỏi, hãy rà nhanh bốn quy 
 - **Bẫy 3 — Cực đại hữu hạn chỉ lấy các nhánh TÍCH CỰC:** Với $$f(x) = \max(f_1(x), f_2(x), f_3(x))$$, nếu tại $$x_0$$ có $$f_1(x_0) = f_2(x_0) > f_3(x_0)$$, thì $$\partial f(x_0) = \operatorname{conv}(\partial f_1(x_0) \cup \partial f_2(x_0))$$ — **tuyệt đối không** đưa $$\partial f_3(x_0)$$ vào!
 - **Bẫy 4 — Hình dạng $$\partial \|x\|_2$$ tại $$0$$ vs. $$\partial \|x\|_1$$ tại $$0$$:** Tại $$x = 0$$, $$\partial \|0\|_2$$ là **hình cầu Euclidean đơn vị** $$\{g : \|g\|_2 \le 1\}$$, còn $$\partial \|0\|_1$$ là **hình lập phương đơn vị** $$\{g : \|g\|_\infty \le 1\}$$ (tức là quả cầu đơn vị của *chuẩn đối ngẫu*!).
 
-### Khung giải thích (nên đọc chậm): Phản ví dụ 2 chiều chứng minh $$-g$$ có thể KHÔNG phải hướng giảm!
+### Giải thích: Phản ví dụ 2 chiều chứng minh $$-g$$ có thể KHÔNG phải hướng giảm!
 
 Xét hàm lồi không trơn $$f(x_1, x_2) = |x_1| + 2|x_2|$$ tại điểm $$x = (0, 1)^T$$ (giá trị $$f(0, 1) = 2$$):
 

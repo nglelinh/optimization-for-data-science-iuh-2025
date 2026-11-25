@@ -11,14 +11,14 @@ lang: en
 
 Watch plain gradient descent or ISTA descend an elongated, narrow canyon: even with the optimal step size $$t = 1/L$$, the iterates bounce back and forth across the steep walls while inching agonizingly slowly down the gentle valley floor. In 1983, a 27-year-old Yurii Nesterov published a four-page paper proving that adding a carefully calibrated **momentum extrapolation** step cuts the number of iterations from $$O(1/\varepsilon)$$ to $$O(1/\sqrt{\varepsilon})$$—the mathematically provable speed limit for all first-order methods! This lesson builds the geometric intuition behind Nesterov acceleration before diving into the algebra of FISTA.
 
-## Background Knowledge Map: The Intuition Behind Optimal First-Order Acceleration
+## Key ideas: The Intuition Behind Optimal First-Order Acceleration
 
 - **Pillar 1 — Zig-Zagging in Ill-Conditioned Valleys:** Along steep directions (eigenvalue $$L$$), step size $$1/L$$ stops oscillations; along flat directions (small curvature), $$1/L$$ takes tiny steps, causing $$O(1/k)$$ progress. Momentum cancels out the alternating cross-valley zig-zags while reinforcing consistent motion along the valley floor.
 - **Pillar 2 — Look-Ahead Gradient Evaluation (Nesterov vs. Heavy Ball):** Unlike Polyak's classical heavy-ball momentum (which evaluates the gradient at $$x^{(k-1)}$$ and then adds momentum), Nesterov extrapolates *first* to $$v^{(k)} = x^{(k-1)} + \beta_k(x^{(k-1)} - x^{(k-2)})$$ and evaluates the gradient/prox *at the look-ahead point* $$v^{(k)}$$, providing a crucial braking correction that guarantees global $$O(1/k^2)$$ convergence for all convex problems.
 - **Pillar 3 — Increasing Momentum Schedule ($$\beta_k \to 1$$):** Unlike constant-momentum SGD in deep learning, Nesterov's convex schedule $$\beta_k = \frac{k-2}{k+1}$$ starts at $$0$$ and asymptotically approaches $$1$$, corresponding in continuous time to the Su–Boyd–Candès second-order ODE $$\ddot{X}(t) + \frac{3}{t}\dot{X}(t) + \nabla f(X(t)) = 0$$ with vanishing friction $$3/t$$.
 - **Pillar 4 — Non-Monotonic Ripples & Adaptive Restarts:** Because vanishing friction lets the iterate overshoot the minimum like a lightly damped spring, Nesterov acceleration produces characteristic "ripples" where $$f(x^{(k)})$$ briefly rises—which O'Donoghue and Candès (2015) tamed by resetting momentum whenever the velocity points uphill.
 
-### Step-by-Step Worked Example (Read Slowly): Watching Nesterov Extrapolation Outpace Plain Gradient Descent
+### Worked example: Watching Nesterov Extrapolation Outpace Plain Gradient Descent
 
 Minimize the flat 1D quadratic $$g(x) = \frac{1}{20} x^2$$ (so $$\nabla g(x) = 0.1 x$$, optimal $$x^\star = 0$$), using a conservative step size $$t = 1$$ (as if another coordinate had $$L = 1$$). Start at $$x^{(0)} = x^{(-1)} = 10$$.
 

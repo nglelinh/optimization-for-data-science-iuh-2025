@@ -14,7 +14,7 @@ Năm 1951, Herbert Robbins và Sutton Monro xuất bản một bài báo thống
 
 Điều thú vị nhất của SGD nằm ở sự cân bằng tinh tế của kích thước lô $$B$$ (minibatch size) và cách lấy mẫu: tăng $$B$$ giúp giảm phương sai nhiễu theo tỷ lệ $$1/B$$ và tận dụng tối đa năng lực song song của GPU, nhưng vượt quá ngưỡng bão hòa phần cứng, tăng $$B$$ lại khiến số bước cập nhật mỗi giây giảm đi. Thêm vào đó, trong thực tế hầu như ai cũng **xáo trộn dữ liệu không hoàn lại (random reshuffling)** thay vì lấy mẫu i.i.d. — và hóa ra toán học hiện đại đã chứng minh cách làm thực tế đó *nhanh hơn* lấy mẫu có hoàn lại!
 
-## Bản đồ kiến thức nền: Ba trụ cột của SGD và Minibatch
+## Kiến thức cần nhớ: Ba trụ cột của SGD và Minibatch
 
 Để hiểu đúng cả định lý hội tụ lẫn cách chỉnh `batch_size` và `lr` khi huấn luyện mô hình, hãy nắm ba trụ cột sau:
 
@@ -22,7 +22,7 @@ Năm 1951, Herbert Robbins và Sutton Monro xuất bản một bài báo thống
 - **Quy luật mở rộng tuyến tính theo kích thước lô (Batch Size Scaling):** Khi tăng kích thước lô lên $$B$$ lần (trong vùng nhiễu chiếm ưu thế), phương sai giảm $$B$$ lần, cho phép tăng tốc độ học lên tương ứng mà vẫn giữ ổn định động lực học — nhưng chỉ hiệu quả tới ngưỡng *kích thước lô tới hạn (critical batch size)*.
 - **Xáo trộn không hoàn lại vs. Lấy mẫu i.i.d.:** Lấy mẫu không hoàn lại trong mỗi epoch tạo ra **tương quan âm** giữa các gradient liên tiếp trong cùng một epoch (nếu đầu epoch bốc phải mẫu lệch dương, cuối epoch chắc chắn sẽ bốc mẫu lệch âm để bù lại), giúp triệt tiêu sai số tích lũy nhanh hơn lấy mẫu i.i.d.
 
-### Khung giải thích (nên đọc chậm): Tính tay phương sai của Minibatch — có hoàn lại so với không hoàn lại
+### Giải thích: Tính tay phương sai của Minibatch — có hoàn lại so với không hoàn lại
 
 Giả sử tại điểm $$w_k$$ hiện tại, tập dữ liệu có $$n = 4$$ mẫu với 4 giá trị gradient vô hướng là $$1,\; 3,\; 5,\; 7$$. Gradient toàn lô chính xác là $$\mu = \frac{1 + 3 + 5 + 7}{4} = 4$$.
 

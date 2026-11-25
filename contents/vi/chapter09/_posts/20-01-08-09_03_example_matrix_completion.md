@@ -13,7 +13,7 @@ Năm 2006, Netflix treo giải thưởng 1 triệu đô la cho bất kỳ đội
 
 Nếu ma trận điểm số hoàn toàn ngẫu nhiên thì bài toán vô nghiệm. Chìa khóa cứu rỗi là giả thiết **hạng thấp (low-rank)**: thị hiếu của hàng trăm nghìn người thực chất chỉ bị chi phối bởi vài chục "nhân tố ẩn" (thể loại, đạo diễn, độ hài hước...). Nhưng cực tiểu hóa $$\operatorname{rank}(X)$$ lại là bài toán NP-khó! Giống như cách chuẩn $$\ell_1$$ thay thế cho chuẩn $$\ell_0$$ (số phần tử khác 0) ở vector, **chuẩn vết / chuẩn hạt nhân** $$\|X\|_* = \sum_i \sigma_i(X)$$ (tổng các giá trị kỳ dị) là bao lồi chặt nhất của $$\operatorname{rank}(X)$$. Và khi đưa vào phương pháp gradient gần kề, toán tử prox của chuẩn hạt nhân hóa ra có một vẻ đẹp đối xứng đến ngỡ ngàng: **co ngưỡng mềm trực tiếp lên các giá trị kỳ dị của SVD!**
 
-## Bản đồ kiến thức nền: Bốn trụ cột của bài toán hoàn thiện ma trận
+## Kiến thức cần nhớ: Bốn trụ cột của bài toán hoàn thiện ma trận
 
 - **Phân rã giá trị kỳ dị (SVD) và hạng ma trận:** Mọi ma trận $$X \in \mathbb{R}^{m \times n}$$ đều viết được dưới dạng $$X = U \Sigma V^T$$ với các giá trị kỳ dị $$\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r > 0$$. Hạng của $$X$$ chính là số lượng giá trị kỳ dị khác $$0$$ — tức là chuẩn $$\ell_0$$ của vector $$\sigma(X)$$.
 - **Chuẩn vết / Chuẩn hạt nhân (Trace / Nuclear Norm):** Thay $$\|\sigma(X)\|_0$$ bằng $$\|\sigma(X)\|_1 = \sum_{i=1}^r \sigma_i(X) = \|X\|_*$$ biến bài toán tìm ma trận hạng thấp thành một bài toán tối ưu lồi không trơn nhưng toàn cục!
@@ -22,7 +22,7 @@ Nếu ma trận điểm số hoàn toàn ngẫu nhiên thì bài toán vô nghi�
   $$\operatorname{prox}_{\lambda \|\cdot\|_*}(Z) = U \cdot \operatorname{diag}\big(\max(\sigma_i - \lambda, 0)\big) \cdot V^T.$$
   Các giá trị kỳ dị nhỏ hơn $$\lambda$$ bị cắt thẳng về $$0$$, hạ thấp trực tiếp hạng của ma trận sau mỗi bước lặp!
 
-### Khung giải thích (nên đọc chậm): Tính tay 1 bước thuật toán Soft-Impute (Proximal GD) cho ma trận $$2 \times 2$$
+### Giải thích: Tính tay 1 bước thuật toán Soft-Impute (Proximal GD) cho ma trận $$2 \times 2$$
 
 Giả sử ta quan sát 3 ô của một ma trận $$2 \times 2$$ và khuyết ô $$(2, 2)$$ (đánh dấu `?`):
 $$Y = \begin{pmatrix} 4 & 0 \\ 0 & ? \end{pmatrix}, \quad \Omega = \{(1,1), (1,2), (2,1)\}.$$

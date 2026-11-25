@@ -16,7 +16,7 @@ redirect_from:
 
 Trước khi mở từng phần lời giải chi tiết bên dưới, hãy tự đặt bút thử giải trước — đặc biệt chú ý cách chọn đúng dấu của đỉnh LMO và cách biểu diễn tập hoạt động trong Away-Step, bởi đây là hai vị trí người học hay nhầm dấu nhất khi cài đặt thực tế.
 
-## Bản đồ kiến thức nền: Bốn kỹ năng thực hành cốt lõi trong bộ bài tập
+## Kiến thức cần nhớ: Bốn kỹ năng thực hành cốt lõi trong bộ bài tập
 
 Bộ bài tập này kiểm tra và rèn luyện đồng thời bốn kỹ năng tính toán thiết yếu của Chương 22:
 
@@ -25,7 +25,7 @@ Bộ bài tập này kiểm tra và rèn luyện đồng thời bốn kỹ năng
 - **Tối ưu 1 chiều cho Exact Line Search:** Với hàm mục tiêu bậc hai $$f(x) = \frac{1}{2}\|Ax - b\|_2^2$$, bài toán tìm bước $$\gamma_k \in [0, 1]$$ có nghiệm dạng đóng gọn gàng mà không cần vòng lặp backtracking, chỉ cần cắt ngưỡng (*clip*) về đoạn $$[0, 1]$$.
 - **Quản lý tập hoạt động trong Away-Step:** Biết cách lưu bộ trọng số $$\{\alpha_v\}$$, tính giới hạn bước tối đa $$\gamma_{\max} = \alpha_{v_k} / (1 - \alpha_{v_k})$$, và cập nhật lại trọng số sau cả bước tiến (FW step) lẫn bước lùi (away step).
 
-### Khung giải thích (nên đọc chậm): Mẫu tính tay kết hợp LMO và Exact Line Search trên quả cầu $$\ell_1$$
+### Giải thích: Mẫu tính tay kết hợp LMO và Exact Line Search trên quả cầu $$\ell_1$$
 
 Để khởi động trước khi làm Bài tập 1 và Bài tập 3, hãy giải hoàn chỉnh 1 bước cho $$f(x) = \frac{1}{2}(x_1 - 0.3)^2 + \frac{1}{2}(x_2 - 0.4)^2$$ trên $$C = \{x \in \mathbb{R}^2 : |x_1| + |x_2| \le 1\}$$, xuất phát từ $$x^{(0)} = (1, 0)$$.
 

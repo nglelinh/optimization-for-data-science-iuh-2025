@@ -11,14 +11,14 @@ lang: en
 
 In modern high-dimensional statistics—from predicting disease risk from 50,000 genetic markers to scoring ad clicks across millions of sparse features—plain logistic regression quickly overfits. Adding an $$\ell_1$$ penalty $$\lambda \|\beta\|_1$$ simultaneously regularizes the model and drives irrelevant coefficients to exact zero, turning classification into automatic feature selection. Because $$\|\beta\|_1$$ has sharp creases along every coordinate axis, smooth gradient descent can no longer be applied directly—making $$\ell_1$$-regularized logistic regression a classic proving ground for the subgradient method.
 
-## Background Knowledge Map: Anatomy of $$\ell_1$$-Regularized Logistic Regression
+## Key ideas: Anatomy of $$\ell_1$$-Regularized Logistic Regression
 
 - **Pillar 1 — Smooth Log-Loss (Negative Log-Likelihood):** The data-fidelity term $$f(\beta) = \sum_{i=1}^n (-y_i x_i^\top \beta + \log(1 + e^{x_i^\top \beta}))$$ is convex and infinitely differentiable, with gradient $$\nabla f(\beta) = \sum_{i=1}^n (p_i(\beta) - y_i) x_i$$, where $$p_i(\beta) = \frac{1}{1 + e^{-x_i^\top \beta}}$$ is the predicted probability.
 - **Pillar 2 — Nonsmooth Sparsity Inducer ($$\lambda \|\beta\|_1$$):** The $$\ell_1$$ norm has subdifferential $$\partial \|\beta\|_1 = \{ v \in \mathbb{R}^p : v_j = \operatorname{sign}(\beta_j) \text{ if } \beta_j \neq 0,\; v_j \in [-1, 1] \text{ if } \beta_j = 0 \}$$. By additivity of subdifferentials, $$\partial(f + \lambda \|\cdot\|_1)(\beta) = \nabla f(\beta) + \lambda \partial \|\beta\|_1$$.
 - **Pillar 3 — Why Subgradient Struggles to Produce Exact Zeros:** Unlike proximal soft-thresholding (Chapter 09), a raw subgradient step $$\beta^{(k)} = \beta^{(k-1)} - t_k(\nabla f(\beta^{(k-1)}) + \lambda v^{(k-1)})$$ rarely lands *exactly* on $$\beta_j = 0$$; instead, inactive coordinates jitter back and forth around zero at amplitude $$O(t_k \lambda)$$.
 - **Pillar 4 — Lipschitz Constant of the Composite Objective:** Because $$|p_i(\beta) - y_i| \le 1$$, the smooth gradient is globally bounded by $$\sum_{i=1}^n \|x_i\|_2$$, and every subgradient of $$\lambda \|\beta\|_1$$ has norm at most $$\lambda \sqrt{p}$$. Thus the entire objective is globally $$G$$-Lipschitz with $$G \le \sum_{i=1}^n \|x_i\|_2 + \lambda\sqrt{p}$$.
 
-### Step-by-Step Worked Example (Read Slowly): One Subgradient Update on a 2-Sample Logistic Model
+### Worked example: One Subgradient Update on a 2-Sample Logistic Model
 
 Consider $$n = 2$$ data points in $$\mathbb{R}^2$$: $$(x_1, y_1) = ((1, 0)^\top, 1)$$ and $$(x_2, y_2) = ((0, 1)^\top, 0)$$, with regularization $$\lambda = 0.5$$ and objective $$F(\beta) = \sum_{i=1}^2 (-y_i x_i^\top \beta + \log(1 + e^{x_i^\top \beta})) + 0.5(|\beta_1| + |\beta_2|)$$.
 

@@ -13,7 +13,7 @@ Năm 1996, Robert Tibshirani giới thiệu **Lasso** ($$\min_\beta \frac{1}{2}\
 
 Nhưng chính xác **cơ chế toán học nào** khiến Lasso đặt hàng loạt hệ số $$\beta_j^\star$$ về đúng số $$0$$? Câu trả lời không thể đến từ đạo hàm cổ điển (vì $$|\beta_j|$$ không khả vi tại $$0$$), mà đến trực tiếp từ điều kiện tối ưu subgradient $$0 \in -X^T(y - X\beta^\star) + \lambda \partial\|\beta^\star\|_1$$!
 
-## Bản đồ kiến thức nền: Đọc hiểu Điều kiện KKT/Subgradient của Lasso
+## Kiến thức cần nhớ: Đọc hiểu Điều kiện KKT/Subgradient của Lasso
 
 Ba trụ cột sau giải mã trọn vẹn phương trình tối ưu của Lasso:
 
@@ -24,7 +24,7 @@ Ba trụ cột sau giải mã trọn vẹn phương trình tối ưu của Lasso
   - Mọi biến bị loại về $$0$$ ($$\beta_j^\star = 0$$) đều có tương quan với phần dư bị chặn dưới ngưỡng: $$|X_j^T r^\star| \le \lambda$$!
 - **Ngưỡng $$\lambda_{\max}$$ ép toàn bộ mô hình về $$0$$:** Khi $$\beta^\star = 0$$, phần dư là $$r^\star = y$$. Do đó $$\beta^\star = 0$$ là nghiệm tối ưu toàn cục khi và chỉ khi $$\lambda \ge \|X^T y\|_\infty = \max_j |X_j^T y|$$!
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng trực tiếp nghiệm Lasso bằng điều kiện subgradient
+### Giải thích: Kiểm chứng trực tiếp nghiệm Lasso bằng điều kiện subgradient
 
 Cho $$X = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$$ (2 đặc trưng trực giao), $$y = \begin{pmatrix} 3 \\ 0.6 \end{pmatrix}$$ và $$\lambda = 1$$. Ta kiểm chứng nghiệm đề xuất $$\beta^\star = (2,\; 0)^T$$:
 

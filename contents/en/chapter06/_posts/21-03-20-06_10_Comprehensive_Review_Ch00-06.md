@@ -14,14 +14,14 @@ redirect_from:
 
 Six chapters in, you have climbed from basic multivariable derivatives and convex sets all the way to canonical conic programs and first-order optimization theory. Before advancing to nonsmooth subgradients and duality in the second half of the course, this comprehensive review weaves Chapters 00 through 06 into one unified mental map—so you can see how linear algebra, convexity, canonical classes, and gradient descent fit together as a single coherent machine.
 
-## Background Knowledge Map: The Unified Arc of Chapters 00–06
+## Key ideas: The Unified Arc of Chapters 00–06
 
 1. **Foundations (Chapters 00–03)**: Positive semidefinite matrices ($$H \succeq 0$$), affine/convex sets, epigraphs, Jensen's inequality, and convexity-preserving operations (nonnegative sums, affine composition, pointwise maxima, partial minimization).
 2. **Convex Problem Contract (Chapter 04)**: Standard form (convex $$f, g_i$$; affine $$h_j$$), local-implies-global optimality, variational optimality $$\nabla f(x^\star)^T(y - x^\star) \ge 0$$, and legal rewrites (monotone maps, variable changes, slacks, relaxations).
 3. **Canonical Taxonomy (Chapter 05)**: The nested solver hierarchy $$\mathrm{LP} \subset \mathrm{QP} \subset \mathrm{QCQP} \subset \mathrm{SOCP} \subset \mathrm{SDP} \subset \mathrm{CP}$$, plus log-convex Geometric Programming, Gaussian-MLE Least Squares, and Logistic Regression.
 4. **First-Order Algorithms (Chapter 06)**: Gradient descent, Armijo backtracking, exact line search, $$L$$-smoothness ($$O(1/k)$$), $$m$$-strong convexity (linear convergence governed by $$\kappa = L/m$$), SGD, Momentum, and L1/L2 regularization.
 
-### Step-by-Step Worked Example (Read Slowly): One End-to-End Problem Connecting Chapters 00–06
+### Worked example: One End-to-End Problem Connecting Chapters 00–06
 
 Consider Ridge regression with design matrix $$A = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$$, target $$b = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$$, and $$\lambda = 1$$:
 $$\min_{x \in \mathbb{R}^2} \quad f(x) = \frac{1}{2}\|Ax - b\|_2^2 + \frac{1}{2}\|x\|_2^2.$$

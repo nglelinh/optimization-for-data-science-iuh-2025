@@ -16,13 +16,13 @@ Chương 02 chứa rất nhiều định nghĩa có tên gọi na ná nhau — t
 
 Trước khi bắt tay vào bộ câu hỏi trắc nghiệm bên dưới, hãy rà nhanh 3 trục phân biệt quan trọng nhất và kiểm tra tay 3 tình huống phân loại mẫu.
 
-## Bản đồ kiến thức nền: Ba trục phân biệt dễ nhầm nhất của Chương 02
+## Kiến thức cần nhớ: Ba trục phân biệt dễ nhầm nhất của Chương 02
 
 - **Phân biệt theo điều kiện trọng số $$\theta$$:** Affine ($$\sum \theta_i = 1$$); Lồi ($$\sum \theta_i = 1,\ \theta_i \ge 0$$); Nón lồi ($$\theta_i \ge 0$$); Không gian con ($$\theta_i \in \mathbb{R}$$).
 - **Phân biệt phép toán bảo toàn:** **Giao** bảo toàn tính lồi, **ánh xạ affine** bảo toàn tính lồi, **hàm phối cảnh** bảo toàn tính lồi; còn **phép hợp (union)** và **phần bù** nói chung **KHÔNG** bảo toàn tính lồi!
 - **Phân biệt hai định lý siêu phẳng:** *Phân tách* dùng cho **hai** tập lồi rời nhau; *hỗ trợ* dùng tại một điểm **biên** của **một** tập lồi.
 
-### Khung giải thích (nên đọc chậm): Chẩn đoán nhanh 3 tập hợp trong $$\mathbb{R}^2$$ trước khi làm quiz
+### Giải thích: Chẩn đoán nhanh 3 tập hợp trong $$\mathbb{R}^2$$ trước khi làm quiz
 
 Kiểm tra nhanh 3 tập hợp sau có lồi hay không:
 

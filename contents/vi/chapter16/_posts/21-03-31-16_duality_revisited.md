@@ -13,13 +13,13 @@ Nếu ví các chương trước về đối ngẫu như việc học từng n�
 
 Thay vì giải bài toán nguyên thủy rồi mới tìm biến đối ngẫu một cách thụ động như trong phương pháp chắn (Chương 15), phương pháp nguyên thủy – đối ngẫu sẽ cập nhật **cả biến nguyên thủy $$x$$ và biến đối ngẫu $$(u, v)$$ song song trong cùng một bước Newton**! Để cỗ máy song song đó vận hành trơn tru, Chương 16 hệ thống lại ba viên đá tảng ở góc nhìn tinh gọn và tổng quát nhất: **Đối ngẫu Lagrange dạng minimax**, **hệ điều kiện tối ưu KKT vs. đường trung tâm**, và **Đối ngẫu Fenchel cho quy hoạch nón**.
 
-## Bản đồ kiến thức nền: Ba viên đá tảng chuẩn bị cho Phương pháp Nguyên thủy – Đối ngẫu
+## Kiến thức cần nhớ: Ba viên đá tảng chuẩn bị cho Phương pháp Nguyên thủy – Đối ngẫu
 
 - **Đối ngẫu Lagrange dạng trò chơi Minimax:** Viết cả bài toán nguyên thủy $$\min_x \max_{u \ge 0, v} L(x, u, v)$$ và bài toán đối ngẫu $$\max_{u \ge 0, v} \min_x L(x, u, v)$$ trên cùng một hàm $$L$$ giúp thấy ngay đối ngẫu yếu chỉ là bất đẳng thức $$\max \min \le \min \max$$, còn đối ngẫu mạnh là điểm yên ngựa!
 - **So sánh trực diện KKT và phương trình đường trung tâm:** Hệ KKT gốc có phương trình bù yếu $$u_i h_i(x) = 0$$, còn đường trung tâm chỉ thay đúng số $$0$$ ấy bằng $$-1/t$$ — chuẩn bị trực tiếp cho bước giải hệ phi tuyến nguyên thủy – đối ngẫu bằng phương pháp Newton ở Chương 17.
 - **Đối ngẫu Fenchel và Quy hoạch nón (Conic Programming):** Thay vì bị bó buộc bởi bất đẳng thức vô hướng $$h_i(x) \le 0$$, đối ngẫu Fenchel kết hợp hàm liên hợp $$f^*, g^*$$ với nón đối ngẫu $$K^*$$ để bao quát cùng lúc LP, SOCP và SDP dưới một khung lý thuyết duy nhất.
 
-### Khung giải thích (nên đọc chậm): Nhìn trọn vẹn bài toán nguyên thủy, đối ngẫu và điểm yên ngựa trên một ví dụ 2 biến
+### Giải thích: Nhìn trọn vẹn bài toán nguyên thủy, đối ngẫu và điểm yên ngựa trên một ví dụ 2 biến
 
 Xét bài toán quy hoạch tuyến tính chuẩn nhỏ nhất có thể:
 $$\min_{x \in \mathbb{R}^2} 2x_1 + 3x_2 \qquad \text{với điều kiện } x_1 + x_2 = 1, \;\; x_1 \ge 0, \;\; x_2 \ge 0.$$

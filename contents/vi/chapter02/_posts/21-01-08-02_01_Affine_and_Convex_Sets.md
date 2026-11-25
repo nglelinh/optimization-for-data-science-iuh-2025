@@ -14,14 +14,14 @@ Một điều rất đẹp trong hình học lồi là ba họ tập hợp quan 
 
 Phần 02-01 sẽ đưa bạn đi qua từng viên gạch hình học sơ cấp từ đường thẳng, đoạn thẳng, tia cho đến siêu phẳng.
 
-## Bản đồ kiến thức nền: Bảng hai công tắc sinh ra bốn họ tập hợp
+## Kiến thức cần nhớ: Bảng hai công tắc sinh ra bốn họ tập hợp
 
 - **Không gian con (Subspace):** $$\theta_1, \theta_2 \in \mathbb{R}$$ hoàn toàn tự do (luôn chứa gốc tọa độ $$0$$).
 - **Tập Affine:** Bật công tắc $$\theta_1 + \theta_2 = 1$$ (trượt tự do trên toàn đường thẳng đi qua $$x_1, x_2$$; mô tả ràng buộc đẳng thức $$Ax = b$$).
 - **Tập Lồi:** Bật cả hai công tắc $$\theta_1 + \theta_2 = 1$$ và $$\theta_1, \theta_2 \ge 0$$ (chỉ giữ lại đoạn thẳng nằm giữa $$x_1$$ và $$x_2$$).
 - **Hình nón lồi:** Chỉ bật công tắc $$\theta_1, \theta_2 \ge 0$$ (cho phép co giãn tùy ý theo hướng dương, tạo thành chùm tia xuất phát từ gốc tọa độ).
 
-### Khung giải thích (nên đọc chậm): Cùng hai điểm $$x_1 = (1, 0),\ x_2 = (0, 2)$$ tạo ra ba loại tổ hợp khác nhau
+### Giải thích: Cùng hai điểm $$x_1 = (1, 0),\ x_2 = (0, 2)$$ tạo ra ba loại tổ hợp khác nhau
 
 Xét hai điểm $$x_1 = (1, 0)^T$$ và $$x_2 = (0, 2)^T$$ trong $$\mathbb{R}^2$$:
 

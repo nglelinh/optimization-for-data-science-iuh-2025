@@ -11,14 +11,14 @@ lang: en
 
 One of the reasons ADMM became a staple across machine learning, signal processing, and control is how *forgiving* its convergence theorem is: you do not need $$f$$ or $$g$$ to be differentiable, you do not need strong convexity, and you do not even need $$A$$ or $$B$$ to have full rank! As long as $$f$$ and $$g$$ are closed, proper, convex functions and the unaugmented Lagrangian has a saddle point, ADMM is guaranteed to drive primal residuals to zero and converge to the exact optimal objective for *every* $$\rho > 0$$.
 
-## Background Knowledge Map: What ADMM Guarantees—and What It Does Not
+## Key ideas: What ADMM Guarantees—and What It Does Not
 
 - **Three Core Convergence Pillars:** Under minimal convexity + saddle-point assumptions, ADMM guarantees: (1) primal residual $$r^{(k)} = Ax^{(k)} + Bz^{(k)} - c \to 0$$, (2) objective value $$f(x^{(k)}) + g(z^{(k)}) \to p^\star$$, and (3) dual multiplier $$u^{(k)} \to u^\star$$.
 - **Lyapunov Energy Proof Intuition:** Defining the energy $$V^k = \frac{1}{\rho}\|u^k - u^\star\|_2^2 + \rho\|B(z^k - z^\star)\|_2^2$$, Boyd et al. show $$V^{k+1} \le V^k - \rho\|r^{k+1}\|_2^2 - \rho\|B(z^{k+1} - z^k)\|_2^2$$. Telescoping this inequality immediately proves $$\sum_k (\|r^k\|^2 + \|B(z^k - z^{k-1})\|^2) < \infty$$!
 - **Why Primal Iterates May Not Converge Without Extra Assumptions:** If $$f$$ or $$g$$ is not strictly convex (e.g., an LP with a flat optimal face), $$f(x^k) + g(z^k) \to p^\star$$ and $$r^k \to 0$$ still hold, though individual iterates $$(x^k, z^k)$$ need not settle on a single point unless $$A, B$$ have full column rank.
 - **Rate Landscape ($$O(1/k)$$ vs. Linear):** Ergodic ADMM converges at $$O(1/k)$$ generally, and jumps to **linear convergence** when at least one block is smooth and strongly convex (Deng & Yin; Nishihara et al.)—making it ideal for modest-to-medium accuracy ($$10^{-3}\text{–}10^{-5}$$) at massive scale.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying Monotonic Decay of the ADMM Lyapunov Function
+### Worked example: Verifying Monotonic Decay of the ADMM Lyapunov Function
 
 Using the exact iterates from Lesson 20-04-01 ($$\min \frac{1}{2}(x-4)^2 + \frac{1}{2}z^2$$ s.t. $$x - z = 0$$, $$\rho = 1$$, exact optimum $$x^\star = z^\star = u^\star = 2$$):
 - $$k = 0$$: $$z^0 = 0, \; u^0 = 0$$.

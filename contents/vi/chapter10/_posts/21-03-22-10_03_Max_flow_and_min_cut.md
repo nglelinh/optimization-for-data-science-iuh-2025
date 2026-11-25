@@ -13,14 +13,14 @@ Năm 1956, hai nhà toán học Lester Ford và Delbert Fulkerson chứng minh m
 
 Ở môn Cấu trúc dữ liệu & Giải thuật, người ta thường chứng minh định lý này bằng thuật toán đường tăng luồng (augmenting paths). Nhưng góc nhìn của Chương 10 còn ngoạn mục hơn thế: khi viết bài toán luồng cực đại dưới dạng một quy hoạch tuyến tính rồi bật "cỗ máy lấy đối ngẫu LP" lên một cách hoàn toàn cơ học, **bài toán lát cắt cực tiểu tự động hiện ra ngay trước mắt như bản sao đối ngẫu của luồng cực đại!** Sự đồng nhất giữa hai bài toán tưởng chừng thuộc hai nhánh khác nhau của lý thuyết đồ thị hóa ra chỉ là một hệ quả thanh lịch của đối ngẫu mạnh LP.
 
-## Bản đồ kiến thức nền: Bốn trụ cột nối lý thuyết đồ thị với đối ngẫu LP
+## Kiến thức cần nhớ: Bốn trụ cột nối lý thuyết đồ thị với đối ngẫu LP
 
 - **Mô hình LP của bài toán luồng cực đại (Max Flow):** Biến gốc là lưu lượng $$f_{ij}$$ trên mỗi cung $$(i, j) \in E$$, bị chặn sức chứa $$0 \le f_{ij} \le c_{ij}$$ và thỏa định luật bảo toàn luồng tại mọi đỉnh trung gian (tổng vào = tổng ra). Mục tiêu là cực đại hóa tổng lưu lượng rời nguồn $$s$$.
 - **Ý nghĩa biến đối ngẫu — Thế năng đỉnh $$b_i$$ và giá nghẽn cung $$a_{ij}$$:** Khi lấy đối ngẫu LP, ràng buộc bảo toàn luồng ở mỗi đỉnh $$i$$ sinh ra một biến đối ngẫu $$b_i$$ (như "nhãn" phân chia đỉnh vào phía nguồn $$S$$ hay phía đích $$T$$), còn ràng buộc sức chứa cung $$f_{ij} \le c_{ij}$$ sinh ra biến $$a_{ij} \ge 0$$ (bằng $$1$$ nếu cung $$(i, j)$$ bị cắt ngang từ $$S$$ sang $$T$$, bằng $$0$$ nếu không).
 - **Tính toàn nguyên (Total Unimodularity):** Một phép màu đại số của ma trận liên thuộc đỉnh–cung: dù ta giải bản nới lỏng LP liên tục ($$a_{ij}, b_i \in \mathbb{R}$$), mọi đỉnh cực biên của đa diện đối ngẫu đều có tọa độ **nguyên $$0$$ hoặc $$1$$**! Vì thế giá trị tối ưu LP liên tục trùng khít với lát cắt cực tiểu rời rạc!
 - **Đối ngẫu yếu = Lát cắt luôn chặn trên luồng:** Bất kỳ lát cắt nào cũng chặn trên mọi luồng hợp lệ ($$\text{flow} \le \text{cut}$$); đối ngẫu mạnh khẳng định dấu bằng luôn đạt được ($$\max\text{flow} = \min\text{cut}$$).
 
-### Khung giải thích (nên đọc chậm): Tính tay Max Flow và Min Cut trên mạng 4 đỉnh
+### Giải thích: Tính tay Max Flow và Min Cut trên mạng 4 đỉnh
 
 Xét đồ thị có hướng gồm 4 đỉnh $$\{s, a, b, t\}$$ và 5 cung với sức chứa:
 - $$s \to a$$ (cap $$3$$), $$s \to b$$ (cap $$2$$),

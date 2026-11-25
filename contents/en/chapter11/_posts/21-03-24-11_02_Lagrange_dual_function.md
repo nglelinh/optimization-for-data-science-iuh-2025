@@ -12,14 +12,14 @@ lesson_type: required
 
 Once you form the Lagrangian $$L(x, u, v)$$, how do you turn it into a concrete lower bound on $$f^\star$$ that does not depend on $$x$$? You simply drop all constraints and take the unconstrained infimum over $$x$$: $$g(u, v) = \inf_x L(x, u, v)$$. This **Lagrange dual function** is one of the cleanest miracles in mathematics: even when the original primal problem is nonconvex and NP-hard, $$g(u, v)$$ is *guaranteed* to be a concave function of $$(u, v)$$ that lower-bounds $$f^\star$$ everywhere!
 
-## Background Knowledge Map: Properties & Computation of the Dual Function
+## Key ideas: Properties & Computation of the Dual Function
 
 - **Pillar 1 — Universal Lower-Bound Inequality:** For any $$u \ge 0$$ and $$v$$, $$f^\star = \min_{x \in C} f(x) \ge \min_{x \in C} L(x, u, v) \ge \inf_x L(x, u, v) = g(u, v)$$. Notice the two distinct relaxations: first replacing $$f$$ by $$L \le f$$ on $$C$$, then enlarging the minimization domain from $$C$$ to all of $$\mathbb{R}^n$$.
 - **Pillar 2 — Guaranteed Concavity:** Because $$L(x, u, v)$$ is affine in $$(u, v)$$ for each fixed $$x$$, $$g(u, v) = \inf_x L(x, u, v)$$ is the pointwise infimum of affine functions—hence **always concave**, with a convex effective domain $$\operatorname{dom}(g) = \{(u, v) : g(u, v) > -\infty\}$$.
 - **Pillar 3 — Quadratic Program (QP) Duals ($$Q \succ 0$$ vs. $$Q \succeq 0$$):** For $$\frac{1}{2}x^\top Q x + c^\top x$$ subject to $$Ax = b, x \ge 0$$, when $$Q \succ 0$$ the unique minimizer $$x = -Q^{-1}(c - u + A^\top v)$$ gives a closed-form concave quadratic $$g(u, v)$$. When $$Q \succeq 0$$ is singular, $$g(u, v)$$ is finite *only* when $$c - u + A^\top v \in \operatorname{col}(Q)$$, using the Moore–Penrose pseudoinverse $$Q^+$$!
 - **Pillar 4 — Connection to Fenchel Conjugates:** For linear constraints $$Ax = b, Gx \le h$$, $$g(u, v) = -f^\star(-A^\top v - G^\top u) - b^\top v - h^\top u$$, showing that computing a dual function is mathematically equivalent to computing the Fenchel conjugate $$f^\star$$ of the objective.
 
-### Step-by-Step Worked Example (Read Slowly): Computing $$g(u, v)$$ for a Positive Definite vs. Singular QP
+### Worked example: Computing $$g(u, v)$$ for a Positive Definite vs. Singular QP
 
 Minimize $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + \alpha x_2^2) - 2x_1 - 4x_2$$ subject to $$x_1 + x_2 = 1$$ (with equality multiplier $$v \in \mathbb{R}$$).
 

@@ -11,14 +11,14 @@ lang: en
 
 Imagine trying to park a car at the exact bottom of a V-shaped ramp where the accelerator only has two settings: full forward or full reverse. If your stride length stays fixed forever, you will hop back and forth across the bottom indefinitely without ever landing on it; if you shrink your stride too fast, you will stall halfway down the ramp and never reach the bottom. Choosing step sizes $$t_k$$ in the subgradient method is the exact mathematical balancing act between reaching the optimum from any distance and damping out the oscillations once you arrive.
 
-## Background Knowledge Map: Step-Size Schedules in Nonsmooth Optimization
+## Key ideas: Step-Size Schedules in Nonsmooth Optimization
 
 - **Pillar 1 — Non-Vanishing Subgradients Near $$x^\star$$:** Unlike smooth gradients that shrink continuously to $$0$$ as $$x \to x^\star$$, subgradients of nonsmooth functions like $$|x|$$ maintain norm $$1$$ arbitrarily close to the minimizer. Fixed step sizes therefore create a permanent residual error neighborhood around $$f^\star$$.
 - **Pillar 2 — The Infinite-Travel Condition ($$\sum_{k=1}^\infty t_k = \infty$$):** Because the starting point $$x^{(0)}$$ may lie arbitrarily far from $$x^\star$$, the total accumulated step length must diverge so the algorithm can traverse any finite initial distance $$R = \|x^{(0)} - x^\star\|_2$$.
 - **Pillar 3 — The Square-Summable Noise Condition ($$\sum_{k=1}^\infty t_k^2 < \infty$$):** The overshoot error accumulated from non-vanishing subgradient norms scales with $$\sum_{k=1}^K t_k^2 G^2$$. Requiring this series to converge guarantees that the error ratio $$\frac{\sum t_k^2}{\sum t_k} \to 0$$, ensuring exact convergence $$f_{\text{best}}^{(k)} \to f^\star$$.
 - **Pillar 4 — Constant Step Length vs. Constant Step Size:** Scaling the step by the subgradient norm ($$t_k = \gamma / \|g^{(k-1)}\|_2$$) keeps the Euclidean displacement $$\|x^{(k)} - x^{(k-1)}\|_2 = \gamma$$ uniform across steep and flat regions, preventing wild jumps when $$\|g\|$$ is large.
 
-### Step-by-Step Worked Example (Read Slowly): Fixed vs. Diminishing Step Sizes on $$f(x) = |x|$$
+### Worked example: Fixed vs. Diminishing Step Sizes on $$f(x) = |x|$$
 
 Let $$f(x) = |x|$$ ($$x^\star = 0, f^\star = 0$$), starting at $$x^{(0)} = 0.7$$, using subgradient $$g(x) = \operatorname{sign}(x)$$ (with $$g(0) = 0$$).
 

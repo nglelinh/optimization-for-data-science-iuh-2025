@@ -10,11 +10,11 @@ lang: vi
 lesson_type: required
 ---
 
-Đối ngẫu yếu ($$g^* \le f^*$$) luôn đúng nhưng chưa đủ để ta yên tâm thay thế bài toán gốc bằng bài toán đối ngẫu — nếu khoảng cách $$f^* - g^*$$ vẫn lớn, giải xong đối ngẫu ta chỉ biết một cận dưới lỏng lẻo chứ không chạm được tới đáy thực sự $$f^*$$. Câu hỏi sống còn của Chương 11 là: **khi nào khoảng cách ấy thu về đúng bằng $$0$$ ($$f^* = g^*$$ — tính đối ngẫu mạnh)?**
+Đối ngẫu yếu ($$g^* \le f^*$$) luôn đúng nhưng chưa đủ để ta yên tâm thay thế bài toán gốc bằng bài toán đối ngẫu — nếu khoảng cách $$f^* - g^*$$ vẫn lớn, giải xong đối ngẫu ta chỉ biết một cận dưới lỏng lẻo chứ không chạm được tới đáy thực sự $$f^*$$. Câu hỏi quan trọng của Chương 11 là: **khi nào khoảng cách ấy thu về đúng bằng $$0$$ ($$f^* = g^*$$ — tính đối ngẫu mạnh)?**
 
 Trong quy hoạch tuyến tính, tính lồi tự nó là đủ. Nhưng với bài toán lồi phi tuyến tổng quát, điều bất ngờ là tính lồi *chưa hoàn toàn đủ* — vẫn tồn tại những bài toán lồi "kỳ dị" trên biên khiến $$g^* < f^*$$! Để loại trừ những điểm kỳ dị đó, ta chỉ cần thêm một điều kiện chuẩn hóa cực kỳ nhẹ gọi là **điều kiện Slater**: tồn tại ít nhất một điểm khả thi chặt nằm *hẳn bên trong* các ràng buộc bất đẳng thức phi tuyến ($$h_i(\tilde{x}) < 0$$). Khi điều kiện Slater thỏa mãn (như trong bài toán SVM lừng danh ở cuối bài), tính đối ngẫu mạnh được bảo chứng 100%!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tính đối ngẫu mạnh và điều kiện Slater
+## Kiến thức cần nhớ: Bốn trụ cột của tính đối ngẫu mạnh và điều kiện Slater
 
 - **Định nghĩa tính đối ngẫu mạnh:** Xảy ra khi $$f^* = g^*$$ (khoảng cách đối ngẫu tối ưu bằng $$0$$). Điều này cho phép ta giải bài toán đối ngẫu (thường đơn giản hơn hoặc có ít biến hơn, hoặc hỗ trợ thủ thuật nhân — kernel trick trong SVM!) rồi khôi phục nghiệm gốc.
 - **Điều kiện Slater (dạng chuẩn và dạng tinh gọn cho ràng buộc affine):**
@@ -23,7 +23,7 @@ Trong quy hoạch tuyến tính, tính lồi tự nó là đủ. Nhưng với b�
 - **Định lý tách siêu phẳng — gốc rễ hình học của Slater:** Điều kiện Slater đảm bảo siêu phẳng đỡ tập $$\mathcal{A} = \{(u, t) : \exists x, h(x) \le u, f(x) \le t\}$$ tại $$(0, f^*)$$ không bị "dựng đứng" song song trục $$t$$, nhờ đó hệ số của $$f(x)$$ khác $$0$$ và chia chuẩn hóa ra được nhân tử Lagrange hữu hạn $$(u^*, v^*)$$.
 - **Ứng dụng vàng — Bài toán đối ngẫu SVM:** Trong SVM, mọi ràng buộc $$1 - y_i(x_i^T\beta + \beta_0) - \xi_i \le 0$$ và $$-\xi_i \le 0$$ đều là **ràng buộc affine**! Do đó bài toán SVM tự động thỏa điều kiện Slater tinh gọn và luôn có đối ngẫu mạnh $$f^* = g^*$$!
 
-### Khung giải thích (nên đọc chậm): Đối chiếu 1 bài toán thỏa Slater và 1 bài toán lồi vi phạm Slater
+### Giải thích: Đối chiếu 1 bài toán thỏa Slater và 1 bài toán lồi vi phạm Slater
 
 **Trường hợp 1 (Thỏa Slater $$\implies f^* = g^*$$):**
 $$\min_{x_1, x_2} \; x_1^2 + x_2^2 \quad \text{s.t.} \quad h_1(x) = 2 - x_1 - x_2 \le 0, \quad h_2(x) = x_1^2 - 4 \le 0.$$

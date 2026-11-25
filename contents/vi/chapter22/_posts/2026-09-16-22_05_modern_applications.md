@@ -16,7 +16,7 @@ Một thuật toán từ năm 1956 sống khỏe trong các hội nghị học m
 
 Từ bài toán dự đoán có cấu trúc trên hàng nghìn nhãn chuỗi, bài toán vận chuyển tối ưu (Optimal Transport) ghép phân phối màu ảnh, cho đến việc giải thích quyết định của mạng nơ-ron sâu bằng các mặt nạ thưa, Frank–Wolfe liên tục xuất hiện như một "vũ khí thầm lặng" giúp giải bài toán quy mô lớn mà vẫn giữ nguyên cấu trúc diễn giải được của nghiệm.
 
-## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại kết nối với Frank–Wolfe
+## Kiến thức cần nhớ: Bốn nhánh ứng dụng hiện đại kết nối với Frank–Wolfe
 
 Để đọc bài tổng quan ứng dụng này thật hiệu quả, hãy nắm trực giác của bốn lĩnh vực mà Frank–Wolfe đang đóng vai trò trung tâm:
 
@@ -25,7 +25,7 @@ Từ bài toán dự đoán có cấu trúc trên hàng nghìn nhãn chuỗi, b�
 - **Khả năng giải thích mạng nơ-ron (Explainable AI & Rate-Distortion):** Khi giải thích vì sao mạng nơ-ron dự đoán một ảnh là "mèo", ta muốn tìm một mặt nạ đặc trưng nằm trong quả cầu $$\ell_1$$ (ít pixel nhất nhưng giữ nguyên dự đoán). Frank–Wolfe đảm bảo mặt nạ tìm được có tính thưa kiểm soát được trực tiếp qua số vòng lặp.
 - **Đánh đổi giữa Frank–Wolfe và Sinkhorn/PGD:** Hiểu rõ khi nào cần kế hoạch vận chuyển *thưa và không chính quy hóa entropy* (ưu thế của Frank–Wolfe) so với kế hoạch *trơn, dễ song song hóa trên GPU* (ưu thế của thuật toán Sinkhorn).
 
-### Khung giải thích (nên đọc chậm): Tính tay một vòng Block-Coordinate Frank–Wolfe (BCFW) trên tích hai đơn hình
+### Giải thích: Tính tay một vòng Block-Coordinate Frank–Wolfe (BCFW) trên tích hai đơn hình
 
 Để hình dung cách BCFW hoạt động trong dự đoán có cấu trúc và OT bán nới lỏng, xét miền khả thi là tích của hai đơn hình xác suất $$C = \Delta_2 \times \Delta_2$$, tức biến $$\alpha = (\alpha^{(1)}, \alpha^{(2)})$$ với $$\alpha^{(i)} \in \Delta_2$$. Giả sử ta tối ưu hàm mục tiêu $$f(\alpha^{(1)}, \alpha^{(2)}) = \frac{1}{2}\|\alpha^{(1)} - (1.2, -0.2)\|_2^2 + \frac{1}{2}\|\alpha^{(2)} - (0.1, 0.9)\|_2^2$$, khởi tạo từ $$\alpha_0^{(1)} = (0.5, 0.5)$$ và $$\alpha_0^{(2)} = (0.5, 0.5)$$.
 

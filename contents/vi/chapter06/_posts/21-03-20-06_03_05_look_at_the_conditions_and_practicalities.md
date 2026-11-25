@@ -13,7 +13,7 @@ lang: vi
 
 Bài học này nối liền lý thuyết hội tụ với kỹ nghệ lập trình tối ưu hóa thực tế: tính cụ thể $$L$$ và $$m$$ từ giá trị kỳ dị (singular values) của ma trận dữ liệu $$X$$, phân tích chi phí mỗi vòng lặp $$O(np)$$, và xây dựng các **tiêu chí dừng (stopping criteria)** đáng tin cậy.
 
-## Bản đồ kiến thức nền: Từ Định lý sang Code thực chiến
+## Kiến thức cần nhớ: Từ Định lý sang Code thực chiến
 
 Bốn trụ cột dưới đây là hành trang bắt buộc khi triển khai Gradient Descent trên dữ liệu thật:
 
@@ -23,7 +23,7 @@ Bốn trụ cột dưới đây là hành trang bắt buộc khi triển khai Gr
 - **Tiêu chí dừng thực tế (Stopping Criteria):** Không biết $$f^\star$$, ta dùng độ lớn gradient $$\|\nabla f(x^{(k)})\|_2 \le \epsilon_{\text{grad}}$$ (nhờ bất đẳng thức PL, với hàm lồi mạnh $$m$$ ta biết ngay $$f(x^{(k)}) - f^\star \le \frac{1}{2m}\|\nabla f(x^{(k)})\|_2^2$$!), kết hợp với kiểm tra mức thay đổi tương đối của $$f$$ hoặc $$x$$.
 - **Ưu & Nhược điểm cốt lõi của GD:** Mỗi bước cực rẻ (chỉ $$O(np)$$, không cần lập hay nghịch đảo ma trận Hessian $$O(p^3)$$ như Newton), rất dễ cài đặt, nhưng cực nhạy cảm với chỉ số điều kiện $$\kappa = (\sigma_{\max}/\sigma_{\min})^2$$!
 
-### Khung giải thích (nên đọc chậm): Tính $$L, m, \kappa$$ và chứng nhận độ chính xác dừng qua $$\|\nabla f\|_2$$
+### Giải thích: Tính $$L, m, \kappa$$ và chứng nhận độ chính xác dừng qua $$\|\nabla f\|_2$$
 
 Cho ma trận dữ liệu 2 mẫu, 2 đặc trưng $$X = \begin{pmatrix} 2 & 0 \\ 0 & 0.5 \end{pmatrix}$$ và bài toán $$f(\beta) = \frac{1}{2}\|y - X\beta\|_2^2$$:
 

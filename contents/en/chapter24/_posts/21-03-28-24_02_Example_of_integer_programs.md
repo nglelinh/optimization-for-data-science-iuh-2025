@@ -11,14 +11,14 @@ lang: en
 
 What do packing a cargo plane, matching Uber drivers to riders, choosing warehouse locations, clustering customers, and selecting the top $$k$$ biomarkers in a genomics study all have in common? Beneath completely different surface stories, all six are canonical Mixed Integer Programs! Learning these six architectural templates—Knapsack, Assignment, Facility Location, $$K$$-medoids, Best Subset Selection, and Least Median of Squares—gives you a reusable vocabulary for translating almost any discrete decision or robust statistical problem into a solvable MIP.
 
-## Background Knowledge Map: Six Canonical MIP Modeling Templates
+## Key ideas: Six Canonical MIP Modeling Templates
 
 - **Knapsack & Resource Packing:** Binary selection $$x_j \in \{0, 1\}$$ maximizes total value $$\sum v_j x_j$$ subject to a single capacity budget $$\sum w_j x_j \le C$$—the atomic building block of resource allocation and cutting-plane theory.
 - **Assignment & Total Unimodularity:** Matching $$n$$ workers to $$n$$ tasks with $$\sum_j x_{ij} = 1$$ and $$\sum_i x_{ij} = 1$$ has a totally unimodular constraint matrix, meaning every vertex of its LP relaxation is *already integral*—an extraordinary case where LP solves the IP exactly!
 - **Facility Location (Uncapacitated):** Pairs binary open/close decisions $$y_i \in \{0, 1\}$$ with assignment fractions $$x_{ij} \ge 0$$ via linking constraints $$x_{ij} \le y_i$$, balancing fixed infrastructure costs against variable transport distances.
 - **Combinatorial Statistics (Best Subset & LMS):** Binary support variables $$z_j \in \{0, 1\}$$ with $$\sum z_j \le k$$ and big-$$M$$ bounds $$|\beta_j| \le M z_j$$ formulate exact $$\ell_0$$-constrained regression, while binary outlier switches formulate breakdown-proof Least Median of Squares.
 
-### Step-by-Step Worked Example (Read Slowly): Solving a 3-Item 0–1 Knapsack and Checking LP Relaxation
+### Worked example: Solving a 3-Item 0–1 Knapsack and Checking LP Relaxation
 
 Maximize value $$6 x_1 + 10 x_2 + 12 x_3$$ subject to weight $$1 x_1 + 2 x_2 + 3 x_3 \le 5$$ and $$x_1, x_2, x_3 \in \{0, 1\}$$.
 

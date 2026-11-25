@@ -14,13 +14,13 @@ lesson_type: optional
 
 Bài đọc mở rộng này kết nối trực tiếp hình học tập lồi Chương 02 với các chủ đề nghiên cứu mũi nhọn giai đoạn 2022–2026.
 
-## Bản đồ kiến thức nền: Ba miền lồi trong AI và dữ liệu hiện đại
+## Kiến thức cần nhớ: Ba miền lồi trong AI và dữ liệu hiện đại
 
 - **Đơn hình xác suất $$\Delta_K$$ và ánh xạ Softmax:** Đầu ra xác suất của mạng phân loại hay LLM luôn bị ràng buộc nằm trong tập lồi $$\Delta_K = \{p \ge 0 : \mathbf{1}^T p = 1\}$$, với các đỉnh là các vector one-hot đại diện cho quyết định chắc chắn tuyệt đối.
 - **Quả cầu Wasserstein (Tối ưu bền vững theo phân phối — DRO):** Thay vì tin mù quáng vào phân phối mẫu quan sát được $$\hat P$$, ta tối ưu trường hợp xấu nhất trên một quả cầu lồi các phân phối xác suất quanh $$\hat P$$ đo bằng khoảng cách vận chuyển tối ưu Wasserstein.
 - **Đa diện công bằng và phân bổ tài nguyên (Fairness Polytopes):** Các ràng buộc tỷ lệ đại diện nhóm hay ma trận song ngẫu nhiên (Birkhoff polytope) đều tạo thành đa diện lồi, cho phép giải bài toán phân bổ công bằng bằng quy hoạch tuyến tính hoặc chiếu lồi.
 
-### Khung giải thích (nên đọc chậm): Quan sát Softmax và tham số nhiệt độ $$\tau$$ dịch chuyển điểm trong đơn hình $$\Delta_3$$
+### Giải thích: Quan sát Softmax và tham số nhiệt độ $$\tau$$ dịch chuyển điểm trong đơn hình $$\Delta_3$$
 
 Cho vector logit đầu ra của 3 lớp $$z = (2, 1, 0)^T$$. Ánh xạ Softmax với nhiệt độ $$\tau > 0$$ là $$p_i(\tau) = \frac{e^{z_i/\tau}}{\sum_j e^{z_j/\tau}} \in \Delta_3$$:
 

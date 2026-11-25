@@ -11,14 +11,14 @@ lang: en
 
 When you check whether a candidate point $$(x, u, v)$$ is optimal for a convex program, the KKT conditions give you a four-part checklist: primal feasibility, dual feasibility, complementary slackness, and stationarity. When you compare that checklist side-by-side against the optimality conditions of the **barrier problem**, you discover something remarkable: three of the four equations are *identical*, and the fourth merely shifts $$u_i h_i(x) = 0$$ to $$u_i h_i(x) = -1/t$$.
 
-## Background Knowledge Map: Exact KKT vs. Central-Path Optimality
+## Key ideas: Exact KKT vs. Central-Path Optimality
 
 - **Pillar 1 — Sufficiency of KKT for Convex Problems:** When $$f, h_1, \dots, h_m$$ are convex and differentiable and $$l_1, \dots, l_r$$ are affine, any $$(x^\star, u^\star, v^\star)$$ satisfying KKT is guaranteed globally primal and dual optimal with zero duality gap.
 - **Pillar 2 — Necessity via Slater's Condition:** Under strict feasibility (Slater's condition), strong duality holds and KKT conditions become both *necessary and sufficient*.
 - **Pillar 3 — Barrier KKT as a Homotopy Deformation:** Introducing $$u_i(t) = -\frac{1}{t h_i(x^*(t))} > 0$$ rewrites barrier optimality as exact stationarity, exact primal/dual feasibility, and perturbed complementarity $$u_i h_i = -1/t$$.
 - **Pillar 4 — Measuring Distance to KKT (Residuals):** Primal-dual solvers track three residuals—primal residual $$r_{\text{pri}} = Ax - b$$, dual residual $$r_{\text{dual}} = \nabla f + \sum u_i \nabla h_i + A^T v$$, and complementarity residual $$r_{\text{cent}} = -u \odot h - \frac{1}{t}\mathbf{1}$$—driving all three to zero simultaneously.
 
-### Step-by-Step Worked Example (Read Slowly): Comparing Exact KKT and Barrier KKT Residuals
+### Worked example: Comparing Exact KKT and Barrier KKT Residuals
 
 Consider $$\min_{x \in \mathbb{R}} (x - 4)^2$$ subject to $$h_1(x) = x - 2 \le 0$$ (i.e., $$x \le 2$$).
 

@@ -11,7 +11,7 @@ lang: vi
 
 Trong tối ưu hóa, không có thuật toán nào là "chén thánh" thắng ở mọi bài toán. Proximal Newton hội tụ siêu nhanh về số vòng lặp ngoài ($$O(\log\log(1/\epsilon))$$ so với $$O(1/\epsilon)$$ của proximal gradient), nhưng cái giá phải trả lại vô cùng đắt đỏ: **mỗi một vòng lặp ngoài của nó lại phải giải cả một bài toán tối ưu bậc hai có phạt bên trong!** Vậy ranh giới nào phân định lúc nào nên dùng Proximal Newton và lúc nào nên trung thành với Proximal Gradient?
 
-## Bản đồ kiến thức nền: Bốn tiêu chí quyết định chọn Proximal Newton hay Proximal Gradient
+## Kiến thức cần nhớ: Bốn tiêu chí quyết định chọn Proximal Newton hay Proximal Gradient
 
 Để đưa ra quyết định kiến trúc bộ giải chính xác trong thực tế, hãy cân đo bốn yếu tố sau:
 
@@ -20,7 +20,7 @@ Trong tối ưu hóa, không có thuật toán nào là "chén thánh" thắng �
 - **Yêu cầu độ chính xác cuối cùng $$\epsilon$$:** Nếu chỉ cần sai số thô $$10^{-2}$$ (như nhiều bài toán học sâu), bậc nhất là đủ nhanh; nhưng nếu cần sai số chính xác $$10^{-8}\text{–}10^{-12}$$ (thống kê, điều khiển, tài chính), hội tụ bậc hai của Newton proximal bỏ xa hoàn toàn.
 - **Số điều kiện của Hessian $$\nabla^2 g$$:** Khi các đặc trưng tương quan mạnh làm số điều kiện $$\kappa = L/m$$ rất lớn, PGD bị dao động hình răng cưa suốt hàng nghìn bước, còn Proximal Newton triệt tiêu hoàn toàn độ lệch trục.
 
-### Khung giải thích (nên đọc chậm): Tính nhanh bài toán chi phí thực tế giữa PGD và Proximal Newton
+### Giải thích: Tính nhanh bài toán chi phí thực tế giữa PGD và Proximal Newton
 
 Giả sử bạn giải một bài toán hồi quy logistic có phạt $$\ell_1$$ với $$n = 50{,}000$$ mẫu và $$p = 500$$ đặc trưng (nhưng chỉ có khoảng $$s = 25$$ đặc trưng thực sự khác $$0$$ ở nghiệm):
 

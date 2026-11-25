@@ -11,7 +11,7 @@ lang: vi
 
 Trong thống kê hiện đại, **Lasso** chọn từng đặc trưng đơn lẻ bằng phạt $$\ell_1$$, còn **Group Lasso** (Yuan & Lin, 2006) chọn hoặc loại bỏ **cả một nhóm đặc trưng cùng lúc** (ví dụ toàn bộ các biến giả one-hot của một biến phân loại, hay cả một cụm gen cùng chức năng) bằng phạt tổng chuẩn Euclid $$\sum_{g} \sqrt{p_g}\|\beta_g\|_2$$. Điều tuyệt vời khi giải cả hai bài toán này bằng ADMM là: **bước giải hệ tuyến tính cho $$\beta$$ giống hệt nhau**, ta chỉ cần đổi đúng một dòng ở bước cập nhật $$\alpha$$ — từ ngưỡng mềm từng phần tử (elementwise soft-thresholding) sang **ngưỡng mềm theo khối (block soft-thresholding)**!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của ADMM cho Lasso và Group Lasso
+## Kiến thức cần nhớ: Bốn trụ cột của ADMM cho Lasso và Group Lasso
 
 Để áp dụng linh hoạt ADMM cho các biến thể hồi quy có điều chuẩn thưa, hãy nắm chắc bốn điểm sau:
 
@@ -20,7 +20,7 @@ Trong thống kê hiện đại, **Lasso** chọn từng đặc trưng đơn l�
 - **Toán tử ngưỡng mềm theo khối cho Group Lasso:** Với mỗi nhóm biến $$g$$, $$\operatorname{prox}_{\tau\|\cdot\|_2}(v_g) = \left(1 - \frac{\tau}{\|v_g\|_2}\right)_+ v_g$$. Nếu chuẩn nhóm $$\|v_g\|_2 \le \tau$$, toàn bộ vector $$\alpha_g$$ bị ép về $$0$$ đồng thời; ngược lại, nó bị co tỉ lệ mà vẫn giữ nguyên hướng!
 - **Tối ưu hóa tốc độ nhờ tái sử dụng phân tích Cholesky:** Giữ nguyên $$\rho$$ (hoặc chỉ đổi $$\rho$$ vài lần đầu) giúp chi phí mỗi vòng lặp sau đó chỉ còn $$O(p^2)$$ (hoặc $$O(np)$$ khi $$n \ll p$$).
 
-### Khung giải thích (nên đọc chậm): So sánh trực tiếp ngưỡng mềm Lasso và ngưỡng mềm khối Group Lasso trên cùng vector
+### Giải thích: So sánh trực tiếp ngưỡng mềm Lasso và ngưỡng mềm khối Group Lasso trên cùng vector
 
 Giả sử trong một bước cập nhật $$\alpha^{(k)}$$ của ADMM, ta nhận được vector đầu vào $$v = \beta^{(k)} + w^{(k-1)} = (3, \; 4)^T$$ (thuộc cùng một nhóm $$g$$ kích thước 2) với ngưỡng hiệu dụng $$\tau = \lambda / \rho = 2$$:
 

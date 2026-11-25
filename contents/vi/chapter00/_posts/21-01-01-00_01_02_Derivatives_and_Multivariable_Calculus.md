@@ -14,14 +14,14 @@ Khi tối ưu hóa một biến số duy nhất, ta chỉ cần quan tâm đư�
 
 Nắm vững cách đọc đạo hàm riêng, đường mức và độ cong đa biến sẽ giúp bạn hình dung ngay bề mặt hàm mất mát ngay cả khi không thể vẽ nó trong không gian 3D.
 
-## Bản đồ kiến thức nền: Cấu trúc vi phân của hàm nhiều biến
+## Kiến thức cần nhớ: Cấu trúc vi phân của hàm nhiều biến
 
 - **Đạo hàm riêng và Gradient ($$\nabla f$$):** Giữ cố định các biến khác và khảo sát tốc độ thay đổi dọc theo từng trục tọa độ $$x_i$$. Ghép tất cả đạo hàm riêng thành một vector, ta thu được $$\nabla f(x) \in \mathbb{R}^n$$ — tổng hợp đầy đủ độ dốc bậc nhất.
 - **Đường mức và siêu mặt mức (Level Sets):** Tập $$\{x : f(x) = c\}$$ giúp "cắt lát" địa hình nhiều chiều giống như bản đồ địa hình. Gradient tại mỗi điểm luôn vuông góc với đường mức đi qua điểm đó.
 - **Ma trận Jacobian ($$J_f$$):** Tổng quát hóa đạo hàm cho ánh xạ vector $$f: \mathbb{R}^n \to \mathbb{R}^m$$, đặc biệt quan trọng khi viết quy tắc dây chuyền (chain rule) trong lan truyền ngược (backpropagation) và hệ ràng buộc đa biến.
 - **Ma trận Hessian ($$\nabla^2 f$$):** Chứa mọi đạo hàm riêng cấp hai $$\frac{\partial^2 f}{\partial x_i \partial x_j}$$. Tính xác định dương hay bán xác định dương của Hessian chính là tiêu chuẩn kiểm tra tính lồi và phân biệt cực tiểu, cực đại hay điểm yên ngựa.
 
-### Khung giải thích (nên đọc chậm): Tính tay Gradient và Hessian của $$f(x_1, x_2) = x_1^2 + 3x_1 x_2 + 4x_2^2$$
+### Giải thích: Tính tay Gradient và Hessian của $$f(x_1, x_2) = x_1^2 + 3x_1 x_2 + 4x_2^2$$
 
 Xét hàm hai biến $$f(x_1, x_2) = x_1^2 + 3x_1 x_2 + 4x_2^2$$ tại điểm $$x = (1, -1)^T$$:
 

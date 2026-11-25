@@ -14,14 +14,14 @@ Trong thế giới lý tưởng của sách giáo khoa cổ điển, mọi hệ 
 
 Phần 00-04 mở ra chiếc cầu nối giữa mô hình xác suất (như phân phối Gauss, Laplace, Bernoulli) với các hàm mất mát quen thuộc trong tối ưu hóa lồi (MSE, MAE, Cross-Entropy, Ridge, Lasso).
 
-## Bản đồ kiến thức nền: Xác suất gặp Tối ưu hóa ở đâu?
+## Kiến thức cần nhớ: Xác suất gặp Tối ưu hóa ở đâu?
 
 - **Tối ưu hóa rủi ro kỳ vọng và rủi ro thực nghiệm (ERM):** Ta muốn cực tiểu hóa tổn thất kỳ vọng $$\mathbb{E}[\ell(x, \xi)]$$ nhưng chỉ có $$N$$ mẫu dữ liệu, nên thay bằng trung bình mẫu $$\frac{1}{N}\sum_{i=1}^N \ell(x, \xi_i)$$ — bài toán tối ưu hóa tổng hữu hạn kinh điển.
 - **Ước lượng hợp lý tối đa (MLE) và hậu nghiệm tối đa (MAP):** Cực đại hóa xác suất quan sát được dữ liệu tương đương cực tiểu hóa **âm log-hợp lý** (negative log-likelihood). Thêm phân phối tiên nghiệm (prior) sinh ra đúng số hạng điều chuẩn (regularization) trong tối ưu hóa!
 - **Bất đẳng thức Jensen và tính lồi:** Cho hàm lồi $$f$$, $$f(\mathbb{E}[X]) \le \mathbb{E}[f(X)]$$. Đây là cầu nối vàng giữa xác suất và tối ưu hóa lồi, xuất hiện trong phân kỳ KL, thuật toán EM và suy luận biến phân.
 - **Tối ưu hóa ngẫu nhiên (Stochastic Optimization):** Khi $$N$$ lên tới hàng triệu, tính gradient đầy đủ quá tốn kém; ta ước lượng gradient không chệch từ một mini-batch ngẫu nhiên (SGD).
 
-### Khung giải thích (nên đọc chậm): Tại sao chọn hàm mất mát $$\ell_2$$ ra Trung bình, còn $$\ell_1$$ ra Trung vị?
+### Giải thích: Tại sao chọn hàm mất mát $$\ell_2$$ ra Trung bình, còn $$\ell_1$$ ra Trung vị?
 
 Giả sử bạn thu thập $$4$$ phép đo nhiệt độ có một giá trị nhiễu mạnh: $$y = (2, 4, 5, 9)$$, và muốn chọn một con số đại diện $$\theta$$ tốt nhất:
 

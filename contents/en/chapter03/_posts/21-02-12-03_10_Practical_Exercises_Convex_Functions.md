@@ -14,14 +14,14 @@ redirect_from:
 
 Real fluency with convex functions happens when you move seamlessly between symbolic proofs (verifying Hessians, deriving Fenchel conjugates, computing subdifferentials) and numerical verification. These practical exercises bring all of Chapter 03 together—from verifying convexity and preservation rules to solving nonsmooth optimality conditions, quasiconvex ratio problems, and log-concave estimation tasks.
 
-## Background Knowledge Map: Problem-Solving Toolkit for These Exercises
+## Key ideas: Problem-Solving Toolkit for These Exercises
 
 - **Multi-Method Convexity Proofs:** Choosing the fastest proof per problem—Hessian test for smooth low-dimensional functions, composition/perspective rules for structured functions, and definition/epigraph for nonsmooth functions.
 - **Conjugate Derivation Recipe:** Set $$\nabla_x(y^T x - f(x)) = 0$$ when smooth, check boundary/infinity cases carefully to find $$\text{dom}\,f^*$$, and verify with Fenchel's inequality.
 - **Subdifferentials & Nonsmooth Optimality:** At a kink (like $$|x - c|$$), replace $$\nabla f(x^*) = 0$$ with $$0 \in \partial f(x^*)$$—the exact foundation of Lasso soft-thresholding.
 - **Quasiconvex & Log-Concave Checks:** Clear positive denominators to expose convex sublevel sets, and take logarithms before differentiating to test log-concavity.
 
-### Step-by-Step Worked Example (Read Slowly): Solving a Nonsmooth Convex Problem via Subdifferentials
+### Worked example: Solving a Nonsmooth Convex Problem via Subdifferentials
 
 Minimize $$f(x) = |x - 1| + \frac{1}{2}(x - 4)^2$$ over $$x \in \mathbb{R}$$.
 

@@ -12,7 +12,7 @@ lesson_type: required
 
 At a smooth point on a convex bowl, you can lay a flat wooden board underneath the bowl and there is only one angle that touches it without poking through—the tangent plane. Now press that same board underneath the sharp tip of a V-shaped cone: suddenly you can rock the board back and forth across a whole range of angles, and *every* tilt still supports the cone from below! Every valid tilt is a **subgradient**.
 
-## Background Knowledge Map: Definition and Geometry of Subgradients
+## Key ideas: Definition and Geometry of Subgradients
 
 1. **The Global Underestimator Inequality**: A vector $$g \in \mathbb{R}^n$$ is a subgradient of $$f$$ at $$x$$ if
    $$f(y) \ge f(x) + g^T(y - x) \quad \text{for all } y \in \operatorname{dom}(f).$$
@@ -24,7 +24,7 @@ At a smooth point on a convex bowl, you can lay a flat wooden board underneath t
    - Euclidean norm $$\|x\|_2$$: $$g = x/\|x\|_2$$ for $$x \neq 0$$, and any $$\|g\|_2 \le 1$$ at $$x = 0$$.
    - Pointwise maximum $$\max\{f_1(x), f_2(x)\}$$: any convex combination of gradients of the *active* branches achieving the maximum.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying Subgradients of $$f(x) = \|x\|_2$$ at $$x = 0$$
+### Worked example: Verifying Subgradients of $$f(x) = \|x\|_2$$ at $$x = 0$$
 
 For the Euclidean norm $$f(x) = \|x\|_2$$ on $$\mathbb{R}^2$$, verify directly from the definition which vectors $$g \in \mathbb{R}^2$$ are subgradients at $$x = (0, 0)$$.
 

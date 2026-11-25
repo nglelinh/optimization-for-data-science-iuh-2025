@@ -11,14 +11,14 @@ lang: en
 
 Does a noisy, one-sample-at-a-time subgradient loop actually converge to the true minimizer of the full sum, or does the constant tug-of-war between conflicting data points trap it forever? Remarkably, the exact same qualitative dichotomy from deterministic subgradient optimization reappears—only with a sharper dependence on the number of terms $$m$$ and an extra factor of $$5$$ in the fixed-step error neighborhood. This lesson states the core convergence theorems for both cyclic and randomized stochastic subgradient methods.
 
-## Background Knowledge Map: Convergence Guarantees Under Sampling Noise
+## Key ideas: Convergence Guarantees Under Sampling Noise
 
 - **Pillar 1 — Componentwise $$G$$-Lipschitz Continuity:** Assuming each individual term $$f_i$$ is $$G$$-Lipschitz ($$\|g_i\|_2 \le G$$) implies the full sum $$f = \sum_{i=1}^m f_i$$ is at most $$mG$$-Lipschitz. The factor $$m^2 G^2$$ in the error floor directly reflects the worst-case disagreement among $$m$$ components.
 - **Pillar 2 — Fixed-Step Error Floor ($$5 m^2 G^2 t / 2$$):** With constant step size $$t$$, both cyclic and randomized methods satisfy $$\lim_{k \to \infty} f(x_{\text{best}}^{(k)}) \le f^\star + \frac{5 m^2 G^2 t}{2}$$ (in expectation for the randomized variant). The larger constant compared to batch ($$G_{\text{batch}}^2 t / 2$$) accounts for drift *within* a cycle of $$m$$ updates.
 - **Pillar 3 — Exact Asymptotic Convergence via Diminishing Steps:** Under the Robbins–Monro conditions $$\sum t_k = \infty$$ and $$\sum t_k^2 < \infty$$, the intra-cycle drift and stochastic variance both vanish asymptotically, guaranteeing $$f(x_{\text{best}}^{(k)}) \to f^\star$$ (with probability 1 / in expectation for randomized selection).
 - **Pillar 4 — Expectation vs. Deterministic Guarantees:** Cyclic methods yield deterministic bounds across full epochs, whereas randomized methods bound $$\mathbb{E}[f(x_{\text{best}}^{(k)})]$$ (and converge almost surely by supermartingale convergence).
 
-### Step-by-Step Worked Example (Read Slowly): Quantifying the Fixed-Step Noise Floor as $$m$$ Grows
+### Worked example: Quantifying the Fixed-Step Noise Floor as $$m$$ Grows
 
 Suppose $$f(x) = \sum_{i=1}^m f_i(x)$$ where each $$f_i$$ has Lipschitz constant $$G = 1$$, and we compare $$m = 10$$ vs. $$m = 100$$ components using a fixed step size $$t$$.
 

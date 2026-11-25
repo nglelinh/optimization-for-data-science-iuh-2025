@@ -13,14 +13,14 @@ Một đường cong lồi trơn tru có thể được mô tả theo hai cách 
 
 Mỗi đường thẳng có độ dốc $$y$$ được xác định bởi tung độ gốc (hay độ dịch chuyển lớn nhất) để nó chạm sát vào đồ thị $$f(x)$$: đó chính là **hàm liên hợp** $$f^*(y) = \sup_x (y^T x - f(x))$$. Không cần $$f$$ phải lồi hay khả vi, $$f^*$$ luôn luôn là một hàm lồi vì nó là supremum theo từng điểm của một họ các hàm tuyến tính theo $$y$$.
 
-## Bản đồ kiến thức nền: Bốn tính chất vàng của hàm liên hợp Fenchel
+## Kiến thức cần nhớ: Bốn tính chất của hàm liên hợp Fenchel
 
 - **Ý nghĩa hình học của độ dốc và tung độ gốc:** Khoảng cách lớn nhất theo phương thẳng đứng giữa đường thẳng $$y^T x$$ và đồ thị $$f(x)$$ chính là $$f^*(y)$$. Khi $$f$$ khả vi lồi, điểm $$x$$ đạt cực đại thỏa $$\nabla f(x) = y$$, nghĩa là phép liên hợp biến đổi hàm theo biến vị trí $$x$$ thành hàm theo biến độ dốc $$y$$.
 - **Tính lồi tự động:** Dù hàm gốc $$f$$ lồi lõm tùy ý, $$f^*(y)$$ luôn là hàm lồi và đóng. Vì thế, bài toán đối ngẫu lập qua $$f^*$$ luôn có cấu trúc lồi đẹp đẽ.
 - **Bất đẳng thức Fenchel–Young:** Với mọi $$x, y$$, ta luôn có $$f(x) + f^*(y) \ge y^T x$$. Dấu bằng xảy ra khi và chỉ khi $$y \in \partial f(x)$$ (tức là $$y$$ là dưới-gradient của $$f$$ tại $$x$$).
 - **Định lý Fenchel–Moreau (liên hợp kép):** Nếu $$f$$ là hàm lồi và đóng (nửa liên tục dưới), thì lấy liên hợp hai lần sẽ trả lại chính xác hàm ban đầu: $$f^{**} = f$$.
 
-### Khung giải thích (nên đọc chậm): Tự tay tính hàm liên hợp của hai hàm kinh điển
+### Giải thích: Tự tay tính hàm liên hợp của hai hàm kinh điển
 
 Hãy tính $$f^*(y) = \sup_x (yx - f(x))$$ cho một hàm trơn và một hàm không trơn (chuẩn $$\ell_1$$) trong 1 chiều:
 

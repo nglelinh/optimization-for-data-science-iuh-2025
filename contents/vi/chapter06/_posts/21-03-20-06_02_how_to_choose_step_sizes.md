@@ -14,7 +14,7 @@ Biết hướng đi $$-\nabla f(x)$$ mới chỉ là một nửa câu chuyện c
 
 Mục 06-02 đặt ba chiến lược chọn kích thước bước lên cùng một bàn cân so sánh: **bước cố định (Fixed Step Size)** đơn giản nhưng mạo hiểm nếu không biết $$L$$, **Tìm kiếm đường lùi (Backtracking Line Search)** linh hoạt và cực kỳ phổ biến trong thực chiến, và **Tìm kiếm đường chính xác (Exact Line Search)** lý tưởng về mặt lý thuyết nhưng đắt đỏ ở bài toán tổng quát.
 
-## Bản đồ kiến thức nền: Ba triết lý chọn kích thước bước trong Gradient Descent
+## Kiến thức cần nhớ: Ba triết lý chọn kích thước bước trong Gradient Descent
 
 Để chọn đúng chiến lược cho từng bài toán thực tế, hãy nhìn rõ sự đánh đổi giữa ba phương pháp:
 
@@ -22,7 +22,7 @@ Mục 06-02 đặt ba chiến lược chọn kích thước bước lên cùng m
 - **Tìm kiếm đường lùi (Backtracking / Armijo Line Search):** Bắt đầu thử bước lớn $$t = 1$$ (hoặc $$t_0$$), rồi nhân thu nhỏ dần $$t \leftarrow \beta t$$ cho đến khi thỏa điều kiện giảm đủ $$f(x - t\nabla f(x)) \le f(x) - \alpha t \|\nabla f(x)\|_2^2$$. Không cần biết $$L$$ trước, tự động thích ứng với độ cong địa phương!
 - **Tìm kiếm đường chính xác (Exact Line Search):** Giải bài toán tối ưu 1 chiều $$t_k = \arg\min_{s > 0} f(x_k - s\nabla f(x_k))$$ tại mỗi bước. Chỉ dùng hiệu quả khi có công thức đóng (như hàm bậc hai $$f(x) = \frac{1}{2}x^T Q x + b^T x$$); trên hàm phi tuyến tổng quát, chi phí giải bài toán 1D thường tốn kém hơn lợi ích mang lại.
 
-### Khung giải thích (nên đọc chậm): So sánh 3 chiến lược bước trên cùng một điểm xuất phát
+### Giải thích: So sánh 3 chiến lược bước trên cùng một điểm xuất phát
 
 Xét hàm $$f(x) = \frac{1}{2} x^2$$ tại $$x_0 = 4$$, nơi $$f(4) = 8$$ và $$f'(4) = 4$$ (nghiệm đúng là $$x^\star = 0$$):
 

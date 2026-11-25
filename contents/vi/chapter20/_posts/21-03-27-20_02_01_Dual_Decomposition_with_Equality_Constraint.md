@@ -11,7 +11,7 @@ lang: vi
 
 Trong bài toán tối ưu có ràng buộc đẳng thức tuyến tính $$\sum_{i=1}^B A_i x_i = b$$, phân rã đối ngẫu hoạt động theo một nhịp điệu hai pha cực kỳ sạch sẽ: pha song song (từng khối $$i$$ tự tìm $$x_i^{(k)}$$ ứng với mức giá $$u^{(k-1)}$$) và pha tổng hợp (nút trung tâm cộng dồn độ lệch $$\sum_i A_i x_i^{(k)} - b$$ để cập nhật $$u^{(k)}$$). Nhờ chỉ trao đổi vector biến đối ngẫu $$u \in \mathbb{R}^m$$ thay vì trao đổi toàn bộ dữ liệu hay hàm chi phí $$f_i$$, kỹ thuật này bảo toàn quyền riêng tư dữ liệu và mở rộng tự nhiên trên các cụm máy chủ phân tán.
 
-## Bản đồ kiến thức nền: Ba điểm cốt lõi của phân rã đối ngẫu với ràng buộc đẳng thức
+## Kiến thức cần nhớ: Ba điểm cốt lõi của phân rã đối ngẫu với ràng buộc đẳng thức
 
 Để áp dụng đúng thuật toán phân rã đẳng thức mà không gặp bẫy hội tụ, hãy nắm vững ba điểm sau:
 
@@ -19,7 +19,7 @@ Trong bài toán tối ưu có ràng buộc đẳng thức tuyến tính $$\sum_
 - **Biến đối ngẫu tự do dấu ($$u \in \mathbb{R}^m$$):** Vì ràng buộc là đẳng thức $$Ax = b$$, nhân tử $$u$$ có thể nhận cả giá trị dương lẫn âm — không cần phép chiếu lên góc phần tư không âm.
 - **Điều kiện hội tụ của từng biến gốc $$x_i^{(k)}$$:** Dù giá trị đối ngẫu $$g(u^{(k)})$$ hội tụ dưới điều kiện nhẹ, bản thân dãy điểm gốc $$x^{(k)}$$ chỉ chắc chắn hội tụ về nghiệm tối ưu $$x^\star$$ khi mỗi $$f_i$$ lồi chặt (hoặc lồi mạnh); nếu $$f_i$$ tuyến tính, $$x_i^{(k)}$$ có thể nhảy qua lại giữa các đỉnh mà không bao giờ thỏa mãn $$Ax = b$$!
 
-### Khung giải thích (nên đọc chậm): Chạy tay 2 vòng lặp phân rã song song cho 2 khối biến
+### Giải thích: Chạy tay 2 vòng lặp phân rã song song cho 2 khối biến
 
 Xét bài toán tách biến với ràng buộc đẳng thức:
 

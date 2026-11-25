@@ -11,14 +11,14 @@ lang: en
 
 Picture a 1956 operations research room long before GPUs or automatic differentiation: Marguerite Frank and Philip Wolfe are trying to minimize a smooth quadratic objective over a high-dimensional polytope where computing a Euclidean projection at every step is prohibitively expensive, yet solving a single linear program over that same polytope is routine. Their radical insight was to abandon projection altogether—instead of stepping outside the feasible set and pulling back, simply ask a linear oracle which extreme point points most sharply downhill, and slide a fraction of the way toward that corner. Nearly seventy years later, that exact projection-free idea powers sparse regression, low-rank matrix completion, and structured prediction at scales where Euclidean projection would collapse.
 
-## Background Knowledge Map: Architecture of the Conditional Gradient Method
+## Key ideas: Architecture of the Conditional Gradient Method
 
 - **Linear Minimization Oracles (LMO) vs. Projection Oracles:** Projected gradient descent requires solving a quadratic subproblem at every iteration to snap back onto $$C$$. Frank–Wolfe replaces that quadratic projection with a linear minimization $$\arg\min_{s \in C} \langle \nabla f(x_k), s \rangle$$, which over $$\ell_1$$ balls, simplices, or nuclear-norm balls reduces to finding a single largest coordinate or leading singular vector.
 - **Convex Combinations and Automatic Feasibility:** Because each iterate is updated as $$x_{k+1} = (1 - \gamma_k) x_k + \gamma_k s_k$$ with $$\gamma_k \in [0, 1]$$ and $$x_k, s_k \in C$$, convexity of $$C$$ guarantees $$x_{k+1} \in C$$ without ever leaving the constraint set.
 - **Atomic Sparsity and Carathéodory Representation:** Every iteration adds at most one new extreme point (atom) $$s_k$$ to the active representation of $$x_k$$. Consequently, after $$k$$ steps, $$x_k$$ is guaranteed to be a convex combination of at most $$k+1$$ vertices—yielding naturally sparse vectors or low-rank matrices.
 - **Duality Gap as a Free Stopping Certificate:** By convexity of $$f$$, the linearized gap $$g_k = \max_{s \in C} \langle \nabla f(x_k), x_k - s \rangle = \langle \nabla f(x_k), x_k - s_k \rangle$$ upper-bounds the true suboptimality $$f(x_k) - f(x^\star)$$, giving an exact, zero-cost convergence certificate at every iteration.
 
-### Step-by-Step Worked Example (Read Slowly): One Projection-Free Step on the Probability Simplex
+### Worked example: One Projection-Free Step on the Probability Simplex
 
 Consider minimizing $$f(x) = \frac{1}{2}\|x - c\|_2^2$$ with target $$c = (0.8, 0.5, 0.2)^\top$$ over the 3-dimensional probability simplex $$\Delta_3 = \{x \in \mathbb{R}^3 : x \ge 0,\ x_1 + x_2 + x_3 = 1\}$$, starting from the vertex $$x_0 = (0, 0, 1)^\top$$.
 

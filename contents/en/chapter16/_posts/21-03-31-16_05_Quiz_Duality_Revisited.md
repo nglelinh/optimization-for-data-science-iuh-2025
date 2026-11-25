@@ -14,14 +14,14 @@ redirect_from:
 
 This quiz brings together the entire duality arc of the course—Lagrangian min–max saddle points, LP/QP duals, the self-duality of LP barriers, exact vs. perturbed KKT conditions, and Fenchel–Rockafellar duality. Most quiz mistakes come from reversing a sign in $$g^*(-v)$$ or forgetting which direction weak duality points ($$p^\star \ge d^\star$$). Use the four pillars and rapid warm-up below to lock in every formula before starting.
 
-## Background Knowledge Map: High-Yield Chapter 16 Quiz Checkpoints
+## Key ideas: High-Yield Chapter 16 Quiz Checkpoints
 
 - **Pillar 1 — Min–Max & Weak Duality:** Primal $$p^\star = \min_x \max_{u \ge 0, v} L(x, u, v)$$ always satisfies $$p^\star \ge d^\star = \max_{u \ge 0, v} \min_x L(x, u, v)$$ by the max–min inequality—no convexity required!
 - **Pillar 2 — LP & Barrier Symmetry:** Dual of $$\min c^T x$$ s.t. $$Ax = b, x \ge 0$$ is $$\max b^T y$$ s.t. $$A^T y \le c$$; dualizing the primal LP log-barrier recovers the dual LP log-barrier with $$x_i s_i = 1/t$$.
 - **Pillar 3 — KKT vs. Perturbed KKT:** Exact KKT requires $$u_i h_i(x) = 0$$ with $$u_i \ge 0, h_i(x) \le 0$$; barrier KKT requires $$u_i h_i(x) = -1/t$$ with strict inequalities $$u_i > 0, h_i(x) < 0$$.
 - **Pillar 4 — Fenchel Dual & Optimality:** Dual of $$\min_x f(x) + g(Ax)$$ is $$\max_v -f^*(A^T v) - g^*(-v)$$, with primal-dual optimality iff $$A^T v^\star \in \partial f(x^\star)$$ and $$-v^\star \in \partial g(Ax^\star)$$.
 
-### Step-by-Step Worked Example (Read Slowly): 4-Check Rapid Quiz Warm-Up
+### Worked example: 4-Check Rapid Quiz Warm-Up
 
 1. **Weak duality sign check:** If a maximization dual yields $$g(u, v) = -7$$ and a feasible primal yields $$f(x) = -4$$, is this consistent?
    - Yes! $$p^\star \le -4$$ and $$d^\star \ge -7$$, so $$d^\star \le p^\star$$ holds with duality gap $$-4 - (-7) = 3 \ge 0$$.

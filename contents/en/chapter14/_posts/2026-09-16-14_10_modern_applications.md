@@ -12,14 +12,14 @@ lesson_type: optional
 
 Conventional wisdom in 2015 said second-order optimization was dead for deep learning and only belonged in convex textbooks. Between 2022 and 2026, that conventional wisdom cracked: diagonal-Hessian optimizers like **Sophia** cut GPT pre-training steps in half, **K-FAC** brought Kronecker curvature to Vision Transformers and GNNs, and scikit-learn made exact **Newton–Cholesky** a production default for tall generalized linear models.
 
-## Background Knowledge Map: Modern Second-Order Optimization (2022–2026)
+## Key ideas: Modern Second-Order Optimization (2022–2026)
 
 - **Pillar 1 — Structured Curvature Approximations:** Because dense $$n \times n$$ Hessians are infeasible for $$n \sim 10^9$$, modern methods restrict curvature to diagonal matrices (Sophia, AdaHessian) or Kronecker-factored blocks (K-FAC, Shampoo).
 - **Pillar 2 — Amortization & Cheap Estimators:** Refreshing curvature every $$k$$ steps (e.g., every 10 steps in Sophia) via Hutchinson Hessian–vector products or Gauss–Newton–Bartlett resampling keeps wall-clock cost close to Adam.
 - **Pillar 3 — Clipping as Modern Damping:** When curvature estimates are noisy or non-positive in nonconvex landscapes, coordinate-wise clipping $$\operatorname{clip}(m_t / \max(\gamma h_t, \epsilon), 1)$$ plays the exact protective role of trust-region / backtracking damping.
 - **Pillar 4 — Exact Newton–Cholesky Still Wins for Tall GLMs:** When $$n_{\text{samples}} \gg n_{\text{features}}$$, forming the exact IRLS Gram matrix $$X^T W X$$ and factoring via Cholesky beats L-BFGS in both accuracy and speed.
 
-### Step-by-Step Worked Example (Read Slowly): Computing One Clipped Diagonal-Newton (Sophia) Step
+### Worked example: Computing One Clipped Diagonal-Newton (Sophia) Step
 
 Suppose a 2-parameter model has exponential moving-average gradient $$m = (0.40,\ -0.60)^T$$, diagonal Hessian estimate $$h = (2.0,\ 0.05)^T$$, damping/scale $$\gamma = 1$$, clipping threshold $$\rho = 1.0$$, and learning rate $$\eta = 0.01$$.
 

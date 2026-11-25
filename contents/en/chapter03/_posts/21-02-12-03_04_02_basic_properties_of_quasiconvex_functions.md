@@ -11,14 +11,14 @@ lang: en
 
 With ordinary convex functions, blending two points always stays below the *average* of their heights; with quasiconvex functions, blending two points only stays below the *higher* of their two heights. That subtle relaxation—Modified Jensen's inequality—explains why quasiconvex functions can have S-shaped inflections and flat shelves while still forbidding multiple separated valleys.
 
-## Background Knowledge Map: Structural Properties of Quasiconvex Functions
+## Key ideas: Structural Properties of Quasiconvex Functions
 
 - **Modified Jensen's Inequality:** $$f$$ is quasiconvex iff $$f(\theta x + (1-\theta)y) \le \max\{f(x), f(y)\}$$ for all $$x, y \in \text{dom}\,f$$ and $$\theta \in [0, 1]$$.
 - **1D Characterization:** A function on $$\mathbb{R}$$ is quasiconvex iff it is nondecreasing, nonincreasing, or nonincreasing up to some threshold $$c$$ and nondecreasing after $$c$$.
 - **Quasiconvexity vs. Local Minima:** Warning! Unlike convex functions, a *local* minimum of a quasiconvex function on a flat plateau is NOT guaranteed to be a global minimum unless the function is *strictly* quasiconvex.
 - **Sum Failure:** Unlike convex functions, the sum of two quasiconvex functions is generally **not** quasiconvex—you must use maxima or monotone compositions instead.
 
-### Step-by-Step Worked Example (Read Slowly): Modified Jensen Succeeds Where Ordinary Jensen Fails
+### Worked example: Modified Jensen Succeeds Where Ordinary Jensen Fails
 
 Test $$f(x) = x^3$$ (monotone increasing on $$\mathbb{R}$$, hence quasiconvex) at $$x = -2$$, $$y = 1$$, and $$\theta = 0.5$$.
 

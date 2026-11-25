@@ -11,7 +11,7 @@ lang: vi
 
 Có hướng Newton rồi, nhưng nếu cứ nhắm mắt bước trọn độ dài $$\theta = 1$$ thì chuyện gì sẽ xảy ra? Một biến đối ngẫu $$u_i$$ có thể nhảy vọt xuống số âm, hoặc một ràng buộc $$h_i(x)$$ có thể vượt qua $$0$$ ra ngoài miền xác định, khiến toàn bộ thuật toán sụp đổ ngay lập tức. Thuật toán gốc–đối ngẫu hoàn chỉnh kết hợp hai cơ chế kiểm soát nhịp độ cực kỳ tinh tế: chọn tham số định tâm $$\tau = \sigma \tau(x, u)$$ để quyết định độ "tham lam" khi thu hẹp khoảng cách đối ngẫu, và tìm kiếm theo đường lui hai tầng để bảo đảm cả tính điểm trong lẫn mức giảm chuẩn phần dư.
 
-## Bản đồ kiến thức nền: Bốn cơ chế vận hành một vòng lặp PD-IPM hoàn chỉnh
+## Kiến thức cần nhớ: Bốn cơ chế vận hành một vòng lặp PD-IPM hoàn chỉnh
 
 Để tự lập trình được một bộ giải gốc–đối ngẫu chạy ổn định từ đầu đến cuối, cần hiểu rõ vai trò của từng bánh răng sau:
 
@@ -20,7 +20,7 @@ Có hướng Newton rồi, nhưng nếu cứ nhắm mắt bước trọn độ d
 - **Tìm kiếm theo đường lui bảo toàn tính điểm trong:** Giảm dần $$\theta \leftarrow \beta \theta$$ cho đến khi mọi bất đẳng thức gốc đều chặt $$h_i(x + \theta\Delta x) < 0$$, rồi tiếp tục giảm cho đến khi chuẩn vector phần dư tổng giảm đủ: $$\|r_\tau(w + \theta\Delta w)\|_2 \le (1 - \alpha\theta)\|r_\tau(w)\|_2$$.
 - **Tiêu chuẩn dừng kép (Feasibility + Optimality):** Thuật toán chỉ dừng khi sai số khả thi gốc–đối ngẫu nhỏ hơn $$\epsilon_{\text{feas}}$$ VÀ khoảng cách đối ngẫu thay thế $$\eta = -h(x)^T u \le \epsilon$$.
 
-### Khung giải thích (nên đọc chậm): Tính tay bước cực đại $$\theta_{\max}$$ và kiểm tra điều kiện backtracking
+### Giải thích: Tính tay bước cực đại $$\theta_{\max}$$ và kiểm tra điều kiện backtracking
 
 Giả sử tại vòng lặp $$k$$ của một bài toán có $$m = 2$$ ràng buộc bất đẳng thức, ta đang ở trạng thái:
 

@@ -14,7 +14,7 @@ Suốt nửa thập kỷ qua, **AdamW** đứng vững như một tượng đài
 
 Bài seminar này mở cánh cửa vào phòng thí nghiệm tối ưu hóa giai đoạn 2021–2026, nơi các nhà nghiên cứu đặt câu hỏi: *nếu AdamW chỉ dùng độ cong đường chéo bậc nhất, ta sẽ thu được gì khi đưa thêm hình học lân cận (SAM), độ cong Hessian bậc hai giá rẻ (Sophia), trực giao hóa ma trận trọng số (Muon) hay loại bỏ hoàn toàn lịch tốc độ học (Schedule-Free)?*
 
-## Bản đồ kiến thức nền: Bốn hướng đột phá vượt ra ngoài AdamW
+## Kiến thức cần nhớ: Bốn hướng đột phá vượt ra ngoài AdamW
 
 Bốn bộ tối ưu hiện đại trong bài đại diện cho bốn góc nhìn hình học khác nhau lên cùng một bề mặt hàm mất mát:
 
@@ -23,7 +23,7 @@ Bốn bộ tối ưu hiện đại trong bài đại diện cho bốn góc nhìn
 - **Muon (Tối ưu trên cấu trúc Ma trận — Spectral Geometry):** Nhận ra trọng số của lớp tuyến tính là *ma trận* chứ không phải vector phẳng; Muon dùng phép lặp Newton–Schulz để xấp xỉ cực trực giao (orthogonalize) của ma trận động lượng, ép mọi giá trị kỳ dị của bước cập nhật đều nhau (tương đương xuống dốc theo chuẩn phổ).
 - **Schedule-Free AdamW (Bỏ lịch giảm $$\eta$$ bằng Nội suy Polyak–Ruppert):** Thay vì phải đoán trước tổng số bước $$T$$ để cài lịch cosine decay, phương pháp duy trì cặp điểm nội suy giúp tự động đạt hiệu ứng tương đương lịch giảm tốc độ học mà có thể dừng bất cứ lúc nào.
 
-### Khung giải thích (nên đọc chậm): Tính tay 1 bước SAM để thấy nó né "vách dốc nhọn" như thế nào
+### Giải thích: Tính tay 1 bước SAM để thấy nó né "vách dốc nhọn" như thế nào
 
 Để hiểu trực giác 2-bước của SAM (bước 1: leo lên điểm xấu nhất trong bán kính $$\rho$$; bước 2: dùng gradient tại điểm xấu nhất đó để kéo $$w$$ xuống), hãy xét hàm 1 chiều bất đối xứng:
 

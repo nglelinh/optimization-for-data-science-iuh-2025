@@ -11,14 +11,14 @@ lang: en
 
 Just as Chapter 02 built a periodic table of convex sets, this lesson builds the periodic table of **convex functions**. From affine maps, quadratics, and norms to indicator functions $$I_C(x)$$ (which encode hard constraints directly inside an objective) and support functions $$S_C(y)$$ (which measure the farthest reach of a set in direction $$y$$), these atoms are the exact building blocks recognized by disciplined convex programming tools like CVXPY.
 
-## Background Knowledge Map: Essential Convex Function Atoms
+## Key ideas: Essential Convex Function Atoms
 
 - **Smooth Atoms (Affine, Quadratic, Exponential, Negative Log):** Affine functions are simultaneously convex and concave; quadratics $$\frac{1}{2}x^T P x + q^T x + r$$ are convex iff $$P \succeq 0$$.
 - **Norms & Pointwise Maxima:** Every norm is convex by homogeneity and the triangle inequality; $$\max_i x_i$$ is convex and piecewise-linear, modeling worst-case costs.
 - **Indicator Function ($$I_C(x)$$):** Equals $$0$$ on $$C$$ and $$+\infty$$ outside $$C$$; it is convex iff $$C$$ is a convex set, letting us rewrite constrained minimization $$\min_{x \in C} f(x)$$ as unconstrained $$\min_x (f(x) + I_C(x))$$.
 - **Support Function ($$S_C(y) = \sup_{x \in C} y^T x$$):** Always convex in $$y$$ (even if $$C$$ is nonconvex!) because it is a pointwise supremum of affine functions of $$y$$.
 
-### Step-by-Step Worked Example (Read Slowly): Computing a Support Function Explicitly
+### Worked example: Computing a Support Function Explicitly
 
 Compute the support function $$S_C(y) = \sup_{x \in C} y^T x$$ of the unit $$\ell_\infty$$ box $$C = [-1, 1]^2$$, and evaluate it at $$y = (3, -2)^T$$.
 

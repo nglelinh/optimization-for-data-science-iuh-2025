@@ -13,14 +13,14 @@ Khi đối mặt với một miền khả thi phức tạp như tập các ma tr
 
 Bài học này trang bị bộ quy tắc lắp ghép tập lồi sẽ giúp bạn chứng minh tính lồi chỉ trong 2–3 dòng suy luận.
 
-## Bản đồ kiến thức nền: Bốn phép toán vàng bảo toàn tính lồi
+## Kiến thức cần nhớ: Bốn phép toán vàng bảo toàn tính lồi
 
 - **Phép giao (Intersection):** Giao của một họ **bất kỳ** (hữu hạn hoặc vô hạn!) các tập lồi luôn là tập lồi. Đây là cách chứng minh nhanh nhất rằng đa diện (giao hữu hạn nửa không gian) và hình nón $$\mathbb{S}_+^n$$ (giao vô hạn nửa không gian $$z^T X z \ge 0$$) đều lồi.
 - **Ánh xạ affine ($$f(x) = Ax + b$$) và ảnh ngược affine:** Tịnh tiến, co giãn, xoay, phép chiếu trực giao và tổng Minkowski $$S_1 + S_2$$ của các tập lồi đều bảo toàn tính lồi. Đặc biệt, ảnh ngược của một tập lồi qua $$Ax + b$$ cũng luôn lồi.
 - **Hàm phối cảnh (Perspective Function):** $$P(z, t) = z / t$$ trên $$t > 0$$ — tương ứng hình học với máy ảnh lỗ kim chiếu không gian 3D lên màn ảnh 2D. Cả ảnh xuôi lẫn ảnh ngược của tập lồi qua $$P$$ đều lồi!
 - **Hàm phân thức tuyến tính (Linear-Fractional):** Kết hợp ánh xạ affine và hàm phối cảnh $$f(x) = \frac{Ax + b}{c^T x + d}$$ (với $$c^T x + d > 0$$) — chìa khóa giải quyết bài toán tối ưu phân thức (như tỷ lệ lợi nhuận trên rủi ro).
 
-### Khung giải thích (nên đọc chậm): Quan sát hàm phối cảnh biến trung điểm thành tổ hợp lồi có trọng số mới
+### Giải thích: Quan sát hàm phối cảnh biến trung điểm thành tổ hợp lồi có trọng số mới
 
 Xét hàm phối cảnh $$P(z, t) = \frac{z}{t}$$ (với $$z \in \mathbb{R},\ t > 0$$). Giả sử một tập lồi $$C \subset \mathbb{R} \times \mathbb{R}_{++}$$ chứa hai điểm $$u_1 = (z_1, t_1) = (2, 1)$$ và $$u_2 = (z_2, t_2) = (12, 3)$$:
 

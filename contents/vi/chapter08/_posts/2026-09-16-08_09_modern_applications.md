@@ -16,14 +16,14 @@ redirect_from:
 
 Bài đọc mở rộng này bắc cây cầu từ lý thuyết Chương 08 sang thực tiễn giai đoạn 2022–2026. Bạn sẽ thấy rằng dù tên gọi trong các thư viện phần mềm có thể khác đi (như `PyTorch autograd` tại điểm gãy ReLU hay `PGD-20` trên bảng xếp hạng RobustBench), cốt lõi toán học vẫn không thay đổi: chọn một phần tử trong dưới vi phân, bước theo hướng đối diện, rồi chiếu về miền hợp lệ.
 
-## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại của phương pháp subgradient
+## Kiến thức cần nhớ: Bốn nhánh ứng dụng hiện đại của phương pháp subgradient
 
 - **Tối ưu không trơn trong học sâu (ReLU & Clarke Subdifferential):** Hàm ReLU không khả vi tại $$0$$, khiến hàm mất mát của mạng nơ-ron trở nên không trơn (và không lồi). Các framework tự động tính vi phân chọn một giá trị cố định (thường là $$0$$) tại điểm gãy, vận hành như một phương pháp subgradient ngẫu nhiên trên tập dưới vi phân tổng quát Clarke.
 - **Huấn luyện đối kháng (Adversarial Training) bằng PGD có chiếu:** Để tìm nhiễu độc hại $$\delta$$ tối đa hóa mất mát trong quả cầu $$\|\delta\|_\infty \le \epsilon$$, thuật toán Projected Gradient Ascent thực hiện đúng bước cập nhật theo dấu gradient rồi chiếu bằng hàm cắt ngưỡng `clip(delta, -eps, eps)`.
 - **Tối ưu có ràng buộc công bằng (Fairness-Constrained Learning):** Các ràng buộc công bằng như chênh lệch tỷ lệ dương tính giả giữa hai nhóm không vượt quá $$\tau$$ được đưa vào hàm Lagrangian và giải bằng trò chơi minimax dùng bước subgradient trên nhân tử Lagrange.
 - **Độ bền vững với ngoại lai (Robust Loss — Hinge & Huber):** Các hàm mất mát ít nhạy cảm với điểm nhiễu ngoại lai thường có góc gãy tuyến tính; phương pháp subgradient cho phép tối ưu trực tiếp mà không cần ép về bình phương tối thiểu nhạy nhiễu.
 
-### Khung giải thích (nên đọc chậm): Tính tay 2 bước tấn công PGD có chiếu lên quả cầu $$\ell_\infty$$
+### Giải thích: Tính tay 2 bước tấn công PGD có chiếu lên quả cầu $$\ell_\infty$$
 
 Xét một bộ phân loại tuyến tính 2 chiều đơn giản có hàm mất mát đối với nhiễu $$\delta = (\delta_1, \delta_2)$$ là:
 $$L(\delta) = 2\delta_1 - 3\delta_2 + 1,$$

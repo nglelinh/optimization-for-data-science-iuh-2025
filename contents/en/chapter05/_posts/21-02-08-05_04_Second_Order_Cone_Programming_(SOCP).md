@@ -11,7 +11,7 @@ lang: en
 
 Picture an upside-down ice-cream cone standing in 3D space: $$\{(u, t) : \|u\|_2 \le t\}$$. That clean geometric shape—the *second-order (Lorentz) cone*—unlocks a surprisingly vast slice of modern engineering. From robust linear programming under ellipsoidal uncertainty to rocket landing trajectories (used in SpaceX's powered-descent guidance!), Second-Order Cone Programming (SOCP) handles Euclidean norm constraints natively and fast.
 
-## Background Knowledge Map: Inside the Second-Order Cone
+## Key ideas: Inside the Second-Order Cone
 
 1. **Standard SOCP Structure**: An SOCP minimizes a linear objective $$f^T x$$ subject to affine equalities $$Fx = g$$ and second-order cone constraints $$\|A_i x + b_i\|_2 \le c_i^T x + d_i$$. Equivalently, the affine map $$(A_i x + b_i,\; c_i^T x + d_i)$$ must belong to the norm cone $$\mathcal{Q}_{n_i + 1} = \{(u, t) : \|u\|_2 \le t\}$$.
 2. **Subsuming LP, QP, and QCQP**:
@@ -20,7 +20,7 @@ Picture an upside-down ice-cream cone standing in 3D space: $$\{(u, t) : \|u\|_2
 3. **Robust Linear Programming as an SOCP**: Suppose a linear constraint $$a^T x \le b$$ must hold for *every* uncertain vector $$a$$ inside an ellipsoid $$\mathcal{E} = \{\bar{a} + Pu : \|u\|_2 \le 1\}$$. Taking the worst case gives $$\sup_{\|u\|_2 \le 1} (\bar{a} + Pu)^T x = \bar{a}^T x + \|P^T x\|_2 \le b$$—an exact SOCP constraint!
 4. **Why SOCPs Are Fast**: Even though SOCPs are far more expressive than LPs, primal–dual interior-point solvers handle Lorentz cones with a simple 2-parameter self-concordant barrier $$-\ln(t^2 - \|u\|_2^2)$$, scaling to hundreds of thousands of variables.
 
-### Step-by-Step Worked Example (Read Slowly): Rewriting a Robust Linear Constraint as an SOCP
+### Worked example: Rewriting a Robust Linear Constraint as an SOCP
 
 Suppose a chemical blend $$x = (x_1, x_2)^T \ge 0$$ must satisfy $$a_1 x_1 + a_2 x_2 \le 10$$ for *all* uncertain coefficients $$a = (a_1, a_2)^T$$ within a Euclidean ball of radius $$r = 0.5$$ around the nominal vector $$\bar{a} = (2, 3)^T$$, i.e., $$\|a - \bar{a}\|_2 \le 0.5$$.
 

@@ -14,7 +14,7 @@ Năm 1847, nhà toán học Pháp Augustin-Louis Cauchy đối mặt với hệ 
 
 Bài học này đi sâu vào bản chất hình học và giải tích của Gradient Descent trên cả hàm một biến lẫn nhiều biến: vì sao $$-\nabla f(x)$$ là hướng giảm cục bộ nhanh nhất theo chuẩn Euclidean, và cách tốc độ học $$t$$ biến đổi hoàn toàn quỹ đạo của thuật toán.
 
-## Bản đồ kiến thức nền: Giải phẫu cơ chế Hạ Gradient
+## Kiến thức cần nhớ: Giải phẫu cơ chế Hạ Gradient
 
 Ba trụ cột dưới đây giải thích trọn vẹn sức mạnh và giới hạn của Gradient Descent chuẩn:
 
@@ -22,7 +22,7 @@ Ba trụ cột dưới đây giải thích trọn vẹn sức mạnh và giới 
 - **Tốc độ học $$t$$ (Step Size / Learning Rate):** Quyết định trực tiếp hành vi hội tụ. Với hàm bậc hai $$f(x) = \frac{1}{2} x^T Q x$$, sai số dọc theo mỗi trục riêng $$\lambda_i$$ nhân với thừa số $$(1 - t\lambda_i)$$. Để hội tụ, bắt buộc $$|1 - t\lambda_{\max}| < 1 \iff t < \frac{2}{\lambda_{\max}}$$.
 - **Hội tụ toàn cục nhờ Tính Lồi:** Trên hàm phi lồi, Gradient Descent có thể kẹt ở cực tiểu địa phương hoặc điểm yên ngựa. Trên hàm lồi khả vi, mọi điểm dừng $$\nabla f(x^\star) = 0$$ đều là cực tiểu toàn cục — nên chỉ cần bước hợp lý, GD chắc chắn tiến về đáy toàn cục!
 
-### Khung giải thích (nên đọc chậm): Chạy tay 2 bước Gradient Descent trên hàm 2 biến dạng thung lũng hẹp
+### Giải thích: Chạy tay 2 bước Gradient Descent trên hàm 2 biến dạng thung lũng hẹp
 
 Xét hàm lồi bậc hai $$f(x_1, x_2) = x_1^2 + 4x_2^2$$ có nghiệm tối ưu $$x^\star = (0, 0)$$, gradient $$\nabla f(x) = (2x_1,\; 8x_2)^T$$ và Hessian $$H = \operatorname{diag}(2, 8)$$ (nên $$\lambda_{\max} = 8$$, ngưỡng ổn định là $$t < 2/8 = 0.25$$). Khởi tạo tại $$x^{(0)} = (2, 1)^T$$ với $$t = 0.2$$:
 

@@ -14,7 +14,7 @@ Trong suốt hàng thập kỷ, tối ưu hóa lồi và học sâu (Deep Learni
 
 Điều đó có nghĩa là gì? Toàn bộ một bài toán tối ưu hóa lồi của Chương 04 giờ đây có thể trở thành **một lớp (layer) khả vi ngay bên trong PyTorch hoặc JAX** — vừa học tham số từ dữ liệu, vừa đảm bảo đầu ra tuân thủ tuyệt đối các ràng buộc vật lý, an toàn hay tài chính. Bài học này kết nối những khái niệm nền tảng bạn vừa học với các công trình hiện đại như `cvxpylayers`, `Theseus` và tối ưu hóa khấu hao (amortized optimization).
 
-## Bản đồ kiến thức nền: Khi tối ưu hóa lồi bước vào kiến trúc mạng nơ-ron
+## Kiến thức cần nhớ: Khi tối ưu hóa lồi bước vào kiến trúc mạng nơ-ron
 
 Để đọc hiểu các ứng dụng hiện đại trong bài mà không thấy "phép màu", hãy kết nối chúng với ba trụ cột của Chương 04:
 
@@ -22,7 +22,7 @@ Trong suốt hàng thập kỷ, tối ưu hóa lồi và học sâu (Deep Learni
 - **Lớp tối ưu phi tuyến & Robot học (Differentiable Nonlinear Least Squares):** Trong bài toán định vị SLAM hay điều khiển cánh tay robot (`Theseus`), các ràng buộc động học tạo thành bài toán bình phương tối thiểu phi tuyến giải lặp kiểu Gauss-Newton, và đạo hàm được truyền ngược qua chính nghiệm tối ưu đó.
 - **Tối ưu hóa khấu hao & Học theo quyết định (Decision-Focused Learning):** Khi phải giải hàng triệu bài toán tối ưu có cấu trúc giống nhau chỉ khác tham số đầu vào $$\theta$$, ta huấn luyện mạng dự đoán trực tiếp nghiệm hoặc điểm khởi tạo (khấu hao chi phí tính toán), hoặc huấn luyện mô hình dự báo sao cho *quyết định tối ưu cuối cùng* đạt lợi ích cao nhất thay vì chỉ tối thiểu hóa sai số dự báo MSE.
 
-### Khung giải thích (nên đọc chậm): Tự tay lấy vi phân ẩn xuyên qua một lớp tối ưu hóa lồi!
+### Giải thích: Tự tay lấy vi phân ẩn xuyên qua một lớp tối ưu hóa lồi!
 
 Giả sử một mạng nơ-ron xuất ra tham số $$\theta \in \mathbb{R}$$ và đưa vào lớp tối ưu hóa lồi (chiếu lên đoạn $$[0, 1]$$):
 $$x^\star(\theta) = \arg\min_{x \in \mathbb{R}} \; \frac{1}{2}(x - \theta)^2 \quad \text{thỏa mãn} \quad 0 \le x \le 1.$$

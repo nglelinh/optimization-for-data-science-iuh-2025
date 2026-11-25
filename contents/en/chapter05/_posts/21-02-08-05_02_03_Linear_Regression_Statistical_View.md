@@ -11,14 +11,14 @@ lang: en
 
 Why do we square errors in linear regression instead of taking their absolute values or fourth powers? Geometrically, squaring gives a clean orthogonal projection; statistically, it has an even deeper justification. When measurement noise follows a Gaussian bell curve, minimizing the sum of squared errors is mathematically *identical* to Maximum Likelihood Estimation (MLE)—connecting Chapter 05's quadratic optimization directly to statistical inference.
 
-## Background Knowledge Map: Where Convex Optimization Meets Statistical Inference
+## Key ideas: Where Convex Optimization Meets Statistical Inference
 
 1. **Gaussian Noise Model $$\Longleftrightarrow$$ Least Squares**: Assuming $$y_i = x_i^T w + \varepsilon_i$$ with independent noise $$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$, the negative log-likelihood is $$\frac{n}{2}\ln(2\pi\sigma^2) + \frac{1}{2\sigma^2}\|Xw - y\|_2^2$$. Dropping constants that do not depend on $$w$$ recovers ordinary least squares $$\min_w \|Xw - y\|_2^2$$.
 2. **Unbiasedness and the Gauss–Markov Theorem**: Under zero-mean homoscedastic errors, the OLS estimator $$\hat{w} = (X^T X)^{-1} X^T y$$ is unbiased ($$\mathbb{E}[\hat{w}] = w_{\mathrm{true}}$$) and achieves the smallest covariance matrix $$\sigma^2 (X^T X)^{-1}$$ among all *linear unbiased* estimators (BLUE).
 3. **MAP Estimation $$\Longleftrightarrow$$ Regularized Optimization**: Placing a zero-mean Gaussian prior $$w \sim \mathcal{N}(0, \tau^2 I)$$ adds a quadratic penalty $$\frac{\sigma^2}{\tau^2}\|w\|_2^2$$ to the negative log-posterior, yielding **Ridge Regression**. Replacing the prior with a Laplace distribution yields **Lasso** ($$\ell_1$$ penalty).
 4. **Noise Distribution Dictates the Loss Function**: If outliers cause heavy-tailed Laplace noise $$\varepsilon_i \sim \mathrm{Laplace}(0, b)$$, MLE instead minimizes the $$\ell_1$$ loss $$\|Xw - y\|_1$$ (an LP!), explaining why robust regression switches norms when Gaussian assumptions fail.
 
-### Step-by-Step Worked Example (Read Slowly): Deriving MLE and Estimator Variance for a 1-Parameter Model
+### Worked example: Deriving MLE and Estimator Variance for a 1-Parameter Model
 
 Suppose we observe three noisy measurements of a scalar parameter $$w$$ through $$y_i = x_i w + \varepsilon_i$$ with $$\varepsilon_i \stackrel{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2 = 4)$$, where $$x = (1, 2, 2)^T$$ and $$y = (3, 5, 7)^T$$.
 

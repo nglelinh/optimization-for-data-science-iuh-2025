@@ -11,14 +11,14 @@ lang: en
 
 Lagrange duality is built for explicit inequality and equality constraints, $$h_i(x) \le 0$$ and $$Ax = b$$. Yet modern machine learning is packed with *unconstrained* composite objectives of the form $$\min_x f(x) + g(Ax)$$—loss plus regularizer, data fidelity plus total variation, entropy plus transport cost. **Fenchel duality** bypasses inequality multipliers altogether and pairs the primal directly with $$\max_v -f^*(A^T v) - g^*(-v)$$ using Fenchel conjugates!
 
-## Background Knowledge Map: Fenchel–Rockafellar Duality
+## Key ideas: Fenchel–Rockafellar Duality
 
 - **Pillar 1 — Derivation via Consensus Splitting:** Rewriting $$\min_x f(x) + g(Ax)$$ as $$\min_{Ax = z} f(x) + g(z)$$ and dualizing $$Ax = z$$ with multiplier $$v$$ immediately yields $$g_{\text{dual}}(v) = -f^*(A^T v) - g^*(-v)$$.
 - **Pillar 2 — Weak Fenchel Duality Directly from Fenchel–Young:** Adding $$f(x) + f^*(A^T v) \ge (A^T v)^T x$$ and $$g(Ax) + g^*(-v) \ge (-v)^T(Ax)$$ cancels the inner products to zero, proving $$f(x) + g(Ax) \ge -f^*(A^T v) - g^*(-v)$$ in two lines!
 - **Pillar 3 — Strong Duality & Fenchel–Rockafellar Qualification:** Whenever $$f, g$$ are closed convex and there exists $$x \in \operatorname{ri}(\operatorname{dom} f)$$ with $$Ax \in \operatorname{ri}(\operatorname{dom} g)$$, strong duality $$p^\star = d^\star$$ holds.
 - **Pillar 4 — Primal–Dual Optimality via Subdifferentials:** Strong duality holds at $$(x^\star, v^\star)$$ if and only if $$A^T v^\star \in \partial f(x^\star)$$ and $$-v^\star \in \partial g(Ax^\star)$$.
 
-### Step-by-Step Worked Example (Read Slowly): Solving Ridge Regression via Fenchel Duality
+### Worked example: Solving Ridge Regression via Fenchel Duality
 
 Consider 1D Ridge Regression $$\min_{x \in \mathbb{R}} \underbrace{\frac{1}{2}x^2}_{f(x)} + \underbrace{\frac{1}{2}(Ax - b)^2}_{g(Ax)}$$ with $$A = 2$$ and $$b = 5$$. (Exact primal solution: $$x + 2(2x - 5) = 0 \implies 5x = 10 \implies x^\star = 2$$, with $$p^\star = \frac{1}{2}(4) + \frac{1}{2}(-1)^2 = 2.5$$.)
 

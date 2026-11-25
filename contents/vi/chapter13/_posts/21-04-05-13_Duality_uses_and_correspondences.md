@@ -13,7 +13,7 @@ Nếu ở các chương trước, lý thuyết đối ngẫu có thể tạo c�
 
 Chương này kết nối năm công cụ sắc bén nhất của phân tích lồi hiện đại: **tiêu chí dừng qua khoảng cách đối ngẫu**, **khôi phục nghiệm nguyên thủy từ đối ngẫu**, **chuẩn đối ngẫu**, **hàm liên hợp Fenchel** và **nón đối ngẫu**. Nắm vững các tương ứng này giống như có một cuốn từ điển hai chiều cho phép bạn dịch bài toán khó thành bài toán dễ chỉ trong vài dòng biến đổi.
 
-## Bản đồ kiến thức nền: Bức tranh tổng thể của các tương ứng đối ngẫu
+## Kiến thức cần nhớ: Bức tranh tổng thể của các tương ứng đối ngẫu
 
 Để đọc thông suốt toàn bộ Chương 13, hãy hình dung bốn trụ cột sau như bốn bánh răng ăn khớp nhau:
 
@@ -22,7 +22,7 @@ Chương này kết nối năm công cụ sắc bén nhất của phân tích l�
 - **Biến đổi Legendre–Fenchel (hàm liên hợp):** Thay vì mô tả một hàm lồi bằng đồ thị các điểm $$(x, f(x))$$, hàm liên hợp $$f^*(y)$$ mô tả nó bằng họ các siêu phẳng tiếp xúc có độ dốc $$y$$. Mọi phép cực tiểu hóa hàm Lagrange của hàm tách biến đều tự động gọi tên $$f^*$$.
 - **Hình học nón và quy hoạch nón:** Khi ràng buộc không còn là số thực không âm mà là vectơ thuộc nón bậc hai hay ma trận nửa xác định dương, nón đối ngẫu $$K^*$$ giữ vai trò tổng quát hóa khái niệm "nhân tử không âm" sang không gian nhiều chiều.
 
-### Khung giải thích (nên đọc chậm): Một bài toán nhỏ, nhìn bằng cả hai mặt gương
+### Giải thích: Một bài toán nhỏ, nhìn bằng cả hai mặt gương
 
 Xét bài toán cực tiểu hóa 1 biến có ràng buộc:
 

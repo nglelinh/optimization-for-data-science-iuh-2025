@@ -13,13 +13,13 @@ Một thuật toán chỉ thực sự đáng tin khi ta hiểu rõ **bản chấ
 
 Nắm rõ bộ ba tính chất này sẽ giúp bạn giải thích ngay lập tức vì sao phương pháp Newton không cần chuẩn hóa dữ liệu (feature scaling) như Gradient Descent, nhưng lại có thể phân kỳ nổ tung nếu thiếu cơ chế giảm chấn.
 
-## Bản đồ kiến thức nền: Ba đặc tính cốt lõi định danh phương pháp Newton
+## Kiến thức cần nhớ: Ba đặc tính cốt lõi định danh phương pháp Newton
 
 - **Cầu nối tìm nghiệm ↔ tối ưu hóa:** Tìm cực tiểu của hàm trơn lồi $$f(x)$$ chính là tìm nghiệm của hệ phương trình $$\nabla f(x) = 0$$. Áp dụng Newton–Raphson cổ điển cho hàm vectơ $$F(x) = \nabla f(x)$$ sinh ra đúng bước Newton tối ưu hóa!
 - **Tính bất biến affine (Affine Invariance):** Nếu đổi biến $$x = Ay$$ (với $$A$$ khả nghịch), dãy điểm Newton sinh ra trong không gian $$y$$ khi nhân ngược lại với $$A$$ sẽ trùng khít từng điểm với dãy Newton trong không gian $$x$$.
 - **Hội tụ cục bộ bậc hai — con dao hai lưỡi:** Trong một bán kính đủ nhỏ quanh $$x^\star$$, sai số giảm bình phương sau mỗi bước ($$\|x^+ - x^\star\| \le C\|x - x^\star\|^2$$). Nhưng bên ngoài bán kính đó, bước Newton thuần túy không hề có bảo chứng hội tụ và có thể nhảy ra vô cực.
 
-### Khung giải thích (nên đọc chậm): Quan sát cả hai mặt — siêu nhanh gần nghiệm và phân kỳ xa nghiệm
+### Giải thích: Quan sát cả hai mặt — siêu nhanh gần nghiệm và phân kỳ xa nghiệm
 
 Xét hàm 1 chiều $$f(x) = \sqrt{1 + x^2}$$ (hàm lồi chặt, đáy duy nhất tại $$x^\star = 0$$). Ta tính đạo hàm:
 $$f'(x) = \frac{x}{\sqrt{1 + x^2}}, \qquad f''(x) = \frac{1}{(1 + x^2)^{3/2}}.$$

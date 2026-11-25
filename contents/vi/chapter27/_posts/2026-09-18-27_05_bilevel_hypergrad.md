@@ -14,7 +14,7 @@ lesson_type: optional
 
 Đó chính là thế giới của **Tối ưu hai mức (Bilevel Optimization)** và **Siêu gradient (Hypergradient)**: bản thân nghiệm tối ưu $$w^\star(\lambda)$$ của bài toán huấn luyện bên trong lại là một hàm số phụ thuộc vào $$\lambda$$, và ta cần kéo đạo hàm của hàm mất mát kiểm định bên ngoài *xuyên qua* cả một quy trình tối ưu hóa bên trong!
 
-## Bản đồ kiến thức nền: Ba trụ cột của Tối ưu hai mức và Siêu gradient
+## Kiến thức cần nhớ: Ba trụ cột của Tối ưu hai mức và Siêu gradient
 
 Hai phương pháp tính siêu gradient trong bài học này dựa trên ba trụ cột toán học sâu sắc:
 
@@ -22,7 +22,7 @@ Hai phương pháp tính siêu gradient trong bài học này dựa trên ba tr�
 - **Vi phân ẩn bằng Định lý Hàm ẩn (Implicit Differentiation):** Tại nghiệm tối ưu trong, $$\nabla_w L(w^\star(\lambda), \lambda) = 0$$. Lấy đạo hàm hai vế theo $$\lambda$$ cho ta hệ phương trình tuyến tính $$\nabla_{ww}^2 L \cdot \frac{\partial w^\star}{\partial \lambda} + \nabla_{w\lambda}^2 L = 0$$. Điểm kỳ diệu là ta **không cần lưu lịch sử vòng lặp huấn luyện trong** — chỉ cần giải hệ tuyến tính (bằng Conjugate Gradient + HVP) ngay tại điểm hội tụ $$w^\star$$!
 - **Trải phẳng vòng lặp (Unrolling / Differentiating through Optimization):** Nếu bài toán trong chỉ chạy $$K$$ bước SGD/GD, ta coi cả $$K$$ bước đó như một đồ thị tính toán lớn rồi chạy AD chiều nghịch xuyên qua tất cả $$K$$ bước. Dễ cài bằng PyTorch/JAX khi $$K$$ nhỏ (như MAML trong meta-learning), nhưng bộ nhớ tăng tuyến tính theo $$K$$ và dễ mất ổn định khi $$K$$ lớn.
 
-### Khung giải thích (nên đọc chậm): Tính tay Siêu gradient bằng Định lý Hàm ẩn cho Hồi quy Ridge
+### Giải thích: Tính tay Siêu gradient bằng Định lý Hàm ẩn cho Hồi quy Ridge
 
 Xét bài toán hai mức 1 chiều cực kỳ trong sáng: chọn hệ số phạt $$\lambda > 0$$ để cực tiểu hóa mất mát kiểm định (ngoài) $$F(w) = \frac{1}{2}(w - 2)^2$$, trong khi bài toán huấn luyện (trong) là hồi quy Ridge:
 

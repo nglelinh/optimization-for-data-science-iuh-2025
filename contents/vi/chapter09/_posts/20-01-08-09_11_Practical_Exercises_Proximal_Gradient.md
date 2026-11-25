@@ -14,7 +14,7 @@ Sức mạnh thực sự của phương pháp gradient gần kề nằm ở "t�
 
 Năm bài tập thực hành dưới đây đưa bạn đi qua trọn bộ kỹ năng triển khai đó: từ lập trình ISTA và FISTA cho Lasso, giải bài toán hoàn thiện ma trận bằng SVD, tự tay suy ra các công thức prox cơ bản (bao gồm đồng nhất thức Moreau tuyệt đẹp!), cho đến kết hợp gradient gần kề với bài toán đối ngẫu.
 
-## Bản đồ kiến thức nền: Bốn công cụ giải tích cần thiết cho bộ bài tập thực hành
+## Kiến thức cần nhớ: Bốn công cụ giải tích cần thiết cho bộ bài tập thực hành
 
 - **Điều kiện tối ưu của bài toán con prox:** Điểm $$u = \operatorname{prox}_{t h}(v)$$ được đặc trưng duy nhất bởi quan hệ bao hàm dưới vi phân:
   $$0 \in \frac{1}{t}(u - v) + \partial h(u) \;\Longleftrightarrow\; \frac{v - u}{t} \in \partial h(u).$$
@@ -25,7 +25,7 @@ Năm bài tập thực hành dưới đây đưa bạn đi qua trọn bộ kỹ 
 - **Quy tắc biến đổi affine và tách biến (Separable Sum Rule):** Nếu $$h(x) = \sum_{j=1}^n h_j(x_j)$$, toán tử prox tách độc lập theo từng tọa độ $$j$$. Với chuẩn $$\ell_2$$ không bình phương $$\lambda\|x\|_2$$ (không tách biến), ta vẫn có công thức đóng gọi là *co ngưỡng khối* (block soft-thresholding): $$\left(1 - \frac{t\lambda}{\|v\|_2}\right)_+ v$$.
 - **Tiêu chuẩn dừng thực hành:** Thay vì chỉ dừng theo số vòng lặp, ta thường kiểm tra chuẩn độ dốc tổng quát $$\|G_t(x^{(k)})\|_2 = \frac{1}{t}\|x^{(k)} - x^{(k+1)}\|_2 \le \text{tol}$$ hoặc khoảng cách đối ngẫu (duality gap).
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tay định lý phân rã Moreau cho $$h(x) = |x|$$
+### Giải thích: Kiểm chứng tay định lý phân rã Moreau cho $$h(x) = |x|$$
 
 Với $$h(x) = |x|$$ trên $$\mathbb{R}$$, hàm liên hợp lồi là hàm chỉ thị đoạn $$[-1, 1]$$:
 $$h^*(y) = \sup_x (xy - |x|) = I_{[-1, 1]}(y) = \begin{cases} 0 & \text{nếu } |y| \le 1, \\ +\infty & \text{nếu } |y| > 1. \end{cases}$$

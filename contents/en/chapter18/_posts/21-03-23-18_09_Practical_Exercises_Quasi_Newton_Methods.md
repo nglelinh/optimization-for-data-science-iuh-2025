@@ -14,14 +14,14 @@ redirect_from:
 
 Quasi-Newton methods look deceptively tidy in matrix notation, yet a single sign error in $$y^T s$$ or a forgotten Wolfe curvature check can turn a positive-definite BFGS matrix into an uphill ascent step. These practical exercises—adapted from Nocedal & Wright—walk you through hand-verifying secant updates, checking positive definiteness, and implementing L-BFGS. Before starting Exercise 1, run through this quick warm-up proving *why* the Wolfe curvature condition is the exact mathematical lock that keeps $$y^T s > 0$$ alive on nonconvex functions.
 
-## Background Knowledge Map: Essential Skills for the Quasi-Newton Exercises
+## Key ideas: Essential Skills for the Quasi-Newton Exercises
 
 - **Matrix Update Fluency:** Be comfortable computing rank-1 (SR1) and rank-2 (DFP, BFGS) updates both on $$B_k$$ and directly on $$H_k$$, and verifying the secant identity $$H_{k+1} y_k = s_k$$ as an arithmetic sanity check.
 - **Curvature Condition & Wolfe Line Search:** Understand how Armijo sufficient decrease prevents overly long steps while the Wolfe curvature condition prevents overly short steps *and* guarantees $$y_k^T s_k > 0$$.
 - **Two-Loop L-BFGS Implementation:** Translate the $$O(mn)$$ backward/forward dot-product loops into clean vector code without forming any $$n \times n$$ matrices.
 - **Empirical Rate Diagnosis:** Distinguish linear convergence (GD), superlinear convergence (BFGS), and quadratic convergence (Newton) from log-error plots on Rosenbrock and ill-conditioned quadratics.
 
-### Step-by-Step Worked Example (Read Slowly): Why Wolfe Curvature Guarantees $$y^T s > 0$$
+### Worked example: Why Wolfe Curvature Guarantees $$y^T s > 0$$
 
 Consider the nonconvex 1D double-well potential $$f(x) = x^4 - 2x^2$$ ($$f'(x) = 4x^3 - 4x$$) at $$x^0 = 0.5$$, where $$f'(0.5) = -1.5 < 0$$, so $$p = +1$$ is a descent direction. Set Wolfe parameters $$c_1 = 0.1, \; c_2 = 0.9$$.
 

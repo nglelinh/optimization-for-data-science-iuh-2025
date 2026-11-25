@@ -11,14 +11,14 @@ lang: en
 
 How can an algorithm that minimizes a *nondifferentiable* objective $$f = g + h$$ achieve the exact same $$O(1/\varepsilon)$$ convergence rate as smooth gradient descent? The secret lies in a remarkable algebraic disguise: by defining the **generalized gradient** $$G_t(x) = \frac{1}{t}(x - \operatorname{prox}_{t h}(x - t\nabla g(x)))$$, every proximal gradient step looks formally identical to smooth gradient descent—and obeys the same sufficient-decrease inequality whenever $$t \le 1/L$$ or Armijo-style backtracking holds!
 
-## Background Knowledge Map: Proving the $$O(1/\varepsilon)$$ Proximal Rate
+## Key ideas: Proving the $$O(1/\varepsilon)$$ Proximal Rate
 
 - **Pillar 1 — $$L$$-Smoothness of $$g$$ (Quadratic Upper Bound):** Assuming $$\nabla g$$ is $$L$$-Lipschitz guarantees $$g(y) \le g(x) + \nabla g(x)^\top(y - x) + \frac{L}{2}\|y - x\|_2^2$$. Whenever $$t \le 1/L$$, the proximal subproblem majorizes $$f$$ globally, ensuring monotonic descent $$f(x^{(k)}) \le f(x^{(k-1)})$$.
 - **Pillar 2 — The Generalized Gradient $$G_t(x)$$:** Rewriting $$x^+ = x - t G_t(x)$$ implies $$G_t(x) - \nabla g(x) \in \partial h(x^+)$$ by first-order optimality of $$\operatorname{prox}_{t h}$$. Consequently, $$G_t(x) = 0 \iff 0 \in \nabla g(x) + \partial h(x) = \partial f(x)$$.
 - **Pillar 3 — Key Descent Inequality:** For $$t \le 1/L$$ and any $$z$$, $$f(x^+) \le f(z) + G_t(x)^\top(x - z) - \frac{t}{2}\|G_t(x)\|_2^2$$. Setting $$z = x$$ shows guaranteed descent of $$\frac{t}{2}\|G_t(x)\|_2^2$$; setting $$z = x^\star$$ telescopes $$\|x^{(k)} - x^\star\|_2^2$$ cleanly to yield $$f(x^{(k)}) - f^\star \le \frac{\|x^{(0)} - x^\star\|_2^2}{2 k t}$$.
 - **Pillar 4 — Backtracking Line Search Without Knowing $$L$$:** When $$L$$ is unknown or expensive to compute (e.g., top singular value of a massive matrix), shrinking $$t \leftarrow \beta t$$ until $$g(x - t G_t(x)) \le g(x) - t\nabla g(x)^\top G_t(x) + \frac{t}{2}\|G_t(x)\|_2^2$$ preserves the exact $$O(1/k)$$ rate with effective step size $$\ge \min\{t_0, \beta/L\}$$.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying the Generalized Gradient & Descent Bound
+### Worked example: Verifying the Generalized Gradient & Descent Bound
 
 Take $$g(x) = 2x^2$$ (so $$\nabla g(x) = 4x$$, Lipschitz constant $$L = 4$$) and $$h(x) = |x|$$ on $$\mathbb{R}$$ (minimizer $$x^\star = 0, f^\star = 0$$). Start at $$x^{(0)} = 1$$ with step size $$t = 1/L = 0.25$$.
 

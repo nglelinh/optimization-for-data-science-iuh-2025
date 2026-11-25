@@ -13,7 +13,7 @@ Nếu đặt hệ điều kiện tối ưu **KKT** của bài toán gốc và h�
 
 Cú đặt cạnh nhau có chủ đích ở mục 16-02 chính là bản thiết kế kỹ thuật cho toàn bộ Chương 17: phương pháp điểm trong nguyên thủy – đối ngẫu sẽ **không** lập bài toán chắn thuần nguyên thủy nữa, mà trực tiếp áp dụng **phương pháp Newton để giải hệ phương trình đường trung tâm** $$F_\mu(x, y, s) = 0$$ trong khi giảm dần $$\mu \to 0$$!
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép so sánh KKT và Đường trung tâm
+## Kiến thức cần nhớ: Bốn mảnh ghép so sánh KKT và Đường trung tâm
 
 - **Hệ điều kiện KKT cho bài toán tổng quát:** Gồm 4 khối: (1) Điều kiện dừng, (2) Khả thi nguyên thủy, (3) Khả thi đối ngẫu, và (4) Bù yếu $$u_i h_i(x) = 0$$. Khi đối ngẫu mạnh thỏa mãn, KKT vừa là điều kiện **cần** vừa là điều kiện **đủ** cho tối ưu toàn cục.
 - **Hệ phương trình đường trung tâm:** Giữ nguyên (1), siết chặt (2) và (3) thành khả thi chặt ($$h_i(x) < 0, u_i > 0$$), và thay (4) bằng $$-u_i h_i(x) = 1/t$$.
@@ -22,7 +22,7 @@ Cú đặt cạnh nhau có chủ đích ở mục 16-02 chính là bản thiết
   - **Đường trung tâm của LP:** Chỉ thay đúng phương trình cuối thành $$X S \mathbf{1} = \mu \mathbf{1}$$ (tức $$x_i s_i = \mu > 0$$ với $$\mu = 1/t$$)!
 - **Khoảng cách đối ngẫu trực tiếp trong LP:** Với mọi cặp $$(x, y, s)$$ khả thi nguyên thủy – đối ngẫu, ta có $$c^T x - b^T y = (A^T y + s)^T x - (Ax)^T y = s^T x = \sum_{i=1}^n x_i s_i$$! Trên đường trung tâm, tổng này bằng đúng $$n\mu = n/t$$!
 
-### Khung giải thích (nên đọc chậm): Giải hệ phương trình đường trung tâm của LP dạng chuẩn bằng tay
+### Giải thích: Giải hệ phương trình đường trung tâm của LP dạng chuẩn bằng tay
 
 Quay lại bài toán LP 2 biến ở bài trước: $$\min 3x_1 + 5x_2$$ thỏa $$x_1 + 2x_2 = 4, \; x_1, x_2 \ge 0$$ (có nghiệm KKT gốc $$x^\star = (0, 2), \; y^\star = 2.5, \; s^\star = (0.5, 0)$$). Hãy giải hệ đường trung tâm với tham số nhiễu $$\mu = 0.5$$ (tức $$t = 2$$):
 

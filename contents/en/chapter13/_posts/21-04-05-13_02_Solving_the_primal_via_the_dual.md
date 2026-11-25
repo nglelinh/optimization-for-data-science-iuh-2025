@@ -12,14 +12,14 @@ lesson_type: required
 
 Imagine allocating power across 10,000 wireless channels to maximize total throughput subject to a single total power budget $$\sum_{i=1}^{10000} x_i = P$$. Solving a 10,000-variable constrained problem directly looks daunting—until you dualize that single budget constraint. Suddenly, the 10,000 variables decouple completely into 10,000 trivial 1D problems coordinated by a *single* scalar price $$v$$.
 
-## Background Knowledge Map: Decomposition Through Scalar Duality
+## Key ideas: Decomposition Through Scalar Duality
 
 - **Pillar 1 — Separable Objective Structure:** When $$f(x) = \sum_{i=1}^n f_i(x_i)$$ has no cross-terms, the only coupling between coordinates is the linear constraint $$a^T x = b$$.
 - **Pillar 2 — Dualizing the Coupling Constraint:** Moving $$v(b - a^T x)$$ into the Lagrangian turns the minimization over $$\mathbb{R}^n$$ into $$n$$ independent 1D minimizations, each producing $$-f_i^*(a_i v)$$.
 - **Pillar 3 — Dimensionality Collapse ($$n \to 1$$):** The dual problem $$\min_v \sum_{i=1}^n f_i^*(a_i v) - bv$$ lives in $$\mathbb{R}^1$$ regardless of how large $$n$$ is, making 1D bisection or Newton's method instantaneous.
 - **Pillar 4 — Strict Convexity Guarantees Unique Recovery:** Once $$v^\star$$ is found, each coordinate is recovered independently via the stationarity condition $$\nabla f_i(x_i^\star) = a_i v^\star$$, which yields a unique primal optimum whenever each $$f_i$$ is strictly convex.
 
-### Step-by-Step Worked Example (Read Slowly): Solving a 3-Variable Separable Problem via a 1D Dual
+### Worked example: Solving a 3-Variable Separable Problem via a 1D Dual
 
 Minimize $$f(x) = \frac{1}{2}x_1^2 + x_2^2 + \frac{3}{2}x_3^2$$ subject to $$x_1 + 2x_2 + 3x_3 = 14$$ (so $$a = (1, 2, 3)^T$$, $$b = 14$$).
 

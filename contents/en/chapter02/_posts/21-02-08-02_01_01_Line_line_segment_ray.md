@@ -11,14 +11,14 @@ lang: en
 
 Every line-search algorithm in optimization reduces an $$n$$-dimensional problem to a 1-dimensional walk along a ray $$x_k + t d$$ ($$t \ge 0$$), while every proof of convexity checks values along a line segment $$\theta x_1 + (1-\theta)x_2$$ ($$0 \le \theta \le 1$$). Mastering the exact parameter domains of lines, segments, and rays turns high-dimensional geometry into effortless 1D algebra.
 
-## Background Knowledge Map: One-Dimensional Geometric Primitives
+## Key ideas: One-Dimensional Geometric Primitives
 
 - **Line ($$\theta \in \mathbb{R}$$):** $$y(\theta) = \theta x_1 + (1-\theta)x_2$$ extends infinitely in both directions through $$x_1$$ and $$x_2$$—the simplest nontrivial affine set.
 - **Line Segment ($$\theta \in [0, 1]$$):** Restricting $$\theta$$ to $$[0, 1]$$ traps $$y(\theta)$$ between endpoints $$x_1$$ and $$x_2$$—the exact test object for convexity.
 - **Ray ($$t \ge 0$$):** $$y(t) = x_0 + t v$$ starts at basepoint $$x_0$$ and shoots infinitely along direction $$v \neq 0$$—used for line search and unbounded recession directions of feasible sets.
 - **Parameterization Equivalence:** Writing $$y(\theta) = x_2 + \theta(x_1 - x_2)$$ reveals the direction vector $$v = x_1 - x_2$$ explicitly so you can read velocity and endpoints at a glance.
 
-### Step-by-Step Worked Example (Read Slowly): Parameterizing a Line, Segment, and Ray in $$\mathbb{R}^2$$
+### Worked example: Parameterizing a Line, Segment, and Ray in $$\mathbb{R}^2$$
 
 Given $$x_1 = (1, 2)^T$$ and $$x_2 = (5, 0)^T$$, form $$y(\theta) = \theta x_1 + (1-\theta)x_2 = (5 - 4\theta,\; 2\theta)^T$$.
 

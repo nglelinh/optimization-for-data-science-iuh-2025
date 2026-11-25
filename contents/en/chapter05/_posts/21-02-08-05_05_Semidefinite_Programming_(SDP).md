@@ -11,7 +11,7 @@ lang: en
 
 In Linear Programming, variables satisfy scalar inequalities $$x_i \ge 0$$. Now lift that single idea from numbers to symmetric matrices: instead of requiring scalars to be nonnegative, require an entire symmetric matrix $$X$$ to have all nonnegative eigenvalues ($$X \succeq 0$$). That leap produces Semidefinite Programming (SDP)—a convex powerhouse capable of certifying robot stability, bounding NP-hard graph cuts (Goemans–Williamson Max-Cut), and verifying neural-network robustness.
 
-## Background Knowledge Map: Optimizing Over the Positive Semidefinite Cone
+## Key ideas: Optimizing Over the Positive Semidefinite Cone
 
 1. **Linear Matrix Inequalities (LMIs)**: An SDP minimizes a linear objective $$c^T x$$ subject to $$F(x) = F_0 + \sum_{i=1}^n x_i F_i \preceq 0$$ (where each $$F_i \in \mathbb{S}^k$$ is symmetric) and $$Ax = b$$. Equivalently, in standard conic form: $$\min \langle C, X \rangle$$ subject to $$\langle A_i, X \rangle = b_i$$ and $$X \succeq 0$$, where $$\langle C, X \rangle = \operatorname{tr}(C^T X)$$.
 2. **The Schur Complement Bridge**: A convex quadratic constraint or second-order cone constraint $$\|u\|_2 \le t$$ embeds seamlessly into an SDP via the Schur complement:
@@ -20,7 +20,7 @@ In Linear Programming, variables satisfy scalar inequalities $$x_i \ge 0$$. Now 
 3. **Eigenvalue Optimization**: Minimizing the largest eigenvalue $$\lambda_{\max}(A(x))$$ of an affine symmetric matrix family is an exact SDP: minimize $$t$$ subject to $$A(x) \preceq tI$$.
 4. **SDP Relaxations of Combinatorial Problems**: By lifting $$x \in \{-1, +1\}^n$$ to the rank-1 matrix $$X = xx^T$$ (which satisfies $$X \succeq 0$$ and $$X_{ii} = 1$$) and dropping the nonconvex constraint $$\operatorname{rank}(X) = 1$$, we obtain tight polynomial-time convex relaxations for Max-Cut, sensor localization, and phase retrieval.
 
-### Step-by-Step Worked Example (Read Slowly): Minimizing the Largest Eigenvalue via an LMI
+### Worked example: Minimizing the Largest Eigenvalue via an LMI
 
 Find $$x \in \mathbb{R}$$ that minimizes the largest eigenvalue $$\lambda_{\max}(A(x))$$ of the $$2 \times 2$$ matrix
 $$A(x) = \begin{bmatrix} 1 + x & 2 \\ 2 & 5 - x \end{bmatrix}.$$

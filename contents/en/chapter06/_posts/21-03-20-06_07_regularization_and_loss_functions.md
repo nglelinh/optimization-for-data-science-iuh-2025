@@ -11,7 +11,7 @@ lang: en
 
 A high-degree polynomial can pass through every single training point with zero error—and then fail catastrophically on the very next unseen test point. Regularization fixes this by adding a convex complexity penalty $$\lambda R(w)$$ to the data-fit loss, turning an ill-posed memorization task into a well-conditioned convex optimization problem whose geometry (smooth L2 spheres vs. sharp L1 diamonds) directly shapes the learned model.
 
-## Background Knowledge Map: Geometry of Losses and Regularizers
+## Key ideas: Geometry of Losses and Regularizers
 
 1. **Empirical Risk + Regularizer**: Training solves $$\min_w \frac{1}{n}\sum_{i=1}^n \ell(y_i, f_w(x_i)) + \lambda R(w)$$. The hyperparameter $$\lambda \ge 0$$ traces the exact Pareto frontier between training fit (bias) and parameter complexity (variance).
 2. **Ridge (L2) vs. Lasso (L1) Geometry**:
@@ -20,7 +20,7 @@ A high-degree polynomial can pass through every single training point with zero 
 3. **Elastic Net (Best of Both Worlds)**: Combining $$\lambda_1 \|w\|_1 + \frac{\lambda_2}{2}\|w\|_2^2$$ yields both sparsity and strong convexity, stabilizing selection among highly correlated predictors.
 4. **Choosing the Loss Function for Outliers and Tasks**: Squared loss penalizes large errors quadratically (sensitive to outliers); Huber loss blends quadratic smoothness near zero with linear robustness in the tails; hinge and cross-entropy losses drive large-margin and probabilistic classification.
 
-### Step-by-Step Worked Example (Read Slowly): Ridge vs. Lasso on a 1D Estimation Problem
+### Worked example: Ridge vs. Lasso on a 1D Estimation Problem
 
 Minimize $$\frac{1}{2}(w - 3)^2 + R(w)$$ with regularization strength $$\lambda = 1$$ under (a) Ridge $$R(w) = \frac{1}{2}w^2$$ and (b) Lasso $$R(w) = |w|$$, and repeat when the data target is small ($$y = 0.6$$ instead of $$3$$).
 

@@ -13,7 +13,7 @@ Hãy tưởng tượng bạn đang đứng trong một căn phòng đa giác l�
 
 Phương pháp **gradient có điều kiện (Frank–Wolfe)** đảo ngược hoàn toàn tư duy đó: thay vì bước ra ngoài rồi chiếu vào trong, ta đứng nguyên trong phòng, nhìn theo hướng dốc xuống mạnh nhất, chọn **góc tường** nằm xa nhất theo hướng đó, rồi bước một đoạn thẳng về phía góc tường ấy. Không bao giờ ra khỏi miền khả thi, không bao giờ cần phép chiếu, và mỗi bước chỉ thêm đúng một "nguyên tử" cấu trúc vào nghiệm.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép cốt lõi của bài học
+## Kiến thức cần nhớ: Bốn mảnh ghép cốt lõi của bài học
 
 Bài học này đặt nền móng cho toàn bộ Chương 22 thông qua bốn trụ cột liên kết chặt chẽ:
 
@@ -22,7 +22,7 @@ Bài học này đặt nền móng cho toàn bộ Chương 22 thông qua bốn t
 - **Tương đương giữa dạng ràng buộc và dạng Lagrange:** Trong thống kê và học máy, bài toán $$\min_{\|x\| \le t} f(x)$$ (dạng ràng buộc dùng cho Frank–Wolfe) và $$\min_x f(x) + \lambda \|x\|$$ (dạng phạt Lagrange dùng cho Proximal Gradient) sinh ra cùng một họ nghiệm tối ưu khi tham số $$t$$ và $$\lambda$$ biến thiên tương ứng.
 - **Khoảng cách đối ngẫu (Duality Gap):** Đại lượng $$g(x) = \max_{s \in C} \nabla f(x)^T (x - s)$$ luôn lớn hơn hoặc bằng $$f(x) - f^\star$$ nhờ tính lồi bậc nhất của $$f$$. Nó vừa là chứng chỉ dừng chính xác, vừa là đại lượng trung tâm trong chứng minh hội tụ ở bài sau.
 
-### Khung giải thích (nên đọc chậm): Tính tay Frank–Wolfe trên quả cầu $$\ell_1$$ và kiểm tra khoảng cách đối ngẫu
+### Giải thích: Tính tay Frank–Wolfe trên quả cầu $$\ell_1$$ và kiểm tra khoảng cách đối ngẫu
 
 Xét bài toán cực tiểu hóa $$f(x_1, x_2) = \frac{1}{2}(x_1 - 2)^2 + \frac{1}{2}(x_2 - 0.5)^2$$ trên quả cầu $$\ell_1$$ đơn vị $$C = \{(x_1, x_2) : |x_1| + |x_2| \le 1\}$$, khởi tạo từ $$x^{(0)} = (0, 0)$$.
 

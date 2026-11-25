@@ -11,7 +11,7 @@ lang: vi
 
 Phương pháp tăng đối ngẫu (dual ascent) có một gót chân Achilles cực kỳ khó chịu: nếu hàm mục tiêu $$f(x)$$ không lồi mạnh (chẳng hạn $$f(x)$$ tuyến tính hoặc có đoạn phẳng), bài toán con $$\min_x (f(x) + u^T Ax)$$ có thể **vô nghiệm (tiến tới $$-\infty$$)** hoặc nhảy loạn xạ không bao giờ hội tụ! Năm 1969, Magnus Hestenes và Michael Powell độc lập đề xuất một cú "cứu nguy" thiên tài: cộng thêm một số hạng phạt bậc hai $$\frac{\rho}{2}\|Ax - b\|_2^2$$ vào hàm mục tiêu. Số hạng này **bằng 0 hoàn toàn** tại mọi điểm khả thi $$Ax = b$$ (nên không làm thay đổi nghiệm tối ưu), nhưng lại biến hàm mục tiêu thành lồi trơn hơn rất nhiều — đó là **phương pháp hàm Lagrange tăng cường (Augmented Lagrangian / Method of Multipliers)**!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Phương pháp Nhân tử (Augmented Lagrangian)
+## Kiến thức cần nhớ: Bốn trụ cột của Phương pháp Nhân tử (Augmented Lagrangian)
 
 Hiểu bốn điểm sau sẽ giúp bạn nắm trọn cả ưu điểm lẫn cái giá phải trả của Augmented Lagrangian:
 
@@ -20,7 +20,7 @@ Hiểu bốn điểm sau sẽ giúp bạn nắm trọn cả ưu điểm lẫn c�
 - **Hội tụ vững chắc dưới điều kiện rất nhẹ:** Không còn yêu cầu $$f$$ phải lồi chặt hay hữu hạn ở mọi nơi; chỉ cần $$f$$ lồi đóng và bài toán có nghiệm là phương pháp nhân tử hội tụ bền bỉ.
 - **Nhược điểm duy nhất — đánh mất tính phân rã:** Số hạng $$\frac{\rho}{2}\|\sum_i A_i x_i - b\|_2^2$$ khi bình phương lên sẽ sinh ra các tích chéo $$x_i^T A_i^T A_j x_j$$ trói chặt mọi khối biến lại với nhau — chính nhược điểm này sẽ khai sinh ra ADMM ở bài tiếp theo!
 
-### Khung giải thích (nên đọc chậm): Cứu một bài toán mà Dual Ascent thất bại hoàn toàn chỉ trong 2 bước
+### Giải thích: Cứu một bài toán mà Dual Ascent thất bại hoàn toàn chỉ trong 2 bước
 
 Xét bài toán tối ưu tuyến tính 1 biến đơn giản nhất có thể:
 

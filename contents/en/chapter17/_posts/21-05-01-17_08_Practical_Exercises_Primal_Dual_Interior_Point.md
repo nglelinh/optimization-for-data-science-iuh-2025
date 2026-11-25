@@ -14,14 +14,14 @@ redirect_from:
 
 Theory tells you that primal-dual interior-point methods converge in $$O(\sqrt{n}\log(1/\epsilon))$$ iterations; actually computing the KKT Jacobian, solving the normal equations, and tracking $$\theta_{\max}$$ by hand reveals *why* every single safeguard in a production solver exists. Before diving into the graded exercises below, warm up with a concrete comparison of the **affine-scaling ($$\sigma = 0$$)** direction against the **centered ($$\sigma > 0$$)** direction—the exact split that powers Mehrotra's predictor-corrector algorithm.
 
-## Background Knowledge Map: From Paper Equations to Working Solvers
+## Key ideas: From Paper Equations to Working Solvers
 
 - **Exact Central-Path Algebra:** Setting up $$X S \mathbf{1} = \mu \mathbf{1}$$ alongside primal-dual feasibility lets you trace the closed-form central path for low-dimensional LPs and SDPs.
 - **Affine-Scaling vs. Centering Directions:** Setting $$\sigma = 0$$ aims straight for $$XS\mathbf{1} = 0$$ (maximum gap reduction, high risk of hitting the boundary early), while $$\sigma > 0$$ pulls iterates back toward the central path so larger steps become possible.
 - **Fraction-to-the-Boundary Ratio Test:** Computing $$\alpha_p = \min_{\Delta x_i < 0}(-x_i / \Delta x_i)$$ and $$\alpha_d = \min_{\Delta s_i < 0}(-s_i / \Delta s_i)$$ prevents negative slacks or multipliers and determines how much of the Newton step can be taken.
 - **Implementation & Verification:** Coding a small primal-dual solver in Python/NumPy lets you observe quadratic local convergence on LPs and verify $$\|r_p\|, \|r_d\|, \mu \to 0$$ numerically.
 
-### Step-by-Step Worked Example (Read Slowly): Affine-Scaling vs. Centered Step on a 2-Variable LP
+### Worked example: Affine-Scaling vs. Centered Step on a 2-Variable LP
 
 Consider $$\min 3x_1 + x_2$$ subject to $$x_1 + 2x_2 = 4$$ and $$x_1, x_2 \ge 0$$ (exact optimum $$x^\star = (0, 2), y^\star = 0.5, s^\star = (2.5, 0)$$). Start at the feasible interior point $$x = (2, 1)^T, y = 0, s = (3, 1)^T$$ (verify: $$x_1 + 2x_2 = 4$$ and $$A^T y + s = (3, 1)^T = c$$).
 

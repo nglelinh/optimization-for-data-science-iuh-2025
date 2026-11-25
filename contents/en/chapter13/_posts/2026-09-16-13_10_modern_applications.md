@@ -12,14 +12,14 @@ lesson_type: optional
 
 Picture training a sparse generalized linear model on 500,000 genetic markers when only 40 markers actually matter. Waiting for a primal solver to update all half-million coordinates every epoch is painfully slow—unless you maintain a feasible dual vector and use the duality gap to *mathematically prove* which 499,900 features must be zero at the optimum, dropping them forever mid-solve. That is how Chapter 13's duality correspondences power today's fastest ML libraries.
 
-## Background Knowledge Map: Modern Duality Pipelines (2022–2026)
+## Key ideas: Modern Duality Pipelines (2022–2026)
 
 - **Pillar 1 — Dual-Norm Threat Models:** Adversarial robustness benchmarks (AutoAttack, RobustBench) formalize worst-case perturbations through the exact dual-norm pairing $$\sup_{\|v\|_p \le \varepsilon} g^T v = \varepsilon \|g\|_q$$.
 - **Pillar 2 — Computable Duality Gaps for Feature Screening:** In `skglm` and gap-safe screening, the duality gap $$P(\beta) - D(\theta)$$ bounds $$\|\theta - \theta^\star\|_2 \le \sqrt{2(P(\beta) - D(\theta))}$$, enabling provably safe elimination of inactive coordinates.
 - **Pillar 3 — Conjugate-Based Canonicalization in Cone Solvers:** CVXPY, OSQP, SCS, and Clarabel rely on Fenchel conjugates and Moreau's identity to convert high-level norms and penalties into standardized cone projections.
 - **Pillar 4 — Dual-Cone Certificates for Verified AI:** Neural network verifiers ($$\alpha,\beta$$-CROWN, GCP-CROWN) cast robustness verification as a conic relaxation where any feasible dual-cone vector $$z \in K^*$$ provides a sound mathematical proof of safety.
 
-### Step-by-Step Worked Example (Read Slowly): Gap-Safe Feature Screening in Action
+### Worked example: Gap-Safe Feature Screening in Action
 
 Suppose we are solving a Lasso problem with $$\lambda = 10$$ and normalized feature columns $$\|x_j\|_2 = 1$$. At iteration $$k$$, our current primal iterate $$\beta$$ has objective $$P(\beta) = 12.50$$, and a rescaled dual-feasible residual $$\theta$$ (satisfying $$\|X^T \theta\|_\infty \le \lambda$$) gives dual objective $$D(\theta) = 12.32$$.
 

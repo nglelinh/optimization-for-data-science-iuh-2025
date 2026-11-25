@@ -13,14 +13,14 @@ lang: vi
 
 **Phương pháp chắn (Barrier Method)** giải bài toán đó bằng một ý tưởng hình học đầy táo bạo: thay vì để thuật toán va đầu vào các bức tường biên, ta dựng lên một **trường lực đẩy trơn tru bằng hàm chắn logarit** $$-\frac{1}{t}\sum \log(-h_i(x))$$ tăng vọt lên $$+\infty$$ mỗi khi $$x$$ tiến sát biên! Nhờ thế, bài toán có ràng buộc bất đẳng thức biến thành một chuỗi bài toán trơn có ràng buộc đẳng thức — nơi ta có thể thả phương pháp Newton vào chạy băng băng dọc theo **đường trung tâm** cho đến sát nghiệm tối ưu.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Phương pháp chắn (Điểm trong)
+## Kiến thức cần nhớ: Bốn trụ cột của Phương pháp chắn (Điểm trong)
 
 - **Xấp xỉ hàm chỉ thị bằng hàm chắn logarit:** Thay bức tường không khả vi $$I_{h_i(x) \le 0}$$ bằng hàm trơn $$-\frac{1}{t}\log(-h_i(x))$$. Khi tham số $$t$$ tăng dần tới $$+\infty$$, hàm chắn bám ngày càng sát hàm chỉ thị gốc.
 - **Đường trung tâm (Central Path) $$x^*(t)$$:** Tập hợp các nghiệm của bài toán chắn theo tham số $$t > 0$$ tạo thành một đường cong mượt mà nằm hoàn toàn trong **miền trong chặt** của tập khả thi và dẫn thẳng tới $$x^*$$.
 - **Điều kiện KKT nhiễu và khoảng cách dưới tối ưu $$m/t$$:** Mỗi điểm trên đường trung tâm tự động sinh ra một điểm khả thi đối ngẫu với khoảng cách đối ngẫu **đúng bằng $$m/t$$** — một công thức kỳ diệu không phụ thuộc hàm mục tiêu hay hình dạng miền!
 - **Thuật toán hai vòng lặp và Pha I tìm điểm khả thi:** Vòng ngoài tăng $$t \leftarrow \mu t$$, vòng trong chạy Newton có ràng buộc đẳng thức (bước định tâm). Khi chưa có điểm khả thi chặt ban đầu, bài toán Pha I tìm điểm xuất phát cũng được giải bằng chính phương pháp chắn.
 
-### Khung giải thích (nên đọc chậm): Quan sát một nghiệm trượt dọc đường trung tâm về biên
+### Giải thích: Quan sát một nghiệm trượt dọc đường trung tâm về biên
 
 Xét bài toán cực tiểu hóa 1 chiều đơn giản nhất có ràng buộc bất đẳng thức:
 $$\min_{x \in \mathbb{R}} x \qquad \text{với điều kiện } -x \le 0 \;\; (\text{tức } x \ge 0).$$

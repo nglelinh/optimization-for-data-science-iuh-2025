@@ -11,14 +11,14 @@ lang: en
 
 Every calculus student learns that $$-\nabla f(x)$$ points strictly perpendicular to the level curve $$f(x) = c$$. So it is natural to assume that Newton's method—being an "upgraded" gradient descent—also crosses level curves at $$90^\circ$$. In fact, it almost **never** does! On elongated elliptical valleys, the perpendicular direction misses the minimum completely, whereas Newton's method deliberately tilts *away* from the normal so it can aim directly at the valley floor.
 
-## Background Knowledge Map: Level-Curve Geometry of Newton vs. Gradient Descent
+## Key ideas: Level-Curve Geometry of Newton vs. Gradient Descent
 
 - **Pillar 1 — Steepest Descent Is Euclidean-Orthogonal:** In the standard Euclidean inner product, $$-\nabla f(x)$$ is orthogonal to the tangent space of the level set $$\{y : f(y) = f(x)\}$$.
 - **Pillar 2 — Newton Is Steepest Descent in the Hessian Metric:** Defining the local inner product $$\langle u, v \rangle_H = u^T H v$$ (where $$H = \nabla^2 f(x)$$), the Newton step $$-H^{-1}\nabla f(x)$$ is orthogonal to the level curve *in the $$H$$-metric*, not the Euclidean metric.
 - **Pillar 3 — When Does Newton Move Perpendicularly?:** The angle between $$-\nabla f(x)$$ and $$-H^{-1}\nabla f(x)$$ is $$0^\circ$$ if and only if $$\nabla f(x)$$ is an eigenvector of $$\nabla^2 f(x)$$ (which happens everywhere only for isotropic $$H = cI$$, or along principal axes of an ellipse).
 - **Pillar 4 — Descent Guarantee Despite Large Angles:** Even when the Euclidean angle between $$\Delta x_{\text{nt}}$$ and $$-\nabla f(x)$$ approaches $$89^\circ$$ on extreme canyons, $$\nabla f(x)^T \Delta x_{\text{nt}} = -\nabla f(x)^T H^{-1}\nabla f(x) < 0$$ guarantees the angle is strictly acute ($$< 90^\circ$$).
 
-### Step-by-Step Worked Example (Read Slowly): Measuring the Exact Angle Between Newton and the Level-Curve Normal
+### Worked example: Measuring the Exact Angle Between Newton and the Level-Curve Normal
 
 Consider the elliptical bowl $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 9x_2^2)$$ at $$x = (3, 1)^T$$.
 

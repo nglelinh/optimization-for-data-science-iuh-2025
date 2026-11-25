@@ -11,14 +11,14 @@ lang: en
 
 A subtle and famous surprise awaits anyone who compares cyclic versus randomized stochastic subgradient methods in terms of $$m$$ (the number of data points): while both share the same $$O(1/\varepsilon^2)$$ dependence on accuracy $$\varepsilon$$, the randomized method saves a full factor of $$m$$ in worst-case complexity over the cyclic method! That extra factor of $$m$$ is not a mere proof artifact—adversarial data orderings genuinely slow cyclic updates down by a factor of $$m$$, whereas random shuffling cancels out correlated errors by the law of large numbers.
 
-## Background Knowledge Map: Complexity Scaling in $$m$$, $$G$$, and $$\varepsilon$$
+## Key ideas: Complexity Scaling in $$m$$, $$G$$, and $$\varepsilon$$
 
 - **Pillar 1 — Batch Subgradient Benchmark:** Using $$G_{\text{batch}} \le mG$$, the batch method takes $$O(G_{\text{batch}}^2 / \varepsilon^2) \le O(m^2 G^2 / \varepsilon^2)$$ batch iterations. Because each batch iteration evaluates all $$m$$ components, total component evaluations scale as $$O(m^3 G^2 / \varepsilon^2)$$ in the worst case.
 - **Pillar 2 — Cyclic Method Complexity ($$O(m^3 G^2 / \varepsilon^2)$$ updates):** An adversarial ordering (e.g., putting all $$+1$$ subgradients first and all $$-1$$ subgradients last) creates $$O(m)$$ coherent drift within each cycle. Counting individual steps gives $$O(m^3 G^2 / \varepsilon^2)$$, or $$O(m^2 G^2 / \varepsilon^2)$$ full cycles—matching the worst-case batch evaluation count.
 - **Pillar 3 — Randomized Method Complexity ($$O(m^2 G^2 / \varepsilon^2)$$ updates):** Because independent random draws have zero cross-term covariance, the expected squared norm of the step noise does not accumulate coherently across $$m$$ steps, saving a full factor of $$m$$ in component evaluations (equivalent to $$O(m G^2 / \varepsilon^2)$$ passes over the data).
 - **Pillar 4 — Normalized Average Objective ($$\frac{1}{m}\sum f_i$$):** Dividing the objective by $$m$$ rescales $$\varepsilon \mapsto m\varepsilon$$, turning the randomized complexity into $$O(G^2 / \varepsilon^2)$$ component evaluations—completely *independent of the dataset size $$m$$*!
 
-### Step-by-Step Worked Example (Read Slowly): Why Adversarial Ordering Hurts Cyclic Updates
+### Worked example: Why Adversarial Ordering Hurts Cyclic Updates
 
 Consider $$f(x) = \sum_{i=1}^{2k} f_i(x)$$ with $$m = 2k$$ terms where the first $$k$$ terms are $$f_i(x) = +x$$ and the last $$k$$ terms are $$f_i(x) = -x$$ (so $$f(x) \equiv 0$$ and every $$x$$ is optimal, with $$G = 1$$). Start at $$x^{(0)} = 0$$ with step size $$t$$.
 

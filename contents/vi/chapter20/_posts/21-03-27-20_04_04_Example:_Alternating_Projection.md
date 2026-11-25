@@ -11,7 +11,7 @@ lang: vi
 
 Tìm một điểm chung nằm trong giao của hai tập lồi $$C \cap D$$ là bài toán kinh điển xuất hiện khắp nơi — từ khôi phục tín hiệu bị cắt xén đến kiểm tra tính khả thi của hệ bất đẳng thức. Cách cổ điển của von Neumann (1933) là **chiếu luân phiên (alternating projection)**: chiếu lên $$C$$, rồi chiếu lên $$D$$, cứ lặp đi lặp lại. Nhưng khi hai tập cắt nhau ở góc nhọn, chiếu luân phiên bị zíc-zắc hàng trăm bước mới tới giao điểm! Bằng cách viết bài toán dưới dạng $$\min I_C(x) + I_D(z) \text{ s.t. } x = z$$ và chạy ADMM dạng có tỉ lệ, ta thu được thuật toán chiếu có "bộ nhớ" $$w$$ — thực chất tương đương với **phương pháp Douglas–Rachford** nổi tiếng, hội tụ nhanh hơn hẳn!
 
-## Bản đồ kiến thức nền: Ba ý tưởng tạo nên sức mạnh của ADMM chiếu luân phiên
+## Kiến thức cần nhớ: Ba ý tưởng tạo nên sức mạnh của ADMM chiếu luân phiên
 
 Để hiểu rõ vì sao chỉ thêm một vector $$w^{(k)}$$ nhỏ bé lại biến phép chiếu luân phiên cổ điển trở nên vượt trội, hãy xem ba điểm sau:
 
@@ -19,7 +19,7 @@ Tìm một điểm chung nằm trong giao của hai tập lồi $$C \cap D$$ là
 - **Cơ chế "nhắm vượt đích" nhờ biến đối ngẫu $$w$$:** Thay vì chiếu trực tiếp $$z^{(k-1)}$$ lên $$C$$ như von Neumann, ADMM chiếu điểm đã được dịch chuyển $$z^{(k-1)} - w^{(k-1)}$$ lên $$C$$, rồi chiếu $$x^{(k)} + w^{(k-1)}$$ lên $$D$$. Sự dịch chuyển này tự động bẻ góc quỹ đạo zíc-zắc hướng thẳng vào giao điểm $$C \cap D$$!
 - **Mở rộng tự nhiên sang giao của $$m$$ tập lồi:** Nếu cần tìm điểm chung của $$m$$ tập lồi $$C_1, \dots, C_m$$, ta chỉ cần áp dụng ADMM đồng thuận (Chương 21) để chiếu song song lên cả $$m$$ tập rồi lấy trung bình cộng!
 
-### Khung giải thích (nên đọc chậm): Chạy tay so sánh Chiếu luân phiên cổ điển vs. ADMM trên hai đường thẳng cắt nhau
+### Giải thích: Chạy tay so sánh Chiếu luân phiên cổ điển vs. ADMM trên hai đường thẳng cắt nhau
 
 Trong mặt phẳng $$\mathbb{R}^2$$, xét hai tập lồi là hai đường thẳng:
 - $$C = \{(x_1, x_2) : x_2 = 0\}$$ (trục hoành; phép chiếu $$P_C(a, b) = (a, 0)$$).

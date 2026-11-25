@@ -11,14 +11,14 @@ lang: en
 
 When an optimization problem has millions of variables spread across hundreds of machines, departments, or sensors, the objective $$\sum_{i=1}^B f_i(x_i)$$ is often naturally separable—only a handful of shared resource or consistency constraints $$Ax = b$$ tie everything together. **Dual decomposition** (pioneered by Everett and Dantzig–Wolfe in the 1960s) uses Lagrange multipliers as a lightweight coordination bus: every worker solves its own private subproblem in parallel, and a coordinator updates the shared dual prices from the aggregate mismatch.
 
-## Background Knowledge Map: The Architecture of Dual Decomposition
+## Key ideas: The Architecture of Dual Decomposition
 
 - **Block-Separable Objective, Coupled Constraints:** Minimizing $$\sum_{i=1}^B f_i(x_i)$$ subject to $$\sum_{i=1}^B A_i x_i = b$$ (or $$\le b$$) cannot be parallelized directly in primal space because changing $$x_1$$ forces $$x_2, \dots, x_B$$ to adjust.
 - **Lagrangian Decoupling:** Moving the coupling constraint into the Lagrangian $$\sum_{i=1}^B \big(f_i(x_i) + u^T A_i x_i\big) - u^T b$$ breaks the primal minimization into $$B$$ completely independent subproblems for any fixed price vector $$u$$.
 - **Broadcast–Gather Communication Pattern:** Each iteration needs only one broadcast of $$u$$ from the coordinator and one gather of local contributions $$A_i x_i^{(k)}$$—protecting local privacy (workers never share $$f_i$$) and scaling horizontally across clusters.
 - **Price-Adjustment Economics:** If aggregate usage $$\sum_i A_i x_i^{(k)}$$ exceeds $$b$$, the dual price $$u$$ rises, discouraging consumption on the next round; if it falls short, $$u$$ drops—automatically steering the decentralized system toward equilibrium.
 
-### Step-by-Step Worked Example (Read Slowly): Parallelizing a Coupled 2-Block Quadratic
+### Worked example: Parallelizing a Coupled 2-Block Quadratic
 
 Minimize $$f_1(x_1) + f_2(x_2) = (x_1 - 4)^2 + 2(x_2 - 3)^2$$ subject to $$x_1 + x_2 = 4$$.
 

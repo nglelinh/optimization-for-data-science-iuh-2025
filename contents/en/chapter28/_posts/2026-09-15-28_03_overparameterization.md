@@ -12,14 +12,14 @@ lesson_type: required
 
 Classical statistics taught a golden rule: never let the number of parameters $$d$$ exceed the number of training examples $$n$$, or your model will memorize noise and collapse on test data. Modern deep learning routinely violates that rule by factors of $$100\times$$—and somehow becomes *easier* to optimize and *better* at generalizing! Overparameterization ($$d \gg n$$) fundamentally transforms the loss landscape: instead of isolated local valleys, the zero-loss set becomes a vast $$(d - n)$$-dimensional manifold, and gradient descent implicitly picks out the **minimum-norm** interpolating solution.
 
-## Background Knowledge Map: Geometry and Implicit Bias of Overparameterized Models
+## Key ideas: Geometry and Implicit Bias of Overparameterized Models
 
 - **Interpolation Manifold ($$d > n$$):** In an underdetermined linear system $$Xw = y$$ ($$X \in \mathbb{R}^{n \times d}$$ full row rank, $$d > n$$), there are infinitely many exact global minimizers forming an affine subspace of dimension $$d - n$$, all achieving $$F(w) = 0$$.
 - **Implicit Bias of Gradient Descent:** Even with zero explicit $$\ell_2$$ regularization, running gradient descent from $$w_0 = 0$$ keeps every iterate strictly inside $$\operatorname{row}(X) = \operatorname{span}(X^\top)$$. Because the *unique* interpolator inside $$\operatorname{row}(X)$$ is the minimum-$$\ell_2$$-norm solution $$w_{\text{min}} = X^\top(XX^\top)^{-1} y$$, GD automatically acts as a hidden regularizer!
 - **Lazy Training / Neural Tangent Kernel (NTK) Regime:** In ultra-wide neural networks, each weight moves only $$O(1/\sqrt{\text{width}})$$ from initialization, so the network stays well-approximated by its first-order Taylor expansion in $$w$$—turning nonconvex training into convex kernel regression!
 - **Feature Learning vs. Lazy Regime:** Practical deep networks operate beyond the pure NTK limit, moving weights far enough to learn task-adaptive representations while still retaining the landscape smoothness granted by overparameterization.
 
-### Step-by-Step Worked Example (Read Slowly): Watching GD Find the Minimum-Norm Interpolator
+### Worked example: Watching GD Find the Minimum-Norm Interpolator
 
 Consider an overparameterized 1-example, 2-parameter linear model ($$n = 1, d = 2$$): $$X = \begin{pmatrix} 1 & 2 \end{pmatrix}$$, $$y = 5$$, minimizing $$F(w) = \frac{1}{2}(w_1 + 2 w_2 - 5)^2$$.
 

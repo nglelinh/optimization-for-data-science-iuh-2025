@@ -16,14 +16,14 @@ Nếu muốn thực sự làm chủ đối ngẫu Lagrange — để gặp bất
 
 Điểm thú vị nhất trong quá trình tự giải bài tập đối ngẫu là xử lý những **trường hợp biên (edge cases)** khi tính $$\inf_x L(x, u, v)$$: một biến mất bậc hai khiến biểu thức trở thành tuyến tính, hay miền xác định của $$\log(x)$$ đòi hỏi $$x > 0$$. Khung tính tay dưới đây chạy thử đúng tình huống kinh điển đó trên quy hoạch bậc hai 1 biến (gần với Bài tập 4) để bạn làm nóng tay trước khi vào bài!
 
-## Bản đồ kiến thức nền: Bốn bước chuẩn mực để giải mọi bài tập đối ngẫu Lagrange
+## Kiến thức cần nhớ: Bốn bước chuẩn mực để giải mọi bài tập đối ngẫu Lagrange
 
 - **Bước 1 — Đưa về dạng chuẩn và xác định miền $$\mathcal{D}$$:** Viết mọi bất đẳng thức về dạng $$h_i(x) \le 0$$, đẳng thức về $$l_j(x) = 0$$, và ghi rõ miền xác định ẩn (ví dụ $$x > 0$$ cho $$\log x$$).
 - **Bước 2 — Lập $$L(x, u, v)$$ và tìm $$\inf_x L(x, u, v)$$ cẩn thận theo từng miền tham số:** Giải $$\nabla_x L = 0$$ khi $$L$$ lồi và bức (coercive); luôn kiểm tra các giá trị $$(u, v)$$ làm cho $$\inf_x L = -\infty$$ để ghi rõ ràng buộc miền hữu dụng của bài toán đối ngẫu!
 - **Bước 3 — Kiểm tra tính lồi và điều kiện Slater:** Xác nhận $$f, h_i$$ lồi và $$l_j$$ affine, sau đó chỉ ra tường minh một điểm $$\tilde{x}$$ thỏa $$h_i(\tilde{x}) < 0$$ (với $$h_i$$ phi tuyến) và $$l_j(\tilde{x}) = 0$$ để chốt đối ngẫu mạnh.
 - **Bước 4 — Khôi phục nghiệm gốc $$x^*$$ từ nghiệm đối ngẫu $$(u^*, v^*)$$:** Khi $$L(x, u^*, v^*)$$ có cực tiểu duy nhất theo $$x$$ (chẳng hạn lồi chặt), điểm $$x^* = \arg\min_x L(x, u^*, v^*)$$ chính là nghiệm tối ưu gốc!
 
-### Khung giải thích (nên đọc chậm): Giải tay trọn vẹn QP 1 biến với hai trường hợp $$q > 0$$ và $$q = 0$$
+### Giải thích: Giải tay trọn vẹn QP 1 biến với hai trường hợp $$q > 0$$ và $$q = 0$$
 
 Xét bài toán $$\min_{x \in \mathbb{R}} \frac{1}{2}q x^2 + c x$$ với ràng buộc $$-x \le 0$$ (tức $$x \ge 0$$), trong đó $$q \ge 0$$.
 

@@ -11,14 +11,14 @@ lang: en
 
 You now have all the pieces of the engine—perturbed KKT residuals, the coupled Newton direction, and the surrogate duality gap—so it is time to assemble the complete **Primal-Dual Interior-Point Algorithm**. The subtle part is not computing $$(\Delta x, \Delta u, \Delta v)$$, but choosing the step length $$\theta_k$$: step too aggressively and a multiplier or slack crosses zero, shattering the interior invariant; step too timidly and convergence stalls. Backtracking on the residual norm $$\|r_\tau\|_2$$ with a fraction-to-the-boundary cap threads that needle cleanly.
 
-## Background Knowledge Map: Orchestrating the Primal-Dual Loop
+## Key ideas: Orchestrating the Primal-Dual Loop
 
 - **Adaptive Target Reduction ($$\tau = \sigma \eta / m$$):** Rather than guessing a fixed schedule for $$\tau$$, the algorithm measures the current average complementarity $$\eta / m$$ and aims for a fraction $$\sigma \in (0, 1)$$ of it (typically $$\sigma \in [0.1, 0.5]$$), balancing aggressive gap reduction against staying near the central path.
 - **Fraction-to-the-Boundary Step Cap ($$\theta_{\max}$$):** Before backtracking begins, we compute the largest step $$\theta_{\max} = \min\!\big(1, \; \min_{\Delta u_i < 0}(-u_i/\Delta u_i)\big)$$ that keeps $$u + \theta \Delta u > 0$$, and shrink by $$0.99$$ so iterates never touch the boundary $$u_i = 0$$.
 - **Residual-Norm Backtracking Line Search:** Because the objective $$f(x)$$ can actually *increase* while an infeasible iterate moves toward feasibility, line search cannot monitor $$f(x)$$. Instead, it enforces strict interiority $$h(x^+) < 0$$ and sufficient decrease of the total residual norm: $$\|r_\tau(z + \theta \Delta z)\|_2 \le (1 - \alpha \theta)\|r_\tau(z)\|_2$$.
 - **Dual-Criterion Termination:** The loop halts only when *both* the surrogate gap $$\eta \le \epsilon_{\text{feas}}$$ and the combined primal-dual feasibility residual $$\sqrt{\|r_{\text{prim}}\|_2^2 + \|r_{\text{dual}}\|_2^2} \le \epsilon$$ meet tolerance.
 
-### Step-by-Step Worked Example (Read Slowly): One Full Iteration with Backtracking
+### Worked example: One Full Iteration with Backtracking
 
 Consider $$\min x_1 + 2x_2$$ subject to $$x_1 + x_2 = 2$$ and $$x_1, x_2 \ge 0$$ (exact optimum $$x^\star = (2, 0), u^\star = (0, 1), v^\star = -1$$). Start at $$x^0 = (1, 1)^T, u^0 = (1, 1)^T, v^0 = -1$$ with $$\sigma = 0.5$$ and backtracking parameter $$\alpha = 0.1$$.
 

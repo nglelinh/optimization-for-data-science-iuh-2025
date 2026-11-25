@@ -14,14 +14,14 @@ redirect_from:
 
 Working through Lagrangian duality exercises by hand builds a skill no software package can replace: the ability to spot hidden structure in a constrained problem and transform an awkward primal into a clean, tractable dual. In the exercises below—adapted from Boyd & Vandenberghe, Rockafellar, and Bertsekas—you will build Lagrangians from scratch, test Slater's condition on tricky boundary cases, dualize quadratic programs, and use weak duality to bound nonconvex problems.
 
-## Background Knowledge Map: Four Tactical Moves for General Duality Exercises
+## Key ideas: Four Tactical Moves for General Duality Exercises
 
 - **Pillar 1 — Standardizing Constraint Signs First:** Always rewrite every inequality as $$h_i(x) \le 0$$ before attaching $$u_i \ge 0$$. Flipping a single $$\ge$$ sign reverses the sign of $$u_i$$ and breaks weak duality.
 - **Pillar 2 — Splitting $$\inf_x L(x, u, v)$$ by Separability:** Whenever $$L(x, u, v) = \sum_{j=1}^n L_j(x_j, u, v)$$ decouples across coordinates, minimize each scalar function $$L_j$$ independently—and carefully record the domain conditions where $$\inf_{x_j} L_j > -\infty$$!
 - **Pillar 3 — Testing Slater's Condition Systematically:** Check (1) convexity of $$f$$ and every $$h_i$$, (2) affinity of every $$l_j$$, and (3) existence of a single $$x$$ strictly satisfying all *non-affine* inequalities while satisfying affine equalities and inequalities.
 - **Pillar 4 — Recovering Primal Solutions from the Dual:** Once you find $$(u^\star, v^\star)$$, if $$L(x, u^\star, v^\star)$$ has a *unique* minimizer $$x^\star$$ (e.g., strictly convex $$f$$) and strong duality holds, that unique minimizer is automatically the primal optimal solution!
 
-### Step-by-Step Worked Example (Read Slowly): Dualizing an Equality-Constrained Entropy Problem
+### Worked example: Dualizing an Equality-Constrained Entropy Problem
 
 Solve $$\min_{x \in \mathbb{R}_{++}^2}\; x_1 \ln x_1 + x_2 \ln x_2$$ subject to $$x_1 + x_2 = 1$$ via its Lagrange dual.
 

@@ -13,7 +13,7 @@ Nhìn vào phương pháp chắn v.1 với hai vòng lặp lồng nhau (vòng ng
 
 Kết quả phân tích hội tụ ở mục 15-05 gọn gàng đến bất ngờ: vì sau mỗi bước định tâm, $$t$$ tăng theo cấp số nhân $$t^{(k)} = \mu^k t^{(0)}$$, nên khoảng cách dưới tối ưu giảm theo cấp số nhân $$f(x^{(k)}) - f^* \le \frac{m}{\mu^k t^{(0)}}$$! Điều đó có nghĩa là **phương pháp chắn hội tụ tuyến tính (tốc độ cấp số nhân) theo số vòng ngoài**, và số vòng ngoài chỉ tăng theo hàm **logarit** của $$1/\epsilon$$!
 
-## Bản đồ kiến thức nền: Giải phẫu định lý hội tụ vòng ngoài của Phương pháp chắn
+## Kiến thức cần nhớ: Giải phẫu định lý hội tụ vòng ngoài của Phương pháp chắn
 
 - **Quy luật giảm sai số sau $$k$$ vòng ngoài:** Khi bắt đầu từ $$t^{(0)}$$ và nhân hệ số $$\mu > 1$$ mỗi vòng, ta có:
   $$f(x^{(k)}) - f^* \le \frac{m}{\mu^k t^{(0)}}.$$
@@ -22,7 +22,7 @@ Kết quả phân tích hội tụ ở mục 15-05 gọn gàng đến bất ng�
 - **Góc nhìn "số bước để thêm 1 chữ số chính xác":** Nếu chọn $$\mu = 10$$, thì **cứ đúng 1 vòng ngoài**, khoảng cách đối ngẫu giảm đúng 10 lần — tức bạn mua thêm **1 chữ số thập phân chính xác** sau mỗi bước định tâm!
 - **Ghép với độ phức tạp vòng trong:** Khi kết hợp với tính tự hài hòa của hàm chắn (mục 15-08), mỗi vòng trong chỉ tốn số bước Newton bị chặn bởi $$O(\sqrt{m})$$ (nếu chọn $$\mu = 1 + 1/\sqrt{m}$$), đem lại tổng độ phức tạp đa thức huyền thoại $$O\bigl(\sqrt{m}\log(m/(\epsilon t^{(0)}))\bigr)$$ bước Newton!
 
-### Khung giải thích (nên đọc chậm): Tính trực tiếp số vòng ngoài và sai số từng bước với $$m = 50, \mu = 10$$
+### Giải thích: Tính trực tiếp số vòng ngoài và sai số từng bước với $$m = 50, \mu = 10$$
 
 Xét một bài toán tối ưu lồi có $$m = 50$$ ràng buộc bất đẳng thức, khởi tạo $$t^{(0)} = 0.5$$, hệ số tăng $$\mu = 10$$, và yêu cầu sai số $$\epsilon = 10^{-5}$$.
 

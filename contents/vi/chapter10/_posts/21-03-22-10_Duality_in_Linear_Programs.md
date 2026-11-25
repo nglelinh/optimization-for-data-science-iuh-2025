@@ -13,14 +13,14 @@ Mùa thu năm 1947, khi George Dantzig — cha đẻ của thuật toán đơn h
 
 Tính đối ngẫu là một trong những phép màu kỳ diệu nhất của toán học hiện đại: nó biến câu hỏi *"Làm sao phân bổ tài nguyên để tối đa hóa lợi nhuận?"* thành câu hỏi gương phản chiếu *"Mỗi đơn vị tài nguyên thực sự đáng giá bao nhiêu (giá bóng — shadow price)?"* Chương 10 sẽ dẫn bạn đi từ trực giác sơ cấp về cận dưới, sang định lý đối ngẫu mạnh, rồi chứng kiến cách một khái niệm duy nhất thống nhất cả định lý luồng cực đại – lát cắt cực tiểu trong lý thuyết đồ thị lẫn định lý minimax của von Neumann trong lý thuyết trò chơi!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tính đối ngẫu trong Quy hoạch tuyến tính
+## Kiến thức cần nhớ: Bốn trụ cột của tính đối ngẫu trong Quy hoạch tuyến tính
 
 - **Bài toán gốc (Primal) và bài toán đối ngẫu (Dual):** Mọi bài toán LP đều có một bản sao đối ngẫu được xây dựng thuần túy từ ma trận ràng buộc và vector mục tiêu: biến gốc ứng với ràng buộc đối ngẫu, và ràng buộc gốc ứng với biến đối ngẫu.
 - **Tính đối ngẫu yếu và mạnh (Weak & Strong Duality):** Giá trị khả thi bất kỳ của bài toán đối ngẫu (cực đại hóa) luôn chặn dưới mọi giá trị khả thi của bài toán gốc (cực tiểu hóa): $$d \le p$$. Với LP, chỉ cần một trong hai bài toán có nghiệm tối ưu hữu hạn, khoảng cách giữa chúng bằng đúng $$0$$ ($$d^* = p^*$$)!
 - **Ý nghĩa kinh tế — Giá bóng (Shadow Prices):** Nghiệm đối ngẫu tối ưu $$u_i^*$$ đo chính xác độ nhạy $$\frac{\partial p^*}{\partial b_i}$$ — tức mức tăng giá trị tối ưu nếu ta nới thêm một đơn vị tài nguyên thứ $$i$$.
 - **Điều kiện bù (Complementary Slackness) và tính đối hợp:** Ở điểm tối ưu, ràng buộc gốc nào còn dư thừa thì giá bóng tương ứng bằng $$0$$ (và ngược lại); đồng thời lấy đối ngẫu của bài toán đối ngẫu sẽ quay về đúng bài toán gốc ban đầu.
 
-### Khung giải thích (nên đọc chậm): Cặp bài toán gốc – đối ngẫu trên một xưởng mộc nhỏ
+### Giải thích: Cặp bài toán gốc – đối ngẫu trên một xưởng mộc nhỏ
 
 Một xưởng mộc làm bàn ($$x_1$$) và ghế ($$x_2$$) từ một nguồn gỗ duy nhất có trữ lượng $$10$$ m³:
 - Mỗi bàn cần $$2$$ m³ gỗ, lãi $$4$$ triệu đồng.

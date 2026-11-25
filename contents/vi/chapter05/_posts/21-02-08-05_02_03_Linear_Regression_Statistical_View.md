@@ -13,7 +13,7 @@ Khi học Bình phương tối thiểu ở bài trước, một câu hỏi đầ
 
 Nếu bạn giả định dữ liệu sinh ra bởi một quy luật tuyến tính cộng thêm nhiễu Gaussian độc lập $$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$$, thì việc đi tìm bộ tham số $$\beta$$ làm cho dữ liệu quan sát được có xác suất xuất hiện cao nhất (**Ước lượng Hợp lý Tối đa — MLE**) sẽ dẫn ra **chính xác từng dấu phẩy** bài toán tối ưu lồi Bình phương tối thiểu! Bài học này bắc cây cầu giữa Tối ưu hóa Lồi và Thống kê Suy luận.
 
-## Bản đồ kiến thức nền: Khi Tối ưu hóa Lồi gặp Thống kê Xác suất
+## Kiến thức cần nhớ: Khi Tối ưu hóa Lồi gặp Thống kê Xác suất
 
 Bốn trụ cột dưới đây kết nối hàm mất mát tối ưu với mô hình xác suất sinh dữ liệu:
 
@@ -22,7 +22,7 @@ Bốn trụ cột dưới đây kết nối hàm mất mát tối ưu với mô 
 - **Phân phối nhiễu quyết định Hàm mất mát:** Đổi giả định nhiễu từ Gaussian sang **Laplace** ($$\exp(-|\epsilon|/b)$$) sẽ biến NLL thành hồi quy chuẩn $$\ell_1$$ (bền vững trước ngoại lai)! Còn thêm phân phối tiên nghiệm Gaussian lên $$\beta$$ (ước lượng MAP) sẽ sinh ra đúng hồi quy **Ridge ($$\ell_2$$)**, và tiên nghiệm Laplace sinh ra **Lasso ($$\ell_1$$)**!
 - **Định lý Gauss–Markov & Độ bất định của ước lượng:** Không chỉ cho điểm tối ưu $$\hat{\beta}_{\text{MLE}}$$, góc nhìn thống kê còn cho ta ma trận hiệp phương sai $$\operatorname{Cov}(\hat{\beta}) = \sigma^2 (X^T X)^{-1}$$ để tính khoảng tin cậy và kiểm định giả thuyết.
 
-### Khung giải thích (nên đọc chậm): Tính tay hàm Log-Likelihood và kiểm chứng MLE trùng khớp với OLS
+### Giải thích: Tính tay hàm Log-Likelihood và kiểm chứng MLE trùng khớp với OLS
 
 Xét mô hình 1 tham số không hệ số chặn $$y_i = \beta x_i + \epsilon_i$$ với $$\epsilon_i \sim \mathcal{N}(0, \sigma^2 = 4)$$ trên 2 quan sát: $$(x_1, y_1) = (1, 2)$$ và $$(x_2, y_2) = (2, 5)$$.
 

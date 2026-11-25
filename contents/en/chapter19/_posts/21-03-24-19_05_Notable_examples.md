@@ -11,14 +11,14 @@ lang: en
 
 Two of the most widely downloaded statistical software packages in history—**glmnet** (for $$\ell_1$$-penalized generalized linear models) and **QUIC** (for sparse inverse covariance estimation, or Graphical Lasso)—are not mysterious black boxes; both are pure, textbook instances of **Proximal Newton** paired with fast coordinate descent for the inner quadratic subproblem! Seeing how each one builds its local quadratic model reveals why proximal Newton crushed first-order competitors on real statistical benchmarks.
 
-## Background Knowledge Map: Inside `glmnet` and `QUIC`
+## Key ideas: Inside `glmnet` and `QUIC`
 
 - **IRLS Meets Lasso (`glmnet`):** For $$\ell_1$$-penalized logistic regression, the second-order Taylor expansion of the negative log-likelihood around $$\beta^k$$ is literally a *weighted least-squares* (Lasso) objective with diagonal weights $$W_{ii} = p_i(1 - p_i)$$, solved rapidly by warm-started cyclic coordinate descent.
 - **Matrix-Valued Proximal Newton (`QUIC`):** Graphical Lasso minimizes $$-\log\det\Theta + \operatorname{tr}(S\Theta) + \lambda\|\Theta\|_1$$ over $$\Theta \succ 0$$. Its Hessian is the Kronecker operator $$\Theta^{-1} \otimes \Theta^{-1}$$; QUIC exploits Cholesky factors $$W = \Theta^{-1}$$ to run coordinate descent on the free active set of off-diagonal entries without ever forming the $$p^2 \times p^2$$ Hessian!
 - **Active-Set Shrinking:** In both `glmnet` and `QUIC`, KKT conditions identify coordinates that are guaranteed to remain zero (the "fixed set"), allowing coordinate descent to work solely on the tiny free set of nonzero parameters.
 - **Why PN Beats FISTA & SpaRSA on Logistic Lasso:** When the data matrix $$X$$ is large or correlated, FISTA must recompute full exponentials $$e^{X\beta}$$ hundreds of times; `glmnet` evaluates exponentials only a handful of outer Newton iterations while letting cheap linear coordinate updates do the heavy lifting.
 
-### Step-by-Step Worked Example (Read Slowly): One `glmnet` Outer Iteration for $$\ell_1$$ Logistic Regression
+### Worked example: One `glmnet` Outer Iteration for $$\ell_1$$ Logistic Regression
 
 Consider 1D $$\ell_1$$-penalized logistic regression with $$\lambda = 0.2$$ on two data points $$(a_1, y_1) = (1, 1)$$ and $$(a_2, y_2) = (-1, 0)$$:
 $$f(\beta) = \underbrace{\sum_{i=1}^2 \Big[\log(1 + e^{a_i \beta}) - y_i a_i \beta\Big]}_{g(\beta)} + \underbrace{0.2|\beta|}_{h(\beta)}.$$

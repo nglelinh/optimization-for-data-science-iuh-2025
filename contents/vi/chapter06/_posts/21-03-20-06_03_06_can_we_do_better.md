@@ -13,7 +13,7 @@ Gradient Descent đạt tốc độ $$O(1/k)$$ trên hàm lồi $$L$$-trơn và 
 
 Năm 1983, nhà toán học trẻ người Nga Yurii Nesterov đã làm rung chuyển giới tối ưu hóa bằng hai kết quả song sinh: (1) chứng minh **cận dưới bất khả xâm phạm** $$\Omega(1/k^2)$$ cho mọi thuật toán bậc nhất trên hàm lồi $$L$$-trơn, và (2) sáng chế ngay thuật toán **Nesterov Accelerated Gradient (NAG)** chạm đúng cận tối ưu $$O(1/k^2)$$ — chỉ bằng vài phép cộng vector miễn phí!
 
-## Bản đồ kiến thức nền: Giới hạn Thông tin Bậc nhất và Bước nhảy Nesterov
+## Kiến thức cần nhớ: Giới hạn Thông tin Bậc nhất và Bước nhảy Nesterov
 
 Ba trụ cột sau tóm tắt bước ngoặt lịch sử trong lý thuyết độ phức tạp tối ưu hóa:
 
@@ -23,7 +23,7 @@ Ba trụ cột sau tóm tắt bước ngoặt lịch sử trong lý thuyết đ�
   - Hàm lồi $$L$$-trơn: GD tốn $$O(1/\epsilon)$$ bước, còn Nesterov tăng tốc chỉ tốn $$O(1/\sqrt{\epsilon})$$ bước!
   - Hàm lồi mạnh ($$\kappa = L/m$$): GD tốn $$O(\kappa \log(1/\epsilon))$$ bước, còn Nesterov chỉ tốn $$O(\sqrt{\kappa} \log(1/\epsilon))$$ bước!
 
-### Khung giải thích (nên đọc chậm): So sánh sức mạnh của $$O(1/k)$$ vs. $$O(1/k^2)$$ và $$\kappa$$ vs. $$\sqrt{\kappa}$$ bằng con số thật
+### Giải thích: So sánh sức mạnh của $$O(1/k)$$ vs. $$O(1/k^2)$$ và $$\kappa$$ vs. $$\sqrt{\kappa}$$ bằng con số thật
 
 1. **Trên bài toán lồi trơn cần sai số $$\epsilon = 10^{-4}$$:**
    - Gradient Descent thường ($$O(1/\epsilon)$$): cần cỡ $$10\,000$$ vòng lặp.

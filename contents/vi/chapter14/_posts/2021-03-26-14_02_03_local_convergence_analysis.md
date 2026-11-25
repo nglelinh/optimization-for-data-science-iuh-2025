@@ -13,14 +13,14 @@ Phương pháp Newton nổi tiếng với tốc độ "thần thánh" — gọi 
 
 Mục này đặt nền tảng định lượng đầu tiên cho lý thuyết hội tụ Newton thuần túy. Bạn sẽ thấy ba điều kiện kinh điển (lồi mạnh $$m$$, Hessian Lipschitz $$M$$ và điểm khởi tạo đủ gần $$x^\star$$) kết hợp với nhau để tạo ra hệ số co rút bậc hai $$\|x^{(k+1)} - x^\star\|_2 \le \frac{M}{2m}\|x^{(k)} - x^\star\|_2^2$$ — đồng thời cảnh báo một ví dụ phân kỳ điển hình khi vi phạm giả thiết khởi tạo.
 
-## Bản đồ kiến thức nền: Bốn yếu tố quyết định vùng hội tụ cục bộ
+## Kiến thức cần nhớ: Bốn yếu tố quyết định vùng hội tụ cục bộ
 
 - **Tính lồi mạnh (hằng số $$m > 0$$):** Đảm bảo $$\nabla^2 f(x) \succeq m I$$, tức là độ cong không bao giờ quá phẳng nên nghịch đảo Hessian bị chặn trên: $$\|(\nabla^2 f(x))^{-1}\|_2 \le \frac{1}{m}$$.
 - **Tính Lipschitz của Hessian (hằng số $$M > 0$$):** Đảm bảo độ cong không thay đổi quá đột ngột ($$\|\nabla^2 f(x) - \nabla^2 f(y)\|_2 \le M\|x - y\|_2$$), giúp mô hình parabol Taylor bậc hai bám sát hàm thật trong vùng lân cận.
 - **Định lý hội tụ cục bộ bậc hai:** Khi $$\|x^{(k)} - x^\star\|_2 < \frac{2m}{M}$$, sai số bước sau thỏa $$\|x^{(k+1)} - x^\star\|_2 \le \frac{M}{2m}\|x^{(k)} - x^\star\|_2^2$$. Sai số $$10^{-2}$$ lập tức rơi xuống cỡ $$10^{-4}$$, rồi $$10^{-8}$$, rồi $$10^{-16}$$!
 - **Nguy cơ phân kỳ ngoài bán kính hội tụ:** Nếu khởi tạo vượt quá ngưỡng $$\frac{2m}{M}$$, hệ số co rút lớn hơn $$1$$ khiến bước Newton thuần túy phóng vọt qua đáy và dao động hoặc phân kỳ.
 
-### Khung giải thích (nên đọc chậm): Tính trực tiếp bán kính hội tụ cục bộ và theo dõi sai số bình phương
+### Giải thích: Tính trực tiếp bán kính hội tụ cục bộ và theo dõi sai số bình phương
 
 Xét bài toán 1 chiều cực tiểu hóa $$f(x) = \frac{1}{2}x^2 + \frac{1}{6}x^3$$ trên miền $$x \in (-0.5, 0.5)$$, với nghiệm tối ưu là $$x^\star = 0$$.
 

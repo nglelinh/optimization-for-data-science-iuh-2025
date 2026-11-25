@@ -16,14 +16,14 @@ Trong thực tế giai đoạn 2022–2026, rất ít mô hình học máy hay h
 
 Nghe qua thì DRO bất khả thi về mặt tính toán vì bài toán bên trong $$\sup_{Q \in \mathcal{B}(\hat{P}, \rho)} \mathbb{E}_Q[\ell(x, \xi)]$$ tối ưu trên một **không gian vô hạn chiều các phân phối xác suất**! Nhưng phép màu của Chương 11 xuất hiện đúng lúc: bằng cách áp dụng **đối ngẫu mạnh Lagrange** lên bài toán con vô hạn chiều ấy, ta biến nó thành một **bài toán tối ưu lồi hữu hạn chiều chỉ có đúng 1 biến nhân tử Lagrange vô hướng $$\lambda \ge 0$$**!
 
-## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại của đối ngẫu Lagrange (2022–2026)
+## Kiến thức cần nhớ: Bốn nhánh ứng dụng hiện đại của đối ngẫu Lagrange (2022–2026)
 
 - **Tối ưu bền vững theo phân phối (DRO):** Đối ngẫu mạnh biến bài toán minimax trên không gian phân phối xác suất (Wasserstein / KL / $$\chi^2$$-divergence) thành bài toán có số hạng điều chuẩn tường minh — hé lộ mối liên hệ sâu sắc rằng DRO thực chất tương đương với việc thêm điều chuẩn chuẩn Lipschitz lên mô hình!
 - **Ràng buộc vật lý cứng trong lưới điện và kỹ thuật (OPF-DNN & DC3):** Kết hợp mạng nơ-ron dự đoán nhanh với bước sửa ràng buộc bằng hàm Lagrangian tăng cường (Augmented Lagrangian) giúp giải bài toán điều phối công suất xoay chiều (AC-OPF) nhanh gấp trăm lần bộ giải cổ điển mà vẫn bảo đảm không vi phạm giới hạn nhiệt hay điện áp.
 - **Học máy công bằng như trò chơi yên ngựa Lagrange:** Ràng buộc công bằng giữa các nhóm nhân khẩu học được đưa vào hàm Lagrangian và giải bằng vòng lặp cực tiểu hóa theo trọng số mô hình xen kẽ cực đại hóa theo nhân tử Lagrange.
 - **Máy vector hỗ trợ (SVM) và thủ thuật nhân (Kernel Trick):** Nhờ đối ngẫu mạnh (Slater tự động thỏa cho ràng buộc affine), bài toán đối ngẫu SVM chỉ phụ thuộc vào tích vô hướng $$x_i^T x_j$$, mở cửa cho mọi nhân phi tuyến $$K(x_i, x_j)$$ trong không gian Hilbert vô hạn chiều!
 
-### Khung giải thích (nên đọc chậm): Tính tay đối ngẫu Lagrange cho bài toán DRO 2 trạng thái
+### Giải thích: Tính tay đối ngẫu Lagrange cho bài toán DRO 2 trạng thái
 
 Giả sử một quyết định đầu tư có 2 kịch bản mất mát là $$\ell_1 = 1$$ và $$\ell_2 = 5$$. Phân phối thực nghiệm hiện tại là $$\hat{p} = (0.5, 0.5)$$ (mất mát trung bình $$0.5(1) + 0.5(5) = 3.0$$). Ta muốn tìm **mất mát kỳ vọng xấu nhất** trên mọi phân phối $$q = (q_1, q_2)$$ cách $$\hat{p}$$ không quá $$\rho = 0.2$$ theo chuẩn $$\ell_1$$ (tức $$|q_1 - 0.5| + |q_2 - 0.5| \le 0.2$$, $$q_1 + q_2 = 1, q \ge 0$$).
 

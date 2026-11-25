@@ -11,14 +11,14 @@ lang: en
 
 In unconstrained calculus, finding the minimum of a smooth convex function reduces to a single famous equation: $$\nabla f(x^\star) = 0$$. The moment you add inequality constraints $$h_i(x) \le 0$$ and equality constraints $$l_j(x) = 0$$, however, the minimum often sits pinned against a boundary where $$\nabla f(x^\star) \neq 0$$! How do you recognize an optimal point when the terrain hits a wall? The **Karush–Kuhn–Tucker (KKT) conditions**—first discovered by William Karush in his 1939 master's thesis and independently rediscovered by Harold Kuhn and Albert Tucker in 1951—provide the exact four-part algebraic fingerprint of optimality for constrained optimization.
 
-## Background Knowledge Map: The Four Pillars of the KKT System
+## Key ideas: The Four Pillars of the KKT System
 
 - **Pillar 1 — Stationarity (Force Balance at the Optimum):** $$0 \in \partial f(x^\star) + \sum_{i=1}^m u_i^\star \partial h_i(x^\star) + \sum_{j=1}^r v_j^\star \partial l_j(x^\star)$$. Geometrically, the downhill pull $$-\nabla f(x^\star)$$ is exactly cancelled by a nonnegative combination of the outward normal vectors $$\nabla h_i(x^\star)$$ of active walls and the normals $$\nabla l_j(x^\star)$$ of equality surfaces.
 - **Pillar 2 — Complementary Slackness ($$u_i^\star h_i(x^\star) = 0$$):** Either constraint $$i$$ is active ($$h_i(x^\star) = 0$$, exerting a restoring force $$u_i^\star \ge 0$$), or constraint $$i$$ is strictly inactive ($$h_i(x^\star) < 0$$, forcing its price $$u_i^\star = 0$$). An untouched wall can never push on the solution!
 - **Pillar 3 — Primal & Dual Feasibility:** The primal point must respect all constraints ($$h_i(x^\star) \le 0,\; l_j(x^\star) = 0$$), and inequality multipliers must push *inward* rather than pull outward ($$u_i^\star \ge 0$$).
 - **Pillar 4 — Necessity vs. Sufficiency:** Under strong duality, KKT is *necessary* for any optimal primal–dual pair (even for nonconvex differentiable problems). For *convex* problems, KKT is *always sufficient* for global optimality—and when Slater's condition holds, KKT is **both necessary and sufficient**!
 
-### Step-by-Step Worked Example (Read Slowly): Solving a Constrained Convex Problem Directly via KKT
+### Worked example: Solving a Constrained Convex Problem Directly via KKT
 
 Minimize $$f(x) = (x - 3)^2$$ subject to $$h(x) = x - 1 \le 0$$ (i.e., $$x \le 1$$).
 

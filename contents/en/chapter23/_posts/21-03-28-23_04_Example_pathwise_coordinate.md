@@ -11,14 +11,14 @@ lang: en
 
 Solving Lasso for a single, arbitrary regularization parameter $$\lambda$$ is rarely what a data scientist actually wants—in cross-validation, you need solutions across an entire grid of 100 values $$\lambda_1 > \lambda_2 > \dots > \lambda_{100}$$. Astonishingly, computing the *entire* 100-point path via **pathwise coordinate descent** (the engine inside Friedman, Hastie, and Tibshirani’s `glmnet`) is often *faster* than solving a single small-$$\lambda$$ problem from scratch! Two engineering ideas make this magic happen: **warm starts** from sparse neighboring solutions and **active-set sweeps** that ignore zero variables until KKT verification.
 
-## Background Knowledge Map: Inside the `glmnet` Pathwise Engine
+## Key ideas: Inside the `glmnet` Pathwise Engine
 
 - **Exact Threshold $$\lambda_{\max}$$:** At $$\lambda_1 = \|X^\top y\|_\infty$$, every coordinate satisfies $$|X_i^\top y| \le \lambda_1$$, so $$\hat{\beta}(\lambda_1) = 0$$ is immediately optimal. Starting here guarantees the path begins at maximum sparsity.
 - **Warm Starts Along a Logarithmic Grid:** Decreasing $$\lambda_k$$ on a log-spaced grid ensures that $$\hat{\beta}(\lambda_{k-1})$$ is already very close to $$\hat{\beta}(\lambda_k)$$, drastically cutting the number of iterations needed at each grid point—especially for small, ill-conditioned $$\lambda$$.
 - **Active-Set Strategy:** Once a few variables become nonzero (the active set $$\mathcal{A} = \{j : \beta_j \ne 0\}$$), inner-loop coordinate descent iterates *only* over $$\mathcal{A}$$ until convergence. Because $$|\mathcal{A}| \ll p$$, each inner sweep costs $$O(n|\mathcal{A}|)$$ instead of $$O(np)$$.
 - **KKT Verification Pass:** After the active set converges, a single full pass checks $$|X_j^\top r| \le \lambda_k$$ for all inactive variables $$j \notin \mathcal{A}$$. If none violate KKT, the solution is globally optimal; otherwise, violators enter $$\mathcal{A}$$ and the inner loop repeats.
 
-### Step-by-Step Worked Example (Read Slowly): Tracing a 3-Step Warm-Start Path
+### Worked example: Tracing a 3-Step Warm-Start Path
 
 Using $$X = \begin{pmatrix} 1 & 1 \\ 1 & 0 \\ 0 & 1 \end{pmatrix}$$ and $$y = (3, 1, 2)^\top$$, we have $$X^\top y = (4, 5)^\top$$. Let us trace the path across $$\lambda_1 = 5$$, $$\lambda_2 = 4$$, and $$\lambda_3 = 3$$.
 

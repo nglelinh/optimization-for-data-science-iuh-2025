@@ -14,14 +14,14 @@ redirect_from:
 
 Open PyTorch, define a ReLU neural network, and call `.backward()`—even though $$\mathrm{ReLU}(z) = \max(0, z)$$ has a sharp kink at $$z = 0$$ where no classical derivative exists! Far from being a dusty 1960s footnote, the subdifferential $$\partial f(x)$$ and its nonconvex Clarke/conservative extensions are the quiet mathematical bedrock behind modern deep-learning autograd, sparse/low-rank recovery, and nonsmooth fairness losses.
 
-## Background Knowledge Map: Where Subgradients Power 2022–2026 ML Systems
+## Key ideas: Where Subgradients Power 2022–2026 ML Systems
 
 1. **Nonsmooth Automatic Differentiation & Conservative Fields**: PyTorch and JAX evaluate a chosen branch slope at ReLU/max-pool kinks (e.g., setting $$\mathrm{ReLU}'(0) = 0$$). Bolte and Pauwels (2020–2024) formalized *conservative set-valued fields*—showing when backpropagation through nonsmooth compositions still yields valid generalized gradients and guarantees convergence of SGD.
 2. **Clarke Subdifferential for Nonconvex Nonsmooth Losses**: When a function $$f$$ is locally Lipschitz but *nonconvex* (like a deep ReLU network), the convex subgradient inequality breaks. Taking the convex hull of limit points of gradients $$\nabla f(x_k)$$ from nearby smooth points produces the **Clarke subdifferential** $$\partial^C f(x)$$, which coincides with $$\partial f(x)$$ whenever $$f$$ is convex.
 3. **Sparsity, Low-Rank Matrices & Structured Norms**: Subdifferentials of the $$\ell_1$$ norm, group-Lasso $$\sum_g \|w_g\|_2$$, and nuclear norm $$\|W\|_*$$ (sum of singular values) govern exact recovery guarantees in compressed sensing, matrix completion, and LoRA-style low-rank adaptation.
 4. **Robustness & Minimax Adversarial Training**: Training against worst-case perturbations $$\min_w \max_{\|\delta\| \le \epsilon} L(w, x + \delta)$$ creates a pointwise maximum over $$\delta$$—Danskin's theorem (the infinite-index max rule of subgradient calculus) says the gradient at the worst-case adversarial example $$\delta^\star$$ is a valid subgradient of the robust loss!
 
-### Step-by-Step Worked Example (Read Slowly): Why Chain-Rule Autograd Can Differ from the Exact Clarke Subdifferential
+### Worked example: Why Chain-Rule Autograd Can Differ from the Exact Clarke Subdifferential
 
 Consider the 1D composition $$h(x) = \mathrm{ReLU}(x) - \mathrm{ReLU}(x) = 0$$ for all $$x \in \mathbb{R}$$, where $$\mathrm{ReLU}(z) = \max(0, z)$$.
 

@@ -11,14 +11,14 @@ lang: en
 
 When minimizing a smooth function $$g$$, gradient descent works because $$x - t\nabla g(x)$$ minimizes the local quadratic model $$g(x) + \nabla g(x)^\top(z - x) + \frac{1}{2t}\|z - x\|_2^2$$. The breakthrough idea behind **proximal gradient descent** is stunningly simple: when your objective is $$f(x) = g(x) + h(x)$$, keep that exact quadratic model for the smooth part $$g$$, leave the nonsmooth part $$h(z)$$ *untouched*, and minimize their sum! That single design choice births the proximal operator and unlocks exact sparsity in problems like Lasso via ISTA.
 
-## Background Knowledge Map: From Quadratic Models to Soft-Thresholding (ISTA)
+## Key ideas: From Quadratic Models to Soft-Thresholding (ISTA)
 
 - **Pillar 1 — Partial Quadratic Majorization:** Replacing $$g(z)$$ by $$g(x) + \nabla g(x)^\top(z - x) + \frac{1}{2t}\|z - x\|_2^2$$ while keeping $$h(z)$$ exact yields the update $$x^+ = \arg\min_z \left\{\frac{1}{2t}\|z - (x - t\nabla g(x))\|_2^2 + h(z)\right\}$$.
 - **Pillar 2 — The Proximal Mapping $$\operatorname{prox}_{t h}(y)$$:** Because $$\frac{1}{2t}\|z - y\|_2^2$$ is strictly convex, $$\operatorname{prox}_{t h}(y)$$ is always well-defined and unique for any closed proper convex $$h$$. Importantly, $$\operatorname{prox}_{t h}$$ depends *only* on $$h$$, never on the data matrix inside $$g$$.
 - **Pillar 3 — Separability & Closed-Form Soft-Thresholding:** When $$h(x) = \lambda \|x\|_1 = \sum_{j=1}^p \lambda |x_j|$$, the proximal problem decouples into $$p$$ independent 1D problems whose exact solution is coordinatewise soft-thresholding $$[S_{\lambda t}(y)]_j = \operatorname{sign}(y_j)\max(|y_j| - \lambda t, 0)$$.
 - **Pillar 4 — ISTA (Iterative Shrinkage-Thresholding Algorithm):** Applying proximal gradient descent to Lasso $$g(\beta) = \frac{1}{2}\|y - X\beta\|_2^2$$, $$h(\beta) = \lambda \|\beta\|_1$$ gives $$\beta^{(k)} = S_{\lambda t}(\beta^{(k-1)} + t X^\top (y - X\beta^{(k-1)}))$$, producing exact zeros on every iteration where $$|y_j| \le \lambda t$$.
 
-### Step-by-Step Worked Example (Read Slowly): One Full ISTA Iteration by Hand
+### Worked example: One Full ISTA Iteration by Hand
 
 Consider a 2-variable Lasso problem $$\min_{\beta \in \mathbb{R}^2} \frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$ with $$X = I_2$$ (the $$2\times 2$$ identity, so $$L = \|X\|_2^2 = 1$$), $$y = (3.0, -0.4)^\top$$, and $$\lambda = 1.0$$. Start at $$\beta^{(0)} = (1.0, 1.0)^\top$$ with step size $$t = 0.5 \le 1/L$$.
 

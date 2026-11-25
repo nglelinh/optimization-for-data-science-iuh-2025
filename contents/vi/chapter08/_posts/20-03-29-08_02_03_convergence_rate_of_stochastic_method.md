@@ -13,7 +13,7 @@ Nếu cả hai biến thể — tuần hoàn và ngẫu nhiên — đều hội 
 
 Khi ta chạy phương pháp batch trên $$\sum_{i=1}^m f_i(x)$$, hằng số Lipschitz của tổng có thể lớn tới $$G_{\text{batch}} = mG$$ và mỗi bước tốn $$m$$ phép tính subgradient. Biến thể ngẫu nhiên phá vỡ vòng lặp lồng nhau ấy: nhờ tính không chệch, nó đạt độ chính xác $$\epsilon$$ chỉ sau số vòng lặp tỷ lệ với $$m^2 G^2 / \epsilon^2$$ (tức trung bình chỉ $$m G^2 / \epsilon^2$$ lượt quét toàn bộ dữ liệu — tương đương batch), trong khi với bài toán lấy trung bình $$\frac{1}{m}\sum f_i(x)$$, tốc độ $$O(G^2/\epsilon^2)$$ thậm chí **độc lập hoàn toàn với kích thước tập dữ liệu $$m$$**!
 
-## Bản đồ kiến thức nền: Ba trụ cột so sánh tốc độ batch, tuần hoàn và ngẫu nhiên
+## Kiến thức cần nhớ: Ba trụ cột so sánh tốc độ batch, tuần hoàn và ngẫu nhiên
 
 - **Chuẩn hóa hàm tổng vs. hàm trung bình:** Nếu viết $$\min_x \frac{1}{m}\sum_{i=1}^m f_i(x)$$ với mỗi $$f_i$$ là $$G$$-Lipschitz, thì hàm trung bình cũng $$G$$-Lipschitz. Khi đó:
   - *Subgradient batch* cần $$O(R^2 G^2 / \epsilon^2)$$ bước, mỗi bước tốn $$m$$ đánh giá $$\implies$$ tổng chi phí $$O(m R^2 G^2 / \epsilon^2)$$ đánh giá subgradient.
@@ -21,7 +21,7 @@ Khi ta chạy phương pháp batch trên $$\sum_{i=1}^m f_i(x)$$, hằng số Li
 - **Lý do bản tuần hoàn chậm hơn bản ngẫu nhiên trong trường hợp xấu nhất:** Trong một chu kỳ tuần hoàn, sai số trượt (drift) giữa điểm đầu chu kỳ và điểm giữa chu kỳ tích lũy tuyến tính theo $$m$$, khiến cận lý thuyết xấu nhất bị nhân thêm hệ số theo $$m$$ so với bản rút thăm ngẫu nhiên.
 - **Phân tích theo đơn vị "epoch" (một lượt quét $$m$$ mẫu):** Để so sánh công bằng, ta luôn quy đổi về tổng số phép tính subgradient thành phần $$g_i$$. Một bước batch tiêu tốn tài nguyên bằng $$m$$ bước ngẫu nhiên.
 
-### Khung giải thích (nên đọc chậm): Tính tổng số phép tính subgradient khi $$m = 1{,}000$$ mẫu
+### Giải thích: Tính tổng số phép tính subgradient khi $$m = 1{,}000$$ mẫu
 
 Xét bài toán trung bình $$f(x) = \frac{1}{1000}\sum_{i=1}^{1000} f_i(x)$$ với $$R = 1$$, $$G = 1$$, mục tiêu đạt sai số $$\epsilon = 0.1$$.
 

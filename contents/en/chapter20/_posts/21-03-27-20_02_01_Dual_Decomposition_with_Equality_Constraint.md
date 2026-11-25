@@ -11,14 +11,14 @@ lang: en
 
 Equality constraints $$\sum_{i=1}^B A_i x_i = b$$ are the backbone of network flow conservation, consensus averaging, and power-grid balance: supply must equal demand *exactly*, with no slack allowed. Because the dual variable $$u \in \mathbb{R}^m$$ is unconstrained in sign, dual decomposition with equality constraints runs pure unconstrained dual ascent—letting each block $$i$$ solve its own subproblem $$f_i(x_i) + u^T A_i x_i$$ in parallel while the coordinator nudges $$u$$ proportionally to the exact imbalance $$\sum_i A_i x_i - b$$.
 
-## Background Knowledge Map: Equality-Constrained Dual Decomposition
+## Key ideas: Equality-Constrained Dual Decomposition
 
 - **Column-Block Partitioning:** Splitting $$x = (x_1, \dots, x_B)$$ and $$A = [A_1, \dots, A_B]$$ rewrites $$Ax = \sum_{i=1}^B A_i x_i$$, exposing the additive structure of $$u^T Ax$$ inside the Lagrangian.
 - **Unconstrained Dual Price $$u \in \mathbb{R}^m$$:** Unlike inequality constraints, equality multipliers can be positive (penalizing oversupply) or negative (penalizing undersupply), so no projection step is needed on $$u$$.
 - **Exact Residual as Dual Ascent Direction:** Gathering $$A_i x_i^{(k)}$$ from each worker produces $$r^{(k)} = \sum_{i=1}^B A_i x_i^{(k)} - b$$, giving the update $$u^{(k)} = u^{(k-1)} + t_k r^{(k)}$$.
 - **Limitation on Non-Strictly Convex Blocks:** If any block $$f_i$$ is linear or piecewise-linear, $$x_i^{(k)}$$ can jump discontinuously between extreme points as $$u$$ crosses a kink, causing persistent oscillation unless ergodic averaging or an augmented Lagrangian is used.
 
-### Step-by-Step Worked Example (Read Slowly): Three-Node Weighted Equality Balance
+### Worked example: Three-Node Weighted Equality Balance
 
 Minimize $$\frac{1}{2}x_1^2 + x_2^2 + \frac{3}{2}x_3^2$$ subject to $$x_1 + 2x_2 + x_3 = 6$$ (so $$A_1 = 1, A_2 = 2, A_3 = 1, b = 6$$).
 

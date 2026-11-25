@@ -12,14 +12,14 @@ lesson_type: optional
 
 For decades, convex optimization lived at the *end* of a machine-learning pipeline: first you trained a neural network to predict prices or demands, and only afterward did you hand those predictions to a solver to make a decision. Over the last few years, that wall collapsed—by differentiating directly *through* the first-order optimality conditions of Chapter 04, an entire convex solver now sits inside PyTorch or JAX as a trainable layer.
 
-## Background Knowledge Map: From Optimality Conditions to Differentiable Layers
+## Key ideas: From Optimality Conditions to Differentiable Layers
 
 1. **Implicit Function Theorem on KKT/Variational Residuals**: At a solution $$x^\star(\theta)$$ of a parameterized convex program, the optimality condition can be written as a root-finding equation $$F(x^\star(\theta), \theta) = 0$$. Differentiating implicitly yields $$\frac{\partial x^\star}{\partial \theta} = -\bigl(D_x F\bigr)^{-1} D_\theta F$$, letting backpropagation flow through `argmin` without unrolling hundreds of solver iterations.
 2. **Canonicalization and `cvxpylayers`**: Just as Chapter 04 transforms arbitrary convex programs into standard forms, `cvxpylayers` compiles a Disciplined Parametrized Program (DPP) into a cone program, solves it forward, and differentiates the homogeneous self-dual embedding residual in the backward pass.
 3. **Nonlinear Least Squares in Robotics (`Theseus`)**: Vision, SLAM, and motion planning rely on Gauss–Newton and Levenberg–Marquardt updates. Embedding these structured solvers as differentiable layers lets perception networks learn features directly optimized for downstream geometric pose accuracy.
 4. **Decision-Focused Learning (Predict-Then-Optimize)**: Minimizing prediction MSE does not necessarily minimize downstream decision cost when predictions enter a constrained LP or QP. Differentiating through convex surrogates (such as SPO+ or quadratic-regularized LPs) aligns the predictor's gradients with actual operational regret.
 
-### Step-by-Step Worked Example (Read Slowly): Differentiating Through an Argmin Layer by Hand
+### Worked example: Differentiating Through an Argmin Layer by Hand
 
 Consider a 1D parameterized convex optimization layer:
 $$x^\star(\theta) = \arg\min_{x \ge 0} \; \frac{1}{2}(x - \theta)^2 + \frac{1}{2}x^2,$$

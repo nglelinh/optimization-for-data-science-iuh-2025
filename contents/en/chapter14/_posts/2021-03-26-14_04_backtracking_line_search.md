@@ -11,14 +11,14 @@ lang: en
 
 Pure Newton's method always takes a full step $$t = 1$$—which is brilliant inside the quadratic basin, yet reckless when far from the solution where the local quadratic bowl is a poor match for the true function. **Backtracking line search** gives Newton a smart throttle: always *try* the full unit step $$t = 1$$ first, and only shrink $$t \leftarrow \beta t$$ if the actual function drop falls short of a fraction $$\alpha$$ of the predicted linear decrease.
 
-## Background Knowledge Map: Globalizing Newton with Backtracking
+## Key ideas: Globalizing Newton with Backtracking
 
 - **Pillar 1 — The Armijo Sufficient-Decrease Test:** Starting at $$t = 1$$, accept $$t$$ once $$f(x + tv) \le f(x) + \alpha t \nabla f(x)^T v = f(x) - \alpha t \lambda(x)^2$$, with typical parameters $$\alpha \in (0.01, 0.3)$$ and $$\beta \in (0.1, 0.8)$$.
 - **Pillar 2 — Why Always Start at $$t = 1$$:** Near the optimum, the full Newton step $$t = 1$$ automatically passes the backtracking test (for any $$\alpha < 1/2$$), so damped Newton transitions seamlessly into pure quadratic convergence with zero wasted evaluations.
 - **Pillar 3 — Domain Safety for Barriers:** When $$\operatorname{dom}(f) \subsetneq \mathbb{R}^n$$ (as in log-barrier methods), backtracking first shrinks $$t$$ until $$x + tv \in \operatorname{dom}(f)$$ before checking the Armijo inequality.
 - **Pillar 4 — Cheap Per-Step Cost:** Each backtracking trial only evaluates the scalar objective $$f(x + tv)$$ (no Hessian or linear solve), costing $$O(n)$$ compared to $$O(n^3)$$ for the Newton direction.
 
-### Step-by-Step Worked Example (Read Slowly): Executing One Damped Newton Step by Hand
+### Worked example: Executing One Damped Newton Step by Hand
 
 Minimize $$f(x) = e^{x} + e^{-2x}$$ starting from $$x = 2$$, with backtracking parameters $$\alpha = 0.25$$ and $$\beta = 0.5$$.
 

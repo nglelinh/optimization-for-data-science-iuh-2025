@@ -14,14 +14,14 @@ Trong kỹ thuật hệ thống năng lượng và kinh tế học hiện đại
 
 Câu trả lời nằm gọn trong một dấu bất đẳng thức: **đường dây truyền tải nối hai vùng đã chạm trần công suất tối đa**! Khi ràng buộc công suất đường dây còn lỏng ($$|f| < F_{\max}$$), điều kiện bù KKT ép nhân tử nghẽn $$\mu^* = 0$$ và giá điện ở hai vùng bằng hệt nhau; nhưng ngay giây phút dòng điện chạm trần $$f = F_{\max}$$, nhân tử KKT $$\mu^*$$ bật dương và chênh lệch giá giữa hai vùng bằng **chính xác $$\mu^*$$**! Bài đọc tổng kết ứng dụng cuối Chương 12 này kết nối hệ điều kiện KKT với 4 lĩnh vực mũi nhọn giai đoạn 2022–2026: tầng tối ưu khả vi, SVM, giá điện LMP và học máy công bằng.
 
-## Bản đồ kiến thức nền: Bốn góc nhìn công nghiệp về điều kiện KKT
+## Kiến thức cần nhớ: Bốn góc nhìn công nghiệp về điều kiện KKT
 
 - **Điều kiện bù trong vận hành lưới điện (LMP & Congestion Rent):** Nhân tử KKT của phương trình cân bằng công suất tại nút $$i$$ là giá biên $$\text{LMP}_i$$; nhân tử KKT $$\mu_{ij}^* \ge 0$$ của giới hạn nhiệt đường dây $$(i, j)$$ chỉ dương khi đường dây nghẽn, tạo ra chênh lệch $$\text{LMP}_j - \text{LMP}_i = \mu_{ij}^*$$.
 - **Lấy vi phân ẩn xuyên qua bộ giải tối ưu (`cvxpylayers`, `Theseus`):** Biến hệ KKT thành phương trình hàm ẩn giúp lan truyền ngược gradient xuyên qua các bài toán tối ưu lồi nhúng trong mạng nơ-ron.
 - **Định danh vector hỗ trợ và giải thích mô hình (SVM):** Chỉ những điểm dữ liệu có ràng buộc biên chặt ($$\alpha_i^* > 0$$) mới tham gia tạo nên siêu phẳng phân tách.
 - **Phát hiện nút thắt công bằng (Active Fairness Constraints):** Trong học máy có ràng buộc công bằng nhóm, nhân tử KKT $$u_g^* > 0$$ chỉ ra chính xác nhóm nhân khẩu học nào đang bị ràng buộc chặt và kéo giảm mục tiêu chính.
 
-### Khung giải thích (nên đọc chậm): Tính tay giá điện LMP trên lưới 2 nút bị nghẽn đường dây
+### Giải thích: Tính tay giá điện LMP trên lưới 2 nút bị nghẽn đường dây
 
 Xét lưới điện gồm 2 nút nối bởi một đường dây có giới hạn truyền tải $$F_{\max} = 50$$ MWh:
 - Nút 1 có nhà máy giá rẻ $$20$$ USD/MWh (công suất đủ lớn), nhu cầu tại nút 1 bằng $$0$$.

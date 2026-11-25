@@ -14,7 +14,7 @@ Khi một thuật toán tối ưu cổ điển bước sang thập niên thứ t
 
 Bài đọc mở rộng này nhấn mạnh góc nhìn so sánh thuật toán trong thực tế: làm thế nào để nhận diện cấu trúc bài toán có LMO tuyến tính rẻ (như sắp xếp 1 chiều hay quy hoạch trên đa diện Birkhoff) và khi nào nên chọn Frank–Wolfe thay vì Sinkhorn hay gradient có chiếu.
 
-## Bản đồ kiến thức nền: Ba trụ cột thuật toán đằng sau các ứng dụng 2022–2026
+## Kiến thức cần nhớ: Ba trụ cột thuật toán đằng sau các ứng dụng 2022–2026
 
 Để đánh giá đúng vị thế của Frank–Wolfe trong hệ sinh thái tối ưu hiện đại, hãy nắm ba trụ cột kỹ thuật sau:
 
@@ -22,7 +22,7 @@ Bài đọc mở rộng này nhấn mạnh góc nhìn so sánh thuật toán tro
 - **Đa diện Birkhoff và Quả cầu $$\ell_1$$ trong Giải thích mô hình (XAI):** Các bài toán giải thích mô hình thường ràng buộc trọng số gán điểm trên quả cầu $$\ell_1$$ (kiểm soát độ thưa) hoặc đa diện Birkhoff của các ma trận ngẫu nhiên kép (mô hình hóa hoán vị). LMO trên đa diện Birkhoff chính là bài toán ghép cặp cực tiểu (Hungarian algorithm), rẻ hơn nhiều so với phép chiếu Euclid.
 - **Tiêu chí lựa chọn bộ giải (Solver Selection Trade-offs):** So sánh trực diện giữa Frank–Wolfe (bảo toàn tính thưa, không cần chính quy hóa entropy, ít bộ nhớ) với Sinkhorn/PGD (tính toán ma trận đặc thân thiện GPU, hội tụ trơn nhưng làm mờ kế hoạch vận chuyển).
 
-### Khung giải thích (nên đọc chậm): Vì sao LMO của vận chuyển tối ưu 1 chiều chỉ tốn một bước sắp xếp?
+### Giải thích: Vì sao LMO của vận chuyển tối ưu 1 chiều chỉ tốn một bước sắp xếp?
 
 Để hiểu sức mạnh của công trình Séjourné và cộng sự (AISTATS 2022), hãy tự tay tính chi phí vận chuyển tối ưu 1 chiều giữa hai phân phối đều rời rạc trên 3 điểm: phân phối nguồn đặt khối lượng $$\frac{1}{3}$$ tại các vị trí $$a = (5,\; 0,\; 2)$$ và phân phối đích đặt khối lượng $$\frac{1}{3}$$ tại $$b = (3,\; 1,\; 4)$$, với hàm chi phí $$c(u, v) = |u - v|$$.
 

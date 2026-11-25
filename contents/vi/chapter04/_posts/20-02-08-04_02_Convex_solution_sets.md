@@ -14,7 +14,7 @@ Hãy tưởng tượng bạn thả một viên bi vào một chiếc bát đáy 
 
 Đó chính là trực giác tuyệt đẹp đứng sau **tập nghiệm tối ưu của bài toán lồi**: tập $$X_{\text{opt}}$$ luôn là một tập lồi, và ngay khi hàm mục tiêu có độ cong dương chặt (lồi chặt), chiếc bát mất hoàn toàn đáy phẳng — chỉ còn lại **duy nhất một điểm tối ưu** trên toàn không gian.
 
-## Bản đồ kiến thức nền: Từ hình học tập lồi đến tính duy nhất của nghiệm
+## Kiến thức cần nhớ: Từ hình học tập lồi đến tính duy nhất của nghiệm
 
 Để hiểu trọn vẹn sức mạnh của hai tính chất tập nghiệm trong bài học này, ta cần đặt chúng trên ba trụ cột:
 
@@ -22,7 +22,7 @@ Hãy tưởng tượng bạn thả một viên bi vào một chiếc bát đáy 
 - **Tính lồi chặt & Tính duy nhất (Strict Convexity & Uniqueness):** Khi $$f$$ lồi chặt, bất đẳng thức Jensen trở thành bất đẳng thức ngặt $$f(z) < \theta f(x) + (1-\theta)f(y) = f^\star$$ với mọi $$x \neq y$$ và $$\theta \in (0,1)$$. Điều này tạo ra mâu thuẫn ngay lập tức với định nghĩa $$f^\star$$ — chứng minh chỉ có thể tồn tại nhiều nhất một nghiệm.
 - **Ý nghĩa trong Học máy & Điều chuẩn (Regularization):** Nhiều bài toán như hồi quy tuyến tính thiếu hạng ($$n < p$$) hay Lasso ($$\ell_1$$) chỉ lồi chứ không lồi chặt, dẫn đến vô số nghiệm tối ưu nằm trên một đa diện lồi. Việc cộng thêm thành phần Ridge $$\frac{\lambda}{2}\|x\|_2^2$$ ($$\lambda > 0$$) làm hàm mục tiêu trở nên lồi chặt, ép tập nghiệm co lại thành một điểm duy nhất ổn định.
 
-### Khung giải thích (nên đọc chậm): So sánh bài toán có vô số nghiệm lồi và bài toán có nghiệm duy nhất
+### Giải thích: So sánh bài toán có vô số nghiệm lồi và bài toán có nghiệm duy nhất
 
 Xét hai bài toán trên cùng tập khả thi hình vuông $$\mathcal{F} = \{(x_1, x_2) : 0 \le x_1 \le 2,\; 0 \le x_2 \le 2\}$$:
 

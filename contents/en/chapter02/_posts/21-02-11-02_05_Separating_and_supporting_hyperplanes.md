@@ -12,14 +12,14 @@ lesson_type: required
 
 Here is one of the most powerful geometric miracles in mathematics: if two convex sets do not overlap, you can *always* slide a flat sheet of paper (a hyperplane) cleanly between them. That single fact—the Separating Hyperplane Theorem—is the geometric engine behind Support Vector Machines, Farkas' Lemma, and Strong Lagrange Duality. Its sibling, the Supporting Hyperplane Theorem, guarantees that every boundary point of a convex set admits a tangent flat that keeps the entire set on one side.
 
-## Background Knowledge Map: Separation and Support Geometry
+## Key ideas: Separation and Support Geometry
 
 - **Separating Hyperplane Theorem:** For any two disjoint nonempty convex sets $$C, D$$, there exist $$a \neq 0$$ and $$b$$ such that $$a^T x \le b \;\forall x \in C$$ and $$a^T x \ge b \;\forall x \in D$$.
 - **Strict Separation:** When $$C$$ and $$D$$ are closed and disjoint and at least one is compact (bounded), we get a strict margin: $$a^T x < b < a^T y$$—constructed directly from the minimum-distance segment between $$C$$ and $$D$$.
 - **Supporting Hyperplane Theorem:** At every boundary point $$x_0 \in \partial C$$ of a convex set $$C$$, there exists $$a \neq 0$$ such that $$a^T x \le a^T x_0$$ for all $$x \in C$$ (the geometric origin of subgradients!).
 - **Duality Link:** Proving a convex optimization problem has no feasible solution below value $$p^*$$ amounts to separating the epigraph from a target point—yielding the dual multipliers directly as the separating normal $$a$$.
 
-### Step-by-Step Worked Example (Read Slowly): Constructing a Strict Separating & Supporting Hyperplane
+### Worked example: Constructing a Strict Separating & Supporting Hyperplane
 
 Let $$C = \{x \in \mathbb{R}^2 : \|x\|_2 \le 1\}$$ (closed, compact unit disk) and $$x_0 = (3, 4)^T \notin C$$.
 

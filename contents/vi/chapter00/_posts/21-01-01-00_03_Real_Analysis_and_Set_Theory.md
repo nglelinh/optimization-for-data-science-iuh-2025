@@ -14,14 +14,14 @@ Trước khi viết một dòng code để tìm giá trị nhỏ nhất của h�
 
 Phần 00-03 trang bị ngôn ngữ tập hợp và tôpô thực để bạn phân biệt rạch ròi giữa $$\inf$$ và $$\min$$, giữa biên và phần trong, làm bệ phóng trực tiếp cho Chương 02 về tập lồi.
 
-## Bản đồ kiến thức nền: Vì sao tối ưu hóa cần tập hợp và tôpô?
+## Kiến thức cần nhớ: Vì sao tối ưu hóa cần tập hợp và tôpô?
 
 - **Ngôn ngữ tập hợp và miền khả thi:** Mọi hệ ràng buộc $$g_i(x) \le 0, h_j(x) = 0$$ thực chất định nghĩa miền khả thi $$D$$ dưới dạng **giao** của nhiều tập con trong $$\mathbb{R}^n$$.
 - **Tập mở, tập đóng và biên (Open, Closed, Boundary):** Xác định khi nào ta có thể nhích biến theo mọi hướng mà vẫn ở trong miền khả thi (điểm trong), và khi nào ràng buộc bị "chạm ngưỡng" (điểm biên).
 - **Tính compact và Định lý Weierstrass:** Trong $$\mathbb{R}^n$$, tập compact đồng nghĩa với **đóng và bị chặn** (định lý Heine–Borel). Mọi hàm liên tục trên tập compact khác rỗng luôn đạt giá trị nhỏ nhất và lớn nhất toàn cục.
 - **Cận dưới đúng ($$\inf$$) so với Cực tiểu ($$\min$$):** Giúp phân biệt trường hợp giá trị tối ưu hữu hạn nhưng không đạt được tại bất kỳ điểm khả thi nào.
 
-### Khung giải thích (nên đọc chậm): Một ranh giới đóng hay mở quyết định sự tồn tại của nghiệm
+### Giải thích: Một ranh giới đóng hay mở quyết định sự tồn tại của nghiệm
 
 So sánh hai bài toán tối ưu cực kỳ đơn giản trên trục số thực:
 

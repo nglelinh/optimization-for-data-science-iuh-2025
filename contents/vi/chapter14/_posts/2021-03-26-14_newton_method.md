@@ -13,14 +13,14 @@ Nếu Gradient Descent giống như một người leo núi bịt mắt chỉ bi
 
 Chương 14 đưa bạn bước vào thế giới của **tối ưu hóa bậc hai**: từ công thức cập nhật Newton kinh điển, tính bất biến affine kỳ diệu, đại lượng giảm Newton, tìm kiếm đường backtracking, lý thuyết hàm tự hài hòa của Nesterov–Nemirovskii, cho tới các phương pháp Quasi-Newton (BFGS/L-BFGS) và những biến thể bậc hai đang huấn luyện các mô hình AI ngày nay.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu hóa bậc hai
+## Kiến thức cần nhớ: Bốn trụ cột của tối ưu hóa bậc hai
 
 - **Xấp xỉ Taylor bậc hai và ma trận Hessian:** Thay vì xấp xỉ hàm mục tiêu bằng mặt phẳng tiếp xúc (bậc nhất), phương pháp Newton khớp một mặt paraboloid $$\tilde{f}(y) = f(x) + \nabla f(x)^T(y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x)(y-x)$$ rồi nhảy thẳng tới đáy của paraboloid đó.
 - **Tính bất biến affine và hình học độ cong:** Phép nhân với nghịch đảo Hessian $$(\nabla^2 f(x))^{-1}$$ tự động "làm tròn" các đường đồng mức méo mó thành hình cầu, khiến phương pháp Newton miễn nhiễm với việc đổi đơn vị đo hay kéo giãn trục tọa độ.
 - **Hai pha hội tụ (giảm chấn và bậc hai):** Khi còn xa đáy, backtracking line search giữ bước đi an toàn (pha giảm chấn); khi đã lọt vào vùng lân cận nghiệm, bước Newton thuần túy kích hoạt **hội tụ bậc hai** — số chữ số đúng tăng gấp đôi sau mỗi vòng lặp!
 - **Chi phí đại số tuyến tính và xấp xỉ bậc hai:** Mỗi bước Newton đòi hỏi giải hệ tuyến tính cỡ $$n \times n$$ (tốn $$O(n^3)$$ với ma trận đặc), là động lực ra đời của các phương pháp khai thác cấu trúc thưa, Quasi-Newton (BFGS, L-BFGS) và xấp xỉ Hessian đường chéo/khối trong học sâu.
 
-### Khung giải thích (nên đọc chậm): So sánh 1 bước Newton với Gradient Descent trên thung lũng méo
+### Giải thích: So sánh 1 bước Newton với Gradient Descent trên thung lũng méo
 
 Xét hàm bậc hai 2 chiều có số điều kiện $$\kappa = 100$$:
 

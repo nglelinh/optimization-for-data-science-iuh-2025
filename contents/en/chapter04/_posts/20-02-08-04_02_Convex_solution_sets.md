@@ -12,14 +12,14 @@ lesson_type: required
 
 When an optimization solver returns a solution, a natural engineering question immediately follows: *is this the only optimal answer, or is there an entire family of equally good designs?* In nonconvex optimization, optimal solutions can be scattered like isolated islands across space. In convex optimization, however, the geometry of the optimal solution set $$X_{\mathrm{opt}}$$ obeys a strict law: it is always a single connected convex region—and under strict convexity, it shrinks to at most one point.
 
-## Background Knowledge Map: Geometry of the Optimal Solution Set
+## Key ideas: Geometry of the Optimal Solution Set
 
 1. **Convexity of Sublevel Sets**: For any convex function $$f$$ and threshold $$\alpha$$, the sublevel set $$S_\alpha = \{x : f(x) \le \alpha\}$$ is convex. The optimal solution set is simply the intersection of the feasible set $$C$$ with the lowest non-empty sublevel set: $$X_{\mathrm{opt}} = C \cap \{x : f(x) \le f^\star\}$$. Because the intersection of convex sets is convex, $$X_{\mathrm{opt}}$$ is guaranteed to be convex.
 2. **Flat Valleys and Non-Unique Solutions**: Whenever a convex objective has flat directions aligned with the feasible set—such as a linear objective parallel to a face of a polytope, or an $$\ell_1$$-regularized regression with collinear features—any convex combination $$\theta x + (1-\theta)y$$ of two minimizers stays feasible and achieves the exact same optimal value $$f^\star$$.
 3. **Strict Convexity and Uniqueness**: A function is strictly convex if $$f(\theta x + (1-\theta)y) < \theta f(x) + (1-\theta)f(y)$$ for all $$x \neq y$$ and $$\theta \in (0, 1)$$. If two distinct optimal points existed, their midpoint would be feasible and have strictly lower objective value than $$f^\star$$, contradicting optimality. Hence strict convexity guarantees $$|X_{\mathrm{opt}}| \le 1$$.
 4. **Why Uniqueness Matters in Practice**: In statistics and machine learning (such as Ridge vs. Lasso regression), adding a small strictly convex regularizer $$\frac{\lambda}{2}\|x\|_2^2$$ turns a flat solution face into a unique minimizer, stabilizing parameter estimates and making solutions continuous with respect to data perturbations.
 
-### Step-by-Step Worked Example (Read Slowly): Comparing a Convex Solution Face vs. a Unique Minimizer
+### Worked example: Comparing a Convex Solution Face vs. a Unique Minimizer
 
 Compare two convex programs over the unit simplex $$C = \{x \in \mathbb{R}^2 : x_1 \ge 0,\; x_2 \ge 0,\; x_1 + x_2 = 1\}$$:
 - **Problem A (Convex, not strictly convex)**: $$\min_{x \in C} f_A(x) = (x_1 + x_2 - 1)^2 + 3(x_1 + x_2)$$.

@@ -14,14 +14,14 @@ redirect_from:
 
 You might think the KKT conditions are only for pencil-and-paper derivations, yet between 2022 and 2026 they became the secret engine behind **differentiable optimization layers** inside deep neural networks (`cvxpylayers`, OptNet, Theseus)! How do PyTorch and JAX backpropagate gradients *through* a convex optimization solver embedded inside a neural network? Not by unrolling thousands of solver iterations, but by applying the **implicit function theorem directly to the KKT equations** at the optimal solution!
 
-## Background Knowledge Map: Where the KKT System Lives in 2022–2026 Software
+## Key ideas: Where the KKT System Lives in 2022–2026 Software
 
 - **Pillar 1 — Implicit Differentiation Through KKT (`cvxpylayers`, Theseus):** Writing the KKT system as $$F(z^\star(\theta), \theta) = 0$$ (where $$z^\star = (x^\star, u^\star, v^\star)$$) lets us compute exact sensitivities $$\frac{\partial z^\star}{\partial \theta} = -(\nabla_z F)^{-1} \nabla_\theta F$$ by solving a *single* linear system—independent of how many iterations the forward solver took!
 - **Pillar 2 — SVM Support Vectors as Complementary Slackness:** Production kernel solvers (`libsvm`, `scikit-learn`) check KKT violation directly as their stopping criterion, and complementary slackness guarantees that only active margin points carry nonzero dual weights $$\alpha_i^\star$$.
 - **Pillar 3 — Electricity Grid LMPs & Congestion Pricing:** In wholesale power markets, KKT stationarity equates nodal Locational Marginal Prices (LMPs) to marginal generator cost plus congestion terms, while complementary slackness zeroes out congestion prices on every uncongested line.
 - **Pillar 4 — Diagnosing Tight Fairness Constraints:** In constrained ML pipelines, reading the optimal KKT multipliers $$\lambda_g^\star$$ tells engineers instantly *which* demographic group constraint is binding ($$\lambda_g^\star > 0$$) and how much accuracy is being traded per unit of fairness tolerance.
 
-### Step-by-Step Worked Example (Read Slowly): Differentiating Through a Constrained Layer via KKT
+### Worked example: Differentiating Through a Constrained Layer via KKT
 
 Suppose a differentiable optimization layer takes a neural-network output $$\theta \in \mathbb{R}$$ and outputs the solution $$x^\star(\theta)$$ to the 1D constrained QP:
 $$x^\star(\theta) = \arg\min_{x \in \mathbb{R}}\; \frac{1}{2}(x - \theta)^2 \quad \text{s.t.} \quad x \le 1.$$

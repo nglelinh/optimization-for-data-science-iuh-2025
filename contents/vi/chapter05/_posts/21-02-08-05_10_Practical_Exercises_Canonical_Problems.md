@@ -16,7 +16,7 @@ Trên giấy, các bài toán chuẩn LP, QP, QCQP, SOCP, SDP trông giống nh�
 
 Mục tiêu của buổi thực hành này không chỉ là bấm chạy ra con số cuối cùng, mà là rèn kỹ năng **chuyển dịch hai chiều**: từ mô tả bằng lời sang công thức toán học chuẩn, và từ nghiệm số quay ngược lại diễn giải ý nghĩa kinh tế/kỹ thuật của từng biến và ràng buộc tích cực.
 
-## Bản đồ kiến thức nền: Bốn kỹ năng thực chiến khi mô hình hóa bài toán chuẩn
+## Kiến thức cần nhớ: Bốn kỹ năng thực chiến khi mô hình hóa bài toán chuẩn
 
 Khi tự tay giải các bài tập trong bộ này (bằng tay hoặc bằng CVXPY/Python), hãy kiểm tra bốn tiêu chí sau:
 
@@ -25,7 +25,7 @@ Khi tự tay giải các bài tập trong bộ này (bằng tay hoặc bằng CV
 - **Kỹ thuật Epigraph & Biến phụ để tuyến tính hóa:** Biết cách chuyển $$\min \|x\|_1$$ thành $$\min \mathbf{1}^T t \text{ s.t. } -t \le x \le t$$ (LP) và chuyển ràng buộc bất định ellipsoid thành chuẩn $$\ell_2$$ (SOCP).
 - **Hậu kiểm nghiệm (Sanity Check):** Luôn kiểm tra lại ba thứ sau khi giải: (1) nghiệm có thỏa mọi ràng buộc với dung sai $$10^{-6}$$ không? (2) ràng buộc nào tích cực? (3) kết quả có hợp lý về mặt vật lý/kinh tế không?
 
-### Khung giải thích (nên đọc chậm): Giải tay một bài toán Khẩu phần ăn (Diet Problem) 2 thực phẩm
+### Giải thích: Giải tay một bài toán Khẩu phần ăn (Diet Problem) 2 thực phẩm
 
 Một người cần ít nhất $$10$$ đơn vị protein và $$12$$ đơn vị vitamin mỗi ngày từ 2 loại thực phẩm:
 - Thực phẩm A: giá $$2$$ USD/phần, chứa $$2$$ protein và $$1$$ vitamin.

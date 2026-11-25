@@ -11,14 +11,14 @@ lang: en
 
 Suppose you are designing a supply chain with two kinds of decisions: *strategic* decisions (where to build warehouses, $$x$$) and *operational* decisions (how much to ship from each warehouse once built, $$y$$). If you optimize the shipping plan $$y$$ for every candidate warehouse layout $$x$$, does the resulting cost-as-a-function-of-$$x$$ remain convex? Remarkably, yes—partial minimization over a convex block of variables always preserves convexity, letting you eliminate auxiliary variables cleanly or reveal the hidden hinge-loss structure of models like Support Vector Machines.
 
-## Background Knowledge Map: Partial Minimization and Variable Elimination
+## Key ideas: Partial Minimization and Variable Elimination
 
 1. **Convexity Preservation Under Infimal Projection**: If $$f(x, y)$$ is *jointly convex* in $$(x, y)$$ and $$C$$ is a convex set, then the marginal function $$g(x) = \inf_{y \in C} f(x, y)$$ is convex in $$x$$ (provided $$g(x) > -\infty$$). Geometrically, the epigraph of $$g$$ is the projection of the convex epigraph of $$f$$ onto the $$(x, t)$$ subspace, and linear projections of convex sets are always convex.
 2. **Equivalence of Joint and Two-Stage Problems**: Minimizing $$f(x, y)$$ jointly over $$(x, y)$$ with constraints on $$y$$ is equivalent to first minimizing over $$y$$ (treating $$x$$ as fixed) to obtain $$g(x)$$, and then minimizing $$g(x)$$ over $$x$$. You can run this trick in *both* directions: eliminate variables to get a compact unconstrained form (like SVM hinge loss), or introduce variables to smooth out a nonsmooth objective (like epigraph variables).
 3. **Why Joint Convexity Is Essential**: It is *not* enough for $$f(x, y)$$ to be convex in $$x$$ for each fixed $$y$$ and convex in $$y$$ for each fixed $$x$$ (separate convexity). For example, $$f(x, y) = xy$$ is linear in each variable separately, yet not jointly convex. Always verify joint convexity before projecting out $$y$$.
 4. **Canonical ML Example — Soft-Margin SVM**: Introducing slack variables $$\xi_i \ge 0$$ converts the nonsmooth hinge loss $$\max(0, 1 - y_i(w^T x_i + b))$$ into linear inequalities $$\xi_i \ge 1 - y_i(w^T x_i + b)$$ and $$\xi_i \ge 0$$. Minimizing out $$\xi_i$$ analytically recovers the exact hinge-loss objective.
 
-### Step-by-Step Worked Example (Read Slowly): Eliminating a Variable in a Coupled Quadratic Program
+### Worked example: Eliminating a Variable in a Coupled Quadratic Program
 
 Consider the jointly convex quadratic function $$f(x, y) = x^2 + 2xy + 2y^2 - 4y$$ over $$(x, y) \in \mathbb{R}^2$$. Let us compute the reduced objective $$g(x) = \min_{y \in \mathbb{R}} f(x, y)$$ and verify both problems yield the same solution.
 

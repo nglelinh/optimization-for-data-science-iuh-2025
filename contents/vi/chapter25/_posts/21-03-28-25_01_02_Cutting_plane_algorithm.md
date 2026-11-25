@@ -13,7 +13,7 @@ lang: vi
 
 Cốt lõi của mỗi vòng lặp nằm ở **bài toán tách (separation problem)**: cho một điểm $$x^{(k)} \notin S$$, hãy tìm một siêu phẳng $$\pi^T x \le \pi_0$$ đúng với mọi điểm trong $$S$$ nhưng thỏa mãn $$\pi^T x^{(k)} > \pi_0$$. Định lý nổi tiếng Grötschel–Lovász–Schrijver thậm chí chỉ ra rằng tối ưu hóa và tách điểm có độ khó tương đương nhau về mặt thời gian đa thức!
 
-## Bản đồ kiến thức nền: Ba trụ cột của vòng lặp Mặt phẳng cắt
+## Kiến thức cần nhớ: Ba trụ cột của vòng lặp Mặt phẳng cắt
 
 Để nắm chắc cách thuật toán mặt phẳng cắt vận hành từ đầu tới cuối, hãy chú ý ba trụ cột sau:
 
@@ -21,7 +21,7 @@ Cốt lõi của mỗi vòng lặp nằm ở **bài toán tách (separation prob
 - **Tính đơn điệu của dãy đa diện và cận dưới:** Sau mỗi vòng lặp, ta có $$S \subseteq C_{k+1} \subseteq C_k$$, do đó dãy giá trị nới lỏng $$z_{\text{LP}}^{(0)} \le z_{\text{LP}}^{(1)} \le \dots \le z^\star$$ tăng dần về nghiệm nguyên tối ưu. Khi nghiệm nới lỏng $$x^{(k)}$$ đầu tiên rơi trúng vào tập nguyên, thuật toán dừng ngay với chứng nhận tối ưu tuyệt đối.
 - **Tái tối ưu bằng Đơn hình Đối ngẫu (Dual Simplex Warm Start):** Khi thêm một ràng buộc mới cắt bỏ điểm tối ưu LP cũ $$x^{(k)}$$, điểm cũ mất tính khả thi gốc nhưng *vẫn giữ tính khả thi đối ngẫu*. Nhờ vậy, thuật toán đơn hình đối ngẫu chỉ cần xoay thêm vài bước trục (pivot) để tìm $$x^{(k+1)}$$ thay vì giải lại LP từ đầu!
 
-### Khung giải thích (nên đọc chậm): Chạy tay 2 vòng lặp thuật toán Mặt phẳng cắt
+### Giải thích: Chạy tay 2 vòng lặp thuật toán Mặt phẳng cắt
 
 Xét bài toán quy hoạch nguyên $$\min -x_1 - 2x_2$$ trên tập nới lỏng ban đầu:
 

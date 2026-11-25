@@ -13,14 +13,14 @@ Chuẩn Euclid $$f(x) = \|x\|_2 = \sqrt{x_1^2 + \cdots + x_n^2}$$ là một tron
 
 Bài học này trình bày cả ba phương pháp chứng minh kinh điển (định nghĩa + Cauchy–Schwarz, phân tích Hessian tại $$x \ne 0$$, và bất đẳng thức tam giác) — một bài tập tuyệt vời để luyện đủ mọi góc nhìn giải tích lồi.
 
-## Bản đồ kiến thức nền: Ba góc nhìn chứng minh $$\|x\|_2$$ là hàm lồi
+## Kiến thức cần nhớ: Ba góc nhìn chứng minh $$\|x\|_2$$ là hàm lồi
 
 - **Góc nhìn 1 — Đại số (Định nghĩa + Cauchy–Schwarz):** Bình phương hai vế của bất đẳng thức Jensen rồi áp dụng $$x^T y \le \|x\|_2 \|y\|_2$$; ngắn gọn, không cần đạo hàm và đúng luôn tại điểm nhọn $$x = 0$$.
 - **Góc nhìn 2 — Giải tích bậc hai (Hessian trên $$\mathbb{R}^n \setminus \{0\}$$):** Tính tường minh $$\nabla^2 f(x) = \frac{1}{\|x\|_2}\left(I - \frac{x x^T}{\|x\|_2^2}\right)$$ — chính là phép chiếu trực giao lên không gian vuông góc với $$x$$ chia cho $$\|x\|_2$$, nên luôn bán xác định dương!
 - **Góc nhìn 3 — Hình học chuẩn (Bất đẳng thức tam giác + Đồng nhất dương):** Áp dụng ngay cho **mọi chuẩn** $$\|\cdot\|$$ bất kỳ ($$\ell_1, \ell_2, \ell_\infty, \ell_p$$) chỉ trong đúng 2 dòng!
 - **Lưu ý phân biệt quan trọng:** $$\|x\|_2$$ lồi nhưng **không lồi chặt** (dọc theo bất kỳ tia $$t v$$ nào với $$t \ge 0$$, hàm là đường thẳng tuyến tính!); ngược lại bình phương chuẩn $$\|x\|_2^2$$ là **2-lồi mạnh** và trơn khắp nơi!
 
-### Khung giải thích (nên đọc chậm): Tính tay ma trận Hessian của $$f(x) = \|x\|_2$$ tại $$x = (3, 4)^T$$
+### Giải thích: Tính tay ma trận Hessian của $$f(x) = \|x\|_2$$ tại $$x = (3, 4)^T$$
 
 Xét $$f(x_1, x_2) = \sqrt{x_1^2 + x_2^2}$$ tại điểm $$x = (3, 4)^T$$ (có $$\|x\|_2 = 5$$):
 

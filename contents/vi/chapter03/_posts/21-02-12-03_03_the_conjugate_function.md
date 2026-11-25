@@ -14,14 +14,14 @@ Trong vật lý cơ học, phép biến đổi Legendre đổi góc nhìn từ v
 
 Hàm liên hợp là chiếc chìa khóa mở thẳng cánh cửa sang lý thuyết đối ngẫu Fenchel–Rockafellar và đối ngẫu Lagrange trong các chương tiếp theo.
 
-## Bản đồ kiến thức nền: Bốn tính chất kỳ diệu của Hàm liên hợp $$f^*$$
+## Kiến thức cần nhớ: Bốn tính chất kỳ diệu của Hàm liên hợp $$f^*$$
 
 - **Ý nghĩa hình học (Độ chênh lớn nhất theo độ dốc $$y$$):** $$f^*(y)$$ đo khoảng cách thẳng đứng lớn nhất giữa đường thẳng đi qua gốc có độ dốc $$y$$ (là $$y^T x$$) và đồ thị $$f(x)$$; nói cách khác, $$-f^*(y)$$ chính là tung độ gốc của tiếp tuyến có độ dốc $$y$$ nằm sát ngay dưới đồ thị $$f$$.
 - **$$f^*$$ LUÔN là hàm lồi:** Vì $$f^*(y) = \sup_x (y^T x - f(x))$$ là cận trên đúng theo $$x$$ của một họ các hàm **affine** theo $$y$$, nên dù $$f$$ ban đầu có không lồi đến đâu, $$f^*$$ vẫn luôn là hàm lồi đóng!
 - **Bất đẳng thức Fenchel–Young:** Từ định nghĩa suy ra ngay $$f(x) + f^*(y) \ge y^T x$$ với mọi $$x, y$$; dấu bằng xảy ra đúng khi $$y \in \partial f(x)$$ (với hàm trơn là $$y = \nabla f(x)$$).
 - **Liên hợp kép (Biconjugate $$f^{**}$$):** Nếu $$f$$ là hàm lồi đóng, thì $$f^{**} = f$$ — biến đổi hai lần đưa ta trở về chính xác hàm ban đầu không mất một chút thông tin nào!
 
-### Khung giải thích (nên đọc chậm): Tính tay hàm liên hợp $$f^*(y)$$ của $$f(x) = 2x^2$$ và kiểm chứng Fenchel–Young
+### Giải thích: Tính tay hàm liên hợp $$f^*(y)$$ của $$f(x) = 2x^2$$ và kiểm chứng Fenchel–Young
 
 Xét hàm bậc hai lồi chặt $$f(x) = 2x^2$$ trên $$\mathbb{R}$$:
 

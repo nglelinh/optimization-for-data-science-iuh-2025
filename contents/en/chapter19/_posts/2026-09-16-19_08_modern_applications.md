@@ -12,14 +12,14 @@ lesson_type: optional
 
 Between 2022 and 2026, proximal Newton methods quietly crossed a major scalability frontier. In high-dimensional genomics, where precision matrices have $$p \approx 20{,}000$$ genes (over 200 million matrix entries), classical Graphical Lasso and even QUIC hit a memory and speed wall. New solvers like **MARS** (adaptive KKT sieving + semismooth Newton augmented Lagrangian) and `scikit-learn`'s `newton-cholesky` GLM path show that the core insight of Chapter 19—couple second-order curvature with exact nonsmooth structure, and shrink the working set via KKT certificates—scales to modern data science.
 
-## Background Knowledge Map: Modern Second-Order Composite Solvers (2022–2026)
+## Key ideas: Modern Second-Order Composite Solvers (2022–2026)
 
 - **Adaptive KKT Sieving (MARS, JMLR 2023):** Before forming a huge Hessian, check the KKT optimality condition $$|\nabla_j g(x)| < \lambda$$ to certify coordinates that must be zero, solving the semismooth Newton system only on the tiny surviving active set.
 - **Semismooth Newton Augmented Lagrangian (SSNAL):** Applies generalized Newton steps to the continuously differentiable (but piecewise-smooth) augmented Lagrangian dual, achieving superlinear convergence on massive $$\ell_1$$-penalized D-trace and Lasso paths.
 - **Production GLM Solvers (`newton-cholesky` in `scikit-learn`):** When $$h(\beta) = \frac{\alpha}{2}\|\beta\|_2^2$$ is quadratic ridge, proximal Newton reduces to a single Cholesky solve of $$(X^T W X + \alpha I) v = -\nabla f$$, outperforming L-BFGS whenever $$n \gg p$$.
 - **Support Identification & Local Quadratic Polishing:** Across all modern applications, the winning pattern is identical: identify the sparse support cheaply, then let second-order curvature polish the free variables to $$10^{-10}$$ accuracy in 3–5 steps.
 
-### Step-by-Step Worked Example (Read Slowly): KKT Active-Set Sieving on a 3-Feature Lasso
+### Worked example: KKT Active-Set Sieving on a 3-Feature Lasso
 
 Consider $$\min_{x \in \mathbb{R}^3} \frac{1}{2}\|Ax - b\|_2^2 + \lambda\|x\|_1$$ with $$\lambda = 2$$, where at the current iterate $$x^k = (1, 0, 0)^T$$ the smooth gradient is $$\nabla g(x^k) = (-2.0, \; 0.3, \; -0.5)^T$$ and the Hessian is $$H = A^T A = \begin{bmatrix} 4 & 1 & 0 \\ 1 & 5 & 2 \\ 0 & 2 & 6 \end{bmatrix}$$.
 

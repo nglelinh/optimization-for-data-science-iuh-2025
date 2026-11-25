@@ -11,14 +11,14 @@ lang: en
 
 Think of a convex function $$f(x)$$ as the cost of producing $$x$$ units of a good, and suppose the market pays a unit price $$y$$ per unit sold. Your profit is $$y^T x - f(x)$$. The maximum profit you can earn at price $$y$$—namely $$f^*(y) = \max_x (y^T x - f(x))$$—is the **Fenchel conjugate** of $$f$$. Remarkably, knowing the optimal profit curve $$f^*(y)$$ for every price $$y$$ lets you reconstruct the original convex cost curve $$f(x)$$ without losing a single bit of information.
 
-## Background Knowledge Map: The Fenchel Conjugate Engine
+## Key ideas: The Fenchel Conjugate Engine
 
 - **Pillar 1 — Pointwise Supremum Guarantees Convexity:** Because $$y \mapsto y^T x - f(x)$$ is affine in $$y$$ for every fixed $$x$$, $$f^*(y)$$ is *always* convex—even if the original function $$f$$ is nonconvex.
 - **Pillar 2 — Fenchel–Young Inequality & Tightness:** For every $$x, y$$, $$f(x) + f^*(y) \ge x^T y$$. Equality holds if and only if $$y \in \partial f(x)$$, linking slopes directly to primal-dual optimality.
 - **Pillar 3 — Biconjugate Duality ($$f^{**} = f$$):** For any closed, proper convex function, conjugating twice recovers $$f$$ exactly, giving the dual representation of a convex function as the envelope of all its supporting hyperplanes.
 - **Pillar 4 — Core Dictionary of Conjugates:** Quadratics map to inverse-Hessian quadratics ($$\frac{1}{2}x^T Q x \leftrightarrow \frac{1}{2}y^T Q^{-1} y$$), set indicators $$I_C$$ map to support functions $$I_C^*$$, and norms $$\|\cdot\|$$ map to dual-norm unit-ball indicators $$I_{\{\|\cdot\|_*\le 1\}}$$.
 
-### Step-by-Step Worked Example (Read Slowly): Computing a Conjugate and Verifying Fenchel's Inequality
+### Worked example: Computing a Conjugate and Verifying Fenchel's Inequality
 
 Consider the scalar exponential cost $$f(x) = e^x$$ on $$\mathbb{R}$$.
 

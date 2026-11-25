@@ -14,7 +14,7 @@ $$\text{LP} \subset \text{QP} \subset \text{QCQP} \subset \text{SOCP} \subset \t
 
 Tại sao việc nhận diện đúng "họ" của bài toán lại quan trọng đến vậy? Bởi vì mỗi tầng cao hơn có sức biểu diễn mạnh hơn, nhưng chi phí giải cũng tăng theo: một bài LP hàng triệu biến có thể giải trong vài giây, trong khi một bài SDP vài nghìn biến đã đòi hỏi bộ nhớ khổng lồ. Biết xếp bài toán vào tầng **thấp nhất có thể** chính là dấu ấn của người làm tối ưu chuyên nghiệp.
 
-## Bản đồ kiến thức nền: Hệ phân cấp các bài toán tối ưu hóa chuẩn
+## Kiến thức cần nhớ: Hệ phân cấp các bài toán tối ưu hóa chuẩn
 
 Toàn bộ Chương 05 xoay quanh bốn trụ cột phân loại bài toán theo cấu trúc hàm mục tiêu và hình học nón ràng buộc:
 
@@ -23,7 +23,7 @@ Toàn bộ Chương 05 xoay quanh bốn trụ cột phân loại bài toán theo
 - **Tầng Nón Ma trận — SDP & CP:** Khi biến quyết định là ma trận đối xứng nửa xác định dương $$X \succeq 0$$, ta mở khóa sức mạnh của bất đẳng thức ma trận tuyến tính (LMI) — nền tảng của lý thuyết điều khiển hiện đại, hoàn thiện ma trận và nới lỏng bài toán tổ hợp NP-khó.
 - **Cầu nối Thực hành — Mô hình hóa DCP & Thống kê:** Các mô hình cốt lõi của học máy như Bình phương tối thiểu (Least Squares), Hồi quy tuyến tính, Hồi quy Logistic, Lasso và SVM đều là các trường hợp đặc biệt trong hệ phân cấp này, và ngôn ngữ DCP (CVXPY) tự động biên dịch chúng về đúng bộ giải nón tương ứng.
 
-### Khung giải thích (nên đọc chậm): Phân tầng cùng một bài toán khi thay đổi hàm mục tiêu và ràng buộc
+### Giải thích: Phân tầng cùng một bài toán khi thay đổi hàm mục tiêu và ràng buộc
 
 Xét biến quyết định $$x = (x_1, x_2) \in \mathbb{R}^2$$ với ngân sách cơ bản $$x_1 + x_2 \le 4,\; x_1, x_2 \ge 0$$:
 

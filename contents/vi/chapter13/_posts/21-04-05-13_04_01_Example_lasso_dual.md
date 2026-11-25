@@ -13,13 +13,13 @@ Nếu bạn áp dụng máy móc công thức hàm Lagrange cho bài toán Lasso
 
 Bí quyết của các chuyên gia tối ưu nằm ở một bước "tách biến nghệ thuật": đặt biến phụ $$z = X\beta$$ để tách rời phần bình phương sai số khỏi phần phạt $$\ell_1$$. Chỉ cần một phương trình ràng buộc nhân tạo đó thôi, bài toán đối ngẫu của Lasso lập tức hiện ra với vẻ đẹp hình học kinh ngạc: **tìm hình chiếu Euclid của vectơ dữ liệu $$y$$ lên một khối đa diện lồi $$\{u : \|X^T u\|_\infty \le \lambda\}$$**. Từ đây, ta không chỉ hiểu sâu cấu trúc hình học của Lasso mà còn mở ra các kỹ thuật sàng lọc biến (safe screening) loại bỏ hàng nghìn đặc trưng thừa ngay trước khi giải.
 
-## Bản đồ kiến thức nền: Từ Lasso nguyên thủy sang bài toán chiếu hình học đối ngẫu
+## Kiến thức cần nhớ: Từ Lasso nguyên thủy sang bài toán chiếu hình học đối ngẫu
 
 - **Kỹ thuật đưa biến phụ (Variable Splitting):** Khi bài toán không ràng buộc gồm tổng hai hàm có cấu trúc khác nhau, đặt $$z = X\beta$$ tạo ra ràng buộc đẳng thức để tách phép lấy cực tiểu thành hai bài toán con dễ giải đóng.
 - **Liên hợp của hàm bình phương và chuẩn $$\ell_1$$:** Phần $$\frac{1}{2}\|y - z\|_2^2$$ sinh ra dạng bậc hai $$\frac{1}{2}\|y - u\|_2^2$$ trên biến đối ngẫu $$u$$, còn phần $$\lambda \|\beta\|_1$$ biến thành điều kiện ràng buộc hộp $$\|X^T u\|_\infty \le \lambda$$ (chính là quả cầu chuẩn đối ngẫu $$\ell_\infty$$!).
 - **Quan hệ nguyên thủy – đối ngẫu (KKT):** Tại nghiệm tối ưu, phần dư $$r^\star = y - X\beta^\star$$ trùng đúng với nghiệm đối ngẫu $$u^\star$$ (hoặc tỷ lệ trực tiếp tùy quy ước dấu), cho thấy mọi đặc trưng không được chọn ($$\beta_j^\star = 0$$) đều có tương quan chặt $$\vert X_j^T u^\star \vert < \lambda$$.
 
-### Khung giải thích (nên đọc chậm): Tính tay đối ngẫu Lasso trên một ví dụ 2 đặc trưng
+### Giải thích: Tính tay đối ngẫu Lasso trên một ví dụ 2 đặc trưng
 
 Xét bài toán Lasso với $$n = 2, p = 2$$, ma trận thiết kế đơn giản $$X = I_2$$ (hai cột trực chuẩn), dữ liệu $$y = (3, 0.5)^T$$ và tham số phạt $$\lambda = 1$$:
 

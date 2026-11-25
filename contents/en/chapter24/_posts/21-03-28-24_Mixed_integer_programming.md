@@ -11,14 +11,14 @@ lang: en
 
 Up through Chapter 23, every variable lived in a smooth, connected continuum—you could always nudge a weight by $$0.001$$ and ask the gradient which way is downhill. The real world is rarely so forgiving: you cannot build $$0.37$$ of a warehouse, assign $$0.6$$ of a pilot to a flight, or select $$0.4$$ of a feature in a clinical diagnostic model. The moment even a subset of decision variables is forced to take discrete integer values, convexity shatters and gradients lose their local authority. Mixed Integer Programming (MIP) is the mathematical discipline that tames this combinatorial cliff—not by brute-force enumeration, but by pairing clever continuous relaxations with systematic tree search.
 
-## Background Knowledge Map: Entering the World of Mixed Integer Programming
+## Key ideas: Entering the World of Mixed Integer Programming
 
 - **Discrete vs. Continuous Coupling:** A Mixed Integer Program optimizes an objective over both continuous variables $$x \in \mathbb{R}^p$$ and integer variables $$y \in \mathbb{Z}^q$$. Even when the objective and constraints are linear, restricting $$y$$ to $$\mathbb{Z}^q$$ renders the feasible set nonconvex and NP-hard in general.
 - **Modeling Power of Binary Variables:** Restricting $$y_j \in \{0, 1\}$$ lets you encode logical implications ("if facility $$i$$ is open, then customer $$j$$ can be served"), cardinality caps ("pick at most $$k$$ features"), and piecewise-linear or indicator constraints inside algebraic inequalities.
 - **Primal–Dual Bounding Framework:** Because local optimality no longer implies global optimality, MIP solvers maintain two opposing fences: an incumbent feasible integer solution giving an upper bound (for minimization) and a tractable relaxation giving a certified lower bound.
 - **Relaxation + Branching Synergy:** Solving the continuous LP/convex relaxation yields a fractional solution; splitting the feasible region around a fractional variable (Branch and Bound) progressively tightens the gap until the primal and dual bounds meet.
 
-### Step-by-Step Worked Example (Read Slowly): Why Rounding an LP Relaxation Can Fail
+### Worked example: Why Rounding an LP Relaxation Can Fail
 
 Consider the 2-variable integer linear program:
 $$\max_{x_1, x_2 \in \mathbb{Z}_{\ge 0}} x_1 + 5 x_2 \quad \text{subject to} \quad x_1 + 10 x_2 \le 20,\quad x_1 \le 2.$$

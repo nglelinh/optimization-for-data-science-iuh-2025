@@ -13,14 +13,14 @@ lang: vi
 
 Câu trả lời làm thay đổi hoàn toàn bộ mặt của tối ưu hóa quy mô lớn và xử lý tín hiệu hiện đại: bằng cách tách riêng hai phần trong **phương pháp gradient gần kề (Proximal Gradient Descent)**, ta lập tức kéo tốc độ từ $$O(1/\epsilon^2)$$ lên $$O(1/\epsilon)$$ — ngang hàng với gradient descent trên hàm trơn! Và chưa dừng lại ở đó, khi gắn thêm "động cơ quán tính" **tăng tốc Nesterov / FISTA**, tốc độ vọt thẳng lên $$O(1/\sqrt{\epsilon})$$, đạt chuẩn tối ưu bậc nhất của lý thuyết tối ưu lồi.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu gần kề và tăng tốc
+## Kiến thức cần nhớ: Bốn trụ cột của tối ưu gần kề và tăng tốc
 
 - **Mô hình tối ưu tổng hợp (Composite Optimization):** Phân tách hàm mục tiêu thành $$f(x) = g(x) + h(x)$$, trong đó $$g$$ lồi khả vi với $$\nabla g$$ liên tục $$L$$-Lipschitz, còn $$h$$ lồi (có thể không khả vi, thậm chí nhận giá trị $$+\infty$$ để mã hóa ràng buộc) nhưng "dễ giải" qua toán tử gần kề.
 - **Toán tử gần kề (Proximal Operator):** Định nghĩa $$\operatorname{prox}_{t h}(v) = \arg\min_z \left\{\frac{1}{2t}\|z - v\|_2^2 + h(z)\right\}$$ — tìm một điểm dung hòa giữa việc giữ gần điểm $$v$$ và làm nhỏ $$h(z)$$. Đây là tổng quát hóa tự nhiên của phép chiếu Euclid lên tập lồi.
 - **Khôi phục tốc độ $$O(1/k)$$ và tính chất tạo thưa chính xác:** Nhờ giữ nguyên $$h(x)$$ thay vì xấp xỉ tuyến tính nó, mỗi vòng lặp vừa đạt tốc độ $$O(1/k)$$ (tương đương $$O(1/\epsilon)$$), vừa đưa thẳng các tọa độ nhỏ về **đúng bằng $$0$$** (không dao động quanh $$0$$ như subgradient).
 - **Tăng tốc Nesterov (FISTA):** Thay vì tính gradient tại điểm cũ $$x^{(k)}$$, ta ngoại suy thêm một bước quán tính tới $$y^{(k)} = x^{(k)} + \beta_k(x^{(k)} - x^{(k-1)})$$ rồi mới áp dụng bước gần kề, nâng tốc độ từ $$O(1/k)$$ lên $$O(1/k^2)$$ (tức $$O(1/\sqrt{\epsilon})$$).
 
-### Khung giải thích (nên đọc chậm): So sánh tốc độ hội tụ của 3 thế hệ thuật toán trên cùng một bài toán
+### Giải thích: So sánh tốc độ hội tụ của 3 thế hệ thuật toán trên cùng một bài toán
 
 Giả sử ta cần giải bài toán Lasso $$f(x) = \frac{1}{2}\|Ax - b\|_2^2 + \lambda\|x\|_1$$ đến độ chính xác $$\epsilon = 10^{-4}$$ (với các hằng số bài toán đều chuẩn hóa bằng $$1$$):
 

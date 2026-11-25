@@ -12,14 +12,14 @@ lesson_type: required
 
 If you already learned Consensus ADMM in Chapter 21, a sharp question should immediately occur to you: both Consensus ADMM and FedAvg solve $$\min_w \sum_{p=1}^P f_p(w)$$ across distributed workers without sharing raw data—so why didn’t federated deep learning just use ADMM? Putting the two algorithms side by side reveals one of optimization’s clearest design trade-offs: ADMM maintains per-client dual variables that *provably cancel client drift* on convex problems, while FedAvg stays stateless so millions of intermittent, nonconvex mobile devices can drop in and out without ever storing stale dual multipliers.
 
-## Background Knowledge Map: Consensus ADMM vs. Data-Parallel SGD vs. FedAvg
+## Key ideas: Consensus ADMM vs. Data-Parallel SGD vs. FedAvg
 
 - **Dual Memory Kills Client Drift (ADMM):** In Consensus ADMM, each worker $$p$$ minimizes $$f_p(x_p) + \frac{\rho}{2}\|x_p - z + u_p\|_2^2$$. The dual variable $$u_p$$ remembers the exact gradient discrepancy $$\nabla f_p(z^\star)$$ at the global optimum, guaranteeing convergence to the *exact* global minimizer $$z^\star$$ even under extreme non-IID heterogeneity!
 - **Why Statelessness Matters in Cross-Device FL:** Cross-device federated learning involves millions of phones where any given device may appear once a week. Maintaining fresh per-client dual state $$u_p$$ becomes stale or impossible—favoring stateless FedAvg.
 - **Exact Subproblem Cost vs. Cheap Local SGD:** Classical ADMM assumes each worker solves (or closely approximates) its proximal subproblem $$\arg\min_{x_p} f_p(x_p) + \frac{\rho}{2}\|x_p - z + u_p\|_2^2$$, which is fast for convex GLMs or cross-silo hospitals but expensive for deep neural nets compared to a few local SGD steps.
 - **Three-Way Decision Matrix:** Use **Data-Parallel SGD** on fast datacenter GPUs; use **Consensus ADMM** on convex or cross-silo (10–50 always-on institutions) problems with strong heterogeneity; use **FedAvg** (or FedProx/FedAdam) on large-scale, nonconvex, intermittent device fleets.
 
-### Step-by-Step Worked Example (Read Slowly): How ADMM’s Dual Variable Cures the Exact Drift That Broke FedAvg
+### Worked example: How ADMM’s Dual Variable Cures the Exact Drift That Broke FedAvg
 
 Return to the exact 2-client non-IID problem from Lesson 29-02 where FedAvg drifted away from $$w^\star = 0.6$$:
 $$f_1(x) = 2(x - 1)^2, \qquad f_2(x) = \frac{1}{2}(x + 1)^2, \qquad z^\star = 0.6.$$

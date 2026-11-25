@@ -11,14 +11,14 @@ lang: en
 
 Knowing that an algorithm eventually converges is reassuring in theory, but in engineering practice the decisive question is: *how many iterations will it take to get within $$\varepsilon = 10^{-3}$$ of the optimum?* In smooth gradient descent, cutting $$\varepsilon$$ by a factor of $$10$$ costs $$10\times$$ more iterations ($$O(1/\varepsilon)$$); in the subgradient method, cutting $$\varepsilon$$ by a factor of $$10$$ costs $$100\times$$ more iterations ($$O(1/\varepsilon^2)$$). This lesson derives that famous quadratic penalty directly from the basic inequality and shows why it is not a flaw in our proof, but a fundamental speed limit of nonsmooth geometry.
 
-## Background Knowledge Map: Deriving the $$O(1/\varepsilon^2)$$ Complexity Barrier
+## Key ideas: Deriving the $$O(1/\varepsilon^2)$$ Complexity Barrier
 
 - **Pillar 1 — Optimizing the Fixed Step Size for a Known Horizon $$k$$:** Minimizing $$B(t) = \frac{R^2}{2kt} + \frac{G^2 t}{2}$$ over $$t > 0$$ by setting $$B'(t) = 0$$ yields the optimal horizon-dependent step $$t^\star = \frac{R}{G\sqrt{k}}$$ and the tightest upper bound $$f_{\text{best}}^{(k)} - f^\star \le \frac{RG}{\sqrt{k}}$$.
 - **Pillar 2 — Translating Error Bound to Iteration Complexity:** Setting $$\frac{RG}{\sqrt{k}} \le \varepsilon$$ and solving for $$k$$ gives $$k \ge \frac{R^2 G^2}{\varepsilon^2}$$. Every extra decimal digit of accuracy multiplies the iteration budget by $$100$$.
 - **Pillar 3 — Horizon-Free $$1/\sqrt{k}$$ Schedules:** When the total number of iterations $$k$$ is unknown in advance, choosing $$t_i = \frac{R}{G\sqrt{i}}$$ (which is *not* square-summable, yet $$\sum_{i=1}^k 1/i \approx \ln k$$ while $$\sum_{i=1}^k 1/\sqrt{i} \approx 2\sqrt{k}$$) still achieves $$O\!\left(\frac{\ln k}{\sqrt{k}}\right)$$, far faster than $$t_i = 1/i$$ which gives only $$O(1/\ln k)$$.
 - **Pillar 4 — Information-Theoretic Lower Bound (Nesterov / Nemirovski–Yudin):** For high-dimensional nonsmooth convex functions ($$n \ge k$$), *no* first-order black-box method using only subgradients can beat $$\Omega(RG/\sqrt{k})$$ in the worst case—so to go faster, one must exploit extra problem structure.
 
-### Step-by-Step Worked Example (Read Slowly): Optimizing $$t$$ and Counting Iterations for $$\varepsilon = 0.01$$
+### Worked example: Optimizing $$t$$ and Counting Iterations for $$\varepsilon = 0.01$$
 
 Suppose $$R = 5$$ and $$G = 2$$, and we want to guarantee $$f_{\text{best}}^{(k)} - f^\star \le \varepsilon$$.
 

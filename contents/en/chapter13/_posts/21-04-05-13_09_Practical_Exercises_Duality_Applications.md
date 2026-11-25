@@ -14,14 +14,14 @@ redirect_from:
 
 Reading duality theorems feels smooth until a blank sheet of paper asks you to compute the conjugate of a piecewise function, derive the dual of a regularized regression problem, or prove a cone is self-dual. The gap between *recognizing* a derivation and *producing* one is closed by a disciplined workflow: split cleanly, apply known conjugate primitives, check signs via Fenchel's inequality, and verify your final answer on a tiny numerical test case.
 
-## Background Knowledge Map: A Problem-Solving Playbook for Duality Exercises
+## Key ideas: A Problem-Solving Playbook for Duality Exercises
 
 - **Pillar 1 — Dual Norm Strategy:** Always pair Hölder's inequality (to prove an upper bound $$\|y\|_* \le \text{candidate}$$) with an explicit unit-norm witness $$x^\star$$ achieving equality (to prove $$\|y\|_* \ge \text{candidate}$$).
 - **Pillar 2 — Conjugate Strategy:** Check domain finiteness first (can $$y^T x - f(x)$$ blow up to $$+\infty$$ along any ray?), then solve $$y \in \partial f(x)$$ on the finite domain.
 - **Pillar 3 — Composite Dual Strategy:** Introduce $$z = Ax$$ to isolate every nonsmooth term; evaluate $$\min_x$$ and $$\min_z$$ separately into $$-f^*(A^T u)$$ and $$-g^*(-u)$$.
 - **Pillar 4 — Numerical Sanity Check:** Plug in a 1D or 2D vector with easy numbers and verify $$f(x^\star) = g(u^\star)$$—this catches 95% of sign and factor-of-2 errors immediately.
 
-### Step-by-Step Worked Example (Read Slowly): Computing the Conjugate of the Huber-Style Quadratic + $$\ell_1$$ Norm
+### Worked example: Computing the Conjugate of the Huber-Style Quadratic + $$\ell_1$$ Norm
 
 Find the conjugate of $$f(x) = \frac{1}{2}\|x\|_2^2 + \|x\|_1$$ on $$\mathbb{R}^n$$ (the Elastic Net penalty with $$\alpha = 1$$).
 

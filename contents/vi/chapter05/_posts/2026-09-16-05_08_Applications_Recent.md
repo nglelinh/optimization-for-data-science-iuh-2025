@@ -14,7 +14,7 @@ Nếu có ai đó hỏi: *"Các bài toán chuẩn LP, QP, SOCP, SDP từ thế 
 
 Từ **Clarabel** — bộ giải điểm trong viết bằng Rust thế hệ mới trở thành động cơ mặc định của CVXPY, đến tối ưu danh mục đầu tư thực tế có tính chi phí giao dịch, cho tới việc dùng **nới lỏng SDP để cấp chứng chỉ an toàn toán học cho mạng nơ-ron sâu** chống lại tấn công đối kháng — tất cả đều xây thẳng lên khung xương Chương 05.
 
-## Bản đồ kiến thức nền: Bốn mũi nhọn ứng dụng hiện đại của bài toán chuẩn
+## Kiến thức cần nhớ: Bốn mũi nhọn ứng dụng hiện đại của bài toán chuẩn
 
 Để đọc các nghiên cứu thực tế trong bài một cách có hệ thống, hãy kết nối chúng về đúng bốn trụ cột của Chương 05:
 
@@ -23,7 +23,7 @@ Từ **Clarabel** — bộ giải điểm trong viết bằng Rust thế hệ m�
 - **Kiểm chứng mạng nơ-ron bằng SDP (Semidefinite Verification):** Phép kích hoạt ReLU $$y = \max(0, z)$$ thỏa ba ràng buộc: $$y \ge 0,\; y \ge z$$ và **đẳng thức bậc hai** $$y(y - z) = 0$$! Gom chúng thành ma trận gram nửa xác định dương tạo ra nới lỏng SDP giúp chứng minh toán học rằng nhiễu đầu vào nhỏ không bao giờ làm mạng nhận diện nhầm biển báo giao thông!
 - **Khôi phục thưa & Nén cảm biến (Sparse Recovery via QP/Lasso):** Từ chụp cộng hưởng từ MRI nhanh hơn gấp nhiều lần đến ước lượng tín hiệu radar, bài toán khôi phục vector thưa vẫn dựa trên nền tảng QP chuẩn của Lasso ($$\frac{1}{2}\|Ax - b\|_2^2 + \lambda \|x\|_1$$).
 
-### Khung giải thích (nên đọc chậm): Tự tay lập ràng buộc SDP cho một nơ-ron ReLU
+### Giải thích: Tự tay lập ràng buộc SDP cho một nơ-ron ReLU
 
 Xét một nơ-ron ReLU duy nhất $$y = \max(0, z)$$ với đầu vào bị chặn trong đoạn nhiễu $$z \in [-1, 2]$$. Ta muốn chứng minh mối liên hệ đại số giữa $$z$$ và $$y$$ để đưa vào nới lỏng SDP:
 

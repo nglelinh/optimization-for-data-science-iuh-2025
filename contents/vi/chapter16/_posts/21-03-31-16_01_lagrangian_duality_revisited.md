@@ -16,14 +16,14 @@ Trong lịch sử toán học, khi nhìn bài toán nguyên thủy và bài toá
 
 Góc nhìn minimax này không chỉ biến chứng minh tính đối ngẫu yếu thành đúng **một dòng hiển nhiên**, mà còn làm sáng tỏ điều kiện **Slater tinh chỉnh (refined Slater's condition)**: đối với các ràng buộc bất đẳng thức *tuyến tính* (như trong quy hoạch tuyến tính LP), ta thậm chí **không cần** điểm khả thi chặt ($$< 0$$) mà chỉ cần khả thi thường ($$\le 0$$)!
 
-## Bản đồ kiến thức nền: Bốn điểm nâng cấp khi nhìn lại Đối ngẫu Lagrange
+## Kiến thức cần nhớ: Bốn điểm nâng cấp khi nhìn lại Đối ngẫu Lagrange
 
 - **Biểu diễn Minimax của bài toán nguyên thủy:** $$\sup_{u \ge 0, v} L(x, u, v)$$ bằng đúng $$f(x)$$ khi $$x$$ khả thi và bằng $$+\infty$$ khi $$x$$ vi phạm bất kỳ ràng buộc nào — nên bài toán nguyên thủy tương đương tuyệt đối với $$\inf_x \sup_{u \ge 0, v} L(x, u, v)$$.
 - **Đối ngẫu yếu chỉ là bất đẳng thức Max-Min:** Với mọi hàm $$L$$ bất kỳ (không cần lồi!), ta luôn có $$\sup_{u \ge 0, v} \inf_x L(x, u, v) \le \inf_x \sup_{u \ge 0, v} L(x, u, v)$$, suy ra ngay $$d^\star \le p^\star$$.
 - **Điều kiện Slater tinh chỉnh (Refined Slater):** Chỉ cần tồn tại $$x \in \operatorname{relint}(\mathcal{D})$$ thỏa $$Ax = b$$, các ràng buộc **phi tuyến** thỏa chặt $$h_i(x) < 0$$, còn các ràng buộc **affine/tuyến tính** chỉ cần thỏa thường $$h_j(x) \le 0$$! Hệ quả cực mạnh: mọi bài toán LP khả thi và bị chặn đều tự động thỏa đối ngẫu mạnh!
 - **Suy dẫn đối ngẫu LP dạng chuẩn:** Áp dụng khung minimax cho $$\min c^T x$$ thỏa $$Ax = b, x \ge 0$$ cho ra ngay đối ngẫu $$\max b^T y$$ thỏa $$A^T y + s = c, s \ge 0$$ (với biến bù đối ngẫu $$s$$ cực kỳ quan trọng cho Chương 17).
 
-### Khung giải thích (nên đọc chậm): Áp dụng Slater tinh chỉnh và suy dẫn đối ngẫu LP dạng chuẩn bằng tay
+### Giải thích: Áp dụng Slater tinh chỉnh và suy dẫn đối ngẫu LP dạng chuẩn bằng tay
 
 Xét bài toán LP dạng chuẩn 2 biến:
 $$\min_{x \in \mathbb{R}^2} 3x_1 + 5x_2 \qquad \text{với } x_1 + 2x_2 = 4, \;\; x_1 \ge 0, \;\; x_2 \ge 0.$$

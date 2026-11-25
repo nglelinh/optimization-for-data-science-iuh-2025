@@ -12,14 +12,14 @@ lesson_type: optional
 
 Classical gradient-descent theory tells you that stepping past $$t > 2/L$$ causes immediate explosion. Yet if you measure the Hessian of a deep neural network during real training, something astonishing happens: the sharpness $$\lambda_{\max}(\nabla^2 f)$$ climbs *right up to* $$2/t$$ and hovers there for thousands of epochs without diverging! This lesson explores three major 2022–2026 breakthroughs—Edge of Stability, the Lion optimizer, and Schedule-Free SGD/AdamW—where empirical deep learning reshaped our understanding of first-order methods.
 
-## Background Knowledge Map: First-Order Optimization at the 2022–2026 Frontier
+## Key ideas: First-Order Optimization at the 2022–2026 Frontier
 
 1. **Edge of Stability (EoS)**: Cohen et al. showed that full-batch GD on neural nets undergoes *progressive sharpening* until $$\lambda_{\max}(\nabla^2 f(x_k)) \approx 2/t$$. Beyond that threshold, nonlinear third/fourth-order terms self-stabilize the oscillations while the loss continues to drop non-monotonically over long horizons—defying the quadratic $$L$$-smoothness picture.
 2. **Sign-Based Momentum (`Lion`)**: Discovered via symbolic program search (Chen et al., 2023), Lion tracks a single momentum buffer and updates weights via the elementwise `sign` of an interpolated momentum vector: $$x_{k+1} = x_k - t \operatorname{sign}\bigl(\beta_1 m_k + (1 - \beta_1) g_k\bigr)$$. Every parameter moves by the exact same magnitude $$t$$, cutting optimizer memory in half compared to AdamW.
 3. **Schedule-Free Optimization (Defazio et al., 2024)**: Instead of pre-committing to a cosine or linear learning-rate decay horizon $$T$$, Schedule-Free SGD/AdamW decouples the *iterates* (where gradients are evaluated via Polyak–Ruppert averaging interpolation) from the *solution sequence*, removing the stopping-time hyperparameter while matching tuned cosine schedules.
 4. **Why Classical Theory Still Anchors Modern Practice**: Even at the Edge of Stability, understanding $$2/L$$, momentum damping, and iterate averaging is the exact language needed to diagnose loss spikes, tune weight decay, and reason about step-size scaling.
 
-### Step-by-Step Worked Example (Read Slowly): Computing One Update of Lion vs. Vanilla Momentum
+### Worked example: Computing One Update of Lion vs. Vanilla Momentum
 
 Compare one update on a 2D weight vector $$x_0 = (1.0,\; 1.0)$$ with initial momentum $$m_0 = (0.2,\; -0.4)$$, current gradient $$g_1 = (0.01,\; -5.0)$$, learning rate $$t = 0.1$$, and $$\beta_1 = 0.9, \beta_2 = 0.99$$.
 

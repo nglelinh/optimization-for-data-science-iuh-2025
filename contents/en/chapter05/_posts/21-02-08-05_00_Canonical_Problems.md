@@ -11,14 +11,14 @@ lang: en
 
 Walk into an ER with a broken wrist and the triage doctor immediately classifies the fracture before ordering a cast—different injuries need different instruments. Convex optimization works the same way: instead of writing a bespoke algorithm for every new problem, practitioners classify models into a nested hierarchy of *canonical forms*—LP, QP, QCQP, SOCP, SDP, and general Conic Programs—each matched to battle-tested, polynomial-time solvers.
 
-## Background Knowledge Map: The Nested Hierarchy of Convex Programs
+## Key ideas: The Nested Hierarchy of Convex Programs
 
 1. **The Russian-Doll Inclusion Chain**: Every Linear Program (LP) is a special case of a Quadratic Program (QP), which is a special case of a Quadratically Constrained Quadratic Program (QCQP), which embeds into a Second-Order Cone Program (SOCP), which embeds into a Semidefinite Program (SDP), all unified under Conic Programming (CP): $$\mathrm{LP} \subset \mathrm{QP} \subset \mathrm{QCQP} \subset \mathrm{SOCP} \subset \mathrm{SDP} \subset \mathrm{CP}$$.
 2. **Expressiveness vs. Computational Cost**: Moving rightward in the hierarchy lets you model richer geometry (polyhedra $$\to$$ ellipsoids $$\to$$ Lorentz ice-cream cones $$\to$$ positive semidefinite matrices), at the price of heavier per-iteration linear algebra. Choosing the *simplest* canonical class that captures your problem can mean a 100× speedup.
 3. **Solver Specialization**: LP and QP solvers exploit sparse linear factorizations and active-set/simplex warm starts; SOCP and SDP solvers use primal–dual interior-point methods over self-concordant cone barriers (such as Clarabel, ECOS, or MOSEK).
 4. **Canonicalization Bridges Modeling and Solving**: Modeling frameworks like CVXPY automatically rewrite high-level mathematical expressions (like $$\|Ax - b\|_2 + \lambda\|x\|_1$$) into one of these standard cone classes so the user never has to hand-code barrier derivatives.
 
-### Step-by-Step Worked Example (Read Slowly): Classifying One Engineering Model Across the Hierarchy
+### Worked example: Classifying One Engineering Model Across the Hierarchy
 
 Suppose a portfolio manager chooses asset weights $$x \in \mathbb{R}^2$$ satisfying $$x_1 + x_2 = 1$$ and $$x_1, x_2 \ge 0$$, with expected return vector $$\mu = (0.08, 0.05)^T$$ and covariance matrix $$\Sigma = \begin{bmatrix} 0.04 & 0.01 \\ 0.01 & 0.02 \end{bmatrix}$$. Watch how changing a single risk term shifts the canonical class:
 

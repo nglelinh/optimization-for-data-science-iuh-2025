@@ -12,7 +12,7 @@ lang: vi
 
 Trước khi bước vào các ứng dụng thực chiến của Chương 21, bài học này tổng hợp lại trọn vẹn chuỗi tiến hóa bốn bước từ Chương 20 trên cùng một trang giấy: **Phương pháp đối ngẫu** $$\to$$ **Hàm Lagrange tăng cường** $$\to$$ **ADMM chuẩn** $$\to$$ **ADMM dạng chuẩn hóa (scaled form)**. Đặt bốn công thức cạnh nhau giúp bạn nhìn rõ từng mắt xích: mỗi thuật toán ra đời chính để khắc phục đúng một điểm yếu chí mạng của thuật toán đứng ngay trước nó.
 
-## Bản đồ kiến thức nền: Chuỗi tiến hóa 4 thế hệ của phương pháp đối ngẫu
+## Kiến thức cần nhớ: Chuỗi tiến hóa 4 thế hệ của phương pháp đối ngẫu
 
 Hãy đối chiếu nhanh bốn phương pháp để thấy rõ ranh giới sử dụng của từng thuật toán:
 
@@ -21,7 +21,7 @@ Hãy đối chiếu nhanh bốn phương pháp để thấy rõ ranh giới sử
 - **ADMM dạng chuẩn (Unscaled ADMM):** Chia biến thành hai khối $$Ax + Bz = c$$ và cập nhật luân phiên $$x \to z \to u$$, khôi phục tính phân rã đồng thời giữ trọn độ bền hội tụ với mọi $$\rho > 0$$.
 - **ADMM dạng chuẩn hóa (Scaled ADMM):** Đặt $$w = u / \rho$$ để gộp số hạng tuyến tính và bình phương vào duy nhất $$\frac{\rho}{2}\|Ax + Bz - c + w\|_2^2$$, giúp công thức cực ngắn gọn và dễ lập trình.
 
-### Khung giải thích (nên đọc chậm): Đối chiếu bằng số 1 bước ADMM chuẩn và ADMM chuẩn hóa trên cùng bài toán
+### Giải thích: Đối chiếu bằng số 1 bước ADMM chuẩn và ADMM chuẩn hóa trên cùng bài toán
 
 Xét bài toán $$\min_{x, z} \frac{1}{2}x^2 + \frac{1}{2}(z - 2)^2$$ với ràng buộc $$x - z = 0$$ (nghiệm chính xác $$x^\star = z^\star = 1$$). Chọn $$\rho = 2$$, khởi tạo $$z^{(0)} = 0$$ và $$u^{(0)} = 0$$ (nên $$w^{(0)} = u^{(0)} / 2 = 0$$):
 

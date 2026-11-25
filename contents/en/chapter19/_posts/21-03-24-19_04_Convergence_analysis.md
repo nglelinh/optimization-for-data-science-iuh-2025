@@ -11,14 +11,14 @@ lang: en
 
 At first glance, proving **quadratic local convergence** for a nonsmooth function $$f = g + h$$ seems impossible—after all, classical Newton's quadratic proof expands $$\nabla f(x^\star) = 0$$ in a Taylor series, and $$\nabla h(x^\star)$$ does not even exist! Lee, Sun, and Saunders (2014) cracked this cleanly with one masterstroke: rewrite the optimality condition as a fixed point of the **scaled proximal operator** $$x^\star = \operatorname{prox}_H(x^\star - H^{-1}\nabla g(x^\star))$$, and use its *non-expansiveness* to peel $$h$$ completely out of the error bound!
 
-## Background Knowledge Map: Anatomy of the Lee–Sun–Saunders Convergence Proof
+## Key ideas: Anatomy of the Lee–Sun–Saunders Convergence Proof
 
 - **Regularity Assumptions:** $$g$$ is $$m$$-strongly convex ($$mI \preceq \nabla^2 g(x) \preceq LI$$) with $$M$$-Lipschitz Hessian $$\|\nabla^2 g(x) - \nabla^2 g(y)\| \le M\|x - y\|$$, and $$\operatorname{prox}_H$$ is solved accurately.
 - **Global Convergence via Composite Backtracking:** Because $$v^{(k)}$$ satisfies $$\Delta_k \le -v_k^T H_k v_k \le -m\|v_k\|_2^2$$, backtracking always terminates with a uniformly bounded step size $$t_k \ge \min(1, \beta m / L)$$, forcing $$\|v_k\| \to 0$$ and therefore global convergence $$x^k \to x^\star$$ from any starting point.
 - **Non-Expansiveness Eliminates $$h$$:** Comparing $$x^{k+1} = \operatorname{prox}_{H_k}(x^k - H_k^{-1}\nabla g(x^k))$$ against the fixed point $$x^\star = \operatorname{prox}_{H_k}(x^\star - H_k^{-1}\nabla g(x^\star))$$ lets firm non-expansiveness in $$\|\cdot\|_{H_k}$$ cancel $$h$$ completely, leaving only the smooth Taylor remainder $$\|\nabla g(x^\star) - \nabla g(x^k) - H_k(x^\star - x^k)\| \le \frac{M}{2}\|x^k - x^\star\|^2$$!
 - **Exact Local Quadratic Rate:** Combining the non-expansiveness bound with $$mI \preceq H_k$$ yields $$\|x^{k+1} - x^\star\|_2 \le \frac{M}{2m}\sqrt{\frac{L}{m}}\|x^k - x^\star\|_2^2$$ (and $$\frac{M}{2m}\|x^k - x^\star\|_2^2$$ in 1D), matching unconstrained Newton's method despite the nonsmooth kink!
 
-### Step-by-Step Worked Example (Read Slowly): Verifying Local Quadratic Contraction Numerically
+### Worked example: Verifying Local Quadratic Contraction Numerically
 
 Return to $$f(x) = e^x - 4x + |x|$$ (exact optimum $$x^\star = \ln 3 \approx 1.0986123$$), starting inside the local quadratic basin at $$x^0 = 1.0$$ (error $$e_0 = |x^0 - x^\star| \approx 0.0986123$$).
 

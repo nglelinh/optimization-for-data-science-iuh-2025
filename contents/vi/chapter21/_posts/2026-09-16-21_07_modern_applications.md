@@ -14,7 +14,7 @@ redirect_from:
 
 Một trong những ý tưởng táo bạo và giàu sức sống nhất của thập kỷ qua trong xử lý ảnh tính toán là **Plug-and-Play ADMM (PnP-ADMM)**: trong thuật toán ADMM tách biến $$\min f(x) + g(z) \text{ s.t. } x = z$$, bước cập nhật $$z^{(k)} = \operatorname{prox}_{g, 1/\rho}(x^{(k)} + w^{(k-1)})$$ thực chất chính là một **bộ khử nhiễu Gaussian** với phương sai nhiễu $$\sigma^2 = 1/\rho$$! Vậy tại sao phải giới hạn mình ở những hàm điều chuẩn $$g(z)$$ viết tay bằng công thức toán học (như Total Variation) khi ta có thể "cắm thẳng" (plug-and-play) một mạng nơ-ron khử nhiễu học sâu hiện đại (như DnCNN hay Diffusion denoiser) vào đúng vị trí của $$\operatorname{prox}_g$$? Bài 21-07 mở ra cánh cửa ứng dụng ADMM giai đoạn 2022–2026 trong tạo ảnh tính toán, học liên kết và điều độ năng lượng.
 
-## Bản đồ kiến thức nền: Ba trụ cột ứng dụng ADMM hiện đại (2022–2026)
+## Kiến thức cần nhớ: Ba trụ cột ứng dụng ADMM hiện đại (2022–2026)
 
 Để thấy vì sao khuôn mẫu tách biến đơn giản từ năm 1975 vẫn là xương sống của nhiều hệ thống AI và kỹ thuật hiện đại, hãy điểm qua ba hướng triển khai nổi bật:
 
@@ -22,7 +22,7 @@ Một trong những ý tưởng táo bạo và giàu sức sống nhất của t
 - **Học liên kết không đồng nhất (Federated ADMM):** Kết hợp đồng thuận phân tán của bài 21-05 với các bước cập nhật SGD cục bộ trên thiết bị biên, dùng biến đối ngẫu để triệt tiêu độ lệch phân phối dữ liệu giữa các máy khách.
 - **Điều độ lưới điện trực tuyến (Online Distributed OPF):** Các vùng lưới điện tối ưu lịch phát điện cục bộ riêng tư và chỉ trao đổi công suất trên đường dây liên kết thông qua ADMM đồng thuận ở chu kỳ vài giây đến vài phút.
 
-### Khung giải thích (nên đọc chậm): Chạy tay 1 vòng PnP-ADMM khử mờ tín hiệu 2 điểm bằng bộ khử nhiễu thay cho $$\operatorname{prox}_g$$
+### Giải thích: Chạy tay 1 vòng PnP-ADMM khử mờ tín hiệu 2 điểm bằng bộ khử nhiễu thay cho $$\operatorname{prox}_g$$
 
 Giả sử ta đo được tín hiệu bị làm mờ 1 chiều $$y = 0.5 x_1 + 0.5 x_2 = 5$$ (chỉ có 1 phương trình cho 2 ẩn số $$(x_1, x_2)$$ nên bài toán ngược bị thiếu dữ kiện!). Ta chạy 1 vòng PnP-ADMM với $$\rho = 1$$, khởi tạo $$z^{(0)} = (0, 0)^T, w^{(0)} = (0, 0)^T$$, và dùng một bộ khử nhiễu $$D_\sigma$$ có tính làm mượt kéo hai điểm kề nhau lại gần trung bình của chúng (ví dụ $$D_\sigma(a, b) = (0.75a + 0.25b, \; 0.25a + 0.75b)$$):
 

@@ -13,7 +13,7 @@ Với hàm lồi khả vi, ma trận Hessian phải bán xác định dương th
 
 Bài học này thiết lập hai tiêu chuẩn vi phân cốt lõi để nhận diện hàm giả lồi khả vi.
 
-## Bản đồ kiến thức nền: Hình học vi phân của Hàm giả lồi
+## Kiến thức cần nhớ: Hình học vi phân của Hàm giả lồi
 
 - **Điều kiện bậc nhất:** Hàm khả vi $$f$$ trên miền lồi là giả lồi khi và chỉ khi:
   $$f(y) \le f(x) \implies \nabla f(x)^T (y - x) \le 0.$$
@@ -21,7 +21,7 @@ Bài học này thiết lập hai tiêu chuẩn vi phân cốt lõi để nhận
 - **Sự khác biệt tinh tế với hàm lồi:** Với hàm giả lồi, $$\nabla f(x^*) = 0$$ **không đủ** để suy ra $$x^*$$ là cực tiểu toàn cục (ví dụ $$f(x) = x^3$$ có $$f'(0) = 0$$ nhưng $$0$$ là điểm uốn, không phải cực tiểu!).
 - **Điều kiện bậc hai (trên siêu phẳng tiếp xúc mức):** Nếu $$f$$ giả lồi khả vi cấp 2 thì với mọi $$x$$ và mọi vector $$y$$ trực giao với gradient ($$\nabla f(x)^T y = 0$$), ta phải có $$y^T \nabla^2 f(x) y \ge 0$$ — Hessian chỉ có thể có tối đa **một** giá trị riêng âm (dọc theo phương gradient)!
 
-### Khung giải thích (nên đọc chậm): Kiểm tra điều kiện bậc nhất trên $$f(x) = x^3$$ và bác bỏ $$g(x) = -x^2$$
+### Giải thích: Kiểm tra điều kiện bậc nhất trên $$f(x) = x^3$$ và bác bỏ $$g(x) = -x^2$$
 
 Áp dụng trực tiếp tiêu chuẩn $$f(y) \le f(x) \implies f'(x)(y - x) \le 0$$:
 

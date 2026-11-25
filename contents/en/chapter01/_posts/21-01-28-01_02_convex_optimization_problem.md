@@ -12,14 +12,14 @@ lesson_type: required
 
 Most nonlinear optimization problems are treacherous: a solver can stop at a point that looks flat and locally optimal, yet a far better solution hides over the next ridge. Convex optimization eliminates that anxiety completely. When the objective and inequality constraints are convex and all equality constraints are affine, the geometry of the problem guarantees that *local optimality implies global optimality*.
 
-## Background Knowledge Map: What Makes an Optimization Problem Convex
+## Key ideas: What Makes an Optimization Problem Convex
 
 - **Convex Feasible Set:** Requires that for any two feasible solutions $$x, y$$, the entire line segment $$\theta x + (1 - \theta)y$$ ($$0 \le \theta \le 1$$) remains feasible—no holes, disconnected islands, or inward dents.
 - **Convex Objective & Inequality Constraints:** Both $$f_0(x)$$ and every $$f_i(x) \le 0$$ must satisfy Jensen's inequality $$f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y)$$.
 - **Affine Equality Constraints Only:** Equality constraints must be linear/affine ($$a_j^T x = b_j$$), because a nonlinear equality like $$x_1^2 + x_2^2 = 1$$ (a hollow circle) is nonconvex even though $$x_1^2 + x_2^2$$ is convex!
 - **Global Optimality Theorem:** If $$x^*$$ is locally optimal for a convex problem, any strictly better point $$y$$ would pull the line segment toward $$x^*$$ strictly downhill inside the neighborhood of $$x^*$$—a contradiction.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying Convexity and Solving Analytically
+### Worked example: Verifying Convexity and Solving Analytically
 
 Consider:
 $$\min_{x_1, x_2} \; f_0(x_1, x_2) = x_1^2 + 2x_2^2 \quad \text{s.t.} \quad x_1^2 + x_2^2 \le 10, \quad x_1 + x_2 = 3.$$

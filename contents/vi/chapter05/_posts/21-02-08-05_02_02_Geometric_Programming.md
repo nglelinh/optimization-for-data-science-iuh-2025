@@ -13,7 +13,7 @@ Khi thiết kế một vi mạch điện tử hay một cánh máy bay, kỹ sư
 
 Thế nhưng vào những năm 1960, Duffin, Peterson và Zener phát hiện ra một lớp bài toán kỳ diệu mang tên **Quy hoạch Hình học (Geometric Programming - GP)**: miễn là mọi biến đều dương ($$x_i > 0$$), các ràng buộc bất đẳng thức là **đa thức dương (posynomial)** và các ràng buộc đẳng thức là **đơn thức dương (monomial)**, thì chỉ qua phép đổi biến logarit $$y_i = \log x_i$$, toàn bộ bài toán lập tức biến hình thành một bài toán tối ưu hóa lồi trơn tru giải được đến độ chính xác tuyệt đối!
 
-## Bản đồ kiến thức nền: Từ đơn thức dương đến bài toán lồi Log-Sum-Exp
+## Kiến thức cần nhớ: Từ đơn thức dương đến bài toán lồi Log-Sum-Exp
 
 Ba trụ cột dưới đây giải mã trọn vẹn cấu trúc của Quy hoạch Hình học:
 
@@ -23,7 +23,7 @@ Ba trụ cột dưới đây giải mã trọn vẹn cấu trúc của Quy hoạ
   - Ràng buộc bất đẳng thức đa thức dương $$\sum_k c_k x^{a_k} \le 1$$ thành **bất đẳng thức log-sum-exp** $$\log\left(\sum_k e^{a_k^T y + b_k}\right) \le 0$$ — luôn lồi!
 - **Tại sao đẳng thức phải là Monomial chứ không được là Posynomial?** Vì $$\log$$ của một tổng hàm mũ (log-sum-exp) là hàm lồi phi affine, nên nếu đặt dấu `=` thì ràng buộc đẳng thức sẽ mất tính lồi!
 
-### Khung giải thích (nên đọc chậm): Thiết kế hộp chữ nhật thể tích lớn nhất bằng Quy hoạch Hình học
+### Giải thích: Thiết kế hộp chữ nhật thể tích lớn nhất bằng Quy hoạch Hình học
 
 Tìm kích thước dương $$(w, h, d) > 0$$ của một chiếc hộp không nắp có diện tích mặt đáy và mặt bên giới hạn:
 $$\max_{w, h, d > 0} \; w \cdot h \cdot d \quad \text{thỏa mãn} \quad w d + 2 w h + 2 h d \le 12.$$

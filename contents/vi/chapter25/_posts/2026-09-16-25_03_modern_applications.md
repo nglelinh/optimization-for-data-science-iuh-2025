@@ -14,7 +14,7 @@ Nếu bạn nghĩ rằng mặt phẳng cắt và mã hóa big-$$M$$ chỉ thuộ
 
 Các phương pháp tấn công thử-sai (như PGD attack) chỉ có thể tìm ra lỗi chứ không bao giờ *chứng nhận* được sự an toàn. Ngược lại, vì mỗi nút ReLU $$\max(0, a)$$ là một hàm tuyến tính từng khúc hai nhánh, toàn bộ mạng ReLU có thể được mã hóa chính xác thành một **bài toán MILP** — biến công cụ Chương 25 thành chiếc chìa khóa cho cả kiểm chứng độ bền vững mạng nơ-ron, chọn đặc trưng đầu vào, lẫn xây dựng cây quyết định tối ưu!
 
-## Bản đồ kiến thức nền: Bốn nhánh ứng dụng mũi nhọn của MIP trong Khoa học Dữ liệu
+## Kiến thức cần nhớ: Bốn nhánh ứng dụng mũi nhọn của MIP trong Khoa học Dữ liệu
 
 Bài đọc này tổng kết bốn hướng giao thoa sôi động nhất giữa MIP và học máy giai đoạn 2019–2026:
 
@@ -23,7 +23,7 @@ Bài đọc này tổng kết bốn hướng giao thoa sôi động nhất giữ
 - **Cây quyết định tối ưu (Optimal Classification Trees — OCT):** Thay vì dựng cây tham lam từng nút một như CART (dễ rơi vào cực tiểu cục bộ), OCT tối ưu đồng thời *toàn bộ* cấu trúc cây có độ sâu cố định bằng MILP, đạt độ chính xác cao hơn mà vẫn giữ nguyên tính diễn giải trực quan.
 - **Học chọn mặt phẳng cắt (Learning to Cut):** Khi bộ giải sinh ra hàng trăm lát cắt ứng viên (Gomory, MIR) tại mỗi nút, mạng nơ-ron học tăng cường hoặc học bắt chước sẽ chọn ra đúng vài lát cắt sắc bén nhất để vừa siết chặt cận dưới vừa giữ bảng đơn hình thưa và nhanh.
 
-### Khung giải thích (nên đọc chậm): Mã hóa chính xác một nơ-ron ReLU bằng 4 bất đẳng thức tuyến tính
+### Giải thích: Mã hóa chính xác một nơ-ron ReLU bằng 4 bất đẳng thức tuyến tính
 
 Đây là viên gạch nền tảng của cả bài toán kiểm chứng mạng nơ-ron (Tjeng–Xiao–Tedrake, ICLR 2019) lẫn chọn đặc trưng cho mạng ReLU. Xét một nơ-ron $$h = \max(0, a)$$ trong đó đầu vào trước kích hoạt $$a = w^T x + b$$ đã được chặn chặt trong khoảng $$[l, u] = [-2,\; 3]$$ (với $$l < 0 < u$$).
 

@@ -11,14 +11,14 @@ lang: en
 
 Imagine measuring house sizes in square meters versus square millimeters in a regression model. If you run gradient descent, switching units stretches one axis by a factor of $$10^6$$ and completely ruins your step size and convergence speed. Run Newton's method, and the trajectory doesn't budge by a single millimeter—because Newton's method is **affine invariant**.
 
-## Background Knowledge Map: Why Coordinate Changes Cannot Fool Newton
+## Key ideas: Why Coordinate Changes Cannot Fool Newton
 
 - **Pillar 1 — Chain Rule for Gradient & Hessian:** Under $$x = Ay$$ ($$A$$ nonsingular) and $$g(y) = f(Ay)$$, the derivatives transform covariantly as $$\nabla g(y) = A^T \nabla f(x)$$ and $$\nabla^2 g(y) = A^T \nabla^2 f(x) A$$.
 - **Pillar 2 — Exact Cancellation of $$A^T$$:** Inverting the transformed Hessian gives $$(A^T \nabla^2 f(x) A)^{-1} = A^{-1} (\nabla^2 f(x))^{-1} (A^T)^{-1}$$. Multiplying by $$A^T \nabla f(x)$$ cancels $$(A^T)^{-1} A^T = I$$ cleanly!
 - **Pillar 3 — Trajectory Identity ($$x^+ = A y^+$$):** Multiplying $$y^+ = y - A^{-1}(\nabla^2 f(x))^{-1}\nabla f(x)$$ on the left by $$A$$ recovers $$x^+ = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$ identically.
 - **Pillar 4 — Contrast with Gradient Descent:** In $$x$$-coordinates, gradient descent on $$g(y)$$ maps to $$x^+ = x - t A A^T \nabla f(x)$$. Unless $$A$$ is orthogonal ($$A A^T = I$$), changing coordinates warps the descent direction!
 
-### Step-by-Step Worked Example (Read Slowly): Comparing Newton and GD Under a Non-Orthogonal Change of Basis
+### Worked example: Comparing Newton and GD Under a Non-Orthogonal Change of Basis
 
 Let $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + x_2^2)$$ (perfectly circular) and apply the shear/scaling transformation $$A = \begin{bmatrix} 2 & 0 \\ 0 & 1/2 \end{bmatrix}$$, so $$x = Ay = (2y_1, \frac{1}{2}y_2)^T$$ and $$g(y) = f(Ay) = 2y_1^2 + \frac{1}{8}y_2^2$$. Start at $$x^{(0)} = (2, 2)^T$$, which corresponds to $$y^{(0)} = A^{-1}x^{(0)} = (1, 4)^T$$.
 

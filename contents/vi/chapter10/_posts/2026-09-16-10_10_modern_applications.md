@@ -14,14 +14,14 @@ Nếu có ai hỏi *"Học biến đối ngẫu và giá bóng LP để làm gì
 
 Bài đọc tổng kết ứng dụng cuối chương này kết nối trực tiếp lý thuyết đối ngẫu LP của Chương 10 với bốn lĩnh vực mũi nhọn giai đoạn 2022–2026: kiểm chứng mạng nơ-ron, thị trường năng lượng, thuật toán luồng đồ thị tốc độ gần tuyến tính và vận chuyển tối ưu — giúp bạn nhìn thấy tư duy Primal–Dual đang vận hành thế giới thực như thế nào.
 
-## Bản đồ kiến thức nền: Bốn góc nhìn công nghiệp về sức mạnh của đối ngẫu LP
+## Kiến thức cần nhớ: Bốn góc nhìn công nghiệp về sức mạnh của đối ngẫu LP
 
 - **Giá bóng trong kinh tế năng lượng (Market Clearing & Shadow Pricing):** Nghiệm đối ngẫu của ràng buộc $$\sum_g p_g = D$$ đo chính xác chi phí biên để cung cấp thêm 1 MWh điện; khi đường dây truyền tải bị nghẽn (ràng buộc bất đẳng thức chặt), biến đối ngẫu của đường dây trở nên dương và tạo ra chênh lệch giá giữa hai vùng!
 - **Chứng chỉ an toàn không cần giải chính xác (Dual Bounds in AI Safety):** Trong bài toán kiểm chứng độ bền vững mạng nơ-ron, bất kỳ điểm khả thi nào của bài toán đối ngẫu LP đều là một cận dưới toán học hợp lệ, cho phép chứng nhận an toàn nhanh gấp hàng nghìn lần giải Primal LP.
 - **Đối ngẫu Kantorovich trong học máy phân phối (Optimal Transport):** Thay vì giải LP có $$n^2$$ biến vận chuyển giữa hai đám mây điểm cỡ $$n$$, bài toán đối ngẫu chỉ có $$2n$$ biến thế năng (potentials), giúp tính khoảng cách Wasserstein khả thi trên tập dữ liệu lớn.
 - **Thuật toán luồng đồ thị thế hệ mới:** Các bước tiến gần tuyến tính sau 2022 cho bài toán Max Flow / Min-Cost Flow đều khai thác cấu trúc cây khung và phép cập nhật song hành trên cả biến luồng gốc lẫn thế năng đỉnh đối ngẫu.
 
-### Khung giải thích (nên đọc chậm): Tính tay giá điện biên (giá bóng đối ngẫu) cho hệ thống 2 nhà máy
+### Giải thích: Tính tay giá điện biên (giá bóng đối ngẫu) cho hệ thống 2 nhà máy
 
 Giả sử lưới điện cần đáp ứng phụ tải $$D = 130$$ MWh bằng 2 nhà máy phát điện:
 - Nhà máy 1 (thủy điện): công suất tối đa $$100$$ MWh, chi phí phát $$20$$ USD/MWh.

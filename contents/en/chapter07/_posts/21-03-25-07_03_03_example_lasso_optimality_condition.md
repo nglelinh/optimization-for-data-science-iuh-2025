@@ -11,7 +11,7 @@ lang: en
 
 Why does Lasso regression—introduced by Robert Tibshirani in 1996—automatically zero out irrelevant features while Ridge regression keeps every feature nonzero? The secret isn't heuristic magic; it sits right inside the subgradient optimality condition $$0 \in \partial\bigl(\frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\beta\|_1\bigr)$$, which turns feature selection into a crisp correlation threshold between each predictor column $$X_j$$ and the residual $$y - X\beta$$!
 
-## Background Knowledge Map: Subgradient Anatomy of the Lasso
+## Key ideas: Subgradient Anatomy of the Lasso
 
 1. **Decomposing the Lasso Objective**: $$F(\beta) = \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\beta\|_1$$ sums a smooth quadratic data-fit term (gradient $$-X^T(y - X\beta)$$) and a nonsmooth separable $$\ell_1$$ penalty (subdifferential $$\lambda v$$ where $$v_j = \operatorname{sign}(\beta_j)$$ if $$\beta_j \neq 0$$, and $$v_j \in [-1, 1]$$ if $$\beta_j = 0$$).
 2. **Coordinate-Wise Optimality (The Correlation Law)**: Setting $$0 \in -X^T(y - X\beta) + \lambda v$$ gives, for every feature $$j = 1, \dots, p$$:
@@ -20,7 +20,7 @@ Why does Lasso regression—introduced by Robert Tibshirani in 1996—automatica
 3. **The Critical Regularization Threshold $$\lambda_{\max}$$**: Plugging $$\beta^\star = 0$$ into the condition shows that **all** coefficients are zero if and only if $$\lambda \ge \lambda_{\max} = \|X^T y\|_\infty = \max_j |X_j^T y|$$.
 4. **Equicorrelation & Active Set**: Every selected (nonzero) feature has the exact same absolute inner product $$\lambda$$ with the final residual—the geometric foundation of LARS and coordinate-descent Lasso solvers (like `glmnet`).
 
-### Step-by-Step Worked Example (Read Slowly): Checking Lasso Optimality and Finding $$\lambda_{\max}$$
+### Worked example: Checking Lasso Optimality and Finding $$\lambda_{\max}$$
 
 Consider a 2-feature Lasso problem with orthogonal columns:
 $$X = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}, \qquad y = \begin{bmatrix} 5 \\ 1 \end{bmatrix}, \qquad \lambda = 2.$$

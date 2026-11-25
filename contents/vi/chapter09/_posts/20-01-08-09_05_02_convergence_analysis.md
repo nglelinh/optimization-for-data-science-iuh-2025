@@ -13,7 +13,7 @@ Trong giải tích thuật toán, bước nhảy từ $$O(1/k)$$ sang $$O(1/k^2)
 
 Điểm đáng chiêm ngưỡng nhất về mặt lý thuyết là con số $$O(1/k^2)$$ này **khớp chặt với cận dưới thông tin của Nemirovski–Yudin** cho toàn bộ lớp hàm lồi trơn $$L$$-Lipschitz! Nghĩa là không tồn tại bất kỳ thuật toán bậc nhất nào (chỉ dùng giá trị hàm, $$\nabla g$$ và $$\operatorname{prox}_h$$) có thể đạt tốc độ tốt hơn $$\Omega(1/k^2)$$ trong trường hợp xấu nhất trên không gian chiều cao.
 
-## Bản đồ kiến thức nền: Ba trụ cột của phân tích hội tụ tăng tốc $$O(1/k^2)$$
+## Kiến thức cần nhớ: Ba trụ cột của phân tích hội tụ tăng tốc $$O(1/k^2)$$
 
 - **Hàm thế năng Lyapunov (Estimate Sequence):** Khác với ISTA chỉ cần theo dõi $$f(x^{(k)}) - f^*$$ giảm đơn điệu, bản tăng tốc có thể làm $$f$$ tạm tăng ở một vài bước. Chứng minh vì thế theo dõi một *hàm năng lượng tổng hợp* kết hợp cả sai số hàm $$(k+1)^2(f(x^{(k)}) - f^*)$$ lẫn bình phương khoảng cách của điểm phụ tới $$x^*$$ — và chứng minh tổng năng lượng này không tăng theo $$k$$!
 - **So sánh hằng số đầu và hệ số tiệm cận:**
@@ -22,7 +22,7 @@ Trong giải tích thuật toán, bước nhảy từ $$O(1/k)$$ sang $$O(1/k^2)
   Ở $$k = 1$$ hai cận gần ngang nhau, nhưng ngay từ $$k \ge 4$$ tử số lớn gấp 4 lần đã bị mẫu số $$(k+1)^2$$ đè bẹp hoàn toàn!
 - **Tìm kiếm đường thẳng lùi với bước không tăng:** Khi dùng backtracking cho phương pháp tăng tốc, ta kiểm tra điều kiện chặn trên parabol của $$g$$ tại điểm ngoại suy $$v^{(k)}$$ (thay vì $$x^{(k)}$$), và cần chú ý giữ dãy bước $$t_k$$ không tăng (hoặc điều chỉnh hệ số $$\theta_k$$ theo tỷ lệ $$t_k / t_{k-1}$$) để bảo toàn bất đẳng thức Lyapunov.
 
-### Khung giải thích (nên đọc chậm): Tính trực tiếp cận sai số của ISTA và Tăng tốc theo số vòng lặp $$k$$
+### Giải thích: Tính trực tiếp cận sai số của ISTA và Tăng tốc theo số vòng lặp $$k$$
 
 Giả sử bài toán có $$L = 2$$ và khoảng cách khởi điểm $$\|x^{(0)} - x^*\|_2 = 5$$ (nên $$L\|x^{(0)} - x^*\|_2^2 = 2 \times 25 = 50$$). Với bước $$t = 1/L = 0.5$$:
 - Cận ISTA: $$B_{\text{ISTA}}(k) = \frac{50}{2k} = \frac{25}{k}$$.

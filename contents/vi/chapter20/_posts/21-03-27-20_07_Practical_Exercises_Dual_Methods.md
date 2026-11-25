@@ -14,7 +14,7 @@ redirect_from:
 
 Để làm chủ hoàn toàn nhóm phương pháp đối ngẫu — từ phân rã song song (Dual Decomposition), hàm Lagrange tăng cường (Augmented Lagrangian) cho đến ADMM — không có cách nào hiệu quả hơn việc tự tay viết hàm Lagrange, tách các khối biến, tính phần dư ràng buộc và chạy thử một vài vòng lặp để tận mắt thấy nhân tử Lagrange tự điều chỉnh như thế nào. Bộ bài tập thực hành dưới đây tổng hợp các dạng bài kinh điển từ Bertsekas (1999) và Boyd et al. (2011).
 
-## Bản đồ kiến thức nền: Bốn quy tắc kiểm chứng khi giải bài tập Chương 20
+## Kiến thức cần nhớ: Bốn quy tắc kiểm chứng khi giải bài tập Chương 20
 
 Trước khi bước vào từng bài tập bên dưới, hãy giữ sẵn bốn nguyên tắc kiểm tra nhanh để không bao giờ bị nhầm dấu nhân tử:
 
@@ -23,7 +23,7 @@ Trước khi bước vào từng bài tập bên dưới, hãy giữ sẵn bốn
 - **Kiểm chứng điểm yên ngựa tại nghiệm tìm được:** Thay $$(x^\star, \nu^\star)$$ vào cả phương trình dừng $$\nabla_x L(x^\star, \nu^\star) = 0$$ lẫn ràng buộc $$Ax^\star = b$$, đồng thời kiểm tra $$f(x^\star) = g(\nu^\star)$$.
 - **So sánh độ nhạy tham số $$\rho$$:** Trong các bài tập lập trình Augmented Lagrangian và ADMM, thử chạy với $$\rho \in \{0.1, 1, 10\}$$ và vẽ biểu đồ $$\|r^{(k)}\|_2$$ cùng $$\|s^{(k)}\|_2$$ theo số vòng lặp để cảm nhận trực tiếp sự đánh đổi giữa phần dư gốc và phần dư đối ngẫu.
 
-### Khung giải thích (nên đọc chậm): Khởi động bằng phép kiểm tra điểm yên ngựa và dấu nhân tử Lagrange
+### Giải thích: Khởi động bằng phép kiểm tra điểm yên ngựa và dấu nhân tử Lagrange
 
 Xét bài toán nhỏ $$\min_{x_1, x_2} x_1^2 + x_2^2$$ với ràng buộc $$x_1 + 2x_2 = 5$$:
 

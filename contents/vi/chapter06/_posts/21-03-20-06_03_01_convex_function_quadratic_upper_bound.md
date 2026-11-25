@@ -13,7 +13,7 @@ Khi học Chương 03, ta đã quá quen với **cận dưới tuyến tính** c
 
 Chiếc trần ấy chính là **Cận trên bậc hai (Quadratic Upper Bound)** xuất phát từ điều kiện gradient liên tục Lipschitz với hằng số $$L$$. Nó khẳng định rằng tại mọi điểm $$x$$, nếu bạn úp một chiếc bát parabol có độ cong $$L$$ tiếp xúc với $$f$$ tại $$x$$, thì toàn bộ đồ thị của $$f$$ sẽ nằm gọn bên dưới chiếc bát ấy!
 
-## Bản đồ kiến thức nền: Sức mạnh của tính $$L$$-trơn ($$L$$-Smoothness)
+## Kiến thức cần nhớ: Sức mạnh của tính $$L$$-trơn ($$L$$-Smoothness)
 
 Ba trụ cột sau tóm tắt những đặc trưng tương đương quan trọng nhất của cận trên bậc hai:
 
@@ -25,7 +25,7 @@ Ba trụ cột sau tóm tắt những đặc trưng tương đương quan trọn
   $$f(x^+) \le f(x) - t\left(1 - \frac{Lt}{2}\right)\|\nabla f(x)\|_2^2.$$
   Chọn $$t = 1/L$$ làm cực đại hệ số $$t(1 - Lt/2)$$ và cho mức giảm bảo đảm tối thiểu $$\frac{1}{2L}\|\nabla f(x)\|_2^2$$!
 
-### Khung giải thích (nên đọc chậm): Tính hằng số $$L$$ và kiểm chứng cận trên bậc hai cho Hồi quy Logistic 1 biến
+### Giải thích: Tính hằng số $$L$$ và kiểm chứng cận trên bậc hai cho Hồi quy Logistic 1 biến
 
 Xét hàm mất mát logistic $$f(x) = \log(1 + e^x)$$ trên $$\mathbb{R}$$ (tương ứng 1 mẫu dữ liệu có $$a = 1, y = 0$$):
 

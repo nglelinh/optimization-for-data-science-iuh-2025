@@ -13,14 +13,14 @@ Trong phòng thí nghiệm học máy, có một biểu đồ quen thuộc đế
 
 Bài học này đặt hai phương pháp lên bàn cân thực chiến. Không có kẻ thắng tuyệt đối trong mọi chế độ: hiểu rõ thời điểm chuyển giao giữa "giai đoạn tiếp cận nhanh độ chính xác vừa" (vùng thống trị của stochastic) và "giai đoạn tinh chỉnh độ chính xác cao" (vùng ưu thế của batch) là kỹ năng cốt lõi giúp bạn chọn thuật toán — hoặc thiết kế chiến lược lai (tăng dần cỡ mini-batch theo thời gian).
 
-## Bản đồ kiến thức nền: Bốn tiêu chí đối chiếu Batch và Ngẫu nhiên
+## Kiến thức cần nhớ: Bốn tiêu chí đối chiếu Batch và Ngẫu nhiên
 
 - **Chi phí trên mỗi đơn vị giảm sai số ban đầu:** Khi còn xa nghiệm tối ưu, phương sai nhiễu nhỏ hơn rất nhiều so với tín hiệu hướng đi chung. Nhờ cập nhật $$m$$ lần trong thời gian batch cập nhật 1 lần, phương pháp ngẫu nhiên giảm sai số ban đầu nhanh vượt trội.
 - **Độ chính xác yêu cầu ($$\epsilon$$ vừa vs. $$\epsilon$$ cực nhỏ):** Trong học máy thống kê, sai số tổng quát hóa vốn đã bị giới hạn bởi nhiễu dữ liệu (ví dụ $$\epsilon \sim 10^{-2}$$ hay $$10^{-3}$$), nên ta hiếm khi cần tối ưu chính xác tới $$10^{-10}$$ — đó là lý do phương pháp ngẫu nhiên thống trị huấn luyện mô hình lớn. Ngược lại, trong tối ưu kỹ thuật hoặc bài toán ràng buộc chặt, độ chính xác cao lại cực kỳ quan trọng.
 - **Khả năng song song hóa phần cứng (Vectorization / GPU):** Phương pháp batch (và mini-batch lớn) tận dụng rất tốt phép nhân ma trận song song trên GPU/TPU, trong khi cập nhật từng mẫu $$B=1$$ mang tính tuần tự cao và lãng phí băng thông tính toán.
 - **Chiến lược lai (Growing Mini-batch & Variance Reduction):** Bắt đầu bằng mini-batch nhỏ để lao nhanh về vùng nghiệm, sau đó tăng dần cỡ lô (hoặc chuyển sang phương pháp giảm phương sai như SVRG/SAGA khi hàm trơn) giúp gặt hái ưu điểm của cả hai thế giới.
 
-### Khung giải thích (nên đọc chậm): Bảng tính tay so sánh ngân sách giữa Batch và Stochastic với $$m = 10{,}000$$
+### Giải thích: Bảng tính tay so sánh ngân sách giữa Batch và Stochastic với $$m = 10{,}000$$
 
 Giả sử ta có tập dữ liệu $$m = 10{,}000$$ mẫu với $$R = 1, G = 1$$. Quy đổi mọi chi phí về **số lượt tính $$g_i$$** (1 epoch = $$10{,}000$$ lượt tính).
 

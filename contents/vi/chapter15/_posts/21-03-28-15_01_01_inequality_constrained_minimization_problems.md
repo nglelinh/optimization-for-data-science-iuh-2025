@@ -13,13 +13,13 @@ Trước thế kỷ 20 cuối những năm 1980, nếu cần giải một bài t
 
 **Phương pháp điểm trong (Interior-Point Method)** tạo ra một cuộc cách mạng tư duy ngược hoàn toàn: thay vì men theo các góc nhọn ở vỏ ngoài, nó **đâm xuyên qua phần ruột (miền trong)** của tập khả thi! Để làm được điều đó, bài học này bắt đầu bằng việc phát biểu chuẩn bài toán tối ưu lồi có cả ràng buộc đẳng thức lẫn bất đẳng thức và chuyển hóa nó sang bài toán chỉ có ràng buộc đẳng thức thông qua hàm chỉ thị.
 
-## Bản đồ kiến thức nền: Bối cảnh bài toán chuẩn và điều kiện cần của phương pháp điểm trong
+## Kiến thức cần nhớ: Bối cảnh bài toán chuẩn và điều kiện cần của phương pháp điểm trong
 
 - **Dạng chuẩn bài toán tối ưu lồi trơn:** $$\min_x f(x)$$ thỏa $$Ax = b$$ và $$h_i(x) \le 0$$ ($$i = 1, \dots, m$$), trong đó $$f, h_1, \dots, h_m$$ lồi và khả vi hai lần liên tục.
 - **Điều kiện khả thi chặt (Slater's Condition):** Phải tồn tại ít nhất một điểm $$x$$ nằm hoàn toàn bên trong miền ràng buộc bất đẳng thức ($$h_i(x) < 0$$ với mọi $$i$$ và $$Ax = b$$). Điều này vừa đảm bảo miền trong khác rỗng cho phương pháp điểm trong, vừa đảm bảo **đối ngẫu mạnh** và tồn tại nghiệm KKT!
 - **Hàm chỉ thị $$I_-(u)$$ như bước đệm khái niệm:** Viết lại ràng buộc $$h_i(x) \le 0$$ bằng cách cộng $$\sum I_-(h_i(x))$$ vào $$f(x)$$ xóa sạch ràng buộc bất đẳng thức về mặt hình thức, mở đường cho bước thay $$I_-$$ bằng hàm chắn trơn ở bài tiếp theo.
 
-### Khung giải thích (nên đọc chậm): Phân biệt miền khả thi, biên và miền trong chặt trên một đa giác nhỏ
+### Giải thích: Phân biệt miền khả thi, biên và miền trong chặt trên một đa giác nhỏ
 
 Xét bài toán trên $$\mathbb{R}^2$$ với 3 ràng buộc bất đẳng thức:
 $$h_1(x) = -x_1 \le 0, \qquad h_2(x) = -x_2 \le 0, \qquad h_3(x) = x_1 + x_2 - 2 \le 0.$$

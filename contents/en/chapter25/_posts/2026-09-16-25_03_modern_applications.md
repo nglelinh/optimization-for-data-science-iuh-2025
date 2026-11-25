@@ -12,14 +12,14 @@ lesson_type: optional
 
 A decade ago, few ML researchers imagined running a Mixed Integer Linear Program *inside* deep learning workflows. Today, Chapter 25’s Branch-and-Cut machinery powers three flagship frontiers of trustworthy AI: exact sparse feature selection, **formal verification of ReLU neural networks** (proving mathematically that no $$\ell_\infty$$ adversarial perturbation can flip a classifier’s prediction), and **optimal decision trees** that outperform greedy CART/C4.5 splits with certified global optimality.
 
-## Background Knowledge Map: Where Branch-and-Cut Meets Modern Machine Learning
+## Key ideas: Where Branch-and-Cut Meets Modern Machine Learning
 
 - **Exact ReLU Verification via MILP:** Every ReLU neuron $$h = \max(0, w^\top x + b)$$ is piecewise linear with two regimes (active vs. inactive), encoded exactly by one binary variable $$z \in \{0, 1\}$$ and tight pre-activation bounds $$[l, u]$$. Maximizing an adversary’s margin over an $$\ell_\infty$$ ball certifies robustness with zero false negatives.
 - **Tight Bounds Drive Verification Speed:** In MILP neural verification, computing tight interval or Crown/alpha-beta-CROWN pre-activation bounds $$[l_j, u_j]$$ shrinks the triangle relaxation of each ReLU neuron—turning intractable verification into millisecond proofs.
 - **Optimal Classification Trees (OCT):** Unlike greedy CART, which locks in myopic top splits, encoding tree routing decisions as binary variables optimizes *all* splits jointly subject to depth and leaf-count budgets.
 - **Learning to Cut:** Just as ML4CO learns branching heuristics, modern solvers train neural policies to select *which* candidate Gomory and MIR cuts from the cut pool yield the largest dual bound lift per simplex pivot.
 
-### Step-by-Step Worked Example (Read Slowly): Exact MILP Encoding of One ReLU Neuron
+### Worked example: Exact MILP Encoding of One ReLU Neuron
 
 Suppose a ReLU neuron computes $$y = \max(0, z)$$ where the pre-activation input $$z$$ is known to lie in $$[l, u] = [-2, 4]$$. Introduce binary switch $$a \in \{0, 1\}$$ ($$a = 1$$ means active, $$a = 0$$ means inactive).
 

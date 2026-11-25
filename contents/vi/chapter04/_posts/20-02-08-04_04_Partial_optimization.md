@@ -9,11 +9,11 @@ categories:
 lang: vi
 ---
 
-Khi giải một câu đố nhiều tầng, chiến lược tự nhiên nhất của con người là "chia để trị": tạm coi một nhóm biến là cố định, tìm phương án tốt nhất cho nhóm biến còn lại, rồi thay kết quả đó ngược trở lại vào bài toán ban đầu. Trong đại số thông thường, phép thế này luôn hợp lệ; nhưng trong tối ưu hóa lồi, một câu hỏi sống còn hiện ra: *sau khi tối ưu hóa trước một phần biến, bài toán rút gọn có còn giữ được tính lồi hay không?*
+Khi giải một câu đố nhiều tầng, chiến lược tự nhiên nhất của con người là "chia để trị": tạm coi một nhóm biến là cố định, tìm phương án tốt nhất cho nhóm biến còn lại, rồi thay kết quả đó ngược trở lại vào bài toán ban đầu. Trong đại số thông thường, phép thế này luôn hợp lệ; nhưng trong tối ưu hóa lồi, một câu hỏi quan trọng hiện ra: *sau khi tối ưu hóa trước một phần biến, bài toán rút gọn có còn giữ được tính lồi hay không?*
 
 May mắn thay, định lý bảo toàn tính lồi qua phép lấy cực tiểu từng phần trả lời là **CÓ** — miễn là hàm gốc lồi *đồng thời* theo cả hai nhóm biến $$(x, y)$$ và miền của $$y$$ là lồi. Phép biến đổi tưởng chừng đơn giản này chính là cây cầu biến đổi bài toán SVM biên mềm kinh điển từ dạng có hàng nghìn biến phụ $$\xi_i$$ thành dạng không ràng buộc với **hàm mất mát bản lề (hinge loss)** quen thuộc trong mọi thư viện học máy hiện đại.
 
-## Bản đồ kiến thức nền: Cơ chế "rút gọn biến" mà vẫn bảo toàn tính lồi
+## Kiến thức cần nhớ: Cơ chế "rút gọn biến" mà vẫn bảo toàn tính lồi
 
 Ba trụ cột sau giải thích khi nào tối ưu hóa từng phần hoạt động và tại sao nó lại mạnh mẽ đến vậy:
 
@@ -21,7 +21,7 @@ Ba trụ cột sau giải thích khi nào tối ưu hóa từng phần hoạt đ
 - **Phép chiếu trên đồ thị (Epigraph Projection):** Hình học của $$g(x) = \inf_{y \in C} f(x, y)$$ cực kỳ trong sáng: tập trên đồ thị của $$g$$ chính là hình chiếu của tập trên đồ thị của $$f$$ (một tập lồi) xuống không gian của $$(x, t)$$. Vì phép chiếu tuyến tính bảo toàn tính lồi, $$g(x)$$ lập tức thừa hưởng tính lồi.
 - **Đánh đổi giữa "nhiều biến – hàm trơn" và "ít biến – hàm không trơn":** Khi bạn khử biến phụ $$\xi_i$$ trong SVM bằng tối ưu hóa từng phần, số biến giảm mạnh nhưng hàm mục tiêu chuyển từ hàm tuyến tính trơn thành hàm $$\max(0, \cdot)$$ không khả vi. Ngược lại, đọc công thức theo chiều ngược lại chính là cách "làm trơn" một hàm cực đại bằng cách thêm biến phụ!
 
-### Khung giải thích (nên đọc chậm): Tính tay hàm rút gọn $$g(x)$$ và kiểm chứng trên một ví dụ SVM mini
+### Giải thích: Tính tay hàm rút gọn $$g(x)$$ và kiểm chứng trên một ví dụ SVM mini
 
 Xét bài toán lồi đồng thời theo $$(w, \xi) \in \mathbb{R} \times \mathbb{R}$$:
 $$\min_{w, \xi} \; \frac{1}{2} w^2 + 2\xi \quad \text{thỏa mãn} \quad \xi \ge 0,\quad \xi \ge 1 - 2w.$$

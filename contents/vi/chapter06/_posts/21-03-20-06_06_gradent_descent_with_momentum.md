@@ -14,7 +14,7 @@ Hãy hình dung một hòn bi thép nặng lăn xuống một khe núi hẹp và
 
 Kết quả là một sự tăng tốc ngoạn mục: trên các hàm lồi mạnh có chỉ số điều kiện xấu $$\kappa = L/m$$, Momentum rút gọn số vòng lặp từ $$O(\kappa \log(1/\epsilon))$$ xuống còn $$O(\sqrt{\kappa} \log(1/\epsilon))$$ — hoàn toàn tương đương bước nhảy của tăng tốc Nesterov trên hàm bậc hai!
 
-## Bản đồ kiến thức nền: Vật lý và Đại số của Phương pháp Momentum
+## Kiến thức cần nhớ: Vật lý và Đại số của Phương pháp Momentum
 
 Ba trụ cột dưới đây giải mã trọn vẹn cách hệ số quán tính $$\beta$$ điều khiển quỹ đạo hội tụ:
 
@@ -28,7 +28,7 @@ Ba trụ cột dưới đây giải mã trọn vẹn cách hệ số quán tính
   $$\alpha^\star = \left(\frac{2}{\sqrt{L} + \sqrt{m}}\right)^2, \qquad \beta^\star = \left(\frac{\sqrt{L} - \sqrt{m}}{\sqrt{L} + \sqrt{m}}\right)^2 = \left(\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}\right)^2,$$
   đạt hệ số co mỗi bước là $$\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$$!
 
-### Khung giải thích (nên đọc chậm): Chạy tay 3 bước Momentum vs. GD thường trên thung lũng hẹp
+### Giải thích: Chạy tay 3 bước Momentum vs. GD thường trên thung lũng hẹp
 
 Xét hàm $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 9x_2^2)$$ ($$m = 1,\; L = 9,\; \kappa = 9$$).
 - Với **GD thường** dùng bước tối ưu $$t^\star = \frac{2}{9+1} = 0.2$$, hệ số co là $$\frac{9-1}{9+1} = 0.8$$.

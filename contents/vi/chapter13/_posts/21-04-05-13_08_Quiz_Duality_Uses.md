@@ -16,14 +16,14 @@ redirect_from:
 
 Bộ câu hỏi trắc nghiệm này được thiết kế như một bài kiểm tra phản xạ toán học toàn diện cho toàn bộ Chương 13 — từ tiêu chí dừng, chuẩn đối ngẫu, hàm liên hợp, đối ngẫu Lasso đến nón đối ngẫu và đối ngẫu kép. Trước khi bước vào phần câu hỏi, hãy dành vài phút rà lại bản đồ bốn nhóm bẫy thường gặp nhất.
 
-## Bản đồ kiến thức nền: Bốn nhóm phản xạ cốt lõi cần kiểm tra ở Chương 13
+## Kiến thức cần nhớ: Bốn nhóm phản xạ cốt lõi cần kiểm tra ở Chương 13
 
 - **Duality gap và điều kiện khôi phục nghiệm:** Nhớ rõ khoảng cách đối ngẫu $$f(x) - g(u, v)$$ chỉ là chặn trên hợp lệ khi $$x$$ khả thi nguyên thủy và $$(u, v)$$ khả thi đối ngẫu; còn để khôi phục duy nhất $$x^\star$$ từ $$L(x, u^\star, v^\star)$$ ta cần thêm điều kiện lồi chặt (hoặc kiểm tra lại tính khả thi).
 - **Cặp chuẩn đối ngẫu và liên hợp của chuẩn:** Thuộc lòng bảng tra cứu nhanh: $$\ell_p \leftrightarrow \ell_q$$ ($$1/p + 1/q = 1$$), chuẩn vết $$\leftrightarrow$$ chuẩn phổ, và liên hợp của bất kỳ chuẩn nào $$\|x\|$$ luôn là hàm chỉ thị của quả cầu đơn vị chuẩn đối ngẫu $$\|y\|_* \le 1$$.
 - **Dịch chuyển toán tử tuyến tính và đối ngẫu Lasso:** Nhớ quy tắc tách biến $$z = Ax$$ khiến ma trận chuyển vị $$A^T$$ nhảy sang hàm liên hợp bên kia, còn Lasso có đối ngẫu là bài toán chiếu lên khối đa diện $$\|X^T u\|_\infty \le \lambda$$.
 - **Nón đối ngẫu và đối ngẫu kép:** Phân biệt rõ nón tự đối ngẫu ($$\mathbb{R}_+^n, \mathcal{Q}_n, \mathbb{S}_+^n$$) với nón nhọn/tù tổng quát, và nhớ định lý $$(K^*)^* = K$$ chỉ đúng khi $$K$$ là nón lồi đóng.
 
-### Khung giải thích (nên đọc chậm): Giải mẫu một tình huống bẫy trắc nghiệm về tính duy nhất khi khôi phục $$x^\star$$
+### Giải thích: Giải mẫu một tình huống bẫy trắc nghiệm về tính duy nhất khi khôi phục $$x^\star$$
 
 **Tình huống:** Xét bài toán tuyến tính $$\min_{x \in \mathbb{R}} 0 \cdot x$$ với ràng buộc $$0 \le x \le 2$$ (hoặc $$\min_{x \in \mathbb{R}^2} x_1 + x_2$$ với $$x_1 + x_2 = 1, x_1 \ge 0, x_2 \ge 0$$). Giả sử ta đã có nghiệm đối ngẫu tối ưu $$v^\star = 1$$ cho bài toán thứ hai. Liệu mọi điểm cực tiểu của $$L(x, u^\star, v^\star)$$ có phải là $$x^\star$$ không?
 

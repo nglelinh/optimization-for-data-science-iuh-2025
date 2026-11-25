@@ -11,7 +11,7 @@ lang: en
 
 Every proof in smooth optimization hinges on one deceptively simple picture: if a function's slope cannot change faster than rate $$L$$, then at any point $$x$$ you can park an upward-opening parabola of curvature $$L$$ right on top of the graph—touching it at $$x$$ and staying *above* it everywhere else. That parabola is the **Quadratic Upper Bound** (also called the *Descent Lemma*), and minimizing it produces gradient descent with guaranteed progress.
 
-## Background Knowledge Map: The Descent Lemma and $$L$$-Smoothness
+## Key ideas: The Descent Lemma and $$L$$-Smoothness
 
 1. **Lipschitz Continuity of the Gradient**: A differentiable function $$f$$ is $$L$$-smooth if $$\|\nabla f(x) - \nabla f(y)\|_2 \le L\|x - y\|_2$$ for all $$x, y$$. When $$f$$ is twice differentiable, this is equivalent to $$\nabla^2 f(x) \preceq L I$$ everywhere (eigenvalues capped by $$L$$).
 2. **The Fundamental Quadratic Upper Bound**: Integrating the gradient difference along the line segment from $$x$$ to $$y$$ yields
@@ -22,7 +22,7 @@ Every proof in smooth optimization hinges on one deceptively simple picture: if 
    Choosing $$t = 1/L$$ maximizes the bracket $$t(1 - Lt/2)$$ to $$\frac{1}{2L}$$, yielding the iconic descent inequality $$f(x^+) \le f(x) - \frac{1}{2L}\|\nabla f(x)\|_2^2$$.
 4. **Co-coercivity Bonus under Convexity**: When $$f$$ is *both* convex and $$L$$-smooth, minimizing the upper bound over $$y$$ also implies $$\frac{1}{2L}\|\nabla f(x)\|_2^2 \le f(x) - f^\star$$, giving a direct bridge between gradient norms and suboptimality.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying the Quadratic Upper Bound for Logistic Loss
+### Worked example: Verifying the Quadratic Upper Bound for Logistic Loss
 
 Consider the 1D logistic loss $$f(x) = \ln(1 + e^{-x})$$. Let us compute its exact $$L$$-smoothness constant and verify the quadratic upper bound numerically at $$x = 0$$ and $$y = 2$$.
 

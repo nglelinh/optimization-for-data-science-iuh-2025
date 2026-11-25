@@ -11,14 +11,14 @@ lang: en
 
 The Euclidean norm $$f(x) = \|x\|_2$$ is the workhorse of geometry, group-Lasso regularization, and second-order cone programming—yet it carries a subtle twist: it is *not* differentiable at the origin $$x = 0$$, so a naive Hessian test alone cannot cover all of $$\mathbb{R}^n$$. Proving its convexity three distinct ways—directly via the triangle inequality, algebraically via Cauchy–Schwarz, and differentially via its rank-$$(n-1)$$ Hessian away from zero—builds deep intuition for nonsmooth convex functions.
 
-## Background Knowledge Map: Three Complementary Proofs of $$\|x\|_2$$ Convexity
+## Key ideas: Three Complementary Proofs of $$\|x\|_2$$ Convexity
 
 - **Triangle Inequality + Homogeneity (Cleanest):** In two lines, $$\|\theta x + (1-\theta)y\|_2 \le \|\theta x\|_2 + \|(1-\theta)y\|_2 = \theta\|x\|_2 + (1-\theta)\|y\|_2$$—working for *every* norm on $$\mathbb{R}^n$$ with zero calculus.
 - **Cauchy–Schwarz Expansion:** Squaring both sides of the triangle inequality reduces convexity of $$\|x\|_2$$ directly to $$x^T y \le \|x\|_2 \|y\|_2$$, revealing that equality holds only along nonnegative rays $$y = \alpha x$$.
 - **Hessian on $$\mathbb{R}^n \setminus \{0\}$$:** $$\nabla^2 \|x\|_2 = \frac{1}{\|x\|_2}\left(I - \frac{xx^T}{\|x\|_2^2}\right)$$ is a scaled orthogonal projection matrix onto $$x^\perp$$—positive semidefinite with eigenvalue $$0$$ along the radial ray $$x$$ and $$1/\|x\|_2$$ orthogonal to $$x$$.
 - **Nonsmooth Kink at $$0$$:** Because the cone tip at $$x = 0$$ is nondifferentiable, optimizing $$\|x\|_2$$ requires subgradients (the unit ball $$\|g\|_2 \le 1$$), foreshadowing nonsmooth optimization.
 
-### Step-by-Step Worked Example (Read Slowly): Inspecting the Hessian of $$\|x\|_2$$ at $$x = (3, 4)^T$$
+### Worked example: Inspecting the Hessian of $$\|x\|_2$$ at $$x = (3, 4)^T$$
 
 Evaluate the gradient and Hessian of $$f(x) = \|x\|_2$$ at $$x = (3, 4)^T$$ (where $$\|x\|_2 = 5$$).
 

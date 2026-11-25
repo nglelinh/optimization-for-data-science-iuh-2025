@@ -12,14 +12,14 @@ lesson_type: required
 
 For three years after Adam’s publication, practitioners noticed a puzzling empirical mystery: Adam trained faster than SGD+momentum on computer vision benchmarks, yet generalized noticeably worse—even with carefully tuned $$\ell_2$$ regularization. In 2017–2019, Ilya Loshchilov and Frank Hutter uncovered the culprit: inside Adam, $$\ell_2$$ regularization and weight decay are **not** equivalent! Adding $$\lambda w$$ inside the gradient gets divided by $$\sqrt{\hat{v}_t}$$, accidentally weakening regularization on weights with large historical gradients. Pulling weight decay *outside* the adaptive denominator gave birth to **AdamW**, the default optimizer of modern transformers.
 
-## Background Knowledge Map: Decoupled Weight Decay and Optimization Practice Knobs
+## Key ideas: Decoupled Weight Decay and Optimization Practice Knobs
 
 - **Why $$\ell_2$$ Regularization $$\ne$$ Weight Decay Under Adam:** In vanilla SGD, adding $$\frac{\lambda}{2}\|w\|_2^2$$ yields $$w_{t+1} = (1 - \eta \lambda) w_t - \eta g_t$$—identical to multiplicative weight decay. In Adam, adding $$\lambda w_t$$ to $$g_t$$ scales the decay by $$1 / (\sqrt{\hat{v}_t} + \varepsilon)$$, coupling regularization strength to gradient variance.
 - **AdamW (Decoupled Weight Decay):** Updates $$w_{t+1} = (1 - \eta_t \lambda) w_t - \eta_t \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \varepsilon}$$, restoring uniform multiplicative decay across all weights regardless of their gradient history (and typically excluding biases and LayerNorm gains).
 - **Warmup + Cosine Annealing:** Early in deep training, Adam’s second-moment estimate $$\hat{v}_t$$ has high variance and curvature is sharp; linear learning-rate warmup prevents early divergence, while cosine decay smoothly shrinks the stochastic noise ball at the end of training.
 - **Gradient Clipping & Mixed Precision:** Global norm clipping ($$\text{clip}(\|g\|_2 \le c)$$) caps rare outlier-batch spikes in nonconvex landscapes without changing step direction, making deep transformer runs stable under FP16/BF16 arithmetic.
 
-### Step-by-Step Worked Example (Read Slowly): Adam+L2 vs. AdamW on Two Weights with Different Gradient Scales
+### Worked example: Adam+L2 vs. AdamW on Two Weights with Different Gradient Scales
 
 Suppose two weights both sit at $$w_1 = w_2 = 1.0$$, with weight decay $$\lambda = 0.1$$, learning rate $$\eta = 0.1$$, and steady historical gradients $$g_1 = 0.01$$ (small-gradient coordinate) and $$g_2 = 10.0$$ (large-gradient coordinate), so $$\sqrt{\hat{v}_1} \approx 0.01$$ and $$\sqrt{\hat{v}_2} \approx 10.0$$.
 

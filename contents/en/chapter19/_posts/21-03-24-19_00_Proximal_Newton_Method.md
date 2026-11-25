@@ -11,14 +11,14 @@ lang: en
 
 Classical Newton's method is the Ferrari of smooth optimization—quadratic convergence, effortless immunity to ill-conditioning—until a single sharp corner like $$\lambda \|x\|_1$$ or a box constraint $$x \in C$$ enters the objective. Suddenly $$\nabla^2 f(x)$$ does not even exist at the solution! **Proximal Newton methods** rescue second-order speed for composite nonsmooth problems $$\min_x g(x) + h(x)$$ by applying a full Hessian quadratic model *only* to the smooth loss $$g$$ while keeping the nonsmooth regularizer $$h$$ intact inside the subproblem. That simple split powers modern workhorses from `glmnet` to graphical Lasso (`QUIC`).
 
-## Background Knowledge Map: Extending Second-Order Methods to Composite Objectives
+## Key ideas: Extending Second-Order Methods to Composite Objectives
 
 - **Composite Splitting ($$f = g + h$$):** Separating a twice-differentiable data-fidelity term $$g$$ from a simple convex nonsmooth term $$h$$ (such as $$\ell_1$$ sparsity or a set indicator $$I_C$$) lets us exploit second-order curvature where it exists without smoothing away the exact corners where sparsity lives.
 - **Scaled Proximal Operators ($$\operatorname{prox}_H$$):** Replacing the Euclidean metric $$\frac{1}{2t}\|x - z\|_2^2$$ of proximal gradient descent with the Hessian metric $$\frac{1}{2}\|x - z\|_H^2$$ generalizes the proximal map while preserving uniqueness and firm non-expansiveness in the $$H$$-norm.
 - **Outer Superlinear/Quadratic Speed vs. Inner Subproblem Cost:** Proximal Newton slashes outer gradient/Hessian evaluations from $$O(1/\epsilon)$$ to $$O(\log\log(1/\epsilon))$$, at the price of solving a composite quadratic subproblem (typically via fast coordinate descent or active-set methods) at each outer step.
 - **Quasi-Newton & Projected Variants:** When forming $$\nabla^2 g(x)$$ is too costly, BFGS-style approximations yield *proximal quasi-Newton* methods; when $$h = I_C$$ is a box indicator, Bertsekas's *projected Newton* method avoids the ascent trap of naive Euclidean projection.
 
-### Step-by-Step Worked Example (Read Slowly): Proximal Gradient vs. Proximal Newton in 2D
+### Worked example: Proximal Gradient vs. Proximal Newton in 2D
 
 Minimize the composite objective $$f(x) = g(x) + h(x)$$ with $$g(x) = \frac{1}{2}(x_1^2 + 10 x_2^2)$$ and $$h(x) = |x_1| + |x_2|$$ (exact optimum $$x^\star = (0, 0)^T$$), starting from $$x^0 = (5, 5)^T$$.
 

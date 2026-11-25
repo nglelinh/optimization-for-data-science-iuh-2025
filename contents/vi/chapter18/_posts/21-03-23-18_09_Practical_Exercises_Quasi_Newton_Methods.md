@@ -14,7 +14,7 @@ redirect_from:
 
 Để thực sự tin tưởng các công thức cập nhật ma trận phức tạp như SR1, DFP, BFGS hay vòng lặp hai chiều L-BFGS, không gì thay thế được việc tự tay tính thử từng ma trận $$2 \times 2$$, kiểm chứng phương trình secant bằng phép nhân trực tiếp và đối chiếu số vòng lặp của chúng trên các hàm kiểm chuẩn khét tiếng như thung lũng cong Rosenbrock. Bộ bài tập thực hành này giúp bạn biến các ký hiệu $$B_k, H_k, s_k, y_k$$ thành kỹ năng tính toán và lập trình sắc bén.
 
-## Bản đồ kiến thức nền: Bốn nguyên tắc kiểm tra chéo khi làm bài tập Quasi-Newton
+## Kiến thức cần nhớ: Bốn nguyên tắc kiểm tra chéo khi làm bài tập Quasi-Newton
 
 Trước khi giải từng bài tập tính tay và viết mã bên dưới, hãy giữ sẵn bốn phép kiểm chứng nhanh này như một "bộ công cụ gỡ lỗi":
 
@@ -23,7 +23,7 @@ Trước khi giải từng bài tập tính tay và viết mã bên dưới, hã
 - **Kiểm tra tính đối xứng và trị riêng dương:** Với ma trận $$2 \times 2$$ dạng $$\begin{bmatrix} a & b \\ b & c \end{bmatrix}$$, kiểm tra nhanh $$a > 0$$ và $$ac - b^2 > 0$$ là đủ khẳng định ma trận xác định dương.
 - **Đối chiếu L-BFGS với BFGS đầy đủ:** Khi lập trình L-BFGS, đặt lịch sử $$m$$ lớn hơn số vòng lặp chạy thử (và dùng cùng khởi tạo $$H_0 = I$$, tắt tỉ lệ động $$\gamma_k$$) thì hướng bước đi của L-BFGS phải trùng khớp tuyệt đối với BFGS đầy đủ tới sai số máy $$10^{-14}$$.
 
-### Khung giải thích (nên đọc chậm): Thử kiểm tra nhanh tính tương thích giữa $$B_1$$ và $$H_1$$ trên một ví dụ nhỏ
+### Giải thích: Thử kiểm tra nhanh tính tương thích giữa $$B_1$$ và $$H_1$$ trên một ví dụ nhỏ
 
 Giả sử trên hàm $$f(x_1, x_2) = 2x_1^2 + x_2^2$$, bạn đi từ $$x^0 = (1, 2)^T$$ tới $$x^1 = (0.5, 1)^T$$ với $$H_0 = I$$:
 

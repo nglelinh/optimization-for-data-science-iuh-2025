@@ -9,9 +9,9 @@ categories:
 lang: vi
 ---
 
-Vì ADMM không giải đồng thời hàm Lagrange tăng cường mà tách ra cập nhật luân phiên $$x$$ rồi $$z$$, câu hỏi sống còn mà mọi nhà toán học đều đặt ra là: *liệu sự "đi tắt" luân phiên đó có làm hỏng tính hội tụ hay đòi hỏi tham số phạt $$\rho$$ phải chọn thật khéo không?* Câu trả lời là một trong những tin vui lớn nhất của tối ưu hóa lồi: dưới những điều kiện cực kỳ nhẹ ($$f, g$$ lồi đóng chính quy và hàm Lagrange có điểm yên ngựa — **không cần $$f, g$$ khả vi, không cần lồi mạnh, thậm chí không cần $$A, B$$ có hạng đầy đủ**), ADMM đảm bảo hội tụ với **mọi $$\rho > 0$$**!
+Vì ADMM không giải đồng thời hàm Lagrange tăng cường mà tách ra cập nhật luân phiên $$x$$ rồi $$z$$, câu hỏi quan trọng mà mọi nhà toán học đều đặt ra là: *liệu sự "đi tắt" luân phiên đó có làm hỏng tính hội tụ hay đòi hỏi tham số phạt $$\rho$$ phải chọn thật khéo không?* Câu trả lời là một trong những tin vui lớn nhất của tối ưu hóa lồi: dưới những điều kiện cực kỳ nhẹ ($$f, g$$ lồi đóng chính quy và hàm Lagrange có điểm yên ngựa — **không cần $$f, g$$ khả vi, không cần lồi mạnh, thậm chí không cần $$A, B$$ có hạng đầy đủ**), ADMM đảm bảo hội tụ với **mọi $$\rho > 0$$**!
 
-## Bản đồ kiến thức nền: Ba tiêu chuẩn hội tụ và hai phần dư KKT của ADMM
+## Kiến thức cần nhớ: Ba tiêu chuẩn hội tụ và hai phần dư KKT của ADMM
 
 Để theo dõi và chẩn đoán hội tụ của ADMM khi lập trình thực tế, cần nắm vững ba khái niệm sau:
 
@@ -19,7 +19,7 @@ Vì ADMM không giải đồng thời hàm Lagrange tăng cường mà tách ra 
 - **Phần dư gốc và phần dư đối ngẫu làm tiêu chuẩn dừng:** Điều kiện KKT cho bài toán ADMM tách làm hai độ lệch đo được ngay ở mỗi vòng lặp: phần dư gốc $$r^{(k)} = Ax^{(k)} + Bz^{(k)} - c$$ và phần dư đối ngẫu $$s^{(k)} = \rho A^T B(z^{(k)} - z^{(k-1)})$$. Khi cả $$\|r^{(k)}\|_2$$ và $$\|s^{(k)}\|_2$$ đủ nhỏ, ta có chứng chỉ chặt cho độ gần nghiệm tối ưu!
 - **Nghịch lý tốc độ của ADMM và vai trò của $$\rho$$:** Dù hội tụ với mọi $$\rho > 0$$, tốc độ thực tế lại rất nhạy với $$\rho$$: $$\rho$$ quá lớn ép $$r^{(k)}$$ về $$0$$ nhanh nhưng làm $$s^{(k)}$$ chậm; $$\rho$$ quá nhỏ thì ngược lại. ADMM thường đạt độ chính xác trung bình ($$10^{-3}\text{–}10^{-4}$$) rất nhanh trong vài chục bước, nhưng để đạt $$10^{-10}$$ có thể chậm nếu không điều chỉnh $$\rho$$ thích nghi.
 
-### Khung giải thích (nên đọc chậm): Tính trực tiếp phần dư gốc $$r^{(k)}$$ và phần dư đối ngẫu $$s^{(k)}$$
+### Giải thích: Tính trực tiếp phần dư gốc $$r^{(k)}$$ và phần dư đối ngẫu $$s^{(k)}$$
 
 Quay lại bài toán $$x - z = 0$$ ($$A = 1, B = -1, c = 0, \rho = 1$$) ở bài 20-04-01. Giả sử qua ba vòng lặp liên tiếp ta thu được:
 

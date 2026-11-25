@@ -12,14 +12,14 @@ lesson_type: required
 
 Open the hood of almost any convex optimization solver—whether it is fitting a ridge regression, solving a portfolio linear program, or taking a Newton step in an interior-point method—and you will find the same workhorse engine: solving linear systems $$Ax = b$$ and analyzing symmetric matrices. Fluency in linear algebra turns multi-page coordinate sums into clean, geometric matrix equations whose behavior you can read at a glance.
 
-## Background Knowledge Map: Linear Algebra as Optimization Infrastructure
+## Key ideas: Linear Algebra as Optimization Infrastructure
 
 - **Vector Spaces, Norms & Inner Products:** Equip $$\mathbb{R}^n$$ with length, angles, and projections so we can measure residuals $$\|Ax - b\|_2$$ and enforce orthogonality conditions.
 - **Matrices as Linear Maps & Constraints:** Encode affine feasible sets $$\{x : Ax = b\}$$, feature designs, and Jacobians; rank and nullspace reveal whether solutions are unique or have free degrees of freedom.
 - **Eigenvalues & Positive Definiteness:** Diagonalize symmetric quadratic forms $$x^T Q x$$ into independent principal axes, certifying convexity ($$Q \succeq 0$$) and quantifying ill-conditioning ($$\kappa = \lambda_{\max}/\lambda_{\min}$$).
 - **Normal Equations & Projections:** Bridge geometry and algebra by showing that least-squares optimality means the residual $$b - Ax^*$$ is orthogonal to the column space of $$A$$.
 
-### Step-by-Step Worked Example (Read Slowly): Solving Least Squares via Normal Equations
+### Worked example: Solving Least Squares via Normal Equations
 
 Fit a line $$y \approx x_1 + x_2 t$$ to three data points $$(t, y) \in \{(0, 1), (1, 2), (2, 4)\}$$ by minimizing $$\|Ax - b\|_2^2$$ where
 

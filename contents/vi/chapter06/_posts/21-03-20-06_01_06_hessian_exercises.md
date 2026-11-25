@@ -16,7 +16,7 @@ Hiểu bằng mắt rằng $$1/t$$ đóng vai trò xấp xỉ Hessian là một 
 
 Bộ bài tập chuyên sâu này dẫn bạn đi từng bước từ chứng minh đại số quy tắc cập nhật GD, phân tích ảnh hưởng của độ cong địa phương đến từng tọa độ, cho đến việc thiết kế bước thích ứng theo đường chéo Hessian — tiền đề trực tiếp cho các thuật toán AdaGrad và Adam trong học sâu!
 
-## Bản đồ kiến thức nền: Bốn công cụ cần dùng để giải trọn bộ bài tập độ cong
+## Kiến thức cần nhớ: Bốn công cụ cần dùng để giải trọn bộ bài tập độ cong
 
 Trước khi bắt tay vào 5 bài tập bên dưới, hãy đặt sẵn bốn công thức trụ cột lên bàn:
 
@@ -25,7 +25,7 @@ Trước khi bắt tay vào 5 bài tập bên dưới, hãy đặt sẵn bốn c
 - **Tách biến theo từng tọa độ (Diagonal Preconditioning):** Nếu thay $$\frac{1}{t} I$$ bằng ma trận đường chéo $$D = \operatorname{diag}(1/t_1, \dots, 1/t_n)$$ khớp với từng phần tử đường chéo $$H_{ii}$$ của Hessian, ta thu được bước cập nhật riêng cho từng tọa độ $$x_i^+ = x_i - \frac{1}{H_{ii}} \frac{\partial f}{\partial x_i}$$.
 - **Liên hệ trực tiếp với Chuẩn hóa đặc trưng (Feature Scaling):** Trong học máy, chuẩn hóa các cột dữ liệu về cùng phương sai chính là cách giảm chỉ số điều kiện $$\kappa(X^T X)$$ từ hàng triệu xuống gần $$1$$, biến đường đồng mức ellipsoid dẹt thành hình tròn để GD đi thẳng vào tâm!
 
-### Khung giải thích (nên đọc chậm): Tính bước tối ưu và số vòng lặp theo chỉ số điều kiện $$\kappa$$
+### Giải thích: Tính bước tối ưu và số vòng lặp theo chỉ số điều kiện $$\kappa$$
 
 Xét hàm bậc hai $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 9x_2^2)$$ với $$Q = \operatorname{diag}(1, 9)$$.
 

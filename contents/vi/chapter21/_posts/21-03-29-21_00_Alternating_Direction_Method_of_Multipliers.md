@@ -11,7 +11,7 @@ lang: vi
 
 Nếu Chương 20 giống như việc tháo lắp để hiểu nguyên lý động cơ của ADMM, thì Chương 21 là lúc ta đưa cỗ máy đó ra đường đua thực tế! Từ hồi quy Lasso và Group Lasso trong thống kê nhiều chiều, phân rã ma trận thưa cộng hạng thấp (Robust PCA) trong thị giác máy tính, cho tới tối ưu đồng thuận phân tán trên cụm máy chủ và tái tham số hóa bài toán con cho Fused Lasso 2D — bạn sẽ thấy một bài học sâu sắc của nghệ thuật tối ưu hóa: **cùng một bài toán, chỉ cần khéo chọn cách tách biến cho ADMM, tốc độ hội tụ có thể tăng vọt hàng chục lần!**
 
-## Bản đồ kiến thức nền: Bốn chủ đề ứng dụng trọng tâm của Chương 21
+## Kiến thức cần nhớ: Bốn chủ đề ứng dụng trọng tâm của Chương 21
 
 Để định hướng rõ mạch nội dung xuyên suốt Chương 21, hãy nhìn bốn mảng ứng dụng tiêu biểu của ADMM:
 
@@ -20,7 +20,7 @@ Nếu Chương 20 giống như việc tháo lắp để hiểu nguyên lý độ
 - **Tối ưu phân tán đồng thuận (Consensus ADMM, 21-05):** Nhân bản biến cục bộ $$x_i = x$$ để mỗi nút dữ liệu giải bài toán con riêng hoàn toàn song song, rồi nút trung tâm chỉ việc lấy trung bình cộng.
 - **Nghệ thuật tham số hóa bài toán con (21-06):** Thay vì tách biến theo kiểu máy móc, thiết kế các ràng buộc tách biến sao cho bài toán con giải được trong thời gian tuyến tính $$O(n)$$ và các khối biến ít tương quan hơn giúp ADMM hội tụ nhanh vượt bậc.
 
-### Khung giải thích (nên đọc chậm): Bí quyết "phân tích Cholesky một lần" giúp ADMM giải Lasso cực nhanh
+### Giải thích: Bí quyết "phân tích Cholesky một lần" giúp ADMM giải Lasso cực nhanh
 
 Xét bài toán Lasso $$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\beta\|_1$$ với $$X \in \mathbb{R}^{n \times p}$$. Nếu tách biến $$\beta = \alpha$$ và chạy ADMM dạng có tỉ lệ với tham số $$\rho > 0$$:
 

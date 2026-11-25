@@ -13,7 +13,7 @@ lang: vi
 
 Mục 15-08 đưa phương pháp chắn lên tầm khái quát cao nhất của tối ưu lồi hiện đại nhờ định nghĩa **hàm chắn tự hài hòa với tham số $$\nu$$ ($$\nu$$-self-concordant barrier)** của Nesterov và Nemirovskii. Chỉ cần hàm chắn $$\phi$$ thỏa hai bất đẳng thức gọn nhẹ (tự hài hòa và bình phương Newton decrement $$\lambda_\phi(x)^2 \le \nu$$), toàn bộ định lý hội tụ thời gian đa thức $$O\bigl(\sqrt{\nu}\log(\nu/(\epsilon t^{(0)}))\bigr)$$ tự động áp dụng cho **mọi lớp bài toán lồi**: LP, QP, SOCP và SDP!
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép của Phương pháp chắn chính thức
+## Kiến thức cần nhớ: Bốn mảnh ghép của Phương pháp chắn chính thức
 
 - **Định nghĩa $$\nu$$-self-concordant barrier:** Hàm lồi $$\phi$$ trên miền mở $$D$$ thỏa hai điều kiện:
   1. $$\phi$$ là hàm tự hài hòa ($$\vert g'''(0) \vert \le 2(g''(0))^{3/2}$$ dọc mọi đường thẳng).
@@ -24,7 +24,7 @@ Mục 15-08 đưa phương pháp chắn lên tầm khái quát cao nhất của 
   - Nón ma trận nửa xác định dương $$\mathbb{S}_+^n$$ với $$\phi(X) = -\log\det X$$: $$\nu = n$$.
 - **Định lý độ phức tạp thời gian đa thức:** Với bước tăng ngắn $$\mu = 1 + \frac{c}{\sqrt{\nu}}$$, sau mỗi lần tăng $$t \leftarrow \mu t$$, chỉ cần đúng **1 bước Newton** để quay lại gần đường trung tâm, dẫn tới tổng số bước Newton là $$O\bigl(\sqrt{\nu}\log(\nu / (\epsilon t^{(0)}))\bigr)$$!
 
-### Khung giải thích (nên đọc chậm): Tính tay tham số $$\nu$$ cho hàm chắn logarit 2 biến $$\phi(x_1, x_2) = -\log x_1 - \log x_2$$
+### Giải thích: Tính tay tham số $$\nu$$ cho hàm chắn logarit 2 biến $$\phi(x_1, x_2) = -\log x_1 - \log x_2$$
 
 Ta kiểm chứng trực tiếp rằng $$\phi(x_1, x_2) = -\log x_1 - \log x_2$$ trên $$x_1 > 0, x_2 > 0$$ là một hàm chắn tự hài hòa với tham số $$\nu = 2$$ (tức $$m = 2$$):
 

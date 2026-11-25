@@ -11,14 +11,14 @@ lang: en
 
 When optimizing over symmetric matrices (as in covariance estimation, control theory, or quantum information), the objective or constraint map $$F(X)$$ itself outputs a *matrix* rather than a scalar. How do we define whether $$F(X) = X^2$$ is "convex" when comparing matrices? By replacing $$\le$$ in Jensen's inequality with the cone inequality $$\preceq_K$$—and the dual characterization shows that $$K$$-convexity holds if and only if every nonnegative scalar projection $$\lambda^T F(x)$$ ($$\lambda \succeq_{K^*} 0$$) is an ordinary scalar convex function.
 
-## Background Knowledge Map: Extending Convexity to Vector & Matrix Maps
+## Key ideas: Extending Convexity to Vector & Matrix Maps
 
 - **$$K$$-Monotonicity:** $$f: \mathbb{R}^n \to \mathbb{R}$$ is $$K$$-nondecreasing if $$x \preceq_K y \implies f(x) \le f(y)$$; for differentiable $$f$$, this holds iff $$\nabla f(x) \succeq_{K^*} 0$$ everywhere.
 - **$$K$$-Convexity:** A map $$f: \mathbb{R}^n \to \mathbb{R}^m$$ is $$K$$-convex (for proper cone $$K \subseteq \mathbb{R}^m$$) iff $$f(\theta x + (1-\theta)y) \preceq_K \theta f(x) + (1-\theta)f(y)$$.
 - **Dual Scalarization Test:** $$f$$ is $$K$$-convex iff for *every* $$\lambda \succeq_{K^*} 0$$, the scalar function $$\lambda^T f(x)$$ is convex—turning matrix-convexity proofs into routine scalar convexity checks!
 - **Matrix Convexity ($$\mathbb{S}_+^n$$-Convexity):** Lets us prove $$F(X) = X^2$$ and $$F(X) = X^{-1}$$ (on $$\mathbb{S}_{++}^n$$) are matrix-convex, unlocking Schur-complement LMI reformulations.
 
-### Step-by-Step Worked Example (Read Slowly): Proving $$F(X) = X^2$$ Is Matrix-Convex on $$\mathbb{S}^2$$
+### Worked example: Proving $$F(X) = X^2$$ Is Matrix-Convex on $$\mathbb{S}^2$$
 
 Verify that $$F(X) = X^2$$ is $$\mathbb{S}_+^2$$-convex on symmetric $$2 \times 2$$ matrices.
 

@@ -12,14 +12,14 @@ lesson_type: required
 
 Weak duality ($$g^\star \le f^\star$$) is free, but **strong duality** ($$g^\star = f^\star$$)—the guarantee that solving the dual gives the *exact* primal optimal value—is the crown jewel that makes dual solvers and KKT conditions work. Does convexity alone guarantee strong duality? Surprisingly, *no*! There exist tiny, smooth convex problems with a nonzero duality gap when the feasible set lacks an interior. **Slater's condition** fixes this with one breathtakingly simple geometric check: if the problem is convex and there exists even *one* strictly feasible point $$x$$ with $$h_i(x) < 0$$ (and $$l_j(x) = 0$$), strong duality holds!
 
-## Background Knowledge Map: When the Duality Gap Vanishes Completely
+## Key ideas: When the Duality Gap Vanishes Completely
 
 - **Pillar 1 — Convexity Is Necessary in General, Not Alone Sufficient:** Without a constraint qualification, the epigraph of the optimal-value function can have a vertical tangent at zero perturbation, preventing any finite Lagrange multiplier from supporting it and creating a nonzero gap even for convex problems.
 - **Pillar 2 — Slater's Condition (Strict Feasibility):** For a convex problem, if there exists $$x \in \operatorname{relint}(\mathcal{D})$$ such that $$h_i(x) < 0$$ for all *non-affine* inequality constraints and $$l_j(x) = 0$$ (plus affine inequalities $$h_k(x) \le 0$$ need not be strict!), then $$g^\star = f^\star$$ and the dual optimum is attained whenever $$f^\star > -\infty$$.
 - **Pillar 3 — Affine Refinement (Why LPs Need No Strict Interior):** Because linear inequalities need not be strictly satisfied in refined Slater's condition, every feasible linear program automatically satisfies strong duality without needing an interior point.
 - **Pillar 4 — SVM Dual & the Kernel Trick:** In Support Vector Machines, the primal is a convex QP with purely affine constraints ($$y_i(x_i^\top \beta + \beta_0) \ge 1 - \xi_i, \xi_i \ge 0$$). Slater's condition holds trivially (just pick $$\beta = 0, \beta_0 = 0, \xi_i = 2$$!), guaranteeing strong duality and letting us replace inner products $$x_i^\top x_j$$ with nonlinear kernels $$K(x_i, x_j)$$ in the dual!
 
-### Step-by-Step Worked Example (Read Slowly): Checking Slater's Condition on a Convex Problem (Pass vs. Fail)
+### Worked example: Checking Slater's Condition on a Convex Problem (Pass vs. Fail)
 
 1. **Example A — Slater's Condition Passes (Convex QCQP):**
    $$\min_{x \in \mathbb{R}^2}\; x_1 + x_2 \quad \text{s.t.} \quad x_1^2 + x_2^2 - 4 \le 0, \quad x_1 - x_2 = 0.$$

@@ -11,14 +11,14 @@ lang: en
 
 In 1947, George Dantzig faced an Air Force logistics planning problem so large that hand calculation was hopeless; his Simplex algorithm turned linear programming into an industrial revolution. Nearly forty years later, Narendra Karmarkar shocked the field by cutting straight through the *interior* of the feasible polytope instead of walking along its boundary edges, launching the interior-point era—and today, billion-variable machine learning models have sparked a third renaissance in first-order and stochastic methods.
 
-## Background Knowledge Map: Four Historical Eras of Convex Optimization
+## Key ideas: Four Historical Eras of Convex Optimization
 
 - **Theoretical Foundations (1900–1970):** Minkowski, Fenchel, von Neumann, Kuhn, Tucker, and Rockafellar established separating hyperplanes, conjugate duality, and KKT optimality conditions.
 - **The Simplex Breakthrough (1947–1970s):** Dantzig's Simplex method solved industrial LPs by pivoting between extreme vertices—blazingly fast in practice despite worst-case exponential vertex counts.
 - **Polynomial-Time & Interior-Point Revolution (1979–1994):** Khachiyan's ellipsoid method proved LP is in P, Karmarkar's projective method made interior-point solvers practical, and Nesterov & Nemirovski unified LP, QP, SOCP, and SDP via self-concordant barriers.
 - **Large-Scale First-Order Era (2000s–Present):** Accelerated gradients, proximal splitting, ADMM, and SGD traded interior-point's $$O(n^3)$$ linear algebra for cheap $$O(n)$$ iterations capable of training modern AI systems.
 
-### Step-by-Step Worked Example (Read Slowly): Simplex Boundary Walk vs. Interior-Point Philosophy
+### Worked example: Simplex Boundary Walk vs. Interior-Point Philosophy
 
 Consider the 2D linear program:
 $$\min_{x_1, x_2} \; -x_1 - 2x_2 \quad \text{s.t.} \quad x_1 \ge 0,\; x_2 \ge 0,\; x_1 + x_2 \le 4,\; x_2 \le 3.$$

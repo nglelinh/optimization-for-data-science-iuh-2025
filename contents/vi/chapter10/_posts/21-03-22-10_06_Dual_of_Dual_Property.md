@@ -15,13 +15,13 @@ Trong toán học, có những phép biến đổi "hai lần thì trở về ch
 
 Tại sao tính chất này lại quan trọng chứ không chỉ là một trò đố đại số? Bởi vì nó biến mọi định lý một chiều thành định lý hai chiều đối xứng hoàn toàn! Chẳng hạn, khi bạn biết "Primal khả thi và bị chặn $$\implies$$ Dual có nghiệm", nhờ tính đối hợp bạn suy ra ngay chiều ngược lại mà không cần chứng minh thêm dòng nào. Và trong thuật toán thực hành (như Dual Simplex), nếu bài toán gốc có ít biến nhưng cả triệu ràng buộc, ta chỉ việc giải bài toán đối ngẫu có ít ràng buộc rồi chuyển ngược về nghiệm gốc mà không lo mất thông tin.
 
-## Bản đồ kiến thức nền: Ba trụ cột của tính chất đối ngẫu kép trong LP
+## Kiến thức cần nhớ: Ba trụ cột của tính chất đối ngẫu kép trong LP
 
 - **Chuẩn hóa bài toán đối ngẫu về dạng cực tiểu:** Bài toán đối ngẫu sinh ra ở dạng $$\max$$ với ràng buộc $$\le$$ hoặc $$=$$. Để áp dụng lại đúng cùng một quy tắc lấy đối ngẫu, ta đổi $$\max f \leftrightarrow -\min(-f)$$ và đổi chiều mọi ràng buộc $$\ge$$ sang $$\le$$ bằng cách nhân $$-1$$.
 - **Phép chuyển vị kép và bảo toàn dấu biến:** Ma trận ràng buộc bị chuyển vị hai lần $$(A^T)^T = A$$ nên cấu trúc hệ số quay lại y nguyên; biến đối ngẫu không âm $$v \ge 0$$ tạo ra ràng buộc bất đẳng thức, rồi bất đẳng thức ấy lại sinh ra biến không âm (hoặc biến tự do tạo ràng buộc đẳng thức rồi đẳng thức lại tạo biến tự do).
 - **Đối xứng toàn diện trong bảng phân loại 4 trạng thái LP:** Nhờ tính đối hợp, cặp Primal–Dual chỉ có thể rơi vào 4 tổ hợp hợp lệ: (1) Cả hai tối ưu với $$p^* = d^*$$; (2) Primal không bị chặn và Dual vô nghiệm; (3) Dual không bị chặn và Primal vô nghiệm; (4) Cả hai đều vô nghiệm. (Không bao giờ có chuyện một bên tối ưu hữu hạn mà bên kia vô nghiệm!)
 
-### Khung giải thích (nên đọc chậm): Thực hiện tay hai lần lấy đối ngẫu trên một LP 2 biến
+### Giải thích: Thực hiện tay hai lần lấy đối ngẫu trên một LP 2 biến
 
 Xét bài toán gốc **(P)**:
 $$\min_{x_1, x_2} \; 2x_1 + 3x_2 \quad \text{s.t.} \quad x_1 + x_2 \ge 4, \quad x_1 \ge 0, \; x_2 \ge 0.$$

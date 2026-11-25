@@ -14,14 +14,14 @@ Nếu ai đó nghĩ rằng đối ngẫu Lagrange và liên hợp Fenchel chỉ 
 
 Bài đọc hiện đại này chỉ ra cách chính xác ba trụ cột của Chương 16 (Lagrange, KKT và Fenchel) đang giải quyết những bài toán nóng nhất của AI ngày nay.
 
-## Bản đồ kiến thức nền: Bốn cầu nối từ Đối ngẫu Chương 16 sang AI hiện đại (2022–2026)
+## Kiến thức cần nhớ: Bốn cầu nối từ Đối ngẫu Chương 16 sang AI hiện đại (2022–2026)
 
 - **Hàm mất mát Fenchel–Young:** Cho bất kỳ hàm lồi $$\Omega(p)$$ nào (như entropy âm hay bình phương $$\ell_2$$), định nghĩa $$L_\Omega(\theta; y) = \Omega^*(\theta) + \Omega(y) - \theta^T y \ge 0$$ nhờ bất đẳng thức Fenchel–Young! Khi $$\Omega$$ là entropy âm, $$L_\Omega$$ chính là **Cross-Entropy Loss** quen thuộc!
 - **RLHF và ràng buộc phân kỳ KL:** Bài toán cực đại hóa phần thưởng $$\mathbb{E}_\pi[r(x, y)]$$ dưới ràng buộc $$D_{\text{KL}}(\pi \| \pi_{\text{ref}}) \le \delta$$ khi đưa vào hàm Lagrange với nhân tử $$\beta > 0$$ cho ra nghiệm đóng **phân phối Boltzmann** $$\pi^*(y \mid x) \propto \pi_{\text{ref}}(y \mid x)\exp(r(x, y)/\beta)$$ — nền tảng của cả PPO-RLHF lẫn DPO!
 - **Vòng lặp nguyên thủy – đối ngẫu trong Safe RL:** Thay vì tự mò trọng số phạt an toàn cố định, thuật toán cập nhật chính sách $$\pi$$ (giảm cực tiểu Lagrange) xen kẽ với bước tăng/giảm nhân tử Lagrange $$\lambda \ge 0$$ (leo dốc đối ngẫu) cho đến khi tỷ lệ vi phạm an toàn tụt xuống dưới ngưỡng cho phép.
 - **Vận chuyển tối ưu (Optimal Transport):** Đối ngẫu Fenchel–Kantorovich chuyển bài toán tìm kế hoạch vận chuyển khối lượng xác suất thành bài toán tìm hai hàm thế năng đối ngẫu $$(\phi, \psi)$$ (nền tảng của Wasserstein GAN và khớp phân phối trong mô hình sinh).
 
-### Khung giải thích (nên đọc chậm): Tính tay nghiệm đóng RLHF (phân phối Boltzmann) từ điều kiện KKT
+### Giải thích: Tính tay nghiệm đóng RLHF (phân phối Boltzmann) từ điều kiện KKT
 
 Xét bài toán chọn phân phối hành động $$\pi = (\pi_1, \pi_2)$$ trên 2 câu trả lời ($$\pi_1 + \pi_2 = 1, \pi_i > 0$$) với phân phối tham chiếu đều $$\pi_{\text{ref}} = (0.5, 0.5)$$, điểm thưởng $$r = (2, 0)$$, và nhân tử Lagrange KL cố định $$\beta = 1$$:
 

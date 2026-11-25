@@ -12,14 +12,14 @@ lesson_type: optional
 
 Tuning a learning rate or regularization strength $$\lambda$$ by grid search works for 2 hyperparameters, not 20,000. What if we could differentiate the *validation loss* directly with respect to $$\lambda$$ and run gradient descent on the hyperparameters themselves? That is **bilevel optimization**: an outer loop minimizes $$L_{\text{val}}(w^\star(\lambda), \lambda)$$ where the inner weights $$w^\star(\lambda) = \arg\min_w L_{\text{train}}(w, \lambda)$$ are themselves the output of an optimization problem! Computing the **hypergradient** $$\frac{d L_{\text{val}}}{d\lambda}$$ via unrolling or the Implicit Function Theorem (IFT) unifies hyperparameter optimization, MAML meta-learning, and data valuation.
 
-## Background Knowledge Map: Bilevel Templates, Unrolling, and Implicit Differentiation
+## Key ideas: Bilevel Templates, Unrolling, and Implicit Differentiation
 
 - **The Nested Bilevel Template:** Outer problem $$\min_\lambda F(\lambda) = L_{\text{val}}(w^\star(\lambda), \lambda)$$ subject to $$w^\star(\lambda) = \arg\min_w L_{\text{train}}(w, \lambda)$$. By the chain rule, $$\frac{d F}{d\lambda} = \frac{\partial L_{\text{val}}}{\partial \lambda} + \left(\frac{\partial w^\star}{\partial \lambda}\right)^\top \frac{\partial L_{\text{val}}}{\partial w}$$.
 - **Method 1 — Unrolled Differentiation:** Replace $$w^\star(\lambda)$$ with $$K$$ steps of inner gradient descent $$w_K(\lambda)$$ and backpropagate through the entire $$K$$-step optimization loop. Simple to code in PyTorch/JAX, but memory scales as $$O(K \cdot d)$$ and gradients can vanish or explode for large $$K$$.
 - **Method 2 — Implicit Function Theorem (IFT):** Differentiating the inner optimality condition $$\nabla_w L_{\text{train}}(w^\star(\lambda), \lambda) = 0$$ with respect to $$\lambda$$ gives the exact linear system $$\nabla_{ww}^2 L_{\text{train}} \cdot \frac{\partial w^\star}{\partial \lambda} = -\nabla_{w\lambda}^2 L_{\text{train}}$$. Using reverse-mode adjoints + conjugate gradients (or truncated Neumann series) solves for the hypergradient in $$O(d)$$ memory—independent of $$K$$!
 - **Practical Trade-off:** Use unrolling when $$K$$ is tiny (e.g., 1–5 steps in MAML); use IFT when the inner solver runs hundreds of steps to near-convergence.
 
-### Step-by-Step Worked Example (Read Slowly): Computing an Exact Hypergradient via IFT on Ridge Regression
+### Worked example: Computing an Exact Hypergradient via IFT on Ridge Regression
 
 Let $$L_{\text{train}}(w, \lambda) = \frac{1}{2}(w - 4)^2 + \frac{\lambda}{2} w^2$$ (1D ridge regression) and $$L_{\text{val}}(w) = \frac{1}{2}(w - 2)^2$$. Evaluate the hypergradient $$\frac{d L_{\text{val}}}{d\lambda}$$ at $$\lambda = 1$$.
 

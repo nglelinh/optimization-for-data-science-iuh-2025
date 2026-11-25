@@ -14,7 +14,7 @@ Trong lịch sử học máy, hiếm có thuật toán nào vừa sắc sảo v�
 
 Câu trả lời không nằm ở một mẹo lập trình nào cả — nó nằm gọn trong **điều kiện bù (complementary slackness)** của hệ điều kiện KKT! Bài học toàn diện này dẫn bạn đi từ hình học khoảng cách siêu phẳng, xây dựng bài toán tối ưu Soft-Margin SVM có biến bù $$\xi_i$$, cho đến việc giải mã trọn vẹn 3 vùng phân bố của dữ liệu qua giá trị nhân tử Lagrange $$\alpha_i^* \in [0, C]$$!
 
-## Bản đồ kiến thức nền: Bốn trụ cột nối hình học SVM với điều kiện KKT
+## Kiến thức cần nhớ: Bốn trụ cột nối hình học SVM với điều kiện KKT
 
 - **Hình học lề cực đại (Maximum Margin):** Khoảng cách từ siêu phẳng $$\beta^T x + \beta_0 = 0$$ đến hai biên phân loại $$\beta^T x + \beta_0 = \pm 1$$ là $$\frac{1}{\|\beta\|_2}$$. Cực đại hóa lề tương đương cực tiểu hóa $$\frac{1}{2}\|\beta\|_2^2$$ với ràng buộc $$y_i(\beta^T x_i + \beta_0) \ge 1 - \xi_i, \; \xi_i \ge 0$$.
 - **Điều kiện dừng KKT tạo ra biểu diễn thưa của $$\beta^*$$:** Lấy đạo hàm Lagrangian theo $$\beta, \beta_0, \xi_i$$ bằng $$0$$ cho ta 3 đẳng thức vàng:
@@ -26,7 +26,7 @@ Câu trả lời không nằm ở một mẹo lập trình nào cả — nó n�
   3. $$\alpha_i^* = C$$: $$\mu_i^* = 0$$ nên $$\xi_i^* \ge 0$$ — điểm vi phạm lề hoặc bị phân loại sai (vector hỗ trợ bị chặn).
 - **Mở rộng phi tuyến bằng hàm nhân (Kernel SVM):** Vì $$\beta^* = \sum \alpha_i^* y_i x_i$$, hàm quyết định chỉ dùng tích vô hướng $$\sum \alpha_i^* y_i K(x_i, x) + \beta_0^*$$ trên đúng tập các vector hỗ trợ!
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tay 3 chế độ KKT trên 3 điểm dữ liệu 1D
+### Giải thích: Kiểm chứng tay 3 chế độ KKT trên 3 điểm dữ liệu 1D
 
 Xét Soft-Margin SVM 1D với tham số phạt $$C = 1$$ trên 3 điểm dữ liệu:
 - Điểm 1: $$(x_1, y_1) = (-3, -1)$$ (rất xa về bên âm),

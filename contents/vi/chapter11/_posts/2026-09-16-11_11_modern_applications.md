@@ -14,14 +14,14 @@ Nếu phải chọn một ứng dụng duy nhất khiến hàng triệu kỹ sư
 
 Chính nhờ **tính đối ngẫu mạnh Lagrange** (được bảo chứng tự động bởi điều kiện Slater tinh gọn vì mọi ràng buộc SVM đều là ràng buộc affine!), ta chuyển bài toán sang biến đối ngẫu $$\alpha \in \mathbb{R}^n$$. Trong bài toán đối ngẫu ấy, vector trọng số $$w$$ biến mất hoàn toàn, chỉ còn lại ma trận tích vô hướng $$x_i^T x_j$$ — thứ có thể thay tức thì bằng hàm nhân $$K(x_i, x_j)$$ như nhân Gaussian RBF! Bài đọc tổng kết cuối chương này kết nối trực tiếp sức mạnh ấy của đối ngẫu Lagrange với bốn trụ cột hiện đại giai đoạn 2022–2026: DRO, ràng buộc vật lý trong năng lượng, công bằng học máy và phương pháp nhân.
 
-## Bản đồ kiến thức nền: Bốn cầu nối từ đối ngẫu Lagrange đến hệ thống AI & kỹ thuật hiện đại
+## Kiến thức cần nhớ: Bốn cầu nối từ đối ngẫu Lagrange đến hệ thống AI & kỹ thuật hiện đại
 
 - **Thủ thuật nhân (Kernel Trick) sinh ra từ đối ngẫu SVM:** Từ điều kiện dừng $$\nabla_w L = 0 \implies w = \sum_{i=1}^n \alpha_i y_i x_i$$, bài toán đối ngẫu chỉ phụ thuộc vào $$x_i^T x_j$$ và nghiệm $$\alpha_i^*$$ chỉ khác $$0$$ trên một số ít **vector hỗ trợ (support vectors)** nằm sát biên phân loại.
 - **Điều chuẩn hóa tự động từ đối ngẫu DRO:** Trong tối ưu bền vững theo phân phối, nhân tử Lagrange của ràng buộc khoảng cách Wasserstein đóng vai trò chính xác là hệ số điều chuẩn phạt chuẩn gradient/Lipschitz của mô hình!
 - **Lớp thực thi ràng buộc vật lý (DC3 / OPF-DNN):** Kết hợp hàm phạt Lagrangian vào quá trình huấn luyện mạng nơ-ron cho phép các hệ thống lưới điện thông minh và robot đạt tốc độ suy luận mili-giây mà vẫn tôn trọng định luật bảo toàn năng lượng.
 - **Tối ưu minimax công bằng (Fairness Dual Games):** Biến các tiêu chí công bằng phi tuyến thành bài toán điểm yên ngựa Lagrange giữa mô hình dự đoán và bộ trọng số đối ngẫu của từng nhóm dữ liệu.
 
-### Khung giải thích (nên đọc chậm): Giải tay trọn vẹn bài toán đối ngẫu SVM cho 2 điểm dữ liệu 1D
+### Giải thích: Giải tay trọn vẹn bài toán đối ngẫu SVM cho 2 điểm dữ liệu 1D
 
 Xét tập dữ liệu 1D tối giản gồm 2 điểm: $$(x_1, y_1) = (-1, -1)$$ và $$(x_2, y_2) = (+1, +1)$$.
 Bài toán gốc Hard-Margin SVM:

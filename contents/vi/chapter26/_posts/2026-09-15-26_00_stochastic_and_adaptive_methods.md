@@ -14,7 +14,7 @@ Nếu bạn muốn huấn luyện một mô hình ngôn ngữ trên hàng nghìn
 
 Chương 26 đánh dấu bước ngoặt từ tối ưu cổ điển sang **tối ưu ngẫu nhiên và thích nghi** — động cơ thực sự vận hành đằng sau PyTorch, JAX và mọi hệ thống học sâu ngày nay. Thay vì chờ tính đủ gradient của $$n$$ mẫu, ta chấp nhận một ước lượng nhiễu từ một lô nhỏ (minibatch) để đi nhanh gấp hàng nghìn lần, rồi dùng **động lượng (momentum)**, **co giãn thích nghi theo tọa độ (Adam/AdamW)** và **giảm phương sai (SVRG/SAGA)** để thuần hóa nhiễu đó.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu ngẫu nhiên hiện đại
+## Kiến thức cần nhớ: Bốn trụ cột của tối ưu ngẫu nhiên hiện đại
 
 Toàn bộ Chương 26 được xây dựng trên bốn trụ cột kỹ thuật bổ trợ cho nhau:
 
@@ -23,7 +23,7 @@ Toàn bộ Chương 26 được xây dựng trên bốn trụ cột kỹ thuật
 - **Tiền điều kiện đường chéo thích nghi (AdaGrad → RMSProp → Adam → AdamW):** Tự động gán một tốc độ học riêng cho từng tham số dựa trên lịch sử bình phương gradient, và đặc biệt tách rời suy giảm trọng số (weight decay) khỏi phép chia thích nghi trong AdamW.
 - **Biến kiểm soát giảm phương sai (SVRG & SAGA):** Khi bài toán có dạng tổng hữu hạn lồi mạnh, ta tận dụng một "mốc" gradient cũ để triệt tiêu phương sai khi tiến gần nghiệm, khôi phục hội tụ tuyến tính với chi phí mỗi bước chỉ bằng SGD!
 
-### Khung giải thích (nên đọc chậm): So sánh tay 1 epoch của Full-Batch GD và SGD
+### Giải thích: So sánh tay 1 epoch của Full-Batch GD và SGD
 
 Xét bài toán cực tiểu hóa tổng hữu hạn gồm $$n = 2$$ mẫu:
 

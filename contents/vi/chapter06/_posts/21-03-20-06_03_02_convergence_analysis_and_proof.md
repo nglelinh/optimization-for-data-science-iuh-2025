@@ -13,7 +13,7 @@ Rất nhiều sinh viên toán và khoa học máy tính lần đầu đọc ch�
 
 Bí mật nằm ở kỹ thuật **hàm thế năng (Lyapunov / Potential Function)** — một trong những công cụ đẹp nhất của giải tích thuật toán. Mỗi bước GD đổi một phần khoảng cách bình phương tới nghiệm $$\|x^{(i)} - x^\star\|_2^2$$ để lấy mức giảm sai số hàm mục tiêu $$f(x^{(i+1)}) - f^\star$$. Khi cộng dồn $$k$$ bước lại, các số hạng trung gian tự triệt tiêu sạch sẽ (telescoping sum), để lại ngay cận trên gọn gàng $$\frac{\|x^{(0)} - x^\star\|_2^2}{2tk}$$!
 
-## Bản đồ kiến thức nền: Ba mắt xích trong chứng minh tốc độ hội tụ $$O(1/k)$$
+## Kiến thức cần nhớ: Ba mắt xích trong chứng minh tốc độ hội tụ $$O(1/k)$$
 
 Chứng minh kinh điển này chỉ dựa trên đúng ba bất đẳng thức ghép nối nhau như bánh răng:
 
@@ -23,7 +23,7 @@ Chứng minh kinh điển này chỉ dựa trên đúng ba bất đẳng thức 
 - **Mắt xích 3 — Tổng lồng nhau & Tính đơn điệu giảm của $$f(x^{(i)})$$:** Cộng bất đẳng thức trên từ $$i = 0$$ đến $$k - 1$$ cho $$\sum_{i=1}^k (f(x^{(i)}) - f^\star) \le \frac{1}{2t}\|x^{(0)} - x^\star\|_2^2$$. Vì $$f(x^{(k)})$$ nhỏ nhất trong cả dãy, ta chia cả hai vế cho $$k$$ và thu được ngay:
   $$f(x^{(k)}) - f^\star \le \frac{\|x^{(0)} - x^\star\|_2^2}{2tk}.$$
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng từng mắt xích của chứng minh bằng số cụ thể
+### Giải thích: Kiểm chứng từng mắt xích của chứng minh bằng số cụ thể
 
 Xét $$f(x) = \frac{1}{2} x^2$$ ($$L = 1,\; x^\star = 0,\; f^\star = 0$$), bước $$t = 0.5 \le 1/L$$, xuất phát từ $$x^{(0)} = 2$$:
 

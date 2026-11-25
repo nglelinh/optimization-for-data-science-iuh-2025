@@ -13,7 +13,7 @@ Trong các cuộc thi dữ liệu dạng bảng (tabular data) như Kaggle, hay 
 
 Điều thú vị đến bất ngờ là: Gradient Boosting thực chất chính là **Gradient Descent**, nhưng không chạy trong không gian tham số $$\mathbb{R}^p$$ mà chạy trực tiếp trong **không gian các hàm số**! Ở mỗi bước lặp, thay vì cập nhật một vector trọng số $$w \leftarrow w - \eta \nabla L(w)$$, ta cộng thêm một cây quyết định nhỏ $$h_m(x)$$ được huấn luyện để xấp xỉ đúng **âm gradient (pseudo-residual)** của hàm mất mát hiện tại!
 
-## Bản đồ kiến thức nền: Từ Gradient Descent trong $$\mathbb{R}^p$$ sang Không gian Hàm
+## Kiến thức cần nhớ: Từ Gradient Descent trong $$\mathbb{R}^p$$ sang Không gian Hàm
 
 Ba trụ cột sau làm sáng tỏ bản chất tối ưu hóa của Gradient Boosting:
 
@@ -24,7 +24,7 @@ Ba trụ cột sau làm sáng tỏ bản chất tối ưu hóa của Gradient Bo
   - Với hàm mất mát Cross-Entropy (phân loại): âm gradient là $$y_i - \hat{p}_i$$!
 - **Khớp cây yếu & Tốc độ học (Shrinkage $$\eta$$):** Vì không thể lưu riêng từng số $$r_i$$ cho dữ liệu mới chưa gặp, ta huấn luyện một cây quyết định nông $$h_m(x)$$ khớp với $$r_i^{(m)}$$, rồi cập nhật $$F_m(x) = F_{m-1}(x) + \eta h_m(x)$$. Hệ số $$\eta \in (0, 1)$$ đóng vai trò hệt như tốc độ học trong GD để chống quá khớp!
 
-### Khung giải thích (nên đọc chậm): Tự tay chạy 2 vòng lặp Gradient Boosting cho bài toán hồi quy 3 mẫu
+### Giải thích: Tự tay chạy 2 vòng lặp Gradient Boosting cho bài toán hồi quy 3 mẫu
 
 Cho 3 mẫu dữ liệu $$(x_i, y_i)$$: $$(1, 10),\; (2, 12),\; (3, 20)$$, dùng hàm mất mát bình phương $$L(y, F) = \frac{1}{2}(y - F)^2$$ và tốc độ học $$\eta = 0.5$$:
 

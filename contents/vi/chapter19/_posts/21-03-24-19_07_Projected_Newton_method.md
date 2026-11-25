@@ -11,7 +11,7 @@ lang: vi
 
 Khi $$h(x) = I_C(x)$$ là hàm chỉ thị của một tập ràng buộc lồi $$C$$, ta dễ bị cám dỗ bởi một suy nghĩ tưởng chừng hiển nhiên: *ở phương pháp bậc nhất, ta chỉ việc bước một bước gradient rồi chiếu Euclid lên $$C$$; vậy ở phương pháp bậc hai, sao không bước một bước Newton $$-H^{-1}\nabla g(x)$$ rồi chiếu Euclid lên $$C$$?* Cú sốc toán học của bài 19-07 là: **cách chiếu ngây thơ đó SAI HOÀN TOÀN — nó có thể dẫn bạn đi ngược lên dốc và làm tăng hàm mục tiêu!** Để có một phương pháp Newton chiếu đúng đắn, phép chiếu phải được thực hiện trong chuẩn $$H$$ (chính là Newton proximal), hoặc dùng chiến lược tách tập ràng buộc hoạt động thông minh của Bertsekas (1982).
 
-## Bản đồ kiến thức nền: Ba trụ cột để tránh bẫy "Newton chiếu ngây thơ"
+## Kiến thức cần nhớ: Ba trụ cột để tránh bẫy "Newton chiếu ngây thơ"
 
 Hãy nắm rõ ba khái niệm sau để không bao giờ mắc lỗi khi kết hợp Newton với ràng buộc:
 
@@ -19,7 +19,7 @@ Hãy nắm rõ ba khái niệm sau để không bao giờ mắc lỗi khi kết 
 - **Ràng buộc hộp (Box Constraints, $$l \le x \le u$$) và hai tập biến của Bertsekas:** Với ràng buộc đơn giản $$x \ge 0$$, Bertsekas (1982) chia các tọa độ thành hai nhóm: **tập ràng buộc hoạt động** $$\mathcal{B}$$ (các biến đang chạm biên $$x_i = 0$$ và gradient đẩy ra ngoài $$\nabla_i g(x) > 0$$) và **tập biến tự do** $$\mathcal{F}$$ (phần còn lại).
 - **Tách khối Hessian để chiếu Euclid trở nên hợp lệ:** Bằng cách xóa sạch các phần tử chéo giữa khối $$\mathcal{B}$$ và khối $$\mathcal{F}$$ trong ma trận nghịch đảo độ cong $$D_k$$ (dùng $$H_{\mathcal{F}\mathcal{F}}^{-1}$$ trên tập tự do và ma trận đường chéo dương trên tập hoạt động), Bertsekas chứng minh phép chiếu Euclid $$P_C(x - t D_k \nabla g(x))$$ **luôn là hướng giảm** và vẫn giữ tốc độ hội tụ bậc hai khi tập hoạt động ổn định!
 
-### Khung giải thích (nên đọc chậm): Phản ví dụ tính tay cho thấy chiếu Euclid bước Newton làm TĂNG hàm mục tiêu
+### Giải thích: Phản ví dụ tính tay cho thấy chiếu Euclid bước Newton làm TĂNG hàm mục tiêu
 
 Xét hàm bậc hai lồi chặt 2 biến trên góc phần tư không âm $$C = \{x \in \mathbb{R}^2 : x_1 \ge 0, x_2 \ge 0\}$$:
 

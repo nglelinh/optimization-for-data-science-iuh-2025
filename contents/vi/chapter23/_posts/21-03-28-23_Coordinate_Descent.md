@@ -13,7 +13,7 @@ Hãy tưởng tượng bạn cần chỉnh một hệ thống âm thanh có hàn
 
 Ý tưởng tưởng chừng quá ngây thơ ấy — **phương pháp hạ theo tọa độ (Coordinate Descent)** — hóa ra lại là một trong những thuật toán nhanh nhất và bền bỉ nhất của thống kê hiện đại. Khi hàm mục tiêu có cấu trúc tách biệt thuận lợi (như hồi quy Lasso, Elastic Net, hay bài toán đối ngẫu SVM), mỗi bước xoay một nút có nghiệm dạng đóng tính trong tích tắc, giúp hạ theo tọa độ đánh bại cả những thuật toán bậc nhất nổi tiếng như proximal gradient hay Nesterov acceleration.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của hạ theo tọa độ
+## Kiến thức cần nhớ: Bốn trụ cột của hạ theo tọa độ
 
 Chương 23 sẽ dẫn bạn đi từ câu hỏi lý thuyết căn bản ("khi nào tối ưu từng trục suy ra tối ưu toàn cục?") đến các bộ giải công nghiệp hàng triệu biến thông qua bốn trụ cột:
 
@@ -22,7 +22,7 @@ Chương 23 sẽ dẫn bạn đi từ câu hỏi lý thuyết căn bản ("khi n
 - **Khởi động nóng dọc đường chính quy hóa (Pathwise Warm Starts):** Trong thống kê, ta hiếm khi chỉ giải Lasso cho một mức $$\lambda$$ duy nhất. Bằng cách giải từ $$\lambda_{\max}$$ (nơi mọi hệ số đều bằng 0) giảm dần xuống, nghiệm bước trước gần như đã trùng với nghiệm bước sau.
 - **Chiến lược chọn tọa độ và Tập hoạt động (Cyclic, Randomized & Active Sets):** Ngoài duyệt tuần hoàn theo thứ tự $$1, 2, \dots, p$$, các bộ giải hiện đại kết hợp chọn ngẫu nhiên, quy tắc Gauss–Southwell, và tập hoạt động để chỉ tập trung tính toán trên một nhúm biến khác 0.
 
-### Khung giải thích (nên đọc chậm): Tính tay 2 chu trình Coordinate Descent trên hàm bậc hai 2 biến
+### Giải thích: Tính tay 2 chu trình Coordinate Descent trên hàm bậc hai 2 biến
 
 Hãy quan sát cách Coordinate Descent trượt dần xuống đáy của một thung lũng elip nghiêng: cực tiểu hóa $$f(x_1, x_2) = x_1^2 + 2x_2^2 + 2x_1 x_2 - 6x_1 - 8x_2$$, bắt đầu từ $$x^{(0)} = (0, 0)$$ (giá trị ban đầu $$f(0, 0) = 0$$).
 

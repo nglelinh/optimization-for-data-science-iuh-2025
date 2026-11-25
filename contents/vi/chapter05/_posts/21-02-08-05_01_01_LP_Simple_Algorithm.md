@@ -14,7 +14,7 @@ Một khối đa diện LP với 50 biến và 100 ràng buộc có thể sở h
 
 Bí quyết nằm ở đâu? Thay vì thử mù quáng mọi đỉnh, Simplex hành xử như một người leo núi thông minh trên khung cạnh của đa diện: đứng tại một đỉnh (nghiệm cơ sở khả thi), thuật toán nhìn dọc theo các cạnh xuất phát từ đỉnh đó, chọn một cạnh làm giảm hàm mục tiêu (chi phí rút gọn âm), rồi trượt thẳng sang đỉnh kề tốt hơn. Khi mọi cạnh xuất phát đều làm tăng hàm mục tiêu, ta biết chắc mình đã đứng ở đỉnh tối ưu toàn cục!
 
-## Bản đồ kiến thức nền: Động cơ đại số bên trong thuật toán Simplex
+## Kiến thức cần nhớ: Động cơ đại số bên trong thuật toán Simplex
 
 Để không bao giờ bị lạc trong các bảng tính (tableau) của Simplex, hãy nắm vững bốn trụ cột:
 
@@ -23,7 +23,7 @@ Bí quyết nằm ở đâu? Thay vì thử mù quáng mọi đỉnh, Simplex h�
 - **Phép xoay trục & Quy tắc tỉ số nhỏ nhất (Pivot & Minimum Ratio Test):** Khi chọn biến vào $$x_j$$ có $$\bar{c}_j < 0$$, ta tăng $$x_j$$ tối đa đến mức nào để các biến cơ sở $$x_B = B^{-1}b - \theta (B^{-1}A_j)$$ không bị âm? Đúng bằng $$\theta^\star = \min_{i : d_i > 0} \frac{(B^{-1}b)_i}{d_i}$$ với $$d = B^{-1}A_j$$. Biến cơ sở chạm $$0$$ đầu tiên sẽ rời cơ sở!
 - **Độ phức tạp thực tế vs. Trường hợp xấu nhất:** Dù về lý thuyết Klee–Minty chứng minh Simplex có thể tốn số bước hàm mũ trong trường hợp bệnh lý, trong thực tế Simplex chạy gần như tuyến tính $$O(m)$$ bước xoay và vẫn là bộ giải chuẩn cho các bài LP lớn cần khởi động ấm (warm-start).
 
-### Khung giải thích (nên đọc chậm): Chạy tay trọn vẹn 2 bước xoay Simplex trên một bài LP
+### Giải thích: Chạy tay trọn vẹn 2 bước xoay Simplex trên một bài LP
 
 Xét bài toán dạng chuẩn:
 $$\min \; -3x_1 - 2x_2 \quad \text{s.t.} \quad \begin{cases} x_1 + x_2 + s_1 = 4 \\ 2x_1 + x_2 + s_2 = 6 \end{cases}, \qquad x_1, x_2, s_1, s_2 \ge 0.$$

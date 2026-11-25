@@ -12,7 +12,7 @@ lesson_type: required
 
 In single-variable calculus, you learn one reflex: set $$f'(x) = 0$$. The moment constraints enter the picture, that reflex breaks—a ball resting against the wall of a tilted bowl stops moving even though gravity still pulls downhill! The first-order optimality condition for constrained convex optimization replaces "$$f'(x) = 0$$" with a sharper geometric law: at the optimum, no feasible direction points downhill.
 
-## Background Knowledge Map: First-Order Variational Optimality
+## Key ideas: First-Order Variational Optimality
 
 1. **Feasible Directions and the Variational Inequality**: For a differentiable convex function $$f$$ over a convex set $$C$$, a point $$x^\star \in C$$ is globally optimal if and only if $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ for all $$y \in C$$. Because $$y - x^\star$$ is the direction toward any other feasible point, the directional derivative along every feasible ray must be nonnegative.
 2. **Normal Cone Geometry**: Rewriting the inequality as $$(-\nabla f(x^\star))^T (y - x^\star) \le 0$$ for all $$y \in C$$ means that the negative gradient $$-\nabla f(x^\star)$$ makes an obtuse (or right) angle with every feasible displacement—equivalently, $$-\nabla f(x^\star) \in N_C(x^\star)$$, the normal cone of $$C$$ at $$x^\star$$.
@@ -22,7 +22,7 @@ In single-variable calculus, you learn one reflex: set $$f'(x) = 0$$. The moment
    - *Nonnegative orthant* ($$C = \mathbb{R}^n_+$$): yields the complementarity triad $$x^\star \ge 0$$, $$\nabla f(x^\star) \ge 0$$, and $$x_i^\star \nabla_i f(x^\star) = 0$$.
 4. **Necessity AND Sufficiency**: In nonconvex optimization, $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ is only necessary (saddle points satisfy it too). Convexity supplies the global linear underestimator $$f(y) \ge f(x^\star) + \nabla f(x^\star)^T(y - x^\star)$$, immediately upgrading the condition to both necessary and sufficient for global optimality.
 
-### Step-by-Step Worked Example (Read Slowly): Certifying Optimality on the Nonnegative Orthant
+### Worked example: Certifying Optimality on the Nonnegative Orthant
 
 Minimize $$f(x_1, x_2) = (x_1 + 1)^2 + (x_2 - 2)^2$$ subject to $$x_1 \ge 0,\; x_2 \ge 0$$ (so $$C = \mathbb{R}^2_+$$).
 

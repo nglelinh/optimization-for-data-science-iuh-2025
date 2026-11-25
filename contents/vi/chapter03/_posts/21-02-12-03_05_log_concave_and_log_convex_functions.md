@@ -13,7 +13,7 @@ Hãy nhìn vào đường cong hình chuông của phân phối chuẩn Gauss $$
 
 Bài học này trình bày định nghĩa, điều kiện đạo hàm cấp hai và hàng loạt tính chất bảo toàn tuyệt đẹp (như phép nhân, tích phân và tích chập!) của họ hàm log-lõm / log-lồi.
 
-## Bản đồ kiến thức nền: Bốn tính chất vàng của Log-lõm và Log-lồi
+## Kiến thức cần nhớ: Bốn tính chất của Log-lõm và Log-lồi
 
 - **Định nghĩa:** Với hàm dương $$f(x) > 0$$ trên miền lồi, $$f$$ là **log-lõm** nếu $$\log f$$ lõm (tương đương $$f(\theta x + (1-\theta)y) \ge f(x)^\theta f(y)^{1-\theta}$$); $$f$$ là **log-lồi** nếu $$\log f$$ lồi (và mọi hàm log-lồi đều tự động là hàm lồi!).
 - **Điều kiện bậc hai (một biến):** $$f$$ log-lõm $$\iff f(x) f''(x) \le [f'(x)]^2$$; $$f$$ log-lồi $$\iff f(x) f''(x) \ge [f'(x)]^2$$.
@@ -22,7 +22,7 @@ Bài học này trình bày định nghĩa, điều kiện đạo hàm cấp hai
   - **Định lý Prékopa (phép tích phân và tích chập):** Tích phân biên theo một biến của hàm mật độ log-lõm vẫn là log-lõm — nhờ đó **hàm phân phối tích lũy (CDF)** $$\Phi(x) = \int_{-\infty}^x p(t)\,dt$$ của phân phối chuẩn cũng là hàm log-lõm!
 - **Ứng dụng trong MLE và bài toán ràng buộc xác suất:** Giúp chuyển các ràng buộc dạng $$\mathbb{P}(a^T x \le b) \ge \eta$$ thành ràng buộc lồi giải được bằng phần mềm.
 
-### Khung giải thích (nên đọc chậm): Phân loại 3 hàm quen thuộc theo bậc thang Lồi / Log-lõm / Log-lồi
+### Giải thích: Phân loại 3 hàm quen thuộc theo bậc thang Lồi / Log-lõm / Log-lồi
 
 Hãy kiểm tra bằng đạo hàm bậc hai của $$f$$ và $$\ln f$$ trên từng hàm:
 

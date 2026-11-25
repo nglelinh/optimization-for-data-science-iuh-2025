@@ -14,14 +14,14 @@ Khi một ma trận $$A$$ tác động lên các vector trong không gian, hầu
 
 Bài học này giải mã cách tính, ý nghĩa hình học và vai trò cốt tử của giá trị riêng trong phân tích độ cong và tính xác định dương.
 
-## Bản đồ kiến thức nền: Phổ ma trận và hình học tối ưu
+## Kiến thức cần nhớ: Phổ ma trận và hình học tối ưu
 
 - **Phương trình đặc trưng ($$Av = \lambda v$$):** Biến ma trận nhiều chiều thành các hệ số vô hướng $$\lambda_i$$ độc lập trên từng trục riêng. Tích các giá trị riêng bằng $$\det(A)$$, tổng các giá trị riêng bằng vết $$\operatorname{tr}(A)$$.
 - **Định lý phổ cho ma trận đối xứng (Spectral Theorem):** Mọi ma trận đối xứng thực $$H = H^T$$ (như ma trận Hessian) đều có giá trị riêng thực và một hệ cơ sở trực chuẩn các vector riêng: $$H = Q \Lambda Q^T$$.
 - **Tính xác định dương ($$H \succ 0$$) và bán xác định dương ($$H \succeq 0$$):** $$H \succeq 0 \iff$$ mọi $$\lambda_i \ge 0$$ (điều kiện lồi bậc hai); $$H \succ 0 \iff$$ mọi $$\lambda_i > 0$$ (lồi chặt / lồi mạnh).
 - **Chỉ số điều kiện ($$\kappa = \lambda_{\max}/\lambda_{\min}$$):** Đo độ "dẹt" của thung lũng hàm bậc hai. Khi $$\kappa = 1$$, đường mức là hình tròn và Gradient Descent hội tụ tức thì; khi $$\kappa \gg 1$$, thung lũng hẹp dài làm Gradient Descent dao động mạnh qua lại hai vách.
 
-### Khung giải thích (nên đọc chậm): Phân tích phổ và chỉ số điều kiện của Hessian $$H = \begin{pmatrix}5 & 2\\ 2 & 2\end{pmatrix}$$
+### Giải thích: Phân tích phổ và chỉ số điều kiện của Hessian $$H = \begin{pmatrix}5 & 2\\ 2 & 2\end{pmatrix}$$
 
 Xét dạng toàn phương $$f(x) = \frac{1}{2}x^T H x$$ với $$H = \begin{pmatrix}5 & 2\\ 2 & 2\end{pmatrix}$$:
 

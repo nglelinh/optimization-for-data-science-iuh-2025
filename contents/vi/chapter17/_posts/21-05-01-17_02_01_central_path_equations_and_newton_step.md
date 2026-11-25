@@ -11,7 +11,7 @@ lang: vi
 
 Mọi thuật toán Newton đều bắt đầu bằng một câu hỏi cốt lõi: *hệ phương trình phi tuyến cần giải là gì, và ma trận Jacobi của nó trông như thế nào?* Khi gom cả điều kiện dừng đối ngẫu, điều kiện bù chặt bị nhiễu và ràng buộc đẳng thức gốc vào một vector phần dư duy nhất $$r_\tau(x, u, v) = 0$$, ta thu được một hệ phương trình khối cực kỳ cân đối. Giải hệ tuyến tính hóa của nó chính là trái tim của mỗi vòng lặp PD-IPM.
 
-## Bản đồ kiến thức nền: Giải phẫu hệ phương trình Newton gốc–đối ngẫu
+## Kiến thức cần nhớ: Giải phẫu hệ phương trình Newton gốc–đối ngẫu
 
 Trước khi nhìn vào ma trận khối $$3 \times 3$$ trong bài học, hãy nắm rõ bốn mảnh ghép giải tích và đại số tuyến tính tạo nên nó:
 
@@ -20,7 +20,7 @@ Trước khi nhìn vào ma trận khối $$3 \times 3$$ trong bài học, hãy n
 - **Cấu trúc ma trận Jacobi theo khối:** Hàng thứ nhất chứa Hessian của hàm Lagrange $$\nabla^2 f(x) + \sum_{i=1}^m u_i \nabla^2 h_i(x)$$; hàng thứ hai chứa ma trận đường chéo $$U = \operatorname{diag}(u)$$ và $$\operatorname{diag}(h(x))$$; hàng thứ ba chứa ma trận ràng buộc tuyến tính $$A$$.
 - **Khử khối (Schur Complement):** Vì khối $$\operatorname{diag}(h(x))$$ là ma trận đường chéo khả nghịch (do $$h_i(x) < 0$$), ta có thể khử biến $$\Delta u$$ ngay lập tức bằng phép chia từng phần tử, thu gọn hệ về ma trận đối xứng nhỏ hơn chỉ theo $$(\Delta x, \Delta v)$$.
 
-### Khung giải thích (nên đọc chậm): Giải tay hệ Newton gốc–đối ngẫu $$2 \times 2$$ từng con số
+### Giải thích: Giải tay hệ Newton gốc–đối ngẫu $$2 \times 2$$ từng con số
 
 Xét bài toán lồi 1 biến (không có ràng buộc đẳng thức $$Ax = b$$):
 

@@ -14,7 +14,7 @@ Trước khi xây một tòa nhà cao tầng, kiến trúc sư và kỹ sư kế
 
 Bài học này đặt nền móng thuật ngữ chuẩn quốc tế cho mọi bài toán tối ưu hóa lồi — từ ràng buộc tích cực (active constraint), nghiệm $$\epsilon$$-cận tối ưu (thứ duy nhất máy tính thực sự đạt được trong thực tế), cho đến lý do cốt tử vì sao ràng buộc đẳng thức $$h_j(x) = 0$$ bắt buộc phải là hàm affine chứ không thể là hàm lồi tùy ý.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép định nghĩa bài toán chuẩn
+## Kiến thức cần nhớ: Bốn mảnh ghép định nghĩa bài toán chuẩn
 
 Khi đọc một bài toán tối ưu hóa bất kỳ, bộ não của người làm tối ưu tự động tách nó thành bốn lớp khái niệm rõ ràng:
 
@@ -23,7 +23,7 @@ Khi đọc một bài toán tối ưu hóa bất kỳ, bộ não của người 
 - **Ràng buộc đẳng thức Affine (Affine Equality Constraints):** Đẳng thức $$h_j(x) = 0$$ tương đương với cả $$h_j(x) \le 0$$ lẫn $$-h_j(x) \le 0$$. Để cả hai đều tạo thành tập lồi, $$h_j$$ phải vừa lồi vừa lõm — tức là phải là hàm affine $$a_j^T x = b_j$$.
 - **Nghiệm chính xác vs. Nghiệm $$\epsilon$$-cận tối ưu:** Trong số học dấu phẩy động, thuật toán lặp hiếm khi chạm đúng $$f^\star$$ sau hữu hạn bước. Khái niệm điểm khả thi thỏa $$f(x) \le f^\star + \epsilon$$ là cầu nối giữa lý thuyết toán học thuần túy và tiêu chí dừng của bộ giải thực tế.
 
-### Khung giải thích (nên đọc chậm): Giải phẫu đầy đủ thuật ngữ trên một bài toán cụ thể
+### Giải thích: Giải phẫu đầy đủ thuật ngữ trên một bài toán cụ thể
 
 Xét bài toán 2 biến:
 $$\min_{x_1, x_2} \; f(x_1, x_2) = -\log(x_1) + x_2^2 \quad \text{thỏa mãn} \quad g_1(x) = x_1 + x_2 - 2 \le 0,\quad g_2(x) = -x_2 \le 0.$$

@@ -11,7 +11,7 @@ lang: en
 
 Gradient descent achieves $$O(1/k)$$ on smooth convex functions. Is that a fundamental speed limit of nature, or are we leaving performance on the table? In 1983, Arkadi Nemirovski and Yurii Nesterov answered both halves of that question: *no* first-order method can beat $$\Omega(1/k^2)$$—and Nesterov constructed an accelerated algorithm that actually hits that optimal $$O(1/k^2)$$ limit!
 
-## Background Knowledge Map: Information-Based Complexity and Optimal First-Order Rates
+## Key ideas: Information-Based Complexity and Optimal First-Order Rates
 
 1. **What Defines a First-Order Method?**: Every iterate $$x^{(k)}$$ lies in the linear span of the starting point and all past gradients:
    $$x^{(k)} \in x^{(0)} + \operatorname{span}\{\nabla f(x^{(0)}), \nabla f(x^{(1)}), \dots, \nabla f(x^{(k-1)})\}.$$
@@ -23,7 +23,7 @@ Gradient descent achieves $$O(1/k)$$ on smooth convex functions. Is that a funda
    - *Smooth $$m$$-strongly convex*: GD gets $$O(\kappa \log(1/\varepsilon))$$; NAG achieves the optimal $$O(\sqrt{\kappa}\log(1/\varepsilon))$$.
 4. **Why Momentum Breaks Monotonicity to Go Faster**: Unlike vanilla GD, accelerated methods can briefly *increase* $$f(x^{(k)})$$ (non-monotone oscillations), trading strict per-step descent for dramatically faster global convergence.
 
-### Step-by-Step Worked Example (Read Slowly): Comparing GD vs. Nesterov Iteration Complexity
+### Worked example: Comparing GD vs. Nesterov Iteration Complexity
 
 Suppose you need to solve a large smooth convex problem to suboptimality $$\varepsilon = 10^{-6}$$ (with $$L\|x^{(0)} - x^\star\|_2^2 = 1$$), and also consider a strongly convex version with condition number $$\kappa = 10{,}000$$.
 

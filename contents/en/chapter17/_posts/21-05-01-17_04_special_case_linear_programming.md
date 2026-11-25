@@ -11,14 +11,14 @@ lang: en
 
 Linear programming is where primal-dual interior-point methods truly shine: the objective Hessian $$\nabla^2 f(x)$$ is identically zero, the inequality constraints $$x \ge 0$$ have trivial identity Jacobians, and the entire $$3 \times 3$$ block KKT Newton system collapses via exact block elimination into a single symmetric positive definite (SPD) linear system of size $$m \times m$$—the **normal equations**. Understanding this reduction explains how commercial solvers tackle LPs with millions of variables in seconds using sparse Cholesky factorization.
 
-## Background Knowledge Map: Anatomy of the LP Primal-Dual Newton System
+## Key ideas: Anatomy of the LP Primal-Dual Newton System
 
 - **Standard-Form LP Primal-Dual Symmetry:** The primal $$\min c^T x \text{ s.t. } Ax = b, x \ge 0$$ and dual $$\max b^T y \text{ s.t. } A^T y + s = c, s \ge 0$$ share the exact complementarity condition $$X S \mathbf{1} = 0$$, where $$X = \operatorname{diag}(x)$$ and $$S = \operatorname{diag}(s)$$.
 - **Zero-Hessian Simplification:** Because $$f(x) = c^T x$$ is linear, the top-left block of the KKT matrix is zero, making the linearized dual equation $$A^T \Delta y + \Delta s = -r_d$$ purely algebraic in $$\Delta s$$ and the linearized complementarity equation $$S \Delta x + X \Delta s = -X S \mathbf{1} + \sigma \mu \mathbf{1}$$ diagonal.
 - **Normal-Equations Schur Complement:** Eliminating $$\Delta s$$ and $$\Delta x$$ reduces the $$(2n + m)$$-dimensional KKT system to the $$m \times m$$ SPD system $$(A D^2 A^T)\,\Delta y = \text{rhs}$$, where $$D^2 = S^{-1} X = \operatorname{diag}(x_i / s_i) \succ 0$$.
 - **Asymmetric Scaling & Mehrotra Predictor-Corrector:** As iterates approach a vertex, $$x_i/s_i \to \infty$$ for basic variables and $$x_i/s_i \to 0$$ for nonbasic variables, making $$A D^2 A^T$$ progressively ill-conditioned—which modern LP solvers handle via stable LDL factorizations and second-order Mehrotra correctors.
 
-### Step-by-Step Worked Example (Read Slowly): Solving the LP Normal Equations Exactly
+### Worked example: Solving the LP Normal Equations Exactly
 
 Consider the LP $$\min 2x_1 + 5x_2$$ subject to $$x_1 + x_2 = 3$$ and $$x_1, x_2 \ge 0$$ (exact optimum $$x^\star = (3, 0), y^\star = 2, s^\star = (0, 3)$$). Start at the strictly feasible primal-dual point $$x = (2, 1)^T$$, $$y = 1$$, $$s = (1, 4)^T$$ (verify: $$x_1 + x_2 = 3$$ and $$A^T y + s = (1,1)^T + (1,4)^T = (2,5)^T = c$$, so $$r_p = 0, r_d = 0$$).
 

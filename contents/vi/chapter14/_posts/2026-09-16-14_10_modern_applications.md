@@ -14,13 +14,13 @@ Trong suốt thập kỷ 2010, nhiều người từng tin rằng phương pháp
 
 Tất cả những thuật toán hiện đại ấy đều bắt nguồn từ đúng một triết lý của Chương 14: chia gradient cho độ cong cục bộ để bước đi tự thích nghi với hình học bài toán, kèm theo một cơ chế giảm chấn hoặc cắt ngưỡng để tránh phân kỳ trên hàm không lồi!
 
-## Bản đồ kiến thức nền: Ba cách đưa độ cong bậc hai vào hệ thống AI 2022–2026
+## Kiến thức cần nhớ: Ba cách đưa độ cong bậc hai vào hệ thống AI 2022–2026
 
 - **Sophia (Second-order Clipped Stochastic Optimization):** Ước lượng đường chéo Hessian bằng bộ ước lượng Hutchinson hoặc Gauss–Newton chỉ mỗi $$k$$ bước (phí tổn phụ chưa tới 5%), rồi cập nhật $$x^+ = x - \eta \operatorname{clip}\bigl(m_t / \max(h_t, \epsilon), -1, 1\bigr)$$ — cắt ngưỡng đóng vai trò "giảm chấn" chống độ cong âm trên hàm không lồi.
 - **K-FAC (Kronecker-Factored Approximate Curvature):** Khai thác cấu trúc tầng của mạng nơ-ron để xấp xỉ khối ma trận Fisher/Gauss–Newton bằng tích Kronecker $$A \otimes G$$ của hai ma trận nhỏ (kích thước vào và ra của tầng), biến phép nghịch đảo $$(pq \times pq)$$ thành hai phép nghịch đảo nhỏ $$A^{-1} \otimes G^{-1}$$.
 - **Newton–Cholesky trong `scikit-learn`:** Với các bài toán GLM (hồi quy logistic, Poisson, Gamma) có số mẫu $$N$$ rất lớn nhưng số đặc trưng $$p$$ vừa phải ($$p \lesssim 10^3$$), lập ma trận Hessian $$p \times p$$ và giải bằng phân rã Cholesky hội tụ tới độ chính xác máy tính nhanh gấp nhiều lần L-BFGS hay SAGA.
 
-### Khung giải thích (nên đọc chậm): Tính tay một bước cập nhật kiểu Sophia (Hessian đường chéo có cắt ngưỡng)
+### Giải thích: Tính tay một bước cập nhật kiểu Sophia (Hessian đường chéo có cắt ngưỡng)
 
 Giả sử tại bước $$t$$ của một mạng nơ-ron 2 tham số $$(\theta_1, \theta_2)$$, ta có ước lượng gradient trung bình trượt $$m_t = (0.4, 0.4)^T$$, tốc độ học $$\eta = 0.01$$, ngưỡng bảo vệ $$\epsilon = 10^{-4}$$, và đường chéo Hessian ước lượng là $$h_t = (10.0, 0.05)^T$$ (tham số 1 đang ở vùng cong rất gắt, tham số 2 ở vùng cực phẳng).
 

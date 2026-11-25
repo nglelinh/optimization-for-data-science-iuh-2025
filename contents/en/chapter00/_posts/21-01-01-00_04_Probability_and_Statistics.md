@@ -11,14 +11,14 @@ lang: en
 
 Real-world optimization rarely operates on noiseless, deterministic formulas: demand forecasts fluctuate, sensor readings carry Gaussian noise, and machine learning datasets are random samples from an unknown population. Probability and statistics supply the mathematical bridge from noisy observations to clean optimization objectives—turning parameter estimation, risk management, and stochastic approximation into convex problems we can solve with provable guarantees.
 
-## Background Knowledge Map: Why Probability Sits Inside Modern Optimization
+## Key ideas: Why Probability Sits Inside Modern Optimization
 
 - **Random Variables & Expectation:** Expected loss $$\mathbb{E}[\ell(w; Z)]$$ is the true target of stochastic optimization; linearity of expectation lets us differentiate and average unbiased gradient estimates.
 - **Loss Functions as Distributional Assumptions:** Minimizing squared error corresponds to Gaussian noise, minimizing $$\ell_1$$ error corresponds to Laplace noise, and cross-entropy corresponds to categorical log-likelihood.
 - **Empirical Risk Minimization (ERM):** Replaces an unknown expectation with a finite sample average $$\frac{1}{n}\sum_{i=1}^n \ell(w; z_i)$$, yielding a concrete finite-sum optimization problem.
 - **Concentration & Variance Control:** Variance bounds explain why mini-batching, variance reduction, and regularization stabilize noisy optimization trajectories.
 
-### Step-by-Step Worked Example (Read Slowly): Sample Mean vs. Sample Median as Optimization Solutions
+### Worked example: Sample Mean vs. Sample Median as Optimization Solutions
 
 Given a small noisy dataset $$\{2, 4, 9\}$$, compare two 1D empirical risk minimization objectives for a location estimate $$\theta \in \mathbb{R}$$:
 

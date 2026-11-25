@@ -14,14 +14,14 @@ Tại sao một kỹ sư khi gặp một bài toán mới thường cố gắng 
 
 Bài học này giới thiệu trọn vẹn định nghĩa chuẩn của bài toán tối ưu hóa lồi, cầu nối hình học qua epigraph và chứng minh kinh điển cho tính chất "địa phương = toàn cục".
 
-## Bản đồ kiến thức nền: Kiến trúc của một bài toán tối ưu hóa lồi
+## Kiến thức cần nhớ: Kiến trúc của một bài toán tối ưu hóa lồi
 
 - **Tập lồi (Convex Set):** Chứa trọn đoạn thẳng nối hai điểm bất kỳ trong tập. Trong bài toán lồi, miền khả thi luôn là tập lồi (giao của các tập mức dưới của $$g_i$$ và các siêu phẳng $$h_j(x) = 0$$).
 - **Hàm lồi và Epigraph:** Hàm $$f$$ lồi khi và chỉ khi vùng nằm trên đồ thị của nó ($$\operatorname{epi} f$$) là một tập lồi. Đây là cây cầu nối giải tích (hàm số) với hình học (tập hợp).
 - **Vì sao ràng buộc đẳng thức $$h_j(x) = 0$$ bắt buộc phải là affine?** Nếu viết $$h(x) = 0$$ thành cặp $$h(x) \le 0$$ và $$-h(x) \le 0$$, thì cả $$h$$ và $$-h$$ cùng phải lồi — điều này chỉ xảy ra khi $$h$$ là hàm affine $$a^T x + b$$! (Ví dụ $$x_1^2 + x_2^2 = 1$$ là đường tròn rỗng ruột, không phải tập lồi.)
 - **Tính chất toàn cục (Local = Global):** Chứng minh bằng phản chứng chỉ dùng đúng định nghĩa tập lồi và bất đẳng thức hàm lồi cho tổ hợp $$\theta y + (1-\theta)x$$.
 
-### Khung giải thích (nên đọc chậm): Kiểm tra tính lồi và giải tay một bài toán lồi có cả 2 loại ràng buộc
+### Giải thích: Kiểm tra tính lồi và giải tay một bài toán lồi có cả 2 loại ràng buộc
 
 Xét bài toán:
 $$\min_{x_1, x_2} f(x_1, x_2) = x_1^2 + 2x_2^2 \quad \text{với điều kiện} \quad g_1(x) = 3 - x_1 - x_2 \le 0,\quad h_1(x) = x_1 - x_2 - 1 = 0.$$

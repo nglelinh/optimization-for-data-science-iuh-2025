@@ -11,14 +11,14 @@ lang: en
 
 When buying a laptop, you want both *lower price* and *longer battery life*. Between Laptop A ($\$1000$, 12h) and Laptop B ($\$1200$, 16h), neither is strictly better in both dimensions—vector comparisons are only *partial* orders! Proper cones formalize vector inequalities $$x \preceq_K y$$ cleanly, explaining the crucial difference between a single utopian **minimum** element and the trade-off frontier of **minimal (Pareto-optimal)** elements.
 
-## Background Knowledge Map: Ordering Vectors and Matrices with Cones
+## Key ideas: Ordering Vectors and Matrices with Cones
 
 - **Proper Cone ($$K$$):** A cone that is convex, closed, solid (nonempty interior), and pointed (contains no full line: $$K \cap (-K) = \{0\}$$)—needed so $$\preceq_K$$ behaves like a genuine partial order.
 - **Generalized Inequality ($$x \preceq_K y \iff y - x \in K$$):** Unifies componentwise vector inequalities ($$K = \mathbb{R}_+^n$$) and Loewner matrix inequalities ($$K = \mathbb{S}_+^n$$, where $$X \preceq Y \iff Y - X \succeq 0$$).
 - **Strict Inequality ($$x \prec_K y \iff y - x \in \text{int}(K)$$):** Requires $$K$$ to be solid; for matrices, $$X \prec Y$$ means $$Y - X$$ is strictly positive definite.
 - **Minimum vs. Minimal Elements:** A *minimum* beats every other point in $$S$$ ($$S \subseteq x + K$$); a *minimal* (Pareto-optimal) point is merely undefeated by any other point in $$S$$ ($$(x - K) \cap S = \{x\}$$).
 
-### Step-by-Step Worked Example (Read Slowly): Minimum vs. Minimal Elements Under $$\mathbb{R}_+^2$$
+### Worked example: Minimum vs. Minimal Elements Under $$\mathbb{R}_+^2$$
 
 Consider four cost vectors (e.g., latency and energy) in $$\mathbb{R}^2$$ ordered by $$K = \mathbb{R}_+^2$$:
 $$S = \{(1, 4),\; (2, 2),\; (3, 1),\; (3, 3)\}.$$

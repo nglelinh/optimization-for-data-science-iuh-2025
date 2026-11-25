@@ -11,14 +11,14 @@ lang: en
 
 There is an embarrassing paradox in the classical convergence proof of Section 14-05: Newton's method itself is completely affine invariant, yet its classical iteration bound depends heavily on the constants $$m, L, M$$—which change wildly whenever you rescale your coordinates, and are almost never known in practice (and blow up to $$\infty$$ for log barriers!). Nesterov and Nemirovskii resolved this paradox with a single brilliant property: **self-concordance**.
 
-## Background Knowledge Map: Why Self-Concordance Was Invented
+## Key ideas: Why Self-Concordance Was Invented
 
 - **Pillar 1 — Eliminating Unknown Constants ($$m, L, M$$):** Classical bounds fail on functions like $$-\log(x)$$ whose Hessian $$1/x^2$$ is unbounded near $$0$$; self-concordance bounds the third derivative *relative to the local second derivative*.
 - **Pillar 2 — Affine-Invariant Theory Matching an Affine-Invariant Algorithm:** Because self-concordance is preserved under all invertible affine maps $$x = Ay + b$$, its iteration-complexity bound is completely independent of coordinate scaling.
 - **Pillar 3 — The Engine of Interior-Point Methods:** Logarithmic barrier functions $$-\sum \log(-h_i(x))$$ are self-concordant, which is why interior-point methods enjoy polynomial-time global complexity guarantees in Chapter 15.
 - **Pillar 4 — Scale-Free Neighborhoods via $$\lambda(x)$$:** For self-concordant functions, the Newton decrement $$\lambda(x)$$ alone dictates when backtracking stops and quadratic convergence begins—no $$m$$ or $$M$$ needed.
 
-### Step-by-Step Worked Example (Read Slowly): Why Classical Constants Fail on $$f(x) = -\log x$$ While Self-Concordance Succeeds
+### Worked example: Why Classical Constants Fail on $$f(x) = -\log x$$ While Self-Concordance Succeeds
 
 Consider $$f(x) = -\log(x)$$ on $$\operatorname{dom}(f) = (0, \infty)$$.
 

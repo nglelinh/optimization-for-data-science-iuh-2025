@@ -11,14 +11,14 @@ lang: en
 
 In 1954, George Dantzig, Ray Fulkerson, and Selmer Johnson solved a 49-city Traveling Salesman Problem to provable global optimality—a feat everyone thought was impossible—by iteratively solving LP relaxations and adding hand-crafted inequalities that sliced off fractional subtours. Four years later, Ralph Gomory stunned the field by proving that cutting planes could be generated *purely algebraically* for any integer linear program. Though pure cutting-plane methods struggled with numerical ill-conditioning in the 1960s, their fusion with Branch and Bound in the 1990s triggered a million-fold speedup in integer programming.
 
-## Background Knowledge Map: Geometric Intuition and History of Cutting Planes
+## Key ideas: Geometric Intuition and History of Cutting Planes
 
 - **Geometric Picture of a Cut:** Imagine the integer feasible points $$S = P \cap \mathbb{Z}^n$$ as pegs hammered into a board, and the LP relaxation $$P$$ as a loose polygon wrapped around them. A cutting plane is a straight line sliced across $$P$$ that trims away empty space containing $$x_{\text{LP}}$$ without nicking a single peg.
 - **Outer Approximation of the Convex Hull:** Rather than computing all exponentially many facets of $$\operatorname{conv}(S)$$ up front, cutting-plane methods generate inequalities lazily—only in the neighborhood of the current optimal LP face.
 - **Why Pure Cutting Planes Stalled Historically:** Adding hundreds of algebraic cuts sequentially without branching creates dense, numerically unstable simplex tableaus and suffers from slow tailing-off convergence.
 - **The 1990s Renaissance (Polyhedral Combinatorics + Branch-and-Cut):** Combining problem-specific facet-defining cuts (cover cuts, clique cuts, MIR cuts) with Gomory cuts inside a Branch-and-Bound tree resolved numerical stalling and birthed modern MIP solvers.
 
-### Step-by-Step Worked Example (Read Slowly): Slicing Away a Fractional Corner in 2D
+### Worked example: Slicing Away a Fractional Corner in 2D
 
 Suppose the LP polytope is $$P = \{x \in \mathbb{R}_{\ge 0}^2 : 2 x_1 + x_2 \le 3,\ x_1 + 2 x_2 \le 3\}$$, and we maximize $$x_1 + x_2$$ over $$S = P \cap \mathbb{Z}^2$$.
 

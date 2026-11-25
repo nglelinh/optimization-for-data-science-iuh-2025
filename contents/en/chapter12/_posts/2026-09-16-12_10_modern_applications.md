@@ -12,14 +12,14 @@ lesson_type: optional
 
 Across 2022–2026 machine learning, robotics, and energy systems, the KKT conditions have moved from the chalkboard directly into production runtime loops. Whether backpropagating through a convex optimization layer in `cvxpylayers` or `Theseus`, certifying SVM support vectors, auditing which transmission lines are congested in an electricity market, or measuring the exact accuracy cost of a fairness bound, engineers treat the KKT system as both an **optimality oracle** and a **sensitivity calculator**.
 
-## Background Knowledge Map: Four Production Roles of the KKT System
+## Key ideas: Four Production Roles of the KKT System
 
 - **Pillar 1 — Differentiable Convex & Nonlinear Layers:** Tools like `cvxpylayers` and `Theseus` embed optimization problems inside end-to-end neural pipelines by differentiating the KKT residual $$F(x^\star, u^\star, v^\star; \theta) = 0$$ via the implicit function theorem—requiring only one KKT linear solve in the backward pass.
 - **Pillar 2 — Complementary Slackness as Sparse Support Identification:** In SVMs, Lasso, and active-set QP solvers, complementary slackness $$u_i^\star h_i(x^\star) = 0$$ cleanly separates active constraints/support vectors from inactive ones, enabling massive speedups via active-set screening.
 - **Pillar 3 — Marginal Prices & Grid Auditing:** In wholesale electricity clearing, KKT stationarity ties every generator's dispatch directly to nodal Locational Marginal Prices (LMPs), while complementary slackness exposes exactly which thermal or ramping limits are binding.
 - **Pillar 4 — Fairness Trade-off Attribution:** When multiple demographic fairness constraints compete inside a single training objective, inspecting the KKT multipliers $$\lambda_g^\star > 0$$ pinpoints which group's constraint is actively shaping the decision boundary.
 
-### Step-by-Step Worked Example (Read Slowly): Implicit KKT Sensitivity of an Equality-Constrained Layer
+### Worked example: Implicit KKT Sensitivity of an Equality-Constrained Layer
 
 Consider a differentiable portfolio/control layer parameterized by a predicted target vector $$\theta = (\theta_1, \theta_2)^\top$$:
 $$x^\star(\theta) = \arg\min_{x \in \mathbb{R}^2}\; \frac{1}{2}\|x - \theta\|_2^2 \quad \text{s.t.} \quad x_1 + x_2 = 1.$$

@@ -14,14 +14,14 @@ redirect_from:
 
 Reading convergence proofs for Frank–Wolfe gives you the blueprint, but the real intuition clicks only when you compute the linear minimization oracle, duality gap, and away-step drop by hand and watch how dramatically the feasible geometry shapes the trajectory. This exercise set moves deliberately from basic 2D polytope iterations to projection-free nuclear-norm steps, exact line search, and away-step linear convergence—turning every theoretical theorem from Chapter 22 into muscle memory.
 
-## Background Knowledge Map: Diagnostic Checklist for Solving Frank–Wolfe Problems
+## Key ideas: Diagnostic Checklist for Solving Frank–Wolfe Problems
 
 - **Identifying the LMO Closed Form:** Always check the geometry of $$C$$ first: on a polytope, test vertices; on an $$\ell_1$$ ball of radius $$t$$, pick $$-\operatorname{sign}(g_{i^\star}) t e_{i^\star}$$; on a trace-norm ball, compute only the leading singular vector pair $$(u_1, v_1)$$.
 - **Monitoring the Duality Gap $$g_k$$:** At every step, compute $$g_k = \langle \nabla f(x_k), x_k - s_k \rangle \ge f(x_k) - f(x^\star)$$. If $$g_k = 0$$, $$x_k$$ is provably optimal—never waste extra iterations once $$g_k \le \varepsilon$$.
 - **Choosing Step Sizes Wisely:** Open-loop $$\gamma_k = \frac{2}{k+2}$$ is parameter-free, whereas for quadratic objectives $$f(x) = \frac{1}{2}\|Ax - b\|_2^2$$, exact line search has the closed form $$\gamma_k = \operatorname{clip}_{[0,1]}\!\left(\frac{\langle \nabla f(x_k), x_k - s_k \rangle}{\|A(s_k - x_k)\|_2^2}\right)$$.
 - **Diagnosing Zig-Zagging vs. Away Steps:** Whenever iterates bounce between two boundary vertices with shrinking step sizes, compare the forward gap $$\langle g_k, x_k - s_k \rangle$$ against the away gap $$\langle g_k, v_k - x_k \rangle$$ to decide whether to drop a stale vertex.
 
-### Step-by-Step Worked Example (Read Slowly): Warm-Up Verification Before Exercise 1
+### Worked example: Warm-Up Verification Before Exercise 1
 
 Before tackling Exercise 1, let us trace a tiny 2D quadratic on the $$\ell_1$$ diamond $$C = \{x \in \mathbb{R}^2 : |x_1| + |x_2| \le 1\}$$ with $$f(x) = \frac{1}{2}\bigl((x_1 - 2)^2 + (x_2 - 1)^2\bigr)$$ starting at $$x_0 = (0, 0)^\top$$.
 

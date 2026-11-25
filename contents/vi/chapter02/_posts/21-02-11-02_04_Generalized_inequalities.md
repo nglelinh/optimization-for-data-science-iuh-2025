@@ -13,14 +13,14 @@ Trên trục số thực $$\mathbb{R}$$, ta luôn so sánh được hai số b�
 
 Bài học này mở rộng khái niệm so sánh từ số thực sang vector và ma trận, đồng thời phân biệt hai khái niệm cực kỳ quan trọng trong tối ưu hóa đa mục tiêu: **phần tử tối tiểu (minimum)** và **phần tử cực tiểu (minimal / Pareto optimal)**.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép của thứ tự theo hình nón
+## Kiến thức cần nhớ: Bốn mảnh ghép của thứ tự theo hình nón
 
 - **Hình nón thích hợp (Proper Cone $$K$$):** Phải hội tụ đủ 4 điều kiện: lồi, đóng, đặc (có phần trong khác rỗng) và nhọn (không chứa cả đường thẳng nào, tức $$K \cap (-K) = \{0\}$$). Nhờ 4 tính chất này, quan hệ $$\preceq_K$$ thỏa mãn phản xạ, phản đối xứng, bắc cầu và bảo toàn phép cộng/nhân dương.
 - **Hai ví dụ mẫu mực:** $$K = \mathbb{R}_+^n$$ sinh ra so sánh từng thành phần trên vector ($$x_i \le y_i\ \forall i$$); $$K = \mathbb{S}_+^n$$ sinh ra thứ tự Loewner trên ma trận đối xứng ($$A \preceq B \iff B - A \succeq 0$$).
 - **Thứ tự bộ phận (Partial Order):** Khác với $$\mathbb{R}$$, hai đối tượng có thể **không so sánh được** với nhau (không $$x \preceq_K y$$ cũng không $$y \preceq_K x$$).
 - **Tối tiểu (Minimum) so với Cực tiểu (Minimal):** Phần tử tối tiểu nhỏ hơn *mọi* phần tử khác (thường không tồn tại trong bài toán đa mục tiêu); phần tử cực tiểu (Pareto) là phần tử không bị bất kỳ phần tử nào khác vượt trội hơn hẳn.
 
-### Khung giải thích (nên đọc chậm): So sánh hai cặp ma trận theo thứ tự Loewner ($$K = \mathbb{S}_+^2$$)
+### Giải thích: So sánh hai cặp ma trận theo thứ tự Loewner ($$K = \mathbb{S}_+^2$$)
 
 Xét ba ma trận đối xứng $$2\times 2$$:
 $$A = \begin{pmatrix}3 & 1\\ 1 & 2\end{pmatrix}, \qquad B = \begin{pmatrix}2 & 0\\ 0 & 1\end{pmatrix}, \qquad C = \begin{pmatrix}3 & 0\\ 0 & 0\end{pmatrix}.$$

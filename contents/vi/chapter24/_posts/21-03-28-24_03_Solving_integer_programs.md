@@ -13,7 +13,7 @@ Trong tối ưu lồi, chỉ cần thấy $$\nabla f(x^\star) = 0$$ (hoặc đi�
 
 Vậy làm sao một bộ giải MIP như Gurobi hay HiGHS có thể **chứng minh chắc chắn 100%** rằng không còn nghiệm nguyên nào tốt hơn nữa mà không phải vét cạn cả $$2^{1000}$$ tổ hợp? Câu trả lời là một chiến lược gọng kìm kinh điển: **kẹp nghiệm tối ưu $$z$$ giữa hai dãy cận — cận gốc (primal bound) chạy từ trên xuống và cận đối ngẫu (dual bound) chạy từ dưới lên** — cho đến khi hai gọng kìm khép chặt vào nhau.
 
-## Bản đồ kiến thức nền: Ba trụ cột của khung giải MIP bằng gọng kìm cận
+## Kiến thức cần nhớ: Ba trụ cột của khung giải MIP bằng gọng kìm cận
 
 Bài học này đặt ra kiến trúc tổng quát mà mọi bộ giải quy hoạch nguyên hiện đại đều tuân theo:
 
@@ -21,7 +21,7 @@ Bài học này đặt ra kiến trúc tổng quát mà mọi bộ giải quy ho
 - **Cận gốc $$\bar{z}$$ (Primal / Upper Bound cho bài toán cực tiểu):** Bất kỳ nghiệm nguyên khả thi $$x \in X$$ nào tìm được (nhờ heuristic, làm tròn thông minh, hay nghiệm nguyên từ cây tìm kiếm) đều cho ngay một cận trên $$\bar{z} = f(x) \ge z^\star$$. Cận trên càng giảm nhanh, bộ giải càng cắt tỉa được nhiều nhánh.
 - **Cận đối ngẫu $$\underline{z}$$ (Dual / Lower Bound cho bài toán cực tiểu):** Thu được từ các phép nới lỏng (LP, lồi, Lagrange) hoặc mặt phẳng cắt. Khi khoảng cách tương đối (*MIP gap*) $$\frac{\bar{z} - \underline{z}}{|\bar{z}|}$$ đạt $$0$$ (hoặc nhỏ hơn ngưỡng $$\varepsilon$$, ví dụ $$0.01\%$$), thuật toán dừng với bằng chứng toán học chặt chẽ về chất lượng nghiệm.
 
-### Khung giải thích (nên đọc chậm): Khép gọng kìm cận gốc – cận đối ngẫu bằng tay
+### Giải thích: Khép gọng kìm cận gốc – cận đối ngẫu bằng tay
 
 Xét bài toán quy hoạch nguyên cực tiểu hóa:
 

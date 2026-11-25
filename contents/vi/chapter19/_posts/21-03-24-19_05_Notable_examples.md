@@ -11,7 +11,7 @@ lang: vi
 
 Nếu cần bằng chứng thuyết phục nhất chứng minh phương pháp Newton proximal không chỉ đẹp trên giấy mà còn thống trị thực tế, hãy nhìn vào hai "huyền thoại phần mềm" trong thống kê học máy: **`glmnet`** (Friedman, Hastie, Tibshirani, 2009 — một trong những gói R/Python được trích dẫn nhiều nhất thế kỷ XXI) và **`QUIC`** (Hsieh et al., 2011 — chuẩn vàng cho bài toán ước lượng ma trận chính xác thưa graphical lasso). Cả hai đều có chung một bí quyết: dùng **Newton proximal ở vòng lặp ngoài** kết hợp **hạ tọa độ trên tập hoạt động ở vòng lặp trong**!
 
-## Bản đồ kiến thức nền: Giải phẫu kiến trúc của `glmnet` và `QUIC`
+## Kiến thức cần nhớ: Giải phẫu kiến trúc của `glmnet` và `QUIC`
 
 Bốn mảnh ghép sau cho thấy cách các tác giả biến lý thuyết Chương 19 thành bộ giải nhanh gấp hàng chục lần đối thủ:
 
@@ -20,7 +20,7 @@ Bốn mảnh ghép sau cho thấy cách các tác giả biến lý thuyết Chư
 - **Graphical Lasso và bài toán con bậc hai trong `QUIC`:** Hàm mục tiêu $$-\log\det\Theta + \operatorname{tr}(S\Theta) + \lambda\|\Theta\|_1$$ có gradient $$S - \Theta^{-1}$$ và Hessian $$\Theta^{-1} \otimes \Theta^{-1}$$. `QUIC` khai triển bậc hai $$-\log\det(\Theta + \Delta)$$ thành một bài toán Lasso ma trận đối xứng theo $$\Delta$$.
 - **Tập tự do (Free Set) giúp cắt giảm kích thước bài toán con:** Nhờ tính thưa của $$\ell_1$$, phần lớn phần tử của $$\Theta$$ thỏa mãn điều kiện tối ưu tại $$0$$ và bị khóa cố định. `QUIC` chỉ chạy hạ tọa độ trên tập nhỏ các biến tự do, giúp tốc độ tăng vọt hàng chục lần.
 
-### Khung giải thích (nên đọc chậm): Tự tay lập bài toán con Lasso có trọng số của `glmnet` trên 2 mẫu dữ liệu
+### Giải thích: Tự tay lập bài toán con Lasso có trọng số của `glmnet` trên 2 mẫu dữ liệu
 
 Xét bài toán hồi quy logistic 1 biến có phạt $$\ell_1$$ với $$n = 2$$ mẫu: $$(x_1, y_1) = (1, 1)$$ và $$(x_2, y_2) = (-1, 0)$$, tham số phạt $$\lambda = 0.1$$. Ta muốn lập bài toán con Newton proximal tại $$\beta^{(0)} = 0$$:
 

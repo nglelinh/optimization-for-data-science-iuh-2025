@@ -10,14 +10,14 @@ lang: en
 
 Why are the exact KKT conditions so hard to solve directly with Newton's method? Because complementary slackness $$u_i^\star h_i(x^\star) = 0$$ forms a sharp L-shaped corner at the origin: either $$u_i = 0$$ or $$h_i = 0$$. The log barrier magically rounds that sharp L-corner into the smooth hyperbola $$u_i(t) h_i(x^*(t)) = -\frac{1}{t}$$—keeping every variable strictly nonzero so the Jacobian stays smooth and nonsingular!
 
-## Background Knowledge Map: Exact KKT vs. Perturbed KKT
+## Key ideas: Exact KKT vs. Perturbed KKT
 
 - **Pillar 1 — Stationarity Matches Exactly:** Dividing the barrier optimality condition $$t\nabla f(x^*(t)) - \sum \frac{1}{h_i}\nabla h_i + A^T w = 0$$ by $$t$$ and setting $$u_i(t) = -\frac{1}{t h_i(x^*(t))}$$, $$v(t) = \frac{1}{t}w$$ yields exact KKT stationarity $$\nabla f + \sum u_i \nabla h_i + A^T v = 0$$.
 - **Pillar 2 — Strict Primal and Dual Feasibility:** Because $$h_i(x^*(t)) < 0$$ and $$t > 0$$, we automatically get $$u_i(t) > 0$$—meaning $$(u(t), v(t))$$ is *strictly dual feasible* at every single point on the central path!
 - **Pillar 3 — Hyperbolic Complementarity ($$u_i h_i = -1/t$$):** The sole difference between central-path KKT and true KKT is replacing $$0$$ with $$-1/t$$.
 - **Pillar 4 — Smooth Limit to Optimality:** As $$t \to \infty$$, the hyperbola $$u_i h_i = -1/t$$ hugs the coordinate axes tighter and tighter until it collapses onto exact complementary slackness $$u_i^\star h_i(x^\star) = 0$$.
 
-### Step-by-Step Worked Example (Read Slowly): Checking All Four Perturbed KKT Conditions Explicitly
+### Worked example: Checking All Four Perturbed KKT Conditions Explicitly
 
 Consider $$\min_{x} \frac{1}{2}x^2$$ subject to $$h_1(x) = 2 - x \le 0$$ (i.e., $$x \ge 2$$; true KKT solution: $$x^\star = 2, u_1^\star = 2$$). Solve the barrier problem at $$t = 1$$: $$\min_{x > 2} \frac{1}{2}x^2 - \log(x - 2)$$.
 

@@ -16,7 +16,7 @@ redirect_from:
 
 Bộ bài tập thực hành này tập trung vào các kỹ năng định lượng cốt lõi của Chương 06: phân tích tốc độ hội tụ thực nghiệm, so sánh trực tiếp Gradient Descent vs. Heavy Ball Momentum trên ma trận điều kiện xấu, cài đặt Backtracking Line Search và đánh giá nhiễu của SGD.
 
-## Bản đồ kiến thức nền: Bốn thói quen vàng khi thực nghiệm thuật toán tối ưu
+## Kiến thức cần nhớ: Bốn thói quen vàng khi thực nghiệm thuật toán tối ưu
 
 Trước khi giải bài tập trên giấy hoặc viết mã Python mô phỏng, hãy ghi nhớ bốn quy chuẩn thực nghiệm sau:
 
@@ -25,7 +25,7 @@ Trước khi giải bài tập trên giấy hoặc viết mã Python mô phỏng
 - **So sánh công bằng theo số phép tính gradient (Oracle Calls):** Khi so sánh Batch GD, Backtracking và SGD, đừng chỉ đếm số vòng lặp `k` — hãy đếm tổng số lượt duyệt dữ liệu (epochs) hoặc số lần đánh giá hàm/gradient!
 - **Kiểm soát chỉ số điều kiện $$\kappa$$ khi tạo bài test:** Để thấy rõ sự khác biệt giữa GD và Momentum, hãy thử nghiệm trên ma trận $$Q$$ có $$\kappa \in \{10, 100, 1000\}$$ (vì tại $$\kappa = 1$$ cả hai đều hội tụ sau đúng 1 bước!).
 
-### Khung giải thích (nên đọc chậm): Tính trước độ dốc đường `semilogy` để đối chiếu với kết quả chạy code
+### Giải thích: Tính trước độ dốc đường `semilogy` để đối chiếu với kết quả chạy code
 
 Giả sử bạn chạy bài tập so sánh GD và Momentum trên bài toán bậc hai có $$m = 1,\; L = 100$$ ($$\kappa = 100$$) với bước tối ưu:
 

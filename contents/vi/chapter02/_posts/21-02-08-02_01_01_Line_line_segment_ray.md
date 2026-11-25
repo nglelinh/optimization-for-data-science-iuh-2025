@@ -13,13 +13,13 @@ Trong không gian 2D hay 3D, ai cũng vẽ được đường thẳng, đoạn t
 
 Bài học ngắn nhưng nền tảng này đặt viên gạch ký hiệu đầu tiên cho toàn bộ hình học lồi của khóa học.
 
-## Bản đồ kiến thức nền: Ba đối tượng sơ cấp qua một tham số $$\theta$$
+## Kiến thức cần nhớ: Ba đối tượng sơ cấp qua một tham số $$\theta$$
 
 - **Đường thẳng (Line):** $$x(\theta) = \theta x_1 + (1-\theta)x_2$$ với $$\theta \in \mathbb{R}$$ tự do — không bị chặn cả hai đầu, là khuôn mẫu của **tập affine**.
 - **Đoạn thẳng (Line Segment):** Giới hạn $$0 \le \theta \le 1$$ — nối kín hai đầu mút $$x_1$$ (khi $$\theta = 1$$) và $$x_2$$ (khi $$\theta = 0$$), là khuôn mẫu của **tập lồi**.
 - **Tia (Ray):** $$x(t) = x_0 + t v$$ với $$t \ge 0$$ ($$v \ne 0$$) — xuất phát từ điểm gốc $$x_0$$ và kéo dài vô hạn theo đúng một hướng $$v$$, là khuôn mẫu của **hình nón** và phân tích hướng vô hạn (recession directions) trong tối ưu hóa.
 
-### Khung giải thích (nên đọc chậm): Định vị các điểm theo tham số $$\theta$$ giữa $$x_1 = (1, 2)$$ và $$x_2 = (5, 4)$$
+### Giải thích: Định vị các điểm theo tham số $$\theta$$ giữa $$x_1 = (1, 2)$$ và $$x_2 = (5, 4)$$
 
 Cho $$x_1 = (1, 2)^T$$ và $$x_2 = (5, 4)^T$$. Biểu diễn tham số là $$x(\theta) = \theta x_1 + (1 - \theta)x_2$$:
 

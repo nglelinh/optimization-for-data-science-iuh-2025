@@ -14,14 +14,14 @@ redirect_from:
 
 Knowing the formula $$x_{k+1} = x_k - t\nabla f(x_k)$$ takes ten seconds; knowing *why* it converges at $$O(1/k)$$ versus $$O((1 - m/L)^k)$$, when backtracking beats fixed steps, why SGD needs diminishing step sizes, and how momentum or L1/L2 penalties reshape the trajectory takes deep conceptual clarity. This quiz puts your entire Chapter 06 toolkit to the test.
 
-## Background Knowledge Map: Chapter 06 Mastery Checklist
+## Key ideas: Chapter 06 Mastery Checklist
 
 1. **Algorithm & Step-Size Rules**: Gradient descent update mechanics, stability threshold $$t < 2/L$$, Armijo backtracking condition $$f(x - t\nabla f) \le f(x) - \alpha t\|\nabla f\|_2^2$$, and exact line-search orthogonality $$\nabla f(x_{k+1})^T \nabla f(x_k) = 0$$.
 2. **Convergence Theory**: $$L$$-smoothness quadratic upper bound, $$O(1/k)$$ sublinear rate for convex functions, $$O(\kappa \log(1/\varepsilon))$$ linear rate under $$m$$-strong convexity, and Nesterov's $$\Omega(1/k^2)$$ lower bound for first-order methods.
 3. **Stochastic & Accelerated Variants**: Unbiasedness and variance floor of SGD, Robbins–Monro step-size conditions, Heavy-Ball/Nesterov momentum mechanics, and functional gradient descent in Gradient Boosting.
 4. **Regularization & Loss Geometry**: How L2 (Ridge) guarantees strong convexity and shrinks weights smoothly, while L1 (Lasso) induces exact sparsity via sharp coordinate corners.
 
-### Step-by-Step Worked Example (Read Slowly): Pre-Quiz Diagnostic on Convergence Rates
+### Worked example: Pre-Quiz Diagnostic on Convergence Rates
 
 **Warm-Up Question**: A twice-differentiable objective $$f: \mathbb{R}^2 \to \mathbb{R}$$ has Hessian $$\nabla^2 f(x) = \begin{bmatrix} 6 & 0 \\ 0 & 2 \end{bmatrix}$$ everywhere. If we run fixed-step GD with $$t = 1/L$$, what is the exact per-iteration contraction factor on $$\|x^{(k)} - x^\star\|_2$$?
 

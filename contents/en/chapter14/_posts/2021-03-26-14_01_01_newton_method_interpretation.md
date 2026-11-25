@@ -11,14 +11,14 @@ lang: en
 
 Why does the formula $$x^+ = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$ look like a matrix-scaled gradient? Because it isn't a heuristic rescaling at all—it is the exact minimizer of the best quadratic bowl tangent to $$f$$ at your current position $$x$$. Seeing both Gradient Descent and Newton's method as "minimize a local quadratic surrogate" unifies first-order and second-order optimization into one crystal-clear geometric picture.
 
-## Background Knowledge Map: Surrogate Minimization Geometry
+## Key ideas: Surrogate Minimization Geometry
 
 - **Pillar 1 — Second-Order Taylor Surrogate:** Near $$x$$, $$f_{\text{approx}}(y) = f(x) + \nabla f(x)^T(y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x)(y-x)$$ matches $$f$$'s value, slope, and curvature at $$x$$.
 - **Pillar 2 — Exact Minimization of the Surrogate:** Setting $$\nabla_y f_{\text{approx}}(y) = \nabla f(x) + \nabla^2 f(x)(y-x) = 0$$ immediately yields the Newton update $$y = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$.
 - **Pillar 3 — Gradient Descent as a Spherical Surrogate:** Replacing $$\nabla^2 f(x)$$ with $$\frac{1}{t}I$$ approximates the terrain by a perfectly round paraboloid, whose minimizer is $$y = x - t\nabla f(x)$$.
 - **Pillar 4 — Curvature-Matching Advantage:** When $$f$$'s level sets are elongated ellipses rather than circles, the true quadratic surrogate captures the eccentricity and aims straight at the center of the ellipse.
 
-### Step-by-Step Worked Example (Read Slowly): Building and Minimizing the Local Quadratic Surrogate
+### Worked example: Building and Minimizing the Local Quadratic Surrogate
 
 Let $$f(x) = x^4 - 4x + 5$$ at $$x = 2$$. We construct both the Newton surrogate and a Gradient Descent surrogate (with $$t = \frac{1}{50}$$).
 

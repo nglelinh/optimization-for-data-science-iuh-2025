@@ -11,7 +11,7 @@ lang: vi
 
 Trong rất nhiều bài toán tối ưu lớn — từ điều phối điện lưới quốc gia đến huấn luyện mô hình học máy trên hàng trăm máy chủ — khó khăn lớn nhất không nằm ở hàm mục tiêu, mà nằm ở **các ràng buộc liên kết** buộc mọi biến phải phụ thuộc lẫn nhau. Chương 20 mở ra một chiến lược chuyển hướng ngoạn mục: thay vì đối đầu trực diện với ràng buộc trong không gian gốc, ta chuyển sang **không gian đối ngẫu** thông qua hàm liên hợp $$f^*$$ và nhân tử Lagrange $$u$$. Khi biến đối ngẫu đóng vai trò như "bảng giá điều phối", bài toán khổng lồ bỗng tách rời thành hàng trăm bài toán con độc lập — mở đường cho phân rã đối ngẫu, hàm Lagrange tăng cường và thuật toán nổi tiếng **ADMM**.
 
-## Bản đồ kiến thức nền: Bốn trạm dừng chân cốt lõi của Chương 20
+## Kiến thức cần nhớ: Bốn trạm dừng chân cốt lõi của Chương 20
 
 Để thấy rõ mạch logic xuyên suốt Chương 20 (vì sao ta phải đi từ phương pháp đối ngẫu cơ bản đến tận ADMM), hãy nhìn bốn nấc thang tiến hóa sau:
 
@@ -20,7 +20,7 @@ Trong rất nhiều bài toán tối ưu lớn — từ điều phối điện l
 - **Hàm Lagrange tăng cường (Augmented Lagrangian):** Cộng thêm số hạng phạt bậc hai $$\frac{\rho}{2}\|Ax - b\|_2^2$$ để ép hội tụ vững chắc dưới điều kiện rất nhẹ — nhưng số hạng bình phương lại làm **mất tính phân rã song song**.
 - **ADMM (Alternating Direction Method of Multipliers):** Tách thành hai khối biến $$Ax + Bz = c$$ và cập nhật luân phiên theo kiểu Gauss–Seidel, kết hợp trọn vẹn **tính phân rã** của dual decomposition với **độ bền hội tụ** của augmented Lagrangian!
 
-### Khung giải thích (nên đọc chậm): Tính tay hàm liên hợp $$f^*$$ và giải bài toán có ràng buộc qua không gian đối ngẫu
+### Giải thích: Tính tay hàm liên hợp $$f^*$$ và giải bài toán có ràng buộc qua không gian đối ngẫu
 
 Xét bài toán lồi 2 biến có ràng buộc đẳng thức liên kết hai biến:
 

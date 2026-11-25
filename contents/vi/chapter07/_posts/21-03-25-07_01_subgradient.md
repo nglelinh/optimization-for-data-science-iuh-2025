@@ -14,7 +14,7 @@ Trong giải tích cổ điển, định nghĩa đạo hàm dựa trên giới h
 
 Nhà toán học R. Tyrrell Rockafellar và các bậc tiền bối đã lật ngược tính chất ấy thành chính **định nghĩa** của **Gradient dưới (Subgradient)**: không cần giới hạn, không cần khả vi — bất kỳ vector $$g$$ nào tạo ra một mặt phẳng đỡ toàn cục nằm dưới đồ thị $$f$$ đi qua $$(x, f(x))$$ đều xứng đáng được gọi là một subgradient!
 
-## Bản đồ kiến thức nền: Bốn góc nhìn cốt lõi về Subgradient
+## Kiến thức cần nhớ: Bốn góc nhìn cốt lõi về Subgradient
 
 Để tính thành thạo subgradient trên mọi hàm không trơn (từ $$\ell_1$$, $$\ell_2$$ đến hàm cực đại), hãy nắm bốn trụ cột:
 
@@ -27,7 +27,7 @@ Nhà toán học R. Tyrrell Rockafellar và các bậc tiền bối đã lật n
   4. Hàm cực đại $$f(x) = \max(f_1(x), f_2(x))$$: tại điểm giao $$f_1(x) = f_2(x)$$, mọi tổ hợp lồi của $$\nabla f_1(x)$$ và $$\nabla f_2(x)$$ đều là subgradient!
 - **Khác biệt lớn với Gradient — Không phải hướng giảm!** Một cú sốc thú vị: $$-g$$ với $$g \in \partial f(x)$$ **không nhất thiết** là hướng làm giảm $$f(x)$$ (chỉ đảm bảo làm giảm *khoảng cách tới $$x^\star$$* với bước đủ nhỏ!).
 
-### Khung giải thích (nên đọc chậm): Tính tay tập subgradient của hàm cực đại $$f(x) = \max(2x - 1,\; -x + 2)$$
+### Giải thích: Tính tay tập subgradient của hàm cực đại $$f(x) = \max(2x - 1,\; -x + 2)$$
 
 Xét hàm lồi từng mảnh $$f(x) = \max(f_1(x), f_2(x))$$ với $$f_1(x) = 2x - 1$$ (độ dốc $$2$$) và $$f_2(x) = -x + 2$$ (độ dốc $$-1$$):
 

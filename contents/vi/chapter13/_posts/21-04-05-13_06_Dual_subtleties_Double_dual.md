@@ -13,13 +13,13 @@ Trong thực hành lập bài toán đối ngẫu, có những "bẫy tinh tế"
 
 Một câu hỏi sâu sắc không kém là: *điều gì xảy ra nếu ta lấy đối ngẫu của chính bài toán đối ngẫu?* Bài học này đi sâu vào những tinh tế đó và chứng minh kết quả đẹp mắt về **đối ngẫu kép (double dual)**: với bài toán lồi đóng có cấu trúc phù hợp, đi qua hai lần phép đối ngẫu sẽ đưa bạn trở về đúng bài toán nguyên thủy ban đầu.
 
-## Bản đồ kiến thức nền: Các quy tắc an toàn khi biến đổi bài toán đối ngẫu
+## Kiến thức cần nhớ: Các quy tắc an toàn khi biến đổi bài toán đối ngẫu
 
 - **Tương đương nghiệm vs. Tương đương giá trị:** Khi biến đổi bài toán đối ngẫu (như đổi dấu thành cực tiểu hóa, lấy logarit, bỏ hằng số), tập nghiệm tối ưu $$u^\star$$ không đổi, nhưng giá trị mục tiêu đã thay đổi — bạn phải hoàn nguyên về $$g(u)$$ gốc trước khi tính duality gap $$f(x) - g(u)$$.
 - **Bài toán tương đương nguyên thủy có thể cho đối ngẫu khác nhau:** Thêm ràng buộc dư, biến đổi hàm mục tiêu (ví dụ $$\min \|Ax-b\|_2$$ so với $$\min \frac{1}{2}\|Ax-b\|_2^2$$) hay tách biến không làm thay đổi $$x^\star$$, nhưng có thể biến bài toán đối ngẫu từ chỗ khó giải thành cực kỳ đẹp mắt!
 - **Tính đối ngẫu kép (Double Dual):** Lấy đối ngẫu của bài toán đối ngẫu thực chất là lấy liên hợp kép $$f^{**}$$ (bao lồi đóng của $$f$$). Khi bài toán gốc lồi và thỏa tính đóng, đối ngẫu của đối ngẫu trả về đúng bài toán gốc.
 
-### Khung giải thích (nên đọc chậm): Minh họa hai bài toán nguyên thủy tương đương sinh ra hai đối ngẫu khác hẳn nhau
+### Giải thích: Minh họa hai bài toán nguyên thủy tương đương sinh ra hai đối ngẫu khác hẳn nhau
 
 Xét bài toán cực tiểu hóa 1 chiều đơn giản $$\min_{x \in \mathbb{R}} \vert x - 2 \vert$$ (nghiệm hiển nhiên $$x^\star = 2, f^\star = 0$$), và so sánh hai cách viết tương đương:
 

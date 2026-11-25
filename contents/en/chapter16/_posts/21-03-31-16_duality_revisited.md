@@ -11,14 +11,14 @@ lang: en
 
 You have already met Lagrange duality in Chapter 11, KKT conditions in Chapter 12, and log-barrier interior-point methods in Chapter 15. Why pause right here to *revisit* duality before entering Chapter 17? Because the barrier method solves only the primal problem while treating dual variables as a byproduct—whereas **Primal-Dual Interior-Point Methods** update primal and dual variables *simultaneously* on equal footing, and that symmetry only becomes transparent when you see Lagrangian min-max duality, perturbed KKT conditions, and Fenchel conjugates working together as one unified machine.
 
-## Background Knowledge Map: Why Duality Is Revisited Before Primal-Dual IPMs
+## Key ideas: Why Duality Is Revisited Before Primal-Dual IPMs
 
 - **Pillar 1 — Min–Max Saddle-Point Symmetry:** Writing the primal as $$\min_x \max_{u \ge 0, v} L(x, u, v)$$ and the dual as $$\max_{u \ge 0, v} \min_x L(x, u, v)$$ puts primal and dual variables on symmetric footing and explains weak duality in one line.
 - **Pillar 2 — Self-Symmetry of Barrier Problems:** Taking the Lagrange dual of the LP barrier problem recovers the *exact* barrier problem of the dual LP—revealing why primal-dual path-following is naturally symmetric.
 - **Pillar 3 — Exact vs. Perturbed KKT Systems:** Comparing KKT optimality ($$u_i h_i = 0$$) with barrier KKT optimality ($$u_i h_i = -1/t$$) directly defines the nonlinear residual vector $$r_t(x, u, v) = 0$$ that Chapter 17 solves with Newton's method.
 - **Pillar 4 — Fenchel Duality for Structured Problems:** The Fenchel pair $$\min_x f(x) + g(Ax) \leftrightarrow \max_v -f^*(A^T v) - g^*(-v)$$ gives an algebraic shortcut for composite ML losses, regularizers, and optimal transport.
 
-### Step-by-Step Worked Example (Read Slowly): Seeing the Saddle-Point Min–Max Identity on a 1D LP
+### Worked example: Seeing the Saddle-Point Min–Max Identity on a 1D LP
 
 Consider the 1D LP $$\min_x 2x$$ subject to $$x \ge 3$$ (i.e., $$h(x) = 3 - x \le 0$$). Its Lagrangian is $$L(x, u) = 2x + u(3 - x) = (2 - u)x + 3u$$ for $$u \ge 0$$.
 

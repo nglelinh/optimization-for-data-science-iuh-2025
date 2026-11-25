@@ -11,14 +11,14 @@ lang: en
 
 After seeing FISTA slash iteration counts from 20,000 down to 282, it is tempting to bolt Nesterov acceleration onto every optimization problem you ever encounter. Yet seasoned practitioners know a sobering truth: acceleration is a **high-gain amplifier**—it amplifies smooth deterministic curvature beautifully, but it also amplifies gradient noise, inexact proximal errors, and miscalibrated step sizes! Knowing *when* acceleration helps and when plain proximal gradient (or restarted FISTA) wins is what separates textbook theory from production-grade optimization.
 
-## Background Knowledge Map: The Practical Limits of Acceleration
+## Key ideas: The Practical Limits of Acceleration
 
 - **Pillar 1 — Nesterov Ripples & Overshoot:** When momentum approaches $$1$$ on a strongly convex or locally curved valley, FISTA overshoots the minimum and oscillates in visible "ripples" where $$f(x^{(k)})$$ temporarily increases. Gradient-scheme restarting (resetting $$t_k = 1$$ whenever $$(y^{(k)} - x^{(k)})^\top(x^{(k)} - x^{(k-1)}) > 0$$) eliminates ripples and often unlocks linear convergence.
 - **Pillar 2 — Sensitivity to Stochastic Noise & Inexact Prox:** Accelerated methods accumulate gradient errors with weight $$O(k)$$ instead of averaging them out; in noisy SGD or when $$\operatorname{prox}_{t h}$$ is solved only approximately, plain proximal gradient can actually beat FISTA unless errors decay rapidly.
 - **Pillar 3 — Warm Starts & Well-Conditioned Problems:** When solving a Lasso regularization path with warm starts (or when the condition number $$\kappa = L/\mu$$ is small, say $$\kappa \le 5$$), plain proximal gradient already converges in a handful of iterations where $$\beta_k$$ barely has time to ramp up.
 - **Pillar 4 — Strong Convexity Mismatch:** Standard FISTA assumes $$\mu = 0$$ (merely convex) and sets $$\beta_k \to 1$$, which is *under-damped* when $$g$$ is $$\mu$$-strongly convex. Using the fixed strong-convexity momentum $$\beta = \frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$$ (or adaptive restart) avoids under-damped oscillations.
 
-### Step-by-Step Worked Example (Read Slowly): Seeing Nesterov Overshoot on a Well-Conditioned Quadratic
+### Worked example: Seeing Nesterov Overshoot on a Well-Conditioned Quadratic
 
 Consider the perfectly conditioned 1D quadratic $$g(x) = \frac{1}{2} x^2$$ ($$L = 1, \mu = 1, \kappa = 1, x^\star = 0$$) with step size $$t = 0.5$$, starting at $$x^{(0)} = x^{(-1)} = 4$$.
 

@@ -11,14 +11,14 @@ lang: en
 
 When you first replace $$\nabla f(x^{(k-1)})$$ with a subgradient $$g^{(k-1)} \in \partial f(x^{(k-1)})$$, the update equation looks almost identical to ordinary gradient descent. Yet removing differentiability changes the algorithm's personality completely: you lose the guarantee of monotonic descent, you can no longer rely on Armijo backtracking line search, and you must rethink what "making progress" even means. This lesson introduces the canonical subgradient iteration and explains why optimization theorists deliberately drop the word "descent" from its name.
 
-## Background Knowledge Map: Anatomy of the Subgradient Update
+## Key ideas: Anatomy of the Subgradient Update
 
 - **Pillar 1 — Generalized First-Order Oracle:** At each iterate $$x^{(k-1)}$$, the algorithm queries a single arbitrary vector $$g^{(k-1)} \in \partial f(x^{(k-1)})$$. Computing all of $$\partial f(x)$$ is unnecessary; any one supporting slope suffices to define the step.
 - **Pillar 2 — Failure of Descent Directions:** For a smooth function, $$-\nabla f(x)$$ is always a descent direction whenever $$\nabla f(x) \neq 0$$. For a nonsmooth function, $$-g$$ can point strictly uphill along a ridge (forming an obtuse angle with the steepest descent direction), so $$f(x - tg) > f(x)$$ can happen for *every* $$t > 0$$.
 - **Pillar 3 — Distance Contraction as a Lyapunov Function:** Instead of tracking $$f(x^{(k)})$$, the analysis monitors $$\|x^{(k)} - x^\star\|_2^2$$. Because $$g^{(k-1)\top}(x^{(k-1)} - x^\star) \ge f(x^{(k-1)}) - f^\star > 0$$, the negative subgradient always forms an acute angle with $$x^\star - x^{(k-1)}$$, guaranteeing distance reduction for sufficiently small $$t_k$$.
 - **Pillar 4 — Keeping Track of $$x_{\text{best}}^{(k)}$$:** Since the last iterate $$x^{(k)}$$ may sit on an upward oscillation, any practical implementation stores $$x_{\text{best}}^{(k)} = \arg\min_{0 \le i \le k} f(x^{(i)})$$ at essentially zero extra memory cost.
 
-### Step-by-Step Worked Example (Read Slowly): Why $$-g$$ Can Fail to Be a Descent Direction for Every $$t > 0$$
+### Worked example: Why $$-g$$ Can Fail to Be a Descent Direction for Every $$t > 0$$
 
 Consider $$f(x_1, x_2) = \max\{ x_1 + 2x_2,\; x_1 - 2x_2 \}$$, which simplifies to $$f(x_1, x_2) = x_1 + 2|x_2|$$.
 

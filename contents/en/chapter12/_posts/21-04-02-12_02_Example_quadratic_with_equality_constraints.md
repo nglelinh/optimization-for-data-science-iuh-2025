@@ -12,14 +12,14 @@ lesson_type: required
 
 Equality-constrained quadratic programs—minimizing $$\frac{1}{2}x^\top P x + q^\top x + r$$ subject to $$Ax = b$$—are the workhorse subproblems inside Newton's method, interior-point solvers, portfolio optimization (Markowitz mean-variance), and Model Predictive Control. Because there are no inequality constraints at all, complementary slackness and dual sign restrictions vanish completely, and the KKT conditions collapse into a single linear block system called the **KKT matrix equation**!
 
-## Background Knowledge Map: Equality-Constrained QPs & the KKT Linear System
+## Key ideas: Equality-Constrained QPs & the KKT Linear System
 
 - **Pillar 1 — Exact Equivalence to a Linear System:** For $$P \succeq 0$$, the problem is convex with affine constraints (Slater holds trivially whenever $$Ax = b$$ is feasible). Thus $$x^\star$$ is optimal *if and only if* there exists $$v^\star \in \mathbb{R}^p$$ satisfying $$P x^\star + A^\top v^\star = -q$$ (stationarity) and $$A x^\star = b$$ (primal feasibility).
 - **Pillar 2 — Saddle-Point Block Matrix Structure:** Writing both equations together gives the symmetric $$(n+p) \times (n+p)$$ KKT matrix $$\begin{pmatrix} P & A^\top \\ A & 0 \end{pmatrix} \begin{pmatrix} x^\star \\ v^\star \end{pmatrix} = \begin{pmatrix} -q \\ b \end{pmatrix}$$. Even when $$P \succ 0$$, this matrix is *indefinite* (having positive and negative eigenvalues), reflecting the primal-min / dual-max saddle structure.
 - **Pillar 3 — Nonsingularity & Uniqueness:** When $$P \succ 0$$ and $$A$$ has full row rank $$p$$, the KKT matrix is nonsingular and we can eliminate $$x^\star = -P^{-1}(q + A^\top v^\star)$$ via the Schur complement $$A P^{-1} A^\top v^\star = -(b + A P^{-1} q)$$.
 - **Pillar 4 — Null-Space Interpretation When $$P$$ Is Singular:** Even if $$P \succeq 0$$ is singular, the KKT matrix remains nonsingular whenever $$P$$ is strictly positive definite on $$\ker(A)$$ (i.e., $$z^\top P z > 0$$ for all nonzero $$z$$ with $$Az = 0$$).
 
-### Step-by-Step Worked Example (Read Slowly): Solving a $$2 \times 2$$ Equality-Constrained QP via the KKT Matrix
+### Worked example: Solving a $$2 \times 2$$ Equality-Constrained QP via the KKT Matrix
 
 Minimize $$\frac{1}{2}(2x_1^2 + 4x_2^2) - 2x_1$$ subject to $$x_1 + x_2 = 3$$.
 Here $$P = \begin{pmatrix}2 & 0 \\ 0 & 4\end{pmatrix}$$, $$q = \begin{pmatrix}-2 \\ 0\end{pmatrix}$$, $$A = \begin{pmatrix}1 & 1\end{pmatrix}$$, $$b = (3)$$.

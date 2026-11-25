@@ -12,16 +12,16 @@ lesson_type: required
 
 Trong tối ưu hóa, một "phương án" — dù là danh mục đầu tư 50 cổ phiếu, lịch vận hành 24 giờ của nhà máy điện, hay bộ trọng số của một mô hình dự báo — đều được mã hóa thành một điểm duy nhất: một **vector** $$x \in \mathbb{R}^n$$. Khi hiểu không gian vector, cơ sở, tích vô hướng và các chuẩn khác nhau, bạn sẽ nhìn thấy ngay vì sao hình cầu đơn vị của chuẩn $$\ell_1$$ có các góc nhọn tạo nghiệm thưa còn chuẩn $$\ell_2$$ lại trơn tròn.
 
-Bài học này đặt lại nền móng vững chắc cho mọi thao tác vector sẽ xuất hiện xuyên suốt các chương về tập lồi và đối ngẫu.
+Bài học này đặt lại nền tảng cho mọi thao tác vector sẽ xuất hiện xuyên suốt các chương về tập lồi và đối ngẫu.
 
-## Bản đồ kiến thức nền: Hình học của không gian $$\mathbb{R}^n$$
+## Kiến thức cần nhớ: Hình học của không gian $$\mathbb{R}^n$$
 
 - **Tổ hợp tuyến tính, độc lập tuyến tính và cơ sở:** Cho biết tập các hướng cơ bản nhỏ nhất có thể sinh ra toàn bộ không gian tìm kiếm; tránh dư thừa biến hoặc ràng buộc phụ thuộc tuyến tính.
 - **Tích vô hướng và bất đẳng thức Cauchy–Schwarz:** Định nghĩa góc, tính trực giao và phép chiếu: $$|u^T v| \le \|u\|_2 \|v\|_2$$. Đây cũng là nguồn gốc trực tiếp của biểu diễn siêu phẳng $$a^T x = b$$ trong Chương 02.
 - **Các chuẩn vector ($$\ell_1, \ell_2, \ell_\infty$$):** Là những "thước đo độ dài" khác nhau trên cùng một không gian. Mỗi chuẩn sinh ra một dạng phạt điều chuẩn (regularization) riêng biệt trong học máy và tối ưu hóa.
 - **Không gian con (Subspace):** Tập các vector đóng dưới phép cộng và nhân vô hướng (luôn đi qua gốc tọa độ), là nguyên mẫu để định nghĩa tập affine $$x_0 + V$$ ở chương sau.
 
-### Khung giải thích (nên đọc chậm): So sánh ba chuẩn và kiểm chứng Cauchy–Schwarz trên $$v = (3, -4)^T$$
+### Giải thích: So sánh ba chuẩn và kiểm chứng Cauchy–Schwarz trên $$v = (3, -4)^T$$
 
 Cho hai vector trong $$\mathbb{R}^2$$: $$v = (3, -4)^T$$ và $$w = (1, 2)^T$$.
 

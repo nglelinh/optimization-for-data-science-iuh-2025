@@ -14,14 +14,14 @@ Mỗi ràng buộc trong bài toán thực tế — "ngân sách không vượt 
 
 Bài học này củng cố ký hiệu tập hợp, các phép toán hợp–giao–bù, ánh xạ và tích Descartes gắn liền với không gian biến quyết định.
 
-## Bản đồ kiến thức nền: Ngữ pháp tập hợp trong tối ưu hóa
+## Kiến thức cần nhớ: Ngữ pháp tập hợp trong tối ưu hóa
 
 - **Ký hiệu và đặc tả tập hợp:** Cách viết miền khả thi theo thuộc tính $$D = \{x \in \mathbb{R}^n : g_i(x) \le 0, h_j(x) = 0\}$$ giúp phân biệt rõ biến quyết định, tham số và miền xác định.
 - **Phép giao ($$\cap$$) và tính bảo toàn:** Giao của nhiều tập ràng buộc mô tả việc thỏa mãn *đồng thời* mọi điều kiện. Một phép màu lớn của Chương 02 là giao của họ bất kỳ các tập lồi luôn là tập lồi (còn phép hợp thì thường không!).
 - **Tích Descartes ($$A \times B$$):** Là cách xây dựng không gian nhiều biến (như $$\mathbb{R}^n = \mathbb{R} \times \cdots \times \mathbb{R}$$) và đặc biệt là không gian $$\mathbb{R}^n \times \mathbb{R}$$ chứa **epigraph** (biểu đồ trên) của hàm số.
 - **Ánh xạ, miền xác định và ảnh ngược:** Liên kết tập nghiệm của bài toán với ảnh ngược $$f^{-1}((-\infty, \alpha])$$ — chính là **tập mức dưới** (sublevel set) đóng vai trò trung tâm khi định nghĩa hàm lồi và hàm giả lồi.
 
-### Khung giải thích (nên đọc chậm): Dựng miền khả thi từ phép giao ba tập ràng buộc
+### Giải thích: Dựng miền khả thi từ phép giao ba tập ràng buộc
 
 Xét bài toán tìm cực tiểu của $$f(x_1, x_2) = -2x_1 - 3x_2$$ trên miền $$D = S_1 \cap S_2 \cap S_3 \subset \mathbb{R}^2$$ với:
 

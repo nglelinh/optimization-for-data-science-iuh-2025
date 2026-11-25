@@ -14,13 +14,13 @@ Trong thực hành tối ưu hóa, bạn hiếm khi phải ngồi chứng minh m
 
 Phần 02-02 giới thiệu danh mục các tập lồi và hình nón lồi quan trọng nhất xuất hiện dày đặc trong lý thuyết cũng như phần mềm tối ưu hóa.
 
-## Bản đồ kiến thức nền: Bốn họ "gạch xây" của miền khả thi lồi
+## Kiến thức cần nhớ: Bốn họ "gạch xây" của miền khả thi lồi
 
 - **Nhóm tuyến tính (Siêu phẳng, Nửa không gian, Đa diện, Đơn hình):** Được định nghĩa bởi các bất đẳng thức và đẳng thức tuyến tính $$Ax \le b,\ Cx = d$$ — lãnh địa của Quy hoạch tuyến tính (LP).
 - **Nhóm bậc hai & chuẩn (Hình cầu Euclid, Ellipsoid, Hình cầu $$\ell_1/\ell_\infty$$):** Định nghĩa qua chuẩn hoặc ma trận xác định dương — lãnh địa của tối ưu hóa có điều chuẩn (Ridge/Lasso) và Quy hoạch nón bậc hai (SOCP).
 - **Nhóm hình nón (Nón chuẩn, Nón không âm $$\mathbb{R}_+^n$$, Nón PSD $$\mathbb{S}_+^n$$):** Là nền tảng cho tối ưu hóa nón hiện đại (LP $$\subset$$ SOCP $$\subset$$ SDP).
 
-### Khung giải thích (nên đọc chậm): Đặt cùng một điểm $$x = (0.5, 0.5)^T$$ vào 4 tập lồi kinh điển
+### Giải thích: Đặt cùng một điểm $$x = (0.5, 0.5)^T$$ vào 4 tập lồi kinh điển
 
 Hãy kiểm tra xem điểm $$x = (0.5, 0.5)^T \in \mathbb{R}^2$$ nằm trong, trên biên, hay ngoài 4 tập lồi mẫu sau:
 

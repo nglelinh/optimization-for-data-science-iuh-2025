@@ -11,14 +11,14 @@ lang: en
 
 High-dimensional data matrices—from surveillance video streams to gene-expression tables—often hide two completely different structures superimposed on top of each other: a **low-rank background** $$L$$ plus a **sparse foreground** $$S$$ (Robust PCA), or a **low-rank covariance subspace** $$P$$ with **sparse loadings** (Fantope Sparse PCA). Interior-point SDP solvers choke once matrices exceed $$100 \times 100$$, because their Hessians scale as $$O(p^6)$$. **ADMM** handles $$1000 \times 1000$$ matrices effortlessly by splitting the spectral constraint (handled by SVD/eigendecomposition) from the entrywise sparsity constraint (handled by elementwise soft-thresholding)!
 
-## Background Knowledge Map: Spectral + Sparse Matrix Splitting in ADMM
+## Key ideas: Spectral + Sparse Matrix Splitting in ADMM
 
 - **Convex Relaxation of Rank (Fantope & Nuclear Norm):** Replacing nonconvex $$\operatorname{rank}(P) = k$$ with the Fantope $$\mathcal{F}^k = \{P : 0 \preceq P \preceq I, \operatorname{tr}(P) = k\}$$ (for Sparse PCA) or replacing $$\operatorname{rank}(L)$$ with the nuclear norm $$\|L\|_\ast = \sum_i \sigma_i(L)$$ (for Robust PCA) yields tractable convex programs with near-optimal statistical recovery.
 - **Singular Value Thresholding (SVT) Proximal Map:** The proximal operator of $$\tau\|L\|_\ast$$ is simply taking the SVD $$U \Sigma V^T$$ and soft-thresholding the singular values: $$\mathcal{D}_\tau(M) = U \operatorname{diag}\big((\sigma_i - \tau)_+\big) V^T$$.
 - **Fantope Projection:** Projecting a symmetric matrix $$M = Q \Lambda Q^T$$ onto $$\mathcal{F}^k$$ keeps the eigenvectors $$Q$$ intact and projects the eigenvalues $$\lambda_i$$ onto the capped simplex $$\{0 \le \gamma_i \le 1, \sum_i \gamma_i = k\}$$ via a fast 1D bisection!
 - **Decoupling Spectral vs. Entrywise Geometry:** In Robust PCA ($$\min \|L\|_\ast + \lambda\|S\|_1 \text{ s.t. } L + S = M$$), ADMM alternates one SVD (for $$L$$) and one elementwise soft-threshold (for $$S$$)—never mixing the two geometries inside a single subproblem!
 
-### Step-by-Step Worked Example (Read Slowly): One ADMM Iteration of Robust PCA ($$L + S = M$$)
+### Worked example: One ADMM Iteration of Robust PCA ($$L + S = M$$)
 
 Consider a $$2 \times 2$$ data matrix $$M = \begin{bmatrix} 2 & 2 \\ 2 & 5 \end{bmatrix}$$ (a rank-1 matrix $$\begin{bmatrix} 2 & 2 \\ 2 & 2 \end{bmatrix}$$ corrupted by a single sparse outlier $$+3$$ in the bottom-right corner!). Solve $$\min \|L\|_\ast + \lambda\|S\|_1$$ s.t. $$L + S = M$$ with $$\lambda = 0.5, \; \rho = 1$$ from $$S^0 = 0, \; W^0 = 0$$.
 

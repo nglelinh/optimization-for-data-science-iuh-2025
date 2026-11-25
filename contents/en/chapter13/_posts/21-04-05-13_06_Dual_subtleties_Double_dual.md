@@ -11,14 +11,14 @@ lang: en
 
 Two graduate students are asked to derive the dual of the exact same unconstrained optimization problem. Student A splits one term and obtains a dual with optimal value $$12$$; Student B splits a different linear operator and then drops a constant factor of $$\frac{1}{2}$$, obtaining a dual with optimal value $$24$$. Who is wrong? Possibly *neither*! Understanding how equivalent reformulations alter dual values—and when taking the dual of the dual brings you cleanly back to the primal—prevents subtle bugs when implementing primal-dual solvers.
 
-## Background Knowledge Map: Navigating Dual Subtleties and Biduality
+## Key ideas: Navigating Dual Subtleties and Biduality
 
 - **Pillar 1 — Equivalent Reformulations Can Shift Optimal Values:** Dropping constants, scaling the dual objective, or taking a monotone transformation (like $$\log$$) preserves the optimal dual variables $$u^\star$$, *but* breaks the identity $$f(x^\star) = g(u^\star)$$ when computing a duality gap.
 - **Pillar 2 — Non-Uniqueness of Dummy-Variable Duals:** Introducing $$z = x$$ versus $$z = Ax$$ leads to structurally different dual problems with different dimensions and conditioning, even though both correspond to the same primal.
 - **Pillar 3 — Linear-Constraint Double Dual via $$f^{**} = f$$:** For $$\min_x f(x)$$ s.t. $$Ax \le b, Cx = d$$, the dual is $$\max_{u\ge 0, v} -f^*(-A^Tu - C^Tv) - b^Tu - d^Tv$$. Taking its dual again yields $$f^{**}(x)$$ under the same constraints—recovering the primal whenever $$f$$ is closed and convex.
 - **Pillar 4 — Nonlinear Biduality & Convexification:** Even with nonlinear convex inequalities $$h_i(x) \le 0$$, closed convexity ensures the dual of the dual is the primal; for nonconvex problems, the double dual yields the tightest convex relaxation (biconjugate envelope).
 
-### Step-by-Step Worked Example (Read Slowly): Two Different Duals of the Same Problem & Double Dual Recovery
+### Worked example: Two Different Duals of the Same Problem & Double Dual Recovery
 
 Consider the unconstrained quadratic $$\min_{x \in \mathbb{R}} \frac{1}{2}(2x - 4)^2 + \frac{1}{2}x^2$$. Its true primal optimum is $$x^\star = \frac{8}{5} = 1.6$$ with $$f^\star = \frac{1}{2}(-0.8)^2 + \frac{1}{2}(1.6)^2 = 0.32 + 1.28 = 1.6$$.
 

@@ -14,14 +14,14 @@ Khi một mô hình tối ưu lồi hiện đại (như CVXPY gọi bộ giải 
 
 Bài đọc mở rộng này giúp bạn nhìn xuyên qua lớp vỏ thư viện để thấy cách bốn công cụ của Chương 13 (chuẩn đối ngẫu, đối ngẫu Lasso, phân rã Moreau qua hàm liên hợp và nón đối ngẫu) trở thành nền tảng cho cả bộ giải tối ưu công nghiệp lẫn hệ thống kiểm chứng an toàn AI giai đoạn 2022–2026.
 
-## Bản đồ kiến thức nền: Hệ sinh thái thuật toán dựa trên đối ngẫu hiện đại
+## Kiến thức cần nhớ: Hệ sinh thái thuật toán dựa trên đối ngẫu hiện đại
 
 - **Phép chiếu nón và phân rã Moreau:** Mọi vectơ $$v$$ đều phân tách trực giao duy nhất thành hình chiếu lên nón $$K$$ và hình chiếu lên nón cực $$-K^*$$: $$v = \Pi_K(v) + \Pi_{-K^*}(v)$$. Đây là trái tim của các bộ giải tách toán tử như ADMM và SCS.
 - **Chứng chỉ đối ngẫu cho tính khả thi và tối ưu:** Các bộ giải nón hiện đại không chỉ xuất ra nghiệm $$x^\star$$ mà còn xuất ra biến đối ngẫu $$y^\star, s^\star \in K^*$$ để chứng minh tính tối ưu (duality gap $$\approx 0$$) hoặc chứng minh bài toán vô nghiệm (chứng chỉ Farkas tổng quát).
 - **Biên an toàn trong kiểm chứng mạng nơ-ron:** Khi nới lỏng hàm kích hoạt phi tuyến ReLU thành bao lồi, việc cực đại hóa hàm đối ngẫu tạo ra chặn dưới hợp lệ cho biên phân loại ngay cả khi chưa chạy đến hội tụ hoàn toàn.
 - **Sàng lọc đặc trưng bằng quả cầu an toàn (Gap Safe Screening):** Từ khoảng cách đối ngẫu tại vòng lặp $$k$$, ta dựng được một quả cầu chắc chắn chứa $$u^\star$$ để loại sớm các biến Lasso bằng $$0$$ mà không hề đánh mất tính chính xác toàn cục.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tay đồng nhất thức Moreau cho chuẩn $$\ell_1$$ và liên hợp $$\ell_\infty$$
+### Giải thích: Kiểm chứng tay đồng nhất thức Moreau cho chuẩn $$\ell_1$$ và liên hợp $$\ell_\infty$$
 
 Xét hàm không trơn $$f(x) = \|x\|_1$$ trên $$\mathbb{R}^2$$ và hàm liên hợp của nó $$f^*(y) = I_{\{\|y\|_\infty \le 1\}}(y)$$. Đồng nhất thức Moreau khẳng định với mọi $$v \in \mathbb{R}^2$$:
 

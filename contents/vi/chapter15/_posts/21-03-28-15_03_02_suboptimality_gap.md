@@ -15,7 +15,7 @@ $$f(x^*(t)) - f(x^*) \le \frac{m}{t}.$$
 
 Hãy dừng lại vài giây để chiêm ngưỡng sự kỳ diệu của công thức này: nó **không phụ thuộc** vào hàm mục tiêu $$f$$ cong hay phẳng, **không phụ thuộc** vào số chiều $$n$$, và chỉ phụ thuộc vào đúng hai con số ta biết rõ mười mươi là **số lượng ràng buộc bất đẳng thức $$m$$** và **tham số chắn $$t$$** do chính tay ta chọn!
 
-## Bản đồ kiến thức nền: Cách chứng minh và ứng dụng công thức khoảng cách dưới tối ưu $$m/t$$
+## Kiến thức cần nhớ: Cách chứng minh và ứng dụng công thức khoảng cách dưới tối ưu $$m/t$$
 
 - **Chứng minh bằng hàm đối ngẫu Lagrange:** Vì $$x^*(t)$$ cực tiểu hóa hàm Lagrange $$L(x, u^*(t), v^*(t))$$ theo $$x$$ (do điều kiện dừng KKT nhiễu và tính lồi), ta có:
   $$g(u^*(t), v^*(t)) = L(x^*(t), u^*(t), v^*(t)) = f(x^*(t)) + \sum_{i=1}^m u_i^*(t) h_i(x^*(t)) + v^*(t)^T(Ax^*(t) - b).$$
@@ -24,7 +24,7 @@ Hãy dừng lại vài giây để chiêm ngưỡng sự kỳ diệu của công
 - **Suy ra chặn trên sai số tức thì:** Theo tính đối ngẫu yếu $$g(u^*(t), v^*(t)) \le f(x^*)$$, ta lập tức nhận được $$f(x^*(t)) - f(x^*) \le f(x^*(t)) - g(u^*(t), v^*(t)) = \frac{m}{t}$$!
 - **Tiêu chí dừng chuẩn vàng:** Muốn đạt độ chính xác $$\epsilon$$, thuật toán chỉ cần tăng $$t$$ cho đến khi $$\frac{m}{t} \le \epsilon$$ (tức $$t \ge \frac{m}{\epsilon}$$) là có chứng chỉ toán học tuyệt đối để dừng!
 
-### Khung giải thích (nên đọc chậm): Thiết kế ngưỡng dừng $$t$$ và kiểm chứng $$m/t$$ trên bài toán 3 ràng buộc
+### Giải thích: Thiết kế ngưỡng dừng $$t$$ và kiểm chứng $$m/t$$ trên bài toán 3 ràng buộc
 
 Xét bài toán tối ưu lồi có $$m = 3$$ ràng buộc bất đẳng thức:
 $$\min_{x \in \mathbb{R}^2} x_1 + 2x_2 \qquad \text{với } x_1 \ge 0, \; x_2 \ge 0, \; x_1 + x_2 \ge 1.$$

@@ -11,14 +11,14 @@ lang: en
 
 Maximizing return-to-risk ratios, minimizing unit production cost $$\frac{\text{fixed} + \text{variable}}{\text{output}}$$, or minimizing the ratio of distances to two targets all produce **linear-fractional** objectives that fail the ordinary Hessian test for convexity. Yet every one of them is *quasiconvex*: multiplying both sides of $$\frac{a^T x + b}{c^T x + d} \le \alpha$$ by the positive denominator instantly turns the nonlinear ratio into a single linear halfspace!
 
-## Background Knowledge Map: Recognizing Canonical Quasiconvex Functions
+## Key ideas: Recognizing Canonical Quasiconvex Functions
 
 - **Sublevel Set Criterion:** Check directly whether $$\{x \in \text{dom}\,f : f(x) \le \alpha\}$$ is a convex set for every $$\alpha \in \mathbb{R}$$.
 - **Quasilinear Functions (Monotone 1D & Logs):** Functions like $$\log x$$ ($$x > 0$$) and $$\lceil x \rceil$$ are both quasiconvex and quasiconcave because every sublevel and superlevel set is a half-line.
 - **Linear-Fractional Functions:** $$f(x) = \frac{a^T x + b}{c^T x + d}$$ on $$c^T x + d > 0$$ is quasilinear—its sublevel sets are halfspaces, making fractional linear programming solvable by bisection or Charnes–Cooper transformation.
 - **Distance Ratios & Vector Length:** Ratios $$\frac{\|x - a\|_2}{\|x - b\|_2}$$ on the halfspace where $$\|x - a\|_2 \le \|x - b\|_2$$ and the non-smooth "last nonzero index" length function are classic quasiconvex benchmarks.
 
-### Step-by-Step Worked Example (Read Slowly): Sublevel Halfspace of a Linear-Fractional Function
+### Worked example: Sublevel Halfspace of a Linear-Fractional Function
 
 Verify that $$f(x_1, x_2) = \frac{2x_1 + x_2 + 1}{x_1 + x_2 + 2}$$ is quasiconvex on $$D = \{(x_1, x_2) : x_1 + x_2 + 2 > 0\}$$.
 

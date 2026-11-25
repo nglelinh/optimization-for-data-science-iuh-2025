@@ -12,7 +12,7 @@ lesson_type: required
 
 Picture rolling a heavy iron ball down a narrow canyon whose walls are steep and whose floor slopes gently toward the sea. A massless marble (vanilla gradient descent) bounces wildly from wall to wall and barely moves forward; the heavy ball cancels out the opposing left-right bounces and builds speed smoothly down the canyon floor. That physical inertia is **Gradient Descent with Momentum** (Polyak's Heavy Ball), turning $$O(\kappa)$$ zig-zagging into $$O(\sqrt{\kappa})$$ acceleration.
 
-## Background Knowledge Map: Physics and Algebra of Momentum
+## Key ideas: Physics and Algebra of Momentum
 
 1. **Velocity Recursion (Exponential Moving Average)**: Momentum maintains a velocity vector $$v_k$$ that blends past velocity with the current gradient:
    $$v_k = \beta v_{k-1} + \nabla f(x_{k-1}), \qquad x_k = x_{k-1} - t v_k,$$
@@ -23,7 +23,7 @@ Picture rolling a heavy iron ball down a narrow canyon whose walls are steep and
 3. **Optimal Spectral Rate on Quadratics**: On an $$m$$-strongly convex, $$L$$-smooth quadratic, choosing $$t^\star = \frac{4}{(\sqrt{L} + \sqrt{m})^2}$$ and $$\beta^\star = \left(\frac{\sqrt{L} - \sqrt{m}}{\sqrt{L} + \sqrt{m}}\right)^2$$ cuts the contraction factor from $$\frac{\kappa - 1}{\kappa + 1}$$ down to $$\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$$.
 4. **Heavy Ball vs. Nesterov Look-Ahead**: Heavy Ball evaluates the gradient at the current position $$x_{k-1}$$; Nesterov momentum peeks ahead to $$x_{k-1} - t\beta v_{k-1}$$ before computing the gradient, acting as a corrective brake that prevents overshooting on general non-quadratic convex functions.
 
-### Step-by-Step Worked Example (Read Slowly): Watching Momentum Damp Zig-Zag and Boost Forward Progress
+### Worked example: Watching Momentum Damp Zig-Zag and Boost Forward Progress
 
 Minimize $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 16x_2^2)$$ (so $$m = 1, L = 16, \kappa = 16$$) starting at $$x^{(0)} = (10, 1)$$ with $$v^{(0)} = (0, 0)$$, using step size $$t = 0.1$$ and momentum $$\beta = 0.5$$.
 

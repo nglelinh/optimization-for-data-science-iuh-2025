@@ -11,14 +11,14 @@ lang: en
 
 Open two statistics textbooks on Lasso or Ridge regression and you will see two seemingly different optimization problems: one minimizes loss subject to a hard norm budget $$\|\beta\|_1 \le t$$ (**Constrained form**), while the other minimizes loss plus a penalty $$\lambda \|\beta\|_1$$ (**Lagrange form**). Are these two problems really the same? Using the KKT conditions, this lesson proves a clean, exact equivalence—and flags the one subtle edge case (strictly non-binding budgets vs. zero multipliers) where the two forms part ways!
 
-## Background Knowledge Map: Bridging Constrained (C) and Lagrange (L) Forms
+## Key ideas: Bridging Constrained (C) and Lagrange (L) Forms
 
 - **Pillar 1 — Comparing the Two Stationarity Equations:** For convex $$f, h$$, the constrained form $$\min \{ f(x) : h(x) \le t \}$$ has KKT stationarity $$0 \in \partial f(x^\star) + \lambda^\star \partial h(x^\star)$$ with $$\lambda^\star \ge 0$$ and $$\lambda^\star(h(x^\star) - t) = 0$$; the unconstrained Lagrange form $$\min_x f(x) + \lambda h(x)$$ has stationarity $$0 \in \partial f(x^\star) + \lambda \partial h(x^\star)$$.
 - **Pillar 2 — From (C) to (L) via Slater's Condition:** If $$x^\star$$ solves (C) and Slater's condition holds, KKT guarantees a multiplier $$\lambda^\star \ge 0$$ such that $$0 \in \partial f(x^\star) + \lambda^\star \partial h(x^\star)$$, meaning $$x^\star$$ *also* solves (L) for $$\lambda = \lambda^\star$$!
 - **Pillar 3 — From (L) to (C) via Tight Budget $$t = h(x^\star)$$:** Conversely, if $$x^\star$$ solves (L) for some $$\lambda \ge 0$$, simply setting $$t = h(x^\star)$$ makes primal feasibility ($$h(x^\star) \le t$$) and complementary slackness ($$\lambda(h(x^\star) - t) = 0$$) hold *identically*, so $$x^\star$$ solves (C) with $$t = h(x^\star)$$!
 - **Pillar 4 — Subtle Caveat (Why the Mapping $$\lambda \leftrightarrow t$$ Is Not Always 1-to-1):** If $$f$$ is not strictly convex (or if $$t$$ exceeds the unconstrained minimum's norm), a single $$\lambda$$ can correspond to a *whole set* of solutions with different values of $$h(x)$$, and for nonconvex $$f, h$$, the Lagrange form can actually *miss* constrained optima located on nonconvex dents of the Pareto frontier!
 
-### Step-by-Step Worked Example (Read Slowly): Mapping $$\lambda \leftrightarrow t$$ Explicitly on 1D Ridge Regression
+### Worked example: Mapping $$\lambda \leftrightarrow t$$ Explicitly on 1D Ridge Regression
 
 Let $$f(x) = \frac{1}{2}(x - 4)^2$$ and $$h(x) = \frac{1}{2}x^2$$.
 

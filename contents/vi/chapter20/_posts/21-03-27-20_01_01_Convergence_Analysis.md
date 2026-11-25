@@ -11,7 +11,7 @@ lang: vi
 
 Một trong những định lý đối xứng đẹp nhất trong toàn bộ giải tích lồi — xứng đáng được đóng khung treo tường — là sự **đối ngẫu giữa tính lồi mạnh và độ trơn Lipschitz**: hàm gốc $$f$$ càng "cong nhọn" (lồi mạnh với tham số $$d$$), thì hàm liên hợp $$f^*$$ càng "mềm mượt" (có gradient liên tục Lipschitz với hằng số $$1/d$$), và ngược lại! Định lý này không chỉ là vẻ đẹp thuần túy mà còn cho ta công thức bước học chính xác $$t \le d / \|A\|_2^2$$ để phương pháp tăng gradient đối ngẫu hội tụ an toàn.
 
-## Bản đồ kiến thức nền: Ba trụ cột của phân tích hội tụ phương pháp đối ngẫu
+## Kiến thức cần nhớ: Ba trụ cột của phân tích hội tụ phương pháp đối ngẫu
 
 Để đọc hiểu phần chứng minh và hệ quả thực tiễn trong bài học này, hãy nắm chắc ba mối liên hệ sau:
 
@@ -19,7 +19,7 @@ Một trong những định lý đối xứng đẹp nhất trong toàn bộ gi�
 - **Chuyển đổi hằng số Lipschitz qua ma trận ràng buộc $$A$$:** Với hàm đối ngẫu $$g(u) = -f^*(-A^T u) - b^T u$$, áp dụng quy tắc dây chuyền cho $$\nabla g(u) = A\nabla f^*(-A^T u) - b$$ cho thấy $$\nabla g$$ liên tục Lipschitz với hằng số $$L_g = \frac{\|A\|_2^2}{d}$$ (trong đó $$\|A\|_2 = \sigma_{\max}(A)$$ là giá trị kỳ dị lớn nhất của $$A$$).
 - **Hệ quả trực tiếp cho chọn bước học và tốc độ hội tụ:** Nhờ độ trơn $$L_g$$, Dual Gradient Ascent với bước học hằng số $$t \le \frac{1}{L_g} = \frac{d}{\|A\|_2^2}$$ đảm bảo hội tụ với tốc độ $$O(1/k)$$ (và có thể gia tốc lên $$O(1/k^2)$$ bằng Nesterov!). Ngược lại, nếu $$f$$ **không** lồi mạnh ($$d = 0$$), $$g$$ có thể không khả vi và buộc phải dùng bước học giảm dần chậm chạp $$O(1/\sqrt{k})$$.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng bằng số cặp hằng số $$(d, 1/d)$$ và ngưỡng bước học ổn định
+### Giải thích: Kiểm chứng bằng số cặp hằng số $$(d, 1/d)$$ và ngưỡng bước học ổn định
 
 Xét bài toán tối ưu 1 biến:
 

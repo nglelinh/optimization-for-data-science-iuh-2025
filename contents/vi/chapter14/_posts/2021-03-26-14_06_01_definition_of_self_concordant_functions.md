@@ -13,7 +13,7 @@ Nhìn thoáng qua bất đẳng thức định nghĩa hàm tự hài hòa $$\ver
 
 Và để mở rộng từ trục thực $$\mathbb{R}$$ sang không gian nhiều chiều $$\mathbb{R}^n$$ mà không phải vật lộn với ten-xơ đạo hàm bậc ba phức tạp, định nghĩa dùng một thủ thuật cực kỳ thanh lịch: một hàm nhiều biến $$f(x)$$ là tự hài hòa nếu lát cắt của nó dọc theo **mọi đường thẳng** $$g(t) = f(x + tv)$$ đều là hàm tự hài hòa 1 chiều!
 
-## Bản đồ kiến thức nền: Cấu trúc đại số và quy tắc bảo toàn tính tự hài hòa
+## Kiến thức cần nhớ: Cấu trúc đại số và quy tắc bảo toàn tính tự hài hòa
 
 - **Ý nghĩa của số mũ $$3/2$$:** Nếu đổi biến $$h(t) = f(\alpha t)$$, thì $$h''(t) = \alpha^2 f''(\alpha t)$$ và $$h'''(t) = \alpha^3 f'''(\alpha t)$$. Ta thấy $$\vert h''' \vert / (h'')^{3/2} = \vert \alpha^3 f''' \vert / (\alpha^2 f'')^{3/2} = \vert f''' \vert / (f'')^{3/2}$$ — tham số $$\alpha$$ triệt tiêu hoàn toàn!
 - **Mở rộng sang $$\mathbb{R}^n$$ qua lát cắt 1D:** $$f: \mathbb{R}^n \to \mathbb{R}$$ tự hài hòa khi và chỉ khi với mọi $$x \in \operatorname{dom} f$$ và mọi hướng $$v \in \mathbb{R}^n$$, hàm $$g(t) = f(x + tv)$$ tự hài hòa trên $$\mathbb{R}$$.
@@ -23,7 +23,7 @@ Và để mở rộng từ trục thực $$\mathbb{R}$$ sang không gian nhiều
   - Nhân một hàm tự hài hòa với hằng số $$c \ge 1$$ giữ nguyên tính tự hài hòa (còn nếu $$0 < c < 1$$ thì có thể phá vỡ bất đẳng thức vì vế trái nhân $$c$$ còn vế phải nhân $$c^{3/2} < c$$!).
 - **Các hàm tự hài hòa tiêu biểu:** Mọi hàm tuyến tính, hàm bậc hai lồi ($$f''' = 0$$), hàm $$-\log x$$, hàm $$-\sum \log(b_i - a_i^T x)$$, và $$-\log\det X$$ trên nón ma trận xác định dương.
 
-### Khung giải thích (nên đọc chậm): Kiểm tra trực tiếp hai hàm — một hàm tự hài hòa và một hàm KHÔNG tự hài hòa
+### Giải thích: Kiểm tra trực tiếp hai hàm — một hàm tự hài hòa và một hàm KHÔNG tự hài hòa
 
 1. **Kiểm tra $$f(x) = -\log(x) + 3x^2 - 5x$$ trên $$x > 0$$:**
    - $$f''(x) = \frac{1}{x^2} + 6 > \frac{1}{x^2}$$.

@@ -11,7 +11,7 @@ lang: en
 
 In real-world optimization, you almost never know the global Lipschitz constant $$L$$ in advance—and even when you do, $$L$$ reflects the *worst* curvature anywhere in $$\mathbb{R}^n$$, forcing tiny steps even across flat plateaus. Backtracking line search (Armijo's rule) solves both problems in five lines of code: try a bold step first, check if the objective dropped by a fair fraction of the linear prediction, and geometrically shrink the step until it passes.
 
-## Background Knowledge Map: Inside Armijo Backtracking Line Search
+## Key ideas: Inside Armijo Backtracking Line Search
 
 1. **The Sufficient-Decrease (Armijo) Condition**: Given parameters $$\alpha \in (0, 0.5]$$ and $$\beta \in (0, 1)$$, we accept step size $$t$$ when
    $$f(x - t\nabla f(x)) \le f(x) - \alpha t \|\nabla f(x)\|_2^2.$$
@@ -20,7 +20,7 @@ In real-world optimization, you almost never know the global Lipschitz constant 
 3. **Guaranteed Finite Termination**: Because $$f(x - t\nabla f(x)) \le f(x) - t(1 - \frac{Lt}{2})\|\nabla f(x)\|_2^2$$ for $$L$$-smooth functions, any $$t \le \frac{2(1-\alpha)}{L}$$ (in particular $$t \le 1/L$$ when $$\alpha \le 0.5$$) automatically satisfies Armijo! Hence backtracking stops with $$t \ge \min(t_0, \beta/L)$$ in at most $$O(\log(L))$$ evaluations.
 4. **Typical Hyperparameter Choices**: In practice, $$\alpha \in [0.01, 0.3]$$ (very permissive so large steps are accepted) and $$\beta \in [0.5, 0.8]$$ (halving or gently shrinking $$t$$) work reliably across convex and smooth nonconvex objectives.
 
-### Step-by-Step Worked Example (Read Slowly): Tracing Every Backtracking Trial on $$f(x) = x^4 - 4x$$
+### Worked example: Tracing Every Backtracking Trial on $$f(x) = x^4 - 4x$$
 
 Run one iteration of Armijo backtracking on $$f(x) = x^4 - 4x$$ starting at $$x = 0$$, with initial step $$t = 1$$, $$\alpha = 0.25$$, and $$\beta = 0.5$$.
 

@@ -13,7 +13,7 @@ Hãy tưởng tượng bạn đang trượt tuyết xuống một thung lũng c�
 
 Chương 08 mở ra cánh cửa bước qua ranh giới khả vi bằng một ý tưởng thanh lịch đáng kinh ngạc: **phương pháp subgradient**. Thay vì đầu hàng trước những điểm gãy không có tiếp tuyến duy nhất, ta thay gradient bằng *một* siêu phẳng đỡ (supporting hyperplane) bất kỳ nằm dưới đồ thị hàm lồi. Chỉ với thay đổi tưởng chừng nhỏ bé ấy, ta giải được gần như mọi bài toán tối ưu lồi không trơn — đổi lại là một hiện tượng thú vị: giá trị hàm mục tiêu không còn giảm đơn điệu sau từng bước, buộc ta phải nhìn vào hình học khoảng cách tới nghiệm tối ưu $$x^*$$.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu không trơn bậc nhất
+## Kiến thức cần nhớ: Bốn trụ cột của tối ưu không trơn bậc nhất
 
 Để hiểu sâu vì sao phương pháp subgradient vừa đơn giản vừa có những giới hạn rất đặc thù, hãy kết nối bốn nhánh kiến thức nền sau:
 
@@ -22,7 +22,7 @@ Chương 08 mở ra cánh cửa bước qua ranh giới khả vi bằng một ý
 - **Lý thuyết chọn kích thước bước (Step-size Schedules):** Không thể dùng backtracking line search như gradient descent vì $$-g$$ chưa chắc là hướng giảm. Toàn bộ nghệ thuật của chương xoay quanh các quy tắc bước định trước: bước cố định, bước giảm dần thỏa $$\sum t_k = \infty, \sum t_k^2 < \infty$$, và bước Polyak khi biết $$f^*$$.
 - **Tối ưu ngẫu nhiên và phân tách cấu trúc:** Khi hàm mục tiêu là tổng của hàng triệu mẫu dữ liệu, subgradient ngẫu nhiên thay tổng lớn bằng một mẫu duy nhất mỗi bước; và khi hàm có phần trơn cộng phần không trơn, tốc độ $$O(1/\epsilon^2)$$ của chương này sẽ là động lực trực tiếp dẫn sang phương pháp gradient gần kề ở Chương 09.
 
-### Khung giải thích (nên đọc chậm): Trượt xuống đáy chữ V không trơn trên một ví dụ tính tay
+### Giải thích: Trượt xuống đáy chữ V không trơn trên một ví dụ tính tay
 
 Xét hàm lồi không khả vi một biến $$f(x) = |x - 1| + \frac{1}{2}x^2$$. Điểm gấp khúc nằm ngay tại $$x = 1$$.
 

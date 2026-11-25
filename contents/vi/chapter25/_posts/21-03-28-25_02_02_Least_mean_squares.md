@@ -13,7 +13,7 @@ Nếu dữ liệu thực tế chứa những lỗi nhập liệu khổng lồ ho
 
 Thách thức duy nhất khiến LMS ít được dùng chính xác trong suốt 30 năm là tính NP-khó của nó. Bài học này trình bày cách Bertsimas và Mazumder (2014) viết lại bài toán tổng quát **Least Quantile Regression (LQS)** thành một quy hoạch nguyên hỗn hợp (MILP) gọn gàng, kết hợp khởi động nóng bằng thuật toán bậc nhất để giải chính xác và chứng nhận nghiệm.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Hồi quy phân vị nhỏ nhất (LQS) bằng MIP
+## Kiến thức cần nhớ: Bốn trụ cột của Hồi quy phân vị nhỏ nhất (LQS) bằng MIP
 
 Để hiểu trọn vẹn công thức MILP của bài toán LQS, hãy nắm chắc bốn trụ cột sau:
 
@@ -22,7 +22,7 @@ Thách thức duy nhất khiến LMS ít được dùng chính xác trong suốt
 - **Tối ưu phân rã hàm hiệu hai hàm lồi (Difference-of-Convex / First-Order Heuristic):** Vì tổng $$q$$ phần dư nhỏ nhất có thể viết dưới dạng hiệu của hai hàm lồi, thuật toán bậc nhất lặp luân phiên giữa tuyến tính hóa phần lõm (chọn tập $$q$$ mẫu có phần dư nhỏ nhất) và giải bài toán lồi con để tạo điểm khởi động nóng cực tốt.
 - **Chứng nhận toàn cục qua MIP Gap:** Khác với các thuật toán chọn ngẫu nhiên cổ điển (như `lqs` trong R chỉ lấy mẫu vài tổ hợp và không biết mình cách tối ưu bao xa), khung MILP cho biết chính xác khoảng cách tới nghiệm toàn cục.
 
-### Khung giải thích (nên đọc chậm): Tính tay mô hình MILP của LQS trên dữ liệu có ngoại lai cực đoan
+### Giải thích: Tính tay mô hình MILP của LQS trên dữ liệu có ngoại lai cực đoan
 
 Xét bài toán ước lượng hằng số vị trí $$\beta \in \mathbb{R}$$ (tức mô hình $$r_i = y_i - \beta$$) cho 3 quan sát $$y = (1,\; 2,\; 100)^T$$, với phân vị trung vị $$q = 2$$ (tối thiểu hóa phần dư nhỏ thứ 2, tức $$|r_{(2)}|$$).
 

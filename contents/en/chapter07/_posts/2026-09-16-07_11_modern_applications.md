@@ -12,14 +12,14 @@ lesson_type: optional
 
 Every time a modern ML pipeline trains a ReLU transformer, computes an adversarial perturbation, or enforces structured sparsity via nuclear or $$\ell_1$$ norms, it steps directly onto points where ordinary gradients do not exist. This companion lesson traces how Chapter 07's core objects—subgradients, subdifferentials $$\partial f(x)$$, and stationarity $$0 \in \partial f(x^\star)$$—reappear across 2022–2026 deep learning, automatic differentiation, and large-scale optimization.
 
-## Background Knowledge Map: Subgradient Theory in Modern Computing (2022–2026)
+## Key ideas: Subgradient Theory in Modern Computing (2022–2026)
 
 1. **Nonsmooth Autograd & Path Differentiability**: Reverse-mode AD on piecewise-smooth networks (ReLU, LeakyReLU, MaxPool, Huber, $$\ell_1$$) computes a *selection* from a conservative field. Understanding why the chain rule holds *as an inclusion* ($$\partial^C(f \circ g) \subseteq \dots$$) rather than strict equality explains edge-case gradient discrepancies at zero activations.
 2. **Adversarial & Distributionally Robust Optimization (Danskin's Theorem)**: Minimizing a worst-case loss $$\phi(w) = \max_{\delta \in \Delta} \ell(w, \delta)$$ is an infinite-index pointwise maximum. Subgradient calculus guarantees that $$\nabla_w \ell(w, \delta^\star) \in \partial \phi(w)$$ whenever $$\delta^\star$$ attains the inner maximum—justifying PGD adversarial training.
 3. **Nuclear-Norm & Group-Sparsity Subdifferentials**: Lifting the $$\ell_1$$ subdifferential from vectors to singular values of a matrix $$W = U\Sigma V^T$$ yields $$\partial \|W\|_* = \{UV^T + M : U^T M = 0,\; MV = 0,\; \|M\|_2 \le 1\}$$, which drives matrix completion and low-rank regularization.
 4. **Subgradient vs. Proximal Methods in Practice**: Pure subgradient descent on nonsmooth objectives converges slowly at $$O(1/\sqrt{k})$$ and is non-monotone; modern solvers instead isolate the nonsmooth term inside a closed-form *proximal operator* (like soft-thresholding), recovering fast $$O(1/k)$$ or $$O(1/k^2)$$ rates.
 
-### Step-by-Step Worked Example (Read Slowly): Computing a Danskin Subgradient for a Robust Loss
+### Worked example: Computing a Danskin Subgradient for a Robust Loss
 
 Consider a 1D robust regression loss where a single data point has uncertain target $$y \in [2, 4]$$:
 $$\phi(w) = \max_{y \in [2, 4]} \; \frac{1}{2}(w - y)^2.$$

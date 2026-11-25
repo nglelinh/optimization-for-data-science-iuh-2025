@@ -16,14 +16,14 @@ redirect_from:
 
 Tuyển tập bài tập thực hành Chương 16 dưới đây (tham khảo Boyd & Vandenberghe và Rockafellar) bao quát trọn vẹn năm kỹ năng đỉnh cao đó. Trước khi bắt tay giải Bài tập 1–5, hãy xem qua bản đồ chiến lược và một ví dụ mẫu cực kỳ trực quan về ý nghĩa kinh tế "giá bóng" của nhân tử Lagrange trong phân tích nhiễu loạn.
 
-## Bản đồ kiến thức nền: Năm kỹ năng tự luận đỉnh cao của Chương 16
+## Kiến thức cần nhớ: Năm kỹ năng tự luận đỉnh cao của Chương 16
 
 - **Phân tích nhiễu loạn và độ nhạy (Sensitivity Analysis):** Hàm giá trị tối ưu nhiễu loạn $$p^\star(u) = \inf \{f(x) \mid h(x) \le u\}$$ là hàm lồi theo $$u$$; khi đối ngẫu mạnh thỏa mãn và $$p^\star(u)$$ khả vi tại $$u = 0$$, ta có $$\lambda^\star = -\nabla p^\star(0)$$ — nhân tử đối ngẫu chính là **tốc độ cải thiện mục tiêu trên mỗi đơn vị nới lỏng ràng buộc**!
 - **Kiểm tra điều kiện Slater và đối ngẫu mạnh:** Luôn phân biệt ràng buộc tuyến tính (chỉ cần $$\le 0$$) với ràng buộc phi tuyến (cần $$< 0$$) và chú ý các trường hợp biên nơi đối ngẫu mạnh bị phá vỡ (duality gap $$> 0$$).
 - **Đối ngẫu nón (Conic Duality):** Biết cách dùng tích trong chuẩn trên không gian ma trận $$\langle C, X \rangle = \operatorname{tr}(C^T X)$$ và tính tự đối ngẫu của $$\mathbb{S}_+^n$$ để suy ra đối ngẫu SDP.
 - **Nới lỏng Lagrange cho bài toán không lồi / tổ hợp:** Dù bài toán gốc không lồi (như quy hoạch nguyên hay Max-Cut), hàm đối ngẫu Lagrange vẫn **luôn lõm** và cung cấp một chặn dưới (hoặc chặn trên) cực kỳ sắc nét dùng trong thuật toán Nhánh và Cận (Branch-and-Bound).
 
-### Khung giải thích (nên đọc chậm): Minh họa trực giác phân tích nhiễu loạn (giá bóng $$\lambda^\star = -p^{\star\prime}(0)$$)
+### Giải thích: Minh họa trực giác phân tích nhiễu loạn (giá bóng $$\lambda^\star = -p^{\star\prime}(0)$$)
 
 Xét bài toán cực tiểu hóa 1 chiều có tham số nhiễu $$u$$ ở vế phải ràng buộc:
 $$p^\star(u) = \min_{x \in \mathbb{R}} \frac{1}{2}x^2 \qquad \text{với điều kiện } 2 - x \le u \;\; (\text{tức } x \ge 2 - u).$$

@@ -11,14 +11,14 @@ lang: en
 
 If a robot arm is bolted to a flat rail, you do not need three spatial coordinates to describe its position—one coordinate along the rail tells the whole story. Eliminating affine equality constraints $$Ax = b$$ works on the exact same principle: every feasible vector $$x$$ splits into a single particular anchor $$x_0$$ plus a free movement $$My$$ inside the null space of $$A$$, turning a constrained problem into a lower-dimensional problem with no equality constraints at all.
 
-## Background Knowledge Map: Null-Space Parameterization of Affine Constraints
+## Key ideas: Null-Space Parameterization of Affine Constraints
 
 1. **Affine Subspace Decomposition**: Whenever $$Ax = b$$ is consistent, pick any particular solution $$x_0$$ with $$Ax_0 = b$$ and a matrix $$M \in \mathbb{R}^{n \times (n-r)}$$ whose columns form a basis for $$\operatorname{null}(A)$$ (where $$r = \operatorname{rank}(A)$$). Then $$\{x : Ax = b\} = \{My + x_0 : y \in \mathbb{R}^{n-r}\}$$, giving an exact, redundancy-free parameterization.
 2. **Convexity Is Automatically Preserved**: Substituting $$x = My + x_0$$ composes the convex objective $$f$$ and convex inequalities $$g_i$$ with an affine map. Because pre-composition with an affine function always preserves convexity, the reduced problem in $$y$$ is guaranteed to remain convex.
 3. **Dimension Reduction vs. Sparsity Loss**: Eliminating $$r$$ independent equalities shrinks the variable count from $$n$$ to $$n - r$$, which is great for small dense problems or analytical derivations. However, for large sparse systems (e.g., network flows or PDE meshes), computing a null-space basis $$M$$ via QR/SVD can be expensive and turn a sparse problem into a dense one—which is why large-scale solvers often keep $$Ax = b$$ explicitly via KKT systems.
 4. **Choice of Basis $$M$$ Matters Numerically**: Using an *orthonormal* basis $$M$$ (so $$M^T M = I$$, obtained from QR factorization of $$A^T$$) preserves Euclidean norms and avoids inflating the condition number of the Hessian $$M^T \nabla^2 f(x) M$$.
 
-### Step-by-Step Worked Example (Read Slowly): Reducing a 3D Constrained Quadratic to a 1D Unconstrained Problem
+### Worked example: Reducing a 3D Constrained Quadratic to a 1D Unconstrained Problem
 
 Minimize $$f(x_1, x_2, x_3) = x_1^2 + 2x_2^2 + x_3^2$$ subject to the two linear equalities:
 $$x_1 + x_2 + x_3 = 6, \qquad x_1 - x_3 = 0.$$

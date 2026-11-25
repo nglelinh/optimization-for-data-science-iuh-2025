@@ -16,14 +16,14 @@ redirect_from:
 
 Trước khi bắt tay vào bộ câu hỏi trắc nghiệm Chương 10 dưới đây, hãy điểm qua bản đồ bốn cụm kiến thức cốt lõi và kiểm chứng bốn phép thử ngắn để chắc tay trước mọi câu hỏi bẫy dấu và lý thuyết.
 
-## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 10
+## Kiến thức cần nhớ: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 10
 
 - **Bảng chuyển đổi Primal $$\leftrightarrow$$ Dual (S-O-B / quy tắc dấu):** Với Primal dạng $$\min$$: ràng buộc `=` $$\leftrightarrow$$ biến đối ngẫu tự do; ràng buộc `\ge` $$\leftrightarrow$$ biến đối ngẫu `\ge 0`; ràng buộc `\le` $$\leftrightarrow$$ biến đối ngẫu `\le 0` (hoặc đặt biến $$v \ge 0$$ rồi đổi dấu trước $$h^T v$$).
 - **Đối ngẫu yếu, đối ngẫu mạnh và 4 trạng thái khả dĩ:** Luôn có $$d \le p$$ (với Primal $$\min$$, Dual $$\max$$). Nếu Primal không bị chặn dưới $$\Rightarrow$$ Dual chắc chắn vô nghiệm; nhưng ngược lại Primal vô nghiệm có thể dẫn tới Dual không bị chặn **hoặc** Dual cũng vô nghiệm!
 - **Điều kiện bù (Complementary Slackness):** Tại cặp nghiệm tối ưu $$(x^*, u^*)$$, mọi ràng buộc bất đẳng thức gốc còn "lỏng" ($$a_i^T x^* < b_i$$) bắt buộc có biến đối ngẫu $$u_i^* = 0$$; và mọi biến đối ngẫu dương ($$u_i^* > 0$$) bắt buộc kéo theo ràng buộc gốc tương ứng phải chặt ($$a_i^T x^* = b_i$$).
 - **Hai ứng dụng kinh điển — Max Flow/Min Cut và Matrix Games:** Ghi nhớ rằng lát cắt cực tiểu là đối ngẫu của luồng cực đại, và định lý minimax $$\min_x \max_y x^T P y = \max_y \min_x x^T P y$$ là hệ quả trực tiếp của đối ngẫu mạnh LP.
 
-### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 10
+### Giải thích: Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 10
 
 1. **Bẫy 1 — Kiểm tra đối ngẫu yếu nhanh:** Một bài toán Primal $$\min$$ có nghiệm khả thi đạt $$p = 12$$, bài toán Dual $$\max$$ có nghiệm khả thi đạt $$d = 10$$. Ta kết luận được gì về $$p^*$$?
    Chắc chắn $$10 \le d^* = p^* \le 12$$ (giá trị tối ưu nằm trong đoạn $$[10, 12]$$; nếu có cặp nào đạt $$d = 12$$ thì lập tức kết luận tối ưu!).

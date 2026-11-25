@@ -14,13 +14,13 @@ Học tối ưu hóa lồi không phải chỉ để bấm nút gọi một bộ
 
 Bài học này phác họa bản đồ toàn khóa học: từ nền tảng hình học tập lồi, lý thuyết đối ngẫu KKT cho đến hệ sinh thái thuật toán bậc nhất, bậc hai và tách biến.
 
-## Bản đồ kiến thức nền: Ba tầng năng lực của người học tối ưu hóa lồi
+## Kiến thức cần nhớ: Ba tầng năng lực của người học tối ưu hóa lồi
 
 - **Tầng 1 — Nhận diện và tái phát biểu (Modeling & Reformulation):** Biến một bài toán thực tế thoạt nhìn không lồi hoặc không trơn (như chuẩn $$\ell_1$$, hàm $$\max$$, khử nhiễu TV) về dạng lồi chuẩn tương đương.
 - **Tầng 2 — Lý thuyết tối ưu và Đối ngẫu (Theory & Duality):** Dùng điều kiện KKT, hàm liên hợp và bài toán đối ngẫu để chứng nhận nghiệm tối ưu, tính cận dưới chất lượng nghiệm và phân tích độ nhạy.
 - **Tầng 3 — Thiết kế và chọn thuật toán (Algorithms):** Chọn đúng vũ khí theo quy mô và cấu trúc: phương pháp điểm trong cho độ chính xác cao cỡ vừa; Proximal Gradient, FISTA, ADMM hay Coordinate Descent cho dữ liệu lớn không trơn.
 
-### Khung giải thích (nên đọc chậm): Tự tay giải bài toán khử nhiễu 1D Total Variation (TV) 3 điểm
+### Giải thích: Tự tay giải bài toán khử nhiễu 1D Total Variation (TV) 3 điểm
 
 Giả sử ta đo được tín hiệu 3 điểm bị gai nhiễu ở giữa $$y = (0, 3, 0)^T$$ và muốn tìm tín hiệu sạch $$x = (x_1, x_2, x_3)^T$$ bằng bài toán khử nhiễu TV với trọng số phạt $$\lambda = 0.5$$:
 

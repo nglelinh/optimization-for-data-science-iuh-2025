@@ -11,7 +11,7 @@ lang: vi
 
 Ở bài 19-03 ta đã thấy điểm yếu lớn nhất của Newton proximal: khi số chiều $$n$$ lên đến hàng chục nghìn, ngay cả việc tính và lưu ma trận Hessian chính xác $$H = \nabla^2 g(x)$$ đã bất khả thi, chưa nói đến giải bài toán con bậc hai dày đặc bên trong. Một ý tưởng hết sức tự nhiên nảy ra từ Chương 18: **ta thay Hessian chính xác $$\nabla^2 g(x)$$ bằng một ma trận xấp xỉ rẻ tiền hơn $$B_k$$ (BFGS, L-BFGS, hoặc đường chéo/theo khối)!** Đó chính là họ **phương pháp Quasi-Newton proximal**.
 
-## Bản đồ kiến thức nền: Ba hướng thiết kế ma trận xấp xỉ độ cong cho bài toán tổng hợp
+## Kiến thức cần nhớ: Ba hướng thiết kế ma trận xấp xỉ độ cong cho bài toán tổng hợp
 
 Tùy vào cấu trúc của hàm không trơn $$h$$ và kích thước bài toán, người ta chọn một trong ba chiến lược xấp xỉ Hessian sau:
 
@@ -19,7 +19,7 @@ Tùy vào cấu trúc của hàm không trơn $$h$$ và kích thước bài toá
 - **Xấp xỉ theo khối (Blockwise Coordinate Gradient — Tseng & Yun, 2009):** Khi $$h(x) = \sum_b h_b(x_b)$$ tách được theo từng khối biến (như Group Lasso), ta chọn $$B_k$$ là ma trận khối đường chéo. Bài toán con lập tức tách thành nhiều bài toán nhỏ độc lập nhau, giải song song cực nhanh và đảm bảo hội tụ tuyến tính toàn cục.
 - **Xấp xỉ đường chéo cộng hạng thấp (Diagonal + Low-Rank):** Đặc biệt với L-BFGS, vì $$B_k = \gamma_k I + U M U^T$$ có cấu trúc đường chéo cộng hạng $$2m$$, ta có thể giải bài toán con $$\operatorname{prox}_{B_k}$$ bằng thuật toán hạ tọa độ hoặc bài toán đối ngẫu chỉ cỡ $$2m$$ biến (với $$m \approx 10$$)!
 
-### Khung giải thích (nên đọc chậm): So sánh chi phí giải bài toán con khi $$B_k$$ là ma trận đường chéo vs. ma trận đầy đủ
+### Giải thích: So sánh chi phí giải bài toán con khi $$B_k$$ là ma trận đường chéo vs. ma trận đầy đủ
 
 Xét bài toán 2 biến với $$h(x) = |x_1| + |x_2|$$ tại $$x = (1, 1)^T$$, $$\nabla g(x) = (2, 4)^T$$, và xét hai lựa chọn ma trận xấp xỉ Hessian:
 

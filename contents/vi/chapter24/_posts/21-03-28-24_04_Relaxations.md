@@ -13,7 +13,7 @@ Nếu ví quy hoạch nguyên như một khối đá gồ ghề khó đẽo, th�
 
 Trong bài học này, ta đối chiếu hai vũ khí tạo cận dưới quan trọng nhất của tối ưu rời rạc: **nới lỏng lồi** (bỏ trực tiếp ràng buộc nguyên) và **nới lỏng Lagrange** (giữ nguyên ràng buộc nguyên nhưng đưa các ràng buộc khó lên hàm mục tiêu kèm nhân tử phạt $$\lambda$$).
 
-## Bản đồ kiến thức nền: Ba trụ cột của lý thuyết Nới lỏng
+## Kiến thức cần nhớ: Ba trụ cột của lý thuyết Nới lỏng
 
 Để chọn đúng phép nới lỏng cho từng cấu trúc bài toán, hãy nắm chắc ba trụ cột sau:
 
@@ -21,7 +21,7 @@ Trong bài học này, ta đối chiếu hai vũ khí tạo cận dưới quan t
 - **Nới lỏng lồi (Convex / LP Relaxation):** Cách tự nhiên nhất là xóa bỏ điều kiện $$x_j \in \mathbb{Z}$$ (giữ nguyên $$x \in C$$). Nó luôn giải được trong thời gian đa thức, nhưng chất lượng cận dưới phụ thuộc cực mạnh vào cách ta *viết* các ràng buộc của $$C$$ (ví dụ ràng buộc rời rạc $$x_{ij} \le y_j$$ cho cận chặt hơn hẳn ràng buộc gộp).
 - **Nới lỏng Lagrange (Lagrangian Relaxation) và Bài toán đối ngẫu Lagrange:** Khi bài toán gồm các ràng buộc "dễ" (cho phép tách biến hoặc giải nhanh trên tập nguyên) trộn với vài ràng buộc "khó" $$Ax \le b$$, ta đưa $$Ax - b$$ lên hàm mục tiêu với nhân tử $$\lambda \ge 0$$. Tối đa hóa hàm đối ngẫu $$g(\lambda)$$ cho ra cận dưới **luôn bằng hoặc chặt hơn** nới lỏng LP tiêu chuẩn!
 
-### Khung giải thích (nên đọc chậm): Tính tay Nới lỏng Lagrange và đối chiếu với Nới lỏng LP
+### Giải thích: Tính tay Nới lỏng Lagrange và đối chiếu với Nới lỏng LP
 
 Xét bài toán quy hoạch nguyên 0–1 cực tiểu hóa:
 

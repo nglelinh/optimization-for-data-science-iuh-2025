@@ -12,14 +12,14 @@ lesson_type: required
 
 Why does gradient descent zig-zag painfully slowly down some quadratic valleys while racing straight to the bottom of others? The answer is hidden inside the eigenvalues and eigenvectors of the Hessian matrix. Eigenvectors reveal the natural, uncoupled axes of a symmetric transformation, and the ratio of the largest to smallest eigenvalue—the condition number—quantifies exactly how elongated the valley is.
 
-## Background Knowledge Map: Spectral Geometry in Optimization
+## Key ideas: Spectral Geometry in Optimization
 
 - **Invariant Directions ($$Av = \lambda v$$):** Eigenvectors are directions that $$A$$ only scales without rotating; along these axes, coupled multivariable dynamics decouple into independent 1D scalings.
 - **Spectral Theorem for Symmetric Matrices:** Every real symmetric matrix (including every smooth Hessian) has real eigenvalues and an orthonormal eigenbasis $$Q = U \Lambda U^T$$.
 - **Positive Definiteness via Eigenvalues:** $$Q \succ 0$$ if and only if all $$\lambda_i > 0$$ (strictly convex bowl), $$Q \succeq 0$$ if all $$\lambda_i \ge 0$$ (convex), and mixed signs signal a saddle point.
 - **Condition Number ($$\kappa = \lambda_{\max}/\lambda_{\min}$$):** Measures eccentricity of quadratic level sets; large $$\kappa$$ slows first-order methods while Newton's method rescales the axes to make $$\kappa = 1$$.
 
-### Step-by-Step Worked Example (Read Slowly): Eigen-Decomposition and Condition Number of a Hessian
+### Worked example: Eigen-Decomposition and Condition Number of a Hessian
 
 Analyze the symmetric quadratic matrix $$Q = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}$$ appearing in $$f(x) = \frac{1}{2}x^T Q x$$.
 

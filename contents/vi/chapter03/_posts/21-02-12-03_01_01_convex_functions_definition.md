@@ -13,14 +13,14 @@ Không phải mọi hàm lồi đều "đẹp" như nhau dưới góc độ thu�
 
 Bài học này phân biệt rạch ròi chuỗi bao hàm quan trọng bậc nhất của tối ưu hóa: **lồi mạnh $$\implies$$ lồi chặt $$\implies$$ lồi**, cùng khái niệm hàm lõm đối xứng.
 
-## Bản đồ kiến thức nền: Bốn cấp độ của độ cong lồi
+## Kiến thức cần nhớ: Bốn cấp độ của độ cong lồi
 
 - **Hàm lồi (Convex):** Miền xác định $$\operatorname{dom} f$$ lồi và $$f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y)$$. Bảo đảm cực tiểu địa phương = cực tiểu toàn cục, nhưng cực tiểu có thể không duy nhất.
 - **Hàm lồi chặt (Strictly Convex):** Bất đẳng thức chặt $$<$$ với mọi $$x \ne y,\ \theta \in (0, 1)$$. Bảo đảm nếu cực tiểu tồn tại thì nó là **duy nhất**, nhưng độ cong vẫn có thể tiến về $$0$$ ở vô cực.
 - **Hàm $$m$$-lồi mạnh ($$m$$-Strongly Convex):** $$f(x) - \frac{m}{2}\|x\|_2^2$$ vẫn còn lồi (với $$m > 0$$), tương đương $$\nabla^2 f(x) \succeq m I$$. Đồ thị bị chặn dưới toàn cục bởi một chiếc bát parabol có độ cong tối thiểu $$m$$, bảo đảm tốc độ hội tụ hình học (tuyến tính) cho Gradient Descent!
 - **Hàm lõm (Concave):** $$-f$$ là hàm lồi; cực đại hóa hàm lõm tương đương cực tiểu hóa hàm lồi $$-f$$.
 
-### Khung giải thích (nên đọc chậm): So sánh 3 hàm đại diện cho 3 nấc lồi trên $$\mathbb{R}$$
+### Giải thích: So sánh 3 hàm đại diện cho 3 nấc lồi trên $$\mathbb{R}$$
 
 Hãy kiểm tra trực tiếp từng nấc trên ba hàm cụ thể:
 

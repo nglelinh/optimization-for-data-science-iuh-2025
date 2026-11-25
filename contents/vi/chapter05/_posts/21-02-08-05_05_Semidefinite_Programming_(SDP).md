@@ -13,7 +13,7 @@ Trong Quy hoạch Tuyến tính, ta yêu cầu một vector $$x \in \mathbb{R}^n
 
 Bước nhảy vọt tưởng chừng trừu tượng ấy sinh ra **Quy hoạch Nửa xác định (Semidefinite Programming - SDP)** — một trong những phát kiến rực rỡ nhất của tối ưu hóa lồi cuối thế kỷ 20. Nhờ SDP, Goemans và Williamson (1995) đã phá vỡ kỷ lục xấp xỉ bài toán NP-khó Max-Cut với tỷ lệ đảm bảo $$0.878$$, các kỹ sư điều khiển chứng minh được tính ổn định của hệ phi tuyến qua hàm Lyapunov, và các nhà nghiên cứu AI kiểm chứng được độ vững chắc của mạng nơ-ron sâu.
 
-## Bản đồ kiến thức nền: Tư duy tối ưu trên không gian ma trận
+## Kiến thức cần nhớ: Tư duy tối ưu trên không gian ma trận
 
 Bốn trụ cột sau mở khóa trực giác về SDP và Bất đẳng thức Ma trận Tuyến tính (LMI):
 
@@ -24,7 +24,7 @@ Bốn trụ cột sau mở khóa trực giác về SDP và Bất đẳng thức 
   Nhờ đó ta chứng minh được ngay $$\text{LP} \subset \text{QP} \subset \text{QCQP} \subset \text{SOCP} \subset \text{SDP}$$.
 - **Nới lỏng SDP cho bài toán tổ hợp & Ma trận hạng thấp:** Khi gặp biến $$x_i \in \{-1, +1\}$$, ta đặt ma trận $$X = x x^T$$ thỏa $$X_{ii} = 1,\; X \succeq 0,\; \operatorname{rank}(X) = 1$$. Chỉ cần bỏ ràng buộc phi lồi $$\operatorname{rank}(X) = 1$$, ta thu được ngay một bài SDP lồi cực chặt!
 
-### Khung giải thích (nên đọc chậm): Chuyển bài toán tìm trị riêng lớn nhất và ràng buộc SOCP thành LMI 2×2
+### Giải thích: Chuyển bài toán tìm trị riêng lớn nhất và ràng buộc SOCP thành LMI 2×2
 
 **Ví dụ 1 — Tối thiểu hóa trị riêng lớn nhất $$\lambda_{\max}(A(x))$$:**
 Cho $$A(x) = \begin{pmatrix} 1 + x & 2 \\ 2 & 3 - x \end{pmatrix}$$. Tìm $$x \in \mathbb{R}$$ để $$\lambda_{\max}(A(x))$$ nhỏ nhất.

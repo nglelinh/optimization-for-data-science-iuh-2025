@@ -11,14 +11,14 @@ lang: en
 
 Picture yourself descending a misty mountain valley shaped like a long, narrow banana. Gradient descent looks only at the local slope under your boots and zig-zags endlessly from wall to wall. Newton's method surveys the entire bowl's exact curvature—computing all $$n(n+1)/2$$ second derivatives and inverting an $$n \times n$$ Hessian at every step—which is miraculous in $$n = 10$$ dimensions and completely infeasible in $$n = 50{,}000$$ dimensions. **Quasi-Newton methods** pull off one of the greatest bargains in numerical optimization: using *only* the gradients you already compute, they build a running low-rank portrait of the curvature that achieves superlinear convergence at $$O(n^2)$$ (or even $$O(n)$$) cost per step.
 
-## Background Knowledge Map: Why Quasi-Newton Sits Between GD and Newton
+## Key ideas: Why Quasi-Newton Sits Between GD and Newton
 
 - **The Curvature–Cost Trade-Off:** First-order methods cost $$O(n)$$ per step but suffer slow linear convergence $$O(\kappa \log(1/\epsilon))$$ when the condition number $$\kappa = L/\mu$$ is large. Exact Newton eliminates $$\kappa$$-dependence (quadratic local convergence) but pays $$O(n^3)$$ to factor $$\nabla^2 f(x)$$.
 - **Learning Curvature from Gradient Differences:** Every step $$s_k = x^{k+1} - x^k$$ produces a gradient change $$y_k = \nabla f(x^{k+1}) - \nabla f(x^k)$$, which reveals the directional curvature $$\nabla^2 f(x^k)\, s_k \approx y_k$$ for free.
 - **Low-Rank Symmetric Updates ($$O(n^2)$$ per step):** Instead of recomputing a Hessian from scratch, methods like SR1, DFP, and BFGS apply a rank-1 or rank-2 update to the current approximation $$B_k$$ (or directly to its inverse $$H_k = B_k^{-1}$$), avoiding $$O(n^3)$$ matrix inversions altogether.
 - **Superlinear Convergence Without Second Derivatives:** Under mild smoothness and Wolfe line-search conditions, BFGS attains *superlinear* convergence—closing the gap between linear gradient descent and quadratic Newton while never differentiating twice.
 
-### Step-by-Step Worked Example (Read Slowly): Comparing GD, Newton, and Quasi-Newton on an Ill-Conditioned Bowl
+### Worked example: Comparing GD, Newton, and Quasi-Newton on an Ill-Conditioned Bowl
 
 Consider $$f(x) = \frac{1}{2}(x_1^2 + 100 x_2^2)$$ starting at $$x^0 = (10, 1)^T$$ (exact optimum $$x^\star = (0, 0)$$, condition number $$\kappa = 100$$). Here $$\nabla f(x^0) = (10, 100)^T$$ and $$f(x^0) = 100$$.
 

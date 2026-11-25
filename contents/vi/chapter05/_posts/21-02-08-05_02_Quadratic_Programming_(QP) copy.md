@@ -14,7 +14,7 @@ Năm 1952, Harry Markowitz đặt một câu hỏi làm thay đổi hoàn toàn 
 
 Từ tối ưu danh mục đầu tư, điều khiển dự báo mô hình (MPC) trên xe tự lái và tên lửa SpaceX, cho đến huấn luyện máy vector hỗ trợ (SVM) — QP là một trong những bài toán được giải hàng tỷ lần mỗi ngày trong công nghiệp.
 
-## Bản đồ kiến thức nền: Cấu trúc đại số và hình học của QP
+## Kiến thức cần nhớ: Cấu trúc đại số và hình học của QP
 
 Để nắm vững QP cả về lý thuyết lẫn thực hành, hãy tập trung vào bốn trụ cột:
 
@@ -23,7 +23,7 @@ Từ tối ưu danh mục đầu tư, điều khiển dự báo mô hình (MPC) 
 - **Chuyển đổi về dạng chuẩn & Hệ KKT tuyến tính:** Khi không có ràng buộc bất đẳng thức (chỉ có $$Ax = b$$), bài toán QP giải được chính xác bằng **một hệ phương trình tuyến tính KKT duy nhất**. Khi có ràng buộc bất đẳng thức $$Gx \le h$$, các thuật toán tập tích cực (active-set), điểm trong (interior-point) hoặc ADMM (như bộ giải OSQP) giải cực nhanh.
 - **Mối liên hệ mật thiết với LP & Least Squares:** Đặt $$Q = 0$$ thì QP thu gọn về LP; bỏ hết ràng buộc và đặt $$Q = 2A^T A,\; c = -2A^T b$$ thì QP chính là Bình phương tối thiểu tuyến tính!
 
-### Khung giải thích (nên đọc chậm): Giải tay bài toán phân bổ danh mục đầu tư Markowitz (QP 2 tài sản)
+### Giải thích: Giải tay bài toán phân bổ danh mục đầu tư Markowitz (QP 2 tài sản)
 
 Giả sử bạn có 1 đơn vị vốn ($$x_1 + x_2 = 1,\; x_1, x_2 \ge 0$$) phân bổ vào 2 tài sản có ma trận hiệp phương sai rủi ro $$Q = \begin{pmatrix} 2 & 0 \\ 0 & 4 \end{pmatrix}$$ và lợi nhuận kỳ vọng $$\mu = (1,\; 2)^T$$. Ta giải QP:
 $$\min_{x_1, x_2} \; \frac{1}{2} x^T Q x - \mu^T x = x_1^2 + 2x_2^2 - x_1 - 2x_2 \quad \text{s.t.} \quad x_1 + x_2 = 1,\; x_1, x_2 \ge 0.$$

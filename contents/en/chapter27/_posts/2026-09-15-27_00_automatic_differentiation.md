@@ -12,14 +12,14 @@ lesson_type: required
 
 Every optimizer in Chapter 26 assumes a magic oracle hands you $$\nabla F(w)$$ on demand. Yet for a billion-parameter neural network, deriving gradients by hand is impossible, symbolic algebra explodes into megabytes of redundant expressions, and finite differences suffer both catastrophic roundoff error and $$O(d)$$ cost. **Automatic Differentiation (AD)** is the quiet miracle that resolves all three failures at once: by applying the chain rule mechanically to elementary operations inside a computational graph, reverse-mode AD computes the *exact* gradient of a scalar loss with respect to a billion parameters in roughly **2–3×** the cost of a single forward pass.
 
-## Background Knowledge Map: The Four Pillars of Automatic Differentiation
+## Key ideas: The Four Pillars of Automatic Differentiation
 
 - **Not Symbolic, Not Finite Differences:** Finite differences approximate derivatives via $$\frac{f(x+h)-f(x)}{h}$$ (truncation + cancellation error, $$O(d)$$ evaluations). Symbolic differentiation manipulates closed-form formulas (expression swell). AD differentiates *numerical execution traces* at machine precision.
 - **Computational Graphs (DAGs):** Every differentiable program unrolls into a Directed Acyclic Graph of elementary primitives ($$+, \times, \exp, \text{matmul}$$) whose local derivatives are known analytically.
 - **Forward Mode (JVP) vs. Reverse Mode (VJP):** Forward mode propagates input tangents $$\dot{v} = J_v \dot{x}$$ in one pass (ideal when inputs $$n \ll m$$ outputs). Reverse mode propagates output adjoints $$\bar{v} = J_v^\top \bar{y}$$ backward from the loss (ideal when $$n \gg m = 1$$, i.e., deep learning!).
 - **Higher-Order & Implicit Differentiation:** Composing JVPs and VJPs yields exact Hessian-vector products in $$O(1)$$ passes, while implicit differentiation (IFF / unrolling) computes hypergradients for bilevel optimization.
 
-### Step-by-Step Worked Example (Read Slowly): Why Finite Differences Fail While AD Is Exact
+### Worked example: Why Finite Differences Fail While AD Is Exact
 
 Consider $$f(x) = \sin(x^2)$$ at $$x = 2.0$$, where the exact derivative is $$f'(2) = 2x\cos(x^2) = 4\cos(4) \approx -2.61457448$$.
 

@@ -13,14 +13,14 @@ Một cái bẫy cực kỳ nguy hiểm khi làm việc với hàm giả lồi: 
 
 Bài học này hệ thống hóa các quy tắc lắp ghép hàm giả lồi và cách giải bài toán tối ưu giả lồi bằng chuỗi bài toán lồi.
 
-## Bản đồ kiến thức nền: Bốn quy tắc bảo toàn và biểu diễn Hàm giả lồi
+## Kiến thức cần nhớ: Bốn quy tắc bảo toàn và biểu diễn Hàm giả lồi
 
 - **Cực đại từng điểm (không phải phép cộng!):** Nếu $$f_i$$ giả lồi và $$w_i \ge 0$$ thì $$f(x) = \max_i w_i f_i(x)$$ (hoặc $$\sup_{y} w(y) f(x, y)$$) luôn giả lồi. *Cảnh báo:* $$f_1 + f_2$$ không nhất thiết giả lồi!
 - **Hợp thành với hàm không giảm và ánh xạ affine:** Nếu $$g$$ giả lồi và $$h: \mathbb{R} \to \mathbb{R}$$ không giảm thì $$h(g(x))$$ giả lồi (nhờ đó mọi phép biến đổi đơn điệu như $$e^{g}, g^3, \ln g$$ bảo toàn tính giả lồi!); hợp thành $$f(Ax + b)$$ hay phân thức tuyến tính cũng bảo toàn tính giả lồi.
 - **Cực tiểu hóa từng phần:** Nếu $$f(x, y)$$ giả lồi đồng thời theo $$(x, y)$$ và $$C$$ là tập lồi, thì $$g(x) = \inf_{y \in C} f(x, y)$$ vẫn giả lồi.
 - **Biểu diễn qua họ hàm lồi $$\phi_t(x)$$:** Mọi hàm giả lồi đều biểu diễn được tập mức dưới dạng $$f(x) \le t \iff \phi_t(x) \le 0$$ với $$\phi_t$$ là **hàm lồi** theo $$x$$ — đây chính là động cơ của phương pháp chia đôi tối ưu giả lồi!
 
-### Khung giải thích (nên đọc chậm): Giải tay 3 bước chia đôi cho bài toán giả lồi $$\min_{x \ge 0} \frac{x^2 + 1}{x + 2}$$
+### Giải thích: Giải tay 3 bước chia đôi cho bài toán giả lồi $$\min_{x \ge 0} \frac{x^2 + 1}{x + 2}$$
 
 Xét bài toán tối ưu giả lồi $$\min_{x \ge 0} f(x) = \frac{x^2 + 1}{x + 2}$$:
 

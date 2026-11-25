@@ -13,7 +13,7 @@ Vì sao phương pháp gradient gần kề lại vượt xa phương pháp subgr
 
 Tuy nhiên, trong thực hành có một trở ngại quen thuộc: ta hiếm khi biết trước hằng số Lipschitz $$L$$ của $$\nabla g$$ (chẳng hạn với ma trận $$A$$ khổng lồ, tính giá trị kỳ dị lớn nhất $$\|A\|_2^2$$ rất tốn kém). Đó là lý do nửa sau bài học giới thiệu **tìm kiếm đường thẳng lùi (backtracking line search)** cho bài toán tổng hợp — một điều kiện dừng tinh gọn chỉ kiểm tra độ cong trên riêng phần trơn $$g$$ mà vẫn bảo toàn nguyên vẹn tốc độ $$O(1/k)$$.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của chứng minh hội tụ gradient gần kề
+## Kiến thức cần nhớ: Bốn trụ cột của chứng minh hội tụ gradient gần kề
 
 - **Bất đẳng thức trơn $$L$$-Lipschitz của $$\nabla g$$:** Mọi hàm $$g$$ có $$\nabla g$$ liên tục $$L$$-Lipschitz đều bị chặn trên bởi parabol:
   $$g(y) \le g(x) + \nabla g(x)^T(y - x) + \frac{L}{2}\|y - x\|_2^2.$$
@@ -26,7 +26,7 @@ Tuy nhiên, trong thực hành có một trở ngại quen thuộc: ta hiếm kh
   Lưu ý: mỗi lần thu nhỏ $$t$$ phải tính lại $$x^+ = \operatorname{prox}_{t h}(x - t\nabla g(x))$$, nên $$h$$ cần có prox thật nhẹ.
 - **Bảo toàn hằng số tốc độ khi dùng backtracking:** Vì điều kiện backtracking chắc chắn dừng ngay khi $$t \le 1/L$$, bước được chọn luôn thỏa $$t_k \ge \min(t_0, \beta/L)$$, nên cận hội tụ chỉ tăng thêm tối đa một hệ số hằng $$1/\beta$$.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tay điều kiện backtracking và cận $$O(1/k)$$
+### Giải thích: Kiểm chứng tay điều kiện backtracking và cận $$O(1/k)$$
 
 Xét $$g(x) = 2x^2$$ (nên $$\nabla g(x) = 4x$$ và $$L = 4$$, ngưỡng an toàn là $$1/L = 0.25$$) và $$h(x) = |x|$$ (nghiệm tối ưu $$x^* = 0, f^* = 0$$). Bắt đầu từ $$x^{(0)} = 1$$, giả sử ta *không biết* $$L = 4$$ và thử backtracking với $$t = 1.0$$, hệ số thu hẹp $$\beta = 0.5$$.
 

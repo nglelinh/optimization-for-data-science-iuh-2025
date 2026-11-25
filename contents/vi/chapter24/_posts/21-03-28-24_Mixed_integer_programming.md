@@ -13,7 +13,7 @@ Suốt 23 chương trước, ta sống trong thế giới êm đềm của tối
 
 Ngay khoảnh khắc ta thêm ràng buộc tưởng chừng bé nhỏ $$x_j \in \mathbb{Z}$$ (hoặc $$x_j \in \{0, 1\}$$), toàn bộ địa hình tối ưu vỡ vụn thành các điểm rời rạc, biến bài toán thành **quy hoạch số nguyên hỗn hợp (Mixed Integer Programming — MIP)** — một trong những công cụ mô hình hóa mạnh mẽ nhất nhưng cũng thách thức nhất của vận trù học và khoa học dữ liệu.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Quy hoạch số nguyên hỗn hợp (Phần I)
+## Kiến thức cần nhớ: Bốn trụ cột của Quy hoạch số nguyên hỗn hợp (Phần I)
 
 Chương 24 mở cánh cửa bước vào thế giới tối ưu rời rạc thông qua bốn trụ cột liên hoàn:
 
@@ -22,7 +22,7 @@ Chương 24 mở cánh cửa bước vào thế giới tối ưu rời rạc th�
 - **Phép nới lỏng và Cận đối ngẫu (Relaxations & Dual Bounds):** Mở rộng miền khả thi về một tập lồi (nới lỏng LP/lồi hoặc nới lỏng Lagrange) cung cấp cận dưới chặt, đóng vai trò chiếc la bàn đo khoảng cách tới nghiệm nguyên tối ưu.
 - **Chia để trị bằng Nhánh và Cận (Branch and Bound):** Phân hoạch bài toán gốc thành cây các bài toán con nhỏ hơn và mạnh tay *cắt tỉa* (prune) những nhánh có cận dưới tệ hơn nghiệm nguyên tốt nhất đã biết — nền tảng của mọi bộ giải MIP chính xác.
 
-### Khung giải thích (nên đọc chậm): Vì sao không thể "giải LP rồi làm tròn"?
+### Giải thích: Vì sao không thể "giải LP rồi làm tròn"?
 
 Xét bài toán quy hoạch nguyên 2 biến cực kỳ đơn giản:
 

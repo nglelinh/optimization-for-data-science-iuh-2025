@@ -14,14 +14,14 @@ Trước khi máy tính có thể giải bất kỳ bài toán thực tế nào 
 
 Bài học này đặt ra bộ khung chuẩn mực gồm biến tối ưu, hàm mục tiêu, ràng buộc bất đẳng thức, ràng buộc đẳng thức và phân biệt rõ giá trị tối ưu $$p^*$$ với nghiệm tối ưu $$x^*$$.
 
-## Bản đồ kiến thức nền: Giải phẫu một bài toán tối ưu chuẩn
+## Kiến thức cần nhớ: Giải phẫu một bài toán tối ưu chuẩn
 
 - **Biến quyết định ($$x \in \mathbb{R}^n$$):** Các đại lượng ta thực sự có quyền điều chỉnh (khác với các tham số cố định cho trước của bài toán).
 - **Hàm mục tiêu ($$f_0(x)$$):** Thước đo chi phí cần tối thiểu hóa. Nếu bài toán gốc yêu cầu *tối đa hóa* lợi nhuận $$u(x)$$, ta chỉ cần đổi dấu thành *tối thiểu hóa* $$-u(x)$$.
 - **Miền khả thi (Feasible Set):** Tập tất cả các điểm $$x$$ thỏa mãn đồng thời mọi ràng buộc $$g_i(x) \le 0$$ và $$h_j(x) = 0$$. Nếu miền này rỗng, bài toán *vô nghiệm* (infeasible, $$p^* = +\infty$$).
 - **Giá trị tối ưu ($$p^*$$) và tập nghiệm tối ưu ($$X_{\text{opt}}$$):** Một bài toán có thể có nghiệm duy nhất, vô số nghiệm cùng đạt $$p^*$$, hoặc không bị chặn dưới ($$p^* = -\infty$$).
 
-### Khung giải thích (nên đọc chậm): Chuẩn hóa và giải tay một bài toán phân bổ chi phí 2 biến
+### Giải thích: Chuẩn hóa và giải tay một bài toán phân bổ chi phí 2 biến
 
 Một xưởng cần sản xuất ít nhất $$5$$ tấn hỗn hợp từ hai nguyên liệu $$x_1, x_2$$ (tấn) với chi phí lần lượt $$3$$ triệu/tấn và $$2$$ triệu/tấn, sao cho dùng tối thiểu $$1$$ tấn loại 1 và $$2$$ tấn loại 2.
 

@@ -12,14 +12,14 @@ lesson_type: optional
 
 In 2017, Federated Averaging (FedAvg) became the standard recipe for training machine learning models across phones and hospitals without centralizing raw data. Yet whenever clients hold *non-IID* (heterogeneous) data, FedAvg suffers from **client drift**: each local optimizer pulls weights toward its own local optimum, and naive averaging stalls far from the global minimizer. Between 2022 and 2026, **FedADMM** and **FedADMM-InSa** solved client drift using the exact lesson of Chapter 20: add a dual variable $$u_i$$ to price the consensus constraint $$w_i = z$$!
 
-## Background Knowledge Map: Dual Methods Inside Modern Federated Learning
+## Key ideas: Dual Methods Inside Modern Federated Learning
 
 - **Federated Consensus Formulation:** Minimizing $$\sum_{i=1}^N f_i(w_i)$$ subject to $$w_i = z$$ casts federated learning directly as Chapter 20's equality-constrained decomposition problem, where client $$i$$ keeps its private loss $$f_i$$ on-device.
 - **Why FedAvg Drifts Under Heterogeneity:** FedAvg drops the dual multipliers $$u_i$$ completely. At the global optimum $$z^\star$$, individual local gradients $$\nabla f_i(z^\star) \neq 0$$ even though $$\sum_i \nabla f_i(z^\star) = 0$$—so local SGD steps push clients *away* from $$z^\star$$!
 - **Dual Multipliers Cancel Local Bias:** In FedADMM, each client's dual variable converges to $$u_i^\star = -\nabla f_i(z^\star)$$, shifting client $$i$$'s local augmented objective so that $$z^\star$$ becomes a *stationary point of every single client's subproblem*!
 - **Inexactness & Self-Adaptive Penalties (FedADMM-InSa, 2024):** Modern federated ADMM allows clients to run just a few local SGD steps (verifying an implementable local residual test) while adapting $$\beta_i^k$$ automatically to handle stragglers and partial participation.
 
-### Step-by-Step Worked Example (Read Slowly): Seeing Dual Variables Cure Client Drift on 2 Heterogeneous Clients
+### Worked example: Seeing Dual Variables Cure Client Drift on 2 Heterogeneous Clients
 
 Suppose two clients have conflicting 1D quadratic losses: $$f_1(w_1) = \frac{1}{2}(w_1 - 2)^2$$ (local optimum $$2$$) and $$f_2(w_2) = \frac{1}{2}(w_2 + 2)^2$$ (local optimum $$-2$$). The true global consensus optimum is $$z^\star = 0$$.
 

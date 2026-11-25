@@ -12,14 +12,14 @@ lesson_type: required
 
 At a kink, picking just one subgradient tells only part of the story—to test optimality or combine functions algebraically, we need the *entire collection* of valid slopes at once. That set, denoted $$\partial f(x)$$, is the **subdifferential**. Even when $$f$$ is nonsmooth (or even nonconvex!), $$\partial f(x)$$ obeys remarkably clean topological laws that make set-valued calculus possible.
 
-## Background Knowledge Map: Structural Properties of the Subdifferential
+## Key ideas: Structural Properties of the Subdifferential
 
 1. **Always Closed and Convex**: By definition, $$\partial f(x) = \bigcap_{y \in \operatorname{dom}(f)} \{g \in \mathbb{R}^n : g^T(y - x) \le f(y) - f(x)\}$$. Because it is an intersection of closed halfspaces in $$g$$, $$\partial f(x)$$ is *always* a closed convex set—even if $$f$$ itself is nonconvex!
 2. **Non-Empty and Bounded on the Interior**: For any finite convex function $$f: \mathbb{R}^n \to \mathbb{R}$$, $$\partial f(x)$$ is guaranteed to be non-empty and compact (closed and bounded) at every $$x \in \mathbb{R}^n$$. (At boundary points of a restricted domain, $$\partial f(x)$$ can be empty—for instance, $$f(x) = -\sqrt{x}$$ on $$x \ge 0$$ has $$\partial f(0) = \emptyset$$ because its slope is $$-\infty$$.)
 3. **Singleton Characterization of Differentiability**: For a convex function $$f$$, $$f$$ is differentiable at $$x$$ if and only if $$\partial f(x)$$ contains exactly one element, in which case $$\partial f(x) = \{\nabla f(x)\}$$.
 4. **Directional Derivatives via Support Function**: The directional derivative of $$f$$ at $$x$$ in direction $$v$$ equals the maximum inner product over the subdifferential: $$f'(x; v) = \max_{g \in \partial f(x)} g^T v$$.
 
-### Step-by-Step Worked Example (Read Slowly): Computing the Full Subdifferential of a Piecewise-Linear Function
+### Worked example: Computing the Full Subdifferential of a Piecewise-Linear Function
 
 Compute $$\partial f(x)$$ at every point $$x \in \mathbb{R}$$ for $$f(x) = \max\{-2x,\; x - 3,\; 3x - 9\}$$.
 

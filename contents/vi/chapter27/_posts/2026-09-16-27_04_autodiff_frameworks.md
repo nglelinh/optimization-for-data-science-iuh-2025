@@ -14,7 +14,7 @@ Từ công thức quy tắc dây chuyền trên bảng trắng cho đến việc
 
 Điểm thú vị nhất của AD hiện đại không chỉ dừng ở tính gradient bậc nhất: bằng cách **lồng ghép chế độ thuận và chế độ nghịch** (như `jvp` bọc ngoài `grad`), các khung như JAX cho phép tính tích Hessian–vector (HVP) cho tối ưu bậc hai và tính đạo hàm phương trình đạo hàm riêng trong mạng nơ-ron vật lý (PINN) một cách gọn gàng chỉ trong vài dòng lệnh.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của hệ sinh thái AD giai đoạn 2022–2026
+## Kiến thức cần nhớ: Bốn trụ cột của hệ sinh thái AD giai đoạn 2022–2026
 
 Khi chọn công cụ AD cho một dự án nghiên cứu hay sản phẩm, hãy đối chiếu theo bốn trụ cột sau:
 
@@ -23,7 +23,7 @@ Khi chọn công cụ AD cho một dự án nghiên cứu hay sản phẩm, hãy
 - **Enzyme (AD cấp trình biên dịch LLVM):** Thay vì buộc nhà khoa học viết lại hàng triệu dòng code mô phỏng C++/Fortran/Julia sang Python, Enzyme chạy AD chiều nghịch trực tiếp trên mã trung gian LLVM IR *sau khi trình biên dịch đã tối ưu hóa*, đạt tốc độ gần ngang mã viết tay.
 - **Học máy khoa học & PINN (Physics-Informed Neural Networks):** Mạng nơ-ron không chỉ khớp dữ liệu mà còn phải thỏa mãn phương trình vi phân riêng (như Navier–Stokes hay phương trình truyền nhiệt), đòi hỏi lấy đạo hàm *của đầu ra theo tọa độ đầu vào* $$(x, t)$$ rồi lại lấy đạo hàm bậc hai theo trọng số $$w$$!
 
-### Khung giải thích (nên đọc chậm): Tính tay tích Hessian–Vector (HVP) bằng kỹ thuật Forward-over-Reverse
+### Giải thích: Tính tay tích Hessian–Vector (HVP) bằng kỹ thuật Forward-over-Reverse
 
 Trong tối ưu bậc hai (Chương 14) hay PINN, ma trận Hessian $$H \in \mathbb{R}^{d \times d}$$ quá lớn để lưu trữ khi $$d = 10^6$$, nhưng ta chỉ cần tích $$H(x)v$$. Kỹ thuật **Forward-over-Reverse** (trong JAX là `jax.jvp(jax.grad(f), (x,), (v,))`) tính chính xác $$H(x)v$$ mà không bao giờ lập ma trận $$H$$!
 

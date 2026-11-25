@@ -13,13 +13,13 @@ Nhiều sinh viên thuộc lòng công thức $$x^+ = x - (\nabla^2 f(x))^{-1}\n
 
 Sự khác biệt duy nhất nằm ở chất lượng của mô hình xấp xỉ: Gradient Descent thay ma trận độ cong thật $$\nabla^2 f(x)$$ bằng một quả cầu tròn đơn giản $$\frac{1}{2t}\|y - x\|_2^2$$, còn phương pháp Newton giữ nguyên vẹn **khai triển Taylor bậc hai đầy đủ** của $$f$$ tại $$x$$. Nhờ giữ đúng hình dạng hình học thực của hàm, đỉnh của parabol xấp xỉ nằm sát đáy thật hơn rất nhiều.
 
-## Bản đồ kiến thức nền: Diễn giải phương pháp Newton như bài toán cực tiểu hóa xấp xỉ bậc hai
+## Kiến thức cần nhớ: Diễn giải phương pháp Newton như bài toán cực tiểu hóa xấp xỉ bậc hai
 
 - **Khai triển Taylor bậc hai:** Quanh điểm $$x$$, $$\tilde{f}_x(y) = f(x) + \nabla f(x)^T(y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x)(y-x)$$. Đặt $$\nabla_y \tilde{f}_x(y) = 0$$ cho ra ngay $$\nabla f(x) + \nabla^2 f(x)(y - x) = 0 \implies y = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$.
 - **So sánh trực tiếp với Gradient Descent:** Gradient Descent cực tiểu hóa $$f(x) + \nabla f(x)^T(y-x) + \frac{1}{2t}\|y-x\|_2^2$$ — tương đương việc giả vờ rằng $$\nabla^2 f(x) \approx \frac{1}{t}I$$.
 - **Diễn giải theo chuẩn Hessian cục bộ:** Bước Newton cũng là hướng giảm dốc nhất nếu ta đo độ dài bước đi bằng **chuẩn Hessian** $$\|v\|_{\nabla^2 f(x)} = \sqrt{v^T \nabla^2 f(x) v}$$ thay vì chuẩn Euclid $$\|v\|_2$$.
 
-### Khung giải thích (nên đọc chậm): Dựng tường minh parabol Taylor bậc hai và tìm đỉnh của nó
+### Giải thích: Dựng tường minh parabol Taylor bậc hai và tìm đỉnh của nó
 
 Xét hàm 1 chiều $$f(x) = x^4 - 4x + 5$$ tại điểm xuất phát $$x_0 = 2$$ (nghiệm thật của $$f'(x) = 4x^3 - 4 = 0$$ là $$x^\star = 1$$).
 

@@ -13,7 +13,7 @@ Suốt Chương 06, Gradient Descent vận hành trơn tru như một cỗ máy 
 
 Chương 07 mở ra giải pháp thiên tài của giải tích lồi không trơn: **Gradient dưới (Subgradient)** và **Vi phân dưới (Subdifferential)**. Thay vì bất lực trước các điểm gãy khúc, ta nhận ra tại mỗi góc nhọn của hàm lồi không chỉ có một tiếp tuyến duy nhất, mà có cả một **chùm siêu phẳng đỡ phía dưới** — và chỉ cần vector $$0$$ nằm trong chùm đó, ta lập tức có chứng chỉ tối ưu toàn cục!
 
-## Bản đồ kiến thức nền: Kiến trúc của Giải tích Lồi Không Trơn (Chương 07)
+## Kiến thức cần nhớ: Kiến trúc của Giải tích Lồi Không Trơn (Chương 07)
 
 Toàn bộ 15 bài học trong Chương 07 xây dựng trên bốn trụ cột mạch lạc:
 
@@ -22,7 +22,7 @@ Toàn bộ 15 bài học trong Chương 07 xây dựng trên bốn trụ cột m
 - **Phép tính Vi phân dưới (Subgradient Calculus):** Tương tự quy tắc đạo hàm tổng, nhân hằng số dương, hợp thành affine và hàm cực đại $$\max_i f_i(x)$$ (bao lồi các subgradient của những hàm đang đạt cực đại).
 - **Điều kiện tối ưu $$0 \in \partial f(x^\star)$$ & Ứng dụng kinh điển:** Công thức cực gọn $$0 \in \partial f(x^\star)$$ lập tức suy ra điều kiện tối ưu bậc nhất của Chương 04, công thức tối ưu Lasso, phép toán **Ngưỡng mềm (Soft-Thresholding)** và đạo hàm hàm khoảng cách đến tập lồi!
 
-### Khung giải thích (nên đọc chậm): Khám phá trực giác Subgradient tại điểm gãy khúc của $$f(x) = |x|$$
+### Giải thích: Khám phá trực giác Subgradient tại điểm gãy khúc của $$f(x) = |x|$$
 
 Xét hàm lồi không khả vi nổi tiếng nhất: $$f(x) = |x|$$ tại điểm gãy khúc $$x = 0$$ (nơi đạo hàm cổ điển không tồn tại).
 

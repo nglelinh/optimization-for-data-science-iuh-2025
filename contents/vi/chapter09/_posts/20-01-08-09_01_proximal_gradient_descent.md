@@ -15,7 +15,7 @@ rồi nhảy thẳng xuống đáy chiếc bát đó. Nhưng khi hàm mục tiê
 
 Ý tưởng thiên tài của phương pháp gradient gần kề là: **chỉ xấp xỉ bậc hai phần trơn $$g(z)$$, còn phần không trơn $$h(z)$$ thì giữ nguyên vẹn!** Khi tối thiểu hóa tổng của chiếc bát parabol ấy cộng với $$h(z)$$, ta thu được đúng một vòng lặp hai nhịp nhịp nhàng: nhịp 1 bước theo $$-\nabla g(x)$$ giống hệt gradient descent; nhịp 2 áp dụng toán tử gần kề $$\operatorname{prox}_{t h}$$ để "gọt" điểm vừa bước theo hình học của $$h$$. Với $$h(x) = \lambda\|x\|_1$$, toán tử ấy hóa ra chính là phép co ngưỡng mềm (soft-thresholding) nổi tiếng của thuật toán ISTA!
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép của thuật toán gradient gần kề
+## Kiến thức cần nhớ: Bốn mảnh ghép của thuật toán gradient gần kề
 
 - **Xấp xỉ bậc hai cục bộ cho phần trơn (Majorization–Minimization):** Khi $$t \le 1/L$$, hàm bậc hai $$g(x) + \nabla g(x)^T(z-x) + \frac{1}{2t}\|z-x\|_2^2$$ nằm *hoàn toàn phía trên* $$g(z)$$. Do đó, cực tiểu hóa mô hình thay thế cộng $$h(z)$$ đảm bảo giá trị hàm thực $$f(x^{(k)})$$ **giảm đơn điệu** sau mọi bước — khắc phục hẳn nhược điểm lên xuống của subgradient!
 - **Toán tử gần kề (Proximal Mapping):** Viết lại bài toán con ở mỗi bước bằng cách gộp bình phương, ta được:
@@ -26,7 +26,7 @@ rồi nhảy thẳng xuống đáy chiếc bát đó. Nhưng khi hàm mục tiê
   Mọi tọa độ có độ lớn không vượt quá ngưỡng $$t\lambda$$ bị kéo về **chính xác bằng $$0$$**, tạo ra nghiệm thưa thực sự.
 - **Độ phức tạp ẩn trong phép prox:** Toàn bộ hiệu quả của thuật toán phụ thuộc vào việc $$\operatorname{prox}_{t h}$$ có tính nhanh hay không. Với $$\ell_1$$, $$\ell_2$$, hộp ràng buộc, đơn hình, hay chuẩn hạt nhân ma trận, prox đều có công thức đóng hoặc thuật toán rất gọn.
 
-### Khung giải thích (nên đọc chậm): Tính tay 2 bước ISTA trên bài toán Lasso 2 biến
+### Giải thích: Tính tay 2 bước ISTA trên bài toán Lasso 2 biến
 
 Xét bài toán Lasso đơn giản với ma trận thiết kế trực giao $$A = I_2$$ (nên $$L = 1$$, chọn bước $$t = 1$$), vector quan sát $$b = (2.5, -0.4)^T$$ và hệ số phạt $$\lambda = 1.0$$:
 $$\min_{x \in \mathbb{R}^2} \; \frac{1}{2}\|x - b\|_2^2 + 1.0\|x\|_1.$$

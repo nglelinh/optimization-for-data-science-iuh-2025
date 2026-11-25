@@ -14,14 +14,14 @@ Chương 09 chứa mật độ ý tưởng dày đặc bậc nhất nửa đầu
 
 Trước khi bắt đầu bộ câu hỏi trắc nghiệm chuyên sâu dưới đây, hãy dành hai phút rà soát bốn trụ cột cốt lõi và bốn phép thử số ngắn gọn để khóa chặt mọi công thức quan trọng.
 
-## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 09
+## Kiến thức cần nhớ: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 09
 
 - **Định nghĩa và tính chất toán tử gần kề:** Nắm chắc $$\operatorname{prox}_{t h}(v) = \arg\min_z \left\{\frac{1}{2t}\|z - v\|_2^2 + h(z)\right\}$$; nhận ra ngay các trường hợp đặc biệt: $$h = 0 \Rightarrow v$$, $$h = I_C \Rightarrow P_C(v)$$, $$h(x) = \lambda\|x\|_1 \Rightarrow S_{t\lambda}(v)$$, $$h(X) = \lambda\|X\|_* \Rightarrow \text{SVT}_{t\lambda}(V)$$.
 - **Điều kiện hội tụ và bước an toàn:** Yêu cầu $$g$$ lồi có $$\nabla g$$ liên tục $$L$$-Lipschitz, $$h$$ lồi có prox tính được, và bước cố định $$t \le 1/L$$ (hoặc dùng backtracking trên phần trơn $$g$$).
 - **Bảng tốc độ hội tụ chuẩn:** Phân biệt rạch ròi ba bậc: Subgradient $$O(1/\epsilon^2)$$ ($$O(1/\sqrt{k})$$), Proximal GD / ISTA $$O(1/\epsilon)$$ ($$O(1/k)$$), và Accelerated Proximal GD / FISTA $$O(1/\sqrt{\epsilon})$$ ($$O(1/k^2)$$).
 - **Hành vi thực tế của tăng tốc:** Nhớ rằng ISTA giảm đơn điệu $$f(x^{(k+1)}) \le f(x^{(k)})$$, còn FISTA có thể không đơn điệu (tạo gợn sóng) và nhạy cảm với nhiễu hoặc prox xấp xỉ.
 
-### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 09
+### Giải thích: Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 09
 
 1. **Bẫy 1 — Ngưỡng co mềm là $$t\lambda$$, không phải $$\lambda$$:**
    Với $$h(x) = 3\|x\|_1$$, kích thước bước $$t = 0.5$$ và vector $$v = (2.0, -1.0, 0.8)^T$$:

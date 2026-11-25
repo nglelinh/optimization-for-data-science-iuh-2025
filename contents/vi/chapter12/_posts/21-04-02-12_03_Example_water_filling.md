@@ -13,7 +13,7 @@ Giả sử bạn là kỹ sư viễn thông thiết kế bộ phát Wi-Fi / 5G d
 
 Khi đặt bút viết 4 điều kiện KKT cho bài toán lồi này, một bức tranh vật lý đẹp đến mức trở thành biểu tượng kinh điển của lý thuyết thông tin lập tức hiện ra: nghiệm tối ưu có dạng $$x_i^* = \max(0, w - \alpha_i)$$! Hãy tưởng tượng bạn xây một bể nước có đáy gồ ghề với độ cao từng bậc bằng mức nhiễu $$\alpha_i$$, rồi đổ đúng $$1$$ lít nước (tổng công suất) vào bể. Nước tự động dâng ngang đến một **mực nước chung $$w = 1/\nu^*$$**: những kênh sạch (đáy thấp $$\alpha_i < w$$) nhận nhiều công suất nhất, còn những kênh quá nhiễu (đáy cao hơn mực nước $$\alpha_i \ge w$$) bị **bỏ mặc hoàn toàn với $$x_i^* = 0$$**!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của bài toán Đổ nước (Water-Filling)
+## Kiến thức cần nhớ: Bốn trụ cột của bài toán Đổ nước (Water-Filling)
 
 - **Mô hình tối ưu lồi từ định lý Shannon:** Cực tiểu hóa $$-\sum_{i=1}^n \log(\alpha_i + x_i)$$ với ràng buộc $$x_i \ge 0$$ (không âm) và $$\sum_{i=1}^n x_i = 1$$ (ngân sách công suất). Vì $$-\log$$ lồi và mọi ràng buộc tuyến tính, KKT là điều kiện cần và đủ.
 - **Khử nhân tử $$u_i$$ bằng điều kiện bù:** Từ điều kiện dừng $$-\frac{1}{\alpha_i + x_i^*} - u_i^* + \nu^* = 0$$, ta suy ra $$u_i^* = \nu^* - \frac{1}{\alpha_i + x_i^*} \ge 0$$. Kết hợp với điều kiện bù $$u_i^* x_i^* = 0$$ lập tức chia các kênh làm hai nhóm:
@@ -22,7 +22,7 @@ Khi đặt bút viết 4 điều kiện KKT cho bài toán lồi này, một b�
 - **Công thức nghiệm đóng theo mực nước $$w = 1/\nu^*$$:** Gộp hai nhánh lại ta được đúng một công thức duy nhất: $$x_i^* = \max(0, w - \alpha_i)$$, trong đó mực nước $$w$$ là nghiệm duy nhất của phương trình đơn điệu tăng từng khúc $$\sum_{i=1}^n \max(0, w - \alpha_i) = 1$$!
 - **Thuật toán tìm mực nước $$O(n \log n)$$:** Chỉ cần sắp xếp $$\alpha_1 \le \alpha_2 \le \dots \le \alpha_n$$ tăng dần rồi thử dần số kênh hoạt động $$k = 1, 2, \dots, n$$ (hoặc dùng tìm kiếm nhị phân theo $$w$$) là tìm ra nghiệm chính xác tuyệt đối!
 
-### Khung giải thích (nên đọc chậm): Tính tay bài toán Water-Filling cho 3 kênh tần số
+### Giải thích: Tính tay bài toán Water-Filling cho 3 kênh tần số
 
 Cho 3 kênh với mức nhiễu nền $$\alpha_1 = 0.2$$ (rất sạch), $$\alpha_2 = 0.5$$ (trung bình), $$\alpha_3 = 1.5$$ (rất nhiễu), và tổng công suất $$\sum_{i=1}^3 x_i = 1.0$$.
 

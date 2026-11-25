@@ -14,7 +14,7 @@ Nếu bạn bịt mắt đi xuống một khe núi hẹp mà không thể đo xe
 
 Khác với gradient descent nơi backtracking line search tự động dò bước an toàn nhờ điều kiện giảm Armijo, phương pháp subgradient không có bảo chứng giảm đơn điệu nên buộc phải đặt lịch kích thước bước ngay từ đầu. Chính hai điều kiện tưởng chừng trừu tượng của giải tích chuỗi — $$\sum_{k=1}^{\infty} t_k = \infty$$ và $$\sum_{k=1}^{\infty} t_k^2 < \infty$$ — lại gói trọn đúng trực giác vật lý: tổng quãng đường phải vô hạn để đi tới bất kỳ điểm tối ưu nào dù xa đến đâu, nhưng bước phải nhỏ dần đủ nhanh để dập tắt hoàn toàn dao động quanh điểm gãy.
 
-## Bản đồ kiến thức nền: Ba trụ cột đằng sau lịch kích thước bước
+## Kiến thức cần nhớ: Ba trụ cột đằng sau lịch kích thước bước
 
 Để chọn đúng quy tắc bước cho bài toán thực tế và hiểu gốc rễ toán học của chúng, hãy kết nối ba mảng kiến thức sau:
 
@@ -22,7 +22,7 @@ Khác với gradient descent nơi backtracking line search tự động dò bư�
 - **Đánh đổi giữa thiên lệch (bias) và độ dao động (variance/floor):** Với bước cố định $$t_k = t$$, thuật toán không bao giờ dừng lại hẳn tại điểm gãy mà dao động trong một vùng bán kính tỷ lệ thuận với $$t$$ (sai số dư bậc $$G^2 t / 2$$). Giảm $$t$$ giúp đáy sai số nhỏ hơn nhưng kéo dài thời gian tiếp cận từ xa.
 - **Lịch bước theo ngân sách vòng lặp hữu hạn (Horizon-aware Steps):** Trong thực hành, ta hiếm khi chạy vô hạn bước. Nếu biết trước sẽ chạy đúng $$K$$ vòng lặp, chọn bước cố định tối ưu $$t = \frac{R}{G\sqrt{K}}$$ (hoặc bước giảm dần $$t_k = \frac{c}{\sqrt{k}}$$) thường cho tốc độ nhanh hơn nhiều so với $$t_k = 1/k$$ vốn co bước quá sớm.
 
-### Khung giải thích (nên đọc chậm): So sánh 3 lịch bước bằng tay trên hàm $$f(x) = |x|$$
+### Giải thích: So sánh 3 lịch bước bằng tay trên hàm $$f(x) = |x|$$
 
 Xét bài toán cực tiểu hóa $$f(x) = |x|$$ (nghiệm $$x^* = 0$$, $$g(x) = \operatorname{sign}(x)$$ với $$|g| = 1$$).
 

@@ -11,14 +11,14 @@ lang: en
 
 When a barrier solver runs, measuring how close you are to optimality is easy: every iterate is feasible, so $$f(x) - g(u, v) = m/t$$ is a genuine, certified upper bound on suboptimality. Once a primal-dual solver allows *infeasible* iterates, $$g(u, v)$$ may not even be finite—so how do we know whether a step actually improved things, or when it is safe to stop? The answer lies in splitting the KKT error into three distinct residuals and replacing the true duality gap with a **surrogate duality gap**.
 
-## Background Knowledge Map: Measuring Progress Without Feasibility
+## Key ideas: Measuring Progress Without Feasibility
 
 - **Primal Residual ($$r_{\text{prim}} = Ax - b$$):** Quantifies violation of linear equality constraints. Driving $$\|r_{\text{prim}}\|_2 \to 0$$ pulls iterates onto the affine feasible subspace.
 - **Dual Residual ($$r_{\text{dual}} = \nabla f(x) + \nabla h(x) u + A^T v$$):** Measures violation of Lagrangian stationarity. Only when $$r_{\text{dual}} = 0$$ does $$x$$ minimize $$L(\cdot, u, v)$$, certifying that $$(u, v)$$ lies in the domain of the dual function $$g$$.
 - **Centrality Residual ($$r_{\text{cent}} = U h(x) + \tau \mathbf{1}$$):** Tracks how far each inequality's complementarity product $$-u_i h_i(x)$$ deviates from the uniform central-path target $$\tau$$, preventing any single constraint from slamming into the boundary prematurely.
 - **Surrogate Duality Gap ($$\eta = -h(x)^T u$$):** Defined whenever $$h(x) \le 0$$ and $$u \ge 0$$, $$\eta \ge 0$$ equals the true duality gap *if and only if* $$r_{\text{prim}} = 0$$ and $$r_{\text{dual}} = 0$$. In the algorithm, $$\eta / m$$ dynamically sets the next target $$\tau = \sigma \eta / m$$.
 
-### Step-by-Step Worked Example (Read Slowly): Auditing Residuals and Surrogate Gap at an Infeasible Point
+### Worked example: Auditing Residuals and Surrogate Gap at an Infeasible Point
 
 Consider the convex QP $$\min \frac{1}{2}(x_1^2 + x_2^2)$$ subject to $$x_1 + x_2 = 2$$ and $$h_1(x) = -x_1 \le 0, \; h_2(x) = -x_2 \le 0$$ ($$m = 2$$). Evaluate the residuals at the infeasible interior iterate $$x = (0.5, 1.0)^T$$, $$u = (0.4, 0.6)^T$$, $$v = -1.0$$ with $$\tau = 0.5$$.
 

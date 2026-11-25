@@ -11,14 +11,14 @@ lang: en
 
 Knowing *how* proximal Newton works is only half the battle—a seasoned optimization engineer also knows *when not to use it*. If solving the scaled proximal subproblem costs 100 times more than a proximal gradient step, does $$O(\log\log(1/\epsilon))$$ outer convergence still win? The answer depends sharply on two structural levers: how expensive it is to evaluate $$\nabla g(x)$$ relative to the inner subproblem, and how severely ill-conditioned $$g$$ is.
 
-## Background Knowledge Map: The Practical Decision Matrix for Proximal Newton
+## Key ideas: The Practical Decision Matrix for Proximal Newton
 
 - **Expensive Smooth Oracle ($$\nabla g$$ Bottleneck):** In logistic Lasso with $$n \gg p$$ (e.g., $$10^5$$ rows, $$200$$ features) or graphical Lasso (where evaluating $$-\log\det\Theta$$ costs $$O(p^3)$$ Cholesky work), every outer gradient evaluation is costly—making proximal Newton's tiny outer iteration count a massive win.
 - **Cheap Inner Quadratic Subproblem:** When $$h(x) = \lambda \|x\|_1$$ and active-set screening shrinks the working set to $$s \ll p$$ nonzero variables, coordinate descent solves the inner quadratic subproblem in microseconds—far cheaper than touching the full dataset again.
 - **High-Accuracy vs. Low-Accuracy Regimes:** If you only need $$10^{-2}$$ relative accuracy (e.g., early-stopped deep learning), first-order FISTA wins; if you need $$10^{-8}$$ accuracy for statistical inference or dual certificates, proximal Newton's quadratic local convergence dominates.
 - **Inexact Subproblem Solves (Warm-Started Inner Loops):** In practice you never solve the inner subproblem to machine precision at iteration 1; warm-starting coordinate descent from the previous outer step and tightening inner tolerance progressively preserves superlinear outer speed at minimal cost.
 
-### Step-by-Step Worked Example (Read Slowly): Break-Even FLOP Audit (PG vs. Proximal Newton)
+### Worked example: Break-Even FLOP Audit (PG vs. Proximal Newton)
 
 Suppose you are fitting an $$\ell_1$$-penalized logistic regression with $$n = 100{,}000$$ samples, $$p = 200$$ features, condition number $$\kappa = 10^4$$, and target accuracy $$\epsilon = 10^{-8}$$.
 

@@ -11,14 +11,14 @@ lang: en
 
 Chapter 20 built the engine of **ADMM**; Chapter 21 takes that engine out onto the open highway of modern statistical learning, matrix decomposition, and distributed computing. What makes ADMM extraordinary in practice is not just its three-line algorithm, but the *art of variable splitting*: by choosing the right auxiliary variables $$z$$ and linear constraints $$Ax + Bz = c$$, seemingly intractable problems—Lasso, Group Lasso, Sparse PCA, Robust PCA, 2D Total Variation denoising, and multi-machine consensus—fracture into cached linear solves and closed-form proximal operators!
 
-## Background Knowledge Map: The Craft of ADMM Variable Splitting
+## Key ideas: The Craft of ADMM Variable Splitting
 
 - **Proximal-Operator Modularity:** Splitting $$\min f(x) + g(x)$$ into $$\min f(x) + g(z) \text{ s.t. } x = z$$ turns ADMM into an alternating pair of proximal maps $$\operatorname{prox}_{f/\rho}$$ and $$\operatorname{prox}_{g/\rho}$$, allowing each piece to use its own specialized closed-form solver.
 - **Factorization Caching (Pre-Cholesky Advantage):** In Lasso and ridge-coupled problems, the $$x$$-update solves $$(X^T X + \rho I)\beta = \text{rhs}$$ with the *exact same* matrix at every iteration. Computing the Cholesky factor once at $$k = 0$$ drops every subsequent iteration from $$O(p^3)$$ to $$O(p^2)$$!
 - **Matrix & Spectral Splittings:** ADMM extends seamlessly from vectors to matrices—combining nuclear-norm singular-value thresholding (low rank) with entrywise soft-thresholding (sparsity) in Robust PCA and Fantope projections in Sparse PCA.
 - **Consensus & Subproblem Parametrization:** Duplicating variables across machines yields *Consensus ADMM* for distributed data, while splitting along orthogonal spatial directions (horizontal vs. vertical chains in 2D Fused Lasso) unlocks dramatic convergence speedups.
 
-### Step-by-Step Worked Example (Read Slowly): Why Pre-Factorizing $$(X^T X + \rho I)$$ Wins
+### Worked example: Why Pre-Factorizing $$(X^T X + \rho I)$$ Wins
 
 Suppose we solve a Lasso problem with $$X \in \mathbb{R}^{500 \times 100}$$ over $$T = 200$$ ADMM iterations using the split $$\min \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\alpha\|_1$$ s.t. $$\beta = \alpha$$.
 

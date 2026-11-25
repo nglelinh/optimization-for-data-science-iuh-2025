@@ -14,13 +14,13 @@ Giả sử đồng nghiệp đưa cho bạn một bài toán tối ưu cực ti�
 
 Câu trả lời đầy tinh tế của bài học này là: hãy đi tìm một **chứng chỉ cận dưới (lower bound certificate)**! Nếu bạn có thể nhân các bất đẳng thức ràng buộc của bài toán với những hệ số không âm khéo chọn rồi cộng vế theo vế để thu được đúng hàm mục tiêu $$c^T x \ge 14$$, thì bất kỳ ai cũng phải tâm phục khẩu phục rằng $$14$$ là đáy tuyệt đối. Và tuyệt vời hơn nữa: chính bài toán đi tìm bộ hệ số nhân cho cận dưới *lớn nhất có thể* đó chính là **bài toán đối ngẫu của LP**!
 
-## Bản đồ kiến thức nền: Ba trực giác từ bài toán tìm cận dưới
+## Kiến thức cần nhớ: Ba trực giác từ bài toán tìm cận dưới
 
 - **Tổ hợp tuyến tính bảo toàn dấu bất đẳng thức:** Nếu ta có các ràng buộc $$a_i^T x \ge b_i$$ và nhân từng bất đẳng thức với trọng số **không âm** $$u_i \ge 0$$ rồi cộng lại, chiều bất đẳng thức được bảo toàn hoàn toàn: $$\left(\sum u_i a_i\right)^T x \ge \sum u_i b_i$$. (Còn với ràng buộc đẳng thức $$a_j^T x = b_j$$, trọng số $$v_j$$ có thể mang dấu tùy ý vì đẳng thức nhân số âm vẫn là đẳng thức!)
 - **Khớp hệ số hàm mục tiêu:** Khi chọn $$(u, v)$$ sao cho tổ hợp tuyến tính vế trái bằng đúng $$c^T x$$ (hoặc nhỏ hơn $$c^T x$$ nếu $$x \ge 0$$), vế phải $$b^T u$$ lập tức trở thành một cận dưới hợp lệ cho mọi $$x$$ khả thi — tức là $$b^T u \le \min c^T x$$.
 - **Tối đa hóa cận dưới $$\implies$$ Bài toán đối ngẫu:** Vì ta muốn chứng chỉ cận dưới mạnh nhất (chặt nhất) có thể, ta cực đại hóa $$b^T u$$ trên tất cả các bộ nhân hợp lệ. Đó chính là cách bài toán đối ngẫu ra đời một cách hoàn toàn tự nhiên, không hề gượng ép!
 
-### Khung giải thích (nên đọc chậm): Tự tay dựng chứng chỉ cận dưới cho một LP 2 biến
+### Giải thích: Tự tay dựng chứng chỉ cận dưới cho một LP 2 biến
 
 Xét bài toán cực tiểu hóa:
 $$\min_{x_1, x_2 \ge 0} \; 3x_1 + 5x_2 \quad \text{s.t.} \quad \begin{cases} x_1 + x_2 \ge 4 & \text{(nhân với } u_1 \ge 0\text{)} \\ x_1 + 3x_2 \ge 6 & \text{(nhân với } u_2 \ge 0\text{)} \end{cases}$$

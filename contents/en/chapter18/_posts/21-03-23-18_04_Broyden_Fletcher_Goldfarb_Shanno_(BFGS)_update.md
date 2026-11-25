@@ -11,14 +11,14 @@ lang: en
 
 In 1970, four researchers working independently—Charles Broyden, Roger Fletcher, Donald Goldfarb, and David Shanno—published the exact same algebraic twist on DFP: instead of applying the rank-2 formula to $$H$$ (and inverting to get $$B$$), apply it to $$B$$ (and invert to get $$H$$). That seemingly innocent symmetry swap created **BFGS**, widely regarded as the most effective general-purpose smooth unconstrained optimization algorithm of the past half-century, famous for its remarkable ability to self-correct bad Hessian estimates on the fly.
 
-## Background Knowledge Map: Why BFGS Is the Gold Standard of Quasi-Newton Methods
+## Key ideas: Why BFGS Is the Gold Standard of Quasi-Newton Methods
 
 - **Exact Algebraic Duality with DFP:** Swapping $$(B, s, y) \leftrightarrow (H, y, s)$$ in the DFP formula immediately produces the BFGS Hessian update $$B^+ = B - \frac{B s s^T B}{s^T B s} + \frac{y y^T}{y^T s}$$ and its Sherman–Morrison–Woodbury inverse $$H^+ = (I - \rho s y^T) H (I - \rho y s^T) + \rho s s^T$$, where $$\rho = 1/(y^T s)$$.
 - **Minimum-Change Principle on $$H^+$$:** Whereas DFP minimizes the weighted Frobenius change in $$B$$, BFGS minimizes $$\|W^{1/2}(H^+ - H)W^{1/2}\|_F$$ subject to symmetry and $$H^+ y = s$$ (with $$W s = y$$), directly stabilizing the *inverse* operator used to generate search steps.
 - **Hereditary Positive Definiteness:** For any $$v \neq 0$$, letting $$w = (I - \rho y s^T) v$$ gives $$v^T H^+ v = w^T H w + \rho (v^T s)^2 > 0$$ whenever $$H \succ 0$$ and $$\rho = (y^T s)^{-1} > 0$$—an even cleaner congruence proof than DFP's.
 - **Superior Self-Correction Property:** When $$H_k$$ has an erroneously large eigenvalue along a step direction, BFGS corrects it in a single update (whereas DFP can take many steps to shrink it), making BFGS far more robust with inexact Wolfe line searches.
 
-### Step-by-Step Worked Example (Read Slowly): Computing Both $$B_1$$ and $$H_1$$ in BFGS and Checking $$B_1 H_1 = I$$
+### Worked example: Computing Both $$B_1$$ and $$H_1$$ in BFGS and Checking $$B_1 H_1 = I$$
 
 Use the exact same inputs as the DFP lesson so you can compare them directly: $$B_0 = H_0 = I_2$$, $$s = (1, 0)^T$$, $$y = (2, 1)^T$$, $$\rho = \frac{1}{y^T s} = \frac{1}{2}$$.
 

@@ -11,7 +11,7 @@ lang: en
 
 Suppose a drone flies outside a convex safe-flight corridor $$C$$ and needs to know the fastest direction back to safety. Its distance to the corridor is $$\operatorname{dist}(x, C) = \min_{y \in C} \|x - y\|_2 = \|x - P_C(x)\|_2$$. Remarkably, this distance function is convex, smooth everywhere *outside* $$C$$ with a unit-length gradient pointing straight away from its projection $$P_C(x)$$, and nonsmooth right on the boundary of $$C$$!
 
-## Background Knowledge Map: Convexity and Subgradients of the Distance Function
+## Key ideas: Convexity and Subgradients of the Distance Function
 
 1. **Convexity via Partial Minimization**: Because $$h(x, y) = \|x - y\|_2$$ is jointly convex in $$(x, y)$$ and $$C$$ is a closed convex set, the partial minimum $$\operatorname{dist}(x, C) = \min_{y \in C}\|x - y\|_2$$ is guaranteed to be convex in $$x$$. Moreover, the closest point $$P_C(x) = \arg\min_{y \in C}\|x - y\|_2$$ is always **unique** (strict convexity of $$\|\cdot\|_2^2$$).
 2. **Projection Optimality (Obtuse-Angle Theorem)**: By Chapter 04's first-order optimality applied to $$\frac{1}{2}\|x - y\|_2^2$$ over $$y \in C$$, $$u = P_C(x)$$ if and only if
@@ -22,7 +22,7 @@ Suppose a drone flies outside a convex safe-flight corridor $$C$$ and needs to k
    Moving opposite this gradient walks in a straight line directly toward the closest safe point $$P_C(x)$$!
 4. **Subdifferential Inside and on the Boundary of $$C$$**: For $$x \in C$$, $$\operatorname{dist}(x, C) = 0$$ is minimized, so $$0 \in \partial \operatorname{dist}(x, C)$$. Specifically, $$\partial \operatorname{dist}(x, C) = N_C(x) \cap B_2(0, 1)$$ (outward normal vectors of length at most 1).
 
-### Step-by-Step Worked Example (Read Slowly): Computing Projection and Subgradient for a Disk
+### Worked example: Computing Projection and Subgradient for a Disk
 
 Let $$C = \{y \in \mathbb{R}^2 : \|y\|_2 \le 2\}$$ be the closed disk of radius $$2$$ centered at the origin, and evaluate $$\operatorname{dist}(x, C)$$ and its subgradient at $$x = (3, 4)$$.
 

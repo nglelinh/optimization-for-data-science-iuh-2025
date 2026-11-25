@@ -14,7 +14,7 @@ Từ năm 2020 đến 2026, học liên kết đã bước ra khỏi phòng thí
 
 Nhưng để triển khai thành công trong thế giới thực — nơi dữ liệu giữa các bệnh viện cực kỳ không đồng nhất (non-IID) và tốc độ phần cứng mỗi nơi một khác — cộng đồng tối ưu hóa đã phải phát triển ba vũ khí nâng cấp trực tiếp cho FedAvg: **FedProx** (sợi dây neo proximal), **SCAFFOLD** (biến kiểm soát triệt tiêu trôi cục bộ), và **FedAdam / FedOpt** (tách bộ tối ưu thích nghi lên máy chủ).
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Học liên kết hiện đại (2020–2026)
+## Kiến thức cần nhớ: Bốn trụ cột của Học liên kết hiện đại (2020–2026)
 
 Bài đọc cuối khóa này khép lại chuỗi kết nối giữa tất cả các chương tối ưu bạn đã học:
 
@@ -23,7 +23,7 @@ Bài đọc cuối khóa này khép lại chuỗi kết nối giữa tất cả 
 - **FedOpt / FedAdam (Tối ưu hai cấp máy khách – máy chủ):** Coi hiệu số trung bình $$\Delta_t = w_t - \sum_i p_i w_{t+1}^{(i)}$$ như một "giả gradient" (pseudo-gradient) ở phía máy chủ, rồi áp dụng Momentum hoặc Adam lên $$\Delta_t$$ ở phía máy chủ trong khi máy khách vẫn chạy SGD gọn nhẹ.
 - **Liên kết Y tế Cross-Silo (FeTS & OpenFL):** Minh chứng thực tiễn sống động nơi số nút nhỏ (vài chục bệnh viện), mỗi nút ổn định và đủ năng lực tính toán — mảnh đất lý tưởng để áp dụng cả FedProx, SCAFFOLD lẫn các khung mã nguồn mở như Flower và NVFlare.
 
-### Khung giải thích (nên đọc chậm): Tính tay cách FedProx và SCAFFOLD chữa bệnh Trôi cục bộ
+### Giải thích: Tính tay cách FedProx và SCAFFOLD chữa bệnh Trôi cục bộ
 
 Quay lại đúng bài toán 2 máy khách non-IID xuyên suốt Chương 29: $$F_1(w) = \frac{1}{2}w^2$$ và $$F_2(w) = \frac{3}{2}(w - 4)^2$$ với nghiệm toàn cục $$w^\star = 3.0$$, xuất phát từ $$w_t = 3.0$$ (nhớ rằng FedAvg thuần với $$E \to \infty$$ đã trôi tụt về $$2.0$$, sai số $$1.0$$!).
 

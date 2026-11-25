@@ -12,14 +12,14 @@ lesson_type: optional
 
 With stochastic first-order optimizers like Adam dominating deep learning headlines, it is tempting to assume quasi-Newton methods were left behind in the 1990s. The reality of 2022–2026 scientific computing is the exact opposite: whenever a loss involves stiff differential operators (Physics-Informed Neural Networks, PIKANs, DeepONets) or high-accuracy tabular generalized linear models, diagonal adaptive methods stall on off-diagonal curvature—and **L-BFGS**, **self-scaled Broyden updates**, and **L-BFGS-B** step in to drop residuals by three to five orders of magnitude.
 
-## Background Knowledge Map: Why Quasi-Newton Thrives in Modern SciML & Tabular ML
+## Key ideas: Why Quasi-Newton Thrives in Modern SciML & Tabular ML
 
 - **Ill-Conditioned PDE Spectra in PINNs:** Differential operators like $$\Delta u$$ couple neighboring spatial modes tightly, producing Hessians with massive condition numbers and strong off-diagonal structure that diagonal preconditioners (Adam) cannot invert.
 - **Two-Stage Hybrid Training (Adam $$\to$$ L-BFGS):** Standard scientific ML pipelines run Adam first to escape noisy nonconvex saddles, then switch to L-BFGS with a Wolfe line search once inside a smoother basin—combining global exploration with rapid second-order polishing.
 - **Oren–Luenberger Self-Scaled Broyden Updates (SSBFGS):** Rescaling $$H_k \leftarrow \gamma_k H_k$$ before the Broyden update prevents huge step-length oscillations across PDE residual scales, dramatically improving PINN and DeepONet convergence without manual loss-weight tuning.
 - **L-BFGS-B for Bound-Constrained Production ML:** SciPy's L-BFGS-B (the default solver behind `scikit-learn`'s `LogisticRegression`) combines limited-memory curvature with projected gradient Cauchy points to handle box constraints $$l \le x \le u$$ at scale.
 
-### Step-by-Step Worked Example (Read Slowly): How Self-Scaling Fixes a $$10^4$$ PDE Spectrum Mismatch
+### Worked example: How Self-Scaling Fixes a $$10^4$$ PDE Spectrum Mismatch
 
 Suppose a discretized 2-mode PDE residual has quadratic loss $$f(x) = \frac{1}{2}(x_1^2 + 10^4 x_2^2)$$, and after an initial step $$s = (0, 1)^T$$ along the stiff high-frequency mode we observe $$y = (0, 10^4)^T$$, starting from $$H_0 = I_2$$.
 

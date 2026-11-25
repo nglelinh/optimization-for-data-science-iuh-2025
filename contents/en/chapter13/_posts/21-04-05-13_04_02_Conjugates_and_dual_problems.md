@@ -11,14 +11,14 @@ lang: en
 
 Many optimization problems in machine learning have the additive form $$\min_x f(x) + g(x)$$: a data-fitting loss $$f$$ plus a regularizer or constraint indicator $$g$$. If you try to derive the Lagrange dual by hand from scratch every time, you repeat the same algebraic steps over and over. Conjugates turn that entire derivation into a one-line lookup table: split $$x = z$$, and the dual instantly writes itself as $$\max_u -f^*(u) - g^*(-u)$$.
 
-## Background Knowledge Map: Composite Duality via Conjugates
+## Key ideas: Composite Duality via Conjugates
 
 - **Pillar 1 — Consensus Splitting ($$x = z$$):** Replacing $$\min_x f(x) + g(x)$$ with $$\min_{x=z} f(x) + g(z)$$ separates the two terms in the Lagrangian $$f(x) - u^T x + g(z) + u^T z$$.
 - **Pillar 2 — Fenchel–Rockafellar Pattern:** Minimizing independently over $$x$$ and $$z$$ directly yields $$g_{\text{dual}}(u) = -f^*(u) - g^*(-u)$$, turning primal sums into dual sums of negative conjugates.
 - **Pillar 3 — Constraints Become Support Functions:** When $$g(x) = I_C(x)$$ enforces $$x \in C$$, its conjugate $$I_C^*(-u)$$ is the support function of $$C$$ evaluated at $$-u$$.
 - **Pillar 4 — Norm Penalties Become Dual-Norm Balls:** When $$g(x) = \|x\|$$, its conjugate $$g^*(-u)$$ is the indicator of $$\{\|u\|_* \le 1\}$$, converting a nonsmooth primal objective into a smooth dual objective over a simple norm ball.
 
-### Step-by-Step Worked Example (Read Slowly): Dualizing a Quadratic + $$\ell_1$$ Problem in Two Lines
+### Worked example: Dualizing a Quadratic + $$\ell_1$$ Problem in Two Lines
 
 Consider $$\min_{x \in \mathbb{R}^2} \underbrace{\frac{1}{2}\|x - b\|_2^2}_{f(x)} + \underbrace{\|x\|_1}_{g(x)}$$ with $$b = (2.5, -0.4)^T$$.
 

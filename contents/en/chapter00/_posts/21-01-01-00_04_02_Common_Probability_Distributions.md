@@ -11,14 +11,14 @@ lang: en
 
 Why do logistic regression, ridge regression, and Poisson count models all yield convex optimization problems? The secret lies in the functional form of common probability distributions: Bernoulli, Gaussian, Exponential, and Poisson densities belong to the exponential family, whose negative log-likelihoods are naturally convex functions of their canonical parameters. Recognizing a distribution's algebraic signature immediately tells you what optimization geometry you are about to face.
 
-## Background Knowledge Map: Distributions Through an Optimization Lens
+## Key ideas: Distributions Through an Optimization Lens
 
 - **Discrete Families (Bernoulli, Binomial, Poisson):** Model binary classification, trial counts, and rare event arrivals; their log-likelihoods generate cross-entropy and generalized linear model (GLM) losses.
 - **Continuous Families (Gaussian, Exponential, Uniform):** Gaussian densities yield quadratic ($$\ell_2$$) objectives; Exponential densities model waiting times and yield strictly concave log-likelihoods in rate $$\lambda$$.
 - **Multivariate Normal ($$\mathcal{N}(\mu, \Sigma)$$):** Links statistics directly to positive definite matrices ($$\Sigma \succ 0$$), Mahalanobis ellipsoids, and precision-matrix estimation in graphical models.
 - **Log-Concavity Connection:** Most standard densities have concave log-densities, ensuring that maximum likelihood estimation over convex parameter constraints has no spurious local optima.
 
-### Step-by-Step Worked Example (Read Slowly): Concave Log-Likelihood of an Exponential Distribution
+### Worked example: Concave Log-Likelihood of an Exponential Distribution
 
 Suppose four independent server failure inter-arrival times are observed: $$x = (1, 3, 2, 6)$$ hours, modeled by $$\text{Exponential}(\lambda)$$ with density $$p(x \mid \lambda) = \lambda e^{-\lambda x}$$ for $$\lambda > 0$$.
 

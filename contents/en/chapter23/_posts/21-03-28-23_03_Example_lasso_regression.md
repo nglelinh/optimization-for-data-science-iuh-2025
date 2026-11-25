@@ -11,14 +11,14 @@ lang: en
 
 When Robert Tibshirani introduced the Lasso in 1996, it was initially solved with generic quadratic programming—painfully slow once $$p$$ grew beyond a few hundred features. Everything changed when statisticians realized that the $$\ell_1$$ penalty $$\lambda \|\beta\|_1 = \lambda \sum_{i=1}^p |\beta_i|$$ is *perfectly separable* across coordinates. That single property turns every 1D coordinate subproblem into a closed-form soft-thresholding formula, allowing Coordinate Descent to solve Lasso problems with tens of thousands of predictors in milliseconds.
 
-## Background Knowledge Map: Soft-Thresholding and Coordinate Descent for Lasso
+## Key ideas: Soft-Thresholding and Coordinate Descent for Lasso
 
 - **Separable Composite Structure:** The Lasso objective $$\frac{1}{2}\|y - X\beta\|_2^2 + \lambda \sum_{i=1}^p |\beta_i|$$ satisfies Tseng’s theorem exactly: the smooth data-fidelity term is convex and differentiable, and the nonsmooth $$\ell_1$$ norm splits cleanly by coordinate.
 - **1D Subgradient Optimality & Soft-Thresholding:** Setting $$0 \in -X_i^\top(r^{(-i)} - X_i \beta_i) + \lambda \partial |\beta_i|$$ yields the exact closed-form update $$\beta_i^+ = \frac{S_\lambda(X_i^\top r^{(-i)})}{\|X_i\|_2^2}$$, where $$S_\lambda(z) = \operatorname{sign}(z)\max(|z| - \lambda, 0)$$.
 - **Automatic Zero-Locking (Sparsity):** Whenever the correlation $$|X_i^\top r^{(-i)}| \le \lambda$$, soft-thresholding snaps $$\beta_i^+$$ to *exact* zero—requiring no residual update ($$0$$ flops!) and accelerating sweeps dramatically once most features drop out.
 - **Empirical Dominance Over Proximal Gradient:** Just as in OLS, one CD sweep matches one Proximal Gradient (ISTA/FISTA) step in $$O(np)$$ cost, yet CD’s Gauss–Seidel updates and per-coordinate scaling typically converge in a fraction of the iterations.
 
-### Step-by-Step Worked Example (Read Slowly): One Coordinate Descent Cycle on a 2-Feature Lasso
+### Worked example: One Coordinate Descent Cycle on a 2-Feature Lasso
 
 Use the same design matrix $$X = \begin{pmatrix} 1 & 1 \\ 1 & 0 \\ 0 & 1 \end{pmatrix}$$ ($$\|X_1\|_2^2 = \|X_2\|_2^2 = 2$$) and response $$y = (3, 1, 2)^\top$$, now with Lasso penalty $$\lambda = 2$$, starting at $$\beta^{(0)} = (0, 0)^\top$$ and $$r = (3, 1, 2)^\top$$.
 

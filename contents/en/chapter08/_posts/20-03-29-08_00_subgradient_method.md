@@ -11,14 +11,14 @@ lang: en
 
 Picture yourself hiking down a foggy mountain ridge whose terrain is not a smooth granite dome, but a folded landscape of razor-sharp V-shaped valleys and intersecting cliff faces. In smooth calculus, a compass needle pointing opposite the gradient always aims locally downhill; on a sharp crease, however, no single tangent plane exists, and the naive gradient compass breaks down completely. The **subgradient method**—pioneered in the Soviet optimization school by Naum Shor, Boris Polyak, and Arkadi Nemirovski in the 1960s and 1970s—is the minimalist yet remarkably resilient toolkit that lets us navigate these nonsmooth convex landscapes without ever differentiating across a kink.
 
-## Background Knowledge Map: Navigating Nonsmooth Convex Landscapes
+## Key ideas: Navigating Nonsmooth Convex Landscapes
 
 - **Pillar 1 — Subgradients & Supporting Hyperplanes:** At a kink where a convex function $$f$$ fails to be differentiable, a subgradient $$g \in \partial f(x)$$ defines a global linear underestimator $$f(y) \ge f(x) + g^\top (y - x)$$. Rather than requiring local smoothness, this single inequality is strong enough to pull iterates closer to the optimal set in Euclidean distance.
 - **Pillar 2 — Non-Monotonic Progress & Best-Iterate Tracking:** Unlike gradient descent, a negative subgradient $$-g$$ is not guaranteed to be a descent direction; the objective $$f(x^{(k)})$$ can temporarily increase even for tiny step sizes. Consequently, the method relies on tracking the running best iterate $$f_{\text{best}}^{(k)} = \min_{0 \le i \le k} f(x^{(i)})$$ and measuring progress via distance to $$x^\star$$.
 - **Pillar 3 — Step-Size Geometry (Fixed, Diminishing, and Polyak):** Because subgradients do not necessarily vanish as $$x^{(k)} \to x^\star$$ (think of $$|x|$$ whose subgradient has magnitude $$1$$ arbitrarily close to $$0$$), step sizes must either shrink slowly ($$\sum t_k = \infty, \sum t_k^2 < \infty$$) or adapt using known optimal values (Polyak's rule) to prevent perpetual oscillation.
 - **Pillar 4 — Complexity Frontier ($$O(1/\varepsilon^2)$$):** Under only convexity and $$G$$-Lipschitz continuity, the subgradient method achieves $$\varepsilon$$-suboptimality in $$O(G^2 R^2 / \varepsilon^2)$$ iterations. This rate is information-theoretically optimal for black-box nonsmooth convex optimization, motivating the structured composite methods (proximal gradient) studied in Chapter 09.
 
-### Step-by-Step Worked Example (Read Slowly): One Subgradient Step Can Increase $$f$$ Yet Shrink Distance to $$x^\star$$
+### Worked example: One Subgradient Step Can Increase $$f$$ Yet Shrink Distance to $$x^\star$$
 
 Consider the nonsmooth convex function on $$\mathbb{R}^2$$ given by $$f(x_1, x_2) = |x_1| + 2|x_2|$$, whose unique minimizer is $$x^\star = (0, 0)$$ with $$f^\star = 0$$.
 

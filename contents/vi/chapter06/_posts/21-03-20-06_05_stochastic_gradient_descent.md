@@ -14,7 +14,7 @@ Giả sử bạn đang huấn luyện một mô hình nhận diện ảnh trên 
 
 Đó chính là triết lý làm nên sức mạnh của **Stochastic Gradient Descent (SGD)** — động cơ cốt lõi đằng sau toàn bộ kỷ nguyên dữ liệu lớn và Học sâu. Thay vì tính gradient chính xác trên toàn bộ $$N$$ mẫu, SGD dùng một **ước lượng không chệch (unbiased estimator)** từ 1 mẫu hoặc một mini-batch nhỏ $$B$$ mẫu — chấp nhận một chút "nhiễu" ở mỗi bước để đổi lấy tốc độ cập nhật nhanh hơn hàng chục nghìn lần!
 
-## Bản đồ kiến thức nền: Toán học của Nhiễu và Hội tụ trong SGD
+## Kiến thức cần nhớ: Toán học của Nhiễu và Hội tụ trong SGD
 
 Bốn trụ cột sau giải thích cơ chế hoạt động và cách điều khiển SGD hiệu quả:
 
@@ -24,7 +24,7 @@ Bốn trụ cột sau giải thích cơ chế hoạt động và cách điều k
 - **Tại sao SGD bước cố định không hội tụ về đúng $$x^\star$$?** Ngay cả khi bạn đang đứng chính xác tại $$x^\star$$ (nơi $$\nabla f(x^\star) = 0$$), từng thành phần riêng lẻ $$\nabla f_i(x^\star)$$ thường vẫn **khác 0**! Vì vậy SGD bước cố định chỉ hội tụ vào một "quả cầu nhiễu" bán kính tỷ lệ với $$t \sigma^2$$ quanh $$x^\star$$.
 - **Điều kiện Robbins–Monro để hội tụ chính xác:** Để triệt tiêu nhiễu mà vẫn đủ sức đi tới đích, kích thước bước $$t_k$$ phải giảm dần sao cho $$\sum_{k=1}^\infty t_k = \infty$$ và $$\sum_{k=1}^\infty t_k^2 < \infty$$ (ví dụ $$t_k = \frac{c}{k}$$ hoặc $$t_k = \frac{c}{\sqrt{k}}$$).
 
-### Khung giải thích (nên đọc chậm): So sánh trực tiếp 1 bước Batch GD vs. 2 bước SGD trên 2 mẫu dữ liệu
+### Giải thích: So sánh trực tiếp 1 bước Batch GD vs. 2 bước SGD trên 2 mẫu dữ liệu
 
 Xét hàm mục tiêu tổng hữu hạn $$f(x) = \frac{1}{2}\big[f_1(x) + f_2(x)\big]$$ với:
 $$f_1(x) = \frac{1}{2}(x - 2)^2, \qquad f_2(x) = \frac{1}{2}(x - 6)^2.$$

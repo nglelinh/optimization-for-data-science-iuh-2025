@@ -13,14 +13,14 @@ redirect_from:
 
 In linear algebra, transposing a matrix twice returns the exact original matrix: $$(A^\top)^\top = A$$. Linear programming duality obeys an equally striking symmetry called the **involution property**: if you take a primal LP, form its dual LP, and then take the dual of *that* dual LP, you land right back on the original primal problem! Far from being a mere algebraic curiosity, this symmetry proves that every theorem you prove for primal-to-dual relationships automatically works in reverse.
 
-## Background Knowledge Map: Why LP Duality Is an Exact Involution
+## Key ideas: Why LP Duality Is an Exact Involution
 
 - **Pillar 1 — Standardizing the Dual Back to Minimization:** Because the dual of a minimization LP is a maximization LP, taking the dual a second time requires rewriting $$\max b^\top y$$ as $$-\min (-b^\top y)$$ and converting $$\le$$ inequalities into standard form—every sign flip cancels out cleanly on the second pass.
 - **Pillar 2 — Double Transposition of Matrices:** The constraint matrix $$A$$ transposes to $$A^\top$$ in the first dual and back to $$(A^\top)^\top = A$$ in the second dual; similarly, the objective vector $$c$$ and right-hand side $$b$$ swap places twice and return to their starting positions.
 - **Pillar 3 — Complete Primal–Dual Feasibility Classification:** Because the dual of the dual is the primal, the 4 possible status combinations of $$(P, D)$$ are symmetric: (Optimal, Optimal), (Unbounded, Infeasible), (Infeasible, Unbounded), or (Infeasible, Infeasible). Neither LP can be bounded-feasible while the other is infeasible!
 - **Pillar 4 — Contrast with General Nonlinear Optimization (Preview of Ch. 11):** In Chapter 11, we will see that the dual of the dual of a *nonconvex* problem does **not** recover the original problem—it recovers its *convexified* (biconjugate) envelope instead! Involution holds unconditionally for LPs precisely because linear functions and polyhedra are already closed and convex.
 
-### Step-by-Step Worked Example (Read Slowly): Taking the Dual Twice on a Standard-Form LP
+### Worked example: Taking the Dual Twice on a Standard-Form LP
 
 Start with the standard-form primal LP $$(P)$$:
 $$\min_{x}\; 2x_1 + 5x_2 \quad \text{s.t.} \quad x_1 + 3x_2 = 7, \quad x_1, x_2 \ge 0.$$

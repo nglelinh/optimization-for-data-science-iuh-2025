@@ -12,14 +12,14 @@ lesson_type: required
 
 Suppose you are calibrating a robotic arm's torque controller: if a tiny $$0.001$$-radian sensor jitter causes a sudden jump in predicted energy cost, no line-search algorithm can trust its own step sizes. Worse yet, even if a function is continuous at every individual point, its slope might blow up near the edge of the domain, forcing step sizes to shrink unpredictably. Distinguishing ordinary continuity, uniform continuity, and Lipschitz continuity is how analysts guarantee that a *single* global step size works across the entire optimization domain.
 
-## Background Knowledge Map: The Hierarchy of Function Regularity
+## Key ideas: The Hierarchy of Function Regularity
 
 - **Pointwise Continuity:** Guarantees no sudden jumps at a fixed point $$c$$, but the allowable input tolerance $$\delta(\varepsilon, c)$$ may depend heavily on *where* $$c$$ sits in the domain.
 - **Uniform Continuity:** Upgrades the guarantee so that one tolerance $$\delta(\varepsilon)$$ works simultaneously everywhere on the domain—automatically achieved by any continuous function on a compact set (Heine–Cantor theorem).
 - **Lipschitz Continuity:** Enforces a uniform global bound $$|f(x) - f(y)| \le L\|x - y\|$$ on how fast outputs can change per unit input, directly controlling subgradient norms and convergence rates.
 - **Strict Inclusion Hierarchy:** $$\text{Lipschitz Continuous} \subset \text{Uniformly Continuous} \subset \text{Continuous}$$—knowing which tier an objective occupies determines which convergence theorems apply.
 
-### Step-by-Step Worked Example (Read Slowly): Why $$f(x) = x^2$$ Is Lipschitz on $$[0, 2]$$ but Not Uniformly Continuous on $$[0, \infty)$$
+### Worked example: Why $$f(x) = x^2$$ Is Lipschitz on $$[0, 2]$$ but Not Uniformly Continuous on $$[0, \infty)$$
 
 1. **Bounded domain $$[0, 2]$$ (Lipschitz proof):** For any $$x, y \in [0, 2]$$, factor the difference:
    $$|f(x) - f(y)| = |x^2 - y^2| = |x + y|\,|x - y|.$$

@@ -13,16 +13,16 @@ Mỗi khi một chiếc xe tự lái chọn quỹ đạo tránh vật cản tron
 
 Chương 00 không phải là phần ôn tập khô khan để lướt qua cho xong, mà là xưởng rèn công cụ giúp bạn biến trực giác hình học thành lập luận chặt chẽ trước khi bước vào các thuật toán tối ưu hóa hiện đại.
 
-## Bản đồ kiến thức nền: Bốn trụ cột toán học của Tối ưu hóa
+## Kiến thức cần nhớ: Bốn trụ cột toán học của Tối ưu hóa
 
 Để hiểu sâu vì sao một thuật toán hội tụ, khi nào nghiệm tối ưu tồn tại, và làm sao xử lý dữ liệu nhiễu, tối ưu hóa đứng vững trên bốn trụ cột liên kết chặt chẽ:
 
 - **Giải tích đa biến (Multivariable Calculus):** Cung cấp ngôn ngữ mô tả tốc độ biến thiên cục bộ của hàm mục tiêu thông qua đạo hàm riêng, vector gradient $$\nabla f(x)$$, ma trận Hessian $$\nabla^2 f(x)$$ và khai triển Taylor. Đây là la bàn chỉ hướng giảm nhanh nhất tại mỗi bước lặp.
 - **Đại số tuyến tính (Linear Algebra):** Biến hệ phương trình ràng buộc, phép chiếu và độ cong bậc hai thành ngôn ngữ gọn gàng của vector, ma trận, giá trị riêng và dạng toàn phương $$x^T Q x$$. Mọi bước tính trong lập trình tối ưu thực tế đều quy về đại số tuyến tính số.
-- **Lý thuyết tập hợp và Tôpô thực (Set Theory & Real Topology):** Định nghĩa chính xác "miền khả thi" (tập đóng, tập mở, tập compact, tập biên) và trả lời câu hỏi sống còn trước khi chạy bất kỳ thuật toán nào: *liệu nghiệm tối ưu toàn cục có thực sự tồn tại hay không?*
+- **Lý thuyết tập hợp và Tôpô thực (Set Theory & Real Topology):** Định nghĩa chính xác "miền khả thi" (tập đóng, tập mở, tập compact, tập biên) và trả lời câu hỏi quan trọng trước khi chạy bất kỳ thuật toán nào: *liệu nghiệm tối ưu toàn cục có thực sự tồn tại hay không?*
 - **Xác suất và Thống kê (Probability & Statistics):** Khi dữ liệu có nhiễu hoặc bài toán mang yếu tố ngẫu nhiên (như tối ưu hóa ngẫu nhiên SGD hay ước lượng hợp lý tối đa MLE), xác suất biến việc khớp mô hình thành bài toán cực tiểu hóa hàm mất mát kỳ vọng.
 
-### Khung giải thích (nên đọc chậm): Bốn trụ cột cùng giải một bài toán tối ưu nhỏ
+### Giải thích: Bốn trụ cột cùng giải một bài toán tối ưu nhỏ
 
 Xét bài toán cực tiểu hóa hàm bậc hai một biến trên một đoạn đóng:
 

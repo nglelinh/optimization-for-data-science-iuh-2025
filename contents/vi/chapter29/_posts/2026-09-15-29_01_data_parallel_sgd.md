@@ -14,7 +14,7 @@ Khi bạn huấn luyện một mạng thị giác hay mô hình ngôn ngữ trê
 
 Sự khác biệt quyết định thành bại lại nằm ở tầng *giao thức truyền thông*: nếu tất cả $$P$$ máy đều gửi gradient về một **Máy chủ tham số (Parameter Server)** trung tâm, chiếc máy chủ đó sẽ tắc nghẽn ngay khi $$P$$ tăng lên; còn với giao thức **Ring All-Reduce**, các GPU nối thành một vòng tròn chuyền từng lát dữ liệu cho nhau, giúp lượng dữ liệu mỗi GPU phải truyền **hầu như không tăng dù bạn gắn thêm hàng trăm GPU**!
 
-## Bản đồ kiến thức nền: Ba trụ cột của SGD song song dữ liệu
+## Kiến thức cần nhớ: Ba trụ cột của SGD song song dữ liệu
 
 Để hiểu cả tính tương đương toán học lẫn nút thắt hạ tầng của huấn luyện đa GPU, hãy nắm ba trụ cột sau:
 
@@ -22,7 +22,7 @@ Sự khác biệt quyết định thành bại lại nằm ở tầng *giao th�
 - **Parameter Server vs. Ring All-Reduce:** Trong Parameter Server, máy chủ trung tâm chịu tải truyền thông tỉ lệ thuận với $$P$$ (điểm nghẽn cổ chai). Trong Ring All-Reduce (pha *reduce-scatter* + pha *all-gather*), mỗi GPU chỉ gửi và nhận tổng cộng $$2\frac{P-1}{P}M < 2M$$ byte — **độc lập với $$P$$**!
 - **Đồng bộ (Synchronous) vs. Bất đồng bộ (Asynchronous / Hogwild!):** Đồng bộ đảm bảo gradient luôn tươi mới tại đúng $$w_k$$ nhưng bị chậm theo nút chạy chậm nhất (*straggler*). Bất đồng bộ loại bỏ thời gian chờ nhưng tạo ra **gradient trễ (stale gradients)** tính tại phiên bản trọng số cũ $$w_{k-\tau}$$, gây khó khăn cho hội tụ ở mô hình lớn.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tính tương đương toán học và so sánh băng thông Ring All-Reduce
+### Giải thích: Kiểm chứng tính tương đương toán học và so sánh băng thông Ring All-Reduce
 
 1. **Kiểm chứng tương đương toán học với $$P = 2$$ máy, mỗi máy giữ $$B = 2$$ mẫu:**
    - Máy 1 tính gradient trên 2 mẫu được $$2$$ và $$6 \implies g^{(1)} = \frac{2 + 6}{2} = 4$$.

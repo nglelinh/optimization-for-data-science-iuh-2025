@@ -11,14 +11,14 @@ lang: en
 
 Step up from vectors $$x \ge 0$$ to symmetric positive semidefinite matrices $$X \succeq 0$$, and suddenly optimization can certify polynomial nonnegativity, compute Lovász theta numbers of graphs, design robust control Lyapunov functions, and relax NP-hard combinatorial problems like MAX-CUT. Yet the primal-dual interior-point machinery carries over with astonishing elegance: the vector inner product $$c^T x$$ becomes the trace inner product $$C \cdot X = \operatorname{tr}(CX)$$, and complementarity $$x_i s_i = 0$$ becomes the matrix equation $$XS = 0$$—with one fascinating twist caused by non-commutativity of matrices.
 
-## Background Knowledge Map: Lifting Interior-Point Theory to the PSD Cone
+## Key ideas: Lifting Interior-Point Theory to the PSD Cone
 
 - **Trace Inner Product & Self-Dual Cone:** On the space $$\mathbb{S}^n$$ of symmetric $$n \times n$$ matrices with inner product $$\langle A, B \rangle = \operatorname{tr}(AB)$$, the PSD cone $$\mathbb{S}_+^n$$ is self-dual: $$X \succeq 0 \iff \operatorname{tr}(XS) \ge 0$$ for all $$S \succeq 0$$.
 - **Matrix Complementarity ($$XS = 0$$):** For $$X, S \succeq 0$$, $$\operatorname{tr}(XS) = 0$$ is equivalent to the matrix product $$XS = 0$$, meaning $$X$$ and $$S$$ share an eigenbasis with disjoint supports of positive eigenvalues ($$\operatorname{rank}(X) + \operatorname{rank}(S) \le n$$).
 - **Slater's Condition & Strong Duality Subtlety:** Unlike LP, where feasibility implies strong duality, SDPs can exhibit positive duality gaps or unattained optima unless strict feasibility ($$\exists X \succ 0$$ or $$\exists S \succ 0$$) holds.
 - **Symmetrizing the Newton Step (AHO, HRVW/KSH/M, NT Directions):** Perturbing complementarity to $$XS = \mu I$$ gives a nonsymmetric linearization $$X\Delta S + \Delta X\, S = \mu I - XS$$. Because $$\Delta X, \Delta S$$ must stay symmetric, SDP solvers apply a similarity symmetrization $$H_P(M) = \frac{1}{2}(P M P^{-1} + P^{-T} M^T P^T)$$, giving rise to the classical Alizadeh–Haeberly–Overton, Helmberg–Rendl–Vanderbei–Wolkowicz, and Nesterov–Todd search directions.
 
-### Step-by-Step Worked Example (Read Slowly): Computing an Exact $$2 \times 2$$ SDP Central Path
+### Worked example: Computing an Exact $$2 \times 2$$ SDP Central Path
 
 Consider the $$2 \times 2$$ primal-dual SDP with $$C = \operatorname{diag}(1, 2)$$, $$A_1 = I_2$$, and $$b_1 = 2$$:
 $$\min_{X \succeq 0} \; X_{11} + 2X_{22} \quad \text{s.t.} \quad X_{11} + X_{22} = 2, \qquad \max_{y \in \mathbb{R}} \; 2y \quad \text{s.t.} \quad S = \begin{bmatrix} 1 - y & 0 \\ 0 & 2 - y \end{bmatrix} \succeq 0.$$

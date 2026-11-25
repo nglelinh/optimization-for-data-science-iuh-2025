@@ -10,11 +10,11 @@ lang: vi
 lesson_type: optional
 ---
 
-Nhiều người lầm tưởng rằng khi học sâu và mạng nơ-ron lên ngôi, quy hoạch số nguyên hỗn hợp (MIP) sẽ dần lùi vào dĩ vãng. Thực tế giai đoạn 2020–2026 lại cho thấy điều hoàn toàn ngược lại: **học máy và MIP đang trở thành cặp bài trùng không thể tách rời**. Mạng nơ-ron cực giỏi trong việc dự báo nhu cầu giao hàng hay thời gian di chuyển từ dữ liệu nhiễu, nhưng nó không thể tự đảm bảo các ràng buộc vận hành sống còn như "mỗi phi công nghỉ đủ 12 giờ" hay "tải trọng xe không vượt quá $$Q$$".
+Nhiều người lầm tưởng rằng khi học sâu và mạng nơ-ron lên ngôi, quy hoạch số nguyên hỗn hợp (MIP) sẽ dần lùi vào dĩ vãng. Thực tế giai đoạn 2020–2026 lại cho thấy điều hoàn toàn ngược lại: **học máy và MIP đang trở thành cặp bài trùng không thể tách rời**. Mạng nơ-ron cực giỏi trong việc dự báo nhu cầu giao hàng hay thời gian di chuyển từ dữ liệu nhiễu, nhưng nó không thể tự đảm bảo các ràng buộc vận hành bắt buộc như "mỗi phi công nghỉ đủ 12 giờ" hay "tải trọng xe không vượt quá $$Q$$".
 
 Ngược lại, chính học máy cũng đang quay vào *bên trong* bộ giải MIP — thông qua mạng nơ-ron đồ thị (GNN) học cách chọn biến rẽ nhánh trong cuộc thi ML4CO — để tăng tốc vòng lặp nhánh và cận cho các bài toán lặp đi lặp lại mỗi ngày trong công nghiệp.
 
-## Bản đồ kiến thức nền: Bốn trụ cột kết nối MIP cổ điển với AI hiện đại
+## Kiến thức cần nhớ: Bốn trụ cột kết nối MIP cổ điển với AI hiện đại
 
 Bài đọc ứng dụng này giúp bạn nhìn thấy vị trí thực tế của bốn mô hình Chương 24 trong hệ thống công nghiệp ngày nay:
 
@@ -23,7 +23,7 @@ Bài đọc ứng dụng này giúp bạn nhìn thấy vị trí thực tế c�
 - **Bắt chước Rẽ nhánh Mạnh (Imitating Strong Branching):** *Strong branching* chọn biến rẽ nhánh cực kỳ thông minh nhưng quá chậm vì phải giải thử hàng trăm LP ở mỗi nút. GNN được huấn luyện để bắt chước quyết định của strong branching trong vài mili-giây.
 - **Tính đơn mô-đun toàn phần vs. Ràng buộc thực tế:** Bài toán phân công thuần túy có nghiệm LP tự động nguyên (định lý Birkhoff–von Neumann), nhưng chỉ cần thêm một ràng buộc ca trực hay ngân sách thực tế, cấu trúc đẹp ấy vỡ ngay và MIP thực thụ lập tức cần thiết.
 
-### Khung giải thích (nên đọc chậm): Tính tay bài toán đặt cụm GPU biên (Edge Facility Location)
+### Giải thích: Tính tay bài toán đặt cụm GPU biên (Edge Facility Location)
 
 Giả sử một nền tảng AI cần phục vụ 2 khu vực người dùng (Vùng 1 và Vùng 2) bằng cách mở cụm GPU tại tối đa 2 vị trí ứng viên (Vị trí A và Vị trí B):
 - Chi phí cố định để thuê hạ tầng mỗi ngày: $$f_A = 10$$, $$f_B = 8$$ (đơn vị triệu đồng).

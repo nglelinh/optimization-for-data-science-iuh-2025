@@ -11,14 +11,14 @@ lang: en
 
 Branch and Bound alone can still drown in an exponential tree when the initial LP relaxation sits far outside the true integer points. Chapter 25 introduces the second half of the modern MIP revolution: **cutting planes**. Instead of immediately splitting the feasible region in two, we slice away fractional corners of the LP polytope using valid linear inequalities that leave every single integer feasible point untouched. When cutting planes are embedded inside Branch and Bound—forming **Branch and Cut**—commercial solvers leap from solving 50-variable toys in the 1980s to solving million-variable statistical and engineering problems today.
 
-## Background Knowledge Map: The Solver Half of Mixed Integer Programming
+## Key ideas: The Solver Half of Mixed Integer Programming
 
 - **Convex Hull & Convexification:** Every bounded integer linear program has an equivalent LP over the convex hull $$\operatorname{conv}(S)$$ of its integer points. Cutting planes iteratively approximate $$\operatorname{conv}(S)$$ locally around the optimal fractional vertex.
 - **Valid Inequalities & Separation:** A linear inequality $$\pi^\top x \le \pi_0$$ is *valid* if every integer feasible point satisfies it, and a *cutting plane* if the current fractional LP optimum violates it ($$\pi^\top x_{\text{LP}} > \pi_0$$).
 - **Gomory Cuts & Branch-and-Cut Synergy:** Gomory’s fractional cuts generate valid cuts automatically from any fractional simplex tableau row—no problem-specific structure required. Embedding cuts at every node of Branch and Bound creates the modern Branch-and-Cut engine.
 - **High-Dimensional Statistical MIPs:** Armed with warm starts from discrete first-order methods and Branch-and-Cut, exact $$\ell_0$$ Best Subset Selection and robust Least Quantile of Squares regression become practically solvable at modern data scales.
 
-### Step-by-Step Worked Example (Read Slowly): Seeing a Single Cutting Plane Eliminate Branching
+### Worked example: Seeing a Single Cutting Plane Eliminate Branching
 
 Consider $$\max x_1 + x_2$$ subject to $$2 x_1 + 2 x_2 \le 5$$ and $$x_1, x_2 \in \mathbb{Z}_{\ge 0}$$.
 

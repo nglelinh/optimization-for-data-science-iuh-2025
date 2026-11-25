@@ -11,7 +11,7 @@ lang: vi
 
 Khi tập dữ liệu huấn luyện khổng lồ tới mức phải rải đều trên $$B = 100$$ máy chủ khác nhau, bài toán tối ưu có dạng tổng $$\min_x \sum_{i=1}^B f_i(x)$$, trong đó mỗi máy chủ $$i$$ chỉ nắm giữ hàm mất mát $$f_i$$ trên mảnh dữ liệu của riêng nó. Thay vì dồn dữ liệu về một chỗ, **ADMM đồng thuận (Consensus ADMM)** làm một phép biến hóa đơn giản đến ngỡ ngàng: cấp cho mỗi máy chủ một bản sao biến riêng $$x_i$$ kèm ràng buộc đồng nhất $$x_i = x$$! Nhờ vậy, bước cập nhật $$x_i$$ chạy **song song tuyệt đối** trên cả 100 máy, còn bước cập nhật biến toàn cục $$x$$ chỉ là **một phép lấy trung bình cộng** duy nhất!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của ADMM đồng thuận (Consensus ADMM)
+## Kiến thức cần nhớ: Bốn trụ cột của ADMM đồng thuận (Consensus ADMM)
 
 Để cài đặt và mở rộng Consensus ADMM trên hệ thống phân tán thực tế, hãy nắm rõ bốn cơ chế sau:
 
@@ -20,7 +20,7 @@ Khi tập dữ liệu huấn luyện khổng lồ tới mức phải rải đề
 - **Thêm điều chuẩn chung $$g(x)$$ tại máy chủ trung tâm:** Nếu bài toán là $$\min \sum_{i=1}^B f_i(x) + g(x)$$ (ví dụ phạt Lasso toàn cục $$\lambda\|x\|_1$$), bước trung tâm chỉ cần thay trung bình cộng bằng $$\operatorname{prox}_{g, 1/(B\rho)}(\bar{x}^{(k)})$$!
 - **Mở rộng sang đồng thuận cục bộ trên đồ thị (General Consensus):** Khi mỗi nút chỉ dùng một tập con tọa độ của $$x$$ (như mô hình đồ thị hay lưới điện), mỗi tọa độ toàn cục $$x_j$$ chỉ cần lấy trung bình trên tập các nút có chứa tọa độ $$j$$ đó.
 
-### Khung giải thích (nên đọc chậm): Chạy tay 1 vòng lặp Consensus ADMM trên 3 máy chủ và kiểm chứng $$\bar{w}^{(1)} = 0$$
+### Giải thích: Chạy tay 1 vòng lặp Consensus ADMM trên 3 máy chủ và kiểm chứng $$\bar{w}^{(1)} = 0$$
 
 Xét $$B = 3$$ máy chủ giải bài toán $$\min_x \frac{1}{2}(x - 1)^2 + \frac{1}{2}(x - 4)^2 + \frac{1}{2}(x - 7)^2$$ (nghiệm tối ưu toàn cục là trung bình $$x^\star = \frac{1 + 4 + 7}{3} = 4$$). Chọn $$\rho = 1$$, khởi tạo $$x^{(0)} = 0$$ và $$w_1^{(0)} = w_2^{(0)} = w_3^{(0)} = 0$$:
 

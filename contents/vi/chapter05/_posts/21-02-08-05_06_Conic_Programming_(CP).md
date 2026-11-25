@@ -13,7 +13,7 @@ Nhìn lại chặng đường từ LP ($$x \ge 0$$), sang SOCP ($$\|u\|_2 \le t$
 
 Đó chính là tầm nhìn thống nhất tuyệt đẹp của **Quy hoạch Nón (Conic Programming - CP)**. Thay vì phải viết hàng chục bộ giải riêng biệt cho từng loại bài toán, các nhà tối ưu hóa hiện đại chỉ cần xây dựng lý thuyết đối ngẫu và thuật toán điểm trong cho *bài toán nón tổng quát* — và lập tức giải được cả LP, QP, SOCP, SDP, thậm chí cả quy hoạch mũ (exponential cone) và quy hoạch lũy thừa (power cone) trong cùng một kiến trúc phần mềm!
 
-## Bản đồ kiến thức nền: Bức tranh thống nhất của Quy hoạch Nón
+## Kiến thức cần nhớ: Bức tranh thống nhất của Quy hoạch Nón
 
 Ba trụ cột sau cho thấy vì sao Quy hoạch Nón là "ngôn ngữ máy" (assembly language) của tối ưu hóa lồi hiện đại:
 
@@ -25,7 +25,7 @@ Ba trụ cột sau cho thấy vì sao Quy hoạch Nón là "ngôn ngữ máy" (a
 - **Tích Đề-các của nhiều nón (Mixed Cone Programs):** Trong thực tế, một bài toán duy nhất có thể đồng thời chứa cả biến không âm, ràng buộc chuẩn $$\ell_2$$ và ràng buộc ma trận $$X \succeq 0$$. Khi đó ta chỉ cần đặt $$K = \mathbb{R}_+^{n_1} \times \mathcal{Q}^{n_2} \times \mathbb{S}_+^{n_3}$$ — vẫn là một bài toán Quy hoạch Nón chuẩn!
 - **Đối ngẫu Nón & Tự đối ngẫu (Conic Duality):** Bài toán đối ngẫu của CP có cấu trúc đối xứng gần như y hệt bài toán gốc, chỉ thay nón $$K$$ bằng **nón đối ngẫu** $$K^*$$. Nhờ tính đối xứng này, các bộ giải như Clarabel, SCS hay MOSEK giải đồng thời cả bài toán gốc lẫn đối ngẫu và chứng nhận nghiệm tối ưu khi khoảng cách đối ngẫu về $$0$$.
 
-### Khung giải thích (nên đọc chậm): Viết một bài toán hỗn hợp về đúng dạng chuẩn Quy hoạch Nón
+### Giải thích: Viết một bài toán hỗn hợp về đúng dạng chuẩn Quy hoạch Nón
 
 Xét bài toán tối ưu 2 biến kết hợp cả ràng buộc tuyến tính lẫn chuẩn Euclidean:
 $$\min_{x_1, x_2} \; -x_1 - x_2 \quad \text{thỏa mãn} \quad x_1 \ge 0,\quad x_2 \ge 0,\quad \sqrt{x_1^2 + x_2^2} \le 2.$$

@@ -11,14 +11,14 @@ lang: en
 
 Imagine coordinating a thousand power generators across a continent to meet a single shared electricity demand $$\sum_{i=1}^{1000} x_i = b$$. Solving the coupled primal problem in one central computer requires gathering every plant's private cost curve $$f_i(x_i)$$ into one giant matrix. **Dual methods** flip the script using the timeless logic of economics: broadcast a single **price** $$u$$ for the shared constraint, let every generator optimize its own cost independently in parallel, and then nudge the price up or down based on whether total supply fell short or overshot $$b$$. This chapter traces that idea from raw dual ascent all the way to the **Augmented Lagrangian** and **ADMM**.
 
-## Background Knowledge Map: The Ladder of Dual Optimization Methods
+## Key ideas: The Ladder of Dual Optimization Methods
 
 - **Dual Ascent & Conjugate Smoothness:** Converting $$\min f(x) \text{ s.t. } Ax = b$$ into $$\max_u -f^\ast(-A^T u) - b^T u$$ turns hard equality constraints into an unconstrained dual problem whose gradient is simply the constraint residual $$A x(u) - b$$ (whenever $$f$$ is strictly convex).
 - **Dual Decomposition (Parallel Pricing):** When $$f(x) = \sum_{i=1}^B f_i(x_i)$$ is separable across blocks, fixing the dual price $$u$$ completely decouples the primal minimization into $$B$$ independent subproblems—enabling distributed optimization across servers or agents.
 - **Augmented Lagrangian (Method of Multipliers):** Plain dual ascent demands strong convexity of $$f$$ and careful step sizes to converge. Adding the quadratic penalty $$\frac{\rho}{2}\|Ax - b\|_2^2$$ smooths the dual dramatically and guarantees convergence under far weaker assumptions—at the cost of coupling the blocks together.
 - **ADMM (Best of Both Worlds):** Alternating minimization over $$x$$ and $$z$$ in an augmented Lagrangian restores block separability while keeping the robust convergence guarantees of the method of multipliers.
 
-### Step-by-Step Worked Example (Read Slowly): Pricing a 2-Agent Resource Split via Dual Ascent
+### Worked example: Pricing a 2-Agent Resource Split via Dual Ascent
 
 Minimize $$\frac{1}{2}x_1^2 + \frac{1}{2}(2x_2^2)$$ subject to $$x_1 + x_2 = 3$$ (exact optimum: $$x_1^\star = 2, x_2^\star = 1, u^\star = -2$$).
 

@@ -11,14 +11,14 @@ lang: en
 
 Suppose you want the absolute simplest symmetric correction to your Hessian approximation $$B$$ that enforces the secant equation $$B^+ s = y$$: adding just a **rank-1** symmetric matrix $$a u u^T$$. Remarkably, imposing symmetry and the secant equation leaves *zero* free parameters—the **Symmetric Rank-One (SR1)** formula is completely unique! Even more remarkably, while SR1 can lose positive definiteness (which once made practitioners nervous), that very freedom lets SR1 capture negative curvature in nonconvex trust-region optimization better than BFGS ever could.
 
-## Background Knowledge Map: Uniqueness, Finite Termination, and Trust-Region Power
+## Key ideas: Uniqueness, Finite Termination, and Trust-Region Power
 
 - **Uniqueness of Rank-1 Secant Updates:** Requiring $$B^+ = B + a u u^T$$ to satisfy $$B^+ s = y$$ forces $$u$$ to be collinear with the secant residual $$y - Bs$$, uniquely determining $$B^+ = B + \frac{(y - Bs)(y - Bs)^T}{(y - Bs)^T s}$$.
 - **Self-Duality Under Sherman–Morrison:** Applying the Sherman–Morrison formula to $$B^+$$ yields the exact same rank-1 template for the inverse Hessian $$H^+ = H + \frac{(s - Hy)(s - Hy)^T}{(s - Hy)^T y}$$, just swapping $$(B, s, y) \leftrightarrow (H, y, s)$$.
 - **Exact Hessian Recovery on Quadratics:** For any $$n$$-dimensional quadratic with linearly independent steps (even without exact line searches!), SR1 recovers the *exact* Hessian $$B_n = Q$$ in at most $$n$$ steps—a stronger approximation property than BFGS.
 - **Denominator Breakdown & Safeguard:** Because $$(y - Bs)^T s$$ can vanish or change sign even when $$y^T s > 0$$, SR1 does not preserve positive definiteness and skips updates whenever $$|(y - Bs)^T s| < r \|s\| \|y - Bs\|$$ (typically $$r = 10^{-8}$$), making it a natural partner for trust-region methods rather than line search.
 
-### Step-by-Step Worked Example (Read Slowly): Exact Hessian Recovery in $$n = 2$$ SR1 Steps
+### Worked example: Exact Hessian Recovery in $$n = 2$$ SR1 Steps
 
 Let $$f(x) = \frac{1}{2} x^T Q x$$ with $$Q = \begin{bmatrix} 2 & 1 \\ 1 & 3 \end{bmatrix}$$, and start with $$B_0 = I_2$$. Take two arbitrary linearly independent steps $$s_0 = (1, 0)^T$$ and $$s_1 = (0, 1)^T$$.
 

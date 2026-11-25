@@ -12,14 +12,14 @@ lesson_type: optional
 
 Textbook nonconvexity paints a bleak picture of disconnected, treacherous local traps. Yet empirical deep learning between 2018 and 2026 uncovered four astonishing geometric phenomena that rewrote our intuition: independently trained minima are connected by zero-barrier valleys (**mode connectivity**), networks can suddenly generalize long after memorizing training data (**grokking**), test error drops a second time past the interpolation threshold (**double descent**), and flatter Hessian basins correlate strongly with robustness (**flat minima & SAM**).
 
-## Background Knowledge Map: Four Empirical Phenomena of Deep Loss Landscapes
+## Key ideas: Four Empirical Phenomena of Deep Loss Landscapes
 
 - **Linear & Nonlinear Mode Connectivity:** Two neural nets trained from independent random seeds can be connected by a low-loss curve (Garipov et al. 2018)—and after aligning hidden-neuron permutation symmetries (Git Re-Basin, Ainsworth et al. 2023), often by a *straight line* with nearly zero loss barrier!
 - **Grokking (Delayed Generalization):** On algorithmic tasks (e.g., modular arithmetic), AdamW first drives training loss to zero via memorization while validation accuracy sits at random chance; hundreds of epochs later, weight decay slowly prunes the memorizing circuit in favor of a lower-norm generalizing circuit, causing validation accuracy to jump abruptly to 100%.
 - **Double Descent:** Plotting test error against model capacity $$d$$ reveals the classical U-shaped bias–variance curve up to the interpolation peak $$d \approx n$$ (where ill-conditioned matrices amplify label noise), followed by a *second descent* for $$d \gg n$$ as minimum-norm interpolation smooths the fit.
 - **Flat Minima & Hessian Sharpness:** A minimum with small top Hessian eigenvalue $$\lambda_{\max}(\nabla^2 F(w^\star))$$ tolerates distribution shifts (small shifts in the loss surface) with far smaller test-loss degradation than a razor-sharp minimum.
 
-### Step-by-Step Worked Example (Read Slowly): Quantifying a Flat vs. Sharp Minimum Under Distribution Shift
+### Worked example: Quantifying a Flat vs. Sharp Minimum Under Distribution Shift
 
 Suppose test loss is simply training loss shifted horizontally by a small distribution shift $$\Delta = 0.2$$: $$F_{\text{test}}(w) = F_{\text{train}}(w - 0.2)$$. Compare two zero-loss minima—one **flat** and one **sharp**:
 - Flat basin around $$w_A^\star = 0$$: $$F_A(w) = \frac{1}{2}(1)\, w^2$$ (curvature $$\lambda_A = 1$$).

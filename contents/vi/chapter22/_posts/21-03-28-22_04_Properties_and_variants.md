@@ -13,7 +13,7 @@ Nếu bạn từng chạy Frank–Wolfe tiêu chuẩn trên một đa diện và
 
 Để phá vỡ bức tường $$O(1/k)$$ và đạt hội tụ tuyến tính (nhanh theo hàm mũ $$O(e^{-\rho k})$$) cho các hàm lồi mạnh trên đa diện, cộng đồng tối ưu đã sáng tạo ra một ý tưởng cực kỳ trực giác: bên cạnh việc *bước về phía một đỉnh tốt*, hãy cho phép thuật toán **lùi ra xa khỏi một đỉnh xấu** đang còn dư âm trong tập hoạt động!
 
-## Bản đồ kiến thức nền: Bốn trụ cột nâng cấp Frank–Wolfe
+## Kiến thức cần nhớ: Bốn trụ cột nâng cấp Frank–Wolfe
 
 Bài học này mở rộng thuật toán Frank–Wolfe cơ bản sang các biến thể thực chiến thông qua bốn ý tưởng nền tảng:
 
@@ -22,7 +22,7 @@ Bài học này mở rộng thuật toán Frank–Wolfe cơ bản sang các bi�
 - **Hình học đa diện và Độ rộng kim tự tháp (Pyramidal Width):** Định lý Lacoste-Julien & Jaggi (2013) chứng minh Away-Step Frank–Wolfe hội tụ tuyến tính nhờ hằng số hình học của đa diện (độ rộng kim tự tháp), đảm bảo hướng di chuyển luôn tạo một góc đủ nhọn với hướng giảm gradient âm dù nghiệm nằm sát mặt biên.
 - **Bám theo đường nghiệm (Path Following):** Khi giải họ bài toán ràng buộc với tham số $$t$$ tăng dần (ví dụ chuỗi nghiệm Lasso), nghiệm của bài toán trước là điểm khởi tạo nóng (warm start) tuyệt vời cho bài toán tiếp theo, giúp giảm mạnh tổng số lần gọi LMO.
 
-### Khung giải thích (nên đọc chậm): Một bước Away-Step triệt tiêu đỉnh xấu ngay lập tức
+### Giải thích: Một bước Away-Step triệt tiêu đỉnh xấu ngay lập tức
 
 Hãy xem tại sao Away-Step lại "nhảy thẳng tới đích" ở nơi Frank–Wolfe tiêu chuẩn phải đi zíc-zắc. Xét tam giác $$C = \operatorname{conv}\{v_1=(0,0),\; v_2=(1,0),\; v_3=(0,1)\}$$ và hàm mục tiêu lồi mạnh $$f(x_1, x_2) = \frac{1}{2}(x_1 - 0.5)^2 + \frac{1}{2}x_2^2$$, có nghiệm tối ưu nằm trên cạnh đáy tại $$x^\star = (0.5, 0)$$.
 

@@ -11,7 +11,7 @@ lang: vi
 
 Nếu quy hoạch tuyến tính tối ưu trên góc phần tư không âm $$x \ge 0$$ của các vector, thì **quy hoạch bán xác định (SDP)** nâng toàn bộ câu chuyện đó lên một chiều không gian hoàn toàn mới: góc nón các ma trận đối xứng nửa xác định dương $$X \succeq 0$$. Điều kỳ diệu là hầu hết công thức đẹp đẽ của LP đều dịch chuyển sang SDP một cách tự nhiên — tích vô hướng vector trở thành tích vết $$\operatorname{tr}(CX)$$, điều kiện bù chặt $$x_i s_i = 0$$ trở thành tích ma trận $$XS = 0$$ — nhưng có một "cạm bẫy" đại số tinh tế xuất hiện: tích hai ma trận đối xứng $$X$$ và $$S$$ nhìn chung **không còn đối xứng** nữa!
 
-## Bản đồ kiến thức nền: Mở rộng PD-IPM từ vector sang không gian ma trận đối xứng
+## Kiến thức cần nhớ: Mở rộng PD-IPM từ vector sang không gian ma trận đối xứng
 
 Để không bị choáng ngợp trước các ký hiệu toán tử $$\mathcal{A}, \mathcal{A}^*$$ và điều kiện $$XS = \tau I$$, hãy nắm vững bốn trụ cột nền tảng của SDP:
 
@@ -20,7 +20,7 @@ Nếu quy hoạch tuyến tính tối ưu trên góc phần tư không âm $$x \
 - **Điều kiện bù chặt ma trận $$XS = 0$$:** Với $$X, S \succeq 0$$, điều kiện $$\operatorname{tr}(XS) = 0$$ tương đương với $$XS = 0$$. Điều này có nghĩa là $$X$$ và $$S$$ giao hoán và có thể đồng thời chéo hóa: ở hướng nào $$X$$ có trị riêng dương thì $$S$$ bắt buộc có trị riêng bằng $$0$$.
 - **Đường trung tâm $$XS = \tau I$$ và bài toán đối xứng hóa hướng Newton:** Khi tuyến tính hóa $$XS = \tau I$$, ta thu được $$X\Delta S + \Delta X S = \tau I - XS$$. Vì vế trái không tự động đối xứng ngay cả khi $$\Delta X, \Delta S \in \mathbb{S}^n$$, các bộ giải SDP phải dùng các phép đối xứng hóa (như hướng AHO, HKM hay Nesterov–Todd) để hệ phương trình vuông và giải được duy nhất.
 
-### Khung giải thích (nên đọc chậm): Tính tay đường trung tâm SDP $$2 \times 2$$ với $$XS = \tau I$$
+### Giải thích: Tính tay đường trung tâm SDP $$2 \times 2$$ với $$XS = \tau I$$
 
 Xét bài toán SDP trên không gian ma trận đối xứng $$2 \times 2$$:
 

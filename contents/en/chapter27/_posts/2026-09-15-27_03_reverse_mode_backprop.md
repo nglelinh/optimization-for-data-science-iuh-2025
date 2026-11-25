@@ -12,14 +12,14 @@ lesson_type: required
 
 Here is the single most consequential complexity theorem in modern deep learning: suppose you have a scalar loss $$\ell(w)$$ that depends on $$d = 10^9$$ weights. Forward-mode AD would require $$10^9$$ passes to compute $$\nabla \ell(w)$$. **Reverse-mode AD** (popularized in neural networks as **backpropagation**) flips the chain rule backward from the scalar output $$\ell$$—computing *all* $$10^9$$ partial derivatives simultaneously in **one** backward pass at a total cost bounded by a small constant multiple (typically $$\le 4\times$$) of evaluating $$\ell$$ itself!
 
-## Background Knowledge Map: Adjoints, VJPs, and the Cheap-Gradient Principle
+## Key ideas: Adjoints, VJPs, and the Cheap-Gradient Principle
 
 - **Adjoints ($$\bar{v} = \frac{\partial \ell}{\partial v}$$):** Reverse mode attaches a scalar sensitivity $$\bar{v}$$ to every node measuring how much a tiny bump in $$v$$ changes the final loss $$\ell$$. We seed $$\bar{\ell} = 1$$ and walk the DAG in *reverse* topological order.
 - **Accumulating Fan-Out Gradients (`+=`):** Whenever node $$u$$ feeds multiple children $$v^{(1)}, v^{(2)}$$, its adjoint *accumulates* via $$\bar{u} \mathrel{+}= \bar{v}^{(j)} \frac{\partial v^{(j)}}{\partial u}$$—the exact reason frameworks warn you to zero gradients between batches!
 - **One Pass = One Row of the Jacobian (VJP):** Seeding $$\bar{y} = u \in \mathbb{R}^m$$ computes the Vector-Jacobian Product $$u^\top J_f(x)$$. When $$m = 1$$ (scalar loss), a single reverse pass hands you the entire gradient $$\nabla_x \ell \in \mathbb{R}^n$$ regardless of how huge $$n$$ is (Baur–Strassen Cheap-Gradient Principle).
 - **The Memory Price of Reversal:** Because local derivatives like $$\frac{\partial (uv)}{\partial u} = v$$ depend on forward values, reverse mode must cache forward intermediates on a tape—making activation memory, not FLOPs, the primary bottleneck of large-scale training.
 
-### Step-by-Step Worked Example (Read Slowly): Full Forward + Reverse Adjoint Trace on a 2-Layer ReLU Loss
+### Worked example: Full Forward + Reverse Adjoint Trace on a 2-Layer ReLU Loss
 
 Evaluate $$\ell = (w_2 \cdot \operatorname{relu}(w_1 x) - y)^2$$ at $$x = 2$$, $$y = 5$$, $$w_1 = 1.5$$, $$w_2 = 2.0$$, and find $$\frac{\partial \ell}{\partial w_1}$$ and $$\frac{\partial \ell}{\partial w_2}$$ via reverse-mode AD.
 

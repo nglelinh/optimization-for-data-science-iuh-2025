@@ -14,7 +14,7 @@ Trong suốt nhiều năm sau khi Adam ra đời (2015), giới học sâu vư�
 
 Năm 2017–2019, Ilya Loshchilov và Frank Hutter phát hiện ra một lỗi "ghép nhầm" tinh vi nằm ngay trong cách mọi thư viện cài đặt chính quy hóa $$\ell_2$$ cho Adam: với SGD thuần, cộng $$\frac{\lambda}{2}\|w\|_2^2$$ vào hàm mất mát tương đương hệt với việc co trọng số $$(1 - \eta\lambda)w$$; nhưng với **Adam**, thành phần $$\lambda w$$ lại bị đem chia cho $$\sqrt{\hat{v}}$$, làm hỏng hoàn toàn cơ chế suy giảm trọng số! Chỉ bằng một dòng sửa duy nhất — **tách rời weight decay ra khỏi phép chia thích nghi** — **AdamW** ra đời và lập tức trở thành bộ tối ưu mặc định của kỷ nguyên LLM.
 
-## Bản đồ kiến thức nền: Bốn trụ cột thực hành huấn luyện mạng sâu với AdamW
+## Kiến thức cần nhớ: Bốn trụ cột thực hành huấn luyện mạng sâu với AdamW
 
 Để huấn luyện mạng sâu ổn định từ đầu tới cuối, AdamW luôn đi cùng ba kỹ thuật thực hành không thể thiếu:
 
@@ -23,7 +23,7 @@ Năm 2017–2019, Ilya Loshchilov và Frank Hutter phát hiện ra một lỗi "
 - **Cắt ngưỡng Gradient (Gradient Clipping):** Giới hạn chuẩn toàn cục $$\|g\|_2 \le \tau$$ đóng vai trò van an toàn chống bùng nổ gradient khi gặp minibatch bất thường hoặc vách đá dốc trên địa hình phi lồi của Transformer/RNN.
 - **Ổn định số học với $$\varepsilon$$ và Huấn luyện độ chính xác hỗn hợp:** Tham số $$\varepsilon$$ (thường $$10^{-8}$$) không chỉ tránh chia cho 0 mà còn điều tiết mức độ "thích nghi" ở các tọa độ có gradient rất nhỏ; khi huấn luyện `fp16`/`bf16`, ta thường giữ bản sao trạng thái tối ưu (`m, v`) ở `fp32` để không mất độ chính xác.
 
-### Khung giải thích (nên đọc chậm): Tính tay sự khác biệt gây sốc giữa Adam + $$\ell_2$$ và AdamW
+### Giải thích: Tính tay sự khác biệt gây sốc giữa Adam + $$\ell_2$$ và AdamW
 
 Giả sử ta có hai trọng số cùng giá trị $$w_1 = 1.0$$ và $$w_2 = 1.0$$, tốc độ học $$\eta = 0.1$$, hệ số phạt $$\lambda = 0.1$$. Tọa độ 1 nằm ở lớp có gradient lịch sử lớn ($$\sqrt{\hat{v}_1} = 10$$), còn tọa độ 2 nằm ở lớp có gradient lịch sử nhỏ ($$\sqrt{\hat{v}_2} = 0.1$$). Để cô lập hoàn toàn tác dụng của lực suy giảm trọng số, giả sử gradient của hàm mất mát dữ liệu tại bước này bằng $$0$$ ($$g_{\text{data}} = (0, 0)$$, $$\hat{m}_{\text{data}} = (0, 0)$$):
 

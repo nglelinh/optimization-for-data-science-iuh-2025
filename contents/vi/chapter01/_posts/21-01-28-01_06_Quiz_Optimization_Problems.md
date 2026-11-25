@@ -16,13 +16,13 @@ Sai lầm phổ biến nhất của người mới học tối ưu hóa lồi kh
 
 Bộ trắc nghiệm này kiểm tra phản xạ phân loại bài toán tối ưu của bạn. Trước khi bắt đầu, hãy ôn nhanh 3 tiêu chí vàng và tự tay kiểm tra 3 ví dụ "bẫy" kinh điển ngay sau đây.
 
-## Bản đồ kiến thức nền: Ba chốt kiểm tra nhanh bài toán tối ưu hóa lồi
+## Kiến thức cần nhớ: Ba chốt kiểm tra nhanh bài toán tối ưu hóa lồi
 
 - **Chốt 1 — Hàm mục tiêu $$f_0(x)$$:** Nếu bài toán là $$\min f_0$$ thì $$f_0$$ phải lồi; nếu là $$\max f_0$$ thì $$f_0$$ phải lõm (tức $$-f_0$$ lồi).
 - **Chốt 2 — Ràng buộc bất đẳng thức $$g_i(x) \le 0$$:** Mỗi $$g_i$$ phải là hàm lồi (nếu đề viết $$u(x) \ge 0$$ thì $$u$$ phải là hàm lõm để $$-u(x) \le 0$$ lồi).
 - **Chốt 3 — Ràng buộc đẳng thức $$h_j(x) = 0$$:** Bắt buộc phải là hàm affine $$a_j^T x + b_j = 0$$; mọi đẳng thức phi tuyến (trừ trường hợp đặc biệt rút gọn được) đều phá vỡ tính lồi của miền khả thi.
 
-### Khung giải thích (nên đọc chậm): Phân loại 3 bài toán thoạt nhìn rất giống nhau
+### Giải thích: Phân loại 3 bài toán thoạt nhìn rất giống nhau
 
 Hãy kiểm tra tính lồi của ba bài toán trên $$\mathbb{R}^2$$:
 

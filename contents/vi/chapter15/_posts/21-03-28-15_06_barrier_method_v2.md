@@ -13,13 +13,13 @@ lang: vi
 
 **Phương pháp chắn v.2** khắc phục triệt để sự lãng phí ấy bằng một cải tiến thực dụng nhưng sâu sắc: ở mỗi vòng trong, ta **không giải chính xác tuyệt đối**, mà chỉ cần chạy Newton cho đến khi **đại lượng giảm Newton** thỏa $$\frac{1}{2}\lambda(x)^2 \le \epsilon_{\text{center}}$$ (hoặc thậm chí chỉ chạy 1 bước Newton — chiến lược *short-step*!), miễn là điểm lặp vẫn bám đủ gần đường trung tâm để bước tăng $$t$$ kế tiếp an toàn.
 
-## Bản đồ kiến thức nền: Tư duy định tâm xấp xỉ (Inexact Centering) trong v.2
+## Kiến thức cần nhớ: Tư duy định tâm xấp xỉ (Inexact Centering) trong v.2
 
 - **Tại sao không cần định tâm chính xác tuyệt đối:** Mục tiêu duy nhất của vòng trong là đưa $$x$$ vào vùng hội tụ bậc hai của bài toán chắn tại $$t$$ để làm bệ phóng cho $$\mu t$$. Khi Newton decrement $$\lambda(x)$$ đã nhỏ (ví dụ $$\lambda(x) \le 0.25$$), điểm $$x$$ đã ở sát $$x^*(t)$$ rồi!
 - **Tiêu chí dừng vòng trong bằng Newton decrement:** Nhờ tính bất biến affine và ước lượng $$\frac{1}{2}\lambda(x)^2 \approx (tf(x)+\phi(x)) - (tf(x^*(t))+\phi(x^*(t)))$$, ta dừng vòng trong ngay khi $$\frac{1}{2}\lambda(x)^2 \le \epsilon_{\text{inner}}$$.
 - **Điều chỉnh chứng chỉ dừng ở vòng cuối:** Vì $$x$$ chỉ nằm *gần* $$x^*(t)$$ chứ không trùng khít, sai số cuối cùng cần cộng thêm độ lệch định tâm nhỏ, hoặc chạy định tâm chính xác hơn chỉ ở đúng vòng ngoài cuối cùng khi $$m/t \le \epsilon$$.
 
-### Khung giải thích (nên đọc chậm): So sánh chi phí giữa định tâm tuyệt đối (v.1) và định tâm vừa đủ (v.2)
+### Giải thích: So sánh chi phí giữa định tâm tuyệt đối (v.1) và định tâm vừa đủ (v.2)
 
 Xét một bài toán chắn tại bước trung gian $$t = 10$$, trong đó Newton decrement giảm qua các bước Newton như sau (nhờ hội tụ bậc hai khi $$\lambda < 0.5$$):
 - Sau bước 1: $$\lambda_1 = 0.80 \implies \frac{1}{2}\lambda_1^2 = 0.32$$.

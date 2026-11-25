@@ -13,7 +13,7 @@ Nếu Chương 24 trao cho bạn thanh kiếm **Nhánh và Cận (Branch and Bou
 
 Trong thực tế, Nhánh và Cận thuần túy thường bị "nổ cây" khi cận dưới từ nới lỏng LP quá lỏng lẻo. Thay vì vội vàng phân nhánh ngay, Chương 25 chỉ ra cách *gọt bớt* những phần thừa chứa nghiệm phân số ra khỏi đa diện LP bằng các bất đẳng thức hợp lệ, rồi áp dụng trực tiếp vũ khí MIP này vào hai bài toán thống kê lừng danh vốn từng bị xem là bất khả thi: **chọn tập con tốt nhất (Best Subset Selection)** và **hồi quy bình phương trung vị nhỏ nhất (Least Median of Squares)**.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Quy hoạch số nguyên hỗn hợp (Phần II)
+## Kiến thức cần nhớ: Bốn trụ cột của Quy hoạch số nguyên hỗn hợp (Phần II)
 
 Chương 25 kết nối hình học đa diện cổ điển với thống kê hiện đại qua bốn trụ cột sau:
 
@@ -22,7 +22,7 @@ Chương 25 kết nối hình học đa diện cổ điển với thống kê hi
 - **Nhánh và Cắt (Branch and Cut):** Kết hợp tinh hoa của hai thế giới — dùng mặt phẳng cắt để siết chặt cận dưới ngay tại nút gốc và các nút trung gian, rồi mới phân nhánh khi cần thiết — giúp tốc độ giải tăng hàng triệu lần trong ba thập kỷ qua.
 - **MIP cho Thống kê hiện đại (Best Subset & LQS):** Nhờ khởi động nóng bằng thuật toán bậc nhất rời rạc và MIP hiện đại, các bài toán thống kê phi lồi từng bị thay thế bằng xấp xỉ Lasso nay có thể được giải *chính xác* kèm chứng nhận tối ưu ở quy mô hàng trăm đến hàng nghìn biến.
 
-### Khung giải thích (nên đọc chậm): Một lát cắt duy nhất mạnh bằng cả một nhánh cây
+### Giải thích: Một lát cắt duy nhất mạnh bằng cả một nhánh cây
 
 Hãy quay lại bài toán cực tiểu hóa $$\min -3x_1 - 2x_2$$ thỏa mãn $$2x_1 + 2x_2 \le 5$$ với $$x_1, x_2 \in \mathbb{Z}_+$$ để thấy phép màu của mặt phẳng cắt.
 

@@ -13,7 +13,7 @@ Một câu hỏi lý thuyết đẹp đến ngỡ ngàng: *nếu bài toán quy 
 
 Câu trả lời là **có** — quá trình đó gọi là **lồi hóa (convexification)**. Khi hàm mục tiêu là tuyến tính $$c^T x$$, cực tiểu trên một tập rời rạc luôn trùng khớp hoàn toàn với cực tiểu trên bao lồi $$S$$ của nó, bởi giá trị nhỏ nhất của hàm tuyến tính luôn đạt tại một đỉnh cực trị — mà mọi đỉnh cực trị của $$S$$ chính là các điểm nguyên khả thi ban đầu!
 
-## Bản đồ kiến thức nền: Ba trụ cột của phép Lồi hóa
+## Kiến thức cần nhớ: Ba trụ cột của phép Lồi hóa
 
 Để hiểu vì sao lồi hóa vừa là "chén thánh" lý thuyết, vừa không thể thực hiện trực tiếp một lần cho xong trong thực tế, hãy nắm ba trụ cột sau:
 
@@ -21,7 +21,7 @@ Câu trả lời là **có** — quá trình đó gọi là **lồi hóa (convex
 - **Định lý Meyer (1974) về tính đa diện:** Khi $$C = \{x : Ax \le b\}$$ là một đa diện hữu tỷ (mọi hệ số của $$A, b$$ là số hữu tỷ), bao lồi nguyên $$S = \operatorname{conv}(\{x \in C : x_j \in \mathbb{Z}\})$$ cũng là một **đa diện** (biểu diễn được bằng hữu hạn bất đẳng thức tuyến tính). Nói cách khác, về nguyên tắc, mọi MILP hữu tỷ đều là một LP!
 - **Nghịch lý kích thước (Exponential Number of Facets):** Dù $$S$$ chỉ có hữu hạn mặt biên, số lượng bất đẳng thức cần để mô tả trọn vẹn $$S$$ có thể tăng theo hàm mũ theo số chiều $$n$$. Vì vậy, thay vì dựng toàn bộ $$S$$ từ đầu, ta chỉ xây dựng *cục bộ* vài mặt biên ngay quanh vùng chứa nghiệm tối ưu bằng thuật toán mặt phẳng cắt.
 
-### Khung giải thích (nên đọc chậm): Tự tay dựng toàn bộ bao lồi nguyên $$S$$ của một đa diện 2 chiều
+### Giải thích: Tự tay dựng toàn bộ bao lồi nguyên $$S$$ của một đa diện 2 chiều
 
 Xét đa diện nới lỏng $$P = \{(x_1, x_2) \in \mathbb{R}^2 : x_1 \ge 0,\; x_2 \ge 0,\; 3x_1 + 2x_2 \le 5\}$$. Hãy tìm chính xác bao lồi nguyên $$S = \operatorname{conv}(P \cap \mathbb{Z}^2)$$.
 

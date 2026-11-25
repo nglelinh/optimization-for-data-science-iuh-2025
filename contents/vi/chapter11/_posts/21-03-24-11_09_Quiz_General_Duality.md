@@ -16,14 +16,14 @@ Chương 11 là bước chuyển quan trọng nhất từ thế giới tuyến t
 
 Hãy lướt nhanh qua bản đồ bốn cụm kiến thức trọng tâm và bốn phép thử nhanh dưới đây trước khi bắt đầu bộ câu hỏi trắc nghiệm để đạt độ chính xác tối đa.
 
-## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 11
+## Kiến thức cần nhớ: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 11
 
 - **Cấu trúc và tính chất hàm Lagrangian $$L(x, u, v)$$:** Nhớ chuẩn dấu $$h_i(x) \le 0 \Rightarrow u_i \ge 0$$ và $$l_j(x) = 0 \Rightarrow v_j \in \mathbb{R}$$ tự do; luôn có $$L(x, u, v) \le f(x)$$ trên tập khả thi $$C$$.
 - **Tính lõm vô điều kiện của $$g(u, v)$$:** Hàm đối ngẫu $$g(u, v) = \inf_x L(x, u, v)$$ **luôn lõm** và bài toán đối ngẫu $$\max_{u \ge 0, v} g(u, v)$$ **luôn là bài toán tối ưu lồi**, bất kể bài toán gốc lồi hay không lồi!
 - **Đối ngẫu yếu, đối ngẫu mạnh và điều kiện Slater:** Đối ngẫu yếu ($$g^* \le f^*$$) luôn đúng; đối ngẫu mạnh ($$g^* = f^*$$) cần tính lồi + điều kiện chuẩn hóa (Slater: tồn tại điểm khả thi chặt cho các ràng buộc bất đẳng thức phi tuyến; ràng buộc affine chỉ cần $$\le 0$$).
 - **Khoảng cách đối ngẫu và hàm liên hợp Fenchel:** Hiệu $$f(x) - g(u, v) \ge f(x) - f^*$$ là tiêu chuẩn dừng có chứng chỉ; hàm liên hợp $$f^*(y) = \sup_x (y^T x - f(x))$$ giúp tính nhanh $$g(u, v)$$ và chứng minh tính đối ngẫu kép $$f^{**} = f$$.
 
-### Khung giải thích (nên đọc chậm): Bốn phép thử nhanh né bẫy trắc nghiệm Chương 11
+### Giải thích: Bốn phép thử nhanh né bẫy trắc nghiệm Chương 11
 
 1. **Bẫy 1 — Bài toán gốc cực kỳ không lồi (ví dụ $$\min \sin(x) + x^4$$ s.t. $$x^3 - x \le 0$$), bài toán đối ngẫu Lagrange có lồi không?**
    **CÓ!** Bài toán đối ngẫu $$\max_{u \ge 0} g(u)$$ luôn là bài toán tối ưu lồi (cực đại hóa hàm lõm $$g(u)$$ trên miền lồi $$u \ge 0$$), không phụ thuộc vào tính lồi của bài toán gốc!

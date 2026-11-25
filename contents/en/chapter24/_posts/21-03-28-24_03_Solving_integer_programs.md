@@ -11,14 +11,14 @@ lang: en
 
 If an integer program with 100 binary variables has $$2^{100} \approx 1.26 \times 10^{30}$$ candidate solutions, how can a commercial solver find the certified global optimum in under a second? It never enumerates the haystack. Instead, every modern MIP solver runs a disciplined **primal–dual squeeze**: primal heuristics hunt for better feasible integer solutions to push the upper bound $$U$$ down, while relaxations and cuts push the certified lower bound $$L$$ up. The moment $$U - L \le \varepsilon$$, global optimality is mathematically guaranteed—even though $$99.999999\%$$ of the search space was never visited.
 
-## Background Knowledge Map: Complexity and the Primal–Dual Bounding Template
+## Key ideas: Complexity and the Primal–Dual Bounding Template
 
 - **NP-Hardness in Worst Case vs. Tractability in Practice:** Integer linear programming is NP-complete (Karp 1972), meaning no known polynomial-time algorithm works for all instances. Yet structured real-world instances yield rapidly to strong relaxations and aggressive pruning.
 - **Primal Bounds (Upper Bounds for Minimization):** Any feasible integer point $$\hat{x} \in \mathcal{F}$$ immediately certifies $$f^\star \le f(\hat{x}) = U$$. Solvers generate primal bounds via rounding, feasibility pumps, local search, and integer relaxation solutions.
 - **Dual Bounds (Lower Bounds for Minimization):** Solving any relaxation over a superset $$\tilde{\mathcal{F}} \supseteq \mathcal{F}$$ (or minimizing a lower-bounding objective $$\tilde{f} \le f$$) certifies $$L = \tilde{f}^\star \le f^\star$$.
 - **Optimality Gap & Certified Termination:** The relative MIP gap $$\frac{U - L}{|U|}$$ measures exact worst-case suboptimality. Stopping at a $$0.1\%$$ gap delivers a solution provably within $$0.1\%$$ of global optimality without spending hours proving the last decimal place.
 
-### Step-by-Step Worked Example (Read Slowly): Tracking Primal/Dual Bounds and the MIP Gap
+### Worked example: Tracking Primal/Dual Bounds and the MIP Gap
 
 Suppose we minimize a discrete cost $$f(x)$$ over integer feasible set $$\mathcal{F}$$, and our solver executes three rounds of relaxation refinement and primal heuristics:
 

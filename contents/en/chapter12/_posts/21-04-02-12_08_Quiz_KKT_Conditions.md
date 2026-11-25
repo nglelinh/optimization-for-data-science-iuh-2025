@@ -14,7 +14,7 @@ redirect_from:
 
 Before you start the Chapter 12 multiple-choice quiz, double-check the exact logical arrows connecting KKT, convexity, and strong duality—this is where 80% of graduate exam mistakes happen! Remember: KKT is *sufficient* for global optimality on **every** convex problem (even without Slater's condition!), whereas KKT is *necessary* whenever **strong duality** holds (for both convex and differentiable nonconvex problems!). Use the four diagnostic pillars and rapid KKT audit below to warm up.
 
-## Background Knowledge Map: Chapter 12 Exam-Day Diagnostic Matrix
+## Key ideas: Chapter 12 Exam-Day Diagnostic Matrix
 
 - **Pillar 1 — The Four Conditions by Heart:** (1) Stationarity $$0 \in \partial f(x^\star) + \sum u_i^\star \partial h_i(x^\star) + \sum v_j^\star \partial l_j(x^\star)$$; (2) Complementary slackness $$u_i^\star h_i(x^\star) = 0$$; (3) Primal feasibility $$h_i(x^\star) \le 0, l_j(x^\star) = 0$$; (4) Dual feasibility $$u_i^\star \ge 0$$.
 - **Pillar 2 — Exact Logical Arrows:**
@@ -24,7 +24,7 @@ Before you start the Chapter 12 multiple-choice quiz, double-check the exact log
 - **Pillar 3 — Iconic KKT Fingerprints:** Equality-constrained QP $$\to$$ block linear KKT matrix; Water-filling $$\to$$ $$x_i^\star = \max(0, 1/\nu^\star - \alpha_i)$$; Soft-margin SVM $$\to$$ $$0 \le w_i^\star \le C$$ with $$w_i^\star = 0$$ off the margin; Lasso $$\to$$ $$X^\top(y - X\hat{\beta}) = \lambda s$$ with unique $$X\hat{\beta}$$.
 - **Pillar 4 — Constrained vs. Lagrange Equivalence:** Under convexity and Slater's condition, every constrained solution solves some Lagrange form ($$\lambda = \lambda^\star \ge 0$$), and every Lagrange solution solves the constrained form with $$t = h(x^\star)$$.
 
-### Step-by-Step Worked Example (Read Slowly): Auditing a Proposed KKT Solution in 30 Seconds
+### Worked example: Auditing a Proposed KKT Solution in 30 Seconds
 
 Minimize $$f(x_1, x_2) = x_1^2 + x_2^2$$ subject to $$h_1(x) = 2 - x_1 - x_2 \le 0$$ and $$h_2(x) = -x_1 \le 0$$. Someone claims $$x^\star = (1, 1)^\top$$ with $$u^\star = (2, 0)^\top$$ is optimal. Let's audit all four KKT conditions!
 

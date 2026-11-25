@@ -13,13 +13,13 @@ Nếu ví miền khả thi của bài toán tối ưu như một căn phòng đa
 
 Điều kỳ diệu nhất về đường trung tâm là: ta **không cần** phải tìm chính xác mọi điểm trên đường cong đó. Chỉ cần đi từng bước nhảy lớn dọc theo "hành lang lân cận" của đường trung tâm, ta vừa giữ ma trận Hessian không bị suy biến quá sớm, vừa tiến theo cấp số nhân về đích!
 
-## Bản đồ kiến thức nền: Hình học và ý nghĩa vật lý của đường trung tâm
+## Kiến thức cần nhớ: Hình học và ý nghĩa vật lý của đường trung tâm
 
 - **Định nghĩa chính thức:** Với mỗi $$t > 0$$, $$x^*(t) = \arg\min \{t f(x) + \phi(x) \mid Ax = b\}$$. Dưới giả thiết tập khả thi chặt khác rỗng và $$\nabla^2 (t f + \phi) \succ 0$$, điểm $$x^*(t)$$ tồn tại duy nhất và biến thiên trơn theo $$t$$.
 - **Diễn giải lực vật lý (Force-Field Interpretation) cho bài toán LP:** Khi $$f(x) = c^T x$$, điều kiện dừng $$t c + \nabla \phi(x) = 0$$ có nghĩa là tại $$x^*(t)$$, trọng lực không đổi $$-tc$$ kéo hạt về hướng $$-c$$ đang **cân bằng hoàn hảo** với tổng các lực đẩy điện tích $$\frac{1}{-h_i(x)}\nabla h_i(x)$$ phát ra từ các bức tường ràng buộc!
 - **Hai đầu mút của đường trung tâm:** Khi $$t \to 0^+$$, $$x^*(t)$$ tiến về **tâm giải tích (analytic center)** của tập khả thi (độc lập với hàm mục tiêu $$f$$). Khi $$t \to +\infty$$, $$x^*(t)$$ hội tụ về nghiệm tối ưu $$x^*$$ (và nếu có nhiều nghiệm tối ưu, nó hội tụ về tâm giải tích của mặt tối ưu!).
 
-### Khung giải thích (nên đọc chậm): Tính giải tích toàn bộ đường trung tâm $$x^*(t)$$ cho một bài toán LP trên đoạn thẳng
+### Giải thích: Tính giải tích toàn bộ đường trung tâm $$x^*(t)$$ cho một bài toán LP trên đoạn thẳng
 
 Xét bài toán LP 1 chiều:
 $$\min_{x \in \mathbb{R}} x \qquad \text{với điều kiện } 0 \le x \le 4 \;\; (\text{tức } h_1 = -x \le 0, \; h_2 = x - 4 \le 0).$$

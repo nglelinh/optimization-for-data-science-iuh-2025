@@ -11,14 +11,14 @@ lang: en
 
 Plain dual ascent has an Achilles' heel: if $$f(x)$$ is not strictly convex (say, a linear program or an $$\ell_1$$ regularizer), the Lagrangian minimizer $$x(u)$$ can jump wildly or even blow up to $$-\infty$$! In 1969, Magnus Hestenes and Michael Powell discovered an astonishingly simple cure—the **Augmented Lagrangian Method (Method of Multipliers)**. Adding the quadratic penalty $$\frac{\rho}{2}\|Ax - b\|_2^2$$ does not change the optimal solution by a single digit (since $$Ax - b = 0$$ at every feasible point!), yet it acts like a mathematical shock absorber: smoothing the dual, restoring convergence without strong convexity, and automatically locking the dual step size to $$t_k = \rho$$!
 
-## Background Knowledge Map: Why the Quadratic Augmentation Changes Everything
+## Key ideas: Why the Quadratic Augmentation Changes Everything
 
 - **Feasibility-Preserving Penalty:** Because $$\frac{\rho}{2}\|Ax - b\|_2^2 = 0$$ whenever $$Ax = b$$, minimizing $$f(x) + \frac{\rho}{2}\|Ax - b\|_2^2$$ subject to $$Ax = b$$ has the *exact* same optimal set and optimal value as the original problem—unlike pure quadratic penalty methods, which require $$\rho \to \infty$$!
 - **Why the Step Size Is Exactly $$\rho$$:** Stationarity of the $$x$$-update gives $$0 \in \partial f(x^{(k)}) + A^T\big(u^{(k-1)} + \rho(Ax^{(k)} - b)\big)$$. Setting $$u^{(k)} = u^{(k-1)} + \rho(Ax^{(k)} - b)$$ makes $$(x^{(k)}, u^{(k)})$$ satisfy dual stationarity $$0 \in \partial f(x^{(k)}) + A^T u^{(k)}$$ *identically at every single iteration*!
 - **Smoothing via Moreau Envelope:** The augmented dual function is literally the Moreau–Yosida regularization of the original dual $$g(u)$$, which is *always* continuously differentiable with $$(1/\rho)$$-Lipschitz gradient—even if $$f$$ is linear or nonsmooth!
 - **The One Trade-Off (Loss of Separability):** Expanding $$\frac{\rho}{2}\|\sum_i A_i x_i - b\|_2^2$$ introduces cross-terms $$x_i^T A_i^T A_j x_j$$ that re-couple the blocks—setting the stage directly for ADMM in Section 20-04!
 
-### Step-by-Step Worked Example (Read Slowly): Rescuing a Linear Problem Where Dual Ascent Fails
+### Worked example: Rescuing a Linear Problem Where Dual Ascent Fails
 
 Consider the 1D linear program $$\min_{x \in \mathbb{R}} 2x$$ subject to $$x = 3$$ (trivial optimum $$x^\star = 3, u^\star = -2$$). Notice $$f(x) = 2x$$ is **not** strictly convex!
 

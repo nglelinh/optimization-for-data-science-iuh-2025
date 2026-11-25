@@ -11,14 +11,14 @@ lang: en
 
 Every major theorem in Chapter 08—convergence under fixed step sizes, diminishing step sizes, optimal $$O(1/\varepsilon^2)$$ rates, and even Polyak's adaptive rule—flows from a single, five-line algebraic master key called the **basic inequality**. Rather than proving each step-size rule from scratch, Shor and Polyak discovered that expanding the squared Euclidean distance $$\|x^{(k+1)} - x^\star\|_2^2$$ and telescoping across iterations traps the entire trajectory in one clean ratio. Mastering this single inequality lets you derive every convergence bound in nonsmooth optimization on the back of an envelope.
 
-## Background Knowledge Map: The Mechanics of the Basic Inequality
+## Key ideas: The Mechanics of the Basic Inequality
 
 - **Pillar 1 — Squared-Distance Expansion:** Expanding $$\|x^{(k+1)} - x^\star\|_2^2 = \|x^{(k)} - \alpha_k g^{(k)} - x^\star\|_2^2$$ splits the update into three pieces: previous distance $$\|x^{(k)} - x^\star\|_2^2$$, a helpful cross-term $$-2\alpha_k g^{(k)\top}(x^{(k)} - x^\star)$$, and a quadratic overshoot penalty $$+\alpha_k^2 \|g^{(k)}\|_2^2$$.
 - **Pillar 2 — The Subgradient Bridge:** Applying convexity $$g^{(k)\top}(x^{(k)} - x^\star) \ge f(x^{(k)}) - f^\star$$ converts the geometric inner product directly into an objective suboptimality gap, coupling Euclidean space to function values.
 - **Pillar 3 — Telescoping Cancellation:** Summing the one-step recursion from $$i = 1$$ to $$k$$ causes all intermediate distances $$\|x^{(i)} - x^\star\|_2^2$$ to cancel in pairs, leaving only the initial squared radius $$R^2 \ge \|x^{(1)} - x^\star\|_2^2$$ minus the nonnegative final distance $$\|x^{(k+1)} - x^\star\|_2^2 \ge 0$$.
 - **Pillar 4 — Weighted Average to Best-Iterate Bound:** Because $$\sum_{i=1}^k \alpha_i (f(x^{(i)}) - f^\star) \ge \left(\sum_{i=1}^k \alpha_i\right)(f_{\text{best}}^{(k)} - f^\star)$$, dividing by $$2\sum \alpha_i$$ immediately isolates $$f_{\text{best}}^{(k)} - f^\star$$ as a competition between initial distance $$R^2$$ and accumulated step variance $$G^2 \sum \alpha_i^2$$.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying the Basic Inequality Numerically
+### Worked example: Verifying the Basic Inequality Numerically
 
 Take $$f(x) = |x|$$ ($$x^\star = 0, f^\star = 0, G = 1$$), starting at $$x^{(1)} = 1$$ (so $$R = |1 - 0| = 1$$), with $$k = 2$$ steps using $$\alpha_1 = 0.6$$ and $$\alpha_2 = 0.4$$.
 

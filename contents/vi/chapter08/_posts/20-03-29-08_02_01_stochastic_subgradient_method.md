@@ -13,13 +13,13 @@ Nếu bạn đứng giữa một căn phòng đông người đang tranh cãi v�
 
 Tưởng như chỉ là chi tiết cài đặt nhỏ, nhưng sự khác biệt giữa chọn tuần hoàn và chọn ngẫu nhiên lại có tác động mạnh đến cả lý thuyết lẫn thực tế: dữ liệu sắp xếp theo thứ tự xấu (ví dụ toàn bộ mẫu dương đứng trước, mẫu âm đứng sau) có thể làm biến thể tuần hoàn chao đảo theo chu kỳ dài, trong khi rút thăm ngẫu nhiên (hoặc xáo trộn dữ liệu mỗi epoch) phá vỡ hoàn toàn các mẫu tuần hoàn bất lợi đó.
 
-## Bản đồ kiến thức nền: Ba trụ cột của thuật toán subgradient ngẫu nhiên
+## Kiến thức cần nhớ: Ba trụ cột của thuật toán subgradient ngẫu nhiên
 
 - **Công thức cập nhật một mẫu (hoặc mini-batch):** Thay vì tính $$\sum_{i=1}^m g_i^{(k-1)}$$, ta chọn một chỉ số $$i_k \in \{1, \dots, m\}$$ và cập nhật $$x^{(k)} = x^{(k-1)} - t_k g_{i_k}^{(k-1)}$$ với $$g_{i_k}^{(k-1)} \in \partial f_{i_k}(x^{(k-1)})$$. Dùng mini-batch cỡ $$B$$ là trung dung giữa $$B = 1$$ (nhanh, nhiễu cao) và $$B = m$$ (chậm, không nhiễu).
 - **Quy tắc tuần hoàn (Cyclic) vs. Quy tắc ngẫu nhiên (Randomized):** Quy tắc tuần hoàn quét $$1, 2, \dots, m, 1, 2, \dots$$ đảm bảo mọi mẫu được thăm đúng một lần mỗi epoch, nhưng dễ bị thiên lệch nếu thứ tự dữ liệu có cấu trúc. Quy tắc ngẫu nhiên chọn độc lập đều trên $$\{1, \dots, m\}$$ đảm bảo tính không chệch ở mọi bước và tránh mọi thứ tự đối kháng.
 - **Lịch bước và tính tương thích với bài toán không trơn:** Giống hệt phương pháp subgradient batch, ta không thể dùng line search trên từng $$f_{i_k}$$ đơn lẻ (vì làm giảm $$f_{i_k}$$ có thể phá hỏng các $$f_j$$ khác), nên phải chọn bước cố định nhỏ hoặc bước giảm dần thỏa $$\sum t_k = \infty, \sum t_k^2 < \infty$$.
 
-### Khung giải thích (nên đọc chậm): Chạy tay 3 bước subgradient ngẫu nhiên để tìm trung vị của 3 điểm
+### Giải thích: Chạy tay 3 bước subgradient ngẫu nhiên để tìm trung vị của 3 điểm
 
 Xét bài toán tìm trung vị của 3 số $$\{1, 2, 5\}$$:
 $$\min_{x \in \mathbb{R}} \; f(x) = |x - 1| + |x - 2| + |x - 5| = f_1(x) + f_2(x) + f_3(x).$$

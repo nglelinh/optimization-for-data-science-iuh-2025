@@ -11,14 +11,14 @@ lang: en
 
 At first glance, ADMM looks like a constrained-optimization algorithm built around equality constraints $$Ax + Bz = c$$. Yet set $$A = I, B = -I, c = 0$$ on the unconstrained composite problem $$\min_x f(x) + g(x)$$, and something remarkable happens: **ADMM becomes a pure proximal-operator machine**—alternating $$\operatorname{prox}_{f/\rho}$$ and $$\operatorname{prox}_{g/\rho}$$! Unlike proximal gradient descent (which demands that one term be differentiable), ADMM can minimize the sum of *two completely nondifferentiable* functions as long as each has a fast proximal map!
 
-## Background Knowledge Map: ADMM as Symmetrical Proximal Splitting
+## Key ideas: ADMM as Symmetrical Proximal Splitting
 
 - **Canonical Consensus Split ($$x = z$$):** Rewriting $$\min_x f(x) + g(x)$$ as $$\min_{x,z} f(x) + g(z) \text{ s.t. } x - z = 0$$ gives scaled ADMM updates $$x^k = \operatorname{prox}_{f/\rho}(z^{k-1} - w^{k-1})$$ and $$z^k = \operatorname{prox}_{g/\rho}(x^k + w^{k-1})$$.
 - **No Smoothness Required on Either Block:** Proximal gradient (ISTA/FISTA) requires $$\nabla f$$ to exist and be $$L$$-Lipschitz; proximal ADMM handles nonsmooth $$f$$ and nonsmooth $$g$$ symmetrically (for instance, $$\ell_1$$ loss $$+$$ $$\ell_1$$ penalty, or two set indicators $$I_C + I_D$$).
 - **Exact Equivalence to Douglas–Rachford Splitting:** Defining the reflected variable $$v^k = z^k + w^k$$ shows that proximal ADMM is algebraically identical to **Douglas–Rachford operator splitting** applied to the monotone inclusion $$0 \in \partial f(x) + \partial g(x)$$.
 - **Moreau Decomposition Shortcut:** When $$\operatorname{prox}_{g/\rho}$$ is hard to compute directly but $$\operatorname{prox}_{\rho g^\ast}$$ is easy (e.g., projecting onto an $$\ell_\infty$$ dual ball), Moreau's identity $$v = \operatorname{prox}_{g/\rho}(v) + \frac{1}{\rho}\operatorname{prox}_{\rho g^\ast}(\rho v)$$ computes the ADMM update in one line!
 
-### Step-by-Step Worked Example (Read Slowly): Minimizing the Sum of Two Nonsmooth Functions via Proximal ADMM
+### Worked example: Minimizing the Sum of Two Nonsmooth Functions via Proximal ADMM
 
 Minimize $$f(x) + g(x) = \underbrace{|x - 2|}_{f(x)} + \underbrace{|x|}_{g(x)}$$ (neither function is differentiable at its kink! Optimal set is the entire interval $$x^\star \in [0, 2]$$ with value $$2$$). Run proximal ADMM with $$\rho = 1$$ starting from $$z^0 = 3, \; w^0 = 0$$.
 

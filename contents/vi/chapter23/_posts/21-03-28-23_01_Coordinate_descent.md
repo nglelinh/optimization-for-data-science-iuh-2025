@@ -13,7 +13,7 @@ Một câu hỏi kinh điển thường làm người mới học tối ưu gi�
 
 Nếu mặt địa hình trơn láng (khả vi), câu trả lời chắc chắn là **có**. Nhưng chỉ cần mặt địa hình có một vết gấp nhọn chạy chéo góc $$45^\circ$$, bạn hoàn toàn có thể bị **mắc kẹt giữa sườn núi**: mọi bước đi dọc theo trục Bắc–Nam hay Đông–Tây đều leo dốc, trong khi chỉ cần đi chéo Đông–Bắc là thung lũng sâu thẳm mở ra ngay trước mắt! Toàn bộ bài học này xoay quanh việc phân định rạch ròi ranh giới giữa khi nào hạ theo tọa độ thành công và khi nào nó thất bại.
 
-## Bản đồ kiến thức nền: Ba trụ cột lý thuyết của định lý hội tụ Tseng
+## Kiến thức cần nhớ: Ba trụ cột lý thuyết của định lý hội tụ Tseng
 
 Ba câu hỏi Q1–Q2–Q3 trong bài chính là ba nấc thang dẫn tới kết quả kinh điển của Paul Tseng (2001):
 
@@ -21,7 +21,7 @@ Ba câu hỏi Q1–Q2–Q3 trong bài chính là ba nấc thang dẫn tới kế
 - **Trường hợp không trơn không tách được (Non-Separable Nonsmooth):** Khi xuất hiện một hạng tử không trơn ghép nhiều biến với nhau (như $$|x_1 - x_2|$$ hoặc $$\max(x_1, x_2)$$), dưới vi phân $$\partial f(x)$$ không phân rã thành tích Descartes của các dưới vi phân riêng lẻ; điểm tối ưu theo từng trục có thể không phải cực tiểu toàn cục.
 - **Cấu trúc hợp thành tách được (Composite Separable Structure):** Khi hàm mục tiêu có dạng $$f(x) = g(x) + \sum_{i=1}^n h_i(x_i)$$ với $$g$$ lồi khả vi và từng $$h_i$$ lồi (có thể không trơn nhưng chỉ phụ thuộc riêng vào $$x_i$$), mọi góc nhọn đều **song song với các trục tọa độ**. Nhờ đó, định lý Tseng đảm bảo cực tiểu theo từng tọa độ luôn là cực tiểu toàn cục — chiếc chìa khóa mở cửa cho Lasso và hàng loạt mô hình thưa!
 
-### Khung giải thích (nên đọc chậm): Phản ví dụ tính tay — điểm bị "kẹt" trên hàm lồi không tách được
+### Giải thích: Phản ví dụ tính tay — điểm bị "kẹt" trên hàm lồi không tách được
 
 Hãy tự tay kiểm chứng một phản ví dụ cụ thể cho Câu hỏi Q2 để thấy rõ vì sao sự không tách được lại bẫy chết Coordinate Descent. Xét hàm lồi:
 

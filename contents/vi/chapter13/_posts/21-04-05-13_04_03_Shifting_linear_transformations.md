@@ -13,13 +13,13 @@ Trong rất nhiều bài toán thực tế — từ lọc nhiễu ảnh *Total V
 
 Bài học ngắn nhưng cực kỳ đắt giá này chỉ ra một "phép hoán đổi vị trí" kỳ diệu nhờ đối ngẫu: khi lập bài toán đối ngẫu của $$\min_x f(x) + g(Ax)$$, ma trận $$A$$ nhảy sang vế bên kia dưới dạng ma trận chuyển vị $$A^T$$ nằm trong $$f^*(-A^T u)$$, còn $$g^*(u)$$ hoàn toàn tự do không dính ma trận nào! Nếu $$f^*$$ là hàm trơn (như hàm bậc hai), ta đã đẩy được ma trận $$A$$ ra khỏi hàm không trơn sang hàm trơn dễ tính đạo hàm.
 
-## Bản đồ kiến thức nền: Nghệ thuật đẩy ma trận chuyển vị sang vế dễ hơn
+## Kiến thức cần nhớ: Nghệ thuật đẩy ma trận chuyển vị sang vế dễ hơn
 
 - **Biến đổi tương đương $$z = Ax$$:** Tách toán tử tuyến tính $$A$$ ra khỏi hàm $$g$$ bằng một ràng buộc đẳng thức $$Ax - z = 0$$, sau đó nhân với biến đối ngẫu $$u$$ trong hàm Lagrange.
 - **Tính chất liên hợp của ma trận chuyển vị:** Trong biểu thức $$u^T(Ax - z) = (A^T u)^T x - u^T z$$, ma trận $$A$$ tự động chuyển từ tác động lên $$x$$ sang dạng $$A^T$$ tác động lên biến đối ngẫu $$u$$.
 - **Lợi ích thuật toán thực chiến:** Khi $$f$$ lồi mạnh (nên $$f^*$$ khả vi Lipschitz) còn $$g$$ là chuẩn không trơn (như $$\|Dx\|_1$$), bài toán đối ngẫu $$\min_u f^*(-A^T u) + g^*(u)$$ trở thành bài toán tối ưu hàm trơn trên tập hộp đơn giản — giải cực nhanh bằng FISTA hay Projected Gradient Descent!
 
-### Khung giải thích (nên đọc chậm): Dịch chuyển ma trận sai phân trong bài toán làm mịn 1D (Fused Signal)
+### Giải thích: Dịch chuyển ma trận sai phân trong bài toán làm mịn 1D (Fused Signal)
 
 Xét tín hiệu 2 điểm $$y = (0, 4)^T$$ và bài toán làm mịn:
 

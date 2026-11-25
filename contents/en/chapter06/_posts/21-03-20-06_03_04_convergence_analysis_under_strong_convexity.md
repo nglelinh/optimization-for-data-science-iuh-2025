@@ -11,7 +11,7 @@ lang: en
 
 On a flat-bottomed convex valley, gradients fade gently near the minimum and gradient descent slows to $$O(1/k)$$. Now give the valley a guaranteed minimum upward curvature $$m > 0$$—strong convexity—and everything changes: gradients stay steep all the way to $$x^\star$$, and the error plummets *exponentially* fast, cutting digits of precision at a constant rate every few steps.
 
-## Background Knowledge Map: Strong Convexity and Linear Convergence
+## Key ideas: Strong Convexity and Linear Convergence
 
 1. **Quadratic Lower Bound ($$m$$-Strong Convexity)**: A function $$f$$ is $$m$$-strongly convex if $$f(x) - \frac{m}{2}\|x\|_2^2$$ is convex, equivalently
    $$f(y) \ge f(x) + \nabla f(x)^T(y - x) + \frac{m}{2}\|y - x\|_2^2 \quad \forall x, y$$
@@ -24,7 +24,7 @@ On a flat-bottomed convex valley, gradients fade gently near the minimum and gra
    With the tighter step $$t = \frac{2}{m + L}$$, the distance to $$x^\star$$ contracts even faster: $$\|x^{(k)} - x^\star\|_2 \le \left(\frac{L - m}{L + m}\right)^k \|x^{(0)} - x^\star\|_2$$.
 4. **Role of the Condition Number $$\kappa = L/m$$**: Every $$\kappa$$ iterations cuts the error by a factor of $$e \approx 2.718$$, so achieving $$\varepsilon$$ accuracy requires only $$O(\kappa \log(1/\varepsilon))$$ steps—logarithmic in $$1/\varepsilon$$!
 
-### Step-by-Step Worked Example (Read Slowly): Applying the PL Inequality to Ridge Regression
+### Worked example: Applying the PL Inequality to Ridge Regression
 
 Consider the 1D Ridge objective $$f(x) = \frac{1}{2}(2x - 6)^2 + \frac{1}{2}(2)x^2 = 3x^2 - 12x + 18$$.
 

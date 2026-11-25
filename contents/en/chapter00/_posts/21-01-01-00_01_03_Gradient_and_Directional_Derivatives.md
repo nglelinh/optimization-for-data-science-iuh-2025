@@ -12,14 +12,14 @@ lesson_type: required
 
 Picture standing on a foggy mountain ridge in 100 dimensions: you cannot see the valley floor, only the tilt of the ground right under your boots. If you choose an arbitrary compass heading $$u$$, how fast will your altitude change? The directional derivative answers that question for any heading, and Cauchy–Schwarz reveals a remarkable fact: among all unit-length headings, the negative gradient $$-\nabla f / \|\nabla f\|$$ is guaranteed to drop your altitude faster than any other direction.
 
-## Background Knowledge Map: Steering Descent in $$\mathbb{R}^n$$
+## Key ideas: Steering Descent in $$\mathbb{R}^n$$
 
 - **The Gradient as Steepest Ascent:** The vector $$\nabla f(x)$$ points orthogonally to the contour line passing through $$x$$ in the direction of maximum instantaneous increase.
 - **Directional Derivative ($$D_u f(x)$$):** Measures the rate of change along a unit vector $$u$$ via the inner product $$D_u f(x) = \nabla f(x)^T u = \|\nabla f(x)\|\cos\theta$$.
 - **Descent Direction Criterion:** Any vector $$d$$ satisfying $$\nabla f(x)^T d < 0$$ (an obtuse angle with $$\nabla f(x)$$) is guaranteed to decrease $$f(x + td)$$ for sufficiently small $$t > 0$$.
 - **Optimality via Zero Slope in All Directions:** If $$D_u f(x^*) = 0$$ for every unit vector $$u$$, then $$\nabla f(x^*) = \mathbf{0}$$, signaling a stationary point.
 
-### Step-by-Step Worked Example (Read Slowly): Testing a Candidate Descent Direction
+### Worked example: Testing a Candidate Descent Direction
 
 Let $$f(x, y) = 3x^2 - 2xy + y^2$$ at the point $$p = (1, 2)$$, and consider moving in the direction of $$v = (3, -4)^T$$.
 

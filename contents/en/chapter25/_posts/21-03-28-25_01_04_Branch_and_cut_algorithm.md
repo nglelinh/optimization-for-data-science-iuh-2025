@@ -11,14 +11,14 @@ lang: en
 
 For three decades, Branch and Bound and Cutting Planes lived in separate camps: Branch and Bound suffered from weak LP bounds, while pure Cutting Planes bogged down in numerical ill-conditioning. In the early 1990s, Sebastian Ceria, Egon Balas, Gérard Cornuéjols, and Manfred Padberg united them into **Branch and Cut**: run a few rounds of sharp cuts at the root node (and selectively at tree nodes) to tighten the LP relaxation, then branch the moment cuts stop making rapid progress. That single architectural fusion—amplified by presolve, heuristics, and parallelization—drove a documented **billions-fold** speedup in MIP solving between 1990 and today.
 
-## Background Knowledge Map: Architecture of Modern Branch-and-Cut Solvers
+## Key ideas: Architecture of Modern Branch-and-Cut Solvers
 
 - **Root-Node Cut Loops:** Spending extra effort generating Gomory, Mixed-Integer Rounding (MIR), cover, and clique cuts at the root node strengthens *every* descendant in the entire tree simultaneously.
 - **Cut-Then-Branch Balance:** Generating too many cuts bloats the LP basis and slows down every dual simplex pivot; generating too few leaves the tree exponentially large. Solvers use cut-management pools to drop inactive cuts and switch to branching once bound improvement stalls.
 - **Presolve and Conflict Analysis:** Before the first LP even solves, presolve eliminates redundant variables, tightens variable bounds, and strengthens big-$$M$$ constants; during search, conflict analysis learns nogood clauses from infeasible branches (borrowing from SAT solvers).
 - **Local vs. Global Validity of Cuts:** Cuts derived solely from original problem constraints are *globally valid* and can be shared across the entire search tree, whereas cuts derived using a node’s local branching bounds apply only within that subtree.
 
-### Step-by-Step Worked Example (Read Slowly): Tracing One Root Cut + Branch Step in Branch and Cut
+### Worked example: Tracing One Root Cut + Branch Step in Branch and Cut
 
 Consider $$\max z = 3 x_1 + 2 x_2$$ subject to $$2 x_1 + 2 x_2 \le 5$$, $$x_1 \le 2$$, and $$x_1, x_2 \in \mathbb{Z}_{\ge 0}$$.
 

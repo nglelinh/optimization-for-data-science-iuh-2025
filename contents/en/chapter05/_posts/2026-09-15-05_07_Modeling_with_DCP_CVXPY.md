@@ -12,7 +12,7 @@ lesson_type: required
 
 Writing a solver from scratch for every new convex model is like building a compiler every time you write a Python script. Disciplined Convex Programming (DCP), pioneered by Grant, Boyd, and Ye and implemented in CVXPY, flips the workflow: you declare your problem in near-textbook math using a small set of convexity-preserving composition rules, and CVXPY automatically *proves* your model is convex and compiles it into a canonical cone program for a solver.
 
-## Background Knowledge Map: How DCP Verifies and Compiles Convex Models
+## Key ideas: How DCP Verifies and Compiles Convex Models
 
 1. **Atoms with Known Curvature and Sign**: Every built-in CVXPY atom (like `norm`, `quad_over_lin`, `log_sum_exp`, `sum_squares`) carries two tags: its *curvature* (affine, convex, concave, or constant) and its *monotonicity* in each argument.
 2. **The DCP Composition Rule**: A composition $$h(g_1(x), \dots, g_k(x))$$ is certified **convex** if $$h$$ is convex and, for every argument $$i$$, one of three conditions holds:
@@ -22,7 +22,7 @@ Writing a solver from scratch for every new convex model is like building a comp
 3. **Sufficient, Not Necessary**: DCP is a *sufficient* syntax check, not a complete theorem prover. A genuinely convex function like $$\sqrt{x^2 + 1}$$ written naively as `sqrt(square(x) + 1)` gets rejected because `sqrt` is concave while `square` is convex—rewriting it via the convex atom `norm2(vstack([x, 1]))` satisfies DCP immediately!
 4. **Automatic Canonicalization to Cones**: Once an expression passes DCP, CVXPY replaces each atom with its epigraph cone representation (LP, QP, SOCP, SDP, or ExpCone), hands the canonical matrices to OSQP/Clarabel/SCS, and maps the numerical solution right back into your Python variable objects.
 
-### Step-by-Step Worked Example (Read Slowly): Fixing a DCP Violation by Hand
+### Worked example: Fixing a DCP Violation by Hand
 
 Suppose you want to minimize the convex function $$f(x) = \frac{1}{x} + \sqrt{x^2 + 4}$$ over $$x \ge 1$$ in CVXPY.
 

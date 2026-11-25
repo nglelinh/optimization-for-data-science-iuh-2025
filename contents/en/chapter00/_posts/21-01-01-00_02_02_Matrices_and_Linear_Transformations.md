@@ -12,14 +12,14 @@ lesson_type: required
 
 A matrix is far more than a rectangular spreadsheet of numbers—it is a geometric operator that rotates, stretches, shears, and projects entire spaces. In optimization, every linear equality constraint $$Ax = b$$ asks which inputs $$x$$ land on a target $$b$$ under the transformation $$A$$, and the geometry of the solution set is governed completely by $$A$$'s column space (what is reachable) and nullspace (what directions remain invisible to $$A$$).
 
-## Background Knowledge Map: Matrices as Geometric Operators
+## Key ideas: Matrices as Geometric Operators
 
 - **Matrix Multiplication as Composition:** Multiplying $$BAx$$ applies linear map $$A$$ followed by $$B$$—the algebraic reason matrix products are associative yet generally non-commutative.
 - **Column Space (Range):** $$\mathcal{R}(A) = \{Ax : x \in \mathbb{R}^n\}$$ defines the exact set of right-hand sides $$b$$ for which $$Ax = b$$ is feasible.
 - **Nullspace (Kernel):** $$\mathcal{N}(A) = \{v : Av = 0\}$$ collects all feasible step directions that leave $$Ax = b$$ unchanged, turning any single feasible point $$x_p$$ into the full affine feasible set $$x_p + \mathcal{N}(A)$$.
 - **Rank–Nullity Theorem:** $$\text{rank}(A) + \dim(\mathcal{N}(A)) = n$$ balances the number of independent constraints against the remaining free optimization dimensions.
 
-### Step-by-Step Worked Example (Read Slowly): Parameterizing a Feasible Set via Nullspace
+### Worked example: Parameterizing a Feasible Set via Nullspace
 
 Consider the underdetermined linear constraint system $$Ax = b$$ with
 

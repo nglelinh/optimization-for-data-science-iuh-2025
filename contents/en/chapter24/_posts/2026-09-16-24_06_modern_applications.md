@@ -12,14 +12,14 @@ lesson_type: optional
 
 Mixed-integer models are far from dusty textbook exercises—they quietly coordinate the physical backbone of the 2026 economy. Every time an airline builds legal crew pairings across thousands of flights, a logistics platform routes last-mile delivery vans under tight time windows, or a cloud provider places edge compute nodes to meet latency SLAs, an industrial MILP solver is solving a model built from Chapter 24’s exact templates. Even more exciting, modern ML4CO (Machine Learning for Combinatorial Optimization) research now trains graph neural networks to imitate strong branching inside Branch and Bound.
 
-## Background Knowledge Map: From Classic MIP Templates to 2026 Industrial Solvers
+## Key ideas: From Classic MIP Templates to 2026 Industrial Solvers
 
 - **Set Partitioning for Crew Scheduling:** Airlines model crew pairing as selecting a minimum-cost subset of legal multi-day pairings such that every flight leg is covered exactly once ($$\sum_p a_{fp} x_p = 1$$), solved at scale via column generation (Branch and Price).
 - **Capacitated Routing & Assignment:** Last-mile delivery augments classical assignment with vehicle capacity, time windows, and subtour elimination constraints, turning dispatching into a structured MILP solved in rolling real-time horizons.
 - **Facility Location for Edge Infrastructure:** Choosing which data centers or warehouses to open ($$y_i \in \{0, 1\}$$) and how to route traffic ($$x_{ij}$$) balances capital expenditure against latency constraints using tight disaggregated linking inequalities $$x_{ij} \le y_i$$.
 - **Learning to Branch (ML4CO):** Because strong branching is accurate but expensive, modern hybrid solvers train bipartite graph neural networks on the constraint-variable incidence graph to predict strong-branching scores in microseconds.
 
-### Step-by-Step Worked Example (Read Slowly): Why Disaggregated Linking Cuts Beat Aggregated Constraints in Facility Location
+### Worked example: Why Disaggregated Linking Cuts Beat Aggregated Constraints in Facility Location
 
 Suppose 1 candidate warehouse ($$y \in \{0, 1\}$$) can serve $$m = 3$$ customers ($$x_1, x_2, x_3 \in [0, 1]$$), and currently only customer 1 is assigned to it ($$x_1 = 1, x_2 = 0, x_3 = 0$$).
 

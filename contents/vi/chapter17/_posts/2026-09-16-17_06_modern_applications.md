@@ -12,7 +12,7 @@ lesson_type: optional
 
 Hơn bốn thập kỷ sau bài báo của Karmarkar, phương pháp điểm trong gốc–đối ngẫu không hề trở thành "kiến thức sách giáo khoa cũ kỹ" — ngược lại, giai đoạn 2022–2026 chứng kiến một làn sóng tái kiến trúc mạnh mẽ. Các bộ giải mới viết bằng Rust và Julia như Clarabel đã trở thành nhân mặc định của CVXPY, các bộ giải LP/QP điểm trong được đưa lên GPU để xử lý bài toán hàng chục triệu biến, đồng thời nới lỏng SDP lại trở thành công cụ trung tâm trong bài toán kiểm chứng độ bền vững (robustness verification) của mạng nơ-ron sâu.
 
-## Bản đồ kiến thức nền: Ba động lực nâng cấp PD-IPM trong kỷ nguyên hiện đại
+## Kiến thức cần nhớ: Ba động lực nâng cấp PD-IPM trong kỷ nguyên hiện đại
 
 Để hiểu vì sao các hệ thống tối ưu giai đoạn 2022–2026 vẫn xoay quanh khung PD-IPM của Chương 17 nhưng khác xa cài đặt cơ bản, hãy chú ý ba bước tiến sau:
 
@@ -20,7 +20,7 @@ Hơn bốn thập kỷ sau bài báo của Karmarkar, phương pháp điểm tro
 - **Tích các nón đối xứng và bất đối xứng:** Bài toán hiện đại không chỉ có LP hay SDP mà kết hợp cả nón bậc hai (SOC), nón mũ (exponential cone — cho hồi quy logistic, entropy) và nón lũy thừa (power cone). Clarabel mở rộng hàm chắn và bước Newton gốc–đối ngẫu trực tiếp trên tích các nón này.
 - **Tăng tốc phần cứng và bài toán kiểm chứng học sâu:** Việc giải hệ KKT khối (chiếm >85% thời gian chạy) đang được tăng tốc bằng phân rã Cholesky/LDL song song trên GPU và tiền điều kiện lặp, đồng thời mở ra cuộc đua giữa độ chặt của nới lỏng SDP và giới hạn bộ nhớ $$O(n^2)$$ khi kiểm chứng mạng nơ-ron.
 
-### Khung giải thích (nên đọc chậm): Nhúng đồng nhất phát hiện bài toán vô nghiệm như thế nào?
+### Giải thích: Nhúng đồng nhất phát hiện bài toán vô nghiệm như thế nào?
 
 Giả sử bạn đưa vào bộ giải một bài toán LP 1 biến **vô nghiệm** (infeasible):
 

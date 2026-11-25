@@ -13,7 +13,7 @@ Năm 1954, George Dantzig, Ray Fulkerson và Selmer Johnson đã làm chấn đ�
 
 Thay vì cố gắng mô tả toàn bộ hình dáng phức tạp của tập nghiệm nguyên ngay từ đầu, họ bắt đầu bằng một chiếc vỏ nới lỏng LP thật đơn giản, giải nó, và mỗi lần nghiệm LP bị "lòi" ra ngoài tập nguyên (rơi vào một điểm phân số), họ lại dùng một nhát dao siêu phẳng cắt bỏ đúng phần thừa đó đi.
 
-## Bản đồ kiến thức nền: Ba trụ cột trực giác của phương pháp Mặt phẳng cắt
+## Kiến thức cần nhớ: Ba trụ cột trực giác của phương pháp Mặt phẳng cắt
 
 Trước khi đi vào các công thức đại số của lát cắt Gomory ở các bài sau, hãy khắc sâu bức tranh hình học của phương pháp này qua ba trụ cột:
 
@@ -21,7 +21,7 @@ Trước khi đi vào các công thức đại số của lát cắt Gomory ở 
 - **Lặp tinh chỉnh đa diện (Iterative Polyhedral Refinement):** Mỗi lần thêm một mặt phẳng cắt, đa diện nới lỏng $$P_k$$ lại co nhỏ thêm một chút và tiến sát hơn tới bao lồi $$S$$, kéo theo cận dưới tăng đơn điệu lên gần nghiệm nguyên tối ưu.
 - **Di sản lịch sử (DFJ 1954 → Gomory 1958 → Chvátal 1973):** Từ các lát cắt thiết kế riêng cho từng bài toán (như lát cắt khử chu trình con cho TSP của Dantzig–Fulkerson–Johnson) đến công thức tổng quát tự động của Ralph Gomory cho *mọi* quy hoạch tuyến tính nguyên, mặt phẳng cắt đã mở ra cả ngành lý thuyết tổ hợp đa diện (polyhedral combinatorics).
 
-### Khung giải thích (nên đọc chậm): Hình dung một nhát cắt gọt đúng về bao lồi nguyên
+### Giải thích: Hình dung một nhát cắt gọt đúng về bao lồi nguyên
 
 Xét tập khả thi nguyên $$S = \{(0, 0),\; (1, 0),\; (0, 1)\}$$ nằm bên trong đa diện nới lỏng LP ban đầu:
 

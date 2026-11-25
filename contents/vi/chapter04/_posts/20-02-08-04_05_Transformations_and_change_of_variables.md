@@ -13,7 +13,7 @@ Trong nhiều bài toán thiết kế mạch điện, quy hoạch mạng truyề
 
 Bài học này trao cho bạn hai chiếc kính biến hình quyền lực nhất trong tối ưu hóa: **biến đổi đơn điệu hàm mục tiêu** (Định lý 1) và **đổi biến song ánh** (Định lý 2). Nắm vững chúng giúp bạn nhận ra rất nhiều bài toán "giả phi lồi" thực chất là bài toán lồi đang cải trang.
 
-## Bản đồ kiến thức nền: Nghệ thuật phát hiện "tính lồi ẩn"
+## Kiến thức cần nhớ: Nghệ thuật phát hiện "tính lồi ẩn"
 
 Bốn nguyên tắc dưới đây quyết định khi nào một phép biến đổi giữ nguyên hoàn toàn tập nghiệm tối ưu:
 
@@ -22,7 +22,7 @@ Bốn nguyên tắc dưới đây quyết định khi nào một phép biến đ
 - **Phép biến đổi Logarit trong Quy hoạch Hình học (Log-Transform / GP):** Đặt $$x_i = e^{y_i}$$ biến mọi tích lũy thừa dương $$c x_1^{a_1} \cdots x_n^{a_n}$$ thành hàm mũ $$e^{a^T y + \log c}$$, rồi lấy $$\log$$ đưa về hàm **log-sum-exp** vốn luôn lồi!
 - **Cẩn trọng với tính lồi của ràng buộc:** Biến đổi đơn điệu $$h$$ giữ nguyên *tập nghiệm*, nhưng không tự động biến bài toán thành *lồi* — bạn phải chọn $$h$$ hoặc $$\phi$$ sao cho hàm mục tiêu mới và các hàm ràng buộc mới thực sự lồi.
 
-### Khung giải thích (nên đọc chậm): "Giải mã" một bài toán phi lồi bằng phép đổi biến logarit
+### Giải thích: "Giải mã" một bài toán phi lồi bằng phép đổi biến logarit
 
 Xét bài toán tối ưu trên $$x_1 > 0,\; x_2 > 0$$:
 $$\min_{x_1, x_2 > 0} \; f(x_1, x_2) = \frac{1}{x_1 x_2} \quad \text{thỏa mãn} \quad x_1 + 2x_2 \le 4.$$

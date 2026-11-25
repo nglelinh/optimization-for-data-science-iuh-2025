@@ -14,7 +14,7 @@ Trong giải tích một biến ở năm nhất đại học, khi thấy $$f'(x)
 
 Điều thú vị đến rùng mình của hình học nhiều chiều là: nếu mỗi hướng độc lập có xác suất $$50\%$$ cong lên và $$50\%$$ cong xuống, thì trong không gian $$d = 100$$ chiều, xác suất để một điểm tới hạn có *cả 100 hướng đều cong lên* (cực tiểu địa phương) chỉ là $$2^{-100} \approx 10^{-30}$$! Phần còn lại gần như chắc chắn là điểm yên ngựa — giải thích vì sao hiểu phổ Hessian là bước đầu tiên để hiểu động lực huấn luyện mạng sâu.
 
-## Bản đồ kiến thức nền: Ba trụ cột phân loại điểm tới hạn bằng Hessian
+## Kiến thức cần nhớ: Ba trụ cột phân loại điểm tới hạn bằng Hessian
 
 Bài học này đặt nền tảng giải tích bậc hai cho toàn bộ Chương 28 qua ba trụ cột:
 
@@ -22,7 +22,7 @@ Bài học này đặt nền tảng giải tích bậc hai cho toàn bộ Chươ
 - **Yên ngựa chặt (Strict Saddle) vs. Yên ngựa suy biến (Degenerate Saddle):** Yên ngựa chặt có ít nhất một $$\lambda_{\min}(H) < 0$$ rõ rệt, nên có lối thoát ngay ở bậc hai. Ngược lại, khi $$\lambda_{\min}(H) = 0$$ (như hàm $$w^3$$ hay các cao nguyên phẳng trong mạng sâu), kiểm định bậc hai bất lực và thuật toán bậc nhất có thể bò cực chậm.
 - **Lời nguyền kích thước đảo ngược (High-Dimensional Blessing):** Trái với trực giác 2D lo sợ bị kẹt ở cực tiểu địa phương xấu, trong không gian chiều rất cao, hầu hết các điểm dừng có giá trị mất mát cao đều có nhiều hướng độ cong âm (điểm yên ngựa) để thuật toán thoát ra được.
 
-### Khung giải thích (nên đọc chậm): Tính tay phân loại đủ 3 điểm tới hạn của hàm thế hai giếng (Double-Well)
+### Giải thích: Tính tay phân loại đủ 3 điểm tới hạn của hàm thế hai giếng (Double-Well)
 
 Để luyện kỹ năng phân loại bằng Hessian mà không trùng với bài tập $$x^2 - y^2$$ ở cuối bài, hãy xét hàm không lồi 2 biến:
 

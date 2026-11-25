@@ -14,14 +14,14 @@ Nếu bạn đặt hai quả bóng không chạm nhau trên mặt bàn, bạn lu
 
 Chính định lý phân tách này là công cụ đứng sau bổ đề Farkas, định lý đối ngẫu mạnh Slater, và thuật toán biên cực đại của Máy vector hỗ trợ (SVM)!
 
-## Bản đồ kiến thức nền: Hình học phân tách và tiếp xúc biên
+## Kiến thức cần nhớ: Hình học phân tách và tiếp xúc biên
 
 - **Định lý siêu phẳng phân tách:** Nếu $$C$$ và $$D$$ là hai tập lồi khác rỗng rời nhau ($$C \cap D = \emptyset$$), luôn tồn tại $$a \ne 0$$ và $$b$$ sao cho $$a^T x \le b\ \forall x \in C$$ và $$a^T y \ge b\ \forall y \in D$$.
 - **Phân tách nghiêm ngặt (Strict Separation):** Nếu thêm điều kiện $$C, D$$ đóng và ít nhất một tập bị chặn (compact), ta có khoảng cách dương thực sự giữa hai tập và tách được bằng dấu chặt $$a^T x < b < a^T y$$.
 - **Định lý siêu phẳng hỗ trợ:** Tại **mọi điểm biên** $$x_0 \in \partial C$$ của một tập lồi $$C$$, luôn tồn tại một siêu phẳng đi qua $$x_0$$ "đỡ" toàn bộ tập $$C$$ về một phía: $$a^T x \le a^T x_0\ \forall x \in C$$. Đây là bản mở rộng hình học của tiếp tuyến khi biên có góc nhọn!
 - **Bẫy với tập không lồi:** Với hai tập không lồi rời nhau (ví dụ một hình trăng khuyết ôm lấy một hình tròn), không thể tồn tại siêu phẳng phẳng nào tách được chúng.
 
-### Khung giải thích (nên đọc chậm): Dựng tay siêu phẳng phân tách và hỗ trợ cho hai hình tròn rời nhau
+### Giải thích: Dựng tay siêu phẳng phân tách và hỗ trợ cho hai hình tròn rời nhau
 
 Xét hai hình tròn đóng (compact, lồi) trong $$\mathbb{R}^2$$:
 $$C = \{x : \|x\|_2 \le 1\} \quad (\text{tâm } (0,0)), \qquad D = \{x : \|x - (4, 0)\|_2 \le 1\} \quad (\text{tâm } (4,0)).$$

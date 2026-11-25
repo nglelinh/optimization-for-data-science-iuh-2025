@@ -16,14 +16,14 @@ Nếu trước năm 2019, bài toán tối ưu lồi và mạng nơ-ron sâu s�
 
 Bí mật giúp ta tính được đạo hàm $$\frac{\partial x^*(\theta)}{\partial \theta}$$ của nghiệm tối ưu $$x^*(\theta)$$ theo tham số đầu vào $$\theta$$ mà không cần mở tung hàng nghìn vòng lặp của bộ giải bên trong chính là **hệ phương trình KKT kết hợp với Định lý Hàm Ẩn (Implicit Function Theorem)**! Vì $$x^*(\theta)$$ và $$(u^*(\theta), v^*(\theta))$$ luôn thỏa đẳng thức KKT $$F(x^*, u^*, v^*; \theta) = 0$$, chỉ cần lấy vi phân hai vế của đúng hệ KKT đó tại điểm nghiệm là ta thu ngay ma trận Jacobian chính xác!
 
-## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại của điều kiện KKT (2022–2026)
+## Kiến thức cần nhớ: Bốn nhánh ứng dụng hiện đại của điều kiện KKT (2022–2026)
 
 - **Lấy vi phân ẩn xuyên qua bộ giải (`cvxpylayers` & `Theseus`):** Thay vì lưu toàn bộ đồ thị tính toán của vòng lặp tối ưu (tốn bộ nhớ khổng lồ), lan truyền ngược chỉ cần giải *một hệ phương trình tuyến tính duy nhất* từ vi phân của hệ KKT tại điểm tối ưu $$(x^*, u^*, v^*)$$!
 - **Giải mã độ thưa của SVM và các mô hình biên rộng:** Điều kiện bù KKT giải thích vì sao chỉ một tập con nhỏ các vector hỗ trợ mới định hình biên quyết định, giúp nén mô hình và phân tích độ nhạy dữ liệu (influence functions).
 - **Giá điện biên theo vị trí (LMP) trong vận hành lưới điện:** Điều kiện bù KKT tự động xác định những đường dây truyền tải nào đang bị nghẽn ($$u_l^* > 0$$), từ đó phân tách giá điện theo từng nút địa lý một cách minh bạch.
 - **Kiểm soát ràng buộc công bằng trong học máy:** Nhận diện nhóm nhân khẩu học nào đang có ràng buộc công bằng chặt ($$u_g^* > 0$$) giúp kỹ sư AI biết chính xác nhóm nào đang là điểm nghẽn của sự đánh đổi độ chính xác – công bằng.
 
-### Khung giải thích (nên đọc chậm): Tính tay đạo hàm $$\frac{\partial x^*}{\partial \theta}$$ xuyên qua hệ KKT của một tầng tối ưu
+### Giải thích: Tính tay đạo hàm $$\frac{\partial x^*}{\partial \theta}$$ xuyên qua hệ KKT của một tầng tối ưu
 
 Xét một tầng tối ưu lồi cực giản dị (chính là tầng kích hoạt ReLU dưới lăng kính tối ưu!):
 $$x^*(\theta) = \arg\min_{x \in \mathbb{R}} \; \frac{1}{2}(x - \theta)^2 \quad \text{s.t.} \quad -x \le 0 \; (\text{tức } x \ge 0).$$

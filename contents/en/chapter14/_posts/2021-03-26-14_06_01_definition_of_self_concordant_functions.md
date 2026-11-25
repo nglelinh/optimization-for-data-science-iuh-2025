@@ -11,14 +11,14 @@ lang: en
 
 How do you guarantee that a function's curvature doesn't change too violently as you take a Newton step, *without* fixing a global Euclidean scale? You measure the rate of change of curvature ($$|f'''(x)|$$) in units of the current curvature itself ($$f''(x)^{3/2}$$). That dimensionless inequality, $$|f'''(x)| \le 2 f''(x)^{3/2}$$, is the exact definition of a self-concordant function.
 
-## Background Knowledge Map: Calculus of Self-Concordant Functions
+## Key ideas: Calculus of Self-Concordant Functions
 
 - **Pillar 1 — The 1D Defining Inequality:** A $$C^3$$ convex function $$f: \mathbb{R} \to \mathbb{R}$$ is self-concordant iff $$|f'''(x)| \le 2 f''(x)^{3/2}$$ everywhere on its domain (equivalently, $$\left|\frac{d}{dx}\big(f''(x)^{-1/2}\big)\right| \le 1$$).
 - **Pillar 2 — Lifting to $$\mathbb{R}^n$$ via Line Restrictions:** A multivariate function $$f: \mathbb{R}^n \to \mathbb{R}$$ is self-concordant iff every 1D slice $$g(t) = f(x + tv)$$ is self-concordant in $$t$$.
 - **Pillar 3 — Closure Under Addition and Affine Composition:** Sums of self-concordant functions are self-concordant (via $$(u^{3/2} + v^{3/2})^{2/3} \le u + v$$), and composing with $$Ax + b$$ preserves self-concordance automatically.
 - **Pillar 4 — Canonical Building Blocks:** Affine functions, convex quadratics ($$f''' = 0$$), $$-\log(x)$$, and $$-\log\det(X)$$ on $$\mathbb{S}^n_{++}$$ are all self-concordant—forming the toolkit for LP, QP, SOCP, and SDP barriers.
 
-### Step-by-Step Worked Example (Read Slowly): Checking Which Functions Are Self-Concordant
+### Worked example: Checking Which Functions Are Self-Concordant
 
 Test three 1D convex functions against $$|f'''(x)| \le 2 f''(x)^{3/2}$$:
 

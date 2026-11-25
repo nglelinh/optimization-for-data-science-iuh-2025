@@ -13,13 +13,13 @@ lang: vi
 
 Chính nghịch lý này đã thúc đẩy Yurii Nesterov và Arkadi Nemirovskii (1994) tạo ra một bước ngoặt lịch sử: lý thuyết **hàm tự hài hòa (self-concordant functions)**. Thay vì đo tốc độ thay đổi của đạo hàm bậc ba theo chuẩn Euclid cố định, họ đo nó *tương đối theo chính độ cong bậc hai của hàm*, mở ra một phân tích hội tụ hoàn toàn bất biến affine và đặt viên gạch nền móng cho toàn bộ lý thuyết phương pháp điểm trong hiện đại.
 
-## Bản đồ kiến thức nền: Vì sao cần lý thuyết hàm tự hài hòa?
+## Kiến thức cần nhớ: Vì sao cần lý thuyết hàm tự hài hòa?
 
 - **Hai lỗ hổng của phân tích cổ điển ($$m, L, M$$):** (1) Các hằng số $$m, L, M$$ hầu như không thể tính trước trong thực tế và phụ thuộc hệ tọa độ; (2) Các hàm có tiệm cận đứng như $$-\log x$$ bị nổ đạo hàm cấp hai và cấp ba gần biên, nên phân tích cổ điển hoàn toàn bất lực.
 - **Triết lý "tự đo bằng thước của chính mình":** Một hàm là tự hài hòa nếu đạo hàm bậc ba bị chặn bởi lũy thừa $$3/2$$ của đạo hàm bậc hai: $$\vert f'''(x) \vert \le 2 (f''(x))^{3/2}$$. Khi tiến sát biên $$x \to 0^+$$, cả $$f'''$$ và $$f''$$ cùng bùng nổ nhưng tỷ số $$\vert f''' \vert / (f'')^{3/2}$$ vẫn giữ nguyên hằng số $$2$$!
 - **Cầu nối sang Chương 15 (Phương pháp chắn):** Mọi hàm chắn logarit của quy hoạch tuyến tính, bậc hai và nửa xác định đều là hàm tự hài hòa, nhờ đó ta có cận độ phức tạp thời gian đa thức hoàn toàn độc lập với hệ tọa độ.
 
-### Khung giải thích (nên đọc chậm): Thấy tận mắt sự sụp đổ của hằng số $$M$$ và chiến thắng của tỷ số tự hài hòa trên $$f(x) = -\log x$$
+### Giải thích: Thấy tận mắt sự sụp đổ của hằng số $$M$$ và chiến thắng của tỷ số tự hài hòa trên $$f(x) = -\log x$$
 
 Xét hàm $$f(x) = -\log x$$ trên miền $$x > 0$$ tại hai điểm: $$x = 1$$ và $$x = 0.01$$ (gần biên).
 

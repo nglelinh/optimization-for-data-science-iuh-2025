@@ -11,14 +11,14 @@ lang: en
 
 Every cone $$K$$ casts a shadow—its **dual cone** $$K^*$$, consisting of all directions that make an acute (or right) angle with every vector in $$K$$. Why does this geometric shadow matter? Because in vector optimization and conic duality, Lagrange multipliers for a conic constraint $$x \in K$$ must live in $$K^*$$, and strictly positive dual weights $$\lambda \succ_{K^*} 0$$ sweep out Pareto-optimal frontiers by turning multi-objective problems into scalar objectives.
 
-## Background Knowledge Map: Dual Cones & Cone-Ordered Duality
+## Key ideas: Dual Cones & Cone-Ordered Duality
 
 - **Dual Cone Definition ($$K^* = \{y : y^T x \ge 0 \;\forall x \in K\}$$):** Always a closed convex cone—even if the original set $$K$$ was not convex!
 - **Inclusion Reversal (Narrow Cone $$\leftrightarrow$$ Wide Dual):** Shrinking $$K$$ relaxes the inner-product constraints on $$y$$, making $$K^*$$ strictly larger ($$K_1 \subseteq K_2 \implies K_2^* \subseteq K_1^*$$).
 - **Self-Dual Cones ($$K^* = K$$):** The nonnegative orthant $$\mathbb{R}_+^n$$, the $$\ell_2$$ second-order cone, and the PSD cone $$\mathbb{S}_+^n$$ are all self-dual—the symmetry that powers primal-dual interior-point methods.
 - **Scalarizing Vector Objectives:** Multiplying a vector constraint or objective by $$\lambda \in K^*$$ converts cone inequalities into ordinary scalar inequalities without reversing their direction.
 
-### Step-by-Step Worked Example (Read Slowly): Computing the Dual of a Narrow 2D Wedge
+### Worked example: Computing the Dual of a Narrow 2D Wedge
 
 Find the dual cone $$K^*$$ of the narrow first-quadrant wedge $$K = \text{cone}\{(1, 0)^T,\; (1, 1)^T\}$$.
 

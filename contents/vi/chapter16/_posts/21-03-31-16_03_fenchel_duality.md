@@ -13,7 +13,7 @@ lang: vi
 
 Chỉ bằng đúng hai hàm liên hợp $$f^*$$ và $$g^*$$, định lý đối ngẫu Fenchel biến bài toán nguyên thủy $$\min_x f(x) + g(Ax)$$ thành bài toán đối ngẫu $$\max_y -f^*(A^T y) - g^*(-y)$$ (tùy quy ước dấu). Không cần phân tách từng ràng buộc bất đẳng thức, toàn bộ cấu trúc hình học của nón $$K$$ tự động chuyển thành nón đối ngẫu $$K^*$$ chỉ sau một bước tính liên hợp của hàm chỉ thị!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Đối ngẫu Fenchel và Quy hoạch nón
+## Kiến thức cần nhớ: Bốn trụ cột của Đối ngẫu Fenchel và Quy hoạch nón
 
 - **Cặp bài toán Đối ngẫu Fenchel:**
   - Nguyên thủy: $$\min_x f(x) + g(Ax)$$.
@@ -24,7 +24,7 @@ Chỉ bằng đúng hai hàm liên hợp $$f^*$$ và $$g^*$$, định lý đối
   - Liên hợp của hàm chỉ thị nón $$I_K(x)$$ chính là hàm chỉ thị của **nón cực** $$-K^*$$ (tức $$I_K^*(z) = I_{K^*}(-z)$$).
 - **Sức mạnh thống nhất LP – SOCP – SDP:** Quy hoạch nón chuẩn $$\min \{c^T x \mid Ax = b, x \in K\}$$ tự động sinh ra đối ngẫu $$\max \{b^T y \mid c - A^T y \in K^*\}$$ — chỉ cần thay $$K = \mathbb{R}_+^n, \mathcal{Q}_n, \mathbb{S}_+^n$$ là có ngay đối ngẫu của LP, SOCP và SDP!
 
-### Khung giải thích (nên đọc chậm): Áp dụng Đối ngẫu Fenchel suy ra đối ngẫu của một bài toán Quy hoạch Nón Bậc Hai (SOCP) nhỏ
+### Giải thích: Áp dụng Đối ngẫu Fenchel suy ra đối ngẫu của một bài toán Quy hoạch Nón Bậc Hai (SOCP) nhỏ
 
 Xét bài toán quy hoạch nón bậc hai trên $$\mathbb{R}^3$$ với biến $$x = (x_1, x_2, x_3)^T$$ thuộc nón bậc hai $$K = \{(x_1, x_2, x_3) : \sqrt{x_1^2 + x_2^2} \le x_3\}$$ (nhớ $$K$$ tự đối ngẫu: $$K^* = K$$):
 

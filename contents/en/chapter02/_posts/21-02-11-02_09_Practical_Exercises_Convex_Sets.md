@@ -14,14 +14,14 @@ redirect_from:
 
 Knowing that a set is convex is the first step; *projecting* an infeasible iterate back onto that convex set is the computational core of projected gradient descent and ADMM. These practical exercises move you from proofs to computation—testing convexity, finding separating hyperplanes, computing convex hulls and dual cones, and projecting points onto polyhedra, balls, and simplexes.
 
-## Background Knowledge Map: Computational Skills in These Exercises
+## Key ideas: Computational Skills in These Exercises
 
 - **Algebraic & Computational Verification:** Checking convexity by rewriting sets as intersections, affine preimages, or epigraphs, and validating numerically.
 - **Dual Cones & Separation Oracles:** Computing explicit separating hyperplanes and dual cones for polyhedral and norm-cone constraints.
 - **Euclidean Projections ($$\Pi_C(y) = \arg\min_{x \in C} \frac{1}{2}\|x - y\|_2^2$$):** Deriving closed-form projections onto hyperplanes, boxes, $$\ell_2$$ balls, $$\mathbb{R}_+^n$$, and the probability simplex $$\Delta_n$$.
 - **Extreme Points & Vertices:** Identifying extreme points of polytopes—where linear objectives always attain their optima.
 
-### Step-by-Step Worked Example (Read Slowly): Projecting onto $$\mathbb{R}_+^3$$ and the Probability Simplex $$\Delta_3$$
+### Worked example: Projecting onto $$\mathbb{R}_+^3$$ and the Probability Simplex $$\Delta_3$$
 
 Project the vector $$y = (3, -2, 1)^T$$ onto two fundamental convex sets:
 

@@ -13,14 +13,14 @@ Trong trò chơi oẳn tù tì hay một ván bài poker đối kháng, nếu b�
 
 Hai mươi năm sau, chính von Neumann và Dantzig nhận ra một bí mật tuyệt đẹp mà bài học này trình bày: bài toán tìm chiến lược hỗn hợp tối ưu cho hai người chơi J và R không phải hai bài toán độc lập, mà chính là **một cặp bài toán quy hoạch tuyến tính gốc – đối ngẫu**! Định lý Minimax lừng danh của lý thuyết trò chơi hóa ra chỉ là một hệ quả trực tiếp của tính đối ngẫu mạnh trong LP!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của trò chơi ma trận và định lý Minimax
+## Kiến thức cần nhớ: Bốn trụ cột của trò chơi ma trận và định lý Minimax
 
 - **Ma trận chi trả $$P$$ và chi trả kỳ vọng $$x^T P y$$:** Người chơi cột J chọn phân phối $$x \in \Delta_m$$ (muốn *cực tiểu hóa* số tiền phải trả), người chơi hàng R chọn phân phối $$y \in \Delta_n$$ (muốn *cực đại hóa* số tiền nhận được). Chi trả kỳ vọng song tuyến tính là $$x^T P y = \sum_{i,j} x_i P_{ij} y_j$$.
 - **Biến bài toán Minimax thành LP bằng biến phụ $$t$$:** Khi J công bố trước chiến lược $$x$$, R sẽ chọn nước đi thuần túy làm J mất nhiều tiền nhất: $$\max_{j} (P^T x)_j$$. Để cực tiểu hóa hàm max không trơn này, J đưa thêm biến vô hướng $$t$$ và giải LP: $$\min_{x, t} t$$ sao cho $$P^T x \le t \mathbf{1}, \; \mathbf{1}^T x = 1, \; x \ge 0$$.
 - **Góc nhìn đối lập (R công bố trước) = Chính xác bài toán đối ngẫu LP:** Khi R công bố trước $$y$$, R giải $$\max_{y, s} s$$ sao cho $$P y \ge s \mathbf{1}, \; \mathbf{1}^T y = 1, \; y \ge 0$$. Kiểm tra đại số cho thấy đây chính là bài toán đối ngẫu của LP phía J!
 - **Định lý Minimax von Neumann và cân bằng Nash:** Nhờ đối ngẫu mạnh LP, $$\min_x \max_y x^T P y = \max_y \min_x x^T P y = v^*$$ (giá trị trò chơi). Cặp $$(x^*, y^*)$$ tạo thành một cân bằng Nash: không ai có lợi nếu đơn phương đổi chiến lược.
 
-### Khung giải thích (nên đọc chậm): Giải tay trò chơi ma trận $$2 \times 2$$ từ cả hai góc nhìn
+### Giải thích: Giải tay trò chơi ma trận $$2 \times 2$$ từ cả hai góc nhìn
 
 Xét ma trận chi trả (J trả cho R) kích thước $$2 \times 2$$:
 $$P = \begin{pmatrix} 3 & 0 \\ 1 & 2 \end{pmatrix}.$$

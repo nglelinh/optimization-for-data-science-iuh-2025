@@ -14,7 +14,7 @@ Năm 1947, Không quân Hoa Kỳ đối mặt với một bài toán hậu cần
 
 Điều kỳ diệu nhất của LP nằm ở hình học của nó: tập khả thi là một khối đa diện nhiều mặt phẳng, và đường đồng mức của hàm mục tiêu là các siêu phẳng song song trượt dần theo hướng $$-c$$. Chắc chắn điểm chạm cuối cùng trước khi siêu phẳng rời khỏi khối đa diện sẽ luôn có thể tìm thấy tại một **đỉnh (vertex)**!
 
-## Bản đồ kiến thức nền: Giải phẫu Quy hoạch Tuyến tính (LP)
+## Kiến thức cần nhớ: Giải phẫu Quy hoạch Tuyến tính (LP)
 
 Bốn trụ cột sau bao quát toàn bộ lý thuyết và cách viết chuẩn của một bài toán LP:
 
@@ -23,7 +23,7 @@ Bốn trụ cột sau bao quát toàn bộ lý thuyết và cách viết chuẩn
 - **Ba kịch bản nghiệm duy nhất có thể xảy ra:** Một bài LP bất kỳ chỉ có thể rơi vào đúng 1 trong 3 trạng thái: (1) **vô nghiệm** (tập khả thi rỗng), (2) **không bị chặn** ($$f^\star = -\infty$$), hoặc (3) **có nghiệm tối ưu hữu hạn** (tại một đỉnh hoặc cả một mặt phẳng nối nhiều đỉnh tối ưu).
 - **Ứng dụng rộng khắp:** Từ bài toán khẩu phần ăn (Diet Problem), vận tải (Transportation), luồng cực đại trên mạng (Max-Flow), cho đến hồi quy chuẩn $$\ell_1$$ (LAD) và hồi quy Chebyshev ($$\ell_\infty$$) đều quy về LP chính xác!
 
-### Khung giải thích (nên đọc chậm): Giải tay bài toán LP 2 biến bằng phương pháp duyệt đỉnh & chuyển dạng chuẩn
+### Giải thích: Giải tay bài toán LP 2 biến bằng phương pháp duyệt đỉnh & chuyển dạng chuẩn
 
 Xét bài toán lập lịch sản xuất:
 $$\min_{x_1, x_2} \; -3x_1 - 2x_2 \quad \text{thỏa mãn} \quad \begin{cases} x_1 + x_2 \le 4 \\ 2x_1 + x_2 \le 6 \\ x_1 \ge 0,\; x_2 \ge 0 \end{cases}$$

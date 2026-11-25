@@ -13,14 +13,14 @@ Trong toán học, dấu hiệu của một khái niệm thực sự sâu sắc 
 
 Đặt $$h = 0$$, ta thu lại ngay **Gradient Descent**. Đặt $$h = I_C$$ (hàm chỉ thị của tập lồi đóng $$C$$), toán tử prox biến thành phép chiếu Euclid $$P_C$$ và ta thu lại **Projected Gradient Descent**. Còn nếu đặt $$g = 0$$, ta khám phá ra một thuật toán cực kỳ mạnh mẽ của lý thuyết tối ưu hiện đại: **Thuật toán tối ưu gần kề (Proximal Point / Proximal Minimization Algorithm)** — thuật toán hội tụ cho *mọi* kích thước bước $$t > 0$$ lớn tùy ý!
 
-## Bản đồ kiến thức nền: Bốn nhánh kết nối của phương pháp gradient tổng quát
+## Kiến thức cần nhớ: Bốn nhánh kết nối của phương pháp gradient tổng quát
 
 - **$$h(x) = 0 \implies$$ Gradient Descent cổ điển:** Khi không có phần không trơn, $$\operatorname{prox}_{t \cdot 0}(v) = \arg\min_z \frac{1}{2t}\|z - v\|_2^2 = v$$ (ánh xạ đồng nhất), nên $$x^{(k)} = x^{(k-1)} - t_k \nabla g(x^{(k-1)})$$.
 - **$$h(x) = I_C(x) \implies$$ Projected Gradient Descent:** Hàm chỉ thị bằng $$0$$ trên $$C$$ và $$+\infty$$ ngoài $$C$$ biến bài toán con prox thành $$\arg\min_{z \in C} \|z - v\|_2^2 = P_C(v)$$. Mọi định lý hội tụ $$O(1/k)$$ của Chương 09 lập tức áp dụng miễn phí cho bài toán trơn có ràng buộc lồi!
 - **$$g(x) = 0 \implies$$ Thuật toán tối ưu gần kề (Proximal Point Algorithm):** Công thức $$x^{(k)} = \operatorname{prox}_{t_k h}(x^{(k-1)})$$ không cần $$h$$ khả vi và không hề bị giới hạn bởi $$t \le 1/L$$; bước $$t_k$$ càng lớn, mỗi vòng lặp càng tiến gần nghiệm tối ưu toàn cục (nhưng bài toán con càng khó giải).
 - **Toán tử gần kề xấp xỉ (Inexact Proximal Methods):** Khi $$\operatorname{prox}_{t h}$$ không có công thức đóng, ta có thể giải gần đúng bài toán con bằng một vòng lặp trong (inner solver). Để vẫn giữ tốc độ hội tụ $$O(1/k)$$, sai số giải bài toán con ở bước $$k$$ phải giảm đủ nhanh (cỡ $$\varepsilon_k \sim O(1/k^2)$$ hoặc khả tổng).
 
-### Khung giải thích (nên đọc chậm): Tính tay so sánh Gradient Descent và Proximal Minimization trên $$f(x) = \frac{1}{2}x^2$$
+### Giải thích: Tính tay so sánh Gradient Descent và Proximal Minimization trên $$f(x) = \frac{1}{2}x^2$$
 
 Xét hàm đơn giản $$f(x) = \frac{1}{2}x^2$$ (nghiệm $$x^* = 0$$, độ cong $$L = 1$$), khởi tạo tại $$x^{(0)} = 4$$, thử một kích thước bước **rất lớn** $$t = 3$$ (vượt xa ngưỡng $$2/L = 2$$ của Gradient Descent!).
 

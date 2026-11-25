@@ -14,14 +14,14 @@ redirect_from:
 
 Reading convergence proofs is only half of learning nonsmooth optimization; the real intuition clicks when you compute a dual subgradient by hand, watch Polyak–Ruppert averaging smooth out stochastic noise, or see mirror descent adapt to the geometry of a probability simplex. These practical exercises bridge textbook theory and real solver design, taking you from basic dual subgradient steps on a linear program all the way to mirror descent and cutting-plane methods.
 
-## Background Knowledge Map: Advanced Subgradient Variants in Practice
+## Key ideas: Advanced Subgradient Variants in Practice
 
 - **Pillar 1 — Dual Subgradient Ascent:** Maximizing a concave Lagrange dual $$q(\lambda) = \inf_x (c^\top x + \lambda^\top(Ax - b))$$ is equivalent to minimizing $$-q(\lambda)$$. By Danskin's theorem, the constraint residual $$Ax(\lambda) - b$$ is a subgradient of $$q(\lambda)$$, turning dual ascent into a price-adjustment mechanism.
 - **Pillar 2 — Polyak–Ruppert Iterate Averaging:** Instead of returning the noisy final iterate $$x^{(k)}$$ or tracking only the single best point, averaging $$\bar{x}^{(k)} = \frac{1}{k}\sum_{i=1}^k x^{(i)}$$ exploits Jensen's inequality ($$f(\bar{x}^{(k)}) \le \frac{1}{k}\sum f(x^{(i)})$$) to stabilize stochastic trajectories and achieve optimal variance constants.
 - **Pillar 3 — Mirror Descent & Non-Euclidean Geometry:** Replacing the Euclidean squared distance $$\frac{1}{2}\|x - y\|_2^2$$ with a Bregman divergence (such as KL divergence on the simplex) produces multiplicative-weights / exponentiated-gradient updates whose dimension dependence improves from $$O(\sqrt{n})$$ to $$O(\sqrt{\log n})$$.
 - **Pillar 4 — Cutting-Plane & Localization Methods:** Rather than discarding past subgradients, cutting-plane methods accumulate linear underestimators $$f(y) \ge f(x^{(i)}) + g^{(i)\top}(y - x^{(i)})$$ into a polyhedral model that slices the feasible region in half, trading higher per-step cost for faster $$O(n \log(1/\varepsilon))$$ convergence in low-to-moderate dimensions.
 
-### Step-by-Step Worked Example (Read Slowly): Jensen's Inequality in Action for Polyak–Ruppert Averaging
+### Worked example: Jensen's Inequality in Action for Polyak–Ruppert Averaging
 
 Consider minimizing $$f(x) = |x|$$ ($$x^\star = 0, f^\star = 0$$) where a noisy subgradient loop oscillates around the origin through the four iterates $$x^{(1)} = 0.8,\; x^{(2)} = -0.6,\; x^{(3)} = 0.4,\; x^{(4)} = -0.2$$.
 

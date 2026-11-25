@@ -13,7 +13,7 @@ Trong hồi quy tuyến tính bình phương tối thiểu, ai cũng biết côn
 
 Trên cùng một bài toán hồi quy tuyến tính, khi so sánh từng chu trình hạ theo tọa độ (CD) với từng bước gradient descent (GD) hay thậm chí gradient tăng tốc Nesterov (AGD), đường hội tụ của CD thường lao dốc nhanh hơn hẳn — trong khi tổng số phép tính của **một chu trình CD lại bằng đúng một bước GD**! Bí mật nằm ở hai chỗ: CD luôn dùng ngay thông tin tọa độ vừa cập nhật (hiệu ứng Gauss–Seidel) và tự động chọn kích thước bước tối ưu riêng cho từng tọa độ mà không bị chặn bởi trị riêng lớn nhất toàn cục.
 
-## Bản đồ kiến thức nền: Ba trụ cột tạo nên tốc độ của CD cho hồi quy tuyến tính
+## Kiến thức cần nhớ: Ba trụ cột tạo nên tốc độ của CD cho hồi quy tuyến tính
 
 Để hiểu cả công thức cập nhật lẫn lý do so sánh chi phí giữa CD và GD là hoàn toàn công bằng, hãy nắm ba trụ cột sau:
 
@@ -21,7 +21,7 @@ Trên cùng một bài toán hồi quy tuyến tính, khi so sánh từng chu tr
 - **Bảo trì phần dư trong $$O(n)$$ (Incremental Residual Update):** Nếu mỗi lần cập nhật $$\beta_i$$ ta tính lại $$X_{-i}\beta_{-i}$$ từ đầu thì tốn $$O(np)$$, khiến cả chu trình tốn $$O(np^2)$$. Nhưng bằng cách giữ vector phần dư chung $$r = y - X\beta$$, ta tính $$r^{(-i)} = r + \beta_i^{\text{old}} X_i$$, cập nhật $$\beta_i^{\text{new}}$$, rồi sửa $$r \leftarrow r - (\beta_i^{\text{new}} - \beta_i^{\text{old}}) X_i$$ — chỉ tốn $$O(n)$$ mỗi tọa độ, nên cả chu trình $$p$$ tọa độ chỉ tốn đúng $$O(np)$$, ngang bằng 1 bước GD!
 - **Tự động thích nghi độ cong từng trục (Coordinate-wise Lipschitz Adaptation):** GD phải dùng chung một bước $$t \le 1/L$$ bị chi phối bởi hướng cong mạnh nhất của $$X^T X$$. Ngược lại, CD chia riêng cho $$\|X_i\|_2^2$$ trên từng trục — tương đương với việc tự động tiền điều kiện theo đường chéo (*diagonal preconditioning*).
 
-### Khung giải thích (nên đọc chậm): Tính tay 1 chu trình CD có bảo trì phần dư
+### Giải thích: Tính tay 1 chu trình CD có bảo trì phần dư
 
 Xét bài toán $$\min_{\beta \in \mathbb{R}^2} \frac{1}{2}\|y - X\beta\|_2^2$$ với ma trận đặc trưng và vector nhãn:
 

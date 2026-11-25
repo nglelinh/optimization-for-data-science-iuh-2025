@@ -14,7 +14,7 @@ Nếu có một hệ phương trình xuất hiện ở khắp mọi nơi trong k
 
 Vẻ đẹp phi thường của ví dụ đầu tiên này nằm ở chỗ: vì bài toán chỉ có ràng buộc đẳng thức $$Ax = b$$ (không có bất đẳng thức $$h_i \le 0$$), điều kiện bù và ràng buộc dấu $$u \ge 0$$ biến mất hoàn toàn! Hai điều kiện KKT còn lại (dừng $$Px^* + q + A^T v^* = 0$$ và khả thi $$Ax^* = b$$) ghép khít vào nhau thành **một hệ phương trình tuyến tính duy nhất** dạng ma trận khối đối xứng. Giải một bài toán tối ưu bậc hai có ràng buộc quy về đúng một phép giải hệ tuyến tính!
 
-## Bản đồ kiến thức nền: Ba trụ cột của QP ràng buộc đẳng thức và hệ khối KKT
+## Kiến thức cần nhớ: Ba trụ cột của QP ràng buộc đẳng thức và hệ khối KKT
 
 - **Bài toán QP ràng buộc đẳng thức:** $$\min_x \frac{1}{2}x^T P x + q^T x + r$$ sao cho $$Ax = b$$ với $$P \succeq 0$$ (lồi). Vì mọi ràng buộc đều affine, bài toán lồi tự động thỏa điều kiện Slater tinh gọn nên KKT là điều kiện **cần và đủ**.
 - **Hệ phương trình khối KKT (Saddle-point System):**
@@ -22,7 +22,7 @@ Vẻ đẹp phi thường của ví dụ đầu tiên này nằm ở chỗ: vì 
   Chú ý rằng ma trận KKT này đối xứng nhưng **không xác định dương** (nó là ma trận bất định — indefinite — có cả trị riêng dương và âm do khối $$0$$ ở góc dưới phải).
 - **Điều kiện khả nghịch và phương pháp phần bù Schur (Schur Complement):** Khi $$P \succ 0$$ và $$A$$ có hạng hàng đầy đủ, ma trận khối KKT khả nghịch duy nhất! Ta có thể khử $$x^* = -P^{-1}(q + A^T v^*)$$ rồi thay vào $$Ax^* = b$$ để giải hệ nhỏ hơn $$(A P^{-1} A^T) v^* = -(A P^{-1} q + b)$$ với ma trận Schur $$A P^{-1} A^T \succ 0$$ xác định dương!
 
-### Khung giải thích (nên đọc chậm): Giải tay hệ ma trận khối KKT cho QP 2 biến
+### Giải thích: Giải tay hệ ma trận khối KKT cho QP 2 biến
 
 Giải bài toán cực tiểu hóa năng lượng có ràng buộc:
 $$\min_{x_1, x_2} \; x_1^2 + 2x_2^2 \quad \text{s.t.} \quad x_1 + x_2 = 3.$$

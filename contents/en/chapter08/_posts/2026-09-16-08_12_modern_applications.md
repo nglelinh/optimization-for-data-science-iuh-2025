@@ -12,14 +12,14 @@ lesson_type: optional
 
 In production machine learning between 2022 and 2026, theoretical elegance only survives if it fits inside a fast, GPU-friendly inner loop. That is precisely why the projected and stochastic subgradient methods of Chapter 08 have never gone out of style: from crafting worst-case adversarial perturbations in RobustBench to balancing fairness constraints via dual subgradient updates in Fairlearn, modern ML systems rely daily on cheap nonsmooth steps coupled with closed-form projections.
 
-## Background Knowledge Map: Bridging Classical Subgradient Theory to Modern ML Systems
+## Key ideas: Bridging Classical Subgradient Theory to Modern ML Systems
 
 - **Pillar 1 — Subgradients Inside Autograd:** ReLU activations, Huber/hinge losses, and quantile regressors are piecewise smooth; automatic differentiation returns a valid subgradient (more generally, a conservative-field element) at kinks in $$O(1)$$ extra overhead.
 - **Pillar 2 — Projection-Friendly Threat & Policy Sets:** Constraining perturbations to $$\ell_\infty$$ boxes (clipping) or $$\ell_2$$ balls (radial rescaling), and constraining dual fairness weights to the probability simplex or nonnegative orthant, makes projected subgradient iterations trivial to vectorize.
 - **Pillar 3 — Dual Subgradient Updates for Fairness Constraints:** When a model must satisfy group error-rate disparities $$g_j(\theta) \le \tau_j$$, the dual multiplier update $$\lambda^{(k+1)} = \max(0, \lambda^{(k)} + \eta_k (g(\theta^{(k)}) - \tau))$$ is literally projected subgradient ascent on the concave Lagrangian dual.
 - **Pillar 4 — Coarse-Accuracy Sweet Spot:** Because generalization error and finite-sample noise cap useful optimization precision in ML, the $$O(1/\varepsilon^2)$$ iteration rate is easily outweighed by minimal memory footprint and trivial parallelization.
 
-### Step-by-Step Worked Example (Read Slowly): One Dual Projected Subgradient Step for a Fairness Constraint
+### Worked example: One Dual Projected Subgradient Step for a Fairness Constraint
 
 Suppose a classifier must keep the false-negative-rate gap between two demographic groups below $$\tau = 0.05$$: $$g(\theta) - 0.05 \le 0$$. We maintain a nonnegative Lagrange multiplier $$\lambda \ge 0$$ updated via projected subgradient ascent $$\lambda^{(k+1)} = \max(0,\; \lambda^{(k)} + \eta (g(\theta^{(k)}) - \tau))$$ with step size $$\eta = 2.0$$ and initial multiplier $$\lambda^{(0)} = 0.20$$.
 

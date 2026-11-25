@@ -14,7 +14,7 @@ redirect_from:
 
 Lý thuyết về ánh xạ proximal có tỉ lệ, backtracking tổng hợp và Projected Newton chỉ thực sự "ngấm" khi bạn tự tay thiết lập bài toán con bậc hai, tính ngưỡng mềm có trọng số Hessian và trực tiếp kiểm chứng xem Proximal Newton rút ngắn bao nhiêu vòng lặp so với ISTA/FISTA. Bộ bài tập thực hành dưới đây giúp bạn rèn luyện trọn vẹn kỹ năng từ giải tay 1 chiều đến phân tích tốc độ hội tụ trên bài toán thực.
 
-## Bản đồ kiến thức nền: Bốn kỹ năng trọng tâm cần vận dụng trong bài tập Chương 19
+## Kiến thức cần nhớ: Bốn kỹ năng trọng tâm cần vận dụng trong bài tập Chương 19
 
 Trước khi bắt tay giải các bài tập bên dưới, hãy kiểm tra nhanh bốn bước kỹ thuật cốt lõi:
 
@@ -23,7 +23,7 @@ Trước khi bắt tay giải các bài tập bên dưới, hãy kiểm tra nhan
 - **Kiểm tra điều kiện tối ưu bậc nhất tổng hợp:** Điểm $$x^\star$$ là nghiệm tối ưu khi và chỉ khi $$0 \in \nabla g(x^\star) + \partial h(x^\star)$$; với $$h(x) = \lambda|x|$$, điều này có nghĩa $$|g'(x^\star)| \le \lambda$$ nếu $$x^\star = 0$$, và $$g'(x^\star) = -\lambda\operatorname{sign}(x^\star)$$ nếu $$x^\star \ne 0$$.
 - **Phân biệt rõ Newton proximal và Newton chiếu ngây thơ:** Luôn kiểm tra giá trị hàm $$f(x + tv)$$ sau mỗi bước để xác nhận hướng đi thực sự là hướng giảm.
 
-### Khung giải thích (nên đọc chậm): Khởi động bằng 1 bước Newton proximal trên hàm bậc 4 có phạt $$\ell_1$$
+### Giải thích: Khởi động bằng 1 bước Newton proximal trên hàm bậc 4 có phạt $$\ell_1$$
 
 Xét bài toán $$f(x) = \underbrace{\frac{1}{4}x^4}_{g(x)} + \underbrace{|x|}_{h(x)}$$ (nghiệm tối ưu duy nhất là $$x^\star = 0$$ vì $$0 \in g'(0) + [-1, 1]$$). Thử tính 1 bước Newton proximal từ $$x^{(0)} = 1$$:
 

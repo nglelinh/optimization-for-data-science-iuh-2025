@@ -13,7 +13,7 @@ Trong Quy hoạch Bậc hai (QP), hàm mục tiêu đã có độ cong bậc hai
 
 Khi ta cho phép cả hàm mục tiêu lẫn các ràng buộc bất đẳng thức đều là các hàm bậc hai lồi, ta bước lên nấc thang mới mang tên **QCQP (Quadratically Constrained Quadratic Programming)** — lớp bài toán lồi tổng quát hóa trực tiếp QP và là tiền đề ngay trước Quy hoạch Nón Bậc hai (SOCP).
 
-## Bản đồ kiến thức nền: Khi tập khả thi là giao của các khối Ellipsoid
+## Kiến thức cần nhớ: Khi tập khả thi là giao của các khối Ellipsoid
 
 Ba trụ cột sau định hình toàn bộ bản chất của QCQP lồi:
 
@@ -21,7 +21,7 @@ Ba trụ cột sau định hình toàn bộ bản chất của QCQP lồi:
 - **Hình học giao các Ellipsoid:** Mỗi ràng buộc $$\frac{1}{2}x^T P_i x + q_i^T x + r_i \le 0$$ với $$P_i \succ 0$$ xác định một khối ellipsoid đặc; giao của chúng là một tập lồi có biên cong trơn (trừ các đường giao giữa hai mặt ellipsoid).
 - **Hệ phân cấp bao hàm:** Nếu đặt $$P_1 = \dots = P_m = 0$$, QCQP thu về đúng **QP**. Ngược lại, mọi bài QCQP lồi đều chuyển được về **SOCP** nhờ phân rã căn bậc hai ma trận $$P_i = L_i^T L_i$$ (Cholesky), giúp giải hiệu quả bằng bộ giải nón điểm trong!
 
-### Khung giải thích (nên đọc chậm): Giải tay một bài QCQP tối thiểu hóa khoảng cách trên hình tròn
+### Giải thích: Giải tay một bài QCQP tối thiểu hóa khoảng cách trên hình tròn
 
 Xét bài toán QCQP 2 biến:
 $$\min_{x \in \mathbb{R}^2} \; f_0(x) = (x_1 - 3)^2 + (x_2 - 4)^2 \quad \text{thỏa mãn} \quad x_1^2 + x_2^2 \le 4.$$

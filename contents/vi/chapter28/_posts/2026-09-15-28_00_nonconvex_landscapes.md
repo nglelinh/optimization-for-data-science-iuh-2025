@@ -14,7 +14,7 @@ Suốt 25 chương đầu, tính lồi là tấm lưới bảo hiểm tuyệt đ
 
 Thế nhưng một nghịch lý tuyệt đẹp của khoa học máy tính thế kỷ 21 đã xảy ra: thay vì mắc kẹt mãi ở những "hố cực tiểu địa phương tồi tệ" như trực giác 2 chiều cảnh báo, SGD và AdamW lại huấn luyện mạng sâu xuống gần mức mất mát bằng $$0$$ một cách đáng kinh ngạc! Chương 28 sẽ giải mã bí ẩn đó thông qua ba chìa khóa hình học: **điểm yên ngựa trong không gian nhiều chiều**, **cơ chế thoát yên ngựa nhờ nhiễu**, và **sự dồi dào nghiệm của chế độ quá tham số hóa**.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của địa hình không lồi trong học sâu
+## Kiến thức cần nhớ: Bốn trụ cột của địa hình không lồi trong học sâu
 
 Để đọc hiểu các bài 28-01 đến 28-05 một cách hệ thống, hãy nắm bốn trụ cột hình học sau:
 
@@ -23,7 +23,7 @@ Thế nhưng một nghịch lý tuyệt đẹp của khoa học máy tính thế
 - **Quá tham số hóa và Thiên kiến ẩn (Overparameterization & Implicit Bias):** Khi số tham số $$d \gg n$$, tập nghiệm nội suy $$F(w) = 0$$ không phải một điểm cô lập mà là một đa tạp liên tục rộng lớn; thuật toán tối ưu (SGD, AdamW) đóng vai trò bộ chọn ẩn quyết định mô hình rơi vào nghiệm nào trên đa tạp đó.
 - **Điều kiện Polyak–Łojasiewicz (PL):** Một bất đẳng thức gradient đơn giản cho phép chứng minh hội tụ tuyến tính của GD ngay cả khi hàm mất mát hoàn toàn không lồi — cây cầu nối thẳng tối ưu lồi Chương 06 sang học sâu hiện đại.
 
-### Khung giải thích (nên đọc chậm): Mạng tuyến tính 2 lớp — thu nhỏ toàn bộ địa hình học sâu vào 2 biến
+### Giải thích: Mạng tuyến tính 2 lớp — thu nhỏ toàn bộ địa hình học sâu vào 2 biến
 
 Xét mạng nơ-ron tuyến tính tối giản nhất thế giới gồm 2 trọng số vô hướng $$u, v \in \mathbb{R}$$ khớp một điểm dữ liệu $$(x = 1, y = 1)$$:
 

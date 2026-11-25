@@ -12,14 +12,14 @@ lesson_type: required
 
 Every dual-feasible pair $$(u, v)$$ with $$u \ge 0$$ hands us a guaranteed lower bound $$g(u, v) \le f^\star$$. Naturally, we want the *tightest* possible lower bound—so we define the **Lagrange dual problem** $$\max_{u, v} \{ g(u, v) : u \ge 0 \}$$. Even if the primal problem is a bumpy, multi-modal nonconvex quartic with traps everywhere, this dual problem is a clean **convex optimization problem** (maximizing a concave function over a convex cone), giving us a tractable way to compute rigorous lower bounds!
 
-## Background Knowledge Map: Structure & Geometry of the Lagrange Dual Problem
+## Key ideas: Structure & Geometry of the Lagrange Dual Problem
 
 - **Pillar 1 — Always a Convex Optimization Problem:** Maximizing the concave function $$g(u, v)$$ over the convex set $$\{(u, v) : u \ge 0\}$$ (equivalently minimizing $$-g(u, v)$$) is *always* convex, regardless of whether the primal is convex, discrete, or nonconvex.
 - **Pillar 2 — Weak Duality ($$g^\star \le f^\star$$):** Since $$g(u, v) \le f^\star$$ for all $$u \ge 0, v \in \mathbb{R}^r$$, taking the supremum over $$u \ge 0, v$$ gives $$g^\star \le f^\star$$ unconditionally. The nonnegative difference $$f^\star - g^\star \ge 0$$ is the **optimal duality gap**.
 - **Pillar 3 — Implicit Domain Constraints:** When $$g(u, v) = -\infty$$ outside some set (as in LPs or singular QPs), making those domain conditions explicit turns $$\max_{u \ge 0} g(u, v)$$ into a standard constrained convex program.
 - **Pillar 4 — Nonconvex Primal Caveat (Strict Duality Gap):** For nonconvex problems (like a double-well quartic on a constrained interval), the dual finds the best supporting hyperplane to the primal's nonconvex optimal-value curve—which can sit strictly below $$f^\star$$ ($$g^\star < f^\star$$), yielding a valuable lower bound but not necessarily the exact primal optimum.
 
-### Step-by-Step Worked Example (Read Slowly): Computing a Strict Duality Gap on a Nonconvex Problem
+### Worked example: Computing a Strict Duality Gap on a Nonconvex Problem
 
 Consider the nonconvex discrete-domain optimization problem:
 $$\min_{x \in \{0, 2\}}\; f(x) = x - 2 \quad \text{s.t.} \quad 1 - x \le 0 \text{ (i.e., } x \ge 1\text{)}.$$

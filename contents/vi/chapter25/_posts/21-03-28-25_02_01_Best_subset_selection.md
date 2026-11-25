@@ -13,7 +13,7 @@ Trong hồi quy thống kê, mục tiêu nguyên thủy khi chọn đặc trưng
 
 Năm 2016, Dimitris Bertsimas, Angela King và Rahul Mazumder công bố bài báo gây tiếng vang lớn trên *Annals of Statistics*, chứng minh rằng với kỹ thuật **MIP hiện đại kết hợp khởi động nóng bằng thuật toán bậc nhất rời rạc**, bài toán chọn tập con tốt nhất vốn bị coi là "bất khả thi với $$p > 30$$" nay có thể giải chính xác tới quy mô hàng trăm, hàng nghìn đặc trưng!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Best Subset Selection bằng MIP
+## Kiến thức cần nhớ: Bốn trụ cột của Best Subset Selection bằng MIP
 
 Bài học này kết hợp khéo léo tối ưu liên tục và tối ưu rời rạc qua bốn trụ cột sau:
 
@@ -22,7 +22,7 @@ Bài học này kết hợp khéo léo tối ưu liên tục và tối ưu rời
 - **Khởi động nóng (Warm Start) thu hẹp MIP Gap:** Thuật toán bậc nhất rời rạc tìm ra một tập con rất tốt chỉ trong tích tắc, cung cấp ngay cận trên chặt cho bộ giải MIP. Nhờ đó, bộ giải MIP không phải mò mẫm từ đầu mà tập trung năng lượng vào việc chứng nhận tối ưu (đóng MIP gap).
 - **So sánh Khả năng phát hiện tính thưa (Sparsity Detection):** Khi tỷ số tín hiệu trên nhiễu (SNR) cao, Best Subset Selection tách biệt đặc trưng thật và nhiễu sắc nét hơn Lasso vì không làm co các hệ số lớn.
 
-### Khung giải thích (nên đọc chậm): Tính tay Big-$$M$$ và 1 bước Discrete First-Order cho $$k = 1$$
+### Giải thích: Tính tay Big-$$M$$ và 1 bước Discrete First-Order cho $$k = 1$$
 
 Xét bài toán chọn đúng $$k = 1$$ đặc trưng tốt nhất cho $$X = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix}$$ và $$y = \begin{pmatrix} 3 \\ 4 \end{pmatrix}$$ (mục tiêu $$\min \frac{1}{2}\|y - X\beta\|_2^2$$ với $$\|\beta\|_0 \le 1$$).
 

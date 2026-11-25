@@ -14,7 +14,7 @@ lesson_type: required
 
 Câu trả lời là một trong những tin vui lớn nhất của tối ưu hóa thực hành: **Backtracking Line Search giữ nguyên trọn vẹn tốc độ hội tụ $$O(1/k)$$**, chỉ trả thêm một hệ số hằng nhỏ cỡ $$1/\beta$$ (ví dụ gấp đôi khi $$\beta = 0.5$$) — trong khi đổi lại bạn **không bao giờ phải ước lượng $$L$$ bằng tay** và thường chạy nhanh hơn bước cố định rất nhiều trên vùng phẳng!
 
-## Bản đồ kiến thức nền: Vì sao Backtracking luôn có cận dưới cho bước $$t_k$$?
+## Kiến thức cần nhớ: Vì sao Backtracking luôn có cận dưới cho bước $$t_k$$?
 
 Ba trụ cột sau giải thích gọn gàng chứng minh hội tụ của Backtracking Line Search:
 
@@ -24,7 +24,7 @@ Ba trụ cột sau giải thích gọn gàng chứng minh hội tụ của Backt
   $$f(x^{(k)}) - f^\star \le \frac{\|x^{(0)} - x^\star\|_2^2}{2 t_{\min} k}.$$
 - **Ưu thế ẩn của độ cong địa phương:** Cận lý thuyết dùng $$L$$ toàn cục, nhưng thực tế tại những vùng hàm có độ cong địa phương $$L_{\text{loc}} \ll L$$, Backtracking chấp nhận bước $$t_k \approx 1/L_{\text{loc}} \gg 1/L$$ — giúp chạy nhanh vượt trội so với bước cố định $$1/L$$!
 
-### Khung giải thích (nên đọc chậm): Tính cận dưới $$t_{\min}$$ và so sánh cận sai số với bước cố định
+### Giải thích: Tính cận dưới $$t_{\min}$$ và so sánh cận sai số với bước cố định
 
 Giả sử một bài toán hồi quy có hằng số trơn thật (nhưng ta không biết) là $$L = 20$$, và khoảng cách ban đầu $$\|x^{(0)} - x^\star\|_2 = 2$$. Ta dùng Backtracking với $$t_0 = 1,\; \alpha = 0.5,\; \beta = 0.5$$:
 

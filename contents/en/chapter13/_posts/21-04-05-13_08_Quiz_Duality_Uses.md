@@ -14,14 +14,14 @@ redirect_from:
 
 Before clicking through the multiple-choice questions below, pause and notice why duality questions are favorite traps on graduate qualifying exams: a single missing minus sign in $$f^*(y) = \max_x (y^T x - f(x))$$, a swapped primal/dual norm pair, or forgetting that an equivalent dual transformation can change the optimal value will flip an answer from right to wrong. Use the concept map and warm-up calculation below to sharpen your reflexes before starting the quiz.
 
-## Background Knowledge Map: High-Yield Quiz Checkpoints
+## Key ideas: High-Yield Quiz Checkpoints
 
 - **Pillar 1 — Duality Gap & Stopping Criteria:** Remember $$f(x) - f^\star \le f(x) - g(u,v)$$ requires $$x$$ primal feasible and $$(u,v)$$ dual feasible; zero gap certifies optimality under strong duality.
 - **Pillar 2 — Dual Norm & Conjugate Pairings:** Memorize the exact pairs: $$\ell_1 \leftrightarrow \ell_\infty$$, $$\ell_2 \leftrightarrow \ell_2$$, trace norm $$\leftrightarrow$$ operator norm; norm $$\leftrightarrow$$ indicator of dual-norm unit ball; indicator $$\leftrightarrow$$ support function.
 - **Pillar 3 — Splitting & Linear Transformations:** For $$\min_x f(x) + g(Ax)$$, the dual is $$\max_u -f^*(A^T u) - g^*(-u)$$. Watch the transpose $$A^T$$ and the minus sign on $$-u$$!
 - **Pillar 4 — Dual Cones & Self-Duality:** $$K^* = \{y : y^T x \ge 0\ \forall x \in K\}$$ is always convex and closed; $$\mathbb{R}^n_+$$, $$\mathcal{Q}^n$$, and $$\mathbb{S}^n_+$$ are self-dual, and $$K^{**} = K$$ holds for closed convex cones.
 
-### Step-by-Step Worked Example (Read Slowly): Rapid 4-Check Diagnostic Before the Quiz
+### Worked example: Rapid 4-Check Diagnostic Before the Quiz
 
 Test yourself on four classic exam micro-calculations before taking the quiz:
 

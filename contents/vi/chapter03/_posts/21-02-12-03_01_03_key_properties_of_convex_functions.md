@@ -13,14 +13,14 @@ Mỗi tính chất đặc trưng của hàm lồi mở ra một "cửa ngõ" kh�
 
 Một cái bẫy kinh điển mà người học rất hay mắc phải là nhầm chiều mũi tên của tập mức dưới — hãy chú ý kỹ ví dụ phản chứng trong khung giải thích bên dưới.
 
-## Bản đồ kiến thức nền: Bốn trụ cột đặc trưng của hàm lồi
+## Kiến thức cần nhớ: Bốn trụ cột đặc trưng của hàm lồi
 
 - **Đặc trưng Epigraph:** $$f$$ lồi $$\iff \operatorname{epi} f = \{(x, t) : f(x) \le t\}$$ là tập lồi. Đây là cây cầu biến bài toán $$\min f(x)$$ thành $$\min_{x, t} t$$ với ràng buộc $$(x, t) \in \operatorname{epi} f$$.
 - **Tập mức dưới (Sublevel Set $$S_\alpha = \{x : f(x) \le \alpha\}$$):** Nếu $$f$$ lồi thì **mọi** $$S_\alpha$$ đều là tập lồi. **Cảnh báo:** Chiều ngược lại **SAI**! (Hàm có mọi tập mức dưới lồi chỉ mới là *hàm giả lồi*, chưa chắc lồi.)
 - **Đặc trưng bậc nhất ($$f$$ khả vi):** $$f$$ lồi $$\iff f(y) \ge f(x) + \nabla f(x)^T(y - x)\ \forall x, y \in \operatorname{dom} f$$. Hệ quả tức thì: nếu $$\nabla f(x^*) = 0$$ thì $$f(y) \ge f(x^*)\ \forall y$$!
 - **Đặc trưng bậc hai ($$f$$ khả vi cấp 2):** $$f$$ lồi $$\iff \operatorname{dom} f$$ lồi và $$\nabla^2 f(x) \succeq 0\ \forall x \in \operatorname{dom} f$$.
 
-### Khung giải thích (nên đọc chậm): Bẫy chiều ngược của tập mức dưới qua ví dụ $$g(x) = x^3$$
+### Giải thích: Bẫy chiều ngược của tập mức dưới qua ví dụ $$g(x) = x^3$$
 
 So sánh hai hàm số: $$f(x) = -\ln x$$ (trên $$x > 0$$) và $$g(x) = x^3$$ (trên $$\mathbb{R}$$):
 

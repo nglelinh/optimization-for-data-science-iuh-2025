@@ -14,7 +14,7 @@ Khi một mô hình học sâu cần huấn luyện trên hàng nghìn tỷ toke
 
 Chương 29 khép lại toàn bộ hành trình tối ưu hóa bằng hai mô hình tính toán phân tán trụ cột của kỷ nguyên hiện đại: **SGD song song dữ liệu** (trái tim của các cụm siêu máy tính GPU trong trung tâm dữ liệu) và **Học liên kết — Federated Learning** (nơi dữ liệu nằm yên tại thiết bị/bệnh viện, còn mô hình đi "du lịch" để học và hội tụ qua thuật toán **FedAvg**).
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Tối ưu phân tán và Học liên kết
+## Kiến thức cần nhớ: Bốn trụ cột của Tối ưu phân tán và Học liên kết
 
 Bốn bài học của Chương 29 kết nối trực tiếp toán học tối ưu với kiến trúc hệ thống phân tán qua bốn trụ cột:
 
@@ -23,7 +23,7 @@ Bốn bài học của Chương 29 kết nối trực tiếp toán học tối �
 - **Dữ liệu Không đồng nhất và Trôi cục bộ (Non-IID & Client Drift):** Đánh đổi lớn nhất của việc tăng số bước cục bộ $$E$$ là khi dữ liệu giữa các máy khách khác phân phối, mỗi máy khách tự kéo mô hình về cực tiểu riêng của mình, khiến trung bình trọng số bị lệch khỏi cực tiểu toàn cục.
 - **Cầu nối ADMM vs. FedAvg và Các biến thể hiện đại:** Đối chiếu rõ khi nào dùng ADMM đồng thuận (bài toán lồi có cấu trúc, dùng biến đối ngẫu triệt tiêu trôi) và khi nào dùng FedAvg / FedProx / SCAFFOLD / FedAdam (mạng sâu phi lồi, hạn chế băng thông).
 
-### Khung giải thích (nên đọc chậm): Tính tay ngân sách băng thông giữa Data-Parallel SGD và FedAvg
+### Giải thích: Tính tay ngân sách băng thông giữa Data-Parallel SGD và FedAvg
 
 Giả sử bạn huấn luyện một mô hình có $$d = 10^7$$ tham số (mỗi tham số `float32` chiếm $$4$$ byte, nên kích thước toàn bộ mô hình hoặc một vector gradient là $$M = 40\text{ MB}$$). Mỗi máy khách cần thực hiện tổng cộng $$100$$ bước cập nhật SGD cục bộ:
 

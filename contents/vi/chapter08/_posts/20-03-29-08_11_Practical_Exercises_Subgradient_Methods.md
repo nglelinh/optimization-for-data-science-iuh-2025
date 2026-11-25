@@ -16,14 +16,14 @@ Lý thuyết tối ưu chỉ thực sự thấm vào tay nghề khi bạn tự v
 
 Mỗi bài tập đều đại diện cho một hướng nâng cấp quan trọng của phương pháp subgradient cổ điển. Nếu bạn từng thắc mắc làm sao một thuật toán chỉ có tốc độ $$O(1/\epsilon^2)$$ lại có thể được cải tiến mạnh mẽ trong thực tế bằng kỹ thuật lấy trung bình hay thay đổi hình học không gian, loạt bài thực hành này chính là câu trả lời sống động nhất.
 
-## Bản đồ kiến thức nền: Bốn kỹ thuật mở rộng xuất hiện trong bộ bài tập thực hành
+## Kiến thức cần nhớ: Bốn kỹ thuật mở rộng xuất hiện trong bộ bài tập thực hành
 
 - **Subgradient đối ngẫu cho bài toán có ràng buộc (Dual Subgradient):** Khi bài toán gốc có ràng buộc tuyến tính $$Ax = b$$, hàm đối ngẫu $$g(\lambda) = \inf_{x \ge 0} (c^T x + \lambda^T(Ax - b))$$ là hàm lõm không trơn; subgradient của $$-g(\lambda)$$ chính là phần dư vi phạm ràng buộc $$b - Ax(\lambda)$$!
 - **Trung bình hóa Polyak–Ruppert (Iterate Averaging):** Thay vì lấy điểm lặp cuối $$x^{(k)}$$ vốn dễ dao động quanh đáy chữ V, ta lấy trung bình $$\bar{x}^{(k)} = \frac{1}{k}\sum_{i=1}^k x^{(i)}$$ (hoặc trung bình có trọng số bước $$\alpha_i$$). Nhờ tính lồi (bất đẳng thức Jensen), $$f(\bar{x}^{(k)}) \le \frac{1}{k}\sum f(x^{(i)})$$, triệt tiêu đáng kể dao động răng cưa!
 - **Mirror Descent và hình học đơn hình xác suất:** Trên đơn hình $$\Delta_n = \{x \ge 0 : \sum x_i = 1\}$$, dùng hàm tạo entropy $$\psi(x) = \sum x_i \ln x_i$$ biến bước cập nhật thành quy tắc nhân trọng số (Exponentiated Gradient) $$x_i^{(k+1)} \propto x_i^{(k)} e^{-t_k g_i^{(k)}}$$, tránh hẳn phép chiếu đắt đỏ và tăng tốc mạnh theo số chiều $$n$$.
 - **Phương pháp mặt phẳng cắt (Cutting Plane / Kelley's Method):** Thay vì quên sạch các subgradient cũ sau mỗi bước, ta tích lũy chúng thành một hàm xấp xỉ tuyến tính từng khúc $$\hat{f}_k(x) = \max_{1 \le i \le k} \{f(x^{(i)}) + g^{(i)T}(x - x^{(i)})\}$$ — đây là tiền thân trực tiếp của phương pháp bó (bundle methods).
 
-### Khung giải thích (nên đọc chậm): Tính tay sức mạnh của trung bình hóa Polyak–Ruppert trên hàm $$f(x) = |x|$$
+### Giải thích: Tính tay sức mạnh của trung bình hóa Polyak–Ruppert trên hàm $$f(x) = |x|$$
 
 Quay lại kịch bản dao động bất tận của $$f(x) = |x|$$ với bước cố định $$t = 1$$ từ $$x^{(0)} = 0.5$$:
 

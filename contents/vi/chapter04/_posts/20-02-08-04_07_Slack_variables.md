@@ -14,7 +14,7 @@ Trong quản trị sản xuất, nếu nhà máy có 100 giờ máy nhưng kế 
 
 Tuy nhiên, phép biến đổi này ẩn chứa một cái bẫy kinh điển mà người mới rất dễ mắc phải: nếu $$g_i(x)$$ là hàm lồi *phi tuyến*, thì đẳng thức $$g_i(x) + s_i = 0$$ sẽ **phá vỡ tính lồi** của dạng chuẩn! Vì thế, bài học này không chỉ giới thiệu cơ chế thêm biến phụ (xương sống của thuật toán Simplex và phương pháp điểm trong), mà còn chỉ rõ ranh giới chính xác khi nào nó giữ nguyên tính lồi.
 
-## Bản đồ kiến thức nền: Vai trò của biến phụ trong lý thuyết và thuật toán
+## Kiến thức cần nhớ: Vai trò của biến phụ trong lý thuyết và thuật toán
 
 Ba trụ cột sau giúp bạn sử dụng biến phụ đúng chỗ và tránh bẫy mất tính lồi:
 
@@ -22,7 +22,7 @@ Ba trụ cột sau giúp bạn sử dụng biến phụ đúng chỗ và tránh 
 - **Cạm bẫy bảo toàn tính lồi với $$g_i$$ phi tuyến:** Nếu $$g_i(x) = x^2 - 1 \le 0$$, việc viết thành $$x^2 - 1 + s = 0, s \ge 0$$ tạo ra ràng buộc đẳng thức *phi affine*! Tập các cặp $$(x, s)$$ thỏa $$s = 1 - x^2$$ là một đường parabol (tập **không lồi**), dù hình chiếu của nó lên trục $$x$$ vẫn là đoạn $$[-1, 1]$$.
 - **Ý nghĩa kinh tế & Độ lệch bù (Complementary Slackness):** Giá trị của $$s_i^\star$$ cho biết ngay lập tức ràng buộc thứ $$i$$ có tích cực hay không: $$s_i^\star = 0$$ nghĩa là tài nguyên thứ $$i$$ đã cạn kiệt (nút thắt cổ chai), còn $$s_i^\star > 0$$ nghĩa là tài nguyên vẫn còn dư và giá bóng (nhân tử đối ngẫu $$\lambda_i^\star$$) của nó bằng $$0$$.
 
-### Khung giải thích (nên đọc chậm): Chuyển bài toán phân bổ tài nguyên sang dạng biến phụ và đọc ý nghĩa nghiệm
+### Giải thích: Chuyển bài toán phân bổ tài nguyên sang dạng biến phụ và đọc ý nghĩa nghiệm
 
 Xét bài toán tối đa hóa lợi nhuận (tương đương cực tiểu hóa $$-3x_1 - 5x_2$$) của một xưởng mộc:
 $$\max_{x_1, x_2 \ge 0} \; 3x_1 + 5x_2 \quad \text{thỏa mãn} \quad \begin{cases} x_1 \le 4 & \text{(gỗ)} \\ 2x_2 \le 12 & \text{(nhân công)} \\ 3x_1 + 2x_2 \le 18 & \text{(thời gian máy)} \end{cases}$$

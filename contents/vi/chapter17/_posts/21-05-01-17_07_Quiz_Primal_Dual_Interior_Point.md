@@ -14,7 +14,7 @@ redirect_from:
 
 Đọc hiểu công thức hệ Newton gốc–đối ngẫu trên giấy là một chuyện, nhưng khi đối mặt với những câu hỏi bẫy về tính khả thi của điểm lặp trung gian, dấu của phần dư trung tâm, hay sự khác biệt giữa phương pháp chắn và PD-IPM trên bài toán LP/SDP, trực giác toán học mới thực sự được thử lửa. Bộ câu hỏi trắc nghiệm này giúp bạn rà soát lại từng mắt xích lý thuyết của Chương 17 trước khi chuyển sang các thuật toán bậc hai khác.
 
-## Bản đồ kiến thức nền: Bốn nhóm bẫy tư duy thường gặp ở Chương 17
+## Kiến thức cần nhớ: Bốn nhóm bẫy tư duy thường gặp ở Chương 17
 
 Trước khi bắt tay làm bài trắc nghiệm, hãy kiểm tra nhanh bốn điểm dễ nhầm lẫn nhất của phương pháp điểm trong gốc–đối ngẫu:
 
@@ -23,7 +23,7 @@ Trước khi bắt tay làm bài trắc nghiệm, hãy kiểm tra nhanh bốn đ
 - **Khoảng cách đối ngẫu thay thế $$\eta = -h(x)^T u$$:** Chỉ bằng khoảng cách đối ngẫu thực $$f(x) - g(u, v)$$ khi điểm lặp đồng thời khả thi gốc và đối ngẫu; nếu $$r_{\text{prim}} \ne 0$$ hoặc $$r_{\text{dual}} \ne 0$$, $$\eta$$ chỉ là đại lượng thay thế để dẫn đường.
 - **Trường hợp đặc biệt LP và SDP:** Trên LP, hệ KKT rút gọn thành hệ phương trình chuẩn $$AD^2A^T\Delta y = \text{rhs}$$ với $$D^2 = XS^{-1}$$; trên SDP, tích ma trận $$XS$$ không tự động đối xứng nên cần bước đối xứng hóa hướng Newton.
 
-### Khung giải thích (nên đọc chậm): Đọc nhật ký chạy một bộ giải PD-IPM để kiểm tra tiêu chuẩn dừng
+### Giải thích: Đọc nhật ký chạy một bộ giải PD-IPM để kiểm tra tiêu chuẩn dừng
 
 Giả sử bạn chạy một bộ giải PD-IPM với ngưỡng dung sai $$\epsilon_{\text{feas}} = 10^{-6}$$ và $$\epsilon = 10^{-6}$$ cho một bài toán có $$m = 4$$ ràng buộc bất đẳng thức, và thu được bảng nhật ký 3 vòng lặp cuối:
 

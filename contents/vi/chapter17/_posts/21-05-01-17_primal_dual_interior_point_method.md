@@ -11,7 +11,7 @@ lang: vi
 
 Nếu bạn từng chạy phương pháp chắn (barrier method) trên một bài toán quy hoạch lớn, có lẽ bạn sẽ thấy một nghịch lý khá khó chịu: để giảm tham số $$1/t$$ thêm một nấc nhỏ, ta phải chạy cả một vòng lặp Newton bên trong chỉ để định tâm thật chính xác vào một điểm tạm thời $$x^\star(t)$$ — một điểm mà ngay bước sau ta lại bỏ đi để chuyển sang giá trị $$t$$ lớn hơn! Phương pháp điểm trong gốc–đối ngẫu (Primal-Dual Interior-Point Method, PD-IPM) ra đời để phá bỏ sự lãng phí đó: thay vì giải trọn vẹn bài toán định tâm ở mỗi $$t$$, nó chỉ đi **đúng một bước Newton** đồng thời trên cả biến gốc và biến đối ngẫu, rồi lập tức hạ tham số nhiễu $$\tau$$ và tiến thẳng về nghiệm tối ưu.
 
-## Bản đồ kiến thức nền: Những trụ cột tạo nên phương pháp điểm trong gốc–đối ngẫu
+## Kiến thức cần nhớ: Những trụ cột tạo nên phương pháp điểm trong gốc–đối ngẫu
 
 Để nhìn rõ vì sao một thay đổi tưởng chừng đơn giản ("một bước Newton mỗi vòng lặp") lại biến PD-IPM thành động cơ chủ lực của các bộ giải tối ưu hiện đại, hãy đặt bốn nhánh kiến thức nền cạnh nhau:
 
@@ -20,7 +20,7 @@ Nếu bạn từng chạy phương pháp chắn (barrier method) trên một bà
 - **Phương pháp Newton tìm nghiệm hệ phi tuyến (Root-Finding Newton):** Khác với Newton tối ưu hóa không ràng buộc, PD-IPM dùng Newton để giải hệ phi tuyến $$r_\tau(x,u,v) = 0$$. Nhờ vậy, thuật toán không còn đòi hỏi các điểm lặp trung gian phải thỏa mãn chính xác ràng buộc đẳng thức $$Ax = b$$.
 - **Đại số tuyến tính số cho hệ KKT (Numerical Linear Algebra):** Ở mỗi vòng lặp, phần tốn kém nhất là giải một hệ tuyến tính có cấu trúc khối (hoặc hệ phương trình chuẩn $$AD^2A^T \Delta v = r$$). Khai thác độ thưa và tính đối xứng giúp giải hàng triệu biến chỉ trong vài chục vòng lặp.
 
-### Khung giải thích (nên đọc chậm): Một bước gốc–đối ngẫu rút ngắn khoảng cách tối ưu nhanh cỡ nào?
+### Giải thích: Một bước gốc–đối ngẫu rút ngắn khoảng cách tối ưu nhanh cỡ nào?
 
 Xét bài toán 1 chiều đơn giản $$\min_{x} x$$ với điều kiện $$-x \le 0$$ (tức $$h(x) = -x \le 0$$, nghiệm tối ưu $$x^\star = 0, u^\star = 1$$). Hệ điều kiện KKT bị nhiễu với tham số $$\tau > 0$$ là:
 

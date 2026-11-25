@@ -11,7 +11,7 @@ lang: vi
 
 Vào giữa thập niên 1950, máy tính điện tử vẫn chạy bằng đèn chân không và thường xuyên sập nguồn sau vài giờ hoạt động. Nhà vật lý William Davidon khi giải bài toán tối ưu nhiều chiều tại Phòng thí nghiệm Quốc gia Argonne đã bị đẩy vào thế bí: phương pháp hạ gradient thì quá chậm (máy sập trước khi hội tụ), còn phương pháp Newton thì đòi hỏi tính và nghịch đảo ma trận Hessian cỡ $$n \times n$$ quá sức chịu đựng của máy tính. Trong cái khó ló cái khôn, ông nảy ra một ý tưởng thiên tài: **chỉ cần nhìn cách gradient thay đổi sau mỗi bước đi, ta có thể tự "học" dần độ cong của hàm mà không bao giờ phải tính đạo hàm bậc hai!** Đó là sự ra đời của họ phương pháp Quasi-Newton.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu hóa Quasi-Newton
+## Kiến thức cần nhớ: Bốn trụ cột của tối ưu hóa Quasi-Newton
 
 Để nắm trọn bức tranh của Chương 18, hãy nhìn cách phương pháp Quasi-Newton đứng đúng ở "điểm ngọt" giữa phương pháp bậc nhất và phương pháp bậc hai:
 
@@ -20,7 +20,7 @@ Vào giữa thập niên 1950, máy tính điện tử vẫn chạy bằng đèn
 - **Cập nhật hạng thấp bảo toàn cấu trúc (Low-Rank Updates):** Để ma trận xấp xỉ luôn đối xứng, xác định dương (đảm bảo hướng đi luôn là hướng giảm) và không phải tính lại từ đầu, các công thức SR1, DFP, BFGS chỉ cộng thêm một ma trận hiệu chỉnh hạng 1 hoặc hạng 2.
 - **Nghịch đảo trực tiếp nhờ công thức Sherman–Morrison–Woodbury:** Thay vì cập nhật $$B_k$$ rồi giải hệ tuyến tính $$O(n^3)$$, ta cập nhật trực tiếp ma trận nghịch đảo $$H_k \approx (\nabla^2 f)^{-1}$$ chỉ bằng vài phép nhân vector–ma trận tốn $$O(n^2)$$.
 
-### Khung giải thích (nên đọc chậm): So sánh chi phí $$O(n^3)$$ vs $$O(n^2)$$ và một bước cát tuyến 1 chiều
+### Giải thích: So sánh chi phí $$O(n^3)$$ vs $$O(n^2)$$ và một bước cát tuyến 1 chiều
 
 Hãy cảm nhận hai ưu điểm của Quasi-Newton bằng hai phép tính nhỏ:
 

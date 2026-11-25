@@ -12,14 +12,14 @@ lesson_type: optional
 
 AdamW has reigned as the default deep-learning optimizer since 2019, yet every frontier lab keeps asking the same question: can we exploit *geometry* beyond diagonal second moments without paying the prohibitive $$O(d^2)$$ cost of full Newton’s method? Between 2020 and 2026, three distinct geometric ideas broke through into practical training loops: **SAM** (seek flat basins via a minimax step), **Sophia** (clip a cheap diagonal Hessian estimator), and **Muon** (orthogonalize 2D hidden-layer weight updates via Newton–Schulz iterations).
 
-## Background Knowledge Map: Beyond Diagonal AdamW (SAM, Sophia, Muon, Schedule-Free)
+## Key ideas: Beyond Diagonal AdamW (SAM, Sophia, Muon, Schedule-Free)
 
 - **SAM (Sharpness-Aware Minimization):** Solves the minimax objective $$\min_w \max_{\|\epsilon\|_2 \le \rho} F(w + \epsilon)$$ by first ascending to the worst nearby perturbation $$\hat{\epsilon} = \rho \frac{\nabla F(w)}{\|\nabla F(w)\|_2}$$, then stepping with $$\nabla F(w + \hat{\epsilon})$$—trading $$2\times$$ gradient cost for flatter, better-generalizing minima.
 - **Sophia (Clipped Diagonal Second-Order):** Replaces Adam’s squared-gradient denominator with a Hutchinson or Gauss–Newton diagonal Hessian estimate $$h_t$$ and clips the Newton step $$\operatorname{clip}(m_t / \max(h_t, \varepsilon), \pm 1)$$, preventing explosions near nonconvex saddle points where curvature turns negative.
 - **Muon (Matrix Orthogonalization via Newton–Schulz):** Recognizes that hidden-layer weights are *matrices*, not flat vectors. Instead of diagonal rescaling, Muon maps the momentum matrix $$M_t$$ toward its nearest orthogonal polar factor $$U V^\top$$ using fast matrix-multiply Newton–Schulz iterations—equalizing singular-value step sizes across all matrix directions.
 - **Schedule-Free Optimization:** Eliminates the need to pre-commit to a total training horizon $$T$$ (for cosine decay) by interpolating between a momentum iterate and an online average, matching tuned cosine schedules automatically.
 
-### Step-by-Step Worked Example (Read Slowly): One SAM Minimax Step vs. One Muon Polar Orthogonalization
+### Worked example: One SAM Minimax Step vs. One Muon Polar Orthogonalization
 
 **Part A (SAM on a 1D asymmetric valley):** Suppose $$F(w)$$ has gradient $$F'(w_0) = 1.0$$ at $$w_0 = 0$$, and sharpness radius $$\rho = 0.2$$.
 1. Ascend to the adversarial perturbation: $$\hat{\epsilon} = \rho \frac{F'(0)}{|F'(0)|} = 0.2 \cdot (+1) = +0.2$$, giving $$w_{\text{adv}} = 0.2$$.

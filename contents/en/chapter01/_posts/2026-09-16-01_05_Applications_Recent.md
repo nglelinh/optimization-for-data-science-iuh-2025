@@ -12,14 +12,14 @@ lesson_type: optional
 
 A decade ago, "optimization for data science" mostly meant fitting a logistic regression or SVM. Today, the exact same Chapter 01 template—choose $$x \in \mathcal{C}$$ to minimize $$f_0(x)$$—governs how frontier labs split trillion-FLOP compute budgets between model size and training tokens (Chinchilla scaling laws), how supply chains train predictive models to minimize *downstream decision regret* (SPO+), and how classifiers enforce statistical fairness constraints directly inside the feasible set.
 
-## Background Knowledge Map: Modern Frontiers Built on Chapter 01
+## Key ideas: Modern Frontiers Built on Chapter 01
 
 - **Compute-Optimal Scaling (Constrained ERM):** Allocates a fixed compute budget $$C \approx 6ND$$ across model parameters $$N$$ and dataset tokens $$D$$ to minimize validation loss.
 - **Predict-Then-Optimize (SPO+):** Replaces a discontinuous downstream decision loss with a tight convex surrogate so predictive models learn features that matter for the final optimization decision.
 - **Fairness as Explicit Constraints:** Encodes demographic parity or equalized odds as linear/convex constraints on group error rates rather than hoping unconstrained accuracy is fair.
 - **Reading Modern Optimization Papers:** Dissect any new method into four questions: what is $$x$$, what is the surrogate $$f_0$$, is $$\mathcal{C}$$ convex, and what solver matches the problem's scale?
 
-### Step-by-Step Worked Example (Read Slowly): Solving a Compute-Budget Allocation Problem
+### Worked example: Solving a Compute-Budget Allocation Problem
 
 Minimize a simplified Chinchilla-style scaling loss $$L(N, D) = 4N^{-0.5} + D^{-0.5}$$ subject to a fixed compute budget $$6ND = 600$$ (so $$ND = 100$$) with $$N, D > 0$$.
 

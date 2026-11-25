@@ -11,7 +11,7 @@ lang: vi
 
 Vì cập nhật hạng 1 (SR1) không đủ bậc tự do để vừa khớp phương trình secant vừa luôn bảo toàn tính xác định dương, W. C. Davidon (1959) — sau đó được R. Fletcher và M. J. D. Powell (1963) làm sáng tỏ và phổ biến — đã chuyển sang **cập nhật đối xứng hạng 2** trực tiếp trên ma trận nghịch đảo Hessian $$H = B^{-1}$$. Công thức DFP mở ra một bước ngoặt lịch sử: chỉ cần điều kiện độ cong $$y^T s > 0$$ được giữ vững, ma trận $$H^+$$ **luôn luôn** xác định dương, đảm bảo hướng tìm kiếm $$-H^+ \nabla f$$ không bao giờ đi ngược lên dốc!
 
-## Bản đồ kiến thức nền: Bốn góc nhìn giúp hiểu trọn vẹn công thức DFP
+## Kiến thức cần nhớ: Bốn góc nhìn giúp hiểu trọn vẹn công thức DFP
 
 Thay vì học thuộc lòng hai phân số trong công thức DFP, hãy nhìn bản chất hình học và biến phân đằng sau nó:
 
@@ -20,7 +20,7 @@ Thay vì học thuộc lòng hai phân số trong công thức DFP, hãy nhìn b
 - **Diễn giải biến phân (Minimum-Change Principle):** Công thức DFP cho $$B^+$$ thực chất là nghiệm duy nhất của bài toán tìm ma trận đối xứng $$B^+$$ thỏa mãn $$B^+ s = y$$ có khoảng cách chuẩn Frobenius có trọng số $$\|W^{1/2}(B^+ - B)W^{1/2}\|_F$$ nhỏ nhất — tức "sửa đổi $$B$$ ít nhất có thể".
 - **Hạn chế thực nghiệm so với BFGS:** Dù đẹp về lý thuyết, DFP nhạy cảm hơn với tìm kiếm đường thẳng không chính xác (inexact line search) và đôi khi bị kẹt khi xấp xỉ Hessian sinh ra trị riêng quá nhỏ — lý do mà BFGS dần thay thế nó ở bài tiếp theo.
 
-### Khung giải thích (nên đọc chậm): Tính tay một bước DFP cho $$H$$ và kiểm tra $$H^+ y = s$$
+### Giải thích: Tính tay một bước DFP cho $$H$$ và kiểm tra $$H^+ y = s$$
 
 Khởi tạo $$H_0 = I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$ với cặp bước đi và biến thiên gradient $$s = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$, $$y = \begin{bmatrix} 2 \\ 1 \end{bmatrix}$$:
 

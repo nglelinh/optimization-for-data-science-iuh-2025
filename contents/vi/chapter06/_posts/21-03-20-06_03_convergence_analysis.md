@@ -13,7 +13,7 @@ Một thuật toán nhìn trên đồ thị có vẻ đang giảm dần giá tr�
 
 Mục 06-03 mở ra **Phân tích hội tụ (Convergence Analysis)** — phần toán học sâu sắc nhất của Chương 06. Bạn sẽ chứng kiến sự khác biệt một trời một vực giữa hai thế giới: hàm **lồi trơn** (hội tụ dưới tuyến tính $$O(1/k)$$ — cần $$O(1/\epsilon)$$ bước) và hàm **lồi mạnh & trơn** (hội tụ tuyến tính $$O(c^k)$$ — chỉ cần $$O(\log(1/\epsilon))$$ bước), đồng thời hiểu giới hạn tự nhiên của mọi thuật toán bậc nhất qua Định lý Nesterov!
 
-## Bản đồ kiến thức nền: Bốn tầng phân tích tốc độ hội tụ
+## Kiến thức cần nhớ: Bốn tầng phân tích tốc độ hội tụ
 
 Toàn bộ phần 06-03 được xây dựng theo một chuỗi suy luận bốn tầng cực kỳ chặt chẽ:
 
@@ -22,7 +22,7 @@ Toàn bộ phần 06-03 được xây dựng theo một chuỗi suy luận bốn
 - **Tầng 3 — Bứt tốc nhờ Lồi mạnh ($$O(c^k)$$):** Khi hàm có thêm cận dưới bậc hai với độ cong $$m > 0$$, sai số giảm theo cấp số nhân với hệ số co $$c = 1 - m/L = 1 - 1/\kappa$$ — tức là đạt thêm 1 chữ số chính xác chỉ tốn thêm một số hằng bước lặp!
 - **Tầng 4 — Giới hạn lý thuyết & Tăng tốc Nesterov:** Nesterov chứng minh mọi thuật toán bậc nhất trên hàm lồi $$L$$-trơn đều không thể nhanh hơn $$\Omega(1/k^2)$$ — và Gradient Descent thường ($$O(1/k)$$) chưa chạm ngưỡng đó, mở đường cho phương pháp tăng tốc Nesterov!
 
-### Khung giải thích (nên đọc chậm): So sánh trực quan số vòng lặp giữa $$O(1/\epsilon)$$ và $$O(\log(1/\epsilon))$$
+### Giải thích: So sánh trực quan số vòng lặp giữa $$O(1/\epsilon)$$ và $$O(\log(1/\epsilon))$$
 
 Giả sử bài toán có hằng số trơn $$L = 10$$, khoảng cách ban đầu $$\|x^{(0)} - x^\star\|_2 = 1$$, và ta cần đạt độ chính xác $$\epsilon$$ (tức $$f(x^{(k)}) - f^\star \le \epsilon$$):
 

@@ -14,14 +14,14 @@ redirect_from:
 
 When Boyd et al. published their landmark 2011 ADMM survey, the flagship applications were Lasso, SVMs, and distributed MapReduce clusters. Fifteen years later, the exact same consensus template $$\min \sum_i f_i(x_i) \text{ s.t. } x_i = z$$ is thriving inside three unexpectedly modern domains: **FedADMM** for heterogeneous federated deep learning, **Plug-and-Play (PnP) ADMM** for computational imaging with deep neural denoisers, and **distributed optimal power flow (OPF)** for renewable smart grids.
 
-## Background Knowledge Map: Where Consensus ADMM Lives Today (2022–2026)
+## Key ideas: Where Consensus ADMM Lives Today (2022–2026)
 
 - **FedADMM in Heterogeneous Federated Learning:** Replaces naive weight averaging (FedAvg) with primal-dual consensus across edge devices; dual variables $$w_i$$ cancel non-IID client drift while allowing inexact local SGD updates.
 - **Plug-and-Play (PnP) ADMM in Computational Imaging:** Replaces the explicit regularizer proximal map $$\operatorname{prox}_{g/\rho}(v)$$ inside ADMM with a pre-trained deep denoiser $$D_\sigma(v)$$ (e.g., DRUNet or diffusion denoisers) for MRI, CT, and astronomical deblurring—with provable fixed-point convergence when $$D_\sigma$$ is firmly non-expansive.
 - **Distributed Optimal Power Flow (OPF) & Microgrids:** Splits a national electrical grid into regional balancing areas coupled only by tie-line voltage/power consensus constraints $$x_i = z$$, allowing real-time online dispatch without sharing proprietary generator bids.
 - **Adaptive Penalty & Inexact Subproblems:** Across all three modern deployments, strict exact inner solves are replaced by a few warm-started gradient steps paired with adaptive $$\rho$$ schedules to keep primal and dual residuals balanced.
 
-### Step-by-Step Worked Example (Read Slowly): One Iteration of Plug-and-Play (PnP) ADMM for Image Denoising
+### Worked example: One Iteration of Plug-and-Play (PnP) ADMM for Image Denoising
 
 Consider an inverse imaging problem $$\min_x \frac{1}{2}\|A x - y\|_2^2 + g(x)$$ in 2D with diagonal blur $$A = \operatorname{diag}(1, 0.5)$$, noisy observation $$y = (2.0, 1.0)^T$$, and a linear shrinkage denoiser $$D_\sigma(v) = 0.8 v$$ standing in for $$\operatorname{prox}_{g/\rho}(v)$$ (representing a learned neural denoiser with Lipschitz constant $$0.8 < 1$$). Run 1 iteration of PnP-ADMM with $$\rho = 1$$ from $$z^0 = (0, 0)^T, \; w^0 = (0, 0)^T$$.
 

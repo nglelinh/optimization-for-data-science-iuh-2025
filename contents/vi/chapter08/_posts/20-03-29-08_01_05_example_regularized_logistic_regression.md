@@ -14,13 +14,13 @@ Hồi quy logistic là "ngựa thồ" kinh điển của học máy thống kê 
 
 Ngay tại thời điểm mô hình đạt độ thưa mong muốn (nhiều trọng số $$\beta_j = 0$$), đạo hàm cổ điển lại biến mất đúng ở những tọa độ đó. Bài học này cho thấy cách phương pháp subgradient bước vào giải quyết trọn vẹn bài toán hồi quy logistic có điều chuẩn $$\ell_1$$ (và so sánh với điều chuẩn $$\ell_2$$ trơn), đồng thời làm lộ ra một tinh tế quan trọng: khi một trọng số bằng $$0$$, ta được quyền chọn bất kỳ giá trị nào trong đoạn $$[-\lambda, \lambda]$$ cho thành phần subgradient tương ứng.
 
-## Bản đồ kiến thức nền: Ba trụ cột của hồi quy logistic có điều chuẩn
+## Kiến thức cần nhớ: Ba trụ cột của hồi quy logistic có điều chuẩn
 
 - **Hàm mất mát log-loss và tính lồi trơn:** Với xác suất dự đoán $$p_i(\beta) = \sigma(x_i^T\beta) = \frac{1}{1 + e^{-x_i^T\beta}}$$, đạo hàm của $$-\sum (y_i x_i^T\beta - \log(1 + e^{x_i^T\beta}))$$ có dạng cực kỳ trực quan: $$\nabla \ell(\beta) = \sum_{i=1}^n (p_i(\beta) - y_i) x_i$$ — chính là tổng các vector đặc trưng có trọng số bằng sai số dự đoán!
 - **Điều chuẩn $$\ell_1$$ vs $$\ell_2$$ và hình học tạo thưa:** Số hạng $$\frac{\lambda}{2}\|\beta\|_2^2$$ trơn khắp nơi và chỉ co nhỏ trọng số về gần $$0$$; trong khi $$\lambda\|\beta\|_1$$ có góc nhọn dọc các trục tọa độ, tạo ra dưới vi phân $$\partial(\lambda|\beta_j|)\big|_0 = [-\lambda, \lambda]$$ đủ rộng để hấp thụ gradient nhỏ của hàm mất mát và giữ chặt $$\beta_j = 0$$.
 - **Quy tắc cộng dưới vi phân (Moreau–Rockafellar):** Vì cả hàm mất mát log-loss lẫn hàm phạt $$\lambda\|\beta\|_1$$ đều lồi và xác định trên toàn $$\mathbb{R}^p$$, dưới vi phân của tổng bằng tổng các dưới vi phân: $$\partial f(\beta) = \nabla \ell(\beta) + \lambda \partial \|\beta\|_1$$. Ta chỉ cần tính từng phần rồi cộng lại theo từng tọa độ.
 
-### Khung giải thích (nên đọc chậm): Tính tay một bước subgradient cho hồi quy logistic $$\ell_1$$
+### Giải thích: Tính tay một bước subgradient cho hồi quy logistic $$\ell_1$$
 
 Xét tập dữ liệu 1 chiều cực gọn gồm 2 mẫu: $$(x_1, y_1) = (1, 1)$$ và $$(x_2, y_2) = (-1, 0)$$, hệ số điều chuẩn $$\lambda = 0.5$$:
 $$f(\beta) = \sum_{i=1}^2 \big(-y_i x_i \beta + \log(1 + e^{x_i \beta})\big) + 0.5|\beta|.$$

@@ -11,7 +11,7 @@ lang: vi
 
 Khi số biến $$n$$ vượt ngưỡng vài chục nghìn hay vài triệu (như trong hồi quy logistic nhiều đặc trưng, mạng nơ-ron vật lý PINN hay tái tạo ảnh y tế), ngay cả việc lưu trữ một ma trận $$H_k$$ dày đặc kích thước $$n \times n$$ cũng trở nên bất khả thi vì tràn bộ nhớ RAM. **L-BFGS** (Nocedal, 1980) giải quyết triệt để nút thắt này bằng một nhận xét xuất sắc: ta **không bao giờ cần tạo ra ma trận $$H_k$$ tường minh** — ta chỉ cần lưu đúng $$m$$ cặp vector gần nhất $$(s_i, y_i)$$ (thường $$m = 5\text{–}20$$) rồi chạy một **vòng lặp hai chiều (two-loop recursion)** để tính thẳng tích $$H_k \nabla f(x_k)$$ chỉ trong $$O(mn)$$ phép toán!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của L-BFGS và thuật toán hai vòng lặp
+## Kiến thức cần nhớ: Bốn trụ cột của L-BFGS và thuật toán hai vòng lặp
 
 Để hiểu rõ cách L-BFGS giữ lại gần như trọn vẹn sức mạnh của BFGS với bộ nhớ tí hon, hãy nắm vững bốn ý tưởng sau:
 
@@ -20,7 +20,7 @@ Khi số biến $$n$$ vượt ngưỡng vài chục nghìn hay vài triệu (nh�
 - **Thuật toán đệ quy hai vòng lặp (Two-Loop Recursion):** Khai triển đệ quy công thức BFGS hai bên $$H^+ = V^T H V + \rho s s^T$$ cho phép tính trực tiếp vector $$r = H_k q$$ qua một vòng lặp đi lùi (từ mới nhất về cũ nhất) và một vòng lặp đi tới (từ cũ nhất lên mới nhất), chỉ dùng tích vô hướng và cộng vector!
 - **Hội tụ tuyến tính mạnh (Strong Linear Convergence):** Dù không đạt hội tụ siêu tuyến tính như BFGS đầy đủ (vì bộ nhớ hữu hạn $$m$$ không tích lũy đủ toàn bộ phổ độ cong khi $$n \gg m$$), L-BFGS vẫn hội tụ nhanh vượt trội so với hạ gradient và là thuật toán bậc nhất–giả bậc hai tin cậy bậc nhất cho tối ưu quy mô lớn.
 
-### Khung giải thích (nên đọc chậm): Chạy tay thuật toán Two-Loop Recursion với $$m = 1$$ và kiểm chứng khớp tuyệt đối
+### Giải thích: Chạy tay thuật toán Two-Loop Recursion với $$m = 1$$ và kiểm chứng khớp tuyệt đối
 
 Giả sử ta chỉ lưu $$m = 1$$ cặp lịch sử $$s_0 = (1, 0)^T, y_0 = (2, 1)^T$$ ($$\rho_0 = \frac{1}{y_0^T s_0} = \frac{1}{2} = 0.5$$), và cần tính tích $$r = H_1 q$$ tại vector gradient hiện tại $$q = (4, 2)^T$$:
 

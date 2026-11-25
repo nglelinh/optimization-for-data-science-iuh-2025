@@ -16,7 +16,7 @@ redirect_from:
 
 Trước khi làm bộ câu hỏi trắc nghiệm Chương 12 dưới đây, hãy điểm nhanh 4 cụm kiến thức trọng tâm và tự thử sức với 4 chiếc bẫy số ngắn gọn để nắm chắc tuyệt đối toàn chương.
 
-## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 12
+## Kiến thức cần nhớ: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 12
 
 - **Thuộc lòng và hiểu bản chất 4 điều kiện KKT:** (1) Dừng: $$0 \in \partial f + \sum u_i \partial h_i + \sum v_j \partial l_j$$; (2) Bù: $$u_i h_i(x) = 0$$; (3) Khả thi gốc: $$h_i(x) \le 0, l_j(x) = 0$$; (4) Khả thi đối ngẫu: $$u_i \ge 0$$ (còn $$v_j$$ tự do dấu!).
 - **Phân biệt Điều kiện cần vs. Điều kiện đủ:**
@@ -29,7 +29,7 @@ Trước khi làm bộ câu hỏi trắc nghiệm Chương 12 dưới đây, hã
   - Soft-Margin SVM $$\implies$$ $$0 \le \alpha_i^* \le C$$, chỉ điểm có $$\alpha_i^* > 0$$ là vector hỗ trợ.
 - **Dạng ràng buộc (C) vs. Dạng Lagrange (L) và Lasso:** Hai dạng tương đương về đường nghiệm trong bài toán lồi (thỏa Slater); trong Lasso, $$X\hat{\beta}$$ luôn duy nhất còn $$\hat{\beta}$$ duy nhất khi $$X_{\mathcal{E}}$$ đủ hạng cột.
 
-### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 12
+### Giải thích: Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 12
 
 1. **Bẫy 1 — Quên kiểm tra $$u_i \ge 0$$:** Giải bài toán $$\min x^2$$ s.t. $$x \le 2$$ (tức $$h(x) = x - 2 \le 0$$). Thử điểm biên $$x = 2$$: phương trình dừng $$2x + u = 0 \implies u = -4$$. Thỏa dừng, thỏa bù ($$-4(0) = 0$$), thỏa khả thi gốc — vậy $$x = 2$$ có tối ưu không?
    **KHÔNG!** Vì $$u = -4 < 0$$ vi phạm **tính khả thi đối ngẫu**! Nghiệm đúng là $$x^* = 0, u^* = 0$$.

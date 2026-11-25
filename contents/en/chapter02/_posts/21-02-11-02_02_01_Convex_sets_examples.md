@@ -11,14 +11,14 @@ lang: en
 
 Why does $$\ell_1$$ regularization produce sparse models with exact zeros while $$\ell_2$$ regularization shrinks weights smoothly without zeroing them out? The answer is purely geometric: the $$\ell_1$$ norm ball is a sharp-cornered diamond (a polyhedron), whereas the $$\ell_2$$ ball is a smooth sphere and an ellipsoid is a stretched sphere. Mastering the equations and geometry of halfspaces, balls, ellipsoids, polyhedra, and simplexes makes regularization and constraint geometry transparent.
 
-## Background Knowledge Map: Canonical Convex Sets in Practice
+## Key ideas: Canonical Convex Sets in Practice
 
 - **Halfspaces & Polyhedra:** A halfspace $$\{x : a^T x \le b\}$$ is convex; intersecting finitely many halfspaces and hyperplanes yields a polyhedron $$\{x : Ax \preceq b, Cx = d\}$$ (the feasible set of every LP).
 - **Euclidean & General Norm Balls:** $$\{x : \|x - x_c\| \le r\}$$ is convex for *any* norm via homogeneity and the triangle inequality; changing the norm reshapes the boundary from diamond ($$\ell_1$$) to sphere ($$\ell_2$$) to box ($$\ell_\infty$$).
 - **Ellipsoids:** $$\mathcal{E} = \{x : (x - x_c)^T P^{-1}(x - x_c) \le 1\}$$ with $$P \succ 0$$ captures correlated confidence regions; the square roots of $$P$$'s eigenvalues give the exact semi-axis lengths.
 - **Simplexes:** The convex hull of $$k + 1$$ affinely independent points; the unit probability simplex $$\Delta_n$$ is the natural domain of discrete probability distributions and portfolio allocations.
 
-### Step-by-Step Worked Example (Read Slowly): Semi-Axes and Membership of a 2D Ellipsoid
+### Worked example: Semi-Axes and Membership of a 2D Ellipsoid
 
 Consider the ellipsoid $$\mathcal{E} = \{x \in \mathbb{R}^2 : (x - x_c)^T P^{-1}(x - x_c) \le 1\}$$ centered at $$x_c = (1, -1)^T$$ with shape matrix $$P = \begin{pmatrix} 4 & 0 \\ 0 & 9 \end{pmatrix}$$.
 

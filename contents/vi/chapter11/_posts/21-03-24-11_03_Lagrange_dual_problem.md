@@ -14,7 +14,7 @@ Sau khi đã có trong tay hàm đối ngẫu $$g(u, v)$$ — cỗ máy sản xu
 
 Điều kỳ diệu biến bài toán đối ngẫu thành vũ khí hạng nặng trong tối ưu hóa không lồi (như quy hoạch nguyên, bài toán phân cụm, hay hàm bậc bốn đa đỉnh trong bài học này) là: dù bài toán gốc không lồi và đầy rẫy cực tiểu địa phương, **bài toán đối ngẫu Lagrange luôn là một bài toán tối ưu lồi** (cực đại hóa hàm lõm trên miền lồi $$u \ge 0$$)! Nhờ vậy, ta luôn có thể giải bài toán đối ngẫu tới tối ưu toàn cục $$g^*$$ một cách đáng tin cậy để lấy cận dưới chặt nhất cho $$f^*$$.
 
-## Bản đồ kiến thức nền: Ba trụ cột của bài toán đối ngẫu Lagrange
+## Kiến thức cần nhớ: Ba trụ cột của bài toán đối ngẫu Lagrange
 
 - **Phát biểu chuẩn của bài toán đối ngẫu:**
   $$\max_{u, v} \; g(u, v) \quad \text{s.t.} \quad u \ge 0 \quad (\text{và ẩn ý } (u, v) \in \operatorname{dom} g).$$
@@ -22,7 +22,7 @@ Sau khi đã có trong tay hàm đối ngẫu $$g(u, v)$$ — cỗ máy sản xu
 - **Tính lồi tuyệt đối của bài toán đối ngẫu:** Vì $$g(u, v)$$ lõm nên $$-g(u, v)$$ lồi, và tập ràng buộc $$u \ge 0$$ (cùng miền hữu dụng $$\operatorname{dom} g$$) là tập lồi. Do đó, mọi thuật toán tối ưu lồi (như subgradient, proximal, điểm trong) đều áp dụng được trực tiếp lên bài toán đối ngẫu!
 - **Chuyển ràng buộc ẩn thành ràng buộc tường minh:** Khi viết bài toán đối ngẫu trên giấy, ta thường đưa các điều kiện làm cho $$g(u, v) > -\infty$$ (như $$-A^T u - G^T v = c$$ trong LP hay $$p \in \operatorname{col}(Q)$$ trong QP) ra làm ràng buộc tường minh để dễ giải và dễ nhìn.
 
-### Khung giải thích (nên đọc chậm): Giải tay bài toán đối ngẫu cho một bài toán gốc *không lồi*
+### Giải thích: Giải tay bài toán đối ngẫu cho một bài toán gốc *không lồi*
 
 Xét bài toán không lồi 1 biến (vì miền khả thi là hai điểm rời rạc $$x = \pm 1$$):
 $$\min_{x \in \mathbb{R}} \; f(x) = x \quad \text{s.t.} \quad l(x) = x^2 - 1 = 0.$$

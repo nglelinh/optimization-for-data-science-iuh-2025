@@ -11,14 +11,14 @@ lang: en
 
 Because adding two quasiconvex functions can easily create a double-humped non-quasiconvex landscape, you need a different set of construction rules than for ordinary convexity. Most importantly, representing a quasiconvex function through a 1-parameter family of *convex* functions $$\phi_t(x) \le 0$$ turns quasiconvex optimization directly into a sequence of standard convex feasibility checks via bisection.
 
-## Background Knowledge Map: Preserving and Solving Quasiconvexity
+## Key ideas: Preserving and Solving Quasiconvexity
 
 - **Nonnegative Weighted Maximum:** $$\max_i w_i f_i(x)$$ ($$w_i \ge 0$$) and arbitrary pointwise suprema preserve quasiconvexity—sublevel sets simply intersect!
 - **Composition Rules:** Composing a quasiconvex function with an affine map or a *nondecreasing* scalar function $$h$$ preserves quasiconvexity (no convexity required of $$h$$!).
 - **Partial Minimization:** $$g(x) = \inf_{y \in C} f(x, y)$$ is quasiconvex whenever $$f(x, y)$$ is jointly quasiconvex and $$C$$ is a convex set.
 - **Convex Representation ($$f(x) \le t \iff \phi_t(x) \le 0$$):** Replacing a quasiconvex objective with a family of convex inequalities $$\phi_t(x) \le 0$$ (nonincreasing in $$t$$) is the exact bridge that lets convex solvers minimize quasiconvex objectives via bisection.
 
-### Step-by-Step Worked Example (Read Slowly): Bisection via a Convex Family $$\phi_t(x)$$
+### Worked example: Bisection via a Convex Family $$\phi_t(x)$$
 
 Minimize the quasiconvex linear-fractional objective $$f(x) = \frac{x + 3}{x + 1}$$ over the convex interval $$x \in [0, 4]$$.
 

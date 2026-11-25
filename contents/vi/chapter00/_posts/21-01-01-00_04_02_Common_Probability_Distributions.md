@@ -14,14 +14,14 @@ Một trong những bất ngờ thú vị nhất khi học tối ưu hóa cho kh
 
 Bài học này giúp bạn không chỉ nhớ công thức các phân phối rời rạc và liên tục thông dụng, mà còn thấy ngay cấu trúc lồi ẩn sau log-mật độ của chúng.
 
-## Bản đồ kiến thức nền: Họ phân phối và hàm mất mát tương ứng
+## Kiến thức cần nhớ: Họ phân phối và hàm mất mát tương ứng
 
 - **Phân phối rời rạc (Bernoulli, Nhị thức, Poisson, Categorical):** Mô hình hóa dữ liệu đếm và phân loại nhãn. Âm log-hợp lý của Bernoulli/Categorical chính là hàm mất mát **Binary/Multi-class Cross-Entropy** — một hàm lồi đẹp theo tham số tuyến tính.
 - **Phân phối liên tục một biến (Đều, Mũ, Chuẩn Gauss, Laplace):** Phân phối Gauss có đuôi giảm theo $$e^{-x^2}$$ (tạo phạt bình phương nhạy với ngoại lai), còn Laplace có đuôi giảm theo $$e^{-|x|}$$ (tạo phạt $$\ell_1$$ bền vững và khuyến khích độ thưa).
 - **Phân phối chuẩn đa biến ($$\mathcal{N}(\mu, \Sigma)$$):** Mở rộng Gauss lên $$\mathbb{R}^n$$ với mật độ tỉ lệ với $$\exp\left(-\frac{1}{2}(x-\mu)^T \Sigma^{-1}(x-\mu)\right)$$. Đường đồng mức của mật độ chính là các **ellipsoid** — đối tượng lồi quen thuộc của Chương 02.
 - **Tính log-lõm (Log-concavity):** Hầu hết các phân phối kinh điển (Gauss, Mũ, Laplace, Gamma với $$\alpha \ge 1$$) đều có log-mật độ là hàm lõm, nhờ đó bài toán ước lượng tham số tự động trở thành **bài toán tối ưu hóa lồi**!
 
-### Khung giải thích (nên đọc chậm): So sánh âm log-hợp lý Gauss và Laplace trên cùng bộ dữ liệu
+### Giải thích: So sánh âm log-hợp lý Gauss và Laplace trên cùng bộ dữ liệu
 
 Cho $$3$$ quan sát độc lập $$x_1 = 1,\ x_2 = 2,\ x_3 = 6$$. Ta muốn ước lượng tâm vị trí $$\mu$$ dưới hai giả thiết nhiễu khác nhau:
 

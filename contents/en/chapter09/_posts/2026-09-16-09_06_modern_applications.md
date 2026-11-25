@@ -12,14 +12,14 @@ lesson_type: optional
 
 From reconstructing high-resolution MRI scans from undersampled k-space data in seconds, to training "unrolled" deep neural networks where every layer *is* one FISTA iteration, proximal gradient descent and acceleration sit quietly at the center of 2022–2026 computational imaging and scientific ML. Rather than replacing classical optimization with opaque black-box networks, modern pipelines fuse both worlds—plugging learned denoisers directly into the proximal slot (Plug-and-Play FISTA) or learning step sizes and thresholds end-to-end (FISTA-Net).
 
-## Background Knowledge Map: Proximal Splitting in 2022–2026 Imaging & ML
+## Key ideas: Proximal Splitting in 2022–2026 Imaging & ML
 
 - **Pillar 1 — Inverse Problems & Data Consistency:** In MRI/CT reconstruction, $$g(x) = \frac{1}{2}\|Ax - b\|_2^2$$ encodes the exact known physics of the scanner (Fourier or Radon transform), while $$h(x)$$ encodes prior structure (wavelet sparsity or total variation). Keeping $$g$$ explicit guarantees physical fidelity.
 - **Pillar 2 — Plug-and-Play (PnP) FISTA:** Because $$\operatorname{prox}_{t h}(y) = \arg\min_z \{\frac{1}{2t}\|z - y\|_2^2 + h(z)\}$$ is mathematically a Gaussian denoiser at noise level $$\sigma = \sqrt{t}$$, PnP-FISTA replaces $$\operatorname{prox}_{t h}$$ with a pretrained deep denoiser $$D_\sigma$$ while retaining FISTA's momentum and physical gradient steps.
 - **Pillar 3 — Algorithm Unrolling (LISTA / FISTA-Net):** Fixing the iteration count to $$K = 8\text{–}15$$ layers and turning step sizes, thresholds, and linear filters into learnable parameters yields interpretable, physics-guided neural architectures that achieve FISTA-grade accuracy in $$10\times$$ fewer iterations.
 - **Pillar 4 — Production Sparse GLMs & Low-Rank Solvers:** In statistical libraries (`glmnet`, `skglm`, `FISTA`-based solvers), proximal gradient with backtracking, active-set screening, and warm starts remains the gold standard for elastic-net regression and matrix completion.
 
-### Step-by-Step Worked Example (Read Slowly): One Unrolled FISTA Layer vs. Classical ISTA on a 2-Pixel Signal
+### Worked example: One Unrolled FISTA Layer vs. Classical ISTA on a 2-Pixel Signal
 
 Suppose a 2-pixel compressed-sensing measurement obeys $$A = \begin{pmatrix}1 & 0 \\ 0 & 2\end{pmatrix}$$, $$b = \begin{pmatrix}2 \\ 6\end{pmatrix}$$, so $$g(x) = \frac{1}{2}\|Ax - b\|_2^2$$ has $$\nabla g(x) = A^\top(Ax - b) = \begin{pmatrix}x_1 - 2 \\ 4x_2 - 12\end{pmatrix}$$ and Lipschitz constant $$L = \|A\|_2^2 = 4$$. With $$\lambda = 1$$ and $$x^{(0)} = (0, 0)^\top$$:
 

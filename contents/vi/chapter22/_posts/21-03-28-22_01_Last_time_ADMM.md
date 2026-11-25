@@ -13,7 +13,7 @@ Trước khi chuyển sang phương pháp gradient có điều kiện (Frank–W
 
 Nếu Frank–Wolfe chọn cách giữ nguyên ràng buộc tập lồi $$x \in C$$ rồi tuyến tính hóa hàm mục tiêu, thì ADMM lại chọn con đường tách đôi một bài toán khó thành hai bài toán con dễ hơn thông qua biến phụ $$z$$ và ràng buộc đẳng thức $$Ax + Bz = c$$. Điều kỳ diệu của ADMM là ở chỗ nó ghép sức mạnh ổn định của hàm phạt bậc hai (Augmented Lagrangian) với khả năng giải tách biệt từng biến giống như Dual Decomposition, biến những bài toán khổng lồ thành chuỗi cập nhật luân phiên cực kỳ thân thiện với tính toán phân tán.
 
-## Bản đồ kiến thức nền: Ba trụ cột đằng sau ADMM
+## Kiến thức cần nhớ: Ba trụ cột đằng sau ADMM
 
 Khi đọc lại ba dòng cập nhật ngắn gọn của ADMM, hãy nhớ rằng đằng sau chúng là sự hòa quyện của ba ý tưởng lớn trong giải tích lồi:
 
@@ -21,7 +21,7 @@ Khi đọc lại ba dòng cập nhật ngắn gọn của ADMM, hãy nhớ rằn
 - **Tách biến luân phiên (Gauss–Seidel Splitting):** Thay vì cực tiểu hóa đồng thời theo cặp $$(x, z)$$ — vốn phá vỡ cấu trúc tách biệt — ADMM cập nhật $$x$$ trước (giữ $$z$$ cố định) rồi mới cập nhật $$z$$ (dùng $$x$$ vừa tính), giống hệt tinh thần phương pháp Gauss–Seidel trong đại số tuyến tính số.
 - **Biến đối ngẫu chuẩn hóa (Scaled Dual Variable):** Đặt $$w = u / \rho$$ không chỉ giúp viết gọn hai số hạng tuyến tính và bậc hai thành một bình phương hoàn chỉnh $$\frac{\rho}{2}\|Ax + Bz - c + w\|_2^2$$, mà còn cho thấy trực giác rõ ràng: $$w^{(k)}$$ chính là *tổng tích lũy* của mọi sai số vi phạm ràng buộc (primal residuals) từ đầu thuật toán tới bước $$k$$.
 
-### Khung giải thích (nên đọc chậm): Tính tay 2 vòng lặp ADMM dạng chuẩn hóa
+### Giải thích: Tính tay 2 vòng lặp ADMM dạng chuẩn hóa
 
 Để cảm nhận cách biến đối ngẫu $$w$$ "kéo" hai biến tách rời $$x$$ và $$z$$ lại gần nhau, hãy giải bài toán đồng thuận 1 chiều:
 

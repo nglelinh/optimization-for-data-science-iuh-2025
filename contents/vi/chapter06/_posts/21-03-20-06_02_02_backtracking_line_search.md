@@ -13,7 +13,7 @@ Trong hầu hết các bài toán tối ưu phi tuyến thực tế (như hồi 
 
 **Tìm kiếm đường lùi (Backtracking Line Search / Điều kiện Armijo)** giải quyết triệt để vấn đề này bằng một cơ chế thông minh đến kinh ngạc: ở mỗi bước, cứ mạnh dạn thử bước dài $$t = 1$$ trước; chỉ khi thấy hàm mục tiêu *không giảm đủ mạnh* so với kỳ vọng tuyến tính, ta mới rút ngắn bước đi theo hệ số $$\beta \in (0, 1)$$ cho đến khi đạt chuẩn!
 
-## Bản đồ kiến thức nền: Cơ chế "Đường thẳng Armijo" trong Backtracking
+## Kiến thức cần nhớ: Cơ chế "Đường thẳng Armijo" trong Backtracking
 
 Ba trụ cột sau làm rõ ý nghĩa hình học và cách chọn tham số của Backtracking Line Search:
 
@@ -23,7 +23,7 @@ Ba trụ cột sau làm rõ ý nghĩa hình học và cách chọn tham số c�
 - **Tại sao vòng lặp `while` luôn dừng sau hữu hạn bước?** Vì theo khai triển Taylor bậc nhất, với $$t$$ đủ nhỏ ta có $$f(x - t\nabla f(x)) \approx f(x) - t\|\nabla f(x)\|_2^2 < f(x) - \alpha t\|\nabla f(x)\|_2^2$$ (do $$\alpha < 1$$). Thậm chí với hàm $$L$$-trơn, điều kiện chắc chắn thỏa mãn ngay khi $$t \le \frac{2(1-\alpha)}{L}$$ (hoặc $$t \le 1/L$$ khi $$\alpha \le 0.5$$)!
 - **Chọn tham số $$\alpha$$ và $$\beta$$ trong thực tế:** $$\beta \in (0, 1)$$ là hệ số co bước (thường chọn $$\beta = 0.5$$ hoặc $$0.8$$). Chọn $$\beta$$ lớn (như $$0.8$$) tìm được bước sát tối ưu hơn nhưng tốn nhiều lần thử hàm hơn; $$\beta = 0.5$$ là điểm cân bằng kinh điển vừa nhanh vừa chắc chắn.
 
-### Khung giải thích (nên đọc chậm): Chạy tay vòng lặp Backtracking Line Search từng phép thử
+### Giải thích: Chạy tay vòng lặp Backtracking Line Search từng phép thử
 
 Xét hàm $$f(x) = x^2 + e^x$$ tại $$x = 1$$. Ta có:
 - $$f(1) = 1 + e \approx 3.7183$$.

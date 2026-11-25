@@ -13,13 +13,13 @@ Bất đẳng thức Jensen cho hàm lồi yêu cầu giá trị tại trung đi
 
 Chỉ một thay đổi nhỏ từ "trung bình" sang "$$\max$$" nhưng vẫn đủ sức loại bỏ mọi đỉnh nhô lên chắn giữa hai điểm thấp — giải thích vì sao hàm giả lồi trên $$\mathbb{R}$$ không bao giờ có hai thung lũng tách rời.
 
-## Bản đồ kiến thức nền: Ba tính chất cơ bản của Hàm giả lồi
+## Kiến thức cần nhớ: Ba tính chất cơ bản của Hàm giả lồi
 
 - **Bất đẳng thức Jensen biến đổi:** $$f$$ giả lồi $$\iff \operatorname{dom} f$$ lồi và $$f(\theta x + (1-\theta)y) \le \max\{f(x), f(y)\}$$ với mọi $$x, y \in \operatorname{dom} f,\ \theta \in [0, 1]$$.
 - **Đặc trưng hàm giả lồi liên tục trên $$\mathbb{R}$$:** Một hàm liên tục một biến là giả lồi khi và chỉ khi nó thuộc đúng 1 trong 3 dạng: (1) không giảm, (2) không tăng, hoặc (3) tồn tại điểm mốc $$c$$ sao cho không tăng với $$x \le c$$ và không giảm với $$x \ge c$$.
 - **Cảnh báo về điểm dừng "bằng phẳng":** Khác với hàm lồi, một hàm giả lồi có thể có **cực tiểu địa phương không phải cực tiểu toàn cục** nếu có một đoạn bằng phẳng ngang (plateau) — ví dụ hàm bậc thang hoặc $$f(x) = 0$$ trên $$[1, 2]$$ nhưng giảm xuống $$-1$$ ở $$x = 0$$!
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng Jensen biến đổi trên $$f(x) = \ln x$$ ($$x > 0$$)
+### Giải thích: Kiểm chứng Jensen biến đổi trên $$f(x) = \ln x$$ ($$x > 0$$)
 
 Xét $$f(x) = \ln x$$ trên miền $$x > 0$$ với hai điểm $$x = 1$$ và $$y = e^2 \approx 7.389$$, chọn $$\theta = 0.5$$:
 

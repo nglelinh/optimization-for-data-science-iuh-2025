@@ -11,7 +11,7 @@ lang: vi
 
 Trong thực tế kỹ thuật và kinh tế, phần lớn ràng buộc tài nguyên không phải là đẳng thức cứng ("dùng đúng bằng $$b$$"), mà là **bất đẳng thức hạn mức** $$\sum_{i=1}^B A_i x_i \le b$$ ("không được vượt quá băng thông $$b$$, ngân sách $$b$$ hay công suất đường dây $$b$$"). Khi đổi dấu `=` thành `≤`, thuật toán phân rã đối ngẫu chỉ thay đổi đúng một chi tiết nhỏ nhưng mang ý nghĩa kinh tế sâu sắc: biến đối ngẫu $$u$$ bắt buộc phải không âm $$u \ge 0$$ nhờ phép chiếu $$u^{(k)} = (\cdot)_+$$ — biểu thị rằng **tài nguyên dư thừa luôn có giá bóng bằng 0**!
 
-## Bản đồ kiến thức nền: Ba đặc trưng của phân rã đối ngẫu với ràng buộc bất đẳng thức
+## Kiến thức cần nhớ: Ba đặc trưng của phân rã đối ngẫu với ràng buộc bất đẳng thức
 
 Để hiểu trọn vẹn bài 20-02-02 và diễn giải kinh tế học (Price Update) đi kèm, hãy nắm vững ba ý sau:
 
@@ -19,7 +19,7 @@ Trong thực tế kỹ thuật và kinh tế, phần lớn ràng buộc tài ngu
 - **Thuật toán hạ dưới gradient chiếu trên đối ngẫu (Projected Dual Subgradient):** Bước cập nhật $$u^{(k)} = \left(u^{(k-1)} + t_k(\sum_i A_i x_i^{(k)} - b)\right)_+$$ chính là một bước tăng gradient chiếu lên tập lồi $$u \ge 0$$ cho hàm đối ngẫu $$g(u)$$.
 - **Diễn giải điều chỉnh giá theo trạng thái tắc nghẽn:** Trong mạng viễn thông (tối ưu hóa tốc độ truyền TCP), mỗi liên kết $$j$$ có băng thông tối đa $$b_j$$: khi lưu lượng vượt $$b_j$$, giá tắc nghẽn $$u_j$$ tăng lên buộc các luồng dữ liệu tự giảm tốc độ; khi đường truyền thông thoáng, $$u_j$$ tụt về $$0$$!
 
-### Khung giải thích (nên đọc chậm): Tính tay 2 bước phân rã bất đẳng thức (cả trường hợp chặt và trường hợp dư tài nguyên)
+### Giải thích: Tính tay 2 bước phân rã bất đẳng thức (cả trường hợp chặt và trường hợp dư tài nguyên)
 
 Xét 2 người dùng muốn tối ưu lợi ích (tương đương cực tiểu hóa độ lệch so với mức mong muốn $$3$$ và $$2$$) với hạn mức tổng băng thông $$b$$:
 

@@ -14,14 +14,14 @@ Mọi quyết định dưới sự bất định — từ lọc thư rác, chẩ
 
 Bài học này hệ thống hóa không gian mẫu, tiên đề Kolmogorov, xác suất có điều kiện, định lý Bayes và kỳ vọng–phương sai, tạo nền tảng để bạn xây dựng các hàm mục tiêu xác suất.
 
-## Bản đồ kiến thức nền: Kiến trúc cơ bản của xác suất
+## Kiến thức cần nhớ: Kiến trúc cơ bản của xác suất
 
 - **Không gian mẫu và Tiên đề Kolmogorov:** Gắn mỗi biến cố $$A \subset \Omega$$ với một số $$P(A) \in [0, 1]$$ thỏa $$P(\Omega) = 1$$ và tính cộng tính trên các biến cố xung khắc. Đây là điều kiện ràng buộc cho mọi vector phân phối xác suất thuộc đơn hình xác suất (probability simplex).
 - **Xác suất có điều kiện và Định lý Bayes:** Cập nhật niềm tin khi có thêm bằng chứng mới: $$P(A\mid B) = \frac{P(B\mid A)P(A)}{P(B)}$$. Đây là nền tảng của suy luận Bayes và tối ưu hóa hậu nghiệm cực đại (MAP).
 - **Tính độc lập và tích xác suất:** Khi các mẫu dữ liệu $$x_1, \dots, x_n$$ độc lập, xác suất đồng thời tách thành tích $$\prod P(x_i)$$; lấy logarit lập tức biến tích thành **tổng** $$\sum \log P(x_i)$$ — dạng hàm cực kỳ thuận lợi cho tính đạo hàm và tối ưu hóa.
 - **Kỳ vọng, phương sai và hiệp phương sai:** Tóm tắt trung tâm và độ phân tán của biến ngẫu nhiên; đặc biệt ma trận hiệp phương sai $$\Sigma$$ luôn đối xứng bán xác định dương ($$\Sigma \succeq 0$$), là đầu vào trực tiếp của bài toán tối ưu danh mục Markowitz.
 
-### Khung giải thích (nên đọc chậm): Định lý Bayes trong hệ thống cảnh báo lỗi hiếm
+### Giải thích: Định lý Bayes trong hệ thống cảnh báo lỗi hiếm
 
 Giả sử một dây chuyền sản xuất có tỷ lệ sản phẩm lỗi là $$2\%$$ ($$P(D) = 0.02$$). Một cảm biến kiểm tra tự động có độ nhạy $$95\%$$ ($$P(+\mid D) = 0.95$$) và tỷ lệ báo động giả $$5\%$$ ($$P(+\mid \neg D) = 0.05$$). Khi cảm biến bật đèn đỏ ($$+$$), xác suất sản phẩm thực sự bị lỗi là bao nhiêu?
 

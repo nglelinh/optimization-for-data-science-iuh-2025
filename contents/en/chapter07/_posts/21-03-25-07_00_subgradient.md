@@ -11,14 +11,14 @@ lang: en
 
 Smooth curves are comfortable, but the most powerful models in modern data science are full of sharp corners: the kink of $$|x|$$ at zero in Lasso, the hinge of $$\max(0, 1 - z)$$ in SVMs, the bend of $$\mathrm{ReLU}(z) = \max(0, z)$$ in every deep neural network, and the hard walls of constrained sets. Ordinary derivatives shatter at every corner. Chapter 07 introduces the **subgradient**—the exact geometric generalization of the derivative that keeps global optimality alive even when functions have kinks!
 
-## Background Knowledge Map: Navigating Nonsmooth Convex Analysis
+## Key ideas: Navigating Nonsmooth Convex Analysis
 
 1. **Supporting Hyperplanes Replace Tangent Planes**: Where a smooth convex function has one unique tangent hyperplane (defined by $$\nabla f(x)$$), a convex function at a kink admits an entire fan of *supporting hyperplanes* staying globally below its graph: $$f(y) \ge f(x) + g^T(y - x)$$ for all $$y$$. Every such slope vector $$g$$ is a **subgradient**.
 2. **The Subdifferential $$\partial f(x)$$**: Collecting all subgradients at $$x$$ forms a closed, convex set $$\partial f(x)$$. At differentiable points, $$\partial f(x) = \{\nabla f(x)\}$$ is a singleton; at kinks, $$\partial f(x)$$ is a convex hull of active slopes (such as $$[-1, 1]$$ for $$|x|$$ at $$0$$).
 3. **Subgradient Calculus & Normal Cones**: Rules for scaling, addition, affine composition, and pointwise maxima let you compute $$\partial f(x)$$ algebraically without returning to the definition. Even constraints fit inside this framework: the subdifferential of the set indicator $$I_C(x)$$ is the *normal cone* $$N_C(x)$$.
 4. **Universal Optimality ($$0 \in \partial f(x^\star)$$)**: Replacing $$\nabla f(x^\star) = 0$$ with $$0 \in \partial f(x^\star)$$ gives a necessary and sufficient condition for global optimality of *any* convex function—unlocking closed-form soft-thresholding for Lasso, optimality for SVMs, and modern nonsmooth automatic differentiation.
 
-### Step-by-Step Worked Example (Read Slowly): Finding a Minimum at a Non-Differentiable Kink
+### Worked example: Finding a Minimum at a Non-Differentiable Kink
 
 Minimize the nonsmooth convex function $$f(x) = |x - 2| + \frac{1}{2}x^2$$ over $$x \in \mathbb{R}$$.
 

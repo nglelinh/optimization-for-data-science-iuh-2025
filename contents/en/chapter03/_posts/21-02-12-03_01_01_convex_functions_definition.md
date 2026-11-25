@@ -11,14 +11,14 @@ lang: en
 
 Why do machine learning practitioners add a tiny $$\ell_2$$ weight-decay term $$\frac{\lambda}{2}\|w\|_2^2$$ to an already convex loss function? Because upgrading a function from *convex* to *strongly convex* transforms both its geometry and its algorithmics: the minimizer becomes unique, the solution becomes stable under data perturbations, and gradient descent accelerates from slow $$O(1/k)$$ convergence to exponential $$O(\rho^k)$$ convergence.
 
-## Background Knowledge Map: The Exact Hierarchy of Convexity
+## Key ideas: The Exact Hierarchy of Convexity
 
 - **Domain Convexity Requirement:** A function $$f$$ cannot be convex unless its domain $$\text{dom}\,f$$ is first a convex set—never skip checking $$\text{dom}\,f$$!
 - **Convex vs. Strictly Convex:** Replacing $$\le$$ with $$<$$ for all $$x \neq y$$ and $$\theta \in (0, 1)$$ rules out linear segments on the graph and guarantees at most one global minimizer.
 - **$$m$$-Strong Convexity:** $$f(x) - \frac{m}{2}\|x\|_2^2$$ is convex (for smooth $$f$$, $$\nabla^2 f(x) \succeq m I$$), placing a uniform quadratic lower envelope under every point of the graph.
 - **Strict Inclusion Chain:** $$\text{Strongly Convex} \implies \text{Strictly Convex} \implies \text{Convex}$$, and neither arrow reverses in general.
 
-### Step-by-Step Worked Example (Read Slowly): Why $$x^4$$ Is Strictly Convex but Not Strongly Convex
+### Worked example: Why $$x^4$$ Is Strictly Convex but Not Strongly Convex
 
 Compare $$f(x) = x^4$$ and $$g(x) = x^4 + x^2$$ on $$\mathbb{R}$$.
 

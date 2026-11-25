@@ -12,14 +12,14 @@ lesson_type: optional
 
 Knowing the chain rule on a whiteboard is only half the story; turning it into a system that differentiates ten-thousand-layer transformers or coupled Navier–Stokes solvers at terabytes per second is a triumph of compiler engineering. Modern AD splits into three distinct software paradigms—PyTorch’s dynamic tape plus `torch.compile`, JAX’s pure-functional composable JVPs/VJPs (`grad`, `vmap`, `jit`), and Enzyme’s compiler-level differentiation directly on LLVM IR—each tailored to different scientific and ML workloads.
 
-## Background Knowledge Map: The Modern Autodiff Software Ecosystem (2022–2026)
+## Key ideas: The Modern Autodiff Software Ecosystem (2022–2026)
 
 - **PyTorch (Dynamic Tape + `torch.compile`):** Records operations dynamically in eager mode for effortless debugging, then uses TorchDynamo and Inductor (`torch.compile`) to capture static subgraphs and fuse backward kernels directly into Triton/CUDA code.
 - **JAX (Functional Program Transformations):** Treats differentiation as pure higher-order transformations: `jax.jvp` (forward), `jax.vjp` / `jax.grad` (reverse), `jax.vmap` (vectorization), and `jax.jit` (XLA compilation). Because transformations compose cleanly, Hessian-vector products are a 1-line `jvp(grad(f))`!
 - **Enzyme (Differentiating LLVM IR):** Instead of operator overloading in Python, Enzyme differentiates *after* the C++/Rust/Julia compiler has already optimized loops and memory layout—delivering dramatic speedups on legacy scientific simulation codebases.
 - **Scientific ML & PINNs:** Physics-Informed Neural Networks differentiate a neural network $$u_\theta(x, t)$$ with respect to its *spatial/temporal inputs* (often 2nd order via forward-over-reverse AD) to penalize PDE residuals directly inside the loss.
 
-### Step-by-Step Worked Example (Read Slowly): Computing an Exact Hessian-Vector Product in $$O(1)$$ Passes (Forward-over-Reverse)
+### Worked example: Computing an Exact Hessian-Vector Product in $$O(1)$$ Passes (Forward-over-Reverse)
 
 Suppose $$f(x_1, x_2) = x_1^3 + 2 x_1 x_2^2$$ at $$x = (1, 2)^\top$$, and we need the Hessian-vector product $$H(x) v$$ for $$v = (1, -1)^\top$$ **without** ever forming the $$d \times d$$ Hessian matrix (critical when $$d = 10^8$$!).
 

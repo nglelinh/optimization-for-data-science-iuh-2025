@@ -14,7 +14,7 @@ Trong giải tích tối ưu, câu hỏi "thuật toán này có hội tụ khô
 
 Cái giá của sự phóng khoáng về giả thiết thể hiện ngay trong kết quả định lý hội tụ: nếu giữ kích thước bước cố định $$t$$, sai số không tiến về $$0$$ mà dừng ở ngưỡng $$G^2 t / 2$$; chỉ khi cho kích thước bước giảm dần đúng chuẩn ($$\sum t_k = \infty, \sum t_k^2 < \infty$$), cả hai phần của phân số trong bất đẳng thức cơ bản mới đồng loạt triệt tiêu về $$0$$. Hiểu rõ cơ chế phân tách hai số hạng này sẽ giúp bạn chẩn đoán ngay vì sao một mô hình học máy đứng yên ở mức loss cố định khi dùng learning rate hằng số.
 
-## Bản đồ kiến thức nền: Bốn giả thiết và cơ chế hội tụ
+## Kiến thức cần nhớ: Bốn giả thiết và cơ chế hội tụ
 
 - **Tính liên tục Lipschitz của hàm $$f$$ (thay vì của $$\nabla f$$):** Điều kiện $$|f(x) - f(y)| \le G\|x - y\|_2$$ tương đương với mọi subgradient đều bị chặn chuẩn: $$\|g\|_2 \le G$$ với mọi $$g \in \partial f(x)$$. Lưu ý rằng các hàm bậc hai như $$f(x) = x^2$$ không Lipschitz toàn cục trên $$\mathbb{R}$$, nhưng vẫn Lipschitz trên mọi miền bị chặn chứa quỹ đạo lặp.
 - **Phân rã cận sai số thành hai thành phần:** Từ bất đẳng thức cơ bản với bước cố định $$t$$:
@@ -23,7 +23,7 @@ Cái giá của sự phóng khoáng về giả thiết thể hiện ngay trong k
 - **Định lý hội tụ cho bước giảm dần:** Khi $$\sum_{i=1}^k t_i \to \infty$$ (mẫu số ra vô cực) trong khi $$\sum_{i=1}^k t_i^2 \to C < \infty$$ (tử số bị chặn), phân số $$\frac{R^2 + G^2\sum_{i=1}^k t_i^2}{2\sum_{i=1}^k t_i}$$ bắt buộc tiến về $$0$$.
 - **Khác biệt giữa hội tụ giá trị hàm và hội tụ điểm lặp:** Định lý khẳng định $$f_{\text{best}}^{(k)} \to f^*$$; còn bản thân dãy $$x^{(k)}$$ chỉ hội tụ về tập nghiệm $$X^*$$ khi có thêm giả thiết (chẳng hạn tập nghiệm bị chặn hoặc hàm lồi mạnh).
 
-### Khung giải thích (nên đọc chậm): Tính trực tiếp hai số hạng sai số cho bước cố định và bước $$t_k = 1/k$$
+### Giải thích: Tính trực tiếp hai số hạng sai số cho bước cố định và bước $$t_k = 1/k$$
 
 Giả sử một bài toán lồi không trơn có khoảng cách ban đầu $$R = 4$$ và hằng số Lipschitz $$G = 1$$.
 

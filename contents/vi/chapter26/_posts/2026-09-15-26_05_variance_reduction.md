@@ -14,7 +14,7 @@ Nhìn lại hai thái cực của tối ưu tổng hữu hạn $$F(w) = \frac{1}
 
 Suốt nhiều năm, người ta tưởng phải chấp nhận một trong hai cái giá ấy — cho đến khi cuộc cách mạng **giảm phương sai (Variance Reduction)** bùng nổ năm 2013–2014 với **SVRG** (Johnson & Zhang) và **SAGA** (Defazio, Bach & Lacoste-Julien). Bằng một thủ thuật thống kê kinh điển gọi là **biến kiểm soát (control variate)**, họ đạt được điều tưởng chừng bất khả thi: **chi phí mỗi bước chỉ $$O(1)$$ như SGD, nhưng tốc độ hội tụ lại tuyến tính nhanh như Full-Batch GD**!
 
-## Bản đồ kiến thức nền: Ba trụ cột của SVRG và SAGA
+## Kiến thức cần nhớ: Ba trụ cột của SVRG và SAGA
 
 Để nhìn xuyên qua các ký hiệu chỉ số trong bài và nắm ngay "phép màu" triệt tiêu phương sai, hãy nhớ ba trụ cột sau:
 
@@ -22,7 +22,7 @@ Suốt nhiều năm, người ta tưởng phải chấp nhận một trong hai c
 - **SVRG (Lưu điểm mốc theo từng vòng ngoài — ít bộ nhớ):** Cứ mỗi $$m$$ bước trong, SVRG dừng lại tính một lần gradient toàn lô $$\tilde{\mu} = \nabla F(\tilde{w})$$ tại điểm mốc $$\tilde{w}$$, rồi dùng nó để hiệu chỉnh $$m$$ bước ngẫu nhiên tiếp theo. Ưu điểm: không cần lưu bảng gradient (bộ nhớ $$O(d)$$).
 - **SAGA (Lưu bảng gradient — không cần vòng ngoài):** Giữ một bảng chứa gradient gần nhất của từng mẫu $$1, \dots, n$$ và cập nhật 1 dòng mỗi bước. Ưu điểm: không cần tính full-batch định kỳ; nhược điểm: tốn bộ nhớ $$O(nd)$$ (hoặc $$O(n)$$ cho mô hình tuyến tính), và cả SVRG/SAGA đều phát huy mạnh nhất cho bài toán lồi tổng hữu hạn hơn là mạng sâu có data augmentation.
 
-### Khung giải thích (nên đọc chậm): Tính tay để thấy phương sai SVRG triệt tiêu hoàn toàn tại đích
+### Giải thích: Tính tay để thấy phương sai SVRG triệt tiêu hoàn toàn tại đích
 
 Xét hàm tổng hữu hạn gồm $$n = 2$$ thành phần:
 

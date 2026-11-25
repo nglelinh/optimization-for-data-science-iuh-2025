@@ -13,13 +13,13 @@ Nếu Quy hoạch tuyến tính (LP) làm việc trên hình nón các vector kh
 
 Bài học này giới thiệu ba hình nón lồi nổi tiếng nhất: hình nón chuẩn, hình nón pháp tuyến và hình nón nửa xác định dương.
 
-## Bản đồ kiến thức nền: Bộ ba hình nón quyền lực của tối ưu hóa hiện đại
+## Kiến thức cần nhớ: Bộ ba hình nón quyền lực của tối ưu hóa hiện đại
 
 - **Hình nón chuẩn (Norm Cone):** $$C = \{(x, t) \in \mathbb{R}^{n+1} : \|x\| \le t\}$$. Khi dùng chuẩn Euclid $$\ell_2$$, ta có **hình nón bậc hai (Second-Order Cone — SOC)** — nền tảng của SOCP, dùng để mô tả ràng buộc phương sai rủi ro và độ bền vững (robustness).
 - **Hình nón pháp tuyến (Normal Cone):** Gắn với một điểm biên $$x_0$$ của tập lồi $$C$$, gồm tất cả các vector $$g$$ hướng ra ngoài sao cho $$g^T(x - x_0) \le 0\ \forall x \in C$$. Điều kiện tối ưu cho bài toán có ràng buộc được viết siêu gọn: $$-\nabla f(x^*) \in N_C(x^*)$$.
 - **Hình nón nửa xác định dương ($$\mathbb{S}_+^n$$):** Tập các ma trận đối xứng $$n \times n$$ có mọi giá trị riêng $$\ge 0$$ (tức $$z^T X z \ge 0\ \forall z$$). Đây là tập lồi (thậm chí là hình nón lồi) vì là giao của vô số nửa không gian tuyến tính theo $$X$$!
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tính đóng của hình nón bán xác định dương $$\mathbb{S}_+^2$$
+### Giải thích: Kiểm chứng tính đóng của hình nón bán xác định dương $$\mathbb{S}_+^2$$
 
 Xét hai ma trận đối xứng $$2\times 2$$:
 $$A = \begin{pmatrix}4 & 2\\ 2 & 1\end{pmatrix}, \qquad B = \begin{pmatrix}1 & 0\\ 0 & 4\end{pmatrix}.$$

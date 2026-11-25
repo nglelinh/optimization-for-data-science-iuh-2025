@@ -12,14 +12,14 @@ lesson_type: required
 
 How do you prove a lower bound on the minimum value of a linear program without ever running the simplex method? The trick is as elementary as high-school algebra, yet it is the entire conceptual seed of duality theory: multiply each inequality constraint by a **nonnegative** weight (so the inequality sign never flips), add them up so the left-hand side matches the objective function $$c^\top x$$, and read off the resulting number on the right-hand side! Maximizing that right-hand side over all valid multiplier weights *is* the dual linear program.
 
-## Background Knowledge Map: Building Lower Bounds from Linear Combinations
+## Key ideas: Building Lower Bounds from Linear Combinations
 
 - **Pillar 1 — Sign Preservation Under Nonnegative Multipliers:** Multiplying $$a^\top x \ge b$$ by $$u \ge 0$$ preserves the direction $$u a^\top x \ge u b$$; multiplying an equality $$a^\top x = b$$ by *any* $$v \in \mathbb{R}$$ preserves equality. This sign discipline is why inequality dual variables are constrained ($$u \ge 0$$) while equality dual variables are free ($$v \in \mathbb{R}$$).
 - **Pillar 2 — Matching Objective Coefficients (Dual Feasibility):** To conclude $$c^\top x \ge B$$ for all feasible $$x$$, the combined constraint coefficients on $$x$$ must match $$c$$ (or be $$\le c$$ when $$x \ge 0$$). Those coefficient-matching equations are literally the **dual constraints**.
 - **Pillar 3 — Tightening the Lower Bound (Dual Objective):** Any valid choice of multipliers yields *some* lower bound $$B(u, v) \le p^\star$$. Searching for the *best* (largest) lower bound turns the bound-finding game into a maximization LP: $$\max_{u, v} B(u, v)$$.
 - **Pillar 4 — Weak Duality as an Immediate Corollary:** Because every dual-feasible $$(u, v)$$ constructs a valid inequality $$c^\top x \ge B(u, v)$$ for every primal-feasible $$x$$, we obtain $$d^\star \le p^\star$$ automatically with zero extra proof machinery.
 
-### Step-by-Step Worked Example (Read Slowly): Deriving the Tightest Lower Bound by Hand
+### Worked example: Deriving the Tightest Lower Bound by Hand
 
 Minimize $$f(x, y) = 4x + 5y$$ subject to $$x + 2y \ge 6$$, $$3x + y \ge 8$$, and $$x, y \ge 0$$.
 

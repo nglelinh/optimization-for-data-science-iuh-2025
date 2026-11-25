@@ -11,7 +11,7 @@ lang: vi
 
 Trong học máy hiện đại, hiếm khi nào hàm mục tiêu hoàn toàn trơn tru: một bài toán hồi quy logistic có phạt Lasso $$\ell_1$$, hay ước lượng ma trận hiệp phương sai thưa (graphical lasso), luôn là phép cộng của hai thế giới đối lập — một hàm mất mát trơn $$g(x)$$ và một hàm điều chuẩn sắc cạnh, không khả vi $$h(x)$$. Phương pháp hạ gradient proximal (Chương 9) xử lý được $$h(x)$$ nhưng lại chỉ dùng một hằng số bước vô hướng, nên ì ạch khi $$g(x)$$ cong lệch theo các trục khác nhau. Chương 19 mang sức mạnh độ cong bậc hai của phương pháp Newton ghép trực tiếp vào khung proximal: ta xấp xỉ bậc hai phần trơn $$g(x)$$ bằng đúng ma trận Hessian $$\nabla^2 g(x)$$, nhưng giữ nguyên vẹn phần không trơn $$h(x)$$!
 
-## Bản đồ kiến thức nền: Bốn nhánh kiến thức hội tụ trong Chương 19
+## Kiến thức cần nhớ: Bốn nhánh kiến thức hội tụ trong Chương 19
 
 Trước khi đi sâu vào các bài học của chương này, hãy xem bốn mảng kiến thức kết nối với nhau ra sao:
 
@@ -20,7 +20,7 @@ Trước khi đi sâu vào các bài học của chương này, hãy xem bốn m
 - **Thuật toán hai tầng (Outer Newton + Inner Solver):** Khác với proximal gradient vốn có công thức đóng, bài toán con bậc hai có phạt $$h$$ thường không có nghiệm đóng và phải giải bằng một bộ giải bên trong cực nhanh (như hạ tọa độ trong `glmnet` và `QUIC`).
 - **Biến thể Quasi-Newton và Newton chiếu:** Khi Hessian quá đắt, ta thay bằng xấp xỉ BFGS hoặc xấp xỉ theo khối (Proximal Quasi-Newton); khi $$h = I_C$$ là hàm chỉ thị ràng buộc, ta cần cẩn trọng để có phiên bản **Projected Newton** thực sự giảm hàm mục tiêu.
 
-### Khung giải thích (nên đọc chậm): So sánh 1 bước Proximal Gradient và 1 bước Proximal Newton trên cùng bài toán
+### Giải thích: So sánh 1 bước Proximal Gradient và 1 bước Proximal Newton trên cùng bài toán
 
 Xét bài toán hàm tổng hợp 1 chiều $$f(x) = g(x) + h(x)$$ với $$g(x) = 2x^2$$ (độ cong không đổi $$g''(x) = 4$$) và $$h(x) = |x|$$, có nghiệm tối ưu chính xác là $$x^\star = 0$$. Bắt đầu từ $$x^{(0)} = 1$$ ($$g'(1) = 4$$):
 

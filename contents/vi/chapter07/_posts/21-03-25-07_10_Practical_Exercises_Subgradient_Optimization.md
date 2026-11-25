@@ -16,7 +16,7 @@ Khi lý thuyết Subgradient chuyển hóa thành thuật toán lặp $$x^{(k+1)
 
 Bộ bài tập thực hành này giúp bạn trực tiếp chạm tay vào cả hai mặt của Chương 07: tính chuẩn xác subgradient của các hàm không trơn phổ biến (chuẩn $$\ell_1, \ell_2, \ell_\infty$$, hàm cực đại, hinge loss) và tự tay phân tích, cài đặt **Phương pháp Subgradient** với các lịch bước giảm dần chuẩn xác!
 
-## Bản đồ kiến thức nền: Bốn quy tắc thực chiến cho Phương pháp Subgradient
+## Kiến thức cần nhớ: Bốn quy tắc thực chiến cho Phương pháp Subgradient
 
 Khi giải các bài tập thực hành tính subgradient và chạy thuật toán Subgradient Method, hãy nắm chắc bốn nguyên tắc sau:
 
@@ -28,7 +28,7 @@ Khi giải các bài tập thực hành tính subgradient và chạy thuật to�
   - **Bước Polyak (khi biết trước $$f^\star$$):** $$t_k = \frac{f(x^{(k)}) - f^\star}{\|g^{(k)}\|_2^2}$$ — cực kỳ hiệu quả cho bài toán tìm điểm giao các tập lồi (nơi ta biết trước $$f^\star = 0$$)!
 - **Độ phức tạp $$O(1/\epsilon^2)$$:** Để đạt độ chính xác $$\epsilon$$, phương pháp Subgradient cần cỡ $$\frac{G^2 R^2}{\epsilon^2}$$ vòng lặp (ví dụ $$\epsilon = 10^{-3}$$ cần tới ~$$10^6$$ bước — đó là động lực để sang các chương sau ta học Phương pháp Proximal!).
 
-### Khung giải thích (nên đọc chậm): Chạy tay 3 bước Phương pháp Subgradient với bước Polyak và bước $$1/\sqrt{k}$$
+### Giải thích: Chạy tay 3 bước Phương pháp Subgradient với bước Polyak và bước $$1/\sqrt{k}$$
 
 Xét hàm không trơn $$f(x) = |x - 2|$$ ($$G = 1,\; x^\star = 2,\; f^\star = 0$$), xuất phát từ $$x^{(0)} = 0$$ ($$R = 2$$):
 

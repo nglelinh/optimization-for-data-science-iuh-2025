@@ -13,7 +13,7 @@ Nếu bạn thả một viên bi nặng lăn xuống một hẻm núi hình lòn
 
 **Tăng tốc Nesterov (Nesterov Acceleration)** trả lại "trí nhớ quán tính" cho viên bi ấy — nhưng theo một cách tinh tế hơn cả vật lý cổ điển. Thay vì chỉ cộng quán tính sau khi tính gradient (như phương pháp Heavy Ball của Polyak), Nesterov để viên bi **nhìn trước một bước theo đà quán tính** rồi mới đo gradient và áp dụng toán tử gần kề tại điểm nhìn trước đó. Chỉ một thay đổi nhỏ về thứ tự phép tính ấy đã làm chấn động ngành tối ưu năm 1983, nâng tốc độ từ $$O(1/k)$$ lên đúng giới hạn lý thuyết $$O(1/k^2)$$!
 
-## Bản đồ kiến thức nền: Bốn trực giác cốt lõi về tăng tốc bậc nhất
+## Kiến thức cần nhớ: Bốn trực giác cốt lõi về tăng tốc bậc nhất
 
 - **Bệnh zíc-zắc trên hàm có số điều kiện lớn (Ill-conditioned Landscapes):** Khi độ cong theo một hướng lớn gấp $$\kappa$$ lần hướng kia, bước $$t \le 1/L$$ bị khống chế bởi hướng dốc nhất, khiến bước tiến dọc theo thung lũng phẳng cực kỳ nhỏ bé. Quán tính triệt tiêu các thành phần dao động ngược dấu qua hai bước liên tiếp và cộng hưởng các thành phần cùng hướng dọc đáy thung lũng.
 - **Sự khác biệt giữa Polyak Heavy Ball và Nesterov Look-ahead:**
@@ -22,7 +22,7 @@ Nếu bạn thả một viên bi nặng lăn xuống một hẻm núi hình lòn
 - **Nesterov lý thuyết vs. "Nesterov trong PyTorch":** Trong lý thuyết tối ưu lồi, hệ số quán tính tăng dần theo lịch $$\beta_k = \frac{k-1}{k+2} \to 1$$ để khớp tốc độ $$O(1/k^2)$$; trong khi ở học sâu (`torch.optim.SGD(..., momentum=0.9, nesterov=True)`), hệ số $$\beta$$ thường giữ cố định (như $$0.9$$) để cân bằng giữa tốc độ và nhiễu mini-batch.
 - **Tác dụng phụ: gợn sóng Nesterov (Nesterov Ripples):** Vì có quán tính, quỹ đạo tăng tốc có thể trượt lố qua đáy rồi quay lại, nên giá trị hàm $$f(x^{(k)})$$ không còn giảm đơn điệu như ISTA — mở ra nhu cầu kỹ thuật khởi động lại (adaptive restart).
 
-### Khung giải thích (nên đọc chậm): Thấy tận mắt cơ chế "nhìn trước để phanh sớm" của Nesterov
+### Giải thích: Thấy tận mắt cơ chế "nhìn trước để phanh sớm" của Nesterov
 
 Xét hàm bậc hai 1D $$g(x) = \frac{1}{2}x^2$$ ($$L = 1$$, nghiệm $$x^* = 0$$) với bước $$t = 0.5$$ và đà $$\beta = 0.5$$. Giả sử ta đang có $$x^{(0)} = 4$$ và $$x^{(1)} = 1$$ (đà chuyển động $$x^{(1)} - x^{(0)} = -3$$ đang lao mạnh về trái qua $$0$$).
 

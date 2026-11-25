@@ -13,7 +13,7 @@ lang: vi
 
 Một sai lầm phổ biến của người mới dùng ADMM là nghĩ rằng với mỗi bài toán chỉ có *một* cách tách biến duy nhất. Bài 21-06 sẽ thay đổi hoàn toàn tư duy đó bằng một ví dụ ngoạn mục: **Fused Lasso 2D** (khử nhiễu ảnh bằng biến phân toàn phần Total Variation 2D). Nếu tách biến theo kiểu cơ bản $$D\beta = z$$, ta phải giải một hệ phương trình tuyến tính 2D lớn ở mỗi vòng lặp và hai khối biến bị tương quan mạnh nên hội tụ khá chậm. Nhưng chỉ cần khéo léo tách bài toán 2D thành **hai bộ chuỗi 1D trực giao (hàng ngang và cột dọc)**, mỗi bài toán con lập tức giải chính xác trong thời gian tuyến tính $$O(n)$$ và tốc độ hội tụ tăng vọt!
 
-## Bản đồ kiến thức nền: Ba nguyên lý thiết kế tham số hóa bài toán con cho ADMM
+## Kiến thức cần nhớ: Ba nguyên lý thiết kế tham số hóa bài toán con cho ADMM
 
 Để biết cách "chế tạo" một phiên bản ADMM chạy nhanh gấp nhiều lần phiên bản sách giáo khoa, hãy ghi nhớ ba nguyên lý sau:
 
@@ -21,7 +21,7 @@ Một sai lầm phổ biến của người mới dùng ADMM là nghĩ rằng v�
 - **Khai thác bộ giải bài toán con tuyến tính $$O(n)$$:** Bài toán Fused Lasso 1D (khử nhiễu trên một đường thẳng $$m$$ điểm) có thuật toán quy hoạch động giải **chính xác tuyệt đối** trong thời gian $$O(m)$$ (thuật toán Johnson 2013 / Condat 2013). Do đó, tách lưới 2D thành các chuỗi 1D theo hàng và theo cột cho phép giải song song toàn bộ các hàng rồi toàn bộ các cột mà không cần giải hệ tuyến tính lớn!
 - **Cân bằng giữa chi phí mỗi vòng và số vòng lặp:** Một cách tách biến tốt có thể hơi phức tạp hơn về công thức toán tử proximal, nhưng nếu nó gom được nhiều cấu trúc của bài toán vào mỗi khối (giảm độ lỏng của ràng buộc phụ), tổng thời gian chạy sẽ giảm đi theo cấp số nhân.
 
-### Khung giải thích (nên đọc chậm): So sánh trực tiếp độ phức tạp hai cách tách ADMM cho ảnh $$100 \times 100$$
+### Giải thích: So sánh trực tiếp độ phức tạp hai cách tách ADMM cho ảnh $$100 \times 100$$
 
 Xét bài toán khử nhiễu ảnh Fused Lasso 2D trên một bức ảnh nhỏ $$100 \times 100$$ điểm ảnh (tổng cộng $$n = 10{,}000$$ biến $$\beta_{i,j}$$, với $$19{,}800$$ cặp cạnh kề ngang–dọc):
 

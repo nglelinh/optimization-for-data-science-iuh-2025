@@ -11,7 +11,7 @@ lang: en
 
 After seeing LPs, SOCPs, and SDPs, you might notice a striking pattern: every single one minimizes a *linear* objective $$c^T x$$ subject to affine equalities $$Ax = b$$ and a membership constraint saying that an affine expression must stay inside a convex cone $$K$$. Conic Programming (CP) is the grand unified abstraction that captures all of them—plus exponential and power cones—under one mathematical roof and one solver API.
 
-## Background Knowledge Map: The Unified Conic Framework
+## Key ideas: The Unified Conic Framework
 
 1. **Proper Cones and Generalized Inequalities**: A cone $$K \subseteq \mathbb{R}^m$$ is *proper* if it is convex, closed, solid (non-empty interior), and pointed ($$K \cap (-K) = \{0\}$$). Any proper cone induces a partial order $$u \preceq_K v \iff v - u \in K$$, generalizing scalar $$\le$$ to vectors and matrices.
 2. **All Canonical Classes as Choices of $$K$$**:
@@ -22,7 +22,7 @@ After seeing LPs, SOCPs, and SDPs, you might notice a striking pattern: every si
 3. **Why Solvers Love Conic Form**: Moving all nonlinearity out of the objective and constraints and into a small library of standard cones $$K$$ means a solver only needs to know the barrier function and dual cone $$K^\star = \{y : y^T x \ge 0 \;\forall x \in K\}$$ for those few cones.
 4. **Self-Dual Cones**: The three classical cones—$$\mathbb{R}^m_+$$, $$\mathcal{Q}_n$$, and $$\mathbb{S}^k_+$$—are *self-dual* ($$K^\star = K$$), which gives primal–dual interior-point methods extraordinary symmetry and numerical precision.
 
-### Step-by-Step Worked Example (Read Slowly): Unifying an LP and an SOCP Inside One Product Cone
+### Worked example: Unifying an LP and an SOCP Inside One Product Cone
 
 Consider minimizing $$x_1 + x_2$$ subject to $$x_1 \ge 1$$ and $$\sqrt{x_1^2 + x_2^2} \le 2$$. Let us express this single problem as a standard Conic Program $$\min c^T x \text{ s.t. } Fx + g \preceq_K 0$$.
 

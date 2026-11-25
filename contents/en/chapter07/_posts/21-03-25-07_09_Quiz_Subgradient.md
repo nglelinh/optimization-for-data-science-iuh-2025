@@ -14,14 +14,14 @@ redirect_from:
 
 Working with sets of slopes instead of single numbers requires a subtle shift in intuition: addition becomes Minkowski set addition, gradients become convex hulls of active branches, and $$f'(x^\star) = 0$$ becomes set membership $$0 \in \partial f(x^\star)$$. This Chapter 07 quiz tests your fluency across subgradient definitions, normal cones, calculus rules, Lasso optimality, soft-thresholding, and distance-function subgradients.
 
-## Background Knowledge Map: Chapter 07 Assessment Pillars
+## Key ideas: Chapter 07 Assessment Pillars
 
 1. **Definition & Existence**: Checking $$f(y) \ge f(x) + g^T(y - x)$$ globally, knowing $$\partial f(x)$$ is always closed and convex, and recognizing when $$\partial f(x) = \{\nabla f(x)\}$$ vs. an interval or ball.
 2. **Subgradient Calculus**: Applying positive scaling ($$a > 0$$), Minkowski addition, affine composition ($$A^T \partial f(Ax + b)$$), and the active-set convex-hull rule for pointwise maxima.
 3. **Indicator Functions & Normal Cones**: Translating constrained problems into $$f + I_C$$ using $$\partial I_C(x) = N_C(x)$$ and verifying $$-\nabla f(x^\star) \in N_C(x^\star)$$.
 4. **Universal Optimality & Canonical Examples**: Testing $$0 \in \partial f(x^\star)$$ to solve Lasso correlation conditions, soft-thresholding $$S_\lambda(y)$$, and Euclidean distance gradients $$(x - P_C(x))/\|x - P_C(x)\|_2$$.
 
-### Step-by-Step Worked Example (Read Slowly): Pre-Quiz Subdifferential Check on $$\|x\|_\infty$$
+### Worked example: Pre-Quiz Subdifferential Check on $$\|x\|_\infty$$
 
 **Warm-Up Question**: Compute $$\partial f(x)$$ for $$f(x_1, x_2) = \|x\|_\infty = \max\{|x_1|, |x_2|\}$$ at the point $$x = (2, -2)$$.
 

@@ -16,14 +16,14 @@ redirect_from:
 
 Trước khi làm bộ câu hỏi trắc nghiệm bên dưới, hãy dành vài phút quét lại bốn trụ cột cốt lõi và thử tự tay kiểm tra bài toán chẩn đoán nhanh dưới đây.
 
-## Bản đồ kiến thức nền: Bốn vùng kiểm tra trọng tâm của Chương 00
+## Kiến thức cần nhớ: Bốn vùng kiểm tra trọng tâm của Chương 00
 
 - **Kiểm tra Giải tích:** Phân biệt được liên tục – liên tục đều – Lipschitz; tính nhanh gradient, đạo hàm theo hướng $$D_u f = \nabla f^T u$$ và khai triển Taylor bậc 1–2.
 - **Kiểm tra Đại số tuyến tính:** Nắm chắc độc lập tuyến tính, chuẩn vector, hạng ma trận, cách tính giá trị riêng qua vết/định thức và tiêu chuẩn ma trận xác định dương.
 - **Kiểm tra Tập hợp & Tôpô:** Nhận diện đúng tập mở, tập đóng, biên, tập compact và điều kiện áp dụng định lý Weierstrass cho sự tồn tại nghiệm tối ưu.
 - **Kiểm tra Xác suất & Thống kê:** Sử dụng thành thạo quy tắc Bayes, phân biệt mật độ các phân phối chuẩn/Laplace/Bernoulli và thiết lập bài toán MLE qua log-likelihood.
 
-### Khung giải thích (nên đọc chậm): Bài toán chẩn đoán tổng hợp cả 4 trụ cột trong 4 bước
+### Giải thích: Bài toán chẩn đoán tổng hợp cả 4 trụ cột trong 4 bước
 
 Xét bài toán tối ưu có ràng buộc:
 $$\min_{x_1, x_2} f(x_1, x_2) = \frac{1}{2}(x_1^2 + 4x_2^2) - 2x_1 - 8x_2 \quad \text{thỏa mãn} \quad x_1 + x_2 \le 4,\ x_1 \ge 0,\ x_2 \ge 0.$$

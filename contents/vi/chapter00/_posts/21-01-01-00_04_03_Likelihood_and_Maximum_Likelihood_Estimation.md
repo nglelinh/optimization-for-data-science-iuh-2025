@@ -14,14 +14,14 @@ Xác suất trả lời câu hỏi xuôi: *"Biết đồng xu có tỷ lệ ng�
 
 Điều tuyệt vời là khi lấy logarit hàm hợp lý, hàng loạt bài toán MLE kinh điển trở thành bài toán cực đại hóa hàm lõm (hay cực tiểu hóa hàm lồi), cho phép giải chính xác bằng giải tích hoặc thuật toán lồi.
 
-## Bản đồ kiến thức nền: Cấu trúc tối ưu hóa của MLE
+## Kiến thức cần nhớ: Cấu trúc tối ưu hóa của MLE
 
 - **Hàm hợp lý ($$L(\theta \mid x)$$):** Giữ cố định dữ liệu đã quan sát $$x$$ và coi xác suất (hoặc mật độ) là một hàm số theo tham số $$\theta$$ cần tối ưu.
 - **Biến đổi Log-Likelihood ($$\ell(\theta) = \log L(\theta)$$):** Vì hàm $$\log$$ tăng nghiêm ngặt, $$\arg\max_\theta L(\theta) = \arg\max_\theta \ell(\theta)$$. Phép biến đổi này vừa tránh tràn số dưới (underflow) khi nhân hàng nghìn xác suất nhỏ, vừa biến tích thành tổng dễ lấy đạo hàm.
 - **Điều kiện bậc nhất (Score = 0) và bậc hai (Thông tin Fisher):** Giải $$\nabla_\theta \ell(\theta) = 0$$ tìm ứng viên tối ưu; kiểm tra ma trận Hessian $$\nabla^2_\theta \ell(\theta) \prec 0$$ xác nhận điểm cực đại (thậm chí cực đại toàn cục nếu $$\ell(\theta)$$ lõm).
 - **Mở rộng sang MAP và điều chuẩn:** Nhân thêm phân phối tiên nghiệm $$p(\theta)$$ trước khi lấy log sẽ cộng thêm số hạng $$-\log p(\theta)$$ vào hàm mất mát — biến MLE thành tối ưu hóa có điều chuẩn (như Ridge khi tiên nghiệm là Gauss).
 
-### Khung giải thích (nên đọc chậm): Tính tay MLE cho bài toán tung đồng xu 10 lần ra 7 mặt ngửa
+### Giải thích: Tính tay MLE cho bài toán tung đồng xu 10 lần ra 7 mặt ngửa
 
 Giả sử tung một đồng xu độc lập $$n = 10$$ lần và quan sát được $$k = 7$$ mặt ngửa, $$3$$ mặt sấp. Ta tìm tham số $$p \in (0, 1)$$ hợp lý nhất:
 

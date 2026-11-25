@@ -14,7 +14,7 @@ redirect_from:
 
 Cách nhanh nhất để thực sự làm chủ phương pháp điểm trong gốc–đối ngẫu là tự tay lắp ráp hệ phương trình đường trung tâm, giải thử hệ Newton trên giấy với bài toán 2 biến, rồi tự viết vài chục dòng mã quan sát ba phần dư $$r_{\text{prim}}, r_{\text{dual}}, \eta$$ rơi tự do về không qua từng vòng lặp. Bộ bài tập thực hành này dẫn bạn đi từ việc giải tay đường trung tâm của LP cho đến phân tích bước Newton và cài đặt thuật toán hoàn chỉnh.
 
-## Bản đồ kiến thức nền: Quy trình 4 bước giải mọi bài tập thực hành PD-IPM
+## Kiến thức cần nhớ: Quy trình 4 bước giải mọi bài tập thực hành PD-IPM
 
 Khi tiếp cận các bài tập tính tay và lập trình bên dưới, hãy luôn đi theo bốn bước kiểm soát chặt chẽ sau để tránh sai dấu:
 
@@ -23,7 +23,7 @@ Khi tiếp cận các bài tập tính tay và lập trình bên dưới, hãy l
 - **Giữ chặt tính điểm trong khi cập nhật:** Trước mỗi phép cập nhật $$(x, u, v) + \theta(\Delta x, \Delta u, \Delta v)$$, luôn kiểm tra tỷ lệ chạm biên $$\theta_{\max}$$ cho cả biến gốc $$h(x) < 0$$ và biến đối ngẫu $$u > 0$$.
 - **Kiểm chứng chéo kết quả:** Ở mỗi điểm tính được, kiểm tra lại tích $$x_i s_i \approx \tau$$ và đối chiếu giá trị hàm mục tiêu gốc $$f(x)$$ với giá trị đối ngẫu $$g(u, v)$$ để phát hiện lỗi tính toán ngay lập tức.
 
-### Khung giải thích (nên đọc chậm): Khởi động bằng một phép kiểm tra 1 bước trên bài toán bậc hai có ràng buộc không âm
+### Giải thích: Khởi động bằng một phép kiểm tra 1 bước trên bài toán bậc hai có ràng buộc không âm
 
 Trước khi bắt đầu Bài tập 1, hãy thử kiểm tra nhanh một vòng lặp trên bài toán tối ưu 2 biến:
 

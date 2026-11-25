@@ -13,7 +13,7 @@ Nếu bạn từng nghe đến các thuật toán tối ưu không trơn nổi t
 
 Toán tử này xuất hiện ngay khi ta giải trường hợp đơn giản nhất của Lasso với ma trận trực giao $$X = I$$: $$\min_\beta \frac{1}{2}\|y - \beta\|_2^2 + \lambda\|\beta\|_1$$. Nhờ bài toán tách hoàn toàn thành $$p$$ bài toán 1 chiều độc lập, điều kiện subgradient $$0 \in \partial f(\beta^\star)$$ cho ta một **công thức nghiệm đóng tuyệt đẹp**!
 
-## Bản đồ kiến thức nền: Giải phẫu Toán tử Ngưỡng mềm $$S_\lambda(y)$$
+## Kiến thức cần nhớ: Giải phẫu Toán tử Ngưỡng mềm $$S_\lambda(y)$$
 
 Ba trụ cột sau làm rõ cấu trúc và ứng dụng rộng lớn của Soft-Thresholding:
 
@@ -22,7 +22,7 @@ Ba trụ cột sau làm rõ cấu trúc và ứng dụng rộng lớn của Soft
   $$\beta_i^\star = S_\lambda(y_i) = \begin{cases} y_i - \lambda & \text{nếu } y_i > \lambda \\ 0 & \text{nếu } |y_i| \le \lambda \\ y_i + \lambda & \text{nếu } y_i < -\lambda \end{cases} = \operatorname{sign}(y_i)\max(|y_i| - \lambda,\; 0).$$
 - **Ngưỡng mềm (Soft) vs. Ngưỡng cứng (Hard) & Toán tử Proximal:** Khác với ngưỡng cứng (giữ nguyên $$y_i$$ khi $$|y_i| > \lambda$$ nên bị nhảy gián đoạn tại $$\pm \lambda$$), ngưỡng mềm là hàm **liên tục** kéo mọi giá trị về gần 0 một khoảng $$\lambda$$ và dập tắt hoàn toàn mọi nhiễu nằm trong "vùng chết" $$[-\lambda, \lambda]$$. Đây chính là **toán tử proximal** $$\operatorname{prox}_{\lambda\|\cdot\|_1}(y)$$ dùng trong xử lý ảnh wavelet và thuật toán ISTA!
 
-### Khung giải thích (nên đọc chậm): Áp dụng Soft-Thresholding bằng tay lên một vector tín hiệu có nhiễu
+### Giải thích: Áp dụng Soft-Thresholding bằng tay lên một vector tín hiệu có nhiễu
 
 Giả sử ta đo được vector tín hiệu lẫn nhiễu $$y = (4.5,\; -0.8,\; 0.3,\; -3.2,\; 1.0)^T$$ và áp dụng ngưỡng mềm với $$\lambda = 1.0$$:
 

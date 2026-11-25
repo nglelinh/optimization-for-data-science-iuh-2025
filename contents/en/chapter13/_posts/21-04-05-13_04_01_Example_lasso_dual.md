@@ -11,14 +11,14 @@ lang: en
 
 At first glance, the Lasso objective $$\frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\beta\|_1$$ has *no constraints*—so taking its Lagrange dual directly yields a useless constant. Yet by introducing a single dummy residual variable $$z = X\beta$$, the nonsmooth $$\ell_1$$ penalty magically flips into an $$\ell_\infty$$ polytope constraint, turning Lasso into the clean geometric problem of projecting the response vector $$y$$ onto a polytope!
 
-## Background Knowledge Map: Anatomy of the Lasso Dual
+## Key ideas: Anatomy of the Lasso Dual
 
 - **Pillar 1 — Variable Splitting Creates a Nontrivial Dual:** Introducing $$z = X\beta$$ decouples the smooth quadratic fit $$\frac{1}{2}\|y-z\|_2^2$$ from the nonsmooth sparsity penalty $$\lambda\|\beta\|_1$$.
 - **Pillar 2 — Conjugate of Quadratic + Conjugate of $$\ell_1$$ Norm:** Minimizing over $$z$$ yields the shifted quadratic $$\frac{1}{2}\|y\|_2^2 - \frac{1}{2}\|y-u\|_2^2$$, while minimizing over $$\beta$$ produces the indicator constraint $$\|X^T u\|_\infty \le \lambda$$.
 - **Pillar 3 — Geometric Projection View:** Maximizing $$\frac{1}{2}\|y\|_2^2 - \frac{1}{2}\|y-u\|_2^2$$ over $$\|X^T u\|_\infty \le \lambda$$ is identical to finding the Euclidean projection of $$y$$ onto the dual polytope $$\mathcal{P}_\lambda = \{u : \|X^T u\|_\infty \le \lambda\}$$.
 - **Pillar 4 — Primal–Dual Residual Link ($$X\beta^\star = y - u^\star$$):** Stationarity in $$z$$ gives $$u^\star = y - X\beta^\star$$, so the optimal dual vector is literally the Lasso fit's residual vector, and active features correspond to facets of $$\mathcal{P}_\lambda$$ where $$|x_j^T u^\star| = \lambda$$.
 
-### Step-by-Step Worked Example (Read Slowly): Solving a 2-Observation, 1-Feature Lasso via Its Dual
+### Worked example: Solving a 2-Observation, 1-Feature Lasso via Its Dual
 
 Let $$y = \begin{bmatrix} 3 \\ 1 \end{bmatrix}$$, $$X = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$, and $$\lambda = 2$$.
 

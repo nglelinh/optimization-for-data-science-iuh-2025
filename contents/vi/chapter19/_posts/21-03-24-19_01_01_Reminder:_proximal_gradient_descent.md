@@ -11,7 +11,7 @@ lang: vi
 
 Trước khi leo lên bậc thang của phương pháp bậc hai, ta cần đứng thật vững trên bậc thang bậc nhất. Proximal gradient descent (PGD) không chỉ là một công thức mẹo vặt ghép bước gradient với toán tử $$\operatorname{prox}_t$$ — đằng sau nó là một diễn giải hình học tuyệt đẹp: ở mỗi bước, ta thay thế hàm trơn $$g$$ bằng xấp xỉ bậc hai cầu (isotropic quadratic approximation) có độ cong $$\frac{1}{t}I$$, giữ nguyên hàm không trơn $$h$$, rồi tìm cực tiểu chính xác của mô hình đó. Chính diễn giải "xấp xỉ bậc hai cộng $$h$$" này là cầu nối tự nhiên nhất sang Newton proximal.
 
-## Bản đồ kiến thức nền: Ba trụ cột của Proximal Gradient Descent
+## Kiến thức cần nhớ: Ba trụ cột của Proximal Gradient Descent
 
 Ôn lại nhanh ba khái niệm cốt lõi từ Chương 9 dưới góc nhìn mở đường cho Chương 19:
 
@@ -19,7 +19,7 @@ Trước khi leo lên bậc thang của phương pháp bậc hai, ta cần đứ
 - **Diễn giải cực tiểu hóa mô hình thay thế (Majorization–Minimization):** Nếu $$\nabla g$$ liên tục Lipschitz với hằng số $$L$$ và chọn $$t \le 1/L$$, mô hình $$g(x) + \nabla g(x)^T(y-x) + \frac{1}{2t}\|y-x\|_2^2 + h(y)$$ luôn nằm phía trên hàm thực $$g(y) + h(y)$$, nên mỗi bước PGD chắc chắn làm giảm giá trị hàm mục tiêu.
 - **Giới hạn của độ cong đẳng hướng $$\frac{1}{t}I$$:** Dùng chung một vô hướng $$1/t$$ cho mọi chiều buộc thuật toán phải thu nhỏ bước đi theo chiều cong gắt nhất ($$L$$), gây chậm trễ nghiêm trọng trên các chiều thoải hơn — tạo ra khoảng trống để Newton proximal thay $$\frac{1}{t}I$$ bằng $$\nabla^2 g(x)$$.
 
-### Khung giải thích (nên đọc chậm): Tính tay bước PGD với ngưỡng mềm (Soft-Thresholding)
+### Giải thích: Tính tay bước PGD với ngưỡng mềm (Soft-Thresholding)
 
 Xét bài toán Lasso 1 chiều:
 

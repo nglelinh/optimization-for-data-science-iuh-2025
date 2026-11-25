@@ -11,14 +11,14 @@ lang: en
 
 If you plot the objective value of batch versus stochastic subgradient on a real logistic regression problem, you immediately see a classic crossing-curves story: in the first few passes over the data, the stochastic curve plummets while the batch curve barely budges; later on, the stochastic curve flattens into a noisy jitter floor while the batch curve steadily grinds past it to higher accuracy. Understanding *why* those two curves cross is the key to choosing the right method—and to designing hybrid schedules like mini-batching or increasing batch sizes.
 
-## Background Knowledge Map: The Two Regimes of Batch vs. Stochastic Optimization
+## Key ideas: The Two Regimes of Batch vs. Stochastic Optimization
 
 - **Pillar 1 — Early Transient Regime (Signal Dominates Noise):** Far from $$x^\star$$, almost all data points agree on the rough direction toward the optimum. Paying $$m$$ evaluations to average $$m$$ nearly identical subgradients is wasteful; taking $$m$$ cheap stochastic steps makes dramatically faster progress per pass over the data.
 - **Pillar 2 — Asymptotic Accuracy Regime (Noise Dominates Signal):** Near $$x^\star$$, individual component subgradients cancel each other out ($$\sum g_i \approx 0$$) while each individual $$\|g_i\|$$ remains large. Batch averaging eliminates this variance cleanly, whereas a stochastic method must shrink $$t_k \to 0$$ to suppress it, slowing convergence.
 - **Pillar 3 — Mini-Batching as a Continuous Dial:** Averaging $$b$$ sampled subgradients ($$1 \le b \le m$$) reduces step variance by a factor of $$b$$ while keeping iteration cost $$m/b$$ times smaller than full batch—and maps cleanly onto vectorized GPU/SIMD hardware.
 - **Pillar 4 — Practical Hybrid Strategy:** Start with small batches (or pure stochastic steps) to burn through the initial distance $$R$$ in a handful of epochs, then increase batch size or anneal the step size once the objective enters the noise floor.
 
-### Step-by-Step Worked Example (Read Slowly): Computing the Exact Crossover Point Between Batch and Stochastic Progress
+### Worked example: Computing the Exact Crossover Point Between Batch and Stochastic Progress
 
 Suppose we minimize $$\frac{1}{m}\sum_{i=1}^m f_i(x)$$ with $$m = 1{,}000$$ samples, $$R = 10$$, $$G = 1$$, and measure computational cost in **epochs** (1 epoch = $$1{,}000$$ component subgradient evaluations).
 

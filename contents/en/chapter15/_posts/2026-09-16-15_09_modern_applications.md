@@ -12,14 +12,14 @@ lesson_type: optional
 
 You might think you have never run a log-barrier method—until you write `prob.solve()` in CVXPY 1.5+. Under the hood, **Clarabel** immediately wraps your linear, quadratic, second-order-cone, or semidefinite constraints in self-concordant barriers and tracks a central path. Even more remarkably, in 2022–2026 that exact same barrier machinery powers safe reinforcement learning (**IPO / OmniSafe**) and differentiable optimization layers inside PyTorch and JAX (**cvxpylayers**)!
 
-## Background Knowledge Map: From Chapter 15 Theory to 2022–2026 Systems
+## Key ideas: From Chapter 15 Theory to 2022–2026 Systems
 
 - **Pillar 1 — Clarabel as CVXPY's Default Conic IPM:** Clarabel solves conic QPs across nonnegative, second-order, exponential, power, and PSD cones using self-concordant barriers and sparse KKT Newton factorizations.
 - **Pillar 2 — High-Accuracy Conic QPs vs. First-Order Splitting:** Barrier IPMs beat ADMM/OSQP whenever high precision ($$10^{-8}$$ certificates) is needed in portfolio optimization, tracking-error SOCPs, and Model Predictive Control (MPC).
 - **Pillar 3 — Log Barriers in Safe RL (IPO & OmniSafe):** Adding $$-\frac{1}{t}\log(d - J_C(\pi))$$ directly to a policy objective keeps neural policies strictly inside safety budgets using first-order PPO updates when Hessians are too big to form.
 - **Pillar 4 — Differentiable Optimization Layers (`cvxpylayers`):** Implicitly differentiating the central-path / KKT Jacobian lets deep networks backpropagate through `prob.solve()` without unrolling iterative solvers.
 
-### Step-by-Step Worked Example (Read Slowly): Implicit Differentiation Through a Log-Barrier Solution Map
+### Worked example: Implicit Differentiation Through a Log-Barrier Solution Map
 
 Suppose a differentiable layer solves the 1D barrier-regularized problem $$x^*(\theta) = \arg\min_{x > 0} \left(\frac{1}{2}(x - \theta)^2 - \frac{1}{t}\log(x)\right)$$ for an upstream neural-network output $$\theta = 1$$ with $$t = 1$$. We want the backward-pass gradient $$\frac{dx^*}{d\theta}$$ without unrolling Newton steps!
 

@@ -13,13 +13,13 @@ Kết thúc hành trình Chương 08, ta mang theo một cảm giác vừa phấ
 
 Câu hỏi lớn mở ra cánh cửa sang Chương 09 là: *có phải ta đang lãng phí thông tin không?* Hãy nhìn lại bài toán Lasso $$\frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\beta\|_1$$ hay hồi quy logistic có điều chuẩn $$\ell_1$$. Chúng đâu có "xấu xí không trơn ở khắp mọi nơi"! Thực ra chúng là tổng của một hàm **rất đẹp, trơn mượt** $$g(x)$$ cộng với một hàm **không trơn nhưng cực kỳ đơn giản** $$h(x)$$. Phương pháp subgradient đối xử với cả hai như nhau — vứt bỏ hoàn toàn tính trơn của $$g(x)$$! Nếu biết tách riêng hai phần ấy ra, ta có thể kéo tốc độ hội tụ từ $$O(1/\epsilon^2)$$ nhảy vọt lên $$O(1/\epsilon)$$, và thậm chí $$O(1/\sqrt{\epsilon})$$ khi tăng tốc!
 
-## Bản đồ kiến thức nền: Ba con đường vượt qua rào cản $$O(1/\epsilon^2)$$
+## Kiến thức cần nhớ: Ba con đường vượt qua rào cản $$O(1/\epsilon^2)$$
 
 - **Khai thác cấu trúc phân tách (Composite Structure $$f = g + h$$):** Thay vì dùng hộp đen subgradient cho toàn bộ $$f$$, ta dùng gradient $$\nabla g(x)$$ trên phần trơn và xử lý chính xác phần không trơn $$h(x)$$ bằng toán tử gần kề (proximal operator). Đây chính là nền tảng của **Proximal Gradient Descent (Chương 09)**, khôi phục tốc độ $$O(1/\epsilon)$$ và $$O(1/\sqrt{\epsilon})$$ (FISTA).
 - **Làm trơn hóa có kiểm soát (Nesterov Smoothing):** Với một số hàm không trơn dạng $$\max_u (\langle Ax, u\rangle - \phi(u))$$, ta có thể cộng thêm số hạng điều chuẩn mạnh nhỏ $$\mu$$ để tạo xấp xỉ trơn $$f_\mu$$ có gradient Lipschitz $$O(1/\mu)$$, rồi chạy gradient tăng tốc để đạt tốc độ $$O(1/\epsilon)$$ thay vì $$O(1/\epsilon^2)$$.
 - **Khai thác cấu trúc hình học phi Euclid (Mirror Descent & Bundle Methods):** Thay chuẩn Euclid bằng phân kỳ Bregman (ví dụ entropy âm trên đơn hình xác suất) giúp giảm mạnh hằng số chiều $$n$$ từ $$O(\sqrt{n})$$ xuống $$O(\sqrt{\ln n})$$; còn phương pháp bó (bundle methods) lưu lại nhiều siêu phẳng đỡ quá khứ để xấp xỉ hàm lồi tốt hơn nhiều so với chỉ giữ 1 subgradient hiện tại.
 
-### Khung giải thích (nên đọc chậm): Một phép thử tính tay cho thấy vì sao "tách cấu trúc" thắng áp đảo subgradient
+### Giải thích: Một phép thử tính tay cho thấy vì sao "tách cấu trúc" thắng áp đảo subgradient
 
 Xét bài toán tối ưu tổng hợp 1D:
 $$\min_{x \in \mathbb{R}} \; f(x) = \underbrace{\frac{1}{2}(x - 3)^2}_{g(x)\text{ trơn, }L=1} + \underbrace{|x|}_{h(x)\text{ không trơn}}.$$

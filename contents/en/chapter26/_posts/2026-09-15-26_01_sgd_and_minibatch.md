@@ -12,14 +12,14 @@ lesson_type: required
 
 At the heart of every deep learning training run sits a deceptively simple statistical trick: instead of averaging the gradient over all $$n$$ training points, average it over a random minibatch of $$B$$ points. That single substitution changes optimization from a deterministic descent into a biased-free random walk—one that initially rockets downhill far faster than full-batch gradient descent, yet eventually hits a "noise ball" around the minimum unless the learning rate decays.
 
-## Background Knowledge Map: Variance, Step-Size Schedules, and Random Reshuffling in SGD
+## Key ideas: Variance, Step-Size Schedules, and Random Reshuffling in SGD
 
 - **Unbiasedness & Variance Scaling:** For a uniform minibatch $$S_k$$ of size $$B$$ (with replacement), $$\mathbb{E}[g_k \mid w_k] = \nabla F(w_k)$$ and $$\operatorname{Var}(g_k \mid w_k) = \frac{1}{B}\operatorname{Var}(\nabla f_I(w_k)) \le \frac{\sigma^2}{B}$$. Doubling $$B$$ halves variance but doubles work per step until GPU parallelism saturates.
 - **The $$O(\sigma / \sqrt{T})$$ Ceiling:** Because constant-step SGD bounces inside a neighborhood of radius $$O(\eta \sigma^2)$$ around $$w^\star$$, decaying step sizes $$\eta_k \propto 1/\sqrt{k}$$ (or Polyak–Ruppert averaging) are required to reach $$O(1/\sqrt{T})$$ expected suboptimality on convex objectives.
 - **Linear Scaling Rule & Critical Batch Size:** Increasing batch size $$B \to k B$$ reduces gradient variance by $$k$$, allowing a larger learning rate (up to the noise-dominated critical batch size $$B_{\text{crit}}$$), beyond which larger batches waste compute without speeding up convergence.
 - **Random Reshuffling vs. i.i.d. Sampling:** Shuffling the dataset once per epoch (sampling without replacement) introduces negative correlation between consecutive gradients, empirically converging faster than i.i.d. sampling while avoiding adversarial cyclic ordering.
 
-### Step-by-Step Worked Example (Read Slowly): Computing Minibatch Variance and the SGD Noise Floor
+### Worked example: Computing Minibatch Variance and the SGD Noise Floor
 
 Consider a 1D finite sum $$F(w) = \frac{1}{2}\bigl(f_1(w) + f_2(w)\bigr)$$ where $$f_1(w) = \frac{1}{2}(w - 1)^2$$ and $$f_2(w) = \frac{1}{2}(w + 1)^2$$. Clearly $$F(w) = \frac{1}{2}(w^2 + 1)$$ has unique minimizer $$w^\star = 0$$ with $$F'(0) = 0$$.
 

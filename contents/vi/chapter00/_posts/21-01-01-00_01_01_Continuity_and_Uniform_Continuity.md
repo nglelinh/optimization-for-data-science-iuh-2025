@@ -14,14 +14,14 @@ Thoạt nghe, phân biệt giữa *liên tục*, *liên tục đều* và *liên
 
 Bài học này giúp bạn nhìn thấu bậc thang chặt chẽ dần từ liên tục điểm đến liên tục đều và liên tục Lipschitz — khái niệm xuất hiện trong hầu hết mọi định lý hội tụ của tối ưu hóa hiện đại.
 
-## Bản đồ kiến thức nền: Từ liên tục cục bộ đến kiểm soát tốc độ biến thiên toàn cục
+## Kiến thức cần nhớ: Từ liên tục cục bộ đến kiểm soát tốc độ biến thiên toàn cục
 
 - **Tính liên tục tại điểm (Pointwise Continuity):** Đảm bảo không có bước nhảy đứt gãy tại $$x_0$$; tuy nhiên bán kính an toàn $$\delta$$ có thể phải thu nhỏ tùy ý khi $$x_0$$ thay đổi vị trí.
 - **Tính liên tục đều (Uniform Continuity):** Nâng chuẩn lên mức toàn cục: tồn tại **một** $$\delta(\epsilon)$$ duy nhất dùng chung cho mọi điểm trên miền xét. Trên tập compact (đóng và bị chặn), định lý Heine–Cantor bảo đảm mọi hàm liên tục tự động liên tục đều.
 - **Tính liên tục Lipschitz (Lipschitz Continuity):** Đặt một "trần tốc độ" tuyến tính rõ ràng: $$|f(x) - f(y)| \le L\|x - y\|$$. Hằng số $$L$$ chính là cận trên toàn cục của độ dốc, cho phép tính trước số vòng lặp cần thiết để đạt sai số $$\epsilon$$.
 - **Chuỗi bao hàm trong tối ưu hóa:** $$\text{Lipschitz} \subset \text{Liên tục đều} \subset \text{Liên tục}$$. Trong nhiều bài toán học máy, ta cần $$L$$-Lipschitz cho bản thân hàm $$f$$ (với hàm không trơn như ReLU, Hinge loss) hoặc cho gradient $$\nabla f$$ (gọi là tính trơn $$L$$-smooth).
 
-### Khung giải thích (nên đọc chậm): Vì sao $$f(x) = x^2$$ Lipschitz trên $$[0, 3]$$ nhưng không liên tục đều trên $$\mathbb{R}$$?
+### Giải thích: Vì sao $$f(x) = x^2$$ Lipschitz trên $$[0, 3]$$ nhưng không liên tục đều trên $$\mathbb{R}$$?
 
 Hãy tự kiểm chứng bằng tay trên hàm quen thuộc $$f(x) = x^2$$:
 

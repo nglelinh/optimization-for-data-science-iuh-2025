@@ -11,14 +11,14 @@ lang: en
 
 Watch a plot of error versus iteration for damped Newton's method on a log scale and you will always see a dramatic elbow: first a steady straight ramp downward, then suddenly a vertical cliff where the error drops from $$10^{-2}$$ to $$10^{-15}$$ in four iterations. Classical convergence theory explains that exact two-act structure by splitting the algorithm into the **damped phase** (constant objective drop per step) and the **quadratically convergent pure phase** (unit steps, digits doubling).
 
-## Background Knowledge Map: The Two-Phase Convergence Theorem
+## Key ideas: The Two-Phase Convergence Theorem
 
 - **Pillar 1 — Three Smoothness Assumptions ($$m, L, M$$):** Strong convexity ($$mI \preceq \nabla^2 f(x)$$), gradient smoothness ($$\nabla^2 f(x) \preceq LI$$), and Hessian Lipschitz continuity ($$\|\nabla^2 f(x) - \nabla^2 f(y)\|_2 \le M\|x-y\|_2$$) control how faithfully the local quadratic tracks $$f$$.
 - **Pillar 2 — Phase I (Damped Phase, $$\|\nabla f(x^{(k)})\|_2 \ge \eta$$):** Backtracking guarantees a fixed minimum drop $$f(x^{(k+1)}) - f(x^{(k)}) \le -\gamma$$ at every iteration, bounding the total number of damped steps by $$(f(x^{(0)}) - f^\star)/\gamma$$.
 - **Pillar 3 — Phase II (Pure Quadratic Phase, $$\|\nabla f(x^{(k)})\|_2 < \eta$$):** Once the gradient norm crosses below $$\eta \le \frac{m^2}{M}$$, backtracking always accepts $$t = 1$$ and the gradient norm squares at each step: $$\frac{M}{2m^2}\|\nabla f(x^{(k+1)})\|_2 \le \left(\frac{M}{2m^2}\|\nabla f(x^{(k)})\|_2\right)^2$$.
 - **Pillar 4 — Total Iteration Complexity:** Combining both phases yields at most $$\frac{f(x^{(0)}) - f^\star}{\gamma} + \log_2 \log_2(\epsilon_0/\epsilon)$$ iterations—notice that reaching $$10^{-12}$$ accuracy instead of $$10^{-6}$$ costs only **one** extra Newton step!
 
-### Step-by-Step Worked Example (Read Slowly): Computing Phase-II Quadratic Contraction Numbers
+### Worked example: Computing Phase-II Quadratic Contraction Numbers
 
 Suppose a strongly convex function has $$m = 2$$ and Hessian Lipschitz constant $$M = 1$$, so the quadratic contraction constant is $$C = \frac{M}{2m^2} = \frac{1}{8} = 0.125$$, and the Phase-II threshold is $$\eta = \frac{m^2}{M} = 4$$ (we enter Phase II safely once $$C\|\nabla f(x^{(k)})\|_2 \le \frac{1}{2}$$, i.e., $$\|\nabla f(x^{(k)})\|_2 \le 4$$).
 

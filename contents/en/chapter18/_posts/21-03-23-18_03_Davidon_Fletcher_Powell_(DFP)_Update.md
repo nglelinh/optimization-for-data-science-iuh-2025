@@ -11,14 +11,14 @@ lang: en
 
 When William Davidon's 1959 Argonne report was later formalized and publicized by Roger Fletcher and Michael Powell in 1963, the **DFP update** became the very first practical quasi-Newton algorithm to guarantee **hereditary positive definiteness**. By upgrading from a rank-1 correction to a carefully crafted **rank-2** symmetric update directly on the inverse Hessian $$H = B^{-1}$$, DFP ensured that every search direction $$p_k = -H_k \nabla f(x^k)$$ is automatically a strict descent direction—as long as $$y_k^T s_k > 0$$.
 
-## Background Knowledge Map: The Mechanics and Geometry of DFP
+## Key ideas: The Mechanics and Geometry of DFP
 
 - **Direct Inverse-Hessian Updating ($$H^+$$):** Updating $$H = B^{-1}$$ via $$H^+ = H - \frac{H y y^T H}{y^T H y} + \frac{s s^T}{y^T s}$$ removes a rank-1 piece along $$Hy$$ and adds a rank-1 piece along $$s$$, delivering the search direction $$p^+ = -H^+ \nabla f$$ in $$O(n^2)$$ time with zero linear solves.
 - **Hereditary Positive Definiteness:** If $$H \succ 0$$ and $$y^T s > 0$$, Cauchy–Schwarz gives $$(v^T H v)(y^T H y) \ge (v^T H y)^2$$ for all $$v \neq 0$$, proving $$v^T H^+ v > 0$$ strictly. Descent is mathematically guaranteed at every step.
 - **Variational Minimum-Change Interpretation:** DFP is the unique symmetric matrix $$B^+$$ satisfying $$B^+ s = y$$ that minimizes the weighted Frobenius distance $$\|W^{1/2}(B^+ - B)W^{1/2}\|_F$$ for any $$W \succ 0$$ with $$W y = s$$ (for instance, the average inverse Hessian $$\bar{G}^{-1}$$).
 - **Why BFGS Eventually Surpassed DFP:** Although DFP is superlinearly convergent on convex problems, it tends to struggle with large eigenvalues of $$H_k$$ (self-correcting slowly when initial curvature is overestimated), motivating its dual twin, BFGS.
 
-### Step-by-Step Worked Example (Read Slowly): One Full DFP Update and Positive-Definiteness Check
+### Worked example: One Full DFP Update and Positive-Definiteness Check
 
 Start with $$H_0 = I_2$$ and observe a step $$s = (1, 0)^T$$ with gradient difference $$y = (2, 1)^T$$ (curvature $$y^T s = 2 > 0$$).
 

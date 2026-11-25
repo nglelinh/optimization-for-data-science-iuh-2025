@@ -13,7 +13,7 @@ Trong nhiều thập kỷ, sách giáo khoa thống kê từng dạy một quan 
 
 Hai bài học mở rộng tiếp theo sẽ đảo ngược quan niệm cũ đó: nhờ sự nhảy vọt của công nghệ **Nhánh và Cắt** kết hợp với khởi động nóng từ tối ưu bậc nhất, cả hai bài toán thống kê kinh điển này đều có thể được mô hình hóa gọn gàng thành **quy hoạch nguyên hỗn hợp (MIP)** và giải chính xác ở quy mô thực tế!
 
-## Bản đồ kiến thức nền: Ba trụ cột nối Thống kê cổ điển với MIP hiện đại
+## Kiến thức cần nhớ: Ba trụ cột nối Thống kê cổ điển với MIP hiện đại
 
 Trước khi đi sâu vào chi tiết của từng mô hình ở mục 25-02-01 và 25-02-02, hãy nhìn bức tranh chung qua ba trụ cột:
 
@@ -21,7 +21,7 @@ Trước khi đi sâu vào chi tiết của từng mô hình ở mục 25-02-01 
 - **Sức mạnh mã hóa của Biến nhị phân $$z_i \in \{0, 1\}$$:** Chỉ cần gắn một công tắc $$z_i$$ cho mỗi *đặc trưng* (chọn hay không chọn trong Best Subset) hoặc cho mỗi *mẫu dữ liệu* (tính vào phần dư trung vị hay bỏ qua như điểm ngoại lai trong LMS), ta chuyển toàn bộ tính phi lồi về dạng quy hoạch nguyên hỗn hợp có cấu trúc chặt chẽ.
 - **Chiến lược Lai (Hybrid Warm-Start + MIP):** Tối ưu bậc nhất rời rạc chạy cực nhanh để tìm một nghiệm khả thi chất lượng cao (cận trên $$\bar{z}$$ tốt ngay từ giây đầu tiên), sau đó bộ giải MIP tiếp quản để vừa cải thiện thêm nghiệm vừa cung cấp **chứng nhận tối ưu toàn cục** qua MIP gap.
 
-### Khung giải thích (nên đọc chậm): Minh họa nhỏ vì sao LMS chống điểm ngoại lai vượt trội hơn LS
+### Giải thích: Minh họa nhỏ vì sao LMS chống điểm ngoại lai vượt trội hơn LS
 
 Xét bộ dữ liệu 1 biến chỉ gồm 3 điểm $$(x_i, y_i)$$: $$(1, 1)$$, $$(2, 2)$$, và một điểm ngoại lai nặng $$(3, 10)$$. Ta muốn khớp đường thẳng đi qua gốc tọa độ $$y = \beta x$$.
 

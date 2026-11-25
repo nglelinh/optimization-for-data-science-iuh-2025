@@ -14,14 +14,14 @@ Khi bước ra khỏi các bài tập học thuật gọn gàng để đối m�
 
 Phiên bản tổng hợp cuối chương này kết nối trực tiếp ba khuôn mẫu thuật toán của Chương 08 (subgradient tiêu chuẩn, subgradient có chiếu, và subgradient ngẫu nhiên) với các bài toán công nghiệp tiêu biểu, giúp bạn nhìn thấy toàn cảnh từ lý thuyết hội tụ đến cách thiết kế vòng lặp trong thư viện mã nguồn mở.
 
-## Bản đồ kiến thức nền: Bốn trụ cột triển khai subgradient trong hệ thống AI thực tế
+## Kiến thức cần nhớ: Bốn trụ cột triển khai subgradient trong hệ thống AI thực tế
 
 - **Xử lý hàm mất mát không trơn quy mô lớn:** Từ hinge loss trong phân loại biên rộng, mất mát lượng phân vị (quantile/pinball loss) trong dự báo chuỗi thời gian đến kiến trúc mạng dùng ReLU, subgradient ngẫu nhiên cho phép cập nhật trọng số với chi phí tuyến tính theo kích thước mini-batch.
 - **Áp đặt ràng buộc cứng bằng phép chiếu nhanh:** Trong tối ưu đối kháng (PGD) hay nén mô hình bị chặn biên độ, phép chiếu lên quả cầu $$\ell_\infty$$ hoặc $$\ell_2$$ biến một bài toán ràng buộc phức tạp thành hai dòng phép toán vector hóa.
 - **Điều phối ràng buộc công bằng qua cập nhật đối ngẫu (Dual Subgradient):** Khi bài toán có ràng buộc dạng tỷ lệ giữa các nhóm nhân khẩu học (như trong Fairlearn), nhân tử Lagrange $$\lambda \ge 0$$ đóng vai trò "giá phạt" tự điều chỉnh bằng bước subgradient có chiếu lên nửa trục dương $$\mathbb{R}_+$$.
 - **Nhận diện giới hạn để chọn đúng công cụ:** Biết khi nào tốc độ $$O(1/\epsilon^2)$$ là đủ dùng (huấn luyện mô hình lớn với độ chính xác vừa) và khi nào cần chuyển sang phương pháp phân tách proximal (Chương 09) hoặc giảm phương sai SVRG/SAGA (Chương 26).
 
-### Khung giải thích (nên đọc chậm): Tính tay bước subgradient đối ngẫu cho ràng buộc công bằng
+### Giải thích: Tính tay bước subgradient đối ngẫu cho ràng buộc công bằng
 
 Giả sử một mô hình xét duyệt tín dụng có tỷ lệ duyệt giữa hai nhóm A và B chênh lệch nhau $$v(\theta) = |p_A(\theta) - p_B(\theta)| - 0.05$$ (ta muốn $$v(\theta) \le 0$$, tức chênh lệch không quá 5%). Bài toán đối ngẫu cực đại hóa theo nhân tử phạt $$\lambda \ge 0$$ có phần hàm mục tiêu theo $$\lambda$$ là $$\lambda \cdot v(\theta)$$, nên subgradient hướng tăng của hàm đối ngẫu theo $$\lambda$$ chính là mức vi phạm $$v(\theta)$$!
 

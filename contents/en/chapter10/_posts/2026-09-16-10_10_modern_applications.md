@@ -12,14 +12,14 @@ lesson_type: optional
 
 From pricing megawatts across continental power grids to certifying the safety of deep neural networks and matching high-dimensional probability distributions via optimal transport, LP duality is quietly embedded in modern 2022–2026 software stacks. What makes LP duality uniquely valuable in production is not just strong duality at optimality, but **anytime weak duality**: every dual-feasible vector immediately delivers a rock-solid lower bound or shadow-price interpretation that downstream systems can trust in real time.
 
-## Background Knowledge Map: Four Production Pillars of LP Duality
+## Key ideas: Four Production Pillars of LP Duality
 
 - **Pillar 1 — Anytime Verification Certificates:** In formal verification of ReLU networks, optimizing the LP dual on GPUs produces valid safety lower bounds at *every* iteration, allowing branch-and-bound verifiers to prune safe regions milliseconds after starting.
 - **Pillar 2 — Shadow Prices in Grid Dispatch:** In DC optimal power flow (DC-OPF), the primal minimizes generation cost subject to nodal power balance and thermal line caps; complementary slackness reveals exactly which transmission lines are congested (nonzero dual price) and drives locational price differences.
 - **Pillar 3 — Modern Max-Flow Solvers:** The 2022 near-linear-time $$m^{1+o(1)}$$ max-flow breakthrough combines primal–dual interior-point barriers with dynamic trees, turning classical network-flow duality into an ultra-fast subroutine for vision, clustering, and logistics.
 - **Pillar 4 — Kantorovich Potentials in Optimal Transport:** Dualizing the discrete transport LP reveals potentials $$(\phi, \psi)$$ with $$\phi_i + \psi_j \le C_{ij}$$ that generalize seamlessly to continuous distributions and entropic (Sinkhorn) regularization.
 
-### Step-by-Step Worked Example (Read Slowly): Nodal Shadow Prices (LMPs) in a 2-Bus Power Grid
+### Worked example: Nodal Shadow Prices (LMPs) in a 2-Bus Power Grid
 
 Consider two cities (Bus 1 and Bus 2) connected by a single transmission line with thermal capacity $$F_{\max} = 30$$ MW. Bus 1 has a cheap generator ($$\$20$$/MWh, capacity $$100$$ MW); Bus 2 has an expensive generator ($$\$50$$/MWh, capacity $$100$$ MW) and local demand $$D_2 = 50$$ MW.
 

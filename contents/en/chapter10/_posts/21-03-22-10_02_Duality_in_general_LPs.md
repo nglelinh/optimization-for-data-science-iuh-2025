@@ -12,14 +12,14 @@ lesson_type: required
 
 Once you see how multiplier weights generate lower bounds on 2-variable examples, lifting the same construction to general matrix-vector linear programs $$\min \{c^\top x : Ax = b,\; Gx \le h\}$$ takes just three lines of linear algebra. Instead of memorizing arbitrary sign tables, writing the constraints in matrix form shows immediately how $$A$$ and $$G$$ transpose into the dual constraints $$-A^\top v - G^\top u = c$$ and why the dual objective becomes $$-b^\top v - h^\top u$$.
 
-## Background Knowledge Map: Matrix Mechanics of General LP Duality
+## Key ideas: Matrix Mechanics of General LP Duality
 
 - **Pillar 1 — Transposition of Constraint Matrices:** Primal constraints map $$x \in \mathbb{R}^n$$ to $$m$$ equalities ($$Ax = b$$) and $$r$$ inequalities ($$Gx \le h$$). Dual multipliers $$v \in \mathbb{R}^m$$ and $$u \in \mathbb{R}_+^r$$ map back via $$A^\top$$ and $$G^\top$$ into $$\mathbb{R}^n$$, coupling every primal variable to one dual constraint.
 - **Pillar 2 — Sign Correspondence Dictionary:** Equality primal constraints ($$Ax = b$$) yield *unconstrained* dual variables $$v \in \mathbb{R}^m$$; inequality primal constraints ($$Gx \le h$$) yield *nonnegative* dual variables $$u \ge 0$$. Conversely, unrestricted primal variables $$x \in \mathbb{R}^n$$ yield *equality* dual constraints $$-A^\top v - G^\top u = c$$.
 - **Pillar 3 — Standard Form Special Case:** When the primal is $$\min \{c^\top x : Ax = b,\; x \ge 0\}$$ (i.e., $$G = -I, h = 0$$), eliminating $$u \ge 0$$ from $$-A^\top v + u = c$$ produces the famous compact dual $$\max \{b^\top y : A^\top y \le c\}$$ (where $$y = -v$$).
 - **Pillar 4 — Primal–Dual Dimension Swap:** A primal with $$n$$ variables and $$m + r$$ constraints produces a dual with $$m + r$$ variables and $$n$$ constraints—so when $$n \gg m + r$$, solving the dual can be dramatically faster than solving the primal directly.
 
-### Step-by-Step Worked Example (Read Slowly): Dualizing a Mixed Equality/Inequality LP in Matrix Form
+### Worked example: Dualizing a Mixed Equality/Inequality LP in Matrix Form
 
 Consider the primal LP:
 $$\min_{x \in \mathbb{R}^2}\; 2x_1 - x_2 \quad \text{s.t.} \quad x_1 + x_2 = 4, \quad x_1 \le 3, \quad -x_2 \le 0.$$

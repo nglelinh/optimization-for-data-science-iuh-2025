@@ -13,7 +13,7 @@ Trong suốt thập niên 1960–1980, giới tối ưu từng bị chia làm ha
 
 Bước ngoặt lịch sử đến vào năm 1990 khi Sebastian Ceria cùng nhóm nghiên cứu tại Đại học Carnegie Mellon và IBM nhận ra: *tại sao phải chọn một trong hai?* Nếu ta chỉ thêm vài vòng lát cắt thật sắc bén ở nút gốc để siết chặt đa diện, rồi chuyển sang phân nhánh (và thỉnh thoảng thêm lát cắt ngay tại các nút con), hai nhược điểm triệt tiêu nhau hoàn toàn. Sự kết hợp mang tên **Nhánh và Cắt (Branch and Cut)** đó đã mở ra kỷ nguyên tăng tốc hơn 1 triệu lần về mặt thuật toán của các bộ giải MIP hiện đại!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của kiến trúc Branch and Cut
+## Kiến thức cần nhớ: Bốn trụ cột của kiến trúc Branch and Cut
 
 Mọi bộ giải MIP đỉnh cao ngày nay (Gurobi, CPLEX, SCIP, HiGHS) đều vận hành dựa trên sự phối hợp nhịp nhàng của bốn bánh răng sau:
 
@@ -22,7 +22,7 @@ Mọi bộ giải MIP đỉnh cao ngày nay (Gurobi, CPLEX, SCIP, HiGHS) đều 
 - **Tích hợp Tiền xử lý và Heuristic gốc (Presolve & Primal Heuristics):** Song song với cắt và nhánh, bộ giải liên tục đơn giản hóa ràng buộc (presolve) và chạy heuristic tìm nghiệm nguyên tốt để hạ nhanh cận trên $$u$$, kích hoạt cắt tỉa mạnh trên toàn cây.
 - **Sức mạnh cộng hưởng Thuật toán $$\times$$ Phần cứng:** Như tổng kết kinh điển của Bixby (IBM/Gurobi), tốc độ giải MIP từ 1991 đến 2015 tăng khoảng $$10^9$$ lần — trong đó phần cứng đóng góp khoảng $$10^3$$ lần, còn bản thân thuật toán (nòng cốt là Branch and Cut) đóng góp tới hơn $$10^6$$ lần!
 
-### Khung giải thích (nên đọc chậm): So sánh tay Branch-and-Bound thuần túy với Branch-and-Cut
+### Giải thích: So sánh tay Branch-and-Bound thuần túy với Branch-and-Cut
 
 Xét bài toán quy hoạch nguyên cực tiểu hóa $$\min -5x_1 - 4x_2$$ thỏa mãn $$2x_1 + 2x_2 \le 5,\; x_1, x_2 \in \mathbb{Z}_+$$ (chính là bài toán ta đã mất 5 nút để giải ở bài 24-05!).
 

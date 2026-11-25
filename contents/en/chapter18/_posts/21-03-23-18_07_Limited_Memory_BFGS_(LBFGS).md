@@ -11,14 +11,14 @@ lang: en
 
 Standard BFGS is a triumph—until your problem has $$n = 1{,}000{,}000$$ variables. Storing a dense $$10^6 \times 10^6$$ inverse Hessian $$H_k$$ in double precision would require **8 terabytes of RAM**, crashing before iteration 1 even finishes. **Limited-Memory BFGS (L-BFGS)** solves this memory wall with a breathtakingly simple observation: you never actually *need* the matrix $$H_k$$; you only ever need its action on a single vector, $$H_k \nabla f(x^k)$$. By keeping only the last $$m$$ curvature pairs $$(s_i, y_i)$$ (typically $$m = 5\text{–}20$$), the **two-loop recursion** computes the exact L-BFGS search direction in $$O(mn)$$ time and $$O(mn)$$ memory!
 
-## Background Knowledge Map: Breaking the $$O(n^2)$$ Memory Barrier
+## Key ideas: Breaking the $$O(n^2)$$ Memory Barrier
 
 - **Implicit Operator Representation:** Instead of storing $$H_k \in \mathbb{R}^{n \times n}$$, L-BFGS stores a rolling FIFO buffer of the $$m$$ most recent vector pairs $$\{(s_i, y_i)\}_{i=k-m}^{k-1}$$ and applies the BFGS congruence formula on the fly to a simple diagonal seed $$H_k^0 = \gamma_k I$$.
 - **Self-Scaled Initial Seed ($$\gamma_k = \frac{s_{k-1}^T y_{k-1}}{y_{k-1}^T y_{k-1}}$$):** Choosing $$\gamma_k$$ as the Barzilai–Borwein inverse-curvature estimate scales the initial identity matrix to match the local Hessian magnitude, dramatically improving unit-step acceptance.
 - **The Two-Loop Recursion ($$4mn$$ FLOPs):** The backward loop peels off projections $$\alpha_i = \rho_i s_i^T q$$ from newest to oldest; the middle step multiplies by $$H_k^0$$; and the forward loop reconstructs $$r = H_k g_k$$ from oldest to newest via $$\beta_i = \rho_i y_i^T r$$.
 - **Trade-Off Between $$m$$ and Convergence:** L-BFGS forfeits full-memory superlinear convergence (converging linearly, like preconditioned CG), yet $$m = 10$$ typically captures the dominant Hessian eigenvalues and outperforms first-order methods by orders of magnitude on smooth, ill-conditioned large-scale objectives.
 
-### Step-by-Step Worked Example (Read Slowly): Tracing the Two-Loop Recursion by Hand ($$m = 2$$)
+### Worked example: Tracing the Two-Loop Recursion by Hand ($$m = 2$$)
 
 Suppose $$n = 2$$ and our memory buffer holds $$m = 2$$ pairs:
 - Older pair $$i = 0$$: $$s_0 = (1, 0)^T, \; y_0 = (2, 0)^T \implies \rho_0 = \frac{1}{y_0^T s_0} = \frac{1}{2}$$.

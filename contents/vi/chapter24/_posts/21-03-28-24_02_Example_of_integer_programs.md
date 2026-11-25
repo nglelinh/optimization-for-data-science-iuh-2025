@@ -13,7 +13,7 @@ Sức mạnh thật sự của quy hoạch nguyên hỗn hợp không nằm ở 
 
 Bài học này giống như một cuốn từ điển mẫu (modeling cookbook): đọc kỹ sáu bài toán kinh điển dưới đây sẽ giúp bạn nhận ra ngay các "mẫu câu" ràng buộc quen thuộc khi đối mặt với một bài toán thực tế hoàn toàn mới.
 
-## Bản đồ kiến thức nền: Bốn khuôn mẫu mô hình hóa MIP cốt lõi
+## Kiến thức cần nhớ: Bốn khuôn mẫu mô hình hóa MIP cốt lõi
 
 Sáu ví dụ trong bài thực chất xoay quanh bốn khuôn mẫu tư duy mô hình hóa quan trọng nhất của vận trù học và thống kê:
 
@@ -22,7 +22,7 @@ Sáu ví dụ trong bài thực chất xoay quanh bốn khuôn mẫu tư duy mô
 - **Khuôn mẫu Liên kết Mở–Phục vụ (Facility Location & K-medoids):** Tách quyết định "mở địa điểm/chọn tâm cụm $$j$$" (biến $$y_j$$) khỏi quyết định "gán khách hàng/điểm dữ liệu $$i$$ vào $$j$$" (biến $$x_{ij}$$) qua ràng buộc liên kết $$x_{ij} \le y_j$$ (dạng chặt, tốt hơn nhiều so với dạng gộp $$\sum_i x_{ij} \le n y_j$$).
 - **Khuôn mẫu Chọn phân vị/ngoại lai (Least Median of Squares):** Dùng biến nhị phân $$z_i$$ để "tắt" phần dư của một tỷ lệ điểm dữ liệu (các điểm ngoại lai) thông qua big-$$M$$, biến hàm mục tiêu trung vị phi lồi thành một MILP giải được chính xác.
 
-### Khung giải thích (nên đọc chậm): Tính tay bài toán cái túi 0–1 — khi thuật toán tham lam thất bại
+### Giải thích: Tính tay bài toán cái túi 0–1 — khi thuật toán tham lam thất bại
 
 Xét bài toán cái túi 0–1 với sức chứa tối đa $$b = 6$$ kg và 3 món đồ:
 - Món 1: giá trị $$c_1 = 10$$, khối lượng $$a_1 = 3$$ (tỷ số $$c_1/a_1 \approx 3.33$$).

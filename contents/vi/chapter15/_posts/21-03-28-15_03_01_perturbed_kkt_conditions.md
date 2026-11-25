@@ -12,14 +12,14 @@ Trong hệ điều kiện KKT của bài toán gốc, điều kiện khó chịu
 
 Cái đẹp thiên tài của hàm chắn logarit nằm ở chỗ nó **làm tròn góc vuông chữ L đó thành một đường cong hypebol mượt mà**: $$-u_i h_i(x) = \frac{1}{t}$$! Hệ phương trình mới gọi là **điều kiện KKT nhiễu (perturbed KKT conditions)**. Khi $$t$$ tăng dần tới $$+\infty$$, đường cong hypebol ép sát vào hai trục tọa độ và tiến mượt mà về đúng góc vuông KKT gốc — đây cũng chính là cầu nối trực tiếp sang phương pháp điểm trong nguyên thủy – đối ngẫu ở Chương 17!
 
-## Bản đồ kiến thức nền: So sánh trực diện KKT gốc và KKT nhiễu
+## Kiến thức cần nhớ: So sánh trực diện KKT gốc và KKT nhiễu
 
 - **Bốn phương trình của KKT gốc:** (1) Dừng: $$\nabla f(x) + \sum u_i \nabla h_i(x) + A^T v = 0$$; (2) Khả thi nguyên thủy: $$h_i(x) \le 0, Ax = b$$; (3) Khả thi đối ngẫu: $$u_i \ge 0$$; (4) Bù yếu: $$u_i h_i(x) = 0$$.
 - **Biến đổi từ phương trình dừng của bài toán chắn:** Chia phương trình $$t\nabla f(x) - \sum \frac{1}{h_i(x)}\nabla h_i(x) + A^T w = 0$$ cho $$t$$ và đặt:
   $$u_i = -\frac{1}{t h_i(x)}, \qquad v = \frac{w}{t}.$$
 - **Sự khác biệt duy nhất nằm ở điều kiện thứ (4):** Cả ba điều kiện đầu đều khớp nguyên bản (thậm chí chặt hơn: $$h_i(x) < 0$$ và $$u_i > 0$$), chỉ duy nhất điều kiện bù yếu bị nhiễu đúng một lượng $$1/t$$: $$-u_i h_i(x) = \frac{1}{t}$$.
 
-### Khung giải thích (nên đọc chậm): Quan sát đường hypebol $$-u h(x) = 1/t$$ ép sát góc vuông KKT
+### Giải thích: Quan sát đường hypebol $$-u h(x) = 1/t$$ ép sát góc vuông KKT
 
 Xét bài toán $$\min_{x \in \mathbb{R}} \frac{1}{2}(x - 2)^2$$ với ràng buộc $$h(x) = x - 1 \le 0$$ (nghiệm KKT gốc: $$x^* = 1, h(x^*) = 0, u^* = 1$$).
 

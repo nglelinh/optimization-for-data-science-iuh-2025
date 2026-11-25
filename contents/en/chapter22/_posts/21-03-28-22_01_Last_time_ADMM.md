@@ -11,14 +11,14 @@ lang: en
 
 Before stepping into projection-free optimization, it pays to pause and look back at the bridge we just crossed: the Alternating Direction Method of Multipliers (ADMM). In large-scale statistical learning, we routinely face composite objectives $$f(x) + g(z)$$ coupled by linear constraints $$Ax + Bz = c$$ where neither proximal operator alone can handle the coupled system. ADMM splits the problem cleanly into separate $$x$$- and $$z$$-subproblems linked by a dual price vector—setting the exact contrast against Frank–Wolfe, which avoids proximal/projection steps altogether in favor of linear oracles.
 
-## Background Knowledge Map: Foundations of ADMM and Scaled Dual Form
+## Key ideas: Foundations of ADMM and Scaled Dual Form
 
 - **Augmented Lagrangian Regularization:** Adding the quadratic penalty $$\frac{\rho}{2}\|Ax + Bz - c\|_2^2$$ to the ordinary Lagrangian improves conditioning and ensures dual differentiability even when $$f$$ or $$g$$ is not strictly convex, without altering the primal optimal value on the feasible set $$Ax + Bz = c$$.
 - **Gauss–Seidel Alternating Minimization:** Rather than minimizing $$L_\rho(x, z, u)$$ jointly over $$(x, z)$$ (which destroys separability), ADMM updates $$x$$ first with $$z$$ fixed, then updates $$z$$ using the freshest $$x^{(k)}$$, exploiting block structure while preserving convergence under mild convexity assumptions.
 - **Dual Ascent as Price Adjustment:** The update $$u^{(k)} = u^{(k-1)} + \rho(Ax^{(k)} + Bz^{(k)} - c)$$ uses the primal residual as a gradient ascent step on the dual problem, with step size $$\rho$$ matching the augmentation parameter so that dual feasibility holds automatically at each $$z$$-update.
 - **Scaled Form Economy:** Defining the scaled dual variable $$w = u / \rho$$ absorbs the linear term $$u^\top(Ax + Bz - c)$$ into a single completed square $$\frac{\rho}{2}\|Ax + Bz - c + w\|_2^2$$, turning both primal updates into standard proximal operators and simplifying implementation.
 
-### Step-by-Step Worked Example (Read Slowly): One Scaled ADMM Iteration on a Splitting Problem
+### Worked example: One Scaled ADMM Iteration on a Splitting Problem
 
 Consider the 1D consensus-regularized problem $$\min_{x, z \in \mathbb{R}} \frac{1}{2}(x - 4)^2 + |z|$$ subject to $$x - z = 0$$ (so $$A = 1$$, $$B = -1$$, $$c = 0$$). Choose $$\rho = 1$$ and initialize $$z^{(0)} = 0$$, $$w^{(0)} = 0$$.
 

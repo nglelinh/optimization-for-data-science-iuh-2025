@@ -14,7 +14,7 @@ Nếu hàm Lagrangian $$L(x, u, v)$$ là bản phác thảo biến bài toán c�
 
 Điều làm giới toán học kinh ngạc nhất ở hàm $$g(u, v)$$ là một tính chất hình học bất biến: **$$g(u, v)$$ luôn là hàm lõm theo $$(u, v)$$, ngay cả khi hàm mục tiêu $$f$$ và các ràng buộc $$h_i, l_j$$ của bài toán gốc cực kỳ không lồi!** Bài học này chứng minh trực quan sự thật tuyệt đẹp đó và thực hành tính tường minh $$g(u, v)$$ trên hai trường hợp quan trọng của Quy hoạch bậc hai (QP): ma trận $$Q \succ 0$$ xác định dương và $$Q \succeq 0$$ nửa xác định dương (dùng nghịch đảo giả Moore–Penrose $$Q^+$$).
 
-## Bản đồ kiến thức nền: Bốn trụ cột của hàm đối ngẫu Lagrange
+## Kiến thức cần nhớ: Bốn trụ cột của hàm đối ngẫu Lagrange
 
 - **Định nghĩa và bất đẳng thức chặn dưới toàn cục:**
   $$g(u, v) = \inf_{x \in \mathcal{D}} L(x, u, v) \le \inf_{x \in C} L(x, u, v) \le \inf_{x \in C} f(x) = f^* \quad (\forall u \ge 0).$$
@@ -23,7 +23,7 @@ Nếu hàm Lagrangian $$L(x, u, v)$$ là bản phác thảo biến bài toán c�
 - **Miền hữu dụng (Dual Feasibility Domain):** Đôi khi với một số giá trị $$(u, v)$$, $$L(x, u, v)$$ không bị chặn dưới theo $$x$$ nên $$g(u, v) = -\infty$$. Tập các điểm $$(u, v)$$ sao cho $$u \ge 0$$ và $$g(u, v) > -\infty$$ chính là miền ràng buộc ẩn của bài toán đối ngẫu!
 - **Quy hoạch bậc hai với $$Q \succ 0$$ vs. $$Q \succeq 0$$:** Khi $$Q \succ 0$$, cực tiểu của $$\frac{1}{2}x^T Q x + p^T x$$ đạt tại $$x = -Q^{-1} p$$ cho mọi $$p$$. Khi $$Q \succeq 0$$ suy biến (có không gian hạch $$\operatorname{null}(Q) \ne \{0\}$$), cực tiểu chỉ hữu hạn khi $$p \perp \operatorname{null}(Q)$$ (tức $$p \in \operatorname{col}(Q)$$), khi đó nghiệm cho bằng nghịch đảo giả $$x = -Q^+ p$$!
 
-### Khung giải thích (nên đọc chậm): Tính tay $$g(u, v)$$ cho QP suy biến $$2 \times 2$$ ($$Q \succeq 0$$)
+### Giải thích: Tính tay $$g(u, v)$$ cho QP suy biến $$2 \times 2$$ ($$Q \succeq 0$$)
 
 Xét hàm bậc hai suy biến trong $$\mathbb{R}^2$$ với $$Q = \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix} \succeq 0$$ (cột 2 bằng 0!):
 $$\min_{x_1, x_2} \; x_1^2 + 3x_2 \quad \text{s.t.} \quad x_1 + x_2 = 1.$$

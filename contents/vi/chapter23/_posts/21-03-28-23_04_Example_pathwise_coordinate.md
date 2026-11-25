@@ -13,7 +13,7 @@ Trong thực hành khoa học dữ liệu, hiếm khi nào ta biết trước gi
 
 Friedman, Hastie, Hoefling và Tibshirani (2007, 2009) đã nghĩ ra một chiến lược vừa thông minh vừa đẹp mắt gọi là **hạ theo tọa độ dọc đường chính quy hóa (Pathwise Coordinate Descent)** — trái tim của thư viện `glmnet` lừng danh. Thay vì giải lẻ tẻ, họ bắt đầu từ mức phạt lớn nhất $$\lambda_{\max}$$ nơi nghiệm bằng $$0$$ hoàn toàn, rồi giảm dần $$\lambda$$ từng nấc nhỏ, dùng nghiệm trước làm điểm khởi tạo nóng (*warm start*) và chỉ chạy vòng lặp trên tập các biến thực sự hoạt động (*active set*).
 
-## Bản đồ kiến thức nền: Ba trụ cột của chiến lược Pathwise + Active Set
+## Kiến thức cần nhớ: Ba trụ cột của chiến lược Pathwise + Active Set
 
 Để hiểu vì sao giải **cả 100 giá trị $$\lambda$$** theo đường chính quy hóa lại có thể nhanh hơn giải **một giá trị $$\lambda$$ nhỏ duy nhất** từ điểm khởi tạo 0, hãy nắm ba trụ cột sau:
 
@@ -21,7 +21,7 @@ Friedman, Hastie, Hoefling và Tibshirani (2007, 2009) đã nghĩ ra một chi�
 - **Khởi động nóng (Warm Starts) trên lưới logarit:** Đường nghiệm $$\beta^\star(\lambda)$$ là một hàm liên tục (thực tế là tuyến tính từng khúc) theo $$\lambda$$. Khi giảm từ $$\lambda_k$$ sang $$\lambda_{k+1}$$ đủ gần nhau, $$\beta^\star(\lambda_k)$$ đã nằm rất sát $$\beta^\star(\lambda_{k+1})$$, giúp vòng lặp hội tụ chỉ sau vài lượt quét.
 - **Tập hoạt động (Active Set) và Kiểm tra KKT:** Ở vùng $$\lambda$$ lớn đến trung bình, hầu hết tọa độ đều bằng $$0$$. Thuật toán chỉ lặp đi lặp lại trên tập nhỏ các tọa độ khác $$0$$ cho đến khi hội tụ, sau đó mới quét 1 lượt duy nhất qua các tọa độ ngoài tập hoạt động để kiểm tra điều kiện KKT $$|X_j^T(y - X\beta)| \le \lambda$$. Nếu không tọa độ nào vi phạm, ta chắc chắn 100% đã tìm đúng nghiệm toàn cục!
 
-### Khung giải thích (nên đọc chậm): Tính tay 2 nấc của Pathwise Coordinate Descent + kiểm tra KKT
+### Giải thích: Tính tay 2 nấc của Pathwise Coordinate Descent + kiểm tra KKT
 
 Xét bài toán Lasso 2 đặc trưng với ma trận thiết kế và nhãn:
 

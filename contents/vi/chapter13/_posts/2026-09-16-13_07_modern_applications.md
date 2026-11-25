@@ -16,14 +16,14 @@ Nhiều người học xong lý thuyết đối ngẫu ở bậc đại học v�
 
 Khi một kẻ tấn công nhiễu từng pixel ảnh trong quả cầu $$\ell_\infty$$ bán kính $$\epsilon$$, hướng tấn công nguy hiểm nhất không còn là gradient thuần túy mà là vectơ đạt cực đại trong định nghĩa **chuẩn đối ngẫu $$\ell_1$$**. Bài đọc chuyên sâu này nối thẳng các khái niệm vừa học trong Chương 13 với những bài toán mũi nhọn nhất của khoa học máy tính ngày nay.
 
-## Bản đồ kiến thức nền: Bốn mũi nhọn ứng dụng của đối ngẫu trong AI hiện đại
+## Kiến thức cần nhớ: Bốn mũi nhọn ứng dụng của đối ngẫu trong AI hiện đại
 
 - **Chuẩn đối ngẫu và tấn công đối kháng $$\ell_p$$:** Xấp xỉ bậc nhất mức tăng hàm mất mát dưới nhiễu $$\|\delta\|_p \le \epsilon$$ là $$\max_{\|\delta\|_p \le \epsilon} \nabla \ell(x)^T \delta = \epsilon \|\nabla \ell(x)\|_q$$ — biến chuẩn đối ngẫu thành công cụ định lượng trực tiếp độ nhạy của mạng nơ-ron.
 - **Đối ngẫu Lasso và sàng lọc an toàn (Safe Screening):** Nghiệm đối ngẫu $$u$$ cho phép kiểm tra điều kiện $$\vert X_j^T u \vert < \lambda$$ để loại bỏ chắc chắn các đặc trưng có $$\beta_j^\star = 0$$ ngay giữa quá trình lặp, tăng tốc huấn luyện trên dữ liệu hàng triệu chiều.
 - **Hàm liên hợp và phân rã Moreau:** Đồng nhất thức $$\operatorname{prox}_{f}(v) + \operatorname{prox}_{f^*}(v) = v$$ cho phép tính toán tử gần kề của một hàm khó thông qua phép chiếu đơn giản lên tập liên hợp.
 - **Nón đối ngẫu và kiểm chứng mạng nơ-ron:** Các bộ kiểm chứng như $$\alpha,\beta$$-CROWN dùng biến đối ngẫu không âm (hoặc thuộc nón đối ngẫu) để tạo ra chứng chỉ toán học khẳng định mạng không bao giờ phân loại sai trong vùng nhiễu cho trước.
 
-### Khung giải thích (nên đọc chậm): Tính tay nhiễu đối kháng tối ưu $$\ell_\infty$$ và $$\ell_2$$ bằng chuẩn đối ngẫu
+### Giải thích: Tính tay nhiễu đối kháng tối ưu $$\ell_\infty$$ và $$\ell_2$$ bằng chuẩn đối ngẫu
 
 Giả sử tại một ảnh đầu vào $$x \in \mathbb{R}^3$$, gradient của hàm mất mát theo đầu vào là $$g = \nabla_x \ell(x) = (0.8, -0.6, 0.2)^T$$, và kẻ tấn công được phép cộng nhiễu $$\delta$$ với ngân sách $$\epsilon = 0.1$$.
 

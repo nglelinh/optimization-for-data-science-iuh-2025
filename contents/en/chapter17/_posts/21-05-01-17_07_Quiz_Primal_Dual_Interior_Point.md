@@ -14,14 +14,14 @@ redirect_from:
 
 Reading derivations of perturbed KKT systems can create a deceptive sense of fluency—until a multiple-choice question asks whether the primal residual stays zero after a damped Newton step, or why the surrogate duality gap can be smaller than the true suboptimality at an infeasible iterate. Treat this quiz as a high-precision diagnostic lab: every question probes a structural invariant of primal-dual interior-point methods that distinguishes genuine graduate mastery from surface pattern-matching.
 
-## Background Knowledge Map: Core Invariants Tested in This Quiz
+## Key ideas: Core Invariants Tested in This Quiz
 
 - **Barrier vs. Primal-Dual Mechanics:** Know the exact trade-offs—single Newton step per iteration, infeasible-start capability, and simultaneous $$(x, u, v)$$ updates versus inner centering loops.
 - **Residual Definitions & Contraction Laws:** Distinguish $$r_{\text{prim}} = Ax - b$$, $$r_{\text{dual}} = \nabla f(x) + \nabla h(x)u + A^T v$$, and $$r_{\text{cent}} = U h(x) + \tau \mathbf{1}$$, and recognize how linear residuals contract by exactly $$(1 - \theta)$$ under a step of length $$\theta$$.
 - **Surrogate Gap & Centering Parameter $$\sigma$$:** Recall $$\eta = -h(x)^T u$$, $$\tau = \sigma \eta / m$$, and how $$\sigma \to 0$$ yields aggressive affine-scaling steps while $$\sigma \to 1$$ yields pure centering steps.
 - **LP Normal Equations & SDP Symmetrization:** Connect the $$m \times m$$ SPD matrix $$A S^{-1} X A^T$$ in LP to the matrix complementarity $$XS = \mu I$$ and non-commutativity symmetrization in SDP.
 
-### Step-by-Step Worked Example (Read Slowly): Why Linear Residuals Contract by Exactly $$(1 - \theta)$$
+### Worked example: Why Linear Residuals Contract by Exactly $$(1 - \theta)$$
 
 Suppose a quiz asks: *In a primal-dual IPM for an LP, if the current iterate has primal residual $$r_p^k = Ax^k - b = (2, -4)^T$$ and we take a damped Newton step with step length $$\theta_k = 0.75$$, what is the new primal residual $$r_p^{k+1}$$?*
 

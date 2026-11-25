@@ -14,7 +14,7 @@ lesson_type: required
 
 Cách nhìn này không chỉ đẹp về mặt thẩm mỹ toán học: nó còn mở đường trực tiếp sang các bài toán có ràng buộc nhưng hàm mục tiêu **không khả vi** (thay $$\nabla f(x^\star)$$ bằng một subgradient $$g \in \partial f(x^\star)$$ thỏa $$g^T(y - x^\star) \ge 0$$!).
 
-## Bản đồ kiến thức nền: Ba bước hợp nhất Tối ưu có ràng buộc vào Subgradient
+## Kiến thức cần nhớ: Ba bước hợp nhất Tối ưu có ràng buộc vào Subgradient
 
 Chuỗi suy dẫn trong bài học này kết nối trọn vẹn Chương 04 và Chương 07 qua ba mắt xích:
 
@@ -25,7 +25,7 @@ Chuỗi suy dẫn trong bài học này kết nối trọn vẹn Chương 04 và
 - **Mắt xích 3 — Dịch $$-\nabla f(x^\star) \in N_C(x^\star)$$ sang bất đẳng thức:** Theo định nghĩa nón pháp tuyến, vector $$v = -\nabla f(x^\star) \in N_C(x^\star)$$ có nghĩa là:
   $$(-\nabla f(x^\star))^T(y - x^\star) \le 0 \iff \nabla f(x^\star)^T(y - x^\star) \ge 0 \quad \forall y \in C.$$
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng $$-\nabla f(x^\star) \in N_C(x^\star)$$ trên một bài toán có ràng buộc cụ thể
+### Giải thích: Kiểm chứng $$-\nabla f(x^\star) \in N_C(x^\star)$$ trên một bài toán có ràng buộc cụ thể
 
 Xét bài toán $$\min_{x \in C} \; f(x_1, x_2) = \frac{1}{2}(x_1 - 3)^2 + \frac{1}{2}(x_2 - 2)^2$$ trên hình vuông $$C = [0, 1] \times [0, 1]$$.
 

@@ -11,14 +11,14 @@ lang: en
 
 When the number of features $$p$$ dramatically exceeds the number of observations $$n$$ (the high-dimensional regime $$p \gg n$$), the least-squares matrix $$X^\top X$$ is rank-deficient, so the Lasso objective $$\frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$ is **not strictly convex**! Does that mean Lasso has infinitely many different optimal coefficient vectors $$\hat{\beta}$$? Surprisingly, Ryan Tibshirani (2013) proved using the KKT conditions that even when $$p \gg n$$, the Lasso solution is **almost surely unique** whenever the predictors are drawn from a continuous distribution—and its fitted values $$X\hat{\beta}$$ are *always* unique!
 
-## Background Knowledge Map: KKT Anatomy of Lasso Uniqueness
+## Key ideas: KKT Anatomy of Lasso Uniqueness
 
 - **Pillar 1 — Universal Uniqueness of Fitted Values $$X\hat{\beta}$$:** Because $$\frac{1}{2}\|y - u\|_2^2$$ is *strictly* convex in the prediction vector $$u = X\beta$$, every optimal Lasso solution $$\hat{\beta}$$ must produce the **exact same** fitted vector $$X\hat{\beta}$$ and the **exact same** $$\ell_1$$ norm $$\|\hat{\beta}\|_1$$!
 - **Pillar 2 — Equicorrelation Set $$\mathcal{E}$$ from KKT Stationarity:** The Lasso KKT condition $$X^\top(y - X\hat{\beta}) = \lambda s$$ (with $$s \in \partial \|\hat{\beta}\|_1$$) forces every active variable $$j$$ to satisfy $$|X_j^\top(y - X\hat{\beta})| = \lambda$$. Because $$X\hat{\beta}$$ is unique, the equicorrelation set $$\mathcal{E} = \{ j : |X_j^\top(y - X\hat{\beta})| = \lambda \}$$ and signs $$s_\mathcal{E}$$ are **identical** across *all* Lasso solutions!
 - **Pillar 3 — Null-Space Uniqueness Criterion:** Every Lasso solution must vanish outside $$\mathcal{E}$$ ($$\hat{\beta}_{-\mathcal{E}} = 0$$). Therefore, if the submatrix $$X_\mathcal{E}$$ has full column rank ($$\ker(X_\mathcal{E}) = \{0\}$$), the Lasso solution $$\hat{\beta}$$ is **strictly unique**—even if the full matrix $$X$$ has $$p = 10^6 \gg n = 100$$!
 - **Pillar 4 — General Position Condition:** Whenever the signed columns $$\{\pm X_j\}$$ lie in *general position* (no $$k+1$$ points lie in a $$(k-1)$$-dimensional affine subspace for $$k \le \min(n, p)$$, which holds with probability 1 for continuous features), $$X_\mathcal{E}$$ automatically has full column rank and Lasso is unique for every $$y$$ and $$\lambda > 0$$.
 
-### Step-by-Step Worked Example (Read Slowly): Seeing Non-Uniqueness vs. Uniqueness When $$p > n$$
+### Worked example: Seeing Non-Uniqueness vs. Uniqueness When $$p > n$$
 
 Consider $$n = 1$$ observation $$y = 4$$ with $$p = 2$$ predictors and $$\lambda = 1$$: $$\min_{\beta \in \mathbb{R}^2} \frac{1}{2}(4 - x_1 \beta_1 - x_2 \beta_2)^2 + |\beta_1| + |\beta_2|$$.
 

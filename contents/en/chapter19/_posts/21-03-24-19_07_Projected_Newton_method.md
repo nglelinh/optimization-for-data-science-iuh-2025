@@ -11,14 +11,14 @@ lang: en
 
 Here is a trap that catches almost every graduate student the first time they try to add box constraints $$x \ge 0$$ to Newton's method: *"For gradient descent, we just project $$x - t\nabla g(x)$$ onto $$C$$. So for Newton's method, can't we just project $$x - H^{-1}\nabla g(x)$$ onto $$C$$?"* **NO!** Because the Newton direction is only guaranteed to descend in the *$$H$$-metric*, applying a *Euclidean* projection $$\Pi_C$$ can twist the direction past $$90^\circ$$ from $$-\nabla g(x)$$ and turn it into an **ascent direction**! Dimitri Bertsekas's **Projected Newton method** fixes this brilliantly by decoupling the *binding* (active) coordinates from the *free* coordinates.
 
-## Background Knowledge Map: Why Naive Projection Fails and How Bertsekas Fixes It
+## Key ideas: Why Naive Projection Fails and How Bertsekas Fixes It
 
 - **Metric Mismatch of Naive Projected Newton:** Proximal Newton for $$h = I_C$$ solves $$\min_{z \in C} \|x - H^{-1}\nabla g(x) - z\|_H^2$$ (an oblique $$H$$-projection, which is a full QP). Replacing $$\|\cdot\|_H$$ with Euclidean $$\|\cdot\|_2$$ breaks the optimality geometry and can increase $$g(x)$$.
 - **Binding vs. Free Variables ($$x \ge 0$$):** For nonnegativity constraints, a coordinate $$i$$ is in the **binding set** $$\mathcal{B}(x)$$ if $$x_i = 0$$ (or $$\le \epsilon$$) *and* $$\nabla_i g(x) > 0$$ (meaning the negative gradient pushes it straight into the wall). All other coordinates are **free** ($$\mathcal{F}(x)$$).
 - **Block-Diagonal Hessian Scaling (Bertsekas 1982):** By zeroing out the off-diagonal couplings between $$\mathcal{B}(x)$$ and $$\mathcal{F}(x)$$ in the Hessian inverse (keeping a positive diagonal on $$\mathcal{B}$$ and the exact inverse $$H_{\mathcal{F}\mathcal{F}}^{-1}$$ on $$\mathcal{F}$$), Euclidean projection $$\Pi_C(x - t D \nabla g(x))$$ is *mathematically guaranteed* to be a descent direction!
 - **Superlinear Speed on Box Constraints:** Once the active face $$\mathcal{B}(x^\star)$$ is identified, Bertsekas's projected Newton takes exact full Newton steps on the free subspace $$\mathcal{F}(x^\star)$$ while clamping $$\mathcal{B}(x^\star)$$ at zero—giving quadratic local convergence with trivial $$O(n)$$ Euclidean projection!
 
-### Step-by-Step Worked Example (Read Slowly): Catching Naive Projected Newton Going Uphill!
+### Worked example: Catching Naive Projected Newton Going Uphill!
 
 Minimize $$g(x) = \frac{1}{2} x^T H x + c^T x$$ over the nonnegative orthant $$C = \{x \in \mathbb{R}^2 : x_1 \ge 0, x_2 \ge 0\}$$, where:
 $$H = \begin{bmatrix} 1 & 2 \\ 2 & 5 \end{bmatrix} \succ 0, \qquad c = \begin{bmatrix} 1 \\ 1 \end{bmatrix}.$$

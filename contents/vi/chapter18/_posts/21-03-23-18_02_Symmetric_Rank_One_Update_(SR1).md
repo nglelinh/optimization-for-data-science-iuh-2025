@@ -11,7 +11,7 @@ lang: vi
 
 Nếu muốn chỉnh sửa ma trận đối xứng $$B$$ theo cách tiết kiệm nhất có thể để nó thỏa mãn phương trình secant $$B^+ s = y$$, lựa chọn tối giản nhất là cộng thêm một ma trận đối xứng **hạng 1** có dạng $$a u u^T$$. Điều kỳ diệu là chỉ riêng yêu cầu đối xứng và hạng 1 đã khóa chặt hoàn toàn công thức cập nhật — chỉ có **duy nhất một** công thức SR1! Dù có điểm yếu chí mạng là có thể làm mất tính xác định dương hoặc chia cho mẫu số gần bằng không, SR1 lại sở hữu một siêu năng lực đặc biệt: nó xấp xỉ rất sát cả những Hessian không xác định (indefinite) trong các phương pháp vùng tin cậy (trust-region).
 
-## Bản đồ kiến thức nền: Ba đặc tính toán học làm nên cá tính của SR1
+## Kiến thức cần nhớ: Ba đặc tính toán học làm nên cá tính của SR1
 
 Trước khi đi vào phép suy diễn đại số của SR1, hãy nắm rõ ba điểm mạnh và giới hạn của công thức hạng-một này:
 
@@ -19,7 +19,7 @@ Trước khi đi vào phép suy diễn đại số của SR1, hãy nắm rõ ba 
 - **Tính bất biến qua phép nghịch đảo (Self-Duality):** Khi áp dụng công thức Sherman–Morrison để lấy nghịch đảo $$H^+ = (B^+)^{-1}$$, công thức cập nhật cho $$H$$ có hình dạng hoàn toàn y hệt công thức cho $$B$$ (chỉ đổi chỗ $$B \leftrightarrow H$$ và $$s \leftrightarrow y$$).
 - **Mất tính xác định dương và cơ chế bỏ qua bước (Skipping):** Ngay cả khi $$B \succ 0$$ và $$y^T s > 0$$, mẫu số $$(y - Bs)^T s$$ vẫn có thể âm (làm $$B^+$$ mất tính xác định dương) hoặc gần bằng $$0$$ (làm $$B^+$$ nổ lớn). Trong thực hành, ta bỏ qua cập nhật nếu $$|s^T(y - Bs)| < r \|s\| \|y - Bs\|$$ (thường $$r = 10^{-8}$$), và kết hợp SR1 với vùng tin cậy thay vì line search thuần túy.
 
-### Khung giải thích (nên đọc chậm): Tính tay một bước SR1 trên ma trận $$2 \times 2$$ và kiểm chứng secant
+### Giải thích: Tính tay một bước SR1 trên ma trận $$2 \times 2$$ và kiểm chứng secant
 
 Giả sử ta bắt đầu với xấp xỉ Hessian $$B_0 = I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$, và sau một bước tối ưu thu được $$s = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$, $$y = \begin{bmatrix} 3 \\ 1 \end{bmatrix}$$:
 

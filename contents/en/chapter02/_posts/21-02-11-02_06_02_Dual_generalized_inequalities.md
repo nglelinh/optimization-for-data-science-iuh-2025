@@ -11,14 +11,14 @@ lang: en
 
 Suppose an aerospace team must minimize both *weight* and *drag* simultaneously across a set of wing designs. Because there is no single wing with both minimum weight and minimum drag, how do you actually compute points on the Pareto-optimal trade-off curve using a standard scalar optimizer? Dual generalized inequalities give the exact answer: minimize $$\lambda^T x$$ for strictly positive dual weights $$\lambda \succ_{K^*} 0$$.
 
-## Background Knowledge Map: Scalarizing Multi-Objective Trade-Offs
+## Key ideas: Scalarizing Multi-Objective Trade-Offs
 
 - **Preservation Under Nonnegative Dual Weights:** $$x \preceq_K y \iff \lambda^T x \le \lambda^T y$$ for all $$\lambda \succeq_{K^*} 0$$—turning a vector inequality into an equivalent family of scalar inequalities.
 - **Dual Test for a Minimum Element:** $$x$$ is the minimum element of $$S$$ w.r.t. $$K$$ if and only if for *every* $$\lambda \succ_{K^*} 0$$, $$x$$ is the unique minimizer of $$\lambda^T z$$ over $$S$$.
 - **Dual Test for Minimal (Pareto) Elements:** If $$x$$ minimizes $$\lambda^T z$$ over $$S$$ for *some* $$\lambda \succ_{K^*} 0$$, then $$x$$ is guaranteed to be minimal (Pareto-optimal)—and when $$S$$ is convex, the converse nearly holds (every minimal point minimizes $$\lambda^T z$$ for some nonzero $$\lambda \succeq_{K^*} 0$$).
 - **Economic Meaning of $$\lambda$$:** The weight vector $$\lambda$$ acts as a vector of shadow prices trading off one objective against another along the optimal production frontier.
 
-### Step-by-Step Worked Example (Read Slowly): Sweeping a Pareto Frontier via Dual Weights
+### Worked example: Sweeping a Pareto Frontier via Dual Weights
 
 Recover all three minimal elements of $$S = \{(1, 4),\; (2, 2),\; (3, 1)\}$$ (under $$K = K^* = \mathbb{R}_+^2$$) by minimizing $$\lambda^T z = \lambda_1 z_1 + \lambda_2 z_2$$ for strictly positive weights $$\lambda \succ 0$$:
 

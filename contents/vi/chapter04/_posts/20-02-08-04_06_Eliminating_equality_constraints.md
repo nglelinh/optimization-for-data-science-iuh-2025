@@ -13,7 +13,7 @@ Giả sử bạn phải tìm vị trí thấp nhất của một thung lũng tro
 
 Đó chính là tinh thần của kỹ thuật **loại bỏ ràng buộc đẳng thức tuyến tính** $$Ax = b$$. Thay vì mang gánh nặng các phương trình ràng buộc vào thuật toán giải, ta tham số hóa toàn bộ tập nghiệm của $$Ax = b$$ dưới dạng $$x = Fz + x_0$$, biến bài toán có ràng buộc đẳng thức thành bài toán nhỏ gọn hơn theo biến tự do $$z$$ mà vẫn giữ nguyên vẹn tính lồi.
 
-## Bản đồ kiến thức nền: Đại số tuyến tính đằng sau việc khử $$Ax = b$$
+## Kiến thức cần nhớ: Đại số tuyến tính đằng sau việc khử $$Ax = b$$
 
 Để thực hiện phép khử này chính xác và biết khi nào *nên* hay *không nên* dùng nó trong thực tế, hãy nắm ba trụ cột:
 
@@ -21,7 +21,7 @@ Giả sử bạn phải tìm vị trí thấp nhất của một thung lũng tro
 - **Bảo toàn tính lồi dưới hợp thành affine (Affine Composition):** Khi thay $$x = Fz + x_0$$ vào hàm mục tiêu $$f(x)$$ và ràng buộc bất đẳng thức $$g_i(x)$$, ta thu được $$\tilde{f}(z) = f(Fz + x_0)$$ và $$\tilde{g}_i(z) = g_i(Fz + x_0)$$. Vì hợp thành của hàm lồi với ánh xạ affine luôn lồi, bài toán mới chắc chắn vẫn là bài toán tối ưu hóa lồi!
 - **Đánh đổi tính toán: Kích thước vs. Độ thưa (Sparsity Trade-off):** Khử ràng buộc đẳng thức giúp giảm số chiều biến từ $$n$$ xuống $$n - \operatorname{rank}(A)$$, cực kỳ hiệu quả với bài toán cỡ vừa. Tuy nhiên, với bài toán cực lớn có ma trận $$A$$ thưa, ma trận $$F$$ thường bị **dày đặc (dense)**, nên các bộ giải lớn thường giữ nguyên $$Ax = b$$ và giải hệ KKT thưa thay vì khử trực tiếp.
 
-### Khung giải thích (nên đọc chậm): Khử ràng buộc đẳng thức và giải tay bài toán 3 biến về 1 biến
+### Giải thích: Khử ràng buộc đẳng thức và giải tay bài toán 3 biến về 1 biến
 
 Xét bài toán tối ưu lồi trong $$\mathbb{R}^3$$:
 $$\min_{x \in \mathbb{R}^3} \; f(x) = x_1^2 + 2x_2^2 + x_3^2 \quad \text{thỏa mãn} \quad \begin{cases} x_1 + x_2 + x_3 = 3 \\ x_1 - x_3 = 1 \end{cases}$$

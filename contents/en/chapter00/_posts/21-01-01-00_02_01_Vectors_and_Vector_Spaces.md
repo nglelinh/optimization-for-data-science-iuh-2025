@@ -12,14 +12,14 @@ lesson_type: required
 
 When an operations researcher schedules 500 flights or a data scientist tunes 500 regression weights, those 500 numbers are not a messy list—they are a single point in $$\mathbb{R}^{500}$$. Thinking in vector spaces lets us ask sharp structural questions: are some decision variables redundant (linearly dependent)? What is the true number of independent degrees of freedom (dimension)? And can we re-express our problem in a cleaner basis where constraints decouple?
 
-## Background Knowledge Map: Geometry of $$\mathbb{R}^n$$ for Optimization
+## Key ideas: Geometry of $$\mathbb{R}^n$$ for Optimization
 
 - **Vectors & Subspaces:** Feasible perturbations around an equality-constrained point $$Ax = b$$ always form a linear subspace $$\{d : Ad = 0\}$$ closed under addition and scaling.
 - **Linear Independence:** Guarantees that no feature column or constraint direction is a redundant combination of the others—essential for unique least-squares and simplex basic solutions.
 - **Basis & Coordinate Representation:** A basis provides a minimal, non-redundant coordinate system so every vector in the space has a *unique* expansion $$x = \sum c_i v_i$$.
 - **Dimension:** Counts the true degrees of freedom of a subspace, letting us track how many variables remain free after imposing linear equality constraints.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying a Basis and Finding Unique Coordinates in $$\mathbb{R}^3$$
+### Worked example: Verifying a Basis and Finding Unique Coordinates in $$\mathbb{R}^3$$
 
 Consider the three vectors $$v_1 = (1, 1, 0)^T$$, $$v_2 = (0, 1, 1)^T$$, and $$v_3 = (1, 0, 1)^T$$, and target vector $$b = (3, 4, 3)^T$$.
 

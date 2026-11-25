@@ -11,14 +11,14 @@ lang: en
 
 With self-concordance in hand, Nesterov and Nemirovskii delivered one of the cleanest theorems in all of optimization: damped Newton's method reaches $$\epsilon$$-accuracy in at most $$C(\alpha,\beta)(f(x^{(0)}) - f^\star) + \log_2\log_2(1/\epsilon)$$ iterations. Notice what is *missing* from that formula: no dimension $$n$$, no condition number $$\kappa$$, no Lipschitz constant $$L$$, and no strong convexity $$m$$!
 
-## Background Knowledge Map: Scale-Free Complexity of Damped Newton
+## Key ideas: Scale-Free Complexity of Damped Newton
 
 - **Pillar 1 — Universal Damped-Phase Constant:** Whenever $$\lambda(x) > \eta$$ (a pure numerical constant independent of $$f$$), backtracking reduces $$f(x)$$ by at least a fixed constant $$\gamma(\alpha,\beta) > 0$$ per step.
 - **Pillar 2 — Universal Quadratic-Phase Threshold:** Once $$\lambda(x) \le \frac{1}{4}$$ (or $$\eta$$), unit step $$t = 1$$ is always accepted and $$\lambda(x^+) \le 2\lambda(x)^2$$ (strictly quadratic contraction in the Newton decrement).
 - **Pillar 3 — Suboptimality Bound Directly from $$\lambda(x)$$:** When $$\lambda(x) < 1$$, self-concordance guarantees $$f(x) - f^\star \le \lambda(x)^2$$ (for $$\lambda(x) \le 0.68$$), turning $$\lambda(x)$$ into an exact, rigorous stopping certificate.
 - **Pillar 4 — Affine-Invariant Total Iteration Count:** Because $$f(x^{(0)}) - f^\star$$ and $$\epsilon$$ are unchanged under $$x = Ay + b$$, the entire iteration bound is strictly affine invariant.
 
-### Step-by-Step Worked Example (Read Slowly): Estimating Total Newton Steps from the Self-Concordant Bound
+### Worked example: Estimating Total Newton Steps from the Self-Concordant Bound
 
 Suppose a self-concordant problem starts with initial gap $$f(x^{(0)}) - f^\star = 5$$, and we use standard backtracking parameters $$\alpha = 0.1, \beta = 0.5$$ where the theoretical damped-phase constant is roughly $$C(\alpha,\beta) = \frac{1}{\gamma} \approx 20 / \alpha\beta$$ (in Boyd & Vandenberghe, Theorem 9.6, $$C(\alpha,\beta) = \frac{20 - 8\alpha}{\alpha\beta(1-2\alpha)^2}$$, while in practice the damped phase is even faster). Let's trace the Phase-II quadratic finish from $$\lambda(x^{(k)}) = 0.25$$ using the self-concordant recursion $$\lambda(x^+) \le \frac{\lambda(x)^2}{(1 - \lambda(x))^2}$$:
 

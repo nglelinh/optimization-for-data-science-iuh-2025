@@ -16,7 +16,7 @@ Hiểu lý thuyết tối ưu hóa lồi giống như đọc sách dạy bơi tr
 
 Bộ bài tập thực hành này dẫn bạn đi qua năm kỹ năng cốt lõi của một kỹ sư tối ưu hóa: chuyển đổi dạng chuẩn, phân tích điều kiện tối ưu, độ nhạy nghiệm theo tham số ràng buộc, thiết kế nới lỏng cho bài toán khó và mô hình hóa tối ưu bền vững (robust optimization) khi dữ liệu có bất định.
 
-## Bản đồ kiến thức nền: Quy trình 4 bước giải bài tập thực hành tối ưu lồi
+## Kiến thức cần nhớ: Quy trình 4 bước giải bài tập thực hành tối ưu lồi
 
 Khi đối mặt với bất kỳ bài tập mô hình hóa hay chuyển đổi nào trong bộ bài này, hãy đi theo đúng khung bốn bước:
 
@@ -25,7 +25,7 @@ Khi đối mặt với bất kỳ bài tập mô hình hóa hay chuyển đổi 
 - **Bước 3 — Phân tích độ nhạy & Đối ngẫu (Sensitivity & Perturbation):** Khi vế phải ràng buộc thay đổi một lượng nhỏ $$\Delta b$$, giá trị tối ưu thay đổi xấp xỉ $$-\lambda^\star \Delta b$$ — công cụ cực mạnh để định giá tài nguyên biên.
 - **Bước 4 — Xử lý bất định & Phi lồi (Robust & Relaxation):** Với bài toán có tham số nhiễu trong tập bất định (ví dụ hình cầu $$\|u\|_2 \le \rho$$), dùng bất đẳng thức Cauchy-Schwarz để chuyển ràng buộc "với mọi $$u$$" thành dạng đóng lồi (thường là ràng buộc chuẩn $$\ell_2$$).
 
-### Khung giải thích (nên đọc chậm): Chuyển đổi một bài toán có trị tuyệt đối & bất định về dạng chuẩn lồi
+### Giải thích: Chuyển đổi một bài toán có trị tuyệt đối & bất định về dạng chuẩn lồi
 
 Xét bài toán: tìm $$x \in \mathbb{R}^2$$ cực tiểu hóa $$f(x) = |x_1 - 2| + 2|x_2 + 1|$$ thỏa mãn ràng buộc bền vững
 $$(a_0 + u)^T x \le 3 \quad \text{với mọi } u \in \mathbb{R}^2 \text{ thỏa } \|u\|_2 \le 0.5, \quad \text{trong đó } a_0 = (1, 1)^T.$$

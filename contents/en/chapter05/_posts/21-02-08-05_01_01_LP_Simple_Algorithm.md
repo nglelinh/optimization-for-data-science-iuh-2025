@@ -12,14 +12,14 @@ lesson_type: required
 
 A high-dimensional polytope with 1,000 constraints can easily have more vertices than atoms in the observable universe—enumerating them all is impossible. Dantzig's Simplex Algorithm solves this in breathtaking geometric style: instead of visiting every corner, it stands at one vertex, checks which adjacent edges slope strictly downhill, and walks along the polytope's skeleton until every neighboring edge goes uphill.
 
-## Background Knowledge Map: Mechanics of the Simplex Method
+## Key ideas: Mechanics of the Simplex Method
 
 1. **Basic Feasible Solutions (BFS) = Vertices**: In standard form $$Ax = b, x \ge 0$$ with $$A \in \mathbb{R}^{m \times n}$$ of full row rank $$m$$, partitioning columns into an invertible basis $$B$$ ($$m$$ columns) and nonbasic set $$N$$ ($$n - m$$ columns) sets $$x_N = 0$$ and $$x_B = B^{-1}b$$. Whenever $$x_B \ge 0$$, this algebraic partition corresponds directly to a geometric vertex of the polyhedron.
 2. **Reduced Costs as Edge Slopes**: Moving a single nonbasic variable $$x_j$$ up from $$0$$ forces $$x_B = B^{-1}b - B^{-1}A_j x_j$$ and changes the objective at rate $$\bar{c}_j = c_j - c_B^T B^{-1} A_j$$. If all $$\bar{c}_j \ge 0$$, no feasible edge improves the objective and the current BFS is globally optimal.
 3. **Minimum-Ratio Test (Choosing the Leaving Variable)**: Once an entering variable $$x_j$$ with $$\bar{c}_j < 0$$ is chosen, we increase $$x_j$$ as far as possible until the first basic variable hits zero: $$t^\star = \min_{i : d_i > 0} \frac{(x_B)_i}{d_i}$$ where $$d = B^{-1}A_j$$. If $$d \le 0$$, the LP is unbounded below.
 4. **Degeneracy and Cycling**: If some basic variable already equals $$0$$, a pivot can take step size $$t^\star = 0$$ (changing the basis without moving in space). Bland's rule—always picking the smallest-index entering and leaving variables—guarantees finite termination without cycling.
 
-### Step-by-Step Worked Example (Read Slowly): Executing One Exact Simplex Pivot by Hand
+### Worked example: Executing One Exact Simplex Pivot by Hand
 
 Minimize $$-3x_1 - 2x_2$$ subject to $$x_1 + x_2 + s_1 = 4$$, $$2x_1 + x_2 + s_2 = 6$$, with $$x_1, x_2, s_1, s_2 \ge 0$$.
 

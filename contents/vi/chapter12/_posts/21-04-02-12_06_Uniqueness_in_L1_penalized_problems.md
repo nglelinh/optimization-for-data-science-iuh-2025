@@ -13,7 +13,7 @@ Trong hồi quy tuyến tính cổ điển với $$p > n$$ (nhiều biến đặ
 
 Tuy nhiên, một định lý tuyệt đẹp của Ryan Tibshirani (2013) chứng minh bằng **điều kiện KKT của Lasso** cho thấy điều kỳ diệu sau: dù có nhiều vector trọng số $$\hat{\beta}$$ khác nhau, **giá trị dự đoán $$X\hat{\beta}$$ luôn duy nhất tuyệt đối**; mọi nghiệm đều có cùng dấu trên tập biến hoạt động; và chỉ cần các cột của ma trận $$X$$ ở *vị trí tổng quát (general position)* (điều xảy ra với xác suất 1 khi dữ liệu rút từ phân phối liên tục!), nghiệm Lasso $$\hat{\beta}$$ lập tức **duy nhất** ngay cả khi $$p \gg n$$!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tính duy nhất trong bài toán phạt $$\ell_1$$
+## Kiến thức cần nhớ: Bốn trụ cột của tính duy nhất trong bài toán phạt $$\ell_1$$
 
 - **Hệ điều kiện KKT của Lasso:** Điểm $$\hat{\beta}$$ tối ưu khi và chỉ khi tồn tại vector dấu $$s \in \partial\|\hat{\beta}\|_1$$ sao cho:
   $$X^T(y - X\hat{\beta}) = \lambda s, \quad \text{với } s_j = \operatorname{sign}(\hat{\beta}_j) \text{ nếu } \hat{\beta}_j \ne 0, \text{ và } |s_j| \le 1 \text{ nếu } \hat{\beta}_j = 0.$$
@@ -22,7 +22,7 @@ Tuy nhiên, một định lý tuyệt đẹp của Ryan Tibshirani (2013) chứn
 - **Điều kiện đủ cho tính duy nhất của $$\hat{\beta}$$:** Mọi tọa độ ngoài $$\mathcal{E}$$ đều bắt buộc bằng $$0$$ ($$\hat{\beta}_{-\mathcal{E}} = 0$$). Vì vậy nếu ma trận con $$X_{\mathcal{E}}$$ có hạng cột đầy đủ ($$\operatorname{null}(X_{\mathcal{E}}) = \{0\}$$), thì từ $$X_{\mathcal{E}} \hat{\beta}_{\mathcal{E}}^{(1)} = X_{\mathcal{E}} \hat{\beta}_{\mathcal{E}}^{(2)}$$ suy ngay ra $$\hat{\beta}^{(1)} = \hat{\beta}^{(2)}$$!
 - **Vị trí tổng quát (General Position) khi $$p > n$$:** Nếu dữ liệu rút từ phân phối xác suất liên tục trên $$\mathbb{R}^{n \times p}$$, các cột của $$X$$ ở vị trí tổng quát với xác suất 1, bảo đảm $$|\mathcal{E}| \le n$$ và $$X_{\mathcal{E}}$$ luôn đủ hạng cột $$\implies$$ Lasso có nghiệm duy nhất với tối đa $$n$$ hệ số khác $$0$$!
 
-### Khung giải thích (nên đọc chậm): Ví dụ tính tay khi Lasso có vô số nghiệm $$\hat{\beta}$$ nhưng $$X\hat{\beta}$$ vẫn duy nhất
+### Giải thích: Ví dụ tính tay khi Lasso có vô số nghiệm $$\hat{\beta}$$ nhưng $$X\hat{\beta}$$ vẫn duy nhất
 
 Xét bài toán Lasso với $$n = 1$$ mẫu quan sát $$y = 4$$ và $$p = 2$$ đặc trưng giống hệt nhau (cộng tuyến hoàn hảo, vi phạm vị trí tổng quát!):
 $$X = \begin{pmatrix} 1 & 1 \end{pmatrix}, \quad \lambda = 1 \implies \min_{\beta_1, \beta_2} \; \frac{1}{2}(4 - \beta_1 - \beta_2)^2 + |\beta_1| + |\beta_2|.$$

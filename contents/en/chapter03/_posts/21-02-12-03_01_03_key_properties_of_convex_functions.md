@@ -11,14 +11,14 @@ lang: en
 
 How do you prove a multivariable function is convex without testing every pair of points on every line segment? This lesson gives you four interchangeable lenses: the **epigraph** (a geometric lens), **sublevel sets** (a contour lens), the **first-order tangent inequality** (a slope lens proving $$\nabla f(x^*) = 0 \implies$$ global minimum), and the **second-order Hessian test** (a curvature lens). Switching smoothly between these four characterizations is the signature skill of a graduate-level optimizer.
 
-## Background Knowledge Map: Four Equivalent Lenses on Convexity
+## Key ideas: Four Equivalent Lenses on Convexity
 
 - **Epigraph Characterization:** $$f$$ is convex iff $$\text{epi}\,f = \{(x, t) : f(x) \le t\}$$ is a convex set—bridging Chapter 02 directly into Chapter 03.
 - **Convex Sublevel Sets:** Every convex function has convex sublevel sets $$\{x : f(x) \le \alpha\}$$ (note: the converse fails—functions with convex sublevel sets are *quasiconvex*, not necessarily convex!).
 - **First-Order Condition:** Differentiable $$f$$ is convex iff $$f(y) \ge f(x) + \nabla f(x)^T(y - x)$$ everywhere—the tangent plane is a *global underestimator*, which immediately proves $$\nabla f(x^*) = 0 \implies f(y) \ge f(x^*)$$.
 - **Second-Order Condition & Jensen's Inequality:** Twice-differentiable $$f$$ is convex iff $$\nabla^2 f(x) \succeq 0$$ everywhere; Jensen's inequality $$f(\mathbb{E}[X]) \le \mathbb{E}[f(X)]$$ generalizes convexity to expectations and underlies KL divergence nonnegativity.
 
-### Step-by-Step Worked Example (Read Slowly): First- and Second-Order Tests on a Coupled Quadratic
+### Worked example: First- and Second-Order Tests on a Coupled Quadratic
 
 Analyze $$f(x_1, x_2) = x_1^2 + x_1 x_2 + x_2^2$$ at $$x = (1, 0)^T$$ and $$y = (0, 2)^T$$.
 

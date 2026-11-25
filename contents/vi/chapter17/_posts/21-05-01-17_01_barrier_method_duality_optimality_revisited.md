@@ -11,7 +11,7 @@ lang: vi
 
 Trước khi cải tiến một cỗ máy, người kỹ sư giỏi luôn tháo nó ra xem từng bánh răng hoạt động ra sao. Phương pháp chắn (barrier method) ở Chương 15 thực ra đã ẩn chứa sẵn một bộ biến đối ngẫu cực kỳ đẹp mắt ngay tại mỗi điểm trên đường trung tâm $$x^\star(t)$$. Khi viết lại điều kiện tối ưu của bài toán chắn dưới góc nhìn đối ngẫu, ta sẽ bất ngờ nhận ra rằng khoảng cách tối ưu đúng bằng $$m/t$$ không phải là một ước lượng ngẫu nhiên, mà là hệ quả trực tiếp của điều kiện KKT bị nhiễu.
 
-## Bản đồ kiến thức nền: Cầu nối từ hàm chắn sang điều kiện KKT bị nhiễu
+## Kiến thức cần nhớ: Cầu nối từ hàm chắn sang điều kiện KKT bị nhiễu
 
 Bài ôn tập này móc nối bốn khái niệm then chốt từ các chương trước thành một khung thống nhất duy nhất:
 
@@ -20,7 +20,7 @@ Bài ôn tập này móc nối bốn khái niệm then chốt từ các chương
 - **Hàm đối ngẫu Lagrange và chứng chỉ tối ưu:** Thay cặp $$(u^\star(t), v^\star(t))$$ vào hàm đối ngẫu $$g(u, v)$$ cho phép chứng minh chính xác $$f(x^\star(t)) - p^\star \le f(x^\star(t)) - g(u^\star(t), v^\star(t)) = m/t$$.
 - **Diễn giải KKT bị nhiễu:** Nhân hai vế công thức định nghĩa $$u_i^\star(t)$$ với $$-h_i(x^\star(t))$$ cho ra $$-u_i^\star(t) h_i(x^\star(t)) = 1/t$$ — phiên bản làm trơn của điều kiện bù chặt $$u_i h_i(x) = 0$$.
 
-### Khung giải thích (nên đọc chậm): Tính tay điểm đường trung tâm và kiểm chứng khoảng cách đối ngẫu $$m/t$$
+### Giải thích: Tính tay điểm đường trung tâm và kiểm chứng khoảng cách đối ngẫu $$m/t$$
 
 Xét bài toán lồi 1 biến với $$m = 1$$ ràng buộc bất đẳng thức:
 

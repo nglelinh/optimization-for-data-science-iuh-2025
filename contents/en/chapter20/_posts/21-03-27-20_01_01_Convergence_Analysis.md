@@ -11,14 +11,14 @@ lang: en
 
 One of the deepest dualities in convex analysis links two seemingly unrelated geometric properties: **curvature** (strong convexity) in the primal space and **smoothness** (Lipschitz gradients) in the dual space! The sharper the bowl of $$f$$ (parameter $$d$$), the gentler and smoother the landscape of its conjugate $$f^\ast$$ (Lipschitz constant $$1/d$$). That single equivalence tells you immediately what step size $$t$$ guarantees monotonic ascent for dual gradient descent—and explains why losing strong convexity makes dual ascent oscillate.
 
-## Background Knowledge Map: The Strong Convexity $$\Longleftrightarrow$$ Smoothness Duality
+## Key ideas: The Strong Convexity $$\Longleftrightarrow$$ Smoothness Duality
 
 - **Fenchel Conjugate Duality Theorem:** A closed convex function $$f$$ is $$d$$-strongly convex *if and only if* its conjugate $$f^\ast$$ has a $$(1/d)$$-Lipschitz continuous gradient: $$\|\nabla f^\ast(u) - \nabla f^\ast(v)\|_2 \le \frac{1}{d}\|u - v\|_2$$.
 - **Dual Smoothness Constant Under Linear Maps:** For $$g(u) = -f^\ast(-A^T u) - b^T u$$, applying the chain rule gives $$\|\nabla g(u) - \nabla g(v)\|_2 \le \frac{\|A\|_2^2}{d}\|u - v\|_2$$, so the dual objective is $$L_g$$-smooth with $$L_g = \sigma_{\max}^2(A)/d$$.
 - **Exact Safe Step Size for Dual Ascent:** Standard smooth gradient ascent theory immediately gives the constant step-size rule $$t \le \frac{1}{L_g} = \frac{d}{\|A\|_2^2}$$, guaranteeing $$O(1/k)$$ dual suboptimality (and linear convergence if $$f$$ is also smooth!).
 - **What Breaks When $$d = 0$$:** If $$f$$ is not strongly convex ($$d = 0$$), $$L_g = \infty$$—the dual has sharp ridges where constant-step dual ascent can bounce forever, directly motivating the Augmented Lagrangian in Section 20-03.
 
-### Step-by-Step Worked Example (Read Slowly): Computing the Exact Dual Step Size Bound
+### Worked example: Computing the Exact Dual Step Size Bound
 
 Consider $$\min_x f(x) = \frac{1}{2}(4x_1^2 + 2x_2^2)$$ subject to $$2x_1 + x_2 = 5$$.
 

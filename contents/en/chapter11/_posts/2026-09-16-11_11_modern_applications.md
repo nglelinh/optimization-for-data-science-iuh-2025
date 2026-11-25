@@ -12,14 +12,14 @@ lesson_type: optional
 
 Between 2022 and 2026, Lagrangian duality evolved from a theoretical proof tool into a core architectural primitive inside machine learning and scientific computing. Whether you are training a distributionally robust classifier against shifted test data, enforcing AC power-grid physics inside a neural solver, or balancing fairness constraints across subpopulations, dualizing the constraints converts hard feasibility walls into smooth, differentiable shadow prices that scale to millions of parameters.
 
-## Background Knowledge Map: Four High-Impact Modern Uses of Lagrangian Duality
+## Key ideas: Four High-Impact Modern Uses of Lagrangian Duality
 
 - **Pillar 1 — Dualizing Robustness Radii (DRO):** In KL-divergence or Wasserstein DRO, strong duality collapses the worst-case distributional supremum into a tractable variance or Lipschitz regularizer parameterized by a single dual multiplier $$\lambda \ge 0$$.
 - **Pillar 2 — Primal–Dual Neural Surrogates (OPF-DNN / DC3):** Deep learning models trained to predict physical grid or control schedules use primal–dual Lagrangian training loops to penalize constraint violations dynamically until feasibility is restored.
 - **Pillar 3 — Cost-Sensitive Fairness Games:** Turning demographic parity or equalized odds into Lagrangian penalties allows existing unconstrained classifiers (trees, neural nets) to serve as the primal best-response oracle while dual multipliers reweight groups.
 - **Pillar 4 — Dual Sparsity in Kernel Machines:** Even in the deep-learning era, dual SVMs remain widely used in bioinformatics and low-data scientific regimes because dual variables $$\alpha_i$$ vanish on non-support vectors, yielding compact, kernelizable decision boundaries.
 
-### Step-by-Step Worked Example (Read Slowly): One Primal–Dual Update in a Constrained Neural Training Loop
+### Worked example: One Primal–Dual Update in a Constrained Neural Training Loop
 
 Suppose a neural surrogate parameterized by $$\theta \in \mathbb{R}$$ minimizes prediction error $$f(\theta) = \frac{1}{2}(\theta - 4)^2$$ subject to a physical safety cap $$h(\theta) = \theta - 2 \le 0$$. Instead of projecting onto $$h(\theta) \le 0$$, a primal–dual trainer updates $$\theta$$ by gradient descent on $$L(\theta, u) = \frac{1}{2}(\theta - 4)^2 + u(\theta - 2)$$ and $$u \ge 0$$ by projected gradient ascent, with step sizes $$\eta_\theta = 0.5,\; \eta_u = 1.0$$, starting from $$\theta^{(0)} = 3.0,\; u^{(0)} = 0.0$$.
 

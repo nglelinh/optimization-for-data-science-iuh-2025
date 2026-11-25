@@ -13,7 +13,7 @@ Hãy tưởng tượng một chiếc ốc quế kem dựng thẳng đứng trong
 
 Khi bạn cực tiểu hóa một hàm tuyến tính $$f^T x$$ dưới các ràng buộc nằm trong nón bậc hai $$\|A_i x + b_i\|_2 \le c_i^T x + d_i$$, bạn có **Quy hoạch Nón Bậc hai (SOCP)**. Đừng để vẻ ngoài đơn giản đánh lừa: SOCP đủ sức nuốt trọn LP, QP, QCQP, tối ưu bền vững (robust LP với nhiễu ellipsoid), bài toán vị trí kho bãi Weber (tổng khoảng cách Euclidean), và thiết kế chùm sóng ăng-ten — trong khi các bộ giải điểm trong hiện đại giải SOCP gần như nhanh ngang ngửa LP!
 
-## Bản đồ kiến thức nền: Sức mạnh biểu diễn của Nón Bậc Hai
+## Kiến thức cần nhớ: Sức mạnh biểu diễn của Nón Bậc Hai
 
 Bốn trụ cột dưới đây giúp bạn làm chủ nghệ thuật nhận diện và chuyển đổi về SOCP:
 
@@ -22,7 +22,7 @@ Bốn trụ cột dưới đây giúp bạn làm chủ nghệ thuật nhận di�
 - **Bao hàm LP, QP, QCQP:** Đặt $$A_i = 0, b_i = 0$$ thì SOCP thu về LP. Dùng biến phụ $$t$$ đưa hàm mục tiêu bậc hai $$\|Px + q\|_2^2 \le t$$ vào ràng buộc hyperbolic thì mọi QP và QCQP đều trở thành SOCP.
 - **Ứng dụng Tối ưu Bền vững (Robust Linear Programming):** Khi hệ số ràng buộc tuyến tính $$a_i$$ có sai số nằm trong ellipsoid $$\{a_i = \bar{a}_i + P_i u : \|u\|_2 \le 1\}$$, điều kiện $$\sup_{\|u\|_2 \le 1} (\bar{a}_i + P_i u)^T x \le b_i$$ tự động biến thành đúng một ràng buộc SOCP: $$\bar{a}_i^T x + \|P_i^T x\|_2 \le b_i$$!
 
-### Khung giải thích (nên đọc chậm): Chuyển đổi ràng buộc bậc hai sang dạng nón SOCP bằng phép biến đổi đại số
+### Giải thích: Chuyển đổi ràng buộc bậc hai sang dạng nón SOCP bằng phép biến đổi đại số
 
 Xét ràng buộc bậc hai 1 biến $$x^2 \le t$$ với $$t \ge 0$$. Làm sao viết nó thành dạng chuẩn $$\|A z + b\|_2 \le c^T z + d$$ (chỉ có chuẩn Euclidean bậc 1 ở vế trái và biểu thức tuyến tính ở vế phải)?
 

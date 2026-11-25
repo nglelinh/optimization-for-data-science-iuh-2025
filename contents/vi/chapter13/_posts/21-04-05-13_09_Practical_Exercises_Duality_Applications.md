@@ -16,14 +16,14 @@ Lý thuyết đối ngẫu chỉ thực sự thấm vào tư duy khi bạn tự 
 
 Tuyển tập bài tập thực hành này chắt lọc những bài toán kinh điển từ Boyd & Vandenberghe, Rockafellar và Ben-Tal & Nemirovski. Trước khi bắt tay giải từng phần, hãy xem qua bản đồ chiến lược và một bài mẫu trình bày chuẩn để quen nhịp chứng minh.
 
-## Bản đồ kiến thức nền: Bốn kỹ năng chứng minh trọng tâm trong bài tập Chương 13
+## Kiến thức cần nhớ: Bốn kỹ năng chứng minh trọng tâm trong bài tập Chương 13
 
 - **Chứng minh chuẩn đối ngẫu bằng hai chiều bất đẳng thức:** Để chứng minh $$\|y\|_* = M(y)$$, luôn đi theo hai bước chuẩn: (1) dùng bất đẳng thức (Hölder, Cauchy–Schwarz, hoặc bất đẳng thức tam giác) để chỉ ra $$y^T x \le M(y)$$ với mọi $$\|x\| \le 1$$; (2) chỉ ra một vectơ cụ thể $$x_0$$ có $$\|x_0\| \le 1$$ đạt đúng dấu bằng $$y^T x_0 = M(y)$$.
 - **Tính hàm liên hợp theo từng miền giá trị của $$y$$:** Khi tính $$f^*(y) = \sup_x (y^T x - f(x))$$, luôn kiểm tra trước xem biểu thức có bị không bị chặn trên ($$+\infty$$) ở vùng $$y$$ nào không, sau đó mới giải phương trình đạo hàm $$\nabla f(x) = y$$ trên miền hữu hạn.
 - **Lập đối ngẫu có hệ thống qua tách biến:** Với bài toán dạng $$\min_x f(x) + g(Ax)$$, đặt $$z = Ax$$ giúp chuẩn hóa quy trình lập đối ngẫu thành 3 dòng đại số không bao giờ nhầm dấu.
 - **Kiểm tra chéo bằng ví dụ số nhỏ:** Sau khi tìm xong công thức tổng quát (cho chuẩn đối ngẫu, hàm liên hợp hay đối ngẫu Lasso), luôn thử thay một bộ số nguyên đơn giản vào cả hai vế để phát hiện tức thì lỗi sai dấu hay thiếu hệ số $$1/2$$.
 
-### Khung giải thích (nên đọc chậm): Bài mẫu chứng minh hàm liên hợp của hàm mũ âm logarit
+### Giải thích: Bài mẫu chứng minh hàm liên hợp của hàm mũ âm logarit
 
 **Bài toán mẫu:** Tính hàm liên hợp $$f^*(y)$$ của hàm $$f(x) = -\log x$$ với miền xác định $$\operatorname{dom} f = \{x \in \mathbb{R} : x > 0\}$$.
 

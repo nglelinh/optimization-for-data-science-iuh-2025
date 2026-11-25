@@ -12,14 +12,14 @@ lesson_type: required
 
 Not all combinations of two vectors are created equal. Depending on which restrictions we place on the scalar weights $$\theta_1, \theta_2$$, combining the exact same pair of points traces out an infinite line (affine), a bounded bridge (convex), or an unbounded wedge (conic). Section 02-01 lays out this three-tier geometric hierarchy that classifies every linear and conic constraint in optimization.
 
-## Background Knowledge Map: Three Weight Rules, Three Geometric Worlds
+## Key ideas: Three Weight Rules, Three Geometric Worlds
 
 - **Affine Combinations ($$\sum \theta_i = 1$$):** Weights can be negative, extending infinitely in both directions; models linear equality constraints $$Ax = b$$.
 - **Convex Combinations ($$\sum \theta_i = 1,\; \theta_i \ge 0$$):** Nonnegative probability weights that stay strictly between the generating points; models bounded mixtures and feasible polytopes.
 - **Conic Combinations ($$\theta_i \ge 0$$):** Drop the sum-to-one rule while keeping nonnegativity; models scale-invariant cones such as $$\mathbb{R}_+^n$$, second-order cones, and $$\mathbb{S}_+^n$$.
 - **Nested Inclusion:** Every affine set is convex, and every convex cone is convex—knowing which tier a constraint belongs to immediately unlocks stronger structural theorems.
 
-### Step-by-Step Worked Example (Read Slowly): One Pair of Points Under Three Combination Rules
+### Worked example: One Pair of Points Under Three Combination Rules
 
 Let $$x_1 = (1, 0)^T$$ and $$x_2 = (0, 2)^T$$.
 

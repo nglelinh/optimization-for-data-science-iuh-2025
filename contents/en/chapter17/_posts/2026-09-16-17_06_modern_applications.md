@@ -12,14 +12,14 @@ lesson_type: optional
 
 A decade ago, primal-dual interior-point methods were often taught as an elegant but somewhat heavy 1990s technology—too expensive for machine learning and too brittle for raw industrial pipelines. Between 2022 and 2026, that narrative flipped completely. Homogeneous conic solvers like Clarabel became the default backend inside CVXPY, GPU sparse direct factorizations brought PD-IPMs onto NVIDIA hardware (CuClarabel), and SDP relaxations for neural-network robustness pushed interior-point theory to its sharpest geometric edge: what happens when Slater's condition fails and the interior itself vanishes.
 
-## Background Knowledge Map: Modern Conic PD-IPMs in Practice
+## Key ideas: Modern Conic PD-IPMs in Practice
 
 - **Homogeneous Self-Dual Embedding:** Classical PD-IPMs diverge unpredictably on infeasible or unbounded problems. Modern solvers (Clarabel, MOSEK) embed the problem in a homogeneous self-dual cone with scaling variables $$(\tau, \kappa)$$, guaranteeing a well-defined central path that returns either an optimal solution or an Farkas infeasibility certificate.
 - **Symmetric & Nonsymmetric Cones:** Beyond LP/QP/SOCP/SDP, modern libraries handle exponential cones (logistic regression, entropy) and power cones inside the same unified KKT Newton factorization.
 - **GPU Sparse Direct KKT Factorizations:** Because PD-IPM's runtime is dominated by sparse $$LDL^T$$ factorization of the KKT matrix, GPU solvers like CuClarabel (using cuDSS) accelerate medium-to-large conic QPs by an order of magnitude while retaining $$10^{-8}$$ duality-gap certificates.
 - **Facial Reduction & Interior-Point Vanishing:** In SDP relaxations of ReLU neural networks, algebraic couplings often force every feasible matrix $$X \succeq 0$$ onto a low-rank boundary face (no $$X \succ 0$$ exists), causing standard IPMs to stall unless facial reduction or regularization restores strict feasibility.
 
-### Step-by-Step Worked Example (Read Slowly): Diagnosing an Interior-Point Vanishing SDP
+### Worked example: Diagnosing an Interior-Point Vanishing SDP
 
 Consider a tiny $$2 \times 2$$ SDP mimicking a degenerate ReLU-network verification constraint:
 $$\min_{X \succeq 0} \; X_{22} \quad \text{subject to} \quad X_{11} = 0, \quad X_{11} + 2X_{12} + X_{22} = 1.$$

@@ -13,14 +13,14 @@ Khi nhắc đến "lồi", ta thường hình dung một chiếc bát uốn cong
 
 Bài học này đi sâu vào định nghĩa chính thức của hàm giả lồi, hàm giả lõm, hàm giả tuyến tính và phân tích từng ví dụ kinh điển.
 
-## Bản đồ kiến thức nền: Bốn họ ví dụ mẫu của Hàm giả lồi
+## Kiến thức cần nhớ: Bốn họ ví dụ mẫu của Hàm giả lồi
 
 - **Mọi hàm đơn điệu trên $$\mathbb{R}$$:** Như $$\log x$$ (vừa giả lồi vừa giả lõm $$\implies$$ **giả tuyến tính / quasilinear**), $$x^3$$ hay hàm làm tròn lên $$\lceil x \rceil$$ (thậm chí không liên tục nhưng tập mức dưới vẫn là nửa khoảng $$(-\infty, \lfloor \alpha \rfloor]$$ lồi!).
 - **Hàm phân thức tuyến tính:** $$f(x) = \frac{a^T x + b}{c^T x + d}$$ trên miền $$c^T x + d > 0$$ là hàm **giả tuyến tính** — nền tảng của Quy hoạch phân thức tuyến tính (Linear-Fractional Programming, ví dụ tối ưu hóa tỷ số lợi nhuận trên chi phí).
 - **Tỷ số khoảng cách và bậc của đa thức:** Khoảng cách tỉ đối $$\|x - a\|_2 / \|x - b\|_2$$ trên nửa không gian gần $$a$$ hơn, hay độ dài (bậc) của tín hiệu rời rạc trong xử lý tín hiệu số.
 - **Phân biệt giả lồi và giả lõm:** $$f$$ giả lõm $$\iff -f$$ giả lồi $$\iff$$ mọi tập mức **trên** $$\{x : f(x) \ge \alpha\}$$ đều là tập lồi.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tập mức dưới của hàm phân thức tuyến tính $$f(x) = \frac{2x + 1}{x + 1}$$
+### Giải thích: Kiểm chứng tập mức dưới của hàm phân thức tuyến tính $$f(x) = \frac{2x + 1}{x + 1}$$
 
 Xét $$f(x) = \frac{2x + 1}{x + 1}$$ trên miền lồi $$x > -1$$:
 

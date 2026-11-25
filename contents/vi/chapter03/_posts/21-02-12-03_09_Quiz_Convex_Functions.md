@@ -16,14 +16,14 @@ Chương 03 là nơi tập trung nhiều câu hỏi "gài bẫy" kinh điển nh
 
 Trước khi bước vào bộ câu hỏi trắc nghiệm, hãy quét nhanh 4 chốt kiểm tra và tự tay phân loại 3 hàm số mẫu ngay bên dưới.
 
-## Bản đồ kiến thức nền: Bốn chốt kiểm tra nhanh trước khi làm Quiz Chương 03
+## Kiến thức cần nhớ: Bốn chốt kiểm tra nhanh trước khi làm Quiz Chương 03
 
 - **Chốt 1 — Phân cấp lồi:** Lồi mạnh ($$f'' \ge m > 0$$) $$\implies$$ Lồi chặt ($$f'' > 0$$) $$\implies$$ Lồi ($$f'' \ge 0$$) $$\implies$$ Giả lồi (mọi tập mức dưới lồi). Các chiều ngược lại đều **sai**!
 - **Chốt 2 — Quy tắc hợp thành $$h(g(x))$$:** $$h$$ lồi + không giảm + $$g$$ lồi $$\implies$$ lồi; $$h$$ lồi + không tăng + $$g$$ lõm $$\implies$$ lồi.
 - **Chốt 3 — Hàm liên hợp $$f^*(y)$$:** Luôn là hàm lồi với *mọi* $$f$$; liên hợp của $$\frac{1}{2}x^T Q x$$ ($$Q \succ 0$$) là $$\frac{1}{2}y^T Q^{-1} y$$; liên hợp của chuẩn $$\|x\|$$ là hàm chỉ thị của hình cầu đơn vị chuẩn đối ngẫu $$\|y\|_* \le 1$$!
 - **Chốt 4 — Log-lõm và Log-lồi:** Mọi hàm log-lồi đều lồi, nhưng hàm log-lõm *chưa chắc* lõm (ví dụ mật độ Gauss hay $$x^2$$ trên $$x > 0$$).
 
-### Khung giải thích (nên đọc chậm): Phân loại nhanh 3 hàm bẫy kinh điển
+### Giải thích: Phân loại nhanh 3 hàm bẫy kinh điển
 
 Hãy kiểm tra tính lồi của 3 hàm sau:
 

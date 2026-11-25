@@ -11,14 +11,14 @@ lang: en
 
 Real-world resource constraints are rarely exact equalities—bandwidth on a network link cannot *exceed* capacity $$b$$ ($$\sum_i A_i x_i \le b$$), and a shared warehouse budget cannot be overspent, though leaving unused capacity is perfectly legal! Switching from $$=$$ to $$\le$$ introduces one crucial economic rule: **prices cannot be negative** ($$u \ge 0$$). If a resource is under-utilized, its price drops to zero and stops there, turning dual decomposition into **projected dual ascent**.
 
-## Background Knowledge Map: Inequality Pricing & Complementary Slackness
+## Key ideas: Inequality Pricing & Complementary Slackness
 
 - **Nonnegative Dual Prices ($$u \ge 0$$):** For $$\sum_{i=1}^B A_i x_i \le b$$, dual feasibility requires $$u \ge 0$$, so every dual update projects onto the nonnegative orthant: $$u^{(k)} = \big(u^{(k-1)} + t_k(\sum_i A_i x_i^{(k)} - b)\big)_+$$.
 - **Economic Meaning of Projection $$(\cdot)_+$$:** When total demand exceeds capacity ($$\sum_i A_i x_i > b$$), the price rises to ration the resource; when demand is below capacity ($$\sum_i A_i x_i < b$$), the price falls—clamping at $$0$$ if the resource is genuinely abundant!
 - **Complementary Slackness at Equilibrium:** At convergence, either the resource is saturated ($$\sum_i A_i x_i^\star = b, u^\star \ge 0$$) or it has slack and becomes free ($$\sum_i A_i x_i^\star < b \implies u^\star = 0$$).
 - **Network Utility Maximization (NUM):** This exact projected dual decomposition algorithm underlies TCP congestion control—routers update link congestion prices $$u_\ell = (u_\ell + t(\text{flow}_\ell - c_\ell))_+$$ while users independently adjust sending rates $$x_i$$!
 
-### Step-by-Step Worked Example (Read Slowly): Congestion Pricing Across Two Links
+### Worked example: Congestion Pricing Across Two Links
 
 Two users maximize utility (equivalently minimize cost) $$\min_{x \ge 0} \frac{1}{2}(x_1 - 5)^2 + \frac{1}{2}(x_2 - 3)^2$$ subject to a shared link capacity $$x_1 + x_2 \le 6$$ (and a second abundant link $$x_1 \le 10$$).
 

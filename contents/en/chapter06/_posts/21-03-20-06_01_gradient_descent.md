@@ -12,7 +12,7 @@ lesson_type: required
 
 Why does moving directly opposite the gradient always decrease a smooth function—at least for a small enough step? By Taylor's theorem, the gradient points strictly in the direction of steepest local ascent, so $$-\nabla f(x)$$ is the unique unit direction that drops the objective fastest to first order. This lesson builds the complete mathematical and geometric foundation of unconstrained gradient descent from 1D parabolas to high-dimensional data-science models.
 
-## Background Knowledge Map: Mechanics of Steepest Descent
+## Key ideas: Mechanics of Steepest Descent
 
 1. **First-Order Taylor Justification**: For a small step $$t > 0$$ along $$d = -\nabla f(x)$$,
    $$f(x - t\nabla f(x)) = f(x) - t\|\nabla f(x)\|_2^2 + O(t^2).$$
@@ -23,7 +23,7 @@ Why does moving directly opposite the gradient always decrease a smooth function
    Smaller $$t$$ means a steeper quadratic penalty (shorter, cautious step); larger $$t$$ trusts the linear slope farther.
 4. **Stopping Criteria in Practice**: Because iterative methods rarely hit $$\nabla f(x) = 0$$ in finite steps, algorithms terminate when $$\|\nabla f(x^{(k)})\|_2 \le \varepsilon$$, when relative function decrease falls below a tolerance, or when a step-count budget is reached.
 
-### Step-by-Step Worked Example (Read Slowly): Minimizing a 1D Non-Quadratic Convex Function
+### Worked example: Minimizing a 1D Non-Quadratic Convex Function
 
 Minimize $$f(x) = e^x + e^{-2x}$$ starting from $$x^{(0)} = 0$$ with step size $$t = 0.1$$ for two iterations, and compare with the exact analytical minimum.
 

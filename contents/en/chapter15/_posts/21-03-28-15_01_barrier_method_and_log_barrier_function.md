@@ -11,14 +11,14 @@ lang: en
 
 You already know how to use Newton's method when constraints are linear equalities $$Ax = b$$ (Chapter 14). How do we reuse that exact same Newton machinery when inequalities $$h_i(x) \le 0$$ enter the picture? Instead of inventing a separate combinatorial solver to guess active constraints, we fold all $$m$$ inequalities into the objective using a smooth **logarithmic barrier**—reducing the hardest convex problem class to a sequence of equality-constrained Newton solves.
 
-## Background Knowledge Map: Bridging Equality-Constrained Newton to Inequalities
+## Key ideas: Bridging Equality-Constrained Newton to Inequalities
 
 - **Pillar 1 — Reduction Strategy:** Inequality constraints $$h_i(x) \le 0$$ are absorbed into the objective so that only linear equalities $$Ax = b$$ remain explicit.
 - **Pillar 2 — Strict Interior Domain:** Because $$\log(-h_i(x))$$ is finite only when $$h_i(x) < 0$$, every iterate stays strictly inside the feasible set—never touching or crossing a boundary wall.
 - **Pillar 3 — Twice-Differentiable & Convex:** Whenever each $$h_i$$ is convex and $$C^2$$, the log barrier $$\phi(x) = -\sum_{i=1}^m \log(-h_i(x))$$ is also convex and $$C^2$$, making equality-constrained Newton directly applicable.
 - **Pillar 4 — Parameterized Accuracy ($$t > 0$$):** Scaling $$f(x)$$ by $$t$$ (solving $$\min tf(x) + \phi(x)$$ s.t. $$Ax = b$$) controls the trade-off between staying well-centered away from walls (small $$t$$) and hugging the true optimal boundary (large $$t$$).
 
-### Step-by-Step Worked Example (Read Slowly): Reducing a Box-Constrained Problem to Unconstrained Smooth Minimization
+### Worked example: Reducing a Box-Constrained Problem to Unconstrained Smooth Minimization
 
 Consider minimizing $$f(x) = (x - 2)^2$$ subject to $$-1 \le x \le 1$$ (written as $$h_1(x) = x - 1 \le 0$$ and $$h_2(x) = -x - 1 \le 0$$; true constrained optimum is $$x^\star = 1$$).
 

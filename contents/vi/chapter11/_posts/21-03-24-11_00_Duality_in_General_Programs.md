@@ -14,14 +14,14 @@ lesson_type: required
 
 Chương 11 trả lời câu hỏi đó bằng một trong những khung lý thuyết vĩ đại nhất của giải tích hiện đại: **tính đối ngẫu Lagrange (Lagrange Duality)**. Bằng cách đưa mọi ràng buộc vào hàm mục tiêu qua **hàm Lagrangian** $$L(x, u, v)$$ rồi cực tiểu hóa tự do theo $$x$$, ta không những mở rộng trọn vẹn đối ngẫu LP sang *mọi* bài toán tối ưu tổng quát (kể cả không lồi!), mà còn phát hiện ra một sự thật phi thường: **bài toán đối ngẫu Lagrange luôn là bài toán tối ưu lồi**, bất kể bài toán gốc có rối rắm hay không lồi đến đâu!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tính đối ngẫu trong bài toán tổng quát
+## Kiến thức cần nhớ: Bốn trụ cột của tính đối ngẫu trong bài toán tổng quát
 
 - **Từ đối ngẫu LP đến hàm Lagrangian tổng quát:** Thay vì chỉ dùng phép tổ hợp tuyến tính cho $$Ax = b, Gx \le h$$, hàm Lagrangian $$L(x, u, v) = f(x) + \sum u_i h_i(x) + \sum v_j l_j(x)$$ áp dụng cho mọi hàm mục tiêu $$f$$ và ràng buộc phi tuyến $$h_i, l_j$$.
 - **Hàm đối ngẫu Lagrange $$g(u, v) = \inf_x L(x, u, v)$$ luôn lõm:** Vì $$g(u, v)$$ là infimum theo từng điểm của một họ các hàm *affine* theo $$(u, v)$$, nó luôn là hàm lõm! Nhờ đó bài toán đối ngẫu $$\max_{u \ge 0, v} g(u, v)$$ luôn là bài toán tối ưu lồi.
 - **Đối ngẫu yếu (luôn đúng) vs. Đối ngẫu mạnh (cần điều kiện Slater):** Ta luôn có $$d^* \le p^*$$ cho mọi bài toán tối ưu (kể cả không lồi). Với bài toán gốc lồi, chỉ cần tồn tại một điểm khả thi chặt (điều kiện Slater), khoảng cách đối ngẫu bằng đúng $$0$$ ($$d^* = p^*$$).
 - **Khoảng cách đối ngẫu và đối ngẫu kép:** Hiệu $$f(x) - g(u, v)$$ vừa là thước đo chất lượng nghiệm trực tuyến để dừng thuật toán, vừa mở đường dẫn sang hệ điều kiện tối ưu KKT ở Chương 12.
 
-### Khung giải thích (nên đọc chậm): Bước nhảy từ LP sang bài toán bậc hai qua hàm Lagrangian
+### Giải thích: Bước nhảy từ LP sang bài toán bậc hai qua hàm Lagrangian
 
 Xét bài toán phi tuyến đơn giản nhất:
 $$\min_{x \in \mathbb{R}} \; f(x) = x^2 \quad \text{s.t.} \quad h(x) = 2 - x \le 0 \; (\text{tức } x \ge 2).$$

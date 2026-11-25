@@ -13,14 +13,14 @@ Như ta đã chứng kiến ở mục 14-02, phương pháp Newton thuần túy 
 
 Giải pháp cực kỳ gọn gàng để biến "xe đua mất phanh" thành thuật toán hội tụ toàn cục chính là **tìm kiếm đường backtracking (backtracking line search)** — tạo nên **phương pháp Newton có giảm chấn (damped Newton method)**. Thay vì nhắm mắt nhảy luôn một bước đầy đủ $$t = 1$$, ta thử $$t = 1$$ trước; nếu hàm mục tiêu chưa giảm đủ sâu theo điều kiện Armijo, ta thu ngắn bước đi theo hệ số $$\beta \in (0, 1)$$ cho đến khi bước đi an toàn. Điểm tuyệt vời là khi đã vào gần nghiệm, bước $$t = 1$$ tự động thỏa mãn ngay từ lần thử đầu tiên nên tốc độ hội tụ bậc hai vẫn được bảo toàn nguyên vẹn!
 
-## Bản đồ kiến thức nền: Cơ chế hoạt động của Newton có giảm chấn
+## Kiến thức cần nhớ: Cơ chế hoạt động của Newton có giảm chấn
 
 - **Điều kiện giảm đủ Armijo cho Newton:** Với hướng Newton $$v = -(\nabla^2 f(x))^{-1}\nabla f(x)$$ và đạo hàm theo hướng $$\nabla f(x)^T v = -\lambda(x)^2$$, bước $$t$$ được chấp nhận khi:
   $$f(x + tv) \le f(x) - \alpha t \lambda(x)^2, \qquad \alpha \in (0, 0.5).$$
 - **Tại sao luôn thử $$t = 1$$ đầu tiên:** Khác với Gradient Descent (nơi bước $$t = 1$$ thường quá lớn), bước Newton đã tự co giãn đúng tỷ lệ nhờ $$(\nabla^2 f)^{-1}$$. Thử $$t = 1$$ trước đảm bảo thuật toán tự động chuyển sang Newton thuần túy ngay khi vào pha hội tụ bậc hai.
 - **Hai tham số $$\alpha$$ và $$\beta$$:** Trong thực hành, $$\alpha \in [0.01, 0.3]$$ (mức giảm tối thiểu yêu cầu so với đường tiếp tuyến) và $$\beta \in [0.1, 0.8]$$ (tỷ lệ thu bước mỗi lần thất bại, phổ biến nhất là $$\beta = 0.5$$).
 
-### Khung giải thích (nên đọc chậm): Chạy tay một vòng backtracking trên hàm $$f(x) = \sqrt{1 + x^2}$$ để cứu bước Newton phân kỳ
+### Giải thích: Chạy tay một vòng backtracking trên hàm $$f(x) = \sqrt{1 + x^2}$$ để cứu bước Newton phân kỳ
 
 Nhớ lại ở mục 14-02, với $$f(x) = \sqrt{1 + x^2}$$ tại điểm khởi tạo $$x = 1.2$$, bước Newton thuần túy nhảy sang $$-1.728$$ và **phân kỳ**! Giờ hãy lắp thêm backtracking với $$\alpha = 0.25$$ và $$\beta = 0.5$$:
 

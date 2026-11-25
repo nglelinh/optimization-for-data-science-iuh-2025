@@ -16,14 +16,14 @@ Một bài toán thực tế hiếm khi xuất hiện sẵn trong lớp vỏ l�
 
 Bài tập thực hành cuối Chương 01 đưa bạn trực tiếp từ việc phân loại LP/QP/GP trên giấy sang triển khai và kiểm chứng nghiệm. Dưới đây là bản đồ các kỹ thuật chuyển dạng quan trọng nhất cùng một ví dụ GP giải tay từng bước.
 
-## Bản đồ kiến thức nền: Bốn họ bài toán thực hành cốt lõi của Chương 01
+## Kiến thức cần nhớ: Bốn họ bài toán thực hành cốt lõi của Chương 01
 
 - **Bình phương tối thiểu (Least Squares):** $$\min_x \|Ax - b\|_2^2$$ — có công thức đóng $$x^* = (A^T A)^{-1}A^T b$$ khi $$A$$ đủ hạng cột, là điểm khởi đầu của hồi quy và ước lượng tín hiệu.
 - **Quy hoạch tuyến tính (LP):** Hàm mục tiêu và mọi ràng buộc đều affine; nghiệm tối ưu (nếu tồn tại và bị chặn) luôn đạt được tại ít nhất một đỉnh của đa diện khả thi.
 - **Quy hoạch bậc hai (QP):** Hàm mục tiêu bậc hai lồi $$\frac{1}{2}x^T P x + q^T x$$ với $$P \succeq 0$$ và ràng buộc tuyến tính — khung chuẩn của tối ưu hóa danh mục đầu tư Markowitz và máy vector hỗ trợ (SVM).
 - **Quy hoạch hình học (Geometric Programming — GP):** Thoạt nhìn phi tuyến, không lồi (chứa đơn thức và posynomial trên $$x > 0$$), nhưng phép đổi biến $$u_i = \ln x_i$$ biến nó thành bài toán **lồi hoàn toàn** nhờ tính lồi của hàm log-sum-exp!
 
-### Khung giải thích (nên đọc chậm): "Phù phép" đổi biến một bài toán Quy hoạch hình học thành bài toán lồi
+### Giải thích: "Phù phép" đổi biến một bài toán Quy hoạch hình học thành bài toán lồi
 
 Xét bài toán trên miền dương $$x > 0,\ y > 0$$:
 $$\min_{x, y > 0} \frac{1}{xy} \quad \text{với điều kiện} \quad x + 2y \le 4.$$

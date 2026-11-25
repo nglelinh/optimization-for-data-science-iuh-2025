@@ -12,14 +12,14 @@ lesson_type: required
 
 Knowing the definition of convexity is only the first mile; the real superpower of this course is *recognizing* hidden convexity in applied problems and matching each problem structure to the right algorithm. A naive general-purpose solver might take 10,000 iterations on an image-denoising problem that a tailored ADMM or proximal splitting method solves to high accuracy in 20 iterations.
 
-## Background Knowledge Map: The Three Pillars of Mastering Convex Optimization
+## Key ideas: The Three Pillars of Mastering Convex Optimization
 
 - **Recognition & Reformulation (Modeling):** Spotting when a seemingly nonconvex problem (such as fractional programming or $$\ell_1$$-regularized regression) can be transformed into an equivalent LP, QP, SOCP, or SDP.
 - **Duality & Optimality Theory:** Using Lagrange duality and KKT conditions to derive analytical optimality certificates, sensitivity analyses, and stopping criteria (duality gaps).
 - **Algorithm–Structure Matching:** Selecting among first-order methods (gradient, proximal, coordinate descent), operator splitting (ADMM), and second-order interior-point methods based on dimension $$n$$, smoothness, and desired accuracy.
 - **Practical Trade-Offs:** Balancing per-iteration cost (cheap matrix-vector products vs. expensive linear solves) against iteration count and wall-clock time.
 
-### Step-by-Step Worked Example (Read Slowly): 1D Total Variation (TV) Denoising by Hand
+### Worked example: 1D Total Variation (TV) Denoising by Hand
 
 Consider a 3-pixel noisy signal $$y = (0, 0, 3)^T$$ with regularization weight $$\lambda = 1$$:
 $$\min_{x \in \mathbb{R}^3} \; F(x) = \frac{1}{2}\left[(x_1 - 0)^2 + (x_2 - 0)^2 + (x_3 - 3)^2\right] + |x_2 - x_1| + |x_3 - x_2|.$$

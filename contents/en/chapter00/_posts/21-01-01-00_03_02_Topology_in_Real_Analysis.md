@@ -12,14 +12,14 @@ lesson_type: required
 
 When an interior-point method marches toward an optimal solution sitting on the boundary of a feasible polytope, it deliberately stays inside the *interior* so that its logarithmic barrier stays finite, converging to a *boundary* point only in the limit. Understanding open balls, interiors, closures, boundaries, and compactness explains exactly why Slater's condition requires a strictly feasible interior point and why Weierstrass's theorem guarantees an optimizer exists.
 
-## Background Knowledge Map: Topological Concepts That Govern Convergence
+## Key ideas: Topological Concepts That Govern Convergence
 
 - **Metric & Open Balls ($$B(x, r)$$):** Formalize "closeness" in $$\mathbb{R}^n$$; a point is in the interior of $$S$$ if you can wiggle it by some radius $$r > 0$$ in *every* direction without leaving $$S$$.
 - **Open vs. Closed Sets:** Closed sets contain all limits of convergent sequences inside them—critical so that the limit of an algorithm's iterates $$x_k \to x^*$$ remains feasible.
 - **Closure ($$\text{cl}(S)$$) & Boundary ($$\partial S$$):** Active constraints at an optimum $$x^*$$ almost always place $$x^*$$ on the boundary $$\partial S = \text{cl}(S) \setminus \text{int}(S)$$.
 - **Compactness (Heine–Borel in $$\mathbb{R}^n$$):** Closed and bounded sets trap every sequence so it has a convergent subsequence inside the set, guaranteeing global minima for continuous objectives.
 
-### Step-by-Step Worked Example (Read Slowly): Interior, Closure, Boundary, and Compactness of a Half-Disk
+### Worked example: Interior, Closure, Boundary, and Compactness of a Half-Disk
 
 Analyze the planar set $$S = \{(x, y) \in \mathbb{R}^2 : x^2 + y^2 < 4,\; y \ge 0\}$$.
 

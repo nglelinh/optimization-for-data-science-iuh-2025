@@ -11,14 +11,14 @@ lang: en
 
 Imagine you are auditing a complex supply-chain optimizer that claims its current routing plan is "within 1% of the theoretical best possible cost." Without knowing the true optimal cost $$f^\star$$—which nobody has ever computed—how could you possibly verify that claim? Duality is the mathematical lens that hands you an indisputable lower bound from a mirror-image problem, turning an unknowable optimum into a certifiable bracket and revealing hidden geometric correspondences between norms, functions, and cones.
 
-## Background Knowledge Map: The Architecture of Duality Correspondences
+## Key ideas: The Architecture of Duality Correspondences
 
 - **Pillar 1 — Primal-Dual Certificates (Why Bounds Matter):** Every feasible dual point $$(u,v)$$ yields a lower bound $$g(u,v) \le f^\star$$. Paired with any feasible primal point $$x$$, the gap $$f(x) - g(u,v)$$ certifies suboptimality without ever knowing $$f^\star$$.
 - **Pillar 2 — Dual Norms & Geometric Pairing:** Measuring a primal vector in one norm $$\|\cdot\|$$ automatically induces a dual norm $$\|\cdot\|_*$$ that measures linear functionals (gradients, prices, dual variables) against the primal unit ball.
 - **Pillar 3 — Fenchel Conjugates as Function Mirrors:** The conjugate $$f^*(y) = \max_x (y^T x - f(x))$$ translates convex objectives—including nonsmooth norms and indicator constraints—into dual objectives cleanly, separating optimal values ($$x^\star$$) from conjugates ($$f^*$$).
 - **Pillar 4 — Dual Cones as Generalized Nonnegativity:** Replacing componentwise inequalities $$x \ge 0$$ with conic memberships $$Ax \in K$$ generalizes Lagrange multipliers from nonnegative vectors to dual-cone certificates $$u \in K^*$$.
 
-### Step-by-Step Worked Example (Read Slowly): Bracketing an Unknown Optimum via Duality
+### Worked example: Bracketing an Unknown Optimum via Duality
 
 Consider minimizing the 1D convex objective $$f(x) = \frac{1}{2}x^2 - 4x$$ subject to $$x \ge 1$$ (written as $$h(x) = 1 - x \le 0$$).
 

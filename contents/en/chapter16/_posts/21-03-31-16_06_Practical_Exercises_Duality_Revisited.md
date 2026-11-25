@@ -14,14 +14,14 @@ redirect_from:
 
 Duality exercises in Chapter 16 focus on the deeper geometric and economic meaning of dual variables: how $$p^*(u)$$ behaves when you perturb a constraint right-hand side (shadow prices), how saddle points certify global optimality without calculus, and how Fenchel conjugates cleanly dualize nonsmooth composite problems. Review this four-pillar workflow and worked perturbation example before solving the exercises below.
 
-## Background Knowledge Map: Exercise-Solving Playbook for Chapter 16
+## Key ideas: Exercise-Solving Playbook for Chapter 16
 
 - **Pillar 1 — Perturbation & Shadow-Price Sign Convention:** Write the perturbed constraint cleanly as $$h_i(x) \le u_i$$. Increasing $$u_i$$ *relaxes* the feasible set, so $$p^*(u)$$ is nonincreasing and $$\lambda_i^\star = -\frac{\partial p^*(0)}{\partial u_i} \ge 0$$. (If written as $$x \ge u$$, increasing $$u$$ *tightens* the set, flipping the sign to $$+\frac{dp^*}{du}$$!)
 - **Pillar 2 — Checking Saddle Points Directly:** To prove $$(x^\star, u^\star)$$ is a saddle point of $$L$$, verify the two inequalities $$L(x^\star, u) \le L(x^\star, u^\star) \le L(x, u^\star)$$ for all $$x$$ and all $$u \ge 0$$.
 - **Pillar 3 — Fenchel Dual Derivation Checklist:** Identify $$f$$, $$g$$, and $$A$$; compute $$f^*$$ and $$g^*$$ carefully (including their effective domains!); assemble $$\max_v -f^*(A^T v) - g^*(-v)$$; and check Slater/relative-interior qualification.
 - **Pillar 4 — Verifying Barrier Self-Duality:** Always check that $$\min_{x > 0} (s_i x_i - \log x_i) = 1 + \log s_i$$ for $$s_i > 0$$ (and $$-\infty$$ otherwise)—that single 1D identity drives every LP barrier dual derivation!
 
-### Step-by-Step Worked Example (Read Slowly): Sensitivity Analysis (Shadow Price) on a Constrained Quadratic
+### Worked example: Sensitivity Analysis (Shadow Price) on a Constrained Quadratic
 
 Minimize $$f(x) = \frac{1}{2}(x - 5)^2$$ subject to $$h(x) = x - 2 \le u$$ (i.e., $$x \le 2 + u$$). Compute $$p^*(u)$$ and verify $$\lambda^\star = -\frac{dp^*}{du}\big|_{u=0}$$.
 

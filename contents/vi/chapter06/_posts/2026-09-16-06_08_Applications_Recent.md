@@ -14,7 +14,7 @@ Suốt Chương 06, bạn đã nắm vững định lý cổ điển: Gradient D
 
 Hiện tượng **Mép ổn định (Edge of Stability)** cùng với sự ra đời của các bộ tối ưu thế hệ mới như **Lion** (tìm ra bằng tiến hóa chương trình tự động của Google Brain, chỉ dùng dấu của momentum) và **Schedule-Free SGD/AdamW** (bỏ hoàn toàn lịch giảm tốc độ học thủ công) cho thấy lý thuyết Gradient Descent của Chương 06 vẫn đang tiến hóa sôi động từng năm!
 
-## Bản đồ kiến thức nền: Ba bước tiến hiện đại vượt ra ngoài khung GD cổ điển
+## Kiến thức cần nhớ: Ba bước tiến hiện đại vượt ra ngoài khung GD cổ điển
 
 Để kết nối lý thuyết Chương 06 với nghiên cứu tối ưu hóa giai đoạn 2021–2026, hãy nắm ba trụ cột:
 
@@ -22,7 +22,7 @@ Hiện tượng **Mép ổn định (Edge of Stability)** cùng với sự ra đ
 - **Lion (EvoLved Sign Momentum):** Cập nhật tham số chỉ bằng **dấu** ($$\operatorname{sign}$$) của tổ hợp momentum: $$x_{t+1} = x_t - \eta \operatorname{sign}(\beta_1 m_{t-1} + (1-\beta_1) g_t)$$. Mọi tọa độ di chuyển cùng một biên độ $$\eta$$ (tương ứng chuẩn $$\ell_\infty$$ thay vì $$\ell_2$$!), giúp tiết kiệm một nửa bộ nhớ trạng thái so với AdamW!
 - **Tối ưu hóa không cần lịch học (Schedule-Free Optimization):** Thay vì phải đoán trước tổng số bước $$T$$ để thiết kế lịch cosine decay, phương pháp Schedule-Free duy trì hai chuỗi lặp (một chuỗi cập nhật và một chuỗi trung bình nội suy) để tự động đạt tốc độ hội tụ tối ưu cho mọi thời điểm dừng!
 
-### Khung giải thích (nên đọc chậm): Tính tay sự khác biệt giữa bước GD chuẩn và bước Lion (Sign Momentum)
+### Giải thích: Tính tay sự khác biệt giữa bước GD chuẩn và bước Lion (Sign Momentum)
 
 Giả sử tại một bước huấn luyện, hai tọa độ của vector gradient (sau khi trộn momentum) có độ lớn chênh lệch cực mạnh:
 $$u = (0.01,\; -10.0)^T, \qquad \text{với tốc độ học } \eta = 0.1.$$

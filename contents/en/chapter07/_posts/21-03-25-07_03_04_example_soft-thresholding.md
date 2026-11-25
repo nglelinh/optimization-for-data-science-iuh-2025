@@ -11,7 +11,7 @@ lang: en
 
 Take the Lasso problem and simplify the design matrix to the identity $$X = I$$: $$\min_\beta \frac{1}{2}\|y - \beta\|_2^2 + \lambda\|\beta\|_1$$. Not only does subgradient optimality solve this in closed form—it produces one of the most famous building blocks in modern signal processing and convex optimization: the **Soft-Thresholding Operator** $$S_\lambda(y)$$, the exact proximal operator of the $$\ell_1$$ norm that powers ISTA, FISTA, and wavelet denoising.
 
-## Background Knowledge Map: Soft-Thresholding and Proximal Sparsity
+## Key ideas: Soft-Thresholding and Proximal Sparsity
 
 1. **Complete Coordinate Separability**: When $$X = I$$, the objective splits into $$p$$ independent 1D problems:
    $$\min_{\beta_i \in \mathbb{R}} \quad \frac{1}{2}(y_i - \beta_i)^2 + \lambda |\beta_i|.$$
@@ -22,7 +22,7 @@ Take the Lasso problem and simplify the design matrix to the identity $$X = I$$:
 3. **Soft vs. Hard Thresholding**: *Hard* thresholding keeps $$y_i$$ unchanged for $$|y_i| > \lambda$$ and jumps discontinuously to $$0$$ at $$\pm\lambda$$ (nonconvex!). *Soft* thresholding is continuous everywhere—it shrinks surviving entries toward zero by $$\lambda$$, trading a tiny bias for convexity and stability.
 4. **Role in Iterative Solvers (ISTA / Proximal Gradient)**: Even when $$X \neq I$$, proximal gradient descent for general Lasso simply alternates one ordinary gradient step $$z = \beta - t X^T(X\beta - y)$$ with one soft-thresholding call $$\beta^+ = S_{t\lambda}(z)$$!
 
-### Step-by-Step Worked Example (Read Slowly): Applying Soft-Thresholding to a Noisy Signal
+### Worked example: Applying Soft-Thresholding to a Noisy Signal
 
 Denoise the 4-entry signal $$y = (4.5,\; -0.8,\; 1.5,\; -3.2)^T$$ by solving $$\min_\beta \frac{1}{2}\|y - \beta\|_2^2 + \lambda\|\beta\|_1$$ with $$\lambda = 1.5$$.
 

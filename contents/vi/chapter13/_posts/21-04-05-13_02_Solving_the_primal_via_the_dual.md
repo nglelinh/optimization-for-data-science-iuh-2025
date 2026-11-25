@@ -14,13 +14,13 @@ Hãy tưởng tượng bạn phải phân bổ ngân sách cho $$n = 10{,}000$$ 
 
 Thế nhưng, khi bước sang không gian đối ngẫu, toàn bộ $$10{,}000$$ biến nguyên thủy đột ngột biến mất, chỉ còn lại **đúng một biến vô hướng $$v$$** — đóng vai trò như "giá bóng" của một đồng ngân sách! Một khi tìm được mức giá cân bằng $$v^\star$$ bằng tìm kiếm nhị phân hay phương pháp Newton 1 chiều, từng chiến dịch $$i$$ chỉ việc tự tối ưu độc lập theo công thức đóng. Đó chính là sức mạnh tách biến kinh điển của việc giải bài toán nguyên thủy thông qua đối ngẫu.
 
-## Bản đồ kiến thức nền: Cơ chế khôi phục nghiệm nguyên thủy từ đối ngẫu
+## Kiến thức cần nhớ: Cơ chế khôi phục nghiệm nguyên thủy từ đối ngẫu
 
 - **Điều kiện dừng KKT và đối ngẫu mạnh:** Khi đối ngẫu mạnh giữ vững, nghiệm nguyên thủy tối ưu $$x^\star$$ bắt buộc phải là một điểm cực tiểu của hàm Lagrange $$L(x, u^\star, v^\star)$$ tại nhân tử tối ưu.
 - **Tính duy nhất nhờ lồi chặt (Strict Convexity):** Cần hết sức cẩn thận: nếu $$L(x, u^\star, v^\star)$$ có nhiều điểm cực tiểu (ví dụ khi $$f$$ tuyến tính từng khúc), một điểm cực tiểu tùy ý có thể còn không khả thi cho bài toán gốc! Nhưng khi $$f$$ **lồi chặt**, điểm cực tiểu của $$L(x, u^\star, v^\star)$$ là duy nhất nên chắc chắn trùng khít với $$x^\star$$.
 - **Cấu trúc tách biến (Separability):** Khi hàm mục tiêu là tổng $$\sum_{i=1}^n f_i(x_i)$$ và chỉ có ít ràng buộc ghép chung, phép lấy cực tiểu theo $$x$$ tự động rã thành $$n$$ bài toán 1 chiều độc lập, liên kết với nhau qua hàm liên hợp $$f_i^*$$.
 
-### Khung giải thích (nên đọc chậm): Giải bài toán phân bổ 3 biến qua đối ngẫu 1 chiều
+### Giải thích: Giải bài toán phân bổ 3 biến qua đối ngẫu 1 chiều
 
 Xét bài toán tách biến 3 chiều:
 

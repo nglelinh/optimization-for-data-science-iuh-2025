@@ -13,7 +13,7 @@ Nếu bạn có một bài toán với $$100$$ biến nhị phân, tổng số t
 
 Bí quyết của Nhánh và Cận nằm ở hai chữ **cắt tỉa (pruning)**: thay vì đi xuống tận đáy của mọi nhánh cây, ta giải nhanh bài toán nới lỏng lồi tại mỗi nút để lấy cận dưới; ngay khi thấy cận dưới của một nhánh đã tệ hơn (hoặc bằng) nghiệm nguyên tốt nhất đang giữ trong tay, ta lập tức chém phăng cả nhánh cây hàng tỷ nút phía dưới đó mà không bỏ sót nghiệm tối ưu!
 
-## Bản đồ kiến thức nền: Ba trụ cột điều khiển cây Nhánh và Cận
+## Kiến thức cần nhớ: Ba trụ cột điều khiển cây Nhánh và Cận
 
 Khi theo dõi một cây Nhánh và Cận, mọi thao tác ở mỗi nút đều quy về ba quy tắc rõ ràng:
 
@@ -21,7 +21,7 @@ Khi theo dõi một cây Nhánh và Cận, mọi thao tác ở mỗi nút đều
 - **Ba điều kiện cắt tỉa (Fathoming / Pruning Rules):** Một nút con được đóng lại ngay lập tức (không cần phân nhánh tiếp) nếu rơi vào một trong ba trường hợp: (1) *Vô nghiệm* (bài toán nới lỏng không có nghiệm); (2) *Cắt theo cận* (cận dưới $$l(X_i) \ge u$$, không thể tốt hơn kỷ lục hiện tại); hoặc (3) *Nghiệm nguyên* (nghiệm nới lỏng tự động nguyên — lúc này ta cập nhật kỷ lục $$u \leftarrow \min(u, l(X_i))$$).
 - **Chiến lược duyệt cây (Node & Variable Selection):** Chọn nút nào mở tiếp (duyệt sâu để sớm tìm nghiệm khả thi hạ $$u$$, hay duyệt nút có cận dưới nhỏ nhất *best-first* để nhanh nâng cận toàn cục) và chọn biến phân số nào để rẽ nhánh quyết định trực tiếp kích thước cây tìm kiếm.
 
-### Khung giải thích (nên đọc chậm): Chạy tay trọn vẹn một cây Nhánh và Cận
+### Giải thích: Chạy tay trọn vẹn một cây Nhánh và Cận
 
 Hãy tự tay giải bài toán quy hoạch nguyên cực tiểu hóa:
 

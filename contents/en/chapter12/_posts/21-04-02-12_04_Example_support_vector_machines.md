@@ -12,7 +12,7 @@ lesson_type: required
 
 Why are Support Vector Machines named after *support vectors*—and how can a classifier trained on 100,000 data points depend on just a tiny handful of critical boundary examples? The answer is pure KKT complementary slackness! Writing down the KKT system for the soft-margin SVM QP reveals in four lines why $$\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i$$ is a sparse linear combination of training points, why points safely outside the margin have $$w_i^\star = 0$$, and how margin points pin down the intercept $$\beta_0^\star$$!
 
-## Background Knowledge Map: Reading SVM Geometry Directly from KKT
+## Key ideas: Reading SVM Geometry Directly from KKT
 
 - **Pillar 1 — Stationarity Produces the Representer Formula:** Differentiating the soft-margin SVM Lagrangian with respect to $$\beta, \beta_0, \xi_i$$ gives three gold-mine equations: $$\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i$$, $$\sum_{i=1}^n w_i^\star y_i = 0$$, and $$w_i^\star + v_i^\star = C$$ (hence $$0 \le w_i^\star \le C$$).
 - **Pillar 2 — Complementary Slackness Partitions All Data into 3 Regimes:**
@@ -22,7 +22,7 @@ Why are Support Vector Machines named after *support vectors*—and how can a cl
 - **Pillar 3 — Recovering the Intercept $$\beta_0^\star$$:** Any free support vector ($$0 < w_i^\star < C$$) has $$\xi_i^\star = 0$$ and tight margin $$y_i(x_i^\top \beta^\star + \beta_0^\star) = 1$$, immediately giving $$\beta_0^\star = y_i - x_i^\top \beta^\star$$.
 - **Pillar 4 — Dual Sparsity & Computational Payoff:** Because non-support vectors drop out of $$\beta^\star$$ completely, removing them from the training set does *not* change the optimal hyperplane by a single millimeter!
 
-### Step-by-Step Worked Example (Read Slowly): Identifying Support Vectors & Multipliers on a 3-Point 1D Dataset
+### Worked example: Identifying Support Vectors & Multipliers on a 3-Point 1D Dataset
 
 Consider 3 labeled 1D training points with $$C = 2$$:
 $$(x_1, y_1) = (-2, -1), \quad (x_2, y_2) = (0, -1), \quad (x_3, y_3) = (2, +1).$$

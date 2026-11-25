@@ -12,14 +12,14 @@ lesson_type: required
 
 Whether you are routing delivery trucks across Ho Chi Minh City, allocating capital across stocks, or fitting a neural network, you are solving the exact same mathematical template: choose a vector $$x$$ from a set of allowed choices to make a single scalar score as small as possible. Writing a problem down cleanly in standard mathematical form is half the battle—it exposes hidden symmetries, infeasibilities, and exact bounds before you ever touch a solver.
 
-## Background Knowledge Map: Anatomy of a Mathematical Optimization Problem
+## Key ideas: Anatomy of a Mathematical Optimization Problem
 
 - **Decision Vector ($$x \in \mathbb{R}^n$$):** The levers you actually control—never confuse controllable decisions with fixed problem parameters (data).
 - **Objective Function ($$f_0(x)$$):** A scalar metric to minimize (maximization of $$g(x)$$ is always rewritten as minimizing $$-g(x)$$).
 - **Constraints & Feasible Set ($$\mathcal{C}$$):** The intersection of all inequality constraints $$f_i(x) \le b_i$$ and equality constraints $$h_j(x) = 0$$; if $$\mathcal{C} = \emptyset$$, the problem is *infeasible*.
 - **Optimal Value ($$p^*$$) vs. Optimal Solution ($$x^*$$):** $$p^* = \inf_{x \in \mathcal{C}} f_0(x)$$ is the best achievable score, whereas $$x^* \in \mathcal{C}$$ is a feasible point achieving $$f_0(x^*) = p^*$$.
 
-### Step-by-Step Worked Example (Read Slowly): Bounding and Solving a Constrained Problem by Hand
+### Worked example: Bounding and Solving a Constrained Problem by Hand
 
 Consider the problem:
 $$\min_{x_1, x_2 \in \mathbb{R}} \; x_1^2 + x_2^2 \quad \text{subject to} \quad x_1 + x_2 \ge 4,\; x_1 \ge 0,\; x_2 \ge 0.$$

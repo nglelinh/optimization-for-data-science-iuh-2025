@@ -11,14 +11,14 @@ lang: en
 
 Watching a loss curve drop on one dataset is encouraging, but engineering critical systems demands *guarantees*: how many iterations does gradient descent take to reach accuracy $$\varepsilon$$, and how does that number depend on the problem's geometry? Section 06-03 builds the classical convergence theory of gradient descent—from the quadratic upper bound of $$L$$-smoothness to $$O(1/k)$$ sublinear rates and exponential linear rates under strong convexity.
 
-## Background Knowledge Map: Roadmap of Gradient Descent Convergence Theory
+## Key ideas: Roadmap of Gradient Descent Convergence Theory
 
 1. **The Smoothness Pillar ($$L$$-Lipschitz Gradient)**: Assuming $$\|\nabla f(x) - \nabla f(y)\|_2 \le L\|x - y\|_2$$ yields the **Descent Lemma**: $$f(y) \le f(x) + \nabla f(x)^T(y-x) + \frac{L}{2}\|y-x\|_2^2$$. Every convergence proof in this section starts from this single quadratic upper bound.
 2. **Sublinear $$O(1/k)$$ Rate for Smooth Convex Functions**: With fixed step $$t \le 1/L$$ (or backtracking with $$t_{\min} = \min(1, \beta/L)$$), gradient descent guarantees $$f(x^{(k)}) - f^\star \le \frac{\|x^{(0)} - x^\star\|_2^2}{2 t k}$$, meaning $$O(1/\varepsilon)$$ iterations to reach $$\varepsilon$$-suboptimality.
 3. **Linear (Exponential) Rate under $$m$$-Strong Convexity**: Adding a quadratic *lower* bound $$f(y) \ge f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|_2^2$$ upgrades the rate to $$f(x^{(k)}) - f^\star \le \left(1 - \frac{m}{L}\right)^k (f(x^{(0)}) - f^\star)$$, requiring only $$O\bigl(\kappa \log(1/\varepsilon)\bigr)$$ iterations!
 4. **Lower Bounds and Acceleration**: Nesterov proved that *no* first-order method can beat $$\Omega(1/k^2)$$ on smooth convex functions (or $$\Omega(\sqrt{\kappa}\log(1/\varepsilon))$$ under strong convexity)—motivating Nesterov Accelerated Gradient and momentum methods.
 
-### Step-by-Step Worked Example (Read Slowly): Comparing Iteration Budgets at $$\varepsilon = 10^{-4}$$
+### Worked example: Comparing Iteration Budgets at $$\varepsilon = 10^{-4}$$
 
 Suppose a problem has smoothness constant $$L = 10$$, initial distance $$\|x^{(0)} - x^\star\|_2 = 1$$, and initial suboptimality $$f(x^{(0)}) - f^\star = 5$$. Using fixed step size $$t = 1/L = 0.1$$, compare the theoretical iteration count to guarantee $$f(x^{(k)}) - f^\star \le 10^{-4}$$:
 

@@ -11,14 +11,14 @@ lang: en
 
 Why does Frank–Wolfe converge at the universal rate $$O(1/k)$$ without ever mentioning a Euclidean Lipschitz constant $$L$$ or choosing a metric? The secret lies in Martin Jaggi’s 2011 geometric reformulation: instead of bounding curvature in Euclidean norm, we measure how far $$f$$ bends above its linear tangent *strictly inside* the feasible set $$C$$ via the affine-invariant curvature constant $$M$$. That single definition unlocks both a clean induction proof and one of optimization’s rarest superpowers—complete invariance under invertible linear transformations of the coordinates.
 
-## Background Knowledge Map: Curvature Constant, Affine Invariance, and Inexact Oracles
+## Key ideas: Curvature Constant, Affine Invariance, and Inexact Oracles
 
 - **Jaggi’s Curvature Constant $$M$$:** Defined as $$M = \sup_{x, s \in C,\ \gamma \in (0,1]} \frac{2}{\gamma^2}\bigl(f(y) - f(x) - \langle \nabla f(x), y - x \rangle\bigr)$$ with $$y = (1-\gamma)x + \gamma s$$, $$M$$ bounds the quadratic remainder along feasible line segments. Whenever $$\nabla f$$ is $$L$$-Lipschitz, $$M \le L \cdot \operatorname{diam}(C)^2$$.
 - **The One-Step Descent Recurrence:** Combining the curvature bound with the optimality of $$s_k$$ and convexity of $$f$$ produces the key contraction inequality $$h_k \le (1 - \gamma_k) h_{k-1} + \frac{M}{2}\gamma_k^2$$ for suboptimality $$h_k = f(x^{(k)}) - f(x^\star)$$, which telescopes cleanly under $$\gamma_k = \frac{2}{k+1}$$ to give $$h_k \le \frac{2M}{k+2}$$.
 - **Affine Invariance:** Because both the inner product $$\langle \nabla f(x), s - x \rangle$$ and the curvature constant $$M$$ depend only on linear functionals and convex combinations, reparameterizing $$x = A\tilde{x}$$ leaves the Frank–Wolfe trajectory identical—unlike projected gradient descent, whose Euclidean projection distorts under rescaling.
 - **Robustness to Inexact LMOs:** In massive matrix problems, computing the exact top singular vector is unnecessary. Solving the LMO up to additive error $$\frac{\delta M \gamma_k}{2}$$ preserves the exact $$O(1/k)$$ rate with constant scaled merely by $$(1 + \delta)$$.
 
-### Step-by-Step Worked Example (Read Slowly): Computing $$M$$ and Checking the $$O(1/k)$$ Bound by Hand
+### Worked example: Computing $$M$$ and Checking the $$O(1/k)$$ Bound by Hand
 
 Let $$f(x) = \frac{1}{2}(x - 1)^2$$ on the compact interval $$C = [0, 2]$$, starting at $$x^{(0)} = 0$$ (where $$f(x^{(0)}) = 0.5$$ and $$f(x^\star) = f(1) = 0$$).
 

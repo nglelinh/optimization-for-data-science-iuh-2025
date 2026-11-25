@@ -11,14 +11,14 @@ lang: en
 
 A single corrupted sensor reading with a massive leverage value can drag Ordinary Least Squares arbitrarily far from the truth—and even $$\ell_1$$ (LAD) regression breaks down under high-leverage outliers. In 1984, Peter Rousseeuw proposed **Least Median of Squares (LMS)** (and more generally **Least Quantile of Squares, LQS**): instead of minimizing the sum of squared residuals, minimize the *median* (or $$q$$-th smallest) squared residual! This achieves the maximum possible $$50\%$$ breakdown point, yet for thirty years it was solved only by random subsampling heuristics. Expressing the $$q$$-th order statistic via binary indicator variables turns LQS into an exact Mixed Integer Program.
 
-## Background Knowledge Map: Order Statistics, Robustness, and MIP for LQS
+## Key ideas: Order Statistics, Robustness, and MIP for LQS
 
 - **Breakdown Point & Leverage Immunity:** OLS has breakdown point $$0\%$$ (one bad point ruins the fit). Minimizing the $$q$$-th smallest squared residual $$r_{(q)}^2$$ with $$q = \lfloor n/2 \rfloor + 1$$ completely ignores up to $$n - q$$ arbitrarily extreme outliers—even in both $$X$$ and $$y$$.
 - **Modeling Order Statistics with Binary Variables:** Saying that the $$q$$-th smallest absolute residual is at most $$\gamma$$ is equivalent to requiring *at least* $$q$$ observations to satisfy $$|y_i - x_i^\top \beta| \le \gamma$$—leaving the remaining $$n - q$$ observations unconstrained via big-$$M$$ switches $$z_i \in \{0, 1\}$$!
 - **Exact MILP Formulation:** Minimize $$\gamma$$ subject to $$|y_i - x_i^\top \beta| \le \gamma + M(1 - z_i)$$ for $$i = 1, \dots, n$$ and $$\sum_{i=1}^n z_i = q$$, $$z_i \in \{0, 1\}$$. Notice that the objective $$\gamma$$ and every constraint are **purely linear**!
 - **First-Order Warm Starts via Difference-of-Convex / Alternating Minimization:** Fixing $$\beta$$ immediately gives the optimal $$z$$ (pick the $$q$$ smallest residuals), and fixing $$z$$ solves a Chebyshev ($$\ell_\infty$$) fit on those $$q$$ inliers—providing fast primal incumbents for the MILP.
 
-### Step-by-Step Worked Example (Read Slowly): Why LMS Defeats OLS on a 4-Point Dataset with 1 Outlier
+### Worked example: Why LMS Defeats OLS on a 4-Point Dataset with 1 Outlier
 
 Fit a constant model $$y \approx \beta \in \mathbb{R}$$ to four measurements $$y = (1,\ 2,\ 3,\ 100)^\top$$ (3 clean points near $$2$$, plus 1 gross outlier at $$100$$). Take $$q = 3$$ (minimize the 3rd smallest absolute residual, ignoring the single worst outlier).
 

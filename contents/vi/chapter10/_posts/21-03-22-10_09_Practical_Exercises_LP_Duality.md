@@ -16,14 +16,14 @@ Biết viết bài toán đối ngẫu trên giấy mới chỉ là bước kh�
 
 Điểm đặc biệt giúp bạn giải nhanh bộ bài tập này là kỹ năng **đọc nghiệm đối ngẫu từ nghiệm gốc bằng điều kiện bù (Complementary Slackness)** mà không cần chạy lại thuật toán đơn hình từ đầu. Khung tính tay dưới đây minh họa trọn vẹn kỹ thuật cực kỳ hữu ích ấy chỉ trong vài dòng!
 
-## Bản đồ kiến thức nền: Bốn kỹ năng thực chiến cần dùng trong bộ bài tập thực hành
+## Kiến thức cần nhớ: Bốn kỹ năng thực chiến cần dùng trong bộ bài tập thực hành
 
 - **Chuyển đổi dạng hỗn hợp sang bài toán đối ngẫu không sai dấu:** Thành thạo viết bảng đối chiếu giữa 3 loại ràng buộc gốc ($$\le, =, \ge$$) và 3 loại miền biến gốc ($$\ge 0, \text{tự do}, \le 0$$) sang bài toán đối ngẫu.
 - **Kiểm định tối ưu bằng chứng chỉ cặp Primal–Dual:** Để chứng minh $$x^*$$ là tối ưu, chỉ cần tìm một điểm đối ngẫu khả thi $$u^*$$ sao cho $$c^T x^* = b^T u^*$$ — phương pháp ngắn gọn và thuyết phục tuyệt đối.
 - **Khai thác hệ phương trình điều kiện bù (Complementary Slackness):** Tại nghiệm tối ưu, $$u_i^*(a_i^T x^* - b_i) = 0$$ và $$x_j^*(c_j - (A^T u^*)_j) = 0$$. Khi biết các biến gốc dương và ràng buộc gốc chặt, hệ bất đẳng thức đối ngẫu thu gọn thành một **hệ phương trình tuyến tính** giải ra ngay $$u^*$$!
 - **Phân tích độ nhạy (Sensitivity Analysis):** Dùng nghiệm đối ngẫu $$u^*$$ để trả lời các câu hỏi kinh doanh như *"Nên mua thêm bao nhiêu nguyên liệu với giá tối đa bao nhiêu?"* hay *"Nên mở thêm sản phẩm mới không?"*
 
-### Khung giải thích (nên đọc chậm): Dùng điều kiện bù để tìm nhanh giá bóng $$u^*$$ từ nghiệm gốc
+### Giải thích: Dùng điều kiện bù để tìm nhanh giá bóng $$u^*$$ từ nghiệm gốc
 
 Giả sử trong bài toán lập kế hoạch sản xuất:
 $$\max_{x_1, x_2 \ge 0} \; 5x_1 + 4x_2 \quad \text{s.t.} \quad \begin{cases} x_1 + x_2 \le 6 & (\text{nguyên liệu A, giá bóng } u_1 \ge 0) \\ 2x_1 + x_2 \le 10 & (\text{giờ máy B, giá bóng } u_2 \ge 0) \\ x_2 \le 5 & (\text{hạn mức thị trường, giá bóng } u_3 \ge 0) \end{cases}$$

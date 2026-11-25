@@ -16,14 +16,14 @@ Chương 14 chứa rất nhiều khái niệm sắc nét nhưng cũng dễ nhầ
 
 Bộ câu hỏi trắc nghiệm này sẽ kiểm tra toàn diện phản xạ của bạn về tối ưu hóa bậc hai — từ công thức cơ bản, tính chất hình học, tìm kiếm đường backtracking, phân tích hai pha hội tụ, hàm tự hài hòa, đến Quasi-Newton. Hãy rà nhanh bản đồ bốn nhóm bẫy kinh điển trước khi bắt đầu chọn đáp án.
 
-## Bản đồ kiến thức nền: Bốn nhóm bẫy trắc nghiệm thường gặp ở Chương 14
+## Kiến thức cần nhớ: Bốn nhóm bẫy trắc nghiệm thường gặp ở Chương 14
 
 - **Hình học bước Newton vs. Gradient Descent:** Nhớ rằng hướng Newton **không** nhất thiết vuông góc đường đồng mức (trừ khi $$\nabla f(x)$$ là vectơ riêng của $$\nabla^2 f(x)$$), nhưng luôn tạo góc nhọn với $$-\nabla f(x)$$ miễn là $$\nabla^2 f(x) \succ 0$$.
 - **Tính bất biến affine:** Cả bước cập nhật Newton, Newton decrement $$\lambda(x)$$, lẫn cận hội tụ của hàm tự hài hòa đều **bất biến affine**; ngược lại, Gradient Descent, $$\|\nabla f(x)\|_2$$ và các hằng số $$m, L, M$$ thì **không**.
 - **Hội tụ cục bộ vs. toàn cục:** Newton thuần túy ($$t = 1$$) chỉ hội tụ **cục bộ** (có thể phân kỳ khi xa nghiệm); muốn hội tụ **toàn cục** trên hàm lồi phải ghép thêm tìm kiếm đường backtracking (Newton có giảm chấn).
 - **Hàm tự hài hòa và độ phức tạp:** Kiểm tra đúng số mũ $$3/2$$ và hằng số $$2$$ ($$\vert f''' \vert \le 2(f'')^{3/2}$$), nhớ hàm $$-\log x$$ là tự hài hòa còn $$e^x$$ trên $$\mathbb{R}$$ thì không, và chi phí mỗi bước Newton đặc là $$O(n^3)$$ với bộ nhớ $$O(n^2)$$.
 
-### Khung giải thích (nên đọc chậm): Giải mẫu một câu hỏi bẫy về phép nhân vô hướng hàm tự hài hòa
+### Giải thích: Giải mẫu một câu hỏi bẫy về phép nhân vô hướng hàm tự hài hòa
 
 **Câu hỏi mẫu:** Cho $$f(x) = -\log x$$ (đã biết là hàm tự hài hòa trên $$x > 0$$). Xét hai hàm mới $$g_1(x) = 4 f(x)$$ và $$g_2(x) = \frac{1}{4} f(x)$$. Hàm nào còn là hàm tự hài hòa?
 
@@ -111,7 +111,8 @@ abla f(x))^{1/2}$$
 
 #### **Ý nghĩa**
 1. **Chất lượng xấp xỉ bậc hai:** $$rac{1}{2}\lambda^2(x) = f(x) - \min_y \hat{f}(y)$$, trong đó $$\hat{f}(y)$$ là xấp xỉ bậc hai của $$f$$ tại $$x$$. Đại lượng $$rac{1}{2}\lambda^2(x)$$ là ước lượng cho khoảng cách tối ưu $$f(x) - f^*$$ (dựa trên xấp xỉ bậc hai, không phải cận trên chặt trong mọi trường hợp).
-2. **Độ dài bước Newton:** $$\lambda(x) = \lVert \Delta x_{nt} Vert_{
+2. **Độ dài bước Newton:** $$\lambda(x) = \lVert \Delta x_{nt} 
+Vert_{
 abla^2 f(x)}$$ (theo chuẩn cảm sinh bởi ma trận Hessian).
 3. **Khoảng cách Mahalanobis:** Đo độ lớn bước Newton tính từ điểm hiện tại trong hệ đo xác định bởi Hessian.
 
@@ -156,34 +157,45 @@ abla f(x)^T v = -\lambda^2(x) < 0$$.
 1. **$$
 abla f$$ liên tục Lipschitz:** $$\lVert 
 abla f(x) - 
-abla f(y) Vert_2 \le L \lVert x-y Vert_2$$
+abla f(y) 
+Vert_2 \le L \lVert x-y 
+Vert_2$$
 2. **Tính lồi mạnh:** $$mI \preceq 
 abla^2 f(x) \preceq LI$$
 3. **$$
 abla^2 f$$ liên tục Lipschitz:** $$\lVert 
 abla^2 f(x) - 
-abla^2 f(y) Vert_2 \le M \lVert x-y Vert_2$$
+abla^2 f(y) 
+Vert_2 \le M \lVert x-y 
+Vert_2$$
 
 #### **Hội tụ hai giai đoạn**
 **Giai đoạn I — Giai đoạn giảm chấn (Damped phase):** $$\lVert 
-abla f(x^{(k)}) Vert_2 \ge \eta$$
+abla f(x^{(k)}) 
+Vert_2 \ge \eta$$
 $$f(x^{(k+1)}) - f(x^{(k)}) \le -\gamma$$
 
 **Giai đoạn II — Giai đoạn thuần túy (Pure phase):** $$\lVert 
-abla f(x^{(k)}) Vert_2 < \eta$$
+abla f(x^{(k)}) 
+Vert_2 < \eta$$
 $$rac{M}{2m^2} \lVert 
-abla f(x^{(k+1)}) Vert_2 \le \left(rac{M}{2m^2} \lVert 
-abla f(x^{(k)}) Vert_2ight)^2$$
+abla f(x^{(k+1)}) 
+Vert_2 \le \left(rac{M}{2m^2} \lVert 
+abla f(x^{(k)}) 
+Vert_2
+ight)^2$$
 
 #### **Tốc độ hội tụ**
 **Giai đoạn I:** Giá trị hàm giảm ít nhất một lượng cố định $$\gamma$$ ở mỗi bước:
 $$f(x^{(k)}) - f^* \le (f(x^{(0)}) - f^*) - \gamma k$$
 
 **Giai đoạn II:** Hội tụ bậc hai:
-$$f(x^{(k)}) - f^* \le rac{2m^3}{M^2}\left(rac{1}{2}ight)^{2^{k-k_0+1}}$$
+$$f(x^{(k)}) - f^* \le rac{2m^3}{M^2}\left(rac{1}{2}
+ight)^{2^{k-k_0+1}}$$
 
 #### **Tổng độ phức tạp vòng lặp**
-$$rac{f(x^{(0)}) - f^*}{\gamma} + \log\log\left(rac{\epsilon_0}{\epsilon}ight)$$
+$$rac{f(x^{(0)}) - f^*}{\gamma} + \log\log\left(rac{\epsilon_0}{\epsilon}
+ight)$$
 
 **Ước lượng thực hành:** $$rac{f(x^{(0)}) - f^*}{\gamma} + 6$$.
 
@@ -198,7 +210,8 @@ Phân tích hội tụ cổ điển có hai hạn chế:
 Hàm $$f$$ là **tự hài hòa** nếu với trường hợp một biến:
 $$|f'''(x)| \le 2(f''(x))^{3/2}$$
 
-**Trường hợp nhiều biến:** $$\lvert D^3 f(x)[h,h,h] vert \le 2(h^T 
+**Trường hợp nhiều biến:** $$\lvert D^3 f(x)[h,h,h] 
+vert \le 2(h^T 
 abla^2 f(x) h)^{3/2}$$.
 
 #### **Tính chất chính**
@@ -254,8 +267,10 @@ abla f(x)$$.
 #### **Tiêu chí dừng**
 1. Đại lượng giảm Newton: $$\lambda^2(x)/2 < \epsilon$$.
 2. Chuẩn gradient: $$\lVert 
-abla f(x) Vert_2 < \epsilon$$.
-3. Độ giảm giá trị hàm: $$\lvert f(x^{(k)}) - f(x^{(k-1)}) vert < \epsilon$$.
+abla f(x) 
+Vert_2 < \epsilon$$.
+3. Độ giảm giá trị hàm: $$\lvert f(x^{(k)}) - f(x^{(k-1)}) 
+vert < \epsilon$$.
 
 ### 🎯 **Trường hợp đặc biệt và mở rộng**
 
@@ -275,7 +290,8 @@ abla f(x_k)$$.
 Thay thế tìm kiếm đường bằng bài toán con có ràng buộc bán kính $$\Delta$$:
 $$\min_p f(x) + 
 abla f(x)^T p + rac{1}{2}p^T 
-abla^2 f(x) p \quad 	ext{với} \quad \lVert p Vert \le \Delta$$
+abla^2 f(x) p \quad 	ext{với} \quad \lVert p 
+Vert \le \Delta$$
 
 ### 💡 **Ví dụ minh họa**
 
@@ -518,7 +534,9 @@ abla f(x)$$</strong><br>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: C) Bậc hai (Quadratic)</strong><br>
-                Trong vùng lân cận điểm tối ưu, phương pháp Newton đạt hội tụ bậc hai: $$\lVert x^{(k+1)} - x^* Vert \leq C \lVert x^{(k)} - x^* Vert^2$$.
+                Trong vùng lân cận điểm tối ưu, phương pháp Newton đạt hội tụ bậc hai: $$\lVert x^{(k+1)} - x^* 
+Vert \leq C \lVert x^{(k)} - x^* 
+Vert^2$$.
             </div>
         </div>
 
@@ -535,9 +553,11 @@ abla f(x)^T [
 abla^2 f(x)]^{-1} 
 abla f(x)\)</label>
                 <label><input type="radio" name="q5" value="c"> C) $$\lambda(x) = \lVert 
-abla f(x) Vert$$</label>
+abla f(x) 
+Vert$$</label>
                 <label><input type="radio" name="q5" value="d"> D) $$\lambda(x) = \lVert 
-abla^2 f(x) Vert$$</label>
+abla^2 f(x) 
+Vert$$</label>
             </div>
             <div class="explanation" style="display: none;">
                 <strong>Đáp án đúng: A) $$\lambda(x) = \sqrt{
@@ -690,7 +710,8 @@ abla f(x)^T \Delta x_{nt}$$.
             <div class="options">
                 <label><input type="radio" name="q15" value="a"> A) Giới hạn độ dài bước đi trong một miền tin cậy</label>
                 <label><input type="radio" name="q15" value="b"> B) Có thể thay đổi cả hướng bước đi thay vì chỉ thu nhỏ kích thước bước</label>
-                <label><input type="radio" name="q15" value="c"> C) Chọn bước bằng cách giải bài toán con với ràng buộc $$\lVert p Vert \leq \Delta$$</label>
+                <label><input type="radio" name="q15" value="c"> C) Chọn bước bằng cách giải bài toán con với ràng buộc $$\lVert p 
+Vert \leq \Delta$$</label>
                 <label><input type="radio" name="q15" value="d"> D) Tất cả các điểm trên</label>
             </div>
             <div class="explanation" style="display: none;">

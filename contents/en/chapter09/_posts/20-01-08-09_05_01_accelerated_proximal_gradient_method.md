@@ -11,14 +11,14 @@ lang: en
 
 Extending Nesterov's smooth acceleration to composite nonsmooth problems $$f(x) = g(x) + h(x)$$ was one of the landmark breakthroughs of 2000s optimization—independently refined by Nesterov (2007) and popularized by Beck and Teboulle (2009) as **FISTA**. With only two lines of extra arithmetic—an extrapolated point $$v$$ and a scalar momentum sequence—you keep the exact same per-iteration cost as proximal gradient descent while upgrading the convergence rate from $$O(1/\varepsilon)$$ to the optimal $$O(1/\sqrt{\varepsilon})$$.
 
-## Background Knowledge Map: Mechanics of Accelerated Proximal Gradient
+## Key ideas: Mechanics of Accelerated Proximal Gradient
 
 - **Pillar 1 — Two-Sequence State ($$x^{(k)}$$ and $$v^{(k)}$$):** The algorithm maintains the main proximal iterates $$x^{(k)}$$ and an auxiliary extrapolated sequence $$v^{(k)} = x^{(k-1)} + \frac{k-2}{k+1}(x^{(k-1)} - x^{(k-2)})$$. Notice that $$v^{(k)}$$ may leave the sparse support or feasible set; the subsequent proximal map $$\operatorname{prox}_{t_k h}$$ immediately snaps $$x^{(k)}$$ back.
 - **Pillar 2 — Same Oracle Cost as Plain Proximal Gradient:** Each iteration still performs exactly one smooth gradient evaluation $$\nabla g(v^{(k)})$$ and one proximal evaluation $$\operatorname{prox}_{t_k h}$$. There are no Hessians, no inner loops, and only one extra vector stored in memory.
 - **Pillar 3 — Nesterov's Historical Arc (1983–2007):** Nesterov first accelerated smooth unconstrained problems (1983), then refined estimate sequences (1988), bridged to nonsmooth problems via smoothing (2005), and finally unified composite optimization $$g + h$$ (2007)—achieving $$O(1/\sqrt{\varepsilon})$$ whenever $$h$$ is prox-friendly.
 - **Pillar 4 — Backtracking Compatibility:** Just like plain proximal gradient, accelerated proximal gradient supports backtracking line search on $$g$$ at the extrapolated point $$v^{(k)}$$ whenever $$L$$ is unknown, preserving the $$O(1/k^2)$$ rate.
 
-### Step-by-Step Worked Example (Read Slowly): Two Steps of Accelerated Proximal Gradient on a 1D Lasso
+### Worked example: Two Steps of Accelerated Proximal Gradient on a 1D Lasso
 
 Minimize $$f(x) = \frac{1}{2}(x - 5)^2 + |x|$$ (so $$\nabla g(x) = x - 5$$, $$L = 1$$, exact optimum $$x^\star = S_1(5) = 4$$) using conservative step size $$t = 0.5$$, starting from $$x^{(0)} = x^{(-1)} = 0$$, with momentum $$\beta_k = \frac{k-1}{k+2}$$ for $$k = 1, 2$$.
 

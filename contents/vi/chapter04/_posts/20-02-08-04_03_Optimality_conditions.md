@@ -14,7 +14,7 @@ Trong giải tích năm nhất đại học, câu thần chú đầu tiên ai c�
 
 Vậy làm sao ta biết chắc một điểm nằm trên biên thực sự là đáy sâu nhất? Câu trả lời của tối ưu hóa lồi mang vẻ đẹp hình học đáng kinh ngạc: **tại điểm tối ưu $$x^\star$$, hướng giảm nhanh nhất $$-\nabla f(x^\star)$$ phải chỉ thẳng ra ngoài tập khả thi**, sao cho mọi bước đi hợp lệ $$y - x^\star$$ vào bên trong tập khả thi đều tạo góc tù (hoặc vuông) với $$-\nabla f(x^\star)$$, tức $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$.
 
-## Bản đồ kiến thức nền: Từ đạo hàm cổ điển đến điều kiện tối ưu có ràng buộc
+## Kiến thức cần nhớ: Từ đạo hàm cổ điển đến điều kiện tối ưu có ràng buộc
 
 Bài học này nối liền giải tích nhiều biến với hình học lồi qua bốn trụ cột:
 
@@ -23,7 +23,7 @@ Bài học này nối liền giải tích nhiều biến với hình học lồi
 - **Không gian tiếp tuyến & Điều kiện bậc hai (Second-Order Conditions):** Đối với bài toán tổng quát (kể cả chưa chắc lồi), thông tin đạo hàm bậc nhất chỉ cho biết độ dốc, còn ma trận Hessian $$\nabla^2 f(x^\star)$$ đo độ cong. Trên không gian các hướng khả thi, Hessian nửa xác định dương là điều kiện cần, và xác định dương chặt là điều kiện đủ cho cực tiểu địa phương chặt.
 - **Liên hệ với Nhân tử Lagrange & KKT:** Khi tập $$C$$ được mô tả bằng các bất đẳng thức và đẳng thức cụ thể, điều kiện $$-\nabla f(x^\star) \in N_C(x^\star)$$ sẽ bung ra thành hệ phương trình KKT nổi tiếng mà ta sẽ học sâu hơn ở các chương đối ngẫu.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng điều kiện tối ưu bậc nhất trên ba trường hợp điển hình
+### Giải thích: Kiểm chứng điều kiện tối ưu bậc nhất trên ba trường hợp điển hình
 
 Xét hàm mục tiêu lồi $$f(x_1, x_2) = \frac{1}{2}(x_1 - 2)^2 + \frac{1}{2}(x_2 + 1)^2$$, có gradient $$\nabla f(x) = (x_1 - 2,\; x_2 + 1)^T$$, cực tiểu hóa trên góc phần tư không âm $$C = \{x \in \mathbb{R}^2 : x_1 \ge 0,\; x_2 \ge 0\}$$.
 

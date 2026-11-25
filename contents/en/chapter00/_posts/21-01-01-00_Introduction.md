@@ -11,14 +11,14 @@ categories:
 
 Imagine piloting an autonomous spacecraft through a gravitational valley with a fixed fuel tank: every thruster firing is a decision vector, fuel consumption is the objective, and orbital safety corridors are the constraints. Before you can design the autopilot—or prove that it will never get trapped in a false valley—you need a sharp mathematical language for *rates of change*, *multidimensional geometry*, *sets and limits*, and *uncertainty*. Chapter 00 builds that exact toolkit so that every theorem in convex optimization feels inevitable rather than mysterious.
 
-## Background Knowledge Map: The Four Mathematical Pillars of Optimization
+## Key ideas: The Four Mathematical Pillars of Optimization
 
 - **Multivariable Calculus (Local Geometry & Descent):** Gradients point uphill, Hessians measure curvature, and Taylor expansions turn nonlinear objectives into tractable local quadratics. Without calculus, first- and second-order optimality conditions cannot even be stated.
 - **Linear Algebra (Structure & Conditioning):** Decision variables live in $$\mathbb{R}^n$$, linear constraints are matrix equations $$Ax = b$$, and eigenvalues of the Hessian govern how fast gradient methods converge. Poor conditioning stretches level sets into narrow canyons.
 - **Set Theory & Real Analysis (Existence of Solutions):** Continuity and compactness (Weierstrass's theorem) tell us when a minimum actually exists instead of escaping to infinity or approaching an unattainable boundary.
 - **Probability & Statistics (Data-Driven Objectives):** Empirical risk minimization, maximum likelihood estimation, and stochastic gradient methods all cast statistical inference directly as optimization problems over noisy data.
 
-### Step-by-Step Worked Example (Read Slowly): Unifying Calculus and Linear Algebra on a 2D Quadratic
+### Worked example: Unifying Calculus and Linear Algebra on a 2D Quadratic
 
 Consider minimizing the coupled quadratic objective:
 

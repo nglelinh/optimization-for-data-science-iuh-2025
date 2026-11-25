@@ -11,7 +11,7 @@ lang: vi
 
 Trong không gian 1 chiều, biết hai điểm liên tiếp trên đồ thị đạo hàm là đủ xác định duy nhất một đường cát tuyến có độ dốc $$B_{k+1} = y_k / s_k$$. Nhưng khi bước sang không gian $$n$$ chiều, phương trình cát tuyến $$B_{k+1} s_k = y_k$$ chỉ cung cấp $$n$$ phương trình tuyến tính, trong khi một ma trận đối xứng $$B_{k+1}$$ có tới $$\frac{n(n+1)}{2}$$ ẩn số! Chính sự "thiếu phương trình" này đã mở ra bài toán thú vị nhất của Chương 18: cần bổ sung những điều kiện hình học nào (như điều kiện độ cong $$y_k^T s_k > 0$$) để ma trận $$B_{k+1}$$ vừa xác định dương, vừa giữ lại được tri thức độ cong tích lũy từ các bước trước?
 
-## Bản đồ kiến thức nền: Ba trụ cột của phương trình Secant và điều kiện độ cong
+## Kiến thức cần nhớ: Ba trụ cột của phương trình Secant và điều kiện độ cong
 
 Để hiểu sâu cơ sở toán học của mọi công thức cập nhật Quasi-Newton, hãy nắm rõ ba ý tưởng sau:
 
@@ -19,7 +19,7 @@ Trong không gian 1 chiều, biết hai điểm liên tiếp trên đồ thị �
 - **Điều kiện độ cong $$y_k^T s_k > 0$$ và tính xác định dương:** Muốn tồn tại ma trận đối xứng xác định dương $$B_{k+1} \succ 0$$ thỏa mãn $$B_{k+1} s_k = y_k$$, điều kiện cần và đủ là $$s_k^T y_k = s_k^T B_{k+1} s_k > 0$$. Về mặt hình học, điều này nghĩa là đạo hàm theo hướng $$s_k$$ phải tăng lên khi ta đi từ $$x_k$$ sang $$x_{k+1}$$ (hàm cong lên dọc theo hướng đi).
 - **Vai trò của điều kiện Wolfe với hàm không lồi:** Với hàm lồi chặt, $$y_k^T s_k > 0$$ luôn tự động đúng. Với hàm không lồi tổng quát, điều kiện độ cong Wolfe $$\nabla f(x_{k+1})^T s_k \ge c_2 \nabla f(x_k)^T s_k$$ (với $$c_2 \in (0, 1)$$) chính là chốt chặn bảo đảm $$y_k^T s_k \ge (c_2 - 1)\nabla f(x_k)^T s_k > 0$$.
 
-### Khung giải thích (nên đọc chậm): Tính tay cặp $$(s, y)$$ và kiểm chứng điều kiện độ cong trên mặt paraboloid 2D
+### Giải thích: Tính tay cặp $$(s, y)$$ và kiểm chứng điều kiện độ cong trên mặt paraboloid 2D
 
 Xét hàm bậc hai lồi chặt 2 biến $$f(x_1, x_2) = x_1^2 + 3x_2^2$$, có gradient $$\nabla f(x) = (2x_1, \; 6x_2)^T$$ và Hessian thực không đổi $$G = \begin{bmatrix} 2 & 0 \\ 0 & 6 \end{bmatrix}$$. Giả sử ta bước từ $$x^0 = (1, 1)^T$$ tới $$x^1 = (0, 0.5)^T$$:
 

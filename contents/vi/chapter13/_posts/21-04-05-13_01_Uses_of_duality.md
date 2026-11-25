@@ -13,13 +13,13 @@ Trong thực tế chạy thuật toán tối ưu, câu hỏi khiến kỹ sư đ
 
 Lý thuyết đối ngẫu giải quyết dứt điểm nỗi lo này bằng một cơ chế kiểm chứng toán học tuyệt đối: **khoảng cách đối ngẫu (duality gap)**. Thay vì đoán mò mình còn cách nghiệm tối ưu $$f^\star$$ bao xa, bạn xây dựng song song một điểm khả thi đối ngẫu $$(u, v)$$ để tạo ra một "sàn cứng" $$g(u, v) \le f^\star \le f(x)$$. Khi trần và sàn khép sát nhau dưới ngưỡng $$\epsilon$$, bạn có thể dừng máy với sự đảm bảo 100% về độ chính xác.
 
-## Bản đồ kiến thức nền: Vì sao đối ngẫu sinh ra tiêu chí dừng và đường tắt giải toán?
+## Kiến thức cần nhớ: Vì sao đối ngẫu sinh ra tiêu chí dừng và đường tắt giải toán?
 
 - **Tính đối ngẫu yếu như một chặn dưới phổ quát:** Bất kể bài toán gốc có lồi hay không, với mọi điểm khả thi nguyên thủy $$x$$ và mọi điểm khả thi đối ngẫu $$(u, v)$$, ta luôn có $$g(u, v) \le f^\star \le f(x)$$. Vì vậy $$f(x) - g(u, v)$$ luôn là chặn trên chắc chắn cho sai số thực $$f(x) - f^\star$$.
 - **Khoảng cách đối ngẫu (Duality Gap) vs. Độ lệch tối ưu (Suboptimality):** Ta không bao giờ biết giá trị $$f^\star$$ khi thuật toán đang chạy, nên không thể tính trực tiếp $$f(x) - f^\star$$. Nhưng ta tính được cả $$f(x)$$ lẫn $$g(u, v)$$, biến một đại lượng ẩn thành tiêu chí dừng đo được trực tiếp.
 - **Bắc cầu từ bài toán khó sang bài toán dễ:** Khi đối ngẫu mạnh thỏa mãn, việc giải bài toán đối ngẫu (thường có ít biến hơn hoặc cấu trúc ràng buộc đơn giản hơn) rồi khôi phục $$x^\star$$ giúp giảm mạnh chi phí tính toán.
 
-### Khung giải thích (nên đọc chậm): Tính khoảng cách đối ngẫu làm tiêu chí dừng bằng tay
+### Giải thích: Tính khoảng cách đối ngẫu làm tiêu chí dừng bằng tay
 
 Xét bài toán quy hoạch bậc hai đơn giản:
 

@@ -11,14 +11,14 @@ lang: en
 
 Can a function be strictly decreasing along no coordinate axis and yet still *not* be at a minimum? That subtle question is the entire theoretical heart of Coordinate Descent. For smooth convex functions, vanishing partial derivatives along every axis guarantee global optimality. The moment we add a nonsmooth term, however, geometry fights back: if a nonsmooth ridge runs diagonally across the coordinate axes, coordinate-wise minimization can freeze completely at a non-optimal point. Understanding exactly when coordinate descent succeeds—and when it fails—is essential before deploying it on Lasso or sparse models.
 
-## Background Knowledge Map: Optimality Conditions and Separability in Coordinate Descent
+## Key ideas: Optimality Conditions and Separability in Coordinate Descent
 
 - **Coordinate-Wise Optimality for Smooth Convex Functions:** If $$f$$ is convex and differentiable, $$\nabla_i f(x) = 0$$ for all $$i = 1, \dots, n$$ implies $$\nabla f(x) = 0$$, so coordinate-wise stationarity is equivalent to global optimality.
 - **Failure on Non-Separable Nonsmooth Functions:** When a nonsmooth term couples coordinates (such as $$|x_1 - x_2|$$), the subdifferential does not factor into a Cartesian product, allowing a point to sit at the bottom of every axis-aligned slice while a diagonal descent direction still exists.
 - **Tseng’s Convergence Theorem (2001):** For $$f(x) = g(x) + \sum_{i=1}^n h_i(x_i)$$ with $$g$$ convex differentiable and each $$h_i$$ convex (possibly nonsmooth), cyclic coordinate descent converges to a global minimum because the nonsmooth kinks are aligned strictly with the coordinate axes.
 - **Block Coordinate Descent (BCD):** Generalizing single scalars $$x_i$$ to non-overlapping variable blocks $$x_{B_j}$$ preserves Tseng’s guarantee whenever the nonsmooth regularizer is block-separable (e.g., Group Lasso $$\sum_g \|x_g\|_2$$).
 
-### Step-by-Step Worked Example (Read Slowly): A Counterexample Where Coordinate Descent Gets Stuck
+### Worked example: A Counterexample Where Coordinate Descent Gets Stuck
 
 Consider the convex, non-separable function $$f(x_1, x_2) = (x_1 + x_2)^2 + 2|x_1 - x_2| - 4(x_1 + x_2)$$ at the point $$x = (0, 0)^\top$$ (wait—let us check an even cleaner textbook point: $$f(x_1, x_2) = -x_1 - x_2 + 2|x_1 - x_2|$$ on $$[-1, 1]^2$$, or unconstrained $$f(x_1, x_2) = (x_1 + x_2 - 2)^2 + 4|x_1 - x_2|$$ at $$x = (0, 0)^\top$$). Let us test $$f(x_1, x_2) = (x_1 + x_2 - 2)^2 + 5|x_1 - x_2|$$ at $$x^{(0)} = (0, 0)^\top$$!
 

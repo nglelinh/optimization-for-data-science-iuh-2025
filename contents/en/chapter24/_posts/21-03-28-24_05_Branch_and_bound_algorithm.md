@@ -11,14 +11,14 @@ lang: en
 
 Branch and Bound is the undisputed workhorse of exact discrete optimization—the algorithmic spine of Gurobi, CPLEX, HiGHS, and SCIP. Its idea is deceptively simple: divide and conquer with a sharp pair of scissors. Whenever a relaxation returns a fractional variable $$x_j = 2.4$$, split the universe into two mutually exclusive subproblems ($$x_j \le 2$$ and $$x_j \ge 3$$). The magic lies in **fathoming (pruning)**: the moment a subproblem’s relaxation bound is worse than an already-known integer incumbent, you can discard that entire branch—and potentially billions of descendant solutions—in one stroke.
 
-## Background Knowledge Map: The Three Pillars of Branch and Bound
+## Key ideas: The Three Pillars of Branch and Bound
 
 - **Branching (Partitioning the Feasible Set):** Picking a fractional variable $$x_j \notin \mathbb{Z}$$ and adding $$x_j \le \lfloor x_j \rfloor$$ to the left child and $$x_j \ge \lceil x_j \rceil$$ to the right child eliminates the current fractional point without losing *any* integer feasible solution.
 - **The Three Fathoming (Pruning) Rules:** A tree node can be permanently closed without further branching if its relaxation is: (1) **infeasible**, (2) **worse than the incumbent** ($$z_{\text{LP}} \ge U$$ for minimization, or $$\le L$$ for maximization), or (3) **already integer-feasible** (which also updates the incumbent!).
 - **Node Selection Strategy (BFS vs. DFS vs. Best-First):** Depth-first search finds feasible incumbents quickly using low memory; best-first search always expands the node with the tightest relaxation bound, minimizing total nodes explored to prove optimality.
 - **Variable Selection (Strong Branching & Pseudocosts):** Choosing *which* fractional variable to branch on can shrink the search tree by $$100\times$$; strong branching tests candidate splits beforehand to pick the variable that lifts child bounds the most.
 
-### Step-by-Step Worked Example (Read Slowly): Complete Branch-and-Bound Tree by Hand
+### Worked example: Complete Branch-and-Bound Tree by Hand
 
 Maximize $$z = 5 x_1 + 4 x_2$$ subject to $$x_1 + x_2 \le 5$$, $$10 x_1 + 6 x_2 \le 45$$, and $$x_1, x_2 \in \mathbb{Z}_{\ge 0}$$.
 

@@ -12,14 +12,14 @@ lesson_type: supplementary
 
 At first glance, the gradient descent step size $$t$$ looks like an arbitrary hyperparameter you tune by guesswork. Look one layer deeper through Taylor's second-order expansion and a striking truth emerges: choosing $$t$$ is equivalent to approximating the true curvature matrix $$\nabla^2 f(x)$$ by a single scalar multiple of the identity, $$\frac{1}{t}I$$! Understanding this curvature picture explains *why* steep valleys force tiny steps and *why* condition number controls convergence speed.
 
-## Background Knowledge Map: Curvature, Hessian Bounds, and Step Sizes
+## Key ideas: Curvature, Hessian Bounds, and Step Sizes
 
 1. **Gradient Descent as Isotropic Hessian Replacement**: Newton's method minimizes $$f(x) + \nabla f(x)^T(y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x)(y-x)$$. Gradient descent replaces the full Hessian $$\nabla^2 f(x)$$ with $$\frac{1}{t}I$$, assuming identical curvature $$1/t$$ in every coordinate direction.
 2. **The Upper-Bound Safety Condition ($$1/t \ge L$$)**: Whenever $$\frac{1}{t}I \succeq \nabla^2 f(x)$$ (i.e., $$t \le 1/L$$ where $$L = \sup_x \lambda_{\max}(\nabla^2 f(x))$$), the quadratic surrogate sits *above* the true function $$f(y)$$ everywhere. Minimizing an upper bound guarantees strict monotonic decrease $$f(x^+) \le f(x)$$.
 3. **Overshooting When Curvature Is Underestimated**: If $$t > 2/\lambda_{\max}$$, the surrogate bowl is too flat along the steepest eigenvector—gradient descent leaps past the valley floor to a higher point on the opposite wall, causing divergence.
 4. **Ill-Conditioning ($$\kappa = L/m \gg 1$$)**: When one direction has huge curvature $$L$$ and another has tiny curvature $$m$$, the single scalar $$1/t$$ must be large enough to stay safe along the steep direction ($$t \le 1/L$$), which forces painfully tiny progress $$m/L = 1/\kappa$$ along the flat direction.
 
-### Step-by-Step Worked Example (Read Slowly): Computing the Safe Step-Size Limit from Curvature
+### Worked example: Computing the Safe Step-Size Limit from Curvature
 
 Consider the quadratic function $$f(x_1, x_2) = \frac{1}{2}(2x_1^2 + 20x_2^2)$$, whose exact Hessian is $$\nabla^2 f(x) = \operatorname{diag}(2, 20)$$.
 

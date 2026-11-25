@@ -11,14 +11,14 @@ lang: en
 
 You have already seen Lasso solved by subgradients, ISTA/FISTA, coordinate descent, and interior-point methods—so why does **ADMM for Lasso and Group Lasso** deserve its own spotlight? Because splitting $$\beta = \alpha$$ cleanly separates the *coupled design matrix* $$X$$ (handled by a single pre-cached ridge linear solve) from the *nonsmooth sparsity penalty* (handled by elementwise soft-thresholding for Lasso or blockwise vector shrinkage for Group Lasso)—making the exact same 10-line template work for overlapping groups, sparse group Lasso, and distributed datasets!
 
-## Background Knowledge Map: ADMM Architecture for Lasso & Group Lasso
+## Key ideas: ADMM Architecture for Lasso & Group Lasso
 
 - **Ridge + Soft-Thresholding Split (Lasso):** Splitting $$\min \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\alpha\|_1$$ s.t. $$\beta = \alpha$$ turns the $$\beta$$-update into a smooth ridge regression $$(X^T X + \rho I)\beta = X^T y + \rho(\alpha - w)$$ and the $$\alpha$$-update into exact scalar soft-thresholding $$S_{\lambda/\rho}(\beta + w)$$.
 - **Woodbury Matrix Identity for $$p \gg n$$:** When features outnumber samples ($$p \gg n$$), factoring the $$p \times p$$ matrix $$X^T X + \rho I$$ is slow; the Woodbury identity $$(X^T X + \rho I)^{-1} = \frac{1}{\rho}I - \frac{1}{\rho^2}X^T(I + \frac{1}{\rho} X X^T)^{-1} X$$ shrinks the Cholesky factor down to $$n \times n$$!
 - **Block Soft-Thresholding for Group Lasso:** Replacing $$\lambda\|\alpha\|_1$$ with $$\lambda \sum_{g=1}^G \|\alpha_g\|_2$$ leaves the $$\beta$$-update *completely unchanged* and simply swaps scalar soft-thresholding for Euclidean block shrinkage $$\alpha_g = \left(1 - \frac{\lambda/\rho}{\|\beta_g + w_g\|_2}\right)_+ (\beta_g + w_g)$$.
 - **Drop-In Regularizer Swapping:** Because $$X$$ only appears in the $$\beta$$-update, switching between Lasso, Group Lasso, Elastic Net, or Sparse Group Lasso requires changing *only one line of code* (the $$\alpha$$-prox)!
 
-### Step-by-Step Worked Example (Read Slowly): One ADMM Iteration on a 2-Feature Group Lasso
+### Worked example: One ADMM Iteration on a 2-Feature Group Lasso
 
 Consider a 1-group Group Lasso in $$\mathbb{R}^2$$ with $$X = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$$, $$y = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$$, and group penalty $$\lambda\|\alpha\|_2$$ with $$\lambda = 2$$:
 $$\min_{\beta, \alpha} \; \frac{1}{2}\|y - X\beta\|_2^2 + 2\|\alpha\|_2 \quad \text{subject to} \quad \beta = \alpha.$$

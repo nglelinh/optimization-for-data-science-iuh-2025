@@ -11,7 +11,7 @@ lang: vi
 
 Khi lái một chiếc máy bay xuyên qua sương mù, phi công không thể chỉ nhìn ra cửa sổ mà phải theo dõi đồng hồ độ cao, tốc độ và góc nghiêng. Trong phương pháp điểm trong gốc–đối ngẫu, vì các điểm lặp trung gian không còn bắt buộc phải khả thi, ta không thể tính khoảng cách đối ngẫu thực $$f(x) - g(u, v)$$ ở mọi bước. Thay vào đó, ta theo dõi ba "đồng hồ chỉ báo" là ba vector phần dư $$r_{\text{prim}}, r_{\text{dual}}, r_{\text{cent}}$$ cùng với **khoảng cách đối ngẫu thay thế** $$\eta = -h(x)^T u$$.
 
-## Bản đồ kiến thức nền: Đọc hiểu các chỉ số hội tụ của bộ giải gốc–đối ngẫu
+## Kiến thức cần nhớ: Đọc hiểu các chỉ số hội tụ của bộ giải gốc–đối ngẫu
 
 Bốn khái niệm dưới đây giải thích tại sao mọi bộ giải điểm trong công nghiệp đều in ra cột `p_res`, `d_res` và `gap` trên màn hình nhật ký:
 
@@ -20,7 +20,7 @@ Bốn khái niệm dưới đây giải thích tại sao mọi bộ giải đi�
 - **Phần dư trung tâm (Centrality Residual, $$r_{\text{cent}} = Uh(x) + \tau\mathbf{1}$$):** Đo khoảng cách từ điểm hiện tại tới đường trung tâm ứng với tham số $$\tau$$. Khi $$\tau \to 0$$ và $$r_{\text{cent}} \to 0$$, điều kiện bù chặt được thỏa mãn.
 - **Khoảng cách đối ngẫu thay thế (Surrogate Duality Gap, $$\eta = -h(x)^T u$$):** Vì $$h(x) < 0$$ và $$u > 0$$, đại lượng $$\eta$$ luôn dương. Khi cả $$r_{\text{prim}} = 0$$ và $$r_{\text{dual}} = 0$$, $$\eta$$ trùng khớp chính xác với khoảng cách đối ngẫu thực $$f(x) - g(u, v)$$; còn khi chưa khả thi, nó là thước đo thay thế tin cậy để điều chỉnh tham số $$\tau$$.
 
-### Khung giải thích (nên đọc chậm): Tính ba phần dư và phân biệt khoảng cách đối ngẫu thay thế với khoảng cách thực
+### Giải thích: Tính ba phần dư và phân biệt khoảng cách đối ngẫu thay thế với khoảng cách thực
 
 Xét bài toán quy hoạch tuyến tính 2 biến:
 

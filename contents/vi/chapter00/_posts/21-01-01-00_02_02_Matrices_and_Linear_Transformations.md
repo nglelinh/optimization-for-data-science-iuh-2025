@@ -14,14 +14,14 @@ lesson_type: required
 
 Bài học này kết nối các phép toán đại số trên ma trận với ý nghĩa hình học và cấu trúc nghiệm của hệ phương trình tuyến tính.
 
-## Bản đồ kiến thức nền: Bốn góc nhìn về một ma trận $$A$$
+## Kiến thức cần nhớ: Bốn góc nhìn về một ma trận $$A$$
 
 - **Phép biến đổi tuyến tính:** Ánh xạ $$T(x) = Ax$$ bảo toàn tổ hợp tuyến tính: $$A(\alpha x + \beta y) = \alpha Ax + \beta Ay$$. Cột thứ $$j$$ của $$A$$ chính là ảnh của vector cơ sở chuẩn $$e_j$$.
 - **Bốn không gian con cơ bản:** Không gian cột $$\mathcal{R}(A)$$ (các đầu ra đạt được), không gian hạch $$\mathcal{N}(A)$$ (các hướng bị triệt tiêu về $$0$$), cùng $$\mathcal{R}(A^T)$$ và $$\mathcal{N}(A^T)$$. Khi giải hệ $$Ax = b$$, tập nghiệm có dạng $$x_p + \mathcal{N}(A)$$.
 - **Hạng (Rank), Định thức và Ma trận nghịch đảo:** Với ma trận vuông $$n\times n$$, $$\det(A) \ne 0 \iff \operatorname{rank}(A) = n \iff A$$ khả nghịch. Định thức $$|\det(A)|$$ đo đúng hệ số phóng đại thể tích của phép biến đổi.
 - **Ma trận đối xứng và chuyển vị ($$A^T$$):** Xuất hiện dày đặc trong dạng toàn phương $$x^T Q x$$, phương trình chuẩn $$A^T A x = A^T b$$ và biểu diễn đối ngẫu của các phép biến đổi tuyến tính.
 
-### Khung giải thích (nên đọc chậm): Giải mã phép biến đổi $$A = \begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$ và hệ $$Ax = b$$
+### Giải thích: Giải mã phép biến đổi $$A = \begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$ và hệ $$Ax = b$$
 
 Xét ma trận đối xứng $$A = \begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$ và vector vế phải $$b = \begin{pmatrix}4\\ 5\end{pmatrix}$$:
 

@@ -12,14 +12,14 @@ lesson_type: required
 
 Instead of describing a smooth curve by its height $$f(x)$$ at each position $$x$$, you can describe the exact same curve by the vertical intercept of every tangent line of slope $$y$$. That slope-indexed re-encoding is the **Fenchel conjugate** $$f^*(y) = \sup_x (y^T x - f(x))$$. It is one of the deepest ideas in all of optimization: it automatically converts primal constraints into dual objectives, links smoothness of $$f$$ to strong convexity of $$f^*$$, and powers Moreau's decomposition for proximal algorithms.
 
-## Background Knowledge Map: Intuition and Power of the Fenchel Conjugate
+## Key ideas: Intuition and Power of the Fenchel Conjugate
 
 - **Geometric Meaning (Maximum Vertical Gap):** For a fixed slope $$y$$, $$f^*(y) = \sup_x (y^T x - f(x))$$ finds the maximum amount by which the linear function $$y^T x$$ rises above $$f(x)$$—i.e., the negative $$y$$-intercept of the supporting hyperplane with slope $$y$$.
 - **Always Convex:** Because $$f^*(y)$$ is a pointwise supremum of affine functions of $$y$$, $$f^*$$ is *always* convex and closed—even when the original function $$f$$ is nonconvex!
 - **Fenchel–Young Inequality:** Directly from the supremum definition, $$f(x) + f^*(y) \ge y^T x$$ for all $$x, y$$, with equality if and only if $$y \in \partial f(x)$$ (tangent slope matches $$y$$).
 - **Biconjugate ($$f^{**} = f$$):** For any closed proper convex function, taking the conjugate twice recovers $$f$$ identically; for a nonconvex $$f$$, $$f^{**}$$ produces its tightest convex envelope!
 
-### Step-by-Step Worked Example (Read Slowly): Conjugate of a Quadratic and Fenchel–Young Check
+### Worked example: Conjugate of a Quadratic and Fenchel–Young Check
 
 Compute the Fenchel conjugate of $$f(x) = \frac{1}{2}a x^2$$ (where $$a > 0$$) and verify Fenchel's inequality numerically.
 

@@ -12,14 +12,14 @@ lesson_type: quiz
 
 Before tackling the Chapter 09 multiple-choice quiz, take a moment to check your mental model of composite optimization. Most errors on proximal gradient exams come from mixing up the smooth part $$g$$ and the nonsmooth part $$h$$—forgetting that $$L$$ belongs *only* to $$\nabla g$$, misplacing the step size $$t$$ inside the soft-thresholding parameter $$\lambda t$$, or confusing the $$O(1/\varepsilon)$$ proximal rate with the $$O(1/\sqrt{\varepsilon})$$ accelerated rate. Review the four core pillars and quick warm-up check below before starting the questions.
 
-## Background Knowledge Map: Chapter 09 Diagnostic Checklist
+## Key ideas: Chapter 09 Diagnostic Checklist
 
 - **Pillar 1 — Composite Structure & Prox Definition:** For $$f = g + h$$, $$\operatorname{prox}_{t h}(y) = \arg\min_z \{\frac{1}{2t}\|z - y\|_2^2 + h(z)\}$$ uses *only* $$h$$; the smooth gradient $$\nabla g$$ enters only through the proposal $$y = x - t\nabla g(x)$$.
 - **Pillar 2 — Iconic Proximal Operators:** Know the big three cold: $$h = 0 \implies \text{identity}$$; $$h = I_C \implies P_C$$ (Euclidean projection); $$h = \lambda \|\cdot\|_1 \implies S_{\lambda t}$$ (coordinatewise soft-thresholding); and $$h = \lambda \|\cdot\|_* \implies \text{SVT}$$ (singular value soft-thresholding).
 - **Pillar 3 — Complexity Hierarchy:** Black-box subgradient: $$O(1/\varepsilon^2)$$; Proximal gradient (ISTA): $$O(1/\varepsilon)$$ with $$t \le 1/L$$; Accelerated proximal gradient (FISTA): $$O(1/\sqrt{\varepsilon})$$ with momentum extrapolation.
 - **Pillar 4 — Practical Caveats:** Proximal gradient is monotonic for $$t \le 1/L$$, whereas FISTA is non-monotonic (Nesterov ripples) and benefits from adaptive restarting or MFISTA when $$f$$ is ill-conditioned or locally strongly convex.
 
-### Step-by-Step Worked Example (Read Slowly): Rapid 3-Operator Proximal Warm-Up
+### Worked example: Rapid 3-Operator Proximal Warm-Up
 
 Let $$y = (3, -1, 0.4)^\top$$ and step size $$t = 0.5$$. Evaluate $$\operatorname{prox}_{t h}(y)$$ for three different choices of $$h$$:
 

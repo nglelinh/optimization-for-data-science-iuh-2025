@@ -13,7 +13,7 @@ Một kỹ sư lưới điện cần điều phối hàng trăm nhà máy phát 
 
 Chương 04 đóng vai trò bản lề của toàn khóa học: ta chuyển từ ngôn ngữ hình học của *tập lồi* (Chương 02) và *hàm lồi* (Chương 03) sang ngôn ngữ hành động của **bài toán tối ưu hóa lồi**. Không chỉ dừng ở việc đặt tên cho các thành phần, chương này còn dạy bạn nghệ thuật "nhìn xuyên qua lớp vỏ phi lồi" bằng các phép biến đổi tương đương như đổi biến, loại bỏ ràng buộc đẳng thức, thêm biến phụ hay nới lỏng.
 
-## Bản đồ kiến thức nền: Kiến trúc của một bài toán tối ưu hóa lồi
+## Kiến thức cần nhớ: Kiến trúc của một bài toán tối ưu hóa lồi
 
 Để làm chủ Chương 04 mà không bị choáng ngợp bởi hàng loạt định lý và kỹ thuật biến đổi, hãy hình dung chương này đứng trên bốn trụ cột liên kết chặt chẽ:
 
@@ -22,7 +22,7 @@ Chương 04 đóng vai trò bản lề của toàn khóa học: ta chuyển từ
 - **Đại số các phép biến đổi tương đương (Equivalent Reformulations):** Một bài toán thực tế hiếm khi xuất hiện sẵn dưới dạng chuẩn. Các phép tối ưu hóa từng phần, đổi biến khả nghịch, loại bỏ ràng buộc đẳng thức tuyến tính và thêm biến phụ giúp ta biến đổi bài toán mà không làm mất nghiệm tối ưu.
 - **Nghệ thuật Nới lỏng (Convex Relaxation):** Khi bài toán gốc thực sự phi lồi (ví dụ biến nhị phân $$x_i \in \{0,1\}$$), ta thay tập khả thi bằng bao lồi lớn hơn để thu được cận dưới đáng tin cậy và điểm xuất phát tốt cho nghiệm xấp xỉ.
 
-### Khung giải thích (nên đọc chậm): Nhận diện và giải nhanh một bài toán tối ưu lồi 2 biến
+### Giải thích: Nhận diện và giải nhanh một bài toán tối ưu lồi 2 biến
 
 Xét bài toán: tìm $$x = (x_1, x_2) \in \mathbb{R}^2$$ sao cho
 $$\min \; f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 2)^2 \quad \text{thỏa mãn} \quad x_1 + x_2 \le 3,\; x_1 \ge 0,\; x_2 \ge 0.$$

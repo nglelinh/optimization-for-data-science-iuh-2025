@@ -11,14 +11,14 @@ lang: en
 
 In gradient descent, people often stop when $$\|\nabla f(x)\|_2 \le \epsilon$$. That stopping rule has a fatal flaw: if you rescale your units by $$1000$$, $$\|\nabla f(x)\|_2$$ changes by $$1000$$ even though you haven't moved an inch closer to $$x^\star$$! The **Newton decrement** $$\lambda(x) = (\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x))^{1/2}$$ fixes this completely: it measures the suboptimality gap in the function's own curvature metric, making it dimensionless and affine invariant.
 
-## Background Knowledge Map: Four Faces of the Newton Decrement
+## Key ideas: Four Faces of the Newton Decrement
 
 - **Pillar 1 — Quadratic Suboptimality Estimate:** The drop achieved by minimizing the local quadratic model equals exactly $$\frac{1}{2}\lambda(x)^2$$, making $$\frac{1}{2}\lambda(x)^2 \le \epsilon$$ Newton's natural stopping criterion.
 - **Pillar 2 — Hessian-Norm Step Length:** Because $$\Delta x_{\text{nt}} = -H^{-1}\nabla f(x)$$, we have $$\lambda(x) = (\Delta x_{\text{nt}}^T H \Delta x_{\text{nt}})^{1/2} = \|\Delta x_{\text{nt}}\|_H$$—the Mahalanobis length of the Newton step.
 - **Pillar 3 — Directional Derivative Link:** Along the Newton direction, $$\nabla f(x)^T \Delta x_{\text{nt}} = -\lambda(x)^2 \le 0$$, which enters directly into the Armijo backtracking condition $$f(x + t\Delta x_{\text{nt}}) \le f(x) - \alpha t \lambda(x)^2$$.
 - **Pillar 4 — Affine Invariance:** Under $$g(y) = f(Ay)$$, the factors $$A$$ and $$A^T$$ cancel inside $$\lambda_g(y)$$, guaranteeing $$\lambda_g(y) = \lambda_f(Ay)$$ regardless of coordinate scaling.
 
-### Step-by-Step Worked Example (Read Slowly): Computing $$\lambda(x)$$ and Checking Its Exact Suboptimality Bound
+### Worked example: Computing $$\lambda(x)$$ and Checking Its Exact Suboptimality Bound
 
 Let $$f(x_1, x_2) = 2x_1^2 + x_1 x_2 + x_2^2 - 5x_1 - 3x_2$$ at $$x = (0, 0)^T$$.
 

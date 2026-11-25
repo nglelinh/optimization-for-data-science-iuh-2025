@@ -12,14 +12,14 @@ lesson_type: optional
 
 Canonical forms are not museum pieces—they are the live production APIs running inside quantitative trading desks, aerospace flight computers, and AI safety verifiers. Between 2022 and 2026, a new generation of Rust-based conic interior-point solvers (like Clarabel), realistic transaction-cost portfolio QPs, and semidefinite relaxations for certifying neural-network robustness have pushed Chapter 05's taxonomy straight to the frontier of applied computing.
 
-## Background Knowledge Map: Production Conic Optimization (2022–2026)
+## Key ideas: Production Conic Optimization (2022–2026)
 
 1. **Unified Interior-Point Engines (`Clarabel`)**: Earlier solvers fragmented by class—OSQP for QPs, ECOS for SOCPs, SCS for large cone problems. Clarabel solves LP, QP, SOCP, SDP, exponential, and power cones in a single homogeneous self-dual interior-point engine without splitting quadratic objectives into extra cones.
 2. **Shippable Portfolio QPs**: Real portfolio optimization extends textbook Markowitz with turnover penalties $$\gamma \|w - w_{\mathrm{prev}}\|_1$$ (linearized via epigraph slacks), leverage caps, sector limits, and factor covariance models $$\Sigma = B \Sigma_f B^T + D$$ that keep KKT linear systems sparse and fast.
 3. **SDP Certification of Neural Networks**: Verifying that no $$\ell_\infty$$ perturbation $$\|\delta\|_\infty \le \epsilon$$ flips a ReLU classifier's decision is NP-hard in general. Encoding the ReLU relation $$y = \max(0, z)$$ as quadratic inequalities $$y \ge 0, y \ge z, y(y - z) = 0$$ and lifting to an SDP yields a tight, sound robustness certificate.
 4. **Sparsity and Structure Exploitation**: Across all three applications, problem size is only half the story—chordal sparsity in SDPs and low-rank-plus-diagonal factor models in QPs turn $$O(n^3)$$ bottlenecks into near-linear runtimes.
 
-### Step-by-Step Worked Example (Read Slowly): Factor-Model Speedup and ReLU Quadratic Encoding
+### Worked example: Factor-Model Speedup and ReLU Quadratic Encoding
 
 Verify two core mathematical tricks used in modern production QPs and SDPs:
 

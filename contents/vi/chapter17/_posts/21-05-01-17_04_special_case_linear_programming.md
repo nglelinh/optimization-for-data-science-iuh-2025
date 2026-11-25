@@ -11,7 +11,7 @@ lang: vi
 
 Trong toàn bộ thế giới tối ưu hóa, quy hoạch tuyến tính (LP) là nơi phương pháp điểm trong gốc–đối ngẫu phô diễn vẻ đẹp đại số thuần khiết nhất. Vì hàm mục tiêu tuyến tính có Hessian bằng không ($$\nabla^2 f(x) = 0$$) và ràng buộc bất đẳng thức chỉ đơn giản là $$x \ge 0$$, hệ phương trình Newton khổng lồ với $$2n + m$$ ẩn số có thể được khử gọn thành một hệ phương trình đối xứng xác định dương kích thước chỉ $$m \times m$$ — gọi là **hệ phương trình chuẩn (normal equations)**.
 
-## Bản đồ kiến thức nền: Từ LP dạng chuẩn đến hệ phương trình chuẩn $$AD^2A^T$$
+## Kiến thức cần nhớ: Từ LP dạng chuẩn đến hệ phương trình chuẩn $$AD^2A^T$$
 
 Bốn ý tưởng cốt lõi dưới đây cho thấy vì sao giải LP bằng PD-IPM lại vừa gọn gàng vừa cực nhanh:
 
@@ -20,7 +20,7 @@ Bốn ý tưởng cốt lõi dưới đây cho thấy vì sao giải LP bằng P
 - **Khử khối về hệ phương trình chuẩn:** Khử $$\Delta s$$ rồi khử $$\Delta x$$ bằng ma trận tỉ lệ đường chéo $$D^2 = X S^{-1} = \operatorname{diag}(x_i/s_i)$$, ta chỉ cần giải duy nhất một hệ tuyến tính đối xứng xác định dương $$(A D^2 A^T)\Delta y = \text{rhs}$$ bằng phân tích Cholesky thưa!
 - **Khác biệt bản chất với phương pháp chắn trên LP:** Khi so sánh hai bước Newton trên cùng một điểm đường trung tâm, bước của phương pháp chắn chỉ cân nhắc đường đi của biến gốc $$x$$, trong khi bước gốc–đối ngẫu tự động cân bằng cả $$x$$ và $$s$$ thông qua tỉ số $$x_i/s_i$$.
 
-### Khung giải thích (nên đọc chậm): Giải tay một bước PD-IPM cho LP bằng hệ phương trình chuẩn $$AD^2A^T$$
+### Giải thích: Giải tay một bước PD-IPM cho LP bằng hệ phương trình chuẩn $$AD^2A^T$$
 
 Xét bài toán LP 2 biến với $$m = 1$$ ràng buộc đẳng thức:
 

@@ -14,7 +14,7 @@ Nếu Chương 26 là động cơ lái xe của học sâu (SGD, AdamW), thì **
 
 Hiểu sai phổ biến nhất của người mới là tưởng AD giống vi phân ký hiệu (như WolframAlpha rút gọn công thức) hoặc giống sai phân hữu hạn (cộng thêm $$\varepsilon$$ nhỏ rồi chia). Thực tế, AD là một phát minh tinh tế hoàn toàn riêng biệt: nó không lấy đạo hàm *biểu thức*, mà lấy đạo hàm **chính dòng chảy thực thi của chương trình máy tính** bằng quy tắc dây chuyền.
 
-## Bản đồ kiến thức nền: Ba trụ cột phân biệt AD với các phương pháp tính đạo hàm khác
+## Kiến thức cần nhớ: Ba trụ cột phân biệt AD với các phương pháp tính đạo hàm khác
 
 Trước khi đi vào đồ thị tính toán và hai chế độ thuận/nghịch, hãy đặt AD lên bàn cân cùng hai phương pháp truyền thống:
 
@@ -22,7 +22,7 @@ Trước khi đi vào đồ thị tính toán và hai chế độ thuận/nghị
 - **Sai phân hữu hạn (Finite Differences):** Xấp xỉ $$\frac{f(x + \varepsilon e_i) - f(x)}{\varepsilon}$$. Dễ cài nhưng vừa *không chính xác* (kẹt giữa sai số cắt cụt khi $$\varepsilon$$ lớn và sai số triệt tiêu số học khi $$\varepsilon$$ quá nhỏ), vừa tốn tới $$n+1$$ lần chạy hàm cho $$n$$ tham số — bất khả thi khi $$n = 10^8$$.
 - **Vi phân tự động (Forward & Reverse Mode AD):** Phân rã chương trình thành dãy phép toán sơ cấp ($$+, \times, \sin, \exp, \dots$$) và truyền đạo hàm qua từng bước bằng quy tắc dây chuyền: *chính xác tuyệt đối đến độ chính xác dấu phẩy động*, chạy được qua nhánh/vòng lặp, và đặc biệt ở chế độ nghịch chỉ tốn $$O(1)$$ lần chạy hàm bất kể $$n$$ lớn cỡ nào!
 
-### Khung giải thích (nên đọc chậm): So sánh tay Sai phân hữu hạn với AD (Số đối ngẫu) trên $$f(x) = x^2$$
+### Giải thích: So sánh tay Sai phân hữu hạn với AD (Số đối ngẫu) trên $$f(x) = x^2$$
 
 Xét hàm đơn giản $$f(x) = x^2$$ tại điểm $$x = 3$$, nơi đạo hàm chính xác là $$f'(3) = 6$$.
 

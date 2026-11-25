@@ -12,14 +12,14 @@ lesson_type: required
 
 Probability asks, *given a known model parameter $$\theta$$, how likely is this dataset?* Statistics flips the telescope around: *given the fixed dataset we actually observed, which parameter $$\theta$$ makes our observations most plausible?* That simple perspective flip defines the likelihood function, and taking its logarithm converts messy products of tiny probabilities into clean sums that optimization algorithms can maximize directly.
 
-## Background Knowledge Map: Casting Estimation as Optimization
+## Key ideas: Casting Estimation as Optimization
 
 - **Likelihood vs. Probability:** While $$p(x \mid \theta)$$ is a normalized density over data $$x$$, the likelihood $$L(\theta) = p(x \mid \theta)$$ treats $$x$$ as fixed and varies $$\theta$$—it is an objective function, not a distribution over $$\theta$$.
 - **Log-Likelihood Transformation:** Since $$\ln(\cdot)$$ is strictly increasing, maximizing $$\ell(\theta) = \sum_{i=1}^n \ln p(x_i \mid \theta)$$ yields the exact same optimizer $$\hat{\theta}_{\text{MLE}}$$ while avoiding numerical underflow.
 - **Score Equation & Concavity:** Setting the score $$\nabla \ell(\theta) = \mathbf{0}$$ locates stationary candidates; checking $$\nabla^2 \ell(\theta) \preceq 0$$ verifies a global maximum (equivalently, minimizing the convex negative log-likelihood $$-\ell(\theta)$$).
 - **Bridge to Regularization (MAP):** Adding a log-prior $$\ln p(\theta)$$ to $$\ell(\theta)$$ produces Maximum A Posteriori estimation, which algebraically matches adding an $$\ell_2$$ or $$\ell_1$$ penalty in regularized optimization.
 
-### Step-by-Step Worked Example (Read Slowly): Bernoulli MLE from 10 Coin Flips
+### Worked example: Bernoulli MLE from 10 Coin Flips
 
 An experiment observes $$7$$ heads and $$3$$ tails in $$n = 10$$ independent $$\text{Bernoulli}(p)$$ trials, where $$p \in (0, 1)$$.
 

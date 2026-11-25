@@ -16,14 +16,14 @@ Bài học này giải mã trọn vẹn mối quan hệ logic hai chiều ấy c
 $$f(x^*) = g(u^*, v^*) = \inf_x L(x, u^*, v^*) \le L(x^*, u^*, v^*) = f(x^*) + \sum u_i^* h_i(x^*) + \sum v_j^* l_j(x^*) \le f(x^*).$$
 Vì hai đầu chuỗi đều là $$f(x^*)$$, mọi dấu $$\le$$ ở giữa **bắt buộc trở thành dấu bằng**! Dấu bằng thứ nhất cho ta *điều kiện dừng* ($$x^*$$ cực tiểu hóa $$L$$); dấu bằng thứ hai cho ta *điều kiện bù* ($$u_i^* h_i(x^*) = 0$$)! Không có phép thuật nào cả — toàn bộ hệ KKT bật ra chỉ từ đúng một chuỗi bất đẳng thức kẹp!
 
-## Bản đồ kiến thức nền: Bốn trụ cột logic về điều kiện KKT
+## Kiến thức cần nhớ: Bốn trụ cột logic về điều kiện KKT
 
 - **Điều kiện cần (Necessity — Cần đối ngẫu mạnh!):** Cho bài toán bất kỳ (kể cả không lồi) có nghiệm tối ưu gốc $$x^*$$ và đối ngẫu $$(u^*, v^*)$$ thỏa **đối ngẫu mạnh** ($$f^* = g^*$$), thì $$(x^*, u^*, v^*)$$ *bắt buộc* thỏa mãn cả 4 điều kiện KKT. (Lưu ý: nếu bài toán lồi *không* có đối ngẫu mạnh vì vi phạm Slater, nghiệm tối ưu có thể không thỏa KKT!)
 - **Điều kiện đủ (Sufficiency — Cần tính lồi!):** Nếu bài toán là **bài toán lồi** ($$f, h_i$$ lồi và $$l_j$$ affine), thì bất kỳ bộ $$(x^*, u^*, v^*)$$ nào thỏa 4 điều kiện KKT đều **chắc chắn** là cặp nghiệm tối ưu toàn cục gốc–đối ngẫu với khoảng cách đối ngẫu bằng $$0$$!
 - **Hợp nhất cho bài toán lồi thỏa Slater:** Khi bài toán lồi và thỏa điều kiện Slater, KKT trở thành **điều kiện cần và đủ ($$\Longleftrightarrow$$)** để đặc trưng toàn bộ tập nghiệm tối ưu!
 - **Lưu ý quan trọng về bài toán không lồi:** Với bài toán không lồi, một điểm thỏa KKT chỉ là *ứng viên dừng* — nó có thể là cực tiểu địa phương, điểm yên ngựa, thậm chí cực đại địa phương!
 
-### Khung giải thích (nên đọc chậm): Giải tay bài toán 2 biến có ràng buộc bất đẳng thức bằng hệ KKT
+### Giải thích: Giải tay bài toán 2 biến có ràng buộc bất đẳng thức bằng hệ KKT
 
 Tìm nghiệm tối ưu toàn cục của bài toán lồi:
 $$\min_{x_1, x_2 \in \mathbb{R}} \; f(x_1, x_2) = x_1^2 + x_2^2 \quad \text{s.t.} \quad h(x_1, x_2) = 4 - x_1 - x_2 \le 0.$$

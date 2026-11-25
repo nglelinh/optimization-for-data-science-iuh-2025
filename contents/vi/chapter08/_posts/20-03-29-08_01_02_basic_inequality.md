@@ -13,7 +13,7 @@ Mọi định lý lớn về hội tụ trong chương này — từ bước c�
 
 Điều kỳ diệu nằm ở góc nhìn "kế toán năng lượng": ở mỗi bước lặp $$i$$, lượng khoảng cách bình phương $$\|x^{(i)} - x^*\|_2^2$$ thay đổi bởi hai lực kéo ngược chiều nhau. Một bên là lực hút về nghiệm $$-2\alpha_i(f(x^{(i)}) - f^*)$$ kéo ta tiến lại gần $$x^*$$; bên kia là lực nhiễu bước đi $$+\alpha_i^2 \|g^{(i)}\|_2^2$$ sinh ra do ta bước thẳng theo subgradient. Khi cộng dồn qua $$k$$ bước, tất cả các số hạng trung gian tự triệt tiêu nhau như quân domino, để lại đúng một cân bằng hoàn hảo giữa khoảng cách ban đầu $$R^2$$ và tổng bình phương bước đi $$G^2 \sum \alpha_i^2$$.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép tạo nên bất đẳng thức cơ bản
+## Kiến thức cần nhớ: Bốn mảnh ghép tạo nên bất đẳng thức cơ bản
 
 Để không bao giờ phải học thuộc lòng công thức $$\frac{R^2 + G^2\sum \alpha_i^2}{2\sum \alpha_i}$$, hãy nhìn rõ bốn viên gạch xây nên nó:
 
@@ -22,7 +22,7 @@ Mọi định lý lớn về hội tụ trong chương này — từ bước c�
 - **Giả thiết bị chặn $$R$$ và $$G$$:** Khoảng cách khởi điểm $$\|x^{(0)} - x^*\|_2 \le R$$ kiểm soát tử số ban đầu, còn tính Lipschitz $$\|g^{(i)}\|_2 \le G$$ chặn số hạng bậc hai $$\alpha_i^2 \|g^{(i)}\|_2^2 \le \alpha_i^2 G^2$$ để bước đi không bị nổ.
 - **Tổng rút gọn (Telescoping Sum) và chặn dưới bởi $$f_{\text{best}}^k$$:** Khi cộng từ $$i=1$$ đến $$k$$, chuỗi $$\|x^{(i)} - x^*\|_2^2 - \|x^{(i+1)} - x^*\|_2^2$$ rút gọn còn $$\|x^{(1)} - x^*\|_2^2 - \|x^{(k+1)} - x^*\|_2^2 \le R^2$$. Sau đó dùng $$\sum \alpha_i (f(x^{(i)}) - f^*) \ge (f_{\text{best}}^k - f^*)\sum \alpha_i$$ để tách ra kỷ lục tốt nhất.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng từng số hạng của bất đẳng thức cơ bản bằng tay
+### Giải thích: Kiểm chứng từng số hạng của bất đẳng thức cơ bản bằng tay
 
 Xét $$f(x) = |x|$$ ($$x^* = 0$$, $$f^* = 0$$, $$G = 1$$), bắt đầu tại $$x^{(0)} = 1.5$$ (nên $$R = 1.5$$, $$R^2 = 2.25$$) và dùng bước cố định $$\alpha_0 = \alpha_1 = 1$$ trong $$k = 2$$ bước.
 

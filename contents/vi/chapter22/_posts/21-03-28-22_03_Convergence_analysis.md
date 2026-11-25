@@ -13,7 +13,7 @@ Một thuật toán tối ưu đẹp đến đâu cũng phải trả lời một
 
 Vì thuật toán bất biến dưới phép biến đổi affine, công cụ đo độ cong để phân tích hội tụ của nó cũng phải bất biến affine! Đó là lý do Martin Jaggi (2011) đưa ra **hằng số độ cong $$M$$** dựa trên độ phân kỳ Bregman, giúp rút gọn toàn bộ chứng minh hội tụ tốc độ $$O(1/k)$$ thành một bất đẳng thức duy nhất cực kỳ trong sáng.
 
-## Bản đồ kiến thức nền: Ba trụ cột của chứng minh hội tụ Frank–Wolfe
+## Kiến thức cần nhớ: Ba trụ cột của chứng minh hội tụ Frank–Wolfe
 
 Trước khi theo dõi từng dòng biến đổi quy nạp trong bài, hãy nắm chắc ba khái niệm làm xương sống cho chứng minh:
 
@@ -21,7 +21,7 @@ Trước khi theo dõi từng dòng biến đổi quy nạp trong bài, hãy n�
 - **Bất đẳng thức giảm theo khoảng cách đối ngẫu:** Ở mỗi bước, mức giảm hàm mục tiêu được điều khiển bởi hai lực đối lập: lực kéo xuống $$-\gamma_k g(x^{(k-1)})$$ tỉ lệ thuận với khoảng cách đối ngẫu, và sai số độ cong $$+\frac{\gamma_k^2}{2} M$$. Khi $$\gamma_k$$ nhỏ dần theo quy luật $$2/(k+1)$$, số hạng bậc nhất luôn thắng thế số hạng bậc hai.
 - **Tính bất biến affine (Affine Invariance) và Độ bền với LMO xấp xỉ:** Không chỉ bất biến khi đổi hệ tọa độ (điểm yếu của Projected Gradient Descent khi bài toán bị kéo lệch điều kiện), khung phân tích bằng $$M$$ còn cho phép LMO giải *gần đúng* với sai số $$\delta$$ mà vẫn giữ nguyên bậc hội tụ $$O(1/k)$$.
 
-### Khung giải thích (nên đọc chậm): Tính tay hằng số độ cong $$M$$ và kiểm chứng bất đẳng thức cơ bản
+### Giải thích: Tính tay hằng số độ cong $$M$$ và kiểm chứng bất đẳng thức cơ bản
 
 Hãy kiểm chứng trực tiếp từng đại lượng trong định lý hội tụ trên một bài toán 1 chiều cực kỳ trong sáng: cực tiểu hóa $$f(x) = \frac{1}{2}x^2$$ trên đoạn $$C = [-1, 1]$$ (nghiệm tối ưu $$x^\star = 0, f^\star = 0$$).
 

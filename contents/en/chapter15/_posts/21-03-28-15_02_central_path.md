@@ -11,14 +11,14 @@ lang: en
 
 Picture a hiker standing at the exact geographic center of a fenced valley ($$t \to 0^+$$) who slowly turns up the pull of gravity toward the lowest corner ($$t \to \infty$$). The smooth, curving trail they trace through the middle of the valley—never scraping a fence until the very last moment—is the **central path** $$\{x^*(t) : t > 0\}$$.
 
-## Background Knowledge Map: Geometry of the Central Path
+## Key ideas: Geometry of the Central Path
 
 - **Pillar 1 — Definition of the Central Path:** For each $$t > 0$$, $$x^*(t) = \arg\min_{Ax=b} \big(tf(x) + \phi(x)\big)$$ is the unique minimizer (under strict convexity of $$tf + \phi$$); varying $$t \in (0, \infty)$$ sweeps out a smooth 1D curve in $$\mathbb{R}^n$$.
 - **Pillar 2 — Analytic Center Anchor ($$t \to 0^+$$):** At $$t = 0$$, $$x^*(0)$$ minimizes $$\phi(x)$$ alone—the **analytic center** of the feasible set, maximally balanced away from all constraint walls.
 - **Pillar 3 — Geometric Tangency Condition:** At every point $$x^*(t)$$ on the central path (for an LP $$\min c^T x$$), the optimality condition $$t c + \nabla \phi(x^*(t)) = 0$$ means the objective hyperplane $$c^T x = c^T x^*(t)$$ is *tangent* to the barrier level curve $$\phi(x) = \phi(x^*(t))$$.
 - **Pillar 4 — Convergence to the Optimal Face ($$t \to \infty$$):** As $$t \to \infty$$, $$x^*(t)$$ converges to the optimal solution $$x^\star$$ (and if the optimum is a non-unique face, it converges specifically to the analytic center of the optimal face!).
 
-### Step-by-Step Worked Example (Read Slowly): Tracing an Exact Closed-Form Central Path on an LP
+### Worked example: Tracing an Exact Closed-Form Central Path on an LP
 
 Consider the 1D LP $$\min x$$ subject to $$0 \le x \le 1$$ (so $$h_1(x) = -x$$, $$h_2(x) = x - 1$$, true optimum $$x^\star = 0$$).
 

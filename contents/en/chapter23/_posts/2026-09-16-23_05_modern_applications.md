@@ -12,14 +12,14 @@ lesson_type: optional
 
 Pathwise coordinate descent did not freeze in 2010 with `glmnet`. Over the past decade, it has evolved into the standard computational backbone for generalized linear models, safe feature-screening rules that provably discard millions of irrelevant predictors before ever touching them, nonconvex sparse penalties in `skglm`, and dual linear SVMs in `LIBLINEAR`. Whenever a modern statistical package computes a full regularization path in a fraction of a second, you are watching Chapter 23’s coordinate-wise mechanics running under the hood.
 
-## Background Knowledge Map: Modern Extensions of Coordinate Descent
+## Key ideas: Modern Extensions of Coordinate Descent
 
 - **IRLS + Coordinate Descent for All GLMs:** `glmnet` (2023) wraps coordinate descent inside Iteratively Reweighted Least Squares: an outer loop forms a quadratic approximation (working weights and response), and the inner loop solves the weighted Lasso via active-set CD.
 - **Gap-Safe Screening Rules:** Using the duality gap $$G(\beta, \theta)$$ between a primal iterate $$\beta$$ and a feasible dual vector $$\theta$$, gap-safe rules prove that any feature $$j$$ inside a safe sphere around $$\theta$$ must have $$\beta_j^\star = 0$$—eliminating it permanently from all remaining iterations with **zero** loss of exactness.
 - **Working Sets Beyond $$\ell_1$$ (`skglm`):** Modern solvers extend active-set CD to nonconvex and structured penalties (MCP, SCAD, Group Lasso, Sparse-Group Lasso) by maintaining small dynamic working sets and prioritizing features with largest KKT violation.
 - **Dual Coordinate Descent for Linear SVMs:** In `LIBLINEAR`, minimizing the dual SVM objective subject to box constraints $$0 \le \alpha_i \le C$$ updates one dual multiplier $$\alpha_i$$ at a time via a clipped 1D Newton step, scaling effortlessly to millions of sparse text features.
 
-### Step-by-Step Worked Example (Read Slowly): Gap-Safe Feature Screening in Action
+### Worked example: Gap-Safe Feature Screening in Action
 
 Suppose we are solving Lasso $$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$ with $$\lambda = 2$$, unit-norm columns $$\|X_j\|_2 = 1$$, current primal-dual gap $$G(\beta, \theta) = 0.08$$, and feasible dual point $$\theta = r / \max(\lambda, \|X^\top r\|_\infty)$$.
 

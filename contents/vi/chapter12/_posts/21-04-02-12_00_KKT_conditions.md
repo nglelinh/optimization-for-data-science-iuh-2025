@@ -13,14 +13,14 @@ Năm 1939, chàng sinh viên cao học 22 tuổi William Karush tại Đại h�
 
 Nếu quy tắc $$\nabla f(x^*) = 0$$ là chiếc la bàn vàng của giải tích không ràng buộc, thì hệ 4 điều kiện KKT chính là **luật cơ bản của giải tích có ràng buộc**. Chương 12 sẽ biến công cụ lý thuyết này thành vũ khí giải toán thực chiến: từ hệ phương trình khối cho quy hoạch bậc hai, thuật toán "đổ nước" (water-filling) trong lý thuyết thông tin Shannon, phân tích vector hỗ trợ của SVM, cho đến tính duy nhất của nghiệm Lasso!
 
-## Bản đồ kiến thức nền: Bốn trụ cột tạo nên hệ điều kiện KKT
+## Kiến thức cần nhớ: Bốn trụ cột tạo nên hệ điều kiện KKT
 
 - **Điều kiện dừng (Stationarity):** $$0 \in \partial f(x^*) + \sum u_i^* \partial h_i(x^*) + \sum v_j^* \partial l_j(x^*)$$ (hoặc $$\nabla f + \sum u_i^* \nabla h_i + \sum v_j^* \nabla l_j = 0$$ khi khả vi). Trực giác hình học: lực kéo hướng giảm $$-\nabla f(x^*)$$ phải bị cân bằng hoàn toàn bởi tổ hợp các pháp tuyến hướng ra ngoài của các bức tường ràng buộc đang chạm!
 - **Điều kiện bù (Complementary Slackness):** $$u_i^* h_i(x^*) = 0$$ với mọi $$i = 1, \dots, m$$. Ràng buộc nào chưa chạm tường ($$h_i(x^*) < 0$$) thì không hề tạo lực đẩy ($$u_i^* = 0$$); chỉ ràng buộc đang chạm chặt ($$h_i(x^*) = 0$$) mới được phép có lực phản hồi $$u_i^* > 0$$.
 - **Tính khả thi nguyên thủy & đối ngẫu (Primal & Dual Feasibility):** $$h_i(x^*) \le 0, \; l_j(x^*) = 0$$ và $$u_i^* \ge 0$$. Dấu $$u_i^* \ge 0$$ đảm bảo bức tường ràng buộc chỉ "đẩy ngược vào trong miền hợp lệ" chứ không bao giờ hút điểm lặp ra ngoài.
 - **Cầu nối hai chiều với đối ngẫu mạnh (Chương 11):** KKT tương đương chính xác với việc khoảng cách đối ngẫu bằng $$0$$ ($$f(x^*) = g(u^*, v^*)$$) khi bài toán lồi — là điều kiện **đủ** cho mọi bài toán lồi, và là điều kiện **cần** khi có đối ngẫu mạnh (ví dụ thỏa điều kiện Slater).
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng cả 4 điều kiện KKT bằng tay trên bài toán 1 biến
+### Giải thích: Kiểm chứng cả 4 điều kiện KKT bằng tay trên bài toán 1 biến
 
 Xét bài toán lồi cực giản dị:
 $$\min_{x \in \mathbb{R}} \; f(x) = (x - 3)^2 \quad \text{s.t.} \quad h(x) = x - 2 \le 0 \; (\text{tức } x \le 2).$$

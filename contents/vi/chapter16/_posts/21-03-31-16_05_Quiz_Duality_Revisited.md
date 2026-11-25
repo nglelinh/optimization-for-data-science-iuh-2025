@@ -16,14 +16,14 @@ Chương 16 tổng hợp những khái niệm sắc nét nhất của toàn bộ
 
 Hãy dành hai phút rà lại bản đồ bốn điểm phân biệt dễ nhầm trước khi bước vào bộ câu hỏi trắc nghiệm.
 
-## Bản đồ kiến thức nền: Bốn điểm phân biệt sắc bén cho trắc nghiệm Chương 16
+## Kiến thức cần nhớ: Bốn điểm phân biệt sắc bén cho trắc nghiệm Chương 16
 
 - **Slater gốc vs. Slater tinh chỉnh:** Slater gốc đòi mọi bất đẳng thức $$h_i(x) < 0$$; Slater tinh chỉnh **miễn** dấu chặt cho các ràng buộc tuyến tính/affine (chỉ cần $$\le 0$$), nên LP khả thi bị chặn luôn có đối ngẫu mạnh.
 - **Điều kiện bù yếu KKT vs. Đường trung tâm:** Trong LP dạng chuẩn, KKT đòi $$x_i s_i = 0$$ (nằm trên biên), còn đường trung tâm đòi $$x_i s_i = \mu = 1/t > 0$$ (nằm trong miền trong, tổng khoảng cách đối ngẫu $$x^T s = n\mu$$).
 - **Quy ước dấu trong Đối ngẫu Fenchel:** Với $$\min_x f(x) + g(Ax)$$, đối ngẫu Fenchel là $$\max_u -f^*(-A^T u) - g^*(u)$$ (hoặc $$\max_y -f^*(A^T y) - g^*(-y)$$). Luôn kiểm tra tính đối xứng: hai đối số của $$f^*$$ và $$g^*$$ phải ngược dấu nhau qua $$A^T$$!
 - **Liên hợp của hàm chỉ thị nón:** Với nón $$K$$, $$I_K^*(z) = \sup_{x \in K} z^T x$$ bằng $$0$$ khi $$z^T x \le 0 \;\forall x \in K$$ (tức $$-z \in K^*$$) và $$+\infty$$ ngược lại — do đó $$I_K^*(z) = I_{-K^*}(z) = I_{K^*}(-z)$$!
 
-### Khung giải thích (nên đọc chậm): Giải mẫu câu hỏi bẫy về dấu trừ trong liên hợp của hàm chỉ thị nón $$I_K^*(z)$$
+### Giải thích: Giải mẫu câu hỏi bẫy về dấu trừ trong liên hợp của hàm chỉ thị nón $$I_K^*(z)$$
 
 **Câu hỏi mẫu:** Cho nón không âm 1 chiều $$K = \mathbb{R}_+ = [0, +\infty)$$ (tự đối ngẫu: $$K^* = [0, +\infty)$$). Tính $$I_K^*(z)$$ tại $$z = 2$$ và $$z = -2$$ để tránh nhầm giữa $$I_{K^*}(z)$$ và $$I_{-K^*}(z)$$.
 

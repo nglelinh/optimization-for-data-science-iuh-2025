@@ -15,7 +15,7 @@ Rất nhiều người học tối ưu có thể viết vanh vách công thức 
 
 Bài học chuyên sâu này mở toang bức màn hình học đằng sau toàn bộ Chương 11. Nếu bạn chiếu mọi điểm $$x$$ của bài toán xuống mặt phẳng 2 chiều gồm trục hoành là mức vi phạm ràng buộc $$u = h(x)$$ và trục tung là giá trị mục tiêu $$t = f(x)$$, thì bài toán gốc chỉ đơn giản là tìm **điểm thấp nhất cắt trục tung $$u = 0$$**; còn bài toán đối ngẫu hóa ra là trò chơi **nghiêng một đường thẳng đỡ có độ dốc $$-u$$ nằm hoàn toàn dưới đám mây điểm rồi đẩy giao điểm của nó với trục tung lên cao nhất có thể!** Khi bức tranh hình học ấy bật sáng, mọi bí ẩn về đối ngẫu yếu, đối ngẫu mạnh, điều kiện Slater và hàm liên hợp bỗng trở nên hiển nhiên như nhìn một bức tranh vẽ tay!
 
-## Bản đồ kiến thức nền: Bốn lăng kính trực quan về đối ngẫu Lagrange
+## Kiến thức cần nhớ: Bốn lăng kính trực quan về đối ngẫu Lagrange
 
 - **Đồ thị ràng buộc–mục tiêu $$\mathcal{G} = \{(h(x), f(x)) : x \in \mathcal{D}\}$$:** Bài toán gốc là tìm tung độ thấp nhất của $$\mathcal{G}$$ bên trái trục tung ($$u \le 0$$). Nhân tử Lagrange $$u \ge 0$$ xác định pháp tuyến $$(u, 1)$$ của một siêu phẳng đỡ nghiêng dưới $$\mathcal{G}$$.
 - **Hàm đối ngẫu $$g(u)$$ = tung độ gốc của siêu phẳng đỡ thấp nhất:** Vì $$\inf_x (f(x) + u h(x))$$ chính là giao điểm với trục tung của đường thẳng có độ dốc $$-u$$ chạm đáy tập $$\mathcal{G}$$, cực đại hóa $$g(u)$$ chính là xoay độ dốc $$-u$$ để nâng giao điểm trục tung lên sát đáy $$f^*$$ nhất có thể!
@@ -24,7 +24,7 @@ Bài học chuyên sâu này mở toang bức màn hình học đằng sau toàn
   $$g(u) = \inf_x (f(x) + u^T(Ax - b)) = -b^T u - \sup_x \big((-A^T u)^T x - f(x)\big) = -b^T u - f^*(-A^T u)!$$
   Nhờ công thức thần kỳ này, chỉ cần tra bảng hàm liên hợp $$f^*$$ là viết ra ngay bài toán đối ngẫu cho hàng chục bài toán lớn!
 
-### Khung giải thích (nên đọc chậm): Tính tay hàm liên hợp $$f^*(y)$$ và suy ra hàm đối ngẫu chỉ trong 2 dòng
+### Giải thích: Tính tay hàm liên hợp $$f^*(y)$$ và suy ra hàm đối ngẫu chỉ trong 2 dòng
 
 Xét bài toán $$\min_x f(x) = \frac{1}{2}x^2$$ với ràng buộc $$Ax \le b$$ dạng 1D là $$-x \le -3$$ (tức $$A = -1, b = -3$$, tương đương $$x \ge 3$$).
 

@@ -16,7 +16,7 @@ Một hiểu lầm rất phổ biến trong giới sinh viên AI là: *"Mạng n
 
 Bài đọc chuyên đề hiện đại này nối trực tiếp khái niệm $$g \in \partial f(x)$$ của Chương 07 với ba lĩnh vực nóng nhất giai đoạn 2022–2026: **vi phân tự động không trơn cho mạng ReLU**, **các bộ giải GLM/Lasso quy mô lớn (coordinate descent, screening rules)**, và **hồi quy phân vị (Pinball Loss / Conformalized Quantile Regression)** dùng để xây dựng khoảng tin cậy bất định không phụ thuộc phân phối!
 
-## Bản đồ kiến thức nền: Ba mặt trận hiện đại của Subgradient trong AI & Thống kê
+## Kiến thức cần nhớ: Ba mặt trận hiện đại của Subgradient trong AI & Thống kê
 
 Để đọc hiểu sâu các chủ đề ứng dụng trong bài, hãy gắn chúng vào ba trụ cột lý thuyết Chương 07:
 
@@ -24,7 +24,7 @@ Bài đọc chuyên đề hiện đại này nối trực tiếp khái niệm $$
 - **Quy tắc sàng lọc an toàn cho Lasso/Elastic Net (Safe Screening Rules):** Nhờ điều kiện subgradient $$|X_j^T(y - X\beta^\star)| \le \lambda \implies \beta_j^\star = 0$$, các thư viện như `glmnet` và `celer` có thể **loại bỏ trước hàng trăm nghìn đặc trưng chắc chắn bằng 0** ngay từ vòng lặp đầu mà không cần tối ưu trên chúng!
 - **Hàm mất mát Pinball & Hồi quy Phân vị (Quantile Regression):** Thay vì dự báo giá trị trung bình ($$\ell_2$$) hay trung vị ($$\ell_1$$), hàm mất mát pinball không trơn $$\rho_\tau(u) = \max(\tau u,\; (\tau - 1)u)$$ (với $$\tau \in (0, 1)$$) dùng đúng điều kiện $$0 \in \partial \sum \rho_\tau(y_i - \hat{y}_i)$$ để ước lượng phân vị thứ $$\tau$$ (ví dụ 90% hay 95%) cho bài toán định lượng bất định (Conformal Prediction)!
 
-### Khung giải thích (nên đọc chậm): Dùng điều kiện subgradient chứng minh Pinball Loss tìm đúng phân vị thứ $$\tau$$
+### Giải thích: Dùng điều kiện subgradient chứng minh Pinball Loss tìm đúng phân vị thứ $$\tau$$
 
 Xét 4 quan sát đã sắp xếp $$y = (10,\; 20,\; 30,\; 100)$$ và mục tiêu tìm hằng số $$q$$ cực tiểu hóa tổng hàm mất mát pinball với $$\tau = 0.75$$ (phân vị 75%):
 $$F(q) = \sum_{i=1}^4 \rho_{0.75}(y_i - q), \qquad \rho_\tau(u) = \begin{cases} \tau u & \text{nếu } u \ge 0 \\ (\tau - 1) u & \text{nếu } u < 0 \end{cases}$$

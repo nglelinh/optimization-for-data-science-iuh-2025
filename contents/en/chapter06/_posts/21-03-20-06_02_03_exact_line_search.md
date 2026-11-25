@@ -11,7 +11,7 @@ lang: en
 
 If you are walking straight down a canyon trail along $$-\nabla f(x_k)$$, the greedily optimal place to stop is the lowest point along that exact straight line—before the trail starts climbing the opposite wall. That is **Exact Line Search**: at every step, solve the 1D minimization $$s_k = \arg\min_{s \ge 0} f(x_k - s\nabla f(x_k))$$. It produces a striking geometric signature—every consecutive step makes a perfect $$90^\circ$$ right angle!
 
-## Background Knowledge Map: Geometry and Closed Forms of Exact Line Search
+## Key ideas: Geometry and Closed Forms of Exact Line Search
 
 1. **Orthogonality of Consecutive Gradients**: Setting $$\frac{d}{ds} f(x_k - s\nabla f(x_k)) = -\nabla f(x_k - s\nabla f(x_k))^T \nabla f(x_k) = 0$$ shows that $$\nabla f(x_{k+1})^T \nabla f(x_k) = 0$$. Geometrically, the search ray stops at the exact point where it is *tangent* to a level curve of $$f$$.
 2. **Closed-Form Step Size for Quadratics**: For $$f(x) = \frac{1}{2}x^T Q x - b^T x$$ ($$Q \succ 0$$) with gradient $$g_k = Qx_k - b$$, differentiating $$\phi(s) = f(x_k - s g_k)$$ yields the exact closed-form step:
@@ -20,7 +20,7 @@ If you are walking straight down a canyon trail along $$-\nabla f(x_k)$$, the gr
 3. **Why Exact Line Search Can Still Zig-Zag**: Because consecutive steps are forced to be orthogonal, on an elongated ellipse ($$\kappa \gg 1$$) exact line search bounces back and forth at $$90^\circ$$ angles down the narrow valley—still converging at rate $$\left(\frac{\kappa - 1}{\kappa + 1}\right)^2$$ in objective value (Kantorovich inequality).
 4. **When to Use It**: Exact line search shines for quadratic objectives (where $$s_k = \|g_k\|^2 / g_k^T Q g_k$$ costs just one matrix-vector product), whereas for general non-quadratic functions solving the 1D subproblem exactly rarely beats fast Armijo backtracking.
 
-### Step-by-Step Worked Example (Read Slowly): Two Exact Line-Search Steps and the $$90^\circ$$ Orthogonality Check
+### Worked example: Two Exact Line-Search Steps and the $$90^\circ$$ Orthogonality Check
 
 Minimize $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 4x_2^2)$$ starting from $$x^{(0)} = (4, 1)$$, where $$Q = \operatorname{diag}(1, 4)$$.
 

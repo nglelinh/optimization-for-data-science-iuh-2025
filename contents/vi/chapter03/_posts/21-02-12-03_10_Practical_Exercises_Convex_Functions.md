@@ -16,7 +16,7 @@ Khi rời khỏi các hàm trơn đẹp như $$x^2$$ để chạm vào những b
 
 Bộ bài tập thực hành cuối Chương 03 giúp bạn thành thạo cả 5 trụ cột: kiểm tra tính lồi, phép toán bảo toàn, hàm liên hợp, dưới vi phân và bất đẳng thức Jensen. Dưới đây là một ví dụ tính tay dưới vi phân tại điểm gấp khúc để khởi động.
 
-## Bản đồ kiến thức nền: Năm kỹ năng thực hành cốt lõi của Chương 03
+## Kiến thức cần nhớ: Năm kỹ năng thực hành cốt lõi của Chương 03
 
 - **Chứng minh tính lồi đa chiến lược:** Kết hợp linh hoạt tiêu chuẩn Hessian, quy tắc hợp thành DCP và phép chiếu lát cắt 1D.
 - **Tính tường minh hàm liên hợp $$f^*(y)$$:** Giải $$\sup_x (y^T x - f(x))$$ cho cả hàm trơn (bậc hai, âm log, entropy) lẫn hàm không trơn (chuẩn $$\ell_1, \ell_2, \ell_\infty$$) và xác định đúng miền hữu hạn $$\operatorname{dom} f^*$$.
@@ -24,7 +24,7 @@ Bộ bài tập thực hành cuối Chương 03 giúp bạn thành thạo cả 5
 - **Điều kiện tối ưu không trơn ($$0 \in \partial f(x^*)$$):** Là điều kiện cần và đủ để $$x^*$$ là cực tiểu toàn cục của hàm lồi (trơn hoặc không trơn).
 - **Khai thác bất đẳng thức Jensen:** Chứng minh các bất đẳng thức kinh điển (AM–GM, Hölder, phân kỳ KL không âm $$D_{\mathrm{KL}}(p\|q) \ge 0$$).
 
-### Khung giải thích (nên đọc chậm): Tính dưới vi phân và tìm cực tiểu của hàm không trơn $$f(x) = |x - 2| + x^2$$
+### Giải thích: Tính dưới vi phân và tìm cực tiểu của hàm không trơn $$f(x) = |x - 2| + x^2$$
 
 Xét hàm lồi mạnh nhưng không khả vi tại $$x = 2$$: $$f(x) = |x - 2| + x^2$$.
 

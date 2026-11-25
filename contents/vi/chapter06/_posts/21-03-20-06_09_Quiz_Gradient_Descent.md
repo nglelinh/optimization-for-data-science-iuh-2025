@@ -16,7 +16,7 @@ Chương 06 là chương dài và giàu kỹ thuật nhất từ đầu khóa h�
 
 Bộ bài tập trắc nghiệm này là bài kiểm tra tổng lực giúp bạn khóa chặt mọi định lý, công thức và trực giác hình học của Chương 06 trước khi sang thế giới không khả vi của Chương 07!
 
-## Bản đồ kiến thức nền: Bảng tra nhanh 4 điểm dễ nhầm nhất của Chương 06
+## Kiến thức cần nhớ: Bảng tra nhanh 4 điểm dễ nhầm nhất của Chương 06
 
 Hãy rà soát nhanh bốn phân biệt cốt lõi trước khi trả lời các câu hỏi trắc nghiệm:
 
@@ -28,7 +28,7 @@ Hãy rà soát nhanh bốn phân biệt cốt lõi trước khi trả lời các
 - **SGD vs. Batch GD:** SGD có chi phí mỗi bước $$O(p)$$ (độc lập với $$N$$) thay vì $$O(Np)$$, nhưng với bước cố định chỉ hội tụ vào vùng lân cận nghiệm; muốn hội tụ chính xác về $$x^\star$$ cần giảm bước theo điều kiện Robbins–Monro ($$\sum t_k = \infty, \sum t_k^2 < \infty$$).
 - **Exact Line Search:** Hai bước liên tiếp luôn trực giao ($$\nabla f(x_{k+1})^T \nabla f(x_k) = 0$$), nên vẫn có thể đi zíc-zắc chậm trên thung lũng hẹp có $$\kappa$$ lớn!
 
-### Khung giải thích (nên đọc chậm): Chẩn đoán nhanh một câu hỏi trắc nghiệm điển hình về số vòng lặp
+### Giải thích: Chẩn đoán nhanh một câu hỏi trắc nghiệm điển hình về số vòng lặp
 
 **Câu hỏi mẫu:** *Hàm $$f$$ lồi mạnh với $$m = 2$$ và gradient Lipschitz $$L = 20$$. Nếu dùng Gradient Descent bước cố định $$t = 1/L$$, sau mỗi bước lặp sai số $$f(x^{(k)}) - f^\star$$ giảm đi ít nhất bao nhiêu phần trăm?*
 

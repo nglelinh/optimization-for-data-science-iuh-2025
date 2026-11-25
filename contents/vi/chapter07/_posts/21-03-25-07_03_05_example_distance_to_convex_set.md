@@ -13,7 +13,7 @@ Trong robot học (tránh va chạm chướng ngại vật), đồ họa máy t�
 
 Trực giác hình học cho ta câu trả lời trong tích tắc: nếu bạn đang đứng ở điểm $$x$$ nằm ngoài một hồ nước hình lồi $$C$$, và điểm bờ hồ gần bạn nhất là hình chiếu $$P_C(x)$$, thì hướng khiến bạn **đi ra xa hồ nhanh nhất** chính là tia thẳng nối từ $$P_C(x)$$ qua $$x$$ — tức là vector đơn vị $$g = \frac{x - P_C(x)}{\|x - P_C(x)\|_2}$$! Bài học này chứng minh chặt chẽ kết quả hình học tuyệt đẹp đó bằng đúng công cụ subgradient và điều kiện tối ưu bậc nhất!
 
-## Bản đồ kiến thức nền: Hình học Phép chiếu và Subgradient của Hàm khoảng cách
+## Kiến thức cần nhớ: Hình học Phép chiếu và Subgradient của Hàm khoảng cách
 
 Ba trụ cột sau tóm gọn toàn bộ chứng minh và ứng dụng của bài học này:
 
@@ -24,7 +24,7 @@ Ba trụ cột sau tóm gọn toàn bộ chứng minh và ứng dụng của bà
   (Còn hàm *bình phương khoảng cách* $$\frac{1}{2}\operatorname{dist}^2(x, C)$$ thì **khả vi ở mọi nơi** kể cả trên biên và trong $$C$$, với gradient $$x - P_C(x)$$!)
 - **Tính chất đối ngẫu của siêu phẳng đỡ:** Trong chứng minh, ta dùng bất đẳng thức $$(x - P_C(x))^T (z - P_C(x)) \le (x - P_C(x))^T (z - P_C(z))$$ cộng với Cauchy-Schwarz để xác nhận $$g^T(z - x) \le \operatorname{dist}(z, C) - \operatorname{dist}(x, C)$$ cho mọi $$z \in \mathbb{R}^n$$!
 
-### Khung giải thích (nên đọc chậm): Tính tay $$P_C(x)$$, $$\operatorname{dist}(x, C)$$ và kiểm chứng subgradient $$g$$
+### Giải thích: Tính tay $$P_C(x)$$, $$\operatorname{dist}(x, C)$$ và kiểm chứng subgradient $$g$$
 
 Xét tập lồi đóng là hình tròn đơn vị $$C = \{y \in \mathbb{R}^2 : \|y\|_2 \le 1\}$$ và điểm ngoài $$x = (3, 4)^T$$:
 

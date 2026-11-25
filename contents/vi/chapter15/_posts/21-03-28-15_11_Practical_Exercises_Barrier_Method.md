@@ -16,14 +16,14 @@ redirect_from:
 
 Bộ bài tập thực hành dưới đây được biên soạn dựa trên các bài kinh điển của Boyd & Vandenberghe, Nocedal & Wright và Nesterov. Trước khi bắt tay giải, hãy xem qua bốn kỹ năng cốt lõi và một bài mẫu tính trọn vẹn từ hàm chắn đến kiểm tra KKT nhiễu.
 
-## Bản đồ kiến thức nền: Bốn kỹ năng tự luận trọng tâm của bài tập Chương 15
+## Kiến thức cần nhớ: Bốn kỹ năng tự luận trọng tâm của bài tập Chương 15
 
 - **Giải tích hàm chắn dạng ma trận:** Với $$h_i(x) = a_i^T x - b_i$$, tập thói quen viết gọn $$\nabla \phi(x) = A^T d$$ và $$\nabla^2 \phi(x) = A^T \operatorname{diag}(d^2) A$$ (với $$d_i = \frac{1}{b_i - a_i^T x}$$) để chứng minh nhanh tính lồi và tính tự hài hòa.
 - **Giải tường minh đường trung tâm 1D/2D:** Đặt $$\nabla (t f(x) + \phi(x)) = 0$$ (cộng thêm $$A^T w = 0$$ nếu có ràng buộc đẳng thức), giải theo $$t$$ và luôn chọn nhánh nghiệm nằm trong miền khả thi chặt $$h_i(x) < 0$$.
 - **Kiểm chứng cặp nguyên thủy – đối ngẫu trên đường trung tâm:** Từ $$x^*(t)$$, tính ngay $$u_i^*(t) = -\frac{1}{t h_i(x^*(t))}$$, kiểm tra $$u_i^* > 0$$, điều kiện dừng và xác nhận $$f(x^*(t)) - g(u^*(t)) = m/t$$.
 - **Thiết lập Pha I và phân tích độ phức tạp:** Luôn kiểm tra cách chọn $$s^{(0)} > \max_i h_i(x^{(0)})$$ và nhớ công thức số vòng ngoài $$\lceil \log(m/(\epsilon t^{(0)})) / \log \mu \rceil$$.
 
-### Khung giải thích (nên đọc chậm): Bài mẫu giải trọn vẹn đường trung tâm có ràng buộc đẳng thức
+### Giải thích: Bài mẫu giải trọn vẹn đường trung tâm có ràng buộc đẳng thức
 
 **Bài toán mẫu:** Tìm đường trung tâm $$x^*(t)$$ cho bài toán cực tiểu hóa 2 biến có cả ràng buộc đẳng thức và bất đẳng thức:
 $$\min_{x \in \mathbb{R}^2} x_1 \qquad \text{với điều kiện } x_1 + x_2 = 1, \;\; x_1 \ge 0, \;\; x_2 \ge 0.$$

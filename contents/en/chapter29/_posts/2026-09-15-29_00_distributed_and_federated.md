@@ -12,14 +12,14 @@ lesson_type: required
 
 Modern optimization rarely happens on a single machine anymore—either the dataset and model are too massive for one GPU (forcing **data-parallel distributed training** across thousands of accelerators connected by InfiniBand), or the data itself cannot legally leave millions of phones and hospitals (forcing **federated learning** over slow, unreliable wireless links). Chapter 29 unifies these worlds by contrasting synchronous data-parallel SGD, communication-saving Federated Averaging (FedAvg), and Chapter 21’s consensus ADMM—showing how communication bandwidth, synchronization barriers, and non-IID data heterogeneity reshape optimization from the ground up.
 
-## Background Knowledge Map: Distributed & Federated Optimization Landscape
+## Key ideas: Distributed & Federated Optimization Landscape
 
 - **The Communication Bottleneck:** On a cluster or across mobile devices, transmitting a $$d$$-dimensional gradient or model update over a network often takes $$10\times$$–$$1000\times$$ longer than computing a local gradient—making *communication rounds*, not FLOPs, the dominant resource.
 - **Synchronous Data-Parallel SGD:** Partitions a giant minibatch across $$P$$ workers, averages gradients via AllReduce, and produces an update mathematically *identical* to single-machine large-batch SGD—limited mainly by stragglers and the critical batch size.
 - **Federated Learning & Local Steps (FedAvg):** Keeps raw data strictly on-device, lets each sampled client run $$E$$ local SGD steps before sending weight deltas to a central server, trading communication frequency for **client drift** when client distributions are non-IID.
 - **Dual Consensus (ADMM) vs. Primal Averaging (FedAvg):** Consensus ADMM uses dual variables to eliminate client drift completely on convex problems, whereas modern federated methods (FedProx, SCAFFOLD, FedAdam) adapt proximal leashes, control variates, and server-side adaptivity to nonconvex deep networks.
 
-### Step-by-Step Worked Example (Read Slowly): Communication Cost of Data-Parallel SGD vs. Local-Step FedAvg
+### Worked example: Communication Cost of Data-Parallel SGD vs. Local-Step FedAvg
 
 Suppose $$P = 10$$ clients each hold local data, the model has $$d = 10^6$$ float32 parameters ($$4\text{ MB}$$ per model), and we want every client to execute $$T = 100$$ local gradient steps.
 

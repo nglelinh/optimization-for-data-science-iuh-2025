@@ -14,14 +14,14 @@ redirect_from:
 
 Newton's method quizzes love testing the subtle distinctions between *local* and *global* properties: pure Newton is affine invariant, yet its classical $$m, L, M$$ convergence bound is *not*; Newton's step is orthogonal to level curves in the *Hessian* norm, yet *not* in the Euclidean norm; and a quadratic error rate $$O(\log\log(1/\epsilon))$$ only kicks in after the damped phase ends. Run through this concept map and 4-point warm-up before starting the quiz.
 
-## Background Knowledge Map: High-Yield Newton's Method Checkpoints
+## Key ideas: High-Yield Newton's Method Checkpoints
 
 - **Pillar 1 — Update & Geometry:** $$\Delta x_{\text{nt}} = -(\nabla^2 f(x))^{-1}\nabla f(x)$$ minimizes the local quadratic model; it is strictly a descent direction whenever $$\nabla^2 f(x) \succ 0$$ and is affine invariant.
 - **Pillar 2 — Newton Decrement Identities:** $$\lambda(x)^2 = \nabla f(x)^T H^{-1}\nabla f(x) = \Delta x_{\text{nt}}^T H \Delta x_{\text{nt}} = -\nabla f(x)^T \Delta x_{\text{nt}}$$, and $$\frac{1}{2}\lambda(x)^2$$ estimates $$f(x) - f^\star$$.
 - **Pillar 3 — Convergence Regimes & Self-Concordance:** Classical damped Newton has Phase I (constant drop $$-\gamma$$) and Phase II (quadratic $$O(\log\log(1/\epsilon))$$). Self-concordant functions ($$|f'''| \le 2(f'')^{3/2}$$) eliminate $$m, L, M$$ and restore affine-invariant bounds.
 - **Pillar 4 — Complexity & Extensions:** Dense Newton takes $$O(n^2)$$ memory and $$O(n^3)$$ flops per step; banded Hessians drop this to $$O(n)$$; equality constraints use the block KKT system; quasi-Newton achieves superlinear convergence without Hessians.
 
-### Step-by-Step Worked Example (Read Slowly): 4-Check Rapid Quiz Warm-Up
+### Worked example: 4-Check Rapid Quiz Warm-Up
 
 1. **Newton step & decrement:** For $$f(x) = \frac{1}{2}x^2 + e^x$$ at $$x = 0$$, compute $$\Delta x_{\text{nt}}$$ and $$\lambda(0)$$.
    - $$f'(0) = 0 + 1 = 1$$, $$f''(0) = 1 + 1 = 2$$.

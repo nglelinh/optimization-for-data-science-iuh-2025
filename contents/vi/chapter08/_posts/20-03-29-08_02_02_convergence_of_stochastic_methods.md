@@ -13,13 +13,13 @@ Một câu hỏi rất tự nhiên sau khi thấy ví dụ chạy thử là: *n�
 
 Với bước cố định $$t$$, ngay cả khi bạn đặt thuật toán ngay chính giữa nghiệm tối ưu $$x^*$$, nhiễu từ các thành phần $$f_i$$ khác nhau vẫn lập tức "đá" điểm lặp văng ra khỏi $$x^*$$, tạo nên một quỹ đạo dao động trong lân cận của nghiệm. Còn với bước giảm dần thỏa $$\sum t_k = \infty, \sum t_k^2 < \infty$$, biên độ của những cú đá ấy nhỏ dần về $$0$$, giúp giá trị hàm tốt nhất hội tụ về đúng $$f^*$$ (hội tụ tất định với bản tuần hoàn, và hội tụ theo kỳ vọng / hầu chắc chắn với bản ngẫu nhiên).
 
-## Bản đồ kiến thức nền: Ba trụ cột của lý thuyết hội tụ ngẫu nhiên
+## Kiến thức cần nhớ: Ba trụ cột của lý thuyết hội tụ ngẫu nhiên
 
 - **Hội tụ theo kỳ vọng và hầu chắc chắn (Expectation & Almost Sure Convergence):** Vì dãy $$x^{(k)}$$ là dãy biến ngẫu nhiên phụ thuộc vào chuỗi chỉ số rút thăm $$i_1, i_2, \dots$$, ta đánh giá $$\mathbb{E}[f_{\text{best}}^{(k)}] - f^* \to 0$$ (hoặc hội tụ hầu chắc chắn bằng bổ đề siêu martingale Robbins–Siegmund).
 - **Nhiễu tại nghiệm tối ưu (Gradient Noise at Optimum):** Tại $$x^*$$, tổng subgradient bằng $$0$$ ($$\sum_{i=1}^m g_i(x^*) = 0$$), nhưng từng $$g_i(x^*)$$ nói chung **khác $$0$$**! Chính phương sai nội tại này tạo ra sàn sai số không thể xóa bỏ khi dùng bước cố định $$t$$.
 - **Khác biệt giữa sàn sai số tuần hoàn và ngẫu nhiên:** Trong biến thể tuần hoàn, sai lệch có thể cộng dồn qua trọn một vòng $$m$$ mẫu (tạo hệ số lớn hơn theo $$m$$), trong khi bản ngẫu nhiên triệt tiêu sai số chéo nhờ tính độc lập giữa các bước, cho sàn sai số chặt hơn rõ rệt khi $$m$$ lớn.
 
-### Khung giải thích (nên đọc chậm): Minh họa vì sao bước cố định luôn bị "đá" khỏi nghiệm tối ưu
+### Giải thích: Minh họa vì sao bước cố định luôn bị "đá" khỏi nghiệm tối ưu
 
 Xét bài toán gồm 2 hàm thành phần lồi trên $$\mathbb{R}$$:
 $$f_1(x) = 2|x - 1|, \quad f_2(x) = |x + 1|, \quad f(x) = f_1(x) + f_2(x).$$

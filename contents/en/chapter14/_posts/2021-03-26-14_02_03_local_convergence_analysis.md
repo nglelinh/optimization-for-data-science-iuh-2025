@@ -11,14 +11,14 @@ lang: en
 
 Pure Newton's method is a high-performance race car with no brakes: start close enough to the finish line and it accelerates quadratically—turning an error of $$10^{-2}$$ into $$10^{-4}$$, then $$10^{-8}$$, then $$10^{-16}$$ in just three steps. Start too far away on a flat inflection region, however, and it can launch itself straight toward infinity. Local convergence theory draws the exact boundary between those two worlds.
 
-## Background Knowledge Map: Anatomy of Local Convergence
+## Key ideas: Anatomy of Local Convergence
 
 - **Pillar 1 — Nonsingular Jacobian at the Root ($$F'(x^\star)$$ invertible):** Ensures the linear model around $$x^\star$$ is well-posed and gives a local contraction radius $$\delta > 0$$.
 - **Pillar 2 — Superlinear Convergence from Continuity Alone:** Using first-order Taylor expansion $$0 = F(x^\star) = F(x^k) + F'(x^k)(x^\star - x^k) + o(\|x^k - x^\star\|)$$ immediately yields $$\|x^{k+1} - x^\star\| / \|x^k - x^\star\| \to 0$$.
 - **Pillar 3 — Quadratic Convergence from Lipschitz Jacobian:** When $$\|F'(x) - F'(y)\| \le M\|x-y\|$$, the Taylor remainder shrinks to $$O(\|x^k - x^\star\|^2)$$, yielding $$\|x^{k+1} - x^\star\| \le K\|x^k - x^\star\|^2$$.
 - **Pillar 4 — Failure Modes Outside the Local Basin:** If $$x^{(0)}$$ lands where $$F'(x^{(0)}) \approx 0$$ or the curvature bends away from the root (such as $$F(x) = \arctan(x)$$ at $$|x^{(0)}| > 1.3917$$), pure Newton oscillates or diverges.
 
-### Step-by-Step Worked Example (Read Slowly): Contrasting Quadratic Convergence vs. Divergence on $$F(x) = \arctan(x)$$
+### Worked example: Contrasting Quadratic Convergence vs. Divergence on $$F(x) = \arctan(x)$$
 
 Consider finding the unique root $$x^\star = 0$$ of $$F(x) = \arctan(x)$$, where $$F'(x) = \frac{1}{1+x^2}$$. The Newton update is
 $$x^{(k+1)} = x^{(k)} - (1 + (x^{(k)})^2)\arctan(x^{(k)}).$$

@@ -11,14 +11,14 @@ lang: en
 
 In Lesson 19-01-02 we saw that a pure unit proximal Newton step on $$e^x - 4x + |x|$$ can actually *increase* the objective when started far from the solution. Fixing that with backtracking line search raises an immediate design question: should we recompute the expensive scaled prox $$\operatorname{prox}_H$$ at every trial step size $$t$$, or compute the direction $$v$$ *once* and search along the straight ray $$x + tv$$? Computing $$v$$ once and backtracking along the ray saves massive computation while still guaranteeing global convergence and eventual unit-step acceptance!
 
-## Background Knowledge Map: Composite Backtracking Without Repeated Prox Solves
+## Key ideas: Composite Backtracking Without Repeated Prox Solves
 
 - **Composite Directional Derivative Proxy:** Because $$h$$ is nonsmooth, the classical Armijo slope $$\nabla f(x)^T v$$ does not exist. By convexity of $$h$$, $$\Delta = \nabla g(x)^T v + h(x + v) - h(x)$$ serves as a valid, strictly negative descent measure ($$\Delta \le -v^T H v < 0$$).
 - **Modified Armijo Sufficient Decrease:** We accept $$t \in (0, 1]$$ as soon as $$f(x + tv) \le f(x) + \alpha t \nabla g(x)^T v + \alpha\big(h(x + tv) - h(x)\big)$$ (or equivalently using $$\alpha t \Delta$$, since $$h(x + tv) - h(x) \le t(h(x + v) - h(x))$$ by convexity!).
 - **Single-Prox Efficiency Advantage:** Unlike proximal gradient backtracking (which re-evaluates $$\operatorname{prox}_{t h}$$ for every shrunk $$t$$), proximal Newton solves the expensive scaled prox *only once* per outer iteration to get $$v$$, then only evaluates scalar function values $$f(x + tv)$$ during backtracking.
 - **Automatic Transition to Unit Steps:** Near $$x^\star$$, once $$\|x - x^\star\|$$ is small enough, the quadratic Taylor remainder becomes negligible compared to $$-\frac{1}{2} v^T H v$$, so $$t = 1$$ passes the Armijo check immediately for any $$\alpha \le 1/2$$.
 
-### Step-by-Step Worked Example (Read Slowly): Executing Composite Backtracking on $$e^x - 4x + |x|$$
+### Worked example: Executing Composite Backtracking on $$e^x - 4x + |x|$$
 
 Resume directly from Lesson 19-01-02: $$f(x) = e^x - 4x + |x|$$ at $$x = 0$$ ($$f(0) = 1$$, $$g'(0) = -3$$), with the single precomputed proximal Newton direction $$v = +2$$. Choose backtracking parameters $$\alpha = 0.25$$ and $$\beta = 0.5$$.
 

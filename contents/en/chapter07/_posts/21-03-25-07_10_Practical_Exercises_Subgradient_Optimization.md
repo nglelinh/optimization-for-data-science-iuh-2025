@@ -14,14 +14,14 @@ redirect_from:
 
 Subgradient calculus only becomes second nature once you have computed subdifferentials of norms, piecewise maxima, and indicator functions with your own hands—and used $$0 \in \partial f(x^\star)$$ to solve Lasso and constrained problems directly. These practical exercises build that exact hands-on command, preparing you for subgradient and proximal algorithms in the next chapters.
 
-## Background Knowledge Map: Problem-Solving Playbook for Subgradient Exercises
+## Key ideas: Problem-Solving Playbook for Subgradient Exercises
 
 1. **Identify Kinks vs. Smooth Regions First**: Before differentiating, locate every point where an absolute value hits zero, a norm hits zero, or two branches of a `max` tie. On smooth regions, $$\partial f(x) = \{\nabla f(x)\}$$; at kinks, apply the calculus rules.
 2. **Use the Dual-Norm Formula for Any Norm $$\|x\|$$**: At $$x = 0$$, $$\partial \|0\| = \{g : \|g\|_* \le 1\}$$; at $$x \neq 0$$, $$\partial \|x\| = \{g : \|g\|_* \le 1 \text{ and } g^T x = \|x\|\}$$. (For $$\ell_2$$, dual is $$\ell_2$$; for $$\ell_1$$, dual is $$\ell_\infty$$; for $$\ell_\infty$$, dual is $$\ell_1$$.)
 3. **Check Optimality by Case-Splitting Sign Regimes**: For $$\ell_1$$-regularized or piecewise objectives, test whether $$0 \in \partial f(x)$$ at each kink first; if not, solve the smooth equation on the region where the sign of the subdifferential crosses zero.
 4. **Verify Subgradient Descent Step Sizes**: Unlike smooth gradient descent, subgradient descent $$x^{(k+1)} = x^{(k)} - t_k g^{(k)}$$ is *not* guaranteed to decrease $$f$$ at every step—keep track of the best iterate $$f_{\mathrm{best}}^{(k)} = \min_{i \le k} f(x^{(i)})$$ and use diminishing step sizes (e.g., $$t_k = c/\sqrt{k}$$).
 
-### Step-by-Step Worked Example (Read Slowly): Warm-Up Subgradient Computation & Optimality Test
+### Worked example: Warm-Up Subgradient Computation & Optimality Test
 
 Minimize $$f(x) = \|x\|_1 + \frac{1}{2}\|x - a\|_2^2$$ where $$a = (0.5,\; -2.0)^T$$, and verify optimality directly via $$0 \in \partial f(x^\star)$$.
 

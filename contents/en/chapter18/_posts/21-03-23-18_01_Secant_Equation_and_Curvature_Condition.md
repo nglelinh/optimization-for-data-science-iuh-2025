@@ -11,14 +11,14 @@ lang: en
 
 In single-variable calculus, when you do not know the second derivative $$f''(x)$$, you approximate it by the slope of the secant line connecting two gradients: $$b_{k+1} = \frac{f'(x^{k+1}) - f'(x^k)}{x^{k+1} - x^k}$$. Lifting that elementary ratio to $$\mathbb{R}^n$$ yields the **secant equation** $$B_{k+1} s_k = y_k$$—a linear system that is *wildly* underdetermined in high dimensions (only $$n$$ equations for $$n(n+1)/2$$ symmetric entries) and has a positive-definite solution if and only if the **curvature condition** $$y_k^T s_k > 0$$ holds.
 
-## Background Knowledge Map: Geometry of the Secant & Curvature Conditions
+## Key ideas: Geometry of the Secant & Curvature Conditions
 
 - **Multivariate Secant Equation ($$B_{k+1} s_k = y_k$$):** By Taylor's theorem, $$y_k = \nabla f(x^{k+1}) - \nabla f(x^k) = \left(\int_0^1 \nabla^2 f(x^k + \tau s_k)\,d\tau\right) s_k$$. Requiring $$B_{k+1} s_k = y_k$$ forces our Hessian model to match the exact *average* curvature along the most recent step $$s_k$$.
 - **Why $$B_{k+1}$$ Is Underdetermined:** In $$\mathbb{R}^n$$, symmetry leaves $$\frac{n(n+1)}{2}$$ unknowns while $$B_{k+1} s_k = y_k$$ supplies only $$n$$ scalar equations. Different quasi-Newton updates (SR1, DFP, BFGS) differ purely in *how* they resolve the remaining $$\frac{n(n-1)}{2}$$ degrees of freedom (e.g., minimum Frobenius-norm change from $$B_k$$).
 - **The Curvature Condition ($$y_k^T s_k > 0$$):** If $$B_{k+1} \succ 0$$ satisfies $$B_{k+1} s_k = y_k$$, then necessarily $$s_k^T y_k = s_k^T B_{k+1} s_k > 0$$. Conversely, whenever $$y_k^T s_k > 0$$, infinitely many SPD matrices satisfy the secant equation.
 - **Line Search as the Guardian of Positive Definiteness:** For strictly convex functions, $$y_k^T s_k > 0$$ holds automatically; for nonconvex objectives, enforcing the **Wolfe curvature condition** $$\nabla f(x^{k+1})^T s_k \ge c_2 \nabla f(x^k)^T s_k$$ (with $$c_2 \in (0, 1)$$) guarantees $$y_k^T s_k \ge (c_2 - 1)\nabla f(x^k)^T s_k > 0$$ whenever $$s_k$$ is a descent direction.
 
-### Step-by-Step Worked Example (Read Slowly): Checking the Secant & Curvature Conditions
+### Worked example: Checking the Secant & Curvature Conditions
 
 **Part A (Convex 2D quadratic):** Let $$f(x) = \frac{1}{2}x_1^2 + 2x_2^2 + x_1 x_2$$, so $$\nabla f(x) = \begin{bmatrix} x_1 + x_2 \\ x_1 + 4x_2 \end{bmatrix}$$. Suppose we step from $$x^0 = (1, 1)^T$$ to $$x^1 = (0, 0.5)^T$$.
 

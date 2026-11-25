@@ -11,14 +11,14 @@ lang: en
 
 Many optimization problems in physics, finance, and engineering look hopelessly nonconvex at first glance—products of powers, ratios of norms, or awkward exponential constraints. Yet a surprisingly large fraction of them are *convex problems in disguise*. Just as switching from Cartesian to polar coordinates turns a messy circle equation into $$r = 1$$, monotone transformations and invertible changes of variables unmask hidden convexity without altering the true optimal solution.
 
-## Background Knowledge Map: Discovering Hidden Convexity
+## Key ideas: Discovering Hidden Convexity
 
 1. **Monotone Increasing Objective Transformations**: If $$h: \mathbb{R} \to \mathbb{R}$$ is strictly increasing on the range of $$f$$, then minimizing $$h(f(x))$$ has the exact same set of optimal points $$X_{\mathrm{opt}}$$ as minimizing $$f(x)$$. Taking $$\ln(\cdot)$$ of a likelihood function or squaring a nonnegative norm $$\|Ax - b\|_2$$ are everyday applications that simplify derivatives or remove square roots.
 2. **One-to-One Change of Variables**: If $$\phi: \mathbb{R}^n \to \mathbb{R}^n$$ is a bijection whose image covers the feasible domain, substituting $$x = \phi(z)$$ produces an equivalent problem in $$z$$, and optimal points map back via $$x^\star = \phi(z^\star)$$. Choosing $$\phi$$ cleverly (such as $$x_i = e^{z_i}$$ for positive variables) can turn multiplicative constraints into additive convex ones.
 3. **Log-Sum-Exp and Geometric Programming**: A posynomial $$\sum_{k=1}^K c_k x_1^{a_{1k}} \cdots x_n^{a_{nk}}$$ (with $$c_k > 0, x_i > 0$$) is generally nonconvex in $$x$$. Setting $$x_i = e^{z_i}$$ and taking the logarithm of the objective and constraints converts every posynomial into $$\ln\!\left(\sum_k \exp(a_k^T z + b_k)\right)$$, which is convex in $$z$$.
 4. **Preserving Equivalence vs. Changing Optimal Value**: A strictly increasing transformation $$h$$ preserves the *minimizers* $$x^\star$$, though the *optimal value* changes from $$f^\star$$ to $$h(f^\star)$$. Always invert $$h$$ and $$\phi$$ at the end when reporting the original problem's answer.
 
-### Step-by-Step Worked Example (Read Slowly): Unmasking a Nonconvex-Looking Posynomial Program
+### Worked example: Unmasking a Nonconvex-Looking Posynomial Program
 
 Minimize $$f(x_1, x_2) = x_1^{-1} x_2^{-1}$$ subject to $$x_1 > 0,\; x_2 > 0$$ and $$x_1 + 4x_2 \le 8$$.
 

@@ -13,7 +13,7 @@ Khi chạy Gradient Descent, ta thường kiểm tra độ lớn gradient $$\|\n
 
 Để giải quyết triệt để vấn đề này, các nhà toán học đã sáng chế ra một thước đo tự nhiên riêng cho phương pháp Newton: **đại lượng giảm Newton (Newton decrement)** $$\lambda(x) = \sqrt{\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x)}$$. Không chỉ hoàn toàn bất biến affine, $$\frac{1}{2}\lambda(x)^2$$ còn cho bạn biết ngay **khoảng cách dự kiến từ vị trí hiện tại tới đáy của parabol xấp xỉ**, trở thành tiêu chí dừng tiêu chuẩn vàng cho mọi bộ giải Newton và phương pháp điểm trong.
 
-## Bản đồ kiến thức nền: Bốn ý nghĩa đồng thời của Newton Decrement $$\lambda(x)$$
+## Kiến thức cần nhớ: Bốn ý nghĩa đồng thời của Newton Decrement $$\lambda(x)$$
 
 - **Ước lượng khoảng cách tới giá trị tối ưu:** Nếu thay $$f$$ bằng xấp xỉ Taylor bậc hai $$\tilde{f}_x$$, mức giảm cực đại có thể đạt được chính xác bằng:
   $$f(x) - \min_y \tilde{f}_x(y) = \frac{1}{2}\lambda(x)^2.$$
@@ -22,7 +22,7 @@ Khi chạy Gradient Descent, ta thường kiểm tra độ lớn gradient $$\|\n
 - **Đạo hàm theo hướng Newton:** Đạo hàm của $$f$$ dọc theo hướng bước Newton $$v$$ bằng đúng $$-\lambda(x)^2$$: $$\nabla f(x)^T v = -\lambda(x)^2 < 0$$. Đại lượng này dùng trực tiếp trong điều kiện dừng của tìm kiếm đường backtracking!
 - **Tính bất biến affine tuyệt đối:** Dưới mọi phép đổi tọa độ khả nghịch $$x = Ay$$, giá trị $$\lambda(x)$$ giữ nguyên không đổi, biến nó thành tiêu chí dừng đáng tin cậy bất kể bài toán có bị kéo giãn trục mạnh đến đâu.
 
-### Khung giải thích (nên đọc chậm): Tính tay $$\lambda(x)$$ và kiểm chứng ước lượng mức giảm $$\frac{1}{2}\lambda(x)^2$$
+### Giải thích: Tính tay $$\lambda(x)$$ và kiểm chứng ước lượng mức giảm $$\frac{1}{2}\lambda(x)^2$$
 
 Xét hàm bậc hai 2 chiều $$f(x_1, x_2) = 2x_1^2 + 8x_2^2 - 4x_1 - 16x_2 + 12$$ tại điểm $$x = (2, 2)^T$$.
 

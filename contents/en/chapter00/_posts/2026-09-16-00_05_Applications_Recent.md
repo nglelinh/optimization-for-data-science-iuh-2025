@@ -12,14 +12,14 @@ lesson_type: optional
 
 It is tempting to treat Chapter 00 as dusty textbook review, yet the biggest breakthroughs in modern AI—reverse-mode automatic differentiation, low-rank adaptation (LoRA) of billion-parameter language models, and score-based diffusion models—are direct applications of the multivariable chain rule, low-rank matrix factorization, and log-density gradients. Mastering these fundamentals means you can read cutting-edge machine learning papers without treating their equations as black boxes.
 
-## Background Knowledge Map: Where Chapter 00 Math Powers Frontier AI
+## Key ideas: Where Chapter 00 Math Powers Frontier AI
 
 - **Reverse-Mode AutoDiff & Implicit Gradients:** Scales the multivariable chain rule to compute $$\nabla f(x) \in \mathbb{R}^n$$ in $$O(1)$$ forward-pass multiples via vector-Jacobian products (VJPs), and differentiates right through argmin layers using the implicit function theorem.
 - **Low-Rank Matrix Parameterization (LoRA):** Replaces a dense $$d \times k$$ weight update $$\Delta W$$ with a rank-$$r$$ factor $$BA$$ ($$r \ll \min(d, k)$$), cutting memory and optimizer states by orders of magnitude.
 - **Score Functions ($$\nabla_x \log p(x)$$):** Diffusion models learn the gradient of the log probability density—a vector field pointing toward high-density data regions—bypassing intractable normalizing constants.
 - **Conditioning & Numerical Precision:** Matrix norms, singular values, and Lipschitz bounds govern whether large-scale training stays numerically stable under reduced-precision arithmetic.
 
-### Step-by-Step Worked Example (Read Slowly): LoRA Compression Ratio and Forward Pass
+### Worked example: LoRA Compression Ratio and Forward Pass
 
 Suppose a transformer projection layer has weight matrix $$W_0 \in \mathbb{R}^{4096 \times 4096}$$ and we adapt it with rank $$r = 8$$ via $$W = W_0 + BA$$ where $$B \in \mathbb{R}^{4096 \times 8}$$ and $$A \in \mathbb{R}^{8 \times 4096}$$.
 

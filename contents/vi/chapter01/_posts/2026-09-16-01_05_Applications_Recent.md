@@ -14,13 +14,13 @@ Khi bạn đọc công thức ngắn gọn $$\min_{x \in \mathcal{C}} f(x)$$ ở
 
 Bài đọc mở rộng này giúp bạn luyện kỹ năng đọc các bài báo khoa học dữ liệu hiện đại dưới lăng kính của một nhà tối ưu hóa: nhận diện biến, hàm mất mát thay thế và tập ràng buộc.
 
-## Bản đồ kiến thức nền: Ba mặt trận ứng dụng hiện đại của khung Chương 01
+## Kiến thức cần nhớ: Ba mặt trận ứng dụng hiện đại của khung Chương 01
 
 - **Cực tiểu hóa rủi ro thực nghiệm dưới ngân sách tính toán (Compute-Optimal ERM):** Tối ưu hóa việc phân bổ ngân sách FLOP cố định $$C \approx 6ND$$ giữa kích thước mô hình $$N$$ và số token huấn luyện $$D$$ để cực tiểu hóa hàm mất mát kiểm thử $$L(N, D)$$.
 - **Predict-then-Optimize và hàm thay thế lồi SPO+:** Khi đầu ra của mô hình dự báo được nạp vào một bài toán LP hạ nguồn, cực tiểu hóa sai số dự báo MSE chưa chắc cho quyết định tốt nhất; hàm mất mát SPO+ thay thế bài toán rời rạc khó bằng một chặn trên **lồi** tối ưu hóa trực tiếp chất lượng quyết định.
 - **Công bằng thuật toán như ràng buộc tối ưu (Fairness-Constrained Optimization):** Biến các tiêu chuẩn đạo đức (như chênh lệch tỷ lệ chọn giữa hai nhóm nhân khẩu học không quá $$\epsilon$$) thành ràng buộc bất đẳng thức tường minh bên cạnh hàm mục tiêu độ chính xác.
 
-### Khung giải thích (nên đọc chậm): Tính tay phân bổ ngân sách huấn luyện theo luật Chinchilla
+### Giải thích: Tính tay phân bổ ngân sách huấn luyện theo luật Chinchilla
 
 Trong nghiên cứu Chinchilla (Hoffmann et al., 2022), tổng chi phí huấn luyện một mô hình ngôn ngữ có $$N$$ tham số trên $$D$$ token xấp xỉ $$C = 6ND$$ (FLOPs), và nghiệm tối ưu của bài toán $$\min_{N, D} L(N, D)$$ dưới ràng buộc $$6ND = C$$ cho tỷ lệ vàng xấp xỉ $$D^* \approx 20 N^*$$.
 

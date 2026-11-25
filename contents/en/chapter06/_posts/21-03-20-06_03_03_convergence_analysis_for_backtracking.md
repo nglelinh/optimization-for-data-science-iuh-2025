@@ -12,7 +12,7 @@ lesson_type: required
 
 You might worry that replacing a known fixed step size $$t = 1/L$$ with Armijo backtracking could wreck the $$O(1/k)$$ convergence theorem—after all, backtracking doesn't even know $$L$$! Remarkably, the convergence rate stays **exactly $$O(1/k)$$**, paying at most a tiny constant factor $$1/\beta$$ because backtracking is mathematically guaranteed never to shrink the step size below $$\min(1, \beta/L)$$.
 
-## Background Knowledge Map: Why Backtracking Preserves the $$O(1/k)$$ Rate
+## Key ideas: Why Backtracking Preserves the $$O(1/k)$$ Rate
 
 1. **Lower Bound on Accepted Step Size $$t_k$$**: For an $$L$$-smooth function and $$\alpha \le \frac{1}{2}$$, any $$t \le 1/L$$ satisfies $$f(x - t\nabla f) \le f(x) - \frac{t}{2}\|\nabla f\|_2^2 \le f(x) - \alpha t\|\nabla f\|_2^2$$. Therefore, either the initial step $$t_0 = 1$$ is accepted immediately, or the last rejected step had $$t_{\mathrm{rej}} > 1/L$$, forcing the accepted step to satisfy $$t_k = \beta t_{\mathrm{rej}} > \beta / L$$.
 2. **Unified Effective Step Size $$t_{\min}$$**: Defining $$t_{\min} = \min(1, \beta/L)$$, every single iteration satisfies $$f(x^{(i+1)}) \le f(x^{(i)}) - \frac{t_{\min}}{2}\|\nabla f(x^{(i)})\|_2^2$$ (for $$\alpha = 1/2$$, or with $$\alpha$$ in place of $$1/2$$ in general).
@@ -20,7 +20,7 @@ You might worry that replacing a known fixed step size $$t = 1/L$$ with Armijo b
    $$f(x^{(k)}) - f^\star \le \frac{\|x^{(0)} - x^\star\|_2^2}{2 t_{\min} k} = \frac{\|x^{(0)} - x^\star\|_2^2}{2 \min(1, \beta/L)\, k}.$$
 4. **Often Faster Than Theory Predicts**: Because backtracking adapts to *local* curvature rather than the global worst-case $$L$$, it routinely takes steps much larger than $$1/L$$ across flat regions, outperforming fixed-step GD in practice.
 
-### Step-by-Step Worked Example (Read Slowly): Computing $$t_{\min}$$ and Backtracking Overhead
+### Worked example: Computing $$t_{\min}$$ and Backtracking Overhead
 
 Suppose $$f$$ is convex with global Lipschitz constant $$L = 10$$ (unknown to the algorithm), and we run Armijo backtracking with $$t_0 = 1$$, $$\alpha = 0.5$$, and $$\beta = 0.5$$.
 

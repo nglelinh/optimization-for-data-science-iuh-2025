@@ -12,14 +12,14 @@ lesson_type: required
 
 Training a modern machine learning model means tuning millions of coupled parameters simultaneously, where nudging one weight ripples through composite layers of transformations. Single-variable slopes are no longer enough: you need partial derivatives to isolate coordinate sensitivities, the gradient to assemble them into a vector, the Hessian to read local bowl-versus-saddle curvature, and the multivariable chain rule—the exact mathematical engine behind backpropagation.
 
-## Background Knowledge Map: Multivariable Differential Calculus in Optimization
+## Key ideas: Multivariable Differential Calculus in Optimization
 
 - **Partial Derivatives & Level Curves:** Partial derivatives measure change along coordinate axes, while level curves $$f(x,y) = c$$ visualize the landscape; the gradient always cuts perpendicularly across level sets.
 - **Gradient Vector ($$\nabla f$$):** Packages all first-order partial derivatives into a single vector in $$\mathbb{R}^n$$ whose vanishing ($$\nabla f(x^*) = \mathbf{0}$$) is necessary for unconstrained local optimality.
 - **Hessian Matrix ($$\nabla^2 f$$):** Collects all second-order partial derivatives into a symmetric $$n \times n$$ matrix; its positive semidefiniteness certifies local convexity and distinguishes minima from saddles.
 - **Multivariable Chain Rule:** Computes derivatives of composed functions $$g(t) = f(x(t))$$ via $$g'(t) = \nabla f(x(t))^T x'(t)$$, enabling exact differentiation along optimization trajectories and through neural network layers.
 
-### Step-by-Step Worked Example (Read Slowly): Gradient, Hessian, and Chain Rule on $$f(x, y) = e^{x^2 + y}$$
+### Worked example: Gradient, Hessian, and Chain Rule on $$f(x, y) = e^{x^2 + y}$$
 
 Evaluate the local calculus of $$f(x, y) = e^{x^2 + y}$$ at $$(0, 0)$$ and along the path $$\gamma(t) = (t, 2t)$$.
 

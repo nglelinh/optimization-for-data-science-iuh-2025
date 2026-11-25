@@ -14,14 +14,14 @@ redirect_from:
 
 Before you jump into the Chapter 10 multiple-choice quiz, run a quick mental check on the sign rules and structural theorems of LP duality. Most quiz mistakes come from flipping a sign on $$Gx \le h$$ vs. $$Gx \ge h$$, forgetting that an unbounded primal forces an infeasible dual (while an infeasible primal can have *either* an unbounded or infeasible dual!), or losing track of how max-flow and matrix games dualize. Use the four pillars and quick dual-check below to lock everything in place.
 
-## Background Knowledge Map: Chapter 10 Quiz Readiness Pillars
+## Key ideas: Chapter 10 Quiz Readiness Pillars
 
 - **Pillar 1 — Mechanical Dualization Dictionary:** For a minimization primal: $$=$$ constraint $$\leftrightarrow$$ free dual variable; $$\le$$ constraint $$\leftrightarrow$$ $$u \ge 0$$ (in $$-h^\top u$$) or $$y \le 0$$ (in $$h^\top y$$); free primal variable $$\leftrightarrow$$ equality dual constraint; $$x \ge 0$$ $$\leftrightarrow$$ inequality dual constraint.
 - **Pillar 2 — Weak, Strong, and Infeasibility Outcomes:** Weak duality ($$d^\star \le p^\star$$) *always* holds. Strong duality ($$d^\star = p^\star$$) holds whenever either primal or dual is feasible and bounded. Remember the one-way trap: primal infeasible does *not* automatically imply dual unbounded (both can be infeasible!).
 - **Pillar 3 — Complementary Slackness Preview:** At any optimal pair $$(x^\star, u^\star)$$, every strictly slack primal inequality ($$(Gx^\star)_i < h_i$$) must have zero dual price ($$u_i^\star = 0$$), and every strictly positive dual variable ($$u_i^\star > 0$$) forces its primal constraint to be tight.
 - **Pillar 4 — Canonical Applications:** Max-flow dualizes to min-cut (via node potentials $$b_i$$ and edge weights $$a_{ij}$$); zero-sum matrix games dualize player $$J$$'s minimax LP into player $$R$$'s maximin LP (proving von Neumann's theorem).
 
-### Step-by-Step Worked Example (Read Slowly): Spot-Checking a Primal–Dual Pair for Optimality
+### Worked example: Spot-Checking a Primal–Dual Pair for Optimality
 
 Primal $$(P)$$: $$\min 5x_1 + 4x_2$$ s.t. $$x_1 + x_2 \ge 3$$, $$2x_1 + x_2 \ge 4$$, $$x_1, x_2 \ge 0$$.
 Dual $$(D)$$: $$\max 3y_1 + 4y_2$$ s.t. $$y_1 + 2y_2 \le 5$$, $$y_1 + y_2 \le 4$$, $$y_1, y_2 \ge 0$$.

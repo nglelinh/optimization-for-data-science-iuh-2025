@@ -13,7 +13,7 @@ Năm 1956, giữa thời kỳ hoàng kim đầu tiên của quy hoạch tuyến 
 
 Suốt nhiều thập kỷ, Frank–Wolfe từng nằm yên trong sách giáo khoa cổ điển, trước khi bất ngờ hồi sinh mạnh mẽ trong kỷ nguyên dữ liệu lớn và học máy hiện đại. Lý do rất thực tế: khi biến tối ưu là một ma trận triệu chiều bị ràng buộc bởi chuẩn vết (trace norm) hay một kế hoạch vận chuyển trên đơn hình khổng lồ, phép chiếu Euclid đòi hỏi phân tích SVD đầy đủ — quá chậm để chạy lặp hàng nghìn lần — trong khi cực tiểu hóa một hàm tuyến tính chỉ cần tìm đúng *một* cặp vector kỳ dị hàng đầu.
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu không cần phép chiếu
+## Kiến thức cần nhớ: Bốn trụ cột của tối ưu không cần phép chiếu
 
 Để nhìn thấy trọn vẹn sức mạnh và giới hạn của Chương 22, bạn hãy đặt thuật toán Frank–Wolfe vào giao điểm của bốn nhánh kiến thức nền tảng:
 
@@ -22,7 +22,7 @@ Suốt nhiều thập kỷ, Frank–Wolfe từng nằm yên trong sách giáo kh
 - **Đối ngẫu Fenchel và Khoảng cách đối ngẫu (Duality Gap):** Không giống nhiều thuật toán bậc nhất khó biết khi nào nên dừng, Frank–Wolfe tự động sinh ra một cận trên chặt cho sai số tối ưu $$f(x^{(k)}) - f^\star$$ miễn phí ngay từ kết quả gọi LMO, giúp kiểm soát độ chính xác một cách định lượng.
 - **Động lực hội tụ và Cấu trúc biên (Convergence & Boundary Geometry):** Tốc độ hội tụ cổ điển $$O(1/k)$$ của Frank–Wolfe có thể bị chậm lại vì hiện tượng đi zíc-zắc khi nghiệm nằm trên một mặt biên của đa diện — động lực trực tiếp dẫn đến các biến thể hiện đại như Away-Step hay Pairwise Frank–Wolfe.
 
-### Khung giải thích (nên đọc chậm): Một bước Frank–Wolfe trên đơn hình xác suất
+### Giải thích: Một bước Frank–Wolfe trên đơn hình xác suất
 
 Hãy tự tay tính một vòng lặp để thấy vì sao không cần phép chiếu mà điểm lặp vẫn không bao giờ rời khỏi miền khả thi. Xét bài toán cực tiểu hóa $$f(x_1, x_2) = \frac{1}{2}(x_1 - 2)^2 + \frac{1}{2}(x_2 - 1)^2$$ trên đơn hình xác suất $$C = \{(x_1, x_2) : x_1 \ge 0,\; x_2 \ge 0,\; x_1 + x_2 = 1\}$$, xuất phát từ đỉnh $$x^{(0)} = (0, 1) \in C$$.
 

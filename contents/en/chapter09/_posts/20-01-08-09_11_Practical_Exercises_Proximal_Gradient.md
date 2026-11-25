@@ -12,14 +12,14 @@ lesson_type: required
 
 Derivations on paper make proximal operators look effortless, but true fluency comes from computing them by hand across diverse geometries: $$\ell_1$$ shrinkage on vectors, singular-value thresholding on matrices, FISTA momentum updates, and dual proximal mappings via Moreau's decomposition. The five practical exercises below are modeled on Parikh & Boyd (2014) and Beck & Teboulle (2009) to build genuine muscle memory across every corner of Chapter 09.
 
-## Background Knowledge Map: Essential Identities for Solving Proximal Exercises
+## Key ideas: Essential Identities for Solving Proximal Exercises
 
 - **Pillar 1 — First-Order Optimality of the Prox Map:** $$z = \operatorname{prox}_{t h}(y) \iff \frac{1}{t}(y - z) \in \partial h(z)$$. This single subdifferential inclusion lets you derive any closed-form proximal operator in three lines without guessing.
 - **Pillar 2 — Moreau's Identity (Primal–Dual Proximal Bridge):** For any closed proper convex $$h$$ and its Fenchel conjugate $$h^\star$$, $$y = \operatorname{prox}_{t h}(y) + t \operatorname{prox}_{h^\star / t}(y / t)$$. Whenever $$h$$ is a norm $$\|\cdot\|$$, $$h^\star$$ is the indicator of the dual-norm unit ball, turning any norm prox into a simple projection!
 - **Pillar 3 — Spectral / Orthogonally Invariant Prox:** If $$h(X) = \phi(\sigma(X))$$ depends only on the singular values of matrix $$X = U \operatorname{diag}(\sigma) V^\top$$, then $$\operatorname{prox}_{t h}(X) = U \operatorname{diag}(\operatorname{prox}_{t \phi}(\sigma)) V^\top$$—immediately yielding SVT for the nuclear norm.
 - **Pillar 4 — Dual Proximal Gradient:** When the primal objective is strongly convex with linear constraints, the Lagrange dual becomes smooth with Lipschitz gradient, allowing proximal gradient (or FISTA) to solve the dual directly.
 
-### Step-by-Step Worked Example (Read Slowly): Deriving Soft-Thresholding via Moreau's Identity
+### Worked example: Deriving Soft-Thresholding via Moreau's Identity
 
 Let $$h(x) = \lambda \|x\|_1$$ on $$\mathbb{R}^n$$ with $$t = 1$$, and compute $$\operatorname{prox}_{\lambda \|\cdot\|_1}(y)$$ using Moreau's identity instead of case-by-case differentiation.
 

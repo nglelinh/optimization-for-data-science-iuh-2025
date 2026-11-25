@@ -11,16 +11,16 @@ lang: vi
 
 Phương pháp Quasi-Newton không hề tính đạo hàm bậc hai, vậy tại sao nó lại có thể bỏ xa hạ gradient (hội tụ tuyến tính) và tiến gần sát tốc độ của phương pháp Newton (hội tụ bậc hai)? Câu trả lời nằm ở **hội tụ siêu tuyến tính (superlinear convergence)** và một định lý kiệt tác của Dennis và Moré (1974): để đạt hội tụ siêu tuyến tính, ta **không cần** ma trận xấp xỉ $$B_k$$ phải hội tụ về toàn bộ Hessian thực $$G(x^\star)$$ — ta chỉ cần $$B_k$$ xấp xỉ chính xác $$G(x^\star)$$ **dọc theo hướng bước đi $$p_k$$** là đủ!
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép của lý thuyết hội tụ siêu tuyến tính
+## Kiến thức cần nhớ: Bốn mảnh ghép của lý thuyết hội tụ siêu tuyến tính
 
 Để đọc hiểu các giả thiết và Định lý Dennis–Moré trong bài, hãy đặt bốn khái niệm này vào đúng vị trí của chúng:
 
 - **Hệ thang tốc độ hội tụ (Linear → Superlinear → Quadratic):** Hội tụ tuyến tính giữ tỉ số sai số $$\|e_{k+1}\| / \|e_k\| \le c < 1$$ không đổi; hội tụ siêu tuyến tính đưa tỉ số đó về $$0$$ khi $$k \to \infty$$; còn hội tụ bậc hai đòi hỏi $$\|e_{k+1}\| \le M\|e_k\|^2$$ (gấp đôi số chữ số đúng sau mỗi bước).
 - **Tính liên tục Lipschitz của Hessian:** Đảm bảo độ cong thực không biến đổi đột ngột quanh nghiệm $$x^\star$$, nhờ đó thông tin secant thu thập từ các bước gần nhất phản ánh trung thực ma trận $$G(x^\star)$$.
-- **Điều kiện Wolfe hai vế (Armijo + Độ cong):** Đảm bảo đồng thời hai mục tiêu sống còn: giá trị hàm giảm đủ (không nhảy quá lố) và $$y_k^T s_k > 0$$ (không dừng quá non và giữ $$B_k \succ 0$$), đồng thời chấp nhận độ dài bước đơn vị $$t_k = 1$$ khi đủ gần $$x^\star$$.
+- **Điều kiện Wolfe hai vế (Armijo + Độ cong):** Đảm bảo đồng thời hai mục tiêu quan trọng: giá trị hàm giảm đủ (không nhảy quá lố) và $$y_k^T s_k > 0$$ (không dừng quá non và giữ $$B_k \succ 0$$), đồng thời chấp nhận độ dài bước đơn vị $$t_k = 1$$ khi đủ gần $$x^\star$$.
 - **Định lý Dennis–Moré:** Khẳng định rằng bước $$x_{k+1} = x_k + p_k$$ hội tụ siêu tuyến tính khi và chỉ khi $$\lim_{k \to \infty} \frac{\|(B_k - G(x^\star)) p_k\|}{\|p_k\|} = 0$$ — tức $$B_k$$ chỉ cần khớp $$G(x^\star)$$ trên đúng hướng mà thuật toán đang đi!
 
-### Khung giải thích (nên đọc chậm): So sánh tốc độ giảm sai số bằng số thực và kiểm tra tỉ số Dennis–Moré
+### Giải thích: So sánh tốc độ giảm sai số bằng số thực và kiểm tra tỉ số Dennis–Moré
 
 Hãy quan sát sự khác biệt kịch tính giữa ba tốc độ hội tụ cùng xuất phát từ sai số ban đầu $$e_0 = 0.5$$ sau 5 vòng lặp:
 

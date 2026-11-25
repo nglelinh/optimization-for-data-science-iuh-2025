@@ -13,7 +13,7 @@ Hãy tưởng tượng bạn bị thả xuống một sườn núi mịt mù sư
 
 Chương 06 mở ra thế giới của các **thuật toán tối ưu hóa bậc nhất** bắt đầu từ **Gradient Descent (Hạ Gradient)**. Nếu các chương trước trả lời câu hỏi *"thế nào là một bài toán lồi đẹp và điều kiện tối ưu trông ra sao?"*, thì từ chương này trở đi ta trả lời câu hỏi thực chiến hơn nhiều: *"làm sao máy tính thực sự tìm ra nghiệm $$x^\star$$ với hàng triệu hay hàng tỷ biến?"*
 
-## Bản đồ kiến thức nền: Bốn trụ cột của Chương 06 — Gradient Descent
+## Kiến thức cần nhớ: Bốn trụ cột của Chương 06 — Gradient Descent
 
 Toàn bộ 23 bài học trong chương này xoay quanh bốn câu hỏi cốt lõi của phương pháp hạ gradient:
 
@@ -22,7 +22,7 @@ Toàn bộ 23 bài học trong chương này xoay quanh bốn câu hỏi cốt l
 - **Lý thuyết hội tụ định lượng (Convergence Analysis):** Dưới điều kiện $$L$$-trơn (gradient Lipschitz), GD hội tụ với tốc độ $$O(1/k)$$; nếu thêm tính lồi mạnh $$m$$, tốc độ nhảy vọt lên hội tụ tuyến tính $$O(c^k)$$ phụ thuộc vào chỉ số điều kiện $$\kappa = L/m$$.
 - **Mở rộng thực chiến cho Học máy quy mô lớn:** Từ Gradient Boosting (hạ gradient trong không gian hàm), Stochastic Gradient Descent (SGD cho dữ liệu lớn), Momentum (quán tính phá thế zíc-zắc), cho đến Điều chuẩn (Ridge/Lasso) và các thuật toán hiện đại như Lion hay Schedule-Free.
 
-### Khung giải thích (nên đọc chậm): Chạy tay 3 bước Gradient Descent để cảm nhận nhịp hội tụ
+### Giải thích: Chạy tay 3 bước Gradient Descent để cảm nhận nhịp hội tụ
 
 Xét hàm lồi bậc hai đơn giản $$f(x) = \frac{1}{2}(x - 4)^2$$ với đạo hàm $$f'(x) = x - 4$$ và nghiệm tối ưu $$x^\star = 4,\; f^\star = 0$$. Bắt đầu từ $$x^{(0)} = 0$$ với kích thước bước cố định $$t = 0.5$$:
 

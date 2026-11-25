@@ -11,7 +11,7 @@ lang: vi
 
 Năm 1984, một bài báo của Narendra Karmarkar tại Bell Labs đã làm chấn động không chỉ giới toán học mà cả trang nhất tờ *New York Times*: ông tuyên bố tìm ra một thuật toán thời gian đa thức giải quy hoạch tuyến tính nhanh gấp hàng chục lần phương pháp đơn hình kinh điển của George Dantzig. Cuộc tranh luận nảy lửa kéo dài cả thập kỷ sau đó — giữa những người bảo vệ Simplex đi men theo các đỉnh đa diện và phe điểm trong (Interior-Point) xuyên thẳng qua lòng đa diện — cuối cùng đã sinh ra kỷ nguyên vàng của tối ưu hóa lồi hiện đại và các bộ giải lai (hybrid solvers) ngày nay.
 
-## Bản đồ kiến thức nền: Bốn cột mốc lịch sử định hình ngành tối ưu hóa
+## Kiến thức cần nhớ: Bốn cột mốc lịch sử định hình ngành tối ưu hóa
 
 Nhìn lại hành trình từ thập niên 1940 đến cuối thế kỷ XX giúp ta hiểu rõ sự khác biệt giữa độ phức tạp lý thuyết (worst-case) và hiệu năng thực tế:
 
@@ -20,7 +20,7 @@ Nhìn lại hành trình từ thập niên 1940 đến cuối thế kỷ XX giú
 - **Cuộc cách mạng Điểm trong (Karmarkar 1984 → Renegar 1988 → Mehrotra 1992):** Kết nối phép chiếu xạ ảnh của Karmarkar với hàm chắn logarit cổ điển (Fiacco–McCormick) và phương pháp Newton gốc–đối ngẫu, đạt cận độ phức tạp $$O(\sqrt{n}\log(1/\epsilon))$$ và hiệu năng thực chiến cực mạnh.
 - **Tổng quát hóa lên Quy hoạch Nón (Nesterov & Nemirovskii, 1994):** Lý thuyết hàm tự phù hợp (self-concordant barriers) mở rộng toàn bộ sức mạnh của phương pháp điểm trong từ quy hoạch tuyến tính sang quy hoạch nón bậc hai (SOCP) và quy hoạch bán xác định (SDP).
 
-### Khung giải thích (nên đọc chậm): So sánh con số tăng trưởng giữa Simplex (Klee–Minty) và Điểm trong
+### Giải thích: So sánh con số tăng trưởng giữa Simplex (Klee–Minty) và Điểm trong
 
 Để cảm nhận sức mạnh của bước nhảy từ độ phức tạp hàm mũ sang độ phức tạp đa thức $$O(\sqrt{n}\log(1/\epsilon))$$, hãy tính thử với một bài toán LP kích thước khiêm tốn $$n = 50$$ biến và độ chính xác yêu cầu $$\epsilon = 10^{-8}$$:
 

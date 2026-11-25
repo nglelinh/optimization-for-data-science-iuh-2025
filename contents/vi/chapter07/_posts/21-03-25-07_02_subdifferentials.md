@@ -14,7 +14,7 @@ Nếu mỗi subgradient $$g$$ là một "mặt phẳng đỡ" riêng lẻ, thì 
 
 Điều kỳ diệu là dù hàm $$f$$ không hề trơn (như đa diện hay hàm chỉ thị tập lồi), tập $$\partial f(x)$$ lại luôn sở hữu những tính chất hình học cực kỳ ngăn nắp: luôn **lồi**, luôn **đóng**, và ở mọi điểm trong của miền xác định luôn **khác rỗng và bị chặn**!
 
-## Bản đồ kiến thức nền: Bốn tính chất vàng của Vi phân dưới $$\partial f(x)$$
+## Kiến thức cần nhớ: Bốn tính chất của Vi phân dưới $$\partial f(x)$$
 
 Hiểu rõ cấu trúc tập hợp của $$\partial f(x)$$ giúp bạn xử lý mượt mà các định lý tối ưu và phép tính ở phần sau:
 
@@ -23,7 +23,7 @@ Hiểu rõ cấu trúc tập hợp của $$\partial f(x)$$ giúp bạn xử lý 
 - **Tiêu chuẩn Khả vi tương đương:** Hàm lồi $$f$$ khả vi tại $$x$$ khi và chỉ khi $$\partial f(x)$$ chỉ gồm **đúng một phần tử duy nhất** (singleton): $$\partial f(x) = \{\nabla f(x)\}$$.
 - **Trực giác Hình học ở 2D/3D:** Tại điểm gãy của $$f(x_1, x_2) = |x_1| + |x_2|$$ ở gốc tọa độ $$(0,0)$$, $$\partial f(0,0)$$ là cả **hình vuông đặc** $$[-1, 1] \times [-1, 1]$$; còn tại điểm trên cạnh $$(2, 0)$$, $$\partial f(2,0) = \{1\} \times [-1, 1]$$ là một **đoạn thẳng đứng**!
 
-### Khung giải thích (nên đọc chậm): Xác định chính xác hình dạng tập $$\partial f(x)$$ tại 3 vị trí của $$f(x_1, x_2) = |x_1| + 2|x_2|$$
+### Giải thích: Xác định chính xác hình dạng tập $$\partial f(x)$$ tại 3 vị trí của $$f(x_1, x_2) = |x_1| + 2|x_2|$$
 
 1. **Tại điểm trơn $$x^{(1)} = (3, -1)$$:** Cả hai tọa độ đều khác 0.
    $$\partial f(3, -1) = \{(+1,\; -2)\} \quad (\text{1 điểm duy nhất!}).$$

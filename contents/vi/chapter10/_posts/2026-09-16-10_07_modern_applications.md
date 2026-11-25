@@ -16,14 +16,14 @@ Quy hoạch tuyến tính và tính đối ngẫu của nó đã gần 80 tuổi
 
 Điểm mấu chốt khiến đối ngẫu LP trở nên bất khả chiến bại trong các ứng dụng kiểm chứng an toàn là **tính đối ngẫu yếu**: ngay cả khi bạn không có đủ thời gian giải bài toán LP hàng triệu biến tới nghiệm chính xác tuyệt đối, *bất kỳ nghiệm đối ngẫu khả thi nào* cũng đã cung cấp ngay một **chứng chỉ cận dưới toán học 100% chặt chẽ**!
 
-## Bản đồ kiến thức nền: Bốn miền ứng dụng hiện đại của đối ngẫu LP (2022–2026)
+## Kiến thức cần nhớ: Bốn miền ứng dụng hiện đại của đối ngẫu LP (2022–2026)
 
 - **Kiểm chứng mạng nơ-ron (Neural Network Verification — $$\alpha,\beta$$-CROWN):** Nới lỏng hàm kích hoạt phi tuyến ReLU $$y = \max(0, x)$$ trên đoạn $$[l, u]$$ thành một tam giác lồi (Planet relaxation) biến bài toán kiểm chứng thành LP; giải bài toán đối ngẫu trên GPU cho ra cận dưới an toàn chỉ trong vài mili-giây!
 - **Thị trường điện và giá bóng theo nút (Locational Marginal Pricing — LMP):** Bộ điều độ lưới điện giải LP điều phối công suất phát (DC-OPF) mỗi 5 phút; biến đối ngẫu của ràng buộc cân bằng cung–cầu tại mỗi nút lưới chính là giá điện bán buôn tại địa điểm đó!
 - **Luồng cực đại – lát cắt cực tiểu thời gian gần tuyến tính:** Đột phá lý thuyết năm 2022 (Chen–Kyng–Liu–Peng–Probst Gutenberg–Sachdeva) giải Max Flow và Min-Cost Flow trong thời gian gần tuyến tính $$m^{1+o(1)}$$ nhờ kết hợp phương pháp điểm trong với cấu trúc dữ liệu động trên cặp Primal–Dual.
 - **Vận chuyển tối ưu (Optimal Transport / Earth Mover's Distance):** Bài toán Kantorovich tìm kế hoạch vận chuyển khối lượng xác suất rẻ nhất là một LP khổng lồ, còn bài toán đối ngẫu Kantorovich–Rubinstein chính là nền tảng của WGAN và các thước đo khoảng cách phân phối hiện đại.
 
-### Khung giải thích (nên đọc chậm): Tính tay nới lỏng tam giác LP cho một nơ-ron ReLU
+### Giải thích: Tính tay nới lỏng tam giác LP cho một nơ-ron ReLU
 
 Trong kiểm chứng mạng nơ-ron, giả sử đầu vào $$x$$ của một nút ReLU $$y = \max(0, x)$$ bị chặn trong đoạn $$[l, u] = [-1, 2]$$ (trạng thái không ổn định vì $$l < 0 < u$$).
 

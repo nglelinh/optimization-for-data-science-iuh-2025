@@ -12,14 +12,14 @@ lesson_type: required
 
 Before an autodiff engine can compute a single derivative, it must first see your program not as lines of Python, but as a **computational graph**—a Directed Acyclic Graph (DAG) where every node is an intermediate tensor and every edge represents an elementary operation with a known local derivative. The moment a computation becomes a DAG, the multivariable chain rule turns into a pure graph-traversal algorithm: total derivatives are simply the sum of products of edge weights along every directed path from an input to an output!
 
-## Background Knowledge Map: Graph Structure, Fan-Out, and Memory Trade-Offs
+## Key ideas: Graph Structure, Fan-Out, and Memory Trade-Offs
 
 - **Nodes, Edges, and Topological Order:** Inputs sit at source nodes, intermediate variables $$v_1, \dots, v_K$$ are evaluated in topological order so every parent is computed before its children, and the scalar loss $$\ell$$ sits at the sink.
 - **Multivariable Chain Rule as Path Summation:** If node $$x$$ influences output $$\ell$$ along multiple branches (fan-out), the total derivative $$\frac{\partial \ell}{\partial x}$$ is the **sum** of contributions across all outgoing edges: $$\sum_{c \in \text{children}(x)} \frac{\partial \ell}{\partial c}\frac{\partial c}{\partial x}$$.
 - **Static vs. Dynamic Graphs (Define-and-Run vs. Define-by-Run):** Dynamic tape graphs (PyTorch eager mode) record operations on the fly—supporting native Python `if`/`for` control flow—while traced/compiled graphs (JAX `jit`, `torch.compile`) enable global kernel fusion and memory planning.
 - **Activation Checkpointing:** Because reverse-mode AD needs intermediate forward values to evaluate local derivatives, memory scales with graph depth. Checkpointing discards selected intermediates and recomputes them during the backward pass, trading extra compute for $$O(\sqrt{L})$$ memory.
 
-### Step-by-Step Worked Example (Read Slowly): Unrolling a Fan-Out Function Into a DAG and Summing Paths
+### Worked example: Unrolling a Fan-Out Function Into a DAG and Summing Paths
 
 Consider $$f(x_1, x_2) = x_1 x_2 + \sin(x_1)$$ at $$(x_1, x_2) = (0, 3)$$. Notice $$x_1$$ fans out into **two** branches!
 

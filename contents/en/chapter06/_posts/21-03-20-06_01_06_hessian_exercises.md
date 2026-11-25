@@ -14,14 +14,14 @@ redirect_from:
 
 Knowing that $$t \le 1/L$$ guarantees descent is one thing; deriving the quadratic surrogate minimizer, computing condition numbers of real Hessians, and seeing how curvature dictates iteration counts is how you internalize second-order geometry. These exercises turn the curvature-approximation intuition of Lesson 06-01-05 into concrete algebraic muscle memory.
 
-## Background Knowledge Map: Core Formulas for Curvature Exercises
+## Key ideas: Core Formulas for Curvature Exercises
 
 1. **Minimizing the Isotropic Quadratic Surrogate**: Setting the gradient of $$q_t(y) = f(x) + \nabla f(x)^T(y-x) + \frac{1}{2t}\|y-x\|_2^2$$ with respect to $$y$$ to zero gives $$\nabla f(x) + \frac{1}{t}(y - x) = 0 \implies y^\star = x - t\nabla f(x)$$.
 2. **Spectral Contraction on Quadratics**: For $$f(x) = \frac{1}{2}x^T Q x$$ with $$Q = V\Lambda V^T \succ 0$$, gradient descent multiplies the $$i$$-th eigencomponent by $$(1 - t\lambda_i)$$ each step. Convergence holds iff $$|1 - t\lambda_i| < 1$$ for every eigenvalue, i.e., $$0 < t < 2/\lambda_{\max}(Q)$$.
 3. **Condition Number and Iteration Complexity**: With optimal step size $$t^\star = \frac{2}{\lambda_{\max} + \lambda_{\min}}$$, the worst-case error shrinks by $$\rho = \frac{\kappa - 1}{\kappa + 1}$$ per step, where $$\kappa = \lambda_{\max}/\lambda_{\min}$$. Reaching accuracy $$\varepsilon$$ requires roughly $$\frac{\kappa}{2}\ln(1/\varepsilon)$$ iterations.
 4. **Preconditioning Preview**: Changing coordinates via $$x = D^{-1/2}z$$ (where $$D = \operatorname{diag}(Q)$$) or Newton's full $$Q^{-1/2}$$ reduces $$\kappa$$ toward $$1$$, dramatically accelerating convergence.
 
-### Step-by-Step Worked Example (Read Slowly): Warm-Up Eigenvalue & Step-Size Analysis
+### Worked example: Warm-Up Eigenvalue & Step-Size Analysis
 
 For $$f(x) = \frac{1}{2}x^T Q x$$ with $$Q = \begin{bmatrix} 5 & 3 \\ 3 & 5 \end{bmatrix}$$, find the condition number $$\kappa$$ and the exact maximum stable step size.
 

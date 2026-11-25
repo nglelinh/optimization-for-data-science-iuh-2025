@@ -11,14 +11,14 @@ lang: en
 
 How many outer centering loops does the barrier method need to slash the duality gap from $$10^4$$ down to $$10^{-8}$$? Because $$t^{(k)} = \mu^k t^{(0)}$$ grows geometrically, the suboptimality gap $$\frac{m}{\mu^k t^{(0)}}$$ decays *linearly* at rate $$1/\mu$$—meaning every single outer iteration adds a fixed number of accurate decimal digits, requiring only $$O(\log(m / (t^{(0)}\epsilon)))$$ outer steps!
 
-## Background Knowledge Map: Outer-Loop Complexity of the Barrier Method
+## Key ideas: Outer-Loop Complexity of the Barrier Method
 
 - **Pillar 1 — Exact Geometric Decay of the Gap:** After $$k$$ updates of $$t^{(k)} = \mu^k t^{(0)}$$, the guaranteed suboptimality satisfies $$f(x^{(k)}) - f^\star \le \frac{m}{\mu^k t^{(0)}}$$.
 - **Pillar 2 — Closed-Form Outer Iteration Formula:** Solving $$\frac{m}{\mu^k t^{(0)}} \le \epsilon$$ for $$k$$ yields exactly $$k = \left\lceil \frac{\log(m/(t^{(0)}\epsilon))}{\log \mu} \right\rceil$$ (plus 1 for the initial centering at $$t^{(0)}$$).
 - **Pillar 3 — Linear Outer Rate vs. Quadratic Inner Rate:** Although the outer loop converges linearly ($$O(\log(1/\epsilon))$$) rather than quadratically ($$O(\log\log(1/\epsilon))$$), each outer step slashes the error by a huge factor $$\mu \approx 10\text{–}20$$, so 6–10 outer steps suffice for machine precision.
 - **Pillar 4 — Logarithmic Dependence on $$m$$:** Doubling the number of constraints $$m$$ adds at most $$\frac{\log 2}{\log \mu} < 1$$ extra outer iteration—explaining why barrier methods scale effortlessly to thousands of inequalities.
 
-### Step-by-Step Worked Example (Read Slowly): Computing Exact Outer Iterations as $$m$$ Scales 100×
+### Worked example: Computing Exact Outer Iterations as $$m$$ Scales 100×
 
 Fix $$t^{(0)} = 1$$, $$\mu = 10$$, and target accuracy $$\epsilon = 10^{-5}$$. Compare two problems: Problem A with $$m = 10$$ constraints and Problem B with $$m = 1{,}000$$ constraints.
 

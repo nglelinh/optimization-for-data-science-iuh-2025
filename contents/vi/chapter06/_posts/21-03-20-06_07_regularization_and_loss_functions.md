@@ -13,7 +13,7 @@ Một mô hình học máy đạt sai số bằng $$0$$ trên tập huấn luy�
 
 Điều kỳ diệu là cả hai lựa chọn đó đều mang ý nghĩa sâu sắc dưới lăng kính tối ưu hóa lồi: thêm Ridge ($$\ell_2$$) lập tức biến bài toán thành **lồi mạnh** (nghiệm duy nhất, hội tụ tuyến tính); thêm Lasso ($$\ell_1$$) tạo ra các **góc nhọn trên trục tọa độ** tự động ép trọng số thừa về đúng $$0$$ (chọn đặc trưng thưa); còn đổi hàm mất mát từ MSE sang Huber hay Hinge giúp mô hình miễn nhiễm với dữ liệu ngoại lai!
 
-## Bản đồ kiến thức nền: Hình học của Điều chuẩn và Hàm mất mát
+## Kiến thức cần nhớ: Hình học của Điều chuẩn và Hàm mất mát
 
 Bốn trụ cột dưới đây giúp bạn chọn đúng hàm mục tiêu cho mọi bài toán học máy:
 
@@ -22,7 +22,7 @@ Bốn trụ cột dưới đây giúp bạn chọn đúng hàm mục tiêu cho m
 - **Elastic Net (Kết hợp $$\ell_1 + \ell_2$$):** Cộng $$\lambda_1 \|w\|_1 + \frac{\lambda_2}{2}\|w\|_2^2$$ để vừa giữ tính thưa của Lasso, vừa có tính lồi mạnh và xử lý tốt nhóm đặc trưng tương quan cao như Ridge.
 - **Lựa chọn Hàm mất mát theo bản chất nhiễu & tác vụ:** Hồi quy chuẩn dùng **MSE** (trơn, nhạy ngoại lai), dữ liệu nhiều ngoại lai dùng **MAE** hoặc **Huber Loss** (bậc hai quanh 0, tuyến tính ở xa); phân loại dùng **Log-Loss** (xác suất trơn) hoặc **Hinge Loss** (biên lớn của SVM).
 
-### Khung giải thích (nên đọc chậm): So sánh trực tiếp nghiệm OLS, Ridge và Lasso trên bài toán 1 chiều
+### Giải thích: So sánh trực tiếp nghiệm OLS, Ridge và Lasso trên bài toán 1 chiều
 
 Xét bài toán cực tiểu hóa 1 biến với dữ liệu chuẩn hóa $$y = 3$$ (tức nghiệm không điều chuẩn là $$w_{\text{OLS}} = 3$$) và hệ số điều chuẩn $$\lambda = 1$$:
 

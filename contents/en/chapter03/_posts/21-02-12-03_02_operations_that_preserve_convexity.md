@@ -12,14 +12,14 @@ lesson_type: required
 
 Nobody wants to compute a $$500 \times 500$$ Hessian by hand just to prove a regularized empirical loss is convex. Just as Disciplined Convex Programming (DCP) parsers verify convexity symbolically in milliseconds, this lesson teaches you the exact algebraic operations—nonnegative sums, affine pre-compositions, monotone compositions, pointwise suprema, partial minimization, and perspective—that let you prove convexity of intricate objectives by inspection.
 
-## Background Knowledge Map: Disciplined Convexity-Preserving Rules
+## Key ideas: Disciplined Convexity-Preserving Rules
 
 - **Nonnegative Weighted Sums:** $$\sum_i w_i f_i(x)$$ with $$w_i \ge 0$$ preserves convexity—immediately certifying empirical risk plus regularization ($$\frac{1}{n}\sum \ell_i(w) + \lambda R(w)$$).
 - **Composition with an Affine Map:** $$g(x) = f(Ax + b)$$ is convex whenever $$f$$ is convex—turning 1D atoms like $$\log(1 + e^z)$$ into multivariable logistic losses $$\log(1 + e^{-y_i w^T x_i})$$.
 - **Scalar & Vector Composition Rules:** $$h(g(x))$$ is convex if $$h$$ is convex & nondecreasing and $$g$$ is convex (or $$h$$ convex & nonincreasing and $$g$$ concave)—remember the curvature-monotonicity sign check!
 - **Pointwise Supremum, Minimization & Perspective:** $$\sup_\alpha f_\alpha(x)$$, $$\inf_{y \in C} f(x, y)$$ (when $$f$$ is jointly convex), and $$t f(x/t)$$ ($$t > 0$$) all preserve convexity—explaining why dual functions and quadratic-over-linear terms are convex.
 
-### Step-by-Step Worked Example (Read Slowly): Certifying Convexity Without Computing a Single Hessian
+### Worked example: Certifying Convexity Without Computing a Single Hessian
 
 Prove that both functions below are convex using preservation rules alone:
 

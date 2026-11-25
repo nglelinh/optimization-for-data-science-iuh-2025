@@ -14,7 +14,7 @@ lesson_type: required
 
 Bài học này thiết lập đúng cỗ máy chuẩn mực đó. Chỉ cần nhớ một quy tắc vàng duy nhất về dấu của biến đối ngẫu (ràng buộc đẳng thức $$\leftrightarrow$$ biến đối ngẫu tự do; ràng buộc bất đẳng thức $$\leftrightarrow$$ biến đối ngẫu không âm) và phép chuyển vị ma trận ($$A \to A^T, G \to G^T$$), bạn có thể viết ngay bài toán đối ngẫu cho bất kỳ LP nào dù cồng kềnh đến đâu.
 
-## Bản đồ kiến thức nền: Bốn quy tắc tổng quát hóa đối ngẫu LP
+## Kiến thức cần nhớ: Bốn quy tắc tổng quát hóa đối ngẫu LP
 
 - **Cặp dạng chuẩn tổng quát:**
   - *Primal:* $$\min_x c^T x \;\text{ s.t. }\; Ax = b,\; Gx \le h$$.
@@ -23,7 +23,7 @@ Bài học này thiết lập đúng cỗ máy chuẩn mực đó. Chỉ cần n
 - **Tính đối ngẫu yếu (luôn đúng không điều kiện):** Với mọi $$x$$ khả thi gốc và $$(u, v)$$ khả thi đối ngẫu, ta luôn có $$-b^T u - h^T v \le c^T x$$. Hệ quả tức thì: nếu bài toán gốc không bị chặn dưới ($$p^* = -\infty$$) thì bài toán đối ngẫu chắc chắn **vô nghiệm**!
 - **Tính đối ngẫu mạnh trong LP:** Miễn là bài toán gốc khả thi và có giá trị tối ưu hữu hạn, bài toán đối ngẫu cũng có nghiệm tối ưu và $$p^* = d^*$$ (chứng minh nhờ Bổ đề Farkas / Định lý tách siêu phẳng).
 
-### Khung giải thích (nên đọc chậm): Chuyển đổi tay một LP hỗn hợp (có cả `=` và `\le`) sang đối ngẫu
+### Giải thích: Chuyển đổi tay một LP hỗn hợp (có cả `=` và `\le`) sang đối ngẫu
 
 Xét LP 2 biến có cả ràng buộc đẳng thức lẫn bất đẳng thức:
 $$\min_{x_1, x_2 \in \mathbb{R}} \; 2x_1 + x_2 \quad \text{s.t.} \quad x_1 + x_2 = 3, \quad -x_1 \le -1 \; (\text{tức } x_1 \ge 1).$$

@@ -15,14 +15,14 @@ redirect_from:
 
 Câu trả lời là một kiệt tác của giải tích lồi hiện đại (Định lý Fenchel–Moreau): **CÓ**, miễn là bài toán gốc lồi, các hàm đóng (nửa liên tục dưới) và thỏa điều kiện chuẩn hóa (như Slater)! Còn nếu bài toán gốc *không lồi* thì sao? Khi đó, phép lấy đối ngẫu hai lần không quay về bài toán gốc gồ ghề ban đầu nữa, mà trả về **bản bao lồi đóng chặt nhất nằm dưới bài toán gốc (convex relaxation / biconjugate $$f^{**}$$)**! Khám phá này giải thích lý do vì sao trong tối ưu tổ hợp và học máy không lồi, việc lấy đối ngẫu kép là cách tự động tạo ra bản nới lỏng lồi tốt nhất!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tính đối ngẫu kép tổng quát
+## Kiến thức cần nhớ: Bốn trụ cột của tính đối ngẫu kép tổng quát
 
 - **Định lý Fenchel–Moreau (Liên hợp kép $$f^{**} = f$$):** Nếu $$f$$ là hàm lồi, chính quy (proper) và đóng (lower semicontinuous), thì hàm liên hợp của hàm liên hợp bằng chính nó: $$(f^*)^*(x) = f(x)$$. Nếu $$f$$ không lồi, $$f^{**}$$ là hàm lồi đóng lớn nhất nằm dưới $$f$$ (bao lồi đóng — closed convex envelope).
 - **Chuyển bài toán đối ngẫu $$\max_{u \ge 0} g(u)$$ về dạng $$\min$$ để lấy đối ngẫu lần 2:** Viết lại thành $$\min_{u} (-g(u))$$ với ràng buộc $$-u \le 0$$, rồi đưa thêm nhân tử Lagrange mới $$\tilde{x}$$ (chính là biến gốc hồi sinh!) để lập Lagrangian bậc hai.
 - **Vai trò của điều kiện Slater trong đối ngẫu kép:** Để không xuất hiện khe hở khi đảo thứ tự $$\min_x \max_u$$ và $$\max_u \min_x$$ (định lý điểm yên ngựa Sion / minimax), điều kiện Slater bảo đảm giá trị tối ưu và tập nghiệm được bảo toàn trọn vẹn khi quay về bài toán gốc.
 - **Ý nghĩa cho bài toán không lồi (Convexification):** Khi áp dụng quy trình Primal $$\to$$ Dual $$\to$$ Bi-dual lên một bài toán không lồi, ta tự động nhận được bản nới lỏng lồi chặt nhất của nó (ví dụ nới lỏng chuẩn hạt nhân cho bài toán hạng thấp hay SDP relaxation cho Max-Cut!).
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tay $$f^{**}(x) = f(x)$$ cho hàm mũ phi tuyến $$f(x) = e^x$$
+### Giải thích: Kiểm chứng tay $$f^{**}(x) = f(x)$$ cho hàm mũ phi tuyến $$f(x) = e^x$$
 
 Hàm $$f(x) = e^x$$ là hàm lồi, trơn, đóng trên toàn $$\mathbb{R}$$. Hãy tự tay thực hiện phép biến đổi liên hợp Fenchel hai lần liên tiếp!
 

@@ -14,7 +14,7 @@ lesson_type: required
 
 Bài học này mở ra **góc nhìn thứ hai — góc nhìn hàm Lagrangian** — chiếc cầu vàng nối thẳng Chương 10 sang toàn bộ lý thuyết đối ngẫu phi tuyến ở Chương 11 và điều kiện KKT ở Chương 12! Thay vì coi ràng buộc như bức tường cứng nhắc, ta chuyển chúng thành "khoản phạt mềm" cộng thẳng vào hàm mục tiêu $$L(x, u, v) = c^T x + u^T(Ax - b) + v^T(Gx - h)$$, rồi cực tiểu hóa tự do theo $$x \in \mathbb{R}^n$$. Phép cực tiểu hóa một hàm tuyến tính trên toàn không gian có tính chất cực kỳ sắc bén: nó chỉ hữu hạn khi độ dốc bằng $$0$$ (sinh ra đúng ràng buộc đối ngẫu!), còn ngược lại thì tụt thẳng xuống $$-\infty$$!
 
-## Bản đồ kiến thức nền: Ba trụ cột của góc nhìn Lagrangian cho LP
+## Kiến thức cần nhớ: Ba trụ cột của góc nhìn Lagrangian cho LP
 
 - **Hàm Lagrangian và trò chơi phạt mềm:** Định nghĩa $$L(x, u, v) = c^T x + u^T(Ax - b) + v^T(Gx - h)$$ với $$v \ge 0$$. Với mọi điểm $$x$$ khả thi ($$Ax = b$$ và $$Gx \le h$$), ta luôn có $$u^T(Ax - b) = 0$$ và $$v^T(Gx - h) \le 0$$, nên $$L(x, u, v) \le c^T x$$ — tức $$L$$ luôn là một bản xấp xỉ nằm dưới hàm mục tiêu gốc trên miền khả thi.
 - **Nới lỏng miền lấy cực tiểu ($$\min_{x \in C} \ge \min_{x \in \mathbb{R}^n}$$):** Bằng cách bỏ hoàn toàn ràng buộc $$x \in C$$ và lấy cực tiểu hóa tự do $$g(u, v) = \min_{x \in \mathbb{R}^n} L(x, u, v)$$, ta chắc chắn thu được một cận dưới $$g(u, v) \le p^*$$.
@@ -22,7 +22,7 @@ Bài học này mở ra **góc nhìn thứ hai — góc nhìn hàm Lagrangian** 
   $$L(x, u, v) = (c + A^T u + G^T v)^T x - b^T u - h^T v.$$
   Một hàm tuyến tính $$w^T x$$ trên toàn $$\mathbb{R}^n$$ có infimum bằng $$0$$ nếu $$w = 0$$, và bằng $$-\infty$$ nếu $$w \ne 0$$! Chính điều kiện $$w = c + A^T u + G^T v = 0$$ lập tức tạo ra ràng buộc của bài toán đối ngẫu LP!
 
-### Khung giải thích (nên đọc chậm): Tính tay hàm đối ngẫu $$g(v) = \inf_x L(x, v)$$ cho một LP 1 biến
+### Giải thích: Tính tay hàm đối ngẫu $$g(v) = \inf_x L(x, v)$$ cho một LP 1 biến
 
 Xét bài toán cực tiểu hóa 1 biến:
 $$\min_{x \in \mathbb{R}} \; 4x \quad \text{s.t.} \quad 2 - x \le 0 \; (\text{tức } x \ge 2).$$

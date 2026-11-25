@@ -13,14 +13,14 @@ Khi thiết kế một hệ thống kỹ thuật phải tối ưu đồng thời
 
 Bài học này nối kết hình nón đối ngẫu $$K^*$$ với kỹ thuật vô hướng hóa để tìm phần tử tối tiểu và cực tiểu Pareto.
 
-## Bản đồ kiến thức nền: Vô hướng hóa (Scalarization) qua hình nón đối ngẫu
+## Kiến thức cần nhớ: Vô hướng hóa (Scalarization) qua hình nón đối ngẫu
 
 - **Bất đẳng thức tổng quát đối ngẫu:** Khi $$K$$ là hình nón thích hợp, $$K^*$$ cũng là hình nón thích hợp và định nghĩa thứ tự $$\preceq_{K^*}$$ cùng bất đẳng thức chặt $$\prec_{K^*}$$ (thuộc phần trong $$\operatorname{int} K^*$$).
 - **Đặc trưng phần tử tối tiểu (Minimum):** $$x$$ là phần tử tối tiểu của $$S$$ theo $$K$$ khi và chỉ khi với **mọi** $$\lambda \succ_{K^*} 0$$, $$x$$ là nghiệm tối ưu duy nhất của $$\min_{z \in S} \lambda^T z$$.
 - **Điều kiện đủ cho phần tử cực tiểu (Minimal / Pareto):** Nếu $$x$$ cực tiểu hóa $$\lambda^T z$$ trên $$S$$ với **một** trọng số $$\lambda \succ_{K^*} 0$$ nào đó, thì $$x$$ chắc chắn là phần tử cực tiểu Pareto!
 - **Điều kiện cần (khi $$S$$ lồi):** Nếu $$S$$ là tập lồi, hầu như *mọi* điểm trên biên Pareto đều tìm được bằng cách quét các trọng số $$\lambda \succeq_{K^*} 0,\ \lambda \ne 0$$ (ngược lại, nếu $$S$$ không lồi, vùng lõm của biên Pareto có thể bị bỏ sót!).
 
-### Khung giải thích (nên đọc chậm): Tìm biên Pareto của 4 phương án bằng vô hướng hóa $$\lambda^T x$$
+### Giải thích: Tìm biên Pareto của 4 phương án bằng vô hướng hóa $$\lambda^T x$$
 
 Giả sử ta có 4 phương án thiết kế $$S = \{p_1, p_2, p_3, p_4\}$$ với hai chi phí cần giảm $$(f_1, f_2)$$ theo nón $$K = \mathbb{R}_+^2$$:
 $$p_1 = (1, 4), \qquad p_2 = (2, 2), \qquad p_3 = (4, 1), \qquad p_4 = (3, 3).$$

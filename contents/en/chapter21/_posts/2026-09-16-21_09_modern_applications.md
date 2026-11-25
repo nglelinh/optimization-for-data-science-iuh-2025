@@ -12,14 +12,14 @@ lesson_type: optional
 
 Why does an algorithm formalized in the 1970s keep resurfacing in 2022–2026 top conferences across machine learning, computational imaging, and energy systems? Because **consensus ADMM** solves a universal systems bottleneck: decoupling *private local physics or data* (each client's GPU, each imaging forward model, each regional power grid) from *global coordination* through a lightweight dual price vector $$w_i$$. This companion note highlights how modern implementations adapt ADMM for non-IID federated rounds, neural-denoiser imaging, and real-time online power dispatch.
 
-## Background Knowledge Map: Engineering Patterns in Modern ADMM Deployments
+## Key ideas: Engineering Patterns in Modern ADMM Deployments
 
 - **Communication-Efficient Federated Consensus (Gong et al., 2022):** FedADMM transmits the exact same payload per round as FedAvg (one model vector), yet cuts communication rounds dramatically on non-IID CIFAR-10 / Fashion-MNIST by using dual variables to correct local objective mismatch.
 - **Inexact Primal Updates Without Breaking Convergence:** Modern deployments replace exact $$\arg\min_{x_i}$$ with a few steps of SGD, CG, or L-BFGS—preserving convergence as long as subproblem errors are summable or satisfy an adaptive relative-error check.
 - **Operator-Splitting with Learned Priors (PnP / RED):** Viewing ADMM through monotone operator theory explains why replacing $$\operatorname{prox}_{g/\rho}$$ with a bounded-Lipschitz neural denoiser still converges to a stable fixed point balancing measurement fidelity and learned priors.
 - **Online & Time-Varying Consensus (Smart Grids):** In online power dispatch, load demand $$y_t$$ changes every few seconds; warm-starting ADMM's primal and dual variables $$(x_i^t, z^t, w_i^t)$$ from the previous time slot tracks the moving optimum with just 1–5 iterations per second.
 
-### Step-by-Step Worked Example (Read Slowly): Warm-Starting Online Consensus ADMM in Power Dispatch
+### Worked example: Warm-Starting Online Consensus ADMM in Power Dispatch
 
 Two regional power areas balance a time-varying total load by minimizing $$f_1(x_1) + f_2(x_2)$$ subject to a tie-line consensus variable $$z$$. Suppose at time $$t$$ the grid has converged to $$x_1^\star(t) = x_2^\star(t) = z^\star(t) = 10\text{ MW}$$ with dual prices $$w_1^\star(t) = -2, \; w_2^\star(t) = +2$$ (for $$\rho = 1$$, reflecting Area 1's cheaper cost $$f_1(x_1) = \frac{1}{2}(x_1 - 12)^2$$ and Area 2's cost $$f_2(x_2) = \frac{1}{2}(x_2 - 8)^2$$).
 

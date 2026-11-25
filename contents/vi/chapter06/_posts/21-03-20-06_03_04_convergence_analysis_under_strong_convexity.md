@@ -13,7 +13,7 @@ Nếu tốc độ hội tụ $$O(1/k)$$ của hàm lồi trơn giống như vi�
 
 Tại sao một điều kiện tưởng chừng nhỏ như $$\nabla^2 f(x) \succeq m I$$ ($$m > 0$$) lại tạo ra bước nhảy vọt từ $$O(1/\epsilon)$$ xuống $$O(\log(1/\epsilon))$$? Bởi vì tính lồi mạnh đảm bảo **đáy hàm không bao giờ bị bẹt phẳng**: hễ bạn còn cách xa nghiệm tối ưu, độ dốc $$\|\nabla f(x)\|_2$$ chắc chắn còn đủ lớn để đẩy bạn đi nhanh về phía đích (bất đẳng thức Polyak–Łojasiewicz)!
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép của Hội tụ Tuyến tính
+## Kiến thức cần nhớ: Bốn mảnh ghép của Hội tụ Tuyến tính
 
 Để hiểu tận gốc định lý hội tụ dưới tính lồi mạnh, hãy ghép bốn trụ cột sau:
 
@@ -25,7 +25,7 @@ Tại sao một điều kiện tưởng chừng nhỏ như $$\nabla^2 f(x) \succ
   $$f(x^+) - f^\star \le (1 - mt)\big(f(x) - f^\star\big) \implies f(x^{(k)}) - f^\star \le (1 - mt)^k \big(f(x^{(0)}) - f^\star\big).$$
 - **Vai trò của Chỉ số điều kiện $$\kappa = L/m$$:** Đặt $$t = 1/L$$, hệ số co là $$c = 1 - m/L = 1 - 1/\kappa$$. Muốn sai số nhỏ hơn $$\epsilon$$, số vòng lặp cần thiết là $$k = O\big(\kappa \log(1/\epsilon)\big)$$ — phụ thuộc *logarit* vào $$\epsilon$$ nhưng *tuyến tính* vào $$\kappa$$!
 
-### Khung giải thích (nên đọc chậm): Chứng minh và tính số cụ thể tốc độ co lũy thừa theo $$\kappa$$
+### Giải thích: Chứng minh và tính số cụ thể tốc độ co lũy thừa theo $$\kappa$$
 
 Xét hàm Ridge Regression 2 biến $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 5x_2^2) + \frac{1}{2}\lambda(x_1^2 + x_2^2)$$ với $$\lambda = 1$$.
 Ta có $$f(x) = \frac{1}{2}(2x_1^2 + 6x_2^2)$$, Hessian $$H = \operatorname{diag}(2, 6)$$.

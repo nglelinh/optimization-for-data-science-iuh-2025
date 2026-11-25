@@ -13,7 +13,7 @@ Chọn một con số $$t$$ cố định rồi chạy thẳng từ đầu đến
 
 Nhưng sự đơn giản đi kèm một lằn ranh sinh tử sắc như dao cạo: chỉ cần bước cố định vượt quá ngưỡng $$2/L$$ một chút thôi, thuật toán chuyển ngay từ hội tụ êm ả sang dao động bùng nổ! Bài học này làm rõ chính xác ba vùng hành vi của bước cố định: quá nhỏ, vừa đủ, và quá lớn.
 
-## Bản đồ kiến thức nền: Ba chế độ động lực của Bước cố định
+## Kiến thức cần nhớ: Ba chế độ động lực của Bước cố định
 
 Hiểu kích thước bước cố định qua ba trụ cột định lượng sau:
 
@@ -21,7 +21,7 @@ Hiểu kích thước bước cố định qua ba trụ cột định lượng s
 - **Vùng dao động nhưng vẫn hội tụ $$1/L < t < 2/L$$:** Trên hàm bậc hai $$L$$-trơn, bước đi vượt qua đáy theo phương dốc nhất nên quỹ đạo nhảy qua nhảy lại (overshoot), nhưng biên độ vẫn co dần vì $$|1 - tL| < 1$$.
 - **Vùng phân kỳ $$t \ge 2/L$$:** Khi $$t = 2/L$$, thuật toán nhảy qua lại vô hạn giữa $$+x_0$$ và $$-x_0$$ mà không giảm thêm chút nào. Khi $$t > 2/L$$, biên độ nhân lên theo cấp số nhân $$|1 - tL|^k \to \infty$$!
 
-### Khung giải thích (nên đọc chậm): Quan sát chính xác 4 kịch bản bước cố định trên $$f(x) = 2x^2$$
+### Giải thích: Quan sát chính xác 4 kịch bản bước cố định trên $$f(x) = 2x^2$$
 
 Với $$f(x) = 2x^2$$, ta có $$f'(x) = 4x$$ và độ cong $$L = f''(x) = 4$$. Vậy $$1/L = 0.25$$ và ngưỡng tới hạn $$2/L = 0.5$$. Xuất phát từ $$x_0 = 1$$, quy tắc cập nhật là $$x_{k+1} = x_k - 4t x_k = (1 - 4t)x_k$$:
 

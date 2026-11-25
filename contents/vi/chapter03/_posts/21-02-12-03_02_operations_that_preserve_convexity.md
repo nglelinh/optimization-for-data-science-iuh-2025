@@ -14,14 +14,14 @@ Khi bạn viết một bài toán tối ưu trong thư viện như CVX hay CVXPY
 
 Làm chủ bộ quy tắc này giúp bạn chứng minh tính lồi của những hàm cực kỳ cồng kềnh chỉ trong vài giây mà không cần đụng đến đạo hàm cấp hai.
 
-## Bản đồ kiến thức nền: Bốn nhóm phép toán bảo toàn tính lồi
+## Kiến thức cần nhớ: Bốn nhóm phép toán bảo toàn tính lồi
 
 - **Tổng trọng số không âm và hợp thành affine:** Nếu $$f_i$$ lồi và $$w_i \ge 0$$ thì $$\sum w_i f_i$$ lồi; nếu $$f$$ lồi thì $$g(x) = f(Ax + b)$$ luôn lồi (nhờ đó $$\|Ax - b\|_1$$ hay $$\log\sum e^{a_i^T x + b_i}$$ lập tức lồi!).
 - **Cực đại từng điểm (Pointwise Maximum / Supremum):** Nếu $$f_\alpha(x)$$ lồi theo $$x$$ với mọi chỉ số $$\alpha \in \mathcal{A}$$ (kể cả vô hạn!), thì $$f(x) = \sup_{\alpha \in \mathcal{A}} f_\alpha(x)$$ luôn lồi — vì epigraph của nó chính là giao của các epigraph lồi!
 - **Quy tắc hợp thành vô hướng $$h(g(x))$$:** $$h(g(x))$$ lồi khi **($$h$$ lồi, không giảm và $$g$$ lồi)** hoặc **($$h$$ lồi, không tăng và $$g$$ lõm)**. Ví dụ: $$e^{g(x)}$$ lồi nếu $$g$$ lồi; $$1/g(x)$$ lồi nếu $$g > 0$$ lõm.
 - **Cực tiểu hóa từng phần và Phối cảnh:** Nếu $$f(x, y)$$ lồi đồng thời theo $$(x, y)$$ thì $$g(x) = \inf_{y \in C} f(x, y)$$ lồi; hàm phối cảnh $$g(x, t) = t f(x/t)$$ ($$t > 0$$) cũng luôn bảo toàn tính lồi!
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tính lồi của hàm cực đại từng điểm 3 nhánh
+### Giải thích: Kiểm chứng tính lồi của hàm cực đại từng điểm 3 nhánh
 
 Xét hàm không trơn (có góc nhọn nên không thể dùng Hessian):
 $$f(x) = \max\left(2x - 1,\ x^2 - 2x + 2,\ e^{-x}\right), \qquad x \in \mathbb{R}.$$

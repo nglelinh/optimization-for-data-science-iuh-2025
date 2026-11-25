@@ -14,7 +14,7 @@ redirect_from:
 
 Mastering canonical forms means being able to take a plain-English engineering or economics story—a diet plan, a portfolio risk cap, a robust sensor design, or an eigenvalue bound—and translate it cleanly into standard matrix notation ready for a solver. These practical exercises walk you across the entire LP $$\to$$ QP $$\to$$ SOCP $$\to$$ SDP ladder so you can build and verify canonical models with confidence.
 
-## Background Knowledge Map: From Word Problem to Canonical Matrices
+## Key ideas: From Word Problem to Canonical Matrices
 
 1. **Identifying Decision Variables & Units**: Always declare your decision vector $$x \in \mathbb{R}^n$$ with explicit physical units (servings, dollars, portfolio weights, watts) before writing a single inequality—unit mismatches are the #1 source of modeling bugs.
 2. **Mapping Problem Structure to the Right Cone**:
@@ -25,7 +25,7 @@ Mastering canonical forms means being able to take a plain-English engineering o
 3. **Checking Positive Semidefiniteness Before Calling a QP/QCQP Solver**: Always symmetrize $$P \leftarrow \frac{1}{2}(P + P^T)$$ and verify all eigenvalues of $$P$$ are $$\ge 0$$ (e.g., via Sylvester's criterion on small problems) so your model is genuinely convex.
 4. **Sanity-Checking Solutions Against Physical Bounds**: After solving, check primal feasibility (every constraint satisfied), identify which constraints are binding (zero slack), and confirm the objective value beats an obvious naive baseline.
 
-### Step-by-Step Worked Example (Read Slowly): Warm-Up Mini-Diet LP Solved by Hand
+### Worked example: Warm-Up Mini-Diet LP Solved by Hand
 
 Suppose two foods provide protein and vitamin C: Food A costs \\$2/unit (3g protein, 1mg vitamin C) and Food B costs \\$3/unit (1g protein, 3mg vitamin C). Meet at least 6g protein and 6mg vitamin C at minimum cost.
 

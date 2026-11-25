@@ -11,14 +11,14 @@ lang: en
 
 If Newton's method converges in 10 iterations while gradient descent needs 10,000, why doesn't everyone use Newton's method for deep learning? The answer lies in a single number: $$n^3$$. When $$n = 500$$, inverting a Hessian takes milliseconds and Newton crushes gradient descent; when $$n = 10^8$$ (a neural network), storing the $$n \times n$$ Hessian alone would require 40 petabytes of RAM!
 
-## Background Knowledge Map: The First-Order vs. Second-Order Trade-Off
+## Key ideas: The First-Order vs. Second-Order Trade-Off
 
 - **Pillar 1 — Memory Scaling ($$O(n^2)$$ vs. $$O(n)$$):** Dense Newton must store $$\frac{n(n+1)}{2}$$ Hessian entries, whereas gradient descent only stores an $$n$$-vector.
 - **Pillar 2 — Per-Iteration Compute ($$O(n^3)$$ vs. $$O(n)$$):** Dense Cholesky factorization costs $$\frac{1}{3}n^3$$ flops per Newton step, versus $$O(n)$$ flops for a gradient step.
 - **Pillar 3 — Conditioning & Accuracy Regime:** Gradient descent stalls when the condition number $$\kappa = L/m$$ is large or when high accuracy ($$\epsilon = 10^{-10}$$) is needed; Newton is immune to $$\kappa$$ and thrives on high-precision targets.
 - **Pillar 4 — Crossover Dimension:** For moderate $$n$$ (up to a few thousand) or sparse/structured Hessians, Newton wins in wall-clock time; for huge unstructured $$n$$ with low-accuracy targets (e.g., $$\epsilon = 10^{-2}$$), first-order methods dominate.
 
-### Step-by-Step Worked Example (Read Slowly): Wall-Clock Cost Crossover Between GD and Newton
+### Worked example: Wall-Clock Cost Crossover Between GD and Newton
 
 Compare solving a dense strongly convex problem of dimension $$n$$ with condition number $$\kappa = 1000$$ to accuracy $$\epsilon = 10^{-8}$$:
 - Gradient descent needs roughly $$K_{\text{GD}} \approx \kappa \ln(1/\epsilon) \approx 1000 \times 18.4 \approx 18{,}400$$ iterations, costing $$\approx 2n^2$$ flops each (for a dense matrix-vector product) $$\implies \text{Total GD flops} \approx 36{,}800\,n^2$$.

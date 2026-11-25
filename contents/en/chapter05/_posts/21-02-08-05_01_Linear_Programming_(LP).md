@@ -12,14 +12,14 @@ lesson_type: required
 
 During the Berlin Airlift of 1948, planners faced a logistical nightmare: how to allocate aircraft, crews, fuel, and runways to feed two million people at minimum cost. George Dantzig's Linear Programming framework turned that crisis into a system of linear inequalities—and launched an optimization revolution that today schedules airlines, balances power grids, and routes global supply chains every second.
 
-## Background Knowledge Map: Foundations of Linear Programming
+## Key ideas: Foundations of Linear Programming
 
 1. **Polyhedral Geometry and Vertex Optimality**: The feasible set $$\{x : Gx \preceq h,\; Ax = b\}$$ is a *polyhedron*—an intersection of finitely many halfspaces and hyperplanes. Because the objective $$c^T x$$ has constant gradient $$c$$, level sets are parallel hyperplanes that always make last contact with the polyhedron at a boundary face (and at a vertex whenever the polyhedron has vertices and the LP is bounded).
 2. **Standard Form vs. Inequality Form**: Every LP can be converted into standard form $$\min c^T x \text{ s.t. } Ax = b, x \ge 0$$ using slack variables for inequalities and splitting free variables as $$x = x^+ - x^-$$ with $$x^+, x^- \ge 0$$.
 3. **Three Possible Outcomes**: Every LP falls into exactly one of three regimes: (i) *infeasible* (empty polyhedron), (ii) *unbounded below* (a feasible ray along which $$c^T d < 0$$), or (iii) *optimal* (attained at a finite vertex).
 4. **Linear Modeling Tricks**: Piecewise-linear convex functions such as $$\|Ax - b\|_1$$, $$\|Ax - b\|_\infty$$, and $$\max_i (a_i^T x + b_i)$$ can all be recast as pure LPs via epigraph and absolute-value auxiliary variables.
 
-### Step-by-Step Worked Example (Read Slowly): Solving a Two-Product LP by Vertex Enumeration
+### Worked example: Solving a Two-Product LP by Vertex Enumeration
 
 Maximize profit $$P(x_1, x_2) = 4x_1 + 3x_2$$ (equivalently minimize $$-4x_1 - 3x_2$$) subject to:
 $$x_1 + x_2 \le 6, \qquad 2x_1 + x_2 \le 8, \qquad x_1 \ge 0, \quad x_2 \ge 0.$$

@@ -16,14 +16,14 @@ Biết phát biểu định lý siêu phẳng phân tách hay định nghĩa hì
 
 Trong bài tập thực hành này, bạn sẽ trực tiếp kiểm tra tính lồi, dựng siêu phẳng phân tách và tính hình nón đối ngẫu. Dưới đây là khung tư duy nhanh và một bài tính tay mẫu về hình nón đối ngẫu đa diện.
 
-## Bản đồ kiến thức nền: Bốn kỹ năng thực hành cốt lõi của Chương 02
+## Kiến thức cần nhớ: Bốn kỹ năng thực hành cốt lõi của Chương 02
 
 - **Kiểm tra và chứng minh tính lồi:** Phân biệt khi nào nên dùng định nghĩa trực tiếp, khi nào nên phân rã qua phép giao/ánh xạ affine, và khi nào nên tìm một phản ví dụ 2 điểm để bác bỏ ngay.
 - **Tính toán siêu phẳng phân tách (SVM & Khoảng cách nhỏ nhất):** Tìm cặp điểm gần nhau nhất giữa hai tập lồi rồi lấy đường trung trực làm siêu phẳng phân tách biên cực đại.
 - **Xác định bao lồi (Convex Hull):** Nhận diện các đỉnh cực biên (extreme points) và loại bỏ các điểm nằm bên trong là tổ hợp lồi của các đỉnh còn lại.
 - **Tính hình nón đối ngẫu đa diện:** Với hình nón sinh bởi hữu hạn tia $$K = \operatorname{cone}\{v_1, \dots, v_m\}$$, điều kiện $$y \in K^*$$ rút gọn ngay thành đúng $$m$$ bất đẳng thức tuyến tính $$v_i^T y \ge 0$$!
 
-### Khung giải thích (nên đọc chậm): Tính tay hình nón đối ngẫu của một hình nón đa diện trong $$\mathbb{R}^2$$
+### Giải thích: Tính tay hình nón đối ngẫu của một hình nón đa diện trong $$\mathbb{R}^2$$
 
 Cho hình nón sinh bởi hai tia $$v_1 = (1, 0)^T$$ và $$v_2 = (1, 2)^T$$:
 $$K = \{\theta_1 (1, 0)^T + \theta_2 (1, 2)^T : \theta_1, \theta_2 \ge 0\}.$$

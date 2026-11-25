@@ -11,14 +11,14 @@ lang: en
 
 A classic headache in numerical optimization is deciding *when to stop*. If an iterative solver slows down and the objective barely changes from step $$k$$ to step $$k+1$$, have you actually reached the optimum, or are you merely crawling across a flat plateau? The duality gap removes the guesswork: it replaces heuristic stopping rules with a rigorous mathematical guarantee of how far you can possibly be from $$f^\star$$.
 
-## Background Knowledge Map: Certificates and Primal Recovery
+## Key ideas: Certificates and Primal Recovery
 
 - **Pillar 1 — Weak Duality as a Lower-Bound Engine:** Because $$g(u,v) \le f^\star$$ holds unconditionally for every dual-feasible $$(u,v)$$, any primal-feasible $$x$$ immediately traps $$f^\star$$ inside $$[g(u,v), f(x)]$$.
 - **Pillar 2 — The Duality Gap as a Stopping Criterion:** Rearranging weak duality gives $$f(x) - f^\star \le f(x) - g(u,v)$$. Terminating when $$f(x) - g(u,v) \le \varepsilon$$ guarantees $$\varepsilon$$-suboptimality with zero assumptions on step sizes.
 - **Pillar 3 — Strong Duality & Lagrangian Minimization:** When $$f^\star = g^\star$$, any primal optimum $$x^\star$$ must minimize $$L(x, u^\star, v^\star)$$ over all $$x$$. Thus solving the dual first pins down the primal via an unconstrained minimization.
 - **Pillar 4 — Uniqueness & Direct Primal Extraction:** Whenever $$x \mapsto L(x, u^\star, v^\star)$$ has a unique minimizer (e.g., strictly convex $$f$$), that minimizer is automatically primal feasible and equals $$x^\star$$.
 
-### Step-by-Step Worked Example (Read Slowly): Certifying Suboptimality and Recovering $$x^\star$$
+### Worked example: Certifying Suboptimality and Recovering $$x^\star$$
 
 Suppose we minimize $$f(x) = x_1^2 + 2x_2^2$$ subject to $$x_1 + x_2 = 6$$.
 

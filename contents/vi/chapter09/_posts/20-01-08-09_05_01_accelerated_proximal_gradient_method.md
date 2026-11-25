@@ -13,14 +13,14 @@ Năm 1983, khi Yurii Nesterov công bố phương pháp tăng tốc bậc nhất
 
 Hãy nhìn vào công thức cập nhật của bài học này: chỉ thêm đúng *một dòng* ngoại suy $$v = x^{(k-1)} + \frac{k-2}{k+1}(x^{(k-1)} - x^{(k-2)})$$ trước khi gọi bước prox quen thuộc! Chi phí tính toán mỗi vòng lặp gần như **bằng hệt** phương pháp không tăng tốc (vẫn chỉ 1 lần tính $$\nabla g$$ và 1 lần tính $$\operatorname{prox}_{t h}$$), nhưng tốc độ hội tụ nhảy vọt từ $$O(1/\epsilon)$$ lên $$O(1/\sqrt{\epsilon})$$.
 
-## Bản đồ kiến thức nền: Ba trụ cột của công thức gradient gần kề tăng tốc
+## Kiến thức cần nhớ: Ba trụ cột của công thức gradient gần kề tăng tốc
 
 - **Chuỗi hai điểm (Điểm lặp $$x^{(k)}$$ và điểm ngoại suy $$v^{(k)}$$):** Ta duy trì điểm hợp lệ $$x^{(k)}$$ (luôn nằm trong miền của $$h$$ và giữ tính thưa) cùng điểm ngoại suy $$v^{(k)} = x^{(k-1)} + \frac{k-2}{k+1}(x^{(k-1)} - x^{(k-2)})$$. Bước gradient và prox được thực hiện từ $$v^{(k)}$$:
   $$x^{(k)} = \operatorname{prox}_{t_k h}\big(v^{(k)} - t_k \nabla g(v^{(k)})\big).$$
 - **Quy luật tăng dần của trọng số quán tính $$\beta_k = \frac{k-2}{k+1}$$:** Ở bước đầu ($$k = 1, 2$$), hệ số bằng $$0$$ (khởi động êm như proximal gradient thường); khi $$k$$ lớn dần, $$\beta_k \approx 1 - \frac{3}{k}$$ tiến sát $$1$$. Chính con số $$3$$ trong $$1 - 3/k$$ gắn chặt với phương trình vi phân bậc hai giảm chấn $$\ddot{X} + \frac{3}{t}\dot{X} + \nabla g(X) = 0$$ (Su–Boyd–Candès 2014)!
 - **Tính tương thích với bài toán Lasso và bài toán có ràng buộc:** Ngay cả khi $$v^{(k)}$$ tạm thời nhảy ra ngoài miền ràng buộc $$C$$ (hoặc tạm mất tính thưa do cộng hiệu hai vector), bước $$\operatorname{prox}_{t_k h}$$ ngay sau đó lập tức kéo $$x^{(k)}$$ quay về miền hợp lệ và khôi phục tính thưa!
 
-### Khung giải thích (nên đọc chậm): Tính tay 3 vòng lặp đầu của Accelerated Proximal GD trên Lasso 1D
+### Giải thích: Tính tay 3 vòng lặp đầu của Accelerated Proximal GD trên Lasso 1D
 
 Xét bài toán Lasso 1D $$f(x) = \frac{1}{2}(x - 5)^2 + 1.0|x|$$ ($$g(x) = \frac{1}{2}(x-5)^2, L=1$$), dùng bước cố định nhỏ $$t = 0.5$$ để quan sát rõ tác dụng quán tính. Nghiệm tối ưu là $$x^* = 4$$. Khởi tạo $$x^{(0)} = x^{(-1)} = 0$$.
 

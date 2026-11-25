@@ -14,7 +14,7 @@ Từ các mô hình ngôn ngữ khổng lồ sử dụng khối kích hoạt kh�
 
 Phiên bản chuyên đề ứng dụng này tổng hợp và mở rộng góc nhìn thực chiến về ba cột trụ ứng dụng của subgradient trong giai đoạn hiện đại: lý thuyết hội tụ của vi phân tự động trên mạng không trơn, các bộ giải tối ưu thưa quy mô triệu đặc trưng, và ước lượng phân vị kết hợp dự báo đồng dạng (Conformal Prediction).
 
-## Bản đồ kiến thức nền: Kết nối Subgradient với Hệ sinh thái Học máy Hiện đại
+## Kiến thức cần nhớ: Kết nối Subgradient với Hệ sinh thái Học máy Hiện đại
 
 Bốn cầu nối sau giúp bạn nhìn thấy sự hiện diện của $$\partial f(x)$$ đằng sau các công cụ lập trình hàng ngày:
 
@@ -23,7 +23,7 @@ Bốn cầu nối sau giúp bạn nhìn thấy sự hiện diện của $$\parti
 - **Cầu nối 3 — Dự báo Khoảng bất định bằng Pinball Loss:** Dùng hàm mất mát gãy khúc bất đối xứng $$\rho_\tau$$ để học đồng thời cận dưới ($$\tau = 0.05$$) và cận trên ($$\tau = 0.95$$), sau đó hiệu chỉnh bằng Conformal Prediction để có bảo đảm phủ xác suất toán học chặt chẽ.
 - **Cầu nối 4 — Phương pháp Subgradient vs. Proximal Gradient:** Khi hàm mục tiêu có dạng $$f(x) + g(x)$$ (trơn + không trơn như Lasso), thay vì dùng phương pháp Subgradient chậm $$O(1/\sqrt{k})$$, thực tế tách phần không trơn ra xử lý bằng **toán tử Proximal** (như Soft-Thresholding) để khôi phục lại tốc độ $$O(1/k)$$ và $$O(1/k^2)$$!
 
-### Khung giải thích (nên đọc chậm): Minh họa quy tắc Sàng lọc KKT cho Lasso trên 3 đặc trưng
+### Giải thích: Minh họa quy tắc Sàng lọc KKT cho Lasso trên 3 đặc trưng
 
 Giả sử ta giải Lasso $$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\beta\|_1$$ với $$\lambda = 2.0$$, các cột dữ liệu chuẩn hóa $$\|X_j\|_2 = 1$$ và giá trị tương quan ban đầu với $$y$$ là:
 $$X_1^T y = 5.0, \qquad X_2^T y = 0.4, \qquad X_3^T y = -3.1.$$

@@ -14,13 +14,13 @@ Nhiều sinh viên sau khi học xong đạo hàm dây chuyền, hạng ma trậ
 
 Bài đọc mở rộng này bắc cây cầu từ các khái niệm đại học cơ bản sang những kiến trúc tối ưu hóa đang chạy trên các hệ thống AI hiện đại nhất.
 
-## Bản đồ kiến thức nền: Công cụ Chương 00 trong hệ thống AI hiện đại
+## Kiến thức cần nhớ: Công cụ Chương 00 trong hệ thống AI hiện đại
 
 - **Quy tắc dây chuyền → Vi phân tự động chế độ ngược (Reverse-mode Autodiff):** Thay vì tính riêng từng đạo hàm riêng (tốn $$\mathcal{O}(n)$$ lượt chạy), lan truyền ngược tích lũy sản phẩm vector–Jacobian để lấy toàn bộ gradient $$\nabla_\theta L$$ chỉ trong **một** lượt đi ngược với chi phí tương đương lượt đi xuôi.
 - **Hạng ma trận (Low-rank Factorization) → LoRA:** Thay vì cập nhật toàn bộ ma trận trọng số khổng lồ $$W \in \mathbb{R}^{d \times k}$$, ta đóng băng $$W_0$$ và chỉ tối ưu phần bù hạng thấp $$\Delta W = BA$$ với $$r \ll \min(d, k)$$, cắt giảm bộ nhớ và chi phí tối ưu hàng chục đến hàng trăm lần.
 - **Gradient của log-mật độ → Score Matching & Mô hình khuếch tán:** Học trực tiếp trường vector score $$\nabla_x \log p_t(x)$$ để đảo ngược quá trình thêm nhiễu Gauss từng bước, biến nhiễu trắng thành ảnh hoặc âm thanh chân thực.
 
-### Khung giải thích (nên đọc chậm): Tính tay một lượt Autodiff ngược và đếm tham số LoRA
+### Giải thích: Tính tay một lượt Autodiff ngược và đếm tham số LoRA
 
 Hãy kiểm chứng bằng hai phép tính tay gọn gàng:
 

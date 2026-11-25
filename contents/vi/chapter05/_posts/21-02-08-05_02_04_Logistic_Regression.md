@@ -14,7 +14,7 @@ Khi bài toán chuyển từ dự đoán giá nhà (số thực liên tục) san
 
 Điều kỳ diệu khiến **Hồi quy Logistic** trở thành "con cưng" của Chương 05 nằm ở phép toán tối ưu đằng sau nó: nếu bạn cố dùng sai số bình phương trên hàm Sigmoid, bài toán sẽ trở thành **phi lồi** đầy cực tiểu địa phương; nhưng ngay khi bạn dùng **Cross-Entropy (Negative Log-Likelihood của phân phối Bernoulli)**, hàm mục tiêu bỗng trở thành một **hàm lồi trơn tuyệt đẹp** với Hessian nửa xác định dương trên toàn không gian!
 
-## Bản đồ kiến thức nền: Bốn trụ cột toán học của Hồi quy Logistic
+## Kiến thức cần nhớ: Bốn trụ cột toán học của Hồi quy Logistic
 
 Để hiểu trọn vẹn vì sao Hồi quy Logistic vừa đơn giản vừa bền vững trong thực chiến, hãy nắm bốn mảnh ghép sau:
 
@@ -23,7 +23,7 @@ Khi bài toán chuyển từ dự đoán giá nhà (số thực liên tục) san
 - **Không có nghiệm đóng — Cửa ngõ sang Thuật toán lặp:** Khác với Bình phương tối thiểu có công thức $$x^\star = (A^T A)^{-1} A^T b$$, phương trình $$\nabla L(w) = X^T(\hat{p} - y) = 0$$ là phương trình siêu việt không có nghiệm đóng. Ta buộc phải giải bằng Gradient Descent, Newton–Raphson (IRLS) hoặc L-BFGS!
 - **Hiện tượng Tách biệt hoàn toàn (Perfect Separation) & Điều chuẩn $$\ell_2$$:** Nếu dữ liệu tách biệt tuyến tính hoàn toàn, hàm mất mát có thể giảm về $$0$$ khi $$\|w\|_2 \to \infty$$ (không tồn tại nghiệm hữu hạn!). Cộng thêm $$\frac{\lambda}{2}\|w\|_2^2$$ làm hàm trở nên lồi mạnh và đảm bảo nghiệm hữu hạn duy nhất.
 
-### Khung giải thích (nên đọc chậm): Tính tay xác suất, Cross-Entropy, Gradient và Hessian của Hồi quy Logistic
+### Giải thích: Tính tay xác suất, Cross-Entropy, Gradient và Hessian của Hồi quy Logistic
 
 Xét 2 điểm dữ liệu 1 chiều không hệ số chặn: $$(x_1, y_1) = (1, 1)$$ và $$(x_2, y_2) = (-1, 0)$$, tại trọng số hiện tại $$w = 0$$.
 

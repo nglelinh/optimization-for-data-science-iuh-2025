@@ -11,14 +11,14 @@ lang: en
 
 To run Newton's method on $$tf(x) + \phi(x)$$, you need exact, bug-free formulas for $$\nabla \phi(x)$$ and $$\nabla^2 \phi(x)$$. Look closely at the Hessian of the log barrier: it automatically splits into a sum of positive-semidefinite rank-1 outer products $$\frac{1}{h_i(x)^2}\nabla h_i(x)\nabla h_i(x)^T$$ plus positively weighted Hessians $$-\frac{1}{h_i(x)}\nabla^2 h_i(x)$$ (since $$h_i(x) < 0$$). That structure explains *at a glance* why $$\phi$$ is always convex and why its curvature explodes right as you approach any constraint wall!
 
-## Background Knowledge Map: Derivatives of the Logarithmic Barrier
+## Key ideas: Derivatives of the Logarithmic Barrier
 
 - **Pillar 1 — Barrier Gradient (Repulsive Force):** $$\nabla \phi(x) = \sum_{i=1}^m \frac{1}{-h_i(x)}\nabla h_i(x)$$. Because $$-h_i(x) > 0$$ is the slack to wall $$i$$, approaching wall $$i$$ ($$-h_i(x) \to 0^+$$) creates an enormous gradient pushing $$x$$ inward along $$-\nabla h_i(x)$$.
 - **Pillar 2 — Barrier Hessian (Two PSD Terms):** $$\nabla^2 \phi(x) = \sum_{i=1}^m \frac{1}{h_i(x)^2}\nabla h_i(x)\nabla h_i(x)^T + \sum_{i=1}^m \frac{1}{-h_i(x)}\nabla^2 h_i(x)$$. Every term is $$\succeq 0$$ for convex $$h_i$$.
 - **Pillar 3 — Polyhedral Simplification (Linear Inequalities):** When $$h_i(x) = a_i^T x - b_i$$, $$\nabla^2 h_i = 0$$ vanishes, leaving the clean weighted Gram matrix $$\nabla^2 \phi(x) = A^T D^2 A$$ where $$D_{ii} = \frac{1}{b_i - a_i^T x}$$.
 - **Pillar 4 — Nonnegative Orthant Special Case:** For $$x > 0$$ ($$h_i(x) = -x_i$$), $$\nabla \phi(x) = -X^{-1}\mathbf{1}$$ and $$\nabla^2 \phi(x) = X^{-2}$$ (purely diagonal!), which makes linear-programming Newton systems remarkably fast to factor.
 
-### Step-by-Step Worked Example (Read Slowly): Computing $$\nabla \phi(x)$$ and $$\nabla^2 \phi(x)$$ for a 2D Triangle
+### Worked example: Computing $$\nabla \phi(x)$$ and $$\nabla^2 \phi(x)$$ for a 2D Triangle
 
 Consider the triangular feasible set $$x_1 \ge 0$$, $$x_2 \ge 0$$, and $$x_1 + x_2 \le 3$$, so $$h_1(x) = -x_1$$, $$h_2(x) = -x_2$$, $$h_3(x) = x_1 + x_2 - 3$$. Evaluate $$\nabla \phi$$ and $$\nabla^2 \phi$$ at the interior point $$x = (1, 1)^T$$.
 

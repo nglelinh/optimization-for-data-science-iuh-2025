@@ -13,13 +13,13 @@ Trong kinh tế học, kỹ thuật và học máy, rất nhiều hàm mục ti�
 
 Phần 03-04 mở rộng tầm nhìn của bạn vượt ra ngoài ranh giới hàm lồi cổ điển sang thế giới hàm giả lồi đầy thực dụng.
 
-## Bản đồ kiến thức nền: Ba đặc trưng quan trọng của Hàm giả lồi
+## Kiến thức cần nhớ: Ba đặc trưng quan trọng của Hàm giả lồi
 
 - **Định nghĩa qua tập mức dưới:** $$f$$ là giả lồi khi $$\operatorname{dom} f$$ lồi và mọi tập mức dưới $$S_\alpha = \{x : f(x) \le \alpha\}$$ đều là tập lồi. Mọi hàm lồi đều là giả lồi, nhưng chiều ngược lại rộng hơn rất nhiều.
 - **Trực giác một biến (Đơn điệu hoặc một đáy):** Trên $$\mathbb{R}$$, hàm liên tục là giả lồi khi và chỉ khi nó đơn điệu tăng, đơn điệu giảm, hoặc giảm đến một điểm rồi tăng (unimodal) — không có nhiều thung lũng lồi lõm!
 - **Thuật toán chia đôi (Bisection):** Vì kiểm tra $$\exists x : f(x) \le t$$ chính là kiểm tra một tập lồi $$S_t$$ có khác rỗng hay không, ta có thể chặt đôi khoảng chứa $$p^*$$ sau mỗi bước để tìm cực tiểu toàn cục với độ chính xác $$\epsilon$$ chỉ sau $$\lceil \log_2((u-l)/\epsilon)\rceil$$ bước!
 
-### Khung giải thích (nên đọc chậm): Hàm $$f(x) = \sqrt{|x|}$$ — Không lồi nhưng Giả lồi tuyệt đối
+### Giải thích: Hàm $$f(x) = \sqrt{|x|}$$ — Không lồi nhưng Giả lồi tuyệt đối
 
 Xét hàm $$f(x) = \sqrt{|x|}$$ trên $$\mathbb{R}$$:
 

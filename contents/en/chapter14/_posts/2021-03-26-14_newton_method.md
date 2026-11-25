@@ -11,14 +11,14 @@ lang: en
 
 Picture descending a steep, narrow canyon in thick fog. Gradient descent feels only the local slope under your boots, so it zigzags endlessly from one canyon wall to the other. Newton's method pulls out a curvature map—the Hessian matrix $$\nabla^2 f(x)$$—fits a local parabolic bowl to the terrain, and jumps directly to the bottom of that bowl, doubling the number of accurate decimal digits on every single step once you are close to the solution.
 
-## Background Knowledge Map: The Architecture of Second-Order Optimization
+## Key ideas: The Architecture of Second-Order Optimization
 
 - **Pillar 1 — Local Quadratic Modeling:** Replacing $$f$$ at $$x$$ with its second-order Taylor expansion turns a general nonlinear minimization into a closed-form linear system $$\nabla^2 f(x)\,\Delta x_{\text{nt}} = -\nabla f(x)$$.
 - **Pillar 2 — Affine Invariance & Conditioning Immunity:** Because $$\nabla^2 f(x)^{-1}$$ rescales every direction by its exact local curvature, Newton's method is completely blind to poorly scaled coordinates or stretched level sets.
 - **Pillar 3 — Damped Global Convergence + Quadratic Local Finish:** Pairing Newton's direction with backtracking line search guarantees steady global decrease first (damped phase) and explosive $$O(\log\log(1/\epsilon))$$ quadratic convergence near $$x^\star$$ (pure phase).
 - **Pillar 4 — Self-Concordance & Practical Trade-Offs:** Self-concordant functions yield affine-invariant iteration bounds free of unknown Lipschitz constants, while structured Hessians and quasi-Newton methods tame the $$O(n^3)$$ cost of solving dense linear systems.
 
-### Step-by-Step Worked Example (Read Slowly): Watching Quadratic Convergence on a 1D Convex Function
+### Worked example: Watching Quadratic Convergence on a 1D Convex Function
 
 Consider minimizing $$f(x) = e^x + e^{-x} - 2x$$ (strictly convex, since $$f''(x) = e^x + e^{-x} > 0$$) starting from $$x^{(0)} = 0$$. Its exact minimizer satisfies $$f'(x^\star) = e^{x^\star} - e^{-x^\star} - 2 = 0 \implies \sinh(x^\star) = 1 \implies x^\star = \ln(1 + \sqrt{2}) \approx 0.8813736$$.
 

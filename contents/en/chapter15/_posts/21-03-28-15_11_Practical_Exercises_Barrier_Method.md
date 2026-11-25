@@ -14,14 +14,14 @@ redirect_from:
 
 Working through barrier-method exercises by hand builds deep intuition for what modern solvers like Clarabel do inside every iteration: computing exact barrier gradients and Hessians, deriving closed-form central paths on small LPs and QPs, verifying the $$m/t$$ duality gap, and formulating Phase I feasibility problems. Keep this four-pillar playbook handy as you solve the exercises below.
 
-## Background Knowledge Map: Exercise-Solving Playbook for Chapter 15
+## Key ideas: Exercise-Solving Playbook for Chapter 15
 
 - **Pillar 1 — Sign Hygiene in $$\phi(x)$$:** Always rewrite every inequality in the canonical form $$h_i(x) \le 0$$ first (so $$-h_i(x) > 0$$ inside the logarithm!). For example, $$x \ge a$$ becomes $$h(x) = a - x \le 0$$, giving $$-\log(x - a)$$.
 - **Pillar 2 — Computing Central Paths Analytically:** Set $$t\nabla f(x) + \nabla\phi(x) = 0$$, clear denominators to obtain a polynomial equation, and select the unique root lying strictly inside the feasible domain $$h_i(x) < 0$$.
 - **Pillar 3 — Dual Variable & Gap Verification:** After finding $$x^*(t)$$, always compute $$u_i(t) = -\frac{1}{t h_i(x^*(t))}$$ and check both stationarity and $$f(x^*(t)) - f^\star \le \frac{m}{t}$$ as a built-in algebraic error detector.
 - **Pillar 4 — Newton Step Inside the Barrier:** Remember to include **both** $$t\nabla^2 f(x)$$ and $$\nabla^2 \phi(x)$$ in the Hessian of the centering problem, and never let a trial step jump outside $$h_i(x + tv) < 0$$ during backtracking.
 
-### Step-by-Step Worked Example (Read Slowly): One Full Centering Newton Step on a Barrier Problem
+### Worked example: One Full Centering Newton Step on a Barrier Problem
 
 Minimize $$f(x) = 2x$$ subject to $$x \ge 1$$ ($$h_1(x) = 1 - x \le 0$$) using the barrier problem $$\Phi_t(x) = 2tx - \log(x - 1)$$ at $$t = 1$$, starting from the strictly feasible point $$x^{(0)} = 2$$.
 

@@ -11,14 +11,14 @@ lang: en
 
 For thirty years after George Dantzig invented the Simplex method in 1947, linear programming lived with an extraordinary paradox: in practice, Simplex solved industrial problems in a handful of pivots, yet nobody could prove it ran in polynomial time. In 1972, Klee and Minty shattered that hope by constructing a slightly squashed hypercube that forced Simplex to visit every single one of its $$2^n$$ corners. That shockwave triggered one of the most dramatic chapters in modern applied mathematics—from Khachiyan's front-page ellipsoid theorem to Karmarkar's interior-point revolution and today's near-linear-time LP algorithms.
 
-## Background Knowledge Map: The Complexity Arc of Linear Programming
+## Key ideas: The Complexity Arc of Linear Programming
 
 - **Boundary-Walking (Simplex) vs. Interior-Cutting (IPM):** Simplex moves along 1D edges of the feasible polytope from vertex to vertex; while typically requiring $$O(m)$$ pivots in practice, adversarial geometry (Klee–Minty cubes) induces exponential $$2^n$$ worst-case behavior.
 - **Khachiyan's Ellipsoid Breakthrough (1979):** Proved for the first time that LP is in $$\mathbf{P}$$ by enclosing the feasible set in shrinking ellipsoids—a monumental theoretical triumph that remained too slow in practice due to $$O(n^2 \log(1/\epsilon))$$ iterations.
 - **Karmarkar's Projective Interior-Point Method (1984):** Combined polynomial-time complexity with practical speed by cutting straight through the interior of the polytope, sparking the primal-dual path-following revolution.
 - **Self-Concordance & Modern Complexity (Renegar 1988 to Lee–Sidford):** Renegar established the $$O(\sqrt{n}\log(1/\epsilon))$$ Newton iteration bound via path-following; Nesterov and Nemirovskii generalized it to all self-concordant cones (SOCP, SDP), and recent breakthroughs (Lee–Sidford, Cohen–Lee–Song) pushed total arithmetic complexity toward matrix-multiplication time $$O(n^\omega)$$.
 
-### Step-by-Step Worked Example (Read Slowly): The 2D Klee–Minty Cube vs. the Analytic Center
+### Worked example: The 2D Klee–Minty Cube vs. the Analytic Center
 
 Consider the 2D Klee–Minty LP with distortion $$\epsilon = 1/4$$:
 $$\max \; x_2 \quad \text{subject to} \quad 0 \le x_1 \le 1, \quad \frac{1}{4} x_1 \le x_2 \le 1 - \frac{1}{4} x_1.$$

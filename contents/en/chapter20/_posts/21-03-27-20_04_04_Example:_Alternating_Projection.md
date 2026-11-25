@@ -11,14 +11,14 @@ lang: en
 
 Finding a point in the intersection $$C \cap D$$ of two closed convex sets is one of the oldest problems in applied mathematics—from CT image reconstruction to phase retrieval and feasibility of linear matrix inequalities. Classical **von Neumann alternating projections** simply bounce back and forth ($$x \to \Pi_C(x) \to \Pi_D(x)$$), which can zig-zag painfully slowly when $$C$$ and $$D$$ meet at a shallow angle. Applying scaled ADMM to $$\min I_C(x) + I_D(z) \text{ s.t. } x = z$$ turns out to rediscover **Dykstra's / Douglas–Rachford splitting**, using the dual memory $$w$$ to push past shallow angles!
 
-## Background Knowledge Map: ADMM on Set Indicators vs. Naive Alternating Projection
+## Key ideas: ADMM on Set Indicators vs. Naive Alternating Projection
 
 - **Feasibility as Composite Minimization:** Encoding $$x \in C \cap D$$ as $$\min_{x,z} I_C(x) + I_D(z)$$ subject to $$x = z$$ turns set intersection into a standard ADMM problem whose proximal operators are Euclidean projections $$\Pi_C$$ and $$\Pi_D$$!
 - **The Dual Offset Makes the Difference:** Plain alternating projection updates $$x^k = \Pi_C(z^{k-1}), \; z^k = \Pi_D(x^k)$$. Scaled ADMM updates $$x^k = \Pi_C(z^{k-1} - w^{k-1}), \; z^k = \Pi_D(x^k + w^{k-1}), \; w^k = w^{k-1} + x^k - z^k$$—where $$w$$ remembers the normal direction of the boundary!
 - **Equivalence to Douglas–Rachford Splitting:** Eliminating $$w$$ shows that ADMM on $$I_C + I_D$$ is algebraically identical to Douglas–Rachford reflection-projection splitting, which converges even when $$C$$ and $$D$$ are tangent!
 - **Scaling Invariance ($$\rho$$ Cancels Out):** Because $$I_C$$ and $$I_D$$ only take values $$0$$ and $$+\infty$$, dividing by $$\rho > 0$$ does not change the indicator function at all—making ADMM alternating projection completely **parameter-free**!
 
-### Step-by-Step Worked Example (Read Slowly): Intersecting a Line and a Box via ADMM Projection
+### Worked example: Intersecting a Line and a Box via ADMM Projection
 
 Find a point in $$C \cap D \subset \mathbb{R}^2$$ where $$C = \{(x_1, x_2) : x_2 = 1\}$$ (horizontal line) and $$D = \{(x_1, x_2) : x_1 = x_2\}$$ (the $$45^\circ$$ diagonal). Clearly $$C \cap D = \{(1, 1)\}$$. Start from $$z^0 = (0, 0)^T, \; w^0 = (0, 0)^T$$.
 

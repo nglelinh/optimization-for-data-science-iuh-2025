@@ -14,7 +14,7 @@ Trong thống kê cổ điển, có một điều răn tưởng chừng bất kh
 
 Chìa khóa để hiểu nghịch lý **quá tham số hóa (overparameterization)** nằm ở sự thay đổi vai trò của thuật toán tối ưu: khi hệ phương trình $$F(w) = 0$$ có **vô số nghiệm**, bản thân thuật toán tối ưu (khởi tạo từ đâu, đi bước thế nào) không còn chỉ là công cụ tìm nghiệm — nó trở thành **bộ chọn mô hình** sở hữu một **thiên kiến ẩn (implicit bias)** mạnh mẽ hướng về các nghiệm đơn giản, chuẩn nhỏ và lề lớn!
 
-## Bản đồ kiến thức nền: Ba trụ cột của chế độ Quá tham số hóa
+## Kiến thức cần nhớ: Ba trụ cột của chế độ Quá tham số hóa
 
 Bài học này làm rõ ba sự biến đổi sâu sắc khi ta bước qua ngưỡng $$d \gg n$$:
 
@@ -22,7 +22,7 @@ Bài học này làm rõ ba sự biến đổi sâu sắc khi ta bước qua ng�
 - **Thiên kiến ẩn của Gradient Descent (Implicit Bias / Implicit Regularization):** Dù không hề thêm số hạng phạt $$\frac{\lambda}{2}\|w\|_2^2$$ vào hàm mất mát, Gradient Descent xuất phát từ $$w_0 = 0$$ trên hồi quy tuyến tính thiếu xác định vẫn **tự động hội tụ về nghiệm nội suy có chuẩn $$\ell_2$$ nhỏ nhất**! Trên phân loại tuyến tính tách được với hàm mất mát mũ/logistic, nó tự động hướng về siêu phẳng **cực đại hóa lề (max-margin SVM)**!
 - **Hình học thuận lợi cục bộ và Điều kiện PL:** Khi mạng đủ rộng (chế độ NTK / quá tham số hóa), ma trận Jacobian tại khởi tạo có hạng đầy đủ, khiến hàm mất mát thỏa điều kiện Polyak–Łojasiewicz (PL) cục bộ — đảm bảo GD hội tụ nhanh về mất mát huấn luyện bằng $$0$$ mà không cần tính lồi.
 
-### Khung giải thích (nên đọc chậm): Chứng minh bằng tay Thiên kiến ẩn của GD trên hệ thiếu xác định
+### Giải thích: Chứng minh bằng tay Thiên kiến ẩn của GD trên hệ thiếu xác định
 
 Xét bài toán hồi quy tuyến tính quá tham số hóa tối giản nhất: chỉ có $$n = 1$$ mẫu dữ liệu $$(x_1, x_2) = (1,\; 2)$$ với nhãn $$y = 5$$, nhưng có tới $$d = 2$$ tham số $$w = (w_1, w_2)^T$$:
 

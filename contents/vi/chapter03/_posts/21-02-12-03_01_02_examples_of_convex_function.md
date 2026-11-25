@@ -13,14 +13,14 @@ Khi xây dựng mô hình tối ưu trong thực tế — từ hồi quy bình p
 
 Bài học này tổng hợp đầy đủ các ví dụ hàm lồi một biến, đa biến, chuẩn, hàm bậc hai và hàm chỉ thị của tập lồi.
 
-## Bản đồ kiến thức nền: Bảng tuần hoàn các hàm lồi nguyên tử
+## Kiến thức cần nhớ: Bảng tuần hoàn các hàm lồi nguyên tử
 
 - **Hàm một biến cốt lõi:** $$e^{ax}$$ (mọi $$a$$), $$x^p$$ trên $$\mathbb{R}_{++}$$ (lồi khi $$p \ge 1$$ hoặc $$p \le 0$$; lõm khi $$0 \le p \le 1$$), $$-\log x$$ và $$x\log x$$ trên $$\mathbb{R}_{++}$$ (âm entropy).
 - **Hàm affine và hàm bậc hai:** Mọi hàm affine $$a^T x + b$$ vừa lồi vừa lõm; hàm bậc hai $$\frac{1}{2}x^T P x + q^T x + r$$ lồi khi và chỉ khi $$P \succeq 0$$ (bao gồm hàm mất mát bình phương tối thiểu $$\|Ax - b\|_2^2$$ vì $$A^T A \succeq 0$$ luôn đúng!).
 - **Mọi chuẩn và hàm log-sum-exp:** Bất kỳ chuẩn nào $$\|x\|$$ đều lồi nhờ bất đẳng thức tam giác; hàm $$\operatorname{lse}(x) = \log(\sum e^{x_i})$$ là xấp xỉ trơn, lồi của hàm $$\max_i x_i$$.
 - **Hàm chỉ thị (Indicator Function $$I_C(x)$$):** Bằng $$0$$ nếu $$x \in C$$ và $$+\infty$$ nếu $$x \notin C$$. Hàm $$I_C$$ lồi khi và chỉ khi $$C$$ là tập lồi — cho phép nhúng mọi ràng buộc $$x \in C$$ vào thẳng hàm mục tiêu $$\min_x f(x) + I_C(x)$$!
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tính lồi và độ sát của hàm Log-Sum-Exp với $$\max$$
+### Giải thích: Kiểm chứng tính lồi và độ sát của hàm Log-Sum-Exp với $$\max$$
 
 Xét hàm log-sum-exp 2 biến $$f(x_1, x_2) = \ln(e^{x_1} + e^{x_2})$$ — nền tảng của hàm mất mát Softmax / Cross-Entropy trong học sâu:
 

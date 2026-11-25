@@ -11,7 +11,7 @@ lang: vi
 
 Sau khi thấy SR1, DFP và BFGS lần lượt xuất hiện với những công thức trông vừa giống vừa khác nhau, một câu hỏi rất tự nhiên của người làm toán là: *chúng là ba thuật toán rời rạc, hay thực ra chỉ là ba điểm nằm trên cùng một đường thẳng?* Câu trả lời của Charles Broyden là một bức tranh thống nhất tuyệt đẹp: mọi tổ hợp affine $$(1 - \phi) B^+_{\text{BFGS}} + \phi B^+_{\text{DFP}}$$ đều tạo thành một họ duy nhất gọi là **lớp Broyden**, trong đó BFGS ($$\phi=0$$), DFP ($$\phi=1$$) và thậm chí cả SR1 đều chỉ là những điểm đặc biệt trên cùng một trục tham số $$\phi$$!
 
-## Bản đồ kiến thức nền: Bức tranh thống nhất của lớp Broyden
+## Kiến thức cần nhớ: Bức tranh thống nhất của lớp Broyden
 
 Ba ý tưởng dưới đây giúp bạn nắm trọn ý nghĩa hình học và lý thuyết hội tụ của lớp Broyden:
 
@@ -19,7 +19,7 @@ Ba ý tưởng dưới đây giúp bạn nắm trọn ý nghĩa hình học và 
 - **Lớp Broyden hạn chế ($$\phi \in [0, 1]$$):** Khi $$\phi \in [0, 1]$$, ma trận $$B^+$$ là tổ hợp lồi của hai ma trận xác định dương nên **luôn bảo toàn tính xác định dương** dưới điều kiện $$y^T s > 0$$. Mọi phương pháp trong lớp hạn chế đều có tính bất biến đáng kinh ngạc: trên hàm bậc hai với tìm kiếm đường thẳng chính xác, chúng sinh ra **cùng một dãy điểm lặp** $$x_k$$ (định lý Dixon, 1972)!
 - **SR1 nằm ngoài đoạn $$[0, 1]$$:** Tham số $$\phi_{\text{SR1}} = \frac{y^T s}{y^T s - s^T B s}$$ có thể nhỏ hơn $$0$$ hoặc lớn hơn $$1$$ (thậm chí tiến tới vô cùng khi $$y^T s = s^T B s$$). Đó chính là lý do sâu xa giải thích vì sao SR1 không đảm bảo giữ được tính xác định dương như lớp hạn chế.
 
-### Khung giải thích (nên đọc chậm): Nội suy trực tiếp trên trục $$\phi$$ nối BFGS, DFP và SR1
+### Giải thích: Nội suy trực tiếp trên trục $$\phi$$ nối BFGS, DFP và SR1
 
 Tiếp nối đúng hai ma trận ta vừa tính tay ở Bài 18-03 và 18-04 với $$B_0 = I, s = (1, 0)^T, y = (2, 1)^T$$ ($$s^T B_0 s = 1, y^T s = 2$$):
 

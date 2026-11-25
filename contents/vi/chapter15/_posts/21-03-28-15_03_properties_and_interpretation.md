@@ -13,13 +13,13 @@ Một câu hỏi cực kỳ quan trọng của người học khi lần đầu g
 
 Mục 15-03 trả lời câu hỏi ấy bằng một kết nối đẹp đến nghẹt thở giữa Chương 15 và lý thuyết đối ngẫu KKT: bằng cách đối chiếu điều kiện dừng của bài toán chắn với điều kiện KKT của bài toán gốc, ta phát hiện ra rằng **mỗi điểm đường trung tâm $$x^*(t)$$ tự động tặng miễn phí một cặp nhân tử đối ngẫu khả thi $$(u^*(t), v^*(t))$$**, từ đó rút ra cận sai số tuyệt đối $$f(x^*(t)) - f(x^*) \le m/t$$!
 
-## Bản đồ kiến thức nền: Hai phát hiện cốt lõi của mục Tính chất và Diễn giải
+## Kiến thức cần nhớ: Hai phát hiện cốt lõi của mục Tính chất và Diễn giải
 
 - **Điều kiện KKT nhiễu (Perturbed KKT):** Phương trình dừng của bài toán chắn khớp hoàn toàn với 3 trong 4 điều kiện KKT của bài toán gốc (khả thi nguyên thủy, khả thi đối ngẫu, điều kiện dừng Lagrangian), và chỉ làm "mềm" duy nhất điều kiện bù yếu từ $$-u_i h_i(x) = 0$$ thành $$-u_i h_i(x) = \frac{1}{t}$$!
 - **Tự động sinh điểm khả thi đối ngẫu:** Công thức $$u_i^*(t) = -\frac{1}{t h_i(x^*(t))} > 0$$ biến mọi điểm trên đường trung tâm thành một chứng chỉ đối ngẫu hợp lệ cho bài toán gốc mà không cần giải thêm bài toán đối ngẫu nào.
 - **Khoảng cách dưới tối ưu đóng $$m/t$$:** Nhờ cặp điểm khả thi nguyên thủy – đối ngẫu đó, khoảng cách đối ngẫu tính ra **chính xác bằng $$m/t$$**, mang lại thước đo dừng đơn giản và chắc chắn tuyệt đối.
 
-### Khung giải thích (nên đọc chậm): Khôi phục nhân tử đối ngẫu từ điểm đường trung tâm trên ví dụ số
+### Giải thích: Khôi phục nhân tử đối ngẫu từ điểm đường trung tâm trên ví dụ số
 
 Quay lại bài toán $$\min_x x$$ với ràng buộc $$h_1(x) = -x \le 0$$ và $$h_2(x) = x - 4 \le 0$$ ở bài trước ($$m = 2$$, $$f^* = 0$$). Tại $$t = 1$$, ta đã tính được điểm đường trung tâm $$x^*(1) = 3 - \sqrt{5} \approx 0.7639$$.
 

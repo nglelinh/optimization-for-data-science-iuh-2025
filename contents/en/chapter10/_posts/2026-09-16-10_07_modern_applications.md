@@ -14,14 +14,14 @@ redirect_from:
 
 Linear programming duality might be seventy-five years old, but between 2022 and 2026 it became one of the sharpest weapons in modern computer science and infrastructure engineering. When a neural-network verifier certifies that an autonomous-driving perception model cannot be fooled inside an $$\ell_\infty$$ box, when an electricity grid operator computes real-time locational marginal prices (LMPs) every five minutes, or when a generative model computes Wasserstein optimal transport distances, the core mathematical engine is literally a dual LP certificate!
 
-## Background Knowledge Map: LP Duality in 2022–2026 Systems
+## Key ideas: LP Duality in 2022–2026 Systems
 
 - **Pillar 1 — Neural-Network Verification via Dual Bounds ($$\alpha,\beta$$-CROWN):** Relaxing ReLU activations to their convex triangle envelope yields an LP whose *any* dual-feasible point gives a sound, certified lower bound on the worst-case margin—allowing GPU-parallel dual ascent to verify robustness without solving the primal LP to completion.
 - **Pillar 2 — Electricity Markets & Locational Marginal Prices (LMPs):** Economic dispatch clears power generation via a large-scale LP subject to transmission-line limits; the optimal dual variables on nodal power-balance constraints *are* the real-time electricity prices paid to generators and charged to utilities.
 - **Pillar 3 — Near-Linear-Time Max-Flow / Min-Cut (2022 Breakthrough):** Chen et al. (2022) solved minimum-cost flow and max-flow in almost-linear time $$O(m^{1 + o(1)})$$ using interior-point primal–dual updates and dynamic data structures, closing a decades-old algorithmic frontier.
 - **Pillar 4 — Optimal Transport & Kantorovich Duality:** Matching two empirical probability distributions $$\mu, \nu$$ at minimum Earth Mover's cost is a giant LP whose dual maximizes $$\mathbb{E}_\mu[\phi] - \mathbb{E}_\nu[\psi]$$ over $$1$$-Lipschitz Kantorovich potentials—the exact foundation of Wasserstein distances in ML.
 
-### Step-by-Step Worked Example (Read Slowly): Computing a Sound Dual Robustness Certificate for a Tiny ReLU Relaxation
+### Worked example: Computing a Sound Dual Robustness Certificate for a Tiny ReLU Relaxation
 
 Suppose verifying a neural network boils down to checking whether $$p^\star = \min \{ x_2 : x_2 \ge 0,\; x_2 \ge 2x_1 - 1,\; 0 \le x_1 \le 1 \}$$ is strictly above $$-0.5$$ (safe). We want a **certified lower bound** using *any* dual-feasible multiplier without even solving the primal!
 

@@ -13,7 +13,7 @@ Nếu bạn đã quen với gradient descent, phản xạ tự nhiên nhất khi
 
 Tại sao hướng âm của một subgradient lại có thể đưa bạn *leo ngược lên dốc* ngay cả khi kích thước bước nhỏ tùy ý? Bởi vì subgradient chỉ là pháp tuyến của một siêu phẳng đỡ nằm dưới mặt cong lồi — nó đảm bảo góc nhọn với vector hướng về nghiệm $$x^*$$, chứ không đảm bảo độ dốc theo hướng $$-g$$ là âm dọc theo mọi cạnh gãy của đồ thị. Vì vậy, muốn thuật toán vận hành tin cậy, ta phải theo dõi kỷ lục tốt nhất $$f_{\text{best}}^{(k)} = \min_{i \le k} f(x^{(i)})$$ thay vì chỉ nhìn vào điểm cuối $$x^{(k)}$$.
 
-## Bản đồ kiến thức nền: Ba trực giác định nghĩa phương pháp subgradient
+## Kiến thức cần nhớ: Ba trực giác định nghĩa phương pháp subgradient
 
 Để đọc công thức cập nhật $$x^{(k)} = x^{(k-1)} - t_k g^{(k-1)}$$ mà thấy ngay chuyển động hình học phía sau, hãy nắm chắc ba nhánh sau:
 
@@ -21,7 +21,7 @@ Tại sao hướng âm của một subgradient lại có thể đưa bạn *leo 
 - **Sự khác biệt giữa hướng giảm hàm và hướng giảm khoảng cách:** Với hàm khả vi, $$-\nabla f(x)$$ vừa làm giảm $$f(x)$$ vừa kéo gần $$x^*$$. Với hàm không trơn, $$-g$$ chỉ bảo toàn tính chất thứ hai (giảm khoảng cách $$\|x - x^*\|_2$$ khi bước đủ nhỏ), còn giá trị hàm $$f(x)$$ có thể tăng lên ngay lập tức.
 - **Kỷ lục tốt nhất (Best Iterate Tracking):** Vì chuỗi $$f(x^{(0)}), f(x^{(1)}), \dots$$ có thể nhấp nhô lên xuống như răng cưa, đầu ra thực tế của thuật toán là $$x_{\text{best}}^{(k)} = \arg\min_{0 \le i \le k} f(x^{(i)})$$. Toàn bộ các định lý hội tụ của chương này đều phát biểu cho $$f_{\text{best}}^{(k)} - f^*$$.
 
-### Khung giải thích (nên đọc chậm): Ví dụ tính tay chứng minh $$-g$$ làm hàm tăng nhưng vẫn kéo gần $$x^*$$
+### Giải thích: Ví dụ tính tay chứng minh $$-g$$ làm hàm tăng nhưng vẫn kéo gần $$x^*$$
 
 Xét hàm lồi không trơn hai biến $$f(x_1, x_2) = 3|x_1| + |x_2|$$, có nghiệm tối ưu duy nhất $$x^* = (0, 0)$$ với $$f^* = 0$$.
 

@@ -14,7 +14,7 @@ Trước năm 2005, nếu muốn dùng bộ giải điểm trong để giải m�
 
 Mọi thứ thay đổi hoàn toàn khi Michael Grant và Stephen Boyd phát minh ra **Quy hoạch Lồi có Kỷ luật (Disciplined Convex Programming - DCP)** và sau đó cộng đồng xây dựng thư viện mã nguồn mở **CVXPY**. Với DCP, bạn viết bài toán gần như y hệt công thức toán trên bảng trắng; bộ kiểm tra tự động xác minh tính lồi theo cây cú pháp rồi tự động biên dịch xuống đúng nón LP/QP/SOCP/SDP và gọi bộ giải cho bạn chỉ trong vài dòng Python!
 
-## Bản đồ kiến thức nền: Bộ quy tắc ngữ pháp của DCP và CVXPY
+## Kiến thức cần nhớ: Bộ quy tắc ngữ pháp của DCP và CVXPY
 
 Để không bao giờ bị CVXPY báo lỗi `DCPError` mà không hiểu tại sao, hãy nắm chắc ba trụ cột:
 
@@ -26,7 +26,7 @@ Mọi thứ thay đổi hoàn toàn khi Michael Grant và Stephen Boyd phát min
   (Lưu ý quan trọng: DCP là điều kiện *đủ*, không phải *cần*! Một biểu thức thực sự lồi như `sqrt(1 + x^2)` vẫn bị DCP từ chối nếu viết ngây thơ, và phải viết lại bằng atom `norm2([1, x])`!)
 - **Tự động chuẩn hóa về dạng nón (Canonicalization):** Sau khi vượt qua kiểm tra DCP, CVXPY tự động sinh biến phụ epigraph để biến biểu thức cấp cao (như Lasso hay SVM) thành ma trận chuẩn cho bộ giải Clarabel, OSQP, ECOS hay SCS.
 
-### Khung giải thích (nên đọc chậm): Bắt lỗi một biểu thức "lồi thật nhưng vi phạm DCP" và cách sửa chuẩn
+### Giải thích: Bắt lỗi một biểu thức "lồi thật nhưng vi phạm DCP" và cách sửa chuẩn
 
 Giả sử bạn muốn cực tiểu hóa hàm $$f(x) = \sqrt{x^2 + 4}$$ trên $$x \in \mathbb{R}$$ trong CVXPY.
 

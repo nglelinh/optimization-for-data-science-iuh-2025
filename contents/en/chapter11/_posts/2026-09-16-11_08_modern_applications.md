@@ -14,14 +14,14 @@ redirect_from:
 
 If Lagrangian duality felt abstract when we defined $$g(u, v) = \inf_x L(x, u, v)$$, look at how modern ML and engineering systems from 2022 to 2026 actually deploy it: in **distributionally robust optimization (DRO)**, dualizing a worst-case Wasserstein or $$f$$-divergence ball around the empirical distribution converts an infinite-dimensional adversary into a single scalar multiplier $$\lambda \ge 0$$! Likewise, in physics-constrained neural grids (OPF-DNN / DC3), fairness reductions, and kernel SVMs, the Lagrange dual is what makes otherwise intractable constraints computationally solvable.
 
-## Background Knowledge Map: Modern Roles of the Lagrange Dual (2022–2026)
+## Key ideas: Modern Roles of the Lagrange Dual (2022–2026)
 
 - **Pillar 1 — Distributionally Robust Learning (DRO):** Protecting a model against distribution shift solves $$\min_\theta \sup_{Q : D(Q \| \hat{P}_n) \le \rho} \mathbb{E}_Q[\ell(\theta; Z)]$$. Taking the Lagrange dual of the inner supremum eliminates the infinite-dimensional measure $$Q$$ completely, leaving a finite-dimensional joint minimization over $$(\theta, \lambda \ge 0)$$!
 - **Pillar 2 — Physics & Energy Constraints (OPF-DNN / DC3):** Training neural surrogates to solve AC Optimal Power Flow in milliseconds uses augmented Lagrangian / dual-ascent updates to keep voltages and thermal limits strictly feasible.
 - **Pillar 3 — Fairness Reductions as Saddle-Point Games:** Enforcing group-fairness inequalities via Lagrange multipliers turns constrained classification into a two-player zero-sum game between a cost-sensitive learner (primal) and an exponentiated-gradient multiplier player (dual).
 - **Pillar 4 — Kernel SVMs & High-Dimensional Duals:** Whenever feature dimension $$p \gg n$$ (or infinite-dimensional RKHS via kernels), Slater's condition guarantees strong duality so we can solve the $$n$$-variable dual QP instead of the $$p$$-variable primal.
 
-### Step-by-Step Worked Example (Read Slowly): Dualizing a 2-Scenario Worst-Case DRO Subproblem
+### Worked example: Dualizing a 2-Scenario Worst-Case DRO Subproblem
 
 Suppose a model incurs loss $$\ell_1 = 1$$ on Scenario 1 and $$\ell_2 = 5$$ on Scenario 2, with nominal probabilities $$p = (0.5, 0.5)$$. An adversary can shift probabilities to $$q = (q_1, q_2)$$ on the simplex subject to the $$\chi^2$$-divergence budget $$\frac{1}{2}\sum_{i=1}^2 \frac{(q_i - 0.5)^2}{0.5} \le \rho$$ with $$\rho = 0.08$$.
 

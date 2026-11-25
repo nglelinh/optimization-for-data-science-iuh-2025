@@ -14,7 +14,7 @@ Nhiều người mới học tối ưu hóa thường nghĩ công thức $$x^+ =
 
 Nhìn Gradient Descent dưới lăng kính **xấp xỉ Hessian** sẽ giải đáp ngay lập tức câu hỏi lớn nhất của mọi người dùng thực tế: *tại sao cùng một kích thước bước $$t$$ lại quá lớn ở chỗ cong gắt, quá nhỏ ở chỗ bằng phẳng, và vì sao chỉ số điều kiện $$\kappa$$ lại quyết định sinh tử tốc độ hội tụ?*
 
-## Bản đồ kiến thức nền: Hiểu kích thước bước qua lăng kính độ cong bậc hai
+## Kiến thức cần nhớ: Hiểu kích thước bước qua lăng kính độ cong bậc hai
 
 Ba trụ cột sau nối liền Gradient Descent (bậc nhất) với Phương pháp Newton (bậc hai):
 
@@ -23,7 +23,7 @@ Ba trụ cột sau nối liền Gradient Descent (bậc nhất) với Phương p
 - **Ý nghĩa hình học của $$1/t$$:** Nghịch đảo kích thước bước $$1/t$$ chính là **độ cong giả định** của mặt parabol tròn xấp xỉ hàm $$f$$! Để parabol này nằm *phía trên* hàm thật (đảm bảo bước đi chắc chắn làm giảm $$f$$), ta cần $$\frac{1}{t} I \succeq \nabla^2 f(x)$$, tức là $$t \le \frac{1}{\lambda_{\max}(\nabla^2 f(x))}$$.
 - **Gốc rễ của hiện tượng chậm trên hàm điều kiện xấu:** Khi hàm có độ cong cực lớn theo một phương ($$\lambda_{\max}$$) và cực nhỏ theo phương vuông góc ($$\lambda_{\min}$$), việc ép dùng chung một hình cầu bán kính $$1/t \ge \lambda_{\max}$$ khiến mô hình trở nên quá "bảo thủ" theo phương thoai thoải!
 
-### Khung giải thích (nên đọc chậm): So sánh mô hình xấp xỉ với hàm thật tại hai giá trị $$t$$
+### Giải thích: So sánh mô hình xấp xỉ với hàm thật tại hai giá trị $$t$$
 
 Xét hàm 1 biến $$f(y) = 2y^2$$ (độ cong thật $$f''(y) = 4$$) tại điểm $$x = 1$$, nơi $$f(1) = 2$$ và $$f'(1) = 4$$.
 Mô hình xấp xỉ bậc hai của GD là $$q_t(y) = 2 + 4(y - 1) + \frac{1}{2t}(y - 1)^2$$, đạt đáy tại $$x^+ = 1 - 4t$$.

@@ -13,14 +13,14 @@ Nếu FISTA nhanh hơn ISTA theo lý thuyết từ $$O(1/k)$$ lên $$O(1/k^2)$$ 
 
 Bài học ngắn nhưng cực kỳ thực chiến này giúp bạn phát triển trực giác kỹ sư: biết khi nào FISTA là vũ khí hủy diệt, khi nào nó gây hại (gradient nhiễu, bước prox xấp xỉ không đủ chính xác, bài toán cần giảm đơn điệu tuyệt đối), và cách khắc phục thanh lịch nhất trong thực tế — **khởi động lại thích nghi (adaptive restart)** của O'Donoghue & Candès (2015).
 
-## Bản đồ kiến thức nền: Bốn tình huống giới hạn của kỹ thuật tăng tốc
+## Kiến thức cần nhớ: Bốn tình huống giới hạn của kỹ thuật tăng tốc
 
 - **Mất tính đơn điệu và gợn sóng Nesterov (Overshooting & Ripples):** Vì hệ số quán tính $$\beta_k \to 1$$ gần như không có ma sát khi $$k$$ lớn, điểm lặp thường trượt vượt qua đáy nghiệm rồi vòng ngược lại, tạo ra hình răng cưa trên đồ thị loss.
 - **Nhạy cảm với nhiễu gradient và sai số prox (Error Accumulation):** Trong phương pháp không tăng tốc, sai số tính gần đúng ở bước cũ bị tắt dần; còn trong FISTA, hệ số quán tính lớn có thể *tích lũy và khuếch đại* sai số của gradient ngẫu nhiên (mini-batch) hoặc sai số giải gần đúng bài toán con prox!
 - **Chi phí ẩn khi đánh giá tính đơn điệu (MFISTA):** Nếu ứng dụng đòi hỏi $$f(x^{(k)})$$ không bao giờ tăng (ví dụ tái tạo ảnh y tế cần bảo chứng giảm năng lượng từng bước), biến thể Monotone FISTA phải tính thêm giá trị hàm $$f$$ ở mỗi bước và chọn điểm tốt hơn.
 - **Kỹ thuật khởi động lại thích nghi (Adaptive Restart):** Ngay khi phát hiện đà quán tính đang kéo ngược chiều với hướng giảm (tức $$(y^{(k)} - x^{(k+1)})^T(x^{(k+1)} - x^{(k)}) > 0$$ hoặc $$f(x^{(k+1)}) > f(x^{(k)})$$), ta đặt lại $$t_k = 1$$ (xóa quán tính về $$0$$). Chỉ một câu lệnh `if` ấy xóa sạch gợn sóng và thậm chí đạt hội tụ tuyến tính (hàm mũ) trên các hàm lồi mạnh cục bộ!
 
-### Khung giải thích (nên đọc chậm): Tính tay kiểm tra điều kiện Adaptive Restart khi FISTA trượt lố
+### Giải thích: Tính tay kiểm tra điều kiện Adaptive Restart khi FISTA trượt lố
 
 Giả sử trên một bài toán 1D có nghiệm $$x^* = 0$$, FISTA đang chạy tới vòng $$k$$ với:
 - Điểm cũ $$x^{(k)} = 0.2$$,

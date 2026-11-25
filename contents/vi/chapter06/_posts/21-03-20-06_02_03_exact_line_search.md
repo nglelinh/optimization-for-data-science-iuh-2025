@@ -13,7 +13,7 @@ Nếu bạn đứng trên sườn núi và đã chọn xong hướng đi $$-\nab
 
 Nghe qua tưởng chừng đây phải là chiến lược "vô địch" — nhưng hình học lại dành cho ta một cú ngoặt đầy bất ngờ: vì tại điểm đáy của tia tìm kiếm, tia đó **tiếp xúc** với đường đồng mức của $$f$$, nên gradient ở bước kế tiếp sẽ **vuông góc hoàn toàn** với gradient bước hiện tại ($$\nabla f(x_{k+1})^T \nabla f(x_k) = 0$$)! Kết quả là quỹ đạo của Exact Line Search trên các thung lũng elip hẹp tạo thành những đường gấp khúc **vuông góc 90°** kinh điển!
 
-## Bản đồ kiến thức nền: Hình học trực giao và Công thức đóng của Exact Line Search
+## Kiến thức cần nhớ: Hình học trực giao và Công thức đóng của Exact Line Search
 
 Ba trụ cột sau tóm gọn toàn bộ bản chất toán học của Exact Line Search:
 
@@ -23,7 +23,7 @@ Ba trụ cột sau tóm gọn toàn bộ bản chất toán học của Exact Li
   Lưu ý: chỉ cần 1 phép nhân ma trận–vector $$Q g_k$$ để tính chính xác $$t_k$$!
 - **Tốc độ hội tụ & Bất đẳng thức Kantorovich:** Với hàm bậc hai có chỉ số điều kiện $$\kappa = \lambda_{\max}/\lambda_{\min}$$, Exact Line Search đạt tỷ lệ giảm sai số mỗi bước bị chặn bởi $$\left(\frac{\kappa - 1}{\kappa + 1}\right)^2$$. Nếu $$\kappa = 1000$$, tỷ lệ này là $$0.996$$ — dù tìm bước chính xác 100%, thuật toán vẫn bị bẫy zíc-zắc vuông góc làm chậm lại!
 
-### Khung giải thích (nên đọc chậm): Chạy tay 2 bước Exact Line Search và kiểm chứng góc vuông 90°
+### Giải thích: Chạy tay 2 bước Exact Line Search và kiểm chứng góc vuông 90°
 
 Xét hàm bậc hai $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 4x_2^2)$$ với $$Q = \begin{pmatrix} 1 & 0 \\ 0 & 4 \end{pmatrix}$$, xuất phát từ $$x_0 = (4, 1)^T$$:
 

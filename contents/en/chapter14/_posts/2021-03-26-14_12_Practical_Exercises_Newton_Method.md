@@ -14,14 +14,14 @@ redirect_from:
 
 Mastering Newton's method means being able to move effortlessly between algebra and computation: assembling gradients and Hessians cleanly, solving linear systems without unnecessary matrix inversions, checking self-concordance inequalities by hand, and formulating KKT block systems for equality constraints. Use this structured playbook and warm-up derivation before tackling the full exercise set below.
 
-## Background Knowledge Map: Exercise-Solving Playbook for Chapter 14
+## Key ideas: Exercise-Solving Playbook for Chapter 14
 
 - **Pillar 1 — Matrix Calculus Discipline:** For $$f(x) = \frac{1}{2}x^T Q x + c^T x$$ with symmetric $$Q$$, $$\nabla f(x) = Qx + c$$ and $$\nabla^2 f(x) = Q$$; for log-sum-exp or logistic losses, express $$\nabla^2 f(x) = X^T W X$$ to see positive semidefiniteness immediately.
 - **Pillar 2 — Newton Decrement & Stopping Rules:** Always verify $$\lambda(x)^2 = -\nabla f(x)^T \Delta x_{\text{nt}} > 0$$ as a built-in sign check—if you ever get a negative value for a convex function, you dropped a minus sign!
 - **Pillar 3 — Verifying Self-Concordance:** For multivariate functions, restrict to a line $$g(t) = f(x + tv)$$ and check $$|g'''(t)| \le 2 g''(t)^{3/2}$$ (or decompose $$f$$ into known self-concordant sums and affine compositions).
 - **Pillar 4 — KKT Systems for Equality Constraints:** Write $$\nabla^2 f(x)\,\Delta x + A^T w = -\nabla f(x)$$ and $$A\Delta x = 0$$; eliminate $$\Delta x = -H^{-1}(\nabla f + A^T w)$$ via the Schur complement $$A H^{-1} A^T w = -A H^{-1}\nabla f$$ when $$H$$ is easily invertible.
 
-### Step-by-Step Worked Example (Read Slowly): Computing a Newton Step for 1D Logistic Regression
+### Worked example: Computing a Newton Step for 1D Logistic Regression
 
 Consider the regularized logistic loss $$f(w) = \ln(1 + e^{-w}) + \frac{1}{2}w^2$$ at $$w = 0$$.
 

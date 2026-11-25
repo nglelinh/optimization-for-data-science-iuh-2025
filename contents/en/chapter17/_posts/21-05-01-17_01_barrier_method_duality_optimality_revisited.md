@@ -11,14 +11,14 @@ lang: en
 
 Before we replace the barrier method with its primal-dual successor, we need to see *why* the barrier method works so cleanly under the hood—and where it leaves performance on the table. Every point on the barrier method's central path $$x^\star(t)$$ secretly defines a valid dual feasible certificate $$(u^\star(t), v^\star(t))$$ whose duality gap is not merely bounded, but *identically* equal to $$m/t$$. Seeing that exact duality identity is the bridge that turns a heuristic penalty into a primal-dual Newton method.
 
-## Background Knowledge Map: Barrier Geometry and Exact Duality Certificates
+## Key ideas: Barrier Geometry and Exact Duality Certificates
 
 - **Logarithmic Barrier Smoothness:** Replacing hard inequalities $$h_i(x) \le 0$$ with $$-\frac{1}{t}\sum_{i=1}^m \log(-h_i(x))$$ creates an infinite wall along the boundary of the feasible set, turning a constrained problem into a sequence of smooth equality-constrained problems solvable by Newton's method.
 - **Central Path Optimality Equations:** At the barrier minimizer $$x^\star(t)$$, stationarity of $$t f(x) + \phi(x)$$ produces $$\nabla f(x^\star) + \sum_{i=1}^m \frac{1}{-t h_i(x^\star)} \nabla h_i(x^\star) + A^T v^\star = 0$$. Defining $$u_i^\star(t) = \frac{-1}{t h_i(x^\star(t))} > 0$$ immediately casts $$x^\star(t)$$ as a minimizer of the original Lagrangian.
 - **Exact $$m/t$$ Duality Gap Identity:** Evaluating the Lagrange dual function $$g(u^\star(t), v^\star(t))$$ at this induced dual pair gives $$f(x^\star(t)) - g(u^\star(t), v^\star(t)) = -\sum_{i=1}^m u_i^\star(t) h_i(x^\star(t)) = \frac{m}{t}$$. Thus $$t$$ directly controls the suboptimality certificate.
 - **Why Barrier Centering Bottlenecks:** Increasing $$t \leftarrow \mu t$$ forces an inner loop of multiple Newton steps to re-center $$x^\star(t)$$ accurately before the next update, motivating the primal-dual reformulation that relaxes exact centering.
 
-### Step-by-Step Worked Example (Read Slowly): Verifying the Exact $$m/t$$ Duality Gap
+### Worked example: Verifying the Exact $$m/t$$ Duality Gap
 
 Consider the 1D convex problem $$\min_x f(x) = x^2$$ subject to $$h_1(x) = 1 - x \le 0$$ (so $$m = 1$$, optimal value $$f^\star = 1$$ at $$x^\star = 1$$).
 

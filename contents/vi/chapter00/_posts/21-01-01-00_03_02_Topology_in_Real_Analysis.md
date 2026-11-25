@@ -14,14 +14,14 @@ Vì sao một bài toán tối ưu có thể "suýt" có nghiệm nhưng lại k
 
 Nắm vững trực giác tôpô sẽ giúp bạn đọc các định lý về siêu phẳng phân tách, điều kiện KKT và hội tụ dãy điểm một cách nhẹ nhàng và chính xác.
 
-## Bản đồ kiến thức nền: Bốn khái niệm tôpô cốt lõi cho tối ưu hóa
+## Kiến thức cần nhớ: Bốn khái niệm tôpô cốt lõi cho tối ưu hóa
 
 - **Không gian metric và hình cầu mở:** Quả cầu mở $$B(x, r) = \{y : \|y - x\| < r\}$$ định nghĩa "vùng đệm an toàn" quanh điểm $$x$$. Một điểm nằm trong phần trong ($$\operatorname{int} S$$) nếu có thể vẽ một quả cầu nhỏ quanh nó nằm trọn trong $$S$$.
 - **Tập đóng và bao đóng ($$\operatorname{cl} S$$):** Tập đóng chứa trọn mọi điểm giới hạn của các dãy hội tụ trong nó. Nhờ tính đóng, nếu thuật toán tạo ra dãy điểm khả thi $$x^{(k)} \to x^*$$, thì giới hạn $$x^*$$ chắc chắn vẫn là nghiệm khả thi!
 - **Biên của tập hợp ($$\partial S = \operatorname{cl} S \setminus \operatorname{int} S$$):** Nơi các ràng buộc bất đẳng thức trở thành đẳng thức chặt (active constraints). Trong quy hoạch tuyến tính, nghiệm tối ưu luôn nằm trên biên.
 - **Tính compact (Đóng + Bị chặn trong $$\mathbb{R}^n$$):** Theo định lý Bolzano–Weierstrass, mọi dãy trong tập compact đều có dãy con hội tụ về một điểm thuộc tập đó — chìa khóa bảo đảm tồn tại nghiệm tối ưu toàn cục.
 
-### Khung giải thích (nên đọc chậm): Chiếu điểm $$(3, 0)$$ lên hình tròn mở so với hình tròn đóng
+### Giải thích: Chiếu điểm $$(3, 0)$$ lên hình tròn mở so với hình tròn đóng
 
 Xét tập mở $$S = \{(x_1, x_2) \in \mathbb{R}^2 : x_1^2 + x_2^2 < 4\}$$ (hình tròn mở tâm gốc tọa độ, bán kính $$2$$) và bài toán tìm điểm gần $$p = (3, 0)$$ nhất, tức cực tiểu hóa $$f(x) = \|x - p\|_2$$:
 

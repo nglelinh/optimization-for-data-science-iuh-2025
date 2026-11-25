@@ -13,7 +13,7 @@ Nếu mỗi lần gặp một hàm tổng hợp như $$f(x) = \frac{1}{2}\|Ax - 
 
 Tuy nhiên, hãy chú ý một khác biệt tinh tế: trong giải tích cổ điển, đạo hàm của $$-f$$ là $$-\nabla f$$, nhưng trong giải tích lồi, **quy tắc nhân hằng số chỉ đúng với hằng số DƯƠNG $$a > 0$$** (vì nhân với số âm biến hàm lồi thành hàm lõm!). Nắm vững 5 quy tắc trong bài này sẽ giúp bạn tính $$\partial f(x)$$ của mọi mô hình học máy trong vài giây.
 
-## Bản đồ kiến thức nền: Năm quy tắc vàng của Phép tính Vi phân dưới
+## Kiến thức cần nhớ: Năm quy tắc vàng của Phép tính Vi phân dưới
 
 Hãy ghi nhớ năm quy tắc cốt lõi sau cùng trực giác đi kèm:
 
@@ -25,7 +25,7 @@ Hãy ghi nhớ năm quy tắc cốt lõi sau cùng trực giác đi kèm:
   — tức là **bao lồi** của tất cả các subgradient thuộc các nhánh đang đạt cực đại tại $$x$$!
 - **Quy tắc 5 — Cực đại tổng quát (Supremum over infinite index set):** Mở rộng tương tự sang $$f(x) = \sup_{s \in S} f_s(x)$$ bằng bao lồi đóng của các nhánh đạt cực đại (ví dụ tìm subgradient của trị riêng lớn nhất $$\lambda_{\max}(X) = \max_{\|v\|_2=1} v^T X v$$!).
 
-### Khung giải thích (nên đọc chậm): Áp dụng đồng thời 3 quy tắc để tính $$\partial f(x)$$ của một hàm hợp phức tạp
+### Giải thích: Áp dụng đồng thời 3 quy tắc để tính $$\partial f(x)$$ của một hàm hợp phức tạp
 
 Xét hàm $$f(x) = \max(0,\; 2x - 4) + 3|x - 2|$$ tại điểm gãy khúc kép $$x = 2$$:
 

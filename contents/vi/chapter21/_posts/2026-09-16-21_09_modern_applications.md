@@ -12,7 +12,7 @@ lesson_type: optional
 
 Khi nhìn vào công thức ADMM đồng thuận ở bài 21-05, ta dễ nghĩ nó chỉ dành cho những bài toán học máy tĩnh trên cụm máy chủ. Nhưng từ năm 2022 đến 2026, chính kiến trúc đồng thuận + biến đối ngẫu đó lại đang vận hành âm thầm phía sau những hạ tầng trọng yếu nhất ngoài đời thực: từ **điều độ lưới điện thông minh theo thời gian thực** (nơi hàng trăm nhà máy điện mặt trời, pin lưu trữ và trạm biến áp phải cân bằng cung–cầu mỗi vài giây mà không lộ bí mật chi phí), đến **học sâu liên kết** và **khôi phục ảnh y tế bằng Plug-and-Play ADMM**.
 
-## Bản đồ kiến thức nền: Ba yêu cầu thực chiến thúc đẩy làn sóng ADMM giai đoạn 2022–2026
+## Kiến thức cần nhớ: Ba yêu cầu thực chiến thúc đẩy làn sóng ADMM giai đoạn 2022–2026
 
 So với các bài toán mẫu trong giáo trình, các hệ thống thực tế đặt ra ba thách thức mới mà các biến thể ADMM hiện đại giải quyết trực tiếp:
 
@@ -20,7 +20,7 @@ So với các bài toán mẫu trong giáo trình, các hệ thống thực tế
 - **Vận hành trực tuyến theo thời gian thực (Online / Warm-Started ADMM):** Trong bài toán điều độ điện trực tuyến (Online OPF), phụ tải thay đổi liên tục mỗi vài giây. Thay vì giải lại từ đầu, hệ thống khởi động nóng (warm-start) từ nghiệm gốc và biến đối ngẫu $$w$$ của chu kỳ trước — chỉ cần 2–5 vòng lặp ADMM là theo kịp biến động thời gian thực!
 - **Tích hợp tiên nghiệm học sâu (Deep Priors & Nonconvex ADMM):** Bằng cách thay toán tử proximal cổ điển bằng bộ khử nhiễu mạng nơ-ron (PnP-ADMM) hoặc áp dụng cho hàm mất mát không lồi trơn có điều chuẩn, phạm vi của ADMM mở rộng mạnh mẽ ra ngoài ranh giới tối ưu lồi cổ điển.
 
-### Khung giải thích (nên đọc chậm): Điều phối công suất đường dây liên kết giữa 2 vùng lưới điện bằng 1 bước Consensus ADMM
+### Giải thích: Điều phối công suất đường dây liên kết giữa 2 vùng lưới điện bằng 1 bước Consensus ADMM
 
 Giả sử hai vùng lưới điện (Vùng 1 và Vùng 2) nối với nhau bởi một đường dây truyền tải có công suất trao đổi $$z$$ (đơn vị MW). Tại một chu kỳ điều độ với $$\rho = 1$$ và biến đối ngẫu khởi tạo $$w_1^{(0)} = w_2^{(0)} = 0$$:
 - Vùng 1 tối ưu chi phí phát điện cục bộ và muốn xuất sang Vùng 2 mức $$p_1^{(1)} = 60\text{ MW}$$.

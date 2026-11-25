@@ -13,14 +13,14 @@ Khi tối ưu hóa một hệ thống truyền thông, danh mục đầu tư đa
 
 Bài học này tổng quát hóa tính đơn điệu, tính lồi, đặc trưng đối ngẫu và quy tắc hợp thành cho các hàm giá trị vector và ma trận.
 
-## Bản đồ kiến thức nền: Bốn mảnh ghép của Tính lồi theo $$K$$
+## Kiến thức cần nhớ: Bốn mảnh ghép của Tính lồi theo $$K$$
 
 - **Tính đơn điệu theo $$K$$ ($$K$$-monotonicity):** Với hai hình nón thích hợp $$K_1, K_2$$, hàm $$f$$ gọi là không giảm nếu $$x \preceq_{K_1} y \implies f(x) \preceq_{K_2} f(y)$$. Ví dụ kinh điển: trên $$\mathbb{S}_+^n$$, $$f(X) = X^{-1}$$ là hàm **giảm** theo thứ tự Loewner ($$0 \prec X \preceq Y \implies Y^{-1} \preceq X^{-1}$$).
 - **Tính lồi theo $$K$$ ($$K$$-convexity):** $$f(\theta x + (1-\theta)y) \preceq_K \theta f(x) + (1-\theta)f(y)$$ với mọi $$\theta \in [0, 1]$$.
 - **Đặc trưng đối ngẫu cực kỳ thanh lịch:** $$f$$ là $$K$$-lồi khi và chỉ khi với **mọi** $$w \succeq_{K^*} 0$$, hàm vô hướng $$w^T f(x)$$ là hàm lồi thông thường! Quy tắc này biến việc kiểm tra tính lồi trên ma trận thành kiểm tra hàm số thực quen thuộc.
 - **Điều kiện bậc nhất và hợp thành:** Mở rộng trực tiếp tiếp tuyến $$f(y) \succeq_K f(x) + Df(x)(y - x)$$ và quy tắc hợp thành $$h(g(x))$$ cho hàm nhiều chiều.
 
-### Khung giải thích (nên đọc chậm): Kiểm chứng tính lồi ma trận ($$\mathbb{S}_+^2$$-lồi) của $$f(X) = X^2$$
+### Giải thích: Kiểm chứng tính lồi ma trận ($$\mathbb{S}_+^2$$-lồi) của $$f(X) = X^2$$
 
 Xét hàm giá trị ma trận $$f(X) = X^2$$ trên không gian ma trận đối xứng $$\mathbb{S}^2$$ với hình nón $$K = \mathbb{S}_+^2$$. Lấy hai ma trận:
 $$A = \begin{pmatrix}2 & 0\\ 0 & 0\end{pmatrix}, \qquad B = \begin{pmatrix}0 & 0\\ 0 & 2\end{pmatrix}, \qquad \theta = 0.5.$$

@@ -13,7 +13,7 @@ Trong hầu hết các bài toán thực tế, biến quyết định không đ�
 
 **Phương pháp subgradient có chiếu (Projected Subgradient Method)** giải quyết bài toán ấy theo cách trực quan nhất có thể: cứ bước một bước subgradient tự do, rồi kéo ngay điểm vừa bước về điểm gần nhất trong miền hợp lệ $$C$$ bằng phép chiếu Euclid $$P_C(\cdot)$$. Điều đáng kinh ngạc là toàn bộ bộ máy chứng minh hội tụ của phương pháp không ràng buộc — kể cả bất đẳng thức cơ bản và tốc độ $$O(1/\epsilon^2)$$ — vẫn giữ nguyên không sứt mẻ một ly, nhờ một tính chất hình học vàng của tập lồi: phép chiếu luôn làm co (không làm tăng) khoảng cách tới mọi điểm nằm trong $$C$$!
 
-## Bản đồ kiến thức nền: Ba trụ cột của phương pháp subgradient có chiếu
+## Kiến thức cần nhớ: Ba trụ cột của phương pháp subgradient có chiếu
 
 - **Tính không giãn (Non-expansiveness) của phép chiếu Euclid lên tập lồi đóng:** Với mọi $$y \in \mathbb{R}^n$$ và mọi điểm $$x^* \in C$$, ta luôn có:
   $$\|P_C(y) - x^*\|_2 \le \|y - x^*\|_2.$$
@@ -21,7 +21,7 @@ Trong hầu hết các bài toán thực tế, biến quyết định không đ�
 - **Bảo toàn nguyên vẹn tốc độ hội tụ $$O(1/\epsilon^2)$$:** Vì $$\|x^{(k)} - x^*\|_2^2 \le \|x^{(k-1)} - t_k g^{(k-1)} - x^*\|_2^2$$, mọi bước trong chứng minh bất đẳng thức cơ bản đều đi qua trơn tru. Phép chiếu hoàn toàn "miễn phí" về mặt số vòng lặp lý thuyết.
 - **Chi phí tính phép chiếu — ranh giới của tính thực tiễn:** Thuật toán chỉ nhanh khi $$P_C(y)$$ có công thức đóng hoặc thuật toán tính nhanh: chiếu lên hộp $$[l, u]$$ là phép cắt ngưỡng (clipping) $$O(n)$$; chiếu lên quả cầu $$\ell_2$$ là co tỷ lệ $$O(n)$$; chiếu lên đơn hình xác suất mất $$O(n \log n)$$ (hoặc $$O(n)$$ kỳ vọng). Nếu $$C$$ là giao phức tạp của nhiều đa diện, phép chiếu bản thân nó đã là một bài toán quy hoạch bậc hai tốn kém.
 
-### Khung giải thích (nên đọc chậm): Tính tay một bước subgradient có chiếu lên đĩa đơn vị
+### Giải thích: Tính tay một bước subgradient có chiếu lên đĩa đơn vị
 
 Xét bài toán có ràng buộc trong $$\mathbb{R}^2$$:
 $$\min_{x \in C} \; f(x) = |x_1 - 2| + |x_2 - 2|, \quad C = \{x \in \mathbb{R}^2 : \|x\|_2 \le 1\}.$$

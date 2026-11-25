@@ -11,14 +11,14 @@ lang: en
 
 Consider a linear program in 100 dimensions with 200 inequality constraints. The feasible polytope can easily have more vertices than there are atoms in the observable universe! Active-set methods like Simplex walk along the boundary from vertex to vertex, trying to guess which subset of constraints is binding. Interior-point methods flip the script entirely: ignore the boundary, stay strictly inside the feasible region, and cut straight through the middle in 20–30 Newton steps.
 
-## Background Knowledge Map: Boundary Active-Set vs. Interior-Point Philosophy
+## Key ideas: Boundary Active-Set vs. Interior-Point Philosophy
 
 - **Pillar 1 — The Binding-Constraint Bottleneck:** At $$x^\star$$, some inequalities satisfy $$h_i(x^\star) = 0$$ (active/binding) while others satisfy $$h_i(x^\star) < 0$$ (inactive); identifying the active set combinatorially is expensive when $$m$$ is large.
 - **Pillar 2 — Indicator Reformulation:** Rewriting $$\min f(x)$$ s.t. $$Ax = b, h_i(x) \le 0$$ as $$\min f(x) + \sum_{i=1}^m I_{\mathbb{R}_-}(h_i(x))$$ s.t. $$Ax = b$$ hides the inequalities in an extended-value objective.
 - **Pillar 3 — Why Indicators Break Newton:** The indicator $$I_{\mathbb{R}_-}(u)$$ jumps discontinuously from $$0$$ to $$+\infty$$ at $$u = 0$$—it has neither a gradient nor a Hessian at the boundary.
 - **Pillar 4 — Smooth Barrier Approximation:** Replacing $$I_{\mathbb{R}_-}(u)$$ with $$-\frac{1}{t}\log(-u)$$ smooths out the vertical cliff into a smooth $$C^\infty$$ curve that approaches $$I_{\mathbb{R}_-}(u)$$ pointwise as $$t \to \infty$$.
 
-### Step-by-Step Worked Example (Read Slowly): Measuring How Closely $$-\frac{1}{t}\log(-u)$$ Approximates $$I_{\mathbb{R}_-}(u)$$
+### Worked example: Measuring How Closely $$-\frac{1}{t}\log(-u)$$ Approximates $$I_{\mathbb{R}_-}(u)$$
 
 Compare the exact indicator $$I_{\mathbb{R}_-}(u)$$ (which is $$0$$ for $$u \le 0$$ and $$+\infty$$ for $$u > 0$$) with the barrier $$\hat{I}_t(u) = -\frac{1}{t}\log(-u)$$ at three interior points: $$u = -1$$, $$u = -0.1$$, and $$u = -0.001$$.
 

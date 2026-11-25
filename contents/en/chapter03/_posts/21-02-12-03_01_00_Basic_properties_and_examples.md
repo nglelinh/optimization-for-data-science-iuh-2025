@@ -12,14 +12,14 @@ lesson_type: required
 
 Not all convex bowls have the same shape: an absolute-value V-shape $$|x|$$ has flat sides and a sharp kink, an exponential $$e^x$$ curves strictly upward everywhere yet flattens out toward $$-\infty$$, and a quadratic $$2x^2 + 3x$$ curves upward with a uniform quadratic cushion everywhere. Section 03-01 distinguishes these exact tiers—convex, strictly convex, and strongly convex—because each tier buys you a stronger uniqueness and convergence guarantee.
 
-## Background Knowledge Map: Properties & Tiers of Convex Functions
+## Key ideas: Properties & Tiers of Convex Functions
 
 - **Convexity:** Guarantees every local minimum is global, though the set of global minimizers may contain multiple points (e.g., a flat bottom).
 - **Strict Convexity:** Eliminates flat segments so that a global minimizer, if it exists, is strictly **unique**.
 - **Strong Convexity ($$m > 0$$):** Bounds curvature uniformly away from zero ($$f(x) - \frac{m}{2}\|x\|_2^2$$ is convex), unlocking linear (geometric) convergence rates for gradient descent.
 - **Concavity ($$-f$$ convex):** Flips the bowl upside down—maximizing a concave function (such as log-likelihood or utility) is identical to minimizing the convex function $$-f$$.
 
-### Step-by-Step Worked Example (Read Slowly): Separating Convex, Strictly Convex, and Strongly Convex
+### Worked example: Separating Convex, Strictly Convex, and Strongly Convex
 
 Compare three 1D functions on $$\mathbb{R}$$:
 1. **$$f_1(x) = |x|$$ (convex, not strictly convex):** For $$x = 1, y = 3$$, $$f_1(2) = 2 = \frac{1}{2}f_1(1) + \frac{1}{2}f_1(3)$$, so the chord coincides with the graph on $$[0, \infty)$$.

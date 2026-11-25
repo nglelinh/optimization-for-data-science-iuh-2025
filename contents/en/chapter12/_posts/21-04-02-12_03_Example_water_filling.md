@@ -11,7 +11,7 @@ lang: en
 
 Imagine you are a wireless communications engineer with 1 watt of total transmission power to distribute across $$n$$ parallel radio channels, each corrupted by a different background noise level $$\alpha_i > 0$$. By Shannon's capacity theorem, allocating power $$x_i \ge 0$$ to channel $$i$$ yields throughput $$\log(\alpha_i + x_i)$$. Should you dump all power into the cleanest channel, or spread it equally? Applying the KKT conditions produces one of the most iconic physical metaphors in all of engineering: **water-filling**—pour a unit volume of water into a vessel whose floor height in bin $$i$$ is $$\alpha_i$$, and the water depth in each bin *is* the exact optimal power $$x_i^\star$$!
 
-## Background Knowledge Map: The KKT Anatomy of Water-Filling
+## Key ideas: The KKT Anatomy of Water-Filling
 
 - **Pillar 1 — Convexity & Slater's Condition:** Minimizing $$-\sum_{i=1}^n \log(\alpha_i + x_i)$$ over the simplex $$x \ge 0, \mathbf{1}^\top x = 1$$ is strictly convex (since $$-\log$$ is strictly convex) and satisfies Slater's condition (take $$x_i = 1/n > 0$$), so KKT is both necessary and sufficient for the unique global optimum.
 - **Pillar 2 — Stationarity Gives the Water Level $$w = 1/\nu^\star$$:** Differentiating $$L(x, \lambda, \nu) = -\sum \log(\alpha_i + x_i) - \lambda^\top x + \nu(\mathbf{1}^\top x - 1)$$ gives $$-\frac{1}{\alpha_i + x_i^\star} - \lambda_i^\star + \nu^\star = 0 \implies \lambda_i^\star = \nu^\star - \frac{1}{\alpha_i + x_i^\star} \ge 0$$.
@@ -20,7 +20,7 @@ Imagine you are a wireless communications engineer with 1 watt of total transmis
   - If channel $$i$$ is too noisy ($$\alpha_i \ge 1/\nu^\star$$), then $$x_i^\star = 0$$ (it stays completely dry!).
 - **Pillar 4 — Closed-Form Solution via 1D Root-Finding:** Combining both cases gives $$x_i^\star = \max\!\left(0,\; \frac{1}{\nu^\star} - \alpha_i\right)$$, reducing an $$n$$-dimensional nonlinear optimization problem to finding a single scalar water level $$w = 1/\nu^\star$$ such that $$\sum_{i=1}^n \max(0, w - \alpha_i) = 1$$!
 
-### Step-by-Step Worked Example (Read Slowly): Computing Exact Water-Filling Powers Across 3 Channels
+### Worked example: Computing Exact Water-Filling Powers Across 3 Channels
 
 Allocate total power $$\sum_{i=1}^3 x_i = 1$$ across three channels with noise floors $$\alpha_1 = 0.2,\; \alpha_2 = 0.5,\; \alpha_3 = 1.0$$.
 

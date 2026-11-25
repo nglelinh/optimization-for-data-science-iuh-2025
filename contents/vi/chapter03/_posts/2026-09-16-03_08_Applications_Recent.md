@@ -14,13 +14,13 @@ Một trong những nghịch lý thú vị nhất của học sâu hiện đại
 
 Bài đọc mở rộng này nối trực tiếp hàm lồi, log-sum-exp và bất đẳng thức Jensen với Cross-Entropy, Neural Collapse và học tương phản (Contrastive Learning) giai đoạn 2022–2026.
 
-## Bản đồ kiến thức nền: Ba điểm chạm của Hàm lồi trong Học sâu hiện đại
+## Kiến thức cần nhớ: Ba điểm chạm của Hàm lồi trong Học sâu hiện đại
 
 - **Cross-Entropy và Log-Sum-Exp:** Hàm mất mát phân loại chuẩn $$L(z, y) = -z_y + \log\sum_k e^{z_k}$$ là tổng của hàm tuyến tính $$-z_y$$ và hàm lồi $$\operatorname{lse}(z)$$, nên luôn lồi theo vector logit $$z$$; gradient của nó có dạng siêu gọn $$\nabla_z L = \operatorname{softmax}(z) - e_y$$.
 - **Neural Collapse (NC1–NC4):** Khi huấn luyện mạng sâu qua điểm sai số bằng 0 trên tập huấn luyện, các vector đặc trưng của từng lớp sụp về đúng tâm lớp và các tâm lớp xếp thành các đỉnh đối xứng cực đại (Simplex Equiangular Tight Frame) tối ưu hóa biên lồi.
 - **Học tương phản (InfoNCE / CLIP Loss):** Hàm mất mát đối sánh thực chất là hàm log-sum-exp có tham số nhiệt độ trên tích vô hướng cặp mẫu dương–âm, thừa hưởng trực tiếp tính lồi theo các điểm tương đồng (similarities).
 
-### Khung giải thích (nên đọc chậm): Tính tay Cross-Entropy, Gradient và xác nhận Hessian bán xác định dương
+### Giải thích: Tính tay Cross-Entropy, Gradient và xác nhận Hessian bán xác định dương
 
 Xét một bài toán phân loại 3 lớp với vector logit đầu ra $$z = (2, 1, 0)^T$$ và nhãn đúng là lớp đầu tiên ($$y = 1$$, vector one-hot $$e_1 = (1, 0, 0)^T$$):
 

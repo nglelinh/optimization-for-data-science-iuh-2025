@@ -16,14 +16,14 @@ Tối ưu hóa bậc hai là môn học mà cảm giác toán học chỉ thực
 
 Bộ bài tập thực hành dưới đây tuyển chọn các bài toán chuẩn mực từ Boyd & Vandenberghe, Nocedal & Wright và Bertsekas. Trước khi giải từng phần, hãy xem qua bản đồ kỹ năng và một bài mẫu tính nhanh Hessian–Newton cho hồi quy logistic.
 
-## Bản đồ kiến thức nền: Bốn kỹ năng tự luận cốt lõi trong bài tập Chương 14
+## Kiến thức cần nhớ: Bốn kỹ năng tự luận cốt lõi trong bài tập Chương 14
 
 - **Tính gradient và Hessian dạng ma trận:** Sử dụng quy tắc dây chuyền ma trận (ví dụ với $$f(x) = \sum \phi_i(a_i^T x)$$, ta có $$\nabla f(x) = A^T \phi'(Ax)$$ và $$\nabla^2 f(x) = A^T \operatorname{diag}(\phi''(Ax)) A$$) để tránh tính nhầm từng phần tử.
 - **Chứng minh tính chất đại số tuyến tính của bước Newton:** Luôn dùng dạng toàn phương $$v^T H v$$ để kiểm tra hướng giảm ($$-\lambda(x)^2 < 0$$), tính bất biến affine và giải hệ khối KKT cho bài toán có ràng buộc đẳng thức.
 - **Kiểm tra điều kiện Armijo và đếm bước hội tụ:** Thay trực tiếp công thức $$f(x + tv) \le f(x) - \alpha t \lambda(x)^2$$ với $$t = 1, \beta, \beta^2, \dots$$ và phân tích riêng hai pha giảm chấn – thuần túy.
 - **Kiểm chứng hàm tự hài hòa và cập nhật Quasi-Newton:** Dùng định nghĩa lát cắt 1D $$g(t) = f(x + tv)$$ cho tự hài hòa, và kiểm tra phương trình cát tuyến $$B_{k+1} s_k = y_k$$ cùng điều kiện độ cong $$s_k^T y_k > 0$$ cho BFGS.
 
-### Khung giải thích (nên đọc chậm): Bài mẫu tính bước Newton cho hàm mất mát logistic 1 chiều
+### Giải thích: Bài mẫu tính bước Newton cho hàm mất mát logistic 1 chiều
 
 **Bài toán mẫu:** Xét hàm mục tiêu hồi quy logistic 1 biến có điều chuẩn:
 $$f(w) = \log(1 + e^{-w}) + \frac{1}{2}w^2.$$

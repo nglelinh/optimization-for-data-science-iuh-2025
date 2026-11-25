@@ -11,7 +11,7 @@ lang: vi
 
 Hãy tưởng tượng một camera an ninh quay cố định một hành lang suốt nhiều giờ: phần nền (tường, sàn, cửa) gần như đứng yên nên tạo thành một **ma trận hạng thấp (low-rank)** $$L$$, còn người đi lại chỉ chiếm một phần nhỏ khung hình nên tạo thành một **ma trận thưa (sparse)** $$S$$. Làm thế nào tách khung hình quan sát $$M = L + S$$ thành đúng phần nền $$L$$ và phần người di chuyển $$S$$? Bài 21-04 giới thiệu hai bài toán ma trận kinh điển — **Ước lượng không gian con thưa (Sparse PCA / Fantope)** và **Phân rã thưa cộng hạng thấp (Robust PCA)** — nơi ADMM tỏa sáng bằng cách ghép hai toán tử proximal ma trận cực kỳ thanh lịch: ngưỡng mềm phần tử và **ngưỡng giá trị kỳ dị (Singular Value Thresholding)**!
 
-## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu hóa ma trận bằng ADMM
+## Kiến thức cần nhớ: Bốn trụ cột của tối ưu hóa ma trận bằng ADMM
 
 Để đọc hiểu dễ dàng các ký hiệu không gian ma trận $$\mathbb{S}^p, \mathcal{F}_k, \|L\|_*$$ trong bài này, hãy nắm rõ bốn khái niệm nền:
 
@@ -20,7 +20,7 @@ Hãy tưởng tượng một camera an ninh quay cố định một hành lang s
 - **Ngưỡng giá trị kỳ dị (SVT) là toán tử proximal của chuẩn hạt nhân:** Với phân rã SVD $$A = U\Sigma V^T$$, ta có $$\operatorname{prox}_{\tau\|\cdot\|_*}(A) = U \operatorname{diag}((\sigma_i - \tau)_+) V^T$$ — chỉ cần co các giá trị kỳ dị bằng ngưỡng mềm rồi nhân ghép lại!
 - **Phân rã 3 khối thành 2 khối trong Robust PCA:** Bài toán $$\min \|L\|_* + \lambda\|S\|_1 \text{ s.t. } L + S = M$$ khớp hoàn hảo với khung ADMM hai khối ($$A = I, B = I, c = M$$): bước $$L$$ gọi SVT, bước $$S$$ gọi ngưỡng mềm phần tử, cực kỳ gọn gàng!
 
-### Khung giải thích (nên đọc chậm): Chạy tay 1 bước SVT + Ngưỡng mềm phân rã ma trận $$2 \times 2$$
+### Giải thích: Chạy tay 1 bước SVT + Ngưỡng mềm phân rã ma trận $$2 \times 2$$
 
 Xét ma trận quan sát đường chéo $$M = \begin{bmatrix} 5 & 0 \\ 0 & 1.5 \end{bmatrix}$$ (giả sử ta muốn tách $$M = L + S$$ với $$L$$ hạng thấp và $$S$$ thưa), tham số phạt $$\lambda = 1$$, $$\rho = 0.5$$ (nên ngưỡng SVT cho $$L$$ là $$\tau_L = 1/\rho = 2$$ và ngưỡng mềm cho $$S$$ là $$\tau_S = \lambda/\rho = 2$$). Khởi tạo $$S^{(0)} = 0, W^{(0)} = 0$$:
 

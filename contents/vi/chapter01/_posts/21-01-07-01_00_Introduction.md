@@ -14,14 +14,14 @@ Một câu nói nổi tiếng của nhà toán học R. Tyrrell Rockafellar năm
 
 Chương 01 mở cánh cửa bước vào thế giới tối ưu hóa lồi: định nghĩa bài toán tối ưu tổng quát, nhận diện cấu trúc lồi, lộ trình khóa học và câu chuyện lịch sử gần một thế kỷ tạo nên các bộ giải hiện đại.
 
-## Bản đồ kiến thức nền: Bốn khái niệm mở màn của Chương 01
+## Kiến thức cần nhớ: Bốn khái niệm mở màn của Chương 01
 
 - **Mô hình hóa bài toán tối ưu hóa:** Quy mọi bài toán ra quyết định về ba thành phần chuẩn hóa: biến quyết định $$x$$, hàm mục tiêu $$f_0(x)$$ và tập ràng buộc khả thi $$g_i(x) \le 0,\ h_j(x) = 0$$.
 - **Lồi so với Không lồi (Convex vs. Non-convex):** Hiểu vì sao tính lồi loại bỏ hoàn toàn các "bẫy" cực tiểu địa phương: trong bài toán lồi, mọi điểm thấp nhất trong lân cận đều là điểm thấp nhất toàn cục.
 - **Các họ bài toán kinh điển:** Định vị Bình phương tối thiểu (LS), Quy hoạch tuyến tính (LP), Quy hoạch bậc hai (QP) và Quy hoạch bán xác định (SDP) trên cùng một bản đồ phân cấp.
 - **Tư duy thuật toán hiện đại:** Biết rằng giải một bài toán lớn trong thực tế không chỉ dựa vào công thức đạo hàm, mà còn dựa vào việc khai thác cấu trúc bài toán (như ADMM, điểm trong, gradient gần kề).
 
-### Khung giải thích (nên đọc chậm): Thấy tận mắt "bẫy cực tiểu địa phương" của hàm không lồi
+### Giải thích: Thấy tận mắt "bẫy cực tiểu địa phương" của hàm không lồi
 
 So sánh hai hàm số một biến trên $$\mathbb{R}$$:
 
