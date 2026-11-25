@@ -9,6 +9,31 @@ categories:
 lang: en
 ---
 
+Imagine coordinating a thousand power generators across a continent to meet a single shared electricity demand $$\sum_{i=1}^{1000} x_i = b$$. Solving the coupled primal problem in one central computer requires gathering every plant's private cost curve $$f_i(x_i)$$ into one giant matrix. **Dual methods** flip the script using the timeless logic of economics: broadcast a single **price** $$u$$ for the shared constraint, let every generator optimize its own cost independently in parallel, and then nudge the price up or down based on whether total supply fell short or overshot $$b$$. This chapter traces that idea from raw dual ascent all the way to the **Augmented Lagrangian** and **ADMM**.
+
+## Background Knowledge Map: The Ladder of Dual Optimization Methods
+
+- **Dual Ascent & Conjugate Smoothness:** Converting $$\min f(x) \text{ s.t. } Ax = b$$ into $$\max_u -f^\ast(-A^T u) - b^T u$$ turns hard equality constraints into an unconstrained dual problem whose gradient is simply the constraint residual $$A x(u) - b$$ (whenever $$f$$ is strictly convex).
+- **Dual Decomposition (Parallel Pricing):** When $$f(x) = \sum_{i=1}^B f_i(x_i)$$ is separable across blocks, fixing the dual price $$u$$ completely decouples the primal minimization into $$B$$ independent subproblems—enabling distributed optimization across servers or agents.
+- **Augmented Lagrangian (Method of Multipliers):** Plain dual ascent demands strong convexity of $$f$$ and careful step sizes to converge. Adding the quadratic penalty $$\frac{\rho}{2}\|Ax - b\|_2^2$$ smooths the dual dramatically and guarantees convergence under far weaker assumptions—at the cost of coupling the blocks together.
+- **ADMM (Best of Both Worlds):** Alternating minimization over $$x$$ and $$z$$ in an augmented Lagrangian restores block separability while keeping the robust convergence guarantees of the method of multipliers.
+
+### Step-by-Step Worked Example (Read Slowly): Pricing a 2-Agent Resource Split via Dual Ascent
+
+Minimize $$\frac{1}{2}x_1^2 + \frac{1}{2}(2x_2^2)$$ subject to $$x_1 + x_2 = 3$$ (exact optimum: $$x_1^\star = 2, x_2^\star = 1, u^\star = -2$$).
+
+1. **Form the Lagrangian and decouple the primal minimizers for any price $$u$$:**
+   $$L(x_1, x_2, u) = \left(\tfrac{1}{2}x_1^2 + u x_1\right) + \left(x_2^2 + u x_2\right) - 3u.$$
+   Minimizing independently gives $$x_1(u) = -u$$ and $$x_2(u) = -\frac{u}{2}$$.
+2. **Take one dual ascent step from $$u^0 = 0$$ with step size $$t = 1$$:**
+   - Primal response at $$u^0 = 0$$: $$x_1^1 = 0, \; x_2^1 = 0$$.
+   - Constraint residual: $$r^1 = x_1^1 + x_2^1 - 3 = -3$$ (shortfall of 3 units!).
+   - Price update: $$u^1 = u^0 + t(r^1) = 0 + 1(-3) = -3$$.
+3. **Check Iteration 2 at $$u^1 = -3$$:**
+   - Primal response: $$x_1^2 = 3, \; x_2^2 = 1.5$$ (total supply $$4.5$$, surplus of $$+1.5$$!).
+   - Price update: $$u^2 = -3 + 1(1.5) = -1.5$$.
+   Notice $$u^k$$ oscillates straight into $$u^\star = -2$$ (errors $$-2 \to +1 \to -0.5 \to +0.25 \dots$$, halving every step!), and the agents *never once shared their cost functions with each other*!
+
 In this chapter we study ways of solving problems using the dual: the dual subgradient method, the dual decomposition method, and the augmented Lagrangian method, and we take a brief look at the idea of the Alternating Direction Method of Multipliers (ADMM).
 
 First, let us briefly review two topics from earlier chapters: the proximal Newton method and conjugate functions.

@@ -10,6 +10,28 @@ lang: en
 lesson_type: optional
 ---
 
+With stochastic first-order optimizers like Adam dominating deep learning headlines, it is tempting to assume quasi-Newton methods were left behind in the 1990s. The reality of 2022–2026 scientific computing is the exact opposite: whenever a loss involves stiff differential operators (Physics-Informed Neural Networks, PIKANs, DeepONets) or high-accuracy tabular generalized linear models, diagonal adaptive methods stall on off-diagonal curvature—and **L-BFGS**, **self-scaled Broyden updates**, and **L-BFGS-B** step in to drop residuals by three to five orders of magnitude.
+
+## Background Knowledge Map: Why Quasi-Newton Thrives in Modern SciML & Tabular ML
+
+- **Ill-Conditioned PDE Spectra in PINNs:** Differential operators like $$\Delta u$$ couple neighboring spatial modes tightly, producing Hessians with massive condition numbers and strong off-diagonal structure that diagonal preconditioners (Adam) cannot invert.
+- **Two-Stage Hybrid Training (Adam $$\to$$ L-BFGS):** Standard scientific ML pipelines run Adam first to escape noisy nonconvex saddles, then switch to L-BFGS with a Wolfe line search once inside a smoother basin—combining global exploration with rapid second-order polishing.
+- **Oren–Luenberger Self-Scaled Broyden Updates (SSBFGS):** Rescaling $$H_k \leftarrow \gamma_k H_k$$ before the Broyden update prevents huge step-length oscillations across PDE residual scales, dramatically improving PINN and DeepONet convergence without manual loss-weight tuning.
+- **L-BFGS-B for Bound-Constrained Production ML:** SciPy's L-BFGS-B (the default solver behind `scikit-learn`'s `LogisticRegression`) combines limited-memory curvature with projected gradient Cauchy points to handle box constraints $$l \le x \le u$$ at scale.
+
+### Step-by-Step Worked Example (Read Slowly): How Self-Scaling Fixes a $$10^4$$ PDE Spectrum Mismatch
+
+Suppose a discretized 2-mode PDE residual has quadratic loss $$f(x) = \frac{1}{2}(x_1^2 + 10^4 x_2^2)$$, and after an initial step $$s = (0, 1)^T$$ along the stiff high-frequency mode we observe $$y = (0, 10^4)^T$$, starting from $$H_0 = I_2$$.
+
+1. **Standard unscaled BFGS update:**
+   Here $$\rho = \frac{1}{y^T s} = 10^{-4}$$, $$V = I - \rho s y^T = \operatorname{diag}(1, 0)$$. Thus:
+   $$H_1^{\text{BFGS}} = V I V^T + \rho s s^T = \begin{bmatrix} 1 & 0 \\ 0 & 10^{-4} \end{bmatrix}.$$
+   Now suppose instead the step was diagonal: $$s = (1, 1)^T$$, $$y = (1, 10^4)^T$$ (so $$y^T s = 10{,}001$$ and $$y^T y = 10^8 + 1$$).
+2. **Compute the Oren–Luenberger self-scaling factor $$\gamma = \frac{y^T s}{y^T H_0 y}$$:**
+   $$\gamma = \frac{10{,}001}{10^8 + 1} \approx 1.0001 \times 10^{-4}.$$
+3. **Compare the trace / scale of $$H_0$$ vs. $$\gamma H_0$$ before updating:**
+   Unscaled $$H_0 = I_2$$ assumes curvature $$1$$ in all directions—off by a factor of $$10^4$$ in the stiff mode, which causes line-search backtracking failures when the PDE residual jumps. Rescaling $$H_0 \to \gamma H_0 \approx 10^{-4} I_2$$ immediately brings the Hessian inverse onto the same order of magnitude as the stiffest PDE eigenvalue, allowing the very next Wolfe step to accept $$\alpha = 1$$ cleanly!
+
 Quasi-Newton methods replace $$\nabla^2 f(x)$$ by a matrix $$B$$ that obeys the secant equation $$B^{+}s = y$$ and (for BFGS/L-BFGS) stays positive definite under the curvature condition $$y^\top s > 0$$. The 2022–2026 applications that still *look like this chapter* are not the LLM pre-trainers that estimate a diagonal Hessian (those belong with Newton / Sophia in Chapter 14). They are the codes that keep a short history of $$(s,y)$$ pairs — L-BFGS in scientific machine learning and in classical tabular models — and the structured preconditioners (Shampoo / SOAP) that are BFGS's Kronecker cousins.
 
 ## PINNs: Adam to get close, L-BFGS to finish

@@ -10,6 +10,32 @@ lang: vi
 lesson_type: optional
 ---
 
+Đơn hình xác suất (probability simplex), quả cầu chuẩn và đa diện không phải là những hình vẽ cổ điển nằm yên trong sách giáo khoa những năm 1970. Mỗi giây trên toàn cầu, tầng đầu ra **Softmax** của mọi mô hình ngôn ngữ lớn đang chiếu hàng trăm nghìn điểm logit thẳng vào bên trong một **đơn hình xác suất**; các hệ thống học máy bền vững (Distributionally Robust Optimization) đang tối ưu trong **quả cầu Wasserstein** lồi; và các nền tảng phân bổ nguồn lực công bằng đang vận hành trên **đa diện Birkhoff**!
+
+Bài đọc mở rộng này kết nối trực tiếp hình học tập lồi Chương 02 với các chủ đề nghiên cứu mũi nhọn giai đoạn 2022–2026.
+
+## Bản đồ kiến thức nền: Ba miền lồi trong AI và dữ liệu hiện đại
+
+- **Đơn hình xác suất $$\Delta_K$$ và ánh xạ Softmax:** Đầu ra xác suất của mạng phân loại hay LLM luôn bị ràng buộc nằm trong tập lồi $$\Delta_K = \{p \ge 0 : \mathbf{1}^T p = 1\}$$, với các đỉnh là các vector one-hot đại diện cho quyết định chắc chắn tuyệt đối.
+- **Quả cầu Wasserstein (Tối ưu bền vững theo phân phối — DRO):** Thay vì tin mù quáng vào phân phối mẫu quan sát được $$\hat P$$, ta tối ưu trường hợp xấu nhất trên một quả cầu lồi các phân phối xác suất quanh $$\hat P$$ đo bằng khoảng cách vận chuyển tối ưu Wasserstein.
+- **Đa diện công bằng và phân bổ tài nguyên (Fairness Polytopes):** Các ràng buộc tỷ lệ đại diện nhóm hay ma trận song ngẫu nhiên (Birkhoff polytope) đều tạo thành đa diện lồi, cho phép giải bài toán phân bổ công bằng bằng quy hoạch tuyến tính hoặc chiếu lồi.
+
+### Khung giải thích (nên đọc chậm): Quan sát Softmax và tham số nhiệt độ $$\tau$$ dịch chuyển điểm trong đơn hình $$\Delta_3$$
+
+Cho vector logit đầu ra của 3 lớp $$z = (2, 1, 0)^T$$. Ánh xạ Softmax với nhiệt độ $$\tau > 0$$ là $$p_i(\tau) = \frac{e^{z_i/\tau}}{\sum_j e^{z_j/\tau}} \in \Delta_3$$:
+
+1. **Nhiệt độ chuẩn $$\tau = 1$$:**
+   $$e^2 \approx 7.389,\quad e^1 \approx 2.718,\quad e^0 = 1.000 \implies \text{tổng } Z_1 \approx 11.107.$$
+   Vector xác suất là:
+   $$p(1) \approx \left(\frac{7.389}{11.107},\ \frac{2.718}{11.107},\ \frac{1.000}{11.107}\right) \approx (0.665,\ 0.245,\ 0.090) \in \operatorname{int}(\Delta_3).$$
+2. **Hạ nhiệt độ xuống $$\tau = 0.5$$ (nhân đôi logit thành $$(4, 2, 0)$$):**
+   $$e^4 \approx 54.598,\quad e^2 \approx 7.389,\quad e^0 = 1.000 \implies \text{tổng } Z_{0.5} \approx 62.987.$$
+   Vector xác suất trở thành:
+   $$p(0.5) \approx (0.867,\ 0.117,\ 0.016) \in \Delta_3.$$
+3. **Trực giác hình học trên đơn hình $$\Delta_3$$:** Khi $$\tau \to 0^+$$, điểm $$p(\tau)$$ tiến sát về **đỉnh cực biên** $$(1, 0, 0)$$ (lựa chọn tham lam argmax); ngược lại khi $$\tau \to \infty$$, $$p(\tau)$$ kéo về đúng **trọng tâm** $$(1/3, 1/3, 1/3)$$ của đơn hình!
+
+---
+
 Tập lồi là miền khả thi mà mọi tổ hợp trung bình có trọng số không âm của các điểm trong đó vẫn nằm lại bên trong miền. Tính chất hình học này giải thích vì sao nhiều tập ràng buộc trong học máy hiện đại có dạng đơn hình, hình cầu hoặc phổ diện (spectrahedron). Bài này điểm qua ba họ tập lồi xuất hiện thường xuyên trong các công trình và thư viện giai đoạn 2022–2025, mỗi họ gắn trực tiếp với một định nghĩa đã học: đơn hình xác suất, quả cầu Wasserstein trong không gian phân phối, và đa diện xác định bởi các bất đẳng thức công bằng hoặc ngân sách.
 
 ## Đơn hình xác suất, softmax và hình học lớp cuối

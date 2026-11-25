@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Khi đối mặt với một miền khả thi phức tạp như tập các ma trận có trị riêng lớn nhất không quá 1, hay tập nghiệm của một bài toán quy hoạch phân thức tuyến tính, việc trực tiếp lấy hai điểm $$x_1, x_2$$ rồi kiểm tra $$\theta x_1 + (1-\theta)x_2$$ thường vừa dài vừa dễ rối. Bí quyết của giới tối ưu hóa là **tư duy lắp ghép**: xuất phát từ vài tập lồi đơn giản đã biết, rồi áp dụng các **phép toán bảo toàn tính lồi** (giao, ảnh/ảnh ngược affine, hàm phối cảnh) để kết luận ngay tập kết quả chắc chắn lồi!
+
+Bài học này trang bị bộ quy tắc lắp ghép tập lồi sẽ giúp bạn chứng minh tính lồi chỉ trong 2–3 dòng suy luận.
+
+## Bản đồ kiến thức nền: Bốn phép toán vàng bảo toàn tính lồi
+
+- **Phép giao (Intersection):** Giao của một họ **bất kỳ** (hữu hạn hoặc vô hạn!) các tập lồi luôn là tập lồi. Đây là cách chứng minh nhanh nhất rằng đa diện (giao hữu hạn nửa không gian) và hình nón $$\mathbb{S}_+^n$$ (giao vô hạn nửa không gian $$z^T X z \ge 0$$) đều lồi.
+- **Ánh xạ affine ($$f(x) = Ax + b$$) và ảnh ngược affine:** Tịnh tiến, co giãn, xoay, phép chiếu trực giao và tổng Minkowski $$S_1 + S_2$$ của các tập lồi đều bảo toàn tính lồi. Đặc biệt, ảnh ngược của một tập lồi qua $$Ax + b$$ cũng luôn lồi.
+- **Hàm phối cảnh (Perspective Function):** $$P(z, t) = z / t$$ trên $$t > 0$$ — tương ứng hình học với máy ảnh lỗ kim chiếu không gian 3D lên màn ảnh 2D. Cả ảnh xuôi lẫn ảnh ngược của tập lồi qua $$P$$ đều lồi!
+- **Hàm phân thức tuyến tính (Linear-Fractional):** Kết hợp ánh xạ affine và hàm phối cảnh $$f(x) = \frac{Ax + b}{c^T x + d}$$ (với $$c^T x + d > 0$$) — chìa khóa giải quyết bài toán tối ưu phân thức (như tỷ lệ lợi nhuận trên rủi ro).
+
+### Khung giải thích (nên đọc chậm): Quan sát hàm phối cảnh biến trung điểm thành tổ hợp lồi có trọng số mới
+
+Xét hàm phối cảnh $$P(z, t) = \frac{z}{t}$$ (với $$z \in \mathbb{R},\ t > 0$$). Giả sử một tập lồi $$C \subset \mathbb{R} \times \mathbb{R}_{++}$$ chứa hai điểm $$u_1 = (z_1, t_1) = (2, 1)$$ và $$u_2 = (z_2, t_2) = (12, 3)$$:
+
+1. **Ảnh phối cảnh của hai đầu mút:**
+   $$P(u_1) = \frac{2}{1} = 2, \qquad P(u_2) = \frac{12}{3} = 4.$$
+2. **Lấy trung điểm ($$\theta = 0.5$$) trong miền nguồn $$C$$:**
+   $$u_{\text{mid}} = 0.5(2, 1) + 0.5(12, 3) = (7, 2) \in C.$$
+3. **Tính ảnh phối cảnh của trung điểm:**
+   $$P(u_{\text{mid}}) = \frac{7}{2} = 3.5.$$
+4. **Kiểm chứng tính lồi (với trọng số $$\mu$$ đã đổi do chia cho $$t$$):**
+   Chú ý rằng $$3.5$$ không phải trung điểm $$3$$ của $$2$$ và $$4$$, mà là tổ hợp lồi với trọng số mới:
+   $$\mu = \frac{\theta t_1}{\theta t_1 + (1-\theta)t_2} = \frac{0.5 \cdot 1}{0.5 \cdot 1 + 0.5 \cdot 3} = \frac{0.5}{2} = \frac{1}{4} \in [0, 1].$$
+   Thay vào: $$\mu P(u_1) + (1-\mu) P(u_2) = \frac{1}{4}(2) + \frac{3}{4}(4) = 0.5 + 3 = 3.5 = P(u_{\text{mid}})$$! Ảnh của cả đoạn thẳng $$[u_1, u_2]$$ vẫn là đúng đoạn thẳng $$[2, 4]$$, chỉ bị kéo giãn dọc theo trục $$t$$!
+
+---
+
 Phần này trình bày các phép toán bảo toàn tính lồi của tập hợp. Những phép toán này giúp ta kiểm tra tính lồi của một tập phức tạp hoặc xây dựng tập lồi mới từ các tập cơ bản như siêu phẳng, nửa không gian và hình cầu chuẩn.
 
 Các phép toán chính bảo toàn tính lồi gồm:

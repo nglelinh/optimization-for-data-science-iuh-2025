@@ -10,6 +10,31 @@ lang: en
 lesson_type: required
 ---
 
+Imagine you have a budget cap of \$100 and you spend \$73. You can either write the inequality $$x \le 100$$, or you can name the unspent \$27 as a variable $$s = 27 \ge 0$$ and write the clean equation $$x + s = 100$$. That simple accounting move—introducing *slack variables*—is the backbone of the simplex method and interior-point solvers, turning awkward inequalities into structured equations plus simple nonnegativity boxes.
+
+## Background Knowledge Map: Turning Inequalities into Structured Equalities
+
+1. **Exact Reformulation of Inequalities**: Any inequality $$g_i(x) \le 0$$ is equivalent to introducing a scalar variable $$s_i \ge 0$$ and enforcing $$g_i(x) + s_i = 0$$. In linear programming, $$Gx \le h$$ becomes $$Gx + s = h,\; s \ge 0$$—keeping the equality constraint affine!
+2. **The Convexity Trap for Nonlinear Inequalities**: Warning! If $$g_i(x)$$ is a *nonlinear* convex function (like $$x^2 - 1 \le 0$$), writing $$g_i(x) + s_i = 0$$ creates a *non-affine* equality constraint, which violates the standard convex-program rule. Therefore, slack variables preserve standard convexity **only for affine inequalities** (unless $$s_i$$ is kept in an inequality $$g_i(x) + s_i \le 0$$ or lifted into a cone constraint).
+3. **Physical and Economic Meaning of Slack**: At an optimal solution $$(x^\star, s^\star)$$, the value $$s_i^\star = -g_i(x^\star)$$ measures unused resource or safety margin. When $$s_i^\star = 0$$, the constraint is *active* (a bottleneck); when $$s_i^\star > 0$$, the constraint is *inactive* (surplus capacity exists).
+4. **Enabling Matrix Solvers and Duality**: Converting $$Gx \le h$$ to $$Gx + s = h, s \ge 0$$ lets simplex algorithms solve linear systems $$B x_B = h$$ at every pivot and lets interior-point methods place a clean logarithmic barrier $$-\sum_i \ln(s_i)$$ directly on the nonnegative slacks.
+
+### Step-by-Step Worked Example (Read Slowly): Converting a Production LP to Standard Slack Form
+
+A small workshop produces $$x_1$$ chairs and $$x_2$$ tables to maximize profit $$3x_1 + 5x_2$$ (equivalently, minimize $$-3x_1 - 5x_2$$) subject to wood and labor limits:
+$$2x_1 + x_2 \le 10, \qquad x_1 + 3x_2 \le 12, \qquad x_1, x_2 \ge 0.$$
+
+1. **Introduce nonnegative slack variables $$s_1, s_2 \ge 0$$**:
+   - $$s_1$$ represents unused wood hours: $$2x_1 + x_2 + s_1 = 10$$.
+   - $$s_2$$ represents unused labor hours: $$x_1 + 3x_2 + s_2 = 12$$.
+2. **Write the matrix standard form**: Let $$z = (x_1, x_2, s_1, s_2)^T \ge 0$$. Then the LP is
+   $$\min_{z \ge 0} \quad [-3, -5, 0, 0]\,z \quad \text{subject to} \quad \begin{bmatrix} 2 & 1 & 1 & 0 \\ 1 & 3 & 0 & 1 \end{bmatrix} z = \begin{bmatrix} 10 \\ 12 \end{bmatrix}.$$
+3. **Inspect candidate vertices via slack values**:
+   - At $$(x_1, x_2) = (0, 0)$$: $$s_1 = 10, s_2 = 12$$ (all resources unused, profit $$= 0$$).
+   - At $$(x_1, x_2) = (0, 4)$$: $$s_1 = 10 - 4 = 6$$ (6 wood hours left), $$s_2 = 12 - 12 = 0$$ (labor is binding), profit $$= 20$$.
+   - At the intersection of both binding constraints ($$s_1 = 0, s_2 = 0$$): solving $$2x_1 + x_2 = 10$$ and $$x_1 + 3x_2 = 12$$ gives $$5x_2 = 14 \implies x_2^\star = 2.8$$ and $$x_1^\star = 3.6$$, with profit $$3(3.6) + 5(2.8) = 10.8 + 14.0 = 24.8$$.
+4. **Verify slack interpretation**: Because $$s_1^\star = 0$$ and $$s_2^\star = 0$$, both wood and labor are completely exhausted at the optimal production plan $$(3.6, 2.8)$$.
+
 # Slack Variables in Convex Optimization
 
 ## Introduction and Motivation

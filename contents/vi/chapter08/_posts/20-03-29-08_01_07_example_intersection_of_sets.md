@@ -9,6 +9,36 @@ categories:
 lang: vi
 ---
 
+Hãy tưởng tượng bạn cần thiết kế một bộ lọc tín hiệu thỏa mãn đồng thời hàng chục yêu cầu kỹ thuật: năng lượng không vượt ngưỡng, biên độ trong miền tần số nằm trong dải cho phép, và hệ số thời gian bị giới hạn trong hộp cứng. Mỗi yêu cầu định nghĩa một tập lồi $$C_i$$, và câu hỏi của bạn không phải là "tối ưu hàm nào" mà là: *làm sao tìm được một điểm $$x$$ nằm trong giao $$C_1 \cap C_2 \cap \dots \cap C_m$$?*
+
+Đây là bài toán khả thi lồi (convex feasibility problem) — một trong những bài toán xuất hiện dày đặc nhất trong xử lý ảnh, tái tạo chụp cắt lớp CT và điều khiển tự động. Điều kỳ diệu mà bài học này phơi bày là khi ta biến bài toán hình học ấy thành cực tiểu hóa khoảng cách lớn nhất $$f(x) = \max_{1 \le i \le m} \operatorname{dist}(x, C_i)$$ rồi áp dụng phương pháp subgradient với bước Polyak (vì biết chắc $$f^* = 0$$!), công thức đại số phức tạp tự rút gọn thành một hành động hình học đẹp như mơ: **ở mỗi bước, chọn tập lồi xa nhất và chiếu thẳng $$x$$ lên tập đó!**
+
+## Bản đồ kiến thức nền: Ba trụ cột nối giải tích không trơn với phép chiếu luân phiên
+
+- **Hàm khoảng cách tới tập lồi và tính khả vi của nó:** Với tập lồi đóng khác rỗng $$C$$, hàm $$\operatorname{dist}(x, C) = \min_{y \in C} \|x - y\|_2$$ luôn lồi. Khi $$x \notin C$$, điểm chiếu $$P_C(x)$$ là duy nhất và hàm khoảng cách thực sự *khả vi* tại $$x$$ với gradient đơn vị $$\nabla \operatorname{dist}(x, C) = \frac{x - P_C(x)}{\|x - P_C(x)\|_2}$$.
+- **Quy tắc dưới vi phân của hàm max hữu hạn (Danskin / Dubovitskii–Milyutin):** Với $$f(x) = \max_{1 \le i \le m} f_i(x)$$, dưới vi phân tại $$x$$ là bao lồi của các dưới vi phân thuộc những nhánh đang đạt cực đại $$I(x) = \{i : f_i(x) = f(x)\}$$. Để chạy thuật toán subgradient, ta chỉ cần nhặt một chỉ số $$j \in I(x)$$ và lấy đúng gradient của $$f_j$$.
+- **Phép chiếu luân phiên (Alternating Projections / POCS) như trường hợp đặc biệt của bước Polyak:** Thay $$f^* = 0$$ và $$\|g^{(k)}\|_2 = 1$$ vào bước Polyak:
+  $$x^{(k+1)} = x^{(k)} - \frac{\|x^{(k)} - P_{C_j}(x^{(k)})\|_2}{1^2} \cdot \frac{x^{(k)} - P_{C_j}(x^{(k)})}{\|x^{(k)} - P_{C_j}(x^{(k)})\|_2} = P_{C_j}(x^{(k)}).$$
+  Hai ý tưởng tưởng như thuộc hai thế giới khác nhau — subgradient Polyak và chiếu tập lồi POCS — hóa ra là một!
+
+### Khung giải thích (nên đọc chậm): Tính tay tìm giao của đĩa tròn và nửa mặt phẳng bằng subgradient Polyak
+
+Trong $$\mathbb{R}^2$$, xét hai tập lồi đóng:
+- Đĩa đơn vị $$C_1 = \{x \in \mathbb{R}^2 : \|x\|_2 \le 1\}$$,
+- Nửa mặt phẳng phải $$C_2 = \{x \in \mathbb{R}^2 : x_1 \ge 0.5\}$$.
+Giao $$C_1 \cap C_2$$ khác rỗng (chứa điểm $$(0.5, 0)$$), nên $$f^* = 0$$. Bắt đầu từ $$x^{(0)} = (-2, 0)$$.
+
+1. **Tính khoảng cách và hình chiếu tới từng tập tại $$x^{(0)} = (-2, 0)$$:**
+   - Với $$C_1$$: chiếu lên đĩa đơn vị là $$P_{C_1}(-2, 0) = (-1, 0)$$, nên $$f_1(x^{(0)}) = \|(-2,0) - (-1,0)\|_2 = 1.0$$.
+   - Với $$C_2$$: chiếu lên $$x_1 \ge 0.5$$ là $$P_{C_2}(-2, 0) = (0.5, 0)$$, nên $$f_2(x^{(0)}) = \|(-2,0) - (0.5,0)\|_2 = 2.5$$.
+2. **Chọn nhánh lớn nhất và tính subgradient đơn vị:**
+   $$f(x^{(0)}) = \max(1.0, 2.5) = 2.5$$ đạt tại $$j = 2$$.
+   Subgradient tương ứng là:
+   $$g^{(0)} = \frac{x^{(0)} - P_{C_2}(x^{(0)})}{\|x^{(0)} - P_{C_2}(x^{(0)})\|_2} = \frac{(-2.5, 0)}{2.5} = (-1, 0), \quad \|g^{(0)}\|_2 = 1.$$
+3. **Cập nhật theo bước Polyak ($$f^* = 0$$):**
+   $$t_1 = \frac{f(x^{(0)}) - 0}{\|g^{(0)}\|_2^2} = \frac{2.5}{1} = 2.5 \implies x^{(1)} = (-2, 0) - 2.5(-1, 0) = (0.5, 0) = P_{C_2}(x^{(0)}).$$
+   Kiểm tra điểm mới $$x^{(1)} = (0.5, 0)$$: $$\|x^{(1)}\|_2 = 0.5 \le 1$$ (thuộc $$C_1$$) và $$x_1^{(1)} = 0.5 \ge 0.5$$ (thuộc $$C_2$$). Ta chạm đích $$f(x^{(1)}) = 0$$ ngay sau đúng 1 bước!
+
 Xét bài toán tìm một điểm thuộc giao của nhiều tập lồi đóng $$C_1, C_2, \dots, C_m$$.
 
 Định nghĩa $$f_i(x)$$ là khoảng cách từ điểm $$x$$ đến tập $$C_i$$, và $$f(x)$$ là khoảng cách lớn nhất từ $$x$$ đến tất cả các tập $$C_i$$ ($$i=1,...,m$$):

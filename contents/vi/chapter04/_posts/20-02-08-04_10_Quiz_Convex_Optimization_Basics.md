@@ -12,6 +12,33 @@ redirect_from:
   - /contents/vi/chapter04/04_09_Quiz_Convex_Optimization_Basics/
 ---
 
+Đọc hiểu một định lý khi lời giải đã viết sẵn trên giấy luôn tạo cảm giác "dễ dàng đến lạ" — các nhà tâm lý học nhận thức gọi đó là *ảo giác thông thạo*. Phép thử thực sự chỉ bắt đầu khi bạn đứng trước một phát biểu đánh lạc hướng rất tinh vi: một ràng buộc đẳng thức $$x_1^2 + x_2^2 = 1$$ trông có vẻ "đều đặn", hay một hàm mục tiêu lồi có hai điểm cực tiểu riêng biệt... liệu có tồn tại hay không?
+
+Bộ bài tập trắc nghiệm này được thiết kế như một phòng thí nghiệm chẩn đoán cho toàn bộ Chương 04. Thay vì đoán mò theo trực giác mơ hồ, hãy dùng mỗi câu hỏi để rèn thói quen phản xạ chuẩn của người làm tối ưu: kiểm tra miền xác định, kiểm tra độ cong Hessian, kiểm tra điều kiện bậc nhất và tìm phản ví dụ nhỏ nhất ngay khi nghi ngờ một mệnh đề sai.
+
+## Bản đồ kiến thức nền: Bốn "điểm mù" hay gặp nhất trong Chương 04
+
+Trước khi bắt đầu làm bài, hãy rà soát bốn bẫy tư duy kinh điển mà các câu hỏi trắc nghiệm thường khai thác:
+
+- **Bẫy 1 — Đẳng thức phi affine:** Nhiều người thấy $$g(x) = x_1^2 + x_2^2 - 1$$ là hàm lồi nên vội kết luận bài toán có ràng buộc $$x_1^2 + x_2^2 = 1$$ là bài toán lồi. Sai! Ràng buộc đẳng thức trong tối ưu lồi bắt buộc phải là hàm **affine** ($$a^T x = b$$).
+- **Bẫy 2 — Gradient bằng 0 vs. Bất đẳng thức biến phân:** $$\nabla f(x^\star) = 0$$ chỉ là điều kiện cần và đủ cho bài toán *không ràng buộc* (hoặc khi $$x^\star$$ nằm hoàn toàn trong phần trong của tập khả thi). Trên biên tập khả thi, $$\nabla f(x^\star)$$ có thể khác 0 miễn là $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ với mọi $$y$$ khả thi.
+- **Bẫy 3 — Lồi vs. Lồi chặt và Số lượng nghiệm:** Bài toán lồi có thể vô nghiệm, có 1 nghiệm, hoặc có **vô số nghiệm** tạo thành một tập lồi (không bao giờ có đúng 2 nghiệm rời rạc!). Chỉ khi hàm mục tiêu **lồi chặt** mới đảm bảo nhiều nhất 1 nghiệm tối ưu.
+- **Bẫy 4 — Phép biến đổi tương đương vs. Phép nới lỏng:** Đổi biến song ánh hay biến đổi đơn điệu tăng giữ nguyên nghiệm tối ưu ($$f_{\text{new}}^\star$$ tương ứng 1-1 với $$f^\star$$), còn nới lỏng mở rộng tập khả thi nên chỉ cho cận dưới $$f_{\text{relax}}^\star \le f^\star$$.
+
+### Khung giải thích (nên đọc chậm): Thực hành phản xạ "30 giây kiểm tra một mệnh đề trắc nghiệm"
+
+**Câu hỏi mẫu:** *Xét bài toán $$\min_{x \in \mathbb{R}^2} \; f(x) = x_1^2 + x_2$$ trên tập $$C = \{x : x_1 \ge 0,\; x_2 \ge 0,\; x_1 + x_2 \ge 1\}$$. Điểm $$x^\star = (0.5, 0.5)$$ có phải là nghiệm tối ưu toàn cục không?*
+
+1. **Bước 1 — Kiểm tra bài toán có lồi không:** $$f(x) = x_1^2 + x_2$$ có Hessian $$\begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix} \succeq 0$$ (lồi); $$C$$ là giao của 3 nửa không gian (lồi). Vậy điều kiện bậc nhất vừa cần vừa đủ.
+2. **Bước 2 — Tính gradient tại điểm đề xuất $$x^\star = (0.5, 0.5)$$:**
+   $$\nabla f(x_1, x_2) = (2x_1,\; 1)^T \implies \nabla f(0.5, 0.5) = (1,\; 1)^T.$$
+3. **Bước 3 — Kiểm tra tích vô hướng $$\nabla f(x^\star)^T (y - x^\star)$$ với mọi $$y \in C$$:**
+   $$\nabla f(x^\star)^T (y - x^\star) = 1 \cdot (y_1 - 0.5) + 1 \cdot (y_2 - 0.5) = (y_1 + y_2) - 1.$$
+   Vì mọi $$y \in C$$ đều thỏa $$y_1 + y_2 \ge 1$$, ta có $$(y_1 + y_2) - 1 \ge 0$$ luôn đúng!
+4. **Kết luận chắc chắn:** Dù $$\nabla f(0.5, 0.5) = (1,1)^T \neq 0$$, điểm $$(0.5, 0.5)$$ vẫn là **nghiệm tối ưu toàn cục** (với $$f^\star = 0.25 + 0.5 = 0.75$$). Nhờ kiểm tra đại số 3 bước này, bạn không bao giờ bị đánh lừa bởi trực giác cảm tính.
+
+---
+
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các khái niệm cơ bản trong tối ưu hóa lồi, bao gồm thuật ngữ, điều kiện tối ưu và các kỹ thuật biến đổi.
 
 ---

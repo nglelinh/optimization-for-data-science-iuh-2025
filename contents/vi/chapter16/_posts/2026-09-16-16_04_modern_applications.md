@@ -10,6 +10,34 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu ai đó nghĩ rằng đối ngẫu Lagrange và liên hợp Fenchel chỉ dành cho các bộ giải quy hoạch tuyến tính thế kỷ trước, hãy nhìn vào những công trình định hình trí tuệ nhân tạo giai đoạn **2022–2026**: **hàm mất mát Fenchel–Young** (thống nhất Cross-Entropy, Sparsemax và học có cấu trúc), **căn chỉnh mô hình ngôn ngữ lớn bằng RLHF** (nơi hệ số $$\beta$$ trước phân kỳ KL chính là nhân tử Lagrange!), **học tăng cường an toàn (Safe RL)** chạy vòng lặp nguyên thủy – đối ngẫu trực tiếp, và **vận chuyển tối ưu (Optimal Transport / Wasserstein)** dưới góc nhìn đối ngẫu Fenchel–Kantorovich.
+
+Bài đọc hiện đại này chỉ ra cách chính xác ba trụ cột của Chương 16 (Lagrange, KKT và Fenchel) đang giải quyết những bài toán nóng nhất của AI ngày nay.
+
+## Bản đồ kiến thức nền: Bốn cầu nối từ Đối ngẫu Chương 16 sang AI hiện đại (2022–2026)
+
+- **Hàm mất mát Fenchel–Young:** Cho bất kỳ hàm lồi $$\Omega(p)$$ nào (như entropy âm hay bình phương $$\ell_2$$), định nghĩa $$L_\Omega(\theta; y) = \Omega^*(\theta) + \Omega(y) - \theta^T y \ge 0$$ nhờ bất đẳng thức Fenchel–Young! Khi $$\Omega$$ là entropy âm, $$L_\Omega$$ chính là **Cross-Entropy Loss** quen thuộc!
+- **RLHF và ràng buộc phân kỳ KL:** Bài toán cực đại hóa phần thưởng $$\mathbb{E}_\pi[r(x, y)]$$ dưới ràng buộc $$D_{\text{KL}}(\pi \| \pi_{\text{ref}}) \le \delta$$ khi đưa vào hàm Lagrange với nhân tử $$\beta > 0$$ cho ra nghiệm đóng **phân phối Boltzmann** $$\pi^*(y \mid x) \propto \pi_{\text{ref}}(y \mid x)\exp(r(x, y)/\beta)$$ — nền tảng của cả PPO-RLHF lẫn DPO!
+- **Vòng lặp nguyên thủy – đối ngẫu trong Safe RL:** Thay vì tự mò trọng số phạt an toàn cố định, thuật toán cập nhật chính sách $$\pi$$ (giảm cực tiểu Lagrange) xen kẽ với bước tăng/giảm nhân tử Lagrange $$\lambda \ge 0$$ (leo dốc đối ngẫu) cho đến khi tỷ lệ vi phạm an toàn tụt xuống dưới ngưỡng cho phép.
+- **Vận chuyển tối ưu (Optimal Transport):** Đối ngẫu Fenchel–Kantorovich chuyển bài toán tìm kế hoạch vận chuyển khối lượng xác suất thành bài toán tìm hai hàm thế năng đối ngẫu $$(\phi, \psi)$$ (nền tảng của Wasserstein GAN và khớp phân phối trong mô hình sinh).
+
+### Khung giải thích (nên đọc chậm): Tính tay nghiệm đóng RLHF (phân phối Boltzmann) từ điều kiện KKT
+
+Xét bài toán chọn phân phối hành động $$\pi = (\pi_1, \pi_2)$$ trên 2 câu trả lời ($$\pi_1 + \pi_2 = 1, \pi_i > 0$$) với phân phối tham chiếu đều $$\pi_{\text{ref}} = (0.5, 0.5)$$, điểm thưởng $$r = (2, 0)$$, và nhân tử Lagrange KL cố định $$\beta = 1$$:
+
+$$\max_{\pi_1 + \pi_2 = 1} \bigl(2\pi_1 + 0\pi_2\bigr) - 1 \cdot \left(\pi_1 \ln\frac{\pi_1}{0.5} + \pi_2 \ln\frac{\pi_2}{0.5}\right).$$
+
+1. **Lập hàm Lagrange (với nhân tử $$\nu$$ cho $$\pi_1 + \pi_2 = 1$$):**
+   $$L(\pi, \nu) = 2\pi_1 - \pi_1 \ln(2\pi_1) - \pi_2 \ln(2\pi_2) + \nu(1 - \pi_1 - \pi_2).$$
+2. **Giải điều kiện dừng KKT $$\frac{\partial L}{\partial \pi_i} = 0$$:**
+   - Theo $$\pi_1$$: $$2 - \ln(2\pi_1) - 1 - \nu = 0 \implies \pi_1 = \frac{1}{2} e^{1 - \nu}$$.
+   - Theo $$\pi_2$$: $$0 - \ln(2\pi_2) - 1 - \nu = 0 \implies \pi_2 = \frac{1}{2} e^{-1 - \nu}$$.
+3. **Chuẩn hóa bằng $$\pi_1 + \pi_2 = 1$$:**
+   $$\frac{\pi_1}{\pi_2} = \frac{e^2}{e^0} = e^2 \approx 7.389 \implies \pi_1^\star = \frac{e^2}{e^2 + 1} \approx 0.8808, \qquad \pi_2^\star = \frac{1}{e^2 + 1} \approx 0.1192.$$
+   Nhờ ràng buộc KL (nhân tử $$\beta = 1$$), mô hình ưu tiên câu trả lời tốt hơn (88.1%) nhưng không sụp đổ thành 100% (reward hacking) mà vẫn giữ độ đa dạng gần mô hình gốc!
+
+---
+
 Chương 16 hệ thống lại đối ngẫu Lagrange, điều kiện KKT và liên hợp Fenchel làm nền tảng cho phương pháp điểm trong nguyên thủy – đối ngẫu ở Chương 17. Ba đối tượng quen thuộc này — hàm Lagrange, biến đối ngẫu định giá ràng buộc và hàm liên hợp Fenchel chuyển đổi giữa hàm mất mát và hàm điều chuẩn (regularizer) — chính là cách học máy giai đoạn 2022–2026 *xây dựng hàm mục tiêu*, chứ không chỉ dùng trong chứng minh lý thuyết. Bốn ứng dụng dưới đây giữ rõ cấu trúc toán học của chương này: ở mỗi trường hợp, ta đều có thể chỉ ra rõ ràng bài toán nguyên thủy, ràng buộc và biến đối ngẫu tương ứng.
 
 ## Hàm mất mát Fenchel–Young: dùng hàm liên hợp làm mục tiêu huấn luyện

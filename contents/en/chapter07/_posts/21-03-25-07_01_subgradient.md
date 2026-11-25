@@ -10,6 +10,34 @@ lang: en
 lesson_type: required
 ---
 
+At a smooth point on a convex bowl, you can lay a flat wooden board underneath the bowl and there is only one angle that touches it without poking through—the tangent plane. Now press that same board underneath the sharp tip of a V-shaped cone: suddenly you can rock the board back and forth across a whole range of angles, and *every* tilt still supports the cone from below! Every valid tilt is a **subgradient**.
+
+## Background Knowledge Map: Definition and Geometry of Subgradients
+
+1. **The Global Underestimator Inequality**: A vector $$g \in \mathbb{R}^n$$ is a subgradient of $$f$$ at $$x$$ if
+   $$f(y) \ge f(x) + g^T(y - x) \quad \text{for all } y \in \operatorname{dom}(f).$$
+   Notice this is a *global* inequality—not a local limit—which is why it works cleanly at corners where two-sided limits fail to exist.
+2. **Consistency with Gradients**: If $$f$$ is convex and differentiable at $$x$$, then $$\nabla f(x)$$ is the *unique* subgradient at $$x$$. Conversely, if a convex function has a unique subgradient at an interior point $$x$$, then $$f$$ is differentiable at $$x$$.
+3. **Existence Everywhere in the Interior**: Every convex function has at least one subgradient at every point in the relative interior of its domain (guaranteed by the Supporting Hyperplane Theorem applied to the convex epigraph $$\operatorname{epi}(f)$$).
+4. **Canonical Nonsmooth Building Blocks**:
+   - Absolute value $$|x|$$: $$g = \operatorname{sign}(x)$$ for $$x \neq 0$$, and any $$g \in [-1, 1]$$ at $$x = 0$$.
+   - Euclidean norm $$\|x\|_2$$: $$g = x/\|x\|_2$$ for $$x \neq 0$$, and any $$\|g\|_2 \le 1$$ at $$x = 0$$.
+   - Pointwise maximum $$\max\{f_1(x), f_2(x)\}$$: any convex combination of gradients of the *active* branches achieving the maximum.
+
+### Step-by-Step Worked Example (Read Slowly): Verifying Subgradients of $$f(x) = \|x\|_2$$ at $$x = 0$$
+
+For the Euclidean norm $$f(x) = \|x\|_2$$ on $$\mathbb{R}^2$$, verify directly from the definition which vectors $$g \in \mathbb{R}^2$$ are subgradients at $$x = (0, 0)$$.
+
+1. **Plug $$x = 0$$ into the subgradient inequality**:
+   $$\|y\|_2 \ge \|0\|_2 + g^T(y - 0) \iff g^T y \le \|y\|_2 \quad \text{for all } y \in \mathbb{R}^2.$$
+2. **Test a valid vector $$g = (0.6, 0.8)$$** (with $$\|g\|_2 = \sqrt{0.36 + 0.64} = 1$$):
+   - By Cauchy–Schwarz, $$g^T y \le \|g\|_2 \|y\|_2 = 1 \cdot \|y\|_2 = \|y\|_2$$ for every $$y \in \mathbb{R}^2$$.
+   - Hence $$g = (0.6, 0.8)$$ **is a valid subgradient** at $$0$$!
+3. **Test an invalid vector $$g = (1, 1)$$** (with $$\|g\|_2 = \sqrt{2} > 1$$):
+   - Choose $$y = g = (1, 1)$$. Then $$g^T y = 1 + 1 = 2$$, whereas $$\|y\|_2 = \sqrt{2} \approx 1.414 < 2$$.
+   - The inequality $$f(y) \ge g^T y$$ fails! Thus $$g = (1, 1)$$ pokes *above* the cone and is **not** a subgradient.
+4. **Conclusion**: $$\partial \|0\|_2 = \{g \in \mathbb{R}^2 : \|g\|_2 \le 1\}$$, the closed unit Euclidean ball.
+
 # Subgradient
 
 For a convex function $$f:\mathbb{R}^n \to \mathbb{R}$$, a subgradient at $$x$$ is any vector $$g \in \mathbb{R}^n$$ that satisfies:

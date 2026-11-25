@@ -10,6 +10,30 @@ lang: en
 lesson_type: optional
 ---
 
+From reconstructing high-resolution MRI scans from undersampled k-space data in seconds, to training "unrolled" deep neural networks where every layer *is* one FISTA iteration, proximal gradient descent and acceleration sit quietly at the center of 2022–2026 computational imaging and scientific ML. Rather than replacing classical optimization with opaque black-box networks, modern pipelines fuse both worlds—plugging learned denoisers directly into the proximal slot (Plug-and-Play FISTA) or learning step sizes and thresholds end-to-end (FISTA-Net).
+
+## Background Knowledge Map: Proximal Splitting in 2022–2026 Imaging & ML
+
+- **Pillar 1 — Inverse Problems & Data Consistency:** In MRI/CT reconstruction, $$g(x) = \frac{1}{2}\|Ax - b\|_2^2$$ encodes the exact known physics of the scanner (Fourier or Radon transform), while $$h(x)$$ encodes prior structure (wavelet sparsity or total variation). Keeping $$g$$ explicit guarantees physical fidelity.
+- **Pillar 2 — Plug-and-Play (PnP) FISTA:** Because $$\operatorname{prox}_{t h}(y) = \arg\min_z \{\frac{1}{2t}\|z - y\|_2^2 + h(z)\}$$ is mathematically a Gaussian denoiser at noise level $$\sigma = \sqrt{t}$$, PnP-FISTA replaces $$\operatorname{prox}_{t h}$$ with a pretrained deep denoiser $$D_\sigma$$ while retaining FISTA's momentum and physical gradient steps.
+- **Pillar 3 — Algorithm Unrolling (LISTA / FISTA-Net):** Fixing the iteration count to $$K = 8\text{–}15$$ layers and turning step sizes, thresholds, and linear filters into learnable parameters yields interpretable, physics-guided neural architectures that achieve FISTA-grade accuracy in $$10\times$$ fewer iterations.
+- **Pillar 4 — Production Sparse GLMs & Low-Rank Solvers:** In statistical libraries (`glmnet`, `skglm`, `FISTA`-based solvers), proximal gradient with backtracking, active-set screening, and warm starts remains the gold standard for elastic-net regression and matrix completion.
+
+### Step-by-Step Worked Example (Read Slowly): One Unrolled FISTA Layer vs. Classical ISTA on a 2-Pixel Signal
+
+Suppose a 2-pixel compressed-sensing measurement obeys $$A = \begin{pmatrix}1 & 0 \\ 0 & 2\end{pmatrix}$$, $$b = \begin{pmatrix}2 \\ 6\end{pmatrix}$$, so $$g(x) = \frac{1}{2}\|Ax - b\|_2^2$$ has $$\nabla g(x) = A^\top(Ax - b) = \begin{pmatrix}x_1 - 2 \\ 4x_2 - 12\end{pmatrix}$$ and Lipschitz constant $$L = \|A\|_2^2 = 4$$. With $$\lambda = 1$$ and $$x^{(0)} = (0, 0)^\top$$:
+
+1. **Classical ISTA layer with safe step size $$t = 1/L = 0.25$$:**
+   - Gradient at $$x^{(0)} = (0, 0)^\top$$: $$\nabla g(0) = (-2, -12)^\top$$.
+   - Proposal: $$u = (0, 0)^\top - 0.25(-2, -12)^\top = (0.5, 3.0)^\top$$.
+   - Soft-threshold by $$\lambda t = 1 \cdot 0.25 = 0.25$$:
+     $$x^{(1)}_{\text{ISTA}} = (0.5 - 0.25,\; 3.0 - 0.25)^\top = (0.25,\; 2.75)^\top.$$
+2. **Compare with the exact Lasso optimum $$x^\star$$:**
+   - Coordinate 1 solves $$x_1 - 2 + 1 = 0 \implies x_1^\star = 1.0$$.
+   - Coordinate 2 solves $$4x_2 - 12 + 1 = 0 \implies x_2^\star = 2.75$$.
+   - Notice that $$x_2$$ converged in *one* step because $$t = 1/4$$ matched its curvature $$4$$, whereas $$x_1$$ moved only 25% of the way because its curvature was $$1$$!
+3. **Why an unrolled layer (e.g., FISTA-Net) converges faster:** Allowing a learned per-layer diagonal step size $$T = \operatorname{diag}(1.0, 0.25)$$ and threshold $$\theta = (1.0, 0.25)$$ produces $$u_{\text{unrolled}} = (2.0, 3.0)^\top \implies x^{(1)}_{\text{unrolled}} = (1.0, 2.75)^\top = x^\star$$ in a single layer—showing concretely why algorithm unrolling compresses hundreds of iterations into a tiny physics-informed network!
+
 # Modern applications of proximal GD and acceleration
 
 Chapter 09 studies composite problems $$\min_x g(x)+h(x)$$ with $$g$$ smooth and $$h$$ prox-friendly, the proximal-gradient iteration, and Nesterov / FISTA acceleration. This optional lesson stays on that template and shows where it ran in imaging, sparse GLMs, and *unrolled* networks from 2022 to 2026.

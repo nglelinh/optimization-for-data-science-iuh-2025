@@ -9,6 +9,29 @@ categories:
 lang: en
 ---
 
+Chapter 20 built the engine of **ADMM**; Chapter 21 takes that engine out onto the open highway of modern statistical learning, matrix decomposition, and distributed computing. What makes ADMM extraordinary in practice is not just its three-line algorithm, but the *art of variable splitting*: by choosing the right auxiliary variables $$z$$ and linear constraints $$Ax + Bz = c$$, seemingly intractable problems—Lasso, Group Lasso, Sparse PCA, Robust PCA, 2D Total Variation denoising, and multi-machine consensus—fracture into cached linear solves and closed-form proximal operators!
+
+## Background Knowledge Map: The Craft of ADMM Variable Splitting
+
+- **Proximal-Operator Modularity:** Splitting $$\min f(x) + g(x)$$ into $$\min f(x) + g(z) \text{ s.t. } x = z$$ turns ADMM into an alternating pair of proximal maps $$\operatorname{prox}_{f/\rho}$$ and $$\operatorname{prox}_{g/\rho}$$, allowing each piece to use its own specialized closed-form solver.
+- **Factorization Caching (Pre-Cholesky Advantage):** In Lasso and ridge-coupled problems, the $$x$$-update solves $$(X^T X + \rho I)\beta = \text{rhs}$$ with the *exact same* matrix at every iteration. Computing the Cholesky factor once at $$k = 0$$ drops every subsequent iteration from $$O(p^3)$$ to $$O(p^2)$$!
+- **Matrix & Spectral Splittings:** ADMM extends seamlessly from vectors to matrices—combining nuclear-norm singular-value thresholding (low rank) with entrywise soft-thresholding (sparsity) in Robust PCA and Fantope projections in Sparse PCA.
+- **Consensus & Subproblem Parametrization:** Duplicating variables across machines yields *Consensus ADMM* for distributed data, while splitting along orthogonal spatial directions (horizontal vs. vertical chains in 2D Fused Lasso) unlocks dramatic convergence speedups.
+
+### Step-by-Step Worked Example (Read Slowly): Why Pre-Factorizing $$(X^T X + \rho I)$$ Wins
+
+Suppose we solve a Lasso problem with $$X \in \mathbb{R}^{500 \times 100}$$ over $$T = 200$$ ADMM iterations using the split $$\min \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\alpha\|_1$$ s.t. $$\beta = \alpha$$.
+
+1. **Examine the $$\beta$$-update linear system:**
+   $$\left(X^T X + \rho I\right)\beta^{(k)} = X^T y + \rho\big(\alpha^{(k-1)} - w^{(k-1)}\big).$$
+   Notice that the left-hand matrix $$M = X^T X + \rho I \succ 0$$ **never changes across iterations** (as long as $$\rho$$ is fixed)!
+2. **Compare naive vs. cached Cholesky cost ($$p = 100, T = 200$$):**
+   - **Naive (re-factor every iteration):** $$200 \times \frac{1}{3} p^3 \approx 6.67 \times 10^7$$ FLOPs.
+   - **Cached Cholesky (factor $$M = L L^T$$ once, then forward/back-solve):**
+     $$\frac{1}{3}(100)^3 + 200 \times 2(100)^2 = 3.33 \times 10^5 + 4.00 \times 10^6 \approx 4.33 \times 10^6 \text{ FLOPs}.$$
+3. **Speedup:**
+   A single architectural observation—caching $$L$$ outside the ADMM loop—delivers an immediate **15× speedup** (and **150×** at $$p = 1000$$), turning ADMM into a production-grade statistical solver!
+
 This chapter aims to examine ADMM, which was covered in [Chapter 20]({% multilang_post_url contents/chapter20/21-03-27-20_00_Dual_Methods %}), in more detail. The basic concepts are not significantly different in depth from what was covered in Chapter 20, and we will mainly look at application cases.
 
 ### Reference Papers

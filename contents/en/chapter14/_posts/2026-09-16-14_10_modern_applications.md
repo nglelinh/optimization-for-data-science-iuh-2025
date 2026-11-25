@@ -10,6 +10,29 @@ lang: en
 lesson_type: optional
 ---
 
+Conventional wisdom in 2015 said second-order optimization was dead for deep learning and only belonged in convex textbooks. Between 2022 and 2026, that conventional wisdom cracked: diagonal-Hessian optimizers like **Sophia** cut GPT pre-training steps in half, **K-FAC** brought Kronecker curvature to Vision Transformers and GNNs, and scikit-learn made exact **Newton–Cholesky** a production default for tall generalized linear models.
+
+## Background Knowledge Map: Modern Second-Order Optimization (2022–2026)
+
+- **Pillar 1 — Structured Curvature Approximations:** Because dense $$n \times n$$ Hessians are infeasible for $$n \sim 10^9$$, modern methods restrict curvature to diagonal matrices (Sophia, AdaHessian) or Kronecker-factored blocks (K-FAC, Shampoo).
+- **Pillar 2 — Amortization & Cheap Estimators:** Refreshing curvature every $$k$$ steps (e.g., every 10 steps in Sophia) via Hutchinson Hessian–vector products or Gauss–Newton–Bartlett resampling keeps wall-clock cost close to Adam.
+- **Pillar 3 — Clipping as Modern Damping:** When curvature estimates are noisy or non-positive in nonconvex landscapes, coordinate-wise clipping $$\operatorname{clip}(m_t / \max(\gamma h_t, \epsilon), 1)$$ plays the exact protective role of trust-region / backtracking damping.
+- **Pillar 4 — Exact Newton–Cholesky Still Wins for Tall GLMs:** When $$n_{\text{samples}} \gg n_{\text{features}}$$, forming the exact IRLS Gram matrix $$X^T W X$$ and factoring via Cholesky beats L-BFGS in both accuracy and speed.
+
+### Step-by-Step Worked Example (Read Slowly): Computing One Clipped Diagonal-Newton (Sophia) Step
+
+Suppose a 2-parameter model has exponential moving-average gradient $$m = (0.40,\ -0.60)^T$$, diagonal Hessian estimate $$h = (2.0,\ 0.05)^T$$, damping/scale $$\gamma = 1$$, clipping threshold $$\rho = 1.0$$, and learning rate $$\eta = 0.01$$.
+
+1. **Compute raw diagonal-Newton preconditioned steps $$m_i / h_i$$:**
+   - Coordinate 1 (high curvature $$h_1 = 2.0$$): $$\frac{m_1}{h_1} = \frac{0.40}{2.0} = 0.20$$.
+   - Coordinate 2 (nearly flat curvature $$h_2 = 0.05$$): $$\frac{m_2}{h_2} = \frac{-0.60}{0.05} = -12.0$$ (huge overshoot risk!).
+2. **Apply Sophia's coordinate-wise clipping $$\operatorname{clip}(\cdot, -\rho, \rho)$$ with $$\rho = 1.0$$:**
+   - Coordinate 1: $$\operatorname{clip}(0.20, -1, 1) = 0.20$$ (unclipped—takes the exact curvature-scaled step).
+   - Coordinate 2: $$\operatorname{clip}(-12.0, -1, 1) = -1.0$$ (clipped—prevents explosion along the flat/noisy direction).
+3. **Final parameter update:**
+   $$\Delta \theta = -\eta \begin{bmatrix} 0.20 \\ -1.0 \end{bmatrix} = \begin{bmatrix} -0.002 \\ +0.010 \end{bmatrix}.$$
+   Notice how Coordinate 1 obeys exact diagonal Newton while Coordinate 2 is safely damped by clipping!
+
 Newton's method in this chapter is the exact local quadratic model
 
 $$

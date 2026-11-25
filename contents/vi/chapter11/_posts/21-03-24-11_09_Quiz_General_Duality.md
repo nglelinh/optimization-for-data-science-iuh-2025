@@ -12,6 +12,28 @@ redirect_from:
   - /contents/vi/chapter11/11_06_Quiz_General_Duality/
 ---
 
+Chương 11 là bước chuyển quan trọng nhất từ thế giới tuyến tính (Chương 10) sang thế giới phi tuyến và tối ưu lồi tổng quát. Chính vì có sự chuyển pha này, các câu hỏi trắc nghiệm thường nhắm thẳng vào những điểm dễ nhầm lẫn giữa LP và bài toán tổng quát: chẳng hạn tưởng rằng bài toán lồi *luôn* có đối ngẫu mạnh (quên điều kiện Slater!), tưởng rằng bài toán gốc không lồi thì bài toán đối ngẫu cũng không lồi, hay nhầm dấu của nhân tử $$u$$ và $$v$$ trong hàm Lagrangian.
+
+Hãy lướt nhanh qua bản đồ bốn cụm kiến thức trọng tâm và bốn phép thử nhanh dưới đây trước khi bắt đầu bộ câu hỏi trắc nghiệm để đạt độ chính xác tối đa.
+
+## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 11
+
+- **Cấu trúc và tính chất hàm Lagrangian $$L(x, u, v)$$:** Nhớ chuẩn dấu $$h_i(x) \le 0 \Rightarrow u_i \ge 0$$ và $$l_j(x) = 0 \Rightarrow v_j \in \mathbb{R}$$ tự do; luôn có $$L(x, u, v) \le f(x)$$ trên tập khả thi $$C$$.
+- **Tính lõm vô điều kiện của $$g(u, v)$$:** Hàm đối ngẫu $$g(u, v) = \inf_x L(x, u, v)$$ **luôn lõm** và bài toán đối ngẫu $$\max_{u \ge 0, v} g(u, v)$$ **luôn là bài toán tối ưu lồi**, bất kể bài toán gốc lồi hay không lồi!
+- **Đối ngẫu yếu, đối ngẫu mạnh và điều kiện Slater:** Đối ngẫu yếu ($$g^* \le f^*$$) luôn đúng; đối ngẫu mạnh ($$g^* = f^*$$) cần tính lồi + điều kiện chuẩn hóa (Slater: tồn tại điểm khả thi chặt cho các ràng buộc bất đẳng thức phi tuyến; ràng buộc affine chỉ cần $$\le 0$$).
+- **Khoảng cách đối ngẫu và hàm liên hợp Fenchel:** Hiệu $$f(x) - g(u, v) \ge f(x) - f^*$$ là tiêu chuẩn dừng có chứng chỉ; hàm liên hợp $$f^*(y) = \sup_x (y^T x - f(x))$$ giúp tính nhanh $$g(u, v)$$ và chứng minh tính đối ngẫu kép $$f^{**} = f$$.
+
+### Khung giải thích (nên đọc chậm): Bốn phép thử nhanh né bẫy trắc nghiệm Chương 11
+
+1. **Bẫy 1 — Bài toán gốc cực kỳ không lồi (ví dụ $$\min \sin(x) + x^4$$ s.t. $$x^3 - x \le 0$$), bài toán đối ngẫu Lagrange có lồi không?**
+   **CÓ!** Bài toán đối ngẫu $$\max_{u \ge 0} g(u)$$ luôn là bài toán tối ưu lồi (cực đại hóa hàm lõm $$g(u)$$ trên miền lồi $$u \ge 0$$), không phụ thuộc vào tính lồi của bài toán gốc!
+2. **Bẫy 2 — Kiểm tra điều kiện Slater cho bài toán lồi $$\min x^2$$ s.t. $$x^2 \le 0$$:**
+   Ràng buộc $$h(x) = x^2 \le 0$$ là phi tuyến và chỉ có duy nhất điểm $$x = 0$$ thỏa $$h(0) = 0$$ (không có điểm nào làm $$x^2 < 0$$) $$\implies$$ **Slater không thỏa mãn!** (Dù trong bài toán riêng này tình cờ vẫn có $$f^* = g^* = 0$$ — nhớ rằng Slater là điều kiện *đủ*, không phải điều kiện *cần*!)
+3. **Bẫy 3 — Đọc khoảng cách đối ngẫu:** Nếu $$x$$ khả thi gốc cho $$f(x) = 8.4$$ và $$u \ge 0$$ khả thi đối ngẫu cho $$g(u) = 8.1$$, khoảng cách đối ngẫu là $$0.3$$. Kết luận nào đúng?
+   $$f(x) - f^* \le 0.3$$ và $$8.1 \le f^* \le 8.4$$ (đừng nhầm rằng $$f^* = 8.1$$ hay $$f(x) - f^* = 0.3$$!).
+4. **Bẫy 4 — Liên hợp của hàm tuyến tính $$f(x) = c^T x$$:**
+   $$f^*(y) = \sup_x (y - c)^T x = 0$$ nếu $$y = c$$ và $$+\infty$$ nếu $$y \ne c$$ — chính là hàm chỉ thị $$I_{\{c\}}(y)$$.
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:

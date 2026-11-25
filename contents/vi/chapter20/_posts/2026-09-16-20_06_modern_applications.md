@@ -10,6 +10,38 @@ lang: vi
 lesson_type: optional
 ---
 
+Khi bạn huấn luyện một mô hình học máy trên hàng nghìn chiếc điện thoại hoặc hàng trăm bệnh viện mà dữ liệu không được phép rời khỏi thiết bị — gọi là **Học liên bang (Federated Learning)** — thuật toán đơn giản nhất (FedAvg) chỉ lấy trung bình cộng trọng số của các máy khách. Nhưng khi dữ liệu giữa các bệnh viện khác biệt mạnh (non-IID), mỗi máy khách tự kéo mô hình về cực tiểu cục bộ riêng của mình, tạo ra hiện tượng **trôi dạt máy khách (client drift)** làm mô hình toàn cục chệch hướng! Giai đoạn 2022–2026, tư duy đối ngẫu và ADMM của Chương 20 đã trở thành vũ khí sắc bén giải quyết tận gốc vấn đề này qua họ thuật toán **FedADMM** và **FedDyn**.
+
+## Bản đồ kiến thức nền: Ba cầu nối từ lý thuyết đối ngẫu sang Học liên bang hiện đại
+
+Để nhìn xuyên qua các thuật ngữ hệ thống phân tán và thấy đúng bản chất Chương 20 bên trong FedADMM, hãy chú ý ba cơ chế sau:
+
+- **Bài toán đồng thuận (Consensus Formulation):** Huấn luyện liên bang $$\min_z \sum_{i=1}^B f_i(z)$$ được viết lại thành $$\min \sum_i f_i(x_i) \text{ s.t. } x_i = z$$ — chính xác dạng phân rã hai khối của ADMM!
+- **Biến đối ngẫu $$w_i$$ triệt tiêu độ trôi dạt (Client Drift Correction):** Trong FedAvg, khi mỗi client chạy nhiều bước cục bộ trên $$f_i(x_i)$$, nó quên mất các client khác. Trong FedADMM, biến đối ngẫu $$w_i$$ ghi nhớ độ lệch tích lũy $$x_i - z$$, tự động cộng một "lực bù tuyến tính" vào hàm mất mát cục bộ để kéo điểm dừng của mọi client khớp đúng với cực tiểu toàn cục!
+- **Bền vững trước tham gia từng phần (Partial Participation) và tính toán không chính xác:** Ở quy mô thực tế, mỗi vòng truyền thông chỉ có một tập con nhỏ thiết bị trực tuyến và mỗi thiết bị chỉ chạy vài bước SGD cục bộ (inexact ADMM). Các phân tích năm 2022–2025 chứng minh FedADMM vẫn hội tụ vững chắc dưới cả hai ràng buộc khắc nghiệt này.
+
+### Khung giải thích (nên đọc chậm): Minh họa bằng số cách biến đối ngẫu $$w_i$$ triệt tiêu hoàn toàn Client Drift
+
+Xét hệ thống học liên bang gồm $$B = 2$$ bệnh viện có phân phối dữ liệu lệch hẳn nhau (non-IID):
+- Bệnh viện 1: $$f_1(x) = \frac{1}{2}(x - 1)^2$$ (cực tiểu riêng tại $$1$$).
+- Bệnh viện 2: $$f_2(x) = \frac{1}{2}(x - 5)^2$$ (cực tiểu riêng tại $$5$$).
+Nghiệm toàn cục tối ưu của $$\frac{1}{2}[f_1(x) + f_2(x)]$$ rõ ràng là $$z^\star = 3$$.
+
+1. **Điều gì xảy ra nếu mỗi bệnh viện tự tối ưu cục bộ có phạt gần $$z$$ nhưng KHÔNG có biến đối ngẫu (kiểu FedProx, $$\rho = 1$$)?**
+   Giả sử máy chủ đang đứng ngay tại điểm tối ưu toàn cục $$z = 3$$:
+   - Bệnh viện 1 giải $$\min_{x_1} \frac{1}{2}(x_1 - 1)^2 + \frac{1}{2}(x_1 - 3)^2 \implies x_1 = 2$$ (bị kéo lệch về $$1$$!).
+   - Bệnh viện 2 giải $$\min_{x_2} \frac{1}{2}(x_2 - 5)^2 + \frac{1}{2}(x_2 - 3)^2 \implies x_2 = 4$$ (bị kéo lệch về $$5$$!).
+   Nếu vòng đó chỉ có Bệnh viện 1 gửi cập nhật (partial participation), mô hình toàn cục bị kéo tụt từ $$3$$ xuống $$2$$ — sinh ra độ trôi dạt lớn!
+2. **Cách FedADMM dùng biến đối ngẫu $$w_1, w_2$$ khóa chặt nghiệm toàn cục ($$\rho = 1$$):**
+   Tại điểm cân bằng đối ngẫu, $$w_1^\star = +2$$ (tích lũy lực đẩy sang phải) và $$w_2^\star = -2$$ (tích lũy lực đẩy sang trái). Khi $$z = 3$$:
+   - Bệnh viện 1 giải $$\min_{x_1} \frac{1}{2}(x_1 - 1)^2 + \frac{1}{2}(x_1 - 3 + 2)^2 \implies (x_1 - 1) + (x_1 - 1) = 0$$? Chú ý dấu chuẩn ADMM: $$x_i = \arg\min_{x_i} f_i(x_i) + \frac{\rho}{2}\|x_i - z + w_i\|^2$$!
+   - Với $$w_1^\star = -2$$ và $$w_2^\star = +2$$:
+     - Bệnh viện 1 giải $$\min_{x_1} \frac{1}{2}(x_1 - 1)^2 + \frac{1}{2}(x_1 - 3 - 2)^2 \implies (x_1 - 1) + (x_1 - 5) = 0 \implies \mathbf{x_1 = 3 = z^\star}$$!
+     - Bệnh viện 2 giải $$\min_{x_2} \frac{1}{2}(x_2 - 5)^2 + \frac{1}{2}(x_2 - 3 + 2)^2 \implies (x_2 - 5) + (x_2 - 1) = 0 \implies \mathbf{x_2 = 3 = z^\star}$$!
+   Cả hai bệnh viện đều tự nguyện dừng chính xác tại $$z^\star = 3$$ — **triệt tiêu hoàn toàn độ trôi dạt cục bộ!**
+
+---
+
 Các phương pháp (sub)gradient đối ngẫu, phân rã đối ngẫu, hàm Lagrange tăng cường và ADMM trong chương này đều xoay quanh một ý tưởng cốt lõi: *định giá một ràng buộc đồng thuận hoặc nguồn lực chung bằng biến đối ngẫu để mỗi khối biến có thể tự tối ưu độc lập*. Đây cũng chính là cơ chế đứng sau học liên bang (federated learning). Khi học đến FedAvg ở Chương 29, ta có thể nhìn nhận FedADMM như phiên bản có máy chủ trung tâm của Chương 20: biến đối ngẫu đóng vai trò mức giá điều chỉnh liên tục cho yêu cầu "mô hình cục bộ của mỗi client phải khớp với mô hình toàn cục".
 
 ## FedADMM: dùng biến đối ngẫu xử lý tính không đồng nhất giữa các client

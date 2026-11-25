@@ -10,6 +10,30 @@ lang: en
 lesson_type: optional
 ---
 
+Classical gradient-descent theory tells you that stepping past $$t > 2/L$$ causes immediate explosion. Yet if you measure the Hessian of a deep neural network during real training, something astonishing happens: the sharpness $$\lambda_{\max}(\nabla^2 f)$$ climbs *right up to* $$2/t$$ and hovers there for thousands of epochs without diverging! This lesson explores three major 2022–2026 breakthroughs—Edge of Stability, the Lion optimizer, and Schedule-Free SGD/AdamW—where empirical deep learning reshaped our understanding of first-order methods.
+
+## Background Knowledge Map: First-Order Optimization at the 2022–2026 Frontier
+
+1. **Edge of Stability (EoS)**: Cohen et al. showed that full-batch GD on neural nets undergoes *progressive sharpening* until $$\lambda_{\max}(\nabla^2 f(x_k)) \approx 2/t$$. Beyond that threshold, nonlinear third/fourth-order terms self-stabilize the oscillations while the loss continues to drop non-monotonically over long horizons—defying the quadratic $$L$$-smoothness picture.
+2. **Sign-Based Momentum (`Lion`)**: Discovered via symbolic program search (Chen et al., 2023), Lion tracks a single momentum buffer and updates weights via the elementwise `sign` of an interpolated momentum vector: $$x_{k+1} = x_k - t \operatorname{sign}\bigl(\beta_1 m_k + (1 - \beta_1) g_k\bigr)$$. Every parameter moves by the exact same magnitude $$t$$, cutting optimizer memory in half compared to AdamW.
+3. **Schedule-Free Optimization (Defazio et al., 2024)**: Instead of pre-committing to a cosine or linear learning-rate decay horizon $$T$$, Schedule-Free SGD/AdamW decouples the *iterates* (where gradients are evaluated via Polyak–Ruppert averaging interpolation) from the *solution sequence*, removing the stopping-time hyperparameter while matching tuned cosine schedules.
+4. **Why Classical Theory Still Anchors Modern Practice**: Even at the Edge of Stability, understanding $$2/L$$, momentum damping, and iterate averaging is the exact language needed to diagnose loss spikes, tune weight decay, and reason about step-size scaling.
+
+### Step-by-Step Worked Example (Read Slowly): Computing One Update of Lion vs. Vanilla Momentum
+
+Compare one update on a 2D weight vector $$x_0 = (1.0,\; 1.0)$$ with initial momentum $$m_0 = (0.2,\; -0.4)$$, current gradient $$g_1 = (0.01,\; -5.0)$$, learning rate $$t = 0.1$$, and $$\beta_1 = 0.9, \beta_2 = 0.99$$.
+
+1. **Vanilla Momentum update**:
+   - $$m_1 = 0.9(0.2, -0.4) + (0.01, -5.0) = (0.19,\; -5.36)$$.
+   - $$x_1^{\mathrm{Mom}} = (1.0, 1.0) - 0.1(0.19, -5.36) = (0.981,\; 1.536)$$.
+   - Notice coordinate 2 moved **28× farther** than coordinate 1 because of the huge gradient scale disparity.
+2. **Lion update**:
+   - Interpolated update direction: $$u_1 = \beta_1 m_0 + (1 - \beta_1) g_1 = 0.9(0.2, -0.4) + 0.1(0.01, -5.0) = (0.181,\; -0.860)$$.
+   - Apply elementwise `sign`: $$\operatorname{sign}(u_1) = (+1,\; -1)$$.
+   - Update weights: $$x_1^{\mathrm{Lion}} = (1.0, 1.0) - 0.1(+1, -1) = (0.900,\; 1.100)$$.
+   - Update stored momentum for the next step: $$m_1^{\mathrm{Lion}} = 0.99(0.2, -0.4) + 0.01(0.01, -5.0) = (0.1981,\; -0.4460)$$.
+3. **Key insight**: Lion normalizes every coordinate's step magnitude to exactly $$t = 0.1$$ using only one buffer $$m$$ (no second-moment variance buffer $$v$$ like Adam!), preventing giant gradients from destabilizing individual layers.
+
 Chapter 06 developed gradient descent with a Lipschitz gradient, step-size rules, and the faster rate under strong convexity. That theory is still the right first picture — and it is *not* the whole picture of how people train networks in 2022–2026. This lesson adds three empirical and algorithmic developments you should be able to cite: the edge-of-stability regime for full-batch GD, a sign-based momentum method discovered by program search (Lion), and schedule-free averaging that removes the need to know $$T$$ in advance. Adaptive methods (AdamW) live in [Chapter 26]({{ site.baseurl }}/contents/en/chapter26/); we only mention them when a paper uses them as a baseline.
 
 ## Edge of stability: when the textbook step-size bound fails

@@ -12,6 +12,34 @@ redirect_from:
   - /contents/en/chapter14/14_11_Practical_Exercises_Newton_Method/
 ---
 
+Mastering Newton's method means being able to move effortlessly between algebra and computation: assembling gradients and Hessians cleanly, solving linear systems without unnecessary matrix inversions, checking self-concordance inequalities by hand, and formulating KKT block systems for equality constraints. Use this structured playbook and warm-up derivation before tackling the full exercise set below.
+
+## Background Knowledge Map: Exercise-Solving Playbook for Chapter 14
+
+- **Pillar 1 — Matrix Calculus Discipline:** For $$f(x) = \frac{1}{2}x^T Q x + c^T x$$ with symmetric $$Q$$, $$\nabla f(x) = Qx + c$$ and $$\nabla^2 f(x) = Q$$; for log-sum-exp or logistic losses, express $$\nabla^2 f(x) = X^T W X$$ to see positive semidefiniteness immediately.
+- **Pillar 2 — Newton Decrement & Stopping Rules:** Always verify $$\lambda(x)^2 = -\nabla f(x)^T \Delta x_{\text{nt}} > 0$$ as a built-in sign check—if you ever get a negative value for a convex function, you dropped a minus sign!
+- **Pillar 3 — Verifying Self-Concordance:** For multivariate functions, restrict to a line $$g(t) = f(x + tv)$$ and check $$|g'''(t)| \le 2 g''(t)^{3/2}$$ (or decompose $$f$$ into known self-concordant sums and affine compositions).
+- **Pillar 4 — KKT Systems for Equality Constraints:** Write $$\nabla^2 f(x)\,\Delta x + A^T w = -\nabla f(x)$$ and $$A\Delta x = 0$$; eliminate $$\Delta x = -H^{-1}(\nabla f + A^T w)$$ via the Schur complement $$A H^{-1} A^T w = -A H^{-1}\nabla f$$ when $$H$$ is easily invertible.
+
+### Step-by-Step Worked Example (Read Slowly): Computing a Newton Step for 1D Logistic Regression
+
+Consider the regularized logistic loss $$f(w) = \ln(1 + e^{-w}) + \frac{1}{2}w^2$$ at $$w = 0$$.
+
+1. **Compute the sigmoid probability $$p(w) = \frac{1}{1 + e^w}$$ and derivatives:**
+   - $$f'(w) = -\frac{e^{-w}}{1 + e^{-w}} + w = -\frac{1}{1 + e^w} + w$$.
+   - $$f''(w) = \frac{e^w}{(1 + e^w)^2} + 1 = p(w)(1 - p(w)) + 1$$.
+2. **Evaluate at $$w = 0$$ (where $$p(0) = 0.5$$):**
+   - $$f'(0) = -0.5 + 0 = -0.5$$.
+   - $$f''(0) = (0.5)(0.5) + 1 = 1.25 = \frac{5}{4}$$.
+3. **Compute Newton step and Newton decrement:**
+   - $$\Delta w_{\text{nt}} = -\frac{-0.5}{1.25} = +0.4$$.
+   - $$\lambda(0)^2 = -f'(0)\Delta w_{\text{nt}} = -(-0.5)(0.4) = 0.20 \implies \lambda(0) \approx 0.4472$$.
+   - Predicted quadratic drop: $$\frac{1}{2}\lambda(0)^2 = 0.10$$.
+4. **Verify actual drop at $$w^{(1)} = 0.4$$:**
+   - $$f(0) = \ln 2 \approx 0.6931$$.
+   - $$f(0.4) = \ln(1 + e^{-0.4}) + \frac{1}{2}(0.16) \approx 0.5130 + 0.0800 = 0.5930$$.
+   - Actual drop: $$0.6931 - 0.5930 = 0.1001$$—matching the quadratic prediction $$0.10$$ to three decimal places!
+
 # Practical Exercises - Newton's Method
 
 The exercises are adapted from Boyd & Vandenberghe (2004), Nocedal & Wright (2006), and Bertsekas (1999).

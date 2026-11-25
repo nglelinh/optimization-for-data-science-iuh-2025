@@ -9,6 +9,29 @@ categories:
 lang: en
 ---
 
+Convergence theorems look pristine on a chalkboard: "Assume $$f$$ is $$m$$-strongly convex and $$L$$-smooth." Then you open a real dataset with 10,000 features and 500 samples, run least squares, and suddenly $$m = 0$$! This lesson bridges theory and practice by computing exact $$L$$ and $$m$$ values for real machine-learning objectives and revealing what happens when conditions break.
+
+## Background Knowledge Map: Computing $$L$$ and $$m$$ in Practice
+
+1. **Least Squares $$f(\beta) = \frac{1}{2}\|y - X\beta\|_2^2$$**: The Hessian is $$\nabla^2 f(\beta) = X^T X$$, so $$L = \sigma_{\max}^2(X)$$ and $$m = \sigma_{\min}^2(X)$$. Whenever $$p > n$$ (more features than samples) or columns are collinear, $$\sigma_{\min}(X) = 0$$, so strong convexity **fails**!
+2. **How Ridge Regularization Restores Strong Convexity**: Adding $$\frac{\lambda}{2}\|\beta\|_2^2$$ shifts every Hessian eigenvalue up by $$\lambda$$: $$L = \sigma_{\max}^2(X) + \lambda$$ and $$m = \sigma_{\min}^2(X) + \lambda \ge \lambda > 0$$. The condition number improves dramatically to $$\kappa = \frac{\sigma_{\max}^2(X) + \lambda}{\sigma_{\min}^2(X) + \lambda}$$.
+3. **Feature Scaling Directly Controls $$\kappa$$**: If Feature 1 is measured in millimeters ($$10^3$$) and Feature 2 in kilometers ($$10^{-3}$$), the ratio of singular values squared explodes by $$10^{12}$$, crippling gradient descent. Standardizing features to zero mean and unit variance is actually *diagonal preconditioning* that slashes $$\kappa$$.
+4. **Cost per Iteration vs. Accuracy Regime**: Each gradient step on least squares costs $$O(np)$$, whereas Newton's method or Cholesky costs $$O(np^2 + p^3)$$. Gradient descent wins when $$p$$ is huge and moderate accuracy ($$\varepsilon \approx 10^{-3}$$) suffices; second-order methods win when $$p$$ is moderate and high accuracy ($$\varepsilon \approx 10^{-10}$$) or high $$\kappa$$ dominates.
+
+### Step-by-Step Worked Example (Read Slowly): How Feature Scaling and Ridge Shrink $$\kappa$$
+
+Consider a two-feature design matrix where Feature 1 is in meters and Feature 2 is in millimeters:
+$$X = \begin{bmatrix} 1 & 0 \\ 0 & 100 \end{bmatrix}, \qquad X^T X = \begin{bmatrix} 1 & 0 \\ 0 & 10{,}000 \end{bmatrix}.$$
+
+1. **Raw unscaled OLS ($$\lambda = 0$$)**:
+   - $$L = 10{,}000$$, $$m = 1$$, so $$\kappa = 10{,}000$$.
+   - Safe step size $$t = 1/L = 10^{-4}$$ shrinks the error along Feature 1 by only $$1 - 10^{-4} = 0.9999$$ per step—needing $$\approx 23{,}000$$ iterations to cut error by $$10\times$$!
+2. **Add Ridge regularization $$\lambda = 99$$ (still unscaled)**:
+   - $$L = 10{,}099$$, $$m = 100$$, so $$\kappa = 100.99$$ — a **100×** reduction in condition number just from $$\lambda$$!
+3. **Standardize features first** (divide column 2 by $$100$$ so $$\tilde{X} = I_2$$):
+   - $$\tilde{X}^T \tilde{X} = I_2 \implies L = 1, m = 1, \kappa = 1$$!
+   - Gradient descent with $$t = 1$$ converges to the **exact** global optimum in **1 single iteration** instead of 23,000!
+
 ## Lipschitz continuity & Strong convexity conditions
 Let's examine the conditions for Lipschitz continuity and Strong convexity using $$f(β) = \frac{1}{2} \lVert y−Xβ \rVert_2^2$$ as an example.
 

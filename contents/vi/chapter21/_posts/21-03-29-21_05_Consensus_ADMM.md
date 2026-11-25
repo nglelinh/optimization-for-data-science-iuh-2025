@@ -9,6 +9,36 @@ categories:
 lang: vi
 ---
 
+Khi tập dữ liệu huấn luyện khổng lồ tới mức phải rải đều trên $$B = 100$$ máy chủ khác nhau, bài toán tối ưu có dạng tổng $$\min_x \sum_{i=1}^B f_i(x)$$, trong đó mỗi máy chủ $$i$$ chỉ nắm giữ hàm mất mát $$f_i$$ trên mảnh dữ liệu của riêng nó. Thay vì dồn dữ liệu về một chỗ, **ADMM đồng thuận (Consensus ADMM)** làm một phép biến hóa đơn giản đến ngỡ ngàng: cấp cho mỗi máy chủ một bản sao biến riêng $$x_i$$ kèm ràng buộc đồng nhất $$x_i = x$$! Nhờ vậy, bước cập nhật $$x_i$$ chạy **song song tuyệt đối** trên cả 100 máy, còn bước cập nhật biến toàn cục $$x$$ chỉ là **một phép lấy trung bình cộng** duy nhất!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của ADMM đồng thuận (Consensus ADMM)
+
+Để cài đặt và mở rộng Consensus ADMM trên hệ thống phân tán thực tế, hãy nắm rõ bốn cơ chế sau:
+
+- **Tách biến đồng nhất ($$x_i = x, \; i = 1, \dots, B$$):** Biến bài toán tối ưu chung biến $$x$$ thành bài toán hai khối $$(x_1, \dots, x_B)$$ và biến đồng thuận $$x$$. Toàn bộ sự liên kết giữa các máy chủ bị cô lập vào duy nhất biến trung tâm $$x$$.
+- **Tính chất tự triệt tiêu tổng biến đối ngẫu ($$\bar{w}^{(k)} = 0$$):** Vì bước trung tâm đặt $$x^{(k)} = \bar{x}^{(k)} + \bar{w}^{(k-1)}$$, nên khi cập nhật $$w_i^{(k)} = w_i^{(k-1)} + x_i^{(k)} - x^{(k)}$$, lấy trung bình cộng hai vế lập tức cho $$\bar{w}^{(k)} = \bar{w}^{(k-1)} + \bar{x}^{(k)} - (\bar{x}^{(k)} + \bar{w}^{(k-1)}) = 0$$ với mọi $$k \ge 1$$! Nhờ đó bước trung tâm rút gọn thành đúng trung bình cộng $$x^{(k)} = \frac{1}{B}\sum_{i=1}^B x_i^{(k)}$$!
+- **Thêm điều chuẩn chung $$g(x)$$ tại máy chủ trung tâm:** Nếu bài toán là $$\min \sum_{i=1}^B f_i(x) + g(x)$$ (ví dụ phạt Lasso toàn cục $$\lambda\|x\|_1$$), bước trung tâm chỉ cần thay trung bình cộng bằng $$\operatorname{prox}_{g, 1/(B\rho)}(\bar{x}^{(k)})$$!
+- **Mở rộng sang đồng thuận cục bộ trên đồ thị (General Consensus):** Khi mỗi nút chỉ dùng một tập con tọa độ của $$x$$ (như mô hình đồ thị hay lưới điện), mỗi tọa độ toàn cục $$x_j$$ chỉ cần lấy trung bình trên tập các nút có chứa tọa độ $$j$$ đó.
+
+### Khung giải thích (nên đọc chậm): Chạy tay 1 vòng lặp Consensus ADMM trên 3 máy chủ và kiểm chứng $$\bar{w}^{(1)} = 0$$
+
+Xét $$B = 3$$ máy chủ giải bài toán $$\min_x \frac{1}{2}(x - 1)^2 + \frac{1}{2}(x - 4)^2 + \frac{1}{2}(x - 7)^2$$ (nghiệm tối ưu toàn cục là trung bình $$x^\star = \frac{1 + 4 + 7}{3} = 4$$). Chọn $$\rho = 1$$, khởi tạo $$x^{(0)} = 0$$ và $$w_1^{(0)} = w_2^{(0)} = w_3^{(0)} = 0$$:
+
+1. **Bước 1 — 3 máy chủ giải song song độc lập:**
+   Mỗi máy giải $$x_i^{(1)} = \arg\min_{x_i} \left(\frac{1}{2}(x_i - c_i)^2 + \frac{1}{2}(x_i - 0 + 0)^2\right) = \frac{c_i}{2}$$:
+   - Máy 1 ($$c_1 = 1$$): $$x_1^{(1)} = 0.5$$.
+   - Máy 2 ($$c_2 = 4$$): $$x_2^{(1)} = 2.0$$.
+   - Máy 3 ($$c_3 = 7$$): $$x_3^{(1)} = 3.5$$.
+2. **Bước 2 — Máy chủ trung tâm lấy trung bình cộng:**
+   $$x^{(1)} = \frac{0.5 + 2.0 + 3.5}{3} = 2.0.$$
+3. **Bước 3 — 3 máy chủ tự cập nhật biến đối ngẫu riêng $$w_i^{(1)} = w_i^{(0)} + x_i^{(1)} - x^{(1)}$$:**
+   - $$w_1^{(1)} = 0.5 - 2.0 = -1.5$$.
+   - $$w_2^{(1)} = 2.0 - 2.0 = 0.0$$.
+   - $$w_3^{(1)} = 3.5 - 2.0 = +1.5$$.
+   Kiểm tra tổng biến đối ngẫu: $$\bar{w}^{(1)} = \frac{-1.5 + 0.0 + 1.5}{3} = 0$$ — triệt tiêu chính xác! Và ở vòng 2, $$x_1^{(2)} = \frac{1 + 2 - (-1.5)}{2} = 2.25, \; x_2^{(2)} = 3.0, \; x_3^{(2)} = 3.75 \implies x^{(2)} = 3.0$$, tiến đều đặn về đúng $$x^\star = 4.0$$!
+
+---
+
 # ADMM đồng thuận
 
 ## ADMM đồng thuận cơ bản

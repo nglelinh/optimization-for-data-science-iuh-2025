@@ -9,6 +9,33 @@ categories:
 lang: vi
 ---
 
+Hãy tưởng tượng một camera an ninh quay cố định một hành lang suốt nhiều giờ: phần nền (tường, sàn, cửa) gần như đứng yên nên tạo thành một **ma trận hạng thấp (low-rank)** $$L$$, còn người đi lại chỉ chiếm một phần nhỏ khung hình nên tạo thành một **ma trận thưa (sparse)** $$S$$. Làm thế nào tách khung hình quan sát $$M = L + S$$ thành đúng phần nền $$L$$ và phần người di chuyển $$S$$? Bài 21-04 giới thiệu hai bài toán ma trận kinh điển — **Ước lượng không gian con thưa (Sparse PCA / Fantope)** và **Phân rã thưa cộng hạng thấp (Robust PCA)** — nơi ADMM tỏa sáng bằng cách ghép hai toán tử proximal ma trận cực kỳ thanh lịch: ngưỡng mềm phần tử và **ngưỡng giá trị kỳ dị (Singular Value Thresholding)**!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu hóa ma trận bằng ADMM
+
+Để đọc hiểu dễ dàng các ký hiệu không gian ma trận $$\mathbb{S}^p, \mathcal{F}_k, \|L\|_*$$ trong bài này, hãy nắm rõ bốn khái niệm nền:
+
+- **Nới lỏng lồi Fantope $$\mathcal{F}_k$$ cho không gian con hạng $$k$$:** Tập các ma trận chiếu hạng $$k$$ không lồi. Bao lồi của nó là tập Fantope $$\mathcal{F}_k = \{Y \in \mathbb{S}^p : 0 \preceq Y \preceq I, \; \operatorname{tr}(Y) = k\}$$ — cho phép viết bài toán Sparse PCA dưới dạng bài toán tối ưu lồi giải được bằng ADMM!
+- **Chuẩn hạt nhân $$\|L\|_* = \sum_i \sigma_i(L)$$ làm đại diện lồi cho hạng ma trận:** Hệt như chuẩn $$\ell_1$$ là bao lồi chặt nhất của số phần tử khác không ($$\|x\|_0$$) cho vector, chuẩn hạt nhân (tổng các giá trị kỳ dị) là bao lồi chặt nhất của $$\operatorname{rank}(L)$$ trên hình cầu đơn vị phổ!
+- **Ngưỡng giá trị kỳ dị (SVT) là toán tử proximal của chuẩn hạt nhân:** Với phân rã SVD $$A = U\Sigma V^T$$, ta có $$\operatorname{prox}_{\tau\|\cdot\|_*}(A) = U \operatorname{diag}((\sigma_i - \tau)_+) V^T$$ — chỉ cần co các giá trị kỳ dị bằng ngưỡng mềm rồi nhân ghép lại!
+- **Phân rã 3 khối thành 2 khối trong Robust PCA:** Bài toán $$\min \|L\|_* + \lambda\|S\|_1 \text{ s.t. } L + S = M$$ khớp hoàn hảo với khung ADMM hai khối ($$A = I, B = I, c = M$$): bước $$L$$ gọi SVT, bước $$S$$ gọi ngưỡng mềm phần tử, cực kỳ gọn gàng!
+
+### Khung giải thích (nên đọc chậm): Chạy tay 1 bước SVT + Ngưỡng mềm phân rã ma trận $$2 \times 2$$
+
+Xét ma trận quan sát đường chéo $$M = \begin{bmatrix} 5 & 0 \\ 0 & 1.5 \end{bmatrix}$$ (giả sử ta muốn tách $$M = L + S$$ với $$L$$ hạng thấp và $$S$$ thưa), tham số phạt $$\lambda = 1$$, $$\rho = 0.5$$ (nên ngưỡng SVT cho $$L$$ là $$\tau_L = 1/\rho = 2$$ và ngưỡng mềm cho $$S$$ là $$\tau_S = \lambda/\rho = 2$$). Khởi tạo $$S^{(0)} = 0, W^{(0)} = 0$$:
+
+1. **Bước 1 — Cập nhật thành phần hạng thấp $$L^{(1)} = \operatorname{SVT}_{2}(M - S^{(0)} - W^{(0)})$$: **
+   - Các giá trị kỳ dị của $$M$$ là $$\sigma_1 = 5$$ và $$\sigma_2 = 1.5$$.
+   - Áp dụng ngưỡng mềm với $$\tau_L = 2$$:
+     $$\sigma_1^+ = (5 - 2)_+ = 3, \qquad \sigma_2^+ = (1.5 - 2)_+ = 0.$$
+   - Thu được $$L^{(1)} = \begin{bmatrix} 3 & 0 \\ 0 & 0 \end{bmatrix}$$ — **hạng ma trận lập tức giảm từ 2 xuống 1!**
+2. **Bước 2 — Cập nhật thành phần thưa $$S^{(1)} = S_{2}(M - L^{(1)} - W^{(0)})$$:**
+   - Phần dư còn lại: $$M - L^{(1)} = \begin{bmatrix} 2 & 0 \\ 0 & 1.5 \end{bmatrix}$$.
+   - Áp dụng ngưỡng mềm từng phần tử với $$\tau_S = 2$$: $$S^{(1)} = \begin{bmatrix} (2-2)_+ & 0 \\ 0 & (1.5-2)_+ \end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}$$ (nếu chọn $$\lambda = 0.5$$ thì $$\tau_S = 1$$ cho $$S^{(1)} = \operatorname{diag}(1, 0.5)$$).
+3. **Bước 3 — Cập nhật biến đối ngẫu:** $$W^{(1)} = W^{(0)} + L^{(1)} + S^{(1)} - M$$, đẩy phần còn lại sang vòng sau để $$L^{(k)} + S^{(k)}$$ hội tụ chính xác về $$M$$!
+
+---
+
 # Ví dụ: Ước lượng không gian con thưa và phân rã thưa cộng hạng thấp
 
 ## Ước lượng không gian con thưa

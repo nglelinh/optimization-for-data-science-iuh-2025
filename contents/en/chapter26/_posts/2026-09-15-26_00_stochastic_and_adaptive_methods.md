@@ -10,6 +10,28 @@ lang: en
 lesson_type: required
 ---
 
+Imagine training a modern language model on a trillion tokens using classical full-batch gradient descent: before taking even a *single* parameter update, you would have to run a forward and backward pass across the entire internet. Modern machine learning lives in a completely different regime—one where gradients are noisy estimates computed on tiny minibatches, curvature varies by six orders of magnitude across layers, and wall-clock time is bounded by GPU memory bandwidth rather than iteration count. Chapter 26 builds the complete optimization stack of modern ML from first principles: from SGD and momentum, through AdaGrad and AdamW, to variance-reduced finite-sum solvers and 2024–2026 optimizers like SAM, Sophia, and Muon.
+
+## Background Knowledge Map: The Modern Stochastic & Adaptive Optimization Stack
+
+- **Finite-Sum Structure & Minibatch Noise:** Empirical risk $$F(w) = \frac{1}{n}\sum_{i=1}^n f_i(w)$$ turns exact gradients into $$O(n)$$ bottlenecks. Minibatching replaces exactness with an unbiased stochastic gradient whose variance scales as $$\sigma^2 / B$$, trading asymptotic precision for massive throughput.
+- **Inertia & Acceleration (Momentum / Nesterov):** Exponentially averaging past gradients damps oscillations across high-curvature ravines while amplifying consistent motion along flat valleys, reducing condition-number dependence from $$\kappa$$ to $$\sqrt{\kappa}$$ on quadratics.
+- **Diagonal Adaptive Preconditioning (AdaGrad → AdamW):** Rescaling each coordinate by the inverse square root of accumulated squared gradients equalizes learning speeds across sparse tokens and dense hidden layers, while decoupling weight decay (AdamW) prevents adaptive rescaling from distorting regularization.
+- **Variance Reduction (SVRG / SAGA) & Second-Order / Matrix Preconditioning:** For finite-sum convex problems, control variates kill the noise floor to recover linear convergence; in deep learning, sharpness-aware updates (SAM), diagonal Hessians (Sophia), and orthogonalized matrix steps (Muon) push beyond diagonal AdamW.
+
+### Step-by-Step Worked Example (Read Slowly): Why 10 Noisy Steps Beat 1 Exact Step
+
+Suppose $$F(w) = \frac{1}{4}\sum_{i=1}^4 f_i(w)$$ where $$f_i(w) = \frac{1}{2}(w - y_i)^2$$ with data $$y = (2, 4, 6, 8)$$. The exact minimizer is $$w^\star = \bar{y} = 5$$, and the full gradient is $$F'(w) = w - 5$$. Start at $$w_0 = 0$$ with step size $$\eta = 0.2$$.
+
+1. **One full-batch GD step (costs 4 gradient evaluations):**
+   - Full gradient: $$F'(0) = 0 - 5 = -5$$.
+   - Update: $$w_1^{\text{GD}} = 0 - 0.2(-5) = 1.0$$. Remaining distance to optimum: $$|1.0 - 5| = 4.0$$.
+2. **Four single-example SGD steps (exact same budget: 4 gradient evaluations!):** Walk through the shuffled pass $$(y_1, y_2, y_3, y_4) = (2, 8, 4, 6)$$ with $$\eta = 0.2$$:
+   - Step 1 ($$y = 2$$): $$w_1 = 0 - 0.2(0 - 2) = 0.4$$.
+   - Step 2 ($$y = 8$$): $$w_2 = 0.4 - 0.2(0.4 - 8) = 0.4 + 1.52 = 1.92$$.
+   - Step 3 ($$y = 4$$): $$w_3 = 1.92 - 0.2(1.92 - 4) = 1.92 + 0.416 = 2.336$$.
+   - Step 4 ($$y = 6$$): $$w_4 = 2.336 - 0.2(2.336 - 6) = 2.336 + 0.7328 = 3.0688$$!
+3. **Compare progress per gradient evaluation:** For the *exact same* 4 sample evaluations, full-batch GD reached $$w = 1.0$$ (error $$4.0$$), whereas 1 epoch of SGD already reached $$w = 3.0688$$ (error $$1.9312$$)—cutting the distance to $$w^\star$$ more than twice as fast!
 
 # Stochastic and adaptive methods for ML
 

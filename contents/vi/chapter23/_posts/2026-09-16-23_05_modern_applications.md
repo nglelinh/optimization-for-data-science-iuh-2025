@@ -10,6 +10,38 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu bạn từng nghĩ hạ theo tọa độ chỉ là một mẹo hay cho bài toán Lasso bậc hai cổ điển, bức tranh công nghiệp giai đoạn 2022–2026 sẽ khiến bạn bất ngờ. Khi chạy `LassoCV` hay `LinearSVC` trong `scikit-learn`, khớp mô hình sống còn Cox trong `glmnet 4.x`, hay giải bài toán ngược tín hiệu não M/EEG hàng triệu chiều bằng `skglm`, động cơ thực sự đang chạy hết công suất bên dưới không phải Adam mà chính là **hạ theo tọa độ** được trang bị thêm hai vũ khí hiện đại: **sàng lọc an toàn theo khoảng cách đối ngẫu (gap-safe screening)** và **tăng tốc Anderson**.
+
+Bài đọc này nối trực tiếp lý thuyết Chương 23 với các thư viện mã nguồn mở chuẩn mực đang vận hành hàng ngày trong thống kê sinh học, xử lý ngôn ngữ tự nhiên quy mô nhẹ và dữ liệu bảng nhiều chiều.
+
+## Bản đồ kiến thức nền: Bốn mảnh ghép công nghệ biến CD thành bộ giải triệu chiều
+
+Để nắm được vì sao các thư viện hiện đại lại đạt tốc độ vượt trội trên dữ liệu siêu cao chiều ($$p \gg n$$), hãy chú ý bốn trụ cột kỹ thuật sau:
+
+- **Vòng ngoài Proximal-Newton / IRLS (trong `glmnet 4.x`):** Mọi mô hình tuyến tính tổng quát (logistic, Poisson, Cox) đều có hàm log-hợp lý trơn; xấp xỉ bậc hai cục bộ đưa mỗi bước ngoài về một bài toán Lasso bình phương tối thiểu *có trọng số*, cho phép tái sử dụng nguyên vẹn lõi CD của mục 23-03.
+- **Sàng lọc an toàn theo khoảng cách đối ngẫu (Gap-Safe Screening):** Dựa trên khoảng cách đối ngẫu $$G = P(\beta) - D(\theta)$$, ta dựng được một hình cầu chắc chắn chứa nghiệm đối ngẫu tối ưu $$\theta^\star$$. Đặc trưng nào có tích vô hướng với mọi điểm trong hình cầu đều nhỏ hơn $$1$$ thì chắc chắn có $$\beta_j^\star = 0$$ và bị loại vĩnh viễn khỏi bộ nhớ.
+- **Tập hoạt động + Tăng tốc Anderson (trong `skglm`):** Mở rộng ra ngoài chuẩn $$\ell_1$$ sang các hàm phạt không lồi (MCP, SCAD) hay chuẩn nhóm, kết hợp ngoại suy tổ hợp tuyến tính các bước lặp gần nhất (Anderson acceleration) để rút ngắn mạnh số vòng lặp.
+- **Hạ theo tọa độ đối ngẫu (Dual CD trong LIBLINEAR):** Với SVM tuyến tính khi số mẫu lớn và đặc trưng thưa (văn bản túi từ, dự đoán CTR), bài toán đối ngẫu có ràng buộc hộp $$0 \le \alpha_i \le C$$ đơn giản, nên mỗi bước CD chỉ là cắt ngưỡng một nghiệm bậc hai 1 chiều.
+
+### Khung giải thích (nên đọc chậm): Tính tay quy tắc sàng lọc an toàn (Gap-Safe Screening)
+
+Hãy tự tay chứng nhận một đặc trưng chắc chắn bằng $$0$$ tại nghiệm tối ưu mà **chưa cần giải xong bài toán**! Xét Lasso với hai cột trực chuẩn $$X_1 = (1, 0)^T, X_2 = (0, 1)^T$$ ($$\|X_1\|_2 = \|X_2\|_2 = 1$$), nhãn $$y = (3,\; 0.2)^T$$ và $$\lambda = 1$$.
+
+Giả sử sau vài vòng lặp, ta đang ở điểm hiện tại $$\beta = (1.8,\; 0)$$ (chưa phải nghiệm tối ưu $$(2, 0)$$).
+
+1. **Tính phần dư và điểm khả thi đối ngẫu $$\theta$$:**
+   Phần dư $$r = y - X\beta = (3 - 1.8,\; 0.2 - 0)^T = (1.2,\; 0.2)^T$$.
+   Điều kiện khả thi đối ngẫu của Lasso là $$\|X^T \theta\|_\infty \le 1$$. Ta chuẩn hóa $$r$$ bằng hệ số $$\max(\lambda, \|X^T r\|_\infty) = \max(1, 1.2) = 1.2$$:
+   $$\theta = \frac{r}{1.2} = \left(1,\; \frac{1}{6}\right)^T \approx (1,\; 0.1667)^T.$$
+2. **Tính khoảng cách đối ngẫu $$G = P(\beta) - D(\theta)$$:**
+   - Giá trị gốc: $$P(\beta) = \frac{1}{2}\|r\|_2^2 + \lambda\|\beta\|_1 = \frac{1}{2}(1.2^2 + 0.2^2) + 1.8 = 0.74 + 1.8 = 2.54$$.
+   - Giá trị đối ngẫu chuẩn của Lasso: $$D(\theta) = \frac{1}{2}\|y\|_2^2 - \frac{\lambda^2}{2}\left\|\theta - \frac{y}{\lambda}\right\|_2^2 = \frac{9.04}{2} - \frac{1}{2}\left((1 - 3)^2 + \left(\frac{1}{6} - 0.2\right)^2\right) \approx 4.52 - 2.00056 = 2.51944$$.
+   - Khoảng cách đối ngẫu: $$G = 2.54 - 2.51944 = 0.02056$$.
+3. **Áp dụng phép thử hình cầu an toàn cho đặc trưng $$j = 2$$:**
+   Bán kính hình cầu chứa $$\theta^\star$$ là $$r_{\text{safe}} = \frac{\sqrt{2G}}{\lambda} \approx \sqrt{0.04112} \approx 0.2028$$.
+   Kiểm tra cận trên cho $$|X_2^T \theta^\star|$$:
+   $$|X_2^T \theta| + \|X_2\|_2 \cdot r_{\text{safe}} \approx 0.1667 + 1 \cdot 0.2028 = 0.3695 < 1!$$
+4. **Kết luận:** Vì $$|X_2^T \theta^\star| < 1$$ được **chứng minh chặt chẽ về mặt toán học**, theo điều kiện KKT thì $$\beta_2^\star$$ **bắt buộc bằng 0**. Thuật toán loại bỏ hoàn toàn cột $$X_2$$ khỏi mọi vòng lặp còn lại mà không đánh mất dù chỉ một chữ số chính xác nào!
 
 Hạ theo tọa độ dọc đường chính quy hóa (pathwise coordinate descent) là lý do giúp hồi quy Lasso trở thành công cụ tiêu chuẩn trong thống kê ứng dụng thay vì chỉ dừng ở mức nghiên cứu lý thuyết. Thư viện **glmnet** của Friedman, Hastie và Tibshirani (JSS 2010) vẫn được sử dụng rộng rãi trong R, còn `lasso_path` và `enet_path` của scikit-learn triển khai cùng ý tưởng bằng Cython. Bài đọc tùy chọn này cập nhật bối cảnh giai đoạn 2023–2026: `glmnet` mở rộng cho *mọi* họ mô hình tuyến tính tổng quát (GLM), các kỹ thuật sàng lọc an toàn và tập hoạt động ở quy mô hàng triệu đặc trưng, cùng bộ giải hạ theo tọa độ đối ngẫu tiếp tục phục vụ huấn luyện SVM tuyến tính trong thực tế.
 

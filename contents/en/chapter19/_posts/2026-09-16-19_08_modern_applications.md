@@ -10,6 +10,29 @@ lang: en
 lesson_type: optional
 ---
 
+Between 2022 and 2026, proximal Newton methods quietly crossed a major scalability frontier. In high-dimensional genomics, where precision matrices have $$p \approx 20{,}000$$ genes (over 200 million matrix entries), classical Graphical Lasso and even QUIC hit a memory and speed wall. New solvers like **MARS** (adaptive KKT sieving + semismooth Newton augmented Lagrangian) and `scikit-learn`'s `newton-cholesky` GLM path show that the core insight of Chapter 19—couple second-order curvature with exact nonsmooth structure, and shrink the working set via KKT certificates—scales to modern data science.
+
+## Background Knowledge Map: Modern Second-Order Composite Solvers (2022–2026)
+
+- **Adaptive KKT Sieving (MARS, JMLR 2023):** Before forming a huge Hessian, check the KKT optimality condition $$|\nabla_j g(x)| < \lambda$$ to certify coordinates that must be zero, solving the semismooth Newton system only on the tiny surviving active set.
+- **Semismooth Newton Augmented Lagrangian (SSNAL):** Applies generalized Newton steps to the continuously differentiable (but piecewise-smooth) augmented Lagrangian dual, achieving superlinear convergence on massive $$\ell_1$$-penalized D-trace and Lasso paths.
+- **Production GLM Solvers (`newton-cholesky` in `scikit-learn`):** When $$h(\beta) = \frac{\alpha}{2}\|\beta\|_2^2$$ is quadratic ridge, proximal Newton reduces to a single Cholesky solve of $$(X^T W X + \alpha I) v = -\nabla f$$, outperforming L-BFGS whenever $$n \gg p$$.
+- **Support Identification & Local Quadratic Polishing:** Across all modern applications, the winning pattern is identical: identify the sparse support cheaply, then let second-order curvature polish the free variables to $$10^{-10}$$ accuracy in 3–5 steps.
+
+### Step-by-Step Worked Example (Read Slowly): KKT Active-Set Sieving on a 3-Feature Lasso
+
+Consider $$\min_{x \in \mathbb{R}^3} \frac{1}{2}\|Ax - b\|_2^2 + \lambda\|x\|_1$$ with $$\lambda = 2$$, where at the current iterate $$x^k = (1, 0, 0)^T$$ the smooth gradient is $$\nabla g(x^k) = (-2.0, \; 0.3, \; -0.5)^T$$ and the Hessian is $$H = A^T A = \begin{bmatrix} 4 & 1 & 0 \\ 1 & 5 & 2 \\ 0 & 2 & 6 \end{bmatrix}$$.
+
+1. **Test the KKT zero-optimality condition $$|\nabla_j g(x^k)| < \lambda$$ on zero coordinates:**
+   - Coordinate 1 is nonzero ($$x_1^k = 1$$) $$\implies$$ stays in the **active set** $$\mathcal{A}$$.
+   - Coordinate 2 has $$x_2^k = 0$$ and $$|\nabla_2 g(x^k)| = 0.3 < 2 = \lambda$$ $$\implies$$ **sieved out** (fixed at $$v_2 = 0$$).
+   - Coordinate 3 has $$x_3^k = 0$$ and $$|\nabla_3 g(x^k)| = 0.5 < 2 = \lambda$$ $$\implies$$ **sieved out** (fixed at $$v_3 = 0$$).
+2. **Solve the reduced Newton system on $$\mathcal{A} = \{1\}$$ only:**
+   Instead of factoring the $$3 \times 3$$ matrix $$H$$ (or a $$20{,}000 \times 20{,}000$$ matrix in genomics!), we only solve the $$1 \times 1$$ subproblem:
+   $$\min_{v_1} \; -2.0 v_1 + \frac{1}{2}(4)v_1^2 + 2|1 + v_1| \implies -2 + 4v_1 + 2 = 0 \implies v_1 = 0.$$
+3. **Global KKT certification:**
+   At $$x^k = (1, 0, 0)^T$$, $$\nabla_1 g + 2\operatorname{sign}(1) = -2 + 2 = 0$$ and $$|\nabla_2 g|, |\nabla_3 g| < 2$$—so KKT sieving just certified global optimality using a $$1 \times 1$$ solve instead of a $$3 \times 3$$ solve!
+
 Proximal Newton applies a quadratic model to the *smooth* piece $$g$$ and leaves the *nonsmooth* piece $$h$$ inside the subproblem
 
 $$

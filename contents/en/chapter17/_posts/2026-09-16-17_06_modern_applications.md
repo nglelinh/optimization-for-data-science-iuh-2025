@@ -10,6 +10,29 @@ lang: en
 lesson_type: optional
 ---
 
+A decade ago, primal-dual interior-point methods were often taught as an elegant but somewhat heavy 1990s technology—too expensive for machine learning and too brittle for raw industrial pipelines. Between 2022 and 2026, that narrative flipped completely. Homogeneous conic solvers like Clarabel became the default backend inside CVXPY, GPU sparse direct factorizations brought PD-IPMs onto NVIDIA hardware (CuClarabel), and SDP relaxations for neural-network robustness pushed interior-point theory to its sharpest geometric edge: what happens when Slater's condition fails and the interior itself vanishes.
+
+## Background Knowledge Map: Modern Conic PD-IPMs in Practice
+
+- **Homogeneous Self-Dual Embedding:** Classical PD-IPMs diverge unpredictably on infeasible or unbounded problems. Modern solvers (Clarabel, MOSEK) embed the problem in a homogeneous self-dual cone with scaling variables $$(\tau, \kappa)$$, guaranteeing a well-defined central path that returns either an optimal solution or an Farkas infeasibility certificate.
+- **Symmetric & Nonsymmetric Cones:** Beyond LP/QP/SOCP/SDP, modern libraries handle exponential cones (logistic regression, entropy) and power cones inside the same unified KKT Newton factorization.
+- **GPU Sparse Direct KKT Factorizations:** Because PD-IPM's runtime is dominated by sparse $$LDL^T$$ factorization of the KKT matrix, GPU solvers like CuClarabel (using cuDSS) accelerate medium-to-large conic QPs by an order of magnitude while retaining $$10^{-8}$$ duality-gap certificates.
+- **Facial Reduction & Interior-Point Vanishing:** In SDP relaxations of ReLU neural networks, algebraic couplings often force every feasible matrix $$X \succeq 0$$ onto a low-rank boundary face (no $$X \succ 0$$ exists), causing standard IPMs to stall unless facial reduction or regularization restores strict feasibility.
+
+### Step-by-Step Worked Example (Read Slowly): Diagnosing an Interior-Point Vanishing SDP
+
+Consider a tiny $$2 \times 2$$ SDP mimicking a degenerate ReLU-network verification constraint:
+$$\min_{X \succeq 0} \; X_{22} \quad \text{subject to} \quad X_{11} = 0, \quad X_{11} + 2X_{12} + X_{22} = 1.$$
+
+1. **Test Slater's strict feasibility condition:**
+   Any feasible $$X = \begin{bmatrix} X_{11} & X_{12} \\ X_{12} & X_{22} \end{bmatrix} \succeq 0$$ has $$X_{11} = 0$$. For $$X$$ to be positive semidefinite, its determinant must satisfy:
+   $$X_{11} X_{22} - X_{12}^2 = -X_{12}^2 \ge 0 \implies X_{12} = 0.$$
+   Therefore, **no strictly positive definite matrix $$X \succ 0$$ is feasible**—the relative interior of the feasible set is empty!
+2. **See what happens to a naive PD-IPM central path:**
+   A primal-dual solver attempts to maintain $$X \succ 0$$ and $$S \succ 0$$ with $$XS = \mu I$$. As $$X_{11} \to 0^+$$ to satisfy the first constraint, $$S_{11} = \mu / X_{11} \to +\infty$$, blowing up the dual multiplier and destabilizing the KKT factorization before the duality gap can certify optimality.
+3. **Apply facial reduction to restore strict feasibility:**
+   Since $$X_{11} = 0$$ and $$X \succeq 0$$ force the first row and column of $$X$$ to vanish, every feasible matrix lies on the $$1 \times 1$$ face $$X = \begin{bmatrix} 0 & 0 \\ 0 & z \end{bmatrix}$$ with $$z \ge 0$$. Substituting into the second constraint yields $$z = 1 > 0$$, a strictly feasible $$1 \times 1$$ SDP with immediate certificate $$f^\star = 1$$!
+
 A primal-dual interior-point method takes *one* Newton step on the perturbed KKT map
 
 $$

@@ -12,6 +12,33 @@ redirect_from:
   - /contents/vi/chapter16/16_05_Practical_Exercises_Duality_Revisited/
 ---
 
+Ở mức độ đại học và cao học, việc hiểu sâu lý thuyết đối ngẫu không chỉ dừng lại ở tính hàm đối ngẫu của LP, mà thể hiện qua khả năng phân tích **độ nhạy (perturbation analysis)** — trả lời câu hỏi *"nếu nới lỏng ràng buộc thêm một lượng $$\Delta u$$ thì giá trị tối ưu thay đổi bao nhiêu?"* — cũng như áp dụng **đối ngẫu nón**, **đối ngẫu minimax** và **nới lỏng Lagrange (Lagrangian relaxation)** cho bài toán rời rạc không lồi.
+
+Tuyển tập bài tập thực hành Chương 16 dưới đây (tham khảo Boyd & Vandenberghe và Rockafellar) bao quát trọn vẹn năm kỹ năng đỉnh cao đó. Trước khi bắt tay giải Bài tập 1–5, hãy xem qua bản đồ chiến lược và một ví dụ mẫu cực kỳ trực quan về ý nghĩa kinh tế "giá bóng" của nhân tử Lagrange trong phân tích nhiễu loạn.
+
+## Bản đồ kiến thức nền: Năm kỹ năng tự luận đỉnh cao của Chương 16
+
+- **Phân tích nhiễu loạn và độ nhạy (Sensitivity Analysis):** Hàm giá trị tối ưu nhiễu loạn $$p^\star(u) = \inf \{f(x) \mid h(x) \le u\}$$ là hàm lồi theo $$u$$; khi đối ngẫu mạnh thỏa mãn và $$p^\star(u)$$ khả vi tại $$u = 0$$, ta có $$\lambda^\star = -\nabla p^\star(0)$$ — nhân tử đối ngẫu chính là **tốc độ cải thiện mục tiêu trên mỗi đơn vị nới lỏng ràng buộc**!
+- **Kiểm tra điều kiện Slater và đối ngẫu mạnh:** Luôn phân biệt ràng buộc tuyến tính (chỉ cần $$\le 0$$) với ràng buộc phi tuyến (cần $$< 0$$) và chú ý các trường hợp biên nơi đối ngẫu mạnh bị phá vỡ (duality gap $$> 0$$).
+- **Đối ngẫu nón (Conic Duality):** Biết cách dùng tích trong chuẩn trên không gian ma trận $$\langle C, X \rangle = \operatorname{tr}(C^T X)$$ và tính tự đối ngẫu của $$\mathbb{S}_+^n$$ để suy ra đối ngẫu SDP.
+- **Nới lỏng Lagrange cho bài toán không lồi / tổ hợp:** Dù bài toán gốc không lồi (như quy hoạch nguyên hay Max-Cut), hàm đối ngẫu Lagrange vẫn **luôn lõm** và cung cấp một chặn dưới (hoặc chặn trên) cực kỳ sắc nét dùng trong thuật toán Nhánh và Cận (Branch-and-Bound).
+
+### Khung giải thích (nên đọc chậm): Minh họa trực giác phân tích nhiễu loạn (giá bóng $$\lambda^\star = -p^{\star\prime}(0)$$)
+
+Xét bài toán cực tiểu hóa 1 chiều có tham số nhiễu $$u$$ ở vế phải ràng buộc:
+$$p^\star(u) = \min_{x \in \mathbb{R}} \frac{1}{2}x^2 \qquad \text{với điều kiện } 2 - x \le u \;\; (\text{tức } x \ge 2 - u).$$
+
+1. **Tính tường minh hàm giá trị tối ưu $$p^\star(u)$$ quanh $$u = 0$$:**
+   Với $$u < 2$$, ràng buộc $$x \ge 2 - u > 0$$ đang tích cực, nên nghiệm là $$x^\star(u) = 2 - u$$ và:
+   $$p^\star(u) = \frac{1}{2}(2 - u)^2.$$
+2. **Tính đạo hàm độ nhạy tại $$u = 0$$:**
+   $$p^{\star\prime}(u) = -(2 - u) \implies p^{\star\prime}(0) = -2.$$
+   Điều này có nghĩa là nếu nới lỏng ràng buộc thêm $$\Delta u = +0.01$$ (từ $$x \ge 2$$ thành $$x \ge 1.99$$), giá trị tối ưu sẽ giảm xấp xỉ $$-2 \times 0.01 = -0.02$$ (thực tế $$\frac{1}{2}(1.99)^2 - \frac{1}{2}(2)^2 = 1.98005 - 2 = -0.01995 \approx -0.02$$!).
+3. **Đối chiếu với nhân tử Lagrange tối ưu $$\lambda^\star$$ tại $$u = 0$$:**
+   Hàm Lagrange tại $$u = 0$$ là $$L(x, \lambda) = \frac{1}{2}x^2 + \lambda(2 - x)$$. Điều kiện dừng $$x - \lambda = 0$$ tại $$x^\star = 2$$ cho ra $$\lambda^\star = 2 = -p^{\star\prime}(0)$$ — khẳng định chính xác nhân tử Lagrange chính là **giá bóng (shadow price)** của ràng buộc!
+
+---
+
 # Bài Tập Thực Hành - Tính đối ngẫu (Nhìn lại)
 
 Các bài tập được tham khảo từ Boyd & Vandenberghe (2004) và Rockafellar (1970).

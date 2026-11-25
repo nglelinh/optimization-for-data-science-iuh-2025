@@ -12,6 +12,33 @@ redirect_from:
   - /contents/vi/chapter01/01_05_Quiz_Optimization_Problems/
 ---
 
+Sai lầm phổ biến nhất của người mới học tối ưu hóa lồi không phải là tính đạo hàm sai, mà là **nhận diện nhầm bài toán lồi với bài toán không lồi** ngay từ dòng đề bài đầu tiên. Chỉ cần một dấu bất đẳng thức bị đảo ngược ($$\ge$$ thay vì $$\le$$ trên một hàm lồi), hay một ràng buộc đẳng thức bậc hai như $$x_1^2 + x_2^2 = 1$$, toàn bộ tính lồi của miền khả thi lập tức biến mất.
+
+Bộ trắc nghiệm này kiểm tra phản xạ phân loại bài toán tối ưu của bạn. Trước khi bắt đầu, hãy ôn nhanh 3 tiêu chí vàng và tự tay kiểm tra 3 ví dụ "bẫy" kinh điển ngay sau đây.
+
+## Bản đồ kiến thức nền: Ba chốt kiểm tra nhanh bài toán tối ưu hóa lồi
+
+- **Chốt 1 — Hàm mục tiêu $$f_0(x)$$:** Nếu bài toán là $$\min f_0$$ thì $$f_0$$ phải lồi; nếu là $$\max f_0$$ thì $$f_0$$ phải lõm (tức $$-f_0$$ lồi).
+- **Chốt 2 — Ràng buộc bất đẳng thức $$g_i(x) \le 0$$:** Mỗi $$g_i$$ phải là hàm lồi (nếu đề viết $$u(x) \ge 0$$ thì $$u$$ phải là hàm lõm để $$-u(x) \le 0$$ lồi).
+- **Chốt 3 — Ràng buộc đẳng thức $$h_j(x) = 0$$:** Bắt buộc phải là hàm affine $$a_j^T x + b_j = 0$$; mọi đẳng thức phi tuyến (trừ trường hợp đặc biệt rút gọn được) đều phá vỡ tính lồi của miền khả thi.
+
+### Khung giải thích (nên đọc chậm): Phân loại 3 bài toán thoạt nhìn rất giống nhau
+
+Hãy kiểm tra tính lồi của ba bài toán trên $$\mathbb{R}^2$$:
+
+1. **Bài toán A:** $$\min 2x_1 - x_2$$ thỏa mãn $$x_1 + 2x_2 \le 4$$.
+   - Hàm mục tiêu tuyến tính (lồi), ràng buộc $$x_1 + 2x_2 - 4 \le 0$$ là hàm affine (lồi).
+   - Kết luận: **Quy hoạch tuyến tính (LP)** $$\subset$$ bài toán tối ưu hóa lồi.
+2. **Bài toán B:** $$\min x_1^2 + x_2^2$$ thỏa mãn $$x_1^2 + x_2^2 \ge 1$$.
+   - Hàm mục tiêu lồi, nhưng ràng buộc là $$g(x) = 1 - (x_1^2 + x_2^2) \le 0$$ — hàm $$g$$ là hàm **lõm**, không phải hàm lồi!
+   - Phản ví dụ trực tiếp: $$x = (1, 0)$$ và $$y = (-1, 0)$$ đều khả thi ($$1 \ge 1$$), nhưng trung điểm $$\frac{1}{2}(x + y) = (0, 0)$$ có $$0^2 + 0^2 = 0 < 1$$ (nằm ngoài miền khả thi!).
+   - Kết luận: **Không lồi**.
+3. **Bài toán C:** $$\min x_1^2 + x_2^2$$ thỏa mãn $$x_1^2 + x_2^2 \le 1$$.
+   - Đảo dấu bất đẳng thức thành $$x_1^2 + x_2^2 - 1 \le 0$$ biến miền khả thi thành hình tròn đặc (tập lồi).
+   - Kết luận: **Bài toán tối ưu hóa lồi** (cụ thể là QCQP lồi), đạt cực tiểu duy nhất tại $$x^* = (0, 0)$$.
+
+---
+
 Bài tập trắc nghiệm này giúp bạn kiểm tra mức độ nắm vững các khái niệm cơ bản về bài toán tối ưu hóa và tối ưu hóa lồi.
 
 ---
@@ -56,7 +83,8 @@ $$x = \sum_{i=1}^k 	heta_i x_i$$ với $$\sum_{i=1}^k 	heta_i = 1, 	heta_i \ge 0
 
 <div class="textbook-definition" markdown="1">
 **Định nghĩa:**
-Hàm $$f: \mathbb{R}^n ightarrow \mathbb{R}$$ là hàm lồi nếu:
+Hàm $$f: \mathbb{R}^n 
+ightarrow \mathbb{R}$$ là hàm lồi nếu:
 1. $$	ext{dom}(f)$$ là tập lồi.
 2. $$f(	heta x + (1 - 	heta)y) \le 	heta f(x) + (1-	heta)f(y)$$
    với mọi $$x, y \in 	ext{dom}(f), 0 \le 	heta \le 1$$.

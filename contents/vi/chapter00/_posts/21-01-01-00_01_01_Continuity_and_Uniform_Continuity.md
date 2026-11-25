@@ -10,6 +10,32 @@ categories:
 lesson_type: required
 ---
 
+Thoạt nghe, phân biệt giữa *liên tục*, *liên tục đều* và *liên tục Lipschitz* có vẻ là trò chơi tỉ mỉ của giới giải tích thuần túy với các ký hiệu $$\epsilon$$–$$\delta$$. Thế nhưng trong tối ưu hóa, sự khác biệt đó lại quyết định trực tiếp việc một thuật toán có hội tụ ổn định hay bị "nổ" giá trị khi bước nhảy không phù hợp: một hàm chỉ liên tục thôi vẫn có thể có độ dốc dựng đứng vô hạn ở đâu đó, khiến bước nhảy cố định làm thuật toán văng khỏi quỹ đạo.
+
+Bài học này giúp bạn nhìn thấu bậc thang chặt chẽ dần từ liên tục điểm đến liên tục đều và liên tục Lipschitz — khái niệm xuất hiện trong hầu hết mọi định lý hội tụ của tối ưu hóa hiện đại.
+
+## Bản đồ kiến thức nền: Từ liên tục cục bộ đến kiểm soát tốc độ biến thiên toàn cục
+
+- **Tính liên tục tại điểm (Pointwise Continuity):** Đảm bảo không có bước nhảy đứt gãy tại $$x_0$$; tuy nhiên bán kính an toàn $$\delta$$ có thể phải thu nhỏ tùy ý khi $$x_0$$ thay đổi vị trí.
+- **Tính liên tục đều (Uniform Continuity):** Nâng chuẩn lên mức toàn cục: tồn tại **một** $$\delta(\epsilon)$$ duy nhất dùng chung cho mọi điểm trên miền xét. Trên tập compact (đóng và bị chặn), định lý Heine–Cantor bảo đảm mọi hàm liên tục tự động liên tục đều.
+- **Tính liên tục Lipschitz (Lipschitz Continuity):** Đặt một "trần tốc độ" tuyến tính rõ ràng: $$|f(x) - f(y)| \le L\|x - y\|$$. Hằng số $$L$$ chính là cận trên toàn cục của độ dốc, cho phép tính trước số vòng lặp cần thiết để đạt sai số $$\epsilon$$.
+- **Chuỗi bao hàm trong tối ưu hóa:** $$\text{Lipschitz} \subset \text{Liên tục đều} \subset \text{Liên tục}$$. Trong nhiều bài toán học máy, ta cần $$L$$-Lipschitz cho bản thân hàm $$f$$ (với hàm không trơn như ReLU, Hinge loss) hoặc cho gradient $$\nabla f$$ (gọi là tính trơn $$L$$-smooth).
+
+### Khung giải thích (nên đọc chậm): Vì sao $$f(x) = x^2$$ Lipschitz trên $$[0, 3]$$ nhưng không liên tục đều trên $$\mathbb{R}$$?
+
+Hãy tự kiểm chứng bằng tay trên hàm quen thuộc $$f(x) = x^2$$:
+
+1. **Trên đoạn đóng $$[0, 3]$$ (Lipschitz với $$L = 6$$):** Với mọi $$x, y \in [0, 3]$$, ta phân tích:
+   $$|f(x) - f(y)| = |x^2 - y^2| = |x + y|\cdot |x - y| \le (3 + 3)|x - y| = 6|x - y|.$$
+   Vậy $$f$$ liên tục Lipschitz với hằng số $$L = 6$$, kéo theo liên tục đều trên $$[0, 3]$$.
+2. **Trên toàn trục thực $$\mathbb{R}$$ (mất tính liên tục đều):** Chọn hai dãy điểm càng lúc càng sát nhau: $$x_n = n$$ và $$y_n = n + \frac{1}{n}$$.
+   - Khoảng cách đầu vào: $$|y_n - x_n| = \frac{1}{n} \to 0$$ khi $$n \to \infty$$ (chẳng hạn tại $$n = 100$$, hai điểm chỉ cách nhau $$0.01$$).
+   - Độ lệch đầu ra:
+     $$|f(y_n) - f(x_n)| = \left(n + \frac{1}{n}\right)^2 - n^2 = 2 + \frac{1}{n^2} > 2.$$
+   Dù $$x_n$$ và $$y_n$$ gần nhau tới mức nào, đầu ra vẫn cách nhau hơn $$2$$ đơn vị! Không tồn tại một $$\delta$$ chung cho $$\epsilon = 1$$ trên toàn $$\mathbb{R}$$, nên $$x^2$$ **không** liên tục đều trên $$\mathbb{R}$$ — đó cũng là lý do các định lý hội tụ thường đòi hỏi chặn miền làm việc hoặc giả thiết gradient Lipschitz.
+
+---
+
 Bài học này giới thiệu các khái niệm cơ bản về tính liên tục, tính liên tục đều và tính liên tục Lipschitz — những công cụ nền tảng giúp phân tích hành vi của hàm số trong tối ưu hóa.
 
 ---

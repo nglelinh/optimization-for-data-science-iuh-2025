@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter22/22_05_Practical_Exercises_Conditional_Gradient/
 ---
 
+Reading convergence proofs for Frank–Wolfe gives you the blueprint, but the real intuition clicks only when you compute the linear minimization oracle, duality gap, and away-step drop by hand and watch how dramatically the feasible geometry shapes the trajectory. This exercise set moves deliberately from basic 2D polytope iterations to projection-free nuclear-norm steps, exact line search, and away-step linear convergence—turning every theoretical theorem from Chapter 22 into muscle memory.
+
+## Background Knowledge Map: Diagnostic Checklist for Solving Frank–Wolfe Problems
+
+- **Identifying the LMO Closed Form:** Always check the geometry of $$C$$ first: on a polytope, test vertices; on an $$\ell_1$$ ball of radius $$t$$, pick $$-\operatorname{sign}(g_{i^\star}) t e_{i^\star}$$; on a trace-norm ball, compute only the leading singular vector pair $$(u_1, v_1)$$.
+- **Monitoring the Duality Gap $$g_k$$:** At every step, compute $$g_k = \langle \nabla f(x_k), x_k - s_k \rangle \ge f(x_k) - f(x^\star)$$. If $$g_k = 0$$, $$x_k$$ is provably optimal—never waste extra iterations once $$g_k \le \varepsilon$$.
+- **Choosing Step Sizes Wisely:** Open-loop $$\gamma_k = \frac{2}{k+2}$$ is parameter-free, whereas for quadratic objectives $$f(x) = \frac{1}{2}\|Ax - b\|_2^2$$, exact line search has the closed form $$\gamma_k = \operatorname{clip}_{[0,1]}\!\left(\frac{\langle \nabla f(x_k), x_k - s_k \rangle}{\|A(s_k - x_k)\|_2^2}\right)$$.
+- **Diagnosing Zig-Zagging vs. Away Steps:** Whenever iterates bounce between two boundary vertices with shrinking step sizes, compare the forward gap $$\langle g_k, x_k - s_k \rangle$$ against the away gap $$\langle g_k, v_k - x_k \rangle$$ to decide whether to drop a stale vertex.
+
+### Step-by-Step Worked Example (Read Slowly): Warm-Up Verification Before Exercise 1
+
+Before tackling Exercise 1, let us trace a tiny 2D quadratic on the $$\ell_1$$ diamond $$C = \{x \in \mathbb{R}^2 : |x_1| + |x_2| \le 1\}$$ with $$f(x) = \frac{1}{2}\bigl((x_1 - 2)^2 + (x_2 - 1)^2\bigr)$$ starting at $$x_0 = (0, 0)^\top$$.
+
+1. **Iteration 0 gradient:** $$\nabla f(x_0) = (-2, -1)^\top$$.
+2. **LMO on the $$\ell_1$$ diamond:** $$\arg\min_{\|s\|_1 \le 1} (-2 s_1 - s_2)$$ picks $$s_0 = (1, 0)^\top$$ (value $$-2$$).
+3. **Exact line search:** Direction $$d_0 = s_0 - x_0 = (1, 0)^\top$$, so
+   $$\gamma_0 = \operatorname{clip}_{[0,1]}\!\left(\frac{-\langle (-2, -1), (1, 0) \rangle}{\|(1, 0)\|_2^2}\right) = \operatorname{clip}_{[0,1]}(2) = 1.$$
+   Thus $$x_1 = (1, 0)^\top$$.
+4. **Check optimality at $$x_1 = (1, 0)^\top$$:**
+   - Gradient: $$\nabla f(x_1) = (1 - 2, 0 - 1)^\top = (-1, -1)^\top$$.
+   - LMO: $$\min_{\|s\|_1 \le 1} (-s_1 - s_2) = -1$$, achieved at $$s_1 = (1, 0)^\top$$ or $$(0, 1)^\top$$.
+   - Duality gap: $$g_1 = \langle (-1, -1), (1, 0) - (1, 0) \rangle = 0$$!
+   A zero duality gap certifies that $$x_1 = (1, 0)^\top$$ is already the exact constrained minimizer on the $$\ell_1$$ ball—and notice how effortless the check was compared to writing KKT multipliers.
+
 # Practical Exercises - Conditional Gradient (Frank-Wolfe)
 
 The exercises are adapted from Jaggi (2013) and Lacoste-Julien & Jaggi (2015).

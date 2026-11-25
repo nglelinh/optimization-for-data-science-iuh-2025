@@ -12,6 +12,37 @@ redirect_from:
   - /contents/vi/chapter07/07_10_modern_applications/
 ---
 
+Một hiểu lầm rất phổ biến trong giới sinh viên AI là: *"Mạng nơ-ron sâu chạy bằng PyTorch Autograd, còn Subgradient chỉ là lý thuyết cổ điển dành cho Lasso hay SVM thôi!"* Sự thật hoàn toàn ngược lại: hàm kích hoạt phổ biến nhất lịch sử học sâu — **ReLU** $$\max(0, z)$$ — **không hề khả vi tại $$z = 0$$**! Mỗi lần bạn bấm `.backward()` trên một mạng ReLU nhiều lớp, bộ vi phân tự động đang âm thầm chọn một **subgradient** (hoặc Clarke generalized gradient) tại các điểm gãy khúc!
+
+Bài đọc chuyên đề hiện đại này nối trực tiếp khái niệm $$g \in \partial f(x)$$ của Chương 07 với ba lĩnh vực nóng nhất giai đoạn 2022–2026: **vi phân tự động không trơn cho mạng ReLU**, **các bộ giải GLM/Lasso quy mô lớn (coordinate descent, screening rules)**, và **hồi quy phân vị (Pinball Loss / Conformalized Quantile Regression)** dùng để xây dựng khoảng tin cậy bất định không phụ thuộc phân phối!
+
+## Bản đồ kiến thức nền: Ba mặt trận hiện đại của Subgradient trong AI & Thống kê
+
+Để đọc hiểu sâu các chủ đề ứng dụng trong bài, hãy gắn chúng vào ba trụ cột lý thuyết Chương 07:
+
+- **Vi phân tự động không trơn (Nonsmooth Autograd & Conservative Fields):** Với mạng ReLU sâu (phi lồi & không trơn), quy tắc dây chuyền cổ điển không còn đúng hoàn toàn tại tập điểm độ đo 0. Lý thuyết *conservative set-valued fields* (Bolte & Pauwels) tổng quát hóa subdifferential để chứng minh vì sao PyTorch/JAX chọn đạo hàm bằng $$0$$ (hoặc $$1$$) tại $$z = 0$$ vẫn hội tụ hợp lệ!
+- **Quy tắc sàng lọc an toàn cho Lasso/Elastic Net (Safe Screening Rules):** Nhờ điều kiện subgradient $$|X_j^T(y - X\beta^\star)| \le \lambda \implies \beta_j^\star = 0$$, các thư viện như `glmnet` và `celer` có thể **loại bỏ trước hàng trăm nghìn đặc trưng chắc chắn bằng 0** ngay từ vòng lặp đầu mà không cần tối ưu trên chúng!
+- **Hàm mất mát Pinball & Hồi quy Phân vị (Quantile Regression):** Thay vì dự báo giá trị trung bình ($$\ell_2$$) hay trung vị ($$\ell_1$$), hàm mất mát pinball không trơn $$\rho_\tau(u) = \max(\tau u,\; (\tau - 1)u)$$ (với $$\tau \in (0, 1)$$) dùng đúng điều kiện $$0 \in \partial \sum \rho_\tau(y_i - \hat{y}_i)$$ để ước lượng phân vị thứ $$\tau$$ (ví dụ 90% hay 95%) cho bài toán định lượng bất định (Conformal Prediction)!
+
+### Khung giải thích (nên đọc chậm): Dùng điều kiện subgradient chứng minh Pinball Loss tìm đúng phân vị thứ $$\tau$$
+
+Xét 4 quan sát đã sắp xếp $$y = (10,\; 20,\; 30,\; 100)$$ và mục tiêu tìm hằng số $$q$$ cực tiểu hóa tổng hàm mất mát pinball với $$\tau = 0.75$$ (phân vị 75%):
+$$F(q) = \sum_{i=1}^4 \rho_{0.75}(y_i - q), \qquad \rho_\tau(u) = \begin{cases} \tau u & \text{nếu } u \ge 0 \\ (\tau - 1) u & \text{nếu } u < 0 \end{cases}$$
+
+1. **Bước 1 — Tính vi phân dưới theo $$q$$ của từng số hạng $$f_i(q) = \rho_{0.75}(y_i - q)$$:**
+   - Nếu $$q < y_i$$ (tức $$y_i - q > 0$$): $$f_i(q) = 0.75(y_i - q) \implies f_i'(q) = -0.75$$.
+   - Nếu $$q > y_i$$ (tức $$y_i - q < 0$$): $$f_i(q) = -0.25(y_i - q) \implies f_i'(q) = +0.25$$.
+   - Nếu $$q = y_i$$ (điểm gãy khúc): $$\partial f_i(q) = [-0.75,\; +0.25]$$!
+2. **Bước 2 — Kiểm tra điều kiện tối ưu $$0 \in \partial F(q)$$ tại $$q = 30$$:**
+   - Với $$y_1 = 10 < 30$$: đóng góp $$+0.25$$.
+   - Với $$y_2 = 20 < 30$$: đóng góp $$+0.25$$.
+   - Với $$y_3 = 30 = q$$: đóng góp đoạn $$[-0.75,\; +0.25]$$.
+   - Với $$y_4 = 100 > 30$$: đóng góp $$-0.75$$.
+   Cộng Minkowski: $$\partial F(30) = (0.25 + 0.25 - 0.75) + [-0.75, 0.25] = [-1.00,\; 0.00]$$!
+3. **Kết luận:** Vì $$0 \in [-1.00, 0.00]$$, $$q^\star = 30$$ (chính xác là phân vị 75%: 3/4 mẫu $$\le 30$$!) là nghiệm tối ưu toàn cục — bất kể giá trị ngoại lai $$100$$ có tăng lên $$10\,000$$ đi nữa!
+
+---
+
 # Ứng dụng hiện đại của subgradient
 
 Bài đọc tùy chọn này **không** lặp lại các phép tính cơ bản của Chương 07, mà chỉ ra nơi các khái niệm đó — một vector $$g$$ thỏa mãn $$f(y)\ge f(x)+g^\top(y-x)$$, tập vi phân dưới $$\partial f(x)$$, và điều kiện dừng $$0\in\partial f(x^\star)$$ — xuất hiện trong các hệ thống khoa học máy tính và khoa học dữ liệu giai đoạn 2022–2026. Sau bài này, bạn có thể nhận diện một hàm mất mát hoặc thành phần chính quy hóa không trơn trong hệ thống thực tế, viết được điều kiện bao hàm đặc trưng cho nghiệm tối ưu, và liên hệ trực tiếp với các công trình nghiên cứu nền tảng.

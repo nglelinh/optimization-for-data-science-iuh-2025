@@ -12,6 +12,30 @@ redirect_from:
   - /contents/vi/chapter06/06_09_Comprehensive_Review_Ch00-06/
 ---
 
+Bạn vừa đi qua gần một phần tư chặng đường đồ sộ nhất của khóa học: từ những định nghĩa nền móng về tích trong, ma trận đối xứng (Chương 00), sang bài toán tối ưu tổng quát (Chương 01), hình học Tập lồi (Chương 02), Giải tích Hàm lồi (Chương 03), Cấu trúc bài toán tối ưu lồi (Chương 04), Hệ phân cấp các bài toán chuẩn LP–QP–SOCP–SDP (Chương 05), và thuật toán bậc nhất Gradient Descent (Chương 06).
+
+Nếu từng chương riêng lẻ giống như những mảnh ghép tinh xảo, thì bài ôn tập tổng hợp này chính là lúc ta **lùi lại nhìn toàn bộ bức tranh ghép hình**: bạn sẽ thấy mọi định lý ở Chương 06 thực chất đều mọc rễ trực tiếp từ tập lồi của Chương 02 và hàm lồi của Chương 03!
+
+## Bản đồ kiến thức nền: Sợi chỉ đỏ xuyên suốt từ Chương 00 đến Chương 06
+
+Hãy xâu chuỗi toàn bộ 7 chương đầu thành bốn cầu nối không thể tách rời:
+
+- **Cầu nối 1 (Chương 00 → 02 → 03): Từ Đại số tuyến tính đến Độ cong Lồi.** Khái niệm ma trận nửa xác định dương $$H \succeq 0$$ (Chương 00) định nghĩa nón $$\mathbb{S}_+^n$$ (Chương 02), trở thành tiêu chuẩn kiểm tra hàm lồi bậc hai $$\nabla^2 f(x) \succeq 0$$ (Chương 03), và trực tiếp định nghĩa tính lồi của QP/QCQP/SDP (Chương 05).
+- **Cầu nối 2 (Chương 02–03 → 04): Từ Tập/Hàm lồi đến Điều kiện Tối ưu Toàn cục.** Nhờ tập khả thi lồi và hàm mục tiêu lồi, mọi cực tiểu địa phương đều là toàn cục, và bất đẳng thức biến phân $$\nabla f(x^\star)^T(y - x^\star) \ge 0$$ trở thành điều kiện vừa cần vừa đủ.
+- **Cầu nối 3 (Chương 04 → 05): Từ Phép biến đổi tương đương đến Hệ phân cấp Nón.** Kỹ thuật đổi biến, thêm biến phụ, epigraph và bổ đề Schur ở Chương 04 chính là cầu nối chứng minh $$\text{LP} \subset \text{QP} \subset \text{QCQP} \subset \text{SOCP} \subset \text{SDP} \subset \text{CP}$$ và vận hành bộ biên dịch DCP của CVXPY.
+- **Cầu nối 4 (Chương 03 → 06): Từ Cận dưới/Cận trên bậc hai đến Tốc độ Thuật toán.** Tính $$L$$-trơn và tính lồi mạnh $$m$$ của hàm lồi quyết định trọn vẹn tốc độ hội tụ của Gradient Descent ($$O(1/k)$$ vs. $$O((1 - m/L)^k)$$), Momentum và SGD!
+
+### Khung giải thích (nên đọc chậm): Giải phẫu trọn gói một bài toán duy nhất qua ống kính cả 7 chương
+
+Xét bài toán Hồi quy Ridge: $$\min_{w \in \mathbb{R}^2} \; f(w) = \frac{1}{2}\|Xw - y\|_2^2 + \frac{1}{2}\|w\|_2^2$$ với $$X = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix},\; y = \begin{pmatrix} 2 \\ 5 \end{pmatrix}$$:
+
+1. **Chương 00–03 (Tính lồi & Độ cong):** $$H = \nabla^2 f(w) = X^T X + I = \operatorname{diag}(2, 5)$$. Mọi trị riêng dương ($$m = 2, L = 5$$) $$\implies f$$ lồi mạnh và $$5$$-trơn!
+2. **Chương 04 (Điều kiện tối ưu):** Không ràng buộc nên $$\nabla f(w^\star) = (X^T X + I)w^\star - X^T y = 0 \implies (2w_1^\star, 5w_2^\star) = (2, 10) \implies w^\star = (1, 2)^T$$ (nghiệm toàn cục duy nhất!).
+3. **Chương 05 (Bài toán chuẩn):** Đây là một bài **QP không ràng buộc** (hay Bình phương tối thiểu mở rộng), đồng thời là ước lượng **MAP** dưới nhiễu Gaussian và tiên nghiệm Gaussian!
+4. **Chương 06 (Thuật toán lặp):** Nếu giải bằng GD với bước $$t = 1/L = 0.2$$, chỉ số điều kiện $$\kappa = 5/2 = 2.5$$ cho hệ số co $$1 - m/L = 1 - 0.4 = 0.6$$ mỗi bước — chỉ cần 14 vòng lặp để giảm sai số đi $$1\,000$$ lần! Một bài toán nhỏ đã hội tụ trọn vẹn tinh hoa của 7 chương!
+
+---
+
 <script>
 window.MathJax = {
   tex: {

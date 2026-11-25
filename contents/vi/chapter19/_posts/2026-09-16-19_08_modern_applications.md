@@ -10,6 +10,29 @@ lang: vi
 lesson_type: optional
 ---
 
+Nhiều thuật toán tối ưu cổ điển bị bỏ lại phía sau khi dữ liệu phình to lên hàng chục nghìn chiều, nhưng phương pháp Newton proximal giai đoạn 2022–2026 lại có một hành trình ngược lại: càng ở những bài toán thống kê nhiều chiều gai góc — như ước lượng đồ thị thưa (graphical lasso) với hàng chục nghìn nút, hay mô hình tuyến tính tổng quát nhiều biến (GLM) tích hợp trong `scikit-learn` — sự kết hợp giữa **độ cong bậc hai cục bộ** và **sàng lọc tập hoạt động (active-set screening)** càng tỏ ra không thể thay thế.
+
+## Bản đồ kiến thức nền: Ba xu hướng ứng dụng Newton proximal giai đoạn 2022–2026
+
+Để thấy lý thuyết Chương 19 đang vận hành như thế nào trong các thư viện thực chiến hôm nay, hãy điểm qua ba trục phát triển chính:
+
+- **Sàng lọc an toàn (Safe Screening) + Tập tự do cho Graphical Lasso quy mô lớn:** Các phiên bản kế thừa `QUIC` (như BigQUIC và các biến thể phân khối song song) phân rã ma trận hiệp phương sai mẫu thành các thành phần liên thông trước khi gọi Newton proximal, mở rộng khả năng giải từ vài trăm lên hàng chục nghìn biến.
+- **Bộ giải Newton–Cholesky cho GLM trong hệ sinh thái Python:** Trong các phiên bản mới của `scikit-learn` và `glum`, khi số mẫu $$n \gg p$$, việc tính trực tiếp Hessian $$X^T W X$$ và giải bằng Cholesky (hoặc kết hợp hạ tọa độ có phạt $$\ell_1/\ell_2$$) nhanh hơn gấp nhiều lần so với L-BFGS thuần túy.
+- **Newton proximal không chính xác có điều khiển thích nghi (Adaptive Inexactness):** Thay vì giải bài toán con bên trong tới sai số máy ngay từ những vòng lặp đầu còn xa nghiệm, các bộ giải hiện đại nới lỏng dung sai bài toán con ở giai đoạn đầu và chỉ siết chặt khi gần nghiệm — giữ nguyên hội tụ siêu tuyến tính nhưng cắt giảm 50–70% thời gian chạy.
+
+### Khung giải thích (nên đọc chậm): Tính nhanh mức tiết kiệm bộ nhớ nhờ tập hoạt động trong Graphical Lasso
+
+Xét bài toán ước lượng ma trận chính xác đối xứng $$\Theta \in \mathbb{S}^p$$ với $$p = 1{,}000$$ biến (ví dụ mạng biểu hiện 1.000 gen):
+
+1. **Kích thước bài toán không khai thác độ thưa:**
+   - Số biến tự do trong ma trận đối xứng $$\Theta$$ là $$N = \frac{p(p+1)}{2} \approx 500{,}500$$ biến.
+   - Nếu lập trực tiếp ma trận Hessian đầy đủ $$\Theta^{-1} \otimes \Theta^{-1}$$ kích thước $$N \times N$$, số phần tử sẽ lên tới $$N^2 \approx 2.5 \times 10^{11}$$ — tương đương **2 Terabyte RAM**, hoàn toàn bất khả thi!
+2. **Sức mạnh của tập tự do (Free Set) trong Proximal Newton (`QUIC`):**
+   - Nhờ phạt $$\lambda\|\Theta\|_1$$, giả sử mỗi gen chỉ kết nối trung bình với $$10$$ gen khác, nên số cạnh khác $$0$$ (tập tự do) chỉ là $$s \approx \frac{1{,}000 \times 10}{2} + 1{,}000 = 6{,}000$$ biến!
+   - Bài toán con bậc hai được hạ tọa độ giải **chỉ trên $$6{,}000$$ tọa độ tự do** thay vì $$500{,}500$$ tọa độ — giảm kích thước không gian tìm kiếm gần **83 lần**, đồng thời mỗi phép cập nhật tọa độ chỉ dùng hai cột của ma trận $$W = \Theta^{-1}$$ đã tính sẵn nên bộ nhớ chỉ tốn cỡ $$p^2 \approx 8\text{ MB}$$!
+
+---
+
 Phương pháp proximal Newton xây dựng mô hình bậc hai cho thành phần *trơn* $$g$$ và giữ nguyên thành phần *không trơn* $$h$$ trong bài toán con:
 
 $$

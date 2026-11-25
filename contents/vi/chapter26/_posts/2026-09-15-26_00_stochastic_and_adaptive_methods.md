@@ -10,6 +10,37 @@ lang: vi
 lesson_type: required
 ---
 
+Nếu bạn muốn huấn luyện một mô hình ngôn ngữ trên hàng nghìn tỷ token bằng gradient descent toàn lô (full-batch GD), bạn sẽ phải đọc hết toàn bộ kho văn bản internet chỉ để thực hiện... **đúng một bước cập nhật trọng số**. Trong thế giới dữ liệu khổng lồ của học máy hiện đại, sự hoàn hảo của gradient chính xác lại trở thành kẻ thù lớn nhất của tốc độ.
+
+Chương 26 đánh dấu bước ngoặt từ tối ưu cổ điển sang **tối ưu ngẫu nhiên và thích nghi** — động cơ thực sự vận hành đằng sau PyTorch, JAX và mọi hệ thống học sâu ngày nay. Thay vì chờ tính đủ gradient của $$n$$ mẫu, ta chấp nhận một ước lượng nhiễu từ một lô nhỏ (minibatch) để đi nhanh gấp hàng nghìn lần, rồi dùng **động lượng (momentum)**, **co giãn thích nghi theo tọa độ (Adam/AdamW)** và **giảm phương sai (SVRG/SAGA)** để thuần hóa nhiễu đó.
+
+## Bản đồ kiến thức nền: Bốn trụ cột của tối ưu ngẫu nhiên hiện đại
+
+Toàn bộ Chương 26 được xây dựng trên bốn trụ cột kỹ thuật bổ trợ cho nhau:
+
+- **Ước lượng ngẫu nhiên và Đánh đổi Phương sai – Tốc độ (SGD & Minibatch):** Thay tổng $$n$$ thành phần bằng trung bình trên $$B$$ mẫu ngẫu nhiên giữ nguyên tính không chệch ($$\mathbb{E}[g_k] = \nabla F(w_k)$$) nhưng tạo ra sàn nhiễu tỉ lệ với $$\sigma^2 / B$$, dẫn tới tốc độ $$O(1/\sqrt{T})$$ thay vì $$O(1/T)$$.
+- **Lọc nhiễu và Tăng tốc bằng Quán tính (Momentum & Nesterov):** Tích lũy trung bình trượt của các gradient quá khứ vừa giúp triệt tiêu dao động zíc-zắc trên hẻm hẹp (số điều kiện $$\kappa$$ lớn), vừa tăng cường tốc độ dọc theo đáy thung lũng.
+- **Tiền điều kiện đường chéo thích nghi (AdaGrad → RMSProp → Adam → AdamW):** Tự động gán một tốc độ học riêng cho từng tham số dựa trên lịch sử bình phương gradient, và đặc biệt tách rời suy giảm trọng số (weight decay) khỏi phép chia thích nghi trong AdamW.
+- **Biến kiểm soát giảm phương sai (SVRG & SAGA):** Khi bài toán có dạng tổng hữu hạn lồi mạnh, ta tận dụng một "mốc" gradient cũ để triệt tiêu phương sai khi tiến gần nghiệm, khôi phục hội tụ tuyến tính với chi phí mỗi bước chỉ bằng SGD!
+
+### Khung giải thích (nên đọc chậm): So sánh tay 1 epoch của Full-Batch GD và SGD
+
+Xét bài toán cực tiểu hóa tổng hữu hạn gồm $$n = 2$$ mẫu:
+
+$$
+F(w) = \frac{1}{2}\Bigl[f_1(w) + f_2(w)\Bigr] = \frac{1}{2}\left[\frac{1}{2}(w - 2)^2 + \frac{1}{2}(w - 6)^2\right],
+$$
+
+có nghiệm tối ưu toàn cục là trung bình cộng $$w^\star = 4$$. Xuất phát từ $$w_0 = 0$$ với tốc độ học $$\eta = 0.5$$, hãy so sánh kết quả sau **đúng 2 lần tính gradient đơn mẫu (1 epoch)**:
+
+1. **Full-Batch GD (dùng cả 2 lần tính gradient cho 1 bước duy nhất):**
+   - Tính $$\nabla f_1(0) = 0 - 2 = -2$$ và $$\nabla f_2(0) = 0 - 6 = -6$$.
+   - Gradient toàn lô: $$\nabla F(0) = \frac{-2 + (-6)}{2} = -4$$.
+   - Sau 1 epoch: $$w_1^{\text{GD}} = 0 - 0.5(-4) = 2.0$$ (vẫn còn cách đích $$|2.0 - 4| = 2.0$$).
+2. **SGD (cập nhật ngay sau mỗi mẫu, tổng vẫn chỉ 2 lần tính gradient):**
+   - *Bước 1 (mẫu 1):* $$\nabla f_1(0) = -2 \Rightarrow w_{0.5} = 0 - 0.5(-2) = 1.0$$.
+   - *Bước 2 (mẫu 2, tính tại điểm mới $$w_{0.5} = 1.0$$!):* $$\nabla f_2(1.0) = 1.0 - 6 = -5 \Rightarrow w_1^{\text{SGD}} = 1.0 - 0.5(-5) = 3.5$$!
+3. **Kết luận trực giác:** Với cùng ngân sách tính toán 1 epoch, SGD đã tiến tới $$3.5$$ (chỉ còn cách đích $$0.5$$ — gấp 4 lần gần hơn GD!), vì nó biết tận dụng ngay thông tin của mẫu 1 trước khi xử lý mẫu 2. Cái giá phải trả sẽ lộ diện ở gần đích $$w = 4$$: khi đó $$\nabla f_1(4) = +2 \neq 0$$ và $$\nabla f_2(4) = -2 \neq 0$$, khiến SGD tiếp tục rung lắc quanh $$4$$ nếu không giảm $$\eta$$ hoặc dùng kỹ thuật giảm phương sai.
 
 # Phương pháp ngẫu nhiên và thích nghi cho học máy
 

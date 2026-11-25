@@ -12,6 +12,32 @@ redirect_from:
   - /contents/vi/chapter02/02_07_Quiz_Convex_Sets/
 ---
 
+Chương 02 chứa rất nhiều định nghĩa có tên gọi na ná nhau — tập affine, bao affine, tập lồi, bao lồi, hình nón, hình nón lồi, siêu phẳng phân tách, siêu phẳng hỗ trợ, hình nón thích hợp và hình nón đối ngẫu. Khi làm trắc nghiệm, chỉ cần nhầm một chữ (như nhầm "hợp của hai tập lồi" với "giao của hai tập lồi", hay quên điều kiện $$0 \le \theta \le 1$$) là dễ mất điểm oan.
+
+Trước khi bắt tay vào bộ câu hỏi trắc nghiệm bên dưới, hãy rà nhanh 3 trục phân biệt quan trọng nhất và kiểm tra tay 3 tình huống phân loại mẫu.
+
+## Bản đồ kiến thức nền: Ba trục phân biệt dễ nhầm nhất của Chương 02
+
+- **Phân biệt theo điều kiện trọng số $$\theta$$:** Affine ($$\sum \theta_i = 1$$); Lồi ($$\sum \theta_i = 1,\ \theta_i \ge 0$$); Nón lồi ($$\theta_i \ge 0$$); Không gian con ($$\theta_i \in \mathbb{R}$$).
+- **Phân biệt phép toán bảo toàn:** **Giao** bảo toàn tính lồi, **ánh xạ affine** bảo toàn tính lồi, **hàm phối cảnh** bảo toàn tính lồi; còn **phép hợp (union)** và **phần bù** nói chung **KHÔNG** bảo toàn tính lồi!
+- **Phân biệt hai định lý siêu phẳng:** *Phân tách* dùng cho **hai** tập lồi rời nhau; *hỗ trợ* dùng tại một điểm **biên** của **một** tập lồi.
+
+### Khung giải thích (nên đọc chậm): Chẩn đoán nhanh 3 tập hợp trong $$\mathbb{R}^2$$ trước khi làm quiz
+
+Kiểm tra nhanh 3 tập hợp sau có lồi hay không:
+
+1. **Tập $$A = \{x \in \mathbb{R}^2 : x_1^2 + x_2^2 \le 4 \text{ và } x_1 + x_2 \ge 1\}$$:**
+   - Là **giao** của một hình tròn đặc (lồi) và một nửa không gian $$-x_1 - x_2 \le -1$$ (lồi).
+   - Kết luận: **Tập lồi** (nhờ phép giao bảo toàn tính lồi).
+2. **Tập $$B = \{x : \|x\|_2 \le 1\} \cup \{x : \|x - (3, 0)\|_2 \le 1\}$$:**
+   - Là **hợp** của hai hình tròn rời nhau. Lấy $$(0, 0) \in B$$ và $$(3, 0) \in B$$, trung điểm $$(1.5, 0)$$ có khoảng cách tới cả hai tâm đều bằng $$1.5 > 1 \implies (1.5, 0) \notin B$$.
+   - Kết luận: **Không lồi**.
+3. **Tập $$C = \{(x_1, x_2) : x_2 \ge |x_1|\}$$:**
+   - Đây chính là **hình nón chuẩn $$\ell_1/\ell_2$$ trong $$\mathbb{R}^2$$** (hình chữ V hướng lên trên): với mọi $$\theta_1, \theta_2 \ge 0$$ và $$(x_1, x_2), (y_1, y_2) \in C$$, ta có $$\theta_1 x_2 + \theta_2 y_2 \ge \theta_1 |x_1| + \theta_2 |y_1| \ge |\theta_1 x_1 + \theta_2 y_1|$$.
+   - Kết luận: **Hình nón lồi** (vừa là tập lồi vừa là hình nón).
+
+---
+
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về tập affine, tập lồi và các ví dụ quan trọng trong hình học lồi.
 
 ---

@@ -9,6 +9,25 @@ categories:
 lang: en
 ---
 
+For a smooth convex function, $$\nabla f(x^*) = 0$$ is a ironclad certificate of global optimality. For a smooth *quasiconvex* function, that shortcut breaks: $$f(x) = x^3$$ has $$f'(0) = 0$$ yet $$x = 0$$ is an inflection point, not a minimum! Understanding the exact first- and second-order conditions for differentiable quasiconvex functions reveals what the gradient and Hessian *do* guarantee—namely, that $$\nabla f(x)$$ defines a supporting hyperplane to the sublevel set at $$x$$.
+
+## Background Knowledge Map: Calculus of Smooth Quasiconvex Functions
+
+- **First-Order Condition:** Differentiable $$f$$ is quasiconvex iff $$f(y) \le f(x) \implies \nabla f(x)^T(y - x) \le 0$$—geometrically, $$\nabla f(x)$$ points outward from the sublevel set $$\{y : f(y) \le f(x)\}$$.
+- **Why $$\nabla f(x^*) = 0$$ Is Insufficient:** When $$\nabla f(x^*) = 0$$, the implication $$f(y) \le f(x^*) \implies 0 \le 0$$ becomes vacuous, allowing horizontal inflection points like $$x = 0$$ for $$x^3$$.
+- **Second-Order Condition (Tangent-Space Curvature):** Twice-differentiable $$f$$ is quasiconvex only if $$y^T \nabla f(x) = 0 \implies y^T \nabla^2 f(x) y \ge 0$$—curvature only needs to be nonnegative along directions *tangent* to the level surface!
+- **1D Curvature Simplification:** On $$\mathbb{R}$$, $$f'(x) = 0 \implies f''(x) \ge 0$$, ruling out local maxima while still permitting concave slopes wherever $$f'(x) \neq 0$$.
+
+### Step-by-Step Worked Example (Read Slowly): Checking First-Order Quasiconvexity and the Stationary-Point Trap
+
+1. **Verify the first-order condition on $$f(x) = \ln x$$ ($$x > 0$$):** Pick $$x = 2$$ and $$y = 1$$.
+   - Check hypothesis: $$f(1) = 0 \le \ln 2 \approx 0.693 = f(2)$$.
+   - Check inner product: $$f'(2)(1 - 2) = \frac{1}{2}(-1) = -0.5 \le 0 \quad \checkmark$$.
+   Notice $$f''(2) = -1/4 < 0$$ (concave!), yet $$f$$ still satisfies the quasiconvex second-order condition vacuously because $$f'(x) = 1/x \neq 0$$ everywhere!
+2. **Illustrate the stationary-point trap on $$g(x) = x^3$$:**
+   - $$g'(x) = 3x^2 \ge 0$$ everywhere, so $$g(y) \le g(x) \iff y \le x \implies g'(x)(y - x) \le 0$$ (quasiconvex).
+   - At $$x = 0$$, $$g'(0) = 0$$ and $$g''(0) = 0 \ge 0$$, yet $$g(-1) = -1 < 0 = g(0)$$, proving $$\nabla g(x) = 0$$ does **not** guarantee optimality for quasiconvex functions.
+
 This section discusses the properties and characterizations of differentiable quasiconvex functions.
 
 ## First-order conditions

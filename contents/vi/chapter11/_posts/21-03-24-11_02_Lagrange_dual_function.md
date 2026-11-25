@@ -10,6 +10,35 @@ lang: vi
 lesson_type: required
 ---
 
+Nếu hàm Lagrangian $$L(x, u, v)$$ là bản phác thảo biến bài toán có ràng buộc thành bài toán phạt mềm, thì **hàm đối ngẫu Lagrange** $$g(u, v) = \inf_{x} L(x, u, v)$$ chính là bước chuyển hóa kỳ diệu loại bỏ hoàn toàn biến gốc $$x$$! Ở mỗi bộ giá phạt $$(u, v)$$, ta thả tự do cho $$x$$ chạy khắp không gian để tìm đáy thấp nhất của $$L(x, u, v)$$. Đáy ấy chắc chắn không vượt quá giá trị tối ưu gốc $$f^*$$ — nghĩa là mỗi cặp $$(u, v)$$ với $$u \ge 0$$ tặng cho ta ngay một **cận dưới hợp lệ** $$g(u, v) \le f^*$$.
+
+Điều làm giới toán học kinh ngạc nhất ở hàm $$g(u, v)$$ là một tính chất hình học bất biến: **$$g(u, v)$$ luôn là hàm lõm theo $$(u, v)$$, ngay cả khi hàm mục tiêu $$f$$ và các ràng buộc $$h_i, l_j$$ của bài toán gốc cực kỳ không lồi!** Bài học này chứng minh trực quan sự thật tuyệt đẹp đó và thực hành tính tường minh $$g(u, v)$$ trên hai trường hợp quan trọng của Quy hoạch bậc hai (QP): ma trận $$Q \succ 0$$ xác định dương và $$Q \succeq 0$$ nửa xác định dương (dùng nghịch đảo giả Moore–Penrose $$Q^+$$).
+
+## Bản đồ kiến thức nền: Bốn trụ cột của hàm đối ngẫu Lagrange
+
+- **Định nghĩa và bất đẳng thức chặn dưới toàn cục:**
+  $$g(u, v) = \inf_{x \in \mathcal{D}} L(x, u, v) \le \inf_{x \in C} L(x, u, v) \le \inf_{x \in C} f(x) = f^* \quad (\forall u \ge 0).$$
+  Bất đẳng thức này đúng vô điều kiện, không cần tính lồi hay tính khả vi của bài toán gốc.
+- **Vì sao $$g(u, v)$$ luôn lõm?** Với mỗi $$x$$ cố định, $$L(x, u, v)$$ là một siêu phẳng (hàm affine) theo $$(u, v)$$. Lấy infimum theo mọi $$x$$ tương đương lấy "bọc dưới" của một họ siêu phẳng — mà bọc dưới của các siêu phẳng thì **luôn luôn lõm**!
+- **Miền hữu dụng (Dual Feasibility Domain):** Đôi khi với một số giá trị $$(u, v)$$, $$L(x, u, v)$$ không bị chặn dưới theo $$x$$ nên $$g(u, v) = -\infty$$. Tập các điểm $$(u, v)$$ sao cho $$u \ge 0$$ và $$g(u, v) > -\infty$$ chính là miền ràng buộc ẩn của bài toán đối ngẫu!
+- **Quy hoạch bậc hai với $$Q \succ 0$$ vs. $$Q \succeq 0$$:** Khi $$Q \succ 0$$, cực tiểu của $$\frac{1}{2}x^T Q x + p^T x$$ đạt tại $$x = -Q^{-1} p$$ cho mọi $$p$$. Khi $$Q \succeq 0$$ suy biến (có không gian hạch $$\operatorname{null}(Q) \ne \{0\}$$), cực tiểu chỉ hữu hạn khi $$p \perp \operatorname{null}(Q)$$ (tức $$p \in \operatorname{col}(Q)$$), khi đó nghiệm cho bằng nghịch đảo giả $$x = -Q^+ p$$!
+
+### Khung giải thích (nên đọc chậm): Tính tay $$g(u, v)$$ cho QP suy biến $$2 \times 2$$ ($$Q \succeq 0$$)
+
+Xét hàm bậc hai suy biến trong $$\mathbb{R}^2$$ với $$Q = \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix} \succeq 0$$ (cột 2 bằng 0!):
+$$\min_{x_1, x_2} \; x_1^2 + 3x_2 \quad \text{s.t.} \quad x_1 + x_2 = 1.$$
+
+1. **Lập hàm Lagrangian (nhân tử $$v \in \mathbb{R}$$):**
+   $$L(x_1, x_2, v) = x_1^2 + 3x_2 + v(x_1 + x_2 - 1) = (x_1^2 + v x_1) + (3 + v)x_2 - v.$$
+2. **Cực tiểu hóa tự do theo từng biến $$x_1, x_2$$:**
+   - Theo $$x_1$$ (phần xác định dương $$2 > 0$$): đạt cực tiểu tại $$x_1 = -v/2$$, giá trị $$-v^2/4$$.
+   - Theo $$x_2$$ (phần suy biến $$0 \cdot x_2^2 + (3 + v)x_2$$):
+     - Nếu $$3 + v \ne 0$$, cho $$x_2 \to \pm\infty$$ làm $$L \to -\infty$$!
+     - Chỉ khi $$3 + v = 0$$ (tức $$v = -3$$, tương ứng điều kiện $$p \in \operatorname{col}(Q)$$) thì phần $$x_2$$ mới bằng $$0$$!
+3. **Viết gọn hàm đối ngẫu $$g(v)$$:**
+   $$g(v) = \begin{cases} -\frac{(-3)^2}{4} - (-3) = -2.25 + 3 = 0.75 & \text{nếu } v = -3, \\ -\infty & \text{nếu } v \ne -3. \end{cases}$$
+   Kiểm tra lại bài toán gốc: thay $$x_2 = 1 - x_1$$ vào mục tiêu được $$x_1^2 + 3(1 - x_1) = (x_1 - 1.5)^2 + 0.75 \ge 0.75$$ (đạt tại $$x_1^* = 1.5, x_2^* = -0.5$$). Khớp chính xác $$0.75$$!
+
 Gọi $$C$$ là tập khả thi của bài toán gốc và $$f^*$$ là giá trị tối ưu gốc. Khi cực tiểu hóa $$L(x,u,v)$$ trên toàn bộ biến $$x$$, ta thu được cận dưới sau:
 
 >

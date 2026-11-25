@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Trong hồi quy tuyến tính cổ điển với $$p > n$$ (nhiều biến đặc trưng hơn số mẫu quan sát — chuyện thường ngày trong di truyền học hay xử lý ảnh), hệ phương trình bình phương tối thiểu có vô số nghiệm. Người ta thường kỳ vọng khi thêm phạt $$\ell_1$$ (bài toán Lasso), nghiệm $$\hat{\beta}$$ sẽ trở nên duy nhất. Nhưng thực tế thú vị hơn thế nhiều: **ngay cả khi $$\lambda > 0$$, Lasso vẫn có thể có vô số nghiệm $$\hat{\beta}$$ khác nhau!**
+
+Tuy nhiên, một định lý tuyệt đẹp của Ryan Tibshirani (2013) chứng minh bằng **điều kiện KKT của Lasso** cho thấy điều kỳ diệu sau: dù có nhiều vector trọng số $$\hat{\beta}$$ khác nhau, **giá trị dự đoán $$X\hat{\beta}$$ luôn duy nhất tuyệt đối**; mọi nghiệm đều có cùng dấu trên tập biến hoạt động; và chỉ cần các cột của ma trận $$X$$ ở *vị trí tổng quát (general position)* (điều xảy ra với xác suất 1 khi dữ liệu rút từ phân phối liên tục!), nghiệm Lasso $$\hat{\beta}$$ lập tức **duy nhất** ngay cả khi $$p \gg n$$!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của tính duy nhất trong bài toán phạt $$\ell_1$$
+
+- **Hệ điều kiện KKT của Lasso:** Điểm $$\hat{\beta}$$ tối ưu khi và chỉ khi tồn tại vector dấu $$s \in \partial\|\hat{\beta}\|_1$$ sao cho:
+  $$X^T(y - X\hat{\beta}) = \lambda s, \quad \text{với } s_j = \operatorname{sign}(\hat{\beta}_j) \text{ nếu } \hat{\beta}_j \ne 0, \text{ và } |s_j| \le 1 \text{ nếu } \hat{\beta}_j = 0.$$
+  Chú ý: vế trái là độ tương quan giữa từng đặc trưng $$X_j$$ với phần dư $$y - X\hat{\beta}$$! Tập các biến đạt cực đại tương quan $$|X_j^T(y - X\hat{\beta})| = \lambda$$ gọi là **tập cân bằng (equicorrelation set)** $$\mathcal{E}$$.
+- **Tính duy nhất tuyệt đối của giá trị dự đoán $$X\hat{\beta}$$:** Vì hàm $$\frac{1}{2}\|y - u\|_2^2$$ là hàm **lồi chặt** theo vector dự đoán $$u = X\beta$$, mọi nghiệm tối ưu $$\hat{\beta}^{(1)}, \hat{\beta}^{(2)}$$ bắt buộc phải cho cùng một dự đoán $$X\hat{\beta}^{(1)} = X\hat{\beta}^{(2)}$$, và do đó có cùng phần dư và cùng tập cân bằng $$\mathcal{E}$$!
+- **Điều kiện đủ cho tính duy nhất của $$\hat{\beta}$$:** Mọi tọa độ ngoài $$\mathcal{E}$$ đều bắt buộc bằng $$0$$ ($$\hat{\beta}_{-\mathcal{E}} = 0$$). Vì vậy nếu ma trận con $$X_{\mathcal{E}}$$ có hạng cột đầy đủ ($$\operatorname{null}(X_{\mathcal{E}}) = \{0\}$$), thì từ $$X_{\mathcal{E}} \hat{\beta}_{\mathcal{E}}^{(1)} = X_{\mathcal{E}} \hat{\beta}_{\mathcal{E}}^{(2)}$$ suy ngay ra $$\hat{\beta}^{(1)} = \hat{\beta}^{(2)}$$!
+- **Vị trí tổng quát (General Position) khi $$p > n$$:** Nếu dữ liệu rút từ phân phối xác suất liên tục trên $$\mathbb{R}^{n \times p}$$, các cột của $$X$$ ở vị trí tổng quát với xác suất 1, bảo đảm $$|\mathcal{E}| \le n$$ và $$X_{\mathcal{E}}$$ luôn đủ hạng cột $$\implies$$ Lasso có nghiệm duy nhất với tối đa $$n$$ hệ số khác $$0$$!
+
+### Khung giải thích (nên đọc chậm): Ví dụ tính tay khi Lasso có vô số nghiệm $$\hat{\beta}$$ nhưng $$X\hat{\beta}$$ vẫn duy nhất
+
+Xét bài toán Lasso với $$n = 1$$ mẫu quan sát $$y = 4$$ và $$p = 2$$ đặc trưng giống hệt nhau (cộng tuyến hoàn hảo, vi phạm vị trí tổng quát!):
+$$X = \begin{pmatrix} 1 & 1 \end{pmatrix}, \quad \lambda = 1 \implies \min_{\beta_1, \beta_2} \; \frac{1}{2}(4 - \beta_1 - \beta_2)^2 + |\beta_1| + |\beta_2|.$$
+
+1. **Giải điều kiện KKT của Lasso:**
+   Đặt $$u = X\beta = \beta_1 + \beta_2$$. Điều kiện KKT cho cả hai cột giống nhau đòi:
+   $$1 \cdot (4 - u) = 1 \cdot s_1 = 1 \cdot s_2, \quad s_1 \in \partial|\beta_1|, \; s_2 \in \partial|\beta_2|.$$
+   Nếu $$\beta_1, \beta_2 \ge 0$$ và không đồng thời bằng $$0$$, ta cần $$s_1 = s_2 = 1 \implies 4 - u = 1 \implies u^* = \beta_1^* + \beta_2^* = 3$$!
+2. **Quan sát tập nghiệm vô hạn nhưng chung một dự đoán duy nhất:**
+   - $$\hat{\beta}^{(1)} = (3, 0)^T \implies X\hat{\beta}^{(1)} = 3$$, hàm mục tiêu $$= \frac{1}{2}(4-3)^2 + 3 = 3.5$$.
+   - $$\hat{\beta}^{(2)} = (0, 3)^T \implies X\hat{\beta}^{(2)} = 3$$, hàm mục tiêu $$= \frac{1}{2}(4-3)^2 + 3 = 3.5$$.
+   - Mọi tổ hợp lồi $$\hat{\beta}(\theta) = (3\theta,\; 3(1-\theta))^T$$ với $$\theta \in [0, 1]$$ đều là nghiệm tối ưu toàn cục (vô số nghiệm!), vì $$X_{\mathcal{E}} = (1, 1)$$ không đủ hạng cột!
+   - Thế nhưng giá trị dự đoán $$X\hat{\beta} = 3$$ và chuẩn $$\|\hat{\beta}\|_1 = 3$$ là **duy nhất tuyệt đối** trên toàn bộ đoạn nghiệm!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

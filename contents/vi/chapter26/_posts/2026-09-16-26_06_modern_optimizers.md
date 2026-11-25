@@ -10,6 +10,39 @@ lang: vi
 lesson_type: optional
 ---
 
+Suốt nửa thập kỷ qua, **AdamW** đứng vững như một tượng đài bất khả xâm phạm trong huấn luyện mô hình ngôn ngữ lớn (LLM) và mô hình thị giác. Nhưng khi chi phí một lần huấn luyện chạm mốc hàng chục triệu đô la, chỉ cần giảm $$20\%$$ số bước hội tụ hoặc tìm được vùng cực tiểu phẳng tổng quát hóa tốt hơn cũng mang lại giá trị khổng lồ.
+
+Bài seminar này mở cánh cửa vào phòng thí nghiệm tối ưu hóa giai đoạn 2021–2026, nơi các nhà nghiên cứu đặt câu hỏi: *nếu AdamW chỉ dùng độ cong đường chéo bậc nhất, ta sẽ thu được gì khi đưa thêm hình học lân cận (SAM), độ cong Hessian bậc hai giá rẻ (Sophia), trực giao hóa ma trận trọng số (Muon) hay loại bỏ hoàn toàn lịch tốc độ học (Schedule-Free)?*
+
+## Bản đồ kiến thức nền: Bốn hướng đột phá vượt ra ngoài AdamW
+
+Bốn bộ tối ưu hiện đại trong bài đại diện cho bốn góc nhìn hình học khác nhau lên cùng một bề mặt hàm mất mát:
+
+- **SAM (Sharpness-Aware Minimization — Hình học Minimax):** Thay vì chỉ tìm điểm có $$F(w)$$ nhỏ, SAM tìm điểm mà *mọi điểm xung quanh trong bán kính $$\rho$$* đều có hàm mất mát nhỏ, chủ động né tránh các "hố nhọn" dễ overfitting để đáp xuống các thung lũng phẳng.
+- **Sophia (Tiền điều kiện bậc hai nhẹ):** Thay ước lượng bình phương gradient $$v_k$$ (vốn chỉ phản ánh độ lớn gradient chứ không phải độ cong thực) bằng ước lượng đường chéo Hessian $$h_k$$ tính bằng thuật toán Hutchinson hoặc Gauss–Newton, kết hợp cắt ngưỡng để tránh nổ bước ở vùng độ cong âm.
+- **Muon (Tối ưu trên cấu trúc Ma trận — Spectral Geometry):** Nhận ra trọng số của lớp tuyến tính là *ma trận* chứ không phải vector phẳng; Muon dùng phép lặp Newton–Schulz để xấp xỉ cực trực giao (orthogonalize) của ma trận động lượng, ép mọi giá trị kỳ dị của bước cập nhật đều nhau (tương đương xuống dốc theo chuẩn phổ).
+- **Schedule-Free AdamW (Bỏ lịch giảm $$\eta$$ bằng Nội suy Polyak–Ruppert):** Thay vì phải đoán trước tổng số bước $$T$$ để cài lịch cosine decay, phương pháp duy trì cặp điểm nội suy giúp tự động đạt hiệu ứng tương đương lịch giảm tốc độ học mà có thể dừng bất cứ lúc nào.
+
+### Khung giải thích (nên đọc chậm): Tính tay 1 bước SAM để thấy nó né "vách dốc nhọn" như thế nào
+
+Để hiểu trực giác 2-bước của SAM (bước 1: leo lên điểm xấu nhất trong bán kính $$\rho$$; bước 2: dùng gradient tại điểm xấu nhất đó để kéo $$w$$ xuống), hãy xét hàm 1 chiều bất đối xứng:
+
+$$
+F(w) = \frac{1}{2}w^2 + \frac{1}{3}w^3, \qquad F'(w) = w + w^2, \qquad F''(w) = 1 + 2w.
+$$
+
+Chú ý rằng bên phải $$w > 0$$ hàm cong dựng đứng rất nhanh ($$F''(w)$$ tăng mạnh), còn bên trái $$w \in (-0.5, 0)$$ hàm phẳng hơn nhiều. Xuất phát từ $$w_0 = 1.0$$ với bán kính SAM $$\rho = 0.5$$ và tốc độ học $$\eta = 0.1$$:
+
+1. **So sánh với bước Gradient Descent thường tại $$w_0 = 1.0$$:**
+   Gradient tại chỗ: $$F'(1.0) = 1 + 1 = 2.0$$.
+   GD bước xuống: $$w_1^{\text{GD}} = 1.0 - 0.1(2.0) = 0.80$$.
+2. **Thực hiện 2 pha của SAM tại $$w_0 = 1.0$$:**
+   - *Pha 1 (Bước đối kháng — leo lên tìm điểm xấu nhất trong lân cận $$\rho = 0.5$$):*
+     $$\hat{\varepsilon} = \rho \frac{F'(1.0)}{|F'(1.0)|} = 0.5 \cdot \frac{2.0}{2.0} = +0.5 \implies w_{\text{adv}} = 1.0 + 0.5 = 1.5.$$
+   - *Pha 2 (Tính gradient tại $$w_{\text{adv}} = 1.5$$ rồi cập nhật từ gốc $$w_0$$!):*
+     $$F'(1.5) = 1.5 + (1.5)^2 = 1.5 + 2.25 = 3.75.$$
+     Cập nhật SAM: $$w_1^{\text{SAM}} = w_0 - \eta F'(w_{\text{adv}}) = 1.0 - 0.1(3.75) = 0.625!$$
+3. **Quan sát sắc nét:** Vì phía bên phải $$w_0$$ có vách dốc dựng đứng, điểm thăm dò $$w_{\text{adv}} = 1.5$$ lập tức cảm nhận được độ dốc khổng lồ $$3.75$$ (gần gấp đôi $$2.0$$) và **đẩy mạnh $$w$$ lùi về vùng phẳng hơn** ($$0.625$$ so với $$0.80$$). Chi phí là 2 lần tính gradient mỗi bước, đổi lại là khả năng tự động tìm đáy phẳng!
 
 Các bài từ 26-01 đến 26-05 bao quát bộ công cụ cốt lõi trong chương trình: SGD, momentum theo trực giác Distill, AdaGrad → Adam, **AdamW**, cùng SVRG và SAGA. Bài seminar tùy chọn này điểm qua các bộ tối ưu hiện đại giai đoạn 2021–2026 ở mức *công thức cập nhật* — trình bày ngắn gọn từng phương pháp để đặt SAM, Sophia và Muon lên cùng bảng so sánh với AdamW. Cơ chế tách weight decay đã trình bày ở [26-04]({% multilang_post_url contents/chapter26/2026-09-15-26_04_adamw_and_practice %}), còn góc nhìn tiền điều kiện Hessian của Sophia như họ hàng phương pháp Newton nằm ở [14-10]({% multilang_post_url contents/chapter14/2026-09-16-14_10_modern_applications %}). Cả ba phương pháp trong bài này đều không thuộc nội dung kiểm tra.
 

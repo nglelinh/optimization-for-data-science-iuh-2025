@@ -10,6 +10,28 @@ categories:
 lesson_type: required
 ---
 
+Suppose you are calibrating a robotic arm's torque controller: if a tiny $$0.001$$-radian sensor jitter causes a sudden jump in predicted energy cost, no line-search algorithm can trust its own step sizes. Worse yet, even if a function is continuous at every individual point, its slope might blow up near the edge of the domain, forcing step sizes to shrink unpredictably. Distinguishing ordinary continuity, uniform continuity, and Lipschitz continuity is how analysts guarantee that a *single* global step size works across the entire optimization domain.
+
+## Background Knowledge Map: The Hierarchy of Function Regularity
+
+- **Pointwise Continuity:** Guarantees no sudden jumps at a fixed point $$c$$, but the allowable input tolerance $$\delta(\varepsilon, c)$$ may depend heavily on *where* $$c$$ sits in the domain.
+- **Uniform Continuity:** Upgrades the guarantee so that one tolerance $$\delta(\varepsilon)$$ works simultaneously everywhere on the domain—automatically achieved by any continuous function on a compact set (Heine–Cantor theorem).
+- **Lipschitz Continuity:** Enforces a uniform global bound $$|f(x) - f(y)| \le L\|x - y\|$$ on how fast outputs can change per unit input, directly controlling subgradient norms and convergence rates.
+- **Strict Inclusion Hierarchy:** $$\text{Lipschitz Continuous} \subset \text{Uniformly Continuous} \subset \text{Continuous}$$—knowing which tier an objective occupies determines which convergence theorems apply.
+
+### Step-by-Step Worked Example (Read Slowly): Why $$f(x) = x^2$$ Is Lipschitz on $$[0, 2]$$ but Not Uniformly Continuous on $$[0, \infty)$$
+
+1. **Bounded domain $$[0, 2]$$ (Lipschitz proof):** For any $$x, y \in [0, 2]$$, factor the difference:
+   $$|f(x) - f(y)| = |x^2 - y^2| = |x + y|\,|x - y|.$$
+   Since $$0 \le x, y \le 2$$, we have $$|x + y| \le 4$$, so
+   $$|f(x) - f(y)| \le 4|x - y|.$$
+   Thus $$f$$ is Lipschitz continuous on $$[0, 2]$$ with Lipschitz constant $$L = 4$$ (and hence uniformly continuous with $$\delta = \varepsilon / 4$$).
+2. **Unbounded domain $$[0, \infty)$$ (failure of uniform continuity):** Choose $$\varepsilon = 1$$ and test the sequences $$x_n = n$$ and $$y_n = n + \frac{1}{n}$$ for any integer $$n \ge 1$$.
+   - Input separation: $$|y_n - x_n| = \frac{1}{n} \to 0$$ as $$n \to \infty$$ (smaller than any proposed $$\delta > 0$$ for large $$n$$).
+   - Output separation:
+     $$|y_n^2 - x_n^2| = \left(n^2 + 2 + \frac{1}{n^2}\right) - n^2 = 2 + \frac{1}{n^2} > 2 > \varepsilon.$$
+   Because no single $$\delta > 0$$ can keep the output change below $$1$$ across all of $$[0, \infty)$$, $$x^2$$ is continuous everywhere yet fails to be uniformly continuous on $$[0, \infty)$$.
+
 This lesson introduces the fundamental concepts of continuity and uniform continuity, which are essential for understanding the behavior of functions in optimization.
 
 ---

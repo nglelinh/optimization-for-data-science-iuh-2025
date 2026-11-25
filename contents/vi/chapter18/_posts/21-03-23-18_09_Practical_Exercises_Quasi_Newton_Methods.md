@@ -12,6 +12,33 @@ redirect_from:
   - /contents/vi/chapter18/18_08_Practical_Exercises_Quasi_Newton_Methods/
 ---
 
+Để thực sự tin tưởng các công thức cập nhật ma trận phức tạp như SR1, DFP, BFGS hay vòng lặp hai chiều L-BFGS, không gì thay thế được việc tự tay tính thử từng ma trận $$2 \times 2$$, kiểm chứng phương trình secant bằng phép nhân trực tiếp và đối chiếu số vòng lặp của chúng trên các hàm kiểm chuẩn khét tiếng như thung lũng cong Rosenbrock. Bộ bài tập thực hành này giúp bạn biến các ký hiệu $$B_k, H_k, s_k, y_k$$ thành kỹ năng tính toán và lập trình sắc bén.
+
+## Bản đồ kiến thức nền: Bốn nguyên tắc kiểm tra chéo khi làm bài tập Quasi-Newton
+
+Trước khi giải từng bài tập tính tay và viết mã bên dưới, hãy giữ sẵn bốn phép kiểm chứng nhanh này như một "bộ công cụ gỡ lỗi":
+
+- **Kiểm tra dấu điều kiện độ cong trước mọi phép cập nhật:** Luôn tính $$y_k^T s_k$$ đầu tiên. Nếu $$y_k^T s_k \le 0$$, cập nhật BFGS/DFP không còn đảm bảo tính xác định dương và bạn cần kiểm tra lại hướng bước đi hoặc điều kiện Wolfe.
+- **Kiểm chứng phương trình secant ngay sau khi tính $$B_{k+1}$$ hoặc $$H_{k+1}$$:** Phép nhân $$B_{k+1} s_k$$ **bắt buộc** phải ra đúng $$y_k$$ (và $$H_{k+1} y_k = s_k$$). Nếu lệch dù chỉ ở một phần tử, chắc chắn đã có lỗi dấu hoặc lỗi hệ số $$\rho = 1/(y_k^T s_k)$$.
+- **Kiểm tra tính đối xứng và trị riêng dương:** Với ma trận $$2 \times 2$$ dạng $$\begin{bmatrix} a & b \\ b & c \end{bmatrix}$$, kiểm tra nhanh $$a > 0$$ và $$ac - b^2 > 0$$ là đủ khẳng định ma trận xác định dương.
+- **Đối chiếu L-BFGS với BFGS đầy đủ:** Khi lập trình L-BFGS, đặt lịch sử $$m$$ lớn hơn số vòng lặp chạy thử (và dùng cùng khởi tạo $$H_0 = I$$, tắt tỉ lệ động $$\gamma_k$$) thì hướng bước đi của L-BFGS phải trùng khớp tuyệt đối với BFGS đầy đủ tới sai số máy $$10^{-14}$$.
+
+### Khung giải thích (nên đọc chậm): Thử kiểm tra nhanh tính tương thích giữa $$B_1$$ và $$H_1$$ trên một ví dụ nhỏ
+
+Giả sử trên hàm $$f(x_1, x_2) = 2x_1^2 + x_2^2$$, bạn đi từ $$x^0 = (1, 2)^T$$ tới $$x^1 = (0.5, 1)^T$$ với $$H_0 = I$$:
+
+1. **Tính cặp $$(s, y)$$:**
+   - $$s = x^1 - x^0 = (-0.5, \; -1)^T$$.
+   - $$\nabla f(x^0) = (4, 4)^T$$, $$\nabla f(x^1) = (2, 2)^T \implies y = (-2, \; -2)^T$$.
+2. **Kiểm tra điều kiện độ cong:** $$y^T s = (-2)(-0.5) + (-2)(-1) = 1 + 2 = 3 > 0 \implies \rho = \frac{1}{3}$$.
+3. **Tính $$B_1^{\text{BFGS}}$$:** Với $$B_0 = I$$, $$s^T B_0 s = 0.25 + 1 = 1.25$$:
+   $$B_1 = I - \frac{1}{1.25}\begin{bmatrix} 0.25 & 0.5 \\ 0.5 & 1 \end{bmatrix} + \frac{1}{3}\begin{bmatrix} 4 & 4 \\ 4 & 4 \end{bmatrix} = \begin{bmatrix} 0.8 & -0.4 \\ -0.4 & 0.2 \end{bmatrix} + \begin{bmatrix} 4/3 & 4/3 \\ 4/3 & 4/3 \end{bmatrix} \approx \begin{bmatrix} 2.1333 & 0.9333 \\ 0.9333 & 1.5333 \end{bmatrix}.$$
+4. **Kiểm chứng chéo secant:**
+   $$B_1 s = \begin{bmatrix} 2.1333(-0.5) + 0.9333(-1) \\ 0.9333(-0.5) + 1.5333(-1) \end{bmatrix} = \begin{bmatrix} -2.0000 \\ -2.0000 \end{bmatrix} = y, \qquad \det(B_1) \approx 2.40 > 0.$$
+   Mọi phép kiểm tra đều khớp hoàn hảo — bạn đã sẵn sàng chinh phục trọn bộ bài tập thực hành của Chương 18!
+
+---
+
 # Bài Tập Thực Hành - Phương pháp Quasi-Newton
 
 Các bài tập được tham khảo từ Nocedal & Wright (2006).

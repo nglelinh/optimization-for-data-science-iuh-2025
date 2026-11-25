@@ -10,6 +10,29 @@ lang: en
 lesson_type: supplementary
 ---
 
+At first glance, the gradient descent step size $$t$$ looks like an arbitrary hyperparameter you tune by guesswork. Look one layer deeper through Taylor's second-order expansion and a striking truth emerges: choosing $$t$$ is equivalent to approximating the true curvature matrix $$\nabla^2 f(x)$$ by a single scalar multiple of the identity, $$\frac{1}{t}I$$! Understanding this curvature picture explains *why* steep valleys force tiny steps and *why* condition number controls convergence speed.
+
+## Background Knowledge Map: Curvature, Hessian Bounds, and Step Sizes
+
+1. **Gradient Descent as Isotropic Hessian Replacement**: Newton's method minimizes $$f(x) + \nabla f(x)^T(y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x)(y-x)$$. Gradient descent replaces the full Hessian $$\nabla^2 f(x)$$ with $$\frac{1}{t}I$$, assuming identical curvature $$1/t$$ in every coordinate direction.
+2. **The Upper-Bound Safety Condition ($$1/t \ge L$$)**: Whenever $$\frac{1}{t}I \succeq \nabla^2 f(x)$$ (i.e., $$t \le 1/L$$ where $$L = \sup_x \lambda_{\max}(\nabla^2 f(x))$$), the quadratic surrogate sits *above* the true function $$f(y)$$ everywhere. Minimizing an upper bound guarantees strict monotonic decrease $$f(x^+) \le f(x)$$.
+3. **Overshooting When Curvature Is Underestimated**: If $$t > 2/\lambda_{\max}$$, the surrogate bowl is too flat along the steepest eigenvector—gradient descent leaps past the valley floor to a higher point on the opposite wall, causing divergence.
+4. **Ill-Conditioning ($$\kappa = L/m \gg 1$$)**: When one direction has huge curvature $$L$$ and another has tiny curvature $$m$$, the single scalar $$1/t$$ must be large enough to stay safe along the steep direction ($$t \le 1/L$$), which forces painfully tiny progress $$m/L = 1/\kappa$$ along the flat direction.
+
+### Step-by-Step Worked Example (Read Slowly): Computing the Safe Step-Size Limit from Curvature
+
+Consider the quadratic function $$f(x_1, x_2) = \frac{1}{2}(2x_1^2 + 20x_2^2)$$, whose exact Hessian is $$\nabla^2 f(x) = \operatorname{diag}(2, 20)$$.
+
+1. **Identify minimum and maximum curvature**:
+   $$m = \lambda_{\min}(\nabla^2 f) = 2, \qquad L = \lambda_{\max}(\nabla^2 f) = 20, \qquad \kappa = \frac{L}{m} = 10.$$
+2. **Test the conservative upper-bound step size $$t = 1/L = 0.05$$** from $$x^{(0)} = (1, 1)$$:
+   - Here $$\frac{1}{t}I = 20I \succeq \operatorname{diag}(2, 20)$$.
+   - Update: $$x^{(1)} = (1 - 0.05\cdot 2,\; 1 - 0.05\cdot 20) = (0.9,\; 0)$$. The steep direction hits $$0$$ in one step, while the flat direction shrinks by $$0.9$$.
+3. **Test an overly aggressive step size $$t = 0.12 > 2/L = 0.10$$** from $$x^{(0)} = (1, 1)$$:
+   - Along $$x_2$$: $$x_2^{(1)} = 1 - 0.12(20) = 1 - 2.4 = -1.4$$.
+   - Next step: $$x_2^{(2)} = -1.4(1 - 2.4) = +1.96$$. The magnitude grows by $$1.4\times$$ every iteration and diverges to $$\infty$$!
+4. **Optimal fixed step size**: Balancing both eigenvalues via $$t^\star = \frac{2}{L + m} = \frac{2}{22} = \frac{1}{11} \approx 0.0909$$ gives contraction factor $$\frac{\kappa - 1}{\kappa + 1} = \frac{9}{11} \approx 0.818$$ in *both* directions simultaneously.
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

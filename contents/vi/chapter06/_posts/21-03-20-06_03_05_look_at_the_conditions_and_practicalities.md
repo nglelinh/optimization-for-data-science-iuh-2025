@@ -9,6 +9,37 @@ categories:
 lang: vi
 ---
 
+Định lý hội tụ trên bảng trắng đẹp như mơ, nhưng khi đem vào thực tế lập trình, hàng loạt câu hỏi "trần trụi" lập tức xuất hiện: *làm sao biết một bài toán thực tế như Hồi quy tuyến tính có $$L$$ và $$m$$ bằng bao nhiêu? Nếu số đặc trưng $$p$$ lớn hơn số mẫu $$n$$ thì tính lồi mạnh có biến mất không? Và vì ta không bao giờ biết trước $$f^\star$$, làm sao biết lúc nào nên dừng vòng lặp?*
+
+Bài học này nối liền lý thuyết hội tụ với kỹ nghệ lập trình tối ưu hóa thực tế: tính cụ thể $$L$$ và $$m$$ từ giá trị kỳ dị (singular values) của ma trận dữ liệu $$X$$, phân tích chi phí mỗi vòng lặp $$O(np)$$, và xây dựng các **tiêu chí dừng (stopping criteria)** đáng tin cậy.
+
+## Bản đồ kiến thức nền: Từ Định lý sang Code thực chiến
+
+Bốn trụ cột dưới đây là hành trang bắt buộc khi triển khai Gradient Descent trên dữ liệu thật:
+
+- **$$L$$ và $$m$$ của Bình phương tối thiểu qua Giá trị kỳ dị:** Với $$f(\beta) = \frac{1}{2}\|y - X\beta\|_2^2$$, ma trận Hessian là hằng số $$\nabla^2 f(\beta) = X^T X$$. Do đó:
+  $$L = \lambda_{\max}(X^T X) = \sigma_{\max}^2(X), \qquad m = \lambda_{\min}(X^T X) = \sigma_{\min}^2(X).$$
+- **Thảm họa mất tính lồi mạnh khi $$p > n$$:** Nếu số đặc trưng $$p$$ lớn hơn số mẫu $$n$$ (ví dụ dữ liệu gen học có 20.000 gen nhưng chỉ 200 bệnh nhân), ma trận $$X^T X \in \mathbb{R}^{p \times p}$$ có hạng tối đa là $$n < p$$, nên chắc chắn có trị riêng bằng $$0$$ ($$m = 0$$)! Hàm mất tính lồi mạnh — và cách cứu duy nhất là cộng thêm điều chuẩn Ridge $$\frac{\lambda}{2}\|\beta\|_2^2$$ để đẩy $$m$$ lên $$\ge \lambda > 0$$!
+- **Tiêu chí dừng thực tế (Stopping Criteria):** Không biết $$f^\star$$, ta dùng độ lớn gradient $$\|\nabla f(x^{(k)})\|_2 \le \epsilon_{\text{grad}}$$ (nhờ bất đẳng thức PL, với hàm lồi mạnh $$m$$ ta biết ngay $$f(x^{(k)}) - f^\star \le \frac{1}{2m}\|\nabla f(x^{(k)})\|_2^2$$!), kết hợp với kiểm tra mức thay đổi tương đối của $$f$$ hoặc $$x$$.
+- **Ưu & Nhược điểm cốt lõi của GD:** Mỗi bước cực rẻ (chỉ $$O(np)$$, không cần lập hay nghịch đảo ma trận Hessian $$O(p^3)$$ như Newton), rất dễ cài đặt, nhưng cực nhạy cảm với chỉ số điều kiện $$\kappa = (\sigma_{\max}/\sigma_{\min})^2$$!
+
+### Khung giải thích (nên đọc chậm): Tính $$L, m, \kappa$$ và chứng nhận độ chính xác dừng qua $$\|\nabla f\|_2$$
+
+Cho ma trận dữ liệu 2 mẫu, 2 đặc trưng $$X = \begin{pmatrix} 2 & 0 \\ 0 & 0.5 \end{pmatrix}$$ và bài toán $$f(\beta) = \frac{1}{2}\|y - X\beta\|_2^2$$:
+
+1. **Tính $$L$$, $$m$$ và $$\kappa$$ không có điều chuẩn:**
+   - $$X^T X = \begin{pmatrix} 4 & 0 \\ 0 & 0.25 \end{pmatrix} \implies L = 4,\; m = 0.25$$.
+   - Chỉ số điều kiện: $$\kappa = \frac{4}{0.25} = 16$$.
+2. **Xem hiệu ứng khi thêm điều chuẩn Ridge $$\frac{1}{2}\lambda\|\beta\|_2^2$$ với $$\lambda = 0.75$$:**
+   - Hessian mới: $$X^T X + 0.75 I = \operatorname{diag}(4.75,\; 1.0)$$.
+   - $$L_{\text{new}} = 4.75,\; m_{\text{new}} = 1.0 \implies \kappa_{\text{new}} = 4.75$$ (giảm hơn **3.3 lần**!).
+3. **Dùng tiêu chí dừng $$\|\nabla f(\beta^{(k)})\|_2 \le 0.02$$ để chứng nhận sai số hàm mục tiêu:**
+   Nhờ bất đẳng thức PL với $$m_{\text{new}} = 1.0$$:
+   $$f(\beta^{(k)}) - f^\star \le \frac{1}{2 m_{\text{new}}} \|\nabla f(\beta^{(k)})\|_2^2 \le \frac{1}{2(1.0)} (0.02)^2 = 0.0002.$$
+   Dù không hề biết $$f^\star$$ bằng bao nhiêu, chỉ cần nhìn norm gradient xuống dưới $$0.02$$ là ta có **chứng chỉ toán học** rằng mình đang cách đáy toàn cục không quá $$0.0002$$!
+
+---
+
 ## Điều kiện Liên tục Lipschitz & Tính Lồi mạnh
 
 Xét bài toán hồi quy bình phương tối thiểu $$f(\beta) = \frac{1}{2} \lVert y - X\beta \rVert_2^2$$ để minh họa các điều kiện liên tục Lipschitz và tính lồi mạnh.

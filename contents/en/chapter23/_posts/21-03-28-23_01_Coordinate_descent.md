@@ -9,6 +9,30 @@ categories:
 lang: en
 ---
 
+Can a function be strictly decreasing along no coordinate axis and yet still *not* be at a minimum? That subtle question is the entire theoretical heart of Coordinate Descent. For smooth convex functions, vanishing partial derivatives along every axis guarantee global optimality. The moment we add a nonsmooth term, however, geometry fights back: if a nonsmooth ridge runs diagonally across the coordinate axes, coordinate-wise minimization can freeze completely at a non-optimal point. Understanding exactly when coordinate descent succeeds—and when it fails—is essential before deploying it on Lasso or sparse models.
+
+## Background Knowledge Map: Optimality Conditions and Separability in Coordinate Descent
+
+- **Coordinate-Wise Optimality for Smooth Convex Functions:** If $$f$$ is convex and differentiable, $$\nabla_i f(x) = 0$$ for all $$i = 1, \dots, n$$ implies $$\nabla f(x) = 0$$, so coordinate-wise stationarity is equivalent to global optimality.
+- **Failure on Non-Separable Nonsmooth Functions:** When a nonsmooth term couples coordinates (such as $$|x_1 - x_2|$$), the subdifferential does not factor into a Cartesian product, allowing a point to sit at the bottom of every axis-aligned slice while a diagonal descent direction still exists.
+- **Tseng’s Convergence Theorem (2001):** For $$f(x) = g(x) + \sum_{i=1}^n h_i(x_i)$$ with $$g$$ convex differentiable and each $$h_i$$ convex (possibly nonsmooth), cyclic coordinate descent converges to a global minimum because the nonsmooth kinks are aligned strictly with the coordinate axes.
+- **Block Coordinate Descent (BCD):** Generalizing single scalars $$x_i$$ to non-overlapping variable blocks $$x_{B_j}$$ preserves Tseng’s guarantee whenever the nonsmooth regularizer is block-separable (e.g., Group Lasso $$\sum_g \|x_g\|_2$$).
+
+### Step-by-Step Worked Example (Read Slowly): A Counterexample Where Coordinate Descent Gets Stuck
+
+Consider the convex, non-separable function $$f(x_1, x_2) = (x_1 + x_2)^2 + 2|x_1 - x_2| - 4(x_1 + x_2)$$ at the point $$x = (0, 0)^\top$$ (wait—let us check an even cleaner textbook point: $$f(x_1, x_2) = -x_1 - x_2 + 2|x_1 - x_2|$$ on $$[-1, 1]^2$$, or unconstrained $$f(x_1, x_2) = (x_1 + x_2 - 2)^2 + 4|x_1 - x_2|$$ at $$x = (0, 0)^\top$$). Let us test $$f(x_1, x_2) = (x_1 + x_2 - 2)^2 + 5|x_1 - x_2|$$ at $$x^{(0)} = (0, 0)^\top$$!
+
+1. **Evaluate at $$x^{(0)} = (0, 0)^\top$$:** $$f(0, 0) = (-2)^2 + 0 = 4$$.
+2. **Minimize along $$x_1$$ holding $$x_2 = 0$$ fixed:**
+   $$\phi_1(x_1) = (x_1 - 2)^2 + 5|x_1|.$$
+   - For $$x_1 > 0$$: $$\phi_1'(x_1) = 2(x_1 - 2) + 5 = 2x_1 + 1 > 0$$ (strictly increasing!).
+   - For $$x_1 < 0$$: $$\phi_1'(x_1) = 2(x_1 - 2) - 5 = 2x_1 - 9 < 0$$ (strictly decreasing!).
+   Hence $$x_1 = 0$$ is the **unique** global minimizer along the $$x_1$$-axis!
+3. **Minimize along $$x_2$$ holding $$x_1 = 0$$ fixed:** By symmetry, $$\phi_2(x_2) = (x_2 - 2)^2 + 5|x_2|$$ is also uniquely minimized at $$x_2 = 0$$. Coordinate descent terminates at $$(0, 0)^\top$$ with $$f(0, 0) = 4$$.
+4. **Move diagonally along $$x_1 = x_2 = t$$:**
+   $$f(t, t) = (2t - 2)^2 + 5|0| = 4(t - 1)^2,$$
+   which achieves $$f(1, 1) = 0 < 4$$! Because $$|x_1 - x_2|$$ is **not separable**, coordinate descent stalls permanently at a suboptimal point—illustrating exactly why separability in Tseng’s theorem is indispensable.
+
 In this chapter, we introduce a method called coordinate descent that is extremely simple, efficient, and highly scalable. First, let's start with some simple questions and answers.
 
 **Q1. When function $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ is convex and differentiable, if the point where $$f$$ is minimized along each coordinate axis is $$x$$, is this $$x$$ a global minimizer?**

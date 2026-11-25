@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter13/13_09_modern_applications/
 ---
 
+Every time an AI safety researcher reports that an image classifier survives an $$\ell_\infty$$ adversarial attack of radius $$\varepsilon = 8/255$$, or a genomicist fits a million-feature sparse regression in seconds with `skglm`, they are not inventing new optimization theory—they are deploying the exact four correspondences of Chapter 13: dual norms, Lasso duals, Fenchel conjugates, and dual cones.
+
+## Background Knowledge Map: From Chapter 13 Theory to 2022–2026 Systems
+
+- **Pillar 1 — Dual Norms Define Adversarial Geometry:** Maximizing a linearized loss $$g^T v$$ over an $$\ell_p$$ threat ball $$\|v\|_p \le \varepsilon$$ produces $$\varepsilon\|g\|_*$$; choosing $$p = \infty$$ automatically selects the $$\ell_1$$ dual norm and the FGSM/PGD sign direction.
+- **Pillar 2 — Gap-Safe Screening via the Lasso Dual:** Any dual-feasible $$\theta$$ defines a safe sphere around $$\theta^\star$$ of radius $$\sqrt{2(P(\beta) - D(\theta))}$$; features whose inner product with that entire sphere stays strictly below $$\lambda$$ are provably zero and deleted permanently.
+- **Pillar 3 — Moreau Identity Powers Modern Cone Solvers:** The conjugate identity $$\operatorname{prox}_f(v) + \operatorname{prox}_{f^*}(v) = v$$ lets solvers like OSQP, SCS, and Clarabel evaluate hard projections via easy dual projections.
+- **Pillar 4 — Dual Cones Certify Neural Networks:** Proving a ReLU network cannot misclassify inside an input ball reduces to exhibiting a dual-feasible point $$z \in K^*$$ in an LP/SDP relaxation (as in $$\alpha,\beta$$-CROWN and GCP-CROWN).
+
+### Step-by-Step Worked Example (Read Slowly): Computing an Exact Dual-Norm Adversarial Perturbation
+
+Suppose a classifier's loss gradient at an input image pixel vector $$x$$ is $$g = (0.3,\ -1.2,\ 0.4)^T$$, and the attacker has a perturbation budget $$\varepsilon = 0.1$$.
+
+1. **$$\ell_\infty$$ attack ball ($$\|v\|_\infty \le 0.1$$):**
+   - Dual norm is $$\ell_1$$: $$\|g\|_1 = |0.3| + |-1.2| + |0.4| = 1.9$$.
+   - Maximum first-order loss increase: $$\varepsilon \|g\|_1 = 0.1 \times 1.9 = 0.19$$.
+   - Optimal FGSM perturbation: $$v^\star_\infty = \varepsilon \operatorname{sign}(g) = (0.1,\ -0.1,\ 0.1)^T$$.
+   - Check: $$g^T v^\star_\infty = 0.03 + 0.12 + 0.04 = 0.19$$.
+2. **$$\ell_2$$ attack ball ($$\|v\|_2 \le 0.1$$):**
+   - Dual norm is $$\ell_2$$: $$\|g\|_2 = \sqrt{0.09 + 1.44 + 0.16} = \sqrt{1.69} = 1.3$$.
+   - Maximum first-order loss increase: $$\varepsilon \|g\|_2 = 0.1 \times 1.3 = 0.13$$.
+   - Optimal perturbation: $$v^\star_2 = \varepsilon \frac{g}{\|g\|_2} = \frac{0.1}{1.3}(0.3, -1.2, 0.4)^T \approx (0.0231, -0.0923, 0.0308)^T$$.
+3. **Key insight:** Both attacks come from the exact same formula $$\max_{\|v\|_p \le \varepsilon} g^T v = \varepsilon \|g\|_q$$ with $$1/p + 1/q = 1$$.
+
 # Modern uses of conjugates, dual norms, and dual cones
 
 Chapter 13 is already titled “uses of duality”: solving the primal via the dual, dual norms, conjugates, the Lasso dual, and dual cones. This optional lesson attaches 2022–2026 CS applications to those *same* correspondences. We do not re-derive $$f^\star$$ or $$\|y\|_*$$.

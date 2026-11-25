@@ -9,6 +9,34 @@ categories:
 lang: en
 ---
 
+Two of the most widely downloaded statistical software packages in history—**glmnet** (for $$\ell_1$$-penalized generalized linear models) and **QUIC** (for sparse inverse covariance estimation, or Graphical Lasso)—are not mysterious black boxes; both are pure, textbook instances of **Proximal Newton** paired with fast coordinate descent for the inner quadratic subproblem! Seeing how each one builds its local quadratic model reveals why proximal Newton crushed first-order competitors on real statistical benchmarks.
+
+## Background Knowledge Map: Inside `glmnet` and `QUIC`
+
+- **IRLS Meets Lasso (`glmnet`):** For $$\ell_1$$-penalized logistic regression, the second-order Taylor expansion of the negative log-likelihood around $$\beta^k$$ is literally a *weighted least-squares* (Lasso) objective with diagonal weights $$W_{ii} = p_i(1 - p_i)$$, solved rapidly by warm-started cyclic coordinate descent.
+- **Matrix-Valued Proximal Newton (`QUIC`):** Graphical Lasso minimizes $$-\log\det\Theta + \operatorname{tr}(S\Theta) + \lambda\|\Theta\|_1$$ over $$\Theta \succ 0$$. Its Hessian is the Kronecker operator $$\Theta^{-1} \otimes \Theta^{-1}$$; QUIC exploits Cholesky factors $$W = \Theta^{-1}$$ to run coordinate descent on the free active set of off-diagonal entries without ever forming the $$p^2 \times p^2$$ Hessian!
+- **Active-Set Shrinking:** In both `glmnet` and `QUIC`, KKT conditions identify coordinates that are guaranteed to remain zero (the "fixed set"), allowing coordinate descent to work solely on the tiny free set of nonzero parameters.
+- **Why PN Beats FISTA & SpaRSA on Logistic Lasso:** When the data matrix $$X$$ is large or correlated, FISTA must recompute full exponentials $$e^{X\beta}$$ hundreds of times; `glmnet` evaluates exponentials only a handful of outer Newton iterations while letting cheap linear coordinate updates do the heavy lifting.
+
+### Step-by-Step Worked Example (Read Slowly): One `glmnet` Outer Iteration for $$\ell_1$$ Logistic Regression
+
+Consider 1D $$\ell_1$$-penalized logistic regression with $$\lambda = 0.2$$ on two data points $$(a_1, y_1) = (1, 1)$$ and $$(a_2, y_2) = (-1, 0)$$:
+$$f(\beta) = \underbrace{\sum_{i=1}^2 \Big[\log(1 + e^{a_i \beta}) - y_i a_i \beta\Big]}_{g(\beta)} + \underbrace{0.2|\beta|}_{h(\beta)}.$$
+
+1. **Evaluate probabilities, gradient, and Hessian at $$\beta^0 = 0$$:**
+   - Predicted probabilities: $$p_1 = p_2 = \frac{1}{1 + e^0} = 0.5$$.
+   - IRLS weights: $$w_1 = w_2 = p_i(1 - p_i) = 0.25$$.
+   - Gradient: $$g'(0) = (p_1 - y_1)a_1 + (p_2 - y_2)a_2 = (0.5 - 1)(1) + (0.5 - 0)(-1) = -1.0$$.
+   - Hessian: $$H(0) = w_1 a_1^2 + w_2 a_2^2 = 0.25(1) + 0.25(1) = 0.5$$.
+2. **Form the `glmnet` inner weighted-Lasso subproblem:**
+   $$v^{(1)} = \arg\min_v \; g'(0) v + \frac{1}{2} H(0) v^2 + 0.2|0 + v| = \arg\min_v \; -v + 0.25 v^2 + 0.2|v|.$$
+3. **Solve via soft-thresholding:**
+   For $$v > 0$$, $$-1 + 0.5v + 0.2 = 0 \implies v^{(1)} = \frac{0.8}{0.5} = +1.6$$.
+4. **Verify decrease at $$\beta^1 = 1.6$$:**
+   - $$f(0) = 2\ln 2 \approx 1.3863$$.
+   - $$f(1.6) = 2\ln(1 + e^{-1.6}) + 0.2(1.6) \approx 2(0.1839) + 0.32 = 0.6878 < 1.3863$$ $$\checkmark$$!
+   (Exact optimum is $$\beta^\star = \ln(9) \approx 2.1972$$ with $$f(\beta^\star) \approx 0.6502$$—just one `glmnet` step captured $$95\%$$ of the total objective reduction!)
+
 ## Glmnet and QUIC
 There are two very well-known packages built on the proximal Newton method.
 

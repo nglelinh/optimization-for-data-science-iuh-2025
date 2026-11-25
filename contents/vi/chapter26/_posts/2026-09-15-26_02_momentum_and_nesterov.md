@@ -10,6 +10,41 @@ lang: vi
 lesson_type: required
 ---
 
+Hãy hình dung một viên bi nặng lăn xuống một hẻm núi hình lòng chảo rất hẹp và dài: hai vách núi dốc đứng, còn đáy hẻm thì thoai thoải kéo dài hàng cây số. Nếu bạn chỉ đẩy viên bi theo đúng độ dốc tại chỗ rồi dừng lại ở mỗi bước (Gradient Descent thuần), viên bi sẽ liên tục **đập qua đập lại giữa hai vách núi** mà gần như không nhích lên được bao nhiêu dọc theo đáy hẻm.
+
+Năm 1964, Boris Polyak mượn trực giác từ cơ học cổ điển để đề xuất **phương pháp quả cầu nặng (Heavy Ball / Momentum)**: cho viên bi giữ lại một phần vận tốc cũ $$\beta v_k$$. Các lực đập qua đập lại giữa hai vách núi ngược dấu nhau nên tự triệt tiêu, còn lực kéo xuôi dọc đáy hẻm cùng dấu nhau nên cộng hưởng mạnh mẽ! Gần hai thập kỷ sau, Yurii Nesterov (1983) tinh chỉnh thêm một bước thiên tài: **nhìn trước một đoạn theo quán tính rồi mới đo độ dốc**, giúp phanh kịp trước khi lao quá đà lên vách núi đối diện.
+
+## Bản đồ kiến thức nền: Ba trụ cột hình học của Momentum và Nesterov
+
+Bài học này giải thích sức mạnh của động lượng qua lăng kính trực giác của bài viết Distill nổi tiếng:
+
+- **Số điều kiện $$\kappa = \lambda_{\max}/\lambda_{\min}$$ và Giới hạn của GD thuần:** Trên hàm bậc hai $$\frac{1}{2}w^T A w$$, GD bị kẹt giữa hai gọng kìm: cần $$\eta < 2/\lambda_{\max}$$ để không nổ ở vách dốc, khiến hệ số co ở đáy phẳng bị chậm ở mức $$1 - 2/\kappa$$ — muốn giảm sai số $$e$$ lần cần $$O(\kappa)$$ bước.
+- **Lọc thông thấp của Heavy Ball ($$\sqrt{\kappa}$$ Speedup):** Động lượng đóng vai trò bộ lọc thông thấp đối với dãy gradient: thành phần đổi dấu liên tục (tần số cao) bị dập tắt, thành phần cùng hướng (tần số thấp) được khuếch đại lên tới $$\frac{1}{1-\beta}$$ lần, rút số bước cần thiết từ $$O(\kappa)$$ xuống $$O(\sqrt{\kappa})$$!
+- **Cơ chế "Nhìn trước để phanh" của Nesterov (NAG):** Thay vì tính gradient tại $$w_k$$ rồi mới cộng quán tính $$\beta v_k$$, Nesterov tính gradient tại điểm dự đoán $$w_k + \beta v_k$$. Nếu quán tính sắp đưa điểm lặp vượt qua đáy thung lũng, gradient tại điểm nhìn trước lập tức đổi dấu để kéo ngược lại, tạo ra lực giảm chấn thông minh hơn Heavy Ball trên các hàm lồi tổng quát.
+
+### Khung giải thích (nên đọc chậm): So sánh tay 2 bước GD thuần và Momentum trên hẻm hẹp $$\kappa = 9$$
+
+Xét hàm bậc hai 2 chiều có một phương phẳng ($$\lambda_1 = 1$$) và một phương dốc gấp 9 lần ($$\lambda_2 = 9$$):
+
+$$
+F(w_1, w_2) = \frac{1}{2}(w_1^2 + 9w_2^2), \qquad \nabla F(w_1, w_2) = (w_1,\; 9w_2).
+$$
+
+Xuất phát từ $$w_0 = (1,\; 1)$$ với tốc độ học $$\eta = 0.2$$ (lưu ý giới hạn ổn định của GD là $$\eta < 2/9 \approx 0.222$$):
+
+1. **Gradient Descent thuần ($$w_{k+1} = w_k - 0.2 \nabla F(w_k)$$):**
+   - *Bước 1:* $$w_1 = (1 - 0.2(1),\; 1 - 0.2(9)) = (0.8,\; -0.8)$$. (Thành phần $$w_2$$ nhảy vọt qua $$0$$ sang $$-0.8$$!).
+   - *Bước 2:* $$w_2 = (0.8 - 0.2(0.8),\; -0.8 - 0.2(-7.2)) = (0.64,\; +0.64)$$. (Tiếp tục đập zíc-zắc qua lại!).
+2. **Heavy Ball Momentum với $$\beta = 0.5$$ ($$v_{k+1} = 0.5 v_k - 0.2 \nabla F(w_k),\; w_{k+1} = w_k + v_{k+1}$$, khởi tạo $$v_0 = (0, 0)$$):**
+   - *Bước 1:* $$v_1 = (-0.2,\; -1.8) \Rightarrow w_1 = (0.8,\; -0.8)$$.
+   - *Bước 2:* Tại $$w_1 = (0.8, -0.8)$$, gradient là $$(0.8,\; -7.2)$$.
+     Tính vận tốc mới:
+     $$v_2 = 0.5(-0.2,\; -1.8) - 0.2(0.8,\; -7.2) = (-0.1 - 0.16,\; -0.9 + 1.44) = (-0.26,\; +0.54).$$
+     Điểm mới:
+     $$w_2 = (0.8 - 0.26,\; -0.8 + 0.54) = (0.54,\; -0.26)!$$
+3. **So sánh ấn tượng sau đúng 2 bước:**
+   - Dọc trục phẳng $$w_1$$: Momentum tiến về $$0$$ nhanh hơn ($$0.54$$ so với $$0.64$$ của GD) nhờ hai gradient cùng dấu cộng dồn!
+   - Dọc trục dốc $$w_2$$: Momentum dập tắt dao động ngoạn mục ($$|-0.26|$$ so với $$|0.64|$$ của GD — giảm hơn 2.4 lần biên độ lắc!) nhờ vận tốc cũ $$-0.9$$ triệt tiêu phần lớn cú bật ngược $$+1.44$$!
 
 Trên các hàm bậc hai có số điều kiện xấu, gradient descent thường dao động zíc-zắc: kích thước bước đủ nhỏ để ổn định theo phương có độ cong lớn lại trở nên quá chậm theo phương phẳng. **Động lượng (Momentum)** duy trì một vector vận tốc nhằm tích lũy các thành phần gradient cùng hướng và triệt tiêu các thành phần đổi dấu liên tục. Bài này tập trung vào trực giác hình học theo phong cách Distill thay vì lặp lại biến đổi đại số của FISTA ở [09-05-01]({% multilang_post_url contents/chapter09/20-01-08-09_05_01_accelerated_proximal_gradient_method %}) hay hoạt họa ở [06-06]({% multilang_post_url contents/chapter06/21-03-20-06_06_gradent_descent_with_momentum %}). Bạn nên đọc song song bài viết của Goh, *[Why Momentum Really Works](https://distill.pub/2017/momentum/)* (Distill, 2017).
 

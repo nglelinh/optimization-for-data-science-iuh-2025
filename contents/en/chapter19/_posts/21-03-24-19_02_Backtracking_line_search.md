@@ -9,6 +9,32 @@ categories:
 lang: en
 ---
 
+In Lesson 19-01-02 we saw that a pure unit proximal Newton step on $$e^x - 4x + |x|$$ can actually *increase* the objective when started far from the solution. Fixing that with backtracking line search raises an immediate design question: should we recompute the expensive scaled prox $$\operatorname{prox}_H$$ at every trial step size $$t$$, or compute the direction $$v$$ *once* and search along the straight ray $$x + tv$$? Computing $$v$$ once and backtracking along the ray saves massive computation while still guaranteeing global convergence and eventual unit-step acceptance!
+
+## Background Knowledge Map: Composite Backtracking Without Repeated Prox Solves
+
+- **Composite Directional Derivative Proxy:** Because $$h$$ is nonsmooth, the classical Armijo slope $$\nabla f(x)^T v$$ does not exist. By convexity of $$h$$, $$\Delta = \nabla g(x)^T v + h(x + v) - h(x)$$ serves as a valid, strictly negative descent measure ($$\Delta \le -v^T H v < 0$$).
+- **Modified Armijo Sufficient Decrease:** We accept $$t \in (0, 1]$$ as soon as $$f(x + tv) \le f(x) + \alpha t \nabla g(x)^T v + \alpha\big(h(x + tv) - h(x)\big)$$ (or equivalently using $$\alpha t \Delta$$, since $$h(x + tv) - h(x) \le t(h(x + v) - h(x))$$ by convexity!).
+- **Single-Prox Efficiency Advantage:** Unlike proximal gradient backtracking (which re-evaluates $$\operatorname{prox}_{t h}$$ for every shrunk $$t$$), proximal Newton solves the expensive scaled prox *only once* per outer iteration to get $$v$$, then only evaluates scalar function values $$f(x + tv)$$ during backtracking.
+- **Automatic Transition to Unit Steps:** Near $$x^\star$$, once $$\|x - x^\star\|$$ is small enough, the quadratic Taylor remainder becomes negligible compared to $$-\frac{1}{2} v^T H v$$, so $$t = 1$$ passes the Armijo check immediately for any $$\alpha \le 1/2$$.
+
+### Step-by-Step Worked Example (Read Slowly): Executing Composite Backtracking on $$e^x - 4x + |x|$$
+
+Resume directly from Lesson 19-01-02: $$f(x) = e^x - 4x + |x|$$ at $$x = 0$$ ($$f(0) = 1$$, $$g'(0) = -3$$), with the single precomputed proximal Newton direction $$v = +2$$. Choose backtracking parameters $$\alpha = 0.25$$ and $$\beta = 0.5$$.
+
+1. **Trial 1 ($$t = 1$$):**
+   - Candidate point: $$x + 1 \cdot v = 2$$.
+   - Actual objective: $$f(2) = e^2 - 8 + 2 = e^2 - 6 \approx 1.3891$$.
+   - Armijo threshold: $$f(0) + \alpha t g'(0) v + \alpha(h(2) - h(0)) = 1 + 0.25(1)(-3)(2) + 0.25(2 - 0) = 1 - 1.5 + 0.5 = 0.0$$.
+   - Check: $$1.3891 > 0.0$$ $$\implies$$ **FAIL!** Shrink $$t \leftarrow \beta t = 0.5$$ (without re-solving any proximal subproblem!).
+2. **Trial 2 ($$t = 0.5$$):**
+   - Candidate point: $$x + 0.5 \cdot v = 1$$.
+   - Actual objective: $$f(1) = e^1 - 4 + 1 = e - 3 \approx -0.2817$$.
+   - Armijo threshold: $$f(0) + \alpha t g'(0) v + \alpha(h(1) - h(0)) = 1 + 0.25(0.5)(-3)(2) + 0.25(1 - 0) = 1 - 0.75 + 0.25 = 0.50$$.
+   - Check: $$-0.2817 \le 0.50$$ $$\implies$$ **PASS!**
+3. **Update and verify:**
+   Accept $$x^1 = 1.0$$. Notice $$f$$ plunged from $$+1.0000$$ to $$-0.2817$$ (within $$0.014$$ of the global optimum $$f(\ln 3) \approx -0.2958$$!) using just *one* proximal Newton solve and *two* scalar evaluations of $$f$$.
+
 **Proximal newton method** may not converge in cases with pure step size $$t_k=1, k=1,2,3, \cdots$$ like newton's method. Therefore, we need to optimize the step size through backtracking line search.
 
 ## Backtracking line search algorithm

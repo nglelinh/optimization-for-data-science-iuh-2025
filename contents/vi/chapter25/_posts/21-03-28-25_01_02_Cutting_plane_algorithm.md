@@ -9,6 +9,38 @@ categories:
 lang: vi
 ---
 
+Ở bài trước, ta biết rằng bao lồi nguyên $$S$$ có thể có hàng tỷ mặt biên nên không thể viết hết ra giấy. Vậy làm sao để vẫn tận dụng được bao lồi $$S$$? **Thuật toán mặt phẳng cắt** giải quyết nghịch lý này bằng chiến lược "lười thông minh": bắt đầu từ đa diện đơn giản $$C_0 = C$$, giải bài toán nới lỏng, rồi **chỉ đi tìm một bất đẳng thức hợp lệ duy nhất** vi phạm đúng điểm phân số vừa xuất hiện.
+
+Cốt lõi của mỗi vòng lặp nằm ở **bài toán tách (separation problem)**: cho một điểm $$x^{(k)} \notin S$$, hãy tìm một siêu phẳng $$\pi^T x \le \pi_0$$ đúng với mọi điểm trong $$S$$ nhưng thỏa mãn $$\pi^T x^{(k)} > \pi_0$$. Định lý nổi tiếng Grötschel–Lovász–Schrijver thậm chí chỉ ra rằng tối ưu hóa và tách điểm có độ khó tương đương nhau về mặt thời gian đa thức!
+
+## Bản đồ kiến thức nền: Ba trụ cột của vòng lặp Mặt phẳng cắt
+
+Để nắm chắc cách thuật toán mặt phẳng cắt vận hành từ đầu tới cuối, hãy chú ý ba trụ cột sau:
+
+- **Tính hợp lệ (Validity) vs. Tính tách biệt (Separation):** Một bất đẳng thức mới phải thỏa mãn đồng thời hai vế: *hợp lệ* (không được cắt mất bất kỳ nghiệm nguyên khả thi nào) và *tách được* (phải cắt bỏ được nghiệm phân số $$x^{(k)}$$ hiện tại để vòng lặp thực sự tiến bộ).
+- **Tính đơn điệu của dãy đa diện và cận dưới:** Sau mỗi vòng lặp, ta có $$S \subseteq C_{k+1} \subseteq C_k$$, do đó dãy giá trị nới lỏng $$z_{\text{LP}}^{(0)} \le z_{\text{LP}}^{(1)} \le \dots \le z^\star$$ tăng dần về nghiệm nguyên tối ưu. Khi nghiệm nới lỏng $$x^{(k)}$$ đầu tiên rơi trúng vào tập nguyên, thuật toán dừng ngay với chứng nhận tối ưu tuyệt đối.
+- **Tái tối ưu bằng Đơn hình Đối ngẫu (Dual Simplex Warm Start):** Khi thêm một ràng buộc mới cắt bỏ điểm tối ưu LP cũ $$x^{(k)}$$, điểm cũ mất tính khả thi gốc nhưng *vẫn giữ tính khả thi đối ngẫu*. Nhờ vậy, thuật toán đơn hình đối ngẫu chỉ cần xoay thêm vài bước trục (pivot) để tìm $$x^{(k+1)}$$ thay vì giải lại LP từ đầu!
+
+### Khung giải thích (nên đọc chậm): Chạy tay 2 vòng lặp thuật toán Mặt phẳng cắt
+
+Xét bài toán quy hoạch nguyên $$\min -x_1 - 2x_2$$ trên tập nới lỏng ban đầu:
+
+$$
+C_0 = \{(x_1, x_2) \ge 0 : 2x_1 + 2x_2 \le 3,\quad x_2 \le 1.4\}, \qquad x_1, x_2 \in \mathbb{Z}_+.
+$$
+
+1. **Vòng lặp $$k = 0$$ (trên $$C_0$$):**
+   Vì hệ số của $$x_2$$ ($$-2$$) âm hơn $$x_1$$ ($$-1$$), ta đẩy $$x_2$$ lên tối đa $$1.4$$, rồi dùng phần dư của $$2x_1 + 2(1.4) \le 3$$ cho $$x_1 = 0.1$$.
+   Nghiệm LP là $$x^{(0)} = (0.1,\; 1.4)$$ (phân số!), cận dưới $$z^{(0)} = -0.1 - 2.8 = -2.9$$.
+   - *Bài toán tách:* Từ $$x_2 \le 1.4$$ và $$x_2 \in \mathbb{Z}$$, ta sinh lát cắt hợp lệ đầu tiên: $$x_2 \le \lfloor 1.4 \rfloor = 1$$. (Cắt bỏ $$(0.1, 1.4)$$ vì $$1.4 > 1$$).
+2. **Vòng lặp $$k = 1$$ (trên $$C_1 = C_0 \cap \{x_2 \le 1\}$$):**
+   Đẩy $$x_2 = 1$$, phần dư từ $$2x_1 + 2(1) \le 3$$ cho $$x_1 = 0.5$$.
+   Nghiệm LP mới là $$x^{(1)} = (0.5,\; 1)$$ (vẫn phân số!), cận dưới tăng lên $$z^{(1)} = -0.5 - 2 = -2.5$$.
+   - *Bài toán tách:* Từ $$2x_1 + 2x_2 \le 3 \Rightarrow x_1 + x_2 \le 1.5$$ và $$x_1 + x_2 \in \mathbb{Z}$$, ta sinh lát cắt hợp lệ thứ hai: $$x_1 + x_2 \le 1$$. (Cắt bỏ $$(0.5, 1)$$ vì $$1.5 > 1$$).
+3. **Vòng lặp $$k = 2$$ (trên $$C_2 = C_1 \cap \{x_1 + x_2 \le 1\}$$):**
+   Nghiệm LP mới là $$x^{(2)} = (0,\; 1)$$ — **toàn bộ là số nguyên!** Cận dưới tăng lên $$z^{(2)} = -2$$.
+   Thuật toán dừng ngay tại $$(0, 1)$$ với giá trị tối ưu chính xác $$-2$$!
+
 Mục này trình bày khái niệm bất đẳng thức hợp lệ và cấu trúc chung của thuật toán mặt phẳng cắt để giải quy hoạch tuyến tính nguyên.
 
 ## Bất đẳng thức hợp lệ (Valid Inequality)

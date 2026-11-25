@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Khi số biến $$n$$ vượt ngưỡng vài chục nghìn hay vài triệu (như trong hồi quy logistic nhiều đặc trưng, mạng nơ-ron vật lý PINN hay tái tạo ảnh y tế), ngay cả việc lưu trữ một ma trận $$H_k$$ dày đặc kích thước $$n \times n$$ cũng trở nên bất khả thi vì tràn bộ nhớ RAM. **L-BFGS** (Nocedal, 1980) giải quyết triệt để nút thắt này bằng một nhận xét xuất sắc: ta **không bao giờ cần tạo ra ma trận $$H_k$$ tường minh** — ta chỉ cần lưu đúng $$m$$ cặp vector gần nhất $$(s_i, y_i)$$ (thường $$m = 5\text{–}20$$) rồi chạy một **vòng lặp hai chiều (two-loop recursion)** để tính thẳng tích $$H_k \nabla f(x_k)$$ chỉ trong $$O(mn)$$ phép toán!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của L-BFGS và thuật toán hai vòng lặp
+
+Để hiểu rõ cách L-BFGS giữ lại gần như trọn vẹn sức mạnh của BFGS với bộ nhớ tí hon, hãy nắm vững bốn ý tưởng sau:
+
+- **Quên có chọn lọc (Sliding Window of Curvature Pairs):** Chỉ giữ lại $$m$$ cặp $$(s_i, y_i)$$ gần nhất và loại bỏ các cặp cũ. Điều này không chỉ giảm bộ nhớ từ $$O(n^2)$$ xuống $$O(mn)$$ mà còn giúp loại bỏ thông tin độ cong đã lỗi thời ở xa điểm lặp hiện tại.
+- **Khởi tạo tỉ lệ động $$H_k^0 = \gamma_k I$$:** Ở mỗi vòng lặp, thay vì bắt đầu từ ma trận đơn vị $$I$$, L-BFGS chọn hệ số tỉ lệ $$\gamma_k = \frac{s_{k-1}^T y_{k-1}}{y_{k-1}^T y_{k-1}}$$ phản ánh quy mô độ cong cục bộ gần nhất, giúp bước đơn vị $$t = 1$$ được chấp nhận gần như ngay lập tức.
+- **Thuật toán đệ quy hai vòng lặp (Two-Loop Recursion):** Khai triển đệ quy công thức BFGS hai bên $$H^+ = V^T H V + \rho s s^T$$ cho phép tính trực tiếp vector $$r = H_k q$$ qua một vòng lặp đi lùi (từ mới nhất về cũ nhất) và một vòng lặp đi tới (từ cũ nhất lên mới nhất), chỉ dùng tích vô hướng và cộng vector!
+- **Hội tụ tuyến tính mạnh (Strong Linear Convergence):** Dù không đạt hội tụ siêu tuyến tính như BFGS đầy đủ (vì bộ nhớ hữu hạn $$m$$ không tích lũy đủ toàn bộ phổ độ cong khi $$n \gg m$$), L-BFGS vẫn hội tụ nhanh vượt trội so với hạ gradient và là thuật toán bậc nhất–giả bậc hai tin cậy bậc nhất cho tối ưu quy mô lớn.
+
+### Khung giải thích (nên đọc chậm): Chạy tay thuật toán Two-Loop Recursion với $$m = 1$$ và kiểm chứng khớp tuyệt đối
+
+Giả sử ta chỉ lưu $$m = 1$$ cặp lịch sử $$s_0 = (1, 0)^T, y_0 = (2, 1)^T$$ ($$\rho_0 = \frac{1}{y_0^T s_0} = \frac{1}{2} = 0.5$$), và cần tính tích $$r = H_1 q$$ tại vector gradient hiện tại $$q = (4, 2)^T$$:
+
+1. **Vòng lặp 1 (đi lùi — cập nhật $$q$$):**
+   - Tính $$\alpha_0 = \rho_0 (s_0^T q) = 0.5 \times [(1)(4) + (0)(2)] = 2.0$$.
+   - Cập nhật $$q \leftarrow q - \alpha_0 y_0 = \begin{bmatrix} 4 \\ 2 \end{bmatrix} - 2.0\begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$.
+2. **Bước tỉ lệ khởi tạo $$r = H_1^0 q = \gamma_1 q$$:**
+   - Hệ số tỉ lệ $$\gamma_1 = \frac{s_0^T y_0}{y_0^T y_0} = \frac{2}{2^2 + 1^2} = 0.4$$.
+   - Nhân tỉ lệ: $$r = 0.4 \times (0, 0)^T = (0, 0)^T$$.
+3. **Vòng lặp 2 (đi tới — khôi phục $$r$$):**
+   - Tính $$\beta_0 = \rho_0 (y_0^T r) = 0.5 \times 0 = 0$$.
+   - Cập nhật $$r \leftarrow r + (\alpha_0 - \beta_0) s_0 = \begin{bmatrix} 0 \\ 0 \end{bmatrix} + (2.0 - 0)\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 2 \\ 0 \end{bmatrix}$$.
+4. **Kiểm chứng độc lập không cần thuật toán hai vòng lặp:** Để ý rằng $$q = (4, 2)^T = 2 y_0$$! Vì mọi ma trận BFGS $$H_1$$ đều phải thỏa mãn phương trình secant $$H_1 y_0 = s_0$$, ta chắc chắn phải có $$H_1 q = 2 H_1 y_0 = 2 s_0 = (2, 0)^T$$ — trùng khớp hoàn toàn với kết quả two-loop recursion mà không hề phải lập ma trận $$H_1$$!
+
+---
+
 # Giới thiệu
 
 L-BFGS (Limited-memory BFGS) là đại diện tiêu biểu của lớp phương pháp Quasi-Newton bộ nhớ hạn chế, đặc biệt hữu ích khi chi phí tính toán hoặc lưu trữ ma trận Hessian dày đặc kích thước $$n \times n$$ quá lớn. Thay vì lưu toàn bộ ma trận $$n \times n$$, L-BFGS chỉ lưu một số ít vector $$n$$-chiều để biểu diễn ngầm xấp xỉ nghịch đảo Hessian.

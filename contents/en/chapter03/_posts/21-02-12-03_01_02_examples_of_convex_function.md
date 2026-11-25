@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+Just as Chapter 02 built a periodic table of convex sets, this lesson builds the periodic table of **convex functions**. From affine maps, quadratics, and norms to indicator functions $$I_C(x)$$ (which encode hard constraints directly inside an objective) and support functions $$S_C(y)$$ (which measure the farthest reach of a set in direction $$y$$), these atoms are the exact building blocks recognized by disciplined convex programming tools like CVXPY.
+
+## Background Knowledge Map: Essential Convex Function Atoms
+
+- **Smooth Atoms (Affine, Quadratic, Exponential, Negative Log):** Affine functions are simultaneously convex and concave; quadratics $$\frac{1}{2}x^T P x + q^T x + r$$ are convex iff $$P \succeq 0$$.
+- **Norms & Pointwise Maxima:** Every norm is convex by homogeneity and the triangle inequality; $$\max_i x_i$$ is convex and piecewise-linear, modeling worst-case costs.
+- **Indicator Function ($$I_C(x)$$):** Equals $$0$$ on $$C$$ and $$+\infty$$ outside $$C$$; it is convex iff $$C$$ is a convex set, letting us rewrite constrained minimization $$\min_{x \in C} f(x)$$ as unconstrained $$\min_x (f(x) + I_C(x))$$.
+- **Support Function ($$S_C(y) = \sup_{x \in C} y^T x$$):** Always convex in $$y$$ (even if $$C$$ is nonconvex!) because it is a pointwise supremum of affine functions of $$y$$.
+
+### Step-by-Step Worked Example (Read Slowly): Computing a Support Function Explicitly
+
+Compute the support function $$S_C(y) = \sup_{x \in C} y^T x$$ of the unit $$\ell_\infty$$ box $$C = [-1, 1]^2$$, and evaluate it at $$y = (3, -2)^T$$.
+
+1. **Maximize each coordinate independently over $$x_i \in [-1, 1]$$:**
+   $$S_C(y) = \sup_{-1 \le x_1 \le 1} (y_1 x_1) + \sup_{-1 \le x_2 \le 1} (y_2 x_2).$$
+   To make $$y_i x_i$$ as large as possible, choose $$x_i = +1$$ if $$y_i > 0$$ and $$x_i = -1$$ if $$y_i < 0$$, yielding $$y_i x_i = |y_i|$$.
+2. **Identify the resulting convex function:**
+   $$S_C(y) = |y_1| + |y_2| = \|y\|_1.$$
+3. **Evaluate at $$y = (3, -2)^T$$:** The maximizing vertex is $$x^* = (1, -1)^T \in C$$, giving
+   $$S_C(3, -2) = 3(1) + (-2)(-1) = 3 + 2 = 5 = \|(3, -2)^T\|_1.$$
+   Thus the support function of the $$\ell_\infty$$ unit ball is precisely the convex $$\ell_1$$ norm!
+
 This section reviews representative examples of convex functions, including:
 
 * Exponential function

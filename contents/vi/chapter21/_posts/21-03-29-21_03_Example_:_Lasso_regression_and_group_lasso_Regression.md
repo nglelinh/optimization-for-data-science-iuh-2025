@@ -9,6 +9,33 @@ categories:
 lang: vi
 ---
 
+Trong thống kê hiện đại, **Lasso** chọn từng đặc trưng đơn lẻ bằng phạt $$\ell_1$$, còn **Group Lasso** (Yuan & Lin, 2006) chọn hoặc loại bỏ **cả một nhóm đặc trưng cùng lúc** (ví dụ toàn bộ các biến giả one-hot của một biến phân loại, hay cả một cụm gen cùng chức năng) bằng phạt tổng chuẩn Euclid $$\sum_{g} \sqrt{p_g}\|\beta_g\|_2$$. Điều tuyệt vời khi giải cả hai bài toán này bằng ADMM là: **bước giải hệ tuyến tính cho $$\beta$$ giống hệt nhau**, ta chỉ cần đổi đúng một dòng ở bước cập nhật $$\alpha$$ — từ ngưỡng mềm từng phần tử (elementwise soft-thresholding) sang **ngưỡng mềm theo khối (block soft-thresholding)**!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của ADMM cho Lasso và Group Lasso
+
+Để áp dụng linh hoạt ADMM cho các biến thể hồi quy có điều chuẩn thưa, hãy nắm chắc bốn điểm sau:
+
+- **Tách biến $$\beta = \alpha$$ để cô lập cấu trúc không trơn:** Toàn bộ dữ liệu $$(X, y)$$ nằm gọn trong bước $$\beta$$ (một bài toán bình phương tối thiểu có điều chuẩn Ridge $$\frac{\rho}{2}\|\beta - (\alpha - w)\|_2^2$$ luôn khả nghịch), còn toàn bộ cấu trúc thưa nằm gọn trong bước $$\alpha$$.
+- **Định lý đảo ma trận Woodbury khi $$n \ll p$$:** Nếu số đặc trưng $$p$$ lớn hơn nhiều so với số mẫu $$n$$, thay vì phân tích Cholesky ma trận $$p \times p$$ là $$X^T X + \rho I$$, ta dùng công thức Woodbury chỉ cần phân tích Cholesky ma trận nhỏ $$n \times n$$ là $$I_n + \frac{1}{\rho} X X^T$$!
+- **Toán tử ngưỡng mềm theo khối cho Group Lasso:** Với mỗi nhóm biến $$g$$, $$\operatorname{prox}_{\tau\|\cdot\|_2}(v_g) = \left(1 - \frac{\tau}{\|v_g\|_2}\right)_+ v_g$$. Nếu chuẩn nhóm $$\|v_g\|_2 \le \tau$$, toàn bộ vector $$\alpha_g$$ bị ép về $$0$$ đồng thời; ngược lại, nó bị co tỉ lệ mà vẫn giữ nguyên hướng!
+- **Tối ưu hóa tốc độ nhờ tái sử dụng phân tích Cholesky:** Giữ nguyên $$\rho$$ (hoặc chỉ đổi $$\rho$$ vài lần đầu) giúp chi phí mỗi vòng lặp sau đó chỉ còn $$O(p^2)$$ (hoặc $$O(np)$$ khi $$n \ll p$$).
+
+### Khung giải thích (nên đọc chậm): So sánh trực tiếp ngưỡng mềm Lasso và ngưỡng mềm khối Group Lasso trên cùng vector
+
+Giả sử trong một bước cập nhật $$\alpha^{(k)}$$ của ADMM, ta nhận được vector đầu vào $$v = \beta^{(k)} + w^{(k-1)} = (3, \; 4)^T$$ (thuộc cùng một nhóm $$g$$ kích thước 2) với ngưỡng hiệu dụng $$\tau = \lambda / \rho = 2$$:
+
+1. **Nếu dùng Lasso (phạt $$\lambda(|v_1| + |v_2|)$$ — xử lý độc lập từng tọa độ):**
+   - $$\alpha_1 = S_2(3) = \max(3 - 2, 0) = 1.0$$.
+   - $$\alpha_2 = S_2(4) = \max(4 - 2, 0) = 2.0$$.
+   - Kết quả: $$\alpha_{\text{Lasso}} = (1.0, \; 2.0)^T$$. Nếu tăng ngưỡng lên $$\tau = 3.5$$, tọa độ 1 bị triệt tiêu ($$0$$) nhưng tọa độ 2 vẫn sống sót ($$0.5$$).
+2. **Nếu dùng Group Lasso (phạt $$\lambda\|v\|_2$$ — xử lý cả nhóm):**
+   - Tính chuẩn Euclid của cả nhóm: $$\|v\|_2 = \sqrt{3^2 + 4^2} = 5$$.
+   - Hệ số co chung: $$\left(1 - \frac{\tau}{\|v\|_2}\right)_+ = \left(1 - \frac{2}{5}\right)_+ = 0.6$$.
+   - Kết quả: $$\alpha_{\text{Group}} = 0.6 \times (3, \; 4)^T = (1.8, \; 2.4)^T$$ (giữ nguyên tỉ lệ $$3:4$$ giữa hai biến trong nhóm!).
+   - Nếu tăng ngưỡng lên $$\tau = 5.5 > \|v\|_2 = 5$$, hệ số co bằng $$0$$ và **toàn bộ nhóm** bị loại về $$(0, 0)^T$$ cùng một lúc!
+
+---
+
 ## Hồi quy Lasso
 
 Hãy xét cách giải bài toán hồi quy Lasso bằng ADMM.

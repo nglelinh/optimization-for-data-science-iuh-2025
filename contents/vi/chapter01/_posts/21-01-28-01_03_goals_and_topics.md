@@ -10,6 +10,34 @@ lang: vi
 lesson_type: required
 ---
 
+Học tối ưu hóa lồi không phải chỉ để bấm nút gọi một bộ giải hộp đen rồi chờ kết quả. Một câu chuyện kinh điển ngay trong bài học này cho thấy: cùng một bài toán khử nhiễu ảnh Total Variation, thuật toán tổng quát (Proximal Gradient) mất tới **1.000 vòng lặp** mà vẫn chưa sắc nét bằng thuật toán khai thác đúng cấu trúc bài toán (Specialized ADMM) chỉ sau **20 vòng lặp**! Biết cách "nhìn xuyên" cấu trúc toán học của bài toán giúp bạn tăng tốc thực thi hàng trăm lần.
+
+Bài học này phác họa bản đồ toàn khóa học: từ nền tảng hình học tập lồi, lý thuyết đối ngẫu KKT cho đến hệ sinh thái thuật toán bậc nhất, bậc hai và tách biến.
+
+## Bản đồ kiến thức nền: Ba tầng năng lực của người học tối ưu hóa lồi
+
+- **Tầng 1 — Nhận diện và tái phát biểu (Modeling & Reformulation):** Biến một bài toán thực tế thoạt nhìn không lồi hoặc không trơn (như chuẩn $$\ell_1$$, hàm $$\max$$, khử nhiễu TV) về dạng lồi chuẩn tương đương.
+- **Tầng 2 — Lý thuyết tối ưu và Đối ngẫu (Theory & Duality):** Dùng điều kiện KKT, hàm liên hợp và bài toán đối ngẫu để chứng nhận nghiệm tối ưu, tính cận dưới chất lượng nghiệm và phân tích độ nhạy.
+- **Tầng 3 — Thiết kế và chọn thuật toán (Algorithms):** Chọn đúng vũ khí theo quy mô và cấu trúc: phương pháp điểm trong cho độ chính xác cao cỡ vừa; Proximal Gradient, FISTA, ADMM hay Coordinate Descent cho dữ liệu lớn không trơn.
+
+### Khung giải thích (nên đọc chậm): Tự tay giải bài toán khử nhiễu 1D Total Variation (TV) 3 điểm
+
+Giả sử ta đo được tín hiệu 3 điểm bị gai nhiễu ở giữa $$y = (0, 3, 0)^T$$ và muốn tìm tín hiệu sạch $$x = (x_1, x_2, x_3)^T$$ bằng bài toán khử nhiễu TV với trọng số phạt $$\lambda = 0.5$$:
+
+$$\min_{x \in \mathbb{R}^3} F(x) = \frac{1}{2}\left[(x_1 - 0)^2 + (x_2 - 3)^2 + (x_3 - 0)^2\right] + 0.5\left(|x_2 - x_1| + |x_3 - x_2|\right).$$
+
+1. **Khai thác tính đối xứng:** Vì $$y_1 = y_3 = 0 < y_2 = 3$$, nghiệm tối ưu sẽ đối xứng $$x_1 = x_3 = a$$ và đỉnh giữa $$x_2 = b \ge a$$. Khi đó $$|x_2 - x_1| = |x_3 - x_2| = b - a$$, nên:
+   $$F(a, b) = a^2 + \frac{1}{2}(b - 3)^2 + 0.5 \cdot 2(b - a) = a^2 + \frac{1}{2}(b - 3)^2 + b - a.$$
+2. **Tìm điểm dừng trên miền $$b \ge a$$:**
+   - $$\frac{\partial F}{\partial a} = 2a - 1 = 0 \implies a^* = 0.5$$.
+   - $$\frac{\partial F}{\partial b} = (b - 3) + 1 = 0 \implies b^* = 2$$.
+   Kiểm tra điều kiện $$b^* = 2 \ge a^* = 0.5$$: thỏa mãn chặt!
+3. **Đọc kết quả trực quan:** Tín hiệu tối ưu $$x^* = (0.5,\ 2,\ 0.5)^T$$ đã kéo gai nhiễu từ $$3$$ xuống $$2$$ và nâng hai biên từ $$0$$ lên $$0.5$$, giảm hàm mục tiêu từ $$F(0, 3, 0) = 3.0$$ xuống còn:
+   $$F(0.5, 2, 0.5) = 0.25 + 0.5(1)^2 + (2 - 0.5) = 2.25.$$
+   Nếu tăng $$\lambda$$ lên $$1$$, nghiệm ép phẳng hẳn về $$x^* = (1, 1, 1)^T$$ — đó chính là cơ chế "làm phẳng từng mảnh" nổi tiếng của TV denoising!
+
+---
+
 ## Mục tiêu
 
 Khóa học này hướng tới việc rèn luyện ba năng lực chính:

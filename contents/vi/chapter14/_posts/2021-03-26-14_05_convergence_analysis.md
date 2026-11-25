@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Khi ghép phương pháp Newton với tìm kiếm đường backtracking, một câu hỏi lớn đặt ra cho lý thuyết hội tụ: *liệu ta có thể đảm bảo thuật toán hội tụ từ MỌI điểm xuất phát $$x^{(0)}$$, và tổng số vòng lặp để đạt sai số $$\epsilon$$ là bao nhiêu?*
+
+Câu trả lời là một trong những định lý đẹp nhất của tối ưu lồi cổ điển: hành trình của Newton có giảm chấn luôn chia làm **hai giai đoạn tách biệt rõ ràng**. Trong **giai đoạn giảm chấn (damped phase)** khi gradient còn lớn, mỗi vòng lặp đảm bảo cắt giảm giá trị hàm mục tiêu ít nhất một hằng số dương $$\gamma$$ (hội tụ tuyến tính chắc chắn). Ngay khi gradient tụt xuống dưới một ngưỡng tới hạn $$\eta$$, thuật toán bước vào **giai đoạn thuần túy (pure phase)** — bước $$t = 1$$ luôn được chấp nhận và sai số rơi theo hàm mũ kép $$2^{2^k}$$, nghĩa là chỉ cần thêm $$\log_2\log_2(1/\epsilon)$$ vòng lặp (thực tế hầu như không bao giờ quá 6 bước!) để đạt độ chính xác máy tính.
+
+## Bản đồ kiến thức nền: Giải phẫu hai giai đoạn hội tụ toàn cục của Newton
+
+- **Ba giả thiết tiêu chuẩn:** Hàm $$f$$ khả vi hai lần, lồi mạnh với tham số $$m > 0$$ ($$\nabla^2 f(x) \succeq mI$$), gradient Lipschitz $$L$$ ($$\nabla^2 f(x) \preceq LI$$), và Hessian Lipschitz $$M$$ ($$\|\nabla^2 f(x) - \nabla^2 f(y)\|_2 \le M\|x-y\|_2$$).
+- **Pha 1 — Giai đoạn giảm chấn ($$\|\nabla f(x)\|_2 \ge \eta$$):** Thuật toán có thể cần $$t < 1$$, nhưng mỗi vòng lặp luôn giảm $$f(x)$$ ít nhất một lượng hằng số $$\gamma > 0$$. Do đó số vòng lặp ở Pha 1 bị chặn trên bởi $$\frac{f(x^{(0)}) - f^\star}{\gamma}$$.
+- **Pha 2 — Giai đoạn thuần túy ($$\|\nabla f(x)\|_2 < \eta$$):** Ngay khi vượt ngưỡng $$\eta$$, bước $$t = 1$$ luôn thỏa Armijo và sai số giảm bình phương sau mỗi bước, nên chỉ cần thêm tối đa $$\log_2\log_2(\epsilon_0/\epsilon)$$ vòng lặp.
+- **Ý nghĩa thực tế của $$\log_2\log_2(1/\epsilon)$$:** Ngay cả khi bạn đòi hỏi độ chính xác cực khắt khe $$\epsilon = 10^{-15}$$, giá trị $$\log_2\log_2(10^{15}) \approx \log_2(50) \approx 5.6$$ — tức là một khi đã vào vùng bậc hai, **tối đa 6 bước Newton là xong!**
+
+### Khung giải thích (nên đọc chậm): Đếm số vòng lặp qua từng pha bằng con số cụ thể
+
+Giả sử một bài toán lồi mạnh có giá trị ban đầu $$f(x^{(0)}) - f^\star = 20$$, mức giảm đảm bảo mỗi bước ở Pha 1 là $$\gamma = 2$$, và ngưỡng chuyển pha tương ứng sai số mục tiêu $$\epsilon_0 = 0.5$$. Hãy tính tổng số vòng lặp tối đa để đạt hai mức độ chính xác khác nhau: $$\epsilon = 10^{-4}$$ và $$\epsilon = 10^{-16}$$:
+
+1. **Số vòng lặp ở Pha 1 (giảm chấn):**
+   $$k_1 \le \frac{f(x^{(0)}) - f^\star}{\gamma} = \frac{20}{2} = 10 \text{ bước}.$$
+   Lưu ý $$k_1$$ **không hề phụ thuộc vào $$\epsilon$$**!
+2. **Số vòng lặp ở Pha 2 (hội tụ bậc hai) khi $$\epsilon = 10^{-4}$$:**
+   Ta cần $$k_2 \approx \log_2\log_2\left(\frac{0.5}{10^{-4}}\right) = \log_2\log_2(5000) \approx \log_2(12.29) \approx 3.62 \implies 4 \text{ bước}.$$
+   Tổng: $$10 + 4 = 14$$ bước.
+3. **Số vòng lặp ở Pha 2 khi siết chặt sai số lên gấp một nghìn tỷ lần ($$\epsilon = 10^{-16}$$):**
+   Ta cần $$k_2 \approx \log_2\log_2\left(\frac{0.5}{10^{-16}}\right) = \log_2\log_2(5 \times 10^{15}) \approx \log_2(52.15) \approx 5.70 \implies 6 \text{ bước}.$$
+   Tổng: $$10 + 6 = 16$$ bước!
+   **So sánh ấn tượng:** Để tăng độ chính xác từ $$10^{-4}$$ lên $$10^{-16}$$ (tốt hơn $$10^{12}$$ lần!), phương pháp Newton chỉ cần thêm đúng **2 vòng lặp**, trong khi Gradient Descent cần tăng gấp **4 lần** số vòng lặp!
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

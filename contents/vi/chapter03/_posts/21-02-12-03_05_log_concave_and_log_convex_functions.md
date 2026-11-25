@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Hãy nhìn vào đường cong hình chuông của phân phối chuẩn Gauss $$p(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$$: nó cong xuống quanh đỉnh $$x = 0$$ nhưng lại cong lên ở hai phần đuôi $$|x| > 1$$, tức nó **không lồi cũng không lõm**! Thế nhưng chỉ cần đeo "chiếc kính logarit" vào, $$\log p(x) = -\frac{1}{2}x^2 - \frac{1}{2}\log(2\pi)$$ lập tức biến thành một parabol **lõm chặt** hoàn hảo! Đó chính là sức mạnh của **hàm log-lõm** và **hàm log-lồi** — chiếc cầu nối trực tiếp giữa xác suất thống kê với tối ưu hóa lồi.
+
+Bài học này trình bày định nghĩa, điều kiện đạo hàm cấp hai và hàng loạt tính chất bảo toàn tuyệt đẹp (như phép nhân, tích phân và tích chập!) của họ hàm log-lõm / log-lồi.
+
+## Bản đồ kiến thức nền: Bốn tính chất vàng của Log-lõm và Log-lồi
+
+- **Định nghĩa:** Với hàm dương $$f(x) > 0$$ trên miền lồi, $$f$$ là **log-lõm** nếu $$\log f$$ lõm (tương đương $$f(\theta x + (1-\theta)y) \ge f(x)^\theta f(y)^{1-\theta}$$); $$f$$ là **log-lồi** nếu $$\log f$$ lồi (và mọi hàm log-lồi đều tự động là hàm lồi!).
+- **Điều kiện bậc hai (một biến):** $$f$$ log-lõm $$\iff f(x) f''(x) \le [f'(x)]^2$$; $$f$$ log-lồi $$\iff f(x) f''(x) \ge [f'(x)]^2$$.
+- **Phép toán bảo toàn khác hẳn hàm lồi thường:**
+  - **Tích** của hai hàm log-lõm là log-lõm (vì $$\log(fg) = \log f + \log g$$); **tổng** của hai hàm log-lồi là log-lồi (nhưng tổng hai hàm log-lõm thì *chưa chắc* log-lõm!).
+  - **Định lý Prékopa (phép tích phân và tích chập):** Tích phân biên theo một biến của hàm mật độ log-lõm vẫn là log-lõm — nhờ đó **hàm phân phối tích lũy (CDF)** $$\Phi(x) = \int_{-\infty}^x p(t)\,dt$$ của phân phối chuẩn cũng là hàm log-lõm!
+- **Ứng dụng trong MLE và bài toán ràng buộc xác suất:** Giúp chuyển các ràng buộc dạng $$\mathbb{P}(a^T x \le b) \ge \eta$$ thành ràng buộc lồi giải được bằng phần mềm.
+
+### Khung giải thích (nên đọc chậm): Phân loại 3 hàm quen thuộc theo bậc thang Lồi / Log-lõm / Log-lồi
+
+Hãy kiểm tra bằng đạo hàm bậc hai của $$f$$ và $$\ln f$$ trên từng hàm:
+
+1. **Hàm Gauss $$f(x) = e^{-x^2/2}$$ trên $$\mathbb{R}$$:**
+   - $$f''(x) = (x^2 - 1)e^{-x^2/2}$$ đổi dấu tại $$x = \pm 1 \implies$$ không lồi, không lõm.
+   - Nhưng $$\ln f(x) = -\frac{1}{2}x^2 \implies (\ln f)''(x) = -1 < 0 \implies$$ **log-lõm chặt**!
+2. **Hàm $$g(x) = x^2$$ trên $$x > 0$$ (cẩn thận nhầm lẫn!):**
+   - $$g''(x) = 2 > 0 \implies g$$ là **hàm lồi chặt**.
+   - Nhưng $$\ln g(x) = 2\ln x \implies (\ln g)''(x) = -\frac{2}{x^2} < 0 \implies g$$ lại là **hàm log-lõm**! (Một hàm hoàn toàn có thể *vừa lồi vừa log-lõm*!)
+3. **Hàm $$h(x) = e^{x^2}$$ trên $$\mathbb{R}$$:**
+   - $$\ln h(x) = x^2 \implies (\ln h)''(x) = 2 > 0 \implies$$ **log-lồi** (và tự động là hàm lồi!).
+
+---
+
 Phần này giới thiệu các hàm log-lõm và log-lồi — hai lớp hàm quan trọng trong xác suất, thống kê và tối ưu hóa.
 
 ## Định nghĩa

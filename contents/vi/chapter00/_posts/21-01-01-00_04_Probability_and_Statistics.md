@@ -10,6 +10,37 @@ lang: vi
 lesson_type: required
 ---
 
+Trong thế giới lý tưởng của sách giáo khoa cổ điển, mọi hệ số trong hàm mục tiêu và ràng buộc đều biết chính xác tuyệt đối. Nhưng trong khoa học dữ liệu và kỹ thuật hiện đại, dữ liệu luôn kèm nhiễu đo đạc, nhu cầu thị trường biến động ngẫu nhiên và ta chỉ quan sát được một mẫu hữu hạn. Lúc ấy, **xác suất và thống kê** bước vào, biến bài toán học từ dữ liệu thành một bài toán tối ưu hóa trên hàm kỳ vọng hoặc hàm hợp lý.
+
+Phần 00-04 mở ra chiếc cầu nối giữa mô hình xác suất (như phân phối Gauss, Laplace, Bernoulli) với các hàm mất mát quen thuộc trong tối ưu hóa lồi (MSE, MAE, Cross-Entropy, Ridge, Lasso).
+
+## Bản đồ kiến thức nền: Xác suất gặp Tối ưu hóa ở đâu?
+
+- **Tối ưu hóa rủi ro kỳ vọng và rủi ro thực nghiệm (ERM):** Ta muốn cực tiểu hóa tổn thất kỳ vọng $$\mathbb{E}[\ell(x, \xi)]$$ nhưng chỉ có $$N$$ mẫu dữ liệu, nên thay bằng trung bình mẫu $$\frac{1}{N}\sum_{i=1}^N \ell(x, \xi_i)$$ — bài toán tối ưu hóa tổng hữu hạn kinh điển.
+- **Ước lượng hợp lý tối đa (MLE) và hậu nghiệm tối đa (MAP):** Cực đại hóa xác suất quan sát được dữ liệu tương đương cực tiểu hóa **âm log-hợp lý** (negative log-likelihood). Thêm phân phối tiên nghiệm (prior) sinh ra đúng số hạng điều chuẩn (regularization) trong tối ưu hóa!
+- **Bất đẳng thức Jensen và tính lồi:** Cho hàm lồi $$f$$, $$f(\mathbb{E}[X]) \le \mathbb{E}[f(X)]$$. Đây là cầu nối vàng giữa xác suất và tối ưu hóa lồi, xuất hiện trong phân kỳ KL, thuật toán EM và suy luận biến phân.
+- **Tối ưu hóa ngẫu nhiên (Stochastic Optimization):** Khi $$N$$ lên tới hàng triệu, tính gradient đầy đủ quá tốn kém; ta ước lượng gradient không chệch từ một mini-batch ngẫu nhiên (SGD).
+
+### Khung giải thích (nên đọc chậm): Tại sao chọn hàm mất mát $$\ell_2$$ ra Trung bình, còn $$\ell_1$$ ra Trung vị?
+
+Giả sử bạn thu thập $$4$$ phép đo nhiệt độ có một giá trị nhiễu mạnh: $$y = (2, 4, 5, 9)$$, và muốn chọn một con số đại diện $$\theta$$ tốt nhất:
+
+1. **Cực tiểu hóa sai số bình phương ($$\ell_2$$):**
+   $$L_2(\theta) = \frac{1}{4}\left[(2-\theta)^2 + (4-\theta)^2 + (5-\theta)^2 + (9-\theta)^2\right].$$
+   Lấy đạo hàm theo $$\theta$$ và cho bằng $$0$$:
+   $$L_2'(\theta) = -\frac{1}{2}\left[(2-\theta) + (4-\theta) + (5-\theta) + (9-\theta)\right] = 0 \implies 4\theta = 20 \implies \theta_2^* = 5.$$
+   Nghiệm tối ưu chính là **trung bình cộng** (bị điểm ngoại lai $$9$$ kéo mạnh lên $$5$$).
+2. **Cực tiểu hóa sai số tuyệt đối ($$\ell_1$$):**
+   $$L_1(\theta) = \frac{1}{4}\left(|2-\theta| + |4-\theta| + |5-\theta| + |9-\theta|\right).$$
+   Thử tính trực tiếp:
+   - Tại $$\theta = 4$$: $$L_1(4) = \frac{1}{4}(2 + 0 + 1 + 5) = 2$$.
+   - Tại $$\theta = 4.5$$: $$L_1(4.5) = \frac{1}{4}(2.5 + 0.5 + 0.5 + 4.5) = 2$$.
+   - Tại $$\theta = 5$$: $$L_1(5) = \frac{1}{4}(3 + 1 + 0 + 4) = 2$$.
+   - Tại $$\theta = 6$$: $$L_1(6) = \frac{1}{4}(4 + 2 + 1 + 3) = 2.5 > 2$$.
+   Mọi điểm **trung vị** $$\theta_1^* \in [4, 5]$$ đều đạt cực tiểu $$2$$, và dù điểm ngoại lai $$9$$ tăng lên $$900$$, tập nghiệm tối ưu $$[4, 5]$$ vẫn hoàn toàn bất biến!
+
+---
+
 ## Xác suất và thống kê cho tối ưu hóa lồi
 
 Xác suất và thống kê là nền tảng thiết yếu để hiểu nhiều bài toán tối ưu hóa, đặc biệt trong học máy và khoa học dữ liệu. Phần này giới thiệu các khái niệm xác suất cốt lõi thường xuất hiện trong tối ưu hóa lồi, từ ước lượng hợp lý tối đa đến tối ưu hóa Bayes.

@@ -10,6 +10,35 @@ lang: en
 lesson_type: required
 ---
 
+Why are Support Vector Machines named after *support vectors*—and how can a classifier trained on 100,000 data points depend on just a tiny handful of critical boundary examples? The answer is pure KKT complementary slackness! Writing down the KKT system for the soft-margin SVM QP reveals in four lines why $$\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i$$ is a sparse linear combination of training points, why points safely outside the margin have $$w_i^\star = 0$$, and how margin points pin down the intercept $$\beta_0^\star$$!
+
+## Background Knowledge Map: Reading SVM Geometry Directly from KKT
+
+- **Pillar 1 — Stationarity Produces the Representer Formula:** Differentiating the soft-margin SVM Lagrangian with respect to $$\beta, \beta_0, \xi_i$$ gives three gold-mine equations: $$\beta^\star = \sum_{i=1}^n w_i^\star y_i x_i$$, $$\sum_{i=1}^n w_i^\star y_i = 0$$, and $$w_i^\star + v_i^\star = C$$ (hence $$0 \le w_i^\star \le C$$).
+- **Pillar 2 — Complementary Slackness Partitions All Data into 3 Regimes:**
+  - *Strictly outside the margin* ($$y_i(x_i^\top \beta^\star + \beta_0^\star) > 1$$): forces $$w_i^\star = 0$$ and $$\xi_i^\star = 0$$ (ignored completely by the classifier!).
+  - *On the margin boundary* ($$y_i(x_i^\top \beta^\star + \beta_0^\star) = 1,\; \xi_i^\star = 0$$): allows $$0 < w_i^\star < C$$ (**free support vectors**!).
+  - *Inside/violating the margin* ($$\xi_i^\star > 0$$): forces $$v_i^\star = 0 \implies w_i^\star = C$$ (**bounded support vectors**!).
+- **Pillar 3 — Recovering the Intercept $$\beta_0^\star$$:** Any free support vector ($$0 < w_i^\star < C$$) has $$\xi_i^\star = 0$$ and tight margin $$y_i(x_i^\top \beta^\star + \beta_0^\star) = 1$$, immediately giving $$\beta_0^\star = y_i - x_i^\top \beta^\star$$.
+- **Pillar 4 — Dual Sparsity & Computational Payoff:** Because non-support vectors drop out of $$\beta^\star$$ completely, removing them from the training set does *not* change the optimal hyperplane by a single millimeter!
+
+### Step-by-Step Worked Example (Read Slowly): Identifying Support Vectors & Multipliers on a 3-Point 1D Dataset
+
+Consider 3 labeled 1D training points with $$C = 2$$:
+$$(x_1, y_1) = (-2, -1), \quad (x_2, y_2) = (0, -1), \quad (x_3, y_3) = (2, +1).$$
+
+1. **Find the maximum-margin linear separator by geometry:**
+   The negative points sit at $$x \le 0$$ and the positive point sits at $$x = 2$$, so the midpoint is $$x = 1$$ with half-margin $$1$$: $$\beta^\star = 1,\; \beta_0^\star = -1$$ (decision function $$f(x) = x - 1$$).
+2. **Check functional margins $$y_i(\beta^\star x_i + \beta_0^\star)$$ and slacks $$\xi_i^\star$$:**
+   - Point 1 ($$x_1 = -2, y_1 = -1$$): $$(-1)(-2 - 1) = +3 > 1$$ (strictly outside margin $$\implies \xi_1^\star = 0,\; w_1^\star = 0$$!).
+   - Point 2 ($$x_2 = 0, y_2 = -1$$): $$(-1)(0 - 1) = +1$$ (on the margin $$\implies \xi_2^\star = 0$$, free support vector!).
+   - Point 3 ($$x_3 = 2, y_3 = +1$$): $$(+1)(2 - 1) = +1$$ (on the margin $$\implies \xi_3^\star = 0$$, free support vector!).
+3. **Solve for the KKT multipliers $$w_2^\star, w_3^\star$$ via stationarity:**
+   - $$\sum w_i^\star y_i = -w_2^\star + w_3^\star = 0 \implies w_2^\star = w_3^\star$$.
+   - $$\beta^\star = \sum w_i^\star y_i x_i = w_2^\star(-1)(0) + w_3^\star(+1)(2) = 2w_3^\star = 1 \implies w_3^\star = 0.5,\; w_2^\star = 0.5$$.
+   - Dual feasibility check: $$0 \le w_i^\star = 0.5 < C = 2$$ and $$v_i^\star = C - w_i^\star = 1.5 > 0$$!
+4. **Takeaway:** Point 1 ($$w_1^\star = 0$$) is completely irrelevant, while Points 2 and 3 ($$w_2^\star = w_3^\star = 0.5$$) are the exact support vectors holding the hyperplane in place!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

@@ -9,6 +9,46 @@ categories:
 lang: vi
 ---
 
+Trong hầu hết các bài toán tối ưu phi tuyến thực tế (như hồi quy logistic hay tối ưu hàm log-sum-exp), việc tính trước hằng số Lipschitz toàn cục $$L$$ rất khó, hoặc $$L$$ toàn cục quá lớn so với độ cong thực tế ở vùng thuật toán đang đi qua. Nếu chọn bước cố định $$1/L$$ toàn cục, bạn buộc phải "bò từng milimet" ngay cả trên những vùng phẳng rộng thênh thang!
+
+**Tìm kiếm đường lùi (Backtracking Line Search / Điều kiện Armijo)** giải quyết triệt để vấn đề này bằng một cơ chế thông minh đến kinh ngạc: ở mỗi bước, cứ mạnh dạn thử bước dài $$t = 1$$ trước; chỉ khi thấy hàm mục tiêu *không giảm đủ mạnh* so với kỳ vọng tuyến tính, ta mới rút ngắn bước đi theo hệ số $$\beta \in (0, 1)$$ cho đến khi đạt chuẩn!
+
+## Bản đồ kiến thức nền: Cơ chế "Đường thẳng Armijo" trong Backtracking
+
+Ba trụ cột sau làm rõ ý nghĩa hình học và cách chọn tham số của Backtracking Line Search:
+
+- **Điều kiện giảm đủ Armijo (Sufficient Decrease Condition):** Với $$\alpha \in (0, 0.5]$$ (thường chọn $$\alpha = 0.01 \text{ đến } 0.3$$), ta chấp nhận bước $$t$$ khi:
+  $$f(x - t\nabla f(x)) \le f(x) - \alpha t \|\nabla f(x)\|_2^2.$$
+  Về mặt hình học, vế phải là một đường thẳng có độ dốc *thoai thoải hơn* tiếp tuyến tại $$x$$ (chỉ lấy một phần $$\alpha$$ của độ dốc ban đầu). Ta chỉ cần đồ thị hàm số nằm **dưới** đường thẳng này!
+- **Tại sao vòng lặp `while` luôn dừng sau hữu hạn bước?** Vì theo khai triển Taylor bậc nhất, với $$t$$ đủ nhỏ ta có $$f(x - t\nabla f(x)) \approx f(x) - t\|\nabla f(x)\|_2^2 < f(x) - \alpha t\|\nabla f(x)\|_2^2$$ (do $$\alpha < 1$$). Thậm chí với hàm $$L$$-trơn, điều kiện chắc chắn thỏa mãn ngay khi $$t \le \frac{2(1-\alpha)}{L}$$ (hoặc $$t \le 1/L$$ khi $$\alpha \le 0.5$$)!
+- **Chọn tham số $$\alpha$$ và $$\beta$$ trong thực tế:** $$\beta \in (0, 1)$$ là hệ số co bước (thường chọn $$\beta = 0.5$$ hoặc $$0.8$$). Chọn $$\beta$$ lớn (như $$0.8$$) tìm được bước sát tối ưu hơn nhưng tốn nhiều lần thử hàm hơn; $$\beta = 0.5$$ là điểm cân bằng kinh điển vừa nhanh vừa chắc chắn.
+
+### Khung giải thích (nên đọc chậm): Chạy tay vòng lặp Backtracking Line Search từng phép thử
+
+Xét hàm $$f(x) = x^2 + e^x$$ tại $$x = 1$$. Ta có:
+- $$f(1) = 1 + e \approx 3.7183$$.
+- $$f'(1) = 2(1) + e \approx 4.7183$$, suy ra $$(f'(1))^2 \approx 22.262$$.
+Dùng Backtracking với $$t_{\text{init}} = 1,\; \alpha = 0.3,\; \beta = 0.5$$. Điều kiện cần thỏa:
+$$f(1 - 4.7183 t) \le 3.7183 - 0.3 \cdot t \cdot 22.262 = 3.7183 - 6.6786 t.$$
+
+1. **Lần thử 1 ($$t = 1$$):**
+   - Điểm thử: $$x_{\text{try}} = 1 - 4.7183 = -3.7183$$.
+   - Vế trái: $$f(-3.7183) = (-3.7183)^2 + e^{-3.7183} \approx 13.826 + 0.024 = 13.850$$.
+   - Vế phải: $$3.7183 - 6.6786 = -2.960$$.
+   - So sánh: $$13.850 \le -2.960$$? **Sai!** (Bước $$t=1$$ nhảy quá đà lên tận $$13.85$$!). Co bước $$t \leftarrow 0.5$$.
+2. **Lần thử 2 ($$t = 0.5$$):**
+   - Điểm thử: $$x_{\text{try}} = 1 - 2.3591 = -1.3591$$.
+   - Vế trái: $$f(-1.3591) \approx 1.847 + 0.257 = 2.104$$.
+   - Vế phải: $$3.7183 - 3.3393 = 0.379$$.
+   - So sánh: $$2.104 \le 0.379$$? **Sai!** (Dù hàm đã giảm từ $$3.72$$ xuống $$2.10$$, mức giảm chưa đạt chuẩn Armijo!). Co bước $$t \leftarrow 0.25$$.
+3. **Lần thử 3 ($$t = 0.25$$):**
+   - Điểm thử: $$x_{\text{try}} = 1 - 1.1796 = -0.1796$$.
+   - Vế trái: $$f(-0.1796) \approx 0.032 + 0.836 = 0.868$$.
+   - Vế phải: $$3.7183 - 1.6697 = 2.049$$.
+   - So sánh: $$0.868 \le 2.049$$? **ĐÚNG!** Dừng vòng lặp, chấp nhận $$t = 0.25$$ và cập nhật $$x_1 = -0.1796$$ (giảm hàm mục tiêu hơn 4 lần ngay bước đầu tiên!).
+
+---
+
 Quy tắc cập nhật cơ bản của gradient descent là:
 $$x_{k+1} = x_k - t_k \nabla f(x_k),$$
 trong đó $$x_k$$ là vector tham số tại lần lặp $$k$$, $$\nabla f(x_k)$$ là gradient và $$t_k > 0$$ là kích thước bước (tốc độ học).

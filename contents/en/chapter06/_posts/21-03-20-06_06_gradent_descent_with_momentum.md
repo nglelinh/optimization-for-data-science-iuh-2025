@@ -10,6 +10,34 @@ lang: en
 lesson_type: required
 ---
 
+Picture rolling a heavy iron ball down a narrow canyon whose walls are steep and whose floor slopes gently toward the sea. A massless marble (vanilla gradient descent) bounces wildly from wall to wall and barely moves forward; the heavy ball cancels out the opposing left-right bounces and builds speed smoothly down the canyon floor. That physical inertia is **Gradient Descent with Momentum** (Polyak's Heavy Ball), turning $$O(\kappa)$$ zig-zagging into $$O(\sqrt{\kappa})$$ acceleration.
+
+## Background Knowledge Map: Physics and Algebra of Momentum
+
+1. **Velocity Recursion (Exponential Moving Average)**: Momentum maintains a velocity vector $$v_k$$ that blends past velocity with the current gradient:
+   $$v_k = \beta v_{k-1} + \nabla f(x_{k-1}), \qquad x_k = x_{k-1} - t v_k,$$
+   where $$\beta \in [0, 1)$$ is the momentum (damping) coefficient (typically $$\beta = 0.9$$). Unrolling gives $$v_k = \sum_{j=0}^{k-1} \beta^j \nabla f(x_{k-1-j})$$.
+2. **Directional Amplification vs. Cancellation**:
+   - Along a *consistent* flat direction where $$\nabla f \approx g$$ stays constant, the velocity builds up to the geometric series sum $$\frac{1}{1 - \beta} g$$ (a $$10\times$$ boost when $$\beta = 0.9$$!).
+   - Along an *oscillating* steep direction where gradients alternate $$+g, -g, +g, \dots$$, consecutive terms cancel out, damping the zig-zag!
+3. **Optimal Spectral Rate on Quadratics**: On an $$m$$-strongly convex, $$L$$-smooth quadratic, choosing $$t^\star = \frac{4}{(\sqrt{L} + \sqrt{m})^2}$$ and $$\beta^\star = \left(\frac{\sqrt{L} - \sqrt{m}}{\sqrt{L} + \sqrt{m}}\right)^2$$ cuts the contraction factor from $$\frac{\kappa - 1}{\kappa + 1}$$ down to $$\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$$.
+4. **Heavy Ball vs. Nesterov Look-Ahead**: Heavy Ball evaluates the gradient at the current position $$x_{k-1}$$; Nesterov momentum peeks ahead to $$x_{k-1} - t\beta v_{k-1}$$ before computing the gradient, acting as a corrective brake that prevents overshooting on general non-quadratic convex functions.
+
+### Step-by-Step Worked Example (Read Slowly): Watching Momentum Damp Zig-Zag and Boost Forward Progress
+
+Minimize $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 16x_2^2)$$ (so $$m = 1, L = 16, \kappa = 16$$) starting at $$x^{(0)} = (10, 1)$$ with $$v^{(0)} = (0, 0)$$, using step size $$t = 0.1$$ and momentum $$\beta = 0.5$$.
+
+1. **Iteration 1**:
+   - Gradient: $$g_0 = (10,\; 16)$$.
+   - Velocity: $$v^{(1)} = 0.5(0, 0) + (10, 16) = (10,\; 16)$$.
+   - Position: $$x^{(1)} = (10, 1) - 0.1(10, 16) = (9.0,\; -0.6)$$.
+2. **Iteration 2**:
+   - Gradient at $$x^{(1)}$$: $$g_1 = (9.0,\; -9.6)$$. Notice $$g_1$$ flipped sign along $$x_2$$!
+   - Velocity: $$v^{(2)} = 0.5(10, 16) + (9.0, -9.6) = (5.0 + 9.0,\; 8.0 - 9.6) = (14.0,\; -1.6)$$.
+   - Look at what just happened: along the flat axis $$x_1$$, velocity *grew* from $$10$$ to $$14$$; along the steep axis $$x_2$$, opposite signs canceled, slashing velocity from $$16$$ down to $$-1.6$$!
+   - Position: $$x^{(2)} = (9.0, -0.6) - 0.1(14.0, -1.6) = (7.6,\; -0.44)$$.
+3. **Compare with vanilla GD ($$\beta = 0, t = 0.1$$)**: After 2 steps, vanilla GD sits at $$(8.1,\; +0.36)$$ — slower progress along $$x_1$$ ($$8.1$$ vs. $$7.6$$). With optimal Heavy-Ball parameters $$\beta^\star = (\frac{4-1}{4+1})^2 = 0.36$$ and $$t^\star = \frac{4}{25} = 0.16$$, the contraction rate is $$\frac{3}{5} = 0.60$$ vs. vanilla GD's $$\frac{15}{17} \approx 0.882$$!
+
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
 The animation on this page is the full-batch, constant-$$\beta$$ picture. The Distill-style spectral story — characteristic polynomial, optimal $$\beta^\star$$, look-ahead versus heavy ball, and why `nesterov=True` is not FISTA — is the modern-track lesson [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}); the proximal / scheduled sibling is [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}).

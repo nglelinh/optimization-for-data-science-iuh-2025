@@ -10,6 +10,37 @@ lang: vi
 lesson_type: required
 ---
 
+Khi bài toán chuyển từ dự đoán giá nhà (số thực liên tục) sang dự đoán một giao dịch có gian lận hay không ($$y \in \{0, 1\}$$), hồi quy tuyến tính lập tức lộ yếu điểm: nó có thể dự đoán xác suất bằng $$1.7$$ hoặc $$-0.4$$, và cực kỳ nhạy cảm với các điểm dữ liệu nằm xa biên phân loại. Giải pháp kinh điển của thống kê và học máy là đẩy điểm số tuyến tính $$z = w^T x + b$$ đi qua **hàm Sigmoid** $$\sigma(z) = \frac{1}{1 + e^{-z}}$$ để ép gọn vào khoảng xác suất $$(0, 1)$$.
+
+Điều kỳ diệu khiến **Hồi quy Logistic** trở thành "con cưng" của Chương 05 nằm ở phép toán tối ưu đằng sau nó: nếu bạn cố dùng sai số bình phương trên hàm Sigmoid, bài toán sẽ trở thành **phi lồi** đầy cực tiểu địa phương; nhưng ngay khi bạn dùng **Cross-Entropy (Negative Log-Likelihood của phân phối Bernoulli)**, hàm mục tiêu bỗng trở thành một **hàm lồi trơn tuyệt đẹp** với Hessian nửa xác định dương trên toàn không gian!
+
+## Bản đồ kiến thức nền: Bốn trụ cột toán học của Hồi quy Logistic
+
+Để hiểu trọn vẹn vì sao Hồi quy Logistic vừa đơn giản vừa bền vững trong thực chiến, hãy nắm bốn mảnh ghép sau:
+
+- **Mô hình Log-Odds & Hàm Sigmoid:** Giả sử tỷ lệ chênh logarit (log-odds) là hàm tuyến tính: $$\log \frac{p}{1-p} = w^T x + b$$. Giải ngược theo $$p$$ thu ngay $$p = \sigma(w^T x + b) = \frac{1}{1 + e^{-(w^T x + b)}}$$, với đạo hàm cực gọn $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$.
+- **Tính lồi của hàm mất mát Cross-Entropy:** Với nhãn $$y_i \in \{0, 1\}$$, hàm mất mát từng điểm là $$\ell_i(w) = -y_i \log \hat{p}_i - (1 - y_i)\log(1 - \hat{p}_i) = \log(1 + e^{w^T x_i}) - y_i w^T x_i$$. Số hạng đầu là hàm log-sum-exp (luôn lồi), số hạng sau tuyến tính — do đó tổng hàm mất mát **luôn lồi**!
+- **Không có nghiệm đóng — Cửa ngõ sang Thuật toán lặp:** Khác với Bình phương tối thiểu có công thức $$x^\star = (A^T A)^{-1} A^T b$$, phương trình $$\nabla L(w) = X^T(\hat{p} - y) = 0$$ là phương trình siêu việt không có nghiệm đóng. Ta buộc phải giải bằng Gradient Descent, Newton–Raphson (IRLS) hoặc L-BFGS!
+- **Hiện tượng Tách biệt hoàn toàn (Perfect Separation) & Điều chuẩn $$\ell_2$$:** Nếu dữ liệu tách biệt tuyến tính hoàn toàn, hàm mất mát có thể giảm về $$0$$ khi $$\|w\|_2 \to \infty$$ (không tồn tại nghiệm hữu hạn!). Cộng thêm $$\frac{\lambda}{2}\|w\|_2^2$$ làm hàm trở nên lồi mạnh và đảm bảo nghiệm hữu hạn duy nhất.
+
+### Khung giải thích (nên đọc chậm): Tính tay xác suất, Cross-Entropy, Gradient và Hessian của Hồi quy Logistic
+
+Xét 2 điểm dữ liệu 1 chiều không hệ số chặn: $$(x_1, y_1) = (1, 1)$$ và $$(x_2, y_2) = (-1, 0)$$, tại trọng số hiện tại $$w = 0$$.
+
+1. **Bước 1 — Dự đoán xác suất tại $$w = 0$$:**
+   - $$z_1 = 0 \cdot 1 = 0 \implies \hat{p}_1 = \sigma(0) = 0.5$$.
+   - $$z_2 = 0 \cdot (-1) = 0 \implies \hat{p}_2 = \sigma(0) = 0.5$$.
+2. **Bước 2 — Tính hàm mất mát trung bình (Cross-Entropy):**
+   $$L(0) = -\frac{1}{2}\big[1 \cdot \log(0.5) + (1 - 0)\cdot \log(1 - 0.5)\big] = -\log(0.5) = \log 2 \approx 0.6931.$$
+3. **Bước 3 — Tính Gradient $$\nabla L(w) = \frac{1}{n}\sum_{i=1}^n (\hat{p}_i - y_i) x_i$$:**
+   $$\nabla L(0) = \frac{1}{2}\big[(0.5 - 1)(1) + (0.5 - 0)(-1)\big] = \frac{1}{2}(-0.5 - 0.5) = -0.5.$$
+   Hướng giảm $$-\nabla L(0) = +0.5 > 0$$ bảo ta **tăng $$w$$ lên**!
+4. **Bước 4 — Tính đạo hàm bậc hai (Hessian) $$H(w) = \frac{1}{n}\sum_{i=1}^n \hat{p}_i (1 - \hat{p}_i) x_i^2$$:**
+   $$H(0) = \frac{1}{2}\big[0.25(1)^2 + 0.25(-1)^2\big] = 0.25 > 0.$$
+   Vì $$\hat{p}_i(1-\hat{p}_i) > 0$$ với mọi $$w$$, ta có $$H(w) \ge 0$$ trên toàn bộ $$\mathbb{R}$$ — chứng minh trực tiếp hàm mất mát luôn lồi! Sau 1 bước Newton $$w^{(1)} = w^{(0)} - \frac{\nabla L(0)}{H(0)} = 0 - \frac{-0.5}{0.25} = 2$$, xác suất lập tức nhảy lên $$\hat{p}_1 = \sigma(2) \approx 0.881$$ và $$\hat{p}_2 = \sigma(-2) \approx 0.119$$, kéo loss giảm mạnh từ $$0.693$$ xuống $$0.127$$!
+
+---
+
 # Hồi quy Logistic (Logistic Regression)
 
 Hồi quy logistic là một trong những ứng dụng tiêu biểu của tối ưu hóa lồi trong học máy, được sử dụng rộng rãi cho bài toán phân loại nhị phân.

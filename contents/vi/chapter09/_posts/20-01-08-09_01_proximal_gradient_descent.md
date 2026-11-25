@@ -9,6 +9,42 @@ categories:
 lang: vi
 ---
 
+Nếu muốn hiểu sâu **phương pháp gradient gần kề (Proximal Gradient Descent)** trong đúng một hình ảnh, hãy nhớ lại cách ta suy ra gradient descent cổ điển: ở mỗi điểm $$x$$, ta thay hàm $$g(z)$$ bằng một chiếc bát parabol mở lên tiếp xúc với $$g$$ tại $$x$$:
+$$g(z) \approx g(x) + \nabla g(x)^T(z - x) + \frac{1}{2t}\|z - x\|_2^2,$$
+rồi nhảy thẳng xuống đáy chiếc bát đó. Nhưng khi hàm mục tiêu có dạng $$f(z) = g(z) + h(z)$$ với $$h(z)$$ bị gãy khúc, ta không thể thay $$h(z)$$ bằng đường tiếp tuyến được. Vậy phải làm gì?
+
+Ý tưởng thiên tài của phương pháp gradient gần kề là: **chỉ xấp xỉ bậc hai phần trơn $$g(z)$$, còn phần không trơn $$h(z)$$ thì giữ nguyên vẹn!** Khi tối thiểu hóa tổng của chiếc bát parabol ấy cộng với $$h(z)$$, ta thu được đúng một vòng lặp hai nhịp nhịp nhàng: nhịp 1 bước theo $$-\nabla g(x)$$ giống hệt gradient descent; nhịp 2 áp dụng toán tử gần kề $$\operatorname{prox}_{t h}$$ để "gọt" điểm vừa bước theo hình học của $$h$$. Với $$h(x) = \lambda\|x\|_1$$, toán tử ấy hóa ra chính là phép co ngưỡng mềm (soft-thresholding) nổi tiếng của thuật toán ISTA!
+
+## Bản đồ kiến thức nền: Bốn mảnh ghép của thuật toán gradient gần kề
+
+- **Xấp xỉ bậc hai cục bộ cho phần trơn (Majorization–Minimization):** Khi $$t \le 1/L$$, hàm bậc hai $$g(x) + \nabla g(x)^T(z-x) + \frac{1}{2t}\|z-x\|_2^2$$ nằm *hoàn toàn phía trên* $$g(z)$$. Do đó, cực tiểu hóa mô hình thay thế cộng $$h(z)$$ đảm bảo giá trị hàm thực $$f(x^{(k)})$$ **giảm đơn điệu** sau mọi bước — khắc phục hẳn nhược điểm lên xuống của subgradient!
+- **Toán tử gần kề (Proximal Mapping):** Viết lại bài toán con ở mỗi bước bằng cách gộp bình phương, ta được:
+  $$x^{(k)} = \operatorname{prox}_{t h}\big(x^{(k-1)} - t\nabla g(x^{(k-1)})\big), \quad \operatorname{prox}_{t h}(v) = \arg\min_z \left\{\frac{1}{2t}\|z - v\|_2^2 + h(z)\right\}.$$
+  Vì hàm trong $$\arg\min$$ là lồi mạnh, nghiệm luôn tồn tại và **duy nhất**.
+- **Phép co ngưỡng mềm (Soft-Thresholding) cho chuẩn $$\ell_1$$:** Khi $$h(x) = \lambda\|x\|_1$$, bài toán prox tách độc lập theo từng tọa độ $$j$$, cho công thức đóng:
+  $$[S_{t\lambda}(v)]_j = \operatorname{sign}(v_j)\max(|v_j| - t\lambda, 0).$$
+  Mọi tọa độ có độ lớn không vượt quá ngưỡng $$t\lambda$$ bị kéo về **chính xác bằng $$0$$**, tạo ra nghiệm thưa thực sự.
+- **Độ phức tạp ẩn trong phép prox:** Toàn bộ hiệu quả của thuật toán phụ thuộc vào việc $$\operatorname{prox}_{t h}$$ có tính nhanh hay không. Với $$\ell_1$$, $$\ell_2$$, hộp ràng buộc, đơn hình, hay chuẩn hạt nhân ma trận, prox đều có công thức đóng hoặc thuật toán rất gọn.
+
+### Khung giải thích (nên đọc chậm): Tính tay 2 bước ISTA trên bài toán Lasso 2 biến
+
+Xét bài toán Lasso đơn giản với ma trận thiết kế trực giao $$A = I_2$$ (nên $$L = 1$$, chọn bước $$t = 1$$), vector quan sát $$b = (2.5, -0.4)^T$$ và hệ số phạt $$\lambda = 1.0$$:
+$$\min_{x \in \mathbb{R}^2} \; \frac{1}{2}\|x - b\|_2^2 + 1.0\|x\|_1.$$
+Khởi tạo tại $$x^{(0)} = (0, 0)^T$$.
+
+1. **Nhịp 1 — Bước gradient trên phần trơn $$g(x) = \frac{1}{2}\|x - b\|_2^2$$:**
+   $$\nabla g(x^{(0)}) = x^{(0)} - b = (-2.5, 0.4)^T.$$
+   Điểm trung gian trước khi áp dụng prox:
+   $$v^{(1)} = x^{(0)} - 1 \cdot \nabla g(x^{(0)}) = (2.5, -0.4)^T.$$
+2. **Nhịp 2 — Áp dụng toán tử gần kề (co ngưỡng mềm với ngưỡng $$t\lambda = 1.0$$):**
+   - Tọa độ 1: $$|2.5| > 1.0 \implies x_1^{(1)} = (+1)\cdot(2.5 - 1.0) = 1.5$$.
+   - Tọa độ 2: $$|-0.4| \le 1.0 \implies x_2^{(1)} = 0$$ (bị cắt sạch về đúng $$0$$!).
+   Vậy $$x^{(1)} = (1.5, 0)^T$$.
+3. **Kiểm tra điều kiện tối ưu tại $$x^{(1)} = (1.5, 0)^T$$:**
+   - Tọa độ 1: $$g_1'(1.5) + \lambda\operatorname{sign}(1.5) = (1.5 - 2.5) + 1 = 0$$.
+   - Tọa độ 2: $$g_2'(0) = 0 - (-0.4) = 0.4 \in [-1, 1] = -\partial(\lambda|x_2|)\big|_0$$.
+   Điều kiện tối ưu thỏa mãn ở cả hai tọa độ! Nếu chạy thêm bước 2, ta sẽ thấy $$v^{(2)} = (1.5, 0) - (-1, 0.4) = (2.5, -0.4)$$ và $$x^{(2)} = (1.5, 0) = x^{(1)}$$ — điểm bất động chính xác!
+
 **Phương pháp gradient gần kề (proximal gradient descent)** là phương pháp tối ưu dựa trên việc phân tách hàm mục tiêu thành một phần khả vi và một phần không khả vi. Trong bài này, chúng ta trình bày cách xây dựng thuật toán và áp dụng nó cho bài toán Lasso.
 
 ## Hàm mục tiêu có thể phân tách

@@ -10,6 +10,29 @@ lang: en
 lesson_type: required
 ---
 
+Instead of describing a smooth curve by its height $$f(x)$$ at each position $$x$$, you can describe the exact same curve by the vertical intercept of every tangent line of slope $$y$$. That slope-indexed re-encoding is the **Fenchel conjugate** $$f^*(y) = \sup_x (y^T x - f(x))$$. It is one of the deepest ideas in all of optimization: it automatically converts primal constraints into dual objectives, links smoothness of $$f$$ to strong convexity of $$f^*$$, and powers Moreau's decomposition for proximal algorithms.
+
+## Background Knowledge Map: Intuition and Power of the Fenchel Conjugate
+
+- **Geometric Meaning (Maximum Vertical Gap):** For a fixed slope $$y$$, $$f^*(y) = \sup_x (y^T x - f(x))$$ finds the maximum amount by which the linear function $$y^T x$$ rises above $$f(x)$$—i.e., the negative $$y$$-intercept of the supporting hyperplane with slope $$y$$.
+- **Always Convex:** Because $$f^*(y)$$ is a pointwise supremum of affine functions of $$y$$, $$f^*$$ is *always* convex and closed—even when the original function $$f$$ is nonconvex!
+- **Fenchel–Young Inequality:** Directly from the supremum definition, $$f(x) + f^*(y) \ge y^T x$$ for all $$x, y$$, with equality if and only if $$y \in \partial f(x)$$ (tangent slope matches $$y$$).
+- **Biconjugate ($$f^{**} = f$$):** For any closed proper convex function, taking the conjugate twice recovers $$f$$ identically; for a nonconvex $$f$$, $$f^{**}$$ produces its tightest convex envelope!
+
+### Step-by-Step Worked Example (Read Slowly): Conjugate of a Quadratic and Fenchel–Young Check
+
+Compute the Fenchel conjugate of $$f(x) = \frac{1}{2}a x^2$$ (where $$a > 0$$) and verify Fenchel's inequality numerically.
+
+1. **Maximize $$g(x) = yx - \frac{1}{2}a x^2$$ over $$x \in \mathbb{R}$$:**
+   $$g'(x) = y - ax = 0 \implies x^* = \frac{y}{a}.$$
+   Since $$g''(x) = -a < 0$$, $$x^* = y/a$$ is the unique global maximizer.
+2. **Substitute $$x^*$$ back into $$g(x)$$:**
+   $$f^*(y) = y\left(\frac{y}{a}\right) - \frac{1}{2}a\left(\frac{y}{a}\right)^2 = \frac{y^2}{a} - \frac{y^2}{2a} = \frac{y^2}{2a}.$$
+   Notice the duality of curvature: large curvature $$a$$ in $$f$$ becomes small curvature $$1/a$$ in $$f^*$$!
+3. **Numerical check of Fenchel's inequality ($$a = 4, x = 2$$):**
+   - With $$y = 6 \neq f'(2) = 8$$: $$f(2) + f^*(6) = 8 + \frac{36}{8} = 12.5 > 12 = xy$$ (strict inequality).
+   - With $$y = f'(2) = 8$$: $$f(2) + f^*(8) = 8 + \frac{64}{8} = 16 = 2 \cdot 8 = xy$$ (exact equality!).
+
 This section introduces the conjugate function (also known as the convex conjugate or Fenchel conjugate), a fundamental concept in convex analysis and duality theory that provides a powerful tool for transforming optimization problems.
 
 ## Definition and Mathematical Foundation

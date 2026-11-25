@@ -9,6 +9,33 @@ categories:
 lang: en
 ---
 
+In 2016, Dimitris Bertsimas, Angela King, and Rahul Mazumder ignited a spirited debate across statistics and machine learning by showing that Best Subset Selection—minimizing $$\frac{1}{2}\|y - X\beta\|_2^2$$ subject to $$\|\beta\|_0 \le k$$—is no longer limited to $$p = 30$$ variables as in 1970s textbooks. By pairing a tight big-$$M$$ Mixed Integer Quadratic Program (MIQP) with **discrete first-order warm starts** (projected gradient descent onto the $$k$$-sparse set), modern MIP solvers routinely tackle $$p = 1000+$$ predictors with certified optimality gaps.
+
+## Background Knowledge Map: Formulating and Warm-Starting Best Subset Selection
+
+- **MIQP Big-$$M$$ Formulation:** Introduce binary switches $$z_j \in \{0, 1\}$$ with $$\sum_{j=1}^p z_j \le k$$ and linking bounds $$-M_j z_j \le \beta_j \le M_j z_j$$. When $$z_j = 0$$, $$\beta_j$$ is forced to zero; when $$z_j = 1$$, $$\beta_j$$ is free within $$[-M_j, M_j]$$.
+- **Data-Driven Tight $$M$$ Bounds:** Guessing $$M = 10^6$$ wrecks the continuous relaxation. Instead, solving small auxiliary convex programs (or using Cauchy–Schwarz bounds from a feasible warm-start objective) produces tight, provably valid $$M_j$$ constants that dramatically strengthen the root lower bound.
+- **Discrete First-Order Algorithm (Iterative Hard Thresholding):** Updating $$\beta^{(m+1)} \in H_k\!\left(\beta^{(m)} - \frac{1}{L} X^\top(X\beta^{(m)} - y)\right)$$, where $$H_k$$ keeps only the $$k$$ largest-magnitude entries, monotonically decreases the objective and converges quickly to a near-optimal $$k$$-sparse incumbent.
+- **Cold Start vs. Warm Start:** Feeding the IHT solution into the MIQP gives an immediate tight primal upper bound $$U$$, allowing Branch and Cut to prune huge swathes of the tree right from node 0.
+
+### Step-by-Step Worked Example (Read Slowly): One Discrete First-Order (IHT) Warm-Start Step
+
+Consider $$X = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{pmatrix}$$, $$y = (4, 2)^\top$$, sparsity budget $$k = 1$$, starting at $$\beta^{(0)} = (0, 0, 0)^\top$$.
+
+1. **Compute the smoothness constant $$L = \lambda_{\max}(X^\top X)$$:**
+   $$X^\top X = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \\ 1 & 1 & 2 \end{pmatrix}.$$
+   Since $$X X^\top = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$$ has eigenvalues $$3$$ and $$1$$, $$L = 3$$. Choose step size $$1/L = 1/3$$.
+2. **Compute the gradient at $$\beta^{(0)} = 0$$:**
+   $$\nabla f(0) = -X^\top y = -\begin{pmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{pmatrix} \begin{pmatrix} 4 \\ 2 \end{pmatrix} = (-4,\ -2,\ -6)^\top.$$
+3. **Take an unconstrained gradient step:**
+   $$u = \beta^{(0)} - \frac{1}{3}\nabla f(0) = \left(\frac{4}{3},\ \frac{2}{3},\ 2\right)^\top.$$
+4. **Apply the hard-thresholding operator $$H_1(u)$$ (keep only the single largest-magnitude coordinate):**
+   The largest entry is $$u_3 = 2$$, so $$\beta^{(1)} = (0, 0, 2)^\top$$.
+5. **Check the objective drop and warm-start quality:**
+   - Initial loss: $$f(0) = \frac{1}{2}(4^2 + 2^2) = 10$$.
+   - After 1 IHT step: $$X\beta^{(1)} = (2, 2)^\top$$, residual $$y - X\beta^{(1)} = (2, 0)^\top$$, loss $$f(\beta^{(1)}) = \frac{1}{2}(2^2 + 0^2) = 2$$!
+   - Polishing $$\beta_3$$ on the selected support $$\{3\}$$ gives $$\beta_3 = \frac{X_3^\top y}{\|X_3\|_2^2} = \frac{6}{2} = 3$$, yielding loss $$\frac{1}{2}((4-3)^2 + (2-3)^2) = 1$$—handing the MIQP an incumbent with $$U = 1$$ before Branch and Cut even begins!
+
 Best subset selection, one of the representative examples of Integer Programming, is a problem of selecting k entries from $$p$$ entries.
 
 ## Best subset selection

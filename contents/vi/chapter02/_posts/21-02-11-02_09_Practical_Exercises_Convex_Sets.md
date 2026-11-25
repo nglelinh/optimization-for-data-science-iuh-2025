@@ -12,6 +12,36 @@ redirect_from:
   - /contents/vi/chapter02/02_08_Practical_Exercises_Convex_Sets/
 ---
 
+Biết phát biểu định lý siêu phẳng phân tách hay định nghĩa hình nón đối ngẫu trên lớp là bước đầu; thực sự viết ra được phương trình siêu phẳng, tính chính xác bao lồi, và vẽ/kiểm chứng được hình nón đối ngẫu bằng cả tay lẫn code mới biến kiến thức Chương 02 thành phản xạ nghề nghiệp.
+
+Trong bài tập thực hành này, bạn sẽ trực tiếp kiểm tra tính lồi, dựng siêu phẳng phân tách và tính hình nón đối ngẫu. Dưới đây là khung tư duy nhanh và một bài tính tay mẫu về hình nón đối ngẫu đa diện.
+
+## Bản đồ kiến thức nền: Bốn kỹ năng thực hành cốt lõi của Chương 02
+
+- **Kiểm tra và chứng minh tính lồi:** Phân biệt khi nào nên dùng định nghĩa trực tiếp, khi nào nên phân rã qua phép giao/ánh xạ affine, và khi nào nên tìm một phản ví dụ 2 điểm để bác bỏ ngay.
+- **Tính toán siêu phẳng phân tách (SVM & Khoảng cách nhỏ nhất):** Tìm cặp điểm gần nhau nhất giữa hai tập lồi rồi lấy đường trung trực làm siêu phẳng phân tách biên cực đại.
+- **Xác định bao lồi (Convex Hull):** Nhận diện các đỉnh cực biên (extreme points) và loại bỏ các điểm nằm bên trong là tổ hợp lồi của các đỉnh còn lại.
+- **Tính hình nón đối ngẫu đa diện:** Với hình nón sinh bởi hữu hạn tia $$K = \operatorname{cone}\{v_1, \dots, v_m\}$$, điều kiện $$y \in K^*$$ rút gọn ngay thành đúng $$m$$ bất đẳng thức tuyến tính $$v_i^T y \ge 0$$!
+
+### Khung giải thích (nên đọc chậm): Tính tay hình nón đối ngẫu của một hình nón đa diện trong $$\mathbb{R}^2$$
+
+Cho hình nón sinh bởi hai tia $$v_1 = (1, 0)^T$$ và $$v_2 = (1, 2)^T$$:
+$$K = \{\theta_1 (1, 0)^T + \theta_2 (1, 2)^T : \theta_1, \theta_2 \ge 0\}.$$
+
+1. **Thiết lập điều kiện đối ngẫu $$y = (y_1, y_2)^T \in K^*$$:**
+   Vì mọi phần tử của $$K$$ là tổ hợp không âm của $$v_1, v_2$$, ta chỉ cần kiểm tra tích vô hướng không âm với đúng hai tia sinh:
+   - $$v_1^T y \ge 0 \iff 1\cdot y_1 + 0\cdot y_2 \ge 0 \iff y_1 \ge 0$$.
+   - $$v_2^T y \ge 0 \iff 1\cdot y_1 + 2\cdot y_2 \ge 0 \iff y_2 \ge -\frac{1}{2}y_1$$.
+2. **Tìm hai tia biên sinh ra hình nón đối ngẫu $$K^*$$:**
+   - Khi ràng buộc thứ nhất chặt ($$y_1 = 0$$) và ràng buộc thứ hai thỏa ($$2y_2 \ge 0$$): ta được tia $$w_1 = (0, 1)^T$$.
+   - Khi ràng buộc thứ hai chặt ($$y_1 + 2y_2 = 0$$) và ràng buộc thứ nhất thỏa ($$y_1 \ge 0$$): ta được tia $$w_2 = (2, -1)^T$$.
+3. **Kiểm tra chéo góc vuông giữa biên $$K$$ và biên $$K^*$$:**
+   - $$w_1^T v_1 = 0(1) + 1(0) = 0$$ (vuông góc!) và $$w_1^T v_2 = 2 > 0$$.
+   - $$w_2^T v_2 = 2(1) + (-1)(2) = 0$$ (vuông góc!) và $$w_2^T v_1 = 2 > 0$$.
+   Kết luận: $$K^* = \operatorname{cone}\{(0, 1)^T,\ (2, -1)^T\}$$ — đúng với trực giác $$K$$ góc nhọn (khoảng $$63.4^\circ$$) thì $$K^*$$ mở rộng thành góc tù ($$180^\circ - 63.4^\circ = 116.6^\circ$$)!
+
+---
+
 # Bài tập thực hành - Tập lồi
 
 ## **Bài tập 1: Kiểm tra tính lồi của tập hợp**

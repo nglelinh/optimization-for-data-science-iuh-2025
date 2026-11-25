@@ -9,6 +9,37 @@ categories:
 lang: vi
 ---
 
+Trong Quy hoạch Tuyến tính, ta yêu cầu một vector $$x \in \mathbb{R}^n$$ không âm theo từng thành phần: $$x_i \ge 0$$. Bây giờ hãy nâng cấp trí tưởng tượng lên một chiều sâu hoàn toàn mới: thay vector $$x$$ bằng một **ma trận đối xứng** $$X \in \mathbb{S}^n$$, và thay điều kiện "không âm từng phần tử" bằng điều kiện "mọi trị riêng đều không âm" — tức ma trận **nửa xác định dương** $$X \succeq 0$$!
+
+Bước nhảy vọt tưởng chừng trừu tượng ấy sinh ra **Quy hoạch Nửa xác định (Semidefinite Programming - SDP)** — một trong những phát kiến rực rỡ nhất của tối ưu hóa lồi cuối thế kỷ 20. Nhờ SDP, Goemans và Williamson (1995) đã phá vỡ kỷ lục xấp xỉ bài toán NP-khó Max-Cut với tỷ lệ đảm bảo $$0.878$$, các kỹ sư điều khiển chứng minh được tính ổn định của hệ phi tuyến qua hàm Lyapunov, và các nhà nghiên cứu AI kiểm chứng được độ vững chắc của mạng nơ-ron sâu.
+
+## Bản đồ kiến thức nền: Tư duy tối ưu trên không gian ma trận
+
+Bốn trụ cột sau mở khóa trực giác về SDP và Bất đẳng thức Ma trận Tuyến tính (LMI):
+
+- **Nón Ma trận Nửa xác định dương $$\mathbb{S}_+^n$$:** Tập tất cả ma trận đối xứng $$X$$ thỏa $$v^T X v \ge 0 \; \forall v$$ là một nón lồi đóng, tự đối ngẫu (với tích trong Frobenius $$\langle A, B \rangle = \operatorname{tr}(AB)$$). Khác với góc phần tư không âm có các mặt phẳng, biên của $$\mathbb{S}_+^n$$ vừa cong trơn vừa có những đường gờ sắc (tại nơi trị riêng giảm hạng).
+- **Bất đẳng thức Ma trận Tuyến tính (LMI):** Ràng buộc $$F(x) = F_0 + x_1 F_1 + \dots + x_m F_m \succeq 0$$ yêu cầu một tổ hợp affine của các ma trận đối xứng phải nửa xác định dương. Nếu mọi $$F_i$$ đều là ma trận đường chéo, LMI thu gọn về đúng một hệ bất đẳng thức tuyến tính LP!
+- **Bổ đề Phần bù Schur (Schur Complement):** Đây là "cây đũa thần" chuyển mọi ràng buộc bậc hai và SOCP thành LMI:
+  $$\|u\|_2 \le t \iff \begin{pmatrix} t I & u \\ u^T & t \end{pmatrix} \succeq 0.$$
+  Nhờ đó ta chứng minh được ngay $$\text{LP} \subset \text{QP} \subset \text{QCQP} \subset \text{SOCP} \subset \text{SDP}$$.
+- **Nới lỏng SDP cho bài toán tổ hợp & Ma trận hạng thấp:** Khi gặp biến $$x_i \in \{-1, +1\}$$, ta đặt ma trận $$X = x x^T$$ thỏa $$X_{ii} = 1,\; X \succeq 0,\; \operatorname{rank}(X) = 1$$. Chỉ cần bỏ ràng buộc phi lồi $$\operatorname{rank}(X) = 1$$, ta thu được ngay một bài SDP lồi cực chặt!
+
+### Khung giải thích (nên đọc chậm): Chuyển bài toán tìm trị riêng lớn nhất và ràng buộc SOCP thành LMI 2×2
+
+**Ví dụ 1 — Tối thiểu hóa trị riêng lớn nhất $$\lambda_{\max}(A(x))$$:**
+Cho $$A(x) = \begin{pmatrix} 1 + x & 2 \\ 2 & 3 - x \end{pmatrix}$$. Tìm $$x \in \mathbb{R}$$ để $$\lambda_{\max}(A(x))$$ nhỏ nhất.
+
+1. **Chuyển thành SDP:** Bất đẳng thức $$\lambda_{\max}(A(x)) \le t$$ tương đương với mọi trị riêng của $$tI - A(x)$$ đều $$\ge 0$$, tức là LMI:
+   $$\min_{x, t} \; t \quad \text{s.t.} \quad \begin{pmatrix} t - 1 - x & -2 \\ -2 & t - 3 + x \end{pmatrix} \succeq 0.$$
+2. **Giải bằng tiêu chuẩn Sylvester cho ma trận 2×2 nửa xác định dương:**
+   Cần hai phần tử đường chéo $$\ge 0$$ và định thức $$\ge 0$$:
+   $$(t - 1 - x)(t - 3 + x) - 4 \ge 0 \iff (t - 2)^2 - (x - 1)^2 \ge 4.$$
+3. **Tìm giá trị nhỏ nhất của $$t$$:**
+   Ta có $$(t - 2)^2 \ge 4 + (x - 1)^2 \ge 4$$. Muốn $$t$$ nhỏ nhất, chọn $$x^\star = 1$$ để triệt tiêu $$(x-1)^2$$, cho $$(t - 2)^2 = 4 \implies t^\star = 4$$ (vì cần $$t - 1 - x = t - 2 \ge 0$$).
+4. **Kiểm tra trực tiếp:** Tại $$x^\star = 1$$, $$A(1) = \begin{pmatrix} 2 & 2 \\ 2 & 2 \end{pmatrix}$$ có hai trị riêng là $$4$$ và $$0$$, vậy $$\lambda_{\max}(A(1)) = 4$$ đúng bằng $$t^\star$$!
+
+---
+
 Nếu ràng buộc bất đẳng thức tuyến tính trong một bài toán LP tổng quát được thay bằng một **bất đẳng thức ma trận tuyến tính** (Linear Matrix Inequality - LMI), ta thu được **bài toán quy hoạch nửa xác định** (hay *quy hoạch bán xác định*, Semidefinite Programming - SDP).
 
 ### Bài toán Quy hoạch Nửa xác định (dạng bất đẳng thức)

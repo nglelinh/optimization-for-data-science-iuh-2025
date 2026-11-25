@@ -10,6 +10,38 @@ lang: vi
 lesson_type: required
 ---
 
+Suốt 25 chương đầu, tính lồi là tấm lưới bảo hiểm tuyệt đối của ta: chỉ cần tìm được một điểm có gradient bằng $$0$$, ta chắc chắn đang đứng ở đáy sâu nhất toàn vũ trụ. Nhưng ngay khi bước sang mạng nơ-ron sâu, tấm lưới bảo hiểm ấy biến mất hoàn toàn — hàm mất mát $$F(w)$$ trở nên **không lồi** với hàng triệu tham số lồng nhau qua các phép nhân ma trận và hàm kích hoạt phi tuyến.
+
+Thế nhưng một nghịch lý tuyệt đẹp của khoa học máy tính thế kỷ 21 đã xảy ra: thay vì mắc kẹt mãi ở những "hố cực tiểu địa phương tồi tệ" như trực giác 2 chiều cảnh báo, SGD và AdamW lại huấn luyện mạng sâu xuống gần mức mất mát bằng $$0$$ một cách đáng kinh ngạc! Chương 28 sẽ giải mã bí ẩn đó thông qua ba chìa khóa hình học: **điểm yên ngựa trong không gian nhiều chiều**, **cơ chế thoát yên ngựa nhờ nhiễu**, và **sự dồi dào nghiệm của chế độ quá tham số hóa**.
+
+## Bản đồ kiến thức nền: Bốn trụ cột của địa hình không lồi trong học sâu
+
+Để đọc hiểu các bài 28-01 đến 28-05 một cách hệ thống, hãy nắm bốn trụ cột hình học sau:
+
+- **Phân loại điểm tới hạn theo phổ Hessian:** Trong không gian $$d$$ chiều lớn, xác suất cả $$d$$ trị riêng của Hessian cùng dương tại một điểm tới hạn là cực nhỏ; vì vậy, kẻ cản đường phổ biến nhất không phải cực tiểu địa phương kém mà là **điểm yên ngựa chặt (strict saddle)** và các vùng cao nguyên phẳng.
+- **Động lực học thoát yên ngựa (Escaping Saddles):** Phương pháp bậc nhất tất định có thể bị kẹt nếu rơi đúng vào mặt ổn định của yên ngựa, nhưng nhiễu ngẫu nhiên từ minibatch SGD (hoặc nhiễu thêm vào có chủ đích) luôn có hình chiếu khác 0 lên hướng độ cong âm, đẩy quỹ đạo trượt xuống nhanh chóng.
+- **Quá tham số hóa và Thiên kiến ẩn (Overparameterization & Implicit Bias):** Khi số tham số $$d \gg n$$, tập nghiệm nội suy $$F(w) = 0$$ không phải một điểm cô lập mà là một đa tạp liên tục rộng lớn; thuật toán tối ưu (SGD, AdamW) đóng vai trò bộ chọn ẩn quyết định mô hình rơi vào nghiệm nào trên đa tạp đó.
+- **Điều kiện Polyak–Łojasiewicz (PL):** Một bất đẳng thức gradient đơn giản cho phép chứng minh hội tụ tuyến tính của GD ngay cả khi hàm mất mát hoàn toàn không lồi — cây cầu nối thẳng tối ưu lồi Chương 06 sang học sâu hiện đại.
+
+### Khung giải thích (nên đọc chậm): Mạng tuyến tính 2 lớp — thu nhỏ toàn bộ địa hình học sâu vào 2 biến
+
+Xét mạng nơ-ron tuyến tính tối giản nhất thế giới gồm 2 trọng số vô hướng $$u, v \in \mathbb{R}$$ khớp một điểm dữ liệu $$(x = 1, y = 1)$$:
+
+$$
+F(u, v) = \frac{1}{2}(uv - 1)^2.
+$$
+
+Hàm này **không lồi** (ví dụ trung điểm của hai nghiệm tối ưu $$(1, 1)$$ và $$(-1, -1)$$ là $$(0, 0)$$ có giá trị $$F(0, 0) = 0.5 > 0$$!). Hãy tìm mọi điểm tới hạn của nó:
+
+1. **Giải $$\nabla F(u, v) = 0$$:**
+   $$\nabla F(u, v) = \bigl(v(uv - 1),\; u(uv - 1)\bigr) = (0,\; 0).$$
+   Hệ này chỉ có đúng hai họ nghiệm:
+   - *Họ 1 (Đa tạp cực tiểu toàn cục):* Mọi điểm trên đường hyperbol $$uv = 1$$ đều đạt $$F(u, v) = 0$$ — có **vô số** cực tiểu toàn cục nối liền nhau!
+   - *Họ 2 (Điểm tới hạn ở gốc):* $$(u, v) = (0, 0)$$ với $$F(0, 0) = 0.5$$.
+2. **Kiểm tra Hessian tại $$(0, 0)$$:**
+   $$H(u, v) = \begin{pmatrix} v^2 & 2uv - 1 \\ 2uv - 1 & u^2 \end{pmatrix} \implies H(0, 0) = \begin{pmatrix} 0 & -1 \\ -1 & 0 \end{pmatrix}.$$
+   Hai trị riêng của $$H(0, 0)$$ là $$\lambda_1 = +1$$ và $$\lambda_2 = -1$$!
+3. **Kết luận tuyệt đẹp:** Gốc tọa độ $$(0, 0)$$ là một **điểm yên ngựa chặt** (trượt xuống dọc hướng $$u = v$$), và **không tồn tại bất kỳ cực tiểu địa phương xấu nào** trên toàn bộ mặt phẳng $$\mathbb{R}^2$$! Chỉ một đa thức bậc 4 hai biến đã tái hiện trọn vẹn bức tranh hình học của Chương 28.
 
 # Địa hình hàm mất mát không lồi trong học sâu
 

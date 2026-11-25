@@ -10,6 +10,32 @@ lang: vi
 lesson_type: optional
 ---
 
+Suốt Chương 06, bạn đã nắm vững định lý cổ điển: Gradient Descent chỉ ổn định khi kích thước bước $$t < 2/L$$, và nếu vượt quá ngưỡng đó thuật toán sẽ phân kỳ. Thế nhưng vào năm 2021, khi các nhà nghiên cứu đo trực tiếp độ cong Hessian trong quá trình huấn luyện mạng nơ-ron sâu thật, họ phát hiện một hiện tượng gây chấn động: **độ sắc nét $$\lambda_{\max}(\nabla^2 L)$$ tự động tăng vọt lên chạm đúng ngưỡng $$2/t$$ rồi dao động ổn định ngay trên "mép vực" đó trong suốt hàng nghìn vòng lặp mà không hề phân kỳ!**
+
+Hiện tượng **Mép ổn định (Edge of Stability)** cùng với sự ra đời của các bộ tối ưu thế hệ mới như **Lion** (tìm ra bằng tiến hóa chương trình tự động của Google Brain, chỉ dùng dấu của momentum) và **Schedule-Free SGD/AdamW** (bỏ hoàn toàn lịch giảm tốc độ học thủ công) cho thấy lý thuyết Gradient Descent của Chương 06 vẫn đang tiến hóa sôi động từng năm!
+
+## Bản đồ kiến thức nền: Ba bước tiến hiện đại vượt ra ngoài khung GD cổ điển
+
+Để kết nối lý thuyết Chương 06 với nghiên cứu tối ưu hóa giai đoạn 2021–2026, hãy nắm ba trụ cột:
+
+- **Mép ổn định (Edge of Stability — Cohen et al.):** Trên mạng nơ-ron phi lồi, bước học cố định $$\eta$$ không khiến hàm mất mát phân kỳ khi $$\lambda_{\max}$$ vượt $$2/\eta$$; thay vào đó, độ cong tự điều chỉnh xoay quanh đúng ranh giới $$2/\eta$$ và hàm mất mát vẫn giảm dần theo xu hướng dài hạn dù dao động cục bộ.
+- **Lion (EvoLved Sign Momentum):** Cập nhật tham số chỉ bằng **dấu** ($$\operatorname{sign}$$) của tổ hợp momentum: $$x_{t+1} = x_t - \eta \operatorname{sign}(\beta_1 m_{t-1} + (1-\beta_1) g_t)$$. Mọi tọa độ di chuyển cùng một biên độ $$\eta$$ (tương ứng chuẩn $$\ell_\infty$$ thay vì $$\ell_2$$!), giúp tiết kiệm một nửa bộ nhớ trạng thái so với AdamW!
+- **Tối ưu hóa không cần lịch học (Schedule-Free Optimization):** Thay vì phải đoán trước tổng số bước $$T$$ để thiết kế lịch cosine decay, phương pháp Schedule-Free duy trì hai chuỗi lặp (một chuỗi cập nhật và một chuỗi trung bình nội suy) để tự động đạt tốc độ hội tụ tối ưu cho mọi thời điểm dừng!
+
+### Khung giải thích (nên đọc chậm): Tính tay sự khác biệt giữa bước GD chuẩn và bước Lion (Sign Momentum)
+
+Giả sử tại một bước huấn luyện, hai tọa độ của vector gradient (sau khi trộn momentum) có độ lớn chênh lệch cực mạnh:
+$$u = (0.01,\; -10.0)^T, \qquad \text{với tốc độ học } \eta = 0.1.$$
+
+1. **Cập nhật của GD / Momentum chuẩn (theo chuẩn $$\ell_2$$):**
+   $$\Delta x_{\text{GD}} = -0.1 \begin{pmatrix} 0.01 \\ -10.0 \end{pmatrix} = \begin{pmatrix} -0.001 \\ +1.000 \end{pmatrix}.$$
+   Tọa độ thứ nhất nhích đi cực chậm ($$0.001$$), trong khi tọa độ thứ hai nhảy vọt gấp **1.000 lần** ($$1.0$$), dễ gây mất ổn định!
+2. **Cập nhật của Lion (theo dấu $$\operatorname{sign}(u)$$, chuẩn $$\ell_\infty$$):**
+   $$\operatorname{sign}(u) = \begin{pmatrix} +1 \\ -1 \end{pmatrix} \implies \Delta x_{\text{Lion}} = -0.1 \begin{pmatrix} +1 \\ -1 \end{pmatrix} = \begin{pmatrix} -0.1 \\ +0.1 \end{pmatrix}.$$
+   Cả hai tọa độ đều bước đi đều đặn đúng biên độ $$\eta = 0.1$$ bất kể gradient lớn hay nhỏ! (Vì bước luôn có độ lớn cố định $$\eta$$, Lion thường dùng $$\eta$$ nhỏ hơn AdamW khoảng 3–10 lần và kết hợp weight decay lớn hơn để giữ ổn định!)
+
+---
+
 Chương 06 trình bày nền tảng cổ điển của gradient descent gồm tính liên tục Lipschitz của gradient, các quy tắc chọn kích thước bước và tốc độ hội tụ nhanh hơn dưới giả thiết lồi mạnh. Khung lý thuyết đó vẫn là điểm khởi đầu đúng đắn, nhưng chưa phản ánh đầy đủ thực tế huấn luyện mạng nơ-ron sâu giai đoạn 2022–2026. Bài đọc này bổ sung ba phát triển thực nghiệm và thuật toán tiêu biểu: chế độ mép ổn định (edge of stability) của gradient descent toàn tập (full-batch GD), phương pháp momentum theo dấu tìm được qua tìm kiếm chương trình (**Lion**), và phương pháp trung bình không lịch bước (schedule-free averaging) không cần biết trước tổng số bước $$T$$. Các thuật toán thích ứng như AdamW được trình bày ở [Chương 26]({{ site.baseurl }}/contents/vi/chapter26/) và chỉ được nhắc tới ở đây khi đóng vai trò mốc so sánh trong các bài báo.
 
 ## Mép ổn định: khi cận bước cổ điển không còn mô tả đủ thực tế

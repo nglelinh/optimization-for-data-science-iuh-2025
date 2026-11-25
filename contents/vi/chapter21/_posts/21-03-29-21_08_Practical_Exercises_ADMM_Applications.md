@@ -12,6 +12,33 @@ redirect_from:
   - /contents/vi/chapter21/21_07_Practical_Exercises_ADMM_Applications/
 ---
 
+Cài đặt thành công một bộ giải ADMM cho Lasso, Group Lasso hay Consensus ADMM chỉ trong vài chục dòng Python là một trải nghiệm cực kỳ "đã tay": bạn sẽ thấy một bộ khung vỏn vẹn 3 dòng lặp có thể giải quyết trơn tru hàng loạt bài toán tối ưu lồi tưởng chừng rất khác nhau. Bộ bài tập thực hành này — lấy cảm hứng từ cẩm nang kinh điển của Boyd và cộng sự (2011) — giúp bạn tự tay viết mã, kiểm tra tiêu chuẩn dừng gốc–đối ngẫu và thử nghiệm độ nhạy của tham số $$\rho$$.
+
+## Bản đồ kiến thức nền: Bốn mẹo thực hành giúp code ADMM chạy chuẩn và nhanh
+
+Trước khi bắt tay giải và lập trình các bài tập bên dưới, hãy bỏ túi bốn kinh nghiệm thực chiến sau:
+
+- **Luôn dùng dạng chuẩn hóa (Scaled Form) khi lập trình:** Chỉ lưu một biến đối ngẫu $$u$$ (tức $$w = u_{\text{raw}}/\rho$$) giúp code ngắn gọn hơn và giảm hẳn nguy cơ nhân thiếu hoặc nhân thừa hệ số $$\rho$$.
+- **Đặt phân tích Cholesky ra ngoài vòng lặp `for`:** Với Lasso và bài toán bậc hai, tính `L = cholesky(A.T @ A + rho * I)` đúng một lần trước vòng lặp, bên trong chỉ gọi `cho_solve` để tiết kiệm thời gian tính toán theo cấp số nhân.
+- **Theo dõi đồng thời cả hai phần dư dừng:** Tính $$\|r^{(k)}\|_2 = \|x^{(k)} - z^{(k)}\|_2$$ và $$\|s^{(k)}\|_2 = \rho\|z^{(k)} - z^{(k-1)}\|_2$$ ở cuối mỗi vòng lặp; tuyệt đối không chỉ nhìn riêng vào $$r^{(k)}$$ kẻo dừng quá sớm (như ta đã thấy ở bài 21-02!).
+- **Thử cập nhật $$\rho$$ thích nghi (Residual Balancing):** Nếu $$\|r^{(k)}\|_2 > 10\|s^{(k)}\|_2$$, nhân đôi $$\rho \leftarrow 2\rho$$ và chia đôi biến chuẩn hóa $$w \leftarrow w / 2$$; ngược lại nếu $$\|s^{(k)}\|_2 > 10\|r^{(k)}\|_2$$, chia đôi $$\rho \leftarrow \rho/2$$ và nhân đôi $$w \leftarrow 2w$$ để hai phần dư cân bằng và hội tụ nhanh hơn nhiều!
+
+### Khung giải thích (nên đọc chậm): Chạy nháp 1 vòng Lasso ADMM với ma trận trực giao $$2 \times 2$$
+
+Trước khi viết code cho Bài tập 1, hãy tự tính tay 1 vòng lặp Lasso ADMM cho $$A = I_2$$, $$b = (2, \; -0.5)^T$$, $$\lambda = 1$$, $$\rho = 1$$, khởi tạo $$z^{(0)} = (0, 0)^T, u^{(0)} = (0, 0)^T$$:
+
+1. **Tiền phân tích ma trận hệ thống:** $$A^T A + \rho I = I_2 + I_2 = 2 I_2 \implies (A^T A + \rho I)^{-1} = 0.5 I_2$$.
+2. **Bước $$x^{(1)}$$:**
+   $$x^{(1)} = 0.5\left(A^T b + \rho(z^{(0)} - u^{(0)})\right) = 0.5\begin{bmatrix} 2 \\ -0.5 \end{bmatrix} = \begin{bmatrix} 1.0 \\ -0.25 \end{bmatrix}.$$
+3. **Bước $$z^{(1)}$$ (ngưỡng mềm với $$\lambda/\rho = 1$$):**
+   $$z^{(1)} = S_1(x^{(1)} + u^{(0)}) = S_1\begin{bmatrix} 1.0 \\ -0.25 \end{bmatrix} = \begin{bmatrix} 0.0 \\ 0.0 \end{bmatrix}.$$
+4. **Bước $$u^{(1)}$$ và hai phần dư:**
+   - $$u^{(1)} = u^{(0)} + x^{(1)} - z^{(1)} = (1.0, \; -0.25)^T$$.
+   - Phần dư gốc $$\|r^{(1)}\|_2 = \sqrt{1^2 + 0.25^2} \approx 1.031$$; phần dư đối ngẫu $$\|s^{(1)}\|_2 = 0$$.
+   Ở vòng 2, $$x^{(2)} = 0.5(b - u^{(1)}) = (0.5, -0.125)^T$$, $$x^{(2)} + u^{(1)} = (1.5, -0.375)^T \implies z^{(2)} = (0.5, 0.0)^T$$, tiến thẳng về nghiệm chính xác $$x^\star = S_1(2, -0.5) = (1.0, \; 0.0)^T$$!
+
+---
+
 # Bài Tập Thực Hành - Ứng dụng của ADMM
 
 Các bài tập dưới đây được tham khảo từ Boyd và cộng sự (2011).

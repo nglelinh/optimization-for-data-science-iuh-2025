@@ -9,6 +9,40 @@ categories:
 lang: vi
 ---
 
+Một câu hỏi kinh điển thường làm người mới học tối ưu giật mình: *nếu tôi đứng tại một điểm mà bước sang trái cũng lên dốc, bước sang phải cũng lên dốc, bước lên trên hay xuống dưới đều lên dốc — vậy tôi đã ở đáy thung lũng chưa?*
+
+Nếu mặt địa hình trơn láng (khả vi), câu trả lời chắc chắn là **có**. Nhưng chỉ cần mặt địa hình có một vết gấp nhọn chạy chéo góc $$45^\circ$$, bạn hoàn toàn có thể bị **mắc kẹt giữa sườn núi**: mọi bước đi dọc theo trục Bắc–Nam hay Đông–Tây đều leo dốc, trong khi chỉ cần đi chéo Đông–Bắc là thung lũng sâu thẳm mở ra ngay trước mắt! Toàn bộ bài học này xoay quanh việc phân định rạch ròi ranh giới giữa khi nào hạ theo tọa độ thành công và khi nào nó thất bại.
+
+## Bản đồ kiến thức nền: Ba trụ cột lý thuyết của định lý hội tụ Tseng
+
+Ba câu hỏi Q1–Q2–Q3 trong bài chính là ba nấc thang dẫn tới kết quả kinh điển của Paul Tseng (2001):
+
+- **Trường hợp trơn (Smooth Convex Functions):** Khi $$f$$ khả vi trên $$\mathbb{R}^n$$, cực tiểu theo từng trục tọa độ suy ra mọi đạo hàm riêng $$\frac{\partial f}{\partial x_i}(x) = 0$$, đồng nghĩa $$\nabla f(x) = 0$$ — điều kiện đủ cho cực tiểu toàn cục của hàm lồi.
+- **Trường hợp không trơn không tách được (Non-Separable Nonsmooth):** Khi xuất hiện một hạng tử không trơn ghép nhiều biến với nhau (như $$|x_1 - x_2|$$ hoặc $$\max(x_1, x_2)$$), dưới vi phân $$\partial f(x)$$ không phân rã thành tích Descartes của các dưới vi phân riêng lẻ; điểm tối ưu theo từng trục có thể không phải cực tiểu toàn cục.
+- **Cấu trúc hợp thành tách được (Composite Separable Structure):** Khi hàm mục tiêu có dạng $$f(x) = g(x) + \sum_{i=1}^n h_i(x_i)$$ với $$g$$ lồi khả vi và từng $$h_i$$ lồi (có thể không trơn nhưng chỉ phụ thuộc riêng vào $$x_i$$), mọi góc nhọn đều **song song với các trục tọa độ**. Nhờ đó, định lý Tseng đảm bảo cực tiểu theo từng tọa độ luôn là cực tiểu toàn cục — chiếc chìa khóa mở cửa cho Lasso và hàng loạt mô hình thưa!
+
+### Khung giải thích (nên đọc chậm): Phản ví dụ tính tay — điểm bị "kẹt" trên hàm lồi không tách được
+
+Hãy tự tay kiểm chứng một phản ví dụ cụ thể cho Câu hỏi Q2 để thấy rõ vì sao sự không tách được lại bẫy chết Coordinate Descent. Xét hàm lồi:
+
+$$
+f(x_1, x_2) = (x_1 + x_2 - 2)^2 + 5|x_1 - x_2|
+$$
+
+tại điểm $$x = (0, 0)$$, nơi giá trị hàm là $$f(0, 0) = (-2)^2 + 0 = 4$$.
+
+1. **Kiểm tra cực tiểu dọc theo trục $$x_1$$ (giữ cố định $$x_2 = 0$$):**
+   Hàm một biến là $$\phi_1(x_1) = (x_1 - 2)^2 + 5|x_1|$$.
+   - Nếu $$x_1 > 0$$: $$\phi_1'(x_1) = 2(x_1 - 2) + 5 = 2x_1 + 1 > 0$$ (hàm tăng ngặt khi đi sang phải!).
+   - Nếu $$x_1 < 0$$: $$\phi_1'(x_1) = 2(x_1 - 2) - 5 = 2x_1 - 9 < 0$$ (hàm tăng ngặt khi đi sang trái!).
+   Do đó, $$x_1 = 0$$ là **cực tiểu toàn cục duy nhất** dọc theo trục $$x_1$$.
+2. **Kiểm tra cực tiểu dọc theo trục $$x_2$$ (giữ cố định $$x_1 = 0$$):**
+   Vì hàm đối xứng theo $$x_1, x_2$$, hàm $$\phi_2(x_2) = (x_2 - 2)^2 + 5|x_2|$$ cũng đạt **cực tiểu toàn cục duy nhất** tại $$x_2 = 0$$.
+3. **Thế nhưng $$(0, 0)$$ KHÔNG phải cực tiểu toàn cục:**
+   Thử bước chéo dọc đường $$x_1 = x_2$$ tới điểm $$(1, 1)$$:
+   $$f(1, 1) = (1 + 1 - 2)^2 + 5|1 - 1| = 0 < 4 = f(0, 0)!$$
+4. **Kết luận trực giác:** Vết gấp không trơn của $$5|x_1 - x_2|$$ chạy dọc theo đường chéo $$x_1 = x_2$$ (chéo $$45^\circ$$ so với các trục). Khi Coordinate Descent chỉ được phép đi ngang hoặc đi dọc, nó bị kẹt cứng tại $$(0, 0)$$ dù đáy thung lũng $$f = 0$$ nằm ngay trước mặt! Ngược lại, nếu thay $$5|x_1 - x_2|$$ bằng chuẩn $$\ell_1$$ tách được $$5|x_1| + 5|x_2|$$, mọi vết gấp đều nằm dọc trục tọa độ nên hiện tượng kẹt này không bao giờ xảy ra.
+
 Chương này giới thiệu phương pháp hạ theo tọa độ (coordinate descent) — một thuật toán tối ưu đơn giản, hiệu quả và có khả năng mở rộng tốt. Trước khi đi vào công thức, hãy bắt đầu với ba câu hỏi nền tảng về điều kiện tối ưu theo từng trục tọa độ.
 
 **Q1. Với hàm $$f: \mathbb{R}^n \rightarrow \mathbb{R}$$ lồi và khả vi, nếu điểm $$x$$ làm cực tiểu $$f$$ dọc theo từng trục tọa độ, thì $$x$$ có phải là điểm cực tiểu toàn cục không?**

@@ -10,6 +10,34 @@ lang: en
 lesson_type: required
 ---
 
+Why does moving directly opposite the gradient always decrease a smooth function—at least for a small enough step? By Taylor's theorem, the gradient points strictly in the direction of steepest local ascent, so $$-\nabla f(x)$$ is the unique unit direction that drops the objective fastest to first order. This lesson builds the complete mathematical and geometric foundation of unconstrained gradient descent from 1D parabolas to high-dimensional data-science models.
+
+## Background Knowledge Map: Mechanics of Steepest Descent
+
+1. **First-Order Taylor Justification**: For a small step $$t > 0$$ along $$d = -\nabla f(x)$$,
+   $$f(x - t\nabla f(x)) = f(x) - t\|\nabla f(x)\|_2^2 + O(t^2).$$
+   Whenever $$\nabla f(x) \neq 0$$, the linear term $$-t\|\nabla f(x)\|_2^2$$ is strictly negative, guaranteeing strict descent for sufficiently small $$t$$.
+2. **Orthogonality to Level Curves**: The gradient $$\nabla f(x)$$ is always perpendicular to the contour $$\{y : f(y) = f(x)\}$$. Consequently, gradient descent cuts across level sets at right angles—explaining why elongated elliptical contours cause characteristic zig-zag trajectories.
+3. **Quadratic Surrogate Interpretation**: The update $$x^+ = x - t\nabla f(x)$$ is the exact minimizer of the local isotropic quadratic model
+   $$q_t(y) = f(x) + \nabla f(x)^T(y - x) + \frac{1}{2t}\|y - x\|_2^2.$$
+   Smaller $$t$$ means a steeper quadratic penalty (shorter, cautious step); larger $$t$$ trusts the linear slope farther.
+4. **Stopping Criteria in Practice**: Because iterative methods rarely hit $$\nabla f(x) = 0$$ in finite steps, algorithms terminate when $$\|\nabla f(x^{(k)})\|_2 \le \varepsilon$$, when relative function decrease falls below a tolerance, or when a step-count budget is reached.
+
+### Step-by-Step Worked Example (Read Slowly): Minimizing a 1D Non-Quadratic Convex Function
+
+Minimize $$f(x) = e^x + e^{-2x}$$ starting from $$x^{(0)} = 0$$ with step size $$t = 0.1$$ for two iterations, and compare with the exact analytical minimum.
+
+1. **Find the exact analytical optimum**:
+   $$f'(x) = e^x - 2e^{-2x} = 0 \implies e^{3x} = 2 \implies x^\star = \frac{\ln 2}{3} \approx 0.2310, \quad f(x^\star) \approx 1.8899.$$
+2. **Iteration 1 from $$x^{(0)} = 0$$**:
+   - $$f(0) = 1 + 1 = 2.0000$$, and $$f'(0) = 1 - 2 = -1.0000$$.
+   - Update: $$x^{(1)} = 0 - 0.1(-1) = 0.1000$$.
+   - Value: $$f(0.1) = e^{0.1} + e^{-0.2} \approx 1.1052 + 0.8187 = 1.9239 < 2.0000$$.
+3. **Iteration 2 from $$x^{(1)} = 0.1$$**:
+   - Derivative: $$f'(0.1) = e^{0.1} - 2e^{-0.2} \approx 1.1052 - 1.6375 = -0.5323$$.
+   - Update: $$x^{(2)} = 0.1 - 0.1(-0.5323) = 0.1532$$.
+   - Value: $$f(0.1532) = e^{0.1532} + e^{-0.3064} \approx 1.1656 + 0.7361 = 1.9017$$, steadily closing in on $$f^\star \approx 1.8899$$.
+
 Gradient descent is the simplest algorithm for solving unconstrained convex and differentiable optimization problems.
 
 > $$\min_x f(x),$$

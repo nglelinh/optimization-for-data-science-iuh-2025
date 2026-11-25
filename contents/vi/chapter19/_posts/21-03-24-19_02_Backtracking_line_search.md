@@ -9,6 +9,33 @@ categories:
 lang: vi
 ---
 
+Cũng giống như phương pháp Newton cổ điển có thể "nhảy vọt" ra xa vô cùng nếu xuất phát ở vùng xa nghiệm và cứ cố chấp lấy bước đơn vị $$t_k = 1$$, phương pháp Newton proximal cũng cần một "bộ phanh" bảo đảm hội tụ toàn cục. Bộ phanh đó chính là **tìm kiếm theo đường lui (backtracking line search)** phiên bản tổng hợp: vì hàm $$h$$ không khả vi nên không thể thay bằng $$\nabla h(x)^T v$$, ta giữ nguyên độ chênh lệch thực $$h(x + tv) - h(x)$$ (hoặc cận trên tuyến tính $$t(h(x+v) - h(x))$$) trong điều kiện Armijo!
+
+## Bản đồ kiến thức nền: Ba cơ chế bảo đảm an toàn của Backtracking tổng hợp
+
+Để hiểu vì sao điều kiện dừng backtracking trong bài vừa luôn kết thúc sau hữu hạn bước, vừa tự động nhận $$t = 1$$ khi gần nghiệm, hãy chú ý ba điểm:
+
+- **Đạo hàm có hướng của hàm tổng hợp $$f = g + h$$:** Với mọi $$t \in (0, 1]$$, nhờ tính lồi của $$h$$, ta luôn có $$h(x + tv) - h(x) \le t(h(x + v) - h(x))$$. Do đó, đại lượng $$\Delta(x, v) = \nabla g(x)^T v + h(x + v) - h(x) \le -v^T H v < 0$$ đóng vai trò tốc độ giảm kỳ vọng theo hướng $$v$$.
+- **Điều kiện giảm đủ Armijo tổng hợp:** Yêu cầu $$f(x + tv) \le f(x) + \alpha t \nabla g(x)^T v + \alpha(h(x + tv) - h(x))$$ (với $$0 < \alpha \le 1/2$$) đảm bảo mức giảm thực tế đạt ít nhất một tỉ lệ $$\alpha$$ của mức giảm mô hình bậc nhất–tổng hợp.
+- **Chuyển pha tự động sang bước đơn vị $$t = 1$$:** Khi $$x$$ tiến đủ gần $$x^\star$$ và $$\alpha < 1/2$$, khai triển Taylor bậc hai cho thấy điều kiện Armijo **luôn được thỏa mãn ngay tại $$t = 1$$**. Nhờ vậy, backtracking không bao giờ cản trở tốc độ hội tụ bậc hai cục bộ của Newton proximal!
+
+### Khung giải thích (nên đọc chậm): Chạy tay backtracking line search trên hàm mũ có phạt $$\ell_1$$
+
+Xét bài toán $$f(x) = \underbrace{e^x - x}_{g(x)} + \underbrace{0.5 |x|}_{h(x)}$$ tại $$x = 2$$, với $$\alpha = 0.25, \beta = 0.5$$:
+
+1. **Tính giá trị ban đầu và hướng Newton proximal $$v$$ tại $$x = 2$$:**
+   - $$g(2) = e^2 - 2 \approx 5.3891$$, $$h(2) = 1.0 \implies f(2) \approx 6.3891$$.
+   - $$g'(2) = e^2 - 1 \approx 6.3891$$, $$H = g''(2) = e^2 \approx 7.3891$$.
+   - Hướng Newton proximal: $$x + v = S_{0.5/7.3891}\!\left(2 - \frac{6.3891}{7.3891}\right) = S_{0.0677}(1.1353) = 1.0676 \implies v = -0.9324$$.
+2. **Thử bước đơn vị $$t = 1$$ ($$x^+ = 1.0676$$):**
+   - Giá trị thực mới: $$f(1.0676) = e^{1.0676} - 1.0676 + 0.5(1.0676) \approx 2.9084 - 1.0676 + 0.5338 = 2.3746$$.
+   - Ngưỡng vế phải Armijo:
+     $$f(2) + 0.25(1)(6.3891)(-0.9324) + 0.25(0.5338 - 1.0) = 6.3891 - 1.4893 - 0.1166 = 4.7832.$$
+   - So sánh: $$2.3746 \le 4.7832$$ — **thỏa mãn ngay ở lần thử đầu tiên!** Bước $$t = 1$$ được chấp nhận ngay lập tức.
+3. **Khi nào backtracking phải thu nhỏ $$t$$?** Nếu hàm $$g$$ có độ cong tăng vọt đột ngột ở phía bước đi (ví dụ $$g(x) = e^{-5x} + x^2$$ tại $$x = 1$$ khiến bước $$t = 1$$ nhảy sang vùng $$x < 0$$ nơi $$e^{-5x}$$ bùng nổ), thì $$f(x + v) > \text{ngưỡng}$$, và vòng lặp sẽ tự động giảm $$t = 0.5, 0.25, \dots$$ cho tới khi rơi vào vùng giảm thực sự.
+
+---
+
 Tương tự phương pháp Newton cổ điển, **phương pháp Newton proximal** có thể không hội tụ nếu luôn dùng bước đơn vị $$t_k = 1$$ ($$k = 1, 2, 3, \dots$$). Vì vậy, cần chọn độ dài bước phù hợp bằng tìm kiếm theo đường lui (backtracking line search).
 
 ## Thuật toán tìm kiếm theo đường lui (Backtracking line search)

@@ -10,6 +10,38 @@ lang: vi
 lesson_type: optional
 ---
 
+Nhiều người lầm tưởng rằng khi học sâu và mạng nơ-ron lên ngôi, quy hoạch số nguyên hỗn hợp (MIP) sẽ dần lùi vào dĩ vãng. Thực tế giai đoạn 2020–2026 lại cho thấy điều hoàn toàn ngược lại: **học máy và MIP đang trở thành cặp bài trùng không thể tách rời**. Mạng nơ-ron cực giỏi trong việc dự báo nhu cầu giao hàng hay thời gian di chuyển từ dữ liệu nhiễu, nhưng nó không thể tự đảm bảo các ràng buộc vận hành sống còn như "mỗi phi công nghỉ đủ 12 giờ" hay "tải trọng xe không vượt quá $$Q$$".
+
+Ngược lại, chính học máy cũng đang quay vào *bên trong* bộ giải MIP — thông qua mạng nơ-ron đồ thị (GNN) học cách chọn biến rẽ nhánh trong cuộc thi ML4CO — để tăng tốc vòng lặp nhánh và cận cho các bài toán lặp đi lặp lại mỗi ngày trong công nghiệp.
+
+## Bản đồ kiến thức nền: Bốn trụ cột kết nối MIP cổ điển với AI hiện đại
+
+Bài đọc ứng dụng này giúp bạn nhìn thấy vị trí thực tế của bốn mô hình Chương 24 trong hệ thống công nghiệp ngày nay:
+
+- **Kiến trúc "Predict-then-Optimize" (Dự báo rồi Tối ưu):** Trong giao hàng chặng cuối và điện toán biên, mô hình ML ước lượng tham số bất định (thời gian đi lại, lưu lượng người dùng), còn bộ giải MIP biến dự báo đó thành quyết định khả thi 100% dưới mọi ràng buộc cứng.
+- **Biểu diễn Đồ thị Hai phía Biến–Ràng buộc (Bipartite Graph Representation):** Mọi bài toán MILP đều tương ứng với một đồ thị hai phía nối mỗi biến $$x_j$$ với các ràng buộc $$i$$ mà nó tham gia (trọng số cạnh là hệ số $$A_{ij}$$). Đây chính là cầu nối cho phép GNN "đọc" được bài toán tối ưu mà không phụ thuộc vào thứ tự đánh số biến.
+- **Bắt chước Rẽ nhánh Mạnh (Imitating Strong Branching):** *Strong branching* chọn biến rẽ nhánh cực kỳ thông minh nhưng quá chậm vì phải giải thử hàng trăm LP ở mỗi nút. GNN được huấn luyện để bắt chước quyết định của strong branching trong vài mili-giây.
+- **Tính đơn mô-đun toàn phần vs. Ràng buộc thực tế:** Bài toán phân công thuần túy có nghiệm LP tự động nguyên (định lý Birkhoff–von Neumann), nhưng chỉ cần thêm một ràng buộc ca trực hay ngân sách thực tế, cấu trúc đẹp ấy vỡ ngay và MIP thực thụ lập tức cần thiết.
+
+### Khung giải thích (nên đọc chậm): Tính tay bài toán đặt cụm GPU biên (Edge Facility Location)
+
+Giả sử một nền tảng AI cần phục vụ 2 khu vực người dùng (Vùng 1 và Vùng 2) bằng cách mở cụm GPU tại tối đa 2 vị trí ứng viên (Vị trí A và Vị trí B):
+- Chi phí cố định để thuê hạ tầng mỗi ngày: $$f_A = 10$$, $$f_B = 8$$ (đơn vị triệu đồng).
+- Chi phí độ trễ và truyền dữ liệu $$c_{ij}$$ khi phục vụ Vùng $$i$$ từ Vị trí $$j$$:
+  $$c_{1A} = 2,\; c_{1B} = 6,\qquad c_{2A} = 5,\; c_{2B} = 2.$$
+
+Mô hình MIP là $$\min \sum_{j \in \{A, B\}} f_j y_j + \sum_{i=1}^2 \sum_{j \in \{A, B\}} c_{ij} x_{ij}$$ với $$x_{iA} + x_{iB} = 1$$ và $$x_{ij} \le y_j$$, $$y_j \in \{0, 1\}$$.
+
+1. **Phương án 1 — Chỉ mở Vị trí A ($$y_A = 1, y_B = 0$$):**
+   Cả hai vùng bắt buộc định tuyến về A ($$x_{1A} = x_{2A} = 1$$).
+   Tổng chi phí: $$10 + (2 + 5) = 17$$.
+2. **Phương án 2 — Chỉ mở Vị trí B ($$y_A = 0, y_B = 1$$):**
+   Cả hai vùng định tuyến về B ($$x_{1B} = x_{2B} = 1$$).
+   Tổng chi phí: $$8 + (6 + 2) = 16$$.
+3. **Phương án 3 — Mở cả hai vị trí ($$y_A = 1, y_B = 1$$):**
+   Mỗi vùng chọn vị trí gần mình nhất ($$x_{1A} = 1, x_{2B} = 1$$) để giảm chi phí truyền xuống còn $$2 + 2 = 4$$, nhưng chi phí cố định tăng lên $$10 + 8 = 18$$.
+   Tổng chi phí: $$18 + 4 = 22$$.
+4. **Quyết định tối ưu:** Chỉ mở Vị trí B (tổng chi phí **$$16$$**). Dù Vùng 1 chịu độ trễ cao hơn ($$6$$ thay vì $$2$$), mức tiết kiệm chi phí hạ tầng cố định đã bù đắp vượt trội — chính sự đánh đổi định lượng này là lý do MIP giữ vai trò xương sống trong thiết kế mạng lưới kho vận và đám mây!
 
 Chương 24 tập trung vào phần *mô hình hóa* của quy hoạch nguyên hỗn hợp (MIP): biến quyết định nhị phân, phân công, bài toán cái túi và đặt cơ sở. Các khuôn mẫu này vẫn được sử dụng trực tiếp trong nhiều hệ thống thực tế như xếp lịch phi hành đoàn, định tuyến giao hàng chặng cuối (last-mile) và lựa chọn vị trí kho hàng hay cụm GPU biên. Từ khoảng năm 2019, một hướng nghiên cứu mới còn hình thành xung quanh chúng: **học để tối ưu (learning to optimize)** — dùng mạng nơ-ron đồ thị (GNN) để đề xuất biến rẽ nhánh, mặt phẳng cắt hoặc điểm khởi động nóng cho bộ giải MIP. Bài đọc tùy chọn này điểm qua bốn ứng dụng tiêu biểu; các chủ đề mặt phẳng cắt, chọn tập con tốt nhất và kiểm chứng mạng nơ-ron sẽ được trình bày ở [Chương 25]({% multilang_post_url contents/chapter25/21-03-28-25_Mixed_integer_programming %}).
 

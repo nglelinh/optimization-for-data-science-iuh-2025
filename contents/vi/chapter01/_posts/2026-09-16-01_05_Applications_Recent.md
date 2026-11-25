@@ -10,6 +10,32 @@ lang: vi
 lesson_type: optional
 ---
 
+Khi bạn đọc công thức ngắn gọn $$\min_{x \in \mathcal{C}} f(x)$$ ở Chương 01, rất dễ nghĩ nó chỉ dành cho những bài toán nhỏ trên giấy. Nhưng hãy nhìn vào các bài báo AI gây chấn động nhất giai đoạn 2022–2026: từ định luật mở rộng Chinchilla quyết định cách chi hàng chục triệu USD huấn luyện LLM, khung Predict-then-Optimize (SPO+) nối dự báo học máy với quyết định vận trù học, cho đến các ràng buộc công bằng (fairness) trong chấm điểm tín dụng — tất cả đều viết trực tiếp bằng đúng bộ khung của Chương 01!
+
+Bài đọc mở rộng này giúp bạn luyện kỹ năng đọc các bài báo khoa học dữ liệu hiện đại dưới lăng kính của một nhà tối ưu hóa: nhận diện biến, hàm mất mát thay thế và tập ràng buộc.
+
+## Bản đồ kiến thức nền: Ba mặt trận ứng dụng hiện đại của khung Chương 01
+
+- **Cực tiểu hóa rủi ro thực nghiệm dưới ngân sách tính toán (Compute-Optimal ERM):** Tối ưu hóa việc phân bổ ngân sách FLOP cố định $$C \approx 6ND$$ giữa kích thước mô hình $$N$$ và số token huấn luyện $$D$$ để cực tiểu hóa hàm mất mát kiểm thử $$L(N, D)$$.
+- **Predict-then-Optimize và hàm thay thế lồi SPO+:** Khi đầu ra của mô hình dự báo được nạp vào một bài toán LP hạ nguồn, cực tiểu hóa sai số dự báo MSE chưa chắc cho quyết định tốt nhất; hàm mất mát SPO+ thay thế bài toán rời rạc khó bằng một chặn trên **lồi** tối ưu hóa trực tiếp chất lượng quyết định.
+- **Công bằng thuật toán như ràng buộc tối ưu (Fairness-Constrained Optimization):** Biến các tiêu chuẩn đạo đức (như chênh lệch tỷ lệ chọn giữa hai nhóm nhân khẩu học không quá $$\epsilon$$) thành ràng buộc bất đẳng thức tường minh bên cạnh hàm mục tiêu độ chính xác.
+
+### Khung giải thích (nên đọc chậm): Tính tay phân bổ ngân sách huấn luyện theo luật Chinchilla
+
+Trong nghiên cứu Chinchilla (Hoffmann et al., 2022), tổng chi phí huấn luyện một mô hình ngôn ngữ có $$N$$ tham số trên $$D$$ token xấp xỉ $$C = 6ND$$ (FLOPs), và nghiệm tối ưu của bài toán $$\min_{N, D} L(N, D)$$ dưới ràng buộc $$6ND = C$$ cho tỷ lệ vàng xấp xỉ $$D^* \approx 20 N^*$$.
+
+Giả sử bạn có ngân sách cố định $$C = 6 \times 10^{18}$$ FLOPs:
+
+1. **Thay quan hệ tối ưu $$D = 20N$$ vào ràng buộc ngân sách:**
+   $$6 \cdot N \cdot (20N) = 6 \times 10^{18} \implies 120 N^2 = 6 \times 10^{18}.$$
+2. **Giải tìm số tham số tối ưu $$N^*$$:**
+   $$N^2 = \frac{6 \times 10^{18}}{120} = 5 \times 10^{16} \implies N^* = \sqrt{5} \times 10^8 \approx 2.24 \times 10^8 \text{ (224 triệu tham số)}.$$
+3. **Suy ra số token huấn luyện tối ưu $$D^*$$:**
+   $$D^* = 20 N^* \approx 4.47 \times 10^9 \text{ (4.47 tỷ token)}.$$
+4. **Kiểm tra ngược ràng buộc:** $$6 N^* D^* = 6 \times (2.236 \times 10^8) \times (4.472 \times 10^9) \approx 6.00 \times 10^{18}$$ FLOPs. Nếu bạn phạm sai lầm xây mô hình lớn gấp 4 lần ($$900$$ triệu tham số) nhưng chỉ huấn luyện trên $$1.1$$ tỷ token (cùng ngân sách $$C$$), mô hình sẽ rơi vào vùng *thiếu dữ liệu* và có hàm mất mát kém tối ưu hơn rõ rệt!
+
+---
+
 Chương 01 định nghĩa bài toán tối ưu hóa là “chọn $$x\in\mathcal{C}$$ để làm $$f(x)$$ nhỏ nhất”. Cấu trúc này hiện là nền tảng của khoa học dữ liệu trong công nghiệp: huấn luyện mô hình dự đoán (thường qua cực tiểu hóa rủi ro thực nghiệm), sau đó đưa dự đoán vào một bài toán ra quyết định *ở bước tiếp theo*, đôi khi kèm theo ràng buộc công bằng hoặc giới hạn vận hành. Bài đọc này xem xét ba bối cảnh cụ thể giai đoạn 2022–2026. Các định nghĩa ở 01-01 và 01-02 giữ nguyên; ta chỉ cập nhật những *ví dụ* điển hình mà người làm khoa học dữ liệu cần nắm được.
 
 ## ERM quy mô lớn: mô hình ngôn ngữ tối ưu theo tính toán

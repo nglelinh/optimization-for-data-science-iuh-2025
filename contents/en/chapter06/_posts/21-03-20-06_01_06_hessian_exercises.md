@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter06/06_01_05_hessian_exercises/
 ---
 
+Knowing that $$t \le 1/L$$ guarantees descent is one thing; deriving the quadratic surrogate minimizer, computing condition numbers of real Hessians, and seeing how curvature dictates iteration counts is how you internalize second-order geometry. These exercises turn the curvature-approximation intuition of Lesson 06-01-05 into concrete algebraic muscle memory.
+
+## Background Knowledge Map: Core Formulas for Curvature Exercises
+
+1. **Minimizing the Isotropic Quadratic Surrogate**: Setting the gradient of $$q_t(y) = f(x) + \nabla f(x)^T(y-x) + \frac{1}{2t}\|y-x\|_2^2$$ with respect to $$y$$ to zero gives $$\nabla f(x) + \frac{1}{t}(y - x) = 0 \implies y^\star = x - t\nabla f(x)$$.
+2. **Spectral Contraction on Quadratics**: For $$f(x) = \frac{1}{2}x^T Q x$$ with $$Q = V\Lambda V^T \succ 0$$, gradient descent multiplies the $$i$$-th eigencomponent by $$(1 - t\lambda_i)$$ each step. Convergence holds iff $$|1 - t\lambda_i| < 1$$ for every eigenvalue, i.e., $$0 < t < 2/\lambda_{\max}(Q)$$.
+3. **Condition Number and Iteration Complexity**: With optimal step size $$t^\star = \frac{2}{\lambda_{\max} + \lambda_{\min}}$$, the worst-case error shrinks by $$\rho = \frac{\kappa - 1}{\kappa + 1}$$ per step, where $$\kappa = \lambda_{\max}/\lambda_{\min}$$. Reaching accuracy $$\varepsilon$$ requires roughly $$\frac{\kappa}{2}\ln(1/\varepsilon)$$ iterations.
+4. **Preconditioning Preview**: Changing coordinates via $$x = D^{-1/2}z$$ (where $$D = \operatorname{diag}(Q)$$) or Newton's full $$Q^{-1/2}$$ reduces $$\kappa$$ toward $$1$$, dramatically accelerating convergence.
+
+### Step-by-Step Worked Example (Read Slowly): Warm-Up Eigenvalue & Step-Size Analysis
+
+For $$f(x) = \frac{1}{2}x^T Q x$$ with $$Q = \begin{bmatrix} 5 & 3 \\ 3 & 5 \end{bmatrix}$$, find the condition number $$\kappa$$ and the exact maximum stable step size.
+
+1. **Compute the eigenvalues of $$Q$$**:
+   - Trace: $$\lambda_1 + \lambda_2 = 5 + 5 = 10$$.
+   - Determinant: $$\lambda_1 \lambda_2 = 25 - 9 = 16$$.
+   - Solving $$\lambda^2 - 10\lambda + 16 = (\lambda - 8)(\lambda - 2) = 0$$ gives $$\lambda_{\max} = 8$$ and $$\lambda_{\min} = 2$$.
+2. **Compute the condition number**:
+   $$\kappa(Q) = \frac{\lambda_{\max}}{\lambda_{\min}} = \frac{8}{2} = 4.$$
+3. **Determine the stability interval and optimal fixed step size**:
+   - Stability requires $$0 < t < \frac{2}{\lambda_{\max}} = \frac{2}{8} = 0.25$$.
+   - Optimal fixed step size: $$t^\star = \frac{2}{8 + 2} = 0.20$$.
+   - Per-step spectral contraction factor at $$t^\star = 0.20$$: $$|1 - 0.20(8)| = |-0.6| = 0.6$$ and $$|1 - 0.20(2)| = 0.6$$, matching $$\frac{\kappa - 1}{\kappa + 1} = \frac{3}{5} = 0.6$$!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

@@ -12,6 +12,26 @@ redirect_from:
   - /contents/en/chapter15/15_09_Quiz_Barrier_Method/
 ---
 
+Barrier method quizzes test whether you can connect the geometry of the interior to the algebra of duality: knowing why $$u_i(t) = -1/(t h_i(x^*(t)))$$ is automatically positive, why the suboptimality gap is $$m/t$$ (and *not* $$n/t$$!), how $$\mu$$ trades off outer vs. inner iterations, and how Phase I certifies infeasibility when $$s^\star > 0$$. Review these four pillars and the quick diagnostic below before starting the quiz.
+
+## Background Knowledge Map: High-Yield Barrier Method Checkpoints
+
+- **Pillar 1 — Log Barrier Calculus & Convexity:** $$\phi(x) = -\sum_{i=1}^m \log(-h_i(x))$$ requires $$h_i(x) < 0$$; its gradient is $$-\sum \frac{1}{h_i}\nabla h_i$$ and its Hessian is $$\sum \frac{1}{h_i^2}\nabla h_i \nabla h_i^T - \sum \frac{1}{h_i}\nabla^2 h_i \succeq 0$$.
+- **Pillar 2 — Central Path & Perturbed KKT:** $$u_i(t) = -1/(t h_i(x^*(t))) > 0$$ satisfies exact stationarity and perturbed complementarity $$u_i(t)h_i(x^*(t)) = -1/t$$, giving $$f(x^*(t)) - f^\star \le m/t$$.
+- **Pillar 3 — Path-Following Complexity:** Outer iterations scale as $$\frac{\log(m/(t^{(0)}\epsilon))}{\log \mu} + 1$$ (linear convergence in outer loops), while short-step formal barrier theory achieves $$O(\sqrt{\nu}\log(1/\epsilon))$$ total Newton steps.
+- **Pillar 4 — Phase I Feasibility:** Minimizing $$s$$ s.t. $$h_i(x) \le s, Ax = b$$ stops the moment $$s < 0$$ (strictly feasible point found) or proves infeasibility if $$s^\star > 0$$.
+
+### Step-by-Step Worked Example (Read Slowly): 4-Check Rapid Quiz Warm-Up
+
+1. **Gap formula check:** A problem in $$\mathbb{R}^{500}$$ has $$m = 40$$ inequality constraints and $$10$$ equality constraints. At $$t = 8000$$ on the central path, what is the guaranteed suboptimality bound?
+   - Only inequalities enter $$m$$: $$f(x^*(t)) - f^\star \le \frac{m}{t} = \frac{40}{8000} = 0.005$$.
+2. **Dual multiplier check:** If at $$t = 5$$ an inequality has value $$h_3(x^*(5)) = -0.04$$, what is $$u_3(5)$$?
+   - $$u_3(5) = -\frac{1}{5(-0.04)} = \frac{1}{0.20} = 5.0 > 0$$.
+3. **Barrier Hessian check:** For $$\phi(x) = -\log(x_1) - \log(x_2)$$ at $$x = (2, 0.5)^T$$, compute $$\nabla^2 \phi(x)$$.
+   - $$\nabla^2 \phi(2, 0.5) = \operatorname{diag}(1/2^2,\ 1/0.5^2) = \operatorname{diag}(0.25,\ 4.0)$$.
+4. **Phase I check:** If Phase I returns an optimal value $$s^\star = +0.15$$, what do we conclude?
+   - Because $$s^\star > 0$$, no point satisfies all $$h_i(x) \le 0$$ simultaneously—the original problem is **infeasible**.
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

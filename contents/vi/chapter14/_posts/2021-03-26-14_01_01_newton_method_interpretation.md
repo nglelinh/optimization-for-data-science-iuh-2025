@@ -8,6 +8,35 @@ categories:
 - chapter14
 lang: vi
 ---
+
+Nhiều sinh viên thuộc lòng công thức $$x^+ = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$ nhưng lại không hiểu *tại sao* biểu thức đó lại có dạng như vậy. Cách hiểu đẹp nhất và tự nhiên nhất chính là đặt phương pháp Newton và Gradient Descent cạnh nhau trên cùng một khung hình: **cả hai đều cực tiểu hóa một mô hình bậc hai cục bộ của $$f$$!**
+
+Sự khác biệt duy nhất nằm ở chất lượng của mô hình xấp xỉ: Gradient Descent thay ma trận độ cong thật $$\nabla^2 f(x)$$ bằng một quả cầu tròn đơn giản $$\frac{1}{2t}\|y - x\|_2^2$$, còn phương pháp Newton giữ nguyên vẹn **khai triển Taylor bậc hai đầy đủ** của $$f$$ tại $$x$$. Nhờ giữ đúng hình dạng hình học thực của hàm, đỉnh của parabol xấp xỉ nằm sát đáy thật hơn rất nhiều.
+
+## Bản đồ kiến thức nền: Diễn giải phương pháp Newton như bài toán cực tiểu hóa xấp xỉ bậc hai
+
+- **Khai triển Taylor bậc hai:** Quanh điểm $$x$$, $$\tilde{f}_x(y) = f(x) + \nabla f(x)^T(y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x)(y-x)$$. Đặt $$\nabla_y \tilde{f}_x(y) = 0$$ cho ra ngay $$\nabla f(x) + \nabla^2 f(x)(y - x) = 0 \implies y = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$.
+- **So sánh trực tiếp với Gradient Descent:** Gradient Descent cực tiểu hóa $$f(x) + \nabla f(x)^T(y-x) + \frac{1}{2t}\|y-x\|_2^2$$ — tương đương việc giả vờ rằng $$\nabla^2 f(x) \approx \frac{1}{t}I$$.
+- **Diễn giải theo chuẩn Hessian cục bộ:** Bước Newton cũng là hướng giảm dốc nhất nếu ta đo độ dài bước đi bằng **chuẩn Hessian** $$\|v\|_{\nabla^2 f(x)} = \sqrt{v^T \nabla^2 f(x) v}$$ thay vì chuẩn Euclid $$\|v\|_2$$.
+
+### Khung giải thích (nên đọc chậm): Dựng tường minh parabol Taylor bậc hai và tìm đỉnh của nó
+
+Xét hàm 1 chiều $$f(x) = x^4 - 4x + 5$$ tại điểm xuất phát $$x_0 = 2$$ (nghiệm thật của $$f'(x) = 4x^3 - 4 = 0$$ là $$x^\star = 1$$).
+
+1. **Tính các giá trị đạo hàm tại $$x_0 = 2$$:**
+   - $$f(2) = 16 - 8 + 5 = 13$$.
+   - $$f'(2) = 4(2)^3 - 4 = 28$$.
+   - $$f''(2) = 12(2)^2 = 48$$.
+2. **Viết tường minh mô hình parabol Taylor bậc hai quanh $$x_0 = 2$$:**
+   $$\tilde{f}_2(y) = 13 + 28(y - 2) + \frac{1}{2}(48)(y - 2)^2 = 13 + 28(y - 2) + 24(y - 2)^2.$$
+3. **Tìm điểm cực tiểu của parabol $$\tilde{f}_2(y)$$:**
+   Lấy đạo hàm theo $$y$$:
+   $$\tilde{f}_2'(y) = 28 + 48(y - 2) = 0 \implies y - 2 = -\frac{28}{48} = -\frac{7}{12} \approx -0.5833.$$
+   Vậy điểm tiếp theo là $$x_1 = 2 - \frac{7}{12} = \frac{17}{12} \approx 1.4167$$.
+4. **Đối chiếu với bước Gradient Descent dùng mô hình tròn $$\frac{1}{2t}(y-2)^2$$:** Nếu chọn $$t = 1/48$$ (khớp đúng độ cong tại $$x_0$$), GD trong 1 chiều trùng bước Newton; nhưng trong nhiều chiều với các hướng cong khác nhau ($$48$$ và $$1$$), chỉ mô hình Taylor bậc hai đầy đủ mới co giãn đúng cả hai trục cùng lúc!
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
 });

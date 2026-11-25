@@ -9,6 +9,25 @@ categories:
 lang: en
 ---
 
+If $$t = m/\epsilon$$ guarantees $$\epsilon$$-accuracy in one shot, why not just set $$t = 10^8$$ right away and run Newton's method once (Barrier Method v.0)? Try it, and Newton's method chokes immediately: at $$t = 10^8$$, the barrier wall is razor-sharp, its Hessian is horribly ill-conditioned, and Newton's local quadratic basin shrinks to microscopic size. **Barrier Method v.1** solves this by *continuously walking* along the central path: multiply $$t$$ by $$\mu \in [10, 20]$$ and warm-start each centering step from the previous solution!
+
+## Background Knowledge Map: One-Shot (v.0) vs. Path-Following (v.1)
+
+- **Pillar 1 — Why One-Shot (v.0) Fails:** Setting $$t = m/\epsilon$$ directly creates an almost-discontinuous objective whose Hessian explodes near boundaries, forcing hundreds of painful damped Newton steps.
+- **Pillar 2 — Geometric Progression ($$t^{(k+1)} = \mu t^{(k)}$$):** Multiplying $$t$$ by a moderate factor $$\mu > 1$$ shrinks the guaranteed duality gap $$m/t$$ exponentially fast—by a factor of $$\mu$$ on every outer iteration.
+- **Pillar 3 — Warm-Starting Keeps Newton Close to the Basin:** Starting the centering step for $$\mu t$$ at $$x^*(t)$$ places the iterate close to $$x^*(\mu t)$$, requiring only a few Newton iterations to re-center.
+- **Pillar 4 — The $$\mu$$ Trade-Off (Sweet Spot $$\mu \in [10, 20]$$):** Small $$\mu$$ (e.g., $$2$$) means cheap centering steps but many outer iterations; huge $$\mu$$ (e.g., $$150$$) means few outer iterations but expensive re-centering; moderate $$\mu \approx 10\text{–}20$$ minimizes *total* Newton steps.
+
+### Step-by-Step Worked Example (Read Slowly): Counting Outer Iterations for Different Choices of $$\mu$$
+
+Suppose a linear program has $$m = 100$$ inequality constraints, initial barrier parameter $$t^{(0)} = 1$$ (initial gap $$m/t^{(0)} = 100$$), and target accuracy $$\epsilon = 10^{-6}$$.
+
+1. **Compute the required final $$t$$:** We stop once $$\frac{m}{t} \le \epsilon \implies t \ge \frac{100}{10^{-6}} = 10^8$$.
+2. **Count outer centering steps $$k = \left\lceil \frac{\log(10^8)}{\log \mu} \right\rceil$$ across three choices of $$\mu$$:**
+   - **$$\mu = 2$$ (too timid):** $$k = \lceil \log_2(10^8) \rceil = \lceil 26.57 \rceil = 27$$ outer iterations (plus 1 initial centering = 28).
+   - **$$\mu = 10$$ (sweet spot):** $$k = \lceil \log_{10}(10^8) \rceil = 8$$ outer iterations ($$t = 1, 10, 10^2, \dots, 10^8$$)! If each centering takes ~4 Newton steps, total cost is only ~32 Newton steps.
+   - **$$\mu = 100$$ (aggressive):** $$k = \lceil \log_{100}(10^8) \rceil = 4$$ outer iterations—half as many outer loops, *but* each jump is 10× steeper so each centering step may need 10–15 Newton steps (40–60 total).
+
 ## Barrier method v.0
 **Barrier method v.0** chooses $$t = m/\epsilon$$ for $$\epsilon > 0$$ and solves the following barrier problem to obtain $$f(x^*(t)) - f(x^*) \le \epsilon $$.
 >

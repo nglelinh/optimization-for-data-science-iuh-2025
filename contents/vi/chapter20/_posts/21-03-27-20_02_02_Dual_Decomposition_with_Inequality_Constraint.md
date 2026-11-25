@@ -9,6 +9,37 @@ categories:
 lang: vi
 ---
 
+Trong thực tế kỹ thuật và kinh tế, phần lớn ràng buộc tài nguyên không phải là đẳng thức cứng ("dùng đúng bằng $$b$$"), mà là **bất đẳng thức hạn mức** $$\sum_{i=1}^B A_i x_i \le b$$ ("không được vượt quá băng thông $$b$$, ngân sách $$b$$ hay công suất đường dây $$b$$"). Khi đổi dấu `=` thành `≤`, thuật toán phân rã đối ngẫu chỉ thay đổi đúng một chi tiết nhỏ nhưng mang ý nghĩa kinh tế sâu sắc: biến đối ngẫu $$u$$ bắt buộc phải không âm $$u \ge 0$$ nhờ phép chiếu $$u^{(k)} = (\cdot)_+$$ — biểu thị rằng **tài nguyên dư thừa luôn có giá bóng bằng 0**!
+
+## Bản đồ kiến thức nền: Ba đặc trưng của phân rã đối ngẫu với ràng buộc bất đẳng thức
+
+Để hiểu trọn vẹn bài 20-02-02 và diễn giải kinh tế học (Price Update) đi kèm, hãy nắm vững ba ý sau:
+
+- **Phép chiếu không âm $$u_+ = \max(0, u)$$ và điều kiện bù chặt:** Với bài toán bất đẳng thức, điều kiện KKT đòi hỏi $$u \ge 0$$ và $$u_j(\sum_i (A_i x_i)_j - b_j) = 0$$. Nếu một tài nguyên $$j$$ không bị dùng hết ($$\sum_i (A_i x_i)_j < b_j$$), phép cập nhật sẽ đẩy $$u_j$$ giảm dần về $$0$$ và giữ chặt tại $$0$$.
+- **Thuật toán hạ dưới gradient chiếu trên đối ngẫu (Projected Dual Subgradient):** Bước cập nhật $$u^{(k)} = \left(u^{(k-1)} + t_k(\sum_i A_i x_i^{(k)} - b)\right)_+$$ chính là một bước tăng gradient chiếu lên tập lồi $$u \ge 0$$ cho hàm đối ngẫu $$g(u)$$.
+- **Diễn giải điều chỉnh giá theo trạng thái tắc nghẽn:** Trong mạng viễn thông (tối ưu hóa tốc độ truyền TCP), mỗi liên kết $$j$$ có băng thông tối đa $$b_j$$: khi lưu lượng vượt $$b_j$$, giá tắc nghẽn $$u_j$$ tăng lên buộc các luồng dữ liệu tự giảm tốc độ; khi đường truyền thông thoáng, $$u_j$$ tụt về $$0$$!
+
+### Khung giải thích (nên đọc chậm): Tính tay 2 bước phân rã bất đẳng thức (cả trường hợp chặt và trường hợp dư tài nguyên)
+
+Xét 2 người dùng muốn tối ưu lợi ích (tương đương cực tiểu hóa độ lệch so với mức mong muốn $$3$$ và $$2$$) với hạn mức tổng băng thông $$b$$:
+
+$$\min_{x_1, x_2} \; (x_1 - 3)^2 + (x_2 - 2)^2 \qquad \text{với điều kiện} \qquad x_1 + x_2 \le b.$$
+
+Khởi tạo giá ban đầu $$u^{(0)} = 0$$ và bước học $$t = 0.5$$:
+
+1. **Trường hợp 1 — Băng thông thiếu ($$b = 4 < 3 + 2$$):**
+   - **Vòng 1 ($$u^{(0)} = 0$$):** Người 1 chọn $$x_1^{(1)} = 3$$, người 2 chọn $$x_2^{(1)} = 2$$. Tổng $$= 5 > 4$$ (vượt hạn mức $$+1$$).
+     Cập nhật giá: $$u^{(1)} = (0 + 0.5(5 - 4))_+ = (0.5)_+ = 0.5$$.
+   - **Vòng 2 ($$u^{(1)} = 0.5$$):**
+     - Người 1 giải $$\min (x_1 - 3)^2 + 0.5x_1 \implies x_1^{(2)} = 3 - 0.25 = 2.75$$.
+     - Người 2 giải $$\min (x_2 - 2)^2 + 0.5x_2 \implies x_2^{(2)} = 2 - 0.25 = 1.75$$.
+     - Tổng $$= 4.5 > 4$$ (chỉ còn vượt $$+0.5$$), cập nhật $$u^{(2)} = (0.5 + 0.5(0.5))_+ = 0.75$$, tiến thẳng về nghiệm tối ưu $$u^\star = 1, x^\star = (2.5, 1.5)$$!
+2. **Trường hợp 2 — Băng thông dư thừa ($$b = 6 > 3 + 2$$):**
+   - **Vòng 1 ($$u^{(0)} = 0$$):** $$x_1^{(1)} = 3, x_2^{(1)} = 2$$, tổng $$= 5 < 6$$ (dư $$-1$$).
+   - Phép chiếu cắt âm: $$u^{(1)} = (0 + 0.5(-1))_+ = (-0.5)_+ = 0$$! Giá bóng bị ghim tại $$0$$ và thuật toán dừng ngay tại nghiệm tối ưu $$(3, 2)$$.
+
+---
+
 Xét bài toán tương tự phần trước nhưng thay ràng buộc đẳng thức bằng ràng buộc bất đẳng thức tuyến tính:
 > $$
 > \begin{equation}

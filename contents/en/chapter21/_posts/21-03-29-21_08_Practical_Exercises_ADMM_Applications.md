@@ -12,6 +12,34 @@ redirect_from:
   - /contents/en/chapter21/21_07_Practical_Exercises_ADMM_Applications/
 ---
 
+The best way to internalize ADMM is to derive a splitting from scratch, check every matrix dimension, and run 3–5 iterations by hand (and in Python) until you watch the primal residual $$r^k$$ and dual residual $$s^k$$ collapse together. Before diving into the Boyd et al. exercises below, work through this compact 1D Lasso warm-up so you can verify the exact interplay between the ridge $$\beta$$-update, the soft-thresholding $$\alpha$$-update, and the scaled dual accumulator $$w$$.
+
+## Background Knowledge Map: Core ADMM Skills Tested in These Exercises
+
+- **Scaled ADMM Formulation:** Translate any structured problem (Lasso, total variation, constrained QP, consensus) into $$\min f(x) + g(z) \text{ s.t. } Ax + Bz = c$$ and write the three scaled updates cleanly.
+- **Closed-Form Proximal & Linear Oracles:** Recognize when the $$x$$-step is a cacheable Cholesky solve $$(A^T A + \rho I)^{-1}$$ and when the $$z$$-step is soft-thresholding, block shrinkage, singular-value thresholding, or Euclidean projection.
+- **Residual-Based Stopping & Adaptive $$\rho$$:** Compute $$r^k = Ax^k + Bz^k - c$$ and $$s^k = \rho A^T B(z^k - z^{k-1})$$, and apply Boyd's residual-balancing rule (doubling/halving $$\rho$$ when $$\|r^k\|_2$$ and $$\|s^k\|_2$$ differ by a factor of 10).
+- **Splitting Design Intuition:** Compare alternative auxiliary variable choices to ensure every subproblem is cheap and well-conditioned.
+
+### Step-by-Step Worked Example (Read Slowly): Hand-Tracing Two Scaled ADMM Steps on 1D Lasso
+
+Solve $$\min_x \frac{1}{2}(x - 3)^2 + |x|$$ (exact optimum $$x^\star = S_1(3) = 2$$) via the Lasso split $$\min \frac{1}{2}(x - 3)^2 + |z|$$ s.t. $$x - z = 0$$ with $$\rho = 1$$, starting from $$z^0 = 0, \; w^0 = 0$$.
+
+1. **Write the three scaled updates:**
+   - $$x^k = \frac{3 + (z^{k-1} - w^{k-1})}{2}$$,
+   - $$z^k = S_1(x^k + w^{k-1})$$,
+   - $$w^k = w^{k-1} + x^k - z^k$$.
+2. **Iteration 1 ($$z^0 = 0, w^0 = 0$$):**
+   - $$x^1 = \frac{3 + 0}{2} = 1.5$$.
+   - $$z^1 = S_1(1.5 + 0) = 0.5$$.
+   - $$w^1 = 0 + (1.5 - 0.5) = 1.0$$. (Primal residual $$r^1 = 1.0$$, dual residual $$s^1 = 0.5$$.)
+3. **Iteration 2 ($$z^1 = 0.5, w^1 = 1.0$$):**
+   - $$x^2 = \frac{3 + (0.5 - 1.0)}{2} = 1.25$$.
+   - $$z^2 = S_1(1.25 + 1.0) = S_1(2.25) = 1.25$$!
+   - $$w^2 = 1.0 + (1.25 - 1.25) = 1.0$$. (Notice $$r^2 = 0$$, and $$w^2 = 1.0 = w^\star$$!)
+4. **Verify Iteration 3:**
+   $$x^3 = \frac{3 + (1.25 - 1.0)}{2} = 1.625$$, $$z^3 = S_1(2.625) = 1.625$$, $$w^3 = 1.0$$—sliding straight along the feasible line $$x = z$$ directly into $$x^\star = z^\star = 2.0$$! Now try the full exercises below.
+
 # Practical Exercises - ADMM Applications
 
 The exercises are adapted from Boyd et al. (2011).

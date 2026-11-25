@@ -12,6 +12,29 @@ redirect_from:
   - /contents/en/chapter07/07_09_Practical_Exercises_Subgradient_Optimization/
 ---
 
+Subgradient calculus only becomes second nature once you have computed subdifferentials of norms, piecewise maxima, and indicator functions with your own hands—and used $$0 \in \partial f(x^\star)$$ to solve Lasso and constrained problems directly. These practical exercises build that exact hands-on command, preparing you for subgradient and proximal algorithms in the next chapters.
+
+## Background Knowledge Map: Problem-Solving Playbook for Subgradient Exercises
+
+1. **Identify Kinks vs. Smooth Regions First**: Before differentiating, locate every point where an absolute value hits zero, a norm hits zero, or two branches of a `max` tie. On smooth regions, $$\partial f(x) = \{\nabla f(x)\}$$; at kinks, apply the calculus rules.
+2. **Use the Dual-Norm Formula for Any Norm $$\|x\|$$**: At $$x = 0$$, $$\partial \|0\| = \{g : \|g\|_* \le 1\}$$; at $$x \neq 0$$, $$\partial \|x\| = \{g : \|g\|_* \le 1 \text{ and } g^T x = \|x\|\}$$. (For $$\ell_2$$, dual is $$\ell_2$$; for $$\ell_1$$, dual is $$\ell_\infty$$; for $$\ell_\infty$$, dual is $$\ell_1$$.)
+3. **Check Optimality by Case-Splitting Sign Regimes**: For $$\ell_1$$-regularized or piecewise objectives, test whether $$0 \in \partial f(x)$$ at each kink first; if not, solve the smooth equation on the region where the sign of the subdifferential crosses zero.
+4. **Verify Subgradient Descent Step Sizes**: Unlike smooth gradient descent, subgradient descent $$x^{(k+1)} = x^{(k)} - t_k g^{(k)}$$ is *not* guaranteed to decrease $$f$$ at every step—keep track of the best iterate $$f_{\mathrm{best}}^{(k)} = \min_{i \le k} f(x^{(i)})$$ and use diminishing step sizes (e.g., $$t_k = c/\sqrt{k}$$).
+
+### Step-by-Step Worked Example (Read Slowly): Warm-Up Subgradient Computation & Optimality Test
+
+Minimize $$f(x) = \|x\|_1 + \frac{1}{2}\|x - a\|_2^2$$ where $$a = (0.5,\; -2.0)^T$$, and verify optimality directly via $$0 \in \partial f(x^\star)$$.
+
+1. **Apply coordinate-wise soft-thresholding with $$\lambda = 1$$**:
+   - Coordinate 1: $$|a_1| = 0.5 \le 1 \implies x_1^\star = 0$$.
+   - Coordinate 2: $$a_2 = -2.0 < -1 \implies x_2^\star = -2.0 + 1 = -1.0$$.
+   - Candidate: $$x^\star = (0,\; -1)^T$$.
+2. **Compute $$\partial f(x^\star)$$ explicitly**:
+   - Gradient of quadratic part: $$x^\star - a = (0 - 0.5,\; -1 - (-2.0))^T = (-0.5,\; +1.0)^T$$.
+   - Subdifferential of $$\|x\|_1$$ at $$(0, -1)^T$$: $$[-1, 1] \times \{-1\}$$.
+   - Minkowski sum: $$\partial f(x^\star) = ([-1, 1] - 0.5) \times \{-1 + 1\} = [-1.5,\; 0.5] \times \{0\}$$.
+3. **Confirm $$0 \in \partial f(x^\star)$$**: Since $$0 \in [-1.5, 0.5]$$ and $$0 \in \{0\}$$, $$(0, 0)^T \in \partial f(x^\star)$$, certifying $$x^\star = (0, -1)^T$$ as the unique global minimizer!
+
 # Practical Exercises - Subgradient Optimization
 
 The exercises are adapted from Boyd & Vandenberghe (2004) and Shor (1985).

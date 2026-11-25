@@ -9,6 +9,30 @@ categories:
 lang: en
 ---
 
+Choosing a diminishing step-size schedule often feels like flying blind: make $$t_k$$ too small and you crawl; make it too large and you bounce wildly. In 1969, Boris Polyak asked a deceptively simple question: *what if you already know the optimal value $$f^\star$$?* In feasibility problems, overparameterized machine learning (where interpolation achieves $$f^\star = 0$$), and exact-zero-residual systems, $$f^\star$$ is known a priori—and Polyak showed that projecting onto the linear underestimator $$f(x^{(k)}) + g^{(k)\top}(x - x^{(k)}) = f^\star$$ yields a self-tuning, parameter-free step size that strictly minimizes the distance bound at every single iteration.
+
+## Background Knowledge Map: The Geometry of Polyak's Step Size
+
+- **Pillar 1 — Exact Hyperplane Projection Intuition:** Setting the first-order convex lower bound $$f(x^{(k)}) + g^{(k)\top}(x - x^{(k)})$$ equal to $$f^\star$$ defines a separating hyperplane that separates $$x^{(k)}$$ from the optimal set. Projecting $$x^{(k)}$$ orthogonally onto this hyperplane yields the exact Polyak step $$t_k = \frac{f(x^{(k)}) - f^\star}{\|g^{(k)}\|_2^2}$$.
+- **Pillar 2 — Optimal One-Step Distance Reduction:** Minimizing the RHS of the one-step distance inequality $$\|x^{(k+1)} - x^\star\|_2^2 \le \|x^{(k)} - x^\star\|_2^2 - 2t_k(f(x^{(k)}) - f^\star) + t_k^2 \|g^{(k)}\|_2^2$$ with respect to $$t_k$$ recovers Polyak's formula uniquely, shrinking the squared distance by at least $$\frac{(f(x^{(k)}) - f^\star)^2}{\|g^{(k)}\|_2^2}$$ at every step.
+- **Pillar 3 — Scale Invariance & Zero Hyperparameter Tuning:** If you rescale the objective by a constant $$c > 0$$ (replacing $$f$$ with $$cf$$), both the numerator $$f - f^\star$$ and denominator $$\|g\|_2^2$$ scale cleanly so $$t_k g^{(k)}$$ is *completely invariant* to objective scaling—no Lipschitz constant $$G$$ or initial radius $$R$$ is ever needed.
+- **Pillar 4 — Sensitivity to Misspecified $$f^\star$$:** Polyak's rule assumes $$f^\star$$ is exact. Overestimating $$f^\star$$ stalls progress early; underestimating $$f^\star$$ causes persistent overshooting near the optimum, motivating modern adaptive variants (such as SPS in stochastic deep learning) that estimate or clip $$f^\star$$.
+
+### Step-by-Step Worked Example (Read Slowly): Polyak's Step vs. Fixed Step on a Steep Piecewise Linear Function
+
+Consider $$f(x) = \max\{ 2x - 2,\; -4x - 2,\; 0 \}$$ on $$\mathbb{R}$$, whose optimal value is known to be $$f^\star = 0$$ (achieved on the interval $$x \in [-0.5, 1]$$). Start at $$x^{(0)} = 4$$.
+
+1. **Iteration 1 at $$x^{(0)} = 4$$:**
+   - Evaluate the pieces: $$2(4) - 2 = 6$$, $$-4(4) - 2 = -18$$, $$0$$. Thus $$f(4) = 6$$ and the active piece is $$2x - 2$$, so $$g^{(0)} = 2$$.
+   - Compute Polyak step size:
+     $$t_1 = \frac{f(x^{(0)}) - f^\star}{\|g^{(0)}\|_2^2} = \frac{6 - 0}{2^2} = \frac{6}{4} = 1.5.$$
+   - Update:
+     $$x^{(1)} = x^{(0)} - t_1 g^{(0)} = 4 - 1.5(2) = 1.0.$$
+2. **Check the result:** At $$x^{(1)} = 1.0$$, $$f(1.0) = \max\{0, -6, 0\} = 0 = f^\star$$! Polyak's step hit the exact optimal set in a *single* iteration because the active linear piece intersected $$y = f^\star$$ at $$x = 1$$.
+3. **Verify the distance contraction bound:** With $$x^\star = 1$$ (the closest minimizer), $$\|x^{(0)} - x^\star\|^2 = (4 - 1)^2 = 9$$, and Polyak guarantees:
+   $$\|x^{(1)} - x^\star\|^2 \le 9 - \frac{(6 - 0)^2}{2^2} = 9 - 9 = 0.$$
+   Here the bound is tight to the last decimal place, illustrating why Polyak's rule is the gold standard whenever $$f^\star$$ is known.
+
 **Polyak step sizes** are a way to set the step size when the optimal value is known. If $$f^*$$ is known, Polyak step sizes can be defined as follows.
 
 ## Convergence theorem for Polyak step-sizes

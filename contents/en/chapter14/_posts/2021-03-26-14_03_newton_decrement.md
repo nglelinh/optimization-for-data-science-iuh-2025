@@ -8,6 +8,30 @@ categories:
 - chapter14
 lang: en
 ---
+
+In gradient descent, people often stop when $$\|\nabla f(x)\|_2 \le \epsilon$$. That stopping rule has a fatal flaw: if you rescale your units by $$1000$$, $$\|\nabla f(x)\|_2$$ changes by $$1000$$ even though you haven't moved an inch closer to $$x^\star$$! The **Newton decrement** $$\lambda(x) = (\nabla f(x)^T (\nabla^2 f(x))^{-1} \nabla f(x))^{1/2}$$ fixes this completely: it measures the suboptimality gap in the function's own curvature metric, making it dimensionless and affine invariant.
+
+## Background Knowledge Map: Four Faces of the Newton Decrement
+
+- **Pillar 1 — Quadratic Suboptimality Estimate:** The drop achieved by minimizing the local quadratic model equals exactly $$\frac{1}{2}\lambda(x)^2$$, making $$\frac{1}{2}\lambda(x)^2 \le \epsilon$$ Newton's natural stopping criterion.
+- **Pillar 2 — Hessian-Norm Step Length:** Because $$\Delta x_{\text{nt}} = -H^{-1}\nabla f(x)$$, we have $$\lambda(x) = (\Delta x_{\text{nt}}^T H \Delta x_{\text{nt}})^{1/2} = \|\Delta x_{\text{nt}}\|_H$$—the Mahalanobis length of the Newton step.
+- **Pillar 3 — Directional Derivative Link:** Along the Newton direction, $$\nabla f(x)^T \Delta x_{\text{nt}} = -\lambda(x)^2 \le 0$$, which enters directly into the Armijo backtracking condition $$f(x + t\Delta x_{\text{nt}}) \le f(x) - \alpha t \lambda(x)^2$$.
+- **Pillar 4 — Affine Invariance:** Under $$g(y) = f(Ay)$$, the factors $$A$$ and $$A^T$$ cancel inside $$\lambda_g(y)$$, guaranteeing $$\lambda_g(y) = \lambda_f(Ay)$$ regardless of coordinate scaling.
+
+### Step-by-Step Worked Example (Read Slowly): Computing $$\lambda(x)$$ and Checking Its Exact Suboptimality Bound
+
+Let $$f(x_1, x_2) = 2x_1^2 + x_1 x_2 + x_2^2 - 5x_1 - 3x_2$$ at $$x = (0, 0)^T$$.
+
+1. **Compute gradient and Hessian at $$x = (0,0)^T$$:**
+   $$\nabla f(0,0) = \begin{bmatrix} -5 \\ -3 \end{bmatrix}, \qquad H = \nabla^2 f(x) = \begin{bmatrix} 4 & 1 \\ 1 & 2 \end{bmatrix}.$$
+2. **Invert $$H$$ and find the Newton step $$\Delta x_{\text{nt}}$$:**
+   - $$\det(H) = 8 - 1 = 7 \implies H^{-1} = \frac{1}{7}\begin{bmatrix} 2 & -1 \\ -1 & 4 \end{bmatrix}$$.
+   - $$\Delta x_{\text{nt}} = -H^{-1}\nabla f(0,0) = -\frac{1}{7}\begin{bmatrix} 2(-5) - (-3) \\ -(-5) + 4(-3) \end{bmatrix} = -\frac{1}{7}\begin{bmatrix} -7 \\ -7 \end{bmatrix} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$.
+3. **Compute $$\lambda(x)^2$$ in two ways:**
+   - Via directional derivative: $$\lambda(0,0)^2 = -\nabla f(0,0)^T \Delta x_{\text{nt}} = -((-5)(1) + (-3)(1)) = 8$$, so $$\lambda(0,0) = \sqrt{8} \approx 2.828$$.
+   - Via Hessian norm: $$\Delta x_{\text{nt}}^T H \Delta x_{\text{nt}} = \begin{bmatrix} 1 & 1 \end{bmatrix}\begin{bmatrix} 4 & 1 \\ 1 & 2 \end{bmatrix}\begin{bmatrix} 1 \\ 1 \end{bmatrix} = 5 + 3 = 8$$. Exact match!
+4. **Verify the suboptimality gap:** Since $$f$$ is quadratic, $$x^\star = (1,1)^T$$ with $$f(1,1) = 2 + 1 + 1 - 5 - 3 = -4$$, and $$f(0,0) - f(1,1) = 0 - (-4) = 4 = \frac{1}{2}\lambda(0,0)^2$$!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

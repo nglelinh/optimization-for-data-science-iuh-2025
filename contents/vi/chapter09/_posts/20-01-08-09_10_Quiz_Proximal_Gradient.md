@@ -10,6 +10,33 @@ categories:
 lesson_type: quiz
 ---
 
+Chương 09 chứa mật độ ý tưởng dày đặc bậc nhất nửa đầu khóa học: từ phép tách hàm $$f = g + h$$, toán tử gần kề $$\operatorname{prox}_{t h}$$, co ngưỡng mềm ISTA, co ngưỡng giá trị kỳ dị cho hoàn thiện ma trận, cho đến các trường hợp đặc biệt và tăng tốc FISTA $$O(1/k^2)$$. Chính vì nhiều khái niệm đan xen nhau nên khi làm bài trắc nghiệm, người học rất dễ mắc những lỗi tinh vi như quên nhân kích thước bước $$t$$ vào ngưỡng $$\lambda$$, nhầm tốc độ ISTA và FISTA, hay tưởng FISTA luôn giảm đơn điệu.
+
+Trước khi bắt đầu bộ câu hỏi trắc nghiệm chuyên sâu dưới đây, hãy dành hai phút rà soát bốn trụ cột cốt lõi và bốn phép thử số ngắn gọn để khóa chặt mọi công thức quan trọng.
+
+## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 09
+
+- **Định nghĩa và tính chất toán tử gần kề:** Nắm chắc $$\operatorname{prox}_{t h}(v) = \arg\min_z \left\{\frac{1}{2t}\|z - v\|_2^2 + h(z)\right\}$$; nhận ra ngay các trường hợp đặc biệt: $$h = 0 \Rightarrow v$$, $$h = I_C \Rightarrow P_C(v)$$, $$h(x) = \lambda\|x\|_1 \Rightarrow S_{t\lambda}(v)$$, $$h(X) = \lambda\|X\|_* \Rightarrow \text{SVT}_{t\lambda}(V)$$.
+- **Điều kiện hội tụ và bước an toàn:** Yêu cầu $$g$$ lồi có $$\nabla g$$ liên tục $$L$$-Lipschitz, $$h$$ lồi có prox tính được, và bước cố định $$t \le 1/L$$ (hoặc dùng backtracking trên phần trơn $$g$$).
+- **Bảng tốc độ hội tụ chuẩn:** Phân biệt rạch ròi ba bậc: Subgradient $$O(1/\epsilon^2)$$ ($$O(1/\sqrt{k})$$), Proximal GD / ISTA $$O(1/\epsilon)$$ ($$O(1/k)$$), và Accelerated Proximal GD / FISTA $$O(1/\sqrt{\epsilon})$$ ($$O(1/k^2)$$).
+- **Hành vi thực tế của tăng tốc:** Nhớ rằng ISTA giảm đơn điệu $$f(x^{(k+1)}) \le f(x^{(k)})$$, còn FISTA có thể không đơn điệu (tạo gợn sóng) và nhạy cảm với nhiễu hoặc prox xấp xỉ.
+
+### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 09
+
+1. **Bẫy 1 — Ngưỡng co mềm là $$t\lambda$$, không phải $$\lambda$$:**
+   Với $$h(x) = 3\|x\|_1$$, kích thước bước $$t = 0.5$$ và vector $$v = (2.0, -1.0, 0.8)^T$$:
+   Ngưỡng cắt là $$t\lambda = 0.5 \times 3 = 1.5$$. Do đó:
+   $$\operatorname{prox}_{0.5 h}(v) = (2.0 - 1.5,\; 0,\; 0)^T = (0.5, 0, 0)^T.$$
+   (Nếu quên nhân $$t = 0.5$$ mà cắt bằng $$\lambda = 3$$, bạn sẽ sai hoàn toàn ra $$(0, 0, 0)^T$$!)
+2. **Bẫy 2 — Prox của hàm chỉ thị không phụ thuộc $$t$$:**
+   Với $$h(x) = I_{[0, 1]}(x)$$ và $$t = 10$$ hay $$t = 0.01$$, $$\operatorname{prox}_{t h}(2.5)$$ luôn là hình chiếu $$P_{[0, 1]}(2.5) = 1.0$$ (vì $$I_C(z)$$ nhân với $$t > 0$$ vẫn là $$I_C(z)$$).
+3. **Bẫy 3 — Prox của hàm bình phương $$\frac{\lambda}{2}\|x\|_2^2$$:**
+   Cho đạo hàm của $$\frac{1}{2t}\|z - v\|_2^2 + \frac{\lambda}{2}\|z\|_2^2$$ bằng $$0$$:
+   $$\operatorname{prox}_{t h}(v) = \frac{1}{1 + t\lambda} v.$$
+   Ví dụ $$t = 0.5, \lambda = 2, v = 4 \implies z = \frac{4}{1 + 1} = 2$$ (chỉ co tỷ lệ, không bao giờ cắt về $$0$$!).
+4. **Bẫy 4 — Quy đổi độ phức tạp FISTA:**
+   Giảm sai số $$\epsilon$$ đi 100 lần (từ $$10^{-2}$$ xuống $$10^{-4}$$): ISTA tăng số bước **100 lần**, còn FISTA chỉ tăng $$\sqrt{100} = 10$$ lần!
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:

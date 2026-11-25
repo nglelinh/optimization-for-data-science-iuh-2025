@@ -10,6 +10,29 @@ lang: en
 lesson_type: optional
 ---
 
+When you read papers from 2022–2026 on aligning large language models with human feedback (InstructGPT / RLHF), training safe robots (OmniSafe), or computing single-cell trajectories with optimal transport, you might not expect to see Chapter 16's Lagrangians and Fenchel conjugates on page 2. Yet every one of those breakthroughs relies on the same three dual moves: turning a regularizer's conjugate into a **Fenchel–Young training loss**, pricing a KL divergence constraint with a **Lagrange multiplier**, and solving **entropic optimal transport** via its unconstrained Fenchel dual!
+
+## Background Knowledge Map: Duality as a 2022–2026 ML Design Pattern
+
+- **Pillar 1 — Fenchel–Young Losses:** For any convex regularizer $$\Omega$$, the Fenchel–Young gap $$L_\Omega(\theta; y) = \Omega^*(\theta) + \Omega(y) - \theta^T y \ge 0$$ is automatically a convex, nonnegative loss that equals $$0$$ iff $$y = \nabla\Omega^*(\theta)$$.
+- **Pillar 2 — RLHF & DPO as Constrained Lagrangian Duality:** Maximizing expected reward subject to $$\mathrm{KL}(\pi \| \pi_{\mathrm{SFT}}) \le \varepsilon$$ produces the exact Lagrangian $$\mathbb{E}[r(x,y)] - \beta\,\mathrm{KL}(\pi \| \pi_{\mathrm{SFT}})$$, where $$\beta \ge 0$$ is the dual price of drifting from the reference model.
+- **Pillar 3 — Primal–Dual Safe RL (CMDPs):** Algorithms like PPO-Lagrangian run primal policy steps alternating with dual-ascent updates $$\lambda_{k+1} = [\lambda_k + \eta(J_C(\pi_k) - d)]_+$$ to enforce safety budgets.
+- **Pillar 4 — Sinkhorn Potentials as Fenchel Duals:** Entropic optimal transport dualizes the marginal constraints into an unconstrained concave maximization over dual potentials $$(f, g)$$, enabling GPU-parallel Sinkhorn iterations.
+
+### Step-by-Step Worked Example (Read Slowly): Deriving Cross-Entropy as a Fenchel–Young Loss
+
+Let $$\Omega(p) = \sum_{i=1}^K p_i \log p_i + I_{\Delta_K}(p)$$ be the negative entropy on the probability simplex $$\Delta_K$$.
+
+1. **Compute the conjugate $$\Omega^*(\theta) = \max_{p \in \Delta_K} \left(\theta^T p - \sum_{i=1}^K p_i \log p_i\right)$$:**
+   - Introducing Lagrange multiplier $$\nu$$ for $$\sum_i p_i = 1$$ gives $$\theta_i - \log p_i - 1 - \nu = 0 \implies p_i^\star = \frac{e^{\theta_i}}{\sum_j e^{\theta_j}} = \operatorname{softmax}(\theta)_i$$.
+   - Substituting $$p^\star$$ back into $$\theta^T p - \sum p_i \log p_i$$ yields the log-sum-exp function:
+     $$\Omega^*(\theta) = \log\left(\sum_{j=1}^K e^{\theta_j}\right).$$
+2. **Evaluate the Fenchel–Young loss for a one-hot label $$y = e_c$$ (where $$\Omega(e_c) = 0$$):**
+   $$L_\Omega(\theta; e_c) = \Omega^*(\theta) + \Omega(e_c) - \theta^T e_c = \log\left(\sum_{j=1}^K e^{\theta_j}\right) - \theta_c = -\log\big(\operatorname{softmax}(\theta)_c\big).$$
+3. **Numerical check for $$K = 2$$, logits $$\theta = (1, 0)^T$$, true class $$c = 1$$:**
+   - $$\Omega^*(\theta) = \log(e^1 + e^0) = \log(3.7183) \approx 1.3133$$.
+   - $$L_\Omega(\theta; e_1) = 1.3133 + 0 - 1 = 0.3133 = -\log(0.7311)$$—exact cross-entropy loss, born directly from Fenchel duality!
+
 Chapter 16 revisits Lagrangian duality, KKT, and Fenchel conjugates so that the primal-dual interior-point method of Chapter 17 has somewhere to stand. The same three objects — a Lagrangian, a dual variable that prices a constraint, and a Fenchel conjugate that swaps a loss for a regulariser — are how 2022–2026 machine learning *writes objectives*, not only how it proves them. The four applications below keep the math of this chapter visible: you should be able to name the primal, the constraint, and the dual variable in each story.
 
 ## Fenchel–Young losses: conjugates as training objectives

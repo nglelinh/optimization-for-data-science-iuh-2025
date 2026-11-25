@@ -12,6 +12,38 @@ redirect_from:
   - /contents/vi/chapter06/06_01_05_hessian_exercises/
 ---
 
+Hiểu bằng mắt rằng $$1/t$$ đóng vai trò xấp xỉ Hessian là một chuyện, nhưng tự tay đạo hàm mô hình bậc hai, tính chỉ số điều kiện $$\kappa = \lambda_{\max}/\lambda_{\min}$$ và thấy tận mắt vì sao đổi tỷ lệ trục (preconditioning) làm tốc độ hội tụ tăng gấp hàng trăm lần lại là một trải nghiệm khai sáng hoàn toàn khác.
+
+Bộ bài tập chuyên sâu này dẫn bạn đi từng bước từ chứng minh đại số quy tắc cập nhật GD, phân tích ảnh hưởng của độ cong địa phương đến từng tọa độ, cho đến việc thiết kế bước thích ứng theo đường chéo Hessian — tiền đề trực tiếp cho các thuật toán AdaGrad và Adam trong học sâu!
+
+## Bản đồ kiến thức nền: Bốn công cụ cần dùng để giải trọn bộ bài tập độ cong
+
+Trước khi bắt tay vào 5 bài tập bên dưới, hãy đặt sẵn bốn công thức trụ cột lên bàn:
+
+- **Đạo hàm dạng toàn phương:** Với $$q(y) = f(x) + g^T(y - x) + \frac{1}{2t}\|y - x\|_2^2$$, lấy gradient theo $$y$$ cho $$\nabla q(y) = g + \frac{1}{t}(y - x) = 0 \implies y^\star = x - tg$$.
+- **Điều kiện ổn định & Bước tối ưu cho hàm bậc hai:** Với $$f(x) = \frac{1}{2} x^T Q x$$ có các trị riêng $$0 < m = \lambda_{\min} \le \dots \le \lambda_{\max} = L$$, bước cố định tốt nhất cho bài toán bậc hai là $$t^\star = \frac{2}{L + m}$$, cho hệ số co tối ưu là $$\rho^\star = \frac{\kappa - 1}{\kappa + 1}$$ với $$\kappa = \frac{L}{m}$$.
+- **Tách biến theo từng tọa độ (Diagonal Preconditioning):** Nếu thay $$\frac{1}{t} I$$ bằng ma trận đường chéo $$D = \operatorname{diag}(1/t_1, \dots, 1/t_n)$$ khớp với từng phần tử đường chéo $$H_{ii}$$ của Hessian, ta thu được bước cập nhật riêng cho từng tọa độ $$x_i^+ = x_i - \frac{1}{H_{ii}} \frac{\partial f}{\partial x_i}$$.
+- **Liên hệ trực tiếp với Chuẩn hóa đặc trưng (Feature Scaling):** Trong học máy, chuẩn hóa các cột dữ liệu về cùng phương sai chính là cách giảm chỉ số điều kiện $$\kappa(X^T X)$$ từ hàng triệu xuống gần $$1$$, biến đường đồng mức ellipsoid dẹt thành hình tròn để GD đi thẳng vào tâm!
+
+### Khung giải thích (nên đọc chậm): Tính bước tối ưu và số vòng lặp theo chỉ số điều kiện $$\kappa$$
+
+Xét hàm bậc hai $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 9x_2^2)$$ với $$Q = \operatorname{diag}(1, 9)$$.
+
+1. **Bước 1 — Xác định trị riêng và chỉ số điều kiện:**
+   $$m = \lambda_{\min} = 1, \qquad L = \lambda_{\max} = 9, \qquad \kappa = \frac{L}{m} = 9.$$
+2. **Bước 2 — Tính bước tối ưu $$t^\star = \frac{2}{L + m}$$ và hệ số co $$\rho^\star$$:**
+   $$t^\star = \frac{2}{9 + 1} = 0.2.$$
+   Kiểm tra hai hệ số co theo từng trục tại $$t^\star = 0.2$$:
+   - Trục $$x_1$$: $$1 - 0.2(1) = +0.8$$.
+   - Trục $$x_2$$: $$1 - 0.2(9) = -0.8$$.
+   Cả hai đều có trị tuyệt đối bằng $$\rho^\star = \frac{9 - 1}{9 + 1} = 0.8$$!
+3. **Bước 3 — So sánh nếu dùng bước riêng theo từng tọa độ $$t_1 = 1/1 = 1,\; t_2 = 1/9$$:**
+   - Trục $$x_1$$: $$1 - 1(1) = 0$$.
+   - Trục $$x_2$$: $$1 - \frac{1}{9}(9) = 0$$.
+   Chỉ cần đúng **1 bước duy nhất** thay vì $$\approx 31$$ bước (để $$0.8^k < 10^{-3}$$) để chạm nghiệm $$x^\star = (0, 0)$$! Đó là sức mạnh thực sự của việc ước lượng đúng độ cong!
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

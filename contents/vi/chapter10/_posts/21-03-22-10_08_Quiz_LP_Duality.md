@@ -12,6 +12,28 @@ redirect_from:
   - /contents/vi/chapter10/10_06_Quiz_LP_Duality/
 ---
 
+Đối ngẫu trong quy hoạch tuyến tính có một điểm rất dễ gây "xoắn não" khi làm bài kiểm tra: chỉ cần nhầm một dấu trừ, lộn chiều bất đẳng thức $$\le$$ thành $$\ge$$, hoặc quên điều kiện dấu của biến đối ngẫu cho ràng buộc đẳng thức là cả bài toán đối ngẫu lập tức sai lệch hoàn toàn! Ngoài ra, các câu hỏi khái niệm về 4 tổ hợp trạng thái Primal–Dual (nhất là trường hợp *cả hai đều vô nghiệm*) cũng là cái bẫy kinh điển mà rất nhiều người học mắc phải.
+
+Trước khi bắt tay vào bộ câu hỏi trắc nghiệm Chương 10 dưới đây, hãy điểm qua bản đồ bốn cụm kiến thức cốt lõi và kiểm chứng bốn phép thử ngắn để chắc tay trước mọi câu hỏi bẫy dấu và lý thuyết.
+
+## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 10
+
+- **Bảng chuyển đổi Primal $$\leftrightarrow$$ Dual (S-O-B / quy tắc dấu):** Với Primal dạng $$\min$$: ràng buộc `=` $$\leftrightarrow$$ biến đối ngẫu tự do; ràng buộc `\ge` $$\leftrightarrow$$ biến đối ngẫu `\ge 0`; ràng buộc `\le` $$\leftrightarrow$$ biến đối ngẫu `\le 0` (hoặc đặt biến $$v \ge 0$$ rồi đổi dấu trước $$h^T v$$).
+- **Đối ngẫu yếu, đối ngẫu mạnh và 4 trạng thái khả dĩ:** Luôn có $$d \le p$$ (với Primal $$\min$$, Dual $$\max$$). Nếu Primal không bị chặn dưới $$\Rightarrow$$ Dual chắc chắn vô nghiệm; nhưng ngược lại Primal vô nghiệm có thể dẫn tới Dual không bị chặn **hoặc** Dual cũng vô nghiệm!
+- **Điều kiện bù (Complementary Slackness):** Tại cặp nghiệm tối ưu $$(x^*, u^*)$$, mọi ràng buộc bất đẳng thức gốc còn "lỏng" ($$a_i^T x^* < b_i$$) bắt buộc có biến đối ngẫu $$u_i^* = 0$$; và mọi biến đối ngẫu dương ($$u_i^* > 0$$) bắt buộc kéo theo ràng buộc gốc tương ứng phải chặt ($$a_i^T x^* = b_i$$).
+- **Hai ứng dụng kinh điển — Max Flow/Min Cut và Matrix Games:** Ghi nhớ rằng lát cắt cực tiểu là đối ngẫu của luồng cực đại, và định lý minimax $$\min_x \max_y x^T P y = \max_y \min_x x^T P y$$ là hệ quả trực tiếp của đối ngẫu mạnh LP.
+
+### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 10
+
+1. **Bẫy 1 — Kiểm tra đối ngẫu yếu nhanh:** Một bài toán Primal $$\min$$ có nghiệm khả thi đạt $$p = 12$$, bài toán Dual $$\max$$ có nghiệm khả thi đạt $$d = 10$$. Ta kết luận được gì về $$p^*$$?
+   Chắc chắn $$10 \le d^* = p^* \le 12$$ (giá trị tối ưu nằm trong đoạn $$[10, 12]$$; nếu có cặp nào đạt $$d = 12$$ thì lập tức kết luận tối ưu!).
+2. **Bẫy 2 — Ví dụ cả Primal lẫn Dual đều vô nghiệm:**
+   Xét Primal: $$\min x_1 - x_2$$ s.t. $$x_1 - x_2 \ge 1$$ và $$-x_1 + x_2 \ge 1$$ (hai ràng buộc mâu thuẫn nhau nên Primal vô nghiệm!).
+   Dual: $$\max u_1 + u_2$$ s.t. $$u_1 - u_2 = 1$$, $$-u_1 + u_2 = -1$$? Nếu đổi hàm mục tiêu Primal thành $$x_1 + x_2$$ thì Dual đòi $$u_1 - u_2 = 1$$ và $$-u_1 + u_2 = 1$$ (vô nghiệm nốt!). Vậy cả hai cùng vô nghiệm là **hoàn toàn có thể xảy ra**!
+3. **Bẫy 3 — Đọc nhanh biến đối ngẫu từ điều kiện bù:**
+   Giả sử tại nghiệm tối ưu $$x^* = (2, 1)$$, ràng buộc $$x_1 + 2x_2 \le 10$$ có vế trái $$2 + 2 = 4 < 10$$ (còn dư $$6$$ đơn vị). Không cần giải bài toán đối ngẫu, ta biết ngay giá bóng tương ứng $$v^* = 0$$!
+4. **Bẫy 4 — Giá trị trò chơi ma trận đối xứng:** Với ma trận chi trả phản đối xứng $$P^T = -P$$ (như Oẳn Tù Tì), giá trị trò chơi $$v^*$$ luôn bằng đúng $$0$$ vì hai người chơi có vai trò hoàn toàn bình đẳng.
+
 ## Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:

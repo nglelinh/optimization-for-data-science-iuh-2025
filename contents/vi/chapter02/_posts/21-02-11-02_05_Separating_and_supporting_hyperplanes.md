@@ -10,6 +10,34 @@ lang: vi
 lesson_type: required
 ---
 
+Nếu bạn đặt hai quả bóng không chạm nhau trên mặt bàn, bạn luôn có thể luồn một tờ giấy phẳng vào giữa để tách hẳn chúng về hai phía. Điều tưởng chừng hiển nhiên trong thế giới 3D ấy lại là một trong những định lý sâu sắc và hữu ích nhất của giải tích lồi: **Định lý siêu phẳng phân tách** (Separating Hyperplane Theorem) và người anh em sinh đôi **Định lý siêu phẳng hỗ trợ** (Supporting Hyperplane Theorem).
+
+Chính định lý phân tách này là công cụ đứng sau bổ đề Farkas, định lý đối ngẫu mạnh Slater, và thuật toán biên cực đại của Máy vector hỗ trợ (SVM)!
+
+## Bản đồ kiến thức nền: Hình học phân tách và tiếp xúc biên
+
+- **Định lý siêu phẳng phân tách:** Nếu $$C$$ và $$D$$ là hai tập lồi khác rỗng rời nhau ($$C \cap D = \emptyset$$), luôn tồn tại $$a \ne 0$$ và $$b$$ sao cho $$a^T x \le b\ \forall x \in C$$ và $$a^T y \ge b\ \forall y \in D$$.
+- **Phân tách nghiêm ngặt (Strict Separation):** Nếu thêm điều kiện $$C, D$$ đóng và ít nhất một tập bị chặn (compact), ta có khoảng cách dương thực sự giữa hai tập và tách được bằng dấu chặt $$a^T x < b < a^T y$$.
+- **Định lý siêu phẳng hỗ trợ:** Tại **mọi điểm biên** $$x_0 \in \partial C$$ của một tập lồi $$C$$, luôn tồn tại một siêu phẳng đi qua $$x_0$$ "đỡ" toàn bộ tập $$C$$ về một phía: $$a^T x \le a^T x_0\ \forall x \in C$$. Đây là bản mở rộng hình học của tiếp tuyến khi biên có góc nhọn!
+- **Bẫy với tập không lồi:** Với hai tập không lồi rời nhau (ví dụ một hình trăng khuyết ôm lấy một hình tròn), không thể tồn tại siêu phẳng phẳng nào tách được chúng.
+
+### Khung giải thích (nên đọc chậm): Dựng tay siêu phẳng phân tách và hỗ trợ cho hai hình tròn rời nhau
+
+Xét hai hình tròn đóng (compact, lồi) trong $$\mathbb{R}^2$$:
+$$C = \{x : \|x\|_2 \le 1\} \quad (\text{tâm } (0,0)), \qquad D = \{x : \|x - (4, 0)\|_2 \le 1\} \quad (\text{tâm } (4,0)).$$
+
+1. **Tìm cặp điểm gần nhau nhất giữa $$C$$ và $$D$$:**
+   - Trên $$C$$ là $$c^* = (1, 0)^T$$; trên $$D$$ là $$d^* = (3, 0)^T$$. Khoảng cách tối thiểu là $$\|d^* - c^*\|_2 = 2 > 0$$.
+2. **Dựng siêu phẳng phân tách nghiêm ngặt (đường trung trực đoạn $$c^* d^*$$):**
+   - Vector pháp tuyến: $$a = d^* - c^* = (2, 0)^T$$.
+   - Trung điểm: $$m = \frac{c^* + d^*}{2} = (2, 0)^T \implies b = a^T m = 2(2) + 0(0) = 4$$.
+   - Siêu phẳng phân tách là $$2x_1 = 4 \iff x_1 = 2$$.
+   - Kiểm chứng: Với mọi $$x \in C$$, $$x_1 \le 1 < 2$$; với mọi $$y \in D$$, $$y_1 \ge 3 > 2$$ (tách chặt với lề rộng $$1$$ đơn vị mỗi bên!).
+3. **Dựng siêu phẳng hỗ trợ của $$C$$ tại điểm biên $$c^* = (1, 0)$$:**
+   Lấy cùng pháp tuyến $$a = (1, 0)^T$$ đi qua $$c^*$$: siêu phẳng $$x_1 = 1$$ thỏa $$x_1 \le 1 = a^T c^*$$ với mọi $$x \in C$$.
+
+---
+
 Phần này giới thiệu hai định lý cơ bản đặc trưng cho tập lồi: **định lý siêu phẳng phân tách** và **định lý siêu phẳng hỗ trợ**.
 
 ## Định lý siêu phẳng phân tách

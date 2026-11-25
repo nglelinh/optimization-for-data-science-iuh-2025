@@ -12,6 +12,37 @@ redirect_from:
   - /contents/vi/chapter07/07_08_Quiz_Subgradient/
 ---
 
+Chuyển từ đạo hàm cổ điển $$\nabla f(x)$$ sang tập vi phân dưới $$\partial f(x)$$ đòi hỏi một sự dịch chuyển tư duy rất thú vị: thay vì một vector duy nhất, giờ bạn làm việc với cả một tập hợp vector; thay vì hướng âm gradient luôn làm giảm hàm, giờ hướng âm subgradient đôi khi lại làm hàm **tăng tạm thời**; và quy tắc nhân hằng số đột ngột mất hiệu lực với số âm!
+
+Bộ bài tập trắc nghiệm này giúp bạn kiểm tra sắc bén mọi định nghĩa, ví dụ mẫu, phép tính vi phân dưới và điều kiện tối ưu của Chương 07 — đảm bảo bạn không bao giờ rơi vào các bẫy trực giác từ giải tích trơn.
+
+## Bản đồ kiến thức nền: Bốn điểm dễ nhầm nhất khi làm trắc nghiệm Chương 07
+
+Trước khi bắt đầu trả lời các câu hỏi, hãy rà nhanh bốn quy tắc phân biệt sau:
+
+- **Bẫy 1 — Subgradient không nhất thiết là hướng giảm:** Tại điểm gãy khúc, chọn một $$g \in \partial f(x)$$ rồi đi theo hướng $$-g$$ có thể làm $$f(x - tg) > f(x)$$ với mọi $$t > 0$$! Điều duy nhất được đảm bảo là $$-g$$ tạo góc nhọn với hướng đi về nghiệm tối ưu $$x^\star - x$$ (tức $$g^T(x - x^\star) \ge f(x) - f(x^\star) > 0$$).
+- **Bẫy 2 — Quy tắc nhân hằng số âm:** $$\partial(af) = a\partial f$$ chỉ đúng với $$a > 0$$! Với $$a < 0$$, hàm $$af$$ chuyển sang lõm nên không còn áp dụng quy tắc vi phân dưới lồi.
+- **Bẫy 3 — Cực đại hữu hạn chỉ lấy các nhánh TÍCH CỰC:** Với $$f(x) = \max(f_1(x), f_2(x), f_3(x))$$, nếu tại $$x_0$$ có $$f_1(x_0) = f_2(x_0) > f_3(x_0)$$, thì $$\partial f(x_0) = \operatorname{conv}(\partial f_1(x_0) \cup \partial f_2(x_0))$$ — **tuyệt đối không** đưa $$\partial f_3(x_0)$$ vào!
+- **Bẫy 4 — Hình dạng $$\partial \|x\|_2$$ tại $$0$$ vs. $$\partial \|x\|_1$$ tại $$0$$:** Tại $$x = 0$$, $$\partial \|0\|_2$$ là **hình cầu Euclidean đơn vị** $$\{g : \|g\|_2 \le 1\}$$, còn $$\partial \|0\|_1$$ là **hình lập phương đơn vị** $$\{g : \|g\|_\infty \le 1\}$$ (tức là quả cầu đơn vị của *chuẩn đối ngẫu*!).
+
+### Khung giải thích (nên đọc chậm): Phản ví dụ 2 chiều chứng minh $$-g$$ có thể KHÔNG phải hướng giảm!
+
+Xét hàm lồi không trơn $$f(x_1, x_2) = |x_1| + 2|x_2|$$ tại điểm $$x = (0, 1)^T$$ (giá trị $$f(0, 1) = 2$$):
+
+1. **Bước 1 — Tính vi phân dưới tại $$(0, 1)$$:**
+   Vì $$x_1 = 0$$ và $$x_2 = 1 > 0$$, ta có $$\partial f(0, 1) = [-1, 1] \times \{2\}$$.
+2. **Bước 2 — Chọn một subgradient hợp lệ $$g = (1, 2)^T \in \partial f(0, 1)$$ và thử bước đi theo hướng $$-g = (-1, -2)^T$$:**
+   Điểm mới với bước nhỏ $$t > 0$$ (ví dụ $$t = 0.1$$):
+   $$x_{\text{new}} = (0, 1) - 0.1(1, 2) = (-0.1,\; 0.8) \implies f(x_{\text{new}}) = 0.1 + 2(0.8) = 1.7 < 2$$ (lần này giảm!).
+3. **Bước 3 — Bây giờ đổi hàm sang $$f(x_1, x_2) = |x_1| + 2|x_2 - x_1|$$ tại $$(1, 1)$$ (nơi $$f(1,1) = 1$$):**
+   Tại $$(1, 1)$$, nhánh $$|x_1|$$ có đạo hàm $$(1, 0)$$, nhánh $$2|x_2 - x_1|$$ có subgradient $$2s(-1, 1)$$ với $$s \in [-1, 1]$$.
+   Chọn $$s = 1$$ cho $$g = (1, 0) + (-2, 2) = (-1, 2)^T \in \partial f(1, 1)$$.
+   Đi theo hướng $$-g = (1, -2)^T$$ một bước nhỏ $$t > 0$$ đến $$(1 + t,\; 1 - 2t)$$:
+   $$f(1 + t,\; 1 - 2t) = (1 + t) + 2|-3t| = 1 + 7t > 1 = f(1, 1) \quad \forall t > 0!$$
+   Hàm mục tiêu **tăng lên với mọi bước $$t > 0$$**, nhưng khoảng cách bình phương tới nghiệm $$(0,0)$$ vẫn co lại với $$t$$ đủ nhỏ! Đó là lý do Phương pháp Subgradient phải luôn lưu lại giá trị tốt nhất $$f_{\text{best}}^{(k)} = \min_{i \le k} f(x^{(i)})$$!
+
+---
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:

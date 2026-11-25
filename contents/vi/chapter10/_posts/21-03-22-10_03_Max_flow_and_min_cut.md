@@ -9,6 +9,35 @@ categories:
 lang: vi
 ---
 
+Năm 1956, hai nhà toán học Lester Ford và Delbert Fulkerson chứng minh một trong những định lý đẹp nhất của toán rời rạc: trong bất kỳ mạng đường ống nào nối từ nguồn $$s$$ đến đích $$t$$, **lượng nước tối đa chảy qua được mạng (max flow)** luôn bằng chính xác **tổng sức chứa nhỏ nhất của một lát cắt chia đôi mạng ngăn cách $$s$$ khỏi $$t$$ (min cut)**!
+
+Ở môn Cấu trúc dữ liệu & Giải thuật, người ta thường chứng minh định lý này bằng thuật toán đường tăng luồng (augmenting paths). Nhưng góc nhìn của Chương 10 còn ngoạn mục hơn thế: khi viết bài toán luồng cực đại dưới dạng một quy hoạch tuyến tính rồi bật "cỗ máy lấy đối ngẫu LP" lên một cách hoàn toàn cơ học, **bài toán lát cắt cực tiểu tự động hiện ra ngay trước mắt như bản sao đối ngẫu của luồng cực đại!** Sự đồng nhất giữa hai bài toán tưởng chừng thuộc hai nhánh khác nhau của lý thuyết đồ thị hóa ra chỉ là một hệ quả thanh lịch của đối ngẫu mạnh LP.
+
+## Bản đồ kiến thức nền: Bốn trụ cột nối lý thuyết đồ thị với đối ngẫu LP
+
+- **Mô hình LP của bài toán luồng cực đại (Max Flow):** Biến gốc là lưu lượng $$f_{ij}$$ trên mỗi cung $$(i, j) \in E$$, bị chặn sức chứa $$0 \le f_{ij} \le c_{ij}$$ và thỏa định luật bảo toàn luồng tại mọi đỉnh trung gian (tổng vào = tổng ra). Mục tiêu là cực đại hóa tổng lưu lượng rời nguồn $$s$$.
+- **Ý nghĩa biến đối ngẫu — Thế năng đỉnh $$b_i$$ và giá nghẽn cung $$a_{ij}$$:** Khi lấy đối ngẫu LP, ràng buộc bảo toàn luồng ở mỗi đỉnh $$i$$ sinh ra một biến đối ngẫu $$b_i$$ (như "nhãn" phân chia đỉnh vào phía nguồn $$S$$ hay phía đích $$T$$), còn ràng buộc sức chứa cung $$f_{ij} \le c_{ij}$$ sinh ra biến $$a_{ij} \ge 0$$ (bằng $$1$$ nếu cung $$(i, j)$$ bị cắt ngang từ $$S$$ sang $$T$$, bằng $$0$$ nếu không).
+- **Tính toàn nguyên (Total Unimodularity):** Một phép màu đại số của ma trận liên thuộc đỉnh–cung: dù ta giải bản nới lỏng LP liên tục ($$a_{ij}, b_i \in \mathbb{R}$$), mọi đỉnh cực biên của đa diện đối ngẫu đều có tọa độ **nguyên $$0$$ hoặc $$1$$**! Vì thế giá trị tối ưu LP liên tục trùng khít với lát cắt cực tiểu rời rạc!
+- **Đối ngẫu yếu = Lát cắt luôn chặn trên luồng:** Bất kỳ lát cắt nào cũng chặn trên mọi luồng hợp lệ ($$\text{flow} \le \text{cut}$$); đối ngẫu mạnh khẳng định dấu bằng luôn đạt được ($$\max\text{flow} = \min\text{cut}$$).
+
+### Khung giải thích (nên đọc chậm): Tính tay Max Flow và Min Cut trên mạng 4 đỉnh
+
+Xét đồ thị có hướng gồm 4 đỉnh $$\{s, a, b, t\}$$ và 5 cung với sức chứa:
+- $$s \to a$$ (cap $$3$$), $$s \to b$$ (cap $$2$$),
+- $$a \to b$$ (cap $$1$$),
+- $$a \to t$$ (cap $$2$$), $$b \to t$$ (cap $$3$$).
+
+1. **Tìm một luồng khả thi (Bài toán gốc — Max Flow):**
+   - Đẩy $$2$$ đơn vị theo đường $$s \to a \to t$$.
+   - Đẩy $$1$$ đơn vị theo đường $$s \to a \to b \to t$$.
+   - Đẩy $$2$$ đơn vị theo đường $$s \to b \to t$$.
+   Kiểm tra sức chứa từng cung: $$f_{sa} = 3 \le 3$$, $$f_{sb} = 2 \le 2$$, $$f_{ab} = 1 \le 1$$, $$f_{at} = 2 \le 2$$, $$f_{bt} = 3 \le 3$$ (tất cả đều bão hòa!). Bảo toàn luồng tại $$a$$ (vào $$3$$, ra $$2+1=3$$) và tại $$b$$ (vào $$2+1=3$$, ra $$3$$). Tổng luồng rời $$s$$ là $$3 + 2 = 5$$.
+2. **Tìm lát cắt (Bài toán đối ngẫu — Min Cut):**
+   Gán nhãn đối ngẫu: $$b_s = 1$$ (phía nguồn $$S = \{s\}$$), và $$b_a = b_b = b_t = 0$$ (phía đích $$T = \{a, b, t\}$$).
+   Các cung đi từ $$S$$ sang $$T$$ là $$(s, a)$$ và $$(s, b)$$ (nên $$a_{sa} = 1, a_{sb} = 1$$, các cung khác $$a_{ij} = 0$$).
+   Tổng sức chứa lát cắt: $$c_{sa} + c_{sb} = 3 + 2 = 5$$.
+3. **Chốt đối ngẫu mạnh:** Vì $$\text{Flow} = 5 \le \text{Max Flow} \le \text{Min Cut} \le 5$$, ta chứng minh ngay lập tức luồng $$5$$ là cực đại và lát cắt $$\{s\} \mid \{a, b, t\}$$ là cực tiểu!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

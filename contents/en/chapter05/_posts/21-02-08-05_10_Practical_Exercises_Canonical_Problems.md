@@ -12,6 +12,35 @@ redirect_from:
   - /contents/en/chapter05/05_08_Practical_Exercises_Canonical_Problems/
 ---
 
+Mastering canonical forms means being able to take a plain-English engineering or economics story—a diet plan, a portfolio risk cap, a robust sensor design, or an eigenvalue bound—and translate it cleanly into standard matrix notation ready for a solver. These practical exercises walk you across the entire LP $$\to$$ QP $$\to$$ SOCP $$\to$$ SDP ladder so you can build and verify canonical models with confidence.
+
+## Background Knowledge Map: From Word Problem to Canonical Matrices
+
+1. **Identifying Decision Variables & Units**: Always declare your decision vector $$x \in \mathbb{R}^n$$ with explicit physical units (servings, dollars, portfolio weights, watts) before writing a single inequality—unit mismatches are the #1 source of modeling bugs.
+2. **Mapping Problem Structure to the Right Cone**:
+   - Linear cost + linear resource bounds $$\to$$ **LP**.
+   - Squared error or variance objective + linear bounds $$\to$$ **QP**.
+   - Euclidean distance, worst-case ellipsoidal uncertainty, or norm cap $$\to$$ **SOCP**.
+   - Eigenvalue bounds or matrix covariance constraints $$\to$$ **SDP**.
+3. **Checking Positive Semidefiniteness Before Calling a QP/QCQP Solver**: Always symmetrize $$P \leftarrow \frac{1}{2}(P + P^T)$$ and verify all eigenvalues of $$P$$ are $$\ge 0$$ (e.g., via Sylvester's criterion on small problems) so your model is genuinely convex.
+4. **Sanity-Checking Solutions Against Physical Bounds**: After solving, check primal feasibility (every constraint satisfied), identify which constraints are binding (zero slack), and confirm the objective value beats an obvious naive baseline.
+
+### Step-by-Step Worked Example (Read Slowly): Warm-Up Mini-Diet LP Solved by Hand
+
+Suppose two foods provide protein and vitamin C: Food A costs \\$2/unit (3g protein, 1mg vitamin C) and Food B costs \\$3/unit (1g protein, 3mg vitamin C). Meet at least 6g protein and 6mg vitamin C at minimum cost.
+
+1. **Formulate the LP**: Let $$x_1, x_2 \ge 0$$ be units of Food A and Food B.
+   $$\min_{x_1, x_2 \ge 0} \quad 2x_1 + 3x_2 \quad \text{subject to} \quad 3x_1 + x_2 \ge 6, \quad x_1 + 3x_2 \ge 6.$$
+2. **Locate the corner points of the unbounded upper-right feasible region**:
+   - On $$x_2 = 0$$: $$3x_1 \ge 6$$ and $$x_1 \ge 6 \implies v_1 = (6, 0)$$.
+   - On $$x_1 = 0$$: $$x_2 \ge 6$$ and $$3x_2 \ge 6 \implies v_2 = (0, 6)$$.
+   - Intersection of $$3x_1 + x_2 = 6$$ and $$x_1 + 3x_2 = 6$$: adding gives $$4(x_1 + x_2) = 12 \implies x_1 + x_2 = 3$$; subtracting gives $$2(x_1 - x_2) = 0 \implies x_1 = x_2 = 1.5$$, giving $$v_3 = (1.5, 1.5)$$.
+3. **Evaluate total cost $$C(x_1, x_2) = 2x_1 + 3x_2$$ at each corner**:
+   - $$C(6, 0) = 12$$,
+   - $$C(0, 6) = 18$$,
+   - $$C(1.5, 1.5) = 2(1.5) + 3(1.5) = 3 + 4.5 = 7.5$$.
+4. **Verify optimality**: Because the cost vector $$(2, 3) > 0$$ points strictly into the positive orthant, the objective is bounded below and achieves its unique minimum of **\\$7.50** at $$(1.5, 1.5)$$, where both nutrient requirements bind exactly ($$3(1.5) + 1.5 = 6$$ and $$1.5 + 3(1.5) = 6$$).
+
 # Practical Exercises - Canonical Problems
 
 The exercises are adapted from Boyd & Vandenberghe (2004) and Ben-Tal & Nemirovski (2001).

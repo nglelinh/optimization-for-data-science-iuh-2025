@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter15/15_10_Practical_Exercises_Barrier_Method/
 ---
 
+Working through barrier-method exercises by hand builds deep intuition for what modern solvers like Clarabel do inside every iteration: computing exact barrier gradients and Hessians, deriving closed-form central paths on small LPs and QPs, verifying the $$m/t$$ duality gap, and formulating Phase I feasibility problems. Keep this four-pillar playbook handy as you solve the exercises below.
+
+## Background Knowledge Map: Exercise-Solving Playbook for Chapter 15
+
+- **Pillar 1 — Sign Hygiene in $$\phi(x)$$:** Always rewrite every inequality in the canonical form $$h_i(x) \le 0$$ first (so $$-h_i(x) > 0$$ inside the logarithm!). For example, $$x \ge a$$ becomes $$h(x) = a - x \le 0$$, giving $$-\log(x - a)$$.
+- **Pillar 2 — Computing Central Paths Analytically:** Set $$t\nabla f(x) + \nabla\phi(x) = 0$$, clear denominators to obtain a polynomial equation, and select the unique root lying strictly inside the feasible domain $$h_i(x) < 0$$.
+- **Pillar 3 — Dual Variable & Gap Verification:** After finding $$x^*(t)$$, always compute $$u_i(t) = -\frac{1}{t h_i(x^*(t))}$$ and check both stationarity and $$f(x^*(t)) - f^\star \le \frac{m}{t}$$ as a built-in algebraic error detector.
+- **Pillar 4 — Newton Step Inside the Barrier:** Remember to include **both** $$t\nabla^2 f(x)$$ and $$\nabla^2 \phi(x)$$ in the Hessian of the centering problem, and never let a trial step jump outside $$h_i(x + tv) < 0$$ during backtracking.
+
+### Step-by-Step Worked Example (Read Slowly): One Full Centering Newton Step on a Barrier Problem
+
+Minimize $$f(x) = 2x$$ subject to $$x \ge 1$$ ($$h_1(x) = 1 - x \le 0$$) using the barrier problem $$\Phi_t(x) = 2tx - \log(x - 1)$$ at $$t = 1$$, starting from the strictly feasible point $$x^{(0)} = 2$$.
+
+1. **Compute exact central-path target (for reference):**
+   $$\Phi_1'(x) = 2 - \frac{1}{x - 1} = 0 \implies x^*(1) = 1.5.$$
+2. **Compute gradient and Hessian of $$\Phi_1(x)$$ at $$x^{(0)} = 2$$:**
+   - $$\Phi_1'(2) = 2 - \frac{1}{2 - 1} = 1$$.
+   - $$\Phi_1''(2) = \frac{1}{(2 - 1)^2} = 1$$.
+3. **Compute the pure Newton step:**
+   $$\Delta x_{\text{nt}} = -\frac{\Phi_1'(2)}{\Phi_1''(2)} = -\frac{1}{1} = -1 \implies x^{(0)} + \Delta x_{\text{nt}} = 2 - 1 = 1!$$
+4. **Domain-safety catch!** Notice $$x = 1$$ lands right on the boundary where $$\log(x - 1) = -\infty$$! Backtracking immediately halves $$t_{\text{step}} = 0.5$$:
+   $$x^{(1)} = 2 + 0.5(-1) = 1.5 = x^*(1)!$$
+   This tiny example illustrates *both* why domain-checking in backtracking is mandatory and how rapidly Newton centers once inside the domain.
+
 # Practical Exercises - The Barrier Method
 
 The exercises are adapted from Boyd & Vandenberghe (2004), Nocedal & Wright (2006), and Nesterov (2004).

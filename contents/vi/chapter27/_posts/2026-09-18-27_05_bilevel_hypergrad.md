@@ -10,6 +10,41 @@ lang: vi
 lesson_type: optional
 ---
 
+Ở các bài trước, ta học cách lấy đạo hàm của hàm mất mát theo trọng số $$w$$ với tốc độ học $$\eta$$ và hệ số phạt $$\lambda$$ cố định. Nhưng câu hỏi lớn tiếp theo trong thực hành học máy là: *làm sao tự động tối ưu chính các siêu tham số $$\lambda$$ (như hệ số chính quy hóa, trọng số dữ liệu, hay kiến trúc mạng) bằng gradient thay vì mò mẫm bằng tìm kiếm lưới (grid search)?*
+
+Đó chính là thế giới của **Tối ưu hai mức (Bilevel Optimization)** và **Siêu gradient (Hypergradient)**: bản thân nghiệm tối ưu $$w^\star(\lambda)$$ của bài toán huấn luyện bên trong lại là một hàm số phụ thuộc vào $$\lambda$$, và ta cần kéo đạo hàm của hàm mất mát kiểm định bên ngoài *xuyên qua* cả một quy trình tối ưu hóa bên trong!
+
+## Bản đồ kiến thức nền: Ba trụ cột của Tối ưu hai mức và Siêu gradient
+
+Hai phương pháp tính siêu gradient trong bài học này dựa trên ba trụ cột toán học sâu sắc:
+
+- **Cấu trúc lồng nhau (Upper-Level vs. Lower-Level):** Bài toán ngoài cực tiểu hóa rủi ro kiểm định $$F(w^\star(\lambda), \lambda)$$ theo siêu tham số $$\lambda$$, bị ràng buộc bởi điều kiện $$w^\star(\lambda) \in \arg\min_w L(w, \lambda)$$ của bài toán huấn luyện trong. Tổng đạo hàm gồm hai nhánh: tác động trực tiếp $$\nabla_\lambda F$$ và tác động gián tiếp $$\bigl(\frac{\partial w^\star}{\partial \lambda}\bigr)^T \nabla_w F$$.
+- **Vi phân ẩn bằng Định lý Hàm ẩn (Implicit Differentiation):** Tại nghiệm tối ưu trong, $$\nabla_w L(w^\star(\lambda), \lambda) = 0$$. Lấy đạo hàm hai vế theo $$\lambda$$ cho ta hệ phương trình tuyến tính $$\nabla_{ww}^2 L \cdot \frac{\partial w^\star}{\partial \lambda} + \nabla_{w\lambda}^2 L = 0$$. Điểm kỳ diệu là ta **không cần lưu lịch sử vòng lặp huấn luyện trong** — chỉ cần giải hệ tuyến tính (bằng Conjugate Gradient + HVP) ngay tại điểm hội tụ $$w^\star$$!
+- **Trải phẳng vòng lặp (Unrolling / Differentiating through Optimization):** Nếu bài toán trong chỉ chạy $$K$$ bước SGD/GD, ta coi cả $$K$$ bước đó như một đồ thị tính toán lớn rồi chạy AD chiều nghịch xuyên qua tất cả $$K$$ bước. Dễ cài bằng PyTorch/JAX khi $$K$$ nhỏ (như MAML trong meta-learning), nhưng bộ nhớ tăng tuyến tính theo $$K$$ và dễ mất ổn định khi $$K$$ lớn.
+
+### Khung giải thích (nên đọc chậm): Tính tay Siêu gradient bằng Định lý Hàm ẩn cho Hồi quy Ridge
+
+Xét bài toán hai mức 1 chiều cực kỳ trong sáng: chọn hệ số phạt $$\lambda > 0$$ để cực tiểu hóa mất mát kiểm định (ngoài) $$F(w) = \frac{1}{2}(w - 2)^2$$, trong khi bài toán huấn luyện (trong) là hồi quy Ridge:
+
+$$
+w^\star(\lambda) = \arg\min_{w \in \mathbb{R}}\ L(w, \lambda) = \arg\min_w \left[\frac{1}{2}(w - 4)^2 + \frac{\lambda}{2} w^2\right].
+$$
+
+Hãy tính siêu gradient $$\frac{dF(w^\star(\lambda))}{d\lambda}$$ tại điểm thử hiện tại $$\lambda = 3$$ bằng **Định lý Hàm ẩn**:
+
+1. **Giải bài toán trong tại $$\lambda = 3$$:**
+   Điều kiện tối ưu bậc nhất $$\nabla_w L(w, \lambda) = (w - 4) + \lambda w = 0 \implies w^\star(\lambda) = \frac{4}{1 + \lambda}$$.
+   Tại $$\lambda = 3$$, ta nhận được $$w^\star(3) = \frac{4}{1 + 3} = 1$$.
+2. **Tính các đạo hàm bậc hai cục bộ của $$L$$ tại $$(w^\star, \lambda) = (1, 3)$$:**
+   - Hessian theo $$w$$: $$\nabla_{ww}^2 L = 1 + \lambda = 1 + 3 = 4$$.
+   - Đạo hàm hỗn hợp theo $$w, \lambda$$: $$\nabla_{w\lambda}^2 L = w^\star = 1$$.
+3. **Áp dụng Định lý Hàm ẩn tìm độ nhạy $$\frac{dw^\star}{d\lambda}$$:**
+   $$\frac{dw^\star}{d\lambda} = -\bigl(\nabla_{ww}^2 L\bigr)^{-1} \nabla_{w\lambda}^2 L = -\frac{1}{4} = -0.25.$$
+   (Kiểm tra trực tiếp từ công thức đóng $$w^\star(\lambda) = 4(1+\lambda)^{-1}$$: đạo hàm là $$-4(1+3)^{-2} = -4/16 = -0.25$$ — khớp tuyệt đối!).
+4. **Áp dụng quy tắc dây chuyền ra Siêu gradient:**
+   Vì $$\nabla_w F(w^\star) = w^\star - 2 = 1 - 2 = -1$$ và $$\nabla_\lambda F = 0$$:
+   $$\frac{dF}{d\lambda}\Big|_{\lambda=3} = \nabla_w F(w^\star) \cdot \frac{dw^\star}{d\lambda} = (-1)(-0.25) = +0.25 > 0.$$
+   **Ý nghĩa trực giác:** Siêu gradient dương ($$+0.25$$) báo ngay cho ta biết phải **giảm $$\lambda$$** xuống để hạ mất mát kiểm định $$F$$ — hoàn toàn đúng vì giảm $$\lambda$$ từ $$3$$ về $$1$$ sẽ đẩy $$w^\star$$ từ $$1$$ lên đúng đích kiểm định $$w^\star(1) = 2$$!
 
 Các Chương 26–27 xét bài toán huấn luyện mô hình bằng cách lấy đạo hàm một hàm mất mát *đơn* theo vector trọng số. Tuy nhiên, nhiều bài toán học máy hiện đại lại có cấu trúc tối ưu **lồng nhau (hai mức)**: bản thân trọng số $$w^\star(\lambda)$$ là nghiệm của một bài toán tối ưu bên trong phụ thuộc vào siêu tham số $$\lambda$$, và ta cần lấy đạo hàm của mục tiêu *bên ngoài* xuyên qua nghiệm đó. Bài đọc tùy chọn này giới thiệu khuôn khổ tối ưu hai mức (bilevel optimization) và khái niệm **siêu gradient (hypergradient)** — bổ sung ứng dụng cho AD ở các mục 27-01 đến 27-03.
 

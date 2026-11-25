@@ -12,6 +12,31 @@ redirect_from:
   - /contents/vi/chapter15/15_09_Quiz_Barrier_Method/
 ---
 
+Phương pháp chắn kết nối rất nhiều chi tiết tinh tế từ cả Chương 13 (đối ngẫu) và Chương 14 (Newton & tự hài hòa): vì sao khoảng cách đối ngẫu lại bằng đúng $$m/t$$ chứ không phụ thuộc $$n$$? Vì sao v.0 bị hỏng còn v.1 lại chạy mượt? Tại sao chọn $$\mu$$ quá lớn hay quá nhỏ đều không tốt? Và tại sao Pha I chỉ cần dừng ngay khi $$s < 0$$?
+
+Bộ câu hỏi trắc nghiệm này giúp bạn kiểm tra sắc bén toàn bộ chuỗi lập luận của Chương 15 — từ hàm chắn logarit, đường trung tâm, KKT nhiễu, khoảng cách dưới tối ưu, đến các phiên bản thuật toán v.0/v.1/v.2 và Pha I. Hãy lướt qua bốn điểm hay gài bẫy nhất trước khi vào bài.
+
+## Bản đồ kiến thức nền: Bốn điểm hay nhầm lẫn nhất trong trắc nghiệm Chương 15
+
+- **$$m$$ là số ràng buộc bất đẳng thức, KHÔNG phải số chiều $$n$$ hay số ràng buộc đẳng thức:** Công thức $$f(x^*(t)) - f^* \le m/t$$ chỉ đếm số hàm bất đẳng thức $$h_i(x) \le 0$$ tạo nên hàm chắn $$\phi(x)$$ (ràng buộc đẳng thức $$Ax = b$$ không nằm trong $$\phi$$ nên không đóng góp vào $$m$$!).
+- **Hàm mục tiêu chắn $$t f(x) + \phi(x)$$ vs. $$f(x) + \frac{1}{t}\phi(x)$$:** Hai dạng có cùng nghiệm $$x^*(t)$$, nhưng dạng $$t f(x) + \phi(x)$$ giữ nguyên tính tự hài hòa của $$\phi(x)$$ khi $$t$$ lớn.
+- **Tâm giải tích ($$t \to 0$$) vs. Nghiệm tối ưu ($$t \to \infty$$):** Đầu $$t \to 0$$ là tâm giải tích (chỉ phụ thuộc hình học ràng buộc); đầu $$t \to \infty$$ mới là nghiệm tối ưu $$x^*$$.
+- **Điều kiện dừng Pha I:** Không cần đợi Pha I hội tụ đến cực tiểu $$s^*$$; ngay khi tìm được bất kỳ cặp $$(x, s)$$ nào có $$s < 0$$ là $$x$$ đã khả thi chặt cho bài toán gốc (còn nếu $$s^* > 0$$ thì bài toán gốc vô nghiệm).
+
+### Khung giải thích (nên đọc chậm): Giải mẫu câu hỏi bẫy về số ràng buộc $$m$$ khi có cả ràng buộc đẳng thức
+
+**Câu hỏi mẫu:** Một bài toán quy hoạch tuyến tính có $$n = 50$$ biến, $$p = 15$$ ràng buộc đẳng thức $$Ax = b$$, và $$m = 20$$ ràng buộc bất đẳng thức $$h_i(x) \le 0$$. Nếu điểm đường trung tâm $$x^*(t)$$ ứng với $$t = 100$$, chặn trên chắc chắn cho $$f(x^*(100)) - f^*$$ là bao nhiêu?
+
+1. **Phân loại các ràng buộc:**
+   - $$n = 50$$: số chiều biến $$x$$ — **không** xuất hiện trong công thức $$m/t$$.
+   - $$p = 15$$: số ràng buộc đẳng thức $$Ax = b$$ — được giữ nguyên trực tiếp trong phương pháp Newton có ràng buộc đẳng thức, **không** đưa vào hàm chắn logarit!
+   - $$m = 20$$: số ràng buộc bất đẳng thức — mỗi ràng buộc đóng góp đúng $$-\frac{1}{t}$$ vào hiệu $$g(u^*(t), v^*(t)) - f(x^*(t))$$.
+2. **Tính khoảng cách dưới tối ưu:**
+   $$f(x^*(100)) - f^* \le \frac{m}{t} = \frac{20}{100} = 0.2.$$
+   (Nhiều bạn dễ nhầm lấy $$(20 + 15)/100 = 0.35$$ hoặc $$50/100 = 0.5$$ — hãy nhớ chỉ đếm các ràng buộc nằm trong hàm chắn $$\phi$$!).
+
+---
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập trắc nghiệm, hãy ôn lại các khái niệm chính của chương này:

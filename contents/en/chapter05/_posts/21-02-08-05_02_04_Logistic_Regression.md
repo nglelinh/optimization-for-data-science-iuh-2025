@@ -10,6 +10,35 @@ lang: en
 lesson_type: required
 ---
 
+Try predicting whether a tumor is malignant ($$y = 1$$) or benign ($$y = 0$$) using linear regression and two disasters strike immediately: predictions shoot past $$0$$ and $$1$$ into meaningless probabilities like $$-0.4$$ or $$1.7$$, and a single confident outlier drags the entire decision boundary off course. Logistic regression fixes both by passing the linear score $$w^T x$$ through the sigmoid function—and miraculously, the resulting cross-entropy loss is still a smooth, globally convex optimization problem!
+
+## Background Knowledge Map: Convexity Behind Logistic Regression
+
+1. **Log-Odds and the Sigmoid Link**: Modeling the log-odds as linear, $$\ln\frac{p}{1 - p} = w^T x$$, maps any real score $$z = w^T x \in \mathbb{R}$$ smoothly into a calibrated probability $$p = \sigma(z) = \frac{1}{1 + e^{-z}} \in (0, 1)$$.
+2. **Convexity of Binary Cross-Entropy**: For labels $$y_i \in \{0, 1\}$$, the negative log-likelihood is
+   $$J(w) = \sum_{i=1}^m \Bigl[\ln\bigl(1 + e^{w^T x_i}\bigr) - y_i (w^T x_i)\Bigr].$$
+   Its Hessian is $$\nabla^2 J(w) = X^T D X$$ where $$D = \operatorname{diag}\bigl(p_i(1 - p_i)\bigr) \succ 0$$, proving $$J(w)$$ is **globally convex** (and strictly convex whenever $$X$$ has full column rank).
+3. **No Closed-Form Solution, Fast Iterative Solvers**: Unlike linear least squares, $$\nabla J(w) = X^T(p - y) = 0$$ is nonlinear in $$w$$ and cannot be inverted in one shot. Because $$J(w)$$ is smooth and convex, Gradient Descent, L-BFGS, and Newton's Method (Iteratively Reweighted Least Squares, IRLS) converge rapidly to the unique global minimum.
+4. **Linear Separability Requires Regularization**: If two classes are perfectly separable by a hyperplane, pushing $$\|w\|_2 \to \infty$$ drives $$J(w) \to 0$$ with no finite minimizer. Adding $$\frac{\lambda}{2}\|w\|_2^2$$ makes the objective strongly convex and guarantees a finite, well-behaved maximum-margin-like separator.
+
+### Step-by-Step Worked Example (Read Slowly): Computing Gradient, Hessian, and One Newton Step
+
+Consider 1D logistic regression without intercept ($$z_i = w x_i$$) on two points: $$(x_1, y_1) = (1, 1)$$ and $$(x_2, y_2) = (-1, 0)$$, with L2 regularization $$\frac{1}{2}w^2$$ ($$\lambda = 1$$):
+$$J(w) = \ln(1 + e^{w}) - w + \ln(1 + e^{-w}) + \frac{1}{2}w^2.$$
+Start at $$w_0 = 0$$.
+
+1. **Compute predicted probabilities at $$w_0 = 0$$**:
+   $$p_1 = \sigma(0) = 0.5, \qquad p_2 = \sigma(0) = 0.5.$$
+2. **Compute the first derivative (gradient) at $$w_0 = 0$$**:
+   $$J'(w) = x_1(p_1 - y_1) + x_2(p_2 - y_2) + w = 1(0.5 - 1) + (-1)(0.5 - 0) + 0 = -0.5 - 0.5 = -1.$$
+   Since $$J'(0) = -1 < 0$$, increasing $$w$$ reduces the loss.
+3. **Compute the second derivative (Hessian) at $$w_0 = 0$$**:
+   $$J''(w) = x_1^2 p_1(1 - p_1) + x_2^2 p_2(1 - p_2) + 1 = 1(0.25) + 1(0.25) + 1 = 1.5 > 0.$$
+   (Strictly positive, confirming strict convexity!)
+4. **Take one Newton step**:
+   $$w_1 = w_0 - \frac{J'(w_0)}{J''(w_0)} = 0 - \frac{-1}{1.5} = \frac{2}{3} \approx 0.6667.$$
+   Check the drop in loss: $$J(0) = 2\ln 2 \approx 1.3863$$, while at $$w_1 = 2/3$$, $$\ln(1 + e^{2/3}) - \frac{2}{3} + \ln(1 + e^{-2/3}) + \frac{2}{9} = 2\ln(1 + e^{-2/3}) + \frac{2}{9} \approx 2(0.4144) + 0.2222 = 1.0510$$—nearly at the global minimum in a single step!
+
 # Logistic Regression
 
 Logistic regression is one of the most important applications of convex optimization in machine learning, and is widely used for binary classification problems.

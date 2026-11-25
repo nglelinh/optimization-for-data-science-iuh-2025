@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter07/07_08_Quiz_Subgradient/
 ---
 
+Working with sets of slopes instead of single numbers requires a subtle shift in intuition: addition becomes Minkowski set addition, gradients become convex hulls of active branches, and $$f'(x^\star) = 0$$ becomes set membership $$0 \in \partial f(x^\star)$$. This Chapter 07 quiz tests your fluency across subgradient definitions, normal cones, calculus rules, Lasso optimality, soft-thresholding, and distance-function subgradients.
+
+## Background Knowledge Map: Chapter 07 Assessment Pillars
+
+1. **Definition & Existence**: Checking $$f(y) \ge f(x) + g^T(y - x)$$ globally, knowing $$\partial f(x)$$ is always closed and convex, and recognizing when $$\partial f(x) = \{\nabla f(x)\}$$ vs. an interval or ball.
+2. **Subgradient Calculus**: Applying positive scaling ($$a > 0$$), Minkowski addition, affine composition ($$A^T \partial f(Ax + b)$$), and the active-set convex-hull rule for pointwise maxima.
+3. **Indicator Functions & Normal Cones**: Translating constrained problems into $$f + I_C$$ using $$\partial I_C(x) = N_C(x)$$ and verifying $$-\nabla f(x^\star) \in N_C(x^\star)$$.
+4. **Universal Optimality & Canonical Examples**: Testing $$0 \in \partial f(x^\star)$$ to solve Lasso correlation conditions, soft-thresholding $$S_\lambda(y)$$, and Euclidean distance gradients $$(x - P_C(x))/\|x - P_C(x)\|_2$$.
+
+### Step-by-Step Worked Example (Read Slowly): Pre-Quiz Subdifferential Check on $$\|x\|_\infty$$
+
+**Warm-Up Question**: Compute $$\partial f(x)$$ for $$f(x_1, x_2) = \|x\|_\infty = \max\{|x_1|, |x_2|\}$$ at the point $$x = (2, -2)$$.
+
+1. **Rewrite as a pointwise maximum of 4 linear functions**:
+   $$f(x) = \max\{x_1,\; -x_1,\; x_2,\; -x_2\}.$$
+2. **Identify the active branches at $$x = (2, -2)$$**:
+   - $$x_1 = 2$$ (active! gradient $$(1, 0)$$),
+   - $$-x_1 = -2$$ (inactive),
+   - $$x_2 = -2$$ (inactive),
+   - $$-x_2 = 2$$ (active! gradient $$(0, -1)$$).
+3. **Take the convex hull of active gradients**:
+   $$\partial f(2, -2) = \operatorname{conv}\!\left\{\begin{bmatrix} 1 \\ 0 \end{bmatrix},\; \begin{bmatrix} 0 \\ -1 \end{bmatrix}\right\} = \left\{\begin{bmatrix} \theta \\ -(1 - \theta) \end{bmatrix} : 0 \le \theta \le 1\right\}.$$
+   Notice every vector $$g \in \partial f(2, -2)$$ satisfies $$\|g\|_1 = \theta + (1 - \theta) = 1$$ (the dual norm of $$\|\cdot\|_\infty$$!) and $$g^T x = 2\theta + 2(1 - \theta) = 2 = \|x\|_\infty$$!
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

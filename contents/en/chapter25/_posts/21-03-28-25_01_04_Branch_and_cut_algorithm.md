@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+For three decades, Branch and Bound and Cutting Planes lived in separate camps: Branch and Bound suffered from weak LP bounds, while pure Cutting Planes bogged down in numerical ill-conditioning. In the early 1990s, Sebastian Ceria, Egon Balas, Gérard Cornuéjols, and Manfred Padberg united them into **Branch and Cut**: run a few rounds of sharp cuts at the root node (and selectively at tree nodes) to tighten the LP relaxation, then branch the moment cuts stop making rapid progress. That single architectural fusion—amplified by presolve, heuristics, and parallelization—drove a documented **billions-fold** speedup in MIP solving between 1990 and today.
+
+## Background Knowledge Map: Architecture of Modern Branch-and-Cut Solvers
+
+- **Root-Node Cut Loops:** Spending extra effort generating Gomory, Mixed-Integer Rounding (MIR), cover, and clique cuts at the root node strengthens *every* descendant in the entire tree simultaneously.
+- **Cut-Then-Branch Balance:** Generating too many cuts bloats the LP basis and slows down every dual simplex pivot; generating too few leaves the tree exponentially large. Solvers use cut-management pools to drop inactive cuts and switch to branching once bound improvement stalls.
+- **Presolve and Conflict Analysis:** Before the first LP even solves, presolve eliminates redundant variables, tightens variable bounds, and strengthens big-$$M$$ constants; during search, conflict analysis learns nogood clauses from infeasible branches (borrowing from SAT solvers).
+- **Local vs. Global Validity of Cuts:** Cuts derived solely from original problem constraints are *globally valid* and can be shared across the entire search tree, whereas cuts derived using a node’s local branching bounds apply only within that subtree.
+
+### Step-by-Step Worked Example (Read Slowly): Tracing One Root Cut + Branch Step in Branch and Cut
+
+Consider $$\max z = 3 x_1 + 2 x_2$$ subject to $$2 x_1 + 2 x_2 \le 5$$, $$x_1 \le 2$$, and $$x_1, x_2 \in \mathbb{Z}_{\ge 0}$$.
+
+1. **Initial LP relaxation at Root:** Pushing $$x_1 = 2$$ (highest coefficient) leaves $$2 x_2 \le 1 \implies x_2 = 0.5$$. So $$x_{\text{LP}} = (2, 0.5)$$ with $$z_{\text{LP}} = 3(2) + 2(0.5) = 7$$.
+2. **Root-Node Cutting Plane (before branching!):** Divide $$2x_1 + 2x_2 \le 5$$ by $$2$$ and round down:
+   $$x_1 + x_2 \le 2.$$
+   Notice $$x_{\text{LP}} = (2, 0.5)$$ has $$2 + 0.5 = 2.5 > 2$$, so the cut slices it off cleanly.
+3. **Re-solve Root LP with the cut:** Maximize $$3x_1 + 2x_2$$ subject to $$x_1 + x_2 \le 2$$, $$x_1 \le 2$$, $$x \ge 0$$.
+   - Pushing $$x_1 = 2$$ forces $$x_2 = 0$$, giving $$x^{(1)} = (2, 0)$$ with $$z = 6$$.
+   - Because $$(2, 0)$$ is already **integer-feasible**, the root node terminates with $$z^\star = 6$$—zero branches required!
+   - By contrast, pure Branch and Bound without the root cut would have had to branch on $$x_2 = 0.5$$ into $$x_2 \le 0$$ (giving $$(2, 0), z = 6$$) and $$x_2 \ge 1$$ (giving $$(1.5, 1), z = 6.5$$), then branch *again* on $$x_1 = 1.5$$—exploring 5 nodes instead of 1.
+
 In 1990, Sebastian Ceria at CMU successfully implemented the cutting plane method using the branch and bound algorithm, which is called branch and cut. Since then, cutting planes have become a core component of commercial optimization solvers.
 
 ## Branch and cut algorithm

@@ -12,6 +12,35 @@ redirect_from:
   - /contents/vi/chapter10/10_07_Practical_Exercises_LP_Duality/
 ---
 
+Biết viết bài toán đối ngẫu trên giấy mới chỉ là bước khởi động; sức mạnh thực sự của đối ngẫu LP nằm ở việc **dùng nó để giải nhanh bài toán, phân tích độ nhạy kinh tế và kiểm định tính tối ưu** trong thực hành. Bộ bài tập thực hành Chương 10 dưới đây tuyển chọn những bài toán kinh điển nhất từ Boyd & Vandenberghe, Bertsimas & Tsitsiklis và Dantzig — trải dài từ lập kế hoạch sản xuất, tối ưu danh mục đầu tư, đến chứng minh tối ưu bằng điều kiện bù.
+
+Điểm đặc biệt giúp bạn giải nhanh bộ bài tập này là kỹ năng **đọc nghiệm đối ngẫu từ nghiệm gốc bằng điều kiện bù (Complementary Slackness)** mà không cần chạy lại thuật toán đơn hình từ đầu. Khung tính tay dưới đây minh họa trọn vẹn kỹ thuật cực kỳ hữu ích ấy chỉ trong vài dòng!
+
+## Bản đồ kiến thức nền: Bốn kỹ năng thực chiến cần dùng trong bộ bài tập thực hành
+
+- **Chuyển đổi dạng hỗn hợp sang bài toán đối ngẫu không sai dấu:** Thành thạo viết bảng đối chiếu giữa 3 loại ràng buộc gốc ($$\le, =, \ge$$) và 3 loại miền biến gốc ($$\ge 0, \text{tự do}, \le 0$$) sang bài toán đối ngẫu.
+- **Kiểm định tối ưu bằng chứng chỉ cặp Primal–Dual:** Để chứng minh $$x^*$$ là tối ưu, chỉ cần tìm một điểm đối ngẫu khả thi $$u^*$$ sao cho $$c^T x^* = b^T u^*$$ — phương pháp ngắn gọn và thuyết phục tuyệt đối.
+- **Khai thác hệ phương trình điều kiện bù (Complementary Slackness):** Tại nghiệm tối ưu, $$u_i^*(a_i^T x^* - b_i) = 0$$ và $$x_j^*(c_j - (A^T u^*)_j) = 0$$. Khi biết các biến gốc dương và ràng buộc gốc chặt, hệ bất đẳng thức đối ngẫu thu gọn thành một **hệ phương trình tuyến tính** giải ra ngay $$u^*$$!
+- **Phân tích độ nhạy (Sensitivity Analysis):** Dùng nghiệm đối ngẫu $$u^*$$ để trả lời các câu hỏi kinh doanh như *"Nên mua thêm bao nhiêu nguyên liệu với giá tối đa bao nhiêu?"* hay *"Nên mở thêm sản phẩm mới không?"*
+
+### Khung giải thích (nên đọc chậm): Dùng điều kiện bù để tìm nhanh giá bóng $$u^*$$ từ nghiệm gốc
+
+Giả sử trong bài toán lập kế hoạch sản xuất:
+$$\max_{x_1, x_2 \ge 0} \; 5x_1 + 4x_2 \quad \text{s.t.} \quad \begin{cases} x_1 + x_2 \le 6 & (\text{nguyên liệu A, giá bóng } u_1 \ge 0) \\ 2x_1 + x_2 \le 10 & (\text{giờ máy B, giá bóng } u_2 \ge 0) \\ x_2 \le 5 & (\text{hạn mức thị trường, giá bóng } u_3 \ge 0) \end{cases}$$
+Bạn đã tìm ra nghiệm gốc tối ưu là $$x^* = (4, 2)$$ với lợi nhuận $$5(4) + 4(2) = 28$$. Hãy tìm nhanh $$u^* = (u_1^*, u_2^*, u_3^*)$$ mà không cần giải lại LP đối ngẫu!
+
+1. **Kiểm tra độ chặt của các ràng buộc gốc tại $$x^* = (4, 2)$$:**
+   - Ràng buộc 1: $$4 + 2 = 6$$ (**chặt**).
+   - Ràng buộc 2: $$2(4) + 2 = 10$$ (**chặt**).
+   - Ràng buộc 3: $$x_2^* = 2 < 5$$ (**lỏng**, dư 3 đơn vị) $$\implies$$ theo điều kiện bù, chắc chắn $$u_3^* = 0$$!
+2. **Dùng điều kiện bù cho các biến gốc dương ($$x_1^* = 4 > 0, x_2^* = 2 > 0$$):**
+   Hai ràng buộc đối ngẫu tương ứng phải trở thành **đẳng thức**:
+   $$\begin{cases} u_1^* + 2u_2^* = 5 \\ u_1^* + u_2^* + u_3^* = 4 \end{cases}$$
+   Thay $$u_3^* = 0$$ vào hệ, trừ vế theo vế ta được ngay: $$u_2^* = 1$$ và $$u_1^* = 3$$ (cả hai đều $$\ge 0$$!).
+3. **Kiểm chứng đối ngẫu mạnh:**
+   Giá trị hàm mục tiêu đối ngẫu: $$6 u_1^* + 10 u_2^* + 5 u_3^* = 6(3) + 10(1) + 5(0) = 28 = p^*$$!
+   Ý nghĩa kinh tế đọc ngay ra được: mỗi đơn vị nguyên liệu A tăng thêm mang lại $$3$$ đơn vị lợi nhuận, mỗi giờ máy B thêm mang lại $$1$$ đơn vị, còn tăng hạn mức thị trường $$x_2 \le 5$$ chẳng tăng thêm đồng nào ($$u_3^* = 0$$)!
+
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Bertsimas & Tsitsiklis (1997) và Dantzig (1963), giúp rèn luyện các kỹ năng xây dựng và vận dụng tính đối ngẫu trong quy hoạch tuyến tính (LP).
 
 ---

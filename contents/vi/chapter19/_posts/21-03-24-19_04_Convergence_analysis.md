@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Nhìn vào bài toán tổng hợp $$f(x) = g(x) + h(x)$$, nhiều người từng nghi ngờ: *sự có mặt của hàm không khả vi $$h(x)$$ có phá hỏng tốc độ hội tụ bậc hai trứ danh của phương pháp Newton không?* Định lý kinh điển của Lee, Sun và Saunders (2014) đã đưa ra câu trả lời đầy bất ngờ: **KHÔNG!** Miễn là phần trơn $$g$$ lồi mạnh và có Hessian liên tục Lipschitz, phương pháp Newton proximal vẫn thừa kế nguyên vẹn hai giai đoạn hội tụ của Newton cổ điển — hội tụ toàn cục nhờ backtracking, rồi bứt tốc **hội tụ bậc hai cục bộ** với bước đơn vị $$t_k = 1$$!
+
+## Bản đồ kiến thức nền: Bốn giả thiết và cơ chế chứng minh hội tụ bậc hai
+
+Để nắm chắc định lý hội tụ của Lee, Sun và Saunders (2014), hãy xem vai trò chính xác của từng giả thiết:
+
+- **Lồi mạnh và trơn của $$g$$ ($$mI \preceq \nabla^2 g(x) \preceq LI$$):** Đảm bảo Hessian $$H_k$$ luôn khả nghịch và có số điều kiện bị chặn bởi $$L/m$$, đồng thời nghiệm tối ưu $$x^\star$$ là duy nhất.
+- **Hessian liên tục Lipschitz ($$\|\nabla^2 g(x) - \nabla^2 g(y)\|_2 \le M\|x - y\|_2$$):** Khống chế sai số của mô hình bậc hai cục bộ ở bậc $$O(\|x - x^\star\|^2)$$, là nguồn gốc trực tiếp tạo ra số mũ bình phương trong hội tụ bậc hai.
+- **Tính điểm bất động và không giãn của $$\operatorname{prox}_H$$:** Nghiệm tối ưu $$x^\star$$ chính là điểm bất động $$x^\star = \operatorname{prox}_H(x^\star - H^{-1}\nabla g(x^\star))$$. Kết hợp với tính không giãn theo chuẩn $$H$$ giúp đánh giá trực tiếp $$\|x^+ - x^\star\|_H$$ theo sai số bậc hai của gradient!
+- **Trường hợp giải gần đúng bài toán con (Inexact Proximal Newton):** Trong thực tế không ai giải bài toán con chính xác tuyệt đối. Miễn là sai số bài toán con giảm nhanh tỉ lệ với $$\|v^{(k)}\|$$ (tiêu chuẩn cưỡng bức Eisenstat–Walker), thuật toán vẫn giữ được hội tụ siêu tuyến tính hoặc bậc hai!
+
+### Khung giải thích (nên đọc chậm): Theo dõi con số hội tụ bậc hai qua công thức $$\|x^{(k+1)} - x^\star\| \le \frac{M}{2m}\|x^{(k)} - x^\star\|^2$$
+
+Giả sử một bài toán tổng hợp có các hằng số $$m = 1$$ (lồi mạnh), $$M = 2$$ (Lipschitz của Hessian). Khi đó hệ số hội tụ bậc hai là $$C = \frac{M}{2m} = \frac{2}{2(1)} = 1$$, và vùng hội tụ bậc hai bắt đầu khi $$e_k = \|x^{(k)} - x^\star\|_2 < \frac{1}{C} = 1$$ (với $$t_k = 1$$).
+
+Hãy theo dõi sai số $$e_k$$ bắt đầu từ lúc thuật toán vừa bước vào vùng cục bộ với $$e_0 = 0.1$$:
+
+1. **Vòng lặp 1:** $$e_1 \le 1 \cdot (0.1)^2 = 10^{-2}$$ (2 chữ số chính xác).
+2. **Vòng lặp 2:** $$e_2 \le 1 \cdot (10^{-2})^2 = 10^{-4}$$ (4 chữ số chính xác).
+3. **Vòng lặp 3:** $$e_3 \le 1 \cdot (10^{-4})^2 = 10^{-8}$$ (8 chữ số chính xác).
+4. **Vòng lặp 4:** $$e_4 \le 1 \cdot (10^{-8})^2 = 10^{-16}$$ — **chạm giới hạn độ chính xác dấu phẩy động 64-bit (machine epsilon) chỉ sau 4 vòng lặp!**
+
+So sánh với Proximal Gradient trên cùng bài toán (giả sử $$L = 10$$, tỉ lệ co $$1 - m/L = 0.9$$): muốn giảm sai số từ $$0.1$$ xuống $$10^{-16}$$, PGD cần tới $$\frac{\ln(10^{15})}{\ln(1/0.9)} \approx \mathbf{328}$$ vòng lặp! Đó chính là sức mạnh của tốc độ $$O(\log\log(1/\epsilon))$$.
+
+---
+
 Để phân tích sự hội tụ của phương pháp Newton proximal, chúng ta trình bày theo chứng minh của Lee, Sun và Saunders (2014) [1].
 
 [1] J. Lee, Y. Sun and M. Saunders (2014), "Proximal Newton-type methods for minimizing composite functions".

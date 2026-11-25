@@ -11,6 +11,33 @@ redirect_from:
   - /contents/vi/chapter10/10_08_Dual_of_Dual_Property/
 ---
 
+Trong toán học, có những phép biến đổi "hai lần thì trở về chính mình" — gọi là **phép đối hợp (involution)** — giống như phép lấy đối xứng qua gương, phép nghịch đảo $$1/(1/x) = x$$ hay phép chuyển vị ma trận $$(A^T)^T = A$$. Trong quy hoạch tuyến tính, phép lấy bài toán đối ngẫu cũng sở hữu vẻ đẹp đối xứng tuyệt đối đó: **đối ngẫu của bài toán đối ngẫu chính là bài toán gốc (Dual of Dual = Primal)**!
+
+Tại sao tính chất này lại quan trọng chứ không chỉ là một trò đố đại số? Bởi vì nó biến mọi định lý một chiều thành định lý hai chiều đối xứng hoàn toàn! Chẳng hạn, khi bạn biết "Primal khả thi và bị chặn $$\implies$$ Dual có nghiệm", nhờ tính đối hợp bạn suy ra ngay chiều ngược lại mà không cần chứng minh thêm dòng nào. Và trong thuật toán thực hành (như Dual Simplex), nếu bài toán gốc có ít biến nhưng cả triệu ràng buộc, ta chỉ việc giải bài toán đối ngẫu có ít ràng buộc rồi chuyển ngược về nghiệm gốc mà không lo mất thông tin.
+
+## Bản đồ kiến thức nền: Ba trụ cột của tính chất đối ngẫu kép trong LP
+
+- **Chuẩn hóa bài toán đối ngẫu về dạng cực tiểu:** Bài toán đối ngẫu sinh ra ở dạng $$\max$$ với ràng buộc $$\le$$ hoặc $$=$$. Để áp dụng lại đúng cùng một quy tắc lấy đối ngẫu, ta đổi $$\max f \leftrightarrow -\min(-f)$$ và đổi chiều mọi ràng buộc $$\ge$$ sang $$\le$$ bằng cách nhân $$-1$$.
+- **Phép chuyển vị kép và bảo toàn dấu biến:** Ma trận ràng buộc bị chuyển vị hai lần $$(A^T)^T = A$$ nên cấu trúc hệ số quay lại y nguyên; biến đối ngẫu không âm $$v \ge 0$$ tạo ra ràng buộc bất đẳng thức, rồi bất đẳng thức ấy lại sinh ra biến không âm (hoặc biến tự do tạo ràng buộc đẳng thức rồi đẳng thức lại tạo biến tự do).
+- **Đối xứng toàn diện trong bảng phân loại 4 trạng thái LP:** Nhờ tính đối hợp, cặp Primal–Dual chỉ có thể rơi vào 4 tổ hợp hợp lệ: (1) Cả hai tối ưu với $$p^* = d^*$$; (2) Primal không bị chặn và Dual vô nghiệm; (3) Dual không bị chặn và Primal vô nghiệm; (4) Cả hai đều vô nghiệm. (Không bao giờ có chuyện một bên tối ưu hữu hạn mà bên kia vô nghiệm!)
+
+### Khung giải thích (nên đọc chậm): Thực hiện tay hai lần lấy đối ngẫu trên một LP 2 biến
+
+Xét bài toán gốc **(P)**:
+$$\min_{x_1, x_2} \; 2x_1 + 3x_2 \quad \text{s.t.} \quad x_1 + x_2 \ge 4, \quad x_1 \ge 0, \; x_2 \ge 0.$$
+
+1. **Lần 1 — Lấy đối ngẫu của (P) để thu được (D):**
+   Nhân ràng buộc $$x_1 + x_2 \ge 4$$ với $$u \ge 0$$ để chặn dưới $$2x_1 + 3x_2$$:
+   **(D):** $$\max_u \; 4u \quad \text{s.t.} \quad u \le 2, \quad u \le 3, \quad u \ge 0.$$
+2. **Đưa (D) về dạng cực tiểu hóa chuẩn để chuẩn bị lấy đối ngẫu lần 2:**
+   $$\min_u \; -4u \quad \text{s.t.} \quad \begin{cases} -u \ge -2 & (\text{biến đối ngẫu } y_1 \ge 0) \\ -u \ge -3 & (\text{biến đối ngẫu } y_2 \ge 0) \\ u \ge 0. \end{cases}$$
+3. **Lần 2 — Lấy đối ngẫu của (D) để thu được (DD):**
+   Nhân hai ràng buộc với $$y_1, y_2 \ge 0$$ sao cho tổ hợp tuyến tính $$-(y_1 + y_2)u \le -4u$$ (vì $$u \ge 0$$, điều này tương đương $$-y_1 - y_2 \le -4 \iff y_1 + y_2 \ge 4$$):
+   - Hàm mục tiêu (vế phải của tổ hợp): $$\max_{y_1, y_2 \ge 0} \; (-2y_1 - 3y_2)$$.
+   - Đổi dấu về dạng cực tiểu hóa (nhớ rằng ta đã đảo dấu mục tiêu từ $$\max 4u$$ sang $$\min -4u$$ ở bước 2):
+     **(DD):** $$\min_{y_1, y_2 \ge 0} \; 2y_1 + 3y_2 \quad \text{s.t.} \quad y_1 + y_2 \ge 4!$$
+   Đổi tên biến $$(y_1, y_2) \to (x_1, x_2)$$, ta thu lại **chính xác 100% bài toán gốc (P)** ban đầu!
+
 Trong quy hoạch tuyến tính (LP), một tính chất cơ bản của phép lấy đối ngẫu là: **đối ngẫu của bài toán đối ngẫu chính là bài toán gốc (primal)**. Tính chất này được gọi là **tính đối hợp (involution)** của phép đối ngẫu, hay thường gọi ngắn gọn là tính chất **dual của dual là primal**.
 
 Tính chất này thể hiện sự đối xứng giữa bài toán gốc và bài toán đối ngẫu trong LP, có vai trò quan trọng trong cả phân tích lý thuyết lẫn thiết kế thuật toán.

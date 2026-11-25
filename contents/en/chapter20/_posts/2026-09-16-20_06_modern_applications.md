@@ -10,6 +10,31 @@ lang: en
 lesson_type: optional
 ---
 
+In 2017, Federated Averaging (FedAvg) became the standard recipe for training machine learning models across phones and hospitals without centralizing raw data. Yet whenever clients hold *non-IID* (heterogeneous) data, FedAvg suffers from **client drift**: each local optimizer pulls weights toward its own local optimum, and naive averaging stalls far from the global minimizer. Between 2022 and 2026, **FedADMM** and **FedADMM-InSa** solved client drift using the exact lesson of Chapter 20: add a dual variable $$u_i$$ to price the consensus constraint $$w_i = z$$!
+
+## Background Knowledge Map: Dual Methods Inside Modern Federated Learning
+
+- **Federated Consensus Formulation:** Minimizing $$\sum_{i=1}^N f_i(w_i)$$ subject to $$w_i = z$$ casts federated learning directly as Chapter 20's equality-constrained decomposition problem, where client $$i$$ keeps its private loss $$f_i$$ on-device.
+- **Why FedAvg Drifts Under Heterogeneity:** FedAvg drops the dual multipliers $$u_i$$ completely. At the global optimum $$z^\star$$, individual local gradients $$\nabla f_i(z^\star) \neq 0$$ even though $$\sum_i \nabla f_i(z^\star) = 0$$—so local SGD steps push clients *away* from $$z^\star$$!
+- **Dual Multipliers Cancel Local Bias:** In FedADMM, each client's dual variable converges to $$u_i^\star = -\nabla f_i(z^\star)$$, shifting client $$i$$'s local augmented objective so that $$z^\star$$ becomes a *stationary point of every single client's subproblem*!
+- **Inexactness & Self-Adaptive Penalties (FedADMM-InSa, 2024):** Modern federated ADMM allows clients to run just a few local SGD steps (verifying an implementable local residual test) while adapting $$\beta_i^k$$ automatically to handle stragglers and partial participation.
+
+### Step-by-Step Worked Example (Read Slowly): Seeing Dual Variables Cure Client Drift on 2 Heterogeneous Clients
+
+Suppose two clients have conflicting 1D quadratic losses: $$f_1(w_1) = \frac{1}{2}(w_1 - 2)^2$$ (local optimum $$2$$) and $$f_2(w_2) = \frac{1}{2}(w_2 + 2)^2$$ (local optimum $$-2$$). The true global consensus optimum is $$z^\star = 0$$.
+
+1. **Watch FedAvg drift if each client minimizes locally from $$z^0 = 0$$:**
+   Client 1 jumps to $$w_1 = 2$$, Client 2 jumps to $$w_2 = -2$$. Even though their average is $$0$$, if Client 1 has weight $$2$$ ($$f_1(w_1) = (w_1 - 2)^2$$, so global optimum is $$z^\star = 2/3$$), taking multiple local GD steps with $$\eta = 0.25$$ pushes Client 1 to $$2$$ and Client 2 to $$-2$$, whose average is $$0 \neq \frac{2}{3}$$—a permanent bias!
+2. **Now run FedADMM ($$\beta = 1$$) with dual variables $$u_1, u_2$$ on $$f_1(w_1) = (w_1 - 2)^2$$ and $$f_2(w_2) = \frac{1}{2}(w_2 + 2)^2$$:**
+   At the exact global optimum $$z^\star = \frac{2}{3}$$:
+   - $$\nabla f_1(2/3) = 2(2/3 - 2) = -\frac{8}{3} \implies u_1^\star = +\frac{8}{3}$$.
+   - $$\nabla f_2(2/3) = (2/3 + 2) = +\frac{8}{3} \implies u_2^\star = -\frac{8}{3}$$.
+   Check client 1's local augmented Lagrangian stationarity at $$w_1 = z^\star = 2/3$$:
+   $$\nabla f_1(w_1) + u_1^\star + \beta(w_1 - z^\star) = -\frac{8}{3} + \frac{8}{3} + 0 = 0!$$
+   Check client 2's local stationarity at $$w_2 = z^\star = 2/3$$:
+   $$\nabla f_2(w_2) + u_2^\star + \beta(w_2 - z^\star) = +\frac{8}{3} - \frac{8}{3} + 0 = 0!$$
+   Because the dual multipliers $$u_i^\star$$ absorb each client's local gradient bias identically, *zero* client drift occurs at $$z^\star$$!
+
 Dual (sub)gradient, dual decomposition, augmented Lagrangians, and the first look at ADMM in this chapter all share one move: *price a consensus or resource constraint and let each block optimise independently*. That is also the move behind federated learning. A 2026 student who has already seen FedAvg in Chapter 29 should recognise FedADMM as Chapter 20 with a server: the dual variable is the running price of “your local model must match the global model.”
 
 ## FedADMM: dual variables against client heterogeneity

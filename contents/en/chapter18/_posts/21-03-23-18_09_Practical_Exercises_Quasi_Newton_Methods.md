@@ -12,6 +12,33 @@ redirect_from:
   - /contents/en/chapter18/18_08_Practical_Exercises_Quasi_Newton_Methods/
 ---
 
+Quasi-Newton methods look deceptively tidy in matrix notation, yet a single sign error in $$y^T s$$ or a forgotten Wolfe curvature check can turn a positive-definite BFGS matrix into an uphill ascent step. These practical exercises—adapted from Nocedal & Wright—walk you through hand-verifying secant updates, checking positive definiteness, and implementing L-BFGS. Before starting Exercise 1, run through this quick warm-up proving *why* the Wolfe curvature condition is the exact mathematical lock that keeps $$y^T s > 0$$ alive on nonconvex functions.
+
+## Background Knowledge Map: Essential Skills for the Quasi-Newton Exercises
+
+- **Matrix Update Fluency:** Be comfortable computing rank-1 (SR1) and rank-2 (DFP, BFGS) updates both on $$B_k$$ and directly on $$H_k$$, and verifying the secant identity $$H_{k+1} y_k = s_k$$ as an arithmetic sanity check.
+- **Curvature Condition & Wolfe Line Search:** Understand how Armijo sufficient decrease prevents overly long steps while the Wolfe curvature condition prevents overly short steps *and* guarantees $$y_k^T s_k > 0$$.
+- **Two-Loop L-BFGS Implementation:** Translate the $$O(mn)$$ backward/forward dot-product loops into clean vector code without forming any $$n \times n$$ matrices.
+- **Empirical Rate Diagnosis:** Distinguish linear convergence (GD), superlinear convergence (BFGS), and quadratic convergence (Newton) from log-error plots on Rosenbrock and ill-conditioned quadratics.
+
+### Step-by-Step Worked Example (Read Slowly): Why Wolfe Curvature Guarantees $$y^T s > 0$$
+
+Consider the nonconvex 1D double-well potential $$f(x) = x^4 - 2x^2$$ ($$f'(x) = 4x^3 - 4x$$) at $$x^0 = 0.5$$, where $$f'(0.5) = -1.5 < 0$$, so $$p = +1$$ is a descent direction. Set Wolfe parameters $$c_1 = 0.1, \; c_2 = 0.9$$.
+
+1. **Test a short step $$\alpha = 0.1$$ (passes Armijo, fails Wolfe curvature):**
+   At $$x^1 = 0.5 + 0.1 = 0.6$$, $$f'(0.6) = 4(0.216) - 2.4 = -1.536$$.
+   - Check Armijo: $$f(0.6) = -0.5904 \le f(0.5) + 0.1(0.1)(-1.5) = -0.4375 - 0.015 = -0.4525$$ $$\checkmark$$.
+   - Check curvature: $$s = 0.1$$, $$y = f'(0.6) - f'(0.5) = -1.536 - (-1.5) = -0.036 \implies y^T s = -0.0036 < 0$$!
+   Armijo *accepted* this step, yet BFGS would break because $$f$$ is still concave at $$x = 0.6$$!
+2. **Test $$\alpha = 0.5$$ (passes both Armijo and Wolfe curvature):**
+   At $$x^1 = 1.0$$, $$f'(1.0) = 0$$.
+   - Check Wolfe curvature: $$f'(1.0) \cdot p = 0 \ge c_2 f'(0.5) \cdot p = 0.9(-1.5) = -1.35$$ $$\checkmark$$.
+   - Check $$y^T s$$ automatically:
+     $$y^T s = \alpha \big(f'(x^1) - f'(x^0)\big) p \ge \alpha (c_2 - 1) f'(x^0) p = 0.5(-0.1)(-1.5) = +0.075 > 0.$$
+   (Actual value: $$y^T s = (0 - (-1.5))(0.5) = +0.75 > 0$$.)
+3. **Takeaway for the exercises:**
+   Whenever a Wolfe line search succeeds on a descent direction, $$y^T s > 0$$ is guaranteed *even on nonconvex functions*—ensuring your BFGS update in the exercises below remains strictly positive definite!
+
 # Practical Exercises - Quasi-Newton Methods
 
 The exercises are adapted from Nocedal & Wright (2006). Throughout, $$H_k$$ denotes the approximation of the **inverse** Hessian.

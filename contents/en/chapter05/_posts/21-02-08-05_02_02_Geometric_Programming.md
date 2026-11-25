@@ -9,6 +9,32 @@ categories:
 lang: en
 ---
 
+When chip designers size transistors on a microprocessor—trading off area, power dissipation, and signal delay—every physical law is a product of powers like $$c\, w_1^{a_1} w_2^{a_2}$$. Written directly in transistor widths $$w_i > 0$$, the problem looks wildly nonconvex. Yet one logarithmic change of variables flips the entire circuit-sizing problem into a smooth convex program solvable to global optimality in milliseconds: that is the magic of Geometric Programming (GP).
+
+## Background Knowledge Map: Monomials, Posynomials, and Log-Space Convexity
+
+1. **Monomials vs. Posynomials**: On the strictly positive orthant $$\mathbb{R}^n_{++}$$, a *monomial* is a single term $$f(x) = c x_1^{a_1}\cdots x_n^{a_n}$$ with $$c > 0$$ and arbitrary real exponents $$a_i \in \mathbb{R}$$. A *posynomial* is any finite sum of monomials $$f(x) = \sum_{k=1}^K c_k x_1^{a_{1k}}\cdots x_n^{a_{nk}}$$ (with all $$c_k > 0$$).
+2. **GP Standard-Form Rules**: A Geometric Program minimizes a posynomial $$f_0(x)$$ subject to posynomial upper bounds $$f_i(x) \le 1$$ and *monomial* equalities $$h_j(x) = 1$$. (Equality constraints must be monomials—not sums—so that taking logs turns them into affine equalities!)
+3. **The Exponential Change of Variables**: Setting $$x_i = e^{y_i}$$ (so $$y_i = \ln x_i \in \mathbb{R}$$) and applying $$\ln(\cdot)$$ to the objective and constraints turns every monomial $$c \prod x_i^{a_i}$$ into an affine function $$a^T y + \ln c$$, and every posynomial into a convex *log-sum-exp* function $$\ln\bigl(\sum_k \exp(a_k^T y + b_k)\bigr)$$.
+4. **Why GP Matters Beyond Circuits**: Beyond VLSI gate sizing, GPs model wireless power control, aircraft wing design, structural truss optimization, and maximum-likelihood estimation for logistic/multinomial models.
+
+### Step-by-Step Worked Example (Read Slowly): Designing a Minimum-Surface-Area Box via GP
+
+Design a closed rectangular box of dimensions $$w, h, d > 0$$ with volume $$whd = 8$$ that minimizes total surface area $$2wh + 2wd + 2hd$$.
+
+1. **Recognize the Geometric Program structure**:
+   - Objective $$f_0(w, h, d) = 2wh + 2wd + 2hd$$ is a **posynomial** (sum of three monomials with positive coefficients).
+   - Equality constraint $$\frac{1}{8}whd = 1$$ is a **monomial equality**.
+2. **Transform to convex form via $$w = e^{y_1},\; h = e^{y_2},\; d = e^{y_3}$$**:
+   - Monomial equality becomes $$y_1 + y_2 + y_3 - \ln 8 = 0$$ (an affine equality!).
+   - Taking $$\ln$$ of the objective gives the convex log-sum-exp problem:
+     $$\min_{y \in \mathbb{R}^3} \quad \ln\!\left(2e^{y_1 + y_2} + 2e^{y_1 + y_3} + 2e^{y_2 + y_3}\right) \quad \text{s.t.} \quad y_1 + y_2 + y_3 = \ln 8.$$
+3. **Solve the convex problem using symmetry / KKT**: Differentiating the Lagrangian $$\ln(S) + \nu(y_1 + y_2 + y_3 - \ln 8)$$ with respect to each $$y_i$$ gives equal partial derivatives when all three exponentials match: $$y_1 = y_2 = y_3$$.
+   - From $$3y_1 = \ln 8 = 3\ln 2$$, we get $$y_1^\star = y_2^\star = y_3^\star = \ln 2$$.
+4. **Transform back to physical dimensions**:
+   $$w^\star = h^\star = d^\star = e^{\ln 2} = 2.$$
+   Check volume: $$2 \cdot 2 \cdot 2 = 8$$. Minimum surface area: $$2(4) + 2(4) + 2(4) = 24$$.
+
 In this section, we will see a class of problems that appear non-convex when looking at the objective function and constraint functions, but can be transformed into convex form through several techniques.
 
 First, we need some definitions:

@@ -10,6 +10,37 @@ lang: vi
 lesson_type: required
 ---
 
+Sau khi đã có trong tay hàm đối ngẫu $$g(u, v)$$ — cỗ máy sản xuất vô số cận dưới $$g(u, v) \le f^*$$ — câu hỏi tiếp theo gần như tự bật ra: *trong tất cả các cận dưới ấy, cận dưới nào là **tốt nhất (lớn nhất)**?* Để tìm nó, ta chỉ việc cực đại hóa $$g(u, v)$$ theo $$u \ge 0$$ và $$v \in \mathbb{R}^r$$. Đó chính xác là **bài toán đối ngẫu Lagrange**!
+
+Điều kỳ diệu biến bài toán đối ngẫu thành vũ khí hạng nặng trong tối ưu hóa không lồi (như quy hoạch nguyên, bài toán phân cụm, hay hàm bậc bốn đa đỉnh trong bài học này) là: dù bài toán gốc không lồi và đầy rẫy cực tiểu địa phương, **bài toán đối ngẫu Lagrange luôn là một bài toán tối ưu lồi** (cực đại hóa hàm lõm trên miền lồi $$u \ge 0$$)! Nhờ vậy, ta luôn có thể giải bài toán đối ngẫu tới tối ưu toàn cục $$g^*$$ một cách đáng tin cậy để lấy cận dưới chặt nhất cho $$f^*$$.
+
+## Bản đồ kiến thức nền: Ba trụ cột của bài toán đối ngẫu Lagrange
+
+- **Phát biểu chuẩn của bài toán đối ngẫu:**
+  $$\max_{u, v} \; g(u, v) \quad \text{s.t.} \quad u \ge 0 \quad (\text{và ẩn ý } (u, v) \in \operatorname{dom} g).$$
+  Tối ưu hóa bài toán này cho ta giá trị đối ngẫu tối ưu $$g^* = d^*$$, luôn thỏa **đối ngẫu yếu** $$g^* \le f^*$$.
+- **Tính lồi tuyệt đối của bài toán đối ngẫu:** Vì $$g(u, v)$$ lõm nên $$-g(u, v)$$ lồi, và tập ràng buộc $$u \ge 0$$ (cùng miền hữu dụng $$\operatorname{dom} g$$) là tập lồi. Do đó, mọi thuật toán tối ưu lồi (như subgradient, proximal, điểm trong) đều áp dụng được trực tiếp lên bài toán đối ngẫu!
+- **Chuyển ràng buộc ẩn thành ràng buộc tường minh:** Khi viết bài toán đối ngẫu trên giấy, ta thường đưa các điều kiện làm cho $$g(u, v) > -\infty$$ (như $$-A^T u - G^T v = c$$ trong LP hay $$p \in \operatorname{col}(Q)$$ trong QP) ra làm ràng buộc tường minh để dễ giải và dễ nhìn.
+
+### Khung giải thích (nên đọc chậm): Giải tay bài toán đối ngẫu cho một bài toán gốc *không lồi*
+
+Xét bài toán không lồi 1 biến (vì miền khả thi là hai điểm rời rạc $$x = \pm 1$$):
+$$\min_{x \in \mathbb{R}} \; f(x) = x \quad \text{s.t.} \quad l(x) = x^2 - 1 = 0.$$
+Dễ thấy miền khả thi chỉ gồm $$x = -1$$ và $$x = 1$$, nên giá trị tối ưu gốc là $$f^* = -1$$ (tại $$x^* = -1$$).
+
+1. **Lập hàm Lagrangian và tìm hàm đối ngẫu $$g(v)$$ ($$v \in \mathbb{R}$$):**
+   $$L(x, v) = x + v(x^2 - 1) = v x^2 + x - v.$$
+   - Nếu $$v \le 0$$: đồ thị là đường thẳng hoặc parabol úp xuống, nên $$\inf_x L(x, v) = -\infty$$!
+   - Nếu $$v > 0$$: parabol ngửa lên, đạt cực tiểu tại $$2vx + 1 = 0 \implies x = -\frac{1}{2v}$$. Thay vào:
+     $$g(v) = v\left(\frac{1}{4v^2}\right) - \frac{1}{2v} - v = -\frac{1}{4v} - v.$$
+2. **Giải bài toán đối ngẫu (hoàn toàn lồi!):**
+   $$\max_{v > 0} \; g(v) = -\frac{1}{4v} - v.$$
+   Kiểm tra tính lõm: $$g''(v) = -\frac{1}{2v^3} < 0$$ với mọi $$v > 0$$!
+   Cho đạo hàm $$g'(v) = \frac{1}{4v^2} - 1 = 0 \implies v^* = \frac{1}{2} > 0$$.
+3. **So sánh $$g^*$$ và $$f^*$$:**
+   $$g^* = g\left(\frac{1}{2}\right) = -\frac{1}{2} - \frac{1}{2} = -1 = f^*!$$
+   Dù bài toán gốc không lồi (hai điểm rời rạc!), bài toán đối ngẫu lại trơn, lõm, và trong ví dụ đặc biệt này thậm chí đạt $$g^* = f^*$$ (trong khi với nhiều bài toán không lồi khác như hàm bậc bốn ở phần thân bài, ta sẽ gặp $$g^* < f^*$$).
+
 Xét bài toán tối ưu tổng quát sau:
 
 >

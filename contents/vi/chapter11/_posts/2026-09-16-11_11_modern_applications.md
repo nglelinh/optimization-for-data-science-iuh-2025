@@ -10,6 +10,36 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu phải chọn một ứng dụng duy nhất khiến hàng triệu kỹ sư học máy trên toàn thế giới phải thầm cảm ơn Joseph-Louis Lagrange, đó chắc chắn là **bài toán đối ngẫu của Máy vector hỗ trợ (SVM)** và **Thủ thuật nhân (Kernel Trick)**. Trong không gian đặc trưng gốc, bài toán SVM cần tìm một siêu phẳng phân tách trong $$\mathbb{R}^p$$; nhưng khi ta ánh xạ dữ liệu sang không gian đặc trưng phi tuyến có hàng triệu (thậm chí vô hạn!) chiều để tách các lớp dữ liệu xoắn ốc phức tạp, việc tính trực tiếp vector trọng số $$w$$ trở nên bất khả thi.
+
+Chính nhờ **tính đối ngẫu mạnh Lagrange** (được bảo chứng tự động bởi điều kiện Slater tinh gọn vì mọi ràng buộc SVM đều là ràng buộc affine!), ta chuyển bài toán sang biến đối ngẫu $$\alpha \in \mathbb{R}^n$$. Trong bài toán đối ngẫu ấy, vector trọng số $$w$$ biến mất hoàn toàn, chỉ còn lại ma trận tích vô hướng $$x_i^T x_j$$ — thứ có thể thay tức thì bằng hàm nhân $$K(x_i, x_j)$$ như nhân Gaussian RBF! Bài đọc tổng kết cuối chương này kết nối trực tiếp sức mạnh ấy của đối ngẫu Lagrange với bốn trụ cột hiện đại giai đoạn 2022–2026: DRO, ràng buộc vật lý trong năng lượng, công bằng học máy và phương pháp nhân.
+
+## Bản đồ kiến thức nền: Bốn cầu nối từ đối ngẫu Lagrange đến hệ thống AI & kỹ thuật hiện đại
+
+- **Thủ thuật nhân (Kernel Trick) sinh ra từ đối ngẫu SVM:** Từ điều kiện dừng $$\nabla_w L = 0 \implies w = \sum_{i=1}^n \alpha_i y_i x_i$$, bài toán đối ngẫu chỉ phụ thuộc vào $$x_i^T x_j$$ và nghiệm $$\alpha_i^*$$ chỉ khác $$0$$ trên một số ít **vector hỗ trợ (support vectors)** nằm sát biên phân loại.
+- **Điều chuẩn hóa tự động từ đối ngẫu DRO:** Trong tối ưu bền vững theo phân phối, nhân tử Lagrange của ràng buộc khoảng cách Wasserstein đóng vai trò chính xác là hệ số điều chuẩn phạt chuẩn gradient/Lipschitz của mô hình!
+- **Lớp thực thi ràng buộc vật lý (DC3 / OPF-DNN):** Kết hợp hàm phạt Lagrangian vào quá trình huấn luyện mạng nơ-ron cho phép các hệ thống lưới điện thông minh và robot đạt tốc độ suy luận mili-giây mà vẫn tôn trọng định luật bảo toàn năng lượng.
+- **Tối ưu minimax công bằng (Fairness Dual Games):** Biến các tiêu chí công bằng phi tuyến thành bài toán điểm yên ngựa Lagrange giữa mô hình dự đoán và bộ trọng số đối ngẫu của từng nhóm dữ liệu.
+
+### Khung giải thích (nên đọc chậm): Giải tay trọn vẹn bài toán đối ngẫu SVM cho 2 điểm dữ liệu 1D
+
+Xét tập dữ liệu 1D tối giản gồm 2 điểm: $$(x_1, y_1) = (-1, -1)$$ và $$(x_2, y_2) = (+1, +1)$$.
+Bài toán gốc Hard-Margin SVM:
+$$\min_{w, b} \; \frac{1}{2}w^2 \quad \text{s.t.} \quad y_1(w x_1 + b) \ge 1, \quad y_2(w x_2 + b) \ge 1.$$
+
+1. **Lập bài toán đối ngẫu Lagrange (biến $$\alpha_1, \alpha_2 \ge 0$$):**
+   - Ràng buộc từ $$\frac{\partial L}{\partial b} = 0$$: $$\sum \alpha_i y_i = -\alpha_1 + \alpha_2 = 0 \implies \alpha_1 = \alpha_2 = \alpha \ge 0$$.
+   - Biểu thức trọng số từ $$\frac{\partial L}{\partial w} = 0$$: $$w = \alpha_1 y_1 x_1 + \alpha_2 y_2 x_2 = \alpha_1(-1)(-1) + \alpha_2(1)(1) = \alpha_1 + \alpha_2 = 2\alpha$$.
+   - Hàm mục tiêu đối ngẫu:
+     $$g(\alpha) = (\alpha_1 + \alpha_2) - \frac{1}{2}w^2 = 2\alpha - \frac{1}{2}(2\alpha)^2 = 2\alpha - 2\alpha^2.$$
+2. **Giải bài toán đối ngẫu lồi $$\max_{\alpha \ge 0} (2\alpha - 2\alpha^2)$$:**
+   Đạo hàm $$2 - 4\alpha = 0 \implies \alpha^* = 0.5$$, tức $$\alpha_1^* = \alpha_2^* = 0.5 > 0$$ (cả hai điểm đều là vector hỗ trợ!).
+   Giá trị đối ngẫu tối ưu: $$g^* = 2(0.5) - 2(0.25) = 0.5$$.
+3. **Khôi phục siêu phẳng phân tách tối ưu:**
+   - Trọng số: $$w^* = 2\alpha^* = 1$$.
+   - Hệ số tự do $$b^*$$ từ điều kiện chặt $$y_2(w^* x_2 + b^*) = 1 \implies 1(1 + b^*) = 1 \implies b^* = 0$$.
+   - Giá trị gốc: $$\frac{1}{2}(w^*)^2 = 0.5 = g^*$$, với độ rộng lề cực đại $$\frac{1}{|w^*|} = 1$$! Mọi thứ khớp chặt tuyệt đối nhờ đối ngẫu mạnh!
+
 # Ứng dụng hiện đại của đối ngẫu Lagrange
 
 Chương 11 mở rộng lý thuyết đối ngẫu từ quy hoạch tuyến tính sang các bài toán tối ưu tổng quát: hàm Lagrangian $$L(x,u,v)$$, hàm đối ngẫu $$g(u,v)=\inf_x L$$, tính đối ngẫu yếu $$g\le f^\star$$ và tính đối ngẫu mạnh khi bài toán lồi kèm điều kiện chuẩn hóa ràng buộc. Bài đọc tùy chọn này trình bày bốn ứng dụng hiện đại của cơ chế đối ngẫu đó — trong đó nhân tử Lagrange đóng vai trò như giá biên, bán kính bền vững hoặc tín hiệu huấn luyện.

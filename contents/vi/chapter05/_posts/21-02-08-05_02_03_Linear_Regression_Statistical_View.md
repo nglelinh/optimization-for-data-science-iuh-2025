@@ -9,6 +9,36 @@ categories:
 lang: vi
 ---
 
+Khi học Bình phương tối thiểu ở bài trước, một câu hỏi đầy hoài nghi thường nảy ra: *tại sao lại tối thiểu hóa tổng **bình phương** sai số $$\sum (y_i - x_i^T \beta)^2$$ chứ không phải tổng trị tuyệt đối hay tổng lập phương?* Câu trả lời bất ngờ đến từ thống kê học: việc chọn chuẩn bình phương không hề là một sự tùy hứng hình học!
+
+Nếu bạn giả định dữ liệu sinh ra bởi một quy luật tuyến tính cộng thêm nhiễu Gaussian độc lập $$\epsilon_i \sim \mathcal{N}(0, \sigma^2)$$, thì việc đi tìm bộ tham số $$\beta$$ làm cho dữ liệu quan sát được có xác suất xuất hiện cao nhất (**Ước lượng Hợp lý Tối đa — MLE**) sẽ dẫn ra **chính xác từng dấu phẩy** bài toán tối ưu lồi Bình phương tối thiểu! Bài học này bắc cây cầu giữa Tối ưu hóa Lồi và Thống kê Suy luận.
+
+## Bản đồ kiến thức nền: Khi Tối ưu hóa Lồi gặp Thống kê Xác suất
+
+Bốn trụ cột dưới đây kết nối hàm mất mát tối ưu với mô hình xác suất sinh dữ liệu:
+
+- **Mô hình sinh dữ liệu Gaussian (Probabilistic Generative Model):** Giả định $$y_i = x_i^T \beta + \epsilon_i$$ với $$\epsilon_i \stackrel{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$$ tương đương với phân phối có điều kiện $$y_i \mid x_i \sim \mathcal{N}(x_i^T \beta, \sigma^2)$$.
+- **Hàm Hợp lý & Phép biến đổi Log-Likelihood:** Hàm hợp lý $$L(\beta) = \prod_{i=1}^n p(y_i \mid x_i; \beta)$$ là tích của nhiều hàm mũ — rất khó tối ưu trực tiếp và dễ tràn số dưới (underflow). Nhờ $$\log$$ là hàm đơn điệu tăng (Chương 04!), cực đại hóa $$L(\beta)$$ tương đương cực đại hóa $$\ell(\beta) = \sum_{i=1}^n \log p(y_i \mid x_i; \beta)$$, và cực tiểu hóa **Negative Log-Likelihood (NLL)** cho ngay bài toán lồi $$\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i - x_i^T \beta)^2$$!
+- **Phân phối nhiễu quyết định Hàm mất mát:** Đổi giả định nhiễu từ Gaussian sang **Laplace** ($$\exp(-|\epsilon|/b)$$) sẽ biến NLL thành hồi quy chuẩn $$\ell_1$$ (bền vững trước ngoại lai)! Còn thêm phân phối tiên nghiệm Gaussian lên $$\beta$$ (ước lượng MAP) sẽ sinh ra đúng hồi quy **Ridge ($$\ell_2$$)**, và tiên nghiệm Laplace sinh ra **Lasso ($$\ell_1$$)**!
+- **Định lý Gauss–Markov & Độ bất định của ước lượng:** Không chỉ cho điểm tối ưu $$\hat{\beta}_{\text{MLE}}$$, góc nhìn thống kê còn cho ta ma trận hiệp phương sai $$\operatorname{Cov}(\hat{\beta}) = \sigma^2 (X^T X)^{-1}$$ để tính khoảng tin cậy và kiểm định giả thuyết.
+
+### Khung giải thích (nên đọc chậm): Tính tay hàm Log-Likelihood và kiểm chứng MLE trùng khớp với OLS
+
+Xét mô hình 1 tham số không hệ số chặn $$y_i = \beta x_i + \epsilon_i$$ với $$\epsilon_i \sim \mathcal{N}(0, \sigma^2 = 4)$$ trên 2 quan sát: $$(x_1, y_1) = (1, 2)$$ và $$(x_2, y_2) = (2, 5)$$.
+
+1. **Bước 1 — Viết hàm mật độ hợp lý:**
+   $$L(\beta) = \frac{1}{\sqrt{2\pi \cdot 4}} \exp\left(-\frac{(2 - \beta)^2}{8}\right) \cdot \frac{1}{\sqrt{2\pi \cdot 4}} \exp\left(-\frac{(5 - 2\beta)^2}{8}\right).$$
+2. **Bước 2 — Lấy âm logarit (Negative Log-Likelihood):**
+   $$-\ell(\beta) = \log(8\pi) + \frac{1}{8}\Big[(2 - \beta)^2 + (5 - 2\beta)^2\Big].$$
+   Hằng số $$\log(8\pi)$$ và hệ số dương $$\frac{1}{8}$$ không ảnh hưởng đến vị trí cực tiểu!
+3. **Bước 3 — Cực tiểu hóa phần bình phương sai số:**
+   $$S(\beta) = (2 - \beta)^2 + (5 - 2\beta)^2 = (4 - 4\beta + \beta^2) + (25 - 20\beta + 4\beta^2) = 5\beta^2 - 24\beta + 29.$$
+   Đạo hàm: $$S'(\beta) = 10\beta - 24 = 0 \implies \hat{\beta}_{\text{MLE}} = 2.4$$.
+4. **Bước 4 — Tính phương sai ước lượng:**
+   Vì $$X^T X = 1^2 + 2^2 = 5$$ và $$\sigma^2 = 4$$, ta có $$\operatorname{Var}(\hat{\beta}_{\text{MLE}}) = \frac{\sigma^2}{X^T X} = \frac{4}{5} = 0.8$$ (độ lệch chuẩn $$\approx 0.894$$). Góc nhìn thống kê cho ta không chỉ con số $$2.4$$, mà cả thước đo mức độ tin cậy của nó!
+
+---
+
 ## Hồi Quy Tuyến Tính từ Góc Nhìn Thống Kê
 
 Trong bài học này, chúng ta khám phá hồi quy tuyến tính từ góc nhìn xác suất và thống kê, cho thấy việc cực tiểu hóa sai số bình phương trung bình (MSE) không chỉ có ý nghĩa trực quan mà còn có cơ sở lý thuyết chặt chẽ thông qua ước lượng hợp lý cực đại (Maximum Likelihood Estimation - MLE).

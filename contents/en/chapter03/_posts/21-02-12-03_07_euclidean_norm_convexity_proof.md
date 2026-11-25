@@ -9,6 +9,26 @@ categories:
 lang: en
 ---
 
+The Euclidean norm $$f(x) = \|x\|_2$$ is the workhorse of geometry, group-Lasso regularization, and second-order cone programming—yet it carries a subtle twist: it is *not* differentiable at the origin $$x = 0$$, so a naive Hessian test alone cannot cover all of $$\mathbb{R}^n$$. Proving its convexity three distinct ways—directly via the triangle inequality, algebraically via Cauchy–Schwarz, and differentially via its rank-$$(n-1)$$ Hessian away from zero—builds deep intuition for nonsmooth convex functions.
+
+## Background Knowledge Map: Three Complementary Proofs of $$\|x\|_2$$ Convexity
+
+- **Triangle Inequality + Homogeneity (Cleanest):** In two lines, $$\|\theta x + (1-\theta)y\|_2 \le \|\theta x\|_2 + \|(1-\theta)y\|_2 = \theta\|x\|_2 + (1-\theta)\|y\|_2$$—working for *every* norm on $$\mathbb{R}^n$$ with zero calculus.
+- **Cauchy–Schwarz Expansion:** Squaring both sides of the triangle inequality reduces convexity of $$\|x\|_2$$ directly to $$x^T y \le \|x\|_2 \|y\|_2$$, revealing that equality holds only along nonnegative rays $$y = \alpha x$$.
+- **Hessian on $$\mathbb{R}^n \setminus \{0\}$$:** $$\nabla^2 \|x\|_2 = \frac{1}{\|x\|_2}\left(I - \frac{xx^T}{\|x\|_2^2}\right)$$ is a scaled orthogonal projection matrix onto $$x^\perp$$—positive semidefinite with eigenvalue $$0$$ along the radial ray $$x$$ and $$1/\|x\|_2$$ orthogonal to $$x$$.
+- **Nonsmooth Kink at $$0$$:** Because the cone tip at $$x = 0$$ is nondifferentiable, optimizing $$\|x\|_2$$ requires subgradients (the unit ball $$\|g\|_2 \le 1$$), foreshadowing nonsmooth optimization.
+
+### Step-by-Step Worked Example (Read Slowly): Inspecting the Hessian of $$\|x\|_2$$ at $$x = (3, 4)^T$$
+
+Evaluate the gradient and Hessian of $$f(x) = \|x\|_2$$ at $$x = (3, 4)^T$$ (where $$\|x\|_2 = 5$$).
+
+1. **Compute the gradient:**
+   $$\nabla f(x) = \frac{x}{\|x\|_2} = \begin{pmatrix} 3/5 \\ 4/5 \end{pmatrix}.$$
+2. **Compute the Hessian $$\nabla^2 f(x) = \frac{1}{\|x\|_2}\left(I - \frac{xx^T}{\|x\|_2^2}\right)$$:**
+   $$\frac{xx^T}{25} = \frac{1}{25}\begin{pmatrix} 9 & 12 \\ 12 & 16 \end{pmatrix} \implies \nabla^2 f(3, 4) = \frac{1}{5}\begin{pmatrix} 16/25 & -12/25 \\ -12/25 & 9/25 \end{pmatrix} = \frac{1}{125}\begin{pmatrix} 16 & -12 \\ -12 & 9 \end{pmatrix}.$$
+3. **Compute eigenvalues to read the geometry:**
+   - Trace $$= \frac{16 + 9}{125} = \frac{1}{5}$$, Determinant $$= \frac{16(9) - (-12)^2}{125^2} = 0$$.
+   - Therefore the eigenvalues are $$\lambda_1 = 1/5 > 0$$ (curving upward tangentially around the circle of radius 5) and $$\lambda_2 = 0$$ (completely linear along the radial direction $$x = (3, 4)^T$$). Thus $$\nabla^2 f(3, 4) \succeq 0$$.
 
 The **Euclidean norm** (also called the $$\ell_2$$-norm) of a vector $$x \in \mathbb{R}^n$$ is defined as:
 

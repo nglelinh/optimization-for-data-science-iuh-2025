@@ -12,6 +12,32 @@ redirect_from:
   - /contents/vi/chapter17/17_06_Quiz_Primal_Dual_Interior_Point/
 ---
 
+Đọc hiểu công thức hệ Newton gốc–đối ngẫu trên giấy là một chuyện, nhưng khi đối mặt với những câu hỏi bẫy về tính khả thi của điểm lặp trung gian, dấu của phần dư trung tâm, hay sự khác biệt giữa phương pháp chắn và PD-IPM trên bài toán LP/SDP, trực giác toán học mới thực sự được thử lửa. Bộ câu hỏi trắc nghiệm này giúp bạn rà soát lại từng mắt xích lý thuyết của Chương 17 trước khi chuyển sang các thuật toán bậc hai khác.
+
+## Bản đồ kiến thức nền: Bốn nhóm bẫy tư duy thường gặp ở Chương 17
+
+Trước khi bắt tay làm bài trắc nghiệm, hãy kiểm tra nhanh bốn điểm dễ nhầm lẫn nhất của phương pháp điểm trong gốc–đối ngẫu:
+
+- **Khả thi gốc–đối ngẫu vs. Điểm trong chặt:** Điểm lặp của PD-IPM luôn phải giữ $$h(x) < 0$$ và $$u > 0$$ (nằm chặt trong miền bất đẳng thức), nhưng **không** bắt buộc phải thỏa mãn $$Ax = b$$ hay $$\nabla f(x) + \nabla h(x)u + A^T v = 0$$ trong quá trình chạy.
+- **Tham số $$\tau$$ (hay $$1/t$$) và tỉ lệ $$\sigma$$ (hay $$1/\mu$$):** Khi $$\tau$$ càng nhỏ, điểm đường trung tâm càng sát nghiệm tối ưu, nhưng bước Newton dễ đụng biên hơn. Tỉ lệ $$\sigma = \frac{1}{\mu} \in (0, 1)$$ quyết định tốc độ thu hẹp $$\tau$$ sau mỗi bước.
+- **Khoảng cách đối ngẫu thay thế $$\eta = -h(x)^T u$$:** Chỉ bằng khoảng cách đối ngẫu thực $$f(x) - g(u, v)$$ khi điểm lặp đồng thời khả thi gốc và đối ngẫu; nếu $$r_{\text{prim}} \ne 0$$ hoặc $$r_{\text{dual}} \ne 0$$, $$\eta$$ chỉ là đại lượng thay thế để dẫn đường.
+- **Trường hợp đặc biệt LP và SDP:** Trên LP, hệ KKT rút gọn thành hệ phương trình chuẩn $$AD^2A^T\Delta y = \text{rhs}$$ với $$D^2 = XS^{-1}$$; trên SDP, tích ma trận $$XS$$ không tự động đối xứng nên cần bước đối xứng hóa hướng Newton.
+
+### Khung giải thích (nên đọc chậm): Đọc nhật ký chạy một bộ giải PD-IPM để kiểm tra tiêu chuẩn dừng
+
+Giả sử bạn chạy một bộ giải PD-IPM với ngưỡng dung sai $$\epsilon_{\text{feas}} = 10^{-6}$$ và $$\epsilon = 10^{-6}$$ cho một bài toán có $$m = 4$$ ràng buộc bất đẳng thức, và thu được bảng nhật ký 3 vòng lặp cuối:
+
+- **Vòng lặp 12:** $$\|r_{\text{prim}}\|_2 = 2.5 \times 10^{-4}$$, $$\|r_{\text{dual}}\|_2 = 8.0 \times 10^{-5}$$, $$\eta = 4.0 \times 10^{-7}$$.
+- **Vòng lặp 13:** $$\|r_{\text{prim}}\|_2 = 1.2 \times 10^{-7}$$, $$\|r_{\text{dual}}\|_2 = 5.0 \times 10^{-7}$$, $$\eta = 2.0 \times 10^{-5}$$.
+- **Vòng lặp 14:** $$\|r_{\text{prim}}\|_2 = 3.0 \times 10^{-8}$$, $$\|r_{\text{dual}}\|_2 = 9.0 \times 10^{-8}$$, $$\eta = 6.0 \times 10^{-7}$$.
+
+Hãy kiểm tra từng vòng lặp:
+1. **Tại vòng lặp 12:** Dù $$\eta = 4.0 \times 10^{-7} \le 10^{-6}$$ rất nhỏ, ta **chưa được dừng** vì $$r_{\text{prim}}$$ và $$r_{\text{dual}}$$ vẫn lớn hơn $$10^{-6}$$ — điểm hiện tại chưa đủ khả thi nên $$\eta$$ chưa phải khoảng cách đối ngẫu thực!
+2. **Tại vòng lặp 13:** Cả hai phần dư khả thi đã đạt chuẩn $$\le 10^{-6}$$, nhưng $$\eta = 2.0 \times 10^{-5} > 10^{-6}$$, nghĩa là nghiệm đã khả thi nhưng chưa đủ gần giá trị tối ưu $$p^\star$$.
+3. **Tại vòng lặp 14:** Cả ba điều kiện $$\|r_{\text{prim}}\|_2 \le 10^{-6}$$, $$\|r_{\text{dual}}\|_2 \le 10^{-6}$$ và $$\eta \le 10^{-6}$$ đều thỏa mãn đồng thời — bộ giải **dừng hợp lệ** và đảm bảo sai số tối ưu dưới $$10^{-6}$$.
+
+---
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:

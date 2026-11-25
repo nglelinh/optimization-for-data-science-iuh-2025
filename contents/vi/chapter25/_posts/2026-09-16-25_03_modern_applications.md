@@ -10,6 +10,38 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu bạn nghĩ rằng mặt phẳng cắt và mã hóa big-$$M$$ chỉ thuộc về lĩnh vực hậu cần hay thống kê cổ điển, hãy nhìn vào một trong những câu hỏi nóng nhất của an toàn trí tuệ nhân tạo hiện nay: *làm sao để chứng minh toán học 100% rằng không tồn tại bất kỳ nhiễu pixel nào trong bán kính $$\varepsilon$$ có thể đánh lừa một mạng nơ-ron ReLU nhận diện nhầm biển báo "STOP" thành biển "Giới hạn tốc độ"?*
+
+Các phương pháp tấn công thử-sai (như PGD attack) chỉ có thể tìm ra lỗi chứ không bao giờ *chứng nhận* được sự an toàn. Ngược lại, vì mỗi nút ReLU $$\max(0, a)$$ là một hàm tuyến tính từng khúc hai nhánh, toàn bộ mạng ReLU có thể được mã hóa chính xác thành một **bài toán MILP** — biến công cụ Chương 25 thành chiếc chìa khóa cho cả kiểm chứng độ bền vững mạng nơ-ron, chọn đặc trưng đầu vào, lẫn xây dựng cây quyết định tối ưu!
+
+## Bản đồ kiến thức nền: Bốn nhánh ứng dụng mũi nhọn của MIP trong Khoa học Dữ liệu
+
+Bài đọc này tổng kết bốn hướng giao thoa sôi động nhất giữa MIP và học máy giai đoạn 2019–2026:
+
+- **Kiểm chứng chính thức mạng ReLU (MILP Verification):** Biến bài toán tìm nhiễu đối kháng xấu nhất thành MILP bằng biến nhị phân chỉ trạng thái bật/tắt của từng nơ-ron ReLU; các thuật toán cắt và thắt chặn (bound tightening) giúp chứng nhận mạng hàng trăm nghìn nơ-ron.
+- **Chọn đặc trưng hậu huấn luyện (Model-Based Feature Selection):** Áp dụng cùng cách mã hóa MILP cho mạng đã huấn luyện để tìm tập con đầu vào nhỏ nhất vẫn bảo toàn độ tin cậy phân lớp — phiên bản phi tuyến của Best Subset Selection.
+- **Cây quyết định tối ưu (Optimal Classification Trees — OCT):** Thay vì dựng cây tham lam từng nút một như CART (dễ rơi vào cực tiểu cục bộ), OCT tối ưu đồng thời *toàn bộ* cấu trúc cây có độ sâu cố định bằng MILP, đạt độ chính xác cao hơn mà vẫn giữ nguyên tính diễn giải trực quan.
+- **Học chọn mặt phẳng cắt (Learning to Cut):** Khi bộ giải sinh ra hàng trăm lát cắt ứng viên (Gomory, MIR) tại mỗi nút, mạng nơ-ron học tăng cường hoặc học bắt chước sẽ chọn ra đúng vài lát cắt sắc bén nhất để vừa siết chặt cận dưới vừa giữ bảng đơn hình thưa và nhanh.
+
+### Khung giải thích (nên đọc chậm): Mã hóa chính xác một nơ-ron ReLU bằng 4 bất đẳng thức tuyến tính
+
+Đây là viên gạch nền tảng của cả bài toán kiểm chứng mạng nơ-ron (Tjeng–Xiao–Tedrake, ICLR 2019) lẫn chọn đặc trưng cho mạng ReLU. Xét một nơ-ron $$h = \max(0, a)$$ trong đó đầu vào trước kích hoạt $$a = w^T x + b$$ đã được chặn chặt trong khoảng $$[l, u] = [-2,\; 3]$$ (với $$l < 0 < u$$).
+
+Ta đưa vào đúng 1 biến nhị phân $$z \in \{0, 1\}$$ ($$z = 0$$ ứng với nhánh tắt $$a \le 0$$, $$z = 1$$ ứng với nhánh bật $$a \ge 0$$) cùng 4 bất đẳng thức tuyến tính:
+
+$$
+h \ge 0, \qquad h \ge a, \qquad h \le 3z, \qquad h \le a + 2(1 - z).
+$$
+
+Hãy kiểm tra tính chính xác tuyệt đối ở cả hai trường hợp:
+
+1. **Trường hợp 1 — Đầu vào âm, giả sử $$a = -1$$:**
+   - Nếu chọn $$z = 1$$: bất đẳng thức thứ tư thành $$h \le -1 + 2(0) = -1$$, mâu thuẫn ngay với $$h \ge 0$$ — **bị loại trừ!**
+   - Bắt buộc $$z = 0$$: bốn bất đẳng thức trở thành $$h \ge 0,\; h \ge -1,\; h \le 0,\; h \le 1$$, ép duy nhất **$$h = 0 = \max(0, -1)$$**!
+2. **Trường hợp 2 — Đầu vào dương, giả sử $$a = 2$$:**
+   - Nếu chọn $$z = 0$$: bất đẳng thức thứ ba thành $$h \le 0$$, mâu thuẫn ngay với $$h \ge 2$$ — **bị loại trừ!**
+   - Bắt buộc $$z = 1$$: bốn bất đẳng thức trở thành $$h \ge 0,\; h \ge 2,\; h \le 3,\; h \le 2$$, ép duy nhất **$$h = 2 = \max(0, 2)$$**!
+3. **Bí mật về độ chặt của cận $$[l, u]$$:** Nếu ta dùng số $$l = -1000, u = 1000$$ cẩu thả thay vì $$[-2, 3]$$, nới lỏng LP sẽ tạo ra một tam giác khổng lồ lỏng lẻo; ngược lại, thắt chặt $$[l, u]$$ cho từng nơ-ron chính là cách sinh ra các mặt phẳng cắt cực sắc giúp MILP kiểm chứng mạng sâu nhanh gấp hàng nghìn lần!
 
 Chương 25 tập trung vào phía *bộ giải* của quy hoạch nguyên hỗn hợp: mặt phẳng cắt, thuật toán nhánh và cắt, cùng hai ví dụ thống kê mở rộng (chọn tập con tốt nhất và hồi quy phân vị nhỏ nhất). Trong giai đoạn 2022–2026, các kỹ thuật này tiếp tục được ứng dụng để *chọn đặc trưng* cho mạng nơ-ron, *chứng nhận* độ bền vững đối kháng, *xây dựng cây quyết định tối ưu* và thậm chí *học chiến lược chọn mặt phẳng cắt*. Bài đọc tùy chọn này tổng hợp bốn hướng ứng dụng đó mà không lặp lại phần suy diễn lát cắt Gomory.
 

@@ -9,6 +9,37 @@ categories:
 lang: vi
 ---
 
+Trong trò chơi oẳn tù tì hay một ván bài poker đối kháng, nếu bạn luôn trung thành với một nước đi cố định (chiến lược thuần túy), đối thủ sẽ lập tức bắt bài và khai thác triệt để. Cách duy nhất để trở nên "bất khả xâm phạm" là tung xúc xắc chọn nước đi theo một phân phối xác suất khéo léo — gọi là **chiến lược hỗn hợp (mixed strategy)**. Năm 1928, rất lâu trước khi quy hoạch tuyến tính ra đời, John von Neumann đã chứng minh một định lý chấn động: trong mọi trò chơi tổng bằng không hai người, **mức lỗ tối đa nhỏ nhất mà người đi trước phải chịu** luôn bằng chính xác **mức thưởng tối thiểu lớn nhất mà người đi sau có thể đảm bảo**!
+
+Hai mươi năm sau, chính von Neumann và Dantzig nhận ra một bí mật tuyệt đẹp mà bài học này trình bày: bài toán tìm chiến lược hỗn hợp tối ưu cho hai người chơi J và R không phải hai bài toán độc lập, mà chính là **một cặp bài toán quy hoạch tuyến tính gốc – đối ngẫu**! Định lý Minimax lừng danh của lý thuyết trò chơi hóa ra chỉ là một hệ quả trực tiếp của tính đối ngẫu mạnh trong LP!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của trò chơi ma trận và định lý Minimax
+
+- **Ma trận chi trả $$P$$ và chi trả kỳ vọng $$x^T P y$$:** Người chơi cột J chọn phân phối $$x \in \Delta_m$$ (muốn *cực tiểu hóa* số tiền phải trả), người chơi hàng R chọn phân phối $$y \in \Delta_n$$ (muốn *cực đại hóa* số tiền nhận được). Chi trả kỳ vọng song tuyến tính là $$x^T P y = \sum_{i,j} x_i P_{ij} y_j$$.
+- **Biến bài toán Minimax thành LP bằng biến phụ $$t$$:** Khi J công bố trước chiến lược $$x$$, R sẽ chọn nước đi thuần túy làm J mất nhiều tiền nhất: $$\max_{j} (P^T x)_j$$. Để cực tiểu hóa hàm max không trơn này, J đưa thêm biến vô hướng $$t$$ và giải LP: $$\min_{x, t} t$$ sao cho $$P^T x \le t \mathbf{1}, \; \mathbf{1}^T x = 1, \; x \ge 0$$.
+- **Góc nhìn đối lập (R công bố trước) = Chính xác bài toán đối ngẫu LP:** Khi R công bố trước $$y$$, R giải $$\max_{y, s} s$$ sao cho $$P y \ge s \mathbf{1}, \; \mathbf{1}^T y = 1, \; y \ge 0$$. Kiểm tra đại số cho thấy đây chính là bài toán đối ngẫu của LP phía J!
+- **Định lý Minimax von Neumann và cân bằng Nash:** Nhờ đối ngẫu mạnh LP, $$\min_x \max_y x^T P y = \max_y \min_x x^T P y = v^*$$ (giá trị trò chơi). Cặp $$(x^*, y^*)$$ tạo thành một cân bằng Nash: không ai có lợi nếu đơn phương đổi chiến lược.
+
+### Khung giải thích (nên đọc chậm): Giải tay trò chơi ma trận $$2 \times 2$$ từ cả hai góc nhìn
+
+Xét ma trận chi trả (J trả cho R) kích thước $$2 \times 2$$:
+$$P = \begin{pmatrix} 3 & 0 \\ 1 & 2 \end{pmatrix}.$$
+(Kiểm tra nhanh không có điểm yên ngựa thuần túy: min hàng là $$0, 1 \Rightarrow \max\min = 1$; max cột là $$3, 2 \Rightarrow \min\max = 2$; vì $$1 < 2$$ nên cần chiến lược hỗn hợp!)
+
+1. **Bài toán gốc — J chọn $$x = (x_1, 1 - x_1)$$ để tối thiểu hóa mức lỗ xấu nhất:**
+   - Nếu R chọn cột 1, J trả: $$3x_1 + 1(1 - x_1) = 1 + 2x_1$$.
+   - Nếu R chọn cột 2, J trả: $$0x_1 + 2(1 - x_1) = 2 - 2x_1$$.
+   - Để cực tiểu hóa $$\max(1 + 2x_1, 2 - 2x_1)$$, J cân bằng hai nhánh:
+     $$1 + 2x_1 = 2 - 2x_1 \implies 4x_1 = 1 \implies x_1^* = 0.25, \; x_2^* = 0.75.$$
+   - Mức lỗ tối đa của J: $$t^* = 1 + 2(0.25) = 1.5$$.
+2. **Bài toán đối ngẫu — R chọn $$y = (y_1, 1 - y_1)$$ để tối đa hóa mức thưởng đảm bảo:**
+   - Nếu J chọn hàng 1, R nhận: $$3y_1 + 0(1 - y_1) = 3y_1$$.
+   - Nếu J chọn hàng 2, R nhận: $$1y_1 + 2(1 - y_1) = 2 - y_1$$.
+   - Để cực đại hóa $$\min(3y_1, 2 - y_1)$$, R cân bằng hai nhánh:
+     $$3y_1 = 2 - y_1 \implies 4y_1 = 2 \implies y_1^* = 0.5, \; y_2^* = 0.5.$$
+   - Mức thưởng đảm bảo của R: $$s^* = 3(0.5) = 1.5$$.
+3. **Kiểm chứng định lý Minimax:** $$t^* = s^* = 1.5$$! Dù ai công bố chiến lược hỗn hợp trước, giá trị kỳ vọng của trò chơi vẫn khóa chặt tại $$1.5$$.
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

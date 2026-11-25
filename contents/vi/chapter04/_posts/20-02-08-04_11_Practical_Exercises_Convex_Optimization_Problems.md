@@ -12,6 +12,38 @@ redirect_from:
   - /contents/vi/chapter04/04_10_Practical_Exercises_Convex_Optimization_Problems/
 ---
 
+Hiểu lý thuyết tối ưu hóa lồi giống như đọc sách dạy bơi trên bờ; chỉ khi tự tay cầm một bài toán thực tế lộn xộn — có giá trị tuyệt đối, có chuẩn, có cực đại lồng nhau, có tham số nhiễu — và biến đổi nó về dạng chuẩn rồi chạy kiểm chứng bằng code, các khái niệm của Chương 04 mới thực sự trở thành kỹ năng của riêng bạn.
+
+Bộ bài tập thực hành này dẫn bạn đi qua năm kỹ năng cốt lõi của một kỹ sư tối ưu hóa: chuyển đổi dạng chuẩn, phân tích điều kiện tối ưu, độ nhạy nghiệm theo tham số ràng buộc, thiết kế nới lỏng cho bài toán khó và mô hình hóa tối ưu bền vững (robust optimization) khi dữ liệu có bất định.
+
+## Bản đồ kiến thức nền: Quy trình 4 bước giải bài tập thực hành tối ưu lồi
+
+Khi đối mặt với bất kỳ bài tập mô hình hóa hay chuyển đổi nào trong bộ bài này, hãy đi theo đúng khung bốn bước:
+
+- **Bước 1 — Chuẩn hóa ngôn ngữ (Standard Form Canonicalization):** Đưa mọi cực đại hóa về cực tiểu hóa ($$\max f \iff \min -f$$), chuyển mọi bất đẳng thức $$a \ge b$$ về $$b - a \le 0$$, và tách các hàm không trơn như $$|x_i|$$ hay $$\max_k (a_k^T x + b_k)$$ bằng cách thêm biến phụ (epigraph reformulation).
+- **Bước 2 — Kiểm định tính lồi & Ràng buộc tích cực:** Xác định rõ hàm nào lồi, hàm nào affine; tìm điểm cực tiểu không ràng buộc trước để biết ràng buộc nào thực sự phải kích hoạt.
+- **Bước 3 — Phân tích độ nhạy & Đối ngẫu (Sensitivity & Perturbation):** Khi vế phải ràng buộc thay đổi một lượng nhỏ $$\Delta b$$, giá trị tối ưu thay đổi xấp xỉ $$-\lambda^\star \Delta b$$ — công cụ cực mạnh để định giá tài nguyên biên.
+- **Bước 4 — Xử lý bất định & Phi lồi (Robust & Relaxation):** Với bài toán có tham số nhiễu trong tập bất định (ví dụ hình cầu $$\|u\|_2 \le \rho$$), dùng bất đẳng thức Cauchy-Schwarz để chuyển ràng buộc "với mọi $$u$$" thành dạng đóng lồi (thường là ràng buộc chuẩn $$\ell_2$$).
+
+### Khung giải thích (nên đọc chậm): Chuyển đổi một bài toán có trị tuyệt đối & bất định về dạng chuẩn lồi
+
+Xét bài toán: tìm $$x \in \mathbb{R}^2$$ cực tiểu hóa $$f(x) = |x_1 - 2| + 2|x_2 + 1|$$ thỏa mãn ràng buộc bền vững
+$$(a_0 + u)^T x \le 3 \quad \text{với mọi } u \in \mathbb{R}^2 \text{ thỏa } \|u\|_2 \le 0.5, \quad \text{trong đó } a_0 = (1, 1)^T.$$
+
+1. **Khử trị tuyệt đối bằng biến phụ $$t_1, t_2$$:**
+   Đặt $$|x_1 - 2| \le t_1$$ và $$|x_2 + 1| \le t_2$$. Tương đương với 4 bất đẳng thức tuyến tính:
+   $$x_1 - 2 \le t_1,\quad -(x_1 - 2) \le t_1,\quad x_2 + 1 \le t_2,\quad -(x_2 + 1) \le t_2.$$
+   Hàm mục tiêu trở thành hàm tuyến tính $$t_1 + 2t_2$$!
+2. **Chuyển ràng buộc vô hạn "với mọi $$u$$" về dạng đóng lồi:**
+   Ràng buộc đúng với mọi $$\|u\|_2 \le 0.5$$ khi và chỉ khi giá trị xấu nhất (lớn nhất) cũng $$\le 3$$:
+   $$\max_{\|u\|_2 \le 0.5} (a_0^T x + u^T x) = a_0^T x + 0.5 \|x\|_2 \le 3.$$
+   (Dấu bằng đạt được theo Cauchy-Schwarz khi $$u = 0.5 \frac{x}{\|x\|_2}$$.)
+3. **Kiểm tra bài toán dạng chuẩn cuối cùng:**
+   $$\min_{x, t} \; t_1 + 2t_2 \quad \text{s.t.} \quad \begin{cases} x_1 - t_1 - 2 \le 0,\; -x_1 - t_1 + 2 \le 0 \\ x_2 - t_2 + 1 \le 0,\; -x_2 - t_2 - 1 \le 0 \\ x_1 + x_2 + 0.5\sqrt{x_1^2 + x_2^2} - 3 \le 0 \end{cases}$$
+   Mọi hàm đều lồi rõ ràng (thực chất là một bài toán SOCP)! Thử điểm $$x = (2, -1)$$: $$x_1 + x_2 + 0.5\sqrt{4+1} = 1 + 0.5\sqrt{5} \approx 2.118 \le 3$$, nên $$x^\star = (2, -1)$$ khả thi và đạt ngay $$f^\star = 0$$!
+
+---
+
 # Bài Tập Thực Hành - Bài Toán Tối Ưu Hóa Lồi
 
 ## 📝 **Bài tập 1: Chuyển đổi về dạng chuẩn**

@@ -10,6 +10,44 @@ lang: vi
 lesson_type: required
 ---
 
+Hãy hình dung một hòn bi thép nặng lăn xuống một khe núi hẹp và dài: ở hai vách núi dốc đứng bên trái–phải, lực kéo đổi chiều liên tục nên tự triệt tiêu lẫn nhau; còn dọc theo lòng khe thoai thoải đi xuống đáy, gia tốc tích tụ liên tục làm hòn bi lao vút về phía trước! Gradient Descent thuần túy giống như một người đi bộ "mất trí nhớ" — sau mỗi bước lại dừng hẳn về vận tốc 0 rồi mới tính lại hướng; còn **Momentum (Động lượng / Heavy Ball của Polyak, 1964)** trao cho thuật toán chính **quán tính vật lý** của hòn bi thép ấy!
+
+Kết quả là một sự tăng tốc ngoạn mục: trên các hàm lồi mạnh có chỉ số điều kiện xấu $$\kappa = L/m$$, Momentum rút gọn số vòng lặp từ $$O(\kappa \log(1/\epsilon))$$ xuống còn $$O(\sqrt{\kappa} \log(1/\epsilon))$$ — hoàn toàn tương đương bước nhảy của tăng tốc Nesterov trên hàm bậc hai!
+
+## Bản đồ kiến thức nền: Vật lý và Đại số của Phương pháp Momentum
+
+Ba trụ cột dưới đây giải mã trọn vẹn cách hệ số quán tính $$\beta$$ điều khiển quỹ đạo hội tụ:
+
+- **Phương trình Động lượng & Trung bình trượt lũy thừa (EMA):** Quy tắc cập nhật:
+  $$v_{k+1} = \beta v_k + \nabla f(x_k), \qquad x_{k+1} = x_k - \alpha v_{k+1}.$$
+  Khai triển đệ quy cho thấy $$v_{k+1} = \sum_{j=0}^k \beta^{k-j} \nabla f(x_j)$$: vận tốc hiện tại là tổng trọng số suy giảm theo hàm mũ của toàn bộ lịch sử gradient!
+- **Cơ chế "Triệt tiêu dao động – Khuếch đại hướng ổn định":**
+  - Theo phương thung lũng dài (gradient cùng dấu liên tục $$g$$): vận tốc tích tụ lên đến $$\frac{g}{1 - \beta}$$ — với $$\beta = 0.9$$, tốc độ tiến dọc thung lũng được khuếch đại gấp **10 lần**!
+  - Theo phương vách dốc (gradient đổi dấu $$+g, -g, +g, -g$$): các số hạng ngược dấu triệt tiêu nhau, dập tắt hiện tượng zíc-zắc!
+- **Tham số tối ưu cho hàm bậc hai:** Với hàm bậc hai có trị riêng nằm trong $$[m, L]$$, cặp tham số tối ưu của Polyak là:
+  $$\alpha^\star = \left(\frac{2}{\sqrt{L} + \sqrt{m}}\right)^2, \qquad \beta^\star = \left(\frac{\sqrt{L} - \sqrt{m}}{\sqrt{L} + \sqrt{m}}\right)^2 = \left(\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}\right)^2,$$
+  đạt hệ số co mỗi bước là $$\frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$$!
+
+### Khung giải thích (nên đọc chậm): Chạy tay 3 bước Momentum vs. GD thường trên thung lũng hẹp
+
+Xét hàm $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 9x_2^2)$$ ($$m = 1,\; L = 9,\; \kappa = 9$$).
+- Với **GD thường** dùng bước tối ưu $$t^\star = \frac{2}{9+1} = 0.2$$, hệ số co là $$\frac{9-1}{9+1} = 0.8$$.
+- Với **Momentum Polyak**, tính ngay tham số tối ưu:
+  $$\alpha^\star = \left(\frac{2}{3 + 1}\right)^2 = 0.25, \qquad \beta^\star = \left(\frac{3 - 1}{3 + 1}\right)^2 = 0.25.$$
+  Hệ số co lý thuyết giảm từ $$0.8$$ xuống còn $$\frac{\sqrt{9} - 1}{\sqrt{9} + 1} = 0.5$$!
+
+Hãy chạy tay từ $$x_0 = (1, 1)^T,\; v_0 = (0, 0)^T$$ với $$x_{k+1} = x_k - 0.25 \nabla f(x_k) + 0.25(x_k - x_{k-1})$$:
+1. **Bước 1:** $$g_0 = (1, 9)^T \implies x_1 = (1, 1)^T - 0.25(1, 9)^T = (0.75,\; -1.25)^T$$.
+2. **Bước 2:** $$g_1 = (0.75,\; -11.25)^T$$, độ dịch trước $$x_1 - x_0 = (-0.25,\; -2.25)^T$$.
+   - $$x_{2,1} = 0.75 - 0.25(0.75) + 0.25(-0.25) = 0.50$$ (trong khi GD thường mới ở $$0.8^2 = 0.64$$!).
+   - $$x_{2,2} = -1.25 - 0.25(-11.25) + 0.25(-2.25) = -1.25 + 2.8125 - 0.5625 = 1.00$$ (đang hãm dao động mạnh).
+3. **Bước 3:** $$g_2 = (0.50,\; 9.0)^T$$, $$x_2 - x_1 = (-0.25,\; 2.25)^T$$.
+   - $$x_{3,1} = 0.50 - 0.25(0.50) + 0.25(-0.25) = 0.3125$$ (so với GD thường $$0.8^3 = 0.512$$!).
+   - $$x_{3,2} = 1.00 - 0.25(9.0) + 0.25(2.25) = -0.6875$$.
+   Chỉ sau vài bước, quán tính đã kéo trục thoai thoải $$x_1$$ về đích nhanh vượt trội!
+
+---
+
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
 Hình minh họa trên trang này mô phỏng trường hợp toàn tập (full-batch) với hệ số momentum $$\beta$$ không đổi. Phân tích phổ theo phong cách Distill — bao gồm đa thức đặc trưng, giá trị $$\beta^\star$$ tối ưu, so sánh nhìn trước (look-ahead) với heavy ball, và lý do `nesterov=True` không tương đương FISTA — được trình bày trong bài hiện đại [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}); phiên bản gradient gần kề có lập lịch tham số nằm tại [09-05]({% multilang_post_url contents/chapter09/20-01-08-09_05_acceleration %}).

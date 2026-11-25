@@ -9,6 +9,33 @@ categories:
 lang: vi
 ---
 
+Trước khi cải tiến một cỗ máy, người kỹ sư giỏi luôn tháo nó ra xem từng bánh răng hoạt động ra sao. Phương pháp chắn (barrier method) ở Chương 15 thực ra đã ẩn chứa sẵn một bộ biến đối ngẫu cực kỳ đẹp mắt ngay tại mỗi điểm trên đường trung tâm $$x^\star(t)$$. Khi viết lại điều kiện tối ưu của bài toán chắn dưới góc nhìn đối ngẫu, ta sẽ bất ngờ nhận ra rằng khoảng cách tối ưu đúng bằng $$m/t$$ không phải là một ước lượng ngẫu nhiên, mà là hệ quả trực tiếp của điều kiện KKT bị nhiễu.
+
+## Bản đồ kiến thức nền: Cầu nối từ hàm chắn sang điều kiện KKT bị nhiễu
+
+Bài ôn tập này móc nối bốn khái niệm then chốt từ các chương trước thành một khung thống nhất duy nhất:
+
+- **Hàm chắn logarit (Logarithmic Barrier):** Thay vì ép cứng ràng buộc $$h_i(x) \le 0$$, ta cộng thêm $$-\frac{1}{t}\sum_{i=1}^m \log(-h_i(x))$$ để dựng một "bức tường vô hạn" dọc theo biên miền khả thi, biến bài toán có bất đẳng thức thành chuỗi bài toán chỉ có ràng buộc đẳng thức.
+- **Điều kiện dừng của bài toán chắn:** Đạo hàm của $$tf(x) - \sum_{i=1}^m \log(-h_i(x))$$ bằng không tạo ra trọng số tự nhiên $$u_i^\star(t) = -\frac{1}{t h_i(x^\star(t))} > 0$$. Đây chính là cách biến đối ngẫu "tự lộ diện" từ bài toán gốc.
+- **Hàm đối ngẫu Lagrange và chứng chỉ tối ưu:** Thay cặp $$(u^\star(t), v^\star(t))$$ vào hàm đối ngẫu $$g(u, v)$$ cho phép chứng minh chính xác $$f(x^\star(t)) - p^\star \le f(x^\star(t)) - g(u^\star(t), v^\star(t)) = m/t$$.
+- **Diễn giải KKT bị nhiễu:** Nhân hai vế công thức định nghĩa $$u_i^\star(t)$$ với $$-h_i(x^\star(t))$$ cho ra $$-u_i^\star(t) h_i(x^\star(t)) = 1/t$$ — phiên bản làm trơn của điều kiện bù chặt $$u_i h_i(x) = 0$$.
+
+### Khung giải thích (nên đọc chậm): Tính tay điểm đường trung tâm và kiểm chứng khoảng cách đối ngẫu $$m/t$$
+
+Xét bài toán lồi 1 biến với $$m = 1$$ ràng buộc bất đẳng thức:
+
+$$\min_{x} f(x) = x^2 \qquad \text{với điều kiện} \qquad h(x) = 1 - x \le 0 \quad (\text{tức } x \ge 1).$$
+
+Nghiệm chính xác dễ thấy là $$x^\star = 1$$, giá trị tối ưu $$p^\star = 1$$. Bây giờ hãy giải bài toán chắn $$\min_{x > 1} \; t x^2 - \log(x - 1)$$ bằng tay:
+
+1. **Điều kiện dừng:** Đạo hàm theo $$x$$ bằng $$0$$ cho phương trình $$2tx - \frac{1}{x - 1} = 0 \iff 2tx^2 - 2tx - 1 = 0$$.
+2. **Tại $$t = 1$$:** Phương trình là $$2x^2 - 2x - 1 = 0$$, nghiệm lớn hơn $$1$$ là $$x^\star(1) = \frac{1 + \sqrt{3}}{2} \approx 1.3660$$. Khi đó $$f(x^\star(1)) \approx 1.8660$$.
+3. **Suy ra biến đối ngẫu từ điểm chắn:** $$u^\star(1) = -\frac{1}{t h(x^\star(1))} = \frac{1}{1 \cdot (1.3660 - 1)} \approx 2.7321 > 0$$.
+4. **Kiểm chứng hàm đối ngẫu và khoảng cách $$m/t$$:** Với $$u > 0$$, hàm đối ngẫu là $$g(u) = \min_x (x^2 + u(1 - x)) = u - \frac{u^2}{4}$$. Tại $$u^\star(1) \approx 2.7321$$, ta có $$g(u^\star(1)) = 2.7321 - \frac{2.7321^2}{4} \approx 0.8660$$. Hiệu số $$f(x^\star(1)) - g(u^\star(1)) = 1.8660 - 0.8660 = 1.0000 = \frac{1}{t}$$ — khớp tuyệt đối với công thức $$m/t$$!
+5. **Tăng lên $$t = 10$$:** Giải $$20x^2 - 20x - 1 = 0$$ được $$x^\star(10) = \frac{20 + \sqrt{480}}{40} \approx 1.0477$$, lúc này $$f(x^\star(10)) - g(u^\star(10)) = \frac{1}{10} = 0.1$$, và điểm $$x^\star(t)$$ tiến sát nghiệm $$x^\star = 1$$.
+
+---
+
 Ở Chương 15 chúng ta đã tìm hiểu phương pháp chắn (barrier method), còn ở Chương 13 và Chương 16 chúng ta đã xét lý thuyết đối ngẫu. Trước khi đi sâu vào nội dung chương này, ta ôn lại ngắn gọn các khái niệm cốt lõi đó.
 
 ## Phương pháp chắn

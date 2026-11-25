@@ -12,6 +12,31 @@ redirect_from:
   - /contents/en/chapter11/11_08_Practical_Exercises_General_Duality/
 ---
 
+Working through Lagrangian duality exercises by hand builds a skill no software package can replace: the ability to spot hidden structure in a constrained problem and transform an awkward primal into a clean, tractable dual. In the exercises below—adapted from Boyd & Vandenberghe, Rockafellar, and Bertsekas—you will build Lagrangians from scratch, test Slater's condition on tricky boundary cases, dualize quadratic programs, and use weak duality to bound nonconvex problems.
+
+## Background Knowledge Map: Four Tactical Moves for General Duality Exercises
+
+- **Pillar 1 — Standardizing Constraint Signs First:** Always rewrite every inequality as $$h_i(x) \le 0$$ before attaching $$u_i \ge 0$$. Flipping a single $$\ge$$ sign reverses the sign of $$u_i$$ and breaks weak duality.
+- **Pillar 2 — Splitting $$\inf_x L(x, u, v)$$ by Separability:** Whenever $$L(x, u, v) = \sum_{j=1}^n L_j(x_j, u, v)$$ decouples across coordinates, minimize each scalar function $$L_j$$ independently—and carefully record the domain conditions where $$\inf_{x_j} L_j > -\infty$$!
+- **Pillar 3 — Testing Slater's Condition Systematically:** Check (1) convexity of $$f$$ and every $$h_i$$, (2) affinity of every $$l_j$$, and (3) existence of a single $$x$$ strictly satisfying all *non-affine* inequalities while satisfying affine equalities and inequalities.
+- **Pillar 4 — Recovering Primal Solutions from the Dual:** Once you find $$(u^\star, v^\star)$$, if $$L(x, u^\star, v^\star)$$ has a *unique* minimizer $$x^\star$$ (e.g., strictly convex $$f$$) and strong duality holds, that unique minimizer is automatically the primal optimal solution!
+
+### Step-by-Step Worked Example (Read Slowly): Dualizing an Equality-Constrained Entropy Problem
+
+Solve $$\min_{x \in \mathbb{R}_{++}^2}\; x_1 \ln x_1 + x_2 \ln x_2$$ subject to $$x_1 + x_2 = 1$$ via its Lagrange dual.
+
+1. **Form the Lagrangian with free equality multiplier $$v \in \mathbb{R}$$:**
+   $$L(x, v) = x_1 \ln x_1 + x_2 \ln x_2 + v(x_1 + x_2 - 1) = \sum_{i=1}^2 (x_i \ln x_i + v x_i) - v.$$
+2. **Minimize separably over $$x_i > 0$$:**
+   $$\frac{\partial L}{\partial x_i} = \ln x_i + 1 + v = 0 \implies x_i(v) = e^{-1 - v}.$$
+3. **Substitute back to get the dual function $$g(v)$$:**
+   Since $$x_i \ln x_i + v x_i = e^{-1-v}(-1 - v) + v e^{-1-v} = -e^{-1-v}$$, we get:
+   $$g(v) = -2 e^{-1 - v} - v.$$
+4. **Maximize $$g(v)$$ over $$v \in \mathbb{R}$$:**
+   $$g'(v) = 2 e^{-1 - v} - 1 = 0 \implies e^{-1 - v^\star} = \frac{1}{2} \implies v^\star = \ln(2) - 1.$$
+   - Dual optimal value: $$g(v^\star) = -2(1/2) - (\ln 2 - 1) = -\ln 2$$.
+   - Recover unique primal optimum: $$x_1^\star = x_2^\star = e^{-1 - v^\star} = \frac{1}{2}$$, with $$f^\star = \frac{1}{2}\ln\frac{1}{2} + \frac{1}{2}\ln\frac{1}{2} = -\ln 2 = g^\star$$!
+
 # Practical Exercises - General Duality
 
 The exercises are adapted from Boyd & Vandenberghe (2004), Rockafellar (1970), and Bertsekas (1999).

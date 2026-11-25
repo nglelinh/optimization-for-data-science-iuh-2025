@@ -12,6 +12,25 @@ redirect_from:
   - /contents/en/chapter06/06_08_Quiz_Gradient_Descent/
 ---
 
+Knowing the formula $$x_{k+1} = x_k - t\nabla f(x_k)$$ takes ten seconds; knowing *why* it converges at $$O(1/k)$$ versus $$O((1 - m/L)^k)$$, when backtracking beats fixed steps, why SGD needs diminishing step sizes, and how momentum or L1/L2 penalties reshape the trajectory takes deep conceptual clarity. This quiz puts your entire Chapter 06 toolkit to the test.
+
+## Background Knowledge Map: Chapter 06 Mastery Checklist
+
+1. **Algorithm & Step-Size Rules**: Gradient descent update mechanics, stability threshold $$t < 2/L$$, Armijo backtracking condition $$f(x - t\nabla f) \le f(x) - \alpha t\|\nabla f\|_2^2$$, and exact line-search orthogonality $$\nabla f(x_{k+1})^T \nabla f(x_k) = 0$$.
+2. **Convergence Theory**: $$L$$-smoothness quadratic upper bound, $$O(1/k)$$ sublinear rate for convex functions, $$O(\kappa \log(1/\varepsilon))$$ linear rate under $$m$$-strong convexity, and Nesterov's $$\Omega(1/k^2)$$ lower bound for first-order methods.
+3. **Stochastic & Accelerated Variants**: Unbiasedness and variance floor of SGD, Robbins–Monro step-size conditions, Heavy-Ball/Nesterov momentum mechanics, and functional gradient descent in Gradient Boosting.
+4. **Regularization & Loss Geometry**: How L2 (Ridge) guarantees strong convexity and shrinks weights smoothly, while L1 (Lasso) induces exact sparsity via sharp coordinate corners.
+
+### Step-by-Step Worked Example (Read Slowly): Pre-Quiz Diagnostic on Convergence Rates
+
+**Warm-Up Question**: A twice-differentiable objective $$f: \mathbb{R}^2 \to \mathbb{R}$$ has Hessian $$\nabla^2 f(x) = \begin{bmatrix} 6 & 0 \\ 0 & 2 \end{bmatrix}$$ everywhere. If we run fixed-step GD with $$t = 1/L$$, what is the exact per-iteration contraction factor on $$\|x^{(k)} - x^\star\|_2$$?
+
+1. **Read off $$L$$ and $$m$$**: $$L = \lambda_{\max} = 6$$ and $$m = \lambda_{\min} = 2$$, so $$\kappa = 3$$.
+2. **Compute the step size**: $$t = 1/L = 1/6$$.
+3. **Compute the iteration matrix $$I - t\nabla^2 f$$**:
+   $$I - \frac{1}{6}\begin{bmatrix} 6 & 0 \\ 0 & 2 \end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 0 & 2/3 \end{bmatrix}.$$
+4. **Read off the worst-case spectral contraction**: The largest eigenvalue magnitude is $$\frac{2}{3} = 1 - \frac{m}{L} = 1 - \frac{2}{6}$$. (Along $$x_1$$ it hits $$x_1^\star$$ in 1 step; along $$x_2$$ it shrinks by $$2/3$$ every step.) Keep this spectral picture handy for the quiz questions below!
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

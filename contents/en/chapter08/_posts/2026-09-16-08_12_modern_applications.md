@@ -10,6 +10,30 @@ lang: en
 lesson_type: optional
 ---
 
+In production machine learning between 2022 and 2026, theoretical elegance only survives if it fits inside a fast, GPU-friendly inner loop. That is precisely why the projected and stochastic subgradient methods of Chapter 08 have never gone out of style: from crafting worst-case adversarial perturbations in RobustBench to balancing fairness constraints via dual subgradient updates in Fairlearn, modern ML systems rely daily on cheap nonsmooth steps coupled with closed-form projections.
+
+## Background Knowledge Map: Bridging Classical Subgradient Theory to Modern ML Systems
+
+- **Pillar 1 — Subgradients Inside Autograd:** ReLU activations, Huber/hinge losses, and quantile regressors are piecewise smooth; automatic differentiation returns a valid subgradient (more generally, a conservative-field element) at kinks in $$O(1)$$ extra overhead.
+- **Pillar 2 — Projection-Friendly Threat & Policy Sets:** Constraining perturbations to $$\ell_\infty$$ boxes (clipping) or $$\ell_2$$ balls (radial rescaling), and constraining dual fairness weights to the probability simplex or nonnegative orthant, makes projected subgradient iterations trivial to vectorize.
+- **Pillar 3 — Dual Subgradient Updates for Fairness Constraints:** When a model must satisfy group error-rate disparities $$g_j(\theta) \le \tau_j$$, the dual multiplier update $$\lambda^{(k+1)} = \max(0, \lambda^{(k)} + \eta_k (g(\theta^{(k)}) - \tau))$$ is literally projected subgradient ascent on the concave Lagrangian dual.
+- **Pillar 4 — Coarse-Accuracy Sweet Spot:** Because generalization error and finite-sample noise cap useful optimization precision in ML, the $$O(1/\varepsilon^2)$$ iteration rate is easily outweighed by minimal memory footprint and trivial parallelization.
+
+### Step-by-Step Worked Example (Read Slowly): One Dual Projected Subgradient Step for a Fairness Constraint
+
+Suppose a classifier must keep the false-negative-rate gap between two demographic groups below $$\tau = 0.05$$: $$g(\theta) - 0.05 \le 0$$. We maintain a nonnegative Lagrange multiplier $$\lambda \ge 0$$ updated via projected subgradient ascent $$\lambda^{(k+1)} = \max(0,\; \lambda^{(k)} + \eta (g(\theta^{(k)}) - \tau))$$ with step size $$\eta = 2.0$$ and initial multiplier $$\lambda^{(0)} = 0.20$$.
+
+1. **Round 1 — Constraint violated:** Suppose the current classifier $$\theta^{(0)}$$ has disparity $$g(\theta^{(0)}) = 0.12 > 0.05$$.
+   - Constraint violation (dual subgradient): $$s^{(0)} = 0.12 - 0.05 = +0.07$$.
+   - Update and project onto $$\lambda \ge 0$$:
+     $$\lambda^{(1)} = \max(0,\; 0.20 + 2.0(0.07)) = \max(0,\; 0.34) = 0.34.$$
+   - Raising $$\lambda$$ from $$0.20$$ to $$0.34$$ increases the penalty on the disadvantaged group's errors in the next learner round.
+2. **Round 2 — Constraint over-satisfied:** Suppose the reweighted classifier $$\theta^{(1)}$$ achieves $$g(\theta^{(1)}) = 0.01 < 0.05$$.
+   - Dual subgradient: $$s^{(1)} = 0.01 - 0.05 = -0.04$$.
+   - Update and project onto $$\lambda \ge 0$$:
+     $$\lambda^{(2)} = \max(0,\; 0.34 + 2.0(-0.04)) = \max(0,\; 0.26) = 0.26.$$
+3. **Insight:** This two-line projected subgradient update automatically tightens the fairness penalty when the threshold is violated and relaxes it when the model has headroom—connecting Chapter 08 directly to the Lagrangian duality of Chapter 11.
+
 # Modern applications of the subgradient method
 
 Chapter 08 analyses the iteration $$x^{k+1}=x^k-\alpha_k g^k$$ with $$g^k\in\partial f(x^k)$$, its projected cousin, and the stochastic variant. This optional lesson maps those three templates onto pipelines that were standard or newly standardised between about 2022 and 2026. We do not re-prove the $$O(1/\varepsilon^2)$$ rate; we show why a practitioner still runs a (projected, stochastic) subgradient step.

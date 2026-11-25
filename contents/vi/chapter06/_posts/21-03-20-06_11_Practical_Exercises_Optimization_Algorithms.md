@@ -12,6 +12,37 @@ redirect_from:
   - /contents/vi/chapter06/06_10_Practical_Exercises_Optimization_Algorithms/
 ---
 
+Đọc định lý rằng Heavy Ball (Momentum) tăng tốc từ $$\kappa$$ xuống $$\sqrt{\kappa}$$ hay Backtracking tự thích ứng bước luôn thú vị, nhưng chỉ khi bạn tự tay viết vòng lặp tính số, vẽ đường cong log-sai số $$\log(f(x^{(k)}) - f^\star)$$ và chứng kiến đường thẳng dốc đứng của hội tụ tuyến tính cắt mặt đường cong thoải của hội tụ $$O(1/k)$$, trực giác thuật toán mới thực sự ngấm vào máu!
+
+Bộ bài tập thực hành này tập trung vào các kỹ năng định lượng cốt lõi của Chương 06: phân tích tốc độ hội tụ thực nghiệm, so sánh trực tiếp Gradient Descent vs. Heavy Ball Momentum trên ma trận điều kiện xấu, cài đặt Backtracking Line Search và đánh giá nhiễu của SGD.
+
+## Bản đồ kiến thức nền: Bốn thói quen vàng khi thực nghiệm thuật toán tối ưu
+
+Trước khi giải bài tập trên giấy hoặc viết mã Python mô phỏng, hãy ghi nhớ bốn quy chuẩn thực nghiệm sau:
+
+- **Luôn vẽ sai số trên thang bán logarit (`semilogy`):** Trên biểu đồ $$\log_{10}(f(x^{(k)}) - f^\star)$$ theo số vòng lặp $$k$$, **hội tụ tuyến tính $$O(c^k)$$ hiện ra thành một đường thẳng** có độ dốc $$\log_{10}(c)$$, còn hội tụ $$O(1/k)$$ hiện ra thành một đường cong phẳng dần rất dễ phân biệt bằng mắt!
+- **Kiểm tra gradient bằng sai phân hữu hạn (Gradient Checking):** Trước khi đổ lỗi cho thuật toán không hội tụ, luôn kiểm tra công thức $$\nabla f(x)$$ của bạn bằng $$\frac{f(x + \varepsilon e_i) - f(x - \varepsilon e_i)}{2\varepsilon}$$ ($$\varepsilon = 10^{-6}$$); 80% lỗi thuật toán trong thực tế đến từ tính sai gradient!
+- **So sánh công bằng theo số phép tính gradient (Oracle Calls):** Khi so sánh Batch GD, Backtracking và SGD, đừng chỉ đếm số vòng lặp `k` — hãy đếm tổng số lượt duyệt dữ liệu (epochs) hoặc số lần đánh giá hàm/gradient!
+- **Kiểm soát chỉ số điều kiện $$\kappa$$ khi tạo bài test:** Để thấy rõ sự khác biệt giữa GD và Momentum, hãy thử nghiệm trên ma trận $$Q$$ có $$\kappa \in \{10, 100, 1000\}$$ (vì tại $$\kappa = 1$$ cả hai đều hội tụ sau đúng 1 bước!).
+
+### Khung giải thích (nên đọc chậm): Tính trước độ dốc đường `semilogy` để đối chiếu với kết quả chạy code
+
+Giả sử bạn chạy bài tập so sánh GD và Momentum trên bài toán bậc hai có $$m = 1,\; L = 100$$ ($$\kappa = 100$$) với bước tối ưu:
+
+1. **Dự đoán lý thuyết cho GD ($$t^\star = \frac{2}{101} \approx 0.0198$$):**
+   - Hệ số co khoảng cách: $$\rho_{\text{GD}} = \frac{100 - 1}{100 + 1} = \frac{99}{101} \approx 0.9802$$.
+   - Hệ số co sai số hàm: $$\rho_{\text{GD}}^2 \approx 0.9608$$.
+   - Số bước để sai số hàm giảm **10 lần** (1 bậc trên thang `log10`):
+     $$k_{10\times}^{\text{GD}} = \frac{\ln 10}{-\ln(0.9608)} \approx \frac{2.3026}{0.0400} \approx 58 \text{ bước!}$$
+2. **Dự đoán lý thuyết cho Heavy Ball Momentum ($$\alpha^\star = \frac{4}{121},\; \beta^\star = \frac{81}{121}$$):**
+   - Hệ số co khoảng cách: $$\rho_{\text{HB}} = \frac{\sqrt{100} - 1}{\sqrt{100} + 1} = \frac{9}{11} \approx 0.8182$$.
+   - Hệ số co sai số hàm: $$\rho_{\text{HB}}^2 \approx 0.6694$$.
+   - Số bước để sai số hàm giảm **10 lần**:
+     $$k_{10\times}^{\text{HB}} = \frac{\ln 10}{-\ln(0.6694)} \approx \frac{2.3026}{0.4013} \approx 6 \text{ bước!}$$
+3. **Kiểm chứng:** Khi chạy code vẽ `semilogy`, nếu bạn thấy Momentum cần khoảng 60 bước để giảm sai số xuống $$10^{-10}$$ còn GD cần gần 580 bước (chênh đúng ~10 lần $$= \sqrt{\kappa}$$!), bạn biết chắc chắn code của mình đã chính xác 100%!
+
+---
+
 # Bài tập Thực hành — Thuật toán Tối ưu hóa
 
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004) và Nocedal & Wright (2006).

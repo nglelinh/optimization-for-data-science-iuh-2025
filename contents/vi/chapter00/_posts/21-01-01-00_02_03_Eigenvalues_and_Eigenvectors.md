@@ -10,6 +10,32 @@ categories:
 lesson_type: required
 ---
 
+Khi một ma trận $$A$$ tác động lên các vector trong không gian, hầu hết vector đều bị xoay lệch sang hướng khác. Thế nhưng luôn có những "trục đặc biệt" mà trên đó ma trận chỉ kéo giãn hoặc co ngắn vector mà không hề xoay chúng: đó là các **vector riêng**, còn hệ số kéo giãn chính là **giá trị riêng**. Trong tối ưu hóa lồi, đây không phải khái niệm trang trí — phổ giá trị riêng của ma trận Hessian quyết định trực tiếp hàm có lồi hay không, và Gradient Descent sẽ chạy nhanh như tên bắn hay bò chậm rì theo đường zíc-zắc.
+
+Bài học này giải mã cách tính, ý nghĩa hình học và vai trò cốt tử của giá trị riêng trong phân tích độ cong và tính xác định dương.
+
+## Bản đồ kiến thức nền: Phổ ma trận và hình học tối ưu
+
+- **Phương trình đặc trưng ($$Av = \lambda v$$):** Biến ma trận nhiều chiều thành các hệ số vô hướng $$\lambda_i$$ độc lập trên từng trục riêng. Tích các giá trị riêng bằng $$\det(A)$$, tổng các giá trị riêng bằng vết $$\operatorname{tr}(A)$$.
+- **Định lý phổ cho ma trận đối xứng (Spectral Theorem):** Mọi ma trận đối xứng thực $$H = H^T$$ (như ma trận Hessian) đều có giá trị riêng thực và một hệ cơ sở trực chuẩn các vector riêng: $$H = Q \Lambda Q^T$$.
+- **Tính xác định dương ($$H \succ 0$$) và bán xác định dương ($$H \succeq 0$$):** $$H \succeq 0 \iff$$ mọi $$\lambda_i \ge 0$$ (điều kiện lồi bậc hai); $$H \succ 0 \iff$$ mọi $$\lambda_i > 0$$ (lồi chặt / lồi mạnh).
+- **Chỉ số điều kiện ($$\kappa = \lambda_{\max}/\lambda_{\min}$$):** Đo độ "dẹt" của thung lũng hàm bậc hai. Khi $$\kappa = 1$$, đường mức là hình tròn và Gradient Descent hội tụ tức thì; khi $$\kappa \gg 1$$, thung lũng hẹp dài làm Gradient Descent dao động mạnh qua lại hai vách.
+
+### Khung giải thích (nên đọc chậm): Phân tích phổ và chỉ số điều kiện của Hessian $$H = \begin{pmatrix}5 & 2\\ 2 & 2\end{pmatrix}$$
+
+Xét dạng toàn phương $$f(x) = \frac{1}{2}x^T H x$$ với $$H = \begin{pmatrix}5 & 2\\ 2 & 2\end{pmatrix}$$:
+
+1. **Tìm giá trị riêng bằng vết và định thức:**
+   $$\operatorname{tr}(H) = 5 + 2 = 7, \qquad \det(H) = 5\cdot 2 - 2\cdot 2 = 6.$$
+   Đa thức đặc trưng: $$\lambda^2 - 7\lambda + 6 = (\lambda - 6)(\lambda - 1) = 0 \implies \lambda_1 = 6,\ \lambda_2 = 1.$$
+2. **Tìm hai vector riêng trực giao:**
+   - Với $$\lambda_1 = 6$$: $$(H - 6I)v_1 = \begin{pmatrix}-1 & 2\\ 2 & -4\end{pmatrix}v_1 = 0 \implies v_1 = \begin{pmatrix}2\\ 1\end{pmatrix}$$ (kiểm tra: $$Hv_1 = (12, 6)^T = 6v_1$$).
+   - Với $$\lambda_2 = 1$$: $$(H - I)v_2 = \begin{pmatrix}4 & 2\\ 2 & 1\end{pmatrix}v_2 = 0 \implies v_2 = \begin{pmatrix}-1\\ 2\end{pmatrix}$$ (kiểm tra: $$Hv_2 = (-1, 2)^T = 1v_2$$).
+   Dễ thấy $$v_1^T v_2 = 2(-1) + 1(2) = 0$$ (vuông góc tuyệt đối!).
+3. **Đọc thông điệp tối ưu hóa:** Vì $$\lambda_1 = 6 > 0$$ và $$\lambda_2 = 1 > 0$$, ma trận $$H \succ 0$$ nên $$f$$ là hàm lồi mạnh với hằng số lồi mạnh $$m = 1$$ và hằng số trơn $$L = 6$$. Chỉ số điều kiện là $$\kappa = L/m = 6$$: trục dọc theo $$v_1$$ dốc gấp $$6$$ lần trục dọc theo $$v_2$$.
+
+---
+
 Bài học này trình bày khái niệm giá trị riêng và vector riêng — công cụ quan trọng để phân tích hành vi của các phép biến đổi tuyến tính và hàm toàn phương trong tối ưu hóa.
 
 ---

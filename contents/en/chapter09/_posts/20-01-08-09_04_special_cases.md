@@ -9,6 +9,31 @@ categories:
 lang: en
 ---
 
+One of the deepest pleasures in convex optimization is watching seemingly unrelated algorithms snap together as special cases of a single template. Proximal gradient descent on $$f(x) = g(x) + h(x)$$ is not merely one more algorithm—it is a unifying umbrella that contains unconstrained gradient descent ($$h = 0$$), projected gradient descent ($$h = I_C$$), and Martinet–Rockafellar's proximal point / proximal minimization algorithm ($$g = 0$$) all at once. Seeing these connections lets you transfer convergence proofs and intuition effortlessly across all three regimes.
+
+## Background Knowledge Map: The Unified Family of Generalized Gradient Methods
+
+- **Pillar 1 — Smooth Limit ($$h(x) \equiv 0 \implies$$ Gradient Descent):** When $$h = 0$$, $$\operatorname{prox}_{t h}(y) = \arg\min_z \frac{1}{2t}\|z - y\|_2^2 = y$$ (the identity map), reducing proximal gradient directly to $$x^{(k)} = x^{(k-1)} - t_k \nabla g(x^{(k-1)})$$.
+- **Pillar 2 — Indicator Limit ($$h(x) = I_C(x) \implies$$ Projected Gradient Descent):** Setting $$h(x) = 0$$ for $$x \in C$$ and $$+\infty$$ otherwise makes $$\operatorname{prox}_{t I_C}(y) = \arg\min_{z \in C} \|z - y\|_2^2 = P_C(y)$$, recovering projected gradient descent with an $$O(1/\varepsilon)$$ rate (beating projected *subgradient*'s $$O(1/\varepsilon^2)$$ whenever $$g$$ is smooth!).
+- **Pillar 3 — Pure Proximal Limit ($$g(x) \equiv 0 \implies$$ Proximal Minimization / Point Algorithm):** When $$g = 0$$, the update $$x^{(k)} = \operatorname{prox}_{t_k h}(x^{(k-1)})$$ minimizes a strongly convex regularization of $$h$$ at every step. It converges for *any* step size $$t_k > 0$$ (even without smoothness of $$h$$!), though evaluating $$\operatorname{prox}_{t_k h}$$ can be as hard as minimizing $$h$$ itself.
+- **Pillar 4 — When Prox Is Intractable:** If $$\operatorname{prox}_{t h}$$ has no closed form (e.g., total variation or overlapping group Lasso), one must either solve the prox subproblem approximately (requiring summable inner errors) or switch to operator splitting (ADMM, Douglas–Rachford, primal-dual methods).
+
+### Step-by-Step Worked Example (Read Slowly): One Formula, Three Classical Algorithms
+
+Let $$C = [0, \infty)$$ (the nonnegative half-line), $$g(x) = \frac{1}{2}(x + 2)^2$$ (so $$\nabla g(x) = x + 2$$, $$L = 1$$), and start at $$x^{(0)} = 1$$ with step size $$t = 0.5$$.
+
+1. **Case 1 — $$h(x) = 0$$ (Ordinary Gradient Descent):**
+   $$x^{(1)} = \operatorname{prox}_{0.5 \cdot 0}(1 - 0.5(3)) = 1 - 1.5 = -0.5.$$
+   The iterate freely enters the negative half-line heading toward $$x^\star = -2$$.
+2. **Case 2 — $$h(x) = I_{[0, \infty)}(x)$$ (Projected Gradient Descent):**
+   - Gradient proposal: $$y = 1 - 0.5(3) = -0.5$$.
+   - Prox of indicator = Euclidean projection onto $$[0, \infty)$$:
+     $$x^{(1)} = P_{[0, \infty)}(-0.5) = \max(-0.5,\; 0) = 0.$$
+   It immediately hits the constrained optimum $$x^\star = 0$$!
+3. **Case 3 — $$g(x) = 0$$, $$h(x) = \frac{1}{2}(x + 2)^2$$ (Proximal Minimization Algorithm):**
+   $$x^{(1)} = \arg\min_z \left\{ \frac{1}{2(0.5)}(z - 1)^2 + \frac{1}{2}(z + 2)^2 \right\} = \arg\min_z \left\{ (z - 1)^2 + \frac{1}{2}(z + 2)^2 \right\}.$$
+   Setting the derivative $$2(z - 1) + (z + 2) = 0 \implies 3z = 0 \implies x^{(1)} = 0$$. Notice that unlike explicit gradient descent, this *implicit* step stays stable for any $$t > 0$$—even $$t = 1000$$ moves smoothly to $$z = \frac{1 - 2t}{1 + t} \approx -2$$ without ever diverging!
+
 # Special cases
 
 Proximal gradient descent is also called composite gradient descent or generalized gradient descent.

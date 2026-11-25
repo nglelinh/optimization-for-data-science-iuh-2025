@@ -9,6 +9,27 @@ categories:
 lang: en
 ---
 
+Here is a practical secret of every real interior-point solver: *nobody actually cares about the central path for its own sake!* The central path is merely a highway leading to $$x^\star$$. Spending 12 Newton steps to compute $$x^*(t^{(k)})$$ to 15 decimal places when you are immediately going to bump $$t$$ up by a factor of 10 anyway is pure wasted work. **Barrier Method v.2** replaces exact centering with *approximate* centering—stopping Newton as soon as $$\lambda(x)$$ is moderately small—and achieves the exact same accuracy in a fraction of the total Newton steps!
+
+## Background Knowledge Map: Inexact Centering & Total Newton Complexity
+
+- **Pillar 1 — Central Path as "Means to an End":** Intermediate iterates $$x^{(k)} \approx x^*(t^{(k)})$$ only need to stay inside Newton's local neighborhood of the central path—not sit on it to machine precision.
+- **Pillar 2 — Stopping Criterion for Inner Newton Steps:** Using the Newton decrement $$\frac{1}{2}\lambda_t(x)^2 \le \epsilon_{\text{inner}}$$ (or $$\lambda_t(x) \le \eta$$) cleanly terminates each approximate centering step without wasted iterations.
+- **Pillar 3 — Total Newton Complexity via Self-Concordance:** Combining the outer loop with Nesterov–Nemirovskii's self-concordance bound proves that total Newton steps grow only as $$O\left(\sqrt{m}\log\left(\frac{m}{t^{(0)}\epsilon}\right)\right)$$ in theory—and roughly 20–40 total steps *independent of $$m$$* in practice!
+- **Pillar 4 — Bottleneck Shifts to Linear Algebra:** Because total Newton iterations barely change from $$m = 100$$ to $$m = 100{,}000$$, the true runtime of modern IPMs is governed almost entirely by the sparse KKT factorization cost per Newton step.
+
+### Step-by-Step Worked Example (Read Slowly): Comparing Exact vs. Inexact Centering Work
+
+Suppose a barrier solve requires $$8$$ outer iterations ($$\mu = 10$$) from $$t = 1$$ to $$t = 10^8$$. At each outer step, after bumping $$t \leftarrow 10t$$, suppose the warm-started iterate has Newton decrement $$\lambda \approx 0.4$$, and each pure Newton step squares $$\lambda$$ roughly as $$\lambda_{j+1} \approx \lambda_j^2$$.
+
+1. **Barrier Method v.1 (Exact centering to $$\lambda \le 10^{-10}$$ at every outer step):**
+   - $$\lambda: 0.4 \to 0.16 \to 0.0256 \to 6.6 \times 10^{-4} \to 4.3 \times 10^{-7} \to 1.8 \times 10^{-13}$$ (5 Newton steps per outer loop).
+   - Total Newton steps: $$8 \times 5 = 40$$ steps.
+2. **Barrier Method v.2 (Inexact centering to $$\lambda \le 0.2$$ on intermediate loops, exact only on the final loop):**
+   - Intermediate loops (7 loops): $$\lambda: 0.4 \to 0.16 \le 0.2$$ (**1–2 Newton steps** per loop!).
+   - Final loop (1 loop): 5 Newton steps to polish $$x^\star$$ to $$10^{-13}$$.
+   - Total Newton steps: $$7 \times 2 + 5 = 19$$ steps—**cutting runtime in half** with zero loss in final precision!
+
 In the previous algorithm, we generated solutions along the central path, but in reality, the central path is just a means to reach the optimal solution ("means to an end"). Therefore, it is not necessary to solve the problem exactly.
 
 ### Algorithm

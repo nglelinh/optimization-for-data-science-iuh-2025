@@ -12,6 +12,32 @@ redirect_from:
   - /contents/vi/chapter11/11_10_modern_applications/
 ---
 
+Trong thực tế giai đoạn 2022–2026, rất ít mô hình học máy hay hệ thống điều khiển được chạy trong "phòng thí nghiệm lý tưởng" nơi phân phối dữ liệu kiểm thử giống hệt dữ liệu huấn luyện. Khi khí hậu biến đổi, hành vi người dùng dịch chuyển, hay cảm biến lưới điện bị nhiễu, mô hình tối ưu theo kỳ vọng thực nghiệm thông thường có thể sụp đổ đột ngột. Giải pháp đột phá của thập kỷ hiện tại là **Tối ưu bền vững theo phân phối (Distributionally Robust Optimization — DRO)**: thay vì tối thiểu hóa mất mát trung bình trên đúng phân phối mẫu $$\hat{P}$$, ta tối thiểu hóa **mất mát kỳ vọng xấu nhất** trên toàn bộ một quả cầu phân phối $$Q$$ nằm gần $$\hat{P}$$ (theo khoảng cách Wasserstein hay $$f$$-divergence)!
+
+Nghe qua thì DRO bất khả thi về mặt tính toán vì bài toán bên trong $$\sup_{Q \in \mathcal{B}(\hat{P}, \rho)} \mathbb{E}_Q[\ell(x, \xi)]$$ tối ưu trên một **không gian vô hạn chiều các phân phối xác suất**! Nhưng phép màu của Chương 11 xuất hiện đúng lúc: bằng cách áp dụng **đối ngẫu mạnh Lagrange** lên bài toán con vô hạn chiều ấy, ta biến nó thành một **bài toán tối ưu lồi hữu hạn chiều chỉ có đúng 1 biến nhân tử Lagrange vô hướng $$\lambda \ge 0$$**!
+
+## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại của đối ngẫu Lagrange (2022–2026)
+
+- **Tối ưu bền vững theo phân phối (DRO):** Đối ngẫu mạnh biến bài toán minimax trên không gian phân phối xác suất (Wasserstein / KL / $$\chi^2$$-divergence) thành bài toán có số hạng điều chuẩn tường minh — hé lộ mối liên hệ sâu sắc rằng DRO thực chất tương đương với việc thêm điều chuẩn chuẩn Lipschitz lên mô hình!
+- **Ràng buộc vật lý cứng trong lưới điện và kỹ thuật (OPF-DNN & DC3):** Kết hợp mạng nơ-ron dự đoán nhanh với bước sửa ràng buộc bằng hàm Lagrangian tăng cường (Augmented Lagrangian) giúp giải bài toán điều phối công suất xoay chiều (AC-OPF) nhanh gấp trăm lần bộ giải cổ điển mà vẫn bảo đảm không vi phạm giới hạn nhiệt hay điện áp.
+- **Học máy công bằng như trò chơi yên ngựa Lagrange:** Ràng buộc công bằng giữa các nhóm nhân khẩu học được đưa vào hàm Lagrangian và giải bằng vòng lặp cực tiểu hóa theo trọng số mô hình xen kẽ cực đại hóa theo nhân tử Lagrange.
+- **Máy vector hỗ trợ (SVM) và thủ thuật nhân (Kernel Trick):** Nhờ đối ngẫu mạnh (Slater tự động thỏa cho ràng buộc affine), bài toán đối ngẫu SVM chỉ phụ thuộc vào tích vô hướng $$x_i^T x_j$$, mở cửa cho mọi nhân phi tuyến $$K(x_i, x_j)$$ trong không gian Hilbert vô hạn chiều!
+
+### Khung giải thích (nên đọc chậm): Tính tay đối ngẫu Lagrange cho bài toán DRO 2 trạng thái
+
+Giả sử một quyết định đầu tư có 2 kịch bản mất mát là $$\ell_1 = 1$$ và $$\ell_2 = 5$$. Phân phối thực nghiệm hiện tại là $$\hat{p} = (0.5, 0.5)$$ (mất mát trung bình $$0.5(1) + 0.5(5) = 3.0$$). Ta muốn tìm **mất mát kỳ vọng xấu nhất** trên mọi phân phối $$q = (q_1, q_2)$$ cách $$\hat{p}$$ không quá $$\rho = 0.2$$ theo chuẩn $$\ell_1$$ (tức $$|q_1 - 0.5| + |q_2 - 0.5| \le 0.2$$, $$q_1 + q_2 = 1, q \ge 0$$).
+
+1. **Giải trực tiếp bài toán gốc (vì chỉ có 2 trạng thái):**
+   Để mất mát lớn nhất, ta chuyển tối đa xác suất từ kịch bản nhẹ ($$\ell_1 = 1$$) sang kịch bản nặng ($$\ell_2 = 5$$): với $$|q_1 - 0.5| + |q_2 - 0.5| = 2|q_2 - 0.5| \le 0.2 \implies q_2 \le 0.6$$.
+   Phân phối xấu nhất là $$q^* = (0.4, 0.6)$$, cho mất mát xấu nhất $$p^* = 0.4(1) + 0.6(5) = 3.4$$.
+2. **Giải bằng đối ngẫu Lagrange (chỉ 1 nhân tử phạt $$\lambda \ge 0$$ cho ngân sách $$\rho = 0.2$$):**
+   Đặt $$\Delta = q - \hat{p} = (-\delta, +\delta)$$ với $$2|\delta| \le 0.2$$. Hàm Lagrangian theo $$\delta$$ là:
+   $$L(\delta, \lambda) = 3.0 + (5 - 1)\delta + \lambda(0.2 - 2|\delta|) = 3.0 + 0.2\lambda + (4\delta - 2\lambda|\delta|).$$
+   Để $$\sup_\delta L(\delta, \lambda)$$ hữu hạn (không vọt lên $$+\infty$$), ta bắt buộc có $$2\lambda \ge 4 \implies \lambda \ge 2$$! Khi đó $$\sup_\delta (4\delta - 2\lambda|\delta|) = 0$$.
+3. **Cực tiểu hóa hàm đối ngẫu $$g(\lambda) = 3.0 + 0.2\lambda$$ trên $$\lambda \ge 2$$:**
+   Đạt tại $$\lambda^* = 2$$ với $$d^* = 3.0 + 0.2(2) = 3.4 = p^*$$!
+   Ý nghĩa tuyệt đẹp: mất mát DRO bằng **mất mát thực nghiệm ($$3.0$$) cộng thêm bán kính bền vững ($$0.2$$) nhân biên độ dao động mất mát ($$\frac{5-1}{2} = 2$$)** — đúng là công thức điều chuẩn hóa từ đối ngẫu Lagrange!
+
 # Ứng dụng hiện đại của đối ngẫu Lagrange
 
 Chương 11 mở rộng lý thuyết đối ngẫu từ quy hoạch tuyến tính sang các bài toán tối ưu tổng quát: hàm Lagrangian $$L(x,u,v)$$, hàm đối ngẫu $$g(u,v)=\inf_x L$$, tính đối ngẫu yếu $$g\le f^\star$$ và tính đối ngẫu mạnh khi bài toán lồi kèm điều kiện chuẩn hóa ràng buộc. Bài đọc tùy chọn này trình bày bốn ứng dụng hiện đại của cơ chế đối ngẫu đó — trong đó nhân tử Lagrange đóng vai trò như giá biên, bán kính bền vững hoặc tín hiệu huấn luyện.

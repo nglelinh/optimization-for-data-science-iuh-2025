@@ -12,6 +12,31 @@ redirect_from:
   - /contents/vi/chapter10/10_09_modern_applications/
 ---
 
+Quy hoạch tuyến tính và tính đối ngẫu của nó đã gần 80 tuổi, nhưng giai đoạn 2022–2026 lại chứng kiến một cuộc "hồi sinh rực rỡ" của đối ngẫu LP trong những bài toán tiên phong nhất của trí tuệ nhân tạo và khoa học dữ liệu. Từ việc **chứng nhận an toàn cho mạng nơ-ron sâu** (khẳng định không tồn tại bất kỳ nhiễu đối kháng nào đánh lừa được mô hình), định giá điện năng theo thời gian thực trên lưới điện quốc gia, cho tới bài toán vận chuyển tối ưu (Optimal Transport / khoảng cách Wasserstein) so sánh hai phân phối xác suất trong mô hình sinh — tất cả đều chạy dựa trên cặp Primal–Dual LP!
+
+Điểm mấu chốt khiến đối ngẫu LP trở nên bất khả chiến bại trong các ứng dụng kiểm chứng an toàn là **tính đối ngẫu yếu**: ngay cả khi bạn không có đủ thời gian giải bài toán LP hàng triệu biến tới nghiệm chính xác tuyệt đối, *bất kỳ nghiệm đối ngẫu khả thi nào* cũng đã cung cấp ngay một **chứng chỉ cận dưới toán học 100% chặt chẽ**!
+
+## Bản đồ kiến thức nền: Bốn miền ứng dụng hiện đại của đối ngẫu LP (2022–2026)
+
+- **Kiểm chứng mạng nơ-ron (Neural Network Verification — $$\alpha,\beta$$-CROWN):** Nới lỏng hàm kích hoạt phi tuyến ReLU $$y = \max(0, x)$$ trên đoạn $$[l, u]$$ thành một tam giác lồi (Planet relaxation) biến bài toán kiểm chứng thành LP; giải bài toán đối ngẫu trên GPU cho ra cận dưới an toàn chỉ trong vài mili-giây!
+- **Thị trường điện và giá bóng theo nút (Locational Marginal Pricing — LMP):** Bộ điều độ lưới điện giải LP điều phối công suất phát (DC-OPF) mỗi 5 phút; biến đối ngẫu của ràng buộc cân bằng cung–cầu tại mỗi nút lưới chính là giá điện bán buôn tại địa điểm đó!
+- **Luồng cực đại – lát cắt cực tiểu thời gian gần tuyến tính:** Đột phá lý thuyết năm 2022 (Chen–Kyng–Liu–Peng–Probst Gutenberg–Sachdeva) giải Max Flow và Min-Cost Flow trong thời gian gần tuyến tính $$m^{1+o(1)}$$ nhờ kết hợp phương pháp điểm trong với cấu trúc dữ liệu động trên cặp Primal–Dual.
+- **Vận chuyển tối ưu (Optimal Transport / Earth Mover's Distance):** Bài toán Kantorovich tìm kế hoạch vận chuyển khối lượng xác suất rẻ nhất là một LP khổng lồ, còn bài toán đối ngẫu Kantorovich–Rubinstein chính là nền tảng của WGAN và các thước đo khoảng cách phân phối hiện đại.
+
+### Khung giải thích (nên đọc chậm): Tính tay nới lỏng tam giác LP cho một nơ-ron ReLU
+
+Trong kiểm chứng mạng nơ-ron, giả sử đầu vào $$x$$ của một nút ReLU $$y = \max(0, x)$$ bị chặn trong đoạn $$[l, u] = [-1, 2]$$ (trạng thái không ổn định vì $$l < 0 < u$$).
+
+1. **Dựng ba ràng buộc tuyến tính bao quanh đồ thị gấp khúc $$y = \max(0, x)$$ trên $$[-1, 2]$$:**
+   - Hai cạnh dưới (nằm dưới chữ V): $$y \ge 0$$ và $$y \ge x$$.
+   - Một cạnh trên nối hai đầu mút $$(-1, 0)$$ và $$(2, 2)$$:
+     $$y \le \frac{u}{u - l}(x - l) = \frac{2}{2 - (-1)}(x + 1) = \frac{2}{3}x + \frac{2}{3}.$$
+2. **Kiểm tra độ chặt tại ba điểm mốc:**
+   - Tại $$x = -1$$: $$0 \le y \le \frac{2}{3}(-1 + 1) = 0 \implies y = 0$$ (khớp chính xác!).
+   - Tại $$x = 2$$: $$2 \le y \le \frac{2}{3}(3) = 2 \implies y = 2$$ (khớp chính xác!).
+   - Tại điểm gãy $$x = 0$$: $$0 \le y \le \frac{2}{3}$$ (chấp nhận khoảng nới lỏng tối đa $$\frac{2}{3}$$ để đổi lấy tính tuyến tính!).
+3. **Vai trò của đối ngẫu LP:** Bằng cách gán biến đối ngẫu cho 3 ràng buộc tam giác này ở mọi nơ-ron, các trình kiểm chứng như CROWN lan truyền ngược chứng chỉ cận dưới qua toàn bộ mạng nơ-ron mà không cần chạy thuật toán đơn hình chậm chạp!
+
 # Ứng dụng hiện đại của đối ngẫu LP
 
 Chương 10 đã trình bày cách xây dựng bài toán đối ngẫu của quy hoạch tuyến tính, tính đối ngẫu yếu và mạnh, điều kiện bù, cùng hai ví dụ kinh điển là luồng cực đại – lát cắt cực tiểu và trò chơi ma trận. Bài đọc tùy chọn này giới thiệu bốn lĩnh vực trong khoa học máy tính và khoa học dữ liệu giai đoạn 2022–2026 nơi các chứng chỉ đối ngẫu đó được sử dụng trực tiếp.

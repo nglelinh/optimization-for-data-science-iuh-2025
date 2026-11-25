@@ -10,6 +10,30 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu ba bài trước là bản đồ lý thuyết của thế giới không lồi, thì bài đọc này đưa bạn vào bảo tàng những **hiện tượng thực nghiệm kỳ lạ nhất của học sâu hiện đại** — những hiện tượng từng khiến giới thống kê cổ điển phải viết lại sách giáo khoa: hai mạng nơ-ron huấn luyện hoàn toàn độc lập có thể nối với nhau bằng một con đường mất mát gần bằng $$0$$ (**mode connectivity**); mạng Transformer sau khi đã đạt $$100\%$$ độ chính xác tập train bỗng nhiên "giác ngộ" trên tập test sau hàng chục nghìn bước tiếp theo (**grokking**); và sai số kiểm tra tăng vọt ở ngưỡng nội suy rồi lại giảm sâu hơn nữa khi tăng thêm kích thước mạng (**double descent**).
+
+Điểm chung đáng kinh ngạc của cả bốn hiện tượng trong bài là chúng đều bắt nguồn trực tiếp từ hình học địa hình hàm mất mát và động lực học tối ưu mà bạn vừa học!
+
+## Bản đồ kiến thức nền: Bốn hiện tượng thực nghiệm định hình lý thuyết học sâu hiện đại
+
+Khi đọc bốn nghiên cứu tình huống trong bài, hãy gắn từng hiện tượng với nguyên lý tối ưu tương ứng:
+
+- **Liên thông mode (Mode Connectivity) và Tính đối xứng:** Do mạng nơ-ron bất biến dưới hoán vị các nơ-ron ẩn, các cực tiểu không nằm tách rời như những hố cô lập mà tạo thành mạng lưới thung lũng liên thông trong tập dưới mức; tuy nhiên *hàng rào mất mát thấp* vẫn có thể kèm *hàng rào entropy/độ cong cao* giữ SGD ở lại từng nhánh.
+- **Grokking (Tổng quát hóa muộn sau khi nội suy):** Sau khi mất mát dữ liệu đã bằng $$0$$, trọng số vẫn tiếp tục trượt bên trong đa tạp nghiệm nội suy dưới tác dụng của **weight decay (AdamW)** và thiên kiến ẩn, dần chuyển từ mạch "học vẹt" (chuẩn trọng số lớn) sang mạch "thuật toán tổng quát" (chuẩn trọng số nhỏ).
+- **Giảm kép (Double Descent):** Đường cong chữ U cổ điển của đánh đổi thiên lệch–phương sai chỉ mô tả nhánh trái ($$d < n$$). Tại ngưỡng nội suy $$d \approx n$$, ma trận thiết kế gần suy biến làm chuẩn nghiệm bùng nổ (đỉnh sai số test); vượt sang nhánh phải ($$d \gg n$$), thiên kiến ẩn chọn nghiệm chuẩn nhỏ lại kéo sai số test giảm sâu xuống lần thứ hai!
+- **Phổ Hessian thực nghiệm của mạng sâu:** Khi đo phổ Hessian của mạng đã huấn luyện, ta luôn thấy một "khối lớn" trị riêng tập trung quanh $$0$$ (hàng triệu phương phẳng) cùng đúng vài trị riêng tách rời lớn (thường bằng số lớp phân loại $$C$$) — xác nhận bức tranh hình học vừa phẳng vừa dị hướng của mạng sâu.
+
+### Khung giải thích (nên đọc chậm): Tính tay vì sao nội suy thẳng giữa hai cực tiểu hoán vị gặp "ngọn núi" mất mát
+
+Xét mạng nơ-ron 1 lớp ẩn gồm 2 nơ-ron: $$f_\theta(x) = a_1 \max(0, b_1 x) + a_2 \max(0, b_2 x)$$ với 4 tham số $$\theta = (a_1, b_1, a_2, b_2)$$. Giả sử hàm đích là $$y(x) = \max(0, 2x) - \max(0, 3x)$$ (bằng $$-x$$ với $$x > 0$$ và $$0$$ với $$x \le 0$$).
+
+1. **Hai nghiệm tối ưu toàn cục hoàn toàn đối xứng (hoán vị nơ-ron 1 và nơ-ron 2):**
+   - Nghiệm A: $$\theta_A = (1,\; 2,\; -1,\; 3) \implies f_{\theta_A}(x) = 1\cdot\max(0, 2x) - 1\cdot\max(0, 3x) = y(x)$$ (mất mát $$= 0$$!).
+   - Nghiệm B: $$\theta_B = (-1,\; 3,\; 1,\; 2) \implies f_{\theta_B}(x) = -1\cdot\max(0, 3x) + 1\cdot\max(0, 2x) = y(x)$$ (mất mát $$= 0$$!).
+2. **Thử đi theo đoạn thẳng nối $$\theta_A$$ và $$\theta_B$$ tại trung điểm $$\theta_{\text{mid}} = \frac{1}{2}(\theta_A + \theta_B)$$:**
+   $$\theta_{\text{mid}} = \left(\frac{1 + (-1)}{2},\; \frac{2 + 3}{2},\; \frac{-1 + 1}{2},\; \frac{3 + 2}{2}\right) = (0,\; 2.5,\; 0,\; 2.5)!$$
+   Tại trung điểm này, cả hai trọng số lớp ra đều bằng $$0$$, nên $$f_{\theta_{\text{mid}}}(x) \equiv 0$$ — **sai lệch hoàn toàn so với $$y(x) = -x$$**, tạo thành một ngọn núi mất mát lớn chắn giữa đường thẳng!
+3. **Thông điệp của Mode Connectivity:** Hai nghiệm tốt không thể nối bằng *đoạn thẳng* do khác thứ tự hoán vị nơ-ron, nhưng lại có thể nối bằng một **đường gấp khúc 2 đoạn** (hoặc căn chỉnh lại hoán vị trước khi lấy trung bình trọng số) mà mất mát vẫn giữ gần bằng $$0$$ suốt dọc đường — mở đường cho kỹ thuật trộn mô hình (*model soup / weight averaging*) hiện đại!
 
 Các bài 28-01 đến 28-03 đã xây dựng các khái niệm điểm tới hạn, điểm yên ngựa và quá tham số hóa. Bài đọc tùy chọn này điểm qua bốn hiện tượng *thực nghiệm* nổi bật trong học sâu hiện đại gắn trực tiếp với các khái niệm đó.
 

@@ -9,6 +9,38 @@ categories:
 lang: vi
 ---
 
+Một mô hình học máy đạt sai số bằng $$0$$ trên tập huấn luyện có phải là mô hình tốt nhất không? Hoàn toàn ngược lại: nó có thể đang **học thuộc lòng cả nhiễu ngẫu nhiên** (quá khớp — overfitting) và sụp đổ thảm hại khi gặp dữ liệu mới! Để dạy mô hình biết "tổng quát hóa", tối ưu hóa học máy kết hợp hai thành phần như hai đĩa cân: **Hàm mất mát (Loss Function)** đo độ khớp với dữ liệu, và **Số hạng Điều chuẩn (Regularization)** phạt độ phức tạp của trọng số.
+
+Điều kỳ diệu là cả hai lựa chọn đó đều mang ý nghĩa sâu sắc dưới lăng kính tối ưu hóa lồi: thêm Ridge ($$\ell_2$$) lập tức biến bài toán thành **lồi mạnh** (nghiệm duy nhất, hội tụ tuyến tính); thêm Lasso ($$\ell_1$$) tạo ra các **góc nhọn trên trục tọa độ** tự động ép trọng số thừa về đúng $$0$$ (chọn đặc trưng thưa); còn đổi hàm mất mát từ MSE sang Huber hay Hinge giúp mô hình miễn nhiễm với dữ liệu ngoại lai!
+
+## Bản đồ kiến thức nền: Hình học của Điều chuẩn và Hàm mất mát
+
+Bốn trụ cột dưới đây giúp bạn chọn đúng hàm mục tiêu cho mọi bài toán học máy:
+
+- **Điều chuẩn $$\ell_2$$ (Ridge) — Độ trơn & Lồi mạnh:** Cộng $$\frac{\lambda}{2}\|w\|_2^2$$ vào hàm mất mát. Hình học: miền ràng buộc $$\|w\|_2 \le r$$ là hình cầu trơn, co đều mọi trọng số về gần 0 nhưng hiếm khi bằng 0 tuyệt đối. Lợi ích tối ưu: đảm bảo $$X^T X + \lambda I \succ 0$$ luôn khả nghịch và cải thiện chỉ số điều kiện $$\kappa$$!
+- **Điều chuẩn $$\ell_1$$ (Lasso) — Tính thưa (Sparsity):** Cộng $$\lambda \|w\|_1$$. Hình học: miền ràng buộc $$\|w\|_1 \le r$$ là khối bát diện (hình thoi trong 2D) có các **đỉnh nhọn nằm đúng trên các trục tọa độ**, nên đường đồng mức elip rất dễ chạm đúng đỉnh và triệt tiêu hoàn toàn các biến vô ích! (Nhưng hàm không khả vi tại 0 — mở đường sang Chương 07: Subgradient!)
+- **Elastic Net (Kết hợp $$\ell_1 + \ell_2$$):** Cộng $$\lambda_1 \|w\|_1 + \frac{\lambda_2}{2}\|w\|_2^2$$ để vừa giữ tính thưa của Lasso, vừa có tính lồi mạnh và xử lý tốt nhóm đặc trưng tương quan cao như Ridge.
+- **Lựa chọn Hàm mất mát theo bản chất nhiễu & tác vụ:** Hồi quy chuẩn dùng **MSE** (trơn, nhạy ngoại lai), dữ liệu nhiều ngoại lai dùng **MAE** hoặc **Huber Loss** (bậc hai quanh 0, tuyến tính ở xa); phân loại dùng **Log-Loss** (xác suất trơn) hoặc **Hinge Loss** (biên lớn của SVM).
+
+### Khung giải thích (nên đọc chậm): So sánh trực tiếp nghiệm OLS, Ridge và Lasso trên bài toán 1 chiều
+
+Xét bài toán cực tiểu hóa 1 biến với dữ liệu chuẩn hóa $$y = 3$$ (tức nghiệm không điều chuẩn là $$w_{\text{OLS}} = 3$$) và hệ số điều chuẩn $$\lambda = 1$$:
+
+1. **OLS (Không điều chuẩn):**
+   $$\min_w \; \frac{1}{2}(w - 3)^2 \implies w_{\text{OLS}}^\star = 3.$$
+2. **Ridge ($$\ell_2$$):**
+   $$\min_w \; \frac{1}{2}(w - 3)^2 + \frac{1}{2}(1)w^2 = w^2 - 3w + 4.5.$$
+   Đạo hàm $$2w - 3 = 0 \implies w_{\text{Ridge}}^\star = \frac{3}{1 + 1} = 1.5$$.
+   (Tỷ lệ co đều: $$w_{\text{Ridge}} = \frac{y}{1 + \lambda}$$ — chỉ bằng $$0$$ khi $$y = 0$$!)
+3. **Lasso ($$\ell_1$$):**
+   $$\min_w \; \frac{1}{2}(w - 3)^2 + 1 \cdot |w|.$$
+   Với $$w > 0$$, đạo hàm $$w - 3 + 1 = 0 \implies w_{\text{Lasso}}^\star = 3 - 1 = 2$$ (dịch về 0 đúng $$\lambda = 1$$ đơn vị).
+   Bây giờ thử với một đặc trưng yếu có $$y = 0.7 < \lambda = 1$$:
+   - Ridge vẫn cho $$w_{\text{Ridge}}^\star = \frac{0.7}{2} = 0.35 \neq 0$$.
+   - Lasso ép **chính xác về $$w_{\text{Lasso}}^\star = 0$$** (ngưỡng mềm: $$\operatorname{sign}(y)\max(|y| - \lambda, 0) = 0$$)! Đó là lý do Lasso tự động loại bỏ đặc trưng nhiễu!
+
+---
+
 <script src="../../../public/js/script.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 
@@ -213,9 +245,12 @@ $$\mathbf{w}^{(k+1)} = \mathbf{w}^{(k)} - lpha [(\mathbf{Q} + \lambda \mathbf{I
 #### Phân tích Tốc độ Hội tụ
 
 - **Phân rã trị riêng**: $$\mathbf{Q} + \lambda \mathbf{I} = \mathbf{V} \mathbf{\Lambda} \mathbf{V}^T$$
-- **Hệ số co**: $$ho = \max_i \left|1 - lpha \lambda_iight|$$, trong đó $$\lambda_i$$ là các trị riêng của $$\mathbf{Q} + \lambda \mathbf{I}$$.
+- **Hệ số co**: $$
+ho = \max_i \left|1 - lpha \lambda_i
+ight|$$, trong đó $$\lambda_i$$ là các trị riêng của $$\mathbf{Q} + \lambda \mathbf{I}$$.
 - **Kích thước bước tối ưu**: $$lpha^* = rac{2}{\lambda_{\min} + \lambda_{\max}}$$.
-- **Hệ số hội tụ tối ưu**: $$ho^* = rac{\kappa - 1}{\kappa + 1}$$, trong đó $$\kappa = rac{\lambda_{\max}}{\lambda_{\min}}$$ là chỉ số điều kiện.
+- **Hệ số hội tụ tối ưu**: $$
+ho^* = rac{\kappa - 1}{\kappa + 1}$$, trong đó $$\kappa = rac{\lambda_{\max}}{\lambda_{\min}}$$ là chỉ số điều kiện.
 
 ### Ảnh hưởng của Điều chuẩn lên Tốc độ Hội tụ
 
@@ -407,7 +442,8 @@ trong đó $$\|\mathbf{w}\|_1 = \sum_{j=1}^p |w_j|$$.
 
 Elastic Net kết hợp đồng thời hai số hạng phạt L1 và L2:
 
-$$\min_{\mathbf{w}} rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \left[ lpha \|\mathbf{w}\|_1 + rac{1-lpha}{2} \|\mathbf{w}\|_2^2 ight]$$
+$$\min_{\mathbf{w}} rac{1}{2n} \|\mathbf{X}\mathbf{w} - \mathbf{y}\|_2^2 + \lambda \left[ lpha \|\mathbf{w}\|_1 + rac{1-lpha}{2} \|\mathbf{w}\|_2^2 
+ight]$$
 
 **Vai trò tham số trộn $$lpha \in [0, 1]$$:**
 - $$lpha = 1$$: Trở về hồi quy Lasso thuần túy.

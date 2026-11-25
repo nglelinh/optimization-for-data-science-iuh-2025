@@ -9,6 +9,35 @@ categories:
 lang: en
 ---
 
+Every proof in smooth optimization hinges on one deceptively simple picture: if a function's slope cannot change faster than rate $$L$$, then at any point $$x$$ you can park an upward-opening parabola of curvature $$L$$ right on top of the graph—touching it at $$x$$ and staying *above* it everywhere else. That parabola is the **Quadratic Upper Bound** (also called the *Descent Lemma*), and minimizing it produces gradient descent with guaranteed progress.
+
+## Background Knowledge Map: The Descent Lemma and $$L$$-Smoothness
+
+1. **Lipschitz Continuity of the Gradient**: A differentiable function $$f$$ is $$L$$-smooth if $$\|\nabla f(x) - \nabla f(y)\|_2 \le L\|x - y\|_2$$ for all $$x, y$$. When $$f$$ is twice differentiable, this is equivalent to $$\nabla^2 f(x) \preceq L I$$ everywhere (eigenvalues capped by $$L$$).
+2. **The Fundamental Quadratic Upper Bound**: Integrating the gradient difference along the line segment from $$x$$ to $$y$$ yields
+   $$f(y) \le f(x) + \nabla f(x)^T(y - x) + \frac{L}{2}\|y - x\|_2^2, \quad \forall x, y.$$
+   Notice that this inequality does *not* even require convexity—only $$L$$-smoothness!
+3. **One-Step Guaranteed Descent**: Plugging the gradient step $$y = x - t\nabla f(x)$$ into the upper bound gives
+   $$f(x^+) \le f(x) - t\left(1 - \frac{Lt}{2}\right)\|\nabla f(x)\|_2^2.$$
+   Choosing $$t = 1/L$$ maximizes the bracket $$t(1 - Lt/2)$$ to $$\frac{1}{2L}$$, yielding the iconic descent inequality $$f(x^+) \le f(x) - \frac{1}{2L}\|\nabla f(x)\|_2^2$$.
+4. **Co-coercivity Bonus under Convexity**: When $$f$$ is *both* convex and $$L$$-smooth, minimizing the upper bound over $$y$$ also implies $$\frac{1}{2L}\|\nabla f(x)\|_2^2 \le f(x) - f^\star$$, giving a direct bridge between gradient norms and suboptimality.
+
+### Step-by-Step Worked Example (Read Slowly): Verifying the Quadratic Upper Bound for Logistic Loss
+
+Consider the 1D logistic loss $$f(x) = \ln(1 + e^{-x})$$. Let us compute its exact $$L$$-smoothness constant and verify the quadratic upper bound numerically at $$x = 0$$ and $$y = 2$$.
+
+1. **Compute first and second derivatives**:
+   $$f'(x) = \frac{-e^{-x}}{1 + e^{-x}} = -\sigma(-x), \qquad f''(x) = \sigma(-x)\bigl(1 - \sigma(-x)\bigr).$$
+2. **Find the global Lipschitz constant $$L = \sup_x f''(x)$$**:
+   Since $$p(1 - p) \le \frac{1}{4}$$ for all $$p \in (0, 1)$$ (attained at $$p = \frac{1}{2}$$, i.e., $$x = 0$$), we have $$L = \frac{1}{4} = 0.25$$!
+3. **Write the quadratic upper bound centered at $$x = 0$$**:
+   At $$x = 0$$, $$f(0) = \ln 2 \approx 0.6931$$ and $$f'(0) = -0.5$$, so
+   $$Q(y) = \ln 2 - 0.5y + \frac{0.25}{2}y^2 = 0.6931 - 0.5y + 0.125y^2.$$
+4. **Check at $$y = 2$$ and check the one-step descent guarantee**:
+   - True value: $$f(2) = \ln(1 + e^{-2}) \approx \ln(1.1353) \approx 0.1269$$.
+   - Upper bound: $$Q(2) = 0.6931 - 1.0 + 0.5 = 0.1931 \ge 0.1269$$ (strictly above $$f(2)$$!).
+   - With $$t = 1/L = 4$$, the step from $$x = 0$$ lands at $$x^+ = 0 - 4(-0.5) = 2$$, achieving an actual drop of $$0.6931 - 0.1269 = 0.5662$$, comfortably exceeding the guaranteed drop $$\frac{1}{2L}\|f'(0)\|^2 = \frac{1}{0.5}(0.25) = 0.5000$$.
+
 ## Introduction
 
 The **quadratic upper bound** is a fundamental property of smooth convex functions that provides a crucial tool for analyzing and designing optimization algorithms. This property establishes that any smooth convex function can be bounded above by a quadratic function, which has important implications for convergence analysis of gradient-based methods.

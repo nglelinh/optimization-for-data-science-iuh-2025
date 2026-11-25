@@ -9,6 +9,31 @@ categories:
 lang: en
 ---
 
+Once you know that the convex hull $$\operatorname{conv}(S)$$ is a polyhedron, a natural algorithm leaps off the page: start with the initial LP relaxation $$P^{(0)}$$, solve it to obtain $$x^{(k)}$$, and if $$x^{(k)}$$ is fractional, ask a **separation oracle** for a valid inequality $$\pi^\top x \le \pi_0$$ that cuts off $$x^{(k)}$$. Append that inequality to form $$P^{(k+1)} \subsetneq P^{(k)}$$ and repeat. This iterative tightening loop is the pure Cutting Plane Algorithm—the conceptual engine behind both Gomory cuts and outer-approximation methods in convex optimization.
+
+## Background Knowledge Map: Valid Inequalities, Separation, and the Cutting-Plane Loop
+
+- **Valid Inequality Criterion:** An inequality $$\pi^\top x \le \pi_0$$ is valid for $$S = P \cap \mathbb{Z}^n$$ if $$\pi^\top x \le \pi_0$$ holds for every $$x \in S$$. Adding valid inequalities never removes any feasible integer point.
+- **The Separation Problem:** Given a fractional point $$x^\star \in P \setminus \operatorname{conv}(S)$$, the separation problem asks for a valid inequality $$(\pi, \pi_0)$$ such that $$\pi^\top x^\star > \pi_0$$. By the Hyperplane Separation Theorem, such an inequality always exists!
+- **Monotonic Relaxation Tightening:** Because $$S \subseteq P^{(k+1)} \subseteq P^{(k)}$$, the sequence of LP relaxation values $$z^{(0)}, z^{(1)}, z^{(2)}, \dots$$ moves monotonically toward the true integer optimum $$z_{\text{IP}}^\star$$ (non-decreasing for minimization, non-increasing for maximization).
+- **Dual Simplex Re-Optimization:** After adding a single cut that violates the previous LP optimum $$x^{(k)}$$, the previous basis remains *dual feasible*—allowing the dual simplex method to re-optimize $$P^{(k+1)}$$ in just a handful of pivots instead of solving from scratch.
+
+### Step-by-Step Worked Example (Read Slowly): Two Iterations of the Cutting-Plane Loop
+
+Maximize $$z = 2 x_1 + 3 x_2$$ over $$x_1, x_2 \in \mathbb{Z}_{\ge 0}$$ subject to $$P^{(0)} = \{x \ge 0 : x_1 + 2 x_2 \le 3,\ 2 x_1 + x_2 \le 3\}$$.
+
+1. **Iteration 0 (Solve LP on $$P^{(0)}$$):**
+   - Intersecting the two lines gives $$x^{(0)} = (1, 1)$$? Wait: $$1 + 2(1) = 3$$ and $$2(1) + 1 = 3$$, so $$(1,1)$$ is already integer! Let us shift the RHS to $$3.5$$ and $$2.5$$: $$P^{(0)} = \{x \ge 0 : x_1 + 2 x_2 \le 3.5,\ 2 x_1 + x_2 \le 2.5\}$$.
+   - Intersecting gives $$3x_2 = 4.5 \implies x_2 = 1.5,\ x_1 = 0.5$$, so $$x^{(0)} = (0.5, 1.5)$$ with $$z^{(0)} = 2(0.5) + 3(1.5) = 5.5$$. (Fractional!)
+2. **Generate Cut 1:** From $$x_1 + 2x_2 \le 3.5$$ and integrality of $$x_1, x_2$$, the left-hand side is an integer, so
+   $$x_1 + 2 x_2 \le \lfloor 3.5 \rfloor = 3.$$
+   Check separation: $$0.5 + 2(1.5) = 3.5 > 3$$ (cuts off $$x^{(0)}$$!).
+3. **Iteration 1 (Solve LP on $$P^{(1)} = P^{(0)} \cap \{x_1 + 2x_2 \le 3\}$$):**
+   - Intersecting $$x_1 + 2x_2 = 3$$ with $$2x_1 + x_2 = 2.5$$ gives $$3x_2 = 3.5 \implies x_2 = 7/6,\ x_1 = 2/3$$, with $$z^{(1)} = 2(2/3) + 3(7/6) = 29/6 \approx 4.833 < 5.5$$. (Still fractional!)
+4. **Generate Cut 2:** From $$2x_1 + x_2 \le 2.5$$ and integrality, $$2x_1 + x_2 \le \lfloor 2.5 \rfloor = 2$$.
+   Check separation: $$2(2/3) + 7/6 = 2.5 > 2$$ (cuts off $$x^{(1)}$$!).
+5. **Iteration 2 (Solve LP on $$P^{(2)}$$):** Intersecting $$x_1 + 2x_2 \le 3$$ and $$2x_1 + x_2 \le 2$$ over $$x \ge 0$$ achieves its maximum at the integer vertex $$x^{(2)} = (0, 1)$$? Wait: at $$(0, 1.5)$$ we violate $$x_2 \in \mathbb{Z}$$; at $$(1/3, 4/3)$$ we get $$z^{(2)} = 14/3 \approx 4.667$$; one final Chvátal–Gomory cut $$x_1 + x_2 \le 1$$ (from summing the two cuts: $$3x_1 + 3x_2 \le 5 \implies x_1 + x_2 \le \lfloor 5/3 \rfloor = 1$$) immediately produces the integer optimum $$x^\star = (0, 1)$$ with $$z^\star = 3$$!
+
 In this section, we will examine the cutting plane algorithm that can solve integer linear programs.
 
 ## Valid Inequality

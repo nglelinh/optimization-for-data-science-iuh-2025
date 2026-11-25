@@ -12,6 +12,32 @@ redirect_from:
   - /contents/vi/chapter12/12_07_Quiz_KKT_Conditions/
 ---
 
+Điều kiện KKT là đỉnh cao kết nối toàn bộ phần Đối ngẫu (Chương 10–12), đồng thời cũng là nơi đề thi và câu hỏi trắc nghiệm dễ "đánh lừa" nhất. Chỉ cần quên kiểm tra dấu $$u_i \ge 0$$ khi giải xong phương trình đạo hàm, nhầm rằng KKT luôn là điều kiện đủ cho bài toán *không lồi*, hay áp dụng sai công thức water-filling cho kênh nhiễu là điểm số sẽ tụt ngay lập tức!
+
+Trước khi làm bộ câu hỏi trắc nghiệm Chương 12 dưới đây, hãy điểm nhanh 4 cụm kiến thức trọng tâm và tự thử sức với 4 chiếc bẫy số ngắn gọn để nắm chắc tuyệt đối toàn chương.
+
+## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cho bài trắc nghiệm Chương 12
+
+- **Thuộc lòng và hiểu bản chất 4 điều kiện KKT:** (1) Dừng: $$0 \in \partial f + \sum u_i \partial h_i + \sum v_j \partial l_j$$; (2) Bù: $$u_i h_i(x) = 0$$; (3) Khả thi gốc: $$h_i(x) \le 0, l_j(x) = 0$$; (4) Khả thi đối ngẫu: $$u_i \ge 0$$ (còn $$v_j$$ tự do dấu!).
+- **Phân biệt Điều kiện cần vs. Điều kiện đủ:**
+  - *Bài toán bất kỳ + đối ngẫu mạnh* $$\implies$$ KKT là điều kiện **cần**.
+  - *Bài toán lồi* $$\implies$$ KKT là điều kiện **đủ** (nghiệm KKT chắc chắn tối ưu toàn cục!).
+  - *Bài toán lồi + Slater* $$\implies$$ KKT là **cần và đủ**.
+- **Nhận diện cấu trúc nghiệm của 3 ví dụ kinh điển:**
+  - QP ràng buộc đẳng thức $$\implies$$ hệ tuyến tính khối đối xứng bất định.
+  - Water-filling $$\implies$$ $$x_i^* = \max(0, w - \alpha_i)$$, tắt hẳn kênh có $$\alpha_i \ge w$$.
+  - Soft-Margin SVM $$\implies$$ $$0 \le \alpha_i^* \le C$$, chỉ điểm có $$\alpha_i^* > 0$$ là vector hỗ trợ.
+- **Dạng ràng buộc (C) vs. Dạng Lagrange (L) và Lasso:** Hai dạng tương đương về đường nghiệm trong bài toán lồi (thỏa Slater); trong Lasso, $$X\hat{\beta}$$ luôn duy nhất còn $$\hat{\beta}$$ duy nhất khi $$X_{\mathcal{E}}$$ đủ hạng cột.
+
+### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh né bẫy trắc nghiệm Chương 12
+
+1. **Bẫy 1 — Quên kiểm tra $$u_i \ge 0$$:** Giải bài toán $$\min x^2$$ s.t. $$x \le 2$$ (tức $$h(x) = x - 2 \le 0$$). Thử điểm biên $$x = 2$$: phương trình dừng $$2x + u = 0 \implies u = -4$$. Thỏa dừng, thỏa bù ($$-4(0) = 0$$), thỏa khả thi gốc — vậy $$x = 2$$ có tối ưu không?
+   **KHÔNG!** Vì $$u = -4 < 0$$ vi phạm **tính khả thi đối ngẫu**! Nghiệm đúng là $$x^* = 0, u^* = 0$$.
+2. **Bẫy 2 — KKT trên bài toán không lồi:** Xét $$\min -x^2$$ s.t. $$-1 \le x \le 1$$. Tại $$x = 0$$ với $$u_1 = u_2 = 0$$, đạo hàm $$-2(0) = 0$$ và cả 4 điều kiện KKT đều thỏa — nhưng $$x = 0$$ lại là **cực đại toàn cục** ($$f(0) = 0 > f(\pm 1) = -1$$)! Lý do: bài toán không lồi nên KKT *không* phải điều kiện đủ!
+3. **Bẫy 3 — Đếm số vector hỗ trợ SVM:** Nếu giải xong Soft-Margin SVM có $$\alpha^* = (0, 0, 0.3, 1.0, 0)$$ với $$C = 1.0$$, có bao nhiêu vector hỗ trợ?
+   Có **2 vector hỗ trợ** (điểm 3 nằm đúng trên biên vì $$0 < 0.3 < 1$$; điểm 4 vi phạm/chạm biên vì $$\alpha_4^* = C = 1$$).
+4. **Bẫy 4 — Kiểm tra mực nước water-filling:** Cho $$\alpha = (1, 3)$$ và tổng công suất $$1$$. Nếu đổ nước vào kênh 1 từ mức $$1$$ lên mức $$2$$ (dùng hết cả $$1$$ đơn vị công suất!), mực nước $$w = 2 < \alpha_2 = 3$$ nên kênh 2 nhận $$x_2^* = 0$$ và kênh 1 nhận trọn $$x_1^* = 1$$!
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập trắc nghiệm, hãy ôn lại các khái niệm trọng tâm trong chương này:

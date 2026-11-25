@@ -10,6 +10,27 @@ lang: en
 lesson_type: optional
 ---
 
+Why does an algorithm formalized in the 1970s keep resurfacing in 2022–2026 top conferences across machine learning, computational imaging, and energy systems? Because **consensus ADMM** solves a universal systems bottleneck: decoupling *private local physics or data* (each client's GPU, each imaging forward model, each regional power grid) from *global coordination* through a lightweight dual price vector $$w_i$$. This companion note highlights how modern implementations adapt ADMM for non-IID federated rounds, neural-denoiser imaging, and real-time online power dispatch.
+
+## Background Knowledge Map: Engineering Patterns in Modern ADMM Deployments
+
+- **Communication-Efficient Federated Consensus (Gong et al., 2022):** FedADMM transmits the exact same payload per round as FedAvg (one model vector), yet cuts communication rounds dramatically on non-IID CIFAR-10 / Fashion-MNIST by using dual variables to correct local objective mismatch.
+- **Inexact Primal Updates Without Breaking Convergence:** Modern deployments replace exact $$\arg\min_{x_i}$$ with a few steps of SGD, CG, or L-BFGS—preserving convergence as long as subproblem errors are summable or satisfy an adaptive relative-error check.
+- **Operator-Splitting with Learned Priors (PnP / RED):** Viewing ADMM through monotone operator theory explains why replacing $$\operatorname{prox}_{g/\rho}$$ with a bounded-Lipschitz neural denoiser still converges to a stable fixed point balancing measurement fidelity and learned priors.
+- **Online & Time-Varying Consensus (Smart Grids):** In online power dispatch, load demand $$y_t$$ changes every few seconds; warm-starting ADMM's primal and dual variables $$(x_i^t, z^t, w_i^t)$$ from the previous time slot tracks the moving optimum with just 1–5 iterations per second.
+
+### Step-by-Step Worked Example (Read Slowly): Warm-Starting Online Consensus ADMM in Power Dispatch
+
+Two regional power areas balance a time-varying total load by minimizing $$f_1(x_1) + f_2(x_2)$$ subject to a tie-line consensus variable $$z$$. Suppose at time $$t$$ the grid has converged to $$x_1^\star(t) = x_2^\star(t) = z^\star(t) = 10\text{ MW}$$ with dual prices $$w_1^\star(t) = -2, \; w_2^\star(t) = +2$$ (for $$\rho = 1$$, reflecting Area 1's cheaper cost $$f_1(x_1) = \frac{1}{2}(x_1 - 12)^2$$ and Area 2's cost $$f_2(x_2) = \frac{1}{2}(x_2 - 8)^2$$).
+
+1. **A sudden load shift occurs at time $$t + 1$$:**
+   Area 1's target shifts slightly to $$f_1^{\text{new}}(x_1) = \frac{1}{2}(x_1 - 13)^2$$ (new exact global optimum: $$z^\star(t+1) = 10.5\text{ MW}$$).
+2. **Compare Cold-Start ($$z^0 = 0, w^0 = 0$$) vs. Warm-Start ($$z^0 = 10, w_1^0 = -2, w_2^0 = +2$$) after 1 ADMM step:**
+   - **Cold-start:** $$x_1^1 = \frac{13 + 0}{2} = 6.5$$, $$x_2^1 = \frac{8 + 0}{2} = 4.0 \implies z^1 = 5.25\text{ MW}$$ (error **$$5.25\text{ MW}$$**!).
+   - **Warm-start:**
+     $$x_1^1 = \frac{13 + (10 - (-2))}{2} = 12.5, \qquad x_2^1 = \frac{8 + (10 - 2)}{2} = 8.0 \implies z^1 = \frac{12.5 + 8.0}{2} = 10.25\text{ MW}$$ (error only **$$0.25\text{ MW}$$**!).
+3. **Takeaway:**
+   Warm-starting both primal *and* dual variables reduced the tracking error by **21×** in a single iteration—showing why dual memory makes online ADMM ideal for real-time control!
 
 The earlier lessons in this chapter treat ADMM as a *structured convex* splitting method: two (or more) easy proximal pieces, a dual ascent, and residuals you can monitor. That story did not retire in 2011. Between 2022 and 2026 the same consensus / augmented-Lagrangian pattern shows up in federated deep learning, computational imaging with learned denoisers, and online power-system dispatch. This optional note is a map of those deployments, not a second derivation of scaled ADMM.
 

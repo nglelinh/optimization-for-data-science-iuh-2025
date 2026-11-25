@@ -12,6 +12,28 @@ redirect_from:
   - /contents/en/chapter13/13_08_Practical_Exercises_Duality_Applications/
 ---
 
+Reading duality theorems feels smooth until a blank sheet of paper asks you to compute the conjugate of a piecewise function, derive the dual of a regularized regression problem, or prove a cone is self-dual. The gap between *recognizing* a derivation and *producing* one is closed by a disciplined workflow: split cleanly, apply known conjugate primitives, check signs via Fenchel's inequality, and verify your final answer on a tiny numerical test case.
+
+## Background Knowledge Map: A Problem-Solving Playbook for Duality Exercises
+
+- **Pillar 1 — Dual Norm Strategy:** Always pair Hölder's inequality (to prove an upper bound $$\|y\|_* \le \text{candidate}$$) with an explicit unit-norm witness $$x^\star$$ achieving equality (to prove $$\|y\|_* \ge \text{candidate}$$).
+- **Pillar 2 — Conjugate Strategy:** Check domain finiteness first (can $$y^T x - f(x)$$ blow up to $$+\infty$$ along any ray?), then solve $$y \in \partial f(x)$$ on the finite domain.
+- **Pillar 3 — Composite Dual Strategy:** Introduce $$z = Ax$$ to isolate every nonsmooth term; evaluate $$\min_x$$ and $$\min_z$$ separately into $$-f^*(A^T u)$$ and $$-g^*(-u)$$.
+- **Pillar 4 — Numerical Sanity Check:** Plug in a 1D or 2D vector with easy numbers and verify $$f(x^\star) = g(u^\star)$$—this catches 95% of sign and factor-of-2 errors immediately.
+
+### Step-by-Step Worked Example (Read Slowly): Computing the Conjugate of the Huber-Style Quadratic + $$\ell_1$$ Norm
+
+Find the conjugate of $$f(x) = \frac{1}{2}\|x\|_2^2 + \|x\|_1$$ on $$\mathbb{R}^n$$ (the Elastic Net penalty with $$\alpha = 1$$).
+
+1. **Exploit separability:** Since $$f(x) = \sum_{i=1}^n \left(\frac{1}{2}x_i^2 + |x_i|\right)$$, its conjugate splits as $$f^*(y) = \sum_{i=1}^n \phi^*(y_i)$$, where $$\phi(t) = \frac{1}{2}t^2 + |t|$$.
+2. **Compute the 1D conjugate $$\phi^*(s) = \max_{t \in \mathbb{R}} \left(st - \frac{1}{2}t^2 - |t|\right)$$:**
+   - **Case $$|s| \le 1$$:** For any $$t$$, $$st - |t| \le (|s|-1)|t| \le 0$$, and $$-\frac{1}{2}t^2 \le 0$$, so the maximum is achieved at $$t^\star = 0$$ with $$\phi^*(s) = 0$$.
+   - **Case $$s > 1$$:** Optimum must have $$t > 0$$; setting $$s - t - 1 = 0$$ gives $$t^\star = s - 1$$ and $$\phi^*(s) = \frac{1}{2}(s-1)^2$$.
+   - **Case $$s < -1$$:** Optimum must have $$t < 0$$; setting $$s - t + 1 = 0$$ gives $$t^\star = s + 1$$ and $$\phi^*(s) = \frac{1}{2}(s+1)^2$$.
+3. **Combine into a single closed form:** Using soft-thresholding $$S_1(s) = \operatorname{sign}(s)\max(|s|-1, 0)$$,
+   $$f^*(y) = \frac{1}{2}\sum_{i=1}^n \big(\max(|y_i| - 1, 0)\big)^2 = \frac{1}{2}\|S_1(y)\|_2^2.$$
+4. **Numerical verification:** At $$y = 3$$, $$t^\star = 2$$, $$f(2) = 2 + 2 = 4$$, $$f^*(3) = \frac{1}{2}(3-1)^2 = 2$$, and $$f(2) + f^*(3) = 6 = 2 \cdot 3 = t^\star y$$.
+
 # Practical Exercises - Applications of Duality
 
 The exercises are adapted from Boyd & Vandenberghe (2004), Rockafellar (1970), and Ben-Tal & Nemirovski (2001).

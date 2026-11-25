@@ -12,6 +12,25 @@ redirect_from:
   - /contents/en/chapter01/01_05_Quiz_Optimization_Problems/
 ---
 
+Spotting convexity in the wild is a pattern-recognition skill that sharpens only when you test it against tricky counterexamples—like an optimization problem with a convex objective whose single quadratic *equality* constraint quietly breaks convexity. This Chapter 01 quiz tests your command of standard formulations, convex vs. nonconvex classification, and algorithm selection before we dive into the geometry of convex sets in Chapter 02.
+
+## Background Knowledge Map: Key Concepts Tested in This Quiz
+
+- **Standard Form Translation:** Mapping maximization, lower-bound inequalities ($$g(x) \ge c$$), and implicit domain constraints cleanly into standard minimization form.
+- **Convexity Verification Rules:** Checking all three pieces—objective $$f_0$$ convex, inequalities $$f_i \le 0$$ convex, and equalities $$h_j = 0$$ affine—never just the objective alone.
+- **Local vs. Global Optimality:** Distinguishing guarantees for convex problems (every local min is global) vs. strictly convex problems (unique global min) vs. nonconvex problems.
+- **Solver & Algorithm Awareness:** Matching problem families (LP, QP, nonsmooth composite) to the right algorithmic class (Simplex, interior-point, proximal gradient, ADMM).
+
+### Step-by-Step Worked Example (Read Slowly): Why One Symbol ($$\le$$ vs. $$=$$) Flips Convexity
+
+Compare two nearly identical 1D problems:
+- **Problem A:** $$\min_x \; x^2 - 4x \quad \text{s.t.} \quad x^2 - 1 \le 0$$.
+- **Problem B:** $$\min_x \; x^2 - 4x \quad \text{s.t.} \quad x^2 - 1 = 0$$.
+
+1. **Check Problem A:** The objective $$x^2 - 4x$$ has second derivative $$2 > 0$$ (convex), and the inequality $$x^2 - 1 \le 0$$ defines the interval $$[-1, 1]$$ (a convex set). Thus Problem A is **convex**, minimized at $$x^* = 1$$ with $$p^* = -3$$.
+2. **Check Problem B:** The equality constraint $$x^2 - 1 = 0$$ is **nonlinear (not affine)**. Its feasible set is $$\{-1, 1\}$$, which is **nonconvex**: the midpoint $$\frac{1}{2}(-1) + \frac{1}{2}(1) = 0$$ is not in $$\{-1, 1\}$$.
+3. **Lesson for the quiz:** Always check whether equality constraints are affine—a convex function set *equal* to zero almost never defines a convex constraint!
+
 This multiple-choice quiz tests your understanding of the basic concepts of optimization problems and convex optimization.
 
 ---

@@ -8,6 +8,30 @@ categories:
 - chapter03
 lang: en
 ---
+
+How do you prove a multivariable function is convex without testing every pair of points on every line segment? This lesson gives you four interchangeable lenses: the **epigraph** (a geometric lens), **sublevel sets** (a contour lens), the **first-order tangent inequality** (a slope lens proving $$\nabla f(x^*) = 0 \implies$$ global minimum), and the **second-order Hessian test** (a curvature lens). Switching smoothly between these four characterizations is the signature skill of a graduate-level optimizer.
+
+## Background Knowledge Map: Four Equivalent Lenses on Convexity
+
+- **Epigraph Characterization:** $$f$$ is convex iff $$\text{epi}\,f = \{(x, t) : f(x) \le t\}$$ is a convex set—bridging Chapter 02 directly into Chapter 03.
+- **Convex Sublevel Sets:** Every convex function has convex sublevel sets $$\{x : f(x) \le \alpha\}$$ (note: the converse fails—functions with convex sublevel sets are *quasiconvex*, not necessarily convex!).
+- **First-Order Condition:** Differentiable $$f$$ is convex iff $$f(y) \ge f(x) + \nabla f(x)^T(y - x)$$ everywhere—the tangent plane is a *global underestimator*, which immediately proves $$\nabla f(x^*) = 0 \implies f(y) \ge f(x^*)$$.
+- **Second-Order Condition & Jensen's Inequality:** Twice-differentiable $$f$$ is convex iff $$\nabla^2 f(x) \succeq 0$$ everywhere; Jensen's inequality $$f(\mathbb{E}[X]) \le \mathbb{E}[f(X)]$$ generalizes convexity to expectations and underlies KL divergence nonnegativity.
+
+### Step-by-Step Worked Example (Read Slowly): First- and Second-Order Tests on a Coupled Quadratic
+
+Analyze $$f(x_1, x_2) = x_1^2 + x_1 x_2 + x_2^2$$ at $$x = (1, 0)^T$$ and $$y = (0, 2)^T$$.
+
+1. **Second-order test (Hessian):**
+   $$\nabla f(x_1, x_2) = \begin{pmatrix} 2x_1 + x_2 \\ x_1 + 2x_2 \end{pmatrix}, \qquad \nabla^2 f(x_1, x_2) = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}.$$
+   Since $$\Delta_1 = 2 > 0$$ and $$\Delta_2 = 2(2) - 1^2 = 3 > 0$$ (eigenvalues $$3$$ and $$1$$), $$\nabla^2 f \succ 0$$ everywhere, certifying strict convexity.
+2. **Verify the first-order global underestimator between $$x = (1, 0)^T$$ and $$y = (0, 2)^T$$:**
+   - $$f(x) = 1$$, $$\nabla f(x) = (2, 1)^T$$, $$y - x = (-1, 2)^T$$.
+   - Tangent plane prediction at $$y$$:
+     $$f(x) + \nabla f(x)^T(y - x) = 1 + 2(-1) + 1(2) = 1.$$
+   - True value at $$y$$: $$f(0, 2) = 0 + 0 + 4 = 4$$.
+   Indeed $$f(y) = 4 \ge 1$$, with exact gap $$4 - 1 = 3 = \frac{1}{2}(y - x)^T \nabla^2 f (y - x)$$.
+
 ## Epigraph characterization
 As discussed in [lesson 01-02]({% multilang_post_url contents/chapter01/21-01-28-01_02_convex_optimization_problem %}), $$f$$ is convex if and only if its epigraph is a convex set, and vice versa.
 

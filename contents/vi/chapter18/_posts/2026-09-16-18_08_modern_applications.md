@@ -10,6 +10,28 @@ lang: vi
 lesson_type: optional
 ---
 
+Trong cơn sốt học sâu hiện đại, nhiều người tưởng rằng Adam đã "đánh bại" mọi thuật toán tối ưu cổ điển. Thế nhưng giai đoạn 2022–2026 lại chứng kiến sự trở lại ngoạn mục của tư duy Quasi-Newton trên hai mặt trận lớn: trong **học máy khoa học (Scientific ML / PINN)**, chiến lược *Adam khởi động + L-BFGS về đích* là tiêu chuẩn bắt buộc để vượt qua số điều kiện khủng khiếp của phương trình đạo hàm riêng; còn trong **huấn luyện mô hình nền tảng quy mô lớn**, các bộ tiền điều kiện có cấu trúc như Shampoo và SOAP chính là hậu duệ phân rã Kronecker mang chung dòng máu độ cong với BFGS.
+
+## Bản đồ kiến thức nền: Ba hướng phát triển của Quasi-Newton trong giai đoạn 2022–2026
+
+Để liên kết lý thuyết Chương 18 với các công trình hàng đầu tại ICML/NeurIPS gần đây, hãy chú ý ba cầu nối then chốt:
+
+- **Số điều kiện phổ của PINN và bài toán ngược (Inverse Problems):** Khác với phân loại ảnh thông thường, hàm mất mát của mạng nơ-ron vật lý chứa đạo hàm bậc hai (toán tử Laplace, Navier–Stokes), khiến tỉ số trị riêng lớn nhất trên nhỏ nhất $$\kappa = \lambda_{\max}/\lambda_{\min}$$ dễ dàng vượt $$10^4\text{–}10^6$$. Bộ tối ưu bậc nhất bị kẹt sớm, còn L-BFGS nén phổ độ cong và hạ sai số xuống thêm 2–4 bậc độ lớn.
+- **Chiến lược lai hai giai đoạn (Adam → L-BFGS):** L-BFGS đòi hỏi đánh giá gradient toàn lô (full-batch) chính xác và dễ mắc kẹt ở vùng yên ngựa không lồi nếu khởi tạo ngẫu nhiên. Chạy Adam trước để đi vào thung lũng lồi cục bộ rồi chuyển sang L-BFGS tận dụng trọn vẹn ưu thế của cả hai thế giới.
+- **Tiền điều kiện cấu trúc Kronecker (K-FAC, Shampoo, SOAP):** Thay vì xấp xỉ Hessian của toàn bộ mạng bằng một ma trận khổng lồ, các thuật toán này xấp xỉ độ cong cho từng ma trận trọng số $$W \in \mathbb{R}^{d_1 \times d_2}$$ dưới dạng tích Kronecker $$L \otimes R$$, giữ chi phí bộ nhớ cỡ $$O(d_1^2 + d_2^2)$$ nhưng nắm bắt được tương quan chéo giữa các tham số.
+
+### Khung giải thích (nên đọc chậm): Minh họa vì sao số điều kiện $$\kappa = 10^4$$ làm Adam chững lại còn L-BFGS bứt phá
+
+Xét một hàm mục tiêu bậc hai mô phỏng độ cong điển hình của bài toán PDE rời rạc hóa 2 chế độ (tần số thấp và tần số cao):
+
+$$f(w_1, w_2) = \frac{1}{2}\left(w_1^2 + 10{,}000\, w_2^2\right), \qquad \kappa = \frac{\lambda_{\max}}{\lambda_{\min}} = 10{,}000.$$
+
+1. **Hạ gradient chuẩn không tiền điều kiện:** Để ổn định trên trục $$w_2$$, bước học buộc phải thỏa mãn $$\eta < \frac{2}{\lambda_{\max}} = 2 \times 10^{-4}$$. Với $$\eta = 10^{-4}$$, sai số dọc trục $$w_1$$ sau mỗi bước chỉ nhân với $$(1 - 10^{-4}) = 0.9999$$. Muốn giảm sai số xuống $$10^{-4}$$, ta cần cỡ $$\frac{\ln(10^4)}{10^{-4}} \approx 92{,}100$$ vòng lặp!
+2. **Hiệu quả tiền điều kiện của Quasi-Newton / L-BFGS:** Chỉ sau $$2$$ bước đo cặp $$(s, y)$$ dọc hai hướng độc lập, xấp xỉ $$H_2$$ khôi phục chính xác ma trận nghịch đảo độ cong $$\operatorname{diag}(1, \; 10^{-4})$$. Số điều kiện hiệu dụng của hệ đã tiền điều kiện $$H_2 \nabla^2 f$$ sụt từ $$\kappa = 10{,}000$$ xuống đúng $$\kappa_{\text{eff}} = 1$$ — và thuật toán nhảy thẳng tới nghiệm tối ưu $$(0, 0)$$ chỉ trong **1 bước Newton**!
+3. **Liên hệ thực tế với PINN:** Trong mạng nơ-ron có hàng chục nghìn tham số, L-BFGS (với $$m = 50\text{–}100$$) loại bỏ vài chục chế độ trị riêng lớn nhất gây dao động mạnh, làm giảm $$\kappa_{\text{eff}}$$ hàng trăm lần và đưa sai số PDE từ $$10^{-2}$$ xuống $$10^{-6}$$ chỉ sau vài trăm vòng lặp.
+
+---
+
 Phương pháp quasi-Newton thay ma trận Hessian $$\nabla^2 f(x)$$ bằng một ma trận xấp xỉ $$B$$ thỏa mãn phương trình secant $$B^{+}s = y$$ và (với BFGS/L-BFGS) bảo toàn tính xác định dương dưới điều kiện độ cong $$y^\top s > 0$$. Những ứng dụng tiêu biểu giai đoạn 2022–2026 gắn trực tiếp với chương này không phải các bộ tối ưu tiền huấn luyện LLM ước lượng Hessian đường chéo (vốn thuộc nhóm Newton / Sophia ở Chương 14), mà là các thuật toán lưu giữ lịch sử ngắn các cặp $$(s, y)$$ — tiêu biểu là L-BFGS trong học máy khoa học và mô hình dữ liệu dạng bảng — cùng các bộ tiền điều kiện có cấu trúc (Shampoo / SOAP) mang họ hàng phân rã Kronecker với BFGS.
 
 ## PINN: dùng Adam để tiến gần, dùng L-BFGS để hội tụ chính xác

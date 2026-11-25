@@ -12,6 +12,28 @@ redirect_from:
   - /contents/en/chapter12/12_07_Quiz_KKT_Conditions/
 ---
 
+Before you start the Chapter 12 multiple-choice quiz, double-check the exact logical arrows connecting KKT, convexity, and strong duality—this is where 80% of graduate exam mistakes happen! Remember: KKT is *sufficient* for global optimality on **every** convex problem (even without Slater's condition!), whereas KKT is *necessary* whenever **strong duality** holds (for both convex and differentiable nonconvex problems!). Use the four diagnostic pillars and rapid KKT audit below to warm up.
+
+## Background Knowledge Map: Chapter 12 Exam-Day Diagnostic Matrix
+
+- **Pillar 1 — The Four Conditions by Heart:** (1) Stationarity $$0 \in \partial f(x^\star) + \sum u_i^\star \partial h_i(x^\star) + \sum v_j^\star \partial l_j(x^\star)$$; (2) Complementary slackness $$u_i^\star h_i(x^\star) = 0$$; (3) Primal feasibility $$h_i(x^\star) \le 0, l_j(x^\star) = 0$$; (4) Dual feasibility $$u_i^\star \ge 0$$.
+- **Pillar 2 — Exact Logical Arrows:**
+  - Convex + KKT satisfied $$\implies$$ $$x^\star, u^\star, v^\star$$ are globally optimal with zero duality gap (no Slater needed!).
+  - Strong duality + $$(x^\star, u^\star, v^\star)$$ optimal $$\implies$$ KKT holds (even if nonconvex!).
+  - Convex + Slater's condition $$\implies$$ KKT is **both necessary and sufficient**.
+- **Pillar 3 — Iconic KKT Fingerprints:** Equality-constrained QP $$\to$$ block linear KKT matrix; Water-filling $$\to$$ $$x_i^\star = \max(0, 1/\nu^\star - \alpha_i)$$; Soft-margin SVM $$\to$$ $$0 \le w_i^\star \le C$$ with $$w_i^\star = 0$$ off the margin; Lasso $$\to$$ $$X^\top(y - X\hat{\beta}) = \lambda s$$ with unique $$X\hat{\beta}$$.
+- **Pillar 4 — Constrained vs. Lagrange Equivalence:** Under convexity and Slater's condition, every constrained solution solves some Lagrange form ($$\lambda = \lambda^\star \ge 0$$), and every Lagrange solution solves the constrained form with $$t = h(x^\star)$$.
+
+### Step-by-Step Worked Example (Read Slowly): Auditing a Proposed KKT Solution in 30 Seconds
+
+Minimize $$f(x_1, x_2) = x_1^2 + x_2^2$$ subject to $$h_1(x) = 2 - x_1 - x_2 \le 0$$ and $$h_2(x) = -x_1 \le 0$$. Someone claims $$x^\star = (1, 1)^\top$$ with $$u^\star = (2, 0)^\top$$ is optimal. Let's audit all four KKT conditions!
+
+1. **Primal feasibility:** $$h_1(1, 1) = 2 - 1 - 1 = 0 \le 0$$ (active); $$h_2(1, 1) = -1 < 0$$ (strictly inactive). Pass!
+2. **Dual feasibility:** $$u_1^\star = 2 \ge 0$$, $$u_2^\star = 0 \ge 0$$. Pass!
+3. **Complementary slackness:** $$u_1^\star h_1(x^\star) = 2(0) = 0$$ and $$u_2^\star h_2(x^\star) = 0(-1) = 0$$. Pass!
+4. **Stationarity:** $$\nabla f(x^\star) + u_1^\star \nabla h_1(x^\star) + u_2^\star \nabla h_2(x^\star) = \begin{pmatrix}2\\2\end{pmatrix} + 2\begin{pmatrix}-1\\-1\end{pmatrix} + 0\begin{pmatrix}-1\\0\end{pmatrix} = \begin{pmatrix}0\\0\end{pmatrix}$$. Pass!
+5. **Verdict:** Since $$f, h_1, h_2$$ are all convex and all four KKT conditions hold, $$(1, 1)^\top$$ is 100% certified globally optimal!
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

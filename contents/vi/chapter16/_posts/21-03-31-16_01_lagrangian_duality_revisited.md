@@ -8,6 +8,40 @@ categories:
 - chapter16
 lang: vi
 ---
+
+Trong lịch sử toán học, khi nhìn bài toán nguyên thủy và bài toán đối ngẫu dưới dạng hai danh sách ràng buộc tách biệt, ta dễ bị rối trong rừng ký hiệu. Thế nhưng, chỉ cần viết lại cả hai bài toán bằng **một hàm Lagrange duy nhất $$L(x, u, v)$$**, toàn bộ lý thuyết đối ngẫu bỗng thu gọn lại thành một phép hoán đổi thứ tự cực kỳ đối xứng:
+
+- Nguyên thủy: $$\min_x \max_{u \ge 0, v} L(x, u, v)$$
+- Đối ngẫu: $$\max_{u \ge 0, v} \min_x L(x, u, v)$$
+
+Góc nhìn minimax này không chỉ biến chứng minh tính đối ngẫu yếu thành đúng **một dòng hiển nhiên**, mà còn làm sáng tỏ điều kiện **Slater tinh chỉnh (refined Slater's condition)**: đối với các ràng buộc bất đẳng thức *tuyến tính* (như trong quy hoạch tuyến tính LP), ta thậm chí **không cần** điểm khả thi chặt ($$< 0$$) mà chỉ cần khả thi thường ($$\le 0$$)!
+
+## Bản đồ kiến thức nền: Bốn điểm nâng cấp khi nhìn lại Đối ngẫu Lagrange
+
+- **Biểu diễn Minimax của bài toán nguyên thủy:** $$\sup_{u \ge 0, v} L(x, u, v)$$ bằng đúng $$f(x)$$ khi $$x$$ khả thi và bằng $$+\infty$$ khi $$x$$ vi phạm bất kỳ ràng buộc nào — nên bài toán nguyên thủy tương đương tuyệt đối với $$\inf_x \sup_{u \ge 0, v} L(x, u, v)$$.
+- **Đối ngẫu yếu chỉ là bất đẳng thức Max-Min:** Với mọi hàm $$L$$ bất kỳ (không cần lồi!), ta luôn có $$\sup_{u \ge 0, v} \inf_x L(x, u, v) \le \inf_x \sup_{u \ge 0, v} L(x, u, v)$$, suy ra ngay $$d^\star \le p^\star$$.
+- **Điều kiện Slater tinh chỉnh (Refined Slater):** Chỉ cần tồn tại $$x \in \operatorname{relint}(\mathcal{D})$$ thỏa $$Ax = b$$, các ràng buộc **phi tuyến** thỏa chặt $$h_i(x) < 0$$, còn các ràng buộc **affine/tuyến tính** chỉ cần thỏa thường $$h_j(x) \le 0$$! Hệ quả cực mạnh: mọi bài toán LP khả thi và bị chặn đều tự động thỏa đối ngẫu mạnh!
+- **Suy dẫn đối ngẫu LP dạng chuẩn:** Áp dụng khung minimax cho $$\min c^T x$$ thỏa $$Ax = b, x \ge 0$$ cho ra ngay đối ngẫu $$\max b^T y$$ thỏa $$A^T y + s = c, s \ge 0$$ (với biến bù đối ngẫu $$s$$ cực kỳ quan trọng cho Chương 17).
+
+### Khung giải thích (nên đọc chậm): Áp dụng Slater tinh chỉnh và suy dẫn đối ngẫu LP dạng chuẩn bằng tay
+
+Xét bài toán LP dạng chuẩn 2 biến:
+$$\min_{x \in \mathbb{R}^2} 3x_1 + 5x_2 \qquad \text{với } x_1 + 2x_2 = 4, \;\; x_1 \ge 0, \;\; x_2 \ge 0.$$
+Ở đây $$c = (3, 5)^T$$, $$A = \begin{bmatrix} 1 & 2 \end{bmatrix}$$, $$b = 4$$.
+
+1. **Kiểm tra điều kiện Slater tinh chỉnh:**
+   Điểm $$x = (4, 0)^T$$ thỏa $$x_1 + 2x_2 = 4$$ và $$x \ge 0$$ (dù $$x_2 = 0$$ không chặt!). Vì mọi ràng buộc đều là tuyến tính (affine), theo điều kiện Slater tinh chỉnh, **đối ngẫu mạnh chắc chắn thỏa mãn**!
+2. **Suy dẫn bài toán đối ngẫu qua hàm Lagrange:**
+   $$L(x, s, y) = c^T x - s^T x + y^T(b - Ax) = b^T y + (c - A^T y - s)^T x, \qquad s \ge 0.$$
+   Để $$\min_x L > -\infty$$ ta cần $$A^T y + s = c$$, tức:
+   $$y + s_1 = 3, \qquad 2y + s_2 = 5, \qquad s_1 \ge 0, \; s_2 \ge 0.$$
+   Bài toán đối ngẫu là $$\max_{y, s \ge 0} 4y$$ với $$y \le 3$$ và $$2y \le 5 \implies y \le 2.5$$.
+3. **Giải và đối chiếu nguyên thủy – đối ngẫu:**
+   - Đối ngẫu: $$y^\star = 2.5$$, $$s^\star = (3 - 2.5, \; 5 - 5)^T = (0.5, \; 0)^T$$, giá trị $$d^\star = 4(2.5) = 10$$.
+   - Nguyên thủy: từ bù yếu $$s_1^\star x_1^\star = 0 \implies x_1^\star = 0$$, thay vào $$x_1 + 2x_2 = 4 \implies x_2^\star = 2$$, giá trị $$p^\star = 3(0) + 5(2) = 10 = d^\star$$!
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

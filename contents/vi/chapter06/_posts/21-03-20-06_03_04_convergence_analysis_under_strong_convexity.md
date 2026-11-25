@@ -9,6 +9,40 @@ categories:
 lang: vi
 ---
 
+Nếu tốc độ hội tụ $$O(1/k)$$ của hàm lồi trơn giống như việc bạn bước đi đều đặn về phía đích, thì khi hàm sở hữu thêm tính **lồi mạnh (strong convexity)**, hành trình ấy biến thành một chuyến tàu siêu tốc: khoảng cách đến nghiệm co lại theo **cấp số nhân** — mỗi vài vòng lặp lại gặt thêm một chữ số thập phân chính xác!
+
+Tại sao một điều kiện tưởng chừng nhỏ như $$\nabla^2 f(x) \succeq m I$$ ($$m > 0$$) lại tạo ra bước nhảy vọt từ $$O(1/\epsilon)$$ xuống $$O(\log(1/\epsilon))$$? Bởi vì tính lồi mạnh đảm bảo **đáy hàm không bao giờ bị bẹt phẳng**: hễ bạn còn cách xa nghiệm tối ưu, độ dốc $$\|\nabla f(x)\|_2$$ chắc chắn còn đủ lớn để đẩy bạn đi nhanh về phía đích (bất đẳng thức Polyak–Łojasiewicz)!
+
+## Bản đồ kiến thức nền: Bốn mảnh ghép của Hội tụ Tuyến tính
+
+Để hiểu tận gốc định lý hội tụ dưới tính lồi mạnh, hãy ghép bốn trụ cột sau:
+
+- **Định nghĩa Lồi mạnh $$m$$ (Cận dưới bậc hai):** $$f(y) \ge f(x) + \nabla f(x)^T(y-x) + \frac{m}{2}\|y-x\|_2^2 \; \forall x, y$$ (tương đương $$\nabla^2 f(x) \succeq m I$$ hay $$f(x) - \frac{m}{2}\|x\|_2^2$$ là hàm lồi). Nói trực quan: luôn có thể lót một chiếc bát parabol độ cong $$m$$ nằm gọn *dưới* đồ thị $$f$$.
+- **Bất đẳng thức Polyak–Łojasiewicz (PL):** Cực tiểu hóa hai vế của cận dưới bậc hai theo $$y$$ cho ta mối liên hệ vàng giữa độ lớn gradient và sai số hàm mục tiêu:
+  $$\|\nabla f(x)\|_2^2 \ge 2m \big(f(x) - f^\star\big).$$
+  Hễ còn cách đáy xa, gradient không bao giờ được phép quá nhỏ!
+- **Ghép Bổ đề Giảm + Bất đẳng thức PL:** Từ $$f(x^+) \le f(x) - \frac{t}{2}\|\nabla f(x)\|_2^2$$ (với $$t \le 1/L$$), thay $$\|\nabla f(x)\|_2^2 \ge 2m(f(x) - f^\star)$$ cho ngay trong 1 dòng:
+  $$f(x^+) - f^\star \le (1 - mt)\big(f(x) - f^\star\big) \implies f(x^{(k)}) - f^\star \le (1 - mt)^k \big(f(x^{(0)}) - f^\star\big).$$
+- **Vai trò của Chỉ số điều kiện $$\kappa = L/m$$:** Đặt $$t = 1/L$$, hệ số co là $$c = 1 - m/L = 1 - 1/\kappa$$. Muốn sai số nhỏ hơn $$\epsilon$$, số vòng lặp cần thiết là $$k = O\big(\kappa \log(1/\epsilon)\big)$$ — phụ thuộc *logarit* vào $$\epsilon$$ nhưng *tuyến tính* vào $$\kappa$$!
+
+### Khung giải thích (nên đọc chậm): Chứng minh và tính số cụ thể tốc độ co lũy thừa theo $$\kappa$$
+
+Xét hàm Ridge Regression 2 biến $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 5x_2^2) + \frac{1}{2}\lambda(x_1^2 + x_2^2)$$ với $$\lambda = 1$$.
+Ta có $$f(x) = \frac{1}{2}(2x_1^2 + 6x_2^2)$$, Hessian $$H = \operatorname{diag}(2, 6)$$.
+
+1. **Bước 1 — Xác định $$m$$, $$L$$ và $$\kappa$$:**
+   $$m = 2, \qquad L = 6, \qquad \kappa = \frac{L}{m} = 3.$$
+2. **Bước 2 — Tính hệ số co với bước chuẩn $$t = 1/L = 1/6$$:**
+   $$1 - mt = 1 - \frac{2}{6} = \frac{2}{3} \approx 0.6667.$$
+   (Thậm chí nếu dùng bước $$t = \frac{2}{L+m} = \frac{2}{8} = 0.25$$, khoảng cách co với hệ số $$\frac{\kappa-1}{\kappa+1} = 0.5$$ và sai số hàm co với hệ số $$0.25$$ mỗi bước!)
+3. **Bước 3 — Kiểm chứng bằng số tại $$x^{(0)} = (3, 1)^T$$ với $$t = 1/6$$:**
+   - $$f(x^{(0)}) = 9 + 3 = 12$$.
+   - $$\nabla f(x^{(0)}) = (6, 6)^T \implies x^{(1)} = (3, 1)^T - \frac{1}{6}(6, 6)^T = (2, 0)^T$$.
+   - $$f(x^{(1)}) = 4 + 0 = 4$$.
+   - Kiểm tra bất đẳng thức lý thuyết: $$f(x^{(1)}) = 4 \le \frac{2}{3} \cdot 12 = 8$$ — hoàn toàn đúng! Chỉ cần $$k = \left\lceil \frac{\ln(12 / 10^{-6})}{\ln(3/2)} \right\rceil = 41$$ bước là chắc chắn đạt sai số $$10^{-6}$$!
+
+---
+
 Một hàm $$f$$ khả vi được gọi là lồi mạnh với hằng số $$m > 0$$ nếu thỏa mãn điều kiện sau:
 > $$ \begin{align}
 f(y) \ge f(x) + \nabla f(x)^T(y-x) + \frac{m}{2} \| y-x \|_2^2, \quad \forall x, y

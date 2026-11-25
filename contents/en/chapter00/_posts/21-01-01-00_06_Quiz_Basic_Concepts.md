@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter00/00_05_Quiz_Basic_Concepts/
 ---
 
+Reading derivations feels effortless until you have to diagnose a Hessian, spot a non-compact domain, or compute a directional derivative on a blank sheet of paper. This diagnostic quiz stress-tests your Chapter 00 fluency across calculus, linear algebra, real analysis, and probability—catching any subtle blind spots now before we build convex sets, duality, and interior-point methods on top of them.
+
+## Background Knowledge Map: Four Diagnostic Checkpoints for This Quiz
+
+- **Calculus Fluency:** Verify that you can rapidly compute gradients, directional derivatives, Hessians, and second-order Taylor expansions without sign or transpose slips.
+- **Linear Algebra Fluency:** Check your command of rank, nullspace, orthogonality, eigenvalues, and positive definiteness tests (principal minors and eigenvalues).
+- **Analysis & Topology Fluency:** Distinguish open vs. closed sets, bounded vs. compact domains, and continuity vs. uniform/Lipschitz continuity.
+- **Probability Fluency:** Confirm comfort with Bayes' rule, expectation/variance algebra, and turning log-likelihoods into concave maximization problems.
+
+### Step-by-Step Worked Example (Read Slowly): Integrated Pre-Quiz Warm-Up
+
+Before starting the quiz, test all core tools at once on $$f(x, y) = 2x^2 + 2xy + 3y^2 - 6x - 8y$$.
+
+1. **Find the stationary point ($$\nabla f = 0$$):**
+   $$\frac{\partial f}{\partial x} = 4x + 2y - 6 = 0, \qquad \frac{\partial f}{\partial y} = 2x + 6y - 8 = 0.$$
+   Multiply the second equation by $$2$$ ($$4x + 12y - 16 = 0$$) and subtract the first:
+   $$10y - 10 = 0 \implies y^* = 1 \implies 4x + 2(1) = 6 \implies x^* = 1.$$
+2. **Classify using the Hessian (linear algebra):**
+   $$\nabla^2 f(x, y) = \begin{pmatrix} 4 & 2 \\ 2 & 6 \end{pmatrix}.$$
+   Leading principal minors are $$\Delta_1 = 4 > 0$$ and $$\Delta_2 = 4(6) - 2^2 = 20 > 0$$ (also $$\text{tr} = 10 > 0$$), so $$\nabla^2 f \succ 0$$ everywhere.
+3. **Evaluate the global minimum:**
+   $$f(1, 1) = 2(1) + 2(1) + 3(1) - 6(1) - 8(1) = 7 - 14 = -7.$$
+   If every step above felt immediate, you are ready to breeze through the quiz below.
+
 This multiple-choice quiz tests your understanding of the basic concepts of calculus and linear algebra that form the foundation of optimization.
 
 ---

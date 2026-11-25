@@ -10,6 +10,34 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu bạn từng nghĩ phương pháp chắn logarit chỉ là một chương lý thuyết cổ điển từ thập niên 1990, thì thực tế công nghiệp giai đoạn **2022–2026** sẽ khiến bạn bất ngờ: hàm chắn logarit vẫn đang chạy âm thầm phía sau hầu hết các hệ thống tối ưu quan trọng nhất thế giới! Từ **Clarabel** (bộ giải điểm trong viết bằng Rust trở thành bộ giải mặc định của CVXPY), **điều khiển dự báo mô hình (MPC)** cho tên lửa và robot, đến **học tăng cường an toàn (Safe RL)** và **các tầng tối ưu khả vi (Differentiable Optimization Layers)** tích hợp thẳng vào mạng PyTorch.
+
+Điều kỳ diệu là dù giao diện lập trình hiện đại ngày càng thông minh và tự động, linh hồn toán học bên dưới vẫn y nguyên những gì bạn vừa học ở Chương 15: hàm chắn tự hài hòa, đường trung tâm và hệ điều kiện KKT nhiễu!
+
+## Bản đồ kiến thức nền: Bốn mặt trận ứng dụng của Phương pháp chắn (2022–2026)
+
+- **Clarabel và hệ sinh thái bộ giải nón hiện đại:** Bộ giải mã nguồn mở Clarabel xử lý đồng thời LP, QP, SOCP, SDP và nón hàm mũ bằng thuật toán điểm trong thuần nhất tự đối ngẫu — kế thừa trực tiếp lý thuyết hàm chắn tự hài hòa của mục 15-08.
+- **Tối ưu danh mục tài chính & Điều khiển MPC thời gian thực:** Các bài toán phân bổ tài sản có ràng buộc rủi ro phương sai và bài toán điều khiển quỹ đạo (như hạ cánh tên lửa SpaceX hay xe tự hành) đều được giải ở tần số hàng chục Hz nhờ bộ giải điểm trong khai thác độ thưa của Hessian.
+- **Hàm chắn trong Học tăng cường an toàn (Safe RL) & Control Barrier Functions (CBF):** Thay vì để robot vi phạm giới hạn an toàn rồi mới phạt, hàm chắn logarit/CBF tạo lực đẩy trơn giữ trạng thái robot luôn nằm chặt bên trong tập an toàn suốt quá trình học!
+- **Lớp tối ưu khả vi (DiffOpt / OptNet / CvxpyLayers):** Bằng cách áp dụng định lý hàm ẩn ngay lên hệ phương trình KKT (hoặc KKT nhiễu trên đường trung tâm), ta truyền ngược gradient (backpropagation) xuyên qua cả một bộ giải tối ưu lồi nằm giữa mạng nơ-ron!
+
+### Khung giải thích (nên đọc chậm): Tính đạo hàm ngược xuyên qua điểm đường trung tâm (trực giác Differentiable Optimization)
+
+Giả sử một tầng mạng nơ-ron nhận tham số đầu vào $$c > 0$$ và giải bài toán chắn 1 chiều để xuất ra hành động $$x^*(c) > 0$$:
+$$x^*(c) = \arg\min_{x > 0} \bigl(c x - \log x\bigr) \qquad (\text{tức } t = 1, \text{ ràng buộc an toàn } x > 0).$$
+Để huấn luyện mạng bằng backpropagation, ta cần tính đạo hàm $$\frac{dx^*}{dc}$$ mà không cần "mở vòng lặp Newton":
+
+1. **Viết phương trình KKT nhiễu (điều kiện dừng) tại nghiệm $$x^*$$:**
+   $$F(x^*, c) = c - \frac{1}{x^*} = 0.$$
+2. **Lấy vi phân hai vế theo $$c$$ (Định lý hàm ẩn — chính là nguyên lý của CvxpyLayers/OptNet):**
+   $$1 + \frac{1}{(x^*)^2} \frac{dx^*}{dc} = 0 \implies \frac{dx^*}{dc} = -(x^*)^2.$$
+3. **Kiểm tra bằng số tại $$c = 2$$:**
+   - Nghiệm bài toán chắn: $$x^*(2) = \frac{1}{2} = 0.5$$.
+   - Đạo hàm ngược tính bằng định lý hàm ẩn: $$\frac{dx^*}{dc}\Big|_{c=2} = -(0.5)^2 = -0.25$$.
+   - Kiểm chứng trực tiếp từ công thức đóng $$x^*(c) = 1/c$$: $$(1/c)' = -1/c^2 = -1/4 = -0.25$$ — **khớp chính xác tuyệt đối!** Nhờ tính trơn của đường trung tâm, ta tính được gradient truyền ngược cực kỳ ổn định ngay cả khi bài toán gốc có ràng buộc bất đẳng thức gãy khúc!
+
+---
+
 Hàm chắn logarit
 
 $$

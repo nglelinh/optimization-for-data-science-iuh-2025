@@ -10,6 +10,27 @@ lang: en
 lesson_type: required
 ---
 
+Nobody wants to compute a $$500 \times 500$$ Hessian by hand just to prove a regularized empirical loss is convex. Just as Disciplined Convex Programming (DCP) parsers verify convexity symbolically in milliseconds, this lesson teaches you the exact algebraic operations—nonnegative sums, affine pre-compositions, monotone compositions, pointwise suprema, partial minimization, and perspective—that let you prove convexity of intricate objectives by inspection.
+
+## Background Knowledge Map: Disciplined Convexity-Preserving Rules
+
+- **Nonnegative Weighted Sums:** $$\sum_i w_i f_i(x)$$ with $$w_i \ge 0$$ preserves convexity—immediately certifying empirical risk plus regularization ($$\frac{1}{n}\sum \ell_i(w) + \lambda R(w)$$).
+- **Composition with an Affine Map:** $$g(x) = f(Ax + b)$$ is convex whenever $$f$$ is convex—turning 1D atoms like $$\log(1 + e^z)$$ into multivariable logistic losses $$\log(1 + e^{-y_i w^T x_i})$$.
+- **Scalar & Vector Composition Rules:** $$h(g(x))$$ is convex if $$h$$ is convex & nondecreasing and $$g$$ is convex (or $$h$$ convex & nonincreasing and $$g$$ concave)—remember the curvature-monotonicity sign check!
+- **Pointwise Supremum, Minimization & Perspective:** $$\sup_\alpha f_\alpha(x)$$, $$\inf_{y \in C} f(x, y)$$ (when $$f$$ is jointly convex), and $$t f(x/t)$$ ($$t > 0$$) all preserve convexity—explaining why dual functions and quadratic-over-linear terms are convex.
+
+### Step-by-Step Worked Example (Read Slowly): Certifying Convexity Without Computing a Single Hessian
+
+Prove that both functions below are convex using preservation rules alone:
+
+1. **Multivariable log-sum-exp:** $$f(x_1, x_2) = \log\left(e^{2x_1 - x_2} + e^{-x_1 + 3x_2 + 1}\right)$$.
+   - Start with the known convex atom $$\text{lse}(z_1, z_2) = \log(e^{z_1} + e^{z_2})$$.
+   - Notice $$f(x) = \text{lse}(Ax + b)$$ where $$A = \begin{pmatrix} 2 & -1 \\ -1 & 3 \end{pmatrix}$$ and $$b = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$.
+   - By **composition with an affine mapping**, $$f$$ is convex on all of $$\mathbb{R}^2$$.
+2. **Exponential of a quadratic:** $$q(x) = e^{x^2}$$ on $$\mathbb{R}$$.
+   - Write $$q(x) = h(g(x))$$ with $$g(x) = x^2$$ (convex) and $$h(u) = e^u$$ (convex and **nondecreasing**, since $$h'(u) = e^u > 0$$).
+   - By the **scalar composition rule**, $$q(x) = e^{x^2}$$ is convex everywhere (check: $$q''(x) = (2 + 4x^2)e^{x^2} > 0$$).
+
 This section discusses operations that preserve the convexity of convex functions.
 
 - Nonnegative weighted sum

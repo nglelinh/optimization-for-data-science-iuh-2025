@@ -9,6 +9,37 @@ categories:
 lang: vi
 ---
 
+Năm 2006, Netflix treo giải thưởng 1 triệu đô la cho bất kỳ đội ngũ nào cải thiện hệ thống gợi ý phim thêm 10%. Bài toán cốt lõi nghe rất giản dị: bạn có một bảng khổng lồ gồm hàng trăm nghìn người dùng và hàng chục nghìn bộ phim, nhưng hơn 98% số ô trong bảng bị bỏ trống vì mỗi người chỉ chấm điểm vài chục phim. Làm thế nào để điền chính xác những ô trống còn lại?
+
+Nếu ma trận điểm số hoàn toàn ngẫu nhiên thì bài toán vô nghiệm. Chìa khóa cứu rỗi là giả thiết **hạng thấp (low-rank)**: thị hiếu của hàng trăm nghìn người thực chất chỉ bị chi phối bởi vài chục "nhân tố ẩn" (thể loại, đạo diễn, độ hài hước...). Nhưng cực tiểu hóa $$\operatorname{rank}(X)$$ lại là bài toán NP-khó! Giống như cách chuẩn $$\ell_1$$ thay thế cho chuẩn $$\ell_0$$ (số phần tử khác 0) ở vector, **chuẩn vết / chuẩn hạt nhân** $$\|X\|_* = \sum_i \sigma_i(X)$$ (tổng các giá trị kỳ dị) là bao lồi chặt nhất của $$\operatorname{rank}(X)$$. Và khi đưa vào phương pháp gradient gần kề, toán tử prox của chuẩn hạt nhân hóa ra có một vẻ đẹp đối xứng đến ngỡ ngàng: **co ngưỡng mềm trực tiếp lên các giá trị kỳ dị của SVD!**
+
+## Bản đồ kiến thức nền: Bốn trụ cột của bài toán hoàn thiện ma trận
+
+- **Phân rã giá trị kỳ dị (SVD) và hạng ma trận:** Mọi ma trận $$X \in \mathbb{R}^{m \times n}$$ đều viết được dưới dạng $$X = U \Sigma V^T$$ với các giá trị kỳ dị $$\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r > 0$$. Hạng của $$X$$ chính là số lượng giá trị kỳ dị khác $$0$$ — tức là chuẩn $$\ell_0$$ của vector $$\sigma(X)$$.
+- **Chuẩn vết / Chuẩn hạt nhân (Trace / Nuclear Norm):** Thay $$\|\sigma(X)\|_0$$ bằng $$\|\sigma(X)\|_1 = \sum_{i=1}^r \sigma_i(X) = \|X\|_*$$ biến bài toán tìm ma trận hạng thấp thành một bài toán tối ưu lồi không trơn nhưng toàn cục!
+- **Toán tử chiếu lên tập quan sát $$P_\Omega(X)$$:** Tập chỉ số $$\Omega$$ ghi lại các ô đã biết điểm. Phần trơn của hàm mục tiêu là $$g(X) = \frac{1}{2}\|P_\Omega(X) - P_\Omega(Y)\|_F^2$$, có gradient cực gọn $$\nabla g(X) = P_\Omega(X - Y)$$ với hằng số Lipschitz $$L = 1$$ (cho phép dùng bước cố định $$t = 1$$!).
+- **Định lý co ngưỡng giá trị kỳ dị (Singular Value Thresholding — SVT):** Toán tử gần kề của $$\lambda\|X\|_*$$ là:
+  $$\operatorname{prox}_{\lambda \|\cdot\|_*}(Z) = U \cdot \operatorname{diag}\big(\max(\sigma_i - \lambda, 0)\big) \cdot V^T.$$
+  Các giá trị kỳ dị nhỏ hơn $$\lambda$$ bị cắt thẳng về $$0$$, hạ thấp trực tiếp hạng của ma trận sau mỗi bước lặp!
+
+### Khung giải thích (nên đọc chậm): Tính tay 1 bước thuật toán Soft-Impute (Proximal GD) cho ma trận $$2 \times 2$$
+
+Giả sử ta quan sát 3 ô của một ma trận $$2 \times 2$$ và khuyết ô $$(2, 2)$$ (đánh dấu `?`):
+$$Y = \begin{pmatrix} 4 & 0 \\ 0 & ? \end{pmatrix}, \quad \Omega = \{(1,1), (1,2), (2,1)\}.$$
+Xét bài toán $$\min_X \frac{1}{2}\|P_\Omega(X) - P_\Omega(Y)\|_F^2 + \lambda\|X\|_*$$ với $$\lambda = 1.5$$, bước cố định $$t = 1$$ (vì $$L = 1$$). Khởi tạo $$X^{(0)} = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$$.
+
+1. **Nhịp 1 — Bước gradient trên phần quan sát $$\Omega$$:**
+   - Hiệu trên các ô quan sát: $$P_\Omega(X^{(0)} - Y) = \begin{pmatrix} 2 - 4 & 0 - 0 \\ 0 - 0 & 0 \end{pmatrix} = \begin{pmatrix} -2 & 0 \\ 0 & 0 \end{pmatrix}$$ (ô khuyết $$(2,2)$$ luôn có gradient bằng $$0$$!).
+   - Ma trận trung gian $$Z^{(1)} = X^{(0)} - 1 \cdot \nabla g(X^{(0)}) = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix} - \begin{pmatrix} -2 & 0 \\ 0 & 0 \end{pmatrix} = \begin{pmatrix} 4 & 0 \\ 0 & 2 \end{pmatrix}$$.
+   (Nhận xét trực giác: $$Z^{(1)}$$ giữ nguyên giá trị dự đoán cũ ở ô khuyết, và kéo các ô quan sát về đúng dữ liệu $$Y$$!)
+2. **Nhịp 2 — Phân rã SVD và co ngưỡng mềm giá trị kỳ dị với $$\lambda = 1.5$$:**
+   - Vì $$Z^{(1)}$$ đã là ma trận đường chéo không âm, các giá trị kỳ dị là $$\sigma_1 = 4$$ và $$\sigma_2 = 2$$ ($$U = V = I_2$$).
+   - Áp dụng $$\max(\sigma_i - 1.5, 0)$$:
+     $$\sigma_1' = \max(4 - 1.5, 0) = 2.5, \quad \sigma_2' = \max(2 - 1.5, 0) = 0.5.$$
+   - Kết quả sau bước 1: $$X^{(1)} = \begin{pmatrix} 2.5 & 0 \\ 0 & 0.5 \end{pmatrix}$$.
+3. **Điều gì xảy ra nếu ta tăng lực phạt lên $$\lambda = 2.5$$?**
+   Khi đó $$\sigma_2' = \max(2 - 2.5, 0) = 0$$, nên $$X^{(1)} = \begin{pmatrix} 1.5 & 0 \\ 0 & 0 \end{pmatrix}$$ có **hạng đúng bằng 1**! Bằng cách lặp lại hai nhịp "điền dữ liệu quan sát $$\to$$ co ngưỡng SVD", thuật toán vừa khớp các ô đã biết vừa ép cấu trúc hạng thấp lên toàn ma trận.
+
 # Ví dụ: hoàn thiện ma trận (Matrix completion)
 
 Trong nhiều bài toán thực tế, dữ liệu đo đạc được biểu diễn dưới dạng ma trận, trong đó phần lớn các phần tử bị thiếu và chỉ một số ít phần tử được quan sát. Bài toán dự đoán các phần tử bị thiếu từ các phần tử đã biết được gọi là **hoàn thiện ma trận (matrix completion)**.

@@ -10,6 +10,37 @@ lang: vi
 lesson_type: optional
 ---
 
+Từ các mô hình ngôn ngữ khổng lồ sử dụng khối kích hoạt không trơn (ReLU, GeLU cắt ngưỡng, chuẩn $$\ell_1$$) cho tới các hệ thống dự báo chuỗi thời gian năng lượng đòi hỏi khoảng tin cậy 90%–95% chống lại biến động cực đoan, **giải tích không trơn (nonsmooth analysis)** của Chương 07 không còn là chuyên đề phụ lục của tối ưu hóa lồi — mà đã trở thành ngôn ngữ nền tảng để hiểu cách các hệ thống học máy thực sự hành xử tại những "điểm gấp nếp".
+
+Phiên bản chuyên đề ứng dụng này tổng hợp và mở rộng góc nhìn thực chiến về ba cột trụ ứng dụng của subgradient trong giai đoạn hiện đại: lý thuyết hội tụ của vi phân tự động trên mạng không trơn, các bộ giải tối ưu thưa quy mô triệu đặc trưng, và ước lượng phân vị kết hợp dự báo đồng dạng (Conformal Prediction).
+
+## Bản đồ kiến thức nền: Kết nối Subgradient với Hệ sinh thái Học máy Hiện đại
+
+Bốn cầu nối sau giúp bạn nhìn thấy sự hiện diện của $$\partial f(x)$$ đằng sau các công cụ lập trình hàng ngày:
+
+- **Cầu nối 1 — Subdifferential Clarke & Trường bảo toàn (Conservative Fields):** Mở rộng khái niệm vi phân dưới từ hàm lồi sang hàm Lipschitz phi lồi (như mạng nơ-ron sâu ghép nhiều lớp ReLU), giải thích tại sao SGD trên PyTorch không bị phá vỡ dù hàm mất mát không khả vi trên một hợp các siêu phẳng!
+- **Cầu nối 2 — Tối ưu hóa Tọa độ & Sàng lọc KKT (Coordinate Descent + Screening):** Dùng trực tiếp bất đẳng thức $$|X_j^T(y - X\beta)| \le \lambda$$ để bỏ qua các biến 0 và cập nhật từng tọa độ bằng Soft-Thresholding với tốc độ nhanh hơn phương pháp điểm trong hàng trăm lần trên dữ liệu thưa.
+- **Cầu nối 3 — Dự báo Khoảng bất định bằng Pinball Loss:** Dùng hàm mất mát gãy khúc bất đối xứng $$\rho_\tau$$ để học đồng thời cận dưới ($$\tau = 0.05$$) và cận trên ($$\tau = 0.95$$), sau đó hiệu chỉnh bằng Conformal Prediction để có bảo đảm phủ xác suất toán học chặt chẽ.
+- **Cầu nối 4 — Phương pháp Subgradient vs. Proximal Gradient:** Khi hàm mục tiêu có dạng $$f(x) + g(x)$$ (trơn + không trơn như Lasso), thay vì dùng phương pháp Subgradient chậm $$O(1/\sqrt{k})$$, thực tế tách phần không trơn ra xử lý bằng **toán tử Proximal** (như Soft-Thresholding) để khôi phục lại tốc độ $$O(1/k)$$ và $$O(1/k^2)$$!
+
+### Khung giải thích (nên đọc chậm): Minh họa quy tắc Sàng lọc KKT cho Lasso trên 3 đặc trưng
+
+Giả sử ta giải Lasso $$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\beta\|_1$$ với $$\lambda = 2.0$$, các cột dữ liệu chuẩn hóa $$\|X_j\|_2 = 1$$ và giá trị tương quan ban đầu với $$y$$ là:
+$$X_1^T y = 5.0, \qquad X_2^T y = 0.4, \qquad X_3^T y = -3.1.$$
+
+1. **Bước 1 — Ý tưởng sàng lọc từ điều kiện subgradient:**
+   Điều kiện để $$\beta_j^\star = 0$$ là $$|X_j^T(y - X\beta^\star)| \le \lambda$$.
+   Theo bất đẳng thức tam giác và Cauchy-Schwarz (với $$\|X_j\|_2 = 1$$):
+   $$|X_j^T(y - X\beta^\star)| \le |X_j^T y| + \|X_j\|_2 \|X\beta^\star\|_2 = |X_j^T y| + \|X\beta^\star\|_2.$$
+2. **Bước 2 — Ước lượng cận trên thô cho $$\|X\beta^\star\|_2$$:**
+   Giả sử tại điểm khởi tạo hoặc từ nghiệm đối ngẫu ta biết chắc $$\|X\beta^\star\|_2 \le 1.2$$.
+   Kiểm tra cho đặc trưng 2 ($$|X_2^T y| = 0.4$$):
+   $$|X_2^T(y - X\beta^\star)| \le 0.4 + 1.2 = 1.6 < \lambda = 2.0!$$
+3. **Bước 3 — Kết luận an toàn tuyệt đối (Safe Screening):**
+   Không cần chạy thêm bất kỳ vòng lặp nào trên đặc trưng 2, điều kiện subgradient đảm bảo 100% rằng $$\beta_2^\star = 0$$! Trong dữ liệu thực có $$p = 100\,000$$ đặc trưng, quy tắc sàng lọc như thế này giúp vứt bỏ ngay >95% cột dữ liệu vô ích!
+
+---
+
 # Ứng dụng hiện đại của subgradient
 
 Bài đọc tùy chọn này **không** lặp lại các phép tính cơ bản của Chương 07, mà chỉ ra nơi các khái niệm đó — một vector $$g$$ thỏa mãn $$f(y)\ge f(x)+g^\top(y-x)$$, tập vi phân dưới $$\partial f(x)$$, và điều kiện dừng $$0\in\partial f(x^\star)$$ — xuất hiện trong các hệ thống khoa học máy tính và khoa học dữ liệu giai đoạn 2022–2026. Sau bài này, bạn có thể nhận diện một hàm mất mát hoặc thành phần chính quy hóa không trơn trong hệ thống thực tế, viết được điều kiện bao hàm đặc trưng cho nghiệm tối ưu, và liên hệ trực tiếp với các công trình nghiên cứu nền tảng.

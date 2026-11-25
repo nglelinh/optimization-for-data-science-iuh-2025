@@ -9,6 +9,36 @@ categories:
 lang: vi
 ---
 
+Hãy tưởng tượng một chiếc ốc quế kem dựng thẳng đứng trong không gian 3 chiều: đáy nhọn tại gốc tọa độ $$(0,0,0)$$ và miệng mở dần lên trên theo quy luật $$\sqrt{x_1^2 + x_2^2} \le t$$. Trong tối ưu hóa lồi, hình khối quen thuộc ấy có một cái tên rất trang trọng: **Nón bậc hai (Second-Order Cone / Lorentz Cone)**.
+
+Khi bạn cực tiểu hóa một hàm tuyến tính $$f^T x$$ dưới các ràng buộc nằm trong nón bậc hai $$\|A_i x + b_i\|_2 \le c_i^T x + d_i$$, bạn có **Quy hoạch Nón Bậc hai (SOCP)**. Đừng để vẻ ngoài đơn giản đánh lừa: SOCP đủ sức nuốt trọn LP, QP, QCQP, tối ưu bền vững (robust LP với nhiễu ellipsoid), bài toán vị trí kho bãi Weber (tổng khoảng cách Euclidean), và thiết kế chùm sóng ăng-ten — trong khi các bộ giải điểm trong hiện đại giải SOCP gần như nhanh ngang ngửa LP!
+
+## Bản đồ kiến thức nền: Sức mạnh biểu diễn của Nón Bậc Hai
+
+Bốn trụ cột dưới đây giúp bạn làm chủ nghệ thuật nhận diện và chuyển đổi về SOCP:
+
+- **Hình học Nón bậc hai $$\mathcal{Q}_{k+1}$$:** Tập $$\{(u, t) \in \mathbb{R}^k \times \mathbb{R} : \|u\|_2 \le t\}$$ là một nón lồi, đóng, nhọn và **tự đối ngẫu** ($$\mathcal{Q}^* = \mathcal{Q}$$). Tính tự đối ngẫu này là lý do các thuật toán điểm trong nguyên–đối ngẫu giải SOCP cực kỳ hiệu quả.
+- **Mẹo chuyển ràng buộc Hyperbolic & Bậc hai sang SOCP:** Đẳng thức đại số vàng $$u^2 \le v \cdot w \iff \left\|\begin{pmatrix} 2u \\ v - w \end{pmatrix}\right\|_2 \le v + w$$ (với $$v, w \ge 0$$) cho phép biến mọi ràng buộc phân thức, căn bậc hai, và mọi ràng buộc bậc hai lồi (QP, QCQP) thành ràng buộc nón bậc hai chuẩn!
+- **Bao hàm LP, QP, QCQP:** Đặt $$A_i = 0, b_i = 0$$ thì SOCP thu về LP. Dùng biến phụ $$t$$ đưa hàm mục tiêu bậc hai $$\|Px + q\|_2^2 \le t$$ vào ràng buộc hyperbolic thì mọi QP và QCQP đều trở thành SOCP.
+- **Ứng dụng Tối ưu Bền vững (Robust Linear Programming):** Khi hệ số ràng buộc tuyến tính $$a_i$$ có sai số nằm trong ellipsoid $$\{a_i = \bar{a}_i + P_i u : \|u\|_2 \le 1\}$$, điều kiện $$\sup_{\|u\|_2 \le 1} (\bar{a}_i + P_i u)^T x \le b_i$$ tự động biến thành đúng một ràng buộc SOCP: $$\bar{a}_i^T x + \|P_i^T x\|_2 \le b_i$$!
+
+### Khung giải thích (nên đọc chậm): Chuyển đổi ràng buộc bậc hai sang dạng nón SOCP bằng phép biến đổi đại số
+
+Xét ràng buộc bậc hai 1 biến $$x^2 \le t$$ với $$t \ge 0$$. Làm sao viết nó thành dạng chuẩn $$\|A z + b\|_2 \le c^T z + d$$ (chỉ có chuẩn Euclidean bậc 1 ở vế trái và biểu thức tuyến tính ở vế phải)?
+
+1. **Bước 1 — Dùng hằng đẳng thức $$4t = (t + 1)^2 - (t - 1)^2$$:**
+   $$x^2 \le t \iff 4x^2 \le 4t = (t + 1)^2 - (t - 1)^2 \iff (2x)^2 + (t - 1)^2 \le (t + 1)^2.$$
+2. **Bước 2 — Lấy căn bậc hai hai vế (vì $$t \ge 0 \implies t + 1 > 0$$):**
+   $$\left\| \begin{pmatrix} 2x \\ t - 1 \end{pmatrix} \right\|_2 \le t + 1.$$
+3. **Bước 3 — Kiểm tra bằng số cụ thể:**
+   - Thử $$x = 2,\; t = 4$$ (thỏa $$2^2 = 4 \le 4$$):
+     Vế trái $$= \sqrt{(2\cdot 2)^2 + (4 - 1)^2} = \sqrt{16 + 9} = 5$$; vế phải $$= 4 + 1 = 5$$. Khớp chính xác!
+   - Thử $$x = 3,\; t = 4$$ (vi phạm $$9 > 4$$):
+     Vế trái $$= \sqrt{6^2 + 3^2} = \sqrt{45} \approx 6.708 > 5$$. Vi phạm đúng như bài toán gốc!
+4. **Ý nghĩa:** Nhờ đúng một dòng hằng đẳng thức này, mọi bài toán QP và QCQP đều được "dịch" tự động sang SOCP để đưa vào các bộ giải nón hiện đại như ECOS, Clarabel hay MOSEK.
+
+---
+
 Nếu các ràng buộc bất đẳng thức tuyến tính trong một bài toán LP tổng quát được thay bằng các ràng buộc nón bậc hai (tức là các bất đẳng thức dạng chuẩn $$\ell_2$$ của hàm affine không vượt quá một hàm affine), ta thu được **bài toán quy hoạch nón bậc hai** (Second-Order Cone Programming - SOCP).
 
 ### Bài toán Quy hoạch Nón Bậc hai

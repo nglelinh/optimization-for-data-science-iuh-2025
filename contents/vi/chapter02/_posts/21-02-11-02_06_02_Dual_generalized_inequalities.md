@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Khi thiết kế một hệ thống kỹ thuật phải tối ưu đồng thời hai tiêu chí mâu thuẫn — ví dụ **chi phí thấp** và **độ trễ nhỏ** — bạn không thể tìm được một điểm duy nhất tốt nhất theo mọi tiêu chí, mà sẽ thu được cả một đường cong đánh đổi gọi là **biên tối ưu Pareto** (Pareto frontier). Làm sao dùng các bộ giải tối ưu một mục tiêu thông thường để vẽ ra biên Pareto đó? **Bất đẳng thức tổng quát đối ngẫu** mang đến câu trả lời trọn vẹn: gán trọng số dương $$\lambda \succ_{K^*} 0$$ và cực tiểu hóa hàm vô hướng $$\lambda^T x$$!
+
+Bài học này nối kết hình nón đối ngẫu $$K^*$$ với kỹ thuật vô hướng hóa để tìm phần tử tối tiểu và cực tiểu Pareto.
+
+## Bản đồ kiến thức nền: Vô hướng hóa (Scalarization) qua hình nón đối ngẫu
+
+- **Bất đẳng thức tổng quát đối ngẫu:** Khi $$K$$ là hình nón thích hợp, $$K^*$$ cũng là hình nón thích hợp và định nghĩa thứ tự $$\preceq_{K^*}$$ cùng bất đẳng thức chặt $$\prec_{K^*}$$ (thuộc phần trong $$\operatorname{int} K^*$$).
+- **Đặc trưng phần tử tối tiểu (Minimum):** $$x$$ là phần tử tối tiểu của $$S$$ theo $$K$$ khi và chỉ khi với **mọi** $$\lambda \succ_{K^*} 0$$, $$x$$ là nghiệm tối ưu duy nhất của $$\min_{z \in S} \lambda^T z$$.
+- **Điều kiện đủ cho phần tử cực tiểu (Minimal / Pareto):** Nếu $$x$$ cực tiểu hóa $$\lambda^T z$$ trên $$S$$ với **một** trọng số $$\lambda \succ_{K^*} 0$$ nào đó, thì $$x$$ chắc chắn là phần tử cực tiểu Pareto!
+- **Điều kiện cần (khi $$S$$ lồi):** Nếu $$S$$ là tập lồi, hầu như *mọi* điểm trên biên Pareto đều tìm được bằng cách quét các trọng số $$\lambda \succeq_{K^*} 0,\ \lambda \ne 0$$ (ngược lại, nếu $$S$$ không lồi, vùng lõm của biên Pareto có thể bị bỏ sót!).
+
+### Khung giải thích (nên đọc chậm): Tìm biên Pareto của 4 phương án bằng vô hướng hóa $$\lambda^T x$$
+
+Giả sử ta có 4 phương án thiết kế $$S = \{p_1, p_2, p_3, p_4\}$$ với hai chi phí cần giảm $$(f_1, f_2)$$ theo nón $$K = \mathbb{R}_+^2$$:
+$$p_1 = (1, 4), \qquad p_2 = (2, 2), \qquad p_3 = (4, 1), \qquad p_4 = (3, 3).$$
+
+1. **Thử trọng số cân bằng $$\lambda = (1, 1)^T \succ 0$$:**
+   $$\lambda^T p_1 = 5,\quad \lambda^T p_2 = 4,\quad \lambda^T p_3 = 5,\quad \lambda^T p_4 = 6 \implies \text{nhận } p_2 = (2, 2).$$
+2. **Thử trọng số ưu tiên giảm $$f_1$$: $$\lambda = (3, 1)^T \succ 0$$:**
+   $$\lambda^T p_1 = 7,\quad \lambda^T p_2 = 8,\quad \lambda^T p_3 = 13,\quad \lambda^T p_4 = 12 \implies \text{nhận } p_1 = (1, 4).$$
+3. **Thử trọng số ưu tiên giảm $$f_2$$: $$\lambda = (1, 3)^T \succ 0$$:**
+   $$\lambda^T p_1 = 13,\quad \lambda^T p_2 = 8,\quad \lambda^T p_3 = 7,\quad \lambda^T p_4 = 12 \implies \text{nhận } p_3 = (4, 1).$$
+4. **Số phận của $$p_4 = (3, 3)$$:** Vì $$p_2 = (2, 2) \prec p_4 = (3, 3)$$, với *mọi* $$\lambda_1, \lambda_2 > 0$$ ta luôn có $$\lambda^T p_2 = 2\lambda_1 + 2\lambda_2 < 3\lambda_1 + 3\lambda_2 = \lambda^T p_4$$. Điểm $$p_4$$ bị thống trị nên không bao giờ nằm trên biên Pareto $$\{p_1, p_2, p_3\}$$!
+
+---
+
 Khi một hình nón thích hợp $$K$$ sinh ra bất đẳng thức tổng quát $$\preceq_K$$, hình nón đối ngẫu $$K^*$$ của nó cũng là một hình nón thích hợp, và do đó cũng xác định một bất đẳng thức tổng quát tương ứng.
 
 Phần này định nghĩa bất đẳng thức tổng quát đối ngẫu dựa trên $$K^*$$ và sử dụng nó để đặc trưng cho các phần tử tối tiểu và cực tiểu của một tập hợp.

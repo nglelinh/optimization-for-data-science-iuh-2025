@@ -10,6 +10,38 @@ lang: vi
 lesson_type: required
 ---
 
+Năm 1947, Không quân Hoa Kỳ đối mặt với một bài toán hậu cần khổng lồ: làm sao phân bổ hàng chục nghìn chuyến bay, kho nhiên liệu, phi hành đoàn và linh kiện sao cho chi phí thấp nhất mà vẫn đáp ứng mọi mục tiêu tác chiến? Nhà toán học trẻ George Dantzig nhận ra mọi ràng buộc tồn kho, ngân sách và vận tải đều là **bất đẳng thức tuyến tính**, còn mục tiêu là một hàm tuyến tính. Ông đặt tên cho khuôn khổ này là **Quy hoạch Tuyến tính (Linear Programming - LP)** — mở ra một trong những công cụ tạo ra giá trị kinh tế lớn nhất lịch sử nhân loại.
+
+Điều kỳ diệu nhất của LP nằm ở hình học của nó: tập khả thi là một khối đa diện nhiều mặt phẳng, và đường đồng mức của hàm mục tiêu là các siêu phẳng song song trượt dần theo hướng $$-c$$. Chắc chắn điểm chạm cuối cùng trước khi siêu phẳng rời khỏi khối đa diện sẽ luôn có thể tìm thấy tại một **đỉnh (vertex)**!
+
+## Bản đồ kiến thức nền: Giải phẫu Quy hoạch Tuyến tính (LP)
+
+Bốn trụ cột sau bao quát toàn bộ lý thuyết và cách viết chuẩn của một bài toán LP:
+
+- **Hình học Đa diện (Polyhedral Geometry):** Giao của hữu hạn nửa không gian $$a_i^T x \le b_i$$ là một đa diện (polyhedron); nếu bị chặn, nó gọi là đa giác/đa diện lồi đóng (polytope). Đường đồng mức $$c^T x = \text{const}$$ luôn song song, nên tối ưu hóa tuyến tính thực chất là "đẩy một mặt phẳng đi xa nhất có thể theo hướng $$-c$$ cho đến khi chỉ còn chạm vào biên đa diện".
+- **Các dạng chuẩn (Standard Form vs. Inequality Form):** Để máy tính giải đồng nhất, mọi bài toán LP tổng quát (có biến tự do, dấu $$\ge$$, dấu $$=$$) đều chuyển được về dạng chuẩn $$\min c^T x \text{ s.t. } Ax = b,\; x \ge 0$$ bằng cách tách biến tự do $$x = x^+ - x^-$$ ($$x^+, x^- \ge 0$$) và thêm biến phụ $$s \ge 0$$.
+- **Ba kịch bản nghiệm duy nhất có thể xảy ra:** Một bài LP bất kỳ chỉ có thể rơi vào đúng 1 trong 3 trạng thái: (1) **vô nghiệm** (tập khả thi rỗng), (2) **không bị chặn** ($$f^\star = -\infty$$), hoặc (3) **có nghiệm tối ưu hữu hạn** (tại một đỉnh hoặc cả một mặt phẳng nối nhiều đỉnh tối ưu).
+- **Ứng dụng rộng khắp:** Từ bài toán khẩu phần ăn (Diet Problem), vận tải (Transportation), luồng cực đại trên mạng (Max-Flow), cho đến hồi quy chuẩn $$\ell_1$$ (LAD) và hồi quy Chebyshev ($$\ell_\infty$$) đều quy về LP chính xác!
+
+### Khung giải thích (nên đọc chậm): Giải tay bài toán LP 2 biến bằng phương pháp duyệt đỉnh & chuyển dạng chuẩn
+
+Xét bài toán lập lịch sản xuất:
+$$\min_{x_1, x_2} \; -3x_1 - 2x_2 \quad \text{thỏa mãn} \quad \begin{cases} x_1 + x_2 \le 4 \\ 2x_1 + x_2 \le 6 \\ x_1 \ge 0,\; x_2 \ge 0 \end{cases}$$
+
+1. **Bước 1 — Tìm tất cả các đỉnh (giao điểm khả thi của các đường biên):**
+   - Đỉnh $$A = (0, 0)$$: thỏa mọi ràng buộc, $$f(A) = 0$$.
+   - Đỉnh $$B = (3, 0)$$ (giao $$2x_1 + x_2 = 6$$ và $$x_2 = 0$$): kiểm tra $$3+0 = 3 \le 4$$ (khả thi), $$f(B) = -9$$.
+   - Đỉnh $$C = (0, 4)$$ (giao $$x_1 + x_2 = 4$$ và $$x_1 = 0$$): kiểm tra $$0+4 = 4 \le 6$$ (khả thi), $$f(C) = -8$$.
+   - Đỉnh $$D$$ (giao $$x_1 + x_2 = 4$$ và $$2x_1 + x_2 = 6$$): trừ hai phương trình cho $$x_1 = 2 \implies x_2 = 2$$. Khả thi! $$f(D) = -3(2) - 2(2) = -10$$.
+2. **Bước 2 — So sánh giá trị hàm mục tiêu tại các đỉnh:**
+   $$\min\{0,\; -9,\; -8,\; -10\} = -10 \quad \text{tại } x^\star = (2, 2).$$
+3. **Bước 3 — Viết sang dạng chuẩn $$\min c^T \tilde{x} \text{ s.t. } A\tilde{x} = b,\; \tilde{x} \ge 0$$:**
+   Thêm hai biến phụ $$s_1, s_2 \ge 0$$:
+   $$\begin{pmatrix} 1 & 1 & 1 & 0 \\ 2 & 1 & 0 & 1 \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \\ s_1 \\ s_2 \end{pmatrix} = \begin{pmatrix} 4 \\ 6 \end{pmatrix}, \qquad c = (-3, -2, 0, 0)^T.$$
+   Tại nghiệm tối ưu $$x_1=2, x_2=2$$, ta có $$s_1 = 0, s_2 = 0$$ — cả hai ràng buộc đều tích cực!
+
+---
+
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

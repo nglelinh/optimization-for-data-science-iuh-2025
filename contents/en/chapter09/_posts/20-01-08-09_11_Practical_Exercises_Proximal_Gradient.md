@@ -10,6 +10,30 @@ categories:
 lesson_type: required
 ---
 
+Derivations on paper make proximal operators look effortless, but true fluency comes from computing them by hand across diverse geometries: $$\ell_1$$ shrinkage on vectors, singular-value thresholding on matrices, FISTA momentum updates, and dual proximal mappings via Moreau's decomposition. The five practical exercises below are modeled on Parikh & Boyd (2014) and Beck & Teboulle (2009) to build genuine muscle memory across every corner of Chapter 09.
+
+## Background Knowledge Map: Essential Identities for Solving Proximal Exercises
+
+- **Pillar 1 — First-Order Optimality of the Prox Map:** $$z = \operatorname{prox}_{t h}(y) \iff \frac{1}{t}(y - z) \in \partial h(z)$$. This single subdifferential inclusion lets you derive any closed-form proximal operator in three lines without guessing.
+- **Pillar 2 — Moreau's Identity (Primal–Dual Proximal Bridge):** For any closed proper convex $$h$$ and its Fenchel conjugate $$h^\star$$, $$y = \operatorname{prox}_{t h}(y) + t \operatorname{prox}_{h^\star / t}(y / t)$$. Whenever $$h$$ is a norm $$\|\cdot\|$$, $$h^\star$$ is the indicator of the dual-norm unit ball, turning any norm prox into a simple projection!
+- **Pillar 3 — Spectral / Orthogonally Invariant Prox:** If $$h(X) = \phi(\sigma(X))$$ depends only on the singular values of matrix $$X = U \operatorname{diag}(\sigma) V^\top$$, then $$\operatorname{prox}_{t h}(X) = U \operatorname{diag}(\operatorname{prox}_{t \phi}(\sigma)) V^\top$$—immediately yielding SVT for the nuclear norm.
+- **Pillar 4 — Dual Proximal Gradient:** When the primal objective is strongly convex with linear constraints, the Lagrange dual becomes smooth with Lipschitz gradient, allowing proximal gradient (or FISTA) to solve the dual directly.
+
+### Step-by-Step Worked Example (Read Slowly): Deriving Soft-Thresholding via Moreau's Identity
+
+Let $$h(x) = \lambda \|x\|_1$$ on $$\mathbb{R}^n$$ with $$t = 1$$, and compute $$\operatorname{prox}_{\lambda \|\cdot\|_1}(y)$$ using Moreau's identity instead of case-by-case differentiation.
+
+1. **Identify the Fenchel conjugate $$h^\star(u)$$:**
+   For $$h(x) = \lambda \|x\|_1$$, the dual norm of $$\|\cdot\|_1$$ is $$\|\cdot\|_\infty$$, so $$h^\star(u) = I_{\{ \|u\|_\infty \le \lambda \}}(u)$$ ($$0$$ if $$\|u\|_\infty \le \lambda$$, and $$+\infty$$ otherwise).
+2. **Compute $$\operatorname{prox}_{h^\star}(y)$$:**
+   Since $$h^\star$$ is an indicator of the box $$[-\lambda, \lambda]^n$$, its proximal operator is simply coordinatewise clipping onto $$[-\lambda, \lambda]$$:
+   $$[\operatorname{prox}_{h^\star}(y)]_j = \operatorname{clip}(y_j, -\lambda, \lambda) = \min(\lambda,\; \max(-\lambda, y_j)).$$
+3. **Apply Moreau's identity $$\operatorname{prox}_h(y) = y - \operatorname{prox}_{h^\star}(y)$$:**
+   $$[\operatorname{prox}_{\lambda \|\cdot\|_1}(y)]_j = y_j - \operatorname{clip}(y_j, -\lambda, \lambda) = \begin{cases} y_j - \lambda & y_j > \lambda, \\ 0 & |y_j| \le \lambda, \\ y_j + \lambda & y_j < -\lambda. \end{cases}$$
+4. **Numerical check with $$y = (2, -1, 0.5)^\top$$ and $$\lambda = 1$$:**
+   $$\operatorname{clip}(y, -1, 1) = (1, -1, 0.5)^\top \implies \operatorname{prox}_h(y) = (2, -1, 0.5)^\top - (1, -1, 0.5)^\top = (1, 0, 0)^\top.$$
+   Notice how Moreau's identity gives you an instant visual picture of soft-thresholding: it is literally the residual left over after clipping $$y$$ to the box $$[-\lambda, \lambda]^n$$!
+
 # Practical Exercises - Proximal Gradient
 
 The exercises are adapted from Parikh & Boyd (2014) and Beck & Teboulle (2009).

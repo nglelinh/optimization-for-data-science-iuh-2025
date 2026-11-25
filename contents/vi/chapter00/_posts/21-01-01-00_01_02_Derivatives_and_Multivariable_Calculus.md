@@ -10,6 +10,32 @@ categories:
 lesson_type: required
 ---
 
+Khi tối ưu hóa một biến số duy nhất, ta chỉ cần quan tâm đường cong đang đi lên hay đi xuống. Nhưng một mô hình hồi quy hay mạng nơ-ron không sống trên đường thẳng — nó sống trong không gian hàng nghìn đến hàng tỷ chiều, nơi mỗi tọa độ là một "núm vặn" có thể xoay đồng thời. Giải tích đa biến mở ra cách quan sát toàn bộ bề mặt nhiều chiều đó chỉ qua hai đối tượng: **vector gradient** (bậc nhất) và **ma trận Hessian** (bậc hai).
+
+Nắm vững cách đọc đạo hàm riêng, đường mức và độ cong đa biến sẽ giúp bạn hình dung ngay bề mặt hàm mất mát ngay cả khi không thể vẽ nó trong không gian 3D.
+
+## Bản đồ kiến thức nền: Cấu trúc vi phân của hàm nhiều biến
+
+- **Đạo hàm riêng và Gradient ($$\nabla f$$):** Giữ cố định các biến khác và khảo sát tốc độ thay đổi dọc theo từng trục tọa độ $$x_i$$. Ghép tất cả đạo hàm riêng thành một vector, ta thu được $$\nabla f(x) \in \mathbb{R}^n$$ — tổng hợp đầy đủ độ dốc bậc nhất.
+- **Đường mức và siêu mặt mức (Level Sets):** Tập $$\{x : f(x) = c\}$$ giúp "cắt lát" địa hình nhiều chiều giống như bản đồ địa hình. Gradient tại mỗi điểm luôn vuông góc với đường mức đi qua điểm đó.
+- **Ma trận Jacobian ($$J_f$$):** Tổng quát hóa đạo hàm cho ánh xạ vector $$f: \mathbb{R}^n \to \mathbb{R}^m$$, đặc biệt quan trọng khi viết quy tắc dây chuyền (chain rule) trong lan truyền ngược (backpropagation) và hệ ràng buộc đa biến.
+- **Ma trận Hessian ($$\nabla^2 f$$):** Chứa mọi đạo hàm riêng cấp hai $$\frac{\partial^2 f}{\partial x_i \partial x_j}$$. Tính xác định dương hay bán xác định dương của Hessian chính là tiêu chuẩn kiểm tra tính lồi và phân biệt cực tiểu, cực đại hay điểm yên ngựa.
+
+### Khung giải thích (nên đọc chậm): Tính tay Gradient và Hessian của $$f(x_1, x_2) = x_1^2 + 3x_1 x_2 + 4x_2^2$$
+
+Xét hàm hai biến $$f(x_1, x_2) = x_1^2 + 3x_1 x_2 + 4x_2^2$$ tại điểm $$x = (1, -1)^T$$:
+
+1. **Tính đạo hàm riêng cấp một (Gradient):**
+   - $$\frac{\partial f}{\partial x_1} = 2x_1 + 3x_2$$. Tại $$(1, -1)$$: $$2(1) + 3(-1) = -1$$.
+   - $$\frac{\partial f}{\partial x_2} = 3x_1 + 8x_2$$. Tại $$(1, -1)$$: $$3(1) + 8(-1) = -5$$.
+   Vậy $$\nabla f(1, -1) = \begin{pmatrix}-1 \\ -5\end{pmatrix}$$. Hướng giảm nhanh nhất tại đây là $$-\nabla f(1, -1) = \begin{pmatrix}1 \\ 5\end{pmatrix}$$.
+2. **Tính ma trận Hessian cấp hai:**
+   $$\nabla^2 f(x) = \begin{pmatrix} \frac{\partial^2 f}{\partial x_1^2} & \frac{\partial^2 f}{\partial x_1 \partial x_2} \\ \frac{\partial^2 f}{\partial x_2 \partial x_1} & \frac{\partial^2 f}{\partial x_2^2} \end{pmatrix} = \begin{pmatrix} 2 & 3 \\ 3 & 8 \end{pmatrix}.$$
+3. **Kiểm tra độ cong (tiêu chuẩn Sylvester):** Định thức con chính thứ nhất là $$H_{11} = 2 > 0$$; định thức toàn phần là $$\det(H) = 2 \cdot 8 - 3 \cdot 3 = 16 - 9 = 7 > 0$$.
+4. **Kết luận cho tối ưu hóa:** Vì $$H$$ đối xứng xác định dương ($$H \succ 0$$) tại mọi điểm, $$f$$ là hàm lồi mạnh toàn cục; điểm dừng duy nhất giải $$\nabla f(x) = 0$$ là $$x^* = (0, 0)^T$$ chắc chắn là cực tiểu toàn cục duy nhất.
+
+---
+
 Bài học này trình bày đạo hàm và các khái niệm cốt lõi của giải tích đa biến — nền tảng của lý thuyết và thuật toán tối ưu hóa.
 
 ---

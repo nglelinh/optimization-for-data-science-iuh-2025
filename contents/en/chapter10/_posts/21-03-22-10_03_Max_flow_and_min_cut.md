@@ -9,6 +9,33 @@ categories:
 lang: en
 ---
 
+In 1955, Soviet railway planners and RAND Corporation researchers independently asked two seemingly different questions about a directed transportation network: *What is the maximum tonnage of goods we can ship from source $$s$$ to sink $$t$$ without exceeding any link's capacity?* And *What is the smallest total capacity of edges an adversary would need to destroy to disconnect $$s$$ from $$t$$ completely?* Ford and Fulkerson proved that these two numbers are always **identical**—and through the lens of Chapter 10, that celebrated theorem is nothing other than LP strong duality combined with total unimodularity!
+
+## Background Knowledge Map: Max-Flow / Min-Cut Through LP Duality
+
+- **Pillar 1 — Flow Conservation as Linear Equalities:** Modeling edge flows $$f_{ij} \in [0, c_{ij}]$$ with $$\sum_i f_{ik} = \sum_j f_{kj}$$ at every intermediate node $$k \notin \{s, t\}$$ turns maximum flow into a pure linear program whose constraint matrix is a node-arc incidence matrix.
+- **Pillar 2 — Dual Variables as Node Potentials & Cut Indicators:** Dualizing the max-flow LP assigns a potential $$b_i$$ to each node (from flow conservation) and a nonnegative weight $$a_{ij} \ge 0$$ to each edge (from capacity bounds $$f_{ij} \le c_{ij}$$), yielding the LP relaxation of minimum $$s\text{–}t$$ cut: $$\min \sum_{(i,j)\in E} c_{ij} a_{ij}$$ subject to $$a_{ij} \ge b_j - b_i$$ with $$b_s = 0, b_t = 1$$.
+- **Pillar 3 — Weak Duality = Any Flow $$\le$$ Any Cut:** Setting $$b_i = 0$$ on the source side $$S$$ and $$b_i = 1$$ on the sink side $$T$$ makes $$a_{ij} = 1$$ precisely on edges crossing from $$S$$ to $$T$$, giving an immediate LP proof that $$\text{max flow} \le \text{min cut}$$.
+- **Pillar 4 — Integrality & Strong Duality:** Because the node-arc incidence matrix is totally unimodular (or by thresholding any optimal fractional potential $$b_i$$ at a random level $$\theta \in (0, 1)$$), the dual LP always admits an exact $$0\text{–}1$$ cut solution, proving $$\text{max flow} = \text{min cut}$$!
+
+### Step-by-Step Worked Example (Read Slowly): Computing Max-Flow and Dual Min-Cut on a 4-Node Diamond Network
+
+Consider a directed graph with nodes $$\{s, u, v, t\}$$ and five directed edges with capacities:
+$$(s, u): 3, \quad (s, v): 2, \quad (u, v): 1, \quad (u, t): 2, \quad (v, t): 3.$$
+
+1. **Find a maximum primal flow $$f$$:**
+   - Send $$2$$ units along $$s \to u \to t$$.
+   - Send $$1$$ unit along $$s \to u \to v \to t$$.
+   - Send $$2$$ units along $$s \to v \to t$$.
+   - Check capacities: $$f_{su} = 3 \le 3$$, $$f_{sv} = 2 \le 2$$, $$f_{uv} = 1 \le 1$$, $$f_{ut} = 2 \le 2$$, $$f_{vt} = 3 \le 3$$ (every edge is saturated!).
+   - Check conservation: at $$u$$, in $$= 3$$, out $$= 2 + 1 = 3$$; at $$v$$, in $$= 1 + 2 = 3$$, out $$= 3$$.
+   - Total primal flow value: $$F = f_{su} + f_{sv} = 3 + 2 = 5$$.
+2. **Construct a dual feasible solution (minimum $$s\text{–}t$$ cut):**
+   Choose the cut $$S = \{s\}$$, $$T = \{u, v, t\}$$, which corresponds to node potentials $$b_s = 0$$ and $$b_u = b_v = b_t = 1$$.
+   - Dual edge weights $$a_{ij} = \max(0, b_j - b_i)$$: $$a_{su} = 1$$, $$a_{sv} = 1$$, and $$a_{uv} = a_{ut} = a_{vt} = 0$$.
+   - Dual objective (cut capacity): $$c_{su} a_{su} + c_{sv} a_{sv} = 3(1) + 2(1) = 5$$.
+3. **Certify optimality:** Primal flow $$= 5 =$$ dual cut capacity! Notice that $$S' = \{s, u, v\}, T' = \{t\}$$ also has capacity $$c_{ut} + c_{vt} = 2 + 3 = 5$$, showing that an LP dual can have multiple optimal minimum cuts.
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

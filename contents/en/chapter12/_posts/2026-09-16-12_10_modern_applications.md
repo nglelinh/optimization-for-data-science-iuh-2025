@@ -10,6 +10,31 @@ lang: en
 lesson_type: optional
 ---
 
+Across 2022–2026 machine learning, robotics, and energy systems, the KKT conditions have moved from the chalkboard directly into production runtime loops. Whether backpropagating through a convex optimization layer in `cvxpylayers` or `Theseus`, certifying SVM support vectors, auditing which transmission lines are congested in an electricity market, or measuring the exact accuracy cost of a fairness bound, engineers treat the KKT system as both an **optimality oracle** and a **sensitivity calculator**.
+
+## Background Knowledge Map: Four Production Roles of the KKT System
+
+- **Pillar 1 — Differentiable Convex & Nonlinear Layers:** Tools like `cvxpylayers` and `Theseus` embed optimization problems inside end-to-end neural pipelines by differentiating the KKT residual $$F(x^\star, u^\star, v^\star; \theta) = 0$$ via the implicit function theorem—requiring only one KKT linear solve in the backward pass.
+- **Pillar 2 — Complementary Slackness as Sparse Support Identification:** In SVMs, Lasso, and active-set QP solvers, complementary slackness $$u_i^\star h_i(x^\star) = 0$$ cleanly separates active constraints/support vectors from inactive ones, enabling massive speedups via active-set screening.
+- **Pillar 3 — Marginal Prices & Grid Auditing:** In wholesale electricity clearing, KKT stationarity ties every generator's dispatch directly to nodal Locational Marginal Prices (LMPs), while complementary slackness exposes exactly which thermal or ramping limits are binding.
+- **Pillar 4 — Fairness Trade-off Attribution:** When multiple demographic fairness constraints compete inside a single training objective, inspecting the KKT multipliers $$\lambda_g^\star > 0$$ pinpoints which group's constraint is actively shaping the decision boundary.
+
+### Step-by-Step Worked Example (Read Slowly): Implicit KKT Sensitivity of an Equality-Constrained Layer
+
+Consider a differentiable portfolio/control layer parameterized by a predicted target vector $$\theta = (\theta_1, \theta_2)^\top$$:
+$$x^\star(\theta) = \arg\min_{x \in \mathbb{R}^2}\; \frac{1}{2}\|x - \theta\|_2^2 \quad \text{s.t.} \quad x_1 + x_2 = 1.$$
+We want the Jacobian $$\frac{\partial x^\star}{\partial \theta}$$ for backpropagation via the KKT system!
+
+1. **Write the KKT equations (stationarity + primal feasibility):**
+   $$x_1^\star - \theta_1 + v^\star = 0, \qquad x_2^\star - \theta_2 + v^\star = 0, \qquad x_1^\star + x_2^\star = 1.$$
+2. **Differentiate the entire KKT system with respect to $$\theta_1$$:**
+   $$\begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \\ 1 & 1 & 0 \end{pmatrix} \begin{pmatrix} \partial x_1^\star / \partial \theta_1 \\ \partial x_2^\star / \partial \theta_1 \\ \partial v^\star / \partial \theta_1 \end{pmatrix} = \begin{pmatrix} 1 \\ 0 \\ 0 \end{pmatrix}.$$
+3. **Solve the $$3 \times 3$$ linear system:**
+   - Row 1 + Row 2 gives $$(\partial x_1^\star/\partial \theta_1 + \partial x_2^\star/\partial \theta_1) + 2\partial v^\star/\partial \theta_1 = 1$$.
+   - Row 3 gives $$\partial x_1^\star/\partial \theta_1 + \partial x_2^\star/\partial \theta_1 = 0$$, so $$\partial v^\star/\partial \theta_1 = 0.5$$!
+   - Back-substitute: $$\frac{\partial x_1^\star}{\partial \theta_1} = 1 - 0.5 = 0.5$$ and $$\frac{\partial x_2^\star}{\partial \theta_1} = -0.5$$.
+4. **Interpret the result:** Increasing $$\theta_1$$ by $$1$$ shifts $$+0.5$$ into $$x_1^\star$$ and $$-0.5$$ out of $$x_2^\star$$ to preserve $$x_1^\star + x_2^\star = 1$$—giving the exact Jacobian $$\frac{\partial x^\star}{\partial \theta} = \begin{pmatrix}0.5 & -0.5 \\ -0.5 & 0.5\end{pmatrix} = I - \frac{1}{2}\mathbf{1}\mathbf{1}^\top$$ directly from the KKT matrix!
+
 # Modern applications of the KKT conditions
 
 Chapter 12 states the KKT system — primal feasibility, dual feasibility, complementary slackness, and stationarity of the Lagrangian — and works the SVM, water-filling, and $$\ell_1$$ examples. This optional lesson shows where that *system* is solved, differentiated, or read as a price in 2022–2026 software. We do not re-list the four blocks.

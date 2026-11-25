@@ -10,6 +10,33 @@ lang: en
 lesson_type: required
 ---
 
+In single-variable calculus, you learn one reflex: set $$f'(x) = 0$$. The moment constraints enter the picture, that reflex breaks—a ball resting against the wall of a tilted bowl stops moving even though gravity still pulls downhill! The first-order optimality condition for constrained convex optimization replaces "$$f'(x) = 0$$" with a sharper geometric law: at the optimum, no feasible direction points downhill.
+
+## Background Knowledge Map: First-Order Variational Optimality
+
+1. **Feasible Directions and the Variational Inequality**: For a differentiable convex function $$f$$ over a convex set $$C$$, a point $$x^\star \in C$$ is globally optimal if and only if $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ for all $$y \in C$$. Because $$y - x^\star$$ is the direction toward any other feasible point, the directional derivative along every feasible ray must be nonnegative.
+2. **Normal Cone Geometry**: Rewriting the inequality as $$(-\nabla f(x^\star))^T (y - x^\star) \le 0$$ for all $$y \in C$$ means that the negative gradient $$-\nabla f(x^\star)$$ makes an obtuse (or right) angle with every feasible displacement—equivalently, $$-\nabla f(x^\star) \in N_C(x^\star)$$, the normal cone of $$C$$ at $$x^\star$$.
+3. **Recovering Classic Special Cases**:
+   - *Unconstrained* ($$C = \mathbb{R}^n$$): $$y - x^\star$$ can point in any direction, forcing $$\nabla f(x^\star) = 0$$.
+   - *Affine equality* ($$C = \{x : Ax = b\}$$): feasible displacements lie in $$\operatorname{null}(A)$$, forcing $$\nabla f(x^\star) \perp \operatorname{null}(A)$$, i.e., $$\nabla f(x^\star) = A^T \nu$$ for some Lagrange multiplier $$\nu$$.
+   - *Nonnegative orthant* ($$C = \mathbb{R}^n_+$$): yields the complementarity triad $$x^\star \ge 0$$, $$\nabla f(x^\star) \ge 0$$, and $$x_i^\star \nabla_i f(x^\star) = 0$$.
+4. **Necessity AND Sufficiency**: In nonconvex optimization, $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ is only necessary (saddle points satisfy it too). Convexity supplies the global linear underestimator $$f(y) \ge f(x^\star) + \nabla f(x^\star)^T(y - x^\star)$$, immediately upgrading the condition to both necessary and sufficient for global optimality.
+
+### Step-by-Step Worked Example (Read Slowly): Certifying Optimality on the Nonnegative Orthant
+
+Minimize $$f(x_1, x_2) = (x_1 + 1)^2 + (x_2 - 2)^2$$ subject to $$x_1 \ge 0,\; x_2 \ge 0$$ (so $$C = \mathbb{R}^2_+$$).
+
+1. **Compute the gradient**:
+   $$\nabla f(x) = \begin{bmatrix} 2(x_1 + 1) \\ 2(x_2 - 2) \end{bmatrix}.$$
+2. **Apply the nonnegative orthant optimality conditions** ($$x_i \ge 0$$, $$\nabla_i f(x) \ge 0$$, $$x_i \nabla_i f(x) = 0$$):
+   - For $$i = 1$$: since $$x_1 \ge 0$$, we always have $$2(x_1 + 1) \ge 2 > 0$$. Complementary slackness $$x_1 \cdot 2(x_1 + 1) = 0$$ forces $$x_1^\star = 0$$.
+   - For $$i = 2$$: setting $$\nabla_2 f(x) = 2(x_2 - 2) = 0$$ gives $$x_2^\star = 2 \ge 0$$, which satisfies all three conditions ($$2 \ge 0$$, $$0 \ge 0$$, $$2 \cdot 0 = 0$$).
+3. **Evaluate the gradient at $$x^\star = (0, 2)$$**:
+   $$\nabla f(0, 2) = \begin{bmatrix} 2 \\ 0 \end{bmatrix}, \quad -\nabla f(0, 2) = \begin{bmatrix} -2 \\ 0 \end{bmatrix}.$$
+4. **Verify the variational inequality directly for every $$y \in \mathbb{R}^2_+$$**:
+   $$\nabla f(x^\star)^T (y - x^\star) = 2(y_1 - 0) + 0(y_2 - 2) = 2y_1 \ge 0 \quad \text{since } y_1 \ge 0.$$
+   Geometrically, the negative gradient $$(-2, 0)$$ pushes straight into the left wall $$x_1 = 0$$, so the feasible set completely blocks any further descent.
+
 ## First order optimality condition
 
 For more background on convex functions, see [Chapter 3: Key Properties of Convex Functions]({% multilang_post_url contents/chapter03/21-02-12-03_01_03_key_properties_of_convex_functions %}).

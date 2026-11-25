@@ -10,6 +10,30 @@ lang: en
 lesson_type: required
 ---
 
+At the heart of every deep learning training run sits a deceptively simple statistical trick: instead of averaging the gradient over all $$n$$ training points, average it over a random minibatch of $$B$$ points. That single substitution changes optimization from a deterministic descent into a biased-free random walk—one that initially rockets downhill far faster than full-batch gradient descent, yet eventually hits a "noise ball" around the minimum unless the learning rate decays.
+
+## Background Knowledge Map: Variance, Step-Size Schedules, and Random Reshuffling in SGD
+
+- **Unbiasedness & Variance Scaling:** For a uniform minibatch $$S_k$$ of size $$B$$ (with replacement), $$\mathbb{E}[g_k \mid w_k] = \nabla F(w_k)$$ and $$\operatorname{Var}(g_k \mid w_k) = \frac{1}{B}\operatorname{Var}(\nabla f_I(w_k)) \le \frac{\sigma^2}{B}$$. Doubling $$B$$ halves variance but doubles work per step until GPU parallelism saturates.
+- **The $$O(\sigma / \sqrt{T})$$ Ceiling:** Because constant-step SGD bounces inside a neighborhood of radius $$O(\eta \sigma^2)$$ around $$w^\star$$, decaying step sizes $$\eta_k \propto 1/\sqrt{k}$$ (or Polyak–Ruppert averaging) are required to reach $$O(1/\sqrt{T})$$ expected suboptimality on convex objectives.
+- **Linear Scaling Rule & Critical Batch Size:** Increasing batch size $$B \to k B$$ reduces gradient variance by $$k$$, allowing a larger learning rate (up to the noise-dominated critical batch size $$B_{\text{crit}}$$), beyond which larger batches waste compute without speeding up convergence.
+- **Random Reshuffling vs. i.i.d. Sampling:** Shuffling the dataset once per epoch (sampling without replacement) introduces negative correlation between consecutive gradients, empirically converging faster than i.i.d. sampling while avoiding adversarial cyclic ordering.
+
+### Step-by-Step Worked Example (Read Slowly): Computing Minibatch Variance and the SGD Noise Floor
+
+Consider a 1D finite sum $$F(w) = \frac{1}{2}\bigl(f_1(w) + f_2(w)\bigr)$$ where $$f_1(w) = \frac{1}{2}(w - 1)^2$$ and $$f_2(w) = \frac{1}{2}(w + 1)^2$$. Clearly $$F(w) = \frac{1}{2}(w^2 + 1)$$ has unique minimizer $$w^\star = 0$$ with $$F'(0) = 0$$.
+
+1. **Compute the gradient variance right at the optimum $$w^\star = 0$$:**
+   - $$f_1'(0) = -1$$ and $$f_2'(0) = +1$$, each sampled with probability $$1/2$$.
+   - Mean: $$\mathbb{E}[g] = \frac{1}{2}(-1) + \frac{1}{2}(+1) = 0 = F'(0)$$ (unbiased!).
+   - Variance for batch size $$B = 1$$: $$\sigma^2 = \frac{1}{2}(-1)^2 + \frac{1}{2}(+1)^2 = 1$$. Notice the noise does **not** vanish at $$w^\star$$!
+2. **Compute the stationary error of constant-step SGD:** With $$w_{k+1} = w_k - \eta(w_k \pm 1) = (1 - \eta) w_k \mp \eta$$, taking expected squares gives
+   $$\mathbb{E}[w_{k+1}^2] = (1 - \eta)^2 \mathbb{E}[w_k^2] + \eta^2.$$
+   At steady state ($$\mathbb{E}[w_{k+1}^2] = \mathbb{E}[w_k^2] = v_\infty$$):
+   $$v_\infty = \frac{\eta^2}{1 - (1 - \eta)^2} = \frac{\eta}{2 - \eta}.$$
+3. **Plug in concrete numbers:**
+   - With constant $$\eta = 0.2$$: $$v_\infty = \frac{0.2}{1.8} \approx 0.111$$, so SGD permanently hovers at RMS error $$\sqrt{0.111} \approx 0.333$$ around $$w^\star = 0$$.
+   - Halving $$\eta$$ to $$0.05$$ shrinks the noise floor to $$v_\infty = \frac{0.05}{1.95} \approx 0.0256$$ (RMS $$\approx 0.160$$)—illustrating concretely why learning-rate decay is essential to settle into the minimum.
 
 Empirical risk is an average. Its gradient is an average too:
 

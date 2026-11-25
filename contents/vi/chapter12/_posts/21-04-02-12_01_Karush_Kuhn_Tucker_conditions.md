@@ -10,6 +10,35 @@ lang: vi
 lesson_type: required
 ---
 
+Nhiều sinh viên học thuộc lòng 4 dòng điều kiện KKT rất nhanh, nhưng lại thường lúng túng trước câu hỏi sắc bén nhất của bài học này: **khi nào KKT là điều kiện *cần*, và khi nào KKT là điều kiện *đủ*?** Nếu bạn giải hệ phương trình KKT cho một bài toán không lồi, liệu nghiệm tìm ra có chắc chắn là cực tiểu toàn cục không? Ngược lại, nếu một bài toán lồi có nghiệm tối ưu $$x^*$$, liệu $$x^*$$ có *luôn luôn* thỏa KKT không?
+
+Bài học này giải mã trọn vẹn mối quan hệ logic hai chiều ấy chỉ bằng đúng một chuỗi bất đẳng thức 4 dòng nối từ Chương 11:
+$$f(x^*) = g(u^*, v^*) = \inf_x L(x, u^*, v^*) \le L(x^*, u^*, v^*) = f(x^*) + \sum u_i^* h_i(x^*) + \sum v_j^* l_j(x^*) \le f(x^*).$$
+Vì hai đầu chuỗi đều là $$f(x^*)$$, mọi dấu $$\le$$ ở giữa **bắt buộc trở thành dấu bằng**! Dấu bằng thứ nhất cho ta *điều kiện dừng* ($$x^*$$ cực tiểu hóa $$L$$); dấu bằng thứ hai cho ta *điều kiện bù* ($$u_i^* h_i(x^*) = 0$$)! Không có phép thuật nào cả — toàn bộ hệ KKT bật ra chỉ từ đúng một chuỗi bất đẳng thức kẹp!
+
+## Bản đồ kiến thức nền: Bốn trụ cột logic về điều kiện KKT
+
+- **Điều kiện cần (Necessity — Cần đối ngẫu mạnh!):** Cho bài toán bất kỳ (kể cả không lồi) có nghiệm tối ưu gốc $$x^*$$ và đối ngẫu $$(u^*, v^*)$$ thỏa **đối ngẫu mạnh** ($$f^* = g^*$$), thì $$(x^*, u^*, v^*)$$ *bắt buộc* thỏa mãn cả 4 điều kiện KKT. (Lưu ý: nếu bài toán lồi *không* có đối ngẫu mạnh vì vi phạm Slater, nghiệm tối ưu có thể không thỏa KKT!)
+- **Điều kiện đủ (Sufficiency — Cần tính lồi!):** Nếu bài toán là **bài toán lồi** ($$f, h_i$$ lồi và $$l_j$$ affine), thì bất kỳ bộ $$(x^*, u^*, v^*)$$ nào thỏa 4 điều kiện KKT đều **chắc chắn** là cặp nghiệm tối ưu toàn cục gốc–đối ngẫu với khoảng cách đối ngẫu bằng $$0$$!
+- **Hợp nhất cho bài toán lồi thỏa Slater:** Khi bài toán lồi và thỏa điều kiện Slater, KKT trở thành **điều kiện cần và đủ ($$\Longleftrightarrow$$)** để đặc trưng toàn bộ tập nghiệm tối ưu!
+- **Lưu ý quan trọng về bài toán không lồi:** Với bài toán không lồi, một điểm thỏa KKT chỉ là *ứng viên dừng* — nó có thể là cực tiểu địa phương, điểm yên ngựa, thậm chí cực đại địa phương!
+
+### Khung giải thích (nên đọc chậm): Giải tay bài toán 2 biến có ràng buộc bất đẳng thức bằng hệ KKT
+
+Tìm nghiệm tối ưu toàn cục của bài toán lồi:
+$$\min_{x_1, x_2 \in \mathbb{R}} \; f(x_1, x_2) = x_1^2 + x_2^2 \quad \text{s.t.} \quad h(x_1, x_2) = 4 - x_1 - x_2 \le 0.$$
+
+1. **Viết hệ 4 điều kiện KKT với nhân tử $$u \ge 0$$:**
+   - Dừng: $$\begin{cases} 2x_1 - u = 0 \\ 2x_2 - u = 0 \end{cases} \implies x_1 = x_2 = \frac{u}{2}$$.
+   - Khả thi gốc: $$4 - x_1 - x_2 \le 0$$.
+   - Khả thi đối ngẫu: $$u \ge 0$$.
+   - Bù: $$u(4 - x_1 - x_2) = 0$$.
+2. **Xét 2 trường hợp của điều kiện bù $$u(4 - x_1 - x_2) = 0$$:**
+   - *Trường hợp 1 ($$u = 0$$ — ràng buộc lỏng):* Từ điều kiện dừng suy ra $$x_1 = x_2 = 0$$. Kiểm tra khả thi gốc: $$4 - 0 - 0 = 4 > 0$$ (vi phạm!) $$\implies$$ loại!
+   - *Trường hợp 2 ($$u > 0$$ — ràng buộc chặt):* Buộc có $$4 - x_1 - x_2 = 0$$. Thay $$x_1 = x_2 = u/2$$ vào:
+     $$4 - \frac{u}{2} - \frac{u}{2} = 0 \implies u^* = 4 > 0 \implies x_1^* = 2, \; x_2^* = 2.$$
+3. **Chốt tối ưu toàn cục nhờ Điều kiện đủ:** Vì $$f(x) = x_1^2 + x_2^2$$ lồi và $$h(x)$$ tuyến tính, bộ $$(x^*, u^*) = ((2, 2), 4)$$ thỏa đủ 4 điều kiện KKT chắc chắn là **nghiệm tối ưu toàn cục duy nhất** với $$f^* = 8$$!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

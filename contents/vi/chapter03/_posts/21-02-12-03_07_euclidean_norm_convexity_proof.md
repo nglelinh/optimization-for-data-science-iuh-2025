@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Chuẩn Euclid $$f(x) = \|x\|_2 = \sqrt{x_1^2 + \cdots + x_n^2}$$ là một trong những hàm xuất hiện dày đặc nhất trong tối ưu hóa — từ phạt điều chuẩn Group Lasso, bài toán định vị cơ sở Fermat–Weber, cho đến các ràng buộc hình nón bậc hai (SOCP). Thế nhưng một câu hỏi rất thú vị là: đồ thị của $$\|x\|_2$$ có dạng một **hình nón nhọn ở gốc tọa độ** (không khả vi tại $$x = 0$$!), vậy làm sao chứng minh chặt chẽ nó là hàm lồi trên toàn $$\mathbb{R}^n$$?
+
+Bài học này trình bày cả ba phương pháp chứng minh kinh điển (định nghĩa + Cauchy–Schwarz, phân tích Hessian tại $$x \ne 0$$, và bất đẳng thức tam giác) — một bài tập tuyệt vời để luyện đủ mọi góc nhìn giải tích lồi.
+
+## Bản đồ kiến thức nền: Ba góc nhìn chứng minh $$\|x\|_2$$ là hàm lồi
+
+- **Góc nhìn 1 — Đại số (Định nghĩa + Cauchy–Schwarz):** Bình phương hai vế của bất đẳng thức Jensen rồi áp dụng $$x^T y \le \|x\|_2 \|y\|_2$$; ngắn gọn, không cần đạo hàm và đúng luôn tại điểm nhọn $$x = 0$$.
+- **Góc nhìn 2 — Giải tích bậc hai (Hessian trên $$\mathbb{R}^n \setminus \{0\}$$):** Tính tường minh $$\nabla^2 f(x) = \frac{1}{\|x\|_2}\left(I - \frac{x x^T}{\|x\|_2^2}\right)$$ — chính là phép chiếu trực giao lên không gian vuông góc với $$x$$ chia cho $$\|x\|_2$$, nên luôn bán xác định dương!
+- **Góc nhìn 3 — Hình học chuẩn (Bất đẳng thức tam giác + Đồng nhất dương):** Áp dụng ngay cho **mọi chuẩn** $$\|\cdot\|$$ bất kỳ ($$\ell_1, \ell_2, \ell_\infty, \ell_p$$) chỉ trong đúng 2 dòng!
+- **Lưu ý phân biệt quan trọng:** $$\|x\|_2$$ lồi nhưng **không lồi chặt** (dọc theo bất kỳ tia $$t v$$ nào với $$t \ge 0$$, hàm là đường thẳng tuyến tính!); ngược lại bình phương chuẩn $$\|x\|_2^2$$ là **2-lồi mạnh** và trơn khắp nơi!
+
+### Khung giải thích (nên đọc chậm): Tính tay ma trận Hessian của $$f(x) = \|x\|_2$$ tại $$x = (3, 4)^T$$
+
+Xét $$f(x_1, x_2) = \sqrt{x_1^2 + x_2^2}$$ tại điểm $$x = (3, 4)^T$$ (có $$\|x\|_2 = 5$$):
+
+1. **Tính vector gradient:**
+   $$\nabla f(x) = \frac{x}{\|x\|_2} = \begin{pmatrix}3/5\\ 4/5\end{pmatrix} = \begin{pmatrix}0.6\\ 0.8\end{pmatrix}.$$
+2. **Tính ma trận Hessian $$\nabla^2 f(x) = \frac{1}{\|x\|_2}\left(I - \frac{x x^T}{\|x\|_2^2}\right)$$:**
+   $$\frac{x x^T}{\|x\|_2^2} = \frac{1}{25}\begin{pmatrix}9 & 12\\ 12 & 16\end{pmatrix} \implies \nabla^2 f(3, 4) = \frac{1}{5}\left[\begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix} - \frac{1}{25}\begin{pmatrix}9 & 12\\ 12 & 16\end{pmatrix}\right] = \frac{1}{125}\begin{pmatrix}16 & -12\\ -12 & 9\end{pmatrix}.$$
+3. **Phân tích giá trị riêng và ý nghĩa hình học:**
+   - Vết: $$\operatorname{tr} = \frac{16 + 9}{125} = \frac{25}{125} = \frac{1}{5} = 0.2$$; định thức: $$\det = \frac{16\cdot 9 - (-12)^2}{125^2} = \frac{144 - 144}{125^2} = 0$$.
+   - Hai giá trị riêng là $$\lambda_1 = 0.2 > 0$$ (theo phương tiếp tuyến vuông góc với $$x$$, nơi mặt nón cong tròn) và $$\lambda_2 = 0$$ (theo phương bán kính $$x = (3, 4)^T$$, nơi mặt nón là đường thẳng không cong!).
+   Vì $$\lambda_1, \lambda_2 \ge 0$$, ta có $$\nabla^2 f(3, 4) \succeq 0$$ — khớp tuyệt đối với hình học mặt nón!
+
+---
+
 **Chuẩn Euclidean** (hay chuẩn $$\ell_2$$) của một vector $$x \in \mathbb{R}^n$$ được định nghĩa là:
 
 $$\|x\|_2 = \sqrt{x_1^2 + x_2^2 + \cdots + x_n^2} = \sqrt{x^T x}$$

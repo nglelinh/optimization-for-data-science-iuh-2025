@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter04/04_10_Practical_Exercises_Convex_Optimization_Problems/
 ---
 
+Theory tells you *why* a convex problem has a global optimum; hands-on reformulation teaches you *how* to bend a messy real-world specification into a form a solver can actually ingest. In this practical workshop, you will convert mixed constraints, minimax objectives, robust least-squares models, and nonconvex relaxations step by step—building the exact modeling reflexes used in research and production optimization.
+
+## Background Knowledge Map: Practical Reformulation Toolkit
+
+1. **Epigraph Lifting for Nonsmooth Objectives**: Objectives containing $$\max_i f_i(x)$$ or $$\|Ax - b\|_\infty$$ are converted to smooth constraints by introducing a scalar variable $$t$$, minimizing $$t$$, and imposing $$f_i(x) \le t$$ for every $$i$$.
+2. **Standardizing Mixed Constraints**: Greater-than inequalities $$a^T x \ge b$$ flip to $$-a^T x + b \le 0$$; free variables split into $$x = x^+ - x^-$$ with $$x^+, x^- \ge 0$$ when nonnegativity is required; and affine inequalities convert to equalities via nonnegative slacks.
+3. **First-Order Optimality as a Solver Check**: Before trusting numerical output from any solver, plug the candidate $$x^\star$$ into $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ (or check complementary slackness on box/orthant constraints) to certify optimality by hand.
+4. **Convex Surrogates and Relaxations**: When an exercise includes cardinality, rank, or non-affine equality constraints, replace them with their tightest convex envelopes (e.g., $$\ell_1$$ norm for $$\ell_0$$, or $$g(x) \le 0$$ for $$g(x) = 0$$) and check whether the relaxed solution is feasible for the original problem.
+
+### Step-by-Step Worked Example (Read Slowly): Epigraph Reformulation of a Minimax Linear Problem
+
+Before tackling the exercises below, practice the epigraph trick on:
+$$\min_{x \in \mathbb{R}} \quad \max\{2x - 1,\; -x + 5,\; 3\}.$$
+
+1. **Introduce the epigraph scalar $$t \in \mathbb{R}$$**: Replace the piecewise-linear maximum with a linear objective $$\min_{x, t} t$$ subject to $$t$$ dominating every branch:
+   $$2x - 1 \le t, \qquad -x + 5 \le t, \qquad 3 \le t.$$
+2. **Rewrite in standard form $$g_i(x, t) \le 0$$**:
+   $$2x - t - 1 \le 0, \qquad -x - t + 5 \le 0, \qquad 3 - t \le 0.$$
+   Every constraint is affine, so this is now a clean Linear Program in $$(x, t)$$.
+3. **Solve by intersecting the active branches**: Find where the two slanted lines meet:
+   $$2x - 1 = -x + 5 \implies 3x = 6 \implies x^\star = 2.$$
+   At $$x^\star = 2$$, the three branches evaluate to $$2(2) - 1 = 3$$, $$-2 + 5 = 3$$, and $$3$$.
+4. **Verify optimality**: The minimum is $$t^\star = 3$$ at $$x^\star = 2$$. Moving left ($$x < 2$$) increases $$-x + 5 > 3$$; moving right ($$x > 2$$) increases $$2x - 1 > 3$$. Hence $$(x^\star, t^\star) = (2, 3)$$ is the unique global optimum, with all three constraints active simultaneously.
+
 # Practical Exercises - Convex Optimization Problems
 
 ## 📝 **Exercise 1: Standard form transformations**

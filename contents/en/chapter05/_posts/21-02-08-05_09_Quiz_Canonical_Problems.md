@@ -12,6 +12,26 @@ redirect_from:
   - /contents/en/chapter05/05_07_Quiz_Canonical_Problems/
 ---
 
+Recognizing a canonical class on sight is a superpower: the moment you spot whether a problem is an LP, QP, QCQP, SOCP, SDP, or hidden GP, you know its geometry, its optimality properties, and which solver will crack it in milliseconds. This Chapter 05 quiz tests your ability to classify formulations, spot convexity conditions on quadratic matrices, connect statistical MLE to least squares, and rewrite tricky norms into standard cones.
+
+## Background Knowledge Map: Chapter 05 Classification Checklist
+
+1. **LP & Simplex Recognition**: Linear objective plus affine equalities/inequalities; optima lie at vertices of a polyhedron; $$\ell_1$$ and $$\ell_\infty$$ objectives convert to LPs via auxiliary variables.
+2. **QP, Least Squares & Statistical Regression**: Convex quadratic objective ($$P \succeq 0$$) with affine constraints; unconstrained least squares solves $$A^T A x = A^T b$$ and equals Gaussian MLE; logistic regression yields a strictly convex cross-entropy objective when $$X$$ has full rank (or regularized).
+3. **QCQP, SOCP & SDP Embeddings**: Convex quadratic inequalities require $$P_i \succeq 0$$ and lift into SOCPs via Cholesky factors; Euclidean norms $$\|Ax + b\|_2 \le c^T x + d$$ define SOCPs; Linear Matrix Inequalities $$F_0 + \sum x_i F_i \preceq 0$$ define SDPs.
+4. **Hidden Convexity via GP & Conic Abstraction**: Posynomials over $$\mathbb{R}^n_{++}$$ become convex log-sum-exp programs under $$x_i = e^{y_i}$$; all canonical classes unify as $$\min c^T x \text{ s.t. } Fx + g \preceq_K 0,\; Ax = b$$.
+
+### Step-by-Step Worked Example (Read Slowly): Rapid-Fire Class Identification Warm-Up
+
+Before answering the quiz, identify the *tightest* canonical convex class for each of these three formulations:
+
+1. **Problem 1**: $$\min_{x \in \mathbb{R}^2} \|x\|_1 + 2x_1 \quad \text{s.t.} \quad x_1 + x_2 \ge 1$$.
+   - Introduce $$t_1, t_2$$ with $$-t_i \le x_i \le t_i$$ and minimize $$t_1 + t_2 + 2x_1$$. Every expression is linear $$\implies$$ **LP**.
+2. **Problem 2**: $$\min_{x \in \mathbb{R}^2} x_1^2 + 4x_1 x_2 + x_2^2 \quad \text{s.t.} \quad x_1 + x_2 = 1$$.
+   - Write the Hessian: $$P = \begin{bmatrix} 2 & 4 \\ 4 & 2 \end{bmatrix}$$. Its determinant is $$4 - 16 = -12 < 0$$, so $$P$$ has a negative eigenvalue ($$-2$$)! Therefore this is **nonconvex** (not a convex QP), even though it looks quadratic!
+3. **Problem 3**: $$\min_{x \in \mathbb{R}^2} 3x_1 - x_2 \quad \text{s.t.} \quad \sqrt{(x_1 - 1)^2 + 4x_2^2} \le x_1 + 5$$.
+   - Rewrite the left-hand side as $$\left\|\begin{bmatrix} 1 & 0 \\ 0 & 2 \end{bmatrix} x + \begin{bmatrix} -1 \\ 0 \end{bmatrix}\right\|_2 \le \begin{bmatrix} 1 \\ 0 \end{bmatrix}^T x + 5$$. Linear objective + one Lorentz cone constraint $$\implies$$ **SOCP**.
+
 This multiple-choice quiz tests your understanding of the canonical optimization problems, including linear programming, quadratic programming, least squares and linear regression.
 
 ---

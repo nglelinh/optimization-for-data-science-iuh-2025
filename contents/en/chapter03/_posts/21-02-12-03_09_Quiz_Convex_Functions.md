@@ -12,6 +12,27 @@ redirect_from:
   - /contents/en/chapter03/03_08_Quiz_Convex_Functions/
 ---
 
+Can you spot in five seconds whether $$x_1^2 / x_2$$ (on $$x_2 > 0$$) is convex, whether the composition $$e^{-x^2}$$ preserves convexity, or what the Fenchel conjugate of an $$\ell_2$$ norm is? This Chapter 03 quiz puts your convex-function instincts to the test—mixing definitions, Hessian checks, composition rules, conjugates, and Jensen's inequality so you can verify mastery before moving to Chapter 04's optimization problems.
+
+## Background Knowledge Map: Core Competency Checkpoints for This Quiz
+
+- **Definition & Curvature Tiers:** Distinguishing convex, strictly convex, strongly convex, and concave functions via chords, gradients, and Hessians.
+- **Composition Traps:** Watching monotonicity carefully—composing a convex increasing function with a convex inner function stays convex, while flipping a sign (like $$e^{-x^2}$$) breaks convexity!
+- **Conjugate Identities:** Remembering key conjugate pairs (quadratics $$\leftrightarrow$$ inverse quadratics, norms $$\leftrightarrow$$ dual-norm indicators, negative entropy $$\leftrightarrow$$ log-sum-exp).
+- **Jensen & Perspective Tricks:** Recognizing quadratic-over-linear $$x^2/y$$ as the perspective of $$x^2$$ and applying Jensen's inequality to derive classical inequalities.
+
+### Step-by-Step Worked Example (Read Slowly): Proving Quadratic-over-Linear $$f(x_1, x_2) = x_1^2 / x_2$$ Is Convex
+
+Test $$f(x_1, x_2) = \frac{x_1^2}{x_2}$$ on the open halfplane $$x_2 > 0$$ using the Hessian.
+
+1. **Compute first partial derivatives:**
+   $$\frac{\partial f}{\partial x_1} = \frac{2x_1}{x_2}, \qquad \frac{\partial f}{\partial x_2} = -\frac{x_1^2}{x_2^2}.$$
+2. **Assemble the $$2 \times 2$$ Hessian:**
+   $$\nabla^2 f(x_1, x_2) = \begin{pmatrix} \frac{2}{x_2} & -\frac{2x_1}{x_2^2} \\ -\frac{2x_1}{x_2^2} & \frac{2x_1^2}{x_2^3} \end{pmatrix} = \frac{2}{x_2^3}\begin{pmatrix} x_2^2 & -x_1 x_2 \\ -x_1 x_2 & x_1^2 \end{pmatrix} = \frac{2}{x_2^3}\begin{pmatrix} x_2 \\ -x_1 \end{pmatrix}\begin{pmatrix} x_2 & -x_1 \end{pmatrix}.$$
+3. **Certify positive semidefiniteness:** For any $$v \in \mathbb{R}^2$$ and $$x_2 > 0$$,
+   $$v^T \nabla^2 f(x_1, x_2) v = \frac{2}{x_2^3}(x_2 v_1 - x_1 v_2)^2 \ge 0.$$
+   Thus $$\nabla^2 f \succeq 0$$ everywhere on $$x_2 > 0$$ (also immediately visible as the perspective of $$g(u) = u^2$$!).
+
 This multiple-choice quiz tests your understanding of convex functions, their basic properties, convexity-preserving operations and conjugate functions.
 
 ---

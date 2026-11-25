@@ -10,6 +10,27 @@ lang: en
 lesson_type: optional
 ---
 
+Open any deep learning training script and you will find Chapter 03 sitting right at the top of the loss function: cross-entropy is a shifted log-sum-exp (convex in the logits!), temperature scaling calibrates probabilities via a 1D convex problem, and even in deep nonconvex networks, the phenomenon of *Neural Collapse* shows that the final classifier layer settles into a clean convex geometry. Understanding convex functions lets you diagnose training stability, smoothness constants, and surrogate losses in modern AI.
+
+## Background Knowledge Map: Chapter 03 Functions Inside Modern ML
+
+- **Cross-Entropy & Log-Sum-Exp:** Softmax cross-entropy $$\ell(z, y) = \log\left(\sum_k e^{z_k}\right) - z_y$$ is convex and smooth in the logits $$z$$, with bounded Hessian curvature that stabilizes gradient updates.
+- **Convex Calibration (Temperature Scaling):** Post-hoc calibration tunes a single scalar temperature $$T > 0$$ to minimize negative log-likelihood—a low-dimensional convex optimization problem with a unique global solution.
+- **Convex Surrogates (Hinge, Logistic, InfoNCE):** Because 0–1 classification error is discontinuous and nonconvex, ML replaces it with smooth convex upper bounds whose gradients provide informative descent signals.
+- **Smoothness & Step-Size Bounds:** Computing the exact upper bound $$L$$ on $$\nabla^2 \ell(z)$$ (e.g., $$L = 1/4$$ for binary logistic loss) directly dictates the largest stable learning rate $$\alpha \le 1/L$$.
+
+### Step-by-Step Worked Example (Read Slowly): Convexity and Exact Smoothness of Binary Logistic Loss
+
+Analyze the binary logistic loss $$\ell(z) = \log(1 + e^{-z})$$ as a function of margin $$z \in \mathbb{R}$$.
+
+1. **First derivative (gradient):** Let $$\sigma(z) = \frac{1}{1 + e^{-z}} \in (0, 1)$$ be the sigmoid function. Then
+   $$\ell'(z) = \frac{-e^{-z}}{1 + e^{-z}} = -\frac{1}{1 + e^z} = \sigma(z) - 1.$$
+2. **Second derivative (curvature):** Using $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$,
+   $$\ell''(z) = \sigma(z)(1 - \sigma(z)) > 0 \quad \text{for all } z \in \mathbb{R}.$$
+   Hence $$\ell(z)$$ is **strictly convex** everywhere!
+3. **Find the exact Lipschitz smoothness constant $$L = \sup_z \ell''(z)$$:**
+   By AM–GM, for any $$p = \sigma(z) \in (0, 1)$$, $$p(1 - p) \le \left(\frac{p + (1 - p)}{2}\right)^2 = \frac{1}{4}$$, attained at $$z = 0$$ ($$\sigma(0) = 0.5$$), where $$\ell(0) = \ln 2 \approx 0.693$$, $$\ell'(0) = -0.5$$, and $$\ell''(0) = 0.25$$. Therefore $$\ell$$ is $$\frac{1}{4}$$-smooth!
+
 Convex functions are the objectives you can trust: a local minimizer is global, and the first-order lower bound $$f(y)\ge f(x)+\nabla f(x)^\top(y-x)$$ is a supporting hyperplane of the epigraph. This lesson shows three places where that geometry is still doing work in 2021–2025 machine learning — even when the *full* deep network is nonconvex.
 
 ## Cross-entropy, log-sum-exp, and calibration

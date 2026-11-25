@@ -10,6 +10,26 @@ lang: en
 lesson_type: required
 ---
 
+In a neural language model, the embedding vector for the word "the" receives a gradient on almost every sentence, while the embedding for "eigenvector" fires once every thousand batches. Handing both parameters the same scalar learning rate $$\eta$$ forces an impossible compromise: either "the" explodes or "eigenvector" never learns. Adaptive methods—starting with AdaGrad (2011), refined by RMSProp (2012), and unified with momentum in Adam (2015)—solve this by maintaining a per-coordinate running meter of gradient energy and normalizing every step automatically.
+
+## Background Knowledge Map: From AdaGrad to RMSProp and Adam
+
+- **AdaGrad (Cumulative Squared Gradients):** Tracks $$G_t = \sum_{\tau=1}^t g_\tau \odot g_\tau$$ and scales coordinate $$j$$ by $$\frac{\eta}{\sqrt{G_{t,j} + \varepsilon}}$$. Brilliant for sparse convex features, but because $$G_t$$ grows monotonically forever, the effective step size eventually vanishes to zero in deep nonconvex training.
+- **RMSProp (Exponential Moving Average):** Replaces the infinite sum $$G_t$$ with an exponential moving average $$v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2$$, letting the preconditioner forget ancient curvature and adapt smoothly across non-stationary loss landscapes.
+- **Adam (First + Second Moments):** Combines exponential momentum $$m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t$$ with RMSProp’s second-moment accumulator $$v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2$$, producing an approximately scale-invariant step $$-\eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \varepsilon}$$.
+- **Zero-Initialization Bias Correction:** Because $$m_0 = 0$$ and $$v_0 = 0$$ bias early estimates heavily toward zero (especially when $$\beta_2 = 0.999$$), dividing by $$(1 - \beta_1^t)$$ and $$(1 - \beta_2^t)$$ makes $$\hat{m}_t$$ and $$\hat{v}_t$$ exact unbiased moment estimators at early steps.
+
+### Step-by-Step Worked Example (Read Slowly): Hand-Tracing Two Steps of Adam on Two Disproportionate Coordinates
+
+Suppose a 2D parameter $$w_0 = (0, 0)^\top$$ sees a tiny gradient on coordinate 1 and a huge gradient on coordinate 2: $$g_1 = (0.1,\ 10)^\top$$ and $$g_2 = (0.1,\ 10)^\top$$. Use $$\eta = 0.1$$, $$\beta_1 = 0.9$$, $$\beta_2 = 0.99$$, $$\varepsilon = 0$$ (for clean hand arithmetic).
+
+1. **Step $$t = 1$$ ($$g_1 = (0.1,\ 10)$$):**
+   - $$m_1 = (1 - 0.9)(0.1, 10) = (0.01,\ 1.0)$$, bias-corrected $$\hat{m}_1 = \frac{m_1}{1 - 0.9} = (0.1,\ 10)$$.
+   - $$v_1 = (1 - 0.99)(0.01, 100) = (0.0001,\ 1.0)$$, bias-corrected $$\hat{v}_1 = \frac{v_1}{1 - 0.99} = (0.01,\ 100)$$.
+   - Normalized step: $$\frac{\hat{m}_1}{\sqrt{\hat{v}_1}} = \left(\frac{0.1}{0.1},\ \frac{10}{10}\right) = (1,\ 1)$$!
+   - Update: $$w_1 = (0, 0) - 0.1(1, 1) = (-0.1,\ -0.1)$$.
+2. **Observe what just happened:** Even though coordinate 2’s gradient was **100× larger** than coordinate 1’s, Adam moved *both* coordinates by the exact same step size $$-0.1$$!
+3. **Without bias correction at $$t = 1$$:** Notice $$\frac{m_1}{\sqrt{v_1}} = \left(\frac{0.01}{0.01},\ \frac{1.0}{1.0}\right) = (1, 1)$$ only accidentally matched because $$1 - \beta_1 = 0.1 = \sqrt{1 - \beta_2}$$; if $$\beta_2 = 0.999$$ (the default!), $$\frac{m_1}{\sqrt{v_1}} = \frac{0.1}{\sqrt{0.001}} \approx 3.16\times$$ too large—proving why bias correction is vital at $$t = 1$$!
 
 Not every coordinate of $$w$$ should share one scalar $$\eta$$. Features that fire rarely (think one-hot tokens) need larger effective steps; coordinates with huge gradients would explode if given the same $$\eta$$. **Diagonal adaptive methods** keep a running second-moment estimate and divide.
 

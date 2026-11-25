@@ -9,6 +9,42 @@ categories:
 lang: vi
 ---
 
+Trong hồi quy tuyến tính bình phương tối thiểu, ai cũng biết công thức nghiệm đóng $$\hat{\beta} = (X^T X)^{-1} X^T y$$. Nhưng khi số đặc trưng $$p$$ lên tới hàng chục nghìn, việc nhân ma trận $$X^T X$$ tốn $$O(np^2)$$ và nghịch đảo tốn $$O(p^3)$$ trở nên bất khả thi. Ta buộc phải dùng các phương pháp lặp bậc nhất — và đây là lúc một kết quả thực nghiệm đáng kinh ngạc xuất hiện.
+
+Trên cùng một bài toán hồi quy tuyến tính, khi so sánh từng chu trình hạ theo tọa độ (CD) với từng bước gradient descent (GD) hay thậm chí gradient tăng tốc Nesterov (AGD), đường hội tụ của CD thường lao dốc nhanh hơn hẳn — trong khi tổng số phép tính của **một chu trình CD lại bằng đúng một bước GD**! Bí mật nằm ở hai chỗ: CD luôn dùng ngay thông tin tọa độ vừa cập nhật (hiệu ứng Gauss–Seidel) và tự động chọn kích thước bước tối ưu riêng cho từng tọa độ mà không bị chặn bởi trị riêng lớn nhất toàn cục.
+
+## Bản đồ kiến thức nền: Ba trụ cột tạo nên tốc độ của CD cho hồi quy tuyến tính
+
+Để hiểu cả công thức cập nhật lẫn lý do so sánh chi phí giữa CD và GD là hoàn toàn công bằng, hãy nắm ba trụ cột sau:
+
+- **Chiếu từng phần dư (Partial Residual Regression):** Khi giữ cố định $$\beta_{-i}$$, phần dư chưa được giải thích bởi các đặc trưng khác là $$r^{(-i)} = y - X_{-i}\beta_{-i}$$. Cập nhật $$\beta_i = \frac{X_i^T r^{(-i)}}{\|X_i\|_2^2}$$ chính là hồi quy tuyến tính 1 biến đơn giản của phần dư đó lên cột $$X_i$$.
+- **Bảo trì phần dư trong $$O(n)$$ (Incremental Residual Update):** Nếu mỗi lần cập nhật $$\beta_i$$ ta tính lại $$X_{-i}\beta_{-i}$$ từ đầu thì tốn $$O(np)$$, khiến cả chu trình tốn $$O(np^2)$$. Nhưng bằng cách giữ vector phần dư chung $$r = y - X\beta$$, ta tính $$r^{(-i)} = r + \beta_i^{\text{old}} X_i$$, cập nhật $$\beta_i^{\text{new}}$$, rồi sửa $$r \leftarrow r - (\beta_i^{\text{new}} - \beta_i^{\text{old}}) X_i$$ — chỉ tốn $$O(n)$$ mỗi tọa độ, nên cả chu trình $$p$$ tọa độ chỉ tốn đúng $$O(np)$$, ngang bằng 1 bước GD!
+- **Tự động thích nghi độ cong từng trục (Coordinate-wise Lipschitz Adaptation):** GD phải dùng chung một bước $$t \le 1/L$$ bị chi phối bởi hướng cong mạnh nhất của $$X^T X$$. Ngược lại, CD chia riêng cho $$\|X_i\|_2^2$$ trên từng trục — tương đương với việc tự động tiền điều kiện theo đường chéo (*diagonal preconditioning*).
+
+### Khung giải thích (nên đọc chậm): Tính tay 1 chu trình CD có bảo trì phần dư
+
+Xét bài toán $$\min_{\beta \in \mathbb{R}^2} \frac{1}{2}\|y - X\beta\|_2^2$$ với ma trận đặc trưng và vector nhãn:
+
+$$
+X = \begin{pmatrix} 1 & 1 \\ 1 & -1 \\ 0 & 1 \end{pmatrix}, \qquad y = \begin{pmatrix} 3 \\ 1 \\ 1 \end{pmatrix}.
+$$
+
+Ta tính sẵn bình phương chuẩn các cột: $$\|X_1\|_2^2 = 1^2 + 1^2 + 0^2 = 2$$ và $$\|X_2\|_2^2 = 1^2 + (-1)^2 + 1^2 = 3$$. Khởi tạo $$\beta^{(0)} = (0, 0)$$, nên vector phần dư ban đầu là $$r = y - X\beta^{(0)} = (3, 1, 1)^T$$.
+
+1. **Cập nhật tọa độ $$i = 1$$:**
+   - Vì $$\beta_1^{\text{old}} = 0$$, phần dư riêng $$r^{(-1)} = r = (3, 1, 1)^T$$.
+   - Tích vô hướng $$X_1^T r^{(-1)} = 1(3) + 1(1) + 0(1) = 4$$.
+   - Suy ra $$\beta_1^{(1)} = \frac{4}{2} = 2$$.
+   - Cập nhật phần dư ngay tại chỗ (chỉ tốn $$O(n)$$):
+     $$r \leftarrow (3, 1, 1)^T - (2 - 0)(1, 1, 0)^T = (1,\; -1,\; 1)^T.$$
+2. **Cập nhật tọa độ $$i = 2$$ (dùng ngay $$r$$ vừa cập nhật!):**
+   - Vì $$\beta_2^{\text{old}} = 0$$, phần dư riêng $$r^{(-2)} = r = (1, -1, 1)^T$$.
+   - Tích vô hướng $$X_2^T r^{(-2)} = 1(1) + (-1)(-1) + 1(1) = 3$$.
+   - Suy ra $$\beta_2^{(1)} = \frac{3}{3} = 1$$.
+   - Cập nhật phần dư:
+     $$r \leftarrow (1, -1, 1)^T - (1 - 0)(1, -1, 1)^T = (0,\; 0,\; 0)^T!$$
+3. **Quan sát:** Chỉ sau **1 chu trình duy nhất** gồm đúng 2 phép tích vô hướng và 2 phép trừ vector, ta đã thu được nghiệm chính xác tuyệt đối $$\beta^\star = (2, 1)$$ với phần dư bằng $$0$$ — minh họa hoàn hảo cho hiệu ứng Gauss–Seidel kết hợp bảo trì phần dư $$O(n)$$.
+
 Xét bài toán hồi quy tuyến tính:
 
 > $$\min_{\beta} \frac{1}{2} \| y - X\beta \|_2^2,$$

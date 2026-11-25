@@ -10,6 +10,28 @@ lang: en
 lesson_type: optional
 ---
 
+It is tempting to treat Chapter 00 as dusty textbook review, yet the biggest breakthroughs in modern AI—reverse-mode automatic differentiation, low-rank adaptation (LoRA) of billion-parameter language models, and score-based diffusion models—are direct applications of the multivariable chain rule, low-rank matrix factorization, and log-density gradients. Mastering these fundamentals means you can read cutting-edge machine learning papers without treating their equations as black boxes.
+
+## Background Knowledge Map: Where Chapter 00 Math Powers Frontier AI
+
+- **Reverse-Mode AutoDiff & Implicit Gradients:** Scales the multivariable chain rule to compute $$\nabla f(x) \in \mathbb{R}^n$$ in $$O(1)$$ forward-pass multiples via vector-Jacobian products (VJPs), and differentiates right through argmin layers using the implicit function theorem.
+- **Low-Rank Matrix Parameterization (LoRA):** Replaces a dense $$d \times k$$ weight update $$\Delta W$$ with a rank-$$r$$ factor $$BA$$ ($$r \ll \min(d, k)$$), cutting memory and optimizer states by orders of magnitude.
+- **Score Functions ($$\nabla_x \log p(x)$$):** Diffusion models learn the gradient of the log probability density—a vector field pointing toward high-density data regions—bypassing intractable normalizing constants.
+- **Conditioning & Numerical Precision:** Matrix norms, singular values, and Lipschitz bounds govern whether large-scale training stays numerically stable under reduced-precision arithmetic.
+
+### Step-by-Step Worked Example (Read Slowly): LoRA Compression Ratio and Forward Pass
+
+Suppose a transformer projection layer has weight matrix $$W_0 \in \mathbb{R}^{4096 \times 4096}$$ and we adapt it with rank $$r = 8$$ via $$W = W_0 + BA$$ where $$B \in \mathbb{R}^{4096 \times 8}$$ and $$A \in \mathbb{R}^{8 \times 4096}$$.
+
+1. **Compare trainable parameter counts:**
+   - Full fine-tuning: $$4096 \times 4096 = 16{,}777{,}216$$ parameters.
+   - LoRA ($$r = 8$$): $$4096 \times 8 + 8 \times 4096 = 65{,}536$$ parameters.
+   - Compression factor: $$\frac{16{,}777{,}216}{65{,}536} = 256\times$$ fewer trainable parameters (just $$0.390625\%$$ of the full matrix).
+2. **Verify a concrete $$2 \times 2$$ rank-1 update:** Let $$W_0 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$$, $$B = \begin{pmatrix} 2 \\ -1 \end{pmatrix}$$, $$A = \begin{pmatrix} 1 & 3 \end{pmatrix}$$, and input $$x = \begin{pmatrix} 1 \\ 2 \end{pmatrix}$$.
+   - Compute $$Ax = 1(1) + 3(2) = 7$$ (a scalar!).
+   - Compute $$B(Ax) = 7\begin{pmatrix} 2 \\ -1 \end{pmatrix} = \begin{pmatrix} 14 \\ -7 \end{pmatrix}$$.
+   - Total output: $$W_0 x + B(Ax) = \begin{pmatrix} 1 \\ 2 \end{pmatrix} + \begin{pmatrix} 14 \\ -7 \end{pmatrix} = \begin{pmatrix} 15 \\ -5 \end{pmatrix}$$, matching $$(W_0 + BA)x = \begin{pmatrix} 3 & 6 \\ -1 & -2 \end{pmatrix}\begin{pmatrix} 1 \\ 2 \end{pmatrix} = \begin{pmatrix} 15 \\ -5 \end{pmatrix}$$ without ever materializing the full $$BA$$ matrix.
+
 The calculus, linear algebra, and probability in this chapter are not a warm-up you leave behind. They are the working language of the models you will train after week one. This lesson connects those tools to four developments from roughly 2022–2025 that a data-science student will meet in papers, libraries, and internships. The theory in the earlier lessons does not change; the point is to see *where* gradients, low-rank factorizations, and score functions show up in production systems.
 
 ## Automatic differentiation and implicit gradients

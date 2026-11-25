@@ -12,6 +12,37 @@ redirect_from:
   - /contents/vi/chapter03/03_09_Practical_Exercises_Convex_Functions/
 ---
 
+Khi rời khỏi các hàm trơn đẹp như $$x^2$$ để chạm vào những bài toán thực tế như Lasso ($$\frac{1}{2}\|Ax - b\|_2^2 + \lambda\|x\|_1$$) hay SVM (Hinge loss $$\max(0, 1 - y_i w^T x_i)$$), đạo hàm thông thường biến mất tại các điểm gấp khúc! Lúc đó, **dưới vi phân (subdifferential $$\partial f(x)$$)** — tập hợp tất cả các độ dốc của đường tiếp tuyến nằm dưới đồ thị tại điểm gấp khúc — thay thế hoàn toàn cho gradient, với điều kiện tối ưu toàn cục kinh điển: $$0 \in \partial f(x^*)$$.
+
+Bộ bài tập thực hành cuối Chương 03 giúp bạn thành thạo cả 5 trụ cột: kiểm tra tính lồi, phép toán bảo toàn, hàm liên hợp, dưới vi phân và bất đẳng thức Jensen. Dưới đây là một ví dụ tính tay dưới vi phân tại điểm gấp khúc để khởi động.
+
+## Bản đồ kiến thức nền: Năm kỹ năng thực hành cốt lõi của Chương 03
+
+- **Chứng minh tính lồi đa chiến lược:** Kết hợp linh hoạt tiêu chuẩn Hessian, quy tắc hợp thành DCP và phép chiếu lát cắt 1D.
+- **Tính tường minh hàm liên hợp $$f^*(y)$$:** Giải $$\sup_x (y^T x - f(x))$$ cho cả hàm trơn (bậc hai, âm log, entropy) lẫn hàm không trơn (chuẩn $$\ell_1, \ell_2, \ell_\infty$$) và xác định đúng miền hữu hạn $$\operatorname{dom} f^*$$.
+- **Tính dưới vi phân $$\partial f(x)$$ tại điểm không khả vi:** Tại điểm trơn $$\partial f(x) = \{\nabla f(x)\}$$; tại điểm gấp khúc của $$\max(f_1, f_2)$$, $$\partial f(x)$$ là **bao lồi** của các gradient nhánh hoạt động!
+- **Điều kiện tối ưu không trơn ($$0 \in \partial f(x^*)$$):** Là điều kiện cần và đủ để $$x^*$$ là cực tiểu toàn cục của hàm lồi (trơn hoặc không trơn).
+- **Khai thác bất đẳng thức Jensen:** Chứng minh các bất đẳng thức kinh điển (AM–GM, Hölder, phân kỳ KL không âm $$D_{\mathrm{KL}}(p\|q) \ge 0$$).
+
+### Khung giải thích (nên đọc chậm): Tính dưới vi phân và tìm cực tiểu của hàm không trơn $$f(x) = |x - 2| + x^2$$
+
+Xét hàm lồi mạnh nhưng không khả vi tại $$x = 2$$: $$f(x) = |x - 2| + x^2$$.
+
+1. **Phân nhánh theo dấu của $$x - 2$$:**
+   - Khi $$x < 2$$: $$f(x) = -(x - 2) + x^2 = x^2 - x + 2 \implies f'(x) = 2x - 1$$.
+   - Khi $$x > 2$$: $$f(x) = (x - 2) + x^2 = x^2 + x - 2 \implies f'(x) = 2x + 1$$.
+2. **Tính tập dưới vi phân $$\partial f(2)$$ ngay tại điểm gấp khúc $$x = 2$$:**
+   - Đạo hàm trái khi $$x \to 2^-$$: $$2(2) - 1 = 3$$.
+   - Đạo hàm phải khi $$x \to 2^+$$: $$2(2) + 1 = 5$$.
+   - Vậy $$\partial f(2) = [3, 5]$$ (mọi đường thẳng qua $$(2, 4)$$ có độ dốc từ $$3$$ đến $$5$$ đều nằm dưới đồ thị $$f$$).
+3. **Tìm điểm cực tiểu toàn cục bằng điều kiện $$0 \in \partial f(x^*)$$:**
+   - Tại $$x = 2$$: $$0 \notin [3, 5] \implies x = 2$$ **không phải** cực tiểu!
+   - Trên nhánh $$x > 2$$: $$2x + 1 > 5 > 0$$ (vô nghiệm).
+   - Trên nhánh $$x < 2$$: $$2x - 1 = 0 \implies x^* = 0.5 < 2$$ (thỏa mãn!).
+   Giá trị tối ưu toàn cục là $$f(0.5) = |0.5 - 2| + 0.5^2 = 1.5 + 0.25 = 1.75$$ (thấp hơn hẳn $$f(2) = 4$$!).
+
+---
+
 # Bài tập thực hành - Hàm lồi
 
 ## 📝 **Bài tập 1: Kiểm tra tính lồi của hàm số**

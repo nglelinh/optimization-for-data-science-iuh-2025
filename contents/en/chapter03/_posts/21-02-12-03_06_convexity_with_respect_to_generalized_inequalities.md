@@ -9,6 +9,27 @@ categories:
 lang: en
 ---
 
+When optimizing over symmetric matrices (as in covariance estimation, control theory, or quantum information), the objective or constraint map $$F(X)$$ itself outputs a *matrix* rather than a scalar. How do we define whether $$F(X) = X^2$$ is "convex" when comparing matrices? By replacing $$\le$$ in Jensen's inequality with the cone inequality $$\preceq_K$$—and the dual characterization shows that $$K$$-convexity holds if and only if every nonnegative scalar projection $$\lambda^T F(x)$$ ($$\lambda \succeq_{K^*} 0$$) is an ordinary scalar convex function.
+
+## Background Knowledge Map: Extending Convexity to Vector & Matrix Maps
+
+- **$$K$$-Monotonicity:** $$f: \mathbb{R}^n \to \mathbb{R}$$ is $$K$$-nondecreasing if $$x \preceq_K y \implies f(x) \le f(y)$$; for differentiable $$f$$, this holds iff $$\nabla f(x) \succeq_{K^*} 0$$ everywhere.
+- **$$K$$-Convexity:** A map $$f: \mathbb{R}^n \to \mathbb{R}^m$$ is $$K$$-convex (for proper cone $$K \subseteq \mathbb{R}^m$$) iff $$f(\theta x + (1-\theta)y) \preceq_K \theta f(x) + (1-\theta)f(y)$$.
+- **Dual Scalarization Test:** $$f$$ is $$K$$-convex iff for *every* $$\lambda \succeq_{K^*} 0$$, the scalar function $$\lambda^T f(x)$$ is convex—turning matrix-convexity proofs into routine scalar convexity checks!
+- **Matrix Convexity ($$\mathbb{S}_+^n$$-Convexity):** Lets us prove $$F(X) = X^2$$ and $$F(X) = X^{-1}$$ (on $$\mathbb{S}_{++}^n$$) are matrix-convex, unlocking Schur-complement LMI reformulations.
+
+### Step-by-Step Worked Example (Read Slowly): Proving $$F(X) = X^2$$ Is Matrix-Convex on $$\mathbb{S}^2$$
+
+Verify that $$F(X) = X^2$$ is $$\mathbb{S}_+^2$$-convex on symmetric $$2 \times 2$$ matrices.
+
+1. **Apply the dual characterization:** For any vector $$v \in \mathbb{R}^2$$, the rank-1 matrix $$W = vv^T \in \mathbb{S}_+^2$$ defines a nonnegative dual functional:
+   $$\text{tr}(W F(X)) = v^T X^2 v = (Xv)^T (Xv) = \|Xv\|_2^2.$$
+   Because $$X \mapsto Xv$$ is linear in $$X$$ and $$\|\cdot\|_2^2$$ is convex, $$X \mapsto \|Xv\|_2^2$$ is convex for every $$v \in \mathbb{R}^2$$ (and hence for every $$W \succeq 0$$, a nonnegative sum of rank-1 terms). Thus $$F(X) = X^2$$ is **matrix-convex**!
+2. **Concrete numerical check:** Take $$X = \text{diag}(1, 0)$$, $$Y = \text{diag}(0, 1)$$, and $$\theta = 0.5$$:
+   - $$F(0.5X + 0.5Y) = \text{diag}(0.5, 0.5)^2 = \text{diag}(0.25, 0.25)$$.
+   - $$0.5 F(X) + 0.5 F(Y) = 0.5\,\text{diag}(1, 0) + 0.5\,\text{diag}(0, 1) = \text{diag}(0.5, 0.5)$$.
+   - Difference: $$\text{diag}(0.5, 0.5) - \text{diag}(0.25, 0.25) = \text{diag}(0.25, 0.25) \succeq 0 \quad \checkmark$$.
+
 This section discusses convexity with respect to generalized inequalities, extending the concept of convexity beyond standard real-valued functions.
 
 In spaces other than $$\mathbb{R}$$, we use the definition of cones for generalized inequality expressions that extend the ordering concept commonly used in $$\mathbb{R}$$ space (see [02-01-04]({% multilang_post_url contents/chapter02/21-02-08-02_01_04_Convex_cone %})). In this section, we examine the concepts of monotonicity and convexity that extend beyond $$\mathbb{R}$$ space using the concept of cones.

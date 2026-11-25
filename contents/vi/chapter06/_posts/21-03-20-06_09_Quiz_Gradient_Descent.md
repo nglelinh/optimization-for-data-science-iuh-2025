@@ -12,6 +12,34 @@ redirect_from:
   - /contents/vi/chapter06/06_08_Quiz_Gradient_Descent/
 ---
 
+Chương 06 là chương dài và giàu kỹ thuật nhất từ đầu khóa học đến nay: từ cận trên bậc hai, điều kiện Armijo, tốc độ $$O(1/k)$$ vs. $$O(c^k)$$, cận dưới Nesterov, cho đến SGD, Momentum, Gradient Boosting và Điều chuẩn. Khi quá nhiều định lý đứng cạnh nhau, não bộ rất dễ trộn lẫn các giả thiết — ví dụ nhầm lẫn điều kiện cần của hội tụ tuyến tính, hay nhầm giữa bước cố định an toàn $$1/L$$ và ngưỡng ổn định $$2/L$$.
+
+Bộ bài tập trắc nghiệm này là bài kiểm tra tổng lực giúp bạn khóa chặt mọi định lý, công thức và trực giác hình học của Chương 06 trước khi sang thế giới không khả vi của Chương 07!
+
+## Bản đồ kiến thức nền: Bảng tra nhanh 4 điểm dễ nhầm nhất của Chương 06
+
+Hãy rà soát nhanh bốn phân biệt cốt lõi trước khi trả lời các câu hỏi trắc nghiệm:
+
+- **Tốc độ hội tụ theo lớp hàm (với GD chuẩn):**
+  - Lồi + $$L$$-trơn: $$O(1/k)$$ (cần $$O(1/\epsilon)$$ bước).
+  - Lồi mạnh $$m$$ + $$L$$-trơn: hội tụ tuyến tính $$O\big((1 - m/L)^k\big)$$ (cần $$O(\kappa \log(1/\epsilon))$$ bước).
+  - Tăng tốc Nesterov: cải thiện thành $$O(1/k^2)$$ (lồi trơn) và $$O(\sqrt{\kappa} \log(1/\epsilon))$$ (lồi mạnh).
+- **Bước an toàn vs. Ngưỡng phân kỳ (trên hàm bậc hai $$L$$-trơn):** $$t \le 1/L$$ đảm bảo giảm đơn điệu theo Bổ đề Giảm; $$1/L < t < 2/L$$ vẫn hội tụ nhưng có dao động; $$t \ge 2/L$$ không hội tụ / phân kỳ!
+- **SGD vs. Batch GD:** SGD có chi phí mỗi bước $$O(p)$$ (độc lập với $$N$$) thay vì $$O(Np)$$, nhưng với bước cố định chỉ hội tụ vào vùng lân cận nghiệm; muốn hội tụ chính xác về $$x^\star$$ cần giảm bước theo điều kiện Robbins–Monro ($$\sum t_k = \infty, \sum t_k^2 < \infty$$).
+- **Exact Line Search:** Hai bước liên tiếp luôn trực giao ($$\nabla f(x_{k+1})^T \nabla f(x_k) = 0$$), nên vẫn có thể đi zíc-zắc chậm trên thung lũng hẹp có $$\kappa$$ lớn!
+
+### Khung giải thích (nên đọc chậm): Chẩn đoán nhanh một câu hỏi trắc nghiệm điển hình về số vòng lặp
+
+**Câu hỏi mẫu:** *Hàm $$f$$ lồi mạnh với $$m = 2$$ và gradient Lipschitz $$L = 20$$. Nếu dùng Gradient Descent bước cố định $$t = 1/L$$, sau mỗi bước lặp sai số $$f(x^{(k)}) - f^\star$$ giảm đi ít nhất bao nhiêu phần trăm?*
+
+1. **Bước 1 — Áp dụng công thức hội tụ tuyến tính:**
+   $$f(x^{(k+1)}) - f^\star \le (1 - mt)\big(f(x^{(k)}) - f^\star\big).$$
+2. **Bước 2 — Thay số $$m = 2,\; t = 1/L = 1/20 = 0.05$$:**
+   $$1 - mt = 1 - 2(0.05) = 1 - 0.1 = 0.9.$$
+3. **Bước 3 — Đọc kết quả chính xác:** Sai số sau bước mới bằng tối đa $$90\%$$ sai số cũ — tức là **giảm ít nhất $$10\%$$** sau mỗi vòng lặp! (Mẹo nhanh: với $$t = 1/L$$, tỷ lệ giảm mỗi bước luôn là $$1/\kappa = m/L$$!)
+
+---
+
 ## 📚 Ôn tập Lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:
@@ -75,19 +103,26 @@ Gradient $$
 abla f$$ liên tục Lipschitz với hằng số $$L > 0$$:
 $$\lVert 
 abla f(x) - 
-abla f(y) Vert_2 \le L \lVert x - y Vert_2$$
+abla f(y) 
+Vert_2 \le L \lVert x - y 
+Vert_2$$
 
 #### **Định lý hội tụ cho hàm lồi**
 Với kích thước bước cố định $$t \le rac{1}{L}$$:
-$$f(x^{(k)}) - f^* \le rac{\lVert x^{(0)} - x^* Vert_2^2}{2tk}$$
+$$f(x^{(k)}) - f^* \le rac{\lVert x^{(0)} - x^* 
+Vert_2^2}{2tk}$$
 
 **Tốc độ hội tụ:** $$O(1/k)$$ — hội tụ dưới tuyến tính (sublinear).
 
 #### **Định lý hội tụ cho hàm lồi mạnh**
 Nếu $$f$$ lồi mạnh với hằng số $$m > 0$$:
-$$f(x^{(k)}) - f^* \le \left(1 - rac{m}{L}ight)^k \left(f(x^{(0)}) - f^*ight) \quad (t = 1/L)$$
+$$f(x^{(k)}) - f^* \le \left(1 - rac{m}{L}
+ight)^k \left(f(x^{(0)}) - f^*
+ight) \quad (t = 1/L)$$
 
-**Tốc độ hội tụ:** $$O(ho^k)$$ với $$ho < 1$$ — hội tụ tuyến tính (linear).
+**Tốc độ hội tụ:** $$O(
+ho^k)$$ với $$
+ho < 1$$ — hội tụ tuyến tính (linear).
 
 #### **Chỉ số điều kiện**
 $$\kappa = rac{L}{m}$$ — tỉ số giữa hằng số Lipschitz và hằng số lồi mạnh:
@@ -153,7 +188,8 @@ x^{(k)} &= x^{(k-1)} - t v^{(k)}
 ### 🛠️ **Các Kỹ thuật Thực tế**
 
 #### **Lập lịch tốc độ học (Learning Rate Scheduling)**
-- **Giảm theo bậc (Step decay):** $$t_k = t_0 \cdot \gamma^{\lfloor k/s floor}$$
+- **Giảm theo bậc (Step decay):** $$t_k = t_0 \cdot \gamma^{\lfloor k/s 
+floor}$$
 - **Giảm theo hàm mũ (Exponential decay):** $$t_k = t_0 \cdot e^{-\lambda k}$$
 - **Giảm theo đa thức (Polynomial decay):** $$t_k = t_0 \cdot (1 + \lambda k)^{-p}$$
 
@@ -163,14 +199,17 @@ x^{(k)} &= x^{(k-1)} - t v^{(k)}
 - **Adam:** Kết hợp momentum và tốc độ học thích ứng.
 
 #### **Điều chuẩn (Regularization)**
-- **Điều chuẩn L1:** $$f(x) + \lambda \lVert x Vert_1$$
-- **Điều chuẩn L2:** $$f(x) + rac{\lambda}{2} \lVert x Vert_2^2$$
+- **Điều chuẩn L1:** $$f(x) + \lambda \lVert x 
+Vert_1$$
+- **Điều chuẩn L2:** $$f(x) + rac{\lambda}{2} \lVert x 
+Vert_2^2$$
 - **Dropout:** Tắt ngẫu nhiên các nút trong mạng nơ-ron khi huấn luyện.
 
 ### 📈 **Ứng dụng Thực tế**
 
 #### **Học máy (Machine Learning)**
-- **Hồi quy tuyến tính:** $$\min_w \lVert Xw - y Vert_2^2$$
+- **Hồi quy tuyến tính:** $$\min_w \lVert Xw - y 
+Vert_2^2$$
 - **Hồi quy logistic:** $$\min_w \sum_i \log(1 + e^{-y_i w^T x_i})$$
 - **Mạng nơ-ron:** Lan truyền ngược (backpropagation) kết hợp SGD.
 
@@ -188,13 +227,15 @@ x^{(k)} &= x^{(k-1)} - t v^{(k)}
 
 #### **Theo chuẩn gradient**
 $$\lVert 
-abla f(x^{(k)}) Vert_2 < \epsilon$$
+abla f(x^{(k)}) 
+Vert_2 < \epsilon$$
 
 #### **Theo độ thay đổi giá trị hàm**
 $$|f(x^{(k)}) - f(x^{(k-1)})| < \epsilon$$
 
 #### **Theo độ thay đổi tham số**
-$$\lVert x^{(k)} - x^{(k-1)} Vert_2 < \epsilon$$
+$$\lVert x^{(k)} - x^{(k-1)} 
+Vert_2 < \epsilon$$
 
 #### **Theo số lần lặp tối đa**
 $$k > k_{\max}$$

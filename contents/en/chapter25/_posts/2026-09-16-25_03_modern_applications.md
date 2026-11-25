@@ -10,6 +10,28 @@ lang: en
 lesson_type: optional
 ---
 
+A decade ago, few ML researchers imagined running a Mixed Integer Linear Program *inside* deep learning workflows. Today, Chapter 25’s Branch-and-Cut machinery powers three flagship frontiers of trustworthy AI: exact sparse feature selection, **formal verification of ReLU neural networks** (proving mathematically that no $$\ell_\infty$$ adversarial perturbation can flip a classifier’s prediction), and **optimal decision trees** that outperform greedy CART/C4.5 splits with certified global optimality.
+
+## Background Knowledge Map: Where Branch-and-Cut Meets Modern Machine Learning
+
+- **Exact ReLU Verification via MILP:** Every ReLU neuron $$h = \max(0, w^\top x + b)$$ is piecewise linear with two regimes (active vs. inactive), encoded exactly by one binary variable $$z \in \{0, 1\}$$ and tight pre-activation bounds $$[l, u]$$. Maximizing an adversary’s margin over an $$\ell_\infty$$ ball certifies robustness with zero false negatives.
+- **Tight Bounds Drive Verification Speed:** In MILP neural verification, computing tight interval or Crown/alpha-beta-CROWN pre-activation bounds $$[l_j, u_j]$$ shrinks the triangle relaxation of each ReLU neuron—turning intractable verification into millisecond proofs.
+- **Optimal Classification Trees (OCT):** Unlike greedy CART, which locks in myopic top splits, encoding tree routing decisions as binary variables optimizes *all* splits jointly subject to depth and leaf-count budgets.
+- **Learning to Cut:** Just as ML4CO learns branching heuristics, modern solvers train neural policies to select *which* candidate Gomory and MIR cuts from the cut pool yield the largest dual bound lift per simplex pivot.
+
+### Step-by-Step Worked Example (Read Slowly): Exact MILP Encoding of One ReLU Neuron
+
+Suppose a ReLU neuron computes $$y = \max(0, z)$$ where the pre-activation input $$z$$ is known to lie in $$[l, u] = [-2, 4]$$. Introduce binary switch $$a \in \{0, 1\}$$ ($$a = 1$$ means active, $$a = 0$$ means inactive).
+
+1. **Write the 4 exact MILP inequalities (the tight triangle relaxation):**
+   - $$y \ge 0$$,
+   - $$y \ge z$$,
+   - $$y \le u \cdot a = 4 a$$,
+   - $$y \le z - l(1 - a) = z + 2(1 - a)$$.
+2. **Verify both binary states:**
+   - If $$a = 0$$ (inactive): $$y \ge 0$$ and $$y \le 0 \implies y = 0$$; meanwhile $$y \ge z$$ forces $$z \le 0$$, and $$0 \le z + 2 \iff z \ge -2$$ (valid!).
+   - If $$a = 1$$ (active): $$y \ge z$$ and $$y \le z \implies y = z$$; meanwhile $$y \ge 0$$ forces $$z \ge 0$$, and $$z \le 4$$ (valid!).
+3. **Check the continuous relaxation at $$z = 1$$:** Setting $$a \in [0, 1]$$ allows $$y$$ to lie inside the triangle bounded above by the chord connecting $$(-2, 0)$$ and $$(4, 4)$$, namely $$y \le \frac{4}{6}(z + 2) = \frac{2}{3}(1 + 2) = 2$$. Tightening $$[l, u]$$ shrinks this relaxation triangle directly!
 
 Chapter 25 is the *solver* half of mixed-integer programming: cutting planes, branch-and-cut, and two extended examples (best subset, least quantile). Those techniques are now used to *select features*, *certify* neural nets, *grow optimal trees*, and even *learn which cuts* to add. This optional note is the 2022–2026 application layer on top of 25-01 and 25-02; it does not re-derive Gomory cuts.
 

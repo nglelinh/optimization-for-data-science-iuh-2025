@@ -10,6 +10,43 @@ lang: vi
 lesson_type: required
 ---
 
+Trong lịch sử học máy, hiếm có thuật toán nào vừa sắc sảo về hình học, vừa đẹp đẽ về đại số tối ưu như **Máy vector hỗ trợ (Support Vector Machine — SVM)**. Nhưng tại sao thuật toán này lại mang cái tên kỳ lạ *"Máy vector hỗ trợ"*? Tại sao một bộ phân loại huấn luyện trên 100,000 điểm dữ liệu cuối cùng lại có thể **vứt bỏ 95% số điểm**, chỉ giữ lại vài nghìn điểm nằm sát ranh giới mà kết quả phân loại vẫn giữ nguyên 100%?
+
+Câu trả lời không nằm ở một mẹo lập trình nào cả — nó nằm gọn trong **điều kiện bù (complementary slackness)** của hệ điều kiện KKT! Bài học toàn diện này dẫn bạn đi từ hình học khoảng cách siêu phẳng, xây dựng bài toán tối ưu Soft-Margin SVM có biến bù $$\xi_i$$, cho đến việc giải mã trọn vẹn 3 vùng phân bố của dữ liệu qua giá trị nhân tử Lagrange $$\alpha_i^* \in [0, C]$$!
+
+## Bản đồ kiến thức nền: Bốn trụ cột nối hình học SVM với điều kiện KKT
+
+- **Hình học lề cực đại (Maximum Margin):** Khoảng cách từ siêu phẳng $$\beta^T x + \beta_0 = 0$$ đến hai biên phân loại $$\beta^T x + \beta_0 = \pm 1$$ là $$\frac{1}{\|\beta\|_2}$$. Cực đại hóa lề tương đương cực tiểu hóa $$\frac{1}{2}\|\beta\|_2^2$$ với ràng buộc $$y_i(\beta^T x_i + \beta_0) \ge 1 - \xi_i, \; \xi_i \ge 0$$.
+- **Điều kiện dừng KKT tạo ra biểu diễn thưa của $$\beta^*$$:** Lấy đạo hàm Lagrangian theo $$\beta, \beta_0, \xi_i$$ bằng $$0$$ cho ta 3 đẳng thức vàng:
+  $$\beta^* = \sum_{i=1}^n \alpha_i^* y_i x_i, \qquad \sum_{i=1}^n \alpha_i^* y_i = 0, \qquad \alpha_i^* + \mu_i^* = C.$$
+  Vì $$\alpha_i^* \ge 0$$ và $$\mu_i^* \ge 0$$, ta lập tức thu được ràng buộc hộp nổi tiếng $$0 \le \alpha_i^* \le C$$!
+- **Ba chế độ của điểm dữ liệu đọc trực tiếp từ điều kiện bù KKT:**
+  1. $$\alpha_i^* = 0$$: điểm nằm **ngoài lề an toàn** ($$y_i(\beta^{*T} x_i + \beta_0^*) > 1, \xi_i^* = 0$$) — có xóa điểm này đi siêu phẳng cũng không hề nhúc nhích!
+  2. $$0 < \alpha_i^* < C$$: cả $$\alpha_i^* > 0$$ lẫn $$\mu_i^* = C - \alpha_i^* > 0$$ $$\implies$$ $$\xi_i^* = 0$$ và $$y_i(\beta^{*T} x_i + \beta_0^*) = 1$$ — điểm nằm **chính xác trên biên lề** (vector hỗ trợ tự do, dùng để tính ngay $$\beta_0^*$$!).
+  3. $$\alpha_i^* = C$$: $$\mu_i^* = 0$$ nên $$\xi_i^* \ge 0$$ — điểm vi phạm lề hoặc bị phân loại sai (vector hỗ trợ bị chặn).
+- **Mở rộng phi tuyến bằng hàm nhân (Kernel SVM):** Vì $$\beta^* = \sum \alpha_i^* y_i x_i$$, hàm quyết định chỉ dùng tích vô hướng $$\sum \alpha_i^* y_i K(x_i, x) + \beta_0^*$$ trên đúng tập các vector hỗ trợ!
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng tay 3 chế độ KKT trên 3 điểm dữ liệu 1D
+
+Xét Soft-Margin SVM 1D với tham số phạt $$C = 1$$ trên 3 điểm dữ liệu:
+- Điểm 1: $$(x_1, y_1) = (-3, -1)$$ (rất xa về bên âm),
+- Điểm 2: $$(x_2, y_2) = (-1, -1)$$ (sát biên âm),
+- Điểm 3: $$(x_3, y_3) = (+1, +1)$$ (sát biên dương).
+
+Thử siêu phẳng $$\beta^* = 1, \beta_0^* = 0$$ (đường quyết định $$x = 0$$, hai biên lề tại $$x = \pm 1$$) và nhân tử $$\alpha^* = (0,\; 0.5,\; 0.5)$$:
+
+1. **Kiểm tra phân loại và biến bù $$\xi_i^*$$:**
+   - Điểm 1: $$y_1(\beta^* x_1 + \beta_0^*) = (-1)(-3) = 3 > 1 \implies \xi_1^* = 0$$ (nằm an toàn ngoài lề).
+   - Điểm 2: $$y_2(\beta^* x_2 + \beta_0^*) = (-1)(-1) = 1 \implies \xi_2^* = 0$$ (nằm đúng biên lề!).
+   - Điểm 3: $$y_3(\beta^* x_3 + \beta_0^*) = (+1)(+1) = 1 \implies \xi_3^* = 0$$ (nằm đúng biên lề!).
+2. **Kiểm tra điều kiện dừng KKT:**
+   - $$\sum \alpha_i^* y_i x_i = 0(-1)(-3) + 0.5(-1)(-1) + 0.5(1)(1) = 0 + 0.5 + 0.5 = 1 = \beta^*$$ (khớp!).
+   - $$\sum \alpha_i^* y_i = 0 + 0.5(-1) + 0.5(1) = 0$$ (khớp!).
+   - $$\mu_i^* = C - \alpha_i^* = (1.0,\; 0.5,\; 0.5) \ge 0$$ (khớp!).
+3. **Kiểm tra điều kiện bù KKT:**
+   - Điểm 1 lỏng ($$3 > 1$$) nên $$\alpha_1^* = 0$$ (không phải vector hỗ trợ — dù dời $$x_1$$ sang $$-100$$ siêu phẳng vẫn y nguyên!).
+   - Điểm 2 và 3 có $$0 < \alpha_2^* = \alpha_3^* = 0.5 < C = 1$$ nên bắt buộc nằm khít trên biên $$y_i(\beta^* x_i + \beta_0^*) = 1$$!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

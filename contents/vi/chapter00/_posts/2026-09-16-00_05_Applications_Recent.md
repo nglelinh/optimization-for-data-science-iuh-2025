@@ -10,6 +10,33 @@ lang: vi
 lesson_type: optional
 ---
 
+Nhiều sinh viên sau khi học xong đạo hàm dây chuyền, hạng ma trận và phân phối chuẩn thường tự hỏi: *"Những công thức thế kỷ 18–19 này thực sự làm gì bên trong các mô hình AI tạo sinh năm 2024–2026?"* Câu trả lời có thể khiến bạn bất ngờ: ba đột phá đình đám nhất gần đây — **vi phân tự động (autodiff)**, **tinh chỉnh hạng thấp LoRA** và **mô hình khuếch tán (diffusion models)** — đều là ứng dụng trực tiếp, tinh tế của đúng những kiến thức nền trong Chương 00.
+
+Bài đọc mở rộng này bắc cây cầu từ các khái niệm đại học cơ bản sang những kiến trúc tối ưu hóa đang chạy trên các hệ thống AI hiện đại nhất.
+
+## Bản đồ kiến thức nền: Công cụ Chương 00 trong hệ thống AI hiện đại
+
+- **Quy tắc dây chuyền → Vi phân tự động chế độ ngược (Reverse-mode Autodiff):** Thay vì tính riêng từng đạo hàm riêng (tốn $$\mathcal{O}(n)$$ lượt chạy), lan truyền ngược tích lũy sản phẩm vector–Jacobian để lấy toàn bộ gradient $$\nabla_\theta L$$ chỉ trong **một** lượt đi ngược với chi phí tương đương lượt đi xuôi.
+- **Hạng ma trận (Low-rank Factorization) → LoRA:** Thay vì cập nhật toàn bộ ma trận trọng số khổng lồ $$W \in \mathbb{R}^{d \times k}$$, ta đóng băng $$W_0$$ và chỉ tối ưu phần bù hạng thấp $$\Delta W = BA$$ với $$r \ll \min(d, k)$$, cắt giảm bộ nhớ và chi phí tối ưu hàng chục đến hàng trăm lần.
+- **Gradient của log-mật độ → Score Matching & Mô hình khuếch tán:** Học trực tiếp trường vector score $$\nabla_x \log p_t(x)$$ để đảo ngược quá trình thêm nhiễu Gauss từng bước, biến nhiễu trắng thành ảnh hoặc âm thanh chân thực.
+
+### Khung giải thích (nên đọc chậm): Tính tay một lượt Autodiff ngược và đếm tham số LoRA
+
+Hãy kiểm chứng bằng hai phép tính tay gọn gàng:
+
+1. **Autodiff chế độ ngược cho hàm mất mát $$L(w) = (wx - y)^2$$** tại $$x = 2,\ w = 3,\ y = 10$$:
+   - *Lượt xuôi (Forward):* $$z = wx = 3 \cdot 2 = 6$$; sai số $$e = z - y = 6 - 10 = -4$$; mất mát $$L = e^2 = 16$$.
+   - *Lượt ngược (Backward):*
+     $$\frac{\partial L}{\partial e} = 2e = -8, \qquad \frac{\partial L}{\partial z} = \frac{\partial L}{\partial e}\cdot 1 = -8, \qquad \frac{\partial L}{\partial w} = \frac{\partial L}{\partial z}\cdot x = (-8)\cdot 2 = -16.$$
+   Dấu âm $$-16$$ báo hiệu cần tăng $$w$$ để kéo $$z=6$$ tiến gần $$y=10$$.
+2. **Tiết kiệm tham số của LoRA trên một lớp tuyến tính $$1024 \times 1024$$:**
+   - Tinh chỉnh toàn phần $$W_0 \in \mathbb{R}^{1024 \times 1024}$$: cần tối ưu $$1024 \times 1024 = 1{,}048{,}576$$ tham số.
+   - Tinh chỉnh LoRA với hạng $$r = 8$$ ($$B \in \mathbb{R}^{1024 \times 8},\ A \in \mathbb{R}^{8 \times 1024}$$): số tham số cần học chỉ là:
+     $$1024 \times 8 + 8 \times 1024 = 16{,}384 \text{ tham số},$$
+     tức chỉ bằng $$\frac{16{,}384}{1{,}048{,}576} = \frac{1}{64} \approx 1.56\%$$ — tiết kiệm tới **$$98.44\%$$** số biến tối ưu!
+
+---
+
 Giải tích, đại số tuyến tính và xác suất trong chương này không chỉ là phần “khởi động” rồi bỏ qua; đó là ngôn ngữ làm việc trực tiếp của các mô hình bạn sẽ huấn luyện ngay từ những tuần đầu tiên. Bài đọc này kết nối các công cụ đó với bốn hướng phát triển giai đoạn 2022–2025 mà sinh viên khoa học dữ liệu thường gặp trong bài báo khoa học, thư viện mã nguồn và thực tập. Phần lý thuyết ở các bài trước không thay đổi; mục tiêu ở đây là chỉ ra *vị trí* của gradient, phân tích hạng thấp và hàm score trong các hệ thống thực tế.
 
 ## Vi phân tự động và gradient ẩn

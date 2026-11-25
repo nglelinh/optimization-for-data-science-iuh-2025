@@ -9,6 +9,33 @@ categories:
 lang: en
 ---
 
+In 1928, John von Neumann proved a theorem that launched modern game theory: in any two-player zero-sum game (like Rock-Paper-Scissors or Matching Pennies), if both players are allowed to randomize using **mixed strategies**, it makes *no difference* who reveals their probability distribution first—the best worst-case payout guaranteed by the maximizer equals the lowest worst-case loss guaranteed by the minimizer! Remarkably, once each player's problem is written as a linear program, von Neumann's minimax theorem turns out to be an immediate one-line corollary of LP strong duality.
+
+## Background Knowledge Map: Zero-Sum Games as Primal–Dual Linear Programs
+
+- **Pillar 1 — Mixed Strategies & Expected Payoff:** Players $$J$$ and $$R$$ choose probability vectors $$x \in \Delta_m$$ ($$x \ge 0, \mathbf{1}^\top x = 1$$) and $$y \in \Delta_n$$ ($$y \ge 0, \mathbf{1}^\top y = 1$$). The expected payout from $$J$$ to $$R$$ is the bilinear form $$x^\top P y$$.
+- **Pillar 2 — Epigraph Reformulation to LP:** When $$J$$ commits to $$x$$ first, $$R$$'s best response is $$\max_{y \in \Delta_n} x^\top P y = \max_{1 \le j \le n} (P^\top x)_j$$ (attained at a pure strategy). Introducing a scalar epigraph variable $$t$$ converts $$J$$'s minimax problem into the LP $$\min_{x, t} \{ t : P^\top x \le t \mathbf{1},\; \mathbf{1}^\top x = 1,\; x \ge 0 \}$$.
+- **Pillar 3 — Opponent's Problem = Exact LP Dual:** Taking the LP dual of $$J$$'s minimization LP introduces multipliers $$y \ge 0$$ (for $$P^\top x \le t\mathbf{1}$$) and $$s \in \mathbb{R}$$ (for $$\mathbf{1}^\top x = 1$$), yielding $$\max_{y, s} \{ s : P y \ge s \mathbf{1},\; \mathbf{1}^\top y = 1,\; y \ge 0 \}$$—which is literally $$R$$'s maximin problem!
+- **Pillar 4 — Von Neumann Minimax Theorem via Strong Duality:** Because both LPs are feasible (any uniform distribution works) and bounded (by $$\max |P_{ij}|$$), LP strong duality guarantees $$\min_{x \in \Delta_m} \max_{y \in \Delta_n} x^\top P y = \max_{y \in \Delta_n} \min_{x \in \Delta_m} x^\top P y = v^\star$$, the unique value of the game.
+
+### Step-by-Step Worked Example (Read Slowly): Solving an Asymmetric $$2 \times 2$$ Matrix Game from Both Sides
+
+Consider the payout matrix (from $$J$$ to $$R$$): $$P = \begin{pmatrix} 3 & 0 \\ 1 & 4 \end{pmatrix}$$. Notice there is no pure-strategy saddle point (row maxes are $$3, 4 \implies \min = 3$$; column mins are $$1, 0 \implies \max = 1 < 3$$).
+
+1. **$$J$$'s primal LP (choose $$x = (x_1, 1 - x_1)^\top$$ to minimize $$\max\{3x_1 + (1 - x_1),\; 0x_1 + 4(1 - x_1)\}$$):**
+   - Column 1 expected payout: $$1 + 2x_1$$.
+   - Column 2 expected payout: $$4 - 4x_1$$.
+   - To minimize the maximum of an increasing line and a decreasing line, set them equal:
+     $$1 + 2x_1 = 4 - 4x_1 \implies 6x_1 = 3 \implies x_1^\star = \frac{1}{2},\; x_2^\star = \frac{1}{2}.$$
+   - Primal value: $$t^\star = 1 + 2(0.5) = 2.0$$.
+2. **$$R$$'s dual LP (choose $$y = (y_1, 1 - y_1)^\top$$ to maximize $$\min\{3y_1 + 0(1 - y_1),\; 1y_1 + 4(1 - y_1)\}$$):**
+   - Row 1 expected payout: $$3y_1$$.
+   - Row 2 expected payout: $$4 - 3y_1$$.
+   - Equating both lines:
+     $$3y_1 = 4 - 3y_1 \implies 6y_1 = 4 \implies y_1^\star = \frac{2}{3},\; y_2^\star = \frac{1}{3}.$$
+   - Dual value: $$s^\star = 3(2/3) = 2.0$$.
+3. **Verify von Neumann's theorem:** $$t^\star = 2.0 = s^\star$$! Even though pure strategies had a gap $$1 < 3$$, mixed strategies closed the gap completely via LP strong duality.
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

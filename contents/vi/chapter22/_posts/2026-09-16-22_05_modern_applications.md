@@ -12,6 +12,34 @@ redirect_from:
   - /contents/vi/chapter22/22_06_modern_applications/
 ---
 
+Một thuật toán từ năm 1956 sống khỏe trong các hội nghị học máy hàng đầu thập niên 2020 (ICML, AISTATS, NeurIPS) không phải vì hoài cổ, mà vì cấu trúc hình học của nhiều bài toán hiện đại trùng khớp hoàn hảo với điểm mạnh nhất của nó: **tập ràng buộc có LMO siêu rẻ nhưng phép chiếu lại quá đắt**.
+
+Từ bài toán dự đoán có cấu trúc trên hàng nghìn nhãn chuỗi, bài toán vận chuyển tối ưu (Optimal Transport) ghép phân phối màu ảnh, cho đến việc giải thích quyết định của mạng nơ-ron sâu bằng các mặt nạ thưa, Frank–Wolfe liên tục xuất hiện như một "vũ khí thầm lặng" giúp giải bài toán quy mô lớn mà vẫn giữ nguyên cấu trúc diễn giải được của nghiệm.
+
+## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại kết nối với Frank–Wolfe
+
+Để đọc bài tổng quan ứng dụng này thật hiệu quả, hãy nắm trực giác của bốn lĩnh vực mà Frank–Wolfe đang đóng vai trò trung tâm:
+
+- **Dự đoán có cấu trúc (Structured Prediction & BCFW):** Trong mô hình CRF hay SVM có cấu trúc, không gian nhãn $$\mathcal{Y}_i$$ lớn theo hàm mũ, khiến miền đối ngẫu là tích của $$n$$ đơn hình khổng lồ. Frank–Wolfe theo khối tọa độ (BCFW) chỉ cập nhật *một* mẫu $$i$$ mỗi bước, biến LMO thành đúng thuật toán suy luận (như Viterbi) đã có sẵn.
+- **Vận chuyển tối ưu (Optimal Transport — OT):** OT tìm kế hoạch chuyển khối lượng từ phân phối nguồn sang phân phối đích với chi phí nhỏ nhất. Trong bài toán OT bán nới lỏng hoặc OT không cân bằng 1 chiều, LMO quy về thao tác tìm cực tiểu từng cột hoặc sắp xếp 1 chiều — rẻ hơn rất nhiều so với giải quy hoạch tuyến tính đầy đủ.
+- **Khả năng giải thích mạng nơ-ron (Explainable AI & Rate-Distortion):** Khi giải thích vì sao mạng nơ-ron dự đoán một ảnh là "mèo", ta muốn tìm một mặt nạ đặc trưng nằm trong quả cầu $$\ell_1$$ (ít pixel nhất nhưng giữ nguyên dự đoán). Frank–Wolfe đảm bảo mặt nạ tìm được có tính thưa kiểm soát được trực tiếp qua số vòng lặp.
+- **Đánh đổi giữa Frank–Wolfe và Sinkhorn/PGD:** Hiểu rõ khi nào cần kế hoạch vận chuyển *thưa và không chính quy hóa entropy* (ưu thế của Frank–Wolfe) so với kế hoạch *trơn, dễ song song hóa trên GPU* (ưu thế của thuật toán Sinkhorn).
+
+### Khung giải thích (nên đọc chậm): Tính tay một vòng Block-Coordinate Frank–Wolfe (BCFW) trên tích hai đơn hình
+
+Để hình dung cách BCFW hoạt động trong dự đoán có cấu trúc và OT bán nới lỏng, xét miền khả thi là tích của hai đơn hình xác suất $$C = \Delta_2 \times \Delta_2$$, tức biến $$\alpha = (\alpha^{(1)}, \alpha^{(2)})$$ với $$\alpha^{(i)} \in \Delta_2$$. Giả sử ta tối ưu hàm mục tiêu $$f(\alpha^{(1)}, \alpha^{(2)}) = \frac{1}{2}\|\alpha^{(1)} - (1.2, -0.2)\|_2^2 + \frac{1}{2}\|\alpha^{(2)} - (0.1, 0.9)\|_2^2$$, khởi tạo từ $$\alpha_0^{(1)} = (0.5, 0.5)$$ và $$\alpha_0^{(2)} = (0.5, 0.5)$$.
+
+1. **Bước 1 — Chọn ngẫu nhiên khối 1 (giữ nguyên khối 2):**
+   Tính gradient riêng theo khối 1: $$\nabla_1 f = (0.5 - 1.2,\; 0.5 - (-0.2)) = (-0.7,\; 0.7)$$.
+   Gọi LMO chỉ trên $$\Delta_2$$ của khối 1: $$\arg\min_{s \in \Delta_2} (-0.7 s_1 + 0.7 s_2) = (1, 0)$$.
+   Với bước $$\gamma = 0.5$$, cập nhật khối 1:
+   $$\alpha_1^{(1)} = 0.5(0.5, 0.5) + 0.5(1, 0) = (0.75,\; 0.25)$$, trong khi $$\alpha_1^{(2)}$$ giữ nguyên $$(0.5, 0.5)$$.
+2. **Bước 2 — Chọn khối 2 (giữ nguyên khối 1):**
+   Tính gradient riêng theo khối 2: $$\nabla_2 f = (0.5 - 0.1,\; 0.5 - 0.9) = (0.4,\; -0.4)$$.
+   Gọi LMO trên $$\Delta_2$$ của khối 2: $$\arg\min_{s \in \Delta_2} (0.4 s_1 - 0.4 s_2) = (0, 1)$$.
+   Với bước $$\gamma = 0.5$$, cập nhật khối 2:
+   $$\alpha_2^{(2)} = 0.5(0.5, 0.5) + 0.5(0, 1) = (0.25,\; 0.75)$$.
+3. **Ý nghĩa thực chiến:** Thay vì phải gọi LMO cho cả $$n$$ khối (tốn $$n$$ lần chạy thuật toán suy luận chỉ để đi 1 bước), BCFW chỉ cần tính gradient và LMO trên **đúng 1 khối** mỗi lần cập nhật — giảm chi phí mỗi vòng đi $$n$$ lần mà vẫn bảo toàn tính khả thi trên toàn bộ tích đơn hình!
 
 Frank–Wolfe (gradient có điều kiện) là lựa chọn phù hợp khi tập khả thi $$\mathcal{C}$$ có **bộ giải cực tiểu tuyến tính (linear minimization oracle — LMO)** rẻ:
 

@@ -10,6 +10,33 @@ lang: vi
 lesson_type: optional
 ---
 
+Trong kỹ thuật hệ thống năng lượng và kinh tế học hiện đại, một trong những minh chứng rõ rệt nhất về sức mạnh thực tiễn của **điều kiện bù KKT** là hiện tượng *tách giá điện theo vùng địa lý* (Locational Marginal Pricing — LMP). Tại sao điện sản xuất ở một tỉnh gió nắng dồi dào có thể chỉ tốn 20 USD/MWh, nhưng cách đó vài trăm km tại trung tâm đô thị, giá điện bán buôn cùng thời điểm lại vọt lên 60 USD/MWh?
+
+Câu trả lời nằm gọn trong một dấu bất đẳng thức: **đường dây truyền tải nối hai vùng đã chạm trần công suất tối đa**! Khi ràng buộc công suất đường dây còn lỏng ($$|f| < F_{\max}$$), điều kiện bù KKT ép nhân tử nghẽn $$\mu^* = 0$$ và giá điện ở hai vùng bằng hệt nhau; nhưng ngay giây phút dòng điện chạm trần $$f = F_{\max}$$, nhân tử KKT $$\mu^*$$ bật dương và chênh lệch giá giữa hai vùng bằng **chính xác $$\mu^*$$**! Bài đọc tổng kết ứng dụng cuối Chương 12 này kết nối hệ điều kiện KKT với 4 lĩnh vực mũi nhọn giai đoạn 2022–2026: tầng tối ưu khả vi, SVM, giá điện LMP và học máy công bằng.
+
+## Bản đồ kiến thức nền: Bốn góc nhìn công nghiệp về điều kiện KKT
+
+- **Điều kiện bù trong vận hành lưới điện (LMP & Congestion Rent):** Nhân tử KKT của phương trình cân bằng công suất tại nút $$i$$ là giá biên $$\text{LMP}_i$$; nhân tử KKT $$\mu_{ij}^* \ge 0$$ của giới hạn nhiệt đường dây $$(i, j)$$ chỉ dương khi đường dây nghẽn, tạo ra chênh lệch $$\text{LMP}_j - \text{LMP}_i = \mu_{ij}^*$$.
+- **Lấy vi phân ẩn xuyên qua bộ giải tối ưu (`cvxpylayers`, `Theseus`):** Biến hệ KKT thành phương trình hàm ẩn giúp lan truyền ngược gradient xuyên qua các bài toán tối ưu lồi nhúng trong mạng nơ-ron.
+- **Định danh vector hỗ trợ và giải thích mô hình (SVM):** Chỉ những điểm dữ liệu có ràng buộc biên chặt ($$\alpha_i^* > 0$$) mới tham gia tạo nên siêu phẳng phân tách.
+- **Phát hiện nút thắt công bằng (Active Fairness Constraints):** Trong học máy có ràng buộc công bằng nhóm, nhân tử KKT $$u_g^* > 0$$ chỉ ra chính xác nhóm nhân khẩu học nào đang bị ràng buộc chặt và kéo giảm mục tiêu chính.
+
+### Khung giải thích (nên đọc chậm): Tính tay giá điện LMP trên lưới 2 nút bị nghẽn đường dây
+
+Xét lưới điện gồm 2 nút nối bởi một đường dây có giới hạn truyền tải $$F_{\max} = 50$$ MWh:
+- Nút 1 có nhà máy giá rẻ $$20$$ USD/MWh (công suất đủ lớn), nhu cầu tại nút 1 bằng $$0$$.
+- Nút 2 có nhà máy đắt $$60$$ USD/MWh, nhu cầu tại nút 2 là $$D_2 = 80$$ MWh.
+- Gọi $$p_1, p_2 \ge 0$$ là công suất phát tại hai nút và $$f$$ là dòng truyền từ nút 1 sang nút 2 ($$f \le 50$$).
+
+1. **Lập bài toán tối ưu và hàm Lagrangian:**
+   $$\min_{p_1, p_2, f} \; 20 p_1 + 60 p_2 \quad \text{s.t.} \quad \begin{cases} p_1 - f = 0 & (\text{giá nút 1: } \lambda_1) \\ p_2 + f = 80 & (\text{giá nút 2: } \lambda_2) \\ f - 50 \le 0 & (\text{phí nghẽn: } \mu \ge 0) \end{cases}$$
+   Dễ thấy phương án rẻ nhất là đẩy tối đa $$f^* = 50$$ MWh từ nút 1 sang nút 2 ($$p_1^* = 50$$) và phát nốt $$p_2^* = 30$$ MWh tại nút 2.
+2. **Giải 3 phương trình dừng KKT theo $$p_1, p_2, f$$:**
+   - Theo $$p_1$$: $$20 - \lambda_1^* = 0 \implies \lambda_1^* = 20$$ USD/MWh.
+   - Theo $$p_2$$: $$60 - \lambda_2^* = 0 \implies \lambda_2^* = 60$$ USD/MWh.
+   - Theo $$f$$: $$\lambda_1^* - \lambda_2^* + \mu^* = 0 \implies \mu^* = \lambda_2^* - \lambda_1^* = 60 - 20 = 40$$ USD/MWh!
+3. **Kiểm chứng điều kiện bù KKT:** Vì đường dây chạm trần ($$f^* - 50 = 0$$), $$\mu^* = 40 > 0$$ hoàn toàn hợp lệ! Ngược lại, nếu đường dây được nâng cấp lên $$F_{\max} = 100$$ MWh (ràng buộc lỏng $$80 < 100$$), điều kiện bù ép $$\mu^* = 0$$ và lập tức $$\lambda_1^* = \lambda_2^* = 20$$ USD/MWh — giá điện toàn lưới giảm đồng loạt về mức rẻ nhất!
+
 # Ứng dụng hiện đại của điều kiện KKT
 
 Chương 12 đã trình bày hệ điều kiện KKT — gồm tính khả thi nguyên thủy, tính khả thi đối ngẫu, điều kiện bù yếu và điều kiện dừng của hàm Lagrangian — cùng các ví dụ về SVM, thuật toán water-filling và bài toán phạt $$\ell_1$$. Bài đọc tùy chọn này điểm qua các ứng dụng thực tế giai đoạn 2022–2026 nơi hệ KKT được giải trực tiếp, lấy vi phân ẩn hoặc diễn giải như giá biên trong phần mềm tối ưu, mà không lặp lại phần lý thuyết cơ bản.

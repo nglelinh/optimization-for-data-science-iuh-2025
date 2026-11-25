@@ -10,6 +10,30 @@ lang: vi
 lesson_type: optional
 ---
 
+Khi bước ra khỏi các bài tập học thuật gọn gàng để đối mặt với hệ thống AI triển khai thực tế giai đoạn 2022–2026, điều đầu tiên ta nhận ra là các mục tiêu vận hành hiếm khi trơn mượt hay đơn nhất. Ta vừa muốn mô hình chính xác, vừa phải chống chịu nhiễu đối kháng, vừa phải đảm bảo chênh lệch sai số giữa các nhóm người dùng không vượt quá ngưỡng quy định. Chính ở giao điểm của những yêu cầu sắc cạnh ấy, phương pháp subgradient — với cấu trúc cực kỳ nhẹ và linh hoạt — lại tỏa sáng như một công cụ không thể thay thế.
+
+Phiên bản tổng hợp cuối chương này kết nối trực tiếp ba khuôn mẫu thuật toán của Chương 08 (subgradient tiêu chuẩn, subgradient có chiếu, và subgradient ngẫu nhiên) với các bài toán công nghiệp tiêu biểu, giúp bạn nhìn thấy toàn cảnh từ lý thuyết hội tụ đến cách thiết kế vòng lặp trong thư viện mã nguồn mở.
+
+## Bản đồ kiến thức nền: Bốn trụ cột triển khai subgradient trong hệ thống AI thực tế
+
+- **Xử lý hàm mất mát không trơn quy mô lớn:** Từ hinge loss trong phân loại biên rộng, mất mát lượng phân vị (quantile/pinball loss) trong dự báo chuỗi thời gian đến kiến trúc mạng dùng ReLU, subgradient ngẫu nhiên cho phép cập nhật trọng số với chi phí tuyến tính theo kích thước mini-batch.
+- **Áp đặt ràng buộc cứng bằng phép chiếu nhanh:** Trong tối ưu đối kháng (PGD) hay nén mô hình bị chặn biên độ, phép chiếu lên quả cầu $$\ell_\infty$$ hoặc $$\ell_2$$ biến một bài toán ràng buộc phức tạp thành hai dòng phép toán vector hóa.
+- **Điều phối ràng buộc công bằng qua cập nhật đối ngẫu (Dual Subgradient):** Khi bài toán có ràng buộc dạng tỷ lệ giữa các nhóm nhân khẩu học (như trong Fairlearn), nhân tử Lagrange $$\lambda \ge 0$$ đóng vai trò "giá phạt" tự điều chỉnh bằng bước subgradient có chiếu lên nửa trục dương $$\mathbb{R}_+$$.
+- **Nhận diện giới hạn để chọn đúng công cụ:** Biết khi nào tốc độ $$O(1/\epsilon^2)$$ là đủ dùng (huấn luyện mô hình lớn với độ chính xác vừa) và khi nào cần chuyển sang phương pháp phân tách proximal (Chương 09) hoặc giảm phương sai SVRG/SAGA (Chương 26).
+
+### Khung giải thích (nên đọc chậm): Tính tay bước subgradient đối ngẫu cho ràng buộc công bằng
+
+Giả sử một mô hình xét duyệt tín dụng có tỷ lệ duyệt giữa hai nhóm A và B chênh lệch nhau $$v(\theta) = |p_A(\theta) - p_B(\theta)| - 0.05$$ (ta muốn $$v(\theta) \le 0$$, tức chênh lệch không quá 5%). Bài toán đối ngẫu cực đại hóa theo nhân tử phạt $$\lambda \ge 0$$ có phần hàm mục tiêu theo $$\lambda$$ là $$\lambda \cdot v(\theta)$$, nên subgradient hướng tăng của hàm đối ngẫu theo $$\lambda$$ chính là mức vi phạm $$v(\theta)$$!
+
+1. **Vòng 1:** Khởi tạo $$\lambda^{(0)} = 0$$, bước học đối ngẫu $$\eta = 2.0$$. Mô hình ban đầu có $$p_A = 0.72, p_B = 0.60 \implies v(\theta^{(0)}) = |0.72 - 0.60| - 0.05 = +0.07 > 0$$ (đang vi phạm 7%).
+   - Cập nhật subgradient có chiếu lên $$\lambda \ge 0$$:
+     $$\lambda^{(1)} = \max\big(0, \; 0 + 2.0 \times 0.07\big) = 0.14.$$
+   - Nhân tử phạt tăng lên $$0.14$$, buộc mô hình ở vòng sau phải chú ý thu hẹp khoảng cách giữa hai nhóm.
+2. **Vòng 2:** Nhờ lực phạt $$\lambda^{(1)} = 0.14$$, mô hình mới đạt $$p_A = 0.66, p_B = 0.63 \implies v(\theta^{(1)}) = 0.03 - 0.05 = -0.02 < 0$$ (đã thỏa mãn ràng buộc với biên an toàn 2%).
+   - Cập nhật tiếp theo:
+     $$\lambda^{(2)} = \max\big(0, \; 0.14 + 2.0 \times (-0.02)\big) = \max(0, 0.10) = 0.10.$$
+   - Lực phạt tự động nới lỏng khi ràng buộc đã an toàn, tạo nên cơ chế cân bằng động giữa độ chính xác và tính công bằng!
+
 # Ứng dụng hiện đại của phương pháp subgradient
 
 Chương 08 phân tích vòng lặp $$x^{k+1}=x^k-\alpha_k g^k$$ với $$g^k\in\partial f(x^k)$$, cùng hai biến thể quan trọng là bản có chiếu và bản ngẫu nhiên. Bài đọc tùy chọn này liên hệ ba khuôn mẫu thuật toán đó với các quy trình thực tế đã được chuẩn hóa trong giai đoạn 2022–2026. Chúng ta không chứng minh lại tốc độ hội tụ $$O(1/\varepsilon^2)$$, mà làm rõ vì sao các bước cập nhật subgradient (có chiếu hoặc ngẫu nhiên) vẫn được sử dụng rộng rãi trong thực hành.

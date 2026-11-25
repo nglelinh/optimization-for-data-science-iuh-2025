@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Một cái bẫy cực kỳ nguy hiểm khi làm việc với hàm giả lồi: khác với hàm lồi, **tổng của hai hàm giả lồi nói chung KHÔNG phải hàm giả lồi**! (Hãy tưởng tượng cộng hai hàm bậc thang ngược chiều nhau tạo thành một đỉnh nhô lên ở giữa.) Thay vào đó, hàm giả lồi lại đóng dưới những phép toán riêng của nó — đặc biệt là **cực đại trọng số không âm**, **hợp thành với hàm không giảm**, và quan trọng nhất: **biểu diễn qua họ hàm lồi $$\phi_t(x) \le 0$$** dùng trực tiếp trong thuật toán chia đôi!
+
+Bài học này hệ thống hóa các quy tắc lắp ghép hàm giả lồi và cách giải bài toán tối ưu giả lồi bằng chuỗi bài toán lồi.
+
+## Bản đồ kiến thức nền: Bốn quy tắc bảo toàn và biểu diễn Hàm giả lồi
+
+- **Cực đại từng điểm (không phải phép cộng!):** Nếu $$f_i$$ giả lồi và $$w_i \ge 0$$ thì $$f(x) = \max_i w_i f_i(x)$$ (hoặc $$\sup_{y} w(y) f(x, y)$$) luôn giả lồi. *Cảnh báo:* $$f_1 + f_2$$ không nhất thiết giả lồi!
+- **Hợp thành với hàm không giảm và ánh xạ affine:** Nếu $$g$$ giả lồi và $$h: \mathbb{R} \to \mathbb{R}$$ không giảm thì $$h(g(x))$$ giả lồi (nhờ đó mọi phép biến đổi đơn điệu như $$e^{g}, g^3, \ln g$$ bảo toàn tính giả lồi!); hợp thành $$f(Ax + b)$$ hay phân thức tuyến tính cũng bảo toàn tính giả lồi.
+- **Cực tiểu hóa từng phần:** Nếu $$f(x, y)$$ giả lồi đồng thời theo $$(x, y)$$ và $$C$$ là tập lồi, thì $$g(x) = \inf_{y \in C} f(x, y)$$ vẫn giả lồi.
+- **Biểu diễn qua họ hàm lồi $$\phi_t(x)$$:** Mọi hàm giả lồi đều biểu diễn được tập mức dưới dạng $$f(x) \le t \iff \phi_t(x) \le 0$$ với $$\phi_t$$ là **hàm lồi** theo $$x$$ — đây chính là động cơ của phương pháp chia đôi tối ưu giả lồi!
+
+### Khung giải thích (nên đọc chậm): Giải tay 3 bước chia đôi cho bài toán giả lồi $$\min_{x \ge 0} \frac{x^2 + 1}{x + 2}$$
+
+Xét bài toán tối ưu giả lồi $$\min_{x \ge 0} f(x) = \frac{x^2 + 1}{x + 2}$$:
+
+1. **Biểu diễn tập mức dưới bằng họ hàm lồi $$\phi_t(x)$$:**
+   Với $$x \ge 0$$ (nên $$x + 2 > 0$$), điều kiện $$f(x) \le t$$ tương đương:
+   $$\phi_t(x) = x^2 - tx + (1 - 2t) \le 0.$$
+   Với mọi $$t$$ cố định, $$\phi_t(x)$$ là **hàm bậc hai lồi** (vì $$\phi_t''(x) = 2 > 0$$)!
+2. **Thử mức $$t = 1$$:** $$\phi_1(x) = x^2 - x - 1 \le 0$$. Tại $$x = 1 \ge 0$$: $$\phi_1(1) = -1 \le 0$$ (khả thi!) $$\implies p^* \le 1$$.
+3. **Thử mức $$t = 0.5$$:** $$\phi_{0.5}(x) = x^2 - 0.5x \le 0$$. Tại $$x = 0 \ge 0$$: $$\phi_{0.5}(0) = 0 \le 0$$ (khả thi!) $$\implies p^* \le 0.5$$.
+4. **Thử mức $$t = 0.4$$:** $$\phi_{0.4}(x) = x^2 - 0.4x + 0.2 \le 0$$. Tính biệt thức $$\Delta = (-0.4)^2 - 4(1)(0.2) = 0.16 - 0.80 = -0.64 < 0 \implies \phi_{0.4}(x) > 0\ \forall x$$ (**vô nghiệm**!) $$\implies p^* > 0.4$$.
+   Chỉ sau 3 bước kiểm tra khả thi lồi, ta đã kẹp chặt nghiệm tối ưu vào khoảng $$(0.4, 0.5]$$ (nghiệm đúng là $$p^* = 2\sqrt{5} - 4 \approx 0.4721$$ tại $$x^* = \sqrt{5} - 2 \approx 0.236$$)!
+
+---
+
 Phần này trình bày các phép toán bảo toàn tính giả lồi của hàm số.
 
 ## Maximum trọng số không âm

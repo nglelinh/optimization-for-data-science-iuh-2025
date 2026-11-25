@@ -9,6 +9,31 @@ categories:
 lang: en
 ---
 
+Why do we square errors in linear regression instead of taking their absolute values or fourth powers? Geometrically, squaring gives a clean orthogonal projection; statistically, it has an even deeper justification. When measurement noise follows a Gaussian bell curve, minimizing the sum of squared errors is mathematically *identical* to Maximum Likelihood Estimation (MLE)—connecting Chapter 05's quadratic optimization directly to statistical inference.
+
+## Background Knowledge Map: Where Convex Optimization Meets Statistical Inference
+
+1. **Gaussian Noise Model $$\Longleftrightarrow$$ Least Squares**: Assuming $$y_i = x_i^T w + \varepsilon_i$$ with independent noise $$\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$$, the negative log-likelihood is $$\frac{n}{2}\ln(2\pi\sigma^2) + \frac{1}{2\sigma^2}\|Xw - y\|_2^2$$. Dropping constants that do not depend on $$w$$ recovers ordinary least squares $$\min_w \|Xw - y\|_2^2$$.
+2. **Unbiasedness and the Gauss–Markov Theorem**: Under zero-mean homoscedastic errors, the OLS estimator $$\hat{w} = (X^T X)^{-1} X^T y$$ is unbiased ($$\mathbb{E}[\hat{w}] = w_{\mathrm{true}}$$) and achieves the smallest covariance matrix $$\sigma^2 (X^T X)^{-1}$$ among all *linear unbiased* estimators (BLUE).
+3. **MAP Estimation $$\Longleftrightarrow$$ Regularized Optimization**: Placing a zero-mean Gaussian prior $$w \sim \mathcal{N}(0, \tau^2 I)$$ adds a quadratic penalty $$\frac{\sigma^2}{\tau^2}\|w\|_2^2$$ to the negative log-posterior, yielding **Ridge Regression**. Replacing the prior with a Laplace distribution yields **Lasso** ($$\ell_1$$ penalty).
+4. **Noise Distribution Dictates the Loss Function**: If outliers cause heavy-tailed Laplace noise $$\varepsilon_i \sim \mathrm{Laplace}(0, b)$$, MLE instead minimizes the $$\ell_1$$ loss $$\|Xw - y\|_1$$ (an LP!), explaining why robust regression switches norms when Gaussian assumptions fail.
+
+### Step-by-Step Worked Example (Read Slowly): Deriving MLE and Estimator Variance for a 1-Parameter Model
+
+Suppose we observe three noisy measurements of a scalar parameter $$w$$ through $$y_i = x_i w + \varepsilon_i$$ with $$\varepsilon_i \stackrel{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2 = 4)$$, where $$x = (1, 2, 2)^T$$ and $$y = (3, 5, 7)^T$$.
+
+1. **Write the Gaussian log-likelihood $$\ell(w)$$**:
+   $$\ell(w) = -\frac{3}{2}\ln(8\pi) - \frac{1}{2(4)}\Bigl((3 - w)^2 + (5 - 2w)^2 + (7 - 2w)^2\Bigr).$$
+2. **Maximize $$\ell(w)$$ by minimizing the quadratic negative log-likelihood**:
+   $$S(w) = (3 - w)^2 + (5 - 2w)^2 + (7 - 2w)^2 = (9 - 6w + w^2) + (25 - 20w + 4w^2) + (49 - 28w + 4w^2) = 9w^2 - 54w + 83.$$
+   Setting $$S'(w) = 18w - 54 = 0$$ yields the MLE $$\hat{w}_{\mathrm{MLE}} = 3$$.
+   (Cross-check via formula: $$x^T y / x^T x = (3 + 10 + 14)/(1 + 4 + 4) = 27/9 = 3$$.)
+3. **Compute the estimator's sampling variance**:
+   $$\operatorname{Var}(\hat{w}_{\mathrm{MLE}}) = \sigma^2 (x^T x)^{-1} = \frac{4}{9} \approx 0.444, \qquad \mathrm{SE}(\hat{w}_{\mathrm{MLE}}) = \frac{2}{3} \approx 0.667.$$
+4. **Compare with a Gaussian prior (MAP / Ridge) $$w \sim \mathcal{N}(0, \tau^2 = 4)$$**: Here $$\lambda = \sigma^2 / \tau^2 = 4/4 = 1$$, so
+   $$\hat{w}_{\mathrm{MAP}} = \frac{x^T y}{x^T x + \lambda} = \frac{27}{9 + 1} = 2.7,$$
+   shrinking the estimate slightly toward zero in exchange for lower variance.
+
 ## Linear Regression from Statistical Perspective
 
 In this lesson, we explore linear regression from a probabilistic and statistical viewpoint, demonstrating why minimizing the sum of squared errors (MSE) is not only intuitive but also theoretically justified through maximum likelihood estimation.

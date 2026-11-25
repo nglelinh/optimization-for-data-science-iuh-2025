@@ -10,6 +10,28 @@ lang: en
 lesson_type: optional
 ---
 
+A decade ago, "optimization for data science" mostly meant fitting a logistic regression or SVM. Today, the exact same Chapter 01 template—choose $$x \in \mathcal{C}$$ to minimize $$f_0(x)$$—governs how frontier labs split trillion-FLOP compute budgets between model size and training tokens (Chinchilla scaling laws), how supply chains train predictive models to minimize *downstream decision regret* (SPO+), and how classifiers enforce statistical fairness constraints directly inside the feasible set.
+
+## Background Knowledge Map: Modern Frontiers Built on Chapter 01
+
+- **Compute-Optimal Scaling (Constrained ERM):** Allocates a fixed compute budget $$C \approx 6ND$$ across model parameters $$N$$ and dataset tokens $$D$$ to minimize validation loss.
+- **Predict-Then-Optimize (SPO+):** Replaces a discontinuous downstream decision loss with a tight convex surrogate so predictive models learn features that matter for the final optimization decision.
+- **Fairness as Explicit Constraints:** Encodes demographic parity or equalized odds as linear/convex constraints on group error rates rather than hoping unconstrained accuracy is fair.
+- **Reading Modern Optimization Papers:** Dissect any new method into four questions: what is $$x$$, what is the surrogate $$f_0$$, is $$\mathcal{C}$$ convex, and what solver matches the problem's scale?
+
+### Step-by-Step Worked Example (Read Slowly): Solving a Compute-Budget Allocation Problem
+
+Minimize a simplified Chinchilla-style scaling loss $$L(N, D) = 4N^{-0.5} + D^{-0.5}$$ subject to a fixed compute budget $$6ND = 600$$ (so $$ND = 100$$) with $$N, D > 0$$.
+
+1. **Eliminate $$D$$ using the compute constraint:** $$D = \frac{100}{N}$$, so $$D^{-0.5} = \frac{N^{0.5}}{10} = 0.1 N^{0.5}$$.
+   The 1D objective in $$N > 0$$ becomes:
+   $$\phi(N) = 4 N^{-0.5} + 0.1 N^{0.5}.$$
+2. **Set the derivative to zero:**
+   $$\phi'(N) = -2 N^{-1.5} + 0.05 N^{-0.5} = N^{-1.5}(-2 + 0.05 N) = 0 \implies N^* = \frac{2}{0.05} = 40.$$
+3. **Recover $$D^*$$ and verify optimality:**
+   $$D^* = \frac{100}{40} = 2.5.$$
+   Check the second derivative: $$\phi''(N) = 3 N^{-2.5} - 0.025 N^{-1.5}$$; at $$N^* = 40$$, $$\phi''(40) = 40^{-2.5}(3 - 0.025 \cdot 40) = 2 \cdot 40^{-2.5} > 0$$, certifying a global minimum with loss $$L(40, 2.5) = \frac{4}{\sqrt{40}} + \frac{1}{\sqrt{2.5}} = \frac{4 + 4}{\sqrt{40}} = \frac{8}{\sqrt{40}} \approx 1.265$$. Notice how at the optimum, the parameter-error term and data-error term are perfectly balanced ($$\approx 0.6325$$ each)!
+
 Chapter 01 defined an optimization problem as “choose $$x\in\mathcal{C}$$ to make $$f$$ small.” That sentence is now the architecture of industrial data science: train a predictor (often by empirical risk minimization), then use the predictor inside a *downstream* decision problem, sometimes with extra constraints that encode fairness or operations limits. This lesson walks through three concrete 2022–2026 settings. The definitions in 01-01 and 01-02 stay as they are; we only change the *examples* you should be able to name.
 
 ## Large-scale ERM: compute-optimal language models

@@ -10,6 +10,24 @@ lang: en
 lesson_type: optional
 ---
 
+Mixed-integer models are far from dusty textbook exercises—they quietly coordinate the physical backbone of the 2026 economy. Every time an airline builds legal crew pairings across thousands of flights, a logistics platform routes last-mile delivery vans under tight time windows, or a cloud provider places edge compute nodes to meet latency SLAs, an industrial MILP solver is solving a model built from Chapter 24’s exact templates. Even more exciting, modern ML4CO (Machine Learning for Combinatorial Optimization) research now trains graph neural networks to imitate strong branching inside Branch and Bound.
+
+## Background Knowledge Map: From Classic MIP Templates to 2026 Industrial Solvers
+
+- **Set Partitioning for Crew Scheduling:** Airlines model crew pairing as selecting a minimum-cost subset of legal multi-day pairings such that every flight leg is covered exactly once ($$\sum_p a_{fp} x_p = 1$$), solved at scale via column generation (Branch and Price).
+- **Capacitated Routing & Assignment:** Last-mile delivery augments classical assignment with vehicle capacity, time windows, and subtour elimination constraints, turning dispatching into a structured MILP solved in rolling real-time horizons.
+- **Facility Location for Edge Infrastructure:** Choosing which data centers or warehouses to open ($$y_i \in \{0, 1\}$$) and how to route traffic ($$x_{ij}$$) balances capital expenditure against latency constraints using tight disaggregated linking inequalities $$x_{ij} \le y_i$$.
+- **Learning to Branch (ML4CO):** Because strong branching is accurate but expensive, modern hybrid solvers train bipartite graph neural networks on the constraint-variable incidence graph to predict strong-branching scores in microseconds.
+
+### Step-by-Step Worked Example (Read Slowly): Why Disaggregated Linking Cuts Beat Aggregated Constraints in Facility Location
+
+Suppose 1 candidate warehouse ($$y \in \{0, 1\}$$) can serve $$m = 3$$ customers ($$x_1, x_2, x_3 \in [0, 1]$$), and currently only customer 1 is assigned to it ($$x_1 = 1, x_2 = 0, x_3 = 0$$).
+
+1. **Aggregated linking constraint:** $$x_1 + x_2 + x_3 \le 3 y$$.
+   - At $$(x_1, x_2, x_3) = (1, 0, 0)$$, the LP relaxation only requires $$1 \le 3y \implies y \ge 1/3$$! The solver pays just $$1/3$$ of the warehouse opening cost in the relaxation.
+2. **Disaggregated linking constraints:** $$x_1 \le y,\ x_2 \le y,\ x_3 \le y$$.
+   - At $$(x_1, x_2, x_3) = (1, 0, 0)$$, the first inequality immediately forces $$y \ge 1$$—paying **100%** of the warehouse cost even in the LP relaxation!
+3. **Takeaway:** Both formulations have the exact same integer solutions, yet disaggregated inequalities eliminate the fractional loophole $$y = 1/3$$ completely—a classic modeling lesson that accelerates real-world facility location MIPs by orders of magnitude.
 
 Chapter 24 is the *modeling* half of mixed-integer programming: binary decisions, assignment, knapsacks, and facility location. Those templates did not stay in textbooks. Crew pairing, last-mile routing, and the placement of warehouses or edge-GPU sites are still solved as MIPs, and since about 2019 a second industry has grown around them: **learning to optimize** — graph neural nets that propose branches, cuts, or warm starts for a MIP solver. This optional note is four data-science-facing applications. Cutting planes, best-subset selection, and neural-net verification wait for [Chapter 25]({% multilang_post_url contents/chapter25/21-03-28-25_Mixed_integer_programming %}).
 

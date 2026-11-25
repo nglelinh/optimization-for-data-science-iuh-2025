@@ -9,6 +9,36 @@ categories:
 lang: vi
 ---
 
+Sau khi biết công thức kỳ diệu $$f(x^*(t)) - f^* \le m/t$$, phản xạ tự nhiên đầu tiên của bất kỳ ai cũng sẽ là: *"Ồ, nếu tôi muốn sai số $$\epsilon = 10^{-6}$$ với $$m = 10$$ ràng buộc, sao tôi không chọn phắt ngay $$t = 10 / 10^{-6} = 10^7$$ rồi chạy Newton đúng 1 lần cho xong?!"*
+
+Ý tưởng ngây thơ đó chính là **Phương pháp chắn v.0** — và trên thực tế nó **thất bại thảm hại**! Khi $$t = 10^7$$ quá lớn ngay từ đầu, hàm chắn gần như biến thành một vách đá dựng đứng với ma trận Hessian cực kỳ xấu (số điều kiện bùng nổ), khiến phương pháp Newton gần như đứng im hoặc mất hàng nghìn bước giảm chấn. Đó là lý do **Phương pháp chắn v.1** ra đời: khởi đầu với $$t^{(0)}$$ nhỏ (nơi địa hình tròn trịa, dễ đi), giải nhanh tới $$x^*(t^{(0)})$$, rồi tăng dần $$t \leftarrow \mu t$$ và dùng nghiệm cũ làm **điểm khởi tạo nóng (warm start)** cho vòng tiếp theo!
+
+## Bản đồ kiến thức nền: Sự đánh đổi khi chọn tham số $$\mu$$ trong Phương pháp chắn v.1
+
+- **Tại sao v.0 thất bại còn v.1 thành công:** Ở v.0, điểm khởi tạo nằm rất xa $$x^*(m/\epsilon)$$ và địa hình bị méo gắt bởi $$t$$ khổng lồ. Ở v.1, nhờ tăng $$t$$ từng nấc nhân $$\mu$$, điểm $$x^*(t)$$ cũ luôn nằm rất gần điểm $$x^*(\mu t)$$ mới nên bước Newton định tâm chỉ mất khoảng 3–5 vòng lặp!
+- **Cấu trúc hai vòng lặp của v.1:**
+  - *Vòng ngoài (outer loop):* Kiểm tra $$m/t \le \epsilon$$; nếu chưa đạt, nhân $$t \leftarrow \mu t$$.
+  - *Vòng trong (centering step):* Xuất phát từ $$x$$ hiện tại, chạy Newton để tìm $$x^*(t)$$.
+- **Sự đánh đổi chọn $$\mu > 1$$:**
+  - $$\mu$$ nhỏ (ví dụ $$\mu = 2$$): mỗi bước định tâm cực dễ (1–2 bước Newton), nhưng cần nhiều vòng ngoài.
+  - $$\mu$$ lớn (ví dụ $$\mu = 100$$): ít vòng ngoài, nhưng mỗi vòng trong phải nhảy xa hơn nên tốn nhiều bước Newton hơn.
+  - **Vùng ngọt thực tế:** $$\mu \in [10, 20]$$ thường cho tổng số bước Newton gần như tối ưu (thường chỉ 20–50 bước Newton tổng cộng cho mọi bài toán!).
+
+### Khung giải thích (nên đọc chậm): Tính tổng số vòng ngoài và ước lượng bước Newton cho các mức $$\mu$$ khác nhau
+
+Giả sử một bài toán có $$m = 20$$ ràng buộc bất đẳng thức, khởi tạo $$t^{(0)} = 1$$, và ta cần độ chính xác $$\epsilon = 10^{-6}$$ (tức cần tăng $$t$$ từ $$1$$ đến $$t_{\text{end}} = \frac{m}{\epsilon} = 2 \times 10^7$$).
+
+Số vòng lặp ngoài cần thiết là $$K = \left\lceil \frac{\log(t_{\text{end}} / t^{(0)})}{\log \mu} \right\rceil = \left\lceil \frac{\log(2 \times 10^7)}{\log \mu} \right\rceil$$ (chú ý $$\ln(2 \times 10^7) \approx 16.81$$):
+
+1. **Với $$\mu = 2$$ (tăng chậm):**
+   $$K = \lceil 16.81 / 0.693 \rceil = 25$$ vòng ngoài. Nếu mỗi vòng tốn trung bình 2 bước Newton → tổng $$\approx 50$$ bước Newton.
+2. **Với $$\mu = 10$$ (vùng ngọt):**
+   $$K = \lceil 16.81 / 2.303 \rceil = 8$$ vòng ngoài ($$t = 1, 10, 10^2, \dots, 10^8$$). Nếu mỗi vòng tốn trung bình 4 bước Newton → tổng $$\approx 32$$ bước Newton!
+3. **Với $$\mu = 1000$$ (tăng quá gắt):**
+   $$K = \lceil 16.81 / 6.908 \rceil = 3$$ vòng ngoài, nhưng mỗi lần nhảy $$t$$ gấp 1000 lần làm điểm khởi tạo xa đường trung tâm, mỗi vòng trong có thể tốn 25–40 bước Newton → tổng $$\approx 90\text{–}120$$ bước Newton!
+
+---
+
 ## Phương pháp chắn v.0
 **Phương pháp chắn v.0** chọn trực tiếp $$t = m/\epsilon$$ với độ chính xác mong muốn $$\epsilon > 0$$, rồi giải một lần bài toán chắn sau để đảm bảo $$f(x^*(t)) - f(x^*) \le \epsilon$$:
 >

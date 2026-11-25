@@ -10,6 +10,31 @@ lang: en
 lesson_type: required
 ---
 
+Most nonlinear optimization problems are treacherous: a solver can stop at a point that looks flat and locally optimal, yet a far better solution hides over the next ridge. Convex optimization eliminates that anxiety completely. When the objective and inequality constraints are convex and all equality constraints are affine, the geometry of the problem guarantees that *local optimality implies global optimality*.
+
+## Background Knowledge Map: What Makes an Optimization Problem Convex
+
+- **Convex Feasible Set:** Requires that for any two feasible solutions $$x, y$$, the entire line segment $$\theta x + (1 - \theta)y$$ ($$0 \le \theta \le 1$$) remains feasible—no holes, disconnected islands, or inward dents.
+- **Convex Objective & Inequality Constraints:** Both $$f_0(x)$$ and every $$f_i(x) \le 0$$ must satisfy Jensen's inequality $$f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y)$$.
+- **Affine Equality Constraints Only:** Equality constraints must be linear/affine ($$a_j^T x = b_j$$), because a nonlinear equality like $$x_1^2 + x_2^2 = 1$$ (a hollow circle) is nonconvex even though $$x_1^2 + x_2^2$$ is convex!
+- **Global Optimality Theorem:** If $$x^*$$ is locally optimal for a convex problem, any strictly better point $$y$$ would pull the line segment toward $$x^*$$ strictly downhill inside the neighborhood of $$x^*$$—a contradiction.
+
+### Step-by-Step Worked Example (Read Slowly): Verifying Convexity and Solving Analytically
+
+Consider:
+$$\min_{x_1, x_2} \; f_0(x_1, x_2) = x_1^2 + 2x_2^2 \quad \text{s.t.} \quad x_1^2 + x_2^2 \le 10, \quad x_1 + x_2 = 3.$$
+
+1. **Check the three convexity requirements:**
+   - Objective $$f_0$$: Hessian $$\nabla^2 f_0 = \text{diag}(2, 4) \succ 0 \implies$$ strictly convex.
+   - Inequality $$f_1(x) = x_1^2 + x_2^2 - 10 \le 0$$: Hessian $$\text{diag}(2, 2) \succ 0 \implies$$ convex.
+   - Equality $$h_1(x) = x_1 + x_2 - 3 = 0$$: affine!
+   Hence this is a **strictly convex optimization problem** with a unique global minimizer.
+2. **Eliminate the affine equality constraint:** Substitute $$x_2 = 3 - x_1$$ into $$f_0$$:
+   $$\phi(x_1) = x_1^2 + 2(3 - x_1)^2 = 3x_1^2 - 12x_1 + 18.$$
+3. **Minimize $$\phi(x_1)$$ and check the inequality:**
+   $$\phi'(x_1) = 6x_1 - 12 = 0 \implies x_1^* = 2, \quad x_2^* = 3 - 2 = 1.$$
+   Verify the inequality: $$(2)^2 + (1)^2 = 5 \le 10$$ (strictly satisfied!). Thus $$x^* = (2, 1)^T$$ is the unique global optimum with $$p^* = 2^2 + 2(1)^2 = 6$$.
+
 A convex optimization problem is a type of optimization problem.
 
 >$$\begin{align*} 

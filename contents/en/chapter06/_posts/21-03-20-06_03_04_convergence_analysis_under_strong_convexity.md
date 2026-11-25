@@ -9,6 +9,37 @@ categories:
 lang: en
 ---
 
+On a flat-bottomed convex valley, gradients fade gently near the minimum and gradient descent slows to $$O(1/k)$$. Now give the valley a guaranteed minimum upward curvature $$m > 0$$—strong convexity—and everything changes: gradients stay steep all the way to $$x^\star$$, and the error plummets *exponentially* fast, cutting digits of precision at a constant rate every few steps.
+
+## Background Knowledge Map: Strong Convexity and Linear Convergence
+
+1. **Quadratic Lower Bound ($$m$$-Strong Convexity)**: A function $$f$$ is $$m$$-strongly convex if $$f(x) - \frac{m}{2}\|x\|_2^2$$ is convex, equivalently
+   $$f(y) \ge f(x) + \nabla f(x)^T(y - x) + \frac{m}{2}\|y - x\|_2^2 \quad \forall x, y$$
+   (or $$\nabla^2 f(x) \succeq mI$$ when twice differentiable). This guarantees a *unique* global minimizer $$x^\star$$.
+2. **The Polyak–Łojasiewicz (PL) Inequality**: Minimizing the quadratic lower bound over $$y$$ yields the crucial gradient-dominance bound
+   $$\|\nabla f(x)\|_2^2 \ge 2m\bigl(f(x) - f^\star\bigr).$$
+   In words: wherever you are still far from $$f^\star$$, the gradient *cannot* be tiny!
+3. **One-Line Linear Convergence Proof**: Combining the $$L$$-smoothness drop $$f(x^+) - f^\star \le f(x) - f^\star - \frac{1}{2L}\|\nabla f(x)\|_2^2$$ with the PL inequality immediately gives
+   $$f(x^{(k)}) - f^\star \le \left(1 - \frac{m}{L}\right)^k \bigl(f(x^{(0)}) - f^\star\bigr).$$
+   With the tighter step $$t = \frac{2}{m + L}$$, the distance to $$x^\star$$ contracts even faster: $$\|x^{(k)} - x^\star\|_2 \le \left(\frac{L - m}{L + m}\right)^k \|x^{(0)} - x^\star\|_2$$.
+4. **Role of the Condition Number $$\kappa = L/m$$**: Every $$\kappa$$ iterations cuts the error by a factor of $$e \approx 2.718$$, so achieving $$\varepsilon$$ accuracy requires only $$O(\kappa \log(1/\varepsilon))$$ steps—logarithmic in $$1/\varepsilon$$!
+
+### Step-by-Step Worked Example (Read Slowly): Applying the PL Inequality to Ridge Regression
+
+Consider the 1D Ridge objective $$f(x) = \frac{1}{2}(2x - 6)^2 + \frac{1}{2}(2)x^2 = 3x^2 - 12x + 18$$.
+
+1. **Determine $$m$$, $$L$$, and $$x^\star$$**:
+   - $$f'(x) = 6x - 12$$, $$f''(x) = 6$$. Here $$m = L = 6$$ (so $$\kappa = 1$$).
+   - Setting $$f'(x) = 0$$ gives $$x^\star = 2$$ and $$f^\star = 3(4) - 24 + 18 = 6$$.
+2. **Verify the PL inequality at $$x^{(0)} = 5$$**:
+   - Suboptimality: $$f(5) - f^\star = (75 - 60 + 18) - 6 = 33 - 6 = 27$$.
+   - Gradient squared: $$\|f'(5)\|_2^2 = (30 - 12)^2 = 18^2 = 324$$.
+   - PL right-hand side: $$2m(f(5) - f^\star) = 2(6)(27) = 324$$ — exact equality!
+3. **Verify linear convergence with conservative step $$t = 1/12$$** (pretending we overestimated $$L_{\mathrm{est}} = 12$$):
+   - Guaranteed factor: $$1 - \frac{m}{L_{\mathrm{est}}} = 1 - \frac{6}{12} = 0.5$$.
+   - Step 1: $$x^{(1)} = 5 - \frac{1}{12}(18) = 3.5$$, giving $$f(3.5) - f^\star = 3(3.5 - 2)^2 = 3(2.25) = 6.75$$.
+   - Ratio: $$\frac{6.75}{27} = 0.25 \le 0.5$$ — geometric contraction verified!
+
 If $$f$$ satisfies the following condition, it is strongly convex (assuming $$f$$ is twice differentiable and $$m > 0$$):
 > $$ \begin{align}
 f(y) \ge f(x) + \nabla f(x)^T(y-x) + \frac{m}{2} \| y-x \|_2^2, \quad \forall x, y

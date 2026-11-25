@@ -10,6 +10,30 @@ lang: en
 lesson_type: optional
 ---
 
+Tuning a learning rate or regularization strength $$\lambda$$ by grid search works for 2 hyperparameters, not 20,000. What if we could differentiate the *validation loss* directly with respect to $$\lambda$$ and run gradient descent on the hyperparameters themselves? That is **bilevel optimization**: an outer loop minimizes $$L_{\text{val}}(w^\star(\lambda), \lambda)$$ where the inner weights $$w^\star(\lambda) = \arg\min_w L_{\text{train}}(w, \lambda)$$ are themselves the output of an optimization problem! Computing the **hypergradient** $$\frac{d L_{\text{val}}}{d\lambda}$$ via unrolling or the Implicit Function Theorem (IFT) unifies hyperparameter optimization, MAML meta-learning, and data valuation.
+
+## Background Knowledge Map: Bilevel Templates, Unrolling, and Implicit Differentiation
+
+- **The Nested Bilevel Template:** Outer problem $$\min_\lambda F(\lambda) = L_{\text{val}}(w^\star(\lambda), \lambda)$$ subject to $$w^\star(\lambda) = \arg\min_w L_{\text{train}}(w, \lambda)$$. By the chain rule, $$\frac{d F}{d\lambda} = \frac{\partial L_{\text{val}}}{\partial \lambda} + \left(\frac{\partial w^\star}{\partial \lambda}\right)^\top \frac{\partial L_{\text{val}}}{\partial w}$$.
+- **Method 1 — Unrolled Differentiation:** Replace $$w^\star(\lambda)$$ with $$K$$ steps of inner gradient descent $$w_K(\lambda)$$ and backpropagate through the entire $$K$$-step optimization loop. Simple to code in PyTorch/JAX, but memory scales as $$O(K \cdot d)$$ and gradients can vanish or explode for large $$K$$.
+- **Method 2 — Implicit Function Theorem (IFT):** Differentiating the inner optimality condition $$\nabla_w L_{\text{train}}(w^\star(\lambda), \lambda) = 0$$ with respect to $$\lambda$$ gives the exact linear system $$\nabla_{ww}^2 L_{\text{train}} \cdot \frac{\partial w^\star}{\partial \lambda} = -\nabla_{w\lambda}^2 L_{\text{train}}$$. Using reverse-mode adjoints + conjugate gradients (or truncated Neumann series) solves for the hypergradient in $$O(d)$$ memory—independent of $$K$$!
+- **Practical Trade-off:** Use unrolling when $$K$$ is tiny (e.g., 1–5 steps in MAML); use IFT when the inner solver runs hundreds of steps to near-convergence.
+
+### Step-by-Step Worked Example (Read Slowly): Computing an Exact Hypergradient via IFT on Ridge Regression
+
+Let $$L_{\text{train}}(w, \lambda) = \frac{1}{2}(w - 4)^2 + \frac{\lambda}{2} w^2$$ (1D ridge regression) and $$L_{\text{val}}(w) = \frac{1}{2}(w - 2)^2$$. Evaluate the hypergradient $$\frac{d L_{\text{val}}}{d\lambda}$$ at $$\lambda = 1$$.
+
+1. **Solve the inner optimality condition $$\nabla_w L_{\text{train}}(w^\star, \lambda) = 0$$:**
+   $$(w^\star - 4) + \lambda w^\star = 0 \implies w^\star(\lambda) = \frac{4}{1 + \lambda}.$$
+   At $$\lambda = 1$$, $$w^\star(1) = \frac{4}{2} = 2$$? Let us make the validation target $$y_{\text{val}} = 3$$ so the hypergradient is nonzero: $$L_{\text{val}}(w) = \frac{1}{2}(w - 3)^2$$. Then at $$\lambda = 1$$, $$w^\star(1) = 2$$ and $$\frac{\partial L_{\text{val}}}{\partial w} = 2 - 3 = -1$$.
+2. **Apply the Implicit Function Theorem (without differentiating the closed-form solution):**
+   - Inner Hessian: $$\nabla_{ww}^2 L_{\text{train}} = 1 + \lambda = 2$$.
+   - Mixed partial: $$\nabla_{w\lambda}^2 L_{\text{train}} = w^\star = 2$$.
+   - IFT sensitivity: $$\frac{\partial w^\star}{\partial \lambda} = -(\nabla_{ww}^2 L_{\text{train}})^{-1} \nabla_{w\lambda}^2 L_{\text{train}} = -\frac{2}{2} = -1$$.
+3. **Assemble the hypergradient:**
+   $$\frac{d L_{\text{val}}}{d\lambda} = \frac{\partial L_{\text{val}}}{\partial w} \cdot \frac{\partial w^\star}{\partial \lambda} = (-1)(-1) = +1 > 0.$$
+   Since the hypergradient is positive, gradient descent on $$\lambda$$ decreases $$\lambda$$—reducing shrinkage so $$w^\star$$ moves up from $$2$$ toward the validation target $$3$$!
+4. **Verify directly:** $$\frac{d}{d\lambda}\left[\frac{1}{2}\left(\frac{4}{1+\lambda} - 3\right)^2\right]\Big|_{\lambda=1} = (2 - 3)\cdot \frac{-4}{(1+1)^2} = (-1)(-1) = +1$$. Exact!
 
 Chapters 26–27 trained a model by differentiating a *single* loss with respect to weights. A surprising amount of modern machine learning is a **nested** pair of optimizations: the weights are themselves the solution of an inner problem that depends on a hyperparameter, and we want to differentiate the *outer* objective through that solution. This optional lesson is one nested template — bilevel optimization and the **hypergradient** — at IUH depth. It is not a second autodiff lecture (27-01–27-03 already own JVP / VJP) and it is not a survey of every HPO library.
 

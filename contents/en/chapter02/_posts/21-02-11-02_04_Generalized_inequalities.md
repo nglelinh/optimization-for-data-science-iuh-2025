@@ -9,6 +9,29 @@ categories:
 lang: en
 ---
 
+When buying a laptop, you want both *lower price* and *longer battery life*. Between Laptop A ($\$1000$, 12h) and Laptop B ($\$1200$, 16h), neither is strictly better in both dimensions—vector comparisons are only *partial* orders! Proper cones formalize vector inequalities $$x \preceq_K y$$ cleanly, explaining the crucial difference between a single utopian **minimum** element and the trade-off frontier of **minimal (Pareto-optimal)** elements.
+
+## Background Knowledge Map: Ordering Vectors and Matrices with Cones
+
+- **Proper Cone ($$K$$):** A cone that is convex, closed, solid (nonempty interior), and pointed (contains no full line: $$K \cap (-K) = \{0\}$$)—needed so $$\preceq_K$$ behaves like a genuine partial order.
+- **Generalized Inequality ($$x \preceq_K y \iff y - x \in K$$):** Unifies componentwise vector inequalities ($$K = \mathbb{R}_+^n$$) and Loewner matrix inequalities ($$K = \mathbb{S}_+^n$$, where $$X \preceq Y \iff Y - X \succeq 0$$).
+- **Strict Inequality ($$x \prec_K y \iff y - x \in \text{int}(K)$$):** Requires $$K$$ to be solid; for matrices, $$X \prec Y$$ means $$Y - X$$ is strictly positive definite.
+- **Minimum vs. Minimal Elements:** A *minimum* beats every other point in $$S$$ ($$S \subseteq x + K$$); a *minimal* (Pareto-optimal) point is merely undefeated by any other point in $$S$$ ($$(x - K) \cap S = \{x\}$$).
+
+### Step-by-Step Worked Example (Read Slowly): Minimum vs. Minimal Elements Under $$\mathbb{R}_+^2$$
+
+Consider four cost vectors (e.g., latency and energy) in $$\mathbb{R}^2$$ ordered by $$K = \mathbb{R}_+^2$$:
+$$S = \{(1, 4),\; (2, 2),\; (3, 1),\; (3, 3)\}.$$
+
+1. **Test for dominated points:** Compare $$(2, 2)$$ and $$(3, 3)$$:
+   $$(3, 3) - (2, 2) = (1, 1) \in \mathbb{R}_+^2 \implies (2, 2) \preceq_{\mathbb{R}_+^2} (3, 3).$$
+   Therefore $$(3, 3)$$ is strictly dominated and is **not minimal**.
+2. **Check the remaining three points pairwise:**
+   - $$(1, 4) - (2, 2) = (-1, 2) \notin \mathbb{R}_+^2 \cup (-\mathbb{R}_+^2)$$ (incomparable).
+   - $$(2, 2) - (3, 1) = (-1, 1) \notin \mathbb{R}_+^2 \cup (-\mathbb{R}_+^2)$$ (incomparable).
+   - $$(1, 4) - (3, 1) = (-2, 3) \notin \mathbb{R}_+^2 \cup (-\mathbb{R}_+^2)$$ (incomparable).
+3. **Conclude:** The set $$S$$ has **three minimal (Pareto-optimal) elements**—$$(1, 4)$$, $$(2, 2)$$, and $$(3, 1)$$—and **no minimum element**, because no single point dominates all others simultaneously.
+
 In one-dimensional real space $$\mathbb{R}$$, given two numbers 1 and 2, we can say 2 is greater than 1. But in $$n$$-dimensional real space $$\mathbb{R}^n$$, given two points $$x_1$$ and $$x_2$$, can we say which is greater? This is not straightforward.
 
 This section introduces **generalized inequalities** for comparing order between two points in $$\mathbb{R}^n$$, and also discusses the concepts of minimum and minimal elements of a set.

@@ -10,6 +10,28 @@ lang: en
 lesson_type: required
 ---
 
+Probability asks, *given a known model parameter $$\theta$$, how likely is this dataset?* Statistics flips the telescope around: *given the fixed dataset we actually observed, which parameter $$\theta$$ makes our observations most plausible?* That simple perspective flip defines the likelihood function, and taking its logarithm converts messy products of tiny probabilities into clean sums that optimization algorithms can maximize directly.
+
+## Background Knowledge Map: Casting Estimation as Optimization
+
+- **Likelihood vs. Probability:** While $$p(x \mid \theta)$$ is a normalized density over data $$x$$, the likelihood $$L(\theta) = p(x \mid \theta)$$ treats $$x$$ as fixed and varies $$\theta$$—it is an objective function, not a distribution over $$\theta$$.
+- **Log-Likelihood Transformation:** Since $$\ln(\cdot)$$ is strictly increasing, maximizing $$\ell(\theta) = \sum_{i=1}^n \ln p(x_i \mid \theta)$$ yields the exact same optimizer $$\hat{\theta}_{\text{MLE}}$$ while avoiding numerical underflow.
+- **Score Equation & Concavity:** Setting the score $$\nabla \ell(\theta) = \mathbf{0}$$ locates stationary candidates; checking $$\nabla^2 \ell(\theta) \preceq 0$$ verifies a global maximum (equivalently, minimizing the convex negative log-likelihood $$-\ell(\theta)$$).
+- **Bridge to Regularization (MAP):** Adding a log-prior $$\ln p(\theta)$$ to $$\ell(\theta)$$ produces Maximum A Posteriori estimation, which algebraically matches adding an $$\ell_2$$ or $$\ell_1$$ penalty in regularized optimization.
+
+### Step-by-Step Worked Example (Read Slowly): Bernoulli MLE from 10 Coin Flips
+
+An experiment observes $$7$$ heads and $$3$$ tails in $$n = 10$$ independent $$\text{Bernoulli}(p)$$ trials, where $$p \in (0, 1)$$.
+
+1. **Form the likelihood and log-likelihood:**
+   $$L(p) = p^7 (1 - p)^3 \implies \ell(p) = 7\ln p + 3\ln(1 - p).$$
+2. **Differentiate with respect to $$p$$ and set to zero:**
+   $$\ell'(p) = \frac{7}{p} - \frac{3}{1 - p} = 0 \implies 7(1 - p) = 3p \implies 7 = 10p \implies \hat{p}_{\text{MLE}} = 0.7.$$
+3. **Check strict concavity at $$\hat{p} = 0.7$$ (and everywhere on $$(0, 1)$$):**
+   $$\ell''(p) = -\frac{7}{p^2} - \frac{3}{(1 - p)^2} < 0.$$
+   At $$p = 0.7$$, $$\ell''(0.7) = -\frac{7}{0.49} - \frac{3}{0.09} = -\frac{100}{7} - \frac{100}{3} = -\frac{1000}{21} \approx -47.62 < 0$$.
+4. **Conclusion:** Minimizing the negative log-likelihood $$-\ell(p)$$ is a strictly convex problem with unique global minimizer $$\hat{p}_{\text{MLE}} = 0.7$$.
+
 ## Likelihood and Maximum Likelihood Estimation
 
 In probability and statistics, the **likelihood** is an important concept that expresses how plausible the observed data is under an assumed model or a given set of parameters. However, the likelihood is not an ordinary probability: it is a function that measures how well a model fits the data.

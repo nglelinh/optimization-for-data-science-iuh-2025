@@ -12,6 +12,29 @@ redirect_from:
   - /contents/en/chapter13/13_07_Quiz_Duality_Uses/
 ---
 
+Before clicking through the multiple-choice questions below, pause and notice why duality questions are favorite traps on graduate qualifying exams: a single missing minus sign in $$f^*(y) = \max_x (y^T x - f(x))$$, a swapped primal/dual norm pair, or forgetting that an equivalent dual transformation can change the optimal value will flip an answer from right to wrong. Use the concept map and warm-up calculation below to sharpen your reflexes before starting the quiz.
+
+## Background Knowledge Map: High-Yield Quiz Checkpoints
+
+- **Pillar 1 — Duality Gap & Stopping Criteria:** Remember $$f(x) - f^\star \le f(x) - g(u,v)$$ requires $$x$$ primal feasible and $$(u,v)$$ dual feasible; zero gap certifies optimality under strong duality.
+- **Pillar 2 — Dual Norm & Conjugate Pairings:** Memorize the exact pairs: $$\ell_1 \leftrightarrow \ell_\infty$$, $$\ell_2 \leftrightarrow \ell_2$$, trace norm $$\leftrightarrow$$ operator norm; norm $$\leftrightarrow$$ indicator of dual-norm unit ball; indicator $$\leftrightarrow$$ support function.
+- **Pillar 3 — Splitting & Linear Transformations:** For $$\min_x f(x) + g(Ax)$$, the dual is $$\max_u -f^*(A^T u) - g^*(-u)$$. Watch the transpose $$A^T$$ and the minus sign on $$-u$$!
+- **Pillar 4 — Dual Cones & Self-Duality:** $$K^* = \{y : y^T x \ge 0\ \forall x \in K\}$$ is always convex and closed; $$\mathbb{R}^n_+$$, $$\mathcal{Q}^n$$, and $$\mathbb{S}^n_+$$ are self-dual, and $$K^{**} = K$$ holds for closed convex cones.
+
+### Step-by-Step Worked Example (Read Slowly): Rapid 4-Check Diagnostic Before the Quiz
+
+Test yourself on four classic exam micro-calculations before taking the quiz:
+
+1. **Duality gap check:** If primal feasible $$x$$ has $$f(x) = 14.2$$ and dual feasible $$(u,v)$$ has $$g(u,v) = 13.7$$, what is the tightest guaranteed bound on $$f(x) - f^\star$$?
+   - Answer: $$f(x) - f^\star \le 14.2 - 13.7 = 0.5$$ (and $$f^\star \in [13.7, 14.2]$$).
+2. **Dual norm check:** For $$y = (-2, 5, -1)^T$$, compute $$(\|y\|_1)_*$$ and $$(\|y\|_\infty)_*$$.
+   - $$(\|y\|_1)_* = \|y\|_\infty = 5$$; $$(\|y\|_\infty)_* = \|y\|_1 = 2 + 5 + 1 = 8$$.
+3. **Conjugate check:** For $$f(x) = \frac{1}{2}ax^2 + bx + c$$ ($$a > 0$$), compute $$f^*(y)$$.
+   - Set $$\frac{d}{dx}(yx - \frac{1}{2}ax^2 - bx - c) = y - ax - b = 0 \implies x^\star = \frac{y-b}{a}$.
+   - Substituting back: $$f^*(y) = \frac{(y-b)^2}{2a} - c$$.
+4. **Dual cone check:** Is $$y = (-1, 3)^T$$ in the dual of the first quadrant $$K = \mathbb{R}^2_+$$?
+   - Test with $$x = (1, 0)^T \in K$$: $$y^T x = -1 < 0$$. So $$y \notin (\mathbb{R}^2_+)^* = \mathbb{R}^2_+$$.
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

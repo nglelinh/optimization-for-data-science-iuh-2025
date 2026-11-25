@@ -9,6 +9,31 @@ categories:
 lang: vi
 ---
 
+Nếu nhìn vào công thức ADMM ban đầu ở bài 20-04-01, bạn sẽ thấy hai số hạng hơi rườm rà luôn đi kèm nhau: số hạng tuyến tính $$u^T(Ax + Bz - c)$$ và số hạng bình phương $$\frac{\rho}{2}\|Ax + Bz - c\|_2^2$$. Chỉ bằng một phép đổi biến siêu gọn $$w = u / \rho$$ và kỹ thuật **tạo bình phương đầy đủ (completing the square)** của đại số phổ thông, hai số hạng đó gộp lại thành **duy nhất một bình phương** $$\frac{\rho}{2}\|Ax + Bz - c + w\|_2^2$$! Dạng có tỉ lệ (scaled form) này ngắn hơn, ít sai dấu hơn khi viết code và làm lộ rõ ngay mối liên hệ giữa ADMM với toán tử proximal.
+
+## Bản đồ kiến thức nền: Ba lợi ích cốt lõi của ADMM dạng có tỉ lệ
+
+Trước khi đọc phép chứng minh tương đương trong bài, hãy nắm rõ vì sao hầu hết bài báo và thư viện phần mềm đều dùng dạng có tỉ lệ:
+
+- **Định nghĩa biến đối ngẫu có tỉ lệ $$w = u / \rho$$:** Đưa hệ số $$\rho$$ ra ngoài ngoặc biến $$u^T r + \frac{\rho}{2}\|r\|_2^2$$ thành $$\frac{\rho}{2}\|r + w\|_2^2 - \frac{\rho}{2}\|w\|_2^2$$. Vì $$-\frac{\rho}{2}\|w\|_2^2$$ là hằng số không phụ thuộc vào $$x$$ hay $$z$$, ta bỏ luôn nó khỏi phép $$\arg\min$$!
+- **Diễn giải trực quan của $$w^{(k)}$$ — tổng tích lũy phần dư (Running Sum of Residuals):** Phương trình cập nhật trở thành $$w^{(k)} = w^{(k-1)} + (Ax^{(k)} + Bz^{(k)} - c) = w^{(0)} + \sum_{j=1}^k r^{(j)}$$. Nói cách khác, $$w^{(k)}$$ chính là **bộ tích phân sai số** (giống thành phần I trong bộ điều khiển PID), liên tục tích lũy độ lệch ràng buộc để kéo hệ thống về đúng $$r = 0$$!
+- **Biến bước cập nhật thành toán tử proximal ngay lập tức:** Khi ràng buộc là $$x = z$$, bước $$x^{(k)} = \arg\min_x f(x) + \frac{\rho}{2}\|x - (z^{(k-1)} - w^{(k-1)})\|_2^2$$ chính là $$\operatorname{prox}_{f, 1/\rho}(z^{(k-1)} - w^{(k-1)})$$ — hoàn toàn không cần khai triển tích vô hướng!
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng bằng số phép gộp bình phương và theo dõi biến tích lũy $$w^{(k)}$$
+
+Giả sử tại một vòng lặp ADMM, ta có tham số phạt $$\rho = 2$$, biến đối ngẫu ban đầu $$u = 4$$ (suy ra biến có tỉ lệ $$w = u / \rho = 4 / 2 = 2$$), và ta đang xét một giá trị phần dư $$r = Ax + Bz - c = 1$$:
+
+1. **Tính theo dạng ban đầu (unscaled):**
+   $$u^T r + \frac{\rho}{2}\|r\|_2^2 = (4)(1) + \frac{2}{2}(1)^2 = 4 + 1 = 5.$$
+2. **Tính theo dạng có tỉ lệ (scaled) kèm hằng số bù $$-\frac{\rho}{2}\|w\|_2^2$$:**
+   $$\frac{\rho}{2}\|r + w\|_2^2 - \frac{\rho}{2}\|w\|_2^2 = \frac{2}{2}(1 + 2)^2 - \frac{2}{2}(2)^2 = 9 - 4 = 5.$$
+   Hai biểu thức bằng nhau từng đơn vị một — và vì $$-4$$ không đổi khi ta thay đổi $$x$$ hay $$z$$, việc cực tiểu hóa $$(r + 2)^2$$ cho đúng nghiệm hệt như cực tiểu hóa $$4r + r^2$$!
+3. **Thấy ngay vai trò "tích lũy sai số" của $$w$$:** Nếu ở 3 vòng lặp đầu phần dư lần lượt là $$r^{(1)} = +0.6, \; r^{(2)} = +0.3, \; r^{(3)} = +0.1$$ (khởi tạo $$w^{(0)} = 0$$), thì:
+   $$w^{(1)} = 0.6, \qquad w^{(2)} = 0.9, \qquad w^{(3)} = 1.0.$$
+   Ngay cả khi $$r^{(3)}$$ nhỏ dần về $$0$$, giá trị $$w^{(3)} = 1.0$$ vẫn lưu giữ toàn bộ "áp lực" cần thiết để giữ điểm tối ưu đứng vững tại ràng buộc $$r = 0$$!
+
+---
+
 # ADMM dạng có tỉ lệ
 
 ADMM có thể được viết gọn hơn dưới dạng có tỉ lệ (scaled form) bằng cách đổi biến đối ngẫu $$w = u/\rho$$. Khi đó, các bước lặp của ADMM trở thành:

@@ -9,6 +9,37 @@ categories:
 lang: vi
 ---
 
+Nếu bạn đứng trên sườn núi và đã chọn xong hướng đi $$-\nabla f(x_k)$$, câu hỏi tham lam nhất có thể đặt ra là: *trên tia thẳng xuất phát từ $$x_k$$ theo hướng $$-\nabla f(x_k)$$, điểm nào có cao độ thấp nhất tuyệt đối?* Tìm ra chính xác điểm đáy dọc theo tia đó gọi là **Tìm kiếm đường chính xác (Exact Line Search)**.
+
+Nghe qua tưởng chừng đây phải là chiến lược "vô địch" — nhưng hình học lại dành cho ta một cú ngoặt đầy bất ngờ: vì tại điểm đáy của tia tìm kiếm, tia đó **tiếp xúc** với đường đồng mức của $$f$$, nên gradient ở bước kế tiếp sẽ **vuông góc hoàn toàn** với gradient bước hiện tại ($$\nabla f(x_{k+1})^T \nabla f(x_k) = 0$$)! Kết quả là quỹ đạo của Exact Line Search trên các thung lũng elip hẹp tạo thành những đường gấp khúc **vuông góc 90°** kinh điển!
+
+## Bản đồ kiến thức nền: Hình học trực giao và Công thức đóng của Exact Line Search
+
+Ba trụ cột sau tóm gọn toàn bộ bản chất toán học của Exact Line Search:
+
+- **Điều kiện trực giao giữa hai bước liên tiếp:** Đặt $$\phi(s) = f(x_k - s g_k)$$ với $$g_k = \nabla f(x_k)$$. Tại bước tối ưu $$t_k = \arg\min_{s > 0} \phi(s)$$, đạo hàm $$\phi'(t_k) = -\nabla f(x_k - t_k g_k)^T g_k = -g_{k+1}^T g_k = 0$$. Vậy hai hướng bước liên tiếp luôn **vuông góc tuyệt đối**!
+- **Công thức đóng cho hàm bậc hai:** Với $$f(x) = \frac{1}{2} x^T Q x - b^T x$$ ($$Q \succ 0$$), giải $$\phi'(s) = 0$$ cho ngay công thức nghiệm đóng tuyệt đẹp:
+  $$t_k = \frac{g_k^T g_k}{g_k^T Q g_k} = \frac{\|g_k\|_2^2}{g_k^T Q g_k}.$$
+  Lưu ý: chỉ cần 1 phép nhân ma trận–vector $$Q g_k$$ để tính chính xác $$t_k$$!
+- **Tốc độ hội tụ & Bất đẳng thức Kantorovich:** Với hàm bậc hai có chỉ số điều kiện $$\kappa = \lambda_{\max}/\lambda_{\min}$$, Exact Line Search đạt tỷ lệ giảm sai số mỗi bước bị chặn bởi $$\left(\frac{\kappa - 1}{\kappa + 1}\right)^2$$. Nếu $$\kappa = 1000$$, tỷ lệ này là $$0.996$$ — dù tìm bước chính xác 100%, thuật toán vẫn bị bẫy zíc-zắc vuông góc làm chậm lại!
+
+### Khung giải thích (nên đọc chậm): Chạy tay 2 bước Exact Line Search và kiểm chứng góc vuông 90°
+
+Xét hàm bậc hai $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 4x_2^2)$$ với $$Q = \begin{pmatrix} 1 & 0 \\ 0 & 4 \end{pmatrix}$$, xuất phát từ $$x_0 = (4, 1)^T$$:
+
+1. **Bước $$k = 0$$:**
+   - Gradient: $$g_0 = Q x_0 = (4,\; 4)^T \implies \|g_0\|_2^2 = 16 + 16 = 32$$.
+   - Mẫu số: $$g_0^T Q g_0 = 1(4)^2 + 4(4)^2 = 16 + 64 = 80$$.
+   - Bước tối ưu chính xác: $$t_0 = \frac{32}{80} = 0.4$$.
+   - Cập nhật: $$x_1 = (4, 1)^T - 0.4(4, 4)^T = (2.4,\; -0.6)^T$$.
+   - Giá trị hàm: giảm từ $$f(x_0) = \frac{1}{2}(16 + 4) = 10$$ xuống $$f(x_1) = \frac{1}{2}(5.76 + 1.44) = 3.6$$ (tỷ lệ $$3.6/10 = 0.36 = \left(\frac{4-1}{4+1}\right)^2$$ — khớp chính xác tuyệt đối với định lý Kantorovich!).
+2. **Bước $$k = 1$$ & Kiểm chứng trực giao:**
+   - Gradient mới: $$g_1 = Q x_1 = (2.4,\; -2.4)^T$$.
+   - Tích vô hướng $$g_1^T g_0 = (2.4)(4) + (-2.4)(4) = 9.6 - 9.6 = 0$$! Hai hướng đi **vuông góc chính xác 90°**!
+   - Bước mới: $$t_1 = \frac{2.4^2 + 2.4^2}{1(2.4)^2 + 4(2.4)^2} = \frac{2}{5} = 0.4$$, cho $$x_2 = (1.44,\; 0.36)^T$$ và $$f(x_2) = 1.296 = 0.36 \cdot f(x_1)$$.
+
+---
+
 Một cách tiếp cận khác để chọn kích thước bước thích ứng trong gradient descent là **tìm kiếm đường chính xác (exact line search)**.
 
 ### Tìm kiếm Đường chính xác là gì?

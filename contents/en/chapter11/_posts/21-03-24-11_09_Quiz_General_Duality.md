@@ -12,6 +12,32 @@ redirect_from:
   - /contents/en/chapter11/11_06_Quiz_General_Duality/
 ---
 
+Before starting the Chapter 11 multiple-choice quiz, pause to separate the *always-true* laws of Lagrangian duality from the *conditional* ones. The single most common exam mistake is thinking that $$g(u, v)$$ is only concave when the primal is convex (false—$$g$$ is *always* concave!), or thinking convexity alone guarantees strong duality (false—you also need a constraint qualification like Slater's condition!). Use the four diagnostic pillars and rapid warm-up below to calibrate your intuition.
+
+## Background Knowledge Map: Chapter 11 Mastery Checklist
+
+- **Pillar 1 — Universal Laws (No Convexity Needed):** For *any* optimization problem, (i) $$L(x, u, v)$$ is affine in $$(u, v)$$, (ii) $$g(u, v) = \inf_x L(x, u, v)$$ is concave, (iii) the dual problem $$\max_{u \ge 0, v} g(u, v)$$ is convex, and (iv) weak duality $$g^\star \le f^\star$$ holds.
+- **Pillar 2 — Strong Duality & Slater's Condition:** Strong duality ($$g^\star = f^\star$$) is guaranteed for convex problems admitting a strictly feasible point $$x$$ ($$h_i(x) < 0$$ for non-affine inequalities, $$h_k(x) \le 0$$ for affine inequalities, $$l_j(x) = 0$$).
+- **Pillar 3 — Duality Gap & Certification:** For any feasible $$x$$ and $$(u, v)$$ with $$u \ge 0$$, $$f(x) - f^\star \le f(x) - g(u, v)$$. Zero duality gap proves both $$x$$ and $$(u, v)$$ are globally optimal.
+- **Pillar 4 — Double Duality & Perturbation:** The dual of the dual recovers the primal when the problem is closed and convex; for nonconvex problems it yields the convex envelope (biconjugate), explaining why a strict duality gap $$f^\star - g^\star > 0$$ can persist.
+
+### Step-by-Step Worked Example (Read Slowly): Quick 3-Part Diagnostic on a Constrained Exponential Problem
+
+Consider $$\min_{x \in \mathbb{R}} e^x$$ subject to $$x \ge 0$$ (i.e., $$-x \le 0$$).
+
+1. **Compute the Lagrangian and dual function:**
+   - $$L(x, u) = e^x - u x$$ for $$u \ge 0$$.
+   - Minimize over $$x \in \mathbb{R}$$:
+     - If $$u = 0$$: $$\inf_x e^x = 0$$ (approached as $$x \to -\infty$$).
+     - If $$u > 0$$: set $$e^x - u = 0 \implies x = \ln u$$, giving $$g(u) = u - u \ln u$$.
+   - Verify concavity of $$g(u) = u - u\ln u$$: $$g''(u) = -1/u < 0$$ on $$u > 0$$!
+2. **Solve the dual problem $$\max_{u \ge 0} (u - u\ln u)$$:**
+   - Set $$g'(u) = 1 - (\ln u + 1) = -\ln u = 0 \implies u^\star = 1$$.
+   - Dual optimal value: $$g^\star = 1 - 1\ln(1) = 1$$.
+3. **Verify Slater's condition and strong duality:**
+   - Primal is convex and $$x = 1$$ satisfies $$-1 < 0$$ (Slater holds!).
+   - Primal minimum is at $$x^\star = 0$$ with $$f^\star = e^0 = 1 = g^\star$$ (zero gap!).
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

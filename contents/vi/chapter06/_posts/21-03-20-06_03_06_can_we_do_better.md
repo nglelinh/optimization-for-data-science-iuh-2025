@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Gradient Descent đạt tốc độ $$O(1/k)$$ trên hàm lồi $$L$$-trơn và $$O\big((1 - 1/\kappa)^k\big)$$ trên hàm lồi mạnh. Đến đây, một câu hỏi đầy tham vọng tự nhiên vang lên: *nếu ta chỉ được phép dùng đúng thông tin bậc nhất (giá trị hàm và gradient $$\nabla f$$), liệu ta có thể làm nhanh hơn Gradient Descent không? Và giới hạn tốc độ ánh sáng của mọi thuật toán bậc nhất là bao nhiêu?*
+
+Năm 1983, nhà toán học trẻ người Nga Yurii Nesterov đã làm rung chuyển giới tối ưu hóa bằng hai kết quả song sinh: (1) chứng minh **cận dưới bất khả xâm phạm** $$\Omega(1/k^2)$$ cho mọi thuật toán bậc nhất trên hàm lồi $$L$$-trơn, và (2) sáng chế ngay thuật toán **Nesterov Accelerated Gradient (NAG)** chạm đúng cận tối ưu $$O(1/k^2)$$ — chỉ bằng vài phép cộng vector miễn phí!
+
+## Bản đồ kiến thức nền: Giới hạn Thông tin Bậc nhất và Bước nhảy Nesterov
+
+Ba trụ cột sau tóm tắt bước ngoặt lịch sử trong lý thuyết độ phức tạp tối ưu hóa:
+
+- **Mô hình Hộp đen Bậc nhất (First-Order Oracle Model):** Thuật toán chỉ được phép truy vấn $$\nabla f(x^{(i)})$$ và tạo điểm mới $$x^{(k)}$$ nằm trong không gian con sinh bởi các gradient đã thấy: $$x^{(k)} \in x^{(0)} + \operatorname{span}\{\nabla f(x^{(0)}), \dots, \nabla f(x^{(k-1)})\}$$.
+- **Hàm "Xấu nhất Thế giới" của Nesterov (Worst-Case Quadratic Chain):** Nesterov xây dựng một hàm bậc hai dạng chuỗi khớp nối $$f(x) = \frac{L}{4}\left[\frac{1}{2}(x_1^2 + \sum (x_i - x_{i+1})^2 + x_n^2) - x_1\right]$$ mà sau $$k$$ bước truy vấn gradient, mọi thuật toán bậc nhất chỉ có thể "đánh thức" được tối đa $$k$$ tọa độ đầu tiên! Từ đó ông chứng minh **không một thuật toán bậc nhất nào** thắng được cận dưới $$\Omega(L\|x^{(0)} - x^\star\|^2 / k^2)$$.
+- **Khoảng trống giữa GD và Cận tối ưu:**
+  - Hàm lồi $$L$$-trơn: GD tốn $$O(1/\epsilon)$$ bước, còn Nesterov tăng tốc chỉ tốn $$O(1/\sqrt{\epsilon})$$ bước!
+  - Hàm lồi mạnh ($$\kappa = L/m$$): GD tốn $$O(\kappa \log(1/\epsilon))$$ bước, còn Nesterov chỉ tốn $$O(\sqrt{\kappa} \log(1/\epsilon))$$ bước!
+
+### Khung giải thích (nên đọc chậm): So sánh sức mạnh của $$O(1/k)$$ vs. $$O(1/k^2)$$ và $$\kappa$$ vs. $$\sqrt{\kappa}$$ bằng con số thật
+
+1. **Trên bài toán lồi trơn cần sai số $$\epsilon = 10^{-4}$$:**
+   - Gradient Descent thường ($$O(1/\epsilon)$$): cần cỡ $$10\,000$$ vòng lặp.
+   - Tăng tốc Nesterov ($$O(1/\sqrt{\epsilon})$$): chỉ cần cỡ $$\sqrt{10\,000} = 100$$ vòng lặp — **nhanh hơn gấp 100 lần** với chi phí mỗi vòng lặp gần như bằng nhau!
+2. **Trên bài toán lồi mạnh điều kiện xấu với $$\kappa = 10\,000$$:**
+   - Gradient Descent thường phụ thuộc $$\kappa = 10\,000$$: hệ số co $$1 - 1/10\,000 = 0.9999$$.
+   - Tăng tốc Nesterov phụ thuộc $$\sqrt{\kappa} = 100$$: hệ số co $$1 - 1/100 = 0.99$$ — **giảm số vòng lặp đúng 100 lần**!
+3. **Bí quyết đằng sau tốc độ đó:** Thay vì chỉ đi từ $$x^{(k)}$$, Nesterov tạo điểm "nhìn trước" $$y^{(k)} = x^{(k)} + \beta_k (x^{(k)} - x^{(k-1)})$$ rồi mới tính gradient tại $$y^{(k)}$$ — trực giác của phương pháp **Momentum** mà ta sẽ khám phá ngay ở các bài sau!
+
+---
+
 Gradient descent đạt tốc độ hội tụ $$O(1/k)$$ (tương ứng cần $$O(1/\epsilon)$$ vòng lặp để đạt sai số $$\epsilon$$) đối với các hàm lồi, khả vi và có gradient liên tục Lipschitz. Câu hỏi đặt ra là liệu có phương pháp bậc nhất nào đạt tốc độ hội tụ nhanh hơn gradient descent hay không.
 
 ### Phương pháp Bậc nhất

@@ -12,6 +12,28 @@ redirect_from:
   - /contents/en/chapter01/01_06_Practical_Exercises_Introduction/
 ---
 
+Theory clicks when you pick up a pencil (or open Python) and actually reformulate messy word problems into canonical LP, QP, GP, and SDP forms. These practical exercises train the single most valuable skill of an optimization practitioner: taking an unstructured engineering or financial problem, introducing slack or auxiliary variables cleanly, verifying convexity, and checking that your reformulation preserves the exact same optimal solution.
+
+## Background Knowledge Map: Practical Reformulation Toolkit
+
+- **LP Standard Form Conversions:** Turning maximization into minimization, rewriting $$\le$$/$$\ge$$ inequalities with nonnegative slack/surplus variables, and splitting free variables via $$x = x^+ - x^-$$ with $$x^+, x^- \ge 0$$.
+- **Least Squares & QP Modeling:** Expanding squared norms $$\|Ax - b\|_2^2$$ into standard quadratic form $$\frac{1}{2}x^T P x + q^T x + r$$ with $$P = 2A^T A \succeq 0$$.
+- **Nonlinear Convex Classes (GP & SDP):** Transforming posynomial geometric programs via logarithmic change of variables $$y_i = \ln x_i$$ and recognizing linear matrix inequalities (LMIs) $$F(x) \succeq 0$$.
+- **Robust Optimization Thinking:** Replacing uncertain parameters with worst-case bounds over an uncertainty set so decisions stay feasible under real-world perturbations.
+
+### Step-by-Step Worked Example (Read Slowly): Converting a Free-Variable LP to Standard Equality Form
+
+Convert the following linear program into standard form ($$\min c^T z$$ s.t. $$Az = b,\; z \ge 0$$):
+$$\max_{x_1, x_2} \; 3x_1 - x_2 \quad \text{s.t.} \quad x_1 + 2x_2 \le 6,\; x_1 \ge 0,\; x_2 \in \mathbb{R} \text{ (free)}.$$
+
+1. **Flip max to min:** Maximizing $$3x_1 - x_2$$ is equivalent to minimizing $$-3x_1 + x_2$$.
+2. **Split the free variable $$x_2$$:** Introduce $$x_2^+, x_2^- \ge 0$$ with $$x_2 = x_2^+ - x_2^-$$.
+3. **Convert the inequality to an equality with a slack variable $$s \ge 0$$:**
+   $$x_1 + 2(x_2^+ - x_2^-) + s = 6.$$
+4. **Write the standard-form problem in $$z = (x_1, x_2^+, x_2^-, s)^T \ge 0$$:**
+   $$\min_{z \ge 0} \; -3x_1 + x_2^+ - x_2^- + 0\cdot s \quad \text{s.t.} \quad x_1 + 2x_2^+ - 2x_2^- + s = 6.$$
+5. **Sanity-check feasibility:** The original point $$(x_1, x_2) = (4, 1)$$ maps to $$z = (4, 1, 0, 0)^T \ge 0$$, satisfying $$4 + 2(1) - 0 + 0 = 6$$ with negated objective $$-11$$ (matching original objective $$3(4) - 1 = 11$$).
+
 # Practical Exercises - Introduction to Optimization
 
 ## 📝 **Exercise 1: Classifying basic optimization problems**

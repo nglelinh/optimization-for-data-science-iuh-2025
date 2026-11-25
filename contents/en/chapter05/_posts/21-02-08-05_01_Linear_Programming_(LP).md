@@ -10,6 +10,33 @@ lang: en
 lesson_type: required
 ---
 
+During the Berlin Airlift of 1948, planners faced a logistical nightmare: how to allocate aircraft, crews, fuel, and runways to feed two million people at minimum cost. George Dantzig's Linear Programming framework turned that crisis into a system of linear inequalities—and launched an optimization revolution that today schedules airlines, balances power grids, and routes global supply chains every second.
+
+## Background Knowledge Map: Foundations of Linear Programming
+
+1. **Polyhedral Geometry and Vertex Optimality**: The feasible set $$\{x : Gx \preceq h,\; Ax = b\}$$ is a *polyhedron*—an intersection of finitely many halfspaces and hyperplanes. Because the objective $$c^T x$$ has constant gradient $$c$$, level sets are parallel hyperplanes that always make last contact with the polyhedron at a boundary face (and at a vertex whenever the polyhedron has vertices and the LP is bounded).
+2. **Standard Form vs. Inequality Form**: Every LP can be converted into standard form $$\min c^T x \text{ s.t. } Ax = b, x \ge 0$$ using slack variables for inequalities and splitting free variables as $$x = x^+ - x^-$$ with $$x^+, x^- \ge 0$$.
+3. **Three Possible Outcomes**: Every LP falls into exactly one of three regimes: (i) *infeasible* (empty polyhedron), (ii) *unbounded below* (a feasible ray along which $$c^T d < 0$$), or (iii) *optimal* (attained at a finite vertex).
+4. **Linear Modeling Tricks**: Piecewise-linear convex functions such as $$\|Ax - b\|_1$$, $$\|Ax - b\|_\infty$$, and $$\max_i (a_i^T x + b_i)$$ can all be recast as pure LPs via epigraph and absolute-value auxiliary variables.
+
+### Step-by-Step Worked Example (Read Slowly): Solving a Two-Product LP by Vertex Enumeration
+
+Maximize profit $$P(x_1, x_2) = 4x_1 + 3x_2$$ (equivalently minimize $$-4x_1 - 3x_2$$) subject to:
+$$x_1 + x_2 \le 6, \qquad 2x_1 + x_2 \le 8, \qquad x_1 \ge 0, \quad x_2 \ge 0.$$
+
+1. **Identify all boundary lines**: The four lines are $$x_1 = 0$$, $$x_2 = 0$$, $$x_1 + x_2 = 6$$, and $$2x_1 + x_2 = 8$$.
+2. **Find the feasible vertices (extreme points)**:
+   - Origin: $$v_1 = (0, 0)$$ — satisfies $$0 \le 6, 0 \le 8$$.
+   - $$x_1$$-intercept of $$2x_1 + x_2 = 8$$: $$v_2 = (4, 0)$$ — satisfies $$4 \le 6, 8 \le 8$$. (Note $$(6, 0)$$ violates $$2x_1 + x_2 \le 8$$.)
+   - $$x_2$$-intercept of $$x_1 + x_2 = 6$$: $$v_3 = (0, 6)$$ — satisfies $$6 \le 6, 6 \le 8$$. (Note $$(0, 8)$$ violates $$x_1 + x_2 \le 6$$.)
+   - Intersection of $$x_1 + x_2 = 6$$ and $$2x_1 + x_2 = 8$$: subtracting gives $$x_1 = 2$$, so $$x_2 = 4$$, giving $$v_4 = (2, 4)$$.
+3. **Evaluate the objective $$P(x_1, x_2) = 4x_1 + 3x_2$$ at every vertex**:
+   - $$P(0, 0) = 0$$
+   - $$P(4, 0) = 16$$
+   - $$P(0, 6) = 18$$
+   - $$P(2, 4) = 4(2) + 3(4) = 8 + 12 = 20$$.
+4. **Conclude global optimality**: By the Fundamental Theorem of Linear Programming, the maximum occurs at $$x^\star = (2, 4)$$ with optimal profit $$P^\star = 20$$.
+
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

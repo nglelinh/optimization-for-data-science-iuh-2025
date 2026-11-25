@@ -8,6 +8,30 @@ categories:
 - chapter14
 lang: en
 ---
+
+How do you guarantee that a function's curvature doesn't change too violently as you take a Newton step, *without* fixing a global Euclidean scale? You measure the rate of change of curvature ($$|f'''(x)|$$) in units of the current curvature itself ($$f''(x)^{3/2}$$). That dimensionless inequality, $$|f'''(x)| \le 2 f''(x)^{3/2}$$, is the exact definition of a self-concordant function.
+
+## Background Knowledge Map: Calculus of Self-Concordant Functions
+
+- **Pillar 1 — The 1D Defining Inequality:** A $$C^3$$ convex function $$f: \mathbb{R} \to \mathbb{R}$$ is self-concordant iff $$|f'''(x)| \le 2 f''(x)^{3/2}$$ everywhere on its domain (equivalently, $$\left|\frac{d}{dx}\big(f''(x)^{-1/2}\big)\right| \le 1$$).
+- **Pillar 2 — Lifting to $$\mathbb{R}^n$$ via Line Restrictions:** A multivariate function $$f: \mathbb{R}^n \to \mathbb{R}$$ is self-concordant iff every 1D slice $$g(t) = f(x + tv)$$ is self-concordant in $$t$$.
+- **Pillar 3 — Closure Under Addition and Affine Composition:** Sums of self-concordant functions are self-concordant (via $$(u^{3/2} + v^{3/2})^{2/3} \le u + v$$), and composing with $$Ax + b$$ preserves self-concordance automatically.
+- **Pillar 4 — Canonical Building Blocks:** Affine functions, convex quadratics ($$f''' = 0$$), $$-\log(x)$$, and $$-\log\det(X)$$ on $$\mathbb{S}^n_{++}$$ are all self-concordant—forming the toolkit for LP, QP, SOCP, and SDP barriers.
+
+### Step-by-Step Worked Example (Read Slowly): Checking Which Functions Are Self-Concordant
+
+Test three 1D convex functions against $$|f'''(x)| \le 2 f''(x)^{3/2}$$:
+
+1. **Log-barrier of a linear inequality $$f(x) = -\log(b - ax)$$ on $$ax < b$$:**
+   - $$f'(x) = \frac{a}{b-ax}$$, $$\quad f''(x) = \frac{a^2}{(b-ax)^2}$$, $$\quad f'''(x) = \frac{2a^3}{(b-ax)^3}$$.
+   - Check: $$|f'''(x)| = \frac{2|a|^3}{(b-ax)^3} = 2\left(\frac{a^2}{(b-ax)^2}\right)^{3/2} = 2 f''(x)^{3/2}$$. **Self-concordant!**
+2. **Scaled logarithm $$f(x) = -\alpha \log(x)$$ ($$\alpha > 0$$):**
+   - $$f''(x) = \frac{\alpha}{x^2}$$, $$\quad |f'''(x)| = \frac{2\alpha}{x^3}$$.
+   - Compare with $$2 f''(x)^{3/2} = \frac{2\alpha^{3/2}}{x^3}$$.
+   - Holds iff $$\alpha \le \alpha^{3/2} \iff \alpha \ge 1$$! Thus $$-0.5\log(x)$$ is *not* self-concordant, while $$-2\log(x)$$ is.
+3. **Exponential $$f(x) = e^x$$ on $$\mathbb{R}$$:**
+   - $$f''(x) = e^x$$, $$f'''(x) = e^x$$. Condition requires $$e^x \le 2 e^{3x/2} \iff e^{-x/2} \le 2$$, which **fails** as $$x \to -\infty$$! Thus $$e^x$$ is *not* self-concordant.
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

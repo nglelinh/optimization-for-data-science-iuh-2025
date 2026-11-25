@@ -10,6 +10,36 @@ lang: vi
 lesson_type: required
 ---
 
+Tại sao một kỹ sư khi gặp một bài toán mới thường cố gắng biến đổi nó về **dạng lồi** bằng mọi giá? Bởi vì ngay khoảnh khắc bài toán khoác lên chiếc áo lồi — hàm mục tiêu lồi, ràng buộc bất đẳng thức lồi và ràng buộc đẳng thức affine — ta lập tức nhận được "tấm thẻ bảo hiểm toàn cục": bất kỳ cực tiểu địa phương nào mà thuật toán tìm thấy chắc chắn là **cực tiểu toàn cục tốt nhất có thể**. Không cần đoán mò hàng trăm điểm khởi tạo ngẫu nhiên, cũng không sợ bỏ lỡ nghiệm tốt hơn ở một góc khuất nào đó của không gian.
+
+Bài học này giới thiệu trọn vẹn định nghĩa chuẩn của bài toán tối ưu hóa lồi, cầu nối hình học qua epigraph và chứng minh kinh điển cho tính chất "địa phương = toàn cục".
+
+## Bản đồ kiến thức nền: Kiến trúc của một bài toán tối ưu hóa lồi
+
+- **Tập lồi (Convex Set):** Chứa trọn đoạn thẳng nối hai điểm bất kỳ trong tập. Trong bài toán lồi, miền khả thi luôn là tập lồi (giao của các tập mức dưới của $$g_i$$ và các siêu phẳng $$h_j(x) = 0$$).
+- **Hàm lồi và Epigraph:** Hàm $$f$$ lồi khi và chỉ khi vùng nằm trên đồ thị của nó ($$\operatorname{epi} f$$) là một tập lồi. Đây là cây cầu nối giải tích (hàm số) với hình học (tập hợp).
+- **Vì sao ràng buộc đẳng thức $$h_j(x) = 0$$ bắt buộc phải là affine?** Nếu viết $$h(x) = 0$$ thành cặp $$h(x) \le 0$$ và $$-h(x) \le 0$$, thì cả $$h$$ và $$-h$$ cùng phải lồi — điều này chỉ xảy ra khi $$h$$ là hàm affine $$a^T x + b$$! (Ví dụ $$x_1^2 + x_2^2 = 1$$ là đường tròn rỗng ruột, không phải tập lồi.)
+- **Tính chất toàn cục (Local = Global):** Chứng minh bằng phản chứng chỉ dùng đúng định nghĩa tập lồi và bất đẳng thức hàm lồi cho tổ hợp $$\theta y + (1-\theta)x$$.
+
+### Khung giải thích (nên đọc chậm): Kiểm tra tính lồi và giải tay một bài toán lồi có cả 2 loại ràng buộc
+
+Xét bài toán:
+$$\min_{x_1, x_2} f(x_1, x_2) = x_1^2 + 2x_2^2 \quad \text{với điều kiện} \quad g_1(x) = 3 - x_1 - x_2 \le 0,\quad h_1(x) = x_1 - x_2 - 1 = 0.$$
+
+1. **Kiểm tra cấu trúc lồi:**
+   - Hàm mục tiêu $$f(x) = x_1^2 + 2x_2^2$$ có Hessian $$\operatorname{diag}(2, 4) \succ 0$$ nên lồi chặt.
+   - Ràng buộc bất đẳng thức $$g_1(x) = 3 - x_1 - x_2$$ là hàm affine (vừa lồi vừa lõm).
+   - Ràng buộc đẳng thức $$h_1(x) = x_1 - x_2 - 1$$ là hàm affine.
+   Vậy đây là **bài toán tối ưu hóa lồi chuẩn**.
+2. **Khử ràng buộc đẳng thức:** Từ $$x_1 - x_2 - 1 = 0 \implies x_1 = x_2 + 1$$. Thay vào bất đẳng thức:
+   $$3 - (x_2 + 1) - x_2 \le 0 \iff 2 - 2x_2 \le 0 \iff x_2 \ge 1.$$
+3. **Cực tiểu hóa hàm một biến thu gọn:**
+   $$\phi(x_2) = (x_2 + 1)^2 + 2x_2^2 = 3x_2^2 + 2x_2 + 1, \qquad x_2 \ge 1.$$
+   Đạo hàm $$\phi'(x_2) = 6x_2 + 2 > 0$$ với mọi $$x_2 \ge 1$$, nên $$\phi$$ tăng nghiêm ngặt trên $$[1, \infty)$$.
+4. **Nghiệm tối ưu toàn cục:** Đạt tại $$x_2^* = 1 \implies x_1^* = 2$$, giá trị tối ưu $$p^* = 2^2 + 2(1)^2 = 6$$. Kiểm chứng bất đẳng thức lồi giữa $$x^* = (2, 1)$$ và một điểm khả thi khác $$y = (3, 2)$$ ($$f(y) = 17$$): trung điểm $$z = (2.5, 1.5)$$ thỏa ràng buộc và có $$f(z) = 6.25 + 4.5 = 10.75 \le \frac{6 + 17}{2} = 11.5$$.
+
+---
+
 Bài toán tối ưu hóa lồi là một lớp đặc biệt quan trọng của bài toán tối ưu hóa.
 
 >$$\begin{align*} 

@@ -12,6 +12,31 @@ redirect_from:
   - /contents/vi/chapter19/19_08_Practical_Exercises_Proximal_Newton_Methods/
 ---
 
+Lý thuyết về ánh xạ proximal có tỉ lệ, backtracking tổng hợp và Projected Newton chỉ thực sự "ngấm" khi bạn tự tay thiết lập bài toán con bậc hai, tính ngưỡng mềm có trọng số Hessian và trực tiếp kiểm chứng xem Proximal Newton rút ngắn bao nhiêu vòng lặp so với ISTA/FISTA. Bộ bài tập thực hành dưới đây giúp bạn rèn luyện trọn vẹn kỹ năng từ giải tay 1 chiều đến phân tích tốc độ hội tụ trên bài toán thực.
+
+## Bản đồ kiến thức nền: Bốn kỹ năng trọng tâm cần vận dụng trong bài tập Chương 19
+
+Trước khi bắt tay giải các bài tập bên dưới, hãy kiểm tra nhanh bốn bước kỹ thuật cốt lõi:
+
+- **Thiết lập đúng bài toán con bậc hai tổng hợp:** Viết đầy đủ $$\nabla g(x^{(k)})^T v + \frac{1}{2}v^T H^{(k)} v + h(x^{(k)} + v)$$ và lưu ý biến tối ưu có thể viết theo độ dời $$v$$ hoặc trực tiếp theo biến mới $$z = x^{(k)} + v$$.
+- **Đưa bài toán con 1 chiều/đường chéo về ngưỡng mềm chuẩn:** Khi $$H$$ là số dương (hoặc đường chéo), luôn chia cả hai số hạng cho $$H$$ để thấy ngay điểm tâm $$x - H^{-1}\nabla g(x)$$ và ngưỡng co mới $$\lambda / H$$.
+- **Kiểm tra điều kiện tối ưu bậc nhất tổng hợp:** Điểm $$x^\star$$ là nghiệm tối ưu khi và chỉ khi $$0 \in \nabla g(x^\star) + \partial h(x^\star)$$; với $$h(x) = \lambda|x|$$, điều này có nghĩa $$|g'(x^\star)| \le \lambda$$ nếu $$x^\star = 0$$, và $$g'(x^\star) = -\lambda\operatorname{sign}(x^\star)$$ nếu $$x^\star \ne 0$$.
+- **Phân biệt rõ Newton proximal và Newton chiếu ngây thơ:** Luôn kiểm tra giá trị hàm $$f(x + tv)$$ sau mỗi bước để xác nhận hướng đi thực sự là hướng giảm.
+
+### Khung giải thích (nên đọc chậm): Khởi động bằng 1 bước Newton proximal trên hàm bậc 4 có phạt $$\ell_1$$
+
+Xét bài toán $$f(x) = \underbrace{\frac{1}{4}x^4}_{g(x)} + \underbrace{|x|}_{h(x)}$$ (nghiệm tối ưu duy nhất là $$x^\star = 0$$ vì $$0 \in g'(0) + [-1, 1]$$). Thử tính 1 bước Newton proximal từ $$x^{(0)} = 1$$:
+
+1. **Tính đạo hàm bậc nhất và bậc hai của $$g$$ tại $$x^{(0)} = 1$$:**
+   $$g'(1) = 1^3 = 1, \qquad H^{(0)} = g''(1) = 3(1)^2 = 3.$$
+2. **Đưa về dạng ánh xạ proximal có tỉ lệ:**
+   $$x^{(1)} = \operatorname{prox}_{H^{(0)}}\!\left(x^{(0)} - (H^{(0)})^{-1} g'(x^{(0)})\right) = \operatorname{prox}_{3}\!\left(1 - \frac{1}{3}\right) = S_{1/3}\!\left(\frac{2}{3}\right).$$
+3. **Tính kết quả ngưỡng mềm:**
+   $$x^{(1)} = \frac{2}{3} - \frac{1}{3} = \frac{1}{3} \approx 0.3333.$$
+4. **Kiểm tra mức giảm hàm mục tiêu:** $$f(1) = 0.25 + 1 = 1.25$$ sụt mạnh xuống $$f(1/3) = \frac{1}{324} + \frac{1}{3} \approx 0.3364$$! Và chỉ cần thêm 1 bước nữa tại $$x^{(1)} = 1/3$$ ($$g'(1/3) = 1/27, H^{(1)} = 1/3$$), ta có $$x^{(2)} = S_{3}(1/3 - 1/9) = S_3(2/9) = 0 = x^\star$$ — chạm chính xác nghiệm tối ưu sau đúng 2 bước!
+
+---
+
 # Bài Tập Thực Hành - Phương pháp Proximal Newton
 
 Các bài tập được tham khảo từ Lee et al. (2014) và Rakotomamonjy et al. (2016).

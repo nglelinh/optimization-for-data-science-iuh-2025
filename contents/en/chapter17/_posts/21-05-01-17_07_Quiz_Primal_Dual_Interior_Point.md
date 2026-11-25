@@ -12,6 +12,28 @@ redirect_from:
   - /contents/en/chapter17/17_06_Quiz_Primal_Dual_Interior_Point/
 ---
 
+Reading derivations of perturbed KKT systems can create a deceptive sense of fluency—until a multiple-choice question asks whether the primal residual stays zero after a damped Newton step, or why the surrogate duality gap can be smaller than the true suboptimality at an infeasible iterate. Treat this quiz as a high-precision diagnostic lab: every question probes a structural invariant of primal-dual interior-point methods that distinguishes genuine graduate mastery from surface pattern-matching.
+
+## Background Knowledge Map: Core Invariants Tested in This Quiz
+
+- **Barrier vs. Primal-Dual Mechanics:** Know the exact trade-offs—single Newton step per iteration, infeasible-start capability, and simultaneous $$(x, u, v)$$ updates versus inner centering loops.
+- **Residual Definitions & Contraction Laws:** Distinguish $$r_{\text{prim}} = Ax - b$$, $$r_{\text{dual}} = \nabla f(x) + \nabla h(x)u + A^T v$$, and $$r_{\text{cent}} = U h(x) + \tau \mathbf{1}$$, and recognize how linear residuals contract by exactly $$(1 - \theta)$$ under a step of length $$\theta$$.
+- **Surrogate Gap & Centering Parameter $$\sigma$$:** Recall $$\eta = -h(x)^T u$$, $$\tau = \sigma \eta / m$$, and how $$\sigma \to 0$$ yields aggressive affine-scaling steps while $$\sigma \to 1$$ yields pure centering steps.
+- **LP Normal Equations & SDP Symmetrization:** Connect the $$m \times m$$ SPD matrix $$A S^{-1} X A^T$$ in LP to the matrix complementarity $$XS = \mu I$$ and non-commutativity symmetrization in SDP.
+
+### Step-by-Step Worked Example (Read Slowly): Why Linear Residuals Contract by Exactly $$(1 - \theta)$$
+
+Suppose a quiz asks: *In a primal-dual IPM for an LP, if the current iterate has primal residual $$r_p^k = Ax^k - b = (2, -4)^T$$ and we take a damped Newton step with step length $$\theta_k = 0.75$$, what is the new primal residual $$r_p^{k+1}$$?*
+
+1. **Write the linearized equality constraint from the Newton system:**
+   The primal-dual Newton step satisfies $$A \Delta x = -r_p^k$$.
+2. **Substitute the updated iterate $$x^{k+1} = x^k + \theta_k \Delta x$$:**
+   $$r_p^{k+1} = A(x^k + \theta_k \Delta x) - b = (Ax^k - b) + \theta_k (A \Delta x) = r_p^k - \theta_k r_p^k = (1 - \theta_k) r_p^k.$$
+3. **Evaluate numerically at $$\theta_k = 0.75$$:**
+   $$r_p^{k+1} = (1 - 0.75)\begin{bmatrix} 2 \\ -4 \end{bmatrix} = \begin{bmatrix} 0.5 \\ -1.0 \end{bmatrix}.$$
+4. **Key insight for the quiz:**
+   Notice this identity holds *regardless* of $$\sigma$$ or $$\tau$$, and once any iteration takes a full step $$\theta_k = 1$$, $$r_p^{k+1} = 0$$ and primal feasibility is preserved forever thereafter! (The exact same $$(1 - \theta_k)$$ law holds for $$r_{\text{dual}}$$ in LP and QP, because $$\nabla f$$ and $$\nabla h$$ are linear.)
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

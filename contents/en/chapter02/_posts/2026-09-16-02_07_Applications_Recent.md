@@ -10,6 +10,27 @@ lang: en
 lesson_type: optional
 ---
 
+Convex sets are not abstract museum pieces—they sit right inside the output layer of every large language model (the probability simplex), inside distributionally robust optimization against data shift (Wasserstein balls), and inside ethical AI systems (fairness polytopes). Whenever a modern ML architecture averages distributions, enforces a robustness radius, or balances competing group metrics, it is exploiting the exact Chapter 02 geometry of convex sets.
+
+## Background Knowledge Map: Modern ML Geometry Through Chapter 02
+
+- **Probability Simplex & Softmax:** The softmax map $$\text{softmax}(z)_i = e^{z_i} / \sum_j e^{z_j}$$ maps unconstrained neural network logits $$z \in \mathbb{R}^K$$ smoothly into the relative interior of the probability simplex $$\Delta_K$$.
+- **Wasserstein Ambiguity Balls:** Distributionally robust optimization (DRO) protects models against distribution shift by hedging over a convex ball of probability distributions centered at the empirical data.
+- **Fairness & Resource Polytopes:** Group fairness constraints (demographic parity, equal opportunity) carve a convex polytope out of the space of randomized classifiers, allowing exact feasibility analysis via linear programming.
+- **Geometry Drives Tractability:** Whenever an ML constraint forms a convex set with an efficient projection or separation oracle, we can enforce it provably during training.
+
+### Step-by-Step Worked Example (Read Slowly): Mapping Logits onto the Probability Simplex via Softmax
+
+Given a 3-class classifier's raw logit vector $$z = (2, 1, 0)^T$$:
+
+1. **Exponentiate each logit:**
+   $$e^2 \approx 7.389, \qquad e^1 \approx 2.718, \qquad e^0 = 1.000.$$
+2. **Normalize to land inside the relative interior of $$\Delta_3$$:**
+   $$Z = 7.389 + 2.718 + 1.000 = 11.107,$$
+   $$p = \text{softmax}(z) = \left(\frac{7.389}{11.107},\; \frac{2.718}{11.107},\; \frac{1.000}{11.107}\right)^T \approx (0.665,\; 0.245,\; 0.090)^T.$$
+   Check simplex membership: every entry is strictly positive and $$0.665 + 0.245 + 0.090 = 1.000$$.
+3. **Verify shift invariance (numerical stability trick):** Subtracting $$\max_i z_i = 2$$ gives $$z' = (0, -1, -2)^T$$ with $$e^{z'} = (1, 0.368, 0.135)^T$$ and sum $$1.503$$, producing the identical simplex point $$(0.665, 0.245, 0.090)^T$$ without risk of floating-point overflow.
+
 A convex set is a feasible region you can *average inside*. That geometric fact is why so many modern machine-learning constraints look like simplices, balls, or spectrahedra. This lesson names three families of convex sets that appear in 2022–2025 papers and libraries, each tied to a definition you already have: the probability simplex, a Wasserstein ball of distributions, and a polyhedron cut by fairness (or budget) inequalities.
 
 ## The probability simplex, softmax, and last-layer geometry

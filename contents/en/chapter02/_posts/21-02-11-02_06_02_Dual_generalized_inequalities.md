@@ -9,6 +9,29 @@ categories:
 lang: en
 ---
 
+Suppose an aerospace team must minimize both *weight* and *drag* simultaneously across a set of wing designs. Because there is no single wing with both minimum weight and minimum drag, how do you actually compute points on the Pareto-optimal trade-off curve using a standard scalar optimizer? Dual generalized inequalities give the exact answer: minimize $$\lambda^T x$$ for strictly positive dual weights $$\lambda \succ_{K^*} 0$$.
+
+## Background Knowledge Map: Scalarizing Multi-Objective Trade-Offs
+
+- **Preservation Under Nonnegative Dual Weights:** $$x \preceq_K y \iff \lambda^T x \le \lambda^T y$$ for all $$\lambda \succeq_{K^*} 0$$—turning a vector inequality into an equivalent family of scalar inequalities.
+- **Dual Test for a Minimum Element:** $$x$$ is the minimum element of $$S$$ w.r.t. $$K$$ if and only if for *every* $$\lambda \succ_{K^*} 0$$, $$x$$ is the unique minimizer of $$\lambda^T z$$ over $$S$$.
+- **Dual Test for Minimal (Pareto) Elements:** If $$x$$ minimizes $$\lambda^T z$$ over $$S$$ for *some* $$\lambda \succ_{K^*} 0$$, then $$x$$ is guaranteed to be minimal (Pareto-optimal)—and when $$S$$ is convex, the converse nearly holds (every minimal point minimizes $$\lambda^T z$$ for some nonzero $$\lambda \succeq_{K^*} 0$$).
+- **Economic Meaning of $$\lambda$$:** The weight vector $$\lambda$$ acts as a vector of shadow prices trading off one objective against another along the optimal production frontier.
+
+### Step-by-Step Worked Example (Read Slowly): Sweeping a Pareto Frontier via Dual Weights
+
+Recover all three minimal elements of $$S = \{(1, 4),\; (2, 2),\; (3, 1)\}$$ (under $$K = K^* = \mathbb{R}_+^2$$) by minimizing $$\lambda^T z = \lambda_1 z_1 + \lambda_2 z_2$$ for strictly positive weights $$\lambda \succ 0$$:
+
+1. **Weight $$\lambda^{(1)} = (3, 1)^T$$ (prioritizes first cost):**
+   - Scores: $$3(1) + 4 = 7$$, $$3(2) + 2 = 8$$, $$3(3) + 1 = 10$$.
+   - Unique minimizer: $$(1, 4)$$, certifying $$(1, 4)$$ as minimal.
+2. **Weight $$\lambda^{(2)} = (2, 1.5)^T$$ (balanced trade-off):**
+   - Scores: $$2(1) + 1.5(4) = 8$$, $$2(2) + 1.5(2) = 7$$, $$2(3) + 1.5(1) = 7.5$$.
+   - Unique minimizer: $$(2, 2)$$, certifying $$(2, 2)$$ as minimal.
+3. **Weight $$\lambda^{(3)} = (1, 3)^T$$ (prioritizes second cost):**
+   - Scores: $$1 + 3(4) = 13$$, $$2 + 3(2) = 8$$, $$3 + 3(1) = 6$$.
+   - Unique minimizer: $$(3, 1)$$, certifying $$(3, 1)$$ as minimal.
+
 If we can define a generalized inequality using a proper cone, we can also define a dual generalized inequality using the dual cone, provided the dual cone is proper.
 
 This section defines dual generalized inequalities using a proper dual cone and redefines minimum and minimal elements using dual inequalities.

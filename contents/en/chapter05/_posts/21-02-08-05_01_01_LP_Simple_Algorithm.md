@@ -10,6 +10,31 @@ lang: en
 lesson_type: required
 ---
 
+A high-dimensional polytope with 1,000 constraints can easily have more vertices than atoms in the observable universe—enumerating them all is impossible. Dantzig's Simplex Algorithm solves this in breathtaking geometric style: instead of visiting every corner, it stands at one vertex, checks which adjacent edges slope strictly downhill, and walks along the polytope's skeleton until every neighboring edge goes uphill.
+
+## Background Knowledge Map: Mechanics of the Simplex Method
+
+1. **Basic Feasible Solutions (BFS) = Vertices**: In standard form $$Ax = b, x \ge 0$$ with $$A \in \mathbb{R}^{m \times n}$$ of full row rank $$m$$, partitioning columns into an invertible basis $$B$$ ($$m$$ columns) and nonbasic set $$N$$ ($$n - m$$ columns) sets $$x_N = 0$$ and $$x_B = B^{-1}b$$. Whenever $$x_B \ge 0$$, this algebraic partition corresponds directly to a geometric vertex of the polyhedron.
+2. **Reduced Costs as Edge Slopes**: Moving a single nonbasic variable $$x_j$$ up from $$0$$ forces $$x_B = B^{-1}b - B^{-1}A_j x_j$$ and changes the objective at rate $$\bar{c}_j = c_j - c_B^T B^{-1} A_j$$. If all $$\bar{c}_j \ge 0$$, no feasible edge improves the objective and the current BFS is globally optimal.
+3. **Minimum-Ratio Test (Choosing the Leaving Variable)**: Once an entering variable $$x_j$$ with $$\bar{c}_j < 0$$ is chosen, we increase $$x_j$$ as far as possible until the first basic variable hits zero: $$t^\star = \min_{i : d_i > 0} \frac{(x_B)_i}{d_i}$$ where $$d = B^{-1}A_j$$. If $$d \le 0$$, the LP is unbounded below.
+4. **Degeneracy and Cycling**: If some basic variable already equals $$0$$, a pivot can take step size $$t^\star = 0$$ (changing the basis without moving in space). Bland's rule—always picking the smallest-index entering and leaving variables—guarantees finite termination without cycling.
+
+### Step-by-Step Worked Example (Read Slowly): Executing One Exact Simplex Pivot by Hand
+
+Minimize $$-3x_1 - 2x_2$$ subject to $$x_1 + x_2 + s_1 = 4$$, $$2x_1 + x_2 + s_2 = 6$$, with $$x_1, x_2, s_1, s_2 \ge 0$$.
+
+1. **Start at the slack basis $$B = \{s_1, s_2\}$$, $$N = \{x_1, x_2\}$$**:
+   - Here $$B = I_2$$, $$c_B = (0, 0)^T$$, so $$x_B = (s_1, s_2)^T = (4, 6)^T$$ and objective $$z = 0$$.
+   - Reduced costs for $$N$$: $$\bar{c}_1 = -3 - 0 = -3 < 0$$, $$\bar{c}_2 = -2 - 0 = -2 < 0$$.
+2. **Choose entering variable $$x_1$$** (most negative reduced cost, $$\bar{c}_1 = -3$$):
+   - Direction vector: $$d = B^{-1} A_1 = (1, 2)^T$$.
+   - Minimum-ratio test: $$\min\left(\frac{4}{1}, \frac{6}{2}\right) = \min(4, 3) = 3$$, attained by the second row ($$s_2$$).
+   - Thus $$s_2$$ leaves the basis and $$x_1$$ enters at value $$x_1 = 3$$, while $$s_1 = 4 - 1(3) = 1$$ and $$z = -3(3) = -9$$.
+3. **Compute reduced costs at the new basis $$B = \{s_1, x_1\}$$**:
+   - Express basic variables in terms of nonbasic $$\{x_2, s_2\}$$: from $$2x_1 + x_2 + s_2 = 6$$, we get $$x_1 = 3 - \tfrac{1}{2}x_2 - \tfrac{1}{2}s_2$$.
+   - Substituting into the objective: $$z = -3\bigl(3 - \tfrac{1}{2}x_2 - \tfrac{1}{2}s_2\bigr) - 2x_2 = -9 - \tfrac{1}{2}x_2 + \tfrac{3}{2}s_2$$.
+   - The new reduced costs are $$\bar{c}_{x_2} = -\tfrac{1}{2} < 0$$ and $$\bar{c}_{s_2} = +\tfrac{3}{2} > 0$$, so one more pivot (bringing $$x_2$$ in and $$s_1$$ out) will reach the optimal vertex $$(x_1, x_2) = (2, 2)$$ with $$z^\star = -10$$.
+
 The [linear program]({% multilang_post_url contents/chapter05/21-02-08-05_01_Linear_Programming_(LP) %}) from the previous lesson has a polyhedral feasible set. A remarkable geometric fact makes LP special: **if a finite optimum exists, at least one optimal point is a vertex**. The simplex algorithm walks from vertex to vertex, improving the objective, until no neighboring vertex is better.
 
 Interactive tableau: [simplex demo](https://github.com/nglelinh/interactive_math/blob/main/linear-programming/simplex_optimization_demo.html) in `nglelinh/interactive_math`.

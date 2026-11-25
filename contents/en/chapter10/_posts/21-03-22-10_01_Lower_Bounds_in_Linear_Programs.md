@@ -10,6 +10,31 @@ lang: en
 lesson_type: required
 ---
 
+How do you prove a lower bound on the minimum value of a linear program without ever running the simplex method? The trick is as elementary as high-school algebra, yet it is the entire conceptual seed of duality theory: multiply each inequality constraint by a **nonnegative** weight (so the inequality sign never flips), add them up so the left-hand side matches the objective function $$c^\top x$$, and read off the resulting number on the right-hand side! Maximizing that right-hand side over all valid multiplier weights *is* the dual linear program.
+
+## Background Knowledge Map: Building Lower Bounds from Linear Combinations
+
+- **Pillar 1 — Sign Preservation Under Nonnegative Multipliers:** Multiplying $$a^\top x \ge b$$ by $$u \ge 0$$ preserves the direction $$u a^\top x \ge u b$$; multiplying an equality $$a^\top x = b$$ by *any* $$v \in \mathbb{R}$$ preserves equality. This sign discipline is why inequality dual variables are constrained ($$u \ge 0$$) while equality dual variables are free ($$v \in \mathbb{R}$$).
+- **Pillar 2 — Matching Objective Coefficients (Dual Feasibility):** To conclude $$c^\top x \ge B$$ for all feasible $$x$$, the combined constraint coefficients on $$x$$ must match $$c$$ (or be $$\le c$$ when $$x \ge 0$$). Those coefficient-matching equations are literally the **dual constraints**.
+- **Pillar 3 — Tightening the Lower Bound (Dual Objective):** Any valid choice of multipliers yields *some* lower bound $$B(u, v) \le p^\star$$. Searching for the *best* (largest) lower bound turns the bound-finding game into a maximization LP: $$\max_{u, v} B(u, v)$$.
+- **Pillar 4 — Weak Duality as an Immediate Corollary:** Because every dual-feasible $$(u, v)$$ constructs a valid inequality $$c^\top x \ge B(u, v)$$ for every primal-feasible $$x$$, we obtain $$d^\star \le p^\star$$ automatically with zero extra proof machinery.
+
+### Step-by-Step Worked Example (Read Slowly): Deriving the Tightest Lower Bound by Hand
+
+Minimize $$f(x, y) = 4x + 5y$$ subject to $$x + 2y \ge 6$$, $$3x + y \ge 8$$, and $$x, y \ge 0$$.
+
+1. **Assign nonnegative multipliers $$u_1, u_2 \ge 0$$ to the two resource constraints:**
+   $$u_1(x + 2y) + u_2(3x + y) \ge 6u_1 + 8u_2 \implies (u_1 + 3u_2)x + (2u_1 + u_2)y \ge 6u_1 + 8u_2.$$
+2. **Enforce the bound $$4x + 5y \ge (u_1 + 3u_2)x + (2u_1 + u_2)y$$ for all $$x, y \ge 0$$:**
+   Since $$x \ge 0$$ and $$y \ge 0$$, this holds whenever:
+   $$u_1 + 3u_2 \le 4 \quad \text{and} \quad 2u_1 + u_2 \le 5, \qquad u_1, u_2 \ge 0.$$
+3. **Maximize the lower bound $$6u_1 + 8u_2$$:**
+   At the intersection of both dual constraints: $$u_1 + 3u_2 = 4$$ and $$2u_1 + u_2 = 5$$.
+   - From the first: $$u_1 = 4 - 3u_2$$.
+   - Substitute into the second: $$2(4 - 3u_2) + u_2 = 5 \implies 8 - 5u_2 = 5 \implies u_2^\star = 0.6$$, and $$u_1^\star = 4 - 1.8 = 2.2$$.
+   - Best lower bound: $$6(2.2) + 8(0.6) = 13.2 + 4.8 = 18.0$$.
+4. **Verify against the primal intersection:** Solving $$x + 2y = 6$$ and $$3x + y = 8$$ gives $$x^\star = 2, y^\star = 2$$, with primal value $$4(2) + 5(2) = 18.0$$—matching the dual bound to the last decimal!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

@@ -9,6 +9,35 @@ categories:
 lang: vi
 ---
 
+Ít ai biết rằng thuật toán Đơn hình (Simplex) — viên gạch khai sinh thời đại tối ưu hóa tính toán — ra đời năm 1947 từ một bài toán hậu cần quân sự tưởng chừng đời thường của George Dantzig: làm sao lập kế hoạch cung ứng tối ưu với ngân sách thấp nhất? Kể từ đó, tối ưu hóa lồi trải qua ba làn sóng lịch sử ngoạn mục: từ nền tảng hình học thuần túy của Minkowski–Fenchel–Rockafellar, đến cuộc cách mạng đa thức của phương pháp điểm trong (Karmarkar, Nesterov–Nemirovski), và bùng nổ thành động cơ cốt lõi của học máy quy mô lớn thế kỷ 21.
+
+Đọc lịch sử tối ưu hóa giúp bạn hiểu *tại sao* các công cụ trong khóa học lại xuất hiện theo đúng thứ tự như vậy, thay vì nhìn chúng như những định lý rời rạc.
+
+## Bản đồ kiến thức nền: Ba làn sóng định hình tối ưu hóa lồi hiện đại
+
+- **Làn sóng 1 — Nền tảng lý thuyết (1900–1970):** Minkowski đặt nền hình học tập lồi, Fenchel–Rockafellar xây dựng giải tích lồi và đối ngẫu, Karush–Kuhn–Tucker thiết lập điều kiện tối ưu KKT cho bài toán có ràng buộc bất đẳng thức.
+- **Làn sóng 2 — Cuộc cách mạng thuật toán đa thức (1947–1995):** Simplex của Dantzig (1947) giải LP thần tốc trong thực tế nhưng có trường hợp xấu nhất hàm mũ; phương pháp Ellipsoid (Khachiyan, 1979) chứng minh LP thuộc lớp $$P$$; và phương pháp Điểm trong (Karmarkar, 1984; Nesterov–Nemirovski, 1994) mở rộng thời gian đa thức sang cả QP, SOCP và SDP.
+- **Làn sóng 3 — Tối ưu hóa quy mô lớn và kỷ nguyên AI (2000–nay):** Các thư viện mô hình hóa kỷ luật (CVX, CVXPY) dân chủ hóa tối ưu hóa lồi, trong khi các thuật toán bậc nhất (FISTA, ADMM, SGD, Adam) xử lý mượt mà hàng triệu đến hàng tỷ biến trong khoa học dữ liệu.
+
+### Khung giải thích (nên đọc chậm): Trải nghiệm ý tưởng "đường trung tâm" của phương pháp điểm trong (1984–1994)
+
+Khác với Simplex nhảy dọc theo các đỉnh biên của đa diện, phương pháp điểm trong đi xuyên qua **lòng trong** miền khả thi bằng hàm rào chắn logarit (log-barrier). Xét bài toán LP một biến tối giản:
+
+$$\min_{x} x \quad \text{với điều kiện} \quad x \ge 0 \quad (\text{nghiệm đúng } x^* = 0,\ p^* = 0).$$
+
+1. **Thay ràng buộc cứng $$x \ge 0$$ bằng rào chắn mượt $$-\frac{1}{t}\ln x$$ (với $$t > 0$$ tăng dần):**
+   $$\min_{x > 0} \phi_t(x) = t x - \ln x.$$
+   Khi $$x \to 0^+$$, $$-\ln x \to +\infty$$ tạo một bức tường vô hình đẩy nghiệm giữ chặt trong phần trong $$x > 0$$.
+2. **Giải chính xác điểm trên đường trung tâm (central path):**
+   $$\phi_t'(x) = t - \frac{1}{x} = 0 \implies x^*(t) = \frac{1}{t}.$$
+3. **Quan sát dãy điểm khi tăng tham số $$t$$:**
+   - $$t = 1 \implies x^*(1) = 1.0$$ (sai số so với $$p^*$$ đúng bằng $$1$$).
+   - $$t = 10 \implies x^*(10) = 0.1$$ (sai số $$0.1$$).
+   - $$t = 1000 \implies x^*(1000) = 0.001$$ (sai số $$0.001$$).
+   Ở mọi bước, sai số đối ngẫu luôn được kiểm soát chính xác bằng $$\frac{1}{t}$$ — chính cấu trúc rào chắn tự điều hòa (self-concordant) này đã giúp Nesterov và Nemirovski chứng minh tốc độ hội tụ đa thức tổng quát!
+
+---
+
 # Lịch sử phát triển của tối ưu hóa lồi
 
 Tối ưu hóa lồi có quá trình phát triển lâu dài, đi từ những nền tảng hình học và giải tích thuần túy đến các ứng dụng rộng rãi trong kỹ thuật và khoa học dữ liệu hiện đại. Bài học này điểm lại các cột mốc chính theo từng giai đoạn.

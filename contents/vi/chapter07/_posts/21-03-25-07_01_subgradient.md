@@ -10,6 +10,42 @@ lang: vi
 lesson_type: required
 ---
 
+Trong giải tích cổ điển, định nghĩa đạo hàm dựa trên giới hạn cục bộ $$\lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$: hễ độ dốc bên trái khác độ dốc bên phải, giới hạn đứt gãy và ta "chịu thua". Nhưng với hàm lồi, ta lại nhớ đến một tính chất toàn cục tuyệt đẹp từ Chương 03: tiếp tuyến của hàm lồi khả vi luôn nằm **hoàn toàn bên dưới** đồ thị hàm số: $$f(y) \ge f(x) + \nabla f(x)^T(y - x)$$.
+
+Nhà toán học R. Tyrrell Rockafellar và các bậc tiền bối đã lật ngược tính chất ấy thành chính **định nghĩa** của **Gradient dưới (Subgradient)**: không cần giới hạn, không cần khả vi — bất kỳ vector $$g$$ nào tạo ra một mặt phẳng đỡ toàn cục nằm dưới đồ thị $$f$$ đi qua $$(x, f(x))$$ đều xứng đáng được gọi là một subgradient!
+
+## Bản đồ kiến thức nền: Bốn góc nhìn cốt lõi về Subgradient
+
+Để tính thành thạo subgradient trên mọi hàm không trơn (từ $$\ell_1$$, $$\ell_2$$ đến hàm cực đại), hãy nắm bốn trụ cột:
+
+- **Định nghĩa toàn cục bằng bất đẳng thức tuyến tính:** $$g \in \mathbb{R}^n$$ là subgradient của $$f$$ tại $$x$$ nếu $$f(y) \ge f(x) + g^T(y - x)$$ với mọi $$y \in \mathbb{R}^n$$. Dù định nghĩa này có thể viết cho mọi hàm, với hàm **lồi** trên phần trong miền xác định, subgradient *luôn luôn tồn tại*!
+- **Trùng khớp hoàn toàn tại điểm khả vi:** Nếu $$f$$ lồi và khả vi tại $$x$$, thì subgradient tồn tại duy nhất và bằng chính $$\nabla f(x)$$.
+- **Bốn ví dụ khuôn mẫu bắt buộc nhớ:**
+  1. Giá trị tuyệt đối $$|x|$$: $$g = \operatorname{sign}(x)$$ khi $$x \neq 0$$, và $$g \in [-1, 1]$$ khi $$x = 0$$.
+  2. Chuẩn Euclidean $$\|x\|_2$$: $$g = x / \|x\|_2$$ khi $$x \neq 0$$, và $$\|g\|_2 \le 1$$ khi $$x = 0$$.
+  3. Chuẩn $$\ell_1$$ $$\|x\|_1$$: từng tọa độ $$g_i = \operatorname{sign}(x_i)$$ nếu $$x_i \neq 0$$, và $$g_i \in [-1, 1]$$ nếu $$x_i = 0$$.
+  4. Hàm cực đại $$f(x) = \max(f_1(x), f_2(x))$$: tại điểm giao $$f_1(x) = f_2(x)$$, mọi tổ hợp lồi của $$\nabla f_1(x)$$ và $$\nabla f_2(x)$$ đều là subgradient!
+- **Khác biệt lớn với Gradient — Không phải hướng giảm!** Một cú sốc thú vị: $$-g$$ với $$g \in \partial f(x)$$ **không nhất thiết** là hướng làm giảm $$f(x)$$ (chỉ đảm bảo làm giảm *khoảng cách tới $$x^\star$$* với bước đủ nhỏ!).
+
+### Khung giải thích (nên đọc chậm): Tính tay tập subgradient của hàm cực đại $$f(x) = \max(2x - 1,\; -x + 2)$$
+
+Xét hàm lồi từng mảnh $$f(x) = \max(f_1(x), f_2(x))$$ với $$f_1(x) = 2x - 1$$ (độ dốc $$2$$) và $$f_2(x) = -x + 2$$ (độ dốc $$-1$$):
+
+1. **Bước 1 — Tìm điểm gãy khúc (nơi hai đường thẳng cắt nhau):**
+   $$2x - 1 = -x + 2 \iff 3x = 3 \implies x = 1.$$
+   Tại $$x = 1$$, ta có $$f(1) = 1$$.
+2. **Bước 2 — Tính subgradient tại 3 vùng:**
+   - Khi $$x > 1$$: $$f(x) = 2x - 1$$ khả vi $$\implies$$ subgradient duy nhất $$g = 2$$.
+   - Khi $$x < 1$$: $$f(x) = -x + 2$$ khả vi $$\implies$$ subgradient duy nhất $$g = -1$$.
+   - Tại điểm gãy khúc $$x = 1$$: mọi tổ hợp lồi $$\theta(2) + (1-\theta)(-1)$$ với $$\theta \in [0, 1]$$, tức mọi $$g \in [-1, 2]$$!
+3. **Bước 3 — Kiểm chứng bằng số với $$g = 0.5 \in [-1, 2]$$ tại $$x = 1$$:**
+   Đường thẳng đỡ là $$L(y) = f(1) + 0.5(y - 1) = 1 + 0.5(y - 1)$$.
+   - Thử $$y = 3$$: $$f(3) = \max(5, -1) = 5 \ge L(3) = 2$$ (đúng!).
+   - Thử $$y = -1$$: $$f(-1) = \max(-3, 3) = 3 \ge L(-1) = 0$$ (đúng!).
+   - Thử $$g = 0 \in [-1, 2]$$: vì $$0$$ nằm trong $$[-1, 2]$$, ta biết ngay $$x^\star = 1$$ là điểm cực tiểu toàn cục với $$f^\star = 1$$!
+
+---
+
 # Gradient dưới (Subgradient)
 
 Đối với một hàm lồi $$f:\mathbb{R}^n \to \mathbb{R}$$, gradient dưới (subgradient) của $$f$$ tại điểm $$x$$ là bất kỳ vector $$g \in \mathbb{R}^n$$ nào thỏa mãn:

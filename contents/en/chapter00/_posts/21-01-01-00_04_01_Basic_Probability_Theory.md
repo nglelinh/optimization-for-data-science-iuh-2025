@@ -9,6 +9,25 @@ categories:
 lang: en
 ---
 
+Suppose a factory sensor flags a turbine blade as defective with 90% sensitivity and a 10% false-alarm rate, while true defects occur in only 5% of blades. Should you shut down the production line immediately? Intuition often misfires on base rates, whereas Kolmogorov's probability axioms and Bayes' theorem give the exact posterior probability needed to weigh shutdown costs against failure risks in an optimization decision.
+
+## Background Knowledge Map: Axiomatic Probability for Decision-Making
+
+- **Sample Space, Events & Kolmogorov Axioms:** Non-negativity, unit total probability, and countable additivity enforce mathematical consistency across all probabilistic models and chance constraints.
+- **Conditional Probability & Law of Total Probability:** Decompose complex uncertainties across mutually exclusive scenarios via $$P(A) = \sum_i P(A \mid B_i)P(B_i)$$.
+- **Bayes' Theorem:** Updates prior beliefs into posterior probabilities after observing data—the cornerstone of Bayesian inference, MAP estimation, and online decision-making.
+- **Expectation & Variance:** Summarize random payoffs and risk; in stochastic optimization, $$\mathbb{E}[X]$$ often drives the objective while $$\text{Var}(X)$$ enters risk-aversion penalties.
+
+### Step-by-Step Worked Example (Read Slowly): Bayes' Theorem on a Rare-Defect Sensor Alarm
+
+Let $$D$$ be the event that a blade is defective ($$P(D) = 0.05$$, so $$P(D^c) = 0.95$$), and let $$+$$ be a positive alarm with $$P(+ \mid D) = 0.90$$ and $$P(+ \mid D^c) = 0.10$$.
+
+1. **Compute the total probability of an alarm (Law of Total Probability):**
+   $$P(+) = P(+ \mid D)P(D) + P(+ \mid D^c)P(D^c) = (0.90)(0.05) + (0.10)(0.95) = 0.045 + 0.095 = 0.14.$$
+2. **Apply Bayes' theorem for the posterior defect probability:**
+   $$P(D \mid +) = \frac{P(+ \mid D)P(D)}{P(+)} = \frac{0.045}{0.14} = \frac{9}{28} \approx 0.3214 \; (32.14\%).$$
+3. **Interpret for optimization:** Even after a positive alarm, there is still a $$67.86\%$$ chance the blade is healthy. A cost-minimizing policy therefore compares the expected failure cost ($$0.3214 \times C_{\text{fail}}$$) against the inspection/shutdown cost ($$C_{\text{inspect}}$$) rather than treating the alarm as certainty.
+
 ## Basic Probability Theory
 
 Probability theory provides the mathematical framework for reasoning about uncertainty, which is fundamental to many optimization problems in machine learning and data science.

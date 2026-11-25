@@ -9,6 +9,33 @@ categories:
 lang: en
 ---
 
+What do packing a cargo plane, matching Uber drivers to riders, choosing warehouse locations, clustering customers, and selecting the top $$k$$ biomarkers in a genomics study all have in common? Beneath completely different surface stories, all six are canonical Mixed Integer Programs! Learning these six architectural templates—Knapsack, Assignment, Facility Location, $$K$$-medoids, Best Subset Selection, and Least Median of Squares—gives you a reusable vocabulary for translating almost any discrete decision or robust statistical problem into a solvable MIP.
+
+## Background Knowledge Map: Six Canonical MIP Modeling Templates
+
+- **Knapsack & Resource Packing:** Binary selection $$x_j \in \{0, 1\}$$ maximizes total value $$\sum v_j x_j$$ subject to a single capacity budget $$\sum w_j x_j \le C$$—the atomic building block of resource allocation and cutting-plane theory.
+- **Assignment & Total Unimodularity:** Matching $$n$$ workers to $$n$$ tasks with $$\sum_j x_{ij} = 1$$ and $$\sum_i x_{ij} = 1$$ has a totally unimodular constraint matrix, meaning every vertex of its LP relaxation is *already integral*—an extraordinary case where LP solves the IP exactly!
+- **Facility Location (Uncapacitated):** Pairs binary open/close decisions $$y_i \in \{0, 1\}$$ with assignment fractions $$x_{ij} \ge 0$$ via linking constraints $$x_{ij} \le y_i$$, balancing fixed infrastructure costs against variable transport distances.
+- **Combinatorial Statistics (Best Subset & LMS):** Binary support variables $$z_j \in \{0, 1\}$$ with $$\sum z_j \le k$$ and big-$$M$$ bounds $$|\beta_j| \le M z_j$$ formulate exact $$\ell_0$$-constrained regression, while binary outlier switches formulate breakdown-proof Least Median of Squares.
+
+### Step-by-Step Worked Example (Read Slowly): Solving a 3-Item 0–1 Knapsack and Checking LP Relaxation
+
+Maximize value $$6 x_1 + 10 x_2 + 12 x_3$$ subject to weight $$1 x_1 + 2 x_2 + 3 x_3 \le 5$$ and $$x_1, x_2, x_3 \in \{0, 1\}$$.
+
+1. **Compute value-to-weight ratios:**
+   - Item 1: $$6 / 1 = 6.0$$,
+   - Item 2: $$10 / 2 = 5.0$$,
+   - Item 3: $$12 / 3 = 4.0$$.
+2. **Solve the LP relaxation ($$0 \le x_j \le 1$$) greedily by ratio:**
+   - Take full Item 1 (weight $$1$$, remaining $$4$$, value $$6$$).
+   - Take full Item 2 (weight $$2$$, remaining $$2$$, value $$16$$).
+   - Take $$\frac{2}{3}$$ of Item 3 (weight $$2$$, remaining $$0$$, value $$16 + \frac{2}{3}(12) = 24$$).
+   So $$x_{\text{LP}} = (1, 1, 2/3)^\top$$ with LP upper bound $$24$$.
+3. **Compare greedy integer rounding vs. true IP optimum:**
+   - Greedy integer solution (take Items 1 & 2, skip Item 3): $$x = (1, 1, 0)^\top$$, weight $$3 \le 5$$, value $$16$$.
+   - Check taking Items 2 & 3: $$x = (0, 1, 1)^\top$$, weight $$2 + 3 = 5 \le 5$$, value $$10 + 12 = 22$$!
+   - Since all values are integers and $$22 < 24$$ (can we get $$23$$? No subset of $$\{6, 10, 12\}$$ sums to $$23$$; all sums are even!), $$x^\star = (0, 1, 1)^\top$$ with value $$22$$ is provably optimal. Notice how the greedy heuristic missed the optimum by $$6$$ units!
+
 In this section, let's examine various examples corresponding to Integer programming and learn how they are utilized.
 
 ## Knapsack problem

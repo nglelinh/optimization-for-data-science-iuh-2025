@@ -10,6 +10,31 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu có ai hỏi *"Học biến đối ngẫu và giá bóng LP để làm gì ngoài đời?"*, hãy kể cho họ nghe về hóa đơn tiền điện mỗi tháng. Trên các thị trường điện hiện đại như PJM, ERCOT hay châu Âu, cứ mỗi 5 đến 15 phút, một bài toán quy hoạch tuyến tính khổng lồ lại được giải để quyết định nhà máy điện nào phát bao nhiêu megawatt sao cho chi phí toàn hệ thống thấp nhất mà không làm quá tải bất kỳ đường dây truyền tải nào. Và con số quyết định giá mua bán điện tại từng khu vực không phải do ai đoán mò — nó chính là **nghiệm đối ngẫu (giá bóng)** của ràng buộc cân bằng cung–cầu!
+
+Bài đọc tổng kết ứng dụng cuối chương này kết nối trực tiếp lý thuyết đối ngẫu LP của Chương 10 với bốn lĩnh vực mũi nhọn giai đoạn 2022–2026: kiểm chứng mạng nơ-ron, thị trường năng lượng, thuật toán luồng đồ thị tốc độ gần tuyến tính và vận chuyển tối ưu — giúp bạn nhìn thấy tư duy Primal–Dual đang vận hành thế giới thực như thế nào.
+
+## Bản đồ kiến thức nền: Bốn góc nhìn công nghiệp về sức mạnh của đối ngẫu LP
+
+- **Giá bóng trong kinh tế năng lượng (Market Clearing & Shadow Pricing):** Nghiệm đối ngẫu của ràng buộc $$\sum_g p_g = D$$ đo chính xác chi phí biên để cung cấp thêm 1 MWh điện; khi đường dây truyền tải bị nghẽn (ràng buộc bất đẳng thức chặt), biến đối ngẫu của đường dây trở nên dương và tạo ra chênh lệch giá giữa hai vùng!
+- **Chứng chỉ an toàn không cần giải chính xác (Dual Bounds in AI Safety):** Trong bài toán kiểm chứng độ bền vững mạng nơ-ron, bất kỳ điểm khả thi nào của bài toán đối ngẫu LP đều là một cận dưới toán học hợp lệ, cho phép chứng nhận an toàn nhanh gấp hàng nghìn lần giải Primal LP.
+- **Đối ngẫu Kantorovich trong học máy phân phối (Optimal Transport):** Thay vì giải LP có $$n^2$$ biến vận chuyển giữa hai đám mây điểm cỡ $$n$$, bài toán đối ngẫu chỉ có $$2n$$ biến thế năng (potentials), giúp tính khoảng cách Wasserstein khả thi trên tập dữ liệu lớn.
+- **Thuật toán luồng đồ thị thế hệ mới:** Các bước tiến gần tuyến tính sau 2022 cho bài toán Max Flow / Min-Cost Flow đều khai thác cấu trúc cây khung và phép cập nhật song hành trên cả biến luồng gốc lẫn thế năng đỉnh đối ngẫu.
+
+### Khung giải thích (nên đọc chậm): Tính tay giá điện biên (giá bóng đối ngẫu) cho hệ thống 2 nhà máy
+
+Giả sử lưới điện cần đáp ứng phụ tải $$D = 130$$ MWh bằng 2 nhà máy phát điện:
+- Nhà máy 1 (thủy điện): công suất tối đa $$100$$ MWh, chi phí phát $$20$$ USD/MWh.
+- Nhà máy 2 (nhiệt điện khí): công suất tối đa $$100$$ MWh, chi phí phát $$50$$ USD/MWh.
+
+1. **Lập và giải bài toán gốc (LP điều phối tối thiểu hóa chi phí):**
+   $$\min_{p_1, p_2} \; 20 p_1 + 50 p_2 \quad \text{s.t.} \quad \begin{cases} p_1 + p_2 = 130 & (\text{giá bóng } \lambda \in \mathbb{R}) \\ 0 \le p_1 \le 100 & (\text{phí nghẽn } \mu_1 \ge 0) \\ 0 \le p_2 \le 100 & (\text{phí nghẽn } \mu_2 \ge 0) \end{cases}$$
+   Hiển nhiên ta khai thác tối đa nhà máy rẻ trước: $$p_1^* = 100$$ MWh, phần còn lại lấy từ nhà máy đắt: $$p_2^* = 30$$ MWh. Tổng chi phí: $$20(100) + 50(30) = 3{,}500$$ USD.
+2. **Đọc ra nghiệm đối ngẫu (giá điện thị trường $$\lambda^*$$ và lợi nhuận nghẽn $$\mu_1^*, \mu_2^*$$):**
+   - Nhà máy 2 chưa chạm trần ($$0 < 30 < 100$$) $$\implies$$ theo điều kiện bù, $$\mu_2^* = 0$$ và điều kiện dừng $$50 - \lambda^* + \mu_2^* = 0 \implies \lambda^* = 50$$ USD/MWh!
+   - Nhà máy 1 chạm trần ($$p_1^* = 100$$) $$\implies$$ $$20 - \lambda^* + \mu_1^* = 0 \implies \mu_1^* = 50 - 20 = 30$$ USD/MWh!
+3. **Kiểm chứng ý nghĩa giá bóng:** Nếu nhu cầu tăng thêm $$1$$ MWh (lên $$131$$ MWh), chỉ nhà máy 2 còn dư công suất nên chi phí hệ thống tăng đúng $$\lambda^* = 50$$ USD; còn nếu mở rộng nhà máy thủy điện thêm $$1$$ MWh (lên $$101$$ MWh), nó thay thế $$1$$ MWh nhiệt điện khí và tiết kiệm cho hệ thống đúng $$\mu_1^* = 30$$ USD!
+
 # Ứng dụng hiện đại của đối ngẫu LP
 
 Chương 10 đã trình bày cách xây dựng bài toán đối ngẫu của quy hoạch tuyến tính, tính đối ngẫu yếu và mạnh, điều kiện bù, cùng hai ví dụ kinh điển là luồng cực đại – lát cắt cực tiểu và trò chơi ma trận. Bài đọc tùy chọn này giới thiệu bốn lĩnh vực trong khoa học máy tính và khoa học dữ liệu giai đoạn 2022–2026 nơi các chứng chỉ đối ngẫu đó được sử dụng trực tiếp.

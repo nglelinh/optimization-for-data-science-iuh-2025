@@ -10,6 +10,32 @@ lang: vi
 lesson_type: required
 ---
 
+Năm 1847, nhà toán học Pháp Augustin-Louis Cauchy đối mặt với hệ phương trình phi tuyến khổng lồ trong tính toán quỹ đạo thiên thể mà các công thức nghiệm đóng hoàn toàn bất lực. Ông đề xuất một ý tưởng táo bạo đến mức tối giản: đi ngược chiều vector đạo hàm riêng từng bước nhỏ — và **Gradient Descent** ra đời. Hơn 175 năm sau, chính ý tưởng 1 dòng công thức của Cauchy vẫn là trái tim huấn luyện mọi mô hình học máy từ hồi quy logistic đến các mô hình ngôn ngữ lớn hàng trăm tỷ tham số.
+
+Bài học này đi sâu vào bản chất hình học và giải tích của Gradient Descent trên cả hàm một biến lẫn nhiều biến: vì sao $$-\nabla f(x)$$ là hướng giảm cục bộ nhanh nhất theo chuẩn Euclidean, và cách tốc độ học $$t$$ biến đổi hoàn toàn quỹ đạo của thuật toán.
+
+## Bản đồ kiến thức nền: Giải phẫu cơ chế Hạ Gradient
+
+Ba trụ cột dưới đây giải thích trọn vẹn sức mạnh và giới hạn của Gradient Descent chuẩn:
+
+- **Hướng dốc xuống nhanh nhất (Steepest Descent Direction):** Theo khai triển Taylor bậc nhất $$f(x + \Delta x) \approx f(x) + \nabla f(x)^T \Delta x$$. Với độ dài bước cố định $$\|\Delta x\|_2 = \epsilon$$, bất đẳng thức Cauchy-Schwarz khẳng định $$\nabla f(x)^T \Delta x \ge -\|\nabla f(x)\|_2 \|\Delta x\|_2$$, dấu bằng đạt được duy nhất khi $$\Delta x$$ ngược chiều $$\nabla f(x)$$!
+- **Tốc độ học $$t$$ (Step Size / Learning Rate):** Quyết định trực tiếp hành vi hội tụ. Với hàm bậc hai $$f(x) = \frac{1}{2} x^T Q x$$, sai số dọc theo mỗi trục riêng $$\lambda_i$$ nhân với thừa số $$(1 - t\lambda_i)$$. Để hội tụ, bắt buộc $$|1 - t\lambda_{\max}| < 1 \iff t < \frac{2}{\lambda_{\max}}$$.
+- **Hội tụ toàn cục nhờ Tính Lồi:** Trên hàm phi lồi, Gradient Descent có thể kẹt ở cực tiểu địa phương hoặc điểm yên ngựa. Trên hàm lồi khả vi, mọi điểm dừng $$\nabla f(x^\star) = 0$$ đều là cực tiểu toàn cục — nên chỉ cần bước hợp lý, GD chắc chắn tiến về đáy toàn cục!
+
+### Khung giải thích (nên đọc chậm): Chạy tay 2 bước Gradient Descent trên hàm 2 biến dạng thung lũng hẹp
+
+Xét hàm lồi bậc hai $$f(x_1, x_2) = x_1^2 + 4x_2^2$$ có nghiệm tối ưu $$x^\star = (0, 0)$$, gradient $$\nabla f(x) = (2x_1,\; 8x_2)^T$$ và Hessian $$H = \operatorname{diag}(2, 8)$$ (nên $$\lambda_{\max} = 8$$, ngưỡng ổn định là $$t < 2/8 = 0.25$$). Khởi tạo tại $$x^{(0)} = (2, 1)^T$$ với $$t = 0.2$$:
+
+1. **Giá trị ban đầu:** $$f(2, 1) = 4 + 4 = 8$$.
+2. **Bước 1:** $$\nabla f(2, 1) = (4,\; 8)^T$$.
+   $$x^{(1)} = \begin{pmatrix} 2 \\ 1 \end{pmatrix} - 0.2 \begin{pmatrix} 4 \\ 8 \end{pmatrix} = \begin{pmatrix} 1.2 \\ -0.6 \end{pmatrix}, \qquad f(x^{(1)}) = 1.44 + 4(0.36) = 2.88.$$
+   Chú ý: $$x_2$$ đã **đổi dấu** từ $$+1$$ nhảy qua đáy sang $$-0.6$$ (bắt đầu zíc-zắc theo phương dốc gắt!).
+3. **Bước 2:** $$\nabla f(1.2, -0.6) = (2.4,\; -4.8)^T$$.
+   $$x^{(2)} = \begin{pmatrix} 1.2 \\ -0.6 \end{pmatrix} - 0.2 \begin{pmatrix} 2.4 \\ -4.8 \end{pmatrix} = \begin{pmatrix} 0.72 \\ 0.36 \end{pmatrix}, \qquad f(x^{(2)}) = 0.5184 + 4(0.1296) = 1.0368.$$
+4. **Nhận xét cốt lõi:** Dù giá trị hàm giảm đẹp ($$8 \to 2.88 \to 1.037$$), hãy nhìn hai hệ số co: theo trục $$x_1$$ mỗi bước nhân $$1 - 0.2(2) = 0.6$$, còn theo trục $$x_2$$ mỗi bước nhân $$1 - 0.2(8) = -0.6$$ (dao động đổi dấu liên tục). Khi hai độ cong chênh lệch quá lớn (thung lũng hẹp), GD buộc phải đi bước rất nhỏ theo hướng dốc và lê bước theo hướng thoai thoải!
+
+---
+
 Gradient descent là thuật toán cơ bản nhất để giải các bài toán tối ưu hóa lồi, khả vi và không ràng buộc:
 
 > $$\min_x f(x),$$

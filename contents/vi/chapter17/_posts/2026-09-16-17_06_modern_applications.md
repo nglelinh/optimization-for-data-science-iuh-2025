@@ -10,6 +10,33 @@ lang: vi
 lesson_type: optional
 ---
 
+Hơn bốn thập kỷ sau bài báo của Karmarkar, phương pháp điểm trong gốc–đối ngẫu không hề trở thành "kiến thức sách giáo khoa cũ kỹ" — ngược lại, giai đoạn 2022–2026 chứng kiến một làn sóng tái kiến trúc mạnh mẽ. Các bộ giải mới viết bằng Rust và Julia như Clarabel đã trở thành nhân mặc định của CVXPY, các bộ giải LP/QP điểm trong được đưa lên GPU để xử lý bài toán hàng chục triệu biến, đồng thời nới lỏng SDP lại trở thành công cụ trung tâm trong bài toán kiểm chứng độ bền vững (robustness verification) của mạng nơ-ron sâu.
+
+## Bản đồ kiến thức nền: Ba động lực nâng cấp PD-IPM trong kỷ nguyên hiện đại
+
+Để hiểu vì sao các hệ thống tối ưu giai đoạn 2022–2026 vẫn xoay quanh khung PD-IPM của Chương 17 nhưng khác xa cài đặt cơ bản, hãy chú ý ba bước tiến sau:
+
+- **Nhúng tự đối ngẫu đồng nhất (Homogeneous Self-Dual Embedding):** PD-IPM cơ bản dễ bị phân kỳ khi bài toán vô nghiệm hoặc không bị chặn. Các bộ giải hiện đại (Clarabel, Mosek, ECOS) nhúng bài toán vào một hệ đồng nhất thêm biến vô hướng $$(\tau_{\text{hom}}, \kappa)$$ để đồng thời giải tối ưu HOẶC trả về chứng chỉ Farkas khẳng định vô nghiệm trong đúng một lần chạy.
+- **Tích các nón đối xứng và bất đối xứng:** Bài toán hiện đại không chỉ có LP hay SDP mà kết hợp cả nón bậc hai (SOC), nón mũ (exponential cone — cho hồi quy logistic, entropy) và nón lũy thừa (power cone). Clarabel mở rộng hàm chắn và bước Newton gốc–đối ngẫu trực tiếp trên tích các nón này.
+- **Tăng tốc phần cứng và bài toán kiểm chứng học sâu:** Việc giải hệ KKT khối (chiếm >85% thời gian chạy) đang được tăng tốc bằng phân rã Cholesky/LDL song song trên GPU và tiền điều kiện lặp, đồng thời mở ra cuộc đua giữa độ chặt của nới lỏng SDP và giới hạn bộ nhớ $$O(n^2)$$ khi kiểm chứng mạng nơ-ron.
+
+### Khung giải thích (nên đọc chậm): Nhúng đồng nhất phát hiện bài toán vô nghiệm như thế nào?
+
+Giả sử bạn đưa vào bộ giải một bài toán LP 1 biến **vô nghiệm** (infeasible):
+
+$$\min_{x} \; x \qquad \text{với điều kiện} \qquad x = -1, \quad x \ge 0.$$
+
+Hãy xem điều gì xảy ra với PD-IPM thường so với nhúng đồng nhất (như trong Clarabel):
+
+1. **Điều gì làm PD-IPM thường lúng túng?** Ràng buộc $$x = -1$$ và $$x \ge 0$$ mâu thuẫn nhau, nên không tồn tại điểm khả thi gốc; trong khi bài toán đối ngẫu $$\max_y (-y) \text{ s.t. } y \le 1$$ không bị chặn trên ($$y \to -\infty$$). Nếu chạy PD-IPM thường, giá trị $$y^{(k)} \to -\infty$$ còn phần dư $$r_{\text{prim}} = x + 1$$ không bao giờ về $$0$$, khiến thuật toán chạy hết số vòng lặp rồi báo lỗi số học.
+2. **Cách nhúng đồng nhất xử lý:** Thay vì cố định vế phải $$b = -1$$ và $$c = 1$$, ta nhân chúng với một biến vô hướng $$\tau_{\text{hom}} \ge 0$$ và bổ sung biến bù $$\kappa \ge 0$$ với điều kiện bù chặt $$\tau_{\text{hom}}\kappa = 0$$:
+   $$Ax - b\tau_{\text{hom}} = 0 \implies x + \tau_{\text{hom}} = 0, \qquad A^T y + s - c\tau_{\text{hom}} = 0 \implies y + s - \tau_{\text{hom}} = 0.$$
+3. **Kết quả hội tụ sạch sẽ:** Khi thuật toán hội tụ, ta thu được $$\tau_{\text{hom}}^\star = 0$$, $$\kappa^\star > 0$$, $$x^\star = 0$$, $$y^\star = -1$$, $$s^\star = 1 \ge 0$$. Kiểm tra bất đẳng thức Farkas:
+   $$A^T y^\star = -1 \le 0 \quad \text{và} \quad b^T y^\star = (-1)(-1) = +1 > 0.$$
+   Bộ giải trả về ngay một **chứng chỉ toán học chính xác** khẳng định bài toán gốc vô nghiệm — không cần đoán qua ngưỡng dừng hay chạy thêm Pha I!
+
+---
+
 Phương pháp điểm trong nguyên thủy–đối ngẫu chỉ thực hiện *một* bước Newton trên hệ phương trình KKT bị nhiễu
 
 $$

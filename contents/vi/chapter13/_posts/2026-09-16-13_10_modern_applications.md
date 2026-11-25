@@ -10,6 +10,37 @@ lang: vi
 lesson_type: optional
 ---
 
+Khi một mô hình tối ưu lồi hiện đại (như CVXPY gọi bộ giải Clarabel hay SCS) trả về nghiệm trong vài mili-giây, điều gì thực sự diễn ra bên dưới nắp ca-pô? Thay vì viết một thuật toán riêng cho từng bài toán, các bộ giải nón hiện đại quy toàn bộ về một cặp bài toán nguyên thủy – đối ngẫu trên tích các nón tự đối ngẫu, nơi **hàm liên hợp**, **toán tử gần kề (proximal operator)** và **nón đối ngẫu** phối hợp nhịp nhàng.
+
+Bài đọc mở rộng này giúp bạn nhìn xuyên qua lớp vỏ thư viện để thấy cách bốn công cụ của Chương 13 (chuẩn đối ngẫu, đối ngẫu Lasso, phân rã Moreau qua hàm liên hợp và nón đối ngẫu) trở thành nền tảng cho cả bộ giải tối ưu công nghiệp lẫn hệ thống kiểm chứng an toàn AI giai đoạn 2022–2026.
+
+## Bản đồ kiến thức nền: Hệ sinh thái thuật toán dựa trên đối ngẫu hiện đại
+
+- **Phép chiếu nón và phân rã Moreau:** Mọi vectơ $$v$$ đều phân tách trực giao duy nhất thành hình chiếu lên nón $$K$$ và hình chiếu lên nón cực $$-K^*$$: $$v = \Pi_K(v) + \Pi_{-K^*}(v)$$. Đây là trái tim của các bộ giải tách toán tử như ADMM và SCS.
+- **Chứng chỉ đối ngẫu cho tính khả thi và tối ưu:** Các bộ giải nón hiện đại không chỉ xuất ra nghiệm $$x^\star$$ mà còn xuất ra biến đối ngẫu $$y^\star, s^\star \in K^*$$ để chứng minh tính tối ưu (duality gap $$\approx 0$$) hoặc chứng minh bài toán vô nghiệm (chứng chỉ Farkas tổng quát).
+- **Biên an toàn trong kiểm chứng mạng nơ-ron:** Khi nới lỏng hàm kích hoạt phi tuyến ReLU thành bao lồi, việc cực đại hóa hàm đối ngẫu tạo ra chặn dưới hợp lệ cho biên phân loại ngay cả khi chưa chạy đến hội tụ hoàn toàn.
+- **Sàng lọc đặc trưng bằng quả cầu an toàn (Gap Safe Screening):** Từ khoảng cách đối ngẫu tại vòng lặp $$k$$, ta dựng được một quả cầu chắc chắn chứa $$u^\star$$ để loại sớm các biến Lasso bằng $$0$$ mà không hề đánh mất tính chính xác toàn cục.
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng tay đồng nhất thức Moreau cho chuẩn $$\ell_1$$ và liên hợp $$\ell_\infty$$
+
+Xét hàm không trơn $$f(x) = \|x\|_1$$ trên $$\mathbb{R}^2$$ và hàm liên hợp của nó $$f^*(y) = I_{\{\|y\|_\infty \le 1\}}(y)$$. Đồng nhất thức Moreau khẳng định với mọi $$v \in \mathbb{R}^2$$:
+
+$$\operatorname{prox}_f(v) + \operatorname{prox}_{f^*}(v) = v.$$
+
+Hãy kiểm chứng trực tiếp bằng tay với điểm $$v = (2.5, -0.4)^T$$:
+
+1. **Tính $$\operatorname{prox}_{f^*}(v)$$ (phép chiếu Euclid lên khối hộp $$[-1, 1]^2$$):**
+   Với mỗi tọa độ, ta kẹp giá trị vào đoạn $$[-1, 1]$$:
+   $$\operatorname{prox}_{f^*}(v) = \Pi_{[-1, 1]^2}\begin{bmatrix} 2.5 \\ -0.4 \end{bmatrix} = \begin{bmatrix} 1.0 \\ -0.4 \end{bmatrix}.$$
+2. **Suy ra $$\operatorname{prox}_f(v)$$ bằng phép trừ đơn giản (không cần giải tối ưu lại!):**
+   $$\operatorname{prox}_f(v) = v - \operatorname{prox}_{f^*}(v) = \begin{bmatrix} 2.5 \\ -0.4 \end{bmatrix} - \begin{bmatrix} 1.0 \\ -0.4 \end{bmatrix} = \begin{bmatrix} 1.5 \\ 0.0 \end{bmatrix}.$$
+3. **Đối chiếu trực tiếp với định nghĩa ngưỡng mềm (Soft-Thresholding):**
+   - Tọa độ 1: $$\operatorname{sign}(2.5)\max(\vert 2.5\vert - 1, 0) = +1.5$$.
+   - Tọa độ 2: $$\operatorname{sign}(-0.4)\max(\vert -0.4\vert - 1, 0) = 0.0$$.
+   Kết quả trùng khớp hoàn toàn! Trong thực tế, kỹ thuật này cho phép tính nhanh toán tử prox của bất kỳ chuẩn phức tạp nào (như Group Lasso hay chuẩn vết) chỉ bằng cách chiếu lên quả cầu chuẩn đối ngẫu.
+
+---
+
 # Cách dùng hiện đại của liên hợp, chuẩn đối ngẫu và nón đối ngẫu
 
 Chương 13 tập trung vào các ứng dụng của lý thuyết đối ngẫu: giải bài toán nguyên thủy thông qua đối ngẫu, chuẩn đối ngẫu, hàm liên hợp, đối ngẫu Lasso và nón đối ngẫu. Bài đọc tùy chọn này gắn các ứng dụng trong khoa học máy tính giai đoạn 2022–2026 vào đúng các cặp tương ứng đó, mà không trình bày lại định nghĩa của $$f^*$$ hay $$\|y\|_*$$.

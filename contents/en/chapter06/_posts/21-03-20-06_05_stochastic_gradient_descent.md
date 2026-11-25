@@ -10,6 +10,31 @@ lang: en
 lesson_type: required
 ---
 
+Suppose your training set has 100 million images. Full-batch gradient descent forces you to process all 100 million images just to take *one* tiny parameter step—a computational catastrophe. **Stochastic Gradient Descent (SGD)** makes a radical bargain: estimate the gradient from a single random sample (or small mini-batch), take a noisy step right away, and trade exact direction for a million-fold speedup per update.
+
+## Background Knowledge Map: Mathematics of Stochastic Gradient Descent
+
+1. **Finite-Sum Structure & Unbiased Gradient Oracle**: Machine-learning objectives have the form $$F(x) = \frac{1}{n}\sum_{i=1}^n f_i(x)$$. Sampling $$i_k \sim \mathrm{Uniform}\{1, \dots, n\}$$ gives a stochastic gradient $$g_k = \nabla f_{i_k}(x_k)$$ that is *unbiased*: $$\mathbb{E}[g_k \mid x_k] = \nabla F(x_k)$$, at $$1/n$$ the cost of a full gradient.
+2. **The Variance Floor Under Constant Step Size**: Because individual sample gradients $$\nabla f_i(x^\star) \neq 0$$ even at the global optimum $$x^\star$$, SGD with a fixed step size $$t$$ does not converge to $$x^\star$$—it converges rapidly to a *noise ball* of radius $$O(t\sigma^2)$$ around $$x^\star$$, where $$\sigma^2 = \mathbb{E}\|\nabla f_i(x^\star)\|_2^2$$.
+3. **Robbins–Monro Diminishing Step-Size Rule**: To shrink the noise ball to zero while still reaching any point in space, step sizes must satisfy $$\sum_{k=1}^\infty t_k = \infty$$ and $$\sum_{k=1}^\infty t_k^2 < \infty$$ (for example, $$t_k = c / k$$ or $$t_k = c / \sqrt{k}$$), yielding $$O(1/\sqrt{k})$$ expected error on convex functions and $$O(1/k)$$ on strongly convex functions.
+4. **Mini-Batch Variance Reduction**: Averaging over a mini-batch of size $$B$$ cuts gradient variance by $$1/B$$ while utilizing GPU vector parallelism—balancing hardware throughput against per-epoch statistical efficiency.
+
+### Step-by-Step Worked Example (Read Slowly): Computing Unbiasedness and Variance of a Stochastic Gradient
+
+Minimize the finite-sum objective $$F(x) = \frac{1}{2}\Bigl[(x - 1)^2 + (x - 5)^2\Bigr]$$, where $$f_1(x) = (x - 1)^2$$ and $$f_2(x) = (x - 5)^2$$. The exact minimizer is $$x^\star = 3$$.
+
+1. **Check unbiasedness at $$x_0 = 0$$**:
+   - Individual gradients: $$f_1'(0) = 2(0 - 1) = -2$$, $$f_2'(0) = 2(0 - 5) = -10$$.
+   - Expected stochastic gradient: $$\mathbb{E}[g_0] = \frac{1}{2}(-2) + \frac{1}{2}(-10) = -6$$.
+   - Full gradient: $$F'(0) = \frac{1}{2}(-2 - 10) = -6$$ — exact match!
+2. **Take one SGD step with $$t = 0.2$$**:
+   - If sample $$i = 1$$ is picked: $$x_1 = 0 - 0.2(-2) = 0.4$$.
+   - If sample $$i = 2$$ is picked: $$x_1 = 0 - 0.2(-10) = 2.0$$.
+   - Expected next iterate: $$\mathbb{E}[x_1] = \frac{0.4 + 2.0}{2} = 1.2 = 0 - 0.2(-6)$$, matching one full-batch step on average.
+3. **Observe non-zero variance AT the optimum $$x^\star = 3$$**:
+   - $$f_1'(3) = 2(3 - 1) = +4$$ and $$f_2'(3) = 2(3 - 5) = -4$$.
+   - Even though $$F'(3) = 0$$, the gradient variance is $$\sigma^2 = \frac{1}{2}(4^2 + (-4)^2) = 16 > 0$$! A fixed step $$t = 0.2$$ kicks $$x$$ away from $$3$$ to $$3 \pm 0.8$$, proving why $$t_k \to 0$$ is needed for exact convergence.
+
 <script src="../../../public/js/script.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 

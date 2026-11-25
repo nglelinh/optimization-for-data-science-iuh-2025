@@ -12,6 +12,38 @@ redirect_from:
   - /contents/vi/chapter05/05_08_Practical_Exercises_Canonical_Problems/
 ---
 
+Trên giấy, các bài toán chuẩn LP, QP, QCQP, SOCP, SDP trông giống những khuôn mẫu toán học trừu tượng. Nhưng ngay khi bạn bước vào bộ bài tập thực hành này — từ bài toán lập thực đơn dinh dưỡng tối ưu chi phí (Diet Problem), bài toán phân bổ danh mục đầu tư Markowitz, cho đến thiết kế tối ưu bền vững bằng SOCP — bạn sẽ thấy mỗi lớp bài toán chuẩn chính là một "vũ khí chuyên dụng" giải quyết trực tiếp bài toán thật của thế giới công nghiệp.
+
+Mục tiêu của buổi thực hành này không chỉ là bấm chạy ra con số cuối cùng, mà là rèn kỹ năng **chuyển dịch hai chiều**: từ mô tả bằng lời sang công thức toán học chuẩn, và từ nghiệm số quay ngược lại diễn giải ý nghĩa kinh tế/kỹ thuật của từng biến và ràng buộc tích cực.
+
+## Bản đồ kiến thức nền: Bốn kỹ năng thực chiến khi mô hình hóa bài toán chuẩn
+
+Khi tự tay giải các bài tập trong bộ này (bằng tay hoặc bằng CVXPY/Python), hãy kiểm tra bốn tiêu chí sau:
+
+- **Định nghĩa biến quyết định & Đơn vị rõ ràng:** Mọi sai sót mô hình hóa thường bắt nguồn từ việc trộn lẫn đơn vị (ví dụ lợi nhuận theo % năm nhưng rủi ro theo phương sai ngày, hoặc quên điều kiện không âm $$x \ge 0$$).
+- **Chọn đúng lớp chuẩn & Kiểm tra ma trận $$Q \succeq 0$$:** Trước khi nạp ma trận hiệp phương sai $$\Sigma$$ vào QP, luôn kiểm tra tính đối xứng và trị riêng không âm (tránh lỗi số học nhỏ như $$\lambda_{\min} = -10^{-16}$$).
+- **Kỹ thuật Epigraph & Biến phụ để tuyến tính hóa:** Biết cách chuyển $$\min \|x\|_1$$ thành $$\min \mathbf{1}^T t \text{ s.t. } -t \le x \le t$$ (LP) và chuyển ràng buộc bất định ellipsoid thành chuẩn $$\ell_2$$ (SOCP).
+- **Hậu kiểm nghiệm (Sanity Check):** Luôn kiểm tra lại ba thứ sau khi giải: (1) nghiệm có thỏa mọi ràng buộc với dung sai $$10^{-6}$$ không? (2) ràng buộc nào tích cực? (3) kết quả có hợp lý về mặt vật lý/kinh tế không?
+
+### Khung giải thích (nên đọc chậm): Giải tay một bài toán Khẩu phần ăn (Diet Problem) 2 thực phẩm
+
+Một người cần ít nhất $$10$$ đơn vị protein và $$12$$ đơn vị vitamin mỗi ngày từ 2 loại thực phẩm:
+- Thực phẩm A: giá $$2$$ USD/phần, chứa $$2$$ protein và $$1$$ vitamin.
+- Thực phẩm B: giá $$3$$ USD/phần, chứa $$1$$ protein và $$3$$ vitamin.
+
+1. **Bước 1 — Lập mô hình LP:** Gọi $$x_1, x_2 \ge 0$$ là số phần A và B.
+   $$\min_{x_1, x_2 \ge 0} \; 2x_1 + 3x_2 \quad \text{s.t.} \quad \begin{cases} 2x_1 + x_2 \ge 10 \\ x_1 + 3x_2 \ge 12 \end{cases}$$
+2. **Bước 2 — Xác định các đỉnh của vùng khả thi (không bị chặn phía trên):**
+   - Giao $$2x_1 + x_2 = 10$$ và $$x_1 = 0$$: $$(0, 10)$$ — kiểm tra $$0 + 30 = 30 \ge 12$$ (khả thi), chi phí $$= 30$$ USD.
+   - Giao $$x_1 + 3x_2 = 12$$ và $$x_2 = 0$$: $$(12, 0)$$ — kiểm tra $$24 + 0 = 24 \ge 10$$ (khả thi), chi phí $$= 24$$ USD.
+   - Giao hai đường thẳng $$2x_1 + x_2 = 10$$ và $$x_1 + 3x_2 = 12$$:
+     Nhân phương trình 2 với 2: $$2x_1 + 6x_2 = 24$$. Trừ phương trình 1: $$5x_2 = 14 \implies x_2^\star = 2.8$$, suy ra $$x_1^\star = 12 - 3(2.8) = 3.6$$.
+3. **Bước 3 — Tính chi phí tối ưu và hậu kiểm:**
+   - Chi phí tại $$(3.6, 2.8)$$: $$2(3.6) + 3(2.8) = 7.2 + 8.4 = 15.6$$ USD (thấp hơn hẳn 24 USD và 30 USD!).
+   - Hậu kiểm dinh dưỡng: Protein $$= 2(3.6) + 2.8 = 10$$ (đạt đúng ngưỡng), Vitamin $$= 3.6 + 3(2.8) = 12$$ (đạt đúng ngưỡng). Cả hai ràng buộc đều tích cực!
+
+---
+
 # Bài Tập Thực Hành - Các Bài Toán Chuẩn
 
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004) và Ben-Tal & Nemirovski (2001).

@@ -12,6 +12,32 @@ redirect_from:
   - /contents/vi/chapter14/14_10_Quiz_Newton_Method/
 ---
 
+Chương 14 chứa rất nhiều khái niệm sắc nét nhưng cũng dễ nhầm lẫn nếu chỉ đọc lướt: phương pháp Newton có vuông góc với đường đồng mức không? Vì sao Newton decrement $$\lambda(x)$$ lại bất biến affine trong khi $$\|\nabla f(x)\|_2$$ thì không? Điều kiện nào biến một hàm thành tự hài hòa, và vì sao cận hội tụ lại xuất hiện $$\log_2\log_2(1/\epsilon)$$?
+
+Bộ câu hỏi trắc nghiệm này sẽ kiểm tra toàn diện phản xạ của bạn về tối ưu hóa bậc hai — từ công thức cơ bản, tính chất hình học, tìm kiếm đường backtracking, phân tích hai pha hội tụ, hàm tự hài hòa, đến Quasi-Newton. Hãy rà nhanh bản đồ bốn nhóm bẫy kinh điển trước khi bắt đầu chọn đáp án.
+
+## Bản đồ kiến thức nền: Bốn nhóm bẫy trắc nghiệm thường gặp ở Chương 14
+
+- **Hình học bước Newton vs. Gradient Descent:** Nhớ rằng hướng Newton **không** nhất thiết vuông góc đường đồng mức (trừ khi $$\nabla f(x)$$ là vectơ riêng của $$\nabla^2 f(x)$$), nhưng luôn tạo góc nhọn với $$-\nabla f(x)$$ miễn là $$\nabla^2 f(x) \succ 0$$.
+- **Tính bất biến affine:** Cả bước cập nhật Newton, Newton decrement $$\lambda(x)$$, lẫn cận hội tụ của hàm tự hài hòa đều **bất biến affine**; ngược lại, Gradient Descent, $$\|\nabla f(x)\|_2$$ và các hằng số $$m, L, M$$ thì **không**.
+- **Hội tụ cục bộ vs. toàn cục:** Newton thuần túy ($$t = 1$$) chỉ hội tụ **cục bộ** (có thể phân kỳ khi xa nghiệm); muốn hội tụ **toàn cục** trên hàm lồi phải ghép thêm tìm kiếm đường backtracking (Newton có giảm chấn).
+- **Hàm tự hài hòa và độ phức tạp:** Kiểm tra đúng số mũ $$3/2$$ và hằng số $$2$$ ($$\vert f''' \vert \le 2(f'')^{3/2}$$), nhớ hàm $$-\log x$$ là tự hài hòa còn $$e^x$$ trên $$\mathbb{R}$$ thì không, và chi phí mỗi bước Newton đặc là $$O(n^3)$$ với bộ nhớ $$O(n^2)$$.
+
+### Khung giải thích (nên đọc chậm): Giải mẫu một câu hỏi bẫy về phép nhân vô hướng hàm tự hài hòa
+
+**Câu hỏi mẫu:** Cho $$f(x) = -\log x$$ (đã biết là hàm tự hài hòa trên $$x > 0$$). Xét hai hàm mới $$g_1(x) = 4 f(x)$$ và $$g_2(x) = \frac{1}{4} f(x)$$. Hàm nào còn là hàm tự hài hòa?
+
+1. **Nhắc lại điều kiện kiểm tra:** $$\vert h'''(x) \vert \le 2 (h''(x))^{3/2}$$.
+2. **Kiểm tra $$g_1(x) = 4(-\log x)$$:**
+   - $$g_1''(x) = \frac{4}{x^2}$$, $$\vert g_1'''(x) \vert = \frac{8}{x^3}$$.
+   - Vế phải: $$2\left(\frac{4}{x^2}\right)^{3/2} = 2 \cdot \frac{8}{x^3} = \frac{16}{x^3} \ge \frac{8}{x^3} = \vert g_1'''(x) \vert$$. → **$$g_1$$ VẪN tự hài hòa!**
+3. **Kiểm tra $$g_2(x) = \frac{1}{4}(-\log x)$$:**
+   - $$g_2''(x) = \frac{1}{4x^2}$$, $$\vert g_2'''(x) \vert = \frac{1}{2x^3}$$.
+   - Vế phải: $$2\left(\frac{1}{4x^2}\right)^{3/2} = 2 \cdot \frac{1}{8x^3} = \frac{1}{4x^3} < \frac{1}{2x^3} = \vert g_2'''(x) \vert$$. → **$$g_2$$ KHÔNG còn tự hài hòa!**
+4. **Quy tắc nhớ nhanh cho phòng thi:** Nhân hàm tự hài hòa với $$c \ge 1$$ thì giữ nguyên tính tự hài hòa; nhân với $$0 < c < 1$$ có thể làm mất tính tự hài hòa!
+
+---
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập trắc nghiệm, hãy ôn lại các khái niệm chính của chương này:

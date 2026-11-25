@@ -9,6 +9,31 @@ categories:
 lang: en
 ---
 
+High-dimensional data matrices—from surveillance video streams to gene-expression tables—often hide two completely different structures superimposed on top of each other: a **low-rank background** $$L$$ plus a **sparse foreground** $$S$$ (Robust PCA), or a **low-rank covariance subspace** $$P$$ with **sparse loadings** (Fantope Sparse PCA). Interior-point SDP solvers choke once matrices exceed $$100 \times 100$$, because their Hessians scale as $$O(p^6)$$. **ADMM** handles $$1000 \times 1000$$ matrices effortlessly by splitting the spectral constraint (handled by SVD/eigendecomposition) from the entrywise sparsity constraint (handled by elementwise soft-thresholding)!
+
+## Background Knowledge Map: Spectral + Sparse Matrix Splitting in ADMM
+
+- **Convex Relaxation of Rank (Fantope & Nuclear Norm):** Replacing nonconvex $$\operatorname{rank}(P) = k$$ with the Fantope $$\mathcal{F}^k = \{P : 0 \preceq P \preceq I, \operatorname{tr}(P) = k\}$$ (for Sparse PCA) or replacing $$\operatorname{rank}(L)$$ with the nuclear norm $$\|L\|_\ast = \sum_i \sigma_i(L)$$ (for Robust PCA) yields tractable convex programs with near-optimal statistical recovery.
+- **Singular Value Thresholding (SVT) Proximal Map:** The proximal operator of $$\tau\|L\|_\ast$$ is simply taking the SVD $$U \Sigma V^T$$ and soft-thresholding the singular values: $$\mathcal{D}_\tau(M) = U \operatorname{diag}\big((\sigma_i - \tau)_+\big) V^T$$.
+- **Fantope Projection:** Projecting a symmetric matrix $$M = Q \Lambda Q^T$$ onto $$\mathcal{F}^k$$ keeps the eigenvectors $$Q$$ intact and projects the eigenvalues $$\lambda_i$$ onto the capped simplex $$\{0 \le \gamma_i \le 1, \sum_i \gamma_i = k\}$$ via a fast 1D bisection!
+- **Decoupling Spectral vs. Entrywise Geometry:** In Robust PCA ($$\min \|L\|_\ast + \lambda\|S\|_1 \text{ s.t. } L + S = M$$), ADMM alternates one SVD (for $$L$$) and one elementwise soft-threshold (for $$S$$)—never mixing the two geometries inside a single subproblem!
+
+### Step-by-Step Worked Example (Read Slowly): One ADMM Iteration of Robust PCA ($$L + S = M$$)
+
+Consider a $$2 \times 2$$ data matrix $$M = \begin{bmatrix} 2 & 2 \\ 2 & 5 \end{bmatrix}$$ (a rank-1 matrix $$\begin{bmatrix} 2 & 2 \\ 2 & 2 \end{bmatrix}$$ corrupted by a single sparse outlier $$+3$$ in the bottom-right corner!). Solve $$\min \|L\|_\ast + \lambda\|S\|_1$$ s.t. $$L + S = M$$ with $$\lambda = 0.5, \; \rho = 1$$ from $$S^0 = 0, \; W^0 = 0$$.
+
+1. **$$L$$-update (Singular Value Thresholding $$\mathcal{D}_{1/\rho}(M - S^0 - W^0) = \mathcal{D}_1(M)$$):**
+   Since $$M$$ is symmetric positive definite, its eigenvalues (and singular values) solve $$(2 - \sigma)(5 - \sigma) - 4 = \sigma^2 - 7\sigma + 6 = 0 \implies \sigma_1 = 6, \; \sigma_2 = 1$$!
+   Unit eigenvectors: $$q_1 = \frac{1}{\sqrt{5}}\begin{bmatrix} 1 \\ 2 \end{bmatrix}$$ (for $$\sigma_1 = 6$$) and $$q_2 = \frac{1}{\sqrt{5}}\begin{bmatrix} 2 \\ -1 \end{bmatrix}$$ (for $$\sigma_2 = 1$$).
+   Soft-threshold singular values by $$1/\rho = 1$$: $$\tilde{\sigma}_1 = 6 - 1 = 5$$, $$\tilde{\sigma}_2 = (1 - 1)_+ = 0$$!
+   Thus $$L^1$$ is immediately **rank 1**:
+   $$L^1 = 5 q_1 q_1^T = 5 \cdot \frac{1}{5}\begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} = \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}.$$
+2. **$$S$$-update (Entrywise soft-thresholding $$S_{\lambda/\rho}(M - L^1 - W^0) = S_{0.5}(M - L^1)$$):**
+   $$M - L^1 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \implies S^1 = S_{0.5}\!\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} = \begin{bmatrix} 0.5 & 0 \\ 0 & 0.5 \end{bmatrix}.$$
+3. **Dual update:**
+   $$W^1 = W^0 + (L^1 + S^1 - M) = \begin{bmatrix} -0.5 & 0 \\ 0 & -0.5 \end{bmatrix}.$$
+   In just *one* SVD + soft-thresholding pass, ADMM already extracted a clean rank-1 component $$L^1$$ and isolated sparse diagonal residuals!
+
 # Example: Sparse Subspace Estimation and Sparse Plus Low Rank Decomposition
 
 ## Sparse Subspace Estimation

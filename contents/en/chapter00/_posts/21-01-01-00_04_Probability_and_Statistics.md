@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+Real-world optimization rarely operates on noiseless, deterministic formulas: demand forecasts fluctuate, sensor readings carry Gaussian noise, and machine learning datasets are random samples from an unknown population. Probability and statistics supply the mathematical bridge from noisy observations to clean optimization objectives—turning parameter estimation, risk management, and stochastic approximation into convex problems we can solve with provable guarantees.
+
+## Background Knowledge Map: Why Probability Sits Inside Modern Optimization
+
+- **Random Variables & Expectation:** Expected loss $$\mathbb{E}[\ell(w; Z)]$$ is the true target of stochastic optimization; linearity of expectation lets us differentiate and average unbiased gradient estimates.
+- **Loss Functions as Distributional Assumptions:** Minimizing squared error corresponds to Gaussian noise, minimizing $$\ell_1$$ error corresponds to Laplace noise, and cross-entropy corresponds to categorical log-likelihood.
+- **Empirical Risk Minimization (ERM):** Replaces an unknown expectation with a finite sample average $$\frac{1}{n}\sum_{i=1}^n \ell(w; z_i)$$, yielding a concrete finite-sum optimization problem.
+- **Concentration & Variance Control:** Variance bounds explain why mini-batching, variance reduction, and regularization stabilize noisy optimization trajectories.
+
+### Step-by-Step Worked Example (Read Slowly): Sample Mean vs. Sample Median as Optimization Solutions
+
+Given a small noisy dataset $$\{2, 4, 9\}$$, compare two 1D empirical risk minimization objectives for a location estimate $$\theta \in \mathbb{R}$$:
+
+1. **Squared loss ($$\ell_2$$ ERM):**
+   $$L_2(\theta) = \frac{1}{3}\left[(2 - \theta)^2 + (4 - \theta)^2 + (9 - \theta)^2\right].$$
+   Differentiate and set to zero:
+   $$L_2'(\theta) = \frac{2}{3}\left[(\theta - 2) + (\theta - 4) + (\theta - 9)\right] = \frac{2}{3}(3\theta - 15) = 0 \implies \hat{\theta}_2 = 5 \text{ (the sample mean)}.$$
+2. **Absolute loss ($$\ell_1$$ ERM):**
+   $$L_1(\theta) = |2 - \theta| + |4 - \theta| + |9 - \theta|.$$
+   For $$\theta < 4$$ the slope is $$-1$$ (or $$-3$$ below $$2$$); for $$\theta > 4$$ the slope is $$+1$$ (or $$+3$$ above $$9$$). The slope flips sign at $$\hat{\theta}_1 = 4$$ (the sample median), where $$L_1(4) = 2 + 0 + 5 = 7$$ (compared to $$L_1(5) = 3 + 1 + 4 = 8$$).
+3. **Takeaway:** Changing the noise model from Gaussian ($$\ell_2$$) to heavy-tailed Laplace ($$\ell_1$$) shifts the optimizer from $$5$$ to $$4$$, making the estimate resistant to the outlier $$9$$.
+
 ## Probability and Statistics for Convex Optimization
 
 Probability and statistics form a crucial foundation for understanding many optimization problems, especially in machine learning and data science. This section introduces the essential probabilistic concepts that frequently appear in convex optimization, from maximum likelihood estimation to Bayesian optimization.

@@ -10,6 +10,30 @@ categories:
 lesson_type: required
 ---
 
+Picture standing on a foggy mountain ridge in 100 dimensions: you cannot see the valley floor, only the tilt of the ground right under your boots. If you choose an arbitrary compass heading $$u$$, how fast will your altitude change? The directional derivative answers that question for any heading, and Cauchy–Schwarz reveals a remarkable fact: among all unit-length headings, the negative gradient $$-\nabla f / \|\nabla f\|$$ is guaranteed to drop your altitude faster than any other direction.
+
+## Background Knowledge Map: Steering Descent in $$\mathbb{R}^n$$
+
+- **The Gradient as Steepest Ascent:** The vector $$\nabla f(x)$$ points orthogonally to the contour line passing through $$x$$ in the direction of maximum instantaneous increase.
+- **Directional Derivative ($$D_u f(x)$$):** Measures the rate of change along a unit vector $$u$$ via the inner product $$D_u f(x) = \nabla f(x)^T u = \|\nabla f(x)\|\cos\theta$$.
+- **Descent Direction Criterion:** Any vector $$d$$ satisfying $$\nabla f(x)^T d < 0$$ (an obtuse angle with $$\nabla f(x)$$) is guaranteed to decrease $$f(x + td)$$ for sufficiently small $$t > 0$$.
+- **Optimality via Zero Slope in All Directions:** If $$D_u f(x^*) = 0$$ for every unit vector $$u$$, then $$\nabla f(x^*) = \mathbf{0}$$, signaling a stationary point.
+
+### Step-by-Step Worked Example (Read Slowly): Testing a Candidate Descent Direction
+
+Let $$f(x, y) = 3x^2 - 2xy + y^2$$ at the point $$p = (1, 2)$$, and consider moving in the direction of $$v = (3, -4)^T$$.
+
+1. **Compute the gradient at $$p = (1, 2)$$:**
+   $$\nabla f(x, y) = \begin{pmatrix} 6x - 2y \\ -2x + 2y \end{pmatrix} \implies \nabla f(1, 2) = \begin{pmatrix} 6(1) - 2(2) \\ -2(1) + 2(2) \end{pmatrix} = \begin{pmatrix} 2 \\ 2 \end{pmatrix}.$$
+2. **Normalize the direction vector $$v$$:**
+   $$\|v\|_2 = \sqrt{3^2 + (-4)^2} = 5 \implies u = \frac{v}{\|v\|_2} = \begin{pmatrix} 3/5 \\ -4/5 \end{pmatrix}.$$
+3. **Compute the directional derivative $$D_u f(1, 2)$$:**
+   $$D_u f(1, 2) = \nabla f(1, 2)^T u = 2\left(\frac{3}{5}\right) + 2\left(-\frac{4}{5}\right) = \frac{6 - 8}{5} = -\frac{2}{5} = -0.4.$$
+   Because $$D_u f(1, 2) < 0$$, $$u$$ is a valid descent direction.
+4. **Compare with steepest descent:** The steepest descent unit vector is
+   $$u_{\text{best}} = -\frac{\nabla f(1, 2)}{\|\nabla f(1, 2)\|_2} = \begin{pmatrix} -1/\sqrt{2} \\ -1/\sqrt{2} \end{pmatrix},$$
+   which achieves a much faster initial rate of decrease: $$D_{u_{\text{best}}} f(1, 2) = -\|\nabla f(1, 2)\|_2 = -2\sqrt{2} \approx -2.828$$.
+
 This lesson explores the gradient vector and directional derivatives, which are central concepts in optimization for understanding how functions change in different directions.
 
 ---

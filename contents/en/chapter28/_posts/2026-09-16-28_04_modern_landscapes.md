@@ -10,6 +10,28 @@ lang: en
 lesson_type: optional
 ---
 
+Textbook nonconvexity paints a bleak picture of disconnected, treacherous local traps. Yet empirical deep learning between 2018 and 2026 uncovered four astonishing geometric phenomena that rewrote our intuition: independently trained minima are connected by zero-barrier valleys (**mode connectivity**), networks can suddenly generalize long after memorizing training data (**grokking**), test error drops a second time past the interpolation threshold (**double descent**), and flatter Hessian basins correlate strongly with robustness (**flat minima & SAM**).
+
+## Background Knowledge Map: Four Empirical Phenomena of Deep Loss Landscapes
+
+- **Linear & Nonlinear Mode Connectivity:** Two neural nets trained from independent random seeds can be connected by a low-loss curve (Garipov et al. 2018)—and after aligning hidden-neuron permutation symmetries (Git Re-Basin, Ainsworth et al. 2023), often by a *straight line* with nearly zero loss barrier!
+- **Grokking (Delayed Generalization):** On algorithmic tasks (e.g., modular arithmetic), AdamW first drives training loss to zero via memorization while validation accuracy sits at random chance; hundreds of epochs later, weight decay slowly prunes the memorizing circuit in favor of a lower-norm generalizing circuit, causing validation accuracy to jump abruptly to 100%.
+- **Double Descent:** Plotting test error against model capacity $$d$$ reveals the classical U-shaped bias–variance curve up to the interpolation peak $$d \approx n$$ (where ill-conditioned matrices amplify label noise), followed by a *second descent* for $$d \gg n$$ as minimum-norm interpolation smooths the fit.
+- **Flat Minima & Hessian Sharpness:** A minimum with small top Hessian eigenvalue $$\lambda_{\max}(\nabla^2 F(w^\star))$$ tolerates distribution shifts (small shifts in the loss surface) with far smaller test-loss degradation than a razor-sharp minimum.
+
+### Step-by-Step Worked Example (Read Slowly): Quantifying a Flat vs. Sharp Minimum Under Distribution Shift
+
+Suppose test loss is simply training loss shifted horizontally by a small distribution shift $$\Delta = 0.2$$: $$F_{\text{test}}(w) = F_{\text{train}}(w - 0.2)$$. Compare two zero-loss minima—one **flat** and one **sharp**:
+- Flat basin around $$w_A^\star = 0$$: $$F_A(w) = \frac{1}{2}(1)\, w^2$$ (curvature $$\lambda_A = 1$$).
+- Sharp basin around $$w_B^\star = 0$$: $$F_B(w) = \frac{1}{2}(100)\, w^2$$ (curvature $$\lambda_B = 100$$).
+
+1. **Evaluate training loss at both minima:**
+   $$F_A(0) = 0, \qquad F_B(0) = 0.$$
+   On training data, both solutions look **100% identical**!
+2. **Evaluate test loss under the $$\Delta = 0.2$$ distribution shift:**
+   - Flat minimum: $$F_{A,\text{test}}(0) = \frac{1}{2}(1)(0 - 0.2)^2 = 0.02$$.
+   - Sharp minimum: $$F_{B,\text{test}}(0) = \frac{1}{2}(100)(0 - 0.2)^2 = 2.00$$!
+3. **Takeaway:** Under the exact same distribution shift, the sharp minimum suffers **100× worse** test degradation—illustrating quantitatively why sharpness-aware optimizers (like SAM) and large-step SGD bias toward flatter basins.
 
 Lessons 28-01 to 28-03 defined critical points, saddles, and overparameterization. This optional note is four *empirical* phenomena that those definitions were meant to unlock. It does not re-prove that high-dimensional saddles dominate, and it does not re-derive the PL inequality.
 

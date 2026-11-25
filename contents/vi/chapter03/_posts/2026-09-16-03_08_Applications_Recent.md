@@ -10,6 +10,32 @@ lang: vi
 lesson_type: optional
 ---
 
+Một trong những nghịch lý thú vị nhất của học sâu hiện đại là: toàn bộ mạng nơ-ron sâu với hàng tỷ tham số là một bài toán cực kỳ **không lồi**, thế nhưng chính **lớp cuối cùng** — nơi hàm mất mát Cross-Entropy, Log-Sum-Exp và hiệu chỉnh xác suất (calibration) vận hành — lại là một bài toán **tối ưu hóa lồi** mẫu mực! Thậm chí hiện tượng **Neural Collapse** phát hiện gần đây cho thấy trong giai đoạn huấn luyện cuối, đặc trưng học được tự hội tụ về một cấu trúc hình học cực kỳ đều đặn (Simplex ETF) khớp sát với lý thuyết hàm lồi Chương 03.
+
+Bài đọc mở rộng này nối trực tiếp hàm lồi, log-sum-exp và bất đẳng thức Jensen với Cross-Entropy, Neural Collapse và học tương phản (Contrastive Learning) giai đoạn 2022–2026.
+
+## Bản đồ kiến thức nền: Ba điểm chạm của Hàm lồi trong Học sâu hiện đại
+
+- **Cross-Entropy và Log-Sum-Exp:** Hàm mất mát phân loại chuẩn $$L(z, y) = -z_y + \log\sum_k e^{z_k}$$ là tổng của hàm tuyến tính $$-z_y$$ và hàm lồi $$\operatorname{lse}(z)$$, nên luôn lồi theo vector logit $$z$$; gradient của nó có dạng siêu gọn $$\nabla_z L = \operatorname{softmax}(z) - e_y$$.
+- **Neural Collapse (NC1–NC4):** Khi huấn luyện mạng sâu qua điểm sai số bằng 0 trên tập huấn luyện, các vector đặc trưng của từng lớp sụp về đúng tâm lớp và các tâm lớp xếp thành các đỉnh đối xứng cực đại (Simplex Equiangular Tight Frame) tối ưu hóa biên lồi.
+- **Học tương phản (InfoNCE / CLIP Loss):** Hàm mất mát đối sánh thực chất là hàm log-sum-exp có tham số nhiệt độ trên tích vô hướng cặp mẫu dương–âm, thừa hưởng trực tiếp tính lồi theo các điểm tương đồng (similarities).
+
+### Khung giải thích (nên đọc chậm): Tính tay Cross-Entropy, Gradient và xác nhận Hessian bán xác định dương
+
+Xét một bài toán phân loại 3 lớp với vector logit đầu ra $$z = (2, 1, 0)^T$$ và nhãn đúng là lớp đầu tiên ($$y = 1$$, vector one-hot $$e_1 = (1, 0, 0)^T$$):
+
+1. **Tính hàm mất mát Cross-Entropy $$L(z) = -z_1 + \ln(e^{z_1} + e^{z_2} + e^{z_3})$$:**
+   $$e^2 + e^1 + e^0 \approx 7.389 + 2.718 + 1.000 = 11.107.$$
+   $$L(z) = -2 + \ln(11.107) \approx -2 + 2.408 = 0.408.$$
+2. **Tính phân phối Softmax và Gradient $$\nabla_z L(z) = p - e_1$$:**
+   $$p = \operatorname{softmax}(z) \approx (0.665,\ 0.245,\ 0.090)^T.$$
+   $$\nabla_z L(z) = p - e_1 \approx (-0.335,\ +0.245,\ +0.090)^T.$$
+   Dấu âm ở tọa độ 1 bảo thuật toán *tăng* logit $$z_1$$ của lớp đúng, còn dấu dương ở tọa độ 2, 3 bảo *giảm* logit của hai lớp sai!
+3. **Kiểm tra độ cong (Hessian $$\nabla^2_z L = \operatorname{diag}(p) - p p^T$$):**
+   Với mọi vector $$v \in \mathbb{R}^3$$, ta có $$v^T(\operatorname{diag}(p) - pp^T)v = \sum p_i v_i^2 - (\sum p_i v_i)^2 = \operatorname{Var}_{I \sim p}(v_I) \ge 0$$! Chính vì phương sai luôn không âm, ma trận Hessian luôn bán xác định dương và Cross-Entropy chắc chắn **lồi** theo $$z$$!
+
+---
+
 Hàm lồi là dạng hàm mục tiêu có cấu trúc thuận lợi nhất trong tối ưu hóa: mọi cực tiểu địa phương đều là cực tiểu toàn cục, và chặn dưới bậc nhất $$f(y)\ge f(x)+\nabla f(x)^\top(y-x)$$ xác định một siêu phẳng hỗ trợ cho epigraph của hàm. Bài này trình bày ba ngữ cảnh trong học máy giai đoạn 2021–2025 nơi cấu trúc lồi vẫn phát huy tác dụng trực tiếp — ngay cả khi *toàn bộ* mạng nơ-ron sâu là không lồi.
 
 ## Cross-entropy, log-sum-exp và hiệu chỉnh xác suất

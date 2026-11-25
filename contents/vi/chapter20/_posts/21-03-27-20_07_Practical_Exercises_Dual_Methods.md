@@ -12,6 +12,32 @@ redirect_from:
   - /contents/vi/chapter20/20_06_Practical_Exercises_Dual_Methods/
 ---
 
+Để làm chủ hoàn toàn nhóm phương pháp đối ngẫu — từ phân rã song song (Dual Decomposition), hàm Lagrange tăng cường (Augmented Lagrangian) cho đến ADMM — không có cách nào hiệu quả hơn việc tự tay viết hàm Lagrange, tách các khối biến, tính phần dư ràng buộc và chạy thử một vài vòng lặp để tận mắt thấy nhân tử Lagrange tự điều chỉnh như thế nào. Bộ bài tập thực hành dưới đây tổng hợp các dạng bài kinh điển từ Bertsekas (1999) và Boyd et al. (2011).
+
+## Bản đồ kiến thức nền: Bốn quy tắc kiểm chứng khi giải bài tập Chương 20
+
+Trước khi bước vào từng bài tập bên dưới, hãy giữ sẵn bốn nguyên tắc kiểm tra nhanh để không bao giờ bị nhầm dấu nhân tử:
+
+- **Thống nhất dấu hàm Lagrange ngay từ dòng đầu:** Với ràng buộc $$Ax = b$$, nếu viết $$L(x, \nu) = f(x) + \nu^T(Ax - b)$$ thì bước cập nhật tăng đối ngẫu luôn mang dấu **cộng**: $$\nu^{(k+1)} = \nu^{(k)} + t_k(Ax^{(k+1)} - b)$$. Nếu viết dấu trừ $$-\nu^T(Ax - b)$$ thì bước cập nhật phải đổi thành dấu trừ!
+- **Kiểm tra điều kiện tồn tại cực tiểu của bước gốc:** Khi làm bài tập Dual Decomposition, luôn kiểm tra xem $$f_i(x_i) + \nu^T A_i x_i$$ có lồi chặt để có nghiệm hữu hạn duy nhất không; nếu không, đó chính là dấu hiệu cần chuyển sang Augmented Lagrangian!
+- **Kiểm chứng điểm yên ngựa tại nghiệm tìm được:** Thay $$(x^\star, \nu^\star)$$ vào cả phương trình dừng $$\nabla_x L(x^\star, \nu^\star) = 0$$ lẫn ràng buộc $$Ax^\star = b$$, đồng thời kiểm tra $$f(x^\star) = g(\nu^\star)$$.
+- **So sánh độ nhạy tham số $$\rho$$:** Trong các bài tập lập trình Augmented Lagrangian và ADMM, thử chạy với $$\rho \in \{0.1, 1, 10\}$$ và vẽ biểu đồ $$\|r^{(k)}\|_2$$ cùng $$\|s^{(k)}\|_2$$ theo số vòng lặp để cảm nhận trực tiếp sự đánh đổi giữa phần dư gốc và phần dư đối ngẫu.
+
+### Khung giải thích (nên đọc chậm): Khởi động bằng phép kiểm tra điểm yên ngựa và dấu nhân tử Lagrange
+
+Xét bài toán nhỏ $$\min_{x_1, x_2} x_1^2 + x_2^2$$ với ràng buộc $$x_1 + 2x_2 = 5$$:
+
+1. **Viết hàm Lagrange đúng quy ước dấu cộng:**
+   $$L(x_1, x_2, \nu) = x_1^2 + x_2^2 + \nu(x_1 + 2x_2 - 5) = (x_1^2 + \nu x_1) + (x_2^2 + 2\nu x_2) - 5\nu.$$
+2. **Tách hai bài toán con theo $$\nu$$ cố định:**
+   - $$x_1(\nu) = \arg\min_{x_1} (x_1^2 + \nu x_1) = -\frac{\nu}{2}$$.
+   - $$x_2(\nu) = \arg\min_{x_2} (x_2^2 + 2\nu x_2) = -\nu$$.
+3. **Tìm $$\nu^\star$$ để thỏa mãn ràng buộc $$x_1(\nu) + 2x_2(\nu) = 5$$:**
+   $$-\frac{\nu}{2} + 2(-\nu) = 5 \iff -\frac{5}{2}\nu = 5 \implies \nu^\star = -2.$$
+4. **Kiểm chứng chéo:** Thay $$\nu^\star = -2$$ ta được $$x_1^\star = 1, x_2^\star = 2$$, thỏa mãn $$1 + 2(2) = 5$$. Giá trị gốc $$f(1, 2) = 1^2 + 2^2 = 5$$; giá trị đối ngẫu $$g(-2) = L(1, 2, -2) = 5 + (-2)(0) = 5$$ — khớp tuyệt đối! Giờ bạn đã sẵn sàng giải trọn bộ bài tập Chương 20.
+
+---
+
 # Bài Tập Thực Hành - Các phương pháp đối ngẫu
 
 Các bài tập được tham khảo từ Bertsekas (1999) và Boyd et al. (2011).

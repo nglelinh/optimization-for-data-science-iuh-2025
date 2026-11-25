@@ -10,6 +10,32 @@ lang: en
 lesson_type: optional
 ---
 
+For decades, convex optimization lived at the *end* of a machine-learning pipeline: first you trained a neural network to predict prices or demands, and only afterward did you hand those predictions to a solver to make a decision. Over the last few years, that wall collapsed—by differentiating directly *through* the first-order optimality conditions of Chapter 04, an entire convex solver now sits inside PyTorch or JAX as a trainable layer.
+
+## Background Knowledge Map: From Optimality Conditions to Differentiable Layers
+
+1. **Implicit Function Theorem on KKT/Variational Residuals**: At a solution $$x^\star(\theta)$$ of a parameterized convex program, the optimality condition can be written as a root-finding equation $$F(x^\star(\theta), \theta) = 0$$. Differentiating implicitly yields $$\frac{\partial x^\star}{\partial \theta} = -\bigl(D_x F\bigr)^{-1} D_\theta F$$, letting backpropagation flow through `argmin` without unrolling hundreds of solver iterations.
+2. **Canonicalization and `cvxpylayers`**: Just as Chapter 04 transforms arbitrary convex programs into standard forms, `cvxpylayers` compiles a Disciplined Parametrized Program (DPP) into a cone program, solves it forward, and differentiates the homogeneous self-dual embedding residual in the backward pass.
+3. **Nonlinear Least Squares in Robotics (`Theseus`)**: Vision, SLAM, and motion planning rely on Gauss–Newton and Levenberg–Marquardt updates. Embedding these structured solvers as differentiable layers lets perception networks learn features directly optimized for downstream geometric pose accuracy.
+4. **Decision-Focused Learning (Predict-Then-Optimize)**: Minimizing prediction MSE does not necessarily minimize downstream decision cost when predictions enter a constrained LP or QP. Differentiating through convex surrogates (such as SPO+ or quadratic-regularized LPs) aligns the predictor's gradients with actual operational regret.
+
+### Step-by-Step Worked Example (Read Slowly): Differentiating Through an Argmin Layer by Hand
+
+Consider a 1D parameterized convex optimization layer:
+$$x^\star(\theta) = \arg\min_{x \ge 0} \; \frac{1}{2}(x - \theta)^2 + \frac{1}{2}x^2,$$
+where $$\theta \in \mathbb{R}$$ is the output of an upstream neural network layer.
+
+1. **Write the first-order optimality condition**: The objective is $$f(x; \theta) = x^2 - \theta x + \frac{1}{2}\theta^2$$ with derivative $$\nabla_x f(x; \theta) = 2x - \theta$$. On $$C = [0, \infty)$$, optimality requires $$x^\star \ge 0$$, $$2x^\star - \theta \ge 0$$, and $$x^\star(2x^\star - \theta) = 0$$.
+2. **Solve for $$x^\star(\theta)$$ in closed form**:
+   - If $$\theta > 0$$, the constraint $$x \ge 0$$ is inactive, so $$2x^\star - \theta = 0 \implies x^\star(\theta) = \frac{\theta}{2}$$.
+   - If $$\theta \le 0$$, the constraint binds and $$x^\star(\theta) = 0$$.
+   Thus $$x^\star(\theta) = \max\!\left(0, \frac{\theta}{2}\right)$$—a scaled ReLU emerging naturally from constrained convex optimization!
+3. **Compute the implicit derivative $$\frac{dx^\star}{d\theta}$$**:
+   - On the active interior ($$\theta > 0$$), the residual is $$F(x, \theta) = 2x - \theta = 0$$. Implicit differentiation gives
+     $$\frac{\partial F}{\partial x} \frac{dx^\star}{d\theta} + \frac{\partial F}{\partial \theta} = 0 \implies 2\frac{dx^\star}{d\theta} - 1 = 0 \implies \frac{dx^\star}{d\theta} = \frac{1}{2}.$$
+   - On the boundary region ($$\theta < 0$$), the solution is pinned at $$x^\star(\theta) = 0$$, so $$\frac{dx^\star}{d\theta} = 0$$.
+4. **Backpropagate a downstream loss**: Suppose the downstream task loss is $$L(x^\star) = (x^\star - 3)^2$$ and the current prediction is $$\theta = 4$$. Forward pass: $$x^\star(4) = 2$$, loss $$L = (2 - 3)^2 = 1$$. Backward pass: $$\frac{dL}{d\theta} = \frac{dL}{dx^\star}\frac{dx^\star}{d\theta} = 2(2 - 3)\cdot \frac{1}{2} = -1$$, telling the upstream network to increase $$\theta$$.
+
 Chapter 04 is the contract of a convex program: variables, objective, constraints, optimality, and the legal rewrites (partial minimization, change of variables, eliminating equalities, slacks, relaxations). The same contract is now a *layer* inside a neural net and a *loss* for a predictor that will be consumed by a solver. This lesson looks at three 2019–2023 developments that only make sense after you can write “$$0\in\partial f(x^\star)+N_{\mathcal{C}}(x^\star)$$” without flinching.
 
 ## Differentiable convex layers and implicit optimality

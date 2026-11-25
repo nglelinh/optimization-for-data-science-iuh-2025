@@ -12,6 +12,37 @@ redirect_from:
   - /contents/vi/chapter14/14_11_Practical_Exercises_Newton_Method/
 ---
 
+Tối ưu hóa bậc hai là môn học mà cảm giác toán học chỉ thực sự chín muồi khi bạn tự tay tính một ma trận Hessian cho hồi quy logistic, tự giải một hệ tuyến tính bước Newton, kiểm chứng điều kiện Armijo bằng số, và chứng minh tốc độ hội tụ bậc hai. Khi tự làm những phép tính đó, bạn sẽ thấy ngay tại sao ma trận Hessian của hồi quy logistic lại có dạng $$X^T W X$$ đẹp đẽ đến thế, và vì sao một bước Newton có thể thu nhỏ sai số theo cấp số mũ kép.
+
+Bộ bài tập thực hành dưới đây tuyển chọn các bài toán chuẩn mực từ Boyd & Vandenberghe, Nocedal & Wright và Bertsekas. Trước khi giải từng phần, hãy xem qua bản đồ kỹ năng và một bài mẫu tính nhanh Hessian–Newton cho hồi quy logistic.
+
+## Bản đồ kiến thức nền: Bốn kỹ năng tự luận cốt lõi trong bài tập Chương 14
+
+- **Tính gradient và Hessian dạng ma trận:** Sử dụng quy tắc dây chuyền ma trận (ví dụ với $$f(x) = \sum \phi_i(a_i^T x)$$, ta có $$\nabla f(x) = A^T \phi'(Ax)$$ và $$\nabla^2 f(x) = A^T \operatorname{diag}(\phi''(Ax)) A$$) để tránh tính nhầm từng phần tử.
+- **Chứng minh tính chất đại số tuyến tính của bước Newton:** Luôn dùng dạng toàn phương $$v^T H v$$ để kiểm tra hướng giảm ($$-\lambda(x)^2 < 0$$), tính bất biến affine và giải hệ khối KKT cho bài toán có ràng buộc đẳng thức.
+- **Kiểm tra điều kiện Armijo và đếm bước hội tụ:** Thay trực tiếp công thức $$f(x + tv) \le f(x) - \alpha t \lambda(x)^2$$ với $$t = 1, \beta, \beta^2, \dots$$ và phân tích riêng hai pha giảm chấn – thuần túy.
+- **Kiểm chứng hàm tự hài hòa và cập nhật Quasi-Newton:** Dùng định nghĩa lát cắt 1D $$g(t) = f(x + tv)$$ cho tự hài hòa, và kiểm tra phương trình cát tuyến $$B_{k+1} s_k = y_k$$ cùng điều kiện độ cong $$s_k^T y_k > 0$$ cho BFGS.
+
+### Khung giải thích (nên đọc chậm): Bài mẫu tính bước Newton cho hàm mất mát logistic 1 chiều
+
+**Bài toán mẫu:** Xét hàm mục tiêu hồi quy logistic 1 biến có điều chuẩn:
+$$f(w) = \log(1 + e^{-w}) + \frac{1}{2}w^2.$$
+Hãy tính gradient, Hessian, Newton decrement và điểm cập nhật Newton đầu tiên xuất phát từ $$w^{(0)} = 0$$.
+
+1. **Tính đạo hàm bậc nhất và bậc hai (dùng hàm sigmoid $$\sigma(z) = \frac{1}{1 + e^{-z}}$$):**
+   - $$f'(w) = \frac{-e^{-w}}{1 + e^{-w}} + w = -\sigma(-w) + w$$.
+   - $$f''(w) = \sigma(w)\bigl(1 - \sigma(w)\bigr) + 1 > 1$$ (hàm lồi mạnh với $$m = 1$$!).
+2. **Đánh giá tại $$w^{(0)} = 0$$:**
+   - Vì $$\sigma(0) = 0.5$$:
+     $$f'(0) = -0.5 + 0 = -0.5, \qquad f''(0) = (0.5)(0.5) + 1 = 1.25.$$
+3. **Tính bước Newton và Newton decrement:**
+   - Bước Newton: $$v = -\frac{f'(0)}{f''(0)} = -\frac{-0.5}{1.25} = +0.4$$.
+   - Điểm mới: $$w^{(1)} = 0 + 0.4 = 0.4$$.
+   - Newton decrement: $$\lambda(0) = \sqrt{\frac{(-0.5)^2}{1.25}} = \sqrt{0.2} \approx 0.4472$$, và ước lượng khoảng cách tới đáy là $$\frac{1}{2}\lambda(0)^2 = 0.1$$.
+4. **Kiểm tra độ chính xác sau đúng 1 bước:** Tại $$w^{(1)} = 0.4$$, $$f'(0.4) = -\frac{1}{1+e^{0.4}} + 0.4 \approx -0.4013 + 0.4 = -0.0013$$! Chỉ sau **1 bước duy nhất**, đạo hàm đã tụt từ $$-0.5$$ xuống $$-0.0013$$!
+
+---
+
 # Bài Tập Thực Hành - Phương Pháp Newton
 
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Nocedal & Wright (2006) và Bertsekas (1999).

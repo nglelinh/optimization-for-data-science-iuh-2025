@@ -12,6 +12,31 @@ redirect_from:
   - /contents/en/chapter10/10_07_Practical_Exercises_LP_Duality/
 ---
 
+Knowing the LP duality theorem is one thing; being able to dualize a messy production-planning model, interpret shadow prices for a portfolio manager, or verify complementary slackness on a network flow is what turns theory into engineering skill. The exercises below—adapted from Boyd & Vandenberghe, Bertsimas & Tsitsiklis, and Dantzig—walk you progressively from mechanical dual construction through economic sensitivity analysis and strong duality proofs.
+
+## Background Knowledge Map: Problem-Solving Toolkit for LP Duality Exercises
+
+- **Pillar 1 — Systematic Dual Construction via Lagrangian:** When faced with mixed $$\le$$, $$\ge$$, and $$=$$ constraints alongside bounded or free variables, write $$L(x, u, v)$$ explicitly, collect terms multiplying each $$x_j$$, and set $$\inf_{x_j} (\text{coeff}_j) x_j$$ finite—this eliminates sign errors completely.
+- **Pillar 2 — Shadow Prices (Economic Interpretation):** At a nondegenerate optimum, the optimal dual variable $$y_i^\star$$ equals $$\frac{\partial p^\star}{\partial b_i}$$, the exact marginal value of relaxing resource constraint $$i$$ by one unit. A zero dual variable means that resource has surplus capacity.
+- **Pillar 3 — Complementary Slackness Verification:** To test if a candidate primal vertex $$x$$ is optimal without solving the dual from scratch, force $$y_i = 0$$ on every non-binding primal constraint and force the dual constraint tight for every $$x_j > 0$$, then solve the tiny resulting linear system for $$y$$ and check dual feasibility!
+- **Pillar 4 — Duality-Based Feasibility Certificates (Farkas' Lemma):** Proving an LP is infeasible reduces to exhibiting a ray in the dual—a nonnegative combination of constraints that yields the contradiction $$0 \ge 1$$.
+
+### Step-by-Step Worked Example (Read Slowly): Using Shadow Prices to Value an Extra Unit of Resource
+
+A factory solves the profit-maximization LP: $$\max 3x_1 + 2x_2$$ s.t. $$x_1 + x_2 \le 4$$ (labor hours), $$2x_1 + x_2 \le 6$$ (machine hours), $$x_1, x_2 \ge 0$$.
+
+1. **Solve the primal at the intersection of both resource constraints:**
+   - $$x_1 + x_2 = 4$$ and $$2x_1 + x_2 = 6 \implies x_1^\star = 2,\; x_2^\star = 2$$.
+   - Optimal profit: $$p^\star = 3(2) + 2(2) = 10$$.
+2. **Find the shadow prices $$(y_1^\star, y_2^\star)$$ via complementary slackness:**
+   Since $$x_1^\star > 0$$ and $$x_2^\star > 0$$, both dual constraints must be tight:
+   $$y_1 + 2y_2 = 3, \qquad y_1 + y_2 = 2.$$
+   - Subtracting gives $$y_2^\star = 1$$ (machine-hour shadow price) and $$y_1^\star = 1$$ (labor-hour shadow price).
+   - Dual objective check: $$4(1) + 6(1) = 10 = p^\star$$!
+3. **Predict the profit gain if machine capacity rises from $$6$$ to $$7$$:**
+   - Shadow-price prediction: $$\Delta p^\star = y_2^\star \cdot 1 = +1$$, predicting new profit $$11$$.
+   - Exact verification: solving $$x_1 + x_2 = 4$$ and $$2x_1 + x_2 = 7$$ gives $$x_1 = 3, x_2 = 1$$, with profit $$3(3) + 2(1) = 11$$—an exact match!
+
 The following exercises are adapted from Boyd & Vandenberghe (2004), Bertsimas & Tsitsiklis (1997), and Dantzig (1963), and help students master the concepts of duality in LP.
 
 ---

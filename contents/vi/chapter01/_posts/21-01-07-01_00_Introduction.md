@@ -10,6 +10,34 @@ lang: vi
 lesson_type: required
 ---
 
+Một câu nói nổi tiếng của nhà toán học R. Tyrrell Rockafellar năm 1993 đã định hình lại cách cả thế giới nhìn về tối ưu hóa: *"Ranh giới thực sự phân chia các bài toán tối ưu không phải là giữa tuyến tính và phi tuyến, mà là giữa **lồi** và **không lồi**."* Một bài toán không lồi chỉ có vài chục biến đôi khi khiến siêu máy tính bó tay vì hàng triệu cái bẫy cực tiểu địa phương; ngược lại, một bài toán tối ưu hóa lồi có tới hàng triệu biến lại có thể giải tới độ chính xác gần như tuyệt đối chỉ trong vài giây.
+
+Chương 01 mở cánh cửa bước vào thế giới tối ưu hóa lồi: định nghĩa bài toán tối ưu tổng quát, nhận diện cấu trúc lồi, lộ trình khóa học và câu chuyện lịch sử gần một thế kỷ tạo nên các bộ giải hiện đại.
+
+## Bản đồ kiến thức nền: Bốn khái niệm mở màn của Chương 01
+
+- **Mô hình hóa bài toán tối ưu hóa:** Quy mọi bài toán ra quyết định về ba thành phần chuẩn hóa: biến quyết định $$x$$, hàm mục tiêu $$f_0(x)$$ và tập ràng buộc khả thi $$g_i(x) \le 0,\ h_j(x) = 0$$.
+- **Lồi so với Không lồi (Convex vs. Non-convex):** Hiểu vì sao tính lồi loại bỏ hoàn toàn các "bẫy" cực tiểu địa phương: trong bài toán lồi, mọi điểm thấp nhất trong lân cận đều là điểm thấp nhất toàn cục.
+- **Các họ bài toán kinh điển:** Định vị Bình phương tối thiểu (LS), Quy hoạch tuyến tính (LP), Quy hoạch bậc hai (QP) và Quy hoạch bán xác định (SDP) trên cùng một bản đồ phân cấp.
+- **Tư duy thuật toán hiện đại:** Biết rằng giải một bài toán lớn trong thực tế không chỉ dựa vào công thức đạo hàm, mà còn dựa vào việc khai thác cấu trúc bài toán (như ADMM, điểm trong, gradient gần kề).
+
+### Khung giải thích (nên đọc chậm): Thấy tận mắt "bẫy cực tiểu địa phương" của hàm không lồi
+
+So sánh hai hàm số một biến trên $$\mathbb{R}$$:
+
+1. **Hàm lồi $$f_1(x) = (x - 2)^2$$:**
+   - Đạo hàm $$f_1'(x) = 2(x - 2) = 0 \iff x = 2$$, và $$f_1''(x) = 2 > 0$$ mọi nơi.
+   - Dù xuất phát từ $$x_0 = -100$$ hay $$x_0 = +100$$, thuật toán hạ dốc đều trượt về đúng một đáy duy nhất $$x^* = 2$$ với $$f_1(2) = 0$$.
+2. **Hàm không lồi $$f_2(x) = \frac{1}{4}x^4 - \frac{1}{3}x^3 - x^2$$:**
+   - Đạo hàm: $$f_2'(x) = x^3 - x^2 - 2x = x(x - 2)(x + 1) = 0 \implies x \in \{-1,\ 0,\ 2\}$$.
+   - Kiểm tra đạo hàm cấp hai $$f_2''(x) = 3x^2 - 2x - 2$$:
+     - Tại $$x = -1$$: $$f_2''(-1) = 3 > 0$$ (cực tiểu địa phương), $$f_2(-1) = \frac{1}{4} + \frac{1}{3} - 1 = -\frac{5}{12} \approx -0.417$$.
+     - Tại $$x = 0$$: $$f_2''(0) = -2 < 0$$ (cực đại địa phương), $$f_2(0) = 0$$.
+     - Tại $$x = 2$$: $$f_2''(2) = 6 > 0$$ (cực tiểu toàn cục), $$f_2(2) = 4 - \frac{8}{3} - 4 = -\frac{8}{3} \approx -2.667$$.
+   Nếu thuật toán bắt đầu ở $$x_0 = -2$$, nó sẽ rơi vào thung lũng nông $$x = -1$$ ($$-0.417$$) và mắc kẹt vĩnh viễn, bỏ lỡ thung lũng sâu hơn gấp 6 lần ở $$x = 2$$ ($$-2.667$$)!
+
+---
+
 Chương này mở đầu khóa học bằng ba câu hỏi cốt lõi: một bài toán tối ưu hóa *là gì*, vì sao các bài toán **lồi** cho phép ta đảm bảo chất lượng nghiệm, và phần còn lại của khóa học trang bị những gì cho sinh viên khoa học dữ liệu.
 
 Một bài toán quy hoạch toán học tìm điểm $$x$$ thuộc tập khả thi sao cho hàm mục tiêu đạt giá trị nhỏ nhất (hoặc lớn nhất):

@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+Picture yourself descending a misty mountain valley shaped like a long, narrow banana. Gradient descent looks only at the local slope under your boots and zig-zags endlessly from wall to wall. Newton's method surveys the entire bowl's exact curvature—computing all $$n(n+1)/2$$ second derivatives and inverting an $$n \times n$$ Hessian at every step—which is miraculous in $$n = 10$$ dimensions and completely infeasible in $$n = 50{,}000$$ dimensions. **Quasi-Newton methods** pull off one of the greatest bargains in numerical optimization: using *only* the gradients you already compute, they build a running low-rank portrait of the curvature that achieves superlinear convergence at $$O(n^2)$$ (or even $$O(n)$$) cost per step.
+
+## Background Knowledge Map: Why Quasi-Newton Sits Between GD and Newton
+
+- **The Curvature–Cost Trade-Off:** First-order methods cost $$O(n)$$ per step but suffer slow linear convergence $$O(\kappa \log(1/\epsilon))$$ when the condition number $$\kappa = L/\mu$$ is large. Exact Newton eliminates $$\kappa$$-dependence (quadratic local convergence) but pays $$O(n^3)$$ to factor $$\nabla^2 f(x)$$.
+- **Learning Curvature from Gradient Differences:** Every step $$s_k = x^{k+1} - x^k$$ produces a gradient change $$y_k = \nabla f(x^{k+1}) - \nabla f(x^k)$$, which reveals the directional curvature $$\nabla^2 f(x^k)\, s_k \approx y_k$$ for free.
+- **Low-Rank Symmetric Updates ($$O(n^2)$$ per step):** Instead of recomputing a Hessian from scratch, methods like SR1, DFP, and BFGS apply a rank-1 or rank-2 update to the current approximation $$B_k$$ (or directly to its inverse $$H_k = B_k^{-1}$$), avoiding $$O(n^3)$$ matrix inversions altogether.
+- **Superlinear Convergence Without Second Derivatives:** Under mild smoothness and Wolfe line-search conditions, BFGS attains *superlinear* convergence—closing the gap between linear gradient descent and quadratic Newton while never differentiating twice.
+
+### Step-by-Step Worked Example (Read Slowly): Comparing GD, Newton, and Quasi-Newton on an Ill-Conditioned Bowl
+
+Consider $$f(x) = \frac{1}{2}(x_1^2 + 100 x_2^2)$$ starting at $$x^0 = (10, 1)^T$$ (exact optimum $$x^\star = (0, 0)$$, condition number $$\kappa = 100$$). Here $$\nabla f(x^0) = (10, 100)^T$$ and $$f(x^0) = 100$$.
+
+1. **Exact-line-search Gradient Descent step:**
+   Along $$p_{\text{GD}} = -\nabla f(x^0) = (-10, -100)^T$$, the exact optimal step size is:
+   $$t^\star = \frac{p^T p}{p^T Q p} = \frac{100 + 10{,}000}{100 + 1{,}000{,}000} = \frac{10{,}100}{1{,}000{,}100} \approx 0.0101.$$
+   Thus $$x^1_{\text{GD}} \approx (9.899, -0.010)^T$$, with $$f(x^1_{\text{GD}}) \approx 49.0$$—barely halving the loss because $$x_1$$ moved by only $$1\%$$!
+2. **Exact Newton step:**
+   Using $$Q^{-1} = \operatorname{diag}(1, 0.01)$$, $$p_{\text{N}} = -Q^{-1}\nabla f(x^0) = (-10, -1)^T$$, reaching $$x^1_{\text{N}} = (0, 0)$$ in **one step**—at the price of knowing and inverting $$Q$$.
+3. **Quasi-Newton intuition (2 steps without knowing $$Q$$):**
+   Starting from $$H_0 = I$$, the first step $$s_0 = x^1_{\text{GD}} - x^0 \approx (-0.101, -1.010)^T$$ observes $$y_0 = \nabla f(x^1) - \nabla f(x^0) \approx (-0.101, -101.0)^T$$. Instantly, the ratio $$y_{0,2}/s_{0,2} = 100$$ tells the BFGS update that the $$x_2$$ direction is $$100\times$$ steeper than $$x_1$$, reshaping $$H_1$$ so the *very next* step points straight to $$(0, 0)$$—solving this $$2$$-variable quadratic exactly in $$2$$ gradient evaluations!
+
 In the mid-1950s, physicist W.C. Davidon, who was working at Argonne National Laboratory, was solving optimization problems with large computational requirements using coordinate descent methods. Unfortunately, due to the instability of computers at the time, system crashes frequently occurred before computations could be completed, and frustrated by this, Davidon decided to find methods that could improve computational speed. This led to the birth of the first Quasi-Newton algorithm. This became a catalyst for dramatic progress in nonlinear optimization, and subsequently, various follow-up studies on this method emerged over the next 20 years.
 
 Ironically, [Davidon's research](http://www.math.mcgill.ca/dstephens/680/Papers/Davidon91.pdf) was not published at the time and remained as a technical report for more than 30 years. It was finally published in the [first issue of SIAM Journal on Optimization](https://epubs.siam.org/toc/sjope8/1/1) in 1991.

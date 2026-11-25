@@ -10,6 +10,28 @@ lang: en
 lesson_type: optional
 ---
 
+AdamW has reigned as the default deep-learning optimizer since 2019, yet every frontier lab keeps asking the same question: can we exploit *geometry* beyond diagonal second moments without paying the prohibitive $$O(d^2)$$ cost of full Newton’s method? Between 2020 and 2026, three distinct geometric ideas broke through into practical training loops: **SAM** (seek flat basins via a minimax step), **Sophia** (clip a cheap diagonal Hessian estimator), and **Muon** (orthogonalize 2D hidden-layer weight updates via Newton–Schulz iterations).
+
+## Background Knowledge Map: Beyond Diagonal AdamW (SAM, Sophia, Muon, Schedule-Free)
+
+- **SAM (Sharpness-Aware Minimization):** Solves the minimax objective $$\min_w \max_{\|\epsilon\|_2 \le \rho} F(w + \epsilon)$$ by first ascending to the worst nearby perturbation $$\hat{\epsilon} = \rho \frac{\nabla F(w)}{\|\nabla F(w)\|_2}$$, then stepping with $$\nabla F(w + \hat{\epsilon})$$—trading $$2\times$$ gradient cost for flatter, better-generalizing minima.
+- **Sophia (Clipped Diagonal Second-Order):** Replaces Adam’s squared-gradient denominator with a Hutchinson or Gauss–Newton diagonal Hessian estimate $$h_t$$ and clips the Newton step $$\operatorname{clip}(m_t / \max(h_t, \varepsilon), \pm 1)$$, preventing explosions near nonconvex saddle points where curvature turns negative.
+- **Muon (Matrix Orthogonalization via Newton–Schulz):** Recognizes that hidden-layer weights are *matrices*, not flat vectors. Instead of diagonal rescaling, Muon maps the momentum matrix $$M_t$$ toward its nearest orthogonal polar factor $$U V^\top$$ using fast matrix-multiply Newton–Schulz iterations—equalizing singular-value step sizes across all matrix directions.
+- **Schedule-Free Optimization:** Eliminates the need to pre-commit to a total training horizon $$T$$ (for cosine decay) by interpolating between a momentum iterate and an online average, matching tuned cosine schedules automatically.
+
+### Step-by-Step Worked Example (Read Slowly): One SAM Minimax Step vs. One Muon Polar Orthogonalization
+
+**Part A (SAM on a 1D asymmetric valley):** Suppose $$F(w)$$ has gradient $$F'(w_0) = 1.0$$ at $$w_0 = 0$$, and sharpness radius $$\rho = 0.2$$.
+1. Ascend to the adversarial perturbation: $$\hat{\epsilon} = \rho \frac{F'(0)}{|F'(0)|} = 0.2 \cdot (+1) = +0.2$$, giving $$w_{\text{adv}} = 0.2$$.
+2. Evaluate gradient at the perturbed point: suppose $$F'(0.2) = 3.0$$ (steep wall on the right!).
+3. Apply the SAM update ($$\eta = 0.1$$) from the *original* $$w_0$$:
+   $$w_1 = w_0 - \eta F'(w_{\text{adv}}) = 0 - 0.1(3.0) = -0.3,$$
+   pushing $$3\times$$ harder away from the sharp cliff than vanilla GD ($$-0.1$$)!
+
+**Part B (Muon polar orthogonalization on a $$2 \times 2$$ momentum matrix):** Suppose a hidden-layer momentum matrix is $$M = \begin{pmatrix} 10 & 0 \\ 0 & 0.1 \end{pmatrix}$$ (singular values $$10$$ and $$0.1$$—condition number $$100$$).
+- Its polar factor $$U V^\top$$ replaces all nonzero singular values with $$1$$:
+  $$\operatorname{orth}(M) = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}.$$
+- Every singular direction now receives unit step magnitude, preventing the dominant singular direction from drowning out subtle orthogonal feature directions!
 
 Lessons 26-01 to 26-05 are the assessed stack: SGD, Distill-style momentum, AdaGrad → Adam, **AdamW**, and SVRG / SAGA. This optional seminar is the 2021–2026 optimizer zoo at *algorithm* depth — one recurrence each, not a second AdamW lecture. [26-04]({% multilang_post_url contents/chapter26/2026-09-15-26_04_adamw_and_practice %}) already owns decoupled weight decay. The Hessian-preconditioner story of Sophia as a Newton cousin lives in [14-10]({% multilang_post_url contents/chapter14/2026-09-16-14_10_modern_applications %}); here we only need the *update*, so we can place SAM, Sophia, and Muon on the same board as AdamW. None of the three is assessed this term.
 

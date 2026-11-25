@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter02/02_08_Practical_Exercises_Convex_Sets/
 ---
 
+Knowing that a set is convex is the first step; *projecting* an infeasible iterate back onto that convex set is the computational core of projected gradient descent and ADMM. These practical exercises move you from proofs to computation—testing convexity, finding separating hyperplanes, computing convex hulls and dual cones, and projecting points onto polyhedra, balls, and simplexes.
+
+## Background Knowledge Map: Computational Skills in These Exercises
+
+- **Algebraic & Computational Verification:** Checking convexity by rewriting sets as intersections, affine preimages, or epigraphs, and validating numerically.
+- **Dual Cones & Separation Oracles:** Computing explicit separating hyperplanes and dual cones for polyhedral and norm-cone constraints.
+- **Euclidean Projections ($$\Pi_C(y) = \arg\min_{x \in C} \frac{1}{2}\|x - y\|_2^2$$):** Deriving closed-form projections onto hyperplanes, boxes, $$\ell_2$$ balls, $$\mathbb{R}_+^n$$, and the probability simplex $$\Delta_n$$.
+- **Extreme Points & Vertices:** Identifying extreme points of polytopes—where linear objectives always attain their optima.
+
+### Step-by-Step Worked Example (Read Slowly): Projecting onto $$\mathbb{R}_+^3$$ and the Probability Simplex $$\Delta_3$$
+
+Project the vector $$y = (3, -2, 1)^T$$ onto two fundamental convex sets:
+
+1. **Projection onto the nonnegative orthant $$\mathbb{R}_+^3$$:** Componentwise clipping $$x_i^* = \max(y_i, 0)$$ immediately gives
+   $$\Pi_{\mathbb{R}_+^3}(y) = (3, 0, 1)^T.$$
+2. **Projection onto the probability simplex $$\Delta_3 = \{x \ge 0 : x_1 + x_2 + x_3 = 1\}$$:** By KKT conditions, $$\Pi_{\Delta_3}(y)_i = \max(y_i - \nu, 0)$$ where the threshold $$\nu \in \mathbb{R}$$ is chosen so the entries sum to $$1$$.
+   - Try $$\nu = 2$$:
+     $$\max(3 - 2, 0) = 1, \qquad \max(-2 - 2, 0) = 0, \qquad \max(1 - 2, 0) = 0.$$
+   - Sum $$= 1 + 0 + 0 = 1$$! Thus $$x^* = \Pi_{\Delta_3}(y) = (1, 0, 0)^T$$.
+3. **Verify the variational optimality condition $$(y - x^*)^T(x - x^*) \le 0 \;\forall x \in \Delta_3$$:**
+   With $$y - x^* = (2, -2, 1)^T$$ and $$x_1 - 1 = -(x_2 + x_3)$$ for any $$x \in \Delta_3$$,
+   $$(y - x^*)^T(x - x^*) = 2(-x_2 - x_3) - 2x_2 + x_3 = -4x_2 - x_3 \le 0,$$
+   certifying $$x^* = (1, 0, 0)^T$$ as the exact Euclidean projection.
+
 # Practical Exercises - Convex Sets
 
 ## **Exercise 1: Verification of convex sets**

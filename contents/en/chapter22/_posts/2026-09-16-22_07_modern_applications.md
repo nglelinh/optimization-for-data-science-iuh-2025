@@ -10,6 +10,24 @@ lang: en
 lesson_type: optional
 ---
 
+As optimization scales to high-dimensional structured domains—from sequence tagging and unbalanced optimal transport to sparse neural explanations—the bottleneck is rarely computing a gradient; it is enforcing the structural constraint. Projection-free Frank–Wolfe methods turn what would be an intractable quadratic projection into a fast linear oracle, bridging classical 1956 convex optimization with 2024–2026 machine learning pipelines.
+
+## Background Knowledge Map: Selecting Frank–Wolfe in Modern Applied Workflows
+
+- **Oracle Complexity Asymmetry:** Frank–Wolfe beats projected gradient descent precisely when the Linear Minimization Oracle is asymptotically cheaper than Euclidean projection (e.g., $$O(d)$$ vs. $$O(d \log d)$$ on structured polytopes, or top-1 SVD vs. full SVD on trace-norm balls).
+- **Block-Coordinate Scalability:** Decomposing product constraints $$\mathcal{C} = \mathcal{C}_1 \times \dots \times \mathcal{C}_n$$ via Block-Coordinate FW allows stochastic per-example updates while preserving global primal-dual gap certificates.
+- **Unbalanced & 1D Optimal Transport:** In transport problems with relaxed marginal penalties, linear subproblems decompose cleanly over rows/columns or 1D orderings, making conditional gradients competitive with Sinkhorn iterations when exact sparse couplings are preferred over entropic blur.
+- **Sparsity-Accuracy Trade-off via Iteration Budget:** Because each FW step adds at most one atom, stopping early at $$k$$ iterations acts simultaneously as computational budgeting and explicit structural regularization (e.g., rank-$$k$$ matrices or $$k$$-sparse explanations).
+
+### Step-by-Step Worked Example (Read Slowly): Comparing LMO vs. Projection Cost on a $$2 \times 2$$ Trace-Norm Step
+
+Suppose we minimize a matrix loss with current iterate $$X_0 = 0 \in \mathbb{R}^{2 \times 2}$$ over the trace-norm ball $$\|X\|_{\text{tr}} \le 3$$, and the gradient is $$G = \begin{pmatrix} -4 & 0 \\ 0 & -2 \end{pmatrix}$$.
+
+1. **Frank–Wolfe LMO (rank-1 only):** We only need the largest singular value $$\sigma_1 = 4$$ with $$u_1 = (1, 0)^\top$$, $$v_1 = (-1, 0)^\top$$.
+   $$S_0 = -3 u_1 v_1^\top = \begin{pmatrix} 3 & 0 \\ 0 & 0 \end{pmatrix}.$$
+   With step size $$\gamma = \frac{1}{2}$$, $$X_1^{\text{FW}} = \begin{pmatrix} 1.5 & 0 \\ 0 & 0 \end{pmatrix}$$—strictly **rank 1**.
+2. **Projected Gradient Step (full SVD + simplex projection):** With step size $$\eta = 1$$, the unprojected step is $$Y = X_0 - G = \begin{pmatrix} 4 & 0 \\ 0 & 2 \end{pmatrix}$$, whose singular values $$(4, 2)$$ sum to $$6 > 3$$. Projecting $$(4, 2)$$ onto the $$\ell_1$$ ball of radius $$3$$ requires soft-thresholding by $$\tau = 1.5$$, giving singular values $$(2.5, 0.5)$$ and $$X_1^{\text{PGD}} = \begin{pmatrix} 2.5 & 0 \\ 0 & 0.5 \end{pmatrix}$$—**rank 2**.
+3. **Key Takeaway:** Even on a $$2 \times 2$$ toy problem, PGD requires *all* singular values and immediately inflates rank, whereas FW needs only the top singular pair and preserves low-rank structure automatically.
 
 Frank–Wolfe (conditional gradient) is the algorithm you reach for when the feasible set $$\mathcal{C}$$ has a cheap **linear minimization oracle**
 

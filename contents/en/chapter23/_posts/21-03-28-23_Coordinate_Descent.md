@@ -9,6 +9,30 @@ categories:
 lang: en
 ---
 
+At first glance, Coordinate Descent looks almost embarrassingly naive: instead of moving along the full gradient in $$\mathbb{R}^p$$, freeze $$p - 1$$ variables, minimize along a single coordinate axis, and cycle to the next. Why would anyone trade a sophisticated full-gradient direction for axis-aligned baby steps? Yet in modern high-dimensional statistics—most famously in `glmnet` for Lasso and Elastic Net—Coordinate Descent routinely crushes gradient descent and even accelerated proximal gradient by an order of magnitude. The secret is that every single coordinate update uses the *freshest* information immediately (Gauss–Seidel style) and exploits closed-form 1D minimizers with zero line-search overhead.
+
+## Background Knowledge Map: Why Coordinate-Wise Optimization Dominates High-Dimensional Regression
+
+- **Gauss–Seidel vs. Jacobi Updates:** Full gradient descent updates all $$p$$ coordinates simultaneously from the same stale point (Jacobi). Coordinate descent updates coordinate $$i$$ immediately and feeds the new $$x_i^{(k)}$$ into coordinate $$i+1$$ (Gauss–Seidel), enabling larger effective coordinate-wise step sizes $$1/L_i$$ instead of the conservative global $$1/L$$.
+- **Separability and Nonsmooth Convexity:** Tseng’s theorem guarantees global convergence of coordinate descent for composite functions $$f(x) = g(x) + \sum_{i=1}^p h_i(x_i)$$ whenever $$g$$ is smooth convex and the nonsmooth penalty separates across coordinates (like $$\lambda \|x\|_1$$). Without separability, coordinate descent can get stuck at non-optimal kinks!
+- **Coordinate Selection Rules:** Cyclic sweeps are cache-friendly and deterministic; randomized coordinate descent (sampling coordinate $$i$$ proportionally to $$L_i$$) yields clean complexity bounds; greedy (Gauss–Southwell) selection picks the coordinate with the largest gradient magnitude.
+- **Residual Maintenance for $$O(n)$$ Updates:** In linear models $$y - X\beta$$, updating a single coordinate $$\beta_j \to \beta_j^+$$ lets us refresh the residual vector $$r \leftarrow r - (\beta_j^+ - \beta_j) X_j$$ in $$O(n)$$ time, making one full sweep of $$p$$ coordinates cost $$O(np)$$—the exact same cost as a single full gradient!
+
+### Step-by-Step Worked Example (Read Slowly): One Cyclic Coordinate Descent Sweep on a 2D Quadratic
+
+Minimize $$f(x_1, x_2) = x_1^2 + 2 x_2^2 + 2 x_1 x_2 - 4 x_1 - 6 x_2$$ starting from $$x^{(0)} = (0, 0)^\top$$. (The exact minimizer satisfies $$2x_1 + 2x_2 = 4$$ and $$2x_1 + 4x_2 = 6$$, giving $$x^\star = (1, 1)^\top$$ with $$f(x^\star) = -5$$.)
+
+1. **Update $$x_1$$ holding $$x_2 = 0$$ fixed:**
+   Set $$\frac{\partial f}{\partial x_1} = 2 x_1 + 2 x_2 - 4 = 0 \implies x_1^{(1)} = 2 - x_2^{(0)} = 2$$.
+   Objective drops from $$f(0, 0) = 0$$ to $$f(2, 0) = 4 - 8 = -4$$.
+2. **Update $$x_2$$ using the NEW $$x_1^{(1)} = 2$$:**
+   Set $$\frac{\partial f}{\partial x_2} = 4 x_2 + 2 x_1^{(1)} - 6 = 0 \implies x_2^{(1)} = \frac{6 - 2(2)}{4} = 0.5$$.
+   Objective drops further to $$f(2, 0.5) = 4 + 0.5 + 2 - 8 - 3 = -4.5$$.
+3. **Second sweep to verify rapid contraction:**
+   - $$x_1^{(2)} = 2 - 0.5 = 1.5$$,
+   - $$x_2^{(2)} = \frac{6 - 2(1.5)}{4} = 0.75$$, giving $$f(1.5, 0.75) = -4.875$$.
+4. **Notice the geometric rate:** Error in $$x_2$$ shrinks by exactly a factor of $$1/2$$ each sweep: $$1 \to 0.5 \to 0.25$$, converging monotonically without ever tuning a step size $$\eta$$.
+
 Coordinate descent is an optimization algorithm that iteratively moves along each coordinate axis to find the minimum of the objective function. At each iteration, according to a coordinate selection rule, it determines a coordinate axis (coordinate) or coordinate block, then minimizes the function along the direction of that axis while keeping the unselected coordinate axes or coordinate blocks fixed (exactly or inexactly).
 
 Coordinate descent can be utilized not only with gradient-based methods but also with gradient-free methods. Additionally, depending on the case, line search can be used to determine appropriate step sizes for each axis [16].

@@ -10,6 +10,35 @@ lang: vi
 lesson_type: required
 ---
 
+Một trong những bất ngờ thú vị nhất khi học tối ưu hóa cho khoa học dữ liệu là phát hiện ra: các hàm mất mát nổi tiếng nhất không phải do ai đó "bịa" ra ngẫu nhiên, mà mỗi hàm đều là hình bóng logarit của một **phân phối xác suất** cổ điển! Phân phối Gauss sinh ra hồi quy bình phương tối thiểu, phân phối Bernoulli sinh ra hồi quy logistic, phân phối Laplace sinh ra hồi quy chuẩn $$\ell_1$$, còn phân phối chuẩn đa biến gắn liền trực tiếp với ma trận xác định dương.
+
+Bài học này giúp bạn không chỉ nhớ công thức các phân phối rời rạc và liên tục thông dụng, mà còn thấy ngay cấu trúc lồi ẩn sau log-mật độ của chúng.
+
+## Bản đồ kiến thức nền: Họ phân phối và hàm mất mát tương ứng
+
+- **Phân phối rời rạc (Bernoulli, Nhị thức, Poisson, Categorical):** Mô hình hóa dữ liệu đếm và phân loại nhãn. Âm log-hợp lý của Bernoulli/Categorical chính là hàm mất mát **Binary/Multi-class Cross-Entropy** — một hàm lồi đẹp theo tham số tuyến tính.
+- **Phân phối liên tục một biến (Đều, Mũ, Chuẩn Gauss, Laplace):** Phân phối Gauss có đuôi giảm theo $$e^{-x^2}$$ (tạo phạt bình phương nhạy với ngoại lai), còn Laplace có đuôi giảm theo $$e^{-|x|}$$ (tạo phạt $$\ell_1$$ bền vững và khuyến khích độ thưa).
+- **Phân phối chuẩn đa biến ($$\mathcal{N}(\mu, \Sigma)$$):** Mở rộng Gauss lên $$\mathbb{R}^n$$ với mật độ tỉ lệ với $$\exp\left(-\frac{1}{2}(x-\mu)^T \Sigma^{-1}(x-\mu)\right)$$. Đường đồng mức của mật độ chính là các **ellipsoid** — đối tượng lồi quen thuộc của Chương 02.
+- **Tính log-lõm (Log-concavity):** Hầu hết các phân phối kinh điển (Gauss, Mũ, Laplace, Gamma với $$\alpha \ge 1$$) đều có log-mật độ là hàm lõm, nhờ đó bài toán ước lượng tham số tự động trở thành **bài toán tối ưu hóa lồi**!
+
+### Khung giải thích (nên đọc chậm): So sánh âm log-hợp lý Gauss và Laplace trên cùng bộ dữ liệu
+
+Cho $$3$$ quan sát độc lập $$x_1 = 1,\ x_2 = 2,\ x_3 = 6$$. Ta muốn ước lượng tâm vị trí $$\mu$$ dưới hai giả thiết nhiễu khác nhau:
+
+1. **Giả thiết nhiễu chuẩn $$\mathcal{N}(\mu, 1)$$:**
+   Hàm mật độ $$p(x_i \mid \mu) = \frac{1}{\sqrt{2\pi}}\exp\left(-\frac{(x_i - \mu)^2}{2}\right)$$. Lấy tổng âm log-hợp lý (bỏ hằng số):
+   $$\text{NLL}_{\text{Gauss}}(\mu) = \frac{1}{2}\left[(1-\mu)^2 + (2-\mu)^2 + (6-\mu)^2\right].$$
+   Đạo hàm bằng $$0$$: $$-(1-\mu) - (2-\mu) - (6-\mu) = 0 \implies 3\mu = 9 \implies \hat\mu_{\text{Gauss}} = 3$$.
+2. **Giả thiết nhiễu Laplace $$\operatorname{Laplace}(\mu, 1)$$:**
+   Hàm mật độ $$p(x_i \mid \mu) = \frac{1}{2}\exp(-|x_i - \mu|)$$. Lấy tổng âm log-hợp lý (bỏ hằng số):
+   $$\text{NLL}_{\text{Laplace}}(\mu) = |1-\mu| + |2-\mu| + |6-\mu|.$$
+   Kiểm tra giá trị:
+   - Tại $$\mu = 2$$: $$|1-2| + |2-2| + |6-2| = 1 + 0 + 4 = 5$$.
+   - Tại $$\mu = 3$$: $$|1-3| + |2-3| + |6-3| = 2 + 1 + 3 = 6 > 5$$.
+   Vậy $$\hat\mu_{\text{Laplace}} = 2$$ (trung vị). Chỉ cần đổi giả thiết phân phối nhiễu, bài toán tối ưu lập tức đổi từ chuẩn $$\ell_2$$ sang chuẩn $$\ell_1$$!
+
+---
+
 ## Các phân phối xác suất thông dụng
 
 Hiểu rõ các phân phối xác suất cốt lõi là yêu cầu thiết yếu đối với nhiều bài toán tối ưu hóa trong học máy và thống kê. Các phân phối này thường đóng vai trò là giả định phân phối dữ liệu, phân phối tiên nghiệm (prior) trong suy luận Bayes hoặc mô hình nhiễu trong hồi quy.
@@ -133,7 +162,8 @@ Phân phối có vai trò trung tâm trong thống kê và tối ưu hóa.
 
 **Tham số**: $$\mu \in \mathbb{R}$$ (kỳ vọng), $$\sigma^2 > 0$$ (phương sai)
 
-**PDF**: $$f(x) = rac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-rac{(x-\mu)^2}{2\sigma^2}ight)$$
+**PDF**: $$f(x) = rac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-rac{(x-\mu)^2}{2\sigma^2}
+ight)$$
 
 **Kỳ vọng**: $$\mathbb{E}[X] = \mu$$
 
@@ -262,7 +292,8 @@ Tổng quát hóa phân phối chuẩn sang không gian nhiều chiều.
 
 **Tham số**: $$oldsymbol{\mu} \in \mathbb{R}^d$$ (vector kỳ vọng), $$oldsymbol{\Sigma} \in \mathbb{R}^{d 	imes d}$$ (ma trận hiệp phương sai đối xứng xác định dương)
 
-**PDF**: $$f(\mathbf{x}) = rac{1}{(2\pi)^{d/2}|oldsymbol{\Sigma}|^{1/2}} \exp\left(-rac{1}{2}(\mathbf{x}-oldsymbol{\mu})^Toldsymbol{\Sigma}^{-1}(\mathbf{x}-oldsymbol{\mu})ight)$$
+**PDF**: $$f(\mathbf{x}) = rac{1}{(2\pi)^{d/2}|oldsymbol{\Sigma}|^{1/2}} \exp\left(-rac{1}{2}(\mathbf{x}-oldsymbol{\mu})^Toldsymbol{\Sigma}^{-1}(\mathbf{x}-oldsymbol{\mu})
+ight)$$
 
 **Tính chất**:
 - Các phân phối biên đều là phân phối chuẩn.

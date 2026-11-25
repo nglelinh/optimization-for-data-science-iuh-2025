@@ -10,6 +10,29 @@ lang: en
 lesson_type: required
 ---
 
+Earlier in this chapter, we saw why SGD stalls at an $$O(1/\sqrt{T})$$ crawl even on strongly convex quadratics: even when $$w_k$$ lands right on the exact global optimum $$w^\star$$, individual sample gradients $$\nabla f_i(w^\star)$$ are still nonzero, kicking $$w_k$$ right back out! In 2013–2014, Johnson & Zhang (SVRG) and Defazio, Bach & Lacoste-Julien (SAGA) broke that barrier using a classic Monte Carlo weapon—**control variates**. By subtracting a stale gradient at a snapshot point and adding back its exact average, the gradient estimator stays unbiased while its variance shrinks to *zero* as $$w_k \to w^\star$$, restoring fast linear convergence $$O\bigl((n + \kappa)\log(1/\varepsilon)\bigr)$$!
+
+## Background Knowledge Map: Control Variates, SVRG, and SAGA
+
+- **Why SGD Cannot Converge Linearly:** For finite sums $$F(w) = \frac{1}{n}\sum_{i=1}^n f_i(w)$$, $$\nabla F(w^\star) = 0$$ does not imply $$\nabla f_i(w^\star) = 0$$. Without variance vanishing at $$w^\star$$, constant-step SGD hits a non-zero noise ball.
+- **The Control-Variate Estimator:** Given any reference snapshot $$\tilde{w}$$ with known full gradient $$\tilde{\mu} = \nabla F(\tilde{w})$$, define $$v_k = \nabla f_{i_k}(w_k) - \nabla f_{i_k}(\tilde{w}) + \tilde{\mu}$$. Because $$\mathbb{E}[\nabla f_{i_k}(\tilde{w})] = \tilde{\mu}$$, $$v_k$$ is **strictly unbiased**, and its variance is bounded by $$O(\|w_k - \tilde{w}\|_2^2)$$—vanishing as both $$w_k$$ and $$\tilde{w}$$ approach $$w^\star$$!
+- **SVRG (Low Memory, Periodic Snapshots):** Computes one full gradient $$\tilde{\mu} = \nabla F(\tilde{w})$$ every $$m \approx 2n$$ inner steps. Costs $$O(d)$$ memory (no per-example table!) at the price of 2 gradient evaluations per inner step plus periodic full passes.
+- **SAGA (Incremental Table, No Full Passes):** Maintains a table of the latest gradient $$g_i$$ for each of the $$n$$ examples and updates its running average in $$O(d)$$ per step—requiring only 1 gradient evaluation per step at the cost of $$O(nd)$$ memory (or $$O(n)$$ for linear models).
+
+### Step-by-Step Worked Example (Read Slowly): Computing an SVRG Control-Variate Step at $$w^\star$$
+
+Return to our 2-sample finite sum $$F(w) = \frac{1}{2}\bigl(f_1(w) + f_2(w)\bigr)$$ with $$f_1(w) = \frac{1}{2}(w - 1)^2$$ and $$f_2(w) = \frac{1}{2}(w + 1)^2$$ (optimum $$w^\star = 0$$). Suppose our snapshot is $$\tilde{w} = 0.2$$ and current iterate is $$w_k = 0.1$$.
+
+1. **Compute the snapshot full gradient once:**
+   - $$f_1'(\tilde{w}) = 0.2 - 1 = -0.8$$, $$f_2'(\tilde{w}) = 0.2 + 1 = 1.2$$.
+   - Full gradient: $$\tilde{\mu} = F'(\tilde{w}) = \frac{1}{2}(-0.8 + 1.2) = 0.2$$.
+2. **Compare ordinary SGD vs. SVRG when sampling $$i_k = 1$$ at $$w_k = 0.1$$:**
+   - **Plain SGD gradient:** $$g_{\text{SGD}} = f_1'(0.1) = 0.1 - 1 = -0.9$$ (wrong sign relative to $$F'(0.1) = +0.1$$, huge error $$|-0.9 - 0.1| = 1.0$$!).
+   - **SVRG gradient:**
+     $$v_k = f_1'(0.1) - f_1'(0.2) + \tilde{\mu} = (-0.9) - (-0.8) + 0.2 = +0.1 = F'(0.1)!$$
+3. **Check sampling $$i_k = 2$$ as well:**
+   $$v_k = f_2'(0.1) - f_2'(0.2) + \tilde{\mu} = (1.1) - (1.2) + 0.2 = +0.1 = F'(0.1)!$$
+   On quadratics with identical curvature, the SVRG control variate cancels sample noise **100% exactly**, and on general smooth functions its variance collapses quadratically to $$0$$ as $$w_k, \tilde{w} \to w^\star$$—unlocking constant-step linear convergence!
 
 SGD’s $$O(1/\sqrt{T})$$ ceiling on a convex Lipschitz finite sum is not an information-theoretic destiny. It is the price of using an *unbiased but noisy* gradient whose variance stays order-one even as $$w$$ sits at a minimizer. **Variance-reduced** methods reuse old gradients so that the estimator becomes exact at a snapshot (or in a table), and the noise dies as $$w$$ approaches a minimizer. This lesson is the Opt-for-ML core — SVRG and SAGA — at IUH depth: enough algebra to see *why* the variance vanishes, enough algorithm to implement, and a clear “do not train ResNets this way” boundary.
 

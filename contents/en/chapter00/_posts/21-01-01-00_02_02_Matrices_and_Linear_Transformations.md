@@ -10,6 +10,28 @@ categories:
 lesson_type: required
 ---
 
+A matrix is far more than a rectangular spreadsheet of numbers—it is a geometric operator that rotates, stretches, shears, and projects entire spaces. In optimization, every linear equality constraint $$Ax = b$$ asks which inputs $$x$$ land on a target $$b$$ under the transformation $$A$$, and the geometry of the solution set is governed completely by $$A$$'s column space (what is reachable) and nullspace (what directions remain invisible to $$A$$).
+
+## Background Knowledge Map: Matrices as Geometric Operators
+
+- **Matrix Multiplication as Composition:** Multiplying $$BAx$$ applies linear map $$A$$ followed by $$B$$—the algebraic reason matrix products are associative yet generally non-commutative.
+- **Column Space (Range):** $$\mathcal{R}(A) = \{Ax : x \in \mathbb{R}^n\}$$ defines the exact set of right-hand sides $$b$$ for which $$Ax = b$$ is feasible.
+- **Nullspace (Kernel):** $$\mathcal{N}(A) = \{v : Av = 0\}$$ collects all feasible step directions that leave $$Ax = b$$ unchanged, turning any single feasible point $$x_p$$ into the full affine feasible set $$x_p + \mathcal{N}(A)$$.
+- **Rank–Nullity Theorem:** $$\text{rank}(A) + \dim(\mathcal{N}(A)) = n$$ balances the number of independent constraints against the remaining free optimization dimensions.
+
+### Step-by-Step Worked Example (Read Slowly): Parameterizing a Feasible Set via Nullspace
+
+Consider the underdetermined linear constraint system $$Ax = b$$ with
+
+$$A = \begin{pmatrix} 1 & 2 & 1 \\ 2 & 4 & 3 \end{pmatrix}, \qquad b = \begin{pmatrix} 4 \\ 9 \end{pmatrix}.$$
+
+1. **Row-reduce $$[A \mid b]$$ to RREF:** Subtract $$2 \times R_1$$ from $$R_2$$:
+   $$\begin{pmatrix} 1 & 2 & 1 & \mid & 4 \\ 0 & 0 & 1 & \mid & 1 \end{pmatrix} \xrightarrow{R_1 \leftarrow R_1 - R_2} \begin{pmatrix} 1 & 2 & 0 & \mid & 3 \\ 0 & 0 & 1 & \mid & 1 \end{pmatrix}.$$
+2. **Read off rank and free variables:** Pivot columns are columns 1 and 3, so $$\text{rank}(A) = 2$$ and $$x_2 = t \in \mathbb{R}$$ is free ($$\dim\mathcal{N}(A) = 3 - 2 = 1$$, confirming Rank–Nullity $$2 + 1 = 3$$).
+3. **Write the complete feasible set:**
+   $$x_1 = 3 - 2t, \quad x_2 = t, \quad x_3 = 1 \implies x(t) = \begin{pmatrix} 3 \\ 0 \\ 1 \end{pmatrix} + t\begin{pmatrix} -2 \\ 1 \\ 0 \end{pmatrix}.$$
+4. **Verify both parts:** $$A x_p = (3 + 0 + 1,\; 6 + 0 + 3)^T = (4, 9)^T = b$$ and $$A v = (-2 + 2 + 0,\; -4 + 4 + 0)^T = (0, 0)^T$$. Any optimization over $$Ax = b$$ now collapses to a 1D problem in $$t$$.
+
 This lesson covers matrices, matrix operations, and linear transformations, which are fundamental tools for representing and solving optimization problems.
 
 ---

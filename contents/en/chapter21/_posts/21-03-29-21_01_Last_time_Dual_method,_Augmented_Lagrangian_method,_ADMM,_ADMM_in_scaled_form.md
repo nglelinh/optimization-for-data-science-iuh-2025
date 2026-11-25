@@ -9,6 +9,30 @@ categories:
 lang: en
 ---
 
+Before applying ADMM to Lasso, Robust PCA, and 2D image denoising, it is worth putting all four algorithms from Chapter 20 side by side on a single canvas: **Dual Ascent**, **Augmented Lagrangian (Method of Multipliers)**, **Unscaled ADMM**, and **Scaled ADMM**. Seeing how each method evolved to cure one exact weakness of its predecessor prevents formula confusion and makes every splitting derivation in Chapter 21 second nature.
+
+## Background Knowledge Map: Four Dual Algorithms in One Unified Lineage
+
+- **Dual Ascent (Requires Strict Convexity):** Updates $$x^k = \arg\min_x L(x, u^{k-1})$$ and $$u^k = u^{k-1} + t_k(Ax^k - b)$$. Decomposable across blocks, but unstable or unbounded when $$f$$ is linear or non-strictly convex.
+- **Augmented Lagrangian (Cures Instability, Loses Decomposition):** Adds $$\frac{\rho}{2}\|Ax - b\|_2^2$$ and locks $$t_k = \rho$$. Converges globally without strong convexity, but cross-terms in $$\|Ax - b\|_2^2$$ prevent parallel block solves.
+- **Unscaled ADMM (Restores Splitting via Gauss–Seidel):** Alternates $$x^k = \arg\min_x L_\rho(x, z^{k-1}, u^{k-1})$$ and $$z^k = \arg\min_z L_\rho(x^k, z, u^{k-1})$$, then updates $$u^k = u^{k-1} + \rho(Ax^k + Bz^k - c)$$.
+- **Scaled ADMM (Algebraic Simplification via $$w = u/\rho$$):** Completes the square so both primal steps minimize $$f(x) + \frac{\rho}{2}\|Ax + Bz - c + w\|_2^2$$, and the dual update becomes the simple residual accumulator $$w^k = w^{k-1} + Ax^k + Bz^k - c$$.
+
+### Step-by-Step Worked Example (Read Slowly): Verifying Exact Identity Between Unscaled and Scaled ADMM
+
+Solve $$\min_{x,z} \frac{1}{2}(x - 2)^2 + |z|$$ s.t. $$x - z = 0$$ with $$\rho = 2$$ from $$z^0 = 0, u^0 = 0$$ (so $$w^0 = u^0 / \rho = 0$$).
+
+1. **Unscaled ADMM (Iteration 1):**
+   - $$x^1 = \arg\min_x \frac{1}{2}(x - 2)^2 + 0(x - 0) + \frac{2}{2}(x - 0)^2 \implies (x - 2) + 2x = 0 \implies x^1 = \frac{2}{3}$$.
+   - $$z^1 = \arg\min_z |z| + 0(\tfrac{2}{3} - z) + (z - \tfrac{2}{3})^2 = S_{1/2}\!\left(\tfrac{2}{3}\right) = \frac{2}{3} - \frac{1}{2} = \frac{1}{6}$$.
+   - $$u^1 = 0 + 2\left(\frac{2}{3} - \frac{1}{6}\right) = 2\left(\frac{1}{2}\right) = 1.0$$.
+2. **Scaled ADMM (Iteration 1):**
+   - $$x^1 = \arg\min_x \frac{1}{2}(x - 2)^2 + (x - 0 + 0)^2 = \frac{2}{3}$$.
+   - $$z^1 = \operatorname{prox}_{|\cdot|/2}\!\left(\frac{2}{3} + 0\right) = S_{1/2}\!\left(\frac{2}{3}\right) = \frac{1}{6}$$.
+   - $$w^1 = 0 + \left(\frac{2}{3} - \frac{1}{6}\right) = \frac{1}{2}$$.
+3. **Check exact correspondence:**
+   $$u^1 / \rho = 1.0 / 2 = \frac{1}{2} = w^1$$, and both primal iterates $$(x^1, z^1) = (\frac{2}{3}, \frac{1}{6})$$ match to the last bit!
+
 In the previous chapter (Chapter 20) we studied dual methods and ADMM. Before looking at applications of ADMM, let us summarize dual methods, the augmented Lagrangian method, ADMM, and ADMM in scaled form.
 
 ## Dual method

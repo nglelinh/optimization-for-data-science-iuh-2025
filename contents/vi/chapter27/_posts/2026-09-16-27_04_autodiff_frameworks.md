@@ -10,6 +10,35 @@ lang: vi
 lesson_type: optional
 ---
 
+Từ công thức quy tắc dây chuyền trên bảng trắng cho đến việc lấy đạo hàm xuyên qua một bộ giải khí động lực học viết bằng C++/Fortran hay biên dịch đồ thị Transformer chạy trên cụm nghìn GPU là cả một bước nhảy vọt về kỹ nghệ phần mềm. Trong giai đoạn 2022–2026, hệ sinh thái vi phân tự động đã phân hóa thành ba trường phái rõ rệt — **PyTorch**, **JAX** và **Enzyme** — mỗi công cụ giải quyết một tầng bài toán khác nhau.
+
+Điểm thú vị nhất của AD hiện đại không chỉ dừng ở tính gradient bậc nhất: bằng cách **lồng ghép chế độ thuận và chế độ nghịch** (như `jvp` bọc ngoài `grad`), các khung như JAX cho phép tính tích Hessian–vector (HVP) cho tối ưu bậc hai và tính đạo hàm phương trình đạo hàm riêng trong mạng nơ-ron vật lý (PINN) một cách gọn gàng chỉ trong vài dòng lệnh.
+
+## Bản đồ kiến thức nền: Bốn trụ cột của hệ sinh thái AD giai đoạn 2022–2026
+
+Khi chọn công cụ AD cho một dự án nghiên cứu hay sản phẩm, hãy đối chiếu theo bốn trụ cột sau:
+
+- **PyTorch 2.x (Đồ thị động + `torch.compile`):** Kế thừa băng Wengert động cực kỳ thân thiện cho gỡ lỗi và mô hình điều khiển phức tạp, nay kết hợp thêm TorchDynamo/Inductor để thu nhận và biên dịch đồ thị chiều nghịch thành mã GPU tối ưu.
+- **JAX (Phép biến đổi hàm thuần — Composable Transformations):** Coi `grad` (VJP), `jvp`, `vmap` (vector hóa) và `jit` (biên dịch XLA) là các toán tử hàm có thể lồng ghép tùy ý — cực mạnh cho đạo hàm bậc cao, tính Hessian–vector và mô phỏng khoa học.
+- **Enzyme (AD cấp trình biên dịch LLVM):** Thay vì buộc nhà khoa học viết lại hàng triệu dòng code mô phỏng C++/Fortran/Julia sang Python, Enzyme chạy AD chiều nghịch trực tiếp trên mã trung gian LLVM IR *sau khi trình biên dịch đã tối ưu hóa*, đạt tốc độ gần ngang mã viết tay.
+- **Học máy khoa học & PINN (Physics-Informed Neural Networks):** Mạng nơ-ron không chỉ khớp dữ liệu mà còn phải thỏa mãn phương trình vi phân riêng (như Navier–Stokes hay phương trình truyền nhiệt), đòi hỏi lấy đạo hàm *của đầu ra theo tọa độ đầu vào* $$(x, t)$$ rồi lại lấy đạo hàm bậc hai theo trọng số $$w$$!
+
+### Khung giải thích (nên đọc chậm): Tính tay tích Hessian–Vector (HVP) bằng kỹ thuật Forward-over-Reverse
+
+Trong tối ưu bậc hai (Chương 14) hay PINN, ma trận Hessian $$H \in \mathbb{R}^{d \times d}$$ quá lớn để lưu trữ khi $$d = 10^6$$, nhưng ta chỉ cần tích $$H(x)v$$. Kỹ thuật **Forward-over-Reverse** (trong JAX là `jax.jvp(jax.grad(f), (x,), (v,))`) tính chính xác $$H(x)v$$ mà không bao giờ lập ma trận $$H$$!
+
+Xét $$f(x_1, x_2) = x_1^3 + x_1 x_2^2$$ tại điểm $$x = (1,\; 2)$$ và vector hướng $$v = (1,\; -1)$$:
+
+1. **Bước 1 — Dùng AD chiều nghịch định nghĩa hàm gradient $$g(x) = \nabla f(x)$$:**
+   $$g_1(x_1, x_2) = 3x_1^2 + x_2^2, \qquad g_2(x_1, x_2) = 2x_1 x_2.$$
+2. **Bước 2 — Chạy AD chiều thuận (JVP) lên hàm $$g$$ với hạt giống $$\dot{x} = v = (1,\; -1)$$:**
+   Áp dụng quy tắc tiếp tuyến trực tiếp lên từng thành phần của $$g$$ tại $$(x_1, x_2) = (1, 2)$$:
+   - $$\dot{g}_1 = 6 x_1 \dot{x}_1 + 2 x_2 \dot{x}_2 = 6(1)(1) + 2(2)(-1) = 6 - 4 = 2.$$
+   - $$\dot{g}_2 = 2 \dot{x}_1 x_2 + 2 x_1 \dot{x}_2 = 2(1)(2) + 2(1)(-1) = 4 - 2 = 2.$$
+   Ta thu ngay tích Hessian–vector $$H(1, 2)v = (2,\; 2)^T$$!
+3. **Kiểm chứng trực tiếp bằng ma trận Hessian tường minh:**
+   $$H(x) = \begin{pmatrix} 6x_1 & 2x_2 \\ 2x_2 & 2x_1 \end{pmatrix} \implies H(1, 2) = \begin{pmatrix} 6 & 4 \\ 4 & 2 \end{pmatrix}, \qquad H(1, 2)\begin{pmatrix} 1 \\ -1 \end{pmatrix} = \begin{pmatrix} 6 - 4 \\ 4 - 2 \end{pmatrix} = \begin{pmatrix} 2 \\ 2 \end{pmatrix}!$$
+   **Khớp 100%** — và chi phí tính toán chỉ gấp một hằng số nhỏ lần lượt chạy $$f$$, hoàn toàn tránh được độ phức tạp bộ nhớ $$O(d^2)$$!
 
 Các bài 27-01 đến 27-03 trình bày nền tảng toán học của vi phân tự động: đồ thị tính toán, tích Jacobian–vector (JVP) ở chế độ thuận và tích vector–Jacobian (VJP) ở chế độ nghịch. Bài đọc tùy chọn này giới thiệu cách các chế độ đó được triển khai trong *hệ sinh thái phần mềm* giai đoạn 2022–2026. Bài tổng quan của Baydin, Pearlmutter, Radul và Siskind (*JMLR* 18(153), 2018, [jmlr.org/papers/v18/17-468.html](https://www.jmlr.org/papers/v18/17-468.html)) vẫn là tài liệu tham khảo lý thuyết chuẩn; còn các khung dưới đây là những công cụ được sử dụng trực tiếp trong thực tế.
 

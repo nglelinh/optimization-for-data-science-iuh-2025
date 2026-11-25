@@ -8,6 +8,43 @@ categories:
 - chapter09
 lang: vi
 ---
+
+Vì sao phương pháp gradient gần kề lại vượt xa phương pháp subgradient cả một bậc tốc độ — từ $$O(1/\epsilon^2)$$ nhảy vọt lên $$O(1/\epsilon)$$ — dù cùng giải bài toán không trơn? Câu trả lời nằm trong **độ dốc tổng quát (generalized gradient map)** $$G_t(x) = \frac{1}{t}\big(x - \operatorname{prox}_{t h}(x - t\nabla g(x))\big)$$. Khi viết lại vòng lặp dưới dạng $$x^+ = x - t G_t(x)$$, ta nhận ra một phép màu giải tích: gần như toàn bộ chứng minh hội tụ của gradient descent trên hàm trơn được "tái sinh" gần như nguyên vẹn!
+
+Tuy nhiên, trong thực hành có một trở ngại quen thuộc: ta hiếm khi biết trước hằng số Lipschitz $$L$$ của $$\nabla g$$ (chẳng hạn với ma trận $$A$$ khổng lồ, tính giá trị kỳ dị lớn nhất $$\|A\|_2^2$$ rất tốn kém). Đó là lý do nửa sau bài học giới thiệu **tìm kiếm đường thẳng lùi (backtracking line search)** cho bài toán tổng hợp — một điều kiện dừng tinh gọn chỉ kiểm tra độ cong trên riêng phần trơn $$g$$ mà vẫn bảo toàn nguyên vẹn tốc độ $$O(1/k)$$.
+
+## Bản đồ kiến thức nền: Bốn trụ cột của chứng minh hội tụ gradient gần kề
+
+- **Bất đẳng thức trơn $$L$$-Lipschitz của $$\nabla g$$:** Mọi hàm $$g$$ có $$\nabla g$$ liên tục $$L$$-Lipschitz đều bị chặn trên bởi parabol:
+  $$g(y) \le g(x) + \nabla g(x)^T(y - x) + \frac{L}{2}\|y - x\|_2^2.$$
+  Điều kiện $$t \le 1/L$$ đảm bảo mô hình parabol dùng trong bước prox luôn nằm trên $$g(y)$$.
+- **Bản đồ gradient tổng quát $$G_t(x)$$ và tính giảm đơn điệu:** Định nghĩa $$G_t(x) = \frac{x - x^+}{t}$$. Theo điều kiện tối ưu của bài toán con prox, $$G_t(x) - \nabla g(x) \in \partial h(x^+)$$. Từ đó suy ra bất đẳng thức giảm cốt lõi cho mọi điểm $$z$$:
+  $$f(x^+) \le f(z) + G_t(x)^T(x - z) - \frac{t}{2}\|G_t(x)\|_2^2.$$
+  Đặt $$z = x$$ cho ngay $$f(x^+) \le f(x) - \frac{t}{2}\|G_t(x)\|_2^2$$ (giảm chặt đơn điệu!); đặt $$z = x^*$$ và cộng dồn cho ra ngay cận $$\frac{\|x^{(0)} - x^*\|_2^2}{2 t k}$$.
+- **Tìm kiếm đường thẳng lùi (Backtracking Line Search):** Khi không biết $$L$$, ta bắt đầu từ $$t$$ lớn và nhân $$t \leftarrow \beta t$$ ($$\beta \in (0, 1)$$) cho tới khi thỏa điều kiện chặn trên parabol cho riêng phần trơn $$g$$:
+  $$g(x - t G_t(x)) \le g(x) - t\nabla g(x)^T G_t(x) + \frac{t}{2}\|G_t(x)\|_2^2.$$
+  Lưu ý: mỗi lần thu nhỏ $$t$$ phải tính lại $$x^+ = \operatorname{prox}_{t h}(x - t\nabla g(x))$$, nên $$h$$ cần có prox thật nhẹ.
+- **Bảo toàn hằng số tốc độ khi dùng backtracking:** Vì điều kiện backtracking chắc chắn dừng ngay khi $$t \le 1/L$$, bước được chọn luôn thỏa $$t_k \ge \min(t_0, \beta/L)$$, nên cận hội tụ chỉ tăng thêm tối đa một hệ số hằng $$1/\beta$$.
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng tay điều kiện backtracking và cận $$O(1/k)$$
+
+Xét $$g(x) = 2x^2$$ (nên $$\nabla g(x) = 4x$$ và $$L = 4$$, ngưỡng an toàn là $$1/L = 0.25$$) và $$h(x) = |x|$$ (nghiệm tối ưu $$x^* = 0, f^* = 0$$). Bắt đầu từ $$x^{(0)} = 1$$, giả sử ta *không biết* $$L = 4$$ và thử backtracking với $$t = 1.0$$, hệ số thu hẹp $$\beta = 0.5$$.
+
+1. **Thử $$t = 1.0$$:**
+   - $$v = x^{(0)} - 1.0 \cdot \nabla g(1) = 1 - 4 = -3$$.
+   - $$x^+ = S_{1.0}(-3) = -2$$, suy ra $$G_1(1) = \frac{1 - (-2)}{1} = 3$$.
+   - Kiểm tra điều kiện backtracking trên $$g(x) = 2x^2$$:
+     - Vế trái: $$g(x^+) = 2(-2)^2 = 8$$.
+     - Vế phải: $$g(1) - 1(4)(3) + \frac{1}{2}(3)^2 = 2 - 12 + 4.5 = -5.5$$.
+     - Vì $$8 > -5.5$$, điều kiện **vi phạm** $$\implies$$ thu nhỏ $$t \leftarrow 0.5$$!
+2. **Thử $$t = 0.5$$:**
+   - $$v = 1 - 0.5(4) = -1$$, $$x^+ = S_{0.5}(-1) = -0.5$$, $$G_{0.5}(1) = \frac{1 - (-0.5)}{0.5} = 3$$.
+   - Vế trái: $$g(-0.5) = 0.5$$; vế phải: $$2 - 0.5(4)(3) + \frac{0.5}{2}(9) = 2 - 6 + 2.25 = -1.75$$. Vẫn vi phạm ($$0.5 > -1.75$$) $$\implies$$ thu nhỏ $$t \leftarrow 0.25$$!
+3. **Thử $$t = 0.25$$ (chạm đúng $$1/L$$):**
+   - $$v = 1 - 0.25(4) = 0$$, $$x^+ = S_{0.25}(0) = 0$$, $$G_{0.25}(1) = \frac{1 - 0}{0.25} = 4$$.
+   - Vế trái: $$g(0) = 0$$; vế phải: $$2 - 0.25(4)(4) + \frac{0.25}{2}(16) = 2 - 4 + 2 = 0$$.
+   - Thỏa mãn $$0 \le 0$$! Thuật toán chấp nhận $$t = 0.25$$ và nhảy thẳng tới đúng nghiệm tối ưu $$x^{(1)} = 0$$!
+
 # Phân tích hội tụ
 Trong phần này, chúng ta phân tích tính chất hội tụ của phương pháp gradient gần kề đối với bước cố định và tìm kiếm đường thẳng lùi.
 

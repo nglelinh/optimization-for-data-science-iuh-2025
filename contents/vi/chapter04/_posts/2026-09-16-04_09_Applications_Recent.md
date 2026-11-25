@@ -10,6 +10,34 @@ lang: vi
 lesson_type: optional
 ---
 
+Trong suốt hàng thập kỷ, tối ưu hóa lồi và học sâu (Deep Learning) sống như hai thế giới tách biệt: mạng nơ-ron chạy lan truyền ngược (backpropagation) trên các phép tính tường minh, còn bài toán tối ưu lồi nằm ở cuối đường ống như một "hộp đen" tách rời để ra quyết định. Nhưng từ năm 2019 trở lại đây, một cuộc cách mạng thầm lặng đã phá vỡ bức tường đó: các nhà nghiên cứu phát hiện ra ta có thể **đạo hàm xuyên qua chính nghiệm tối ưu $$x^\star(\theta)$$** bằng định lý hàm ẩn áp dụng lên điều kiện tối ưu KKT!
+
+Điều đó có nghĩa là gì? Toàn bộ một bài toán tối ưu hóa lồi của Chương 04 giờ đây có thể trở thành **một lớp (layer) khả vi ngay bên trong PyTorch hoặc JAX** — vừa học tham số từ dữ liệu, vừa đảm bảo đầu ra tuân thủ tuyệt đối các ràng buộc vật lý, an toàn hay tài chính. Bài học này kết nối những khái niệm nền tảng bạn vừa học với các công trình hiện đại như `cvxpylayers`, `Theseus` và tối ưu hóa khấu hao (amortized optimization).
+
+## Bản đồ kiến thức nền: Khi tối ưu hóa lồi bước vào kiến trúc mạng nơ-ron
+
+Để đọc hiểu các ứng dụng hiện đại trong bài mà không thấy "phép màu", hãy kết nối chúng với ba trụ cột của Chương 04:
+
+- **Vi phân ẩn qua điều kiện tối ưu (Implicit Differentiation of KKT):** Thay vì lưu vết hàng trăm bước lặp của bộ giải bên trong bộ nhớ GPU, ta chỉ cần giải bài toán lồi ở bước xuôi để lấy $$x^\star(\theta)$$, rồi lấy vi phân trực tiếp hệ điều kiện tối ưu $$F(x^\star, \theta) = 0$$ để tính $$\frac{\partial x^\star}{\partial \theta} = -(\nabla_x F)^{-1} \nabla_\theta F$$.
+- **Lớp tối ưu phi tuyến & Robot học (Differentiable Nonlinear Least Squares):** Trong bài toán định vị SLAM hay điều khiển cánh tay robot (`Theseus`), các ràng buộc động học tạo thành bài toán bình phương tối thiểu phi tuyến giải lặp kiểu Gauss-Newton, và đạo hàm được truyền ngược qua chính nghiệm tối ưu đó.
+- **Tối ưu hóa khấu hao & Học theo quyết định (Decision-Focused Learning):** Khi phải giải hàng triệu bài toán tối ưu có cấu trúc giống nhau chỉ khác tham số đầu vào $$\theta$$, ta huấn luyện mạng dự đoán trực tiếp nghiệm hoặc điểm khởi tạo (khấu hao chi phí tính toán), hoặc huấn luyện mô hình dự báo sao cho *quyết định tối ưu cuối cùng* đạt lợi ích cao nhất thay vì chỉ tối thiểu hóa sai số dự báo MSE.
+
+### Khung giải thích (nên đọc chậm): Tự tay lấy vi phân ẩn xuyên qua một lớp tối ưu hóa lồi!
+
+Giả sử một mạng nơ-ron xuất ra tham số $$\theta \in \mathbb{R}$$ và đưa vào lớp tối ưu hóa lồi (chiếu lên đoạn $$[0, 1]$$):
+$$x^\star(\theta) = \arg\min_{x \in \mathbb{R}} \; \frac{1}{2}(x - \theta)^2 \quad \text{thỏa mãn} \quad 0 \le x \le 1.$$
+Ta muốn tính đạo hàm $$\frac{dx^\star}{d\theta}$$ để lan truyền ngược (backprop) khi huấn luyện mạng!
+
+1. **Trường hợp 1 — Nghiệm nằm ở phần trong ($$0 < \theta < 1$$), ví dụ $$\theta = 0.4$$:**
+   - Ràng buộc không tích cực, điều kiện tối ưu bậc nhất là $$F(x^\star, \theta) = x^\star - \theta = 0 \implies x^\star = 0.4$$.
+   - Lấy vi phân ẩn hai vế theo $$\theta$$: $$\frac{dx^\star}{d\theta} - 1 = 0 \implies \frac{dx^\star}{d\theta} = 1$$.
+2. **Trường hợp 2 — Ràng buộc biên tích cực ($$\theta > 1$$ hoặc $$\theta < 0$$), ví dụ $$\theta = 1.8$$:**
+   - Nghiệm bị chặn cứng tại biên $$x^\star = 1$$ (ràng buộc $$x - 1 \le 0$$ tích cực).
+   - Thay đổi nhẹ $$\theta$$ quanh $$1.8$$ không làm dịch chuyển $$x^\star$$, nên $$\frac{dx^\star}{d\theta} = 0$$.
+3. **Nhận xét thú vị:** Hàm nghiệm $$x^\star(\theta) = \operatorname{clip}(\theta, 0, 1)$$ hóa ra chính là hàm kích hoạt bị chặn (giống ReLU cắt trên)! Với các bài toán QP/SOCP nhiều biến hơn trong `cvxpylayers`, cơ chế hoàn toàn tương tự: vi phân hệ KKT tại $$x^\star(\theta)$$ trả về chính xác ma trận Jacobian $$\frac{\partial x^\star}{\partial \theta}$$ chỉ bằng một phép giải hệ tuyến tính duy nhất.
+
+---
+
 Chương 04 xây dựng nền tảng cho bài toán tối ưu hóa lồi: biến quyết định, hàm mục tiêu, ràng buộc, điều kiện tối ưu và các phép biến đổi hợp lệ (tối ưu hóa từng phần, đổi biến, loại bỏ ràng buộc đẳng thức, biến phụ và nới lỏng). Trong những năm gần đây, chính cấu trúc này được tích hợp trực tiếp như một *lớp* (layer) trong mạng nơ-ron và làm cơ sở thiết kế *hàm mất mát* cho các mô hình dự đoán phục vụ bài toán ra quyết định. Bài học này điểm qua ba hướng phát triển tiêu biểu giai đoạn 2019–2023 dựa trực tiếp trên điều kiện tối ưu dạng “$$0\in\partial f(x^\star)+N_{\mathcal{C}}(x^\star)$$”.
 
 ## Lớp tối ưu hóa lồi khả vi và vi phân ẩn

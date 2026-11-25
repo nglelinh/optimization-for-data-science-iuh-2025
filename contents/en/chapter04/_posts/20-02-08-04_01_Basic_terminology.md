@@ -9,6 +9,27 @@ categories:
 lang: en
 lesson_type: required
 ---
+
+Before a pilot can fly by instruments, every dial on the cockpit panel needs an unambiguous name. In convex optimization, confusing the *domain* with the *feasible set*, or an *optimal value* with an *optimal point*, leads directly to broken proofs and silent modeling bugs. This lesson builds the exact vocabulary—feasible points, optimal values, active constraints, and local versus global minimizers—that every subsequent theorem in convex analysis relies on.
+
+## Background Knowledge Map: Core Vocabulary of Convex Programs
+
+1. **Implicit Domain vs. Feasible Set**: Every problem starts with the implicit intersection of function domains $$D = \operatorname{dom}(f) \cap \bigcap_i \operatorname{dom}(g_i) \cap \bigcap_j \operatorname{dom}(h_j)$$. The *feasible set* $$C \subseteq D$$ further filters $$D$$ to points satisfying all inequalities $$g_i(x) \le 0$$ and affine equalities $$h_j(x) = 0$$.
+2. **Optimal Value $$f^\star$$ vs. Optimal Points $$x^\star$$**: The optimal value $$f^\star = \inf_{x \in C} f(x)$$ always exists in $$\mathbb{R} \cup \{-\infty, +\infty\}$$ (with $$+\infty$$ for infeasible problems and $$-\infty$$ for unbounded-below problems). However, an *attaining* optimal point $$x^\star \in C$$ with $$f(x^\star) = f^\star$$ need not exist—for example, minimizing $$e^{-x}$$ over $$\mathbb{R}$$ has $$f^\star = 0$$ with no finite minimizer.
+3. **Active vs. Inactive Inequality Constraints**: At a feasible point $$x$$, an inequality $$g_i(x) \le 0$$ is *active* (binding) if $$g_i(x) = 0$$ and *inactive* (strictly satisfied) if $$g_i(x) < 0$$. Active constraints are the walls you are actually pressed against at the optimum; inactive constraints can be locally ignored without moving $$x^\star$$.
+4. **Local vs. Global Optimality under Convexity**: A point $$x$$ is locally optimal if it minimizes $$f$$ inside some ball $$\|y - x\|_2 \le R$$ intersected with $$C$$. Because every line segment connecting a local minimizer to a strictly better feasible point stays inside $$C$$ and has objective values bounded by convexity, any local minimizer of a convex problem is automatically globally optimal.
+
+### Step-by-Step Worked Example (Read Slowly): Dissecting Domain, Feasibility, and Active Constraints
+
+Consider the one-dimensional convex optimization problem:
+$$\text{minimize} \quad f(x) = -\ln(x) + \frac{1}{2}x^2 \quad \text{subject to} \quad g_1(x) = x - 2 \le 0, \quad g_2(x) = \frac{1}{2} - x \le 0.$$
+
+1. **Identify the implicit domain $$D$$**: The logarithm requires $$x > 0$$, while $$x^2$$ and both constraints are defined on all of $$\mathbb{R}$$. Therefore $$D = (0, +\infty)$$.
+2. **Determine the feasible set $$C$$**: Constraint $$g_1(x) \le 0$$ gives $$x \le 2$$, and constraint $$g_2(x) \le 0$$ gives $$x \ge \frac{1}{2}$$. Intersecting with $$D$$ yields the closed interval $$C = [\tfrac{1}{2}, 2]$$.
+3. **Verify convexity and locate the unconstrained minimizer**: On $$D$$, $$f'(x) = -\frac{1}{x} + x$$ and $$f''(x) = \frac{1}{x^2} + 1 > 0$$, so $$f$$ is strictly convex. Setting $$f'(x) = 0$$ gives $$x = \frac{1}{x} \implies x^2 = 1$$. Since $$x \in D = (0, \infty)$$, the unique unconstrained minimizer is $$x^\star = 1$$.
+4. **Check feasibility, optimal value, and active constraints**: Since $$1 \in [\tfrac{1}{2}, 2]$$, $$x^\star = 1$$ is feasible and achieves the global optimal value $$f^\star = -\ln(1) + \frac{1}{2}(1)^2 = 0.5$$. Evaluating the constraints at $$x^\star = 1$$ gives $$g_1(1) = 1 - 2 = -1 < 0$$ and $$g_2(1) = \frac{1}{2} - 1 = -0.5 < 0$$, so **both inequality constraints are inactive** at the optimum.
+5. **Contrast with a shifted constraint**: If we tighten $$g_1$$ to $$g_1(x) = x - 0.8 \le 0$$, then $$x = 1$$ becomes infeasible. Because $$f'(x) = x - 1/x < 0$$ on $$[0.5, 0.8]$$, $$f$$ is strictly decreasing on the feasible interval, so the new optimum is $$x^\star = 0.8$$ with $$g_1(0.8) = 0$$ (**active**) and $$g_2(0.8) = -0.3 < 0$$ (**inactive**).
+
 ## Convex Optimization Basics
 
 Let's review the basic terminology used in convex optimization problems. A convex optimization problem is defined as:

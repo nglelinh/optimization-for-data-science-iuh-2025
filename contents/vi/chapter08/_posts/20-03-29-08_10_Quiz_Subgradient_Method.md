@@ -12,6 +12,30 @@ redirect_from:
   - /contents/vi/chapter08/08_09_Quiz_Subgradient_Method/
 ---
 
+Đọc hiểu công thức của phương pháp subgradient trên bảng thường tạo ra một cảm giác an tâm đánh lừa: trông nó giống gradient descent đến 90%! Thế nhưng chính 10% khác biệt còn lại mới là nơi các câu hỏi trắc nghiệm và bài kiểm tra phỏng vấn kỹ sư tối ưu đặt ra những chiếc bẫy sắc bén nhất — từ việc nhầm tưởng $$-g$$ luôn làm giảm hàm, quên điều kiện $$\sum t_k^2 < \infty$$, cho đến chọn sai hằng số Lipschitz hay nhầm lẫn giữa tốc độ theo bước $$k$$ và theo sai số $$\epsilon$$.
+
+Bộ câu hỏi trắc nghiệm dưới đây được thiết kế như một phòng thí nghiệm chẩn đoán nhanh: mỗi câu hỏi chạm đúng vào một ngộ nhận kinh điển của Chương 08. Trước khi bấm chọn đáp án, hãy đi qua bản đồ kiến thức tổng hợp và khung kiểm tra nhanh bốn cạm bẫy kinh điển ngay dưới đây để chắc chắn bạn nắm vững bản chất thay vì đoán mò.
+
+## Bản đồ kiến thức nền: Bốn cụm kiến thức trọng tâm cần chốt trước khi làm bài trắc nghiệm
+
+- **Định nghĩa dưới vi phân và tính không đơn điệu:** Nhớ phân biệt $$\partial f(x)$$ (một tập hợp) với $$g \in \partial f(x)$$ (một vector đại diện); hiểu vì sao $$f(x^{(k+1)})$$ có thể lớn hơn $$f(x^{(k)})$$ nên luôn phải theo dõi $$f_{\text{best}}^{(k)}$$.
+- **Lịch kích thước bước và điều kiện hội tụ:** Phân biệt rạch ròi ba nhóm: bước cố định (hội tụ đến sàn $$G^2 t/2$$), bước giảm dần $$\sum t_k = \infty, \sum t_k^2 < \infty$$ (hội tụ về đúng $$f^*$$), và bước Polyak $$t_k = \frac{f^{(k-1)} - f^*}{\|g^{(k-1)}\|_2^2}$$ (dùng khi biết $$f^*$$).
+- **Tốc độ hội tụ và phép chiếu:** Khắc sâu tốc độ $$O(1/\epsilon^2)$$ (tức $$O(1/\sqrt{k})$$) dưới giả thiết $$f$$ là $$G$$-Lipschitz, và lý do phép chiếu $$P_C$$ lên tập lồi đóng không làm hỏng bất đẳng thức cơ bản.
+- **Biến thể ngẫu nhiên vs. batch:** Nắm rõ bản ngẫu nhiên giảm chi phí mỗi bước $$m$$ lần, cho kỳ vọng không chệch nhưng tạo nhiễu gần nghiệm nên cần giảm bước dần về $$0$$.
+
+### Khung giải thích (nên đọc chậm): Bốn phép thử số nhanh để né bẫy trắc nghiệm Chương 08
+
+Hãy tự kiểm chứng 4 phép tính ngắn gọn sau trước khi bước vào bộ câu hỏi:
+
+1. **Bẫy 1 — Dưới vi phân tại điểm gãy:** Với $$f(x) = |2x - 4|$$ tại $$x = 2$$, dưới vi phân là gì?
+   Vì $$|2x - 4| = 2|x - 2|$$, nên $$\partial f(2) = 2[-1, 1] = [-2, 2]$$ (đừng quên nhân hệ số $$2$$!).
+2. **Bẫy 2 — Kiểm tra lịch bước giảm dần:** Dãy $$t_k = \frac{1}{\sqrt{k}}$$ có thỏa điều kiện hội tụ cổ điển $$\sum t_k = \infty, \sum t_k^2 < \infty$$ không?
+   Kiểm tra: $$\sum \frac{1}{\sqrt{k}} = \infty$$ (thỏa), nhưng $$\sum t_k^2 = \sum \frac{1}{k} = \infty$$ (**không thỏa**! Dù vậy, nếu dùng trung bình hoặc bước trên đoạn hữu hạn $$K$$, $$t_k = c/\sqrt{k}$$ vẫn đạt cận $$O(\ln K / \sqrt{K})$$).
+3. **Bẫy 3 — Tính nhanh bước Polyak:** Biết $$f^* = 1$$, tại $$x^{(k)}$$ có $$f(x^{(k)}) = 5$$ và $$g^{(k)} = (3, -4)$$.
+   Ta có $$\|g^{(k)}\|_2^2 = 3^2 + (-4)^2 = 25$$, nên $$t_k = \frac{5 - 1}{25} = 0.16$$ (chú ý mẫu số là *bình phương* chuẩn $$\ell_2$$, không phải chuẩn $$\|g\|_2 = 5$$!).
+4. **Bẫy 4 — Quy đổi độ phức tạp $$O(1/\epsilon^2)$$:** Nếu giảm sai số mục tiêu $$\epsilon$$ đi 5 lần (từ $$0.1$$ xuống $$0.02$$), số bước lặp tối đa của phương pháp subgradient tăng bao nhiêu lần?
+   Vì $$k \propto 1/\epsilon^2$$, số bước tăng $$5^2 = 25$$ lần!
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:

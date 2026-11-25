@@ -10,6 +10,34 @@ lang: en
 lesson_type: required
 ---
 
+Linear Programming always pushes solutions to sharp corners—great for shipping containers, terrible for financial portfolios where putting 100% of your wealth into a single stock is reckless. By adding a smooth convex quadratic bowl $$\frac{1}{2}x^T P x$$ to the objective, Quadratic Programming (QP) balances linear rewards against quadratic risk or energy, producing interior diversification and powering everything from Markowitz portfolios to Support Vector Machines and Model Predictive Control.
+
+## Background Knowledge Map: Structure and Geometry of Quadratic Programs
+
+1. **Positive Semidefiniteness ($$P \in \mathbb{S}_+^n$$) Guarantees Convexity**: The Hessian of $$f(x) = \frac{1}{2}x^T P x + q^T x + r$$ is the constant matrix $$P$$ (assuming $$P = P^T$$). Requiring $$P \succeq 0$$ ensures the objective is globally convex; if $$P \succ 0$$ (positive definite), the objective is strictly convex and any feasible QP has a unique global minimizer.
+2. **Ellipsoidal Level Sets Meeting a Polyhedron**: Unlike LPs whose optima sit at vertices, a QP's ellipsoidal contours can kiss the *interior* of a polyhedral face or even sit strictly inside the feasible set. Active-set QP solvers identify which linear inequalities bind and solve equality-constrained KKT linear systems on that face.
+3. **Canonical Applications**:
+   - *Markowitz Portfolio Optimization*: minimize variance $$\frac{1}{2}w^T \Sigma w$$ subject to expected return $$\mu^T w \ge R$$ and $$\mathbf{1}^T w = 1, w \ge 0$$.
+   - *Hard/Soft-Margin SVM*: minimize $$\frac{1}{2}\|w\|_2^2 + C\sum_i \xi_i$$ subject to linear margin inequalities.
+   - *Constrained Least Squares*: minimize $$\frac{1}{2}\|Ax - b\|_2^2 = \frac{1}{2}x^T(A^T A)x - (A^T b)^T x + \frac{1}{2}b^T b$$ with box/linear constraints.
+4. **Equality-Constrained QP = One Linear System**: When a QP has only affine equalities $$Ax = b$$ (no inequalities), its KKT optimality conditions reduce to a single symmetric indefinite linear system $$\begin{bmatrix} P & A^T \\ A & 0 \end{bmatrix}\begin{bmatrix} x^\star \\ \nu^\star \end{bmatrix} = \begin{bmatrix} -q \\ b \end{bmatrix}$$.
+
+### Step-by-Step Worked Example (Read Slowly): Solving an Equality-Constrained QP via the KKT System
+
+Minimize $$f(x_1, x_2) = x_1^2 + 2x_2^2 - 2x_1 - 8x_2$$ subject to $$x_1 + x_2 = 3$$.
+
+1. **Put into standard QP form $$\frac{1}{2}x^T P x + q^T x$$**:
+   $$P = \begin{bmatrix} 2 & 0 \\ 0 & 4 \end{bmatrix} \succ 0, \qquad q = \begin{bmatrix} -2 \\ -8 \end{bmatrix}, \qquad A = \begin{bmatrix} 1 & 1 \end{bmatrix}, \qquad b = 3.$$
+   Because $$P \succ 0$$, the solution is guaranteed to be unique.
+2. **Assemble the KKT system $$Px + A^T \nu = -q,\; Ax = b$$**:
+   $$\begin{cases} 2x_1 + \nu = 2 \\ 4x_2 + \nu = 8 \\ x_1 + x_2 = 3. \end{cases}$$
+3. **Solve for $$(x_1^\star, x_2^\star, \nu^\star)$$**:
+   - From the first two equations: $$x_1 = 1 - \frac{\nu}{2}$$ and $$x_2 = 2 - \frac{\nu}{4}$$.
+   - Substitute into $$x_1 + x_2 = 3$$:
+     $$\left(1 - \frac{\nu}{2}\right) + \left(2 - \frac{\nu}{4}\right) = 3 \implies 3 - \frac{3\nu}{4} = 3 \implies \nu^\star = 0.$$
+   - Therefore $$x_1^\star = 1$$ and $$x_2^\star = 2$$!
+4. **Interpret the zero multiplier**: Why did $$\nu^\star = 0$$? Because the unconstrained minimizer of $$f$$ is $$x_{\mathrm{unc}} = -P^{-1}q = (1, 2)^T$$, which *already* satisfies $$1 + 2 = 3$$! The equality constraint happens to pass straight through the bottom of the quadratic bowl, giving optimal value $$f^\star = 1^2 + 2(2)^2 - 2(1) - 8(2) = 1 + 8 - 2 - 16 = -9$$.
+
 A **Quadratic Program** (QP) is a convex optimization problem where the objective function is a convex quadratic function and all constraint functions are affine. The general quadratic program is formulated as:
 
 ### General Quadratic Program

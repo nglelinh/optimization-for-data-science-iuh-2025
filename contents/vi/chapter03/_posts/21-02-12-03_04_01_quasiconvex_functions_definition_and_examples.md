@@ -9,6 +9,33 @@ categories:
 lang: vi
 ---
 
+Khi nhắc đến "lồi", ta thường hình dung một chiếc bát uốn cong lên trên. Thế nhưng một hàm cong xuống như $$\log x$$, một hàm bậc thang rời rạc như $$\lceil x \rceil$$, hay một phân thức tuyến tính $$\frac{a^T x + b}{c^T x + d}$$ đều có chung một cấu trúc hình học quý giá: nếu bạn cắt ngang đồ thị ở bất kỳ độ cao $$\alpha$$ nào, phần nằm dưới nhát cắt luôn tạo thành một **tập lồi** không bị tách thành nhiều mảnh!
+
+Bài học này đi sâu vào định nghĩa chính thức của hàm giả lồi, hàm giả lõm, hàm giả tuyến tính và phân tích từng ví dụ kinh điển.
+
+## Bản đồ kiến thức nền: Bốn họ ví dụ mẫu của Hàm giả lồi
+
+- **Mọi hàm đơn điệu trên $$\mathbb{R}$$:** Như $$\log x$$ (vừa giả lồi vừa giả lõm $$\implies$$ **giả tuyến tính / quasilinear**), $$x^3$$ hay hàm làm tròn lên $$\lceil x \rceil$$ (thậm chí không liên tục nhưng tập mức dưới vẫn là nửa khoảng $$(-\infty, \lfloor \alpha \rfloor]$$ lồi!).
+- **Hàm phân thức tuyến tính:** $$f(x) = \frac{a^T x + b}{c^T x + d}$$ trên miền $$c^T x + d > 0$$ là hàm **giả tuyến tính** — nền tảng của Quy hoạch phân thức tuyến tính (Linear-Fractional Programming, ví dụ tối ưu hóa tỷ số lợi nhuận trên chi phí).
+- **Tỷ số khoảng cách và bậc của đa thức:** Khoảng cách tỉ đối $$\|x - a\|_2 / \|x - b\|_2$$ trên nửa không gian gần $$a$$ hơn, hay độ dài (bậc) của tín hiệu rời rạc trong xử lý tín hiệu số.
+- **Phân biệt giả lồi và giả lõm:** $$f$$ giả lõm $$\iff -f$$ giả lồi $$\iff$$ mọi tập mức **trên** $$\{x : f(x) \ge \alpha\}$$ đều là tập lồi.
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng tập mức dưới của hàm phân thức tuyến tính $$f(x) = \frac{2x + 1}{x + 1}$$
+
+Xét $$f(x) = \frac{2x + 1}{x + 1}$$ trên miền lồi $$x > -1$$:
+
+1. **Giải bất đẳng thức tập mức dưới $$f(x) \le \alpha$$:**
+   Vì mẫu số $$x + 1 > 0$$, ta được phép nhân chéo không đổi chiều dấu:
+   $$\frac{2x + 1}{x + 1} \le \alpha \iff 2x + 1 \le \alpha(x + 1) \iff (2 - \alpha)x \le \alpha - 1.$$
+   Đây là một **bất đẳng thức tuyến tính** theo $$x$$, nên tập nghiệm luôn là một nửa không gian (giao với $$x > -1$$ là một khoảng lồi!).
+2. **Thử giá trị cụ thể $$\alpha = 1.5$$:**
+   $$(2 - 1.5)x \le 1.5 - 1 \iff 0.5 x \le 0.5 \iff x \le 1 \implies S_{1.5} = (-1, 1] \text{ (tập lồi!)}.$$
+3. **Tại sao $$f$$ không phải hàm lồi?** Tính đạo hàm:
+   $$f'(x) = \frac{1}{(x + 1)^2} > 0, \qquad f''(x) = -\frac{2}{(x + 1)^3} < 0 \quad (\forall x > -1).$$
+   Hàm thực chất **lõm chặt**, nhưng vì đơn điệu tăng nên vẫn là hàm **giả lồi** (thậm chí giả tuyến tính)!
+
+---
+
 Một hàm $$f:\mathbb{R}^n \rightarrow \mathbb{R}$$ được gọi là giả lồi nếu miền xác định và mọi tập mức dưới $$\{x \mid f(x) \leq \alpha\}$$ của nó đều là tập lồi với mọi $$\alpha \in \mathbb{R}$$. **Hàm giả lồi là sự tổng quát hóa của hàm lồi** và xuất hiện thường xuyên trong các bài toán tối ưu.
 
 ## Định nghĩa

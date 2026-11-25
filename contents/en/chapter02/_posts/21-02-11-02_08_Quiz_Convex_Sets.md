@@ -12,6 +12,25 @@ redirect_from:
   - /contents/en/chapter02/02_07_Quiz_Convex_Sets/
 ---
 
+Geometric intuition can trick you in higher dimensions: a set defined by a product inequality like $$x_1 x_2 \ge 1$$ looks nonlinear and suspicious, yet its positive branch is completely convex, while the union of two convex cones is almost never convex. This Chapter 02 quiz checks whether you can classify sets, apply convexity-preserving rules, and wield separating hyperplanes and dual cones cleanly under exam conditions.
+
+## Background Knowledge Map: Four Skills Verified by This Quiz
+
+- **Classification Hierarchy:** Instantly separating affine sets, convex sets, convex cones, and nonconvex traps (such as nonlinear equalities or set unions).
+- **Canonical Set Recognition:** Identifying halfspaces, ellipsoids, polyhedra, simplexes, norm cones, and $$\mathbb{S}_+^n$$ from algebraic descriptions.
+- **Preservation Rules:** Proving convexity rapidly via intersection, affine maps, and perspective rather than getting stuck in messy algebra.
+- **Separation & Dual Cones:** Applying the separating/supporting hyperplane theorems and recognizing self-dual vs. non-self-dual cones.
+
+### Step-by-Step Worked Example (Read Slowly): Diagnosing a Nonlinear Inequality Set
+
+Is $$S = \{(x_1, x_2) \in \mathbb{R}^2 : x_1 > 0,\; x_2 > 0,\; x_1 x_2 \ge 1\}$$ convex?
+
+1. **Test a concrete pair of boundary points:** Pick $$x = (1, 1)^T \in S$$ and $$y = (4, 1/4)^T \in S$$. Their midpoint is
+   $$m = \frac{1}{2}(1, 1)^T + \frac{1}{2}(4, 0.25)^T = (2.5,\; 0.625)^T.$$
+   Check the product: $$2.5 \times 0.625 = 1.5625 \ge 1 \implies m \in S$$ (encouraging!).
+2. **Prove convexity rigorously in one line:** Because $$x_1 > 0$$, rewrite $$x_1 x_2 \ge 1$$ as $$x_2 \ge \frac{1}{x_1}$$. The function $$g(x_1) = 1/x_1$$ has $$g''(x_1) = 2/x_1^3 > 0$$ on $$x_1 > 0$$, so $$S$$ is the epigraph of a convex function—hence **convex**!
+3. **Watch the sign trap:** If we dropped $$x_1 > 0, x_2 > 0$$, then $$(1, 1)$$ and $$(-1, -1)$$ would both satisfy $$x_1 x_2 \ge 1$$, yet their midpoint $$(0, 0)$$ fails $$0 \ge 1$$—making the two-branch set **nonconvex**.
+
 This multiple-choice quiz tests your understanding of affine sets, convex sets and important examples in convex geometry.
 
 ---

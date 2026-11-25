@@ -10,6 +10,33 @@ lang: vi
 lesson_type: optional
 ---
 
+Từ năm 2020 đến 2026, học liên kết đã bước ra khỏi phòng thí nghiệm để giải quyết những bài toán mang ý nghĩa nhân văn sâu sắc: hàng chục bệnh viện trên khắp thế giới hợp tác huấn luyện mô hình phân đoạn u não hay phát hiện bệnh lý phổi mà **không một bức ảnh y khoa nào của bệnh nhân phải rời khỏi tường lửa bệnh viện**.
+
+Nhưng để triển khai thành công trong thế giới thực — nơi dữ liệu giữa các bệnh viện cực kỳ không đồng nhất (non-IID) và tốc độ phần cứng mỗi nơi một khác — cộng đồng tối ưu hóa đã phải phát triển ba vũ khí nâng cấp trực tiếp cho FedAvg: **FedProx** (sợi dây neo proximal), **SCAFFOLD** (biến kiểm soát triệt tiêu trôi cục bộ), và **FedAdam / FedOpt** (tách bộ tối ưu thích nghi lên máy chủ).
+
+## Bản đồ kiến thức nền: Bốn trụ cột của Học liên kết hiện đại (2020–2026)
+
+Bài đọc cuối khóa này khép lại chuỗi kết nối giữa tất cả các chương tối ưu bạn đã học:
+
+- **FedProx (Sợi dây neo Proximal $$\frac{\mu}{2}\|w - w_t\|_2^2$$):** Thêm số hạng phạt bậc hai vào hàm mục tiêu cục bộ của từng máy khách để ngăn trọng số chạy quá xa mô hình toàn cục $$w_t$$ — cực kỳ đơn giản, không cần lưu trạng thái cục bộ, xử lý tốt cả non-IID lẫn máy khách yếu chỉ chạy kịp ít bước.
+- **SCAFFOLD (Biến kiểm soát kiểu SVRG cho Liên kết):** Mượn trực tiếp ý tưởng biến kiểm soát (control variate) của SVRG (Chương 26) và tinh thần đối ngẫu của ADMM (Chương 21): mỗi máy khách giữ ước lượng hướng trôi $$c_i$$, sửa gradient cục bộ thành $$\nabla F_i(w) - c_i + c$$ để **triệt tiêu hoàn toàn client drift** mà không cần bước proximal chính xác.
+- **FedOpt / FedAdam (Tối ưu hai cấp máy khách – máy chủ):** Coi hiệu số trung bình $$\Delta_t = w_t - \sum_i p_i w_{t+1}^{(i)}$$ như một "giả gradient" (pseudo-gradient) ở phía máy chủ, rồi áp dụng Momentum hoặc Adam lên $$\Delta_t$$ ở phía máy chủ trong khi máy khách vẫn chạy SGD gọn nhẹ.
+- **Liên kết Y tế Cross-Silo (FeTS & OpenFL):** Minh chứng thực tiễn sống động nơi số nút nhỏ (vài chục bệnh viện), mỗi nút ổn định và đủ năng lực tính toán — mảnh đất lý tưởng để áp dụng cả FedProx, SCAFFOLD lẫn các khung mã nguồn mở như Flower và NVFlare.
+
+### Khung giải thích (nên đọc chậm): Tính tay cách FedProx và SCAFFOLD chữa bệnh Trôi cục bộ
+
+Quay lại đúng bài toán 2 máy khách non-IID xuyên suốt Chương 29: $$F_1(w) = \frac{1}{2}w^2$$ và $$F_2(w) = \frac{3}{2}(w - 4)^2$$ với nghiệm toàn cục $$w^\star = 3.0$$, xuất phát từ $$w_t = 3.0$$ (nhớ rằng FedAvg thuần với $$E \to \infty$$ đã trôi tụt về $$2.0$$, sai số $$1.0$$!).
+
+1. **Dùng FedProx với hệ số neo $$\mu = 2$$ (mỗi máy cực tiểu hóa $$F_i(w) + \frac{2}{2}(w - 3)^2$$):**
+   - *Máy khách 1:* $$\nabla\bigl[\frac{1}{2}w^2 + (w - 3)^2\bigr] = w + 2(w - 3) = 0 \implies w^{(1)} = 2.0$$ (được kéo lại gần $$3.0$$ hơn rất nhiều so với $$0.0$$!).
+   - *Máy khách 2:* $$\nabla\bigl[\frac{3}{2}(w - 4)^2 + (w - 3)^2\bigr] = 3(w - 4) + 2(w - 3) = 0 \implies 5w = 18 \implies w^{(2)} = 3.6$$ (gần $$3.0$$ hơn $$4.0$$!).
+   - *Trung bình máy chủ:* $$w_{t+1}^{\text{FedProx}} = \frac{2.0 + 3.6}{2} = 2.8$$!
+   Chỉ với một số hạng neo đơn giản, sai số trôi đã giảm **5 lần** (từ $$1.0$$ xuống còn $$0.2$$)!
+2. **Dùng SCAFFOLD (với biến kiểm soát lý tưởng $$c_1 = \nabla F_1(3) = +3,\; c_2 = \nabla F_2(3) = -3$$ và trung bình toàn cục $$c = \frac{3 + (-3)}{2} = 0$$):**
+   Tại $$w = 3.0$$, gradient đã hiệu chỉnh của cả hai máy khách đều là:
+   - *Máy khách 1:* $$g_1^{\text{corr}} = \nabla F_1(3) - c_1 + c = 3 - 3 + 0 = 0$$!
+   - *Máy khách 2:* $$g_2^{\text{corr}} = \nabla F_2(3) - c_2 + c = (-3) - (-3) + 0 = 0$$!
+   Cả hai máy đứng yên tại **đúng $$w^\star = 3.0$$** — sai số trôi bằng $$0$$ tuyệt đối! Nhìn lại cả ba bài 29-02 → 29-03 → 29-04 trên cùng một ví dụ số, bạn đã thấy trọn vẹn mạch tiến hóa tuyệt đẹp của tối ưu hóa liên kết hiện đại.
 
 Các bài 29-01 đến 29-03 đã trình bày SGD song song dữ liệu, **FedAvg** và sự khác biệt với ADMM. Bài đọc tùy chọn này mở rộng sang các phương pháp và ứng dụng học liên kết giai đoạn 2020–2026: xử lý dữ liệu non-IID giữa các máy khách (FedProx, SCAFFOLD), đưa bộ tối ưu thích nghi lên máy chủ (FedOpt) và ứng dụng thực tế trong y tế liên viện.
 

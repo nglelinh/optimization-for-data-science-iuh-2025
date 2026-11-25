@@ -10,6 +10,39 @@ categories:
 lesson_type: required
 ---
 
+Mỗi ràng buộc trong bài toán thực tế — "ngân sách không vượt quá 10 tỷ", "sản lượng không âm", "tổng tỷ trọng danh mục bằng 100%" — thực chất đang cắt ra một tập hợp điểm trong không gian $$\mathbb{R}^n$$. Miền khả thi cuối cùng nơi thuật toán được phép tìm kiếm chính là phần **giao** của tất cả các tập hợp đó. Vì vậy, lý thuyết tập hợp không phải lý thuyết trừu tượng xa vời, mà là ngữ pháp cơ bản để phát biểu đúng mọi bài toán tối ưu có ràng buộc.
+
+Bài học này củng cố ký hiệu tập hợp, các phép toán hợp–giao–bù, ánh xạ và tích Descartes gắn liền với không gian biến quyết định.
+
+## Bản đồ kiến thức nền: Ngữ pháp tập hợp trong tối ưu hóa
+
+- **Ký hiệu và đặc tả tập hợp:** Cách viết miền khả thi theo thuộc tính $$D = \{x \in \mathbb{R}^n : g_i(x) \le 0, h_j(x) = 0\}$$ giúp phân biệt rõ biến quyết định, tham số và miền xác định.
+- **Phép giao ($$\cap$$) và tính bảo toàn:** Giao của nhiều tập ràng buộc mô tả việc thỏa mãn *đồng thời* mọi điều kiện. Một phép màu lớn của Chương 02 là giao của họ bất kỳ các tập lồi luôn là tập lồi (còn phép hợp thì thường không!).
+- **Tích Descartes ($$A \times B$$):** Là cách xây dựng không gian nhiều biến (như $$\mathbb{R}^n = \mathbb{R} \times \cdots \times \mathbb{R}$$) và đặc biệt là không gian $$\mathbb{R}^n \times \mathbb{R}$$ chứa **epigraph** (biểu đồ trên) của hàm số.
+- **Ánh xạ, miền xác định và ảnh ngược:** Liên kết tập nghiệm của bài toán với ảnh ngược $$f^{-1}((-\infty, \alpha])$$ — chính là **tập mức dưới** (sublevel set) đóng vai trò trung tâm khi định nghĩa hàm lồi và hàm giả lồi.
+
+### Khung giải thích (nên đọc chậm): Dựng miền khả thi từ phép giao ba tập ràng buộc
+
+Xét bài toán tìm cực tiểu của $$f(x_1, x_2) = -2x_1 - 3x_2$$ trên miền $$D = S_1 \cap S_2 \cap S_3 \subset \mathbb{R}^2$$ với:
+
+- $$S_1 = \{(x_1, x_2) : x_1 + x_2 \le 4\}$$ (tổng tài nguyên không quá 4),
+- $$S_2 = \{(x_1, x_2) : x_1 \ge 0,\ x_2 \ge 0\}$$ (không âm),
+- $$S_3 = \{(x_1, x_2) : x_1 \le 3\}$$ (giới hạn sản phẩm 1).
+
+1. **Xác định các đỉnh của tập giao $$D$$:**
+   - Giao $$x_1 = 0$$ và $$x_2 = 0$$ cho đỉnh $$A = (0, 0)$$.
+   - Giao $$x_1 = 3$$ và $$x_2 = 0$$ cho đỉnh $$B = (3, 0)$$.
+   - Giao $$x_1 = 3$$ và $$x_1 + x_2 = 4$$ cho đỉnh $$C = (3, 1)$$.
+   - Giao $$x_1 = 0$$ và $$x_1 + x_2 = 4$$ cho đỉnh $$E = (0, 4)$$.
+2. **Đánh giá hàm mục tiêu tuyến tính tại bốn đỉnh:**
+   - $$f(0, 0) = 0$$;
+   - $$f(3, 0) = -6$$;
+   - $$f(3, 1) = -2(3) - 3(1) = -9$$;
+   - $$f(0, 4) = -2(0) - 3(4) = -12$$.
+3. **Kết luận:** Điểm tối ưu toàn cục trên tập giao $$D$$ là $$x^* = (0, 4)$$ với $$f(x^*) = -12$$. Nếu bỏ bớt ràng buộc $$S_1$$, miền giao trở nên không bị chặn và hàm có thể giảm xuống $$-\infty$$!
+
+---
+
 Bài học này trình bày các khái niệm cơ bản của lý thuyết tập hợp — nền tảng toán học để mô tả bài toán tối ưu hóa, các ràng buộc và vùng khả thi.
 
 ---

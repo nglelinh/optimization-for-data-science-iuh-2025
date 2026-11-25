@@ -9,6 +9,29 @@ categories:
 lang: en
 ---
 
+A high-degree polynomial can pass through every single training point with zero error—and then fail catastrophically on the very next unseen test point. Regularization fixes this by adding a convex complexity penalty $$\lambda R(w)$$ to the data-fit loss, turning an ill-posed memorization task into a well-conditioned convex optimization problem whose geometry (smooth L2 spheres vs. sharp L1 diamonds) directly shapes the learned model.
+
+## Background Knowledge Map: Geometry of Losses and Regularizers
+
+1. **Empirical Risk + Regularizer**: Training solves $$\min_w \frac{1}{n}\sum_{i=1}^n \ell(y_i, f_w(x_i)) + \lambda R(w)$$. The hyperparameter $$\lambda \ge 0$$ traces the exact Pareto frontier between training fit (bias) and parameter complexity (variance).
+2. **Ridge (L2) vs. Lasso (L1) Geometry**:
+   - **Ridge ($$\frac{\lambda}{2}\|w\|_2^2$$)**: Smooth and strictly convex; adds $$\lambda I$$ to the Hessian (guaranteeing strong convexity and a unique closed-form solution $$(X^T X + \lambda I)^{-1}X^T y$$); shrinks correlated weights smoothly toward zero without setting them exactly to zero.
+   - **Lasso ($$\lambda\|w\|_1$$)**: Convex but *nonsmooth* at coordinate axes; the sharp corners of the $$\ell_1$$ diamond $$\{w : \|w\|_1 \le t\}$$ intersect elliptical loss contours right on the axes, producing exact sparsity (automatic feature selection).
+3. **Elastic Net (Best of Both Worlds)**: Combining $$\lambda_1 \|w\|_1 + \frac{\lambda_2}{2}\|w\|_2^2$$ yields both sparsity and strong convexity, stabilizing selection among highly correlated predictors.
+4. **Choosing the Loss Function for Outliers and Tasks**: Squared loss penalizes large errors quadratically (sensitive to outliers); Huber loss blends quadratic smoothness near zero with linear robustness in the tails; hinge and cross-entropy losses drive large-margin and probabilistic classification.
+
+### Step-by-Step Worked Example (Read Slowly): Ridge vs. Lasso on a 1D Estimation Problem
+
+Minimize $$\frac{1}{2}(w - 3)^2 + R(w)$$ with regularization strength $$\lambda = 1$$ under (a) Ridge $$R(w) = \frac{1}{2}w^2$$ and (b) Lasso $$R(w) = |w|$$, and repeat when the data target is small ($$y = 0.6$$ instead of $$3$$).
+
+1. **Ridge solution ($$w_{\mathrm{Ridge}} = \frac{y}{1 + \lambda}$$)**:
+   - For $$y = 3, \lambda = 1$$: derivative $$(w - 3) + w = 0 \implies w_{\mathrm{Ridge}} = \frac{3}{2} = 1.5$$.
+   - For $$y = 0.6, \lambda = 1$$: $$w_{\mathrm{Ridge}} = \frac{0.6}{2} = 0.3 \neq 0$$ (shrunk by 50%, never zero!).
+2. **Lasso solution (soft-thresholding $$w_{\mathrm{Lasso}} = \operatorname{sign}(y)\max(|y| - \lambda, 0)$$)**:
+   - For $$y = 3, \lambda = 1$$: for $$w > 0$$, derivative $$(w - 3) + 1 = 0 \implies w_{\mathrm{Lasso}} = 3 - 1 = 2.0$$.
+   - For $$y = 0.6, \lambda = 1$$: at $$w = 0$$, the data slope is $$-0.6$$ while the L1 penalty slope is $$\pm 1$$. Because $$|-0.6| \le 1$$, moving in *either* direction increases the objective! Hence $$w_{\mathrm{Lasso}} = 0$$ **exactly**!
+3. **Geometric takeaway**: Ridge shrinks every weight proportionally; Lasso subtracts a constant threshold $$\lambda$$ and snaps small noisy coefficients strictly to zero.
+
 <script src="../../../public/js/script.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 

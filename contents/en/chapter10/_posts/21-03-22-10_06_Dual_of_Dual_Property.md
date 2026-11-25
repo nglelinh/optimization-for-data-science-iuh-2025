@@ -11,6 +11,34 @@ redirect_from:
   - /contents/en/chapter10/10_08_Dual_of_Dual_Property/
 ---
 
+In linear algebra, transposing a matrix twice returns the exact original matrix: $$(A^\top)^\top = A$$. Linear programming duality obeys an equally striking symmetry called the **involution property**: if you take a primal LP, form its dual LP, and then take the dual of *that* dual LP, you land right back on the original primal problem! Far from being a mere algebraic curiosity, this symmetry proves that every theorem you prove for primal-to-dual relationships automatically works in reverse.
+
+## Background Knowledge Map: Why LP Duality Is an Exact Involution
+
+- **Pillar 1 — Standardizing the Dual Back to Minimization:** Because the dual of a minimization LP is a maximization LP, taking the dual a second time requires rewriting $$\max b^\top y$$ as $$-\min (-b^\top y)$$ and converting $$\le$$ inequalities into standard form—every sign flip cancels out cleanly on the second pass.
+- **Pillar 2 — Double Transposition of Matrices:** The constraint matrix $$A$$ transposes to $$A^\top$$ in the first dual and back to $$(A^\top)^\top = A$$ in the second dual; similarly, the objective vector $$c$$ and right-hand side $$b$$ swap places twice and return to their starting positions.
+- **Pillar 3 — Complete Primal–Dual Feasibility Classification:** Because the dual of the dual is the primal, the 4 possible status combinations of $$(P, D)$$ are symmetric: (Optimal, Optimal), (Unbounded, Infeasible), (Infeasible, Unbounded), or (Infeasible, Infeasible). Neither LP can be bounded-feasible while the other is infeasible!
+- **Pillar 4 — Contrast with General Nonlinear Optimization (Preview of Ch. 11):** In Chapter 11, we will see that the dual of the dual of a *nonconvex* problem does **not** recover the original problem—it recovers its *convexified* (biconjugate) envelope instead! Involution holds unconditionally for LPs precisely because linear functions and polyhedra are already closed and convex.
+
+### Step-by-Step Worked Example (Read Slowly): Taking the Dual Twice on a Standard-Form LP
+
+Start with the standard-form primal LP $$(P)$$:
+$$\min_{x}\; 2x_1 + 5x_2 \quad \text{s.t.} \quad x_1 + 3x_2 = 7, \quad x_1, x_2 \ge 0.$$
+Here $$c = (2, 5)^\top$$, $$A = (1, 3)$$, $$b = 7$$.
+
+1. **First Dual $$(D)$$:**
+   $$\max_{y \in \mathbb{R}}\; 7y \quad \text{s.t.} \quad \begin{pmatrix}1 \\ 3\end{pmatrix} y \le \begin{pmatrix}2 \\ 5\end{pmatrix} \iff y \le 2,\; 3y \le 5.$$
+2. **Rewrite $$(D)$$ as a minimization LP with $$\le$$ constraints:**
+   $$-\min_{y \in \mathbb{R}}\; (-7y) \quad \text{s.t.} \quad y \le 2,\quad 3y \le 5.$$
+   Here $$\tilde{c} = (-7)$$, $$\tilde{G} = \begin{pmatrix}1 \\ 3\end{pmatrix}$$, $$\tilde{h} = \begin{pmatrix}2 \\ 5\end{pmatrix}$$ (and no equality constraints).
+3. **Take the dual of the inner minimization (with multipliers $$z = (z_1, z_2)^\top \ge 0$$):**
+   - Dual objective: $$-\tilde{h}^\top z = -(2z_1 + 5z_2)$$.
+   - Dual constraint $$-\tilde{G}^\top z = \tilde{c}$$: $$-(z_1 + 3z_2) = -7 \iff z_1 + 3z_2 = 7$$.
+   - Inner dual is $$\max_{z \ge 0} \{ -(2z_1 + 5z_2) : z_1 + 3z_2 = 7 \}$$.
+4. **Restore the outer minus sign:**
+   $$-\max_{z \ge 0} \{ -(2z_1 + 5z_2) : z_1 + 3z_2 = 7 \} = \min_{z \ge 0} \{ 2z_1 + 5z_2 : z_1 + 3z_2 = 7 \},$$
+   which is **symbol-for-symbol identical** to the original primal $$(P)$$ (with $$z$$ renamed to $$x$$)!
+
 In Linear Programming, a beautiful and important mathematical property is that **the dual of the dual problem is the original (primal) problem**. This property is called the **"involution" of duality** or the **"dual-of-the-dual theorem"**.
 
 This is a basic property that expresses the perfect symmetry of LP duality theory, and it has deep significance in both theory and applications.

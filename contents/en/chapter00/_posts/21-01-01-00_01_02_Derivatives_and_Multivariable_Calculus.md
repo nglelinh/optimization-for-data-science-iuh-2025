@@ -10,6 +10,31 @@ categories:
 lesson_type: required
 ---
 
+Training a modern machine learning model means tuning millions of coupled parameters simultaneously, where nudging one weight ripples through composite layers of transformations. Single-variable slopes are no longer enough: you need partial derivatives to isolate coordinate sensitivities, the gradient to assemble them into a vector, the Hessian to read local bowl-versus-saddle curvature, and the multivariable chain rule—the exact mathematical engine behind backpropagation.
+
+## Background Knowledge Map: Multivariable Differential Calculus in Optimization
+
+- **Partial Derivatives & Level Curves:** Partial derivatives measure change along coordinate axes, while level curves $$f(x,y) = c$$ visualize the landscape; the gradient always cuts perpendicularly across level sets.
+- **Gradient Vector ($$\nabla f$$):** Packages all first-order partial derivatives into a single vector in $$\mathbb{R}^n$$ whose vanishing ($$\nabla f(x^*) = \mathbf{0}$$) is necessary for unconstrained local optimality.
+- **Hessian Matrix ($$\nabla^2 f$$):** Collects all second-order partial derivatives into a symmetric $$n \times n$$ matrix; its positive semidefiniteness certifies local convexity and distinguishes minima from saddles.
+- **Multivariable Chain Rule:** Computes derivatives of composed functions $$g(t) = f(x(t))$$ via $$g'(t) = \nabla f(x(t))^T x'(t)$$, enabling exact differentiation along optimization trajectories and through neural network layers.
+
+### Step-by-Step Worked Example (Read Slowly): Gradient, Hessian, and Chain Rule on $$f(x, y) = e^{x^2 + y}$$
+
+Evaluate the local calculus of $$f(x, y) = e^{x^2 + y}$$ at $$(0, 0)$$ and along the path $$\gamma(t) = (t, 2t)$$.
+
+1. **First-order partial derivatives (Gradient):**
+   $$\frac{\partial f}{\partial x} = 2x e^{x^2 + y}, \qquad \frac{\partial f}{\partial y} = e^{x^2 + y}.$$
+   At $$(0, 0)$$, $$\nabla f(0, 0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$.
+2. **Second-order partial derivatives (Hessian):**
+   $$\frac{\partial^2 f}{\partial x^2} = (2 + 4x^2)e^{x^2 + y}, \quad \frac{\partial^2 f}{\partial x \partial y} = 2x e^{x^2 + y}, \quad \frac{\partial^2 f}{\partial y^2} = e^{x^2 + y}.$$
+   At $$(0, 0)$$,
+   $$\nabla^2 f(0, 0) = \begin{pmatrix} 2 & 0 \\ 0 & 1 \end{pmatrix},$$
+   which is strictly positive definite (eigenvalues $$2$$ and $$1$$), meaning $$f$$ curves upward in every direction around the origin.
+3. **Chain rule along $$\gamma(t) = (t, 2t)$$ at $$t = 0$$:** With $$\gamma'(0) = (1, 2)^T$$,
+   $$\left.\frac{d}{dt} f(\gamma(t))\right|_{t=0} = \nabla f(0, 0)^T \gamma'(0) = \begin{pmatrix} 0 & 1 \end{pmatrix}\begin{pmatrix} 1 \\ 2 \end{pmatrix} = 2.$$
+   *Hand check:* Directly substituting gives $$f(t, 2t) = e^{t^2 + 2t}$$, whose derivative $$(2t + 2)e^{t^2 + 2t}$$ at $$t = 0$$ is indeed $$2$$.
+
 This lesson covers derivatives and essential multivariable calculus concepts that form the foundation for optimization theory and algorithms.
 
 ---

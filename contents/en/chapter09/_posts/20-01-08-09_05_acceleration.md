@@ -9,6 +9,32 @@ categories:
 lang: en
 ---
 
+Watch plain gradient descent or ISTA descend an elongated, narrow canyon: even with the optimal step size $$t = 1/L$$, the iterates bounce back and forth across the steep walls while inching agonizingly slowly down the gentle valley floor. In 1983, a 27-year-old Yurii Nesterov published a four-page paper proving that adding a carefully calibrated **momentum extrapolation** step cuts the number of iterations from $$O(1/\varepsilon)$$ to $$O(1/\sqrt{\varepsilon})$$—the mathematically provable speed limit for all first-order methods! This lesson builds the geometric intuition behind Nesterov acceleration before diving into the algebra of FISTA.
+
+## Background Knowledge Map: The Intuition Behind Optimal First-Order Acceleration
+
+- **Pillar 1 — Zig-Zagging in Ill-Conditioned Valleys:** Along steep directions (eigenvalue $$L$$), step size $$1/L$$ stops oscillations; along flat directions (small curvature), $$1/L$$ takes tiny steps, causing $$O(1/k)$$ progress. Momentum cancels out the alternating cross-valley zig-zags while reinforcing consistent motion along the valley floor.
+- **Pillar 2 — Look-Ahead Gradient Evaluation (Nesterov vs. Heavy Ball):** Unlike Polyak's classical heavy-ball momentum (which evaluates the gradient at $$x^{(k-1)}$$ and then adds momentum), Nesterov extrapolates *first* to $$v^{(k)} = x^{(k-1)} + \beta_k(x^{(k-1)} - x^{(k-2)})$$ and evaluates the gradient/prox *at the look-ahead point* $$v^{(k)}$$, providing a crucial braking correction that guarantees global $$O(1/k^2)$$ convergence for all convex problems.
+- **Pillar 3 — Increasing Momentum Schedule ($$\beta_k \to 1$$):** Unlike constant-momentum SGD in deep learning, Nesterov's convex schedule $$\beta_k = \frac{k-2}{k+1}$$ starts at $$0$$ and asymptotically approaches $$1$$, corresponding in continuous time to the Su–Boyd–Candès second-order ODE $$\ddot{X}(t) + \frac{3}{t}\dot{X}(t) + \nabla f(X(t)) = 0$$ with vanishing friction $$3/t$$.
+- **Pillar 4 — Non-Monotonic Ripples & Adaptive Restarts:** Because vanishing friction lets the iterate overshoot the minimum like a lightly damped spring, Nesterov acceleration produces characteristic "ripples" where $$f(x^{(k)})$$ briefly rises—which O'Donoghue and Candès (2015) tamed by resetting momentum whenever the velocity points uphill.
+
+### Step-by-Step Worked Example (Read Slowly): Watching Nesterov Extrapolation Outpace Plain Gradient Descent
+
+Minimize the flat 1D quadratic $$g(x) = \frac{1}{20} x^2$$ (so $$\nabla g(x) = 0.1 x$$, optimal $$x^\star = 0$$), using a conservative step size $$t = 1$$ (as if another coordinate had $$L = 1$$). Start at $$x^{(0)} = x^{(-1)} = 10$$.
+
+1. **Plain Gradient Descent ($$x^{(k)} = x^{(k-1)} - 0.1 x^{(k-1)} = 0.9 x^{(k-1)}$$):**
+   - $$k = 1$$: $$x^{(1)} = 9.0$$.
+   - $$k = 2$$: $$x^{(2)} = 8.1$$.
+   - $$k = 3$$: $$x^{(3)} = 7.29$$ (total distance moved: $$2.71$$).
+2. **Nesterov Accelerated Gradient with $$\beta_k = \frac{k-1}{k+2}$$ (indexing $$k=1,2,3$$):**
+   - $$k = 1$$ ($$\beta_1 = 0$$): $$v^{(1)} = 10$$, $$x^{(1)} = 10 - 0.1(10) = 9.0$$.
+   - $$k = 2$$ ($$\beta_2 = 1/4 = 0.25$$):
+     - Extrapolate: $$v^{(2)} = 9.0 + 0.25(9.0 - 10) = 8.75$$.
+     - Gradient step at $$v^{(2)}$$: $$x^{(2)} = 8.75 - 0.1(8.75) = 7.875$$ (already ahead of $$8.1$$!).
+   - $$k = 3$$ ($$\beta_3 = 2/5 = 0.40$$):
+     - Extrapolate: $$v^{(3)} = 7.875 + 0.40(7.875 - 9.0) = 7.425$$.
+     - Gradient step at $$v^{(3)}$$: $$x^{(3)} = 7.425 - 0.1(7.425) = 6.6825$$ (total distance moved: $$3.3175$$—already 22% farther after just 3 steps, and the lead widens quadratically with $$k$$!).
+
 # Acceleration
 
 Proximal gradient descent on a composite problem $$\min_x g(x)+h(x)$$ already has a clean rate $$O(1/k)$$ when $$\nabla g$$ is Lipschitz (lesson 09-02). **Acceleration** is the extra memory that upgrades that rate to the optimal first-order $$O(1/k^2)$$ on smooth convex $$g$$, without forming a Hessian. This page is the Distill-style *picture* that sits in front of the FISTA algebra. The algorithm and the $$O(1/k^2)$$ proof live in [09-05-01]({% multilang_post_url contents/chapter09/20-01-08-09_05_01_accelerated_proximal_gradient_method %}) and [09-05-02]({% multilang_post_url contents/chapter09/20-01-08-09_05_02_convergence_analysis %}); the stochastic, constant-$$\beta$$ cousin used to train nets is [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}).

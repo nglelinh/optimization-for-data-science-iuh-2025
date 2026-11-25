@@ -9,6 +9,30 @@ categories:
 lang: en
 ---
 
+Imagine solving a collaborative filtering problem where your decision variable is a $$10{,}000 \times 10{,}000$$ matrix constrained to have nuclear norm at most $$t$$. Projected gradient descent demands a full singular value decomposition at every single iteration—an $$O(n^3)$$ bottleneck that grinds computation to a halt. The Conditional Gradient (Frank–Wolfe) method breaks this barrier by asking a far simpler question: what is the *single* rank-1 matrix that best aligns with the negative gradient? Computing that leading singular vector pair via a few power iterations costs orders of magnitude less, and every iterate stays low-rank by construction.
+
+## Background Knowledge Map: Mechanics of Conditional Gradient Across Norm Balls
+
+- **First-Order Linearization on Compact Convex Sets:** At iterate $$x^{(k-1)}$$, Frank–Wolfe replaces the nonlinear objective $$f(y)$$ by its first-order Taylor model $$f(x^{(k-1)}) + \langle \nabla f(x^{(k-1)}), y - x^{(k-1)} \rangle$$ and minimizes it over $$C$$, yielding an extreme point $$s^{(k-1)} \in C$$.
+- **Dual Norm Equivalence for Norm Balls:** When $$C = \{x : \|x\| \le t\}$$, the LMO $$\min_{\|s\| \le t} \langle g, s \rangle$$ evaluates directly to $$-t \|g\|_\star$$, achieved by a dual-norm maximizing atom. Thus the geometry of the constraint ball directly dictates the LMO cost.
+- **Contrast Across $$\ell_1$$, $$\ell_p$$, and Trace Norms:** Over an $$\ell_1$$ ball, the LMO selects a single signed coordinate $$-\operatorname{sign}(g_i) t e_i$$; over an $$\ell_p$$ ball ($$1 < p < \infty$$), it rescales coordinates by $$|g_i|^{q-1}$$ where $$1/p + 1/q = 1$$; over a trace-norm ball, it returns $$-t u_1 v_1^\top$$ from the top singular vectors of $$\nabla f(X)$$.
+- **Step-Size Decay and Non-Monotonicity:** With the canonical open-loop schedule $$\gamma_k = \frac{2}{k+1}$$, Frank–Wolfe requires no knowledge of the Lipschitz constant $$L$$, though unlike exact line search it is not strictly monotone at every step.
+
+### Step-by-Step Worked Example (Read Slowly): Frank–Wolfe LMO for $$\ell_1$$ vs. Trace-Norm Constraints
+
+Suppose we want one Frank–Wolfe direction on two canonical norm balls with radius $$t = 2$$:
+
+**Part A ($$\ell_1$$ ball in $$\mathbb{R}^3$$):** Let $$g = \nabla f(x^{(0)}) = (1.5,\ -4.0,\ 2.5)^\top$$ with $$x^{(0)} = (0, 0, 0)^\top$$ and $$\gamma_1 = \frac{2}{1+1} = 1$$ (or $$\gamma_1 = 0.5$$ for a partial step).
+1. Find the dual $$\ell_\infty$$ maximizer: $$i^\star = \arg\max_i |g_i| = 2$$ since $$|-4.0| = 4.0$$ is largest.
+2. Form the LMO atom: $$s^{(0)} = -\operatorname{sign}(g_2)\cdot t \cdot e_2 = -(-1)\cdot 2 \cdot (0, 1, 0)^\top = (0, 2, 0)^\top$$.
+3. Verify the linear objective: $$\langle g, s^{(0)} \rangle = (-4.0)(2) = -8.0 = -t \|g\|_\infty$$.
+4. Update with $$\gamma = 0.5$$: $$x^{(1)} = 0.5 x^{(0)} + 0.5 s^{(0)} = (0, 1, 0)^\top$$, which is 1-sparse and satisfies $$\|x^{(1)}\|_1 = 1 \le 2$$.
+
+**Part B (Trace-norm ball in $$\mathbb{R}^{2 \times 2}$$):** Let the matrix gradient be diagonal $$G = \begin{pmatrix} -3 & 0 \\ 0 & 1 \end{pmatrix}$$ with trace-norm budget $$t = 2$$.
+1. The singular values of $$G$$ are $$\sigma_1 = 3$$ (with $$u_1 = (1, 0)^\top$$, $$v_1 = (-1, 0)^\top$$ because $$G v_1 = (3, 0)^\top = 3 u_1$$) and $$\sigma_2 = 1$$.
+2. The LMO atom is the rank-1 matrix $$S = -t u_1 v_1^\top = -2 \begin{pmatrix} 1 \\ 0 \end{pmatrix} \begin{pmatrix} -1 & 0 \end{pmatrix} = \begin{pmatrix} 2 & 0 \\ 0 & 0 \end{pmatrix}$$.
+3. Verify: $$\langle G, S \rangle = \operatorname{tr}(G^\top S) = (-3)(2) + (1)(0) = -6 = -t \|G\|_{\text{op}}$$, and $$\|S\|_{\text{tr}} = 2 \le t$$, obtained without ever computing a full SVD.
+
 ## Projected Gradient Descent
 
 Let's consider a problem with the following constraints.

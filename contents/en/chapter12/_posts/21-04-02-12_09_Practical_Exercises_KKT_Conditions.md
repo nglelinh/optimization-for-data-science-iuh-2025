@@ -12,6 +12,29 @@ redirect_from:
   - /contents/en/chapter12/12_08_Practical_Exercises_KKT_Conditions/
 ---
 
+Solving KKT systems by hand is a rite of passage in graduate optimization: it teaches you how to perform systematic active-set case analysis, spot symmetry before grinding algebra, and interpret Lagrange multipliers as physical forces or financial risk prices. The practical exercises below—adapted from Boyd & Vandenberghe, Nocedal & Wright, and Bertsekas—take you from basic 2D quadratic programs through Markowitz portfolio optimization and Support Vector Machines.
+
+## Background Knowledge Map: Systematic Workflow for Solving KKT Exercises
+
+- **Pillar 1 — Standardize All Inequalities First:** Rewrite every inequality constraint as $$h_i(x) \le 0$$ before writing $$L(x, u, v)$$ so that dual feasibility is uniformly $$u_i \ge 0$$.
+- **Pillar 2 — Active-Set Case Splitting via Complementary Slackness:** With $$m$$ inequalities, complementary slackness splits the search into $$2^m$$ active-set combinations (for each $$i$$, either $$u_i = 0$$ or $$h_i(x) = 0$$). Always test the **unconstrained / all-inactive** case first—if the unconstrained minimizer is primal feasible, you are done immediately!
+- **Pillar 3 — Eliminating Primal Variables Using Stationarity:** For convex quadratics (like Markowitz portfolios or ridge regression), stationarity expresses $$x$$ linearly in terms of $$(u, v)$$; substituting into active constraints solves for the multipliers in closed form.
+- **Pillar 4 — Checking Convexity & Slater Before Concluding:** Once you find a KKT point $$(x^\star, u^\star, v^\star)$$, verify convexity of $$f$$ and $$h_i$$ (and affinity of $$l_j$$) to conclude *global* optimality immediately; for nonconvex problems, compare objective values across all KKT candidates!
+
+### Step-by-Step Worked Example (Read Slowly): Active-Set KKT Case Analysis on a 2-Constraint QP
+
+Minimize $$f(x_1, x_2) = (x_1 - 3)^2 + (x_2 - 2)^2$$ subject to $$h_1(x) = x_1 + x_2 - 3 \le 0$$ and $$h_2(x) = -x_2 \le 0$$.
+
+1. **Write stationarity:**
+   $$2(x_1 - 3) + u_1 = 0, \qquad 2(x_2 - 2) + u_1 - u_2 = 0, \qquad u_1, u_2 \ge 0.$$
+2. **Case 1 — Neither constraint active ($$u_1 = u_2 = 0$$):** Gives $$(3, 2)$$, which violates $$h_1(3, 2) = 3 + 2 - 3 = 2 > 0$$. Reject!
+3. **Case 2 — Only $$h_1$$ active ($$x_1 + x_2 = 3,\; u_2 = 0$$):**
+   - Stationarity: $$x_1 = 3 - u_1/2$$ and $$x_2 = 2 - u_1/2$$.
+   - Plug into $$x_1 + x_2 = 3$$: $$(3 - u_1/2) + (2 - u_1/2) = 3 \implies 5 - u_1 = 3 \implies u_1^\star = 2 \ge 0$$!
+   - Recover primal point: $$x_1^\star = 3 - 1 = 2$$, $$x_2^\star = 2 - 1 = 1$$.
+   - Check remaining feasibility: $$h_2(2, 1) = -1 < 0$$ (strictly feasible, matching $$u_2^\star = 0$$!).
+4. **Stop immediately!** Because the problem is convex and Case 2 satisfies all four KKT conditions, $$(x_1^\star, x_2^\star) = (2, 1)$$ with $$(u_1^\star, u_2^\star) = (2, 0)$$ is the **unique global optimum**—no need to test Cases 3 or 4!
+
 # Practical Exercises - KKT Conditions (Karush-Kuhn-Tucker)
 
 The exercises are adapted from Boyd & Vandenberghe (2004), Nocedal & Wright (2006), and Bertsekas (1999).

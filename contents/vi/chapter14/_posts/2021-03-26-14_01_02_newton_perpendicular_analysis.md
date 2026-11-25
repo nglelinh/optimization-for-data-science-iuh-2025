@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Một hiểu lầm kinh điển mà rất nhiều người học tối ưu mắc phải là: *"Vì Gradient Descent đi vuông góc với đường đồng mức, nên phương pháp Newton — một thuật toán thông minh hơn — chắc cũng đi vuông góc với đường đồng mức, chỉ là bước dài hơn?"* Câu trả lời là **KHÔNG!** Và chính việc **không** đi vuông góc với đường đồng mức mới là bí mật giúp phương pháp Newton thắng áp đảo Gradient Descent trong các thung lũng elip kéo dài.
+
+Khi đường đồng mức là những hình elip dẹt, hướng vuông góc với đường đồng mức ($$-\nabla f(x)$$) lại chỉ chéo vào thành hẻm núi chứ không hề chỉ về tâm elip. Phương pháp Newton bẻ lệch hướng đi bằng cách nhân với $$(\nabla^2 f(x))^{-1}$$, bỏ qua sự "cám dỗ" của hướng dốc cục bộ để ngắm thẳng vào tâm đáy.
+
+## Bản đồ kiến thức nền: Hình học đường đồng mức và góc lệch của hướng Newton
+
+- **Trực giao của Gradient:** Đường đồng mức $$\{x : f(x) = c\}$$ có vectơ pháp tuyến chính là $$\nabla f(x)$$. Do đó $$-\nabla f(x)$$ luôn vuông góc tuyệt đối với tiếp tuyến của đường đồng mức.
+- **Điều kiện để hướng Newton vuông góc với đường đồng mức:** Hướng Newton $$d_{\text{nt}} = -(\nabla^2 f(x))^{-1}\nabla f(x)$$ chỉ cùng phương với $$-\nabla f(x)$$ (tức vuông góc đường đồng mức) khi và chỉ khi $$\nabla f(x)$$ là một **vectơ riêng** của ma trận Hessian $$\nabla^2 f(x)$$ (chẳng hạn khi $$\nabla^2 f(x) = \lambda I$$ đẳng hướng, hoặc $$x$$ nằm đúng trên một trục chính của elip).
+- **Tính chất hướng giảm bất chấp góc lệch:** Dù không vuông góc với đường đồng mức, miễn là $$\nabla^2 f(x) \succ 0$$, góc giữa $$d_{\text{nt}}$$ và $$-\nabla f(x)$$ luôn là góc nhọn vì $$(-\nabla f)^T d_{\text{nt}} = \nabla f^T (\nabla^2 f)^{-1}\nabla f > 0$$.
+
+### Khung giải thích (nên đọc chậm): Tính góc lệch giữa hướng Newton và pháp tuyến đường đồng mức
+
+Xét hàm elip $$f(x_1, x_2) = \frac{1}{2}x_1^2 + 4x_2^2$$ tại điểm $$x = (2, 1)^T$$ (không nằm trên trục tọa độ).
+
+1. **Tính gradient và hướng Gradient Descent (vuông góc đường đồng mức):**
+   $$\nabla f(2, 1) = \begin{bmatrix} 2 \\ 8 \end{bmatrix} \implies d_{\text{GD}} = \begin{bmatrix} -2 \\ -8 \end{bmatrix}.$$
+   Lưu ý: vectơ tiếp tuyến đường đồng mức tại $$(2, 1)$$ là $$t = (8, -2)^T$$, dễ thấy $$d_{\text{GD}}^T t = -16 + 16 = 0$$ (vuông góc $$90^\circ$$).
+2. **Tính hướng Newton:**
+   Hessian là $$H = \begin{bmatrix} 1 & 0 \\ 0 & 8 \end{bmatrix}$$, nên $$H^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 1/8 \end{bmatrix}$$.
+   $$d_{\text{nt}} = -H^{-1}\nabla f(2, 1) = \begin{bmatrix} -2 \\ -1 \end{bmatrix}.$$
+   Chú ý $$x + d_{\text{nt}} = (2, 1)^T + (-2, -1)^T = (0, 0)^T$$ — chỉ thẳng vào đáy!
+3. **Kiểm tra góc giữa $$d_{\text{nt}}$$ và $$d_{\text{GD}}$$ (và góc với tiếp tuyến $$t$$):**
+   - $$\cos\theta = \frac{d_{\text{GD}}^T d_{\text{nt}}}{\|d_{\text{GD}}\|_2 \|d_{\text{nt}}\|_2} = \frac{(-2)(-2) + (-8)(-1)}{\sqrt{68}\sqrt{5}} = \frac{12}{\sqrt{340}} \approx 0.6508 \implies \theta \approx 49.4^\circ$$!
+   - Tích vô hướng với tiếp tuyến $$t = (8, -2)^T$$: $$d_{\text{nt}}^T t = -16 + 2 = -14 \ne 0$$.
+   Hướng Newton lệch gần $$50^\circ$$ khỏi phương vuông góc đường đồng mức — và chính góc "bẻ lái" đó đưa nó đi thẳng một mạch tới nghiệm tối ưu!
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center",

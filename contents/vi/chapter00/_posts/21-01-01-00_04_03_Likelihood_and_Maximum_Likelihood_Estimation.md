@@ -10,6 +10,32 @@ lang: vi
 lesson_type: required
 ---
 
+Xác suất trả lời câu hỏi xuôi: *"Biết đồng xu có tỷ lệ ngửa $$p = 0.7$$, khả năng tung 10 lần ra 7 mặt ngửa là bao nhiêu?"* Thống kê và học máy lại phải đi ngược lại: *"Ta vừa tung 10 lần thấy 7 mặt ngửa — vậy giá trị $$p$$ nào giải thích dữ liệu này hợp lý nhất?"* **Ước lượng hợp lý tối đa (MLE)** do Ronald Fisher hệ thống hóa từ thập niên 1920 biến đúng câu hỏi suy luận ngược ấy thành một bài toán tối ưu hóa cụ thể.
+
+Điều tuyệt vời là khi lấy logarit hàm hợp lý, hàng loạt bài toán MLE kinh điển trở thành bài toán cực đại hóa hàm lõm (hay cực tiểu hóa hàm lồi), cho phép giải chính xác bằng giải tích hoặc thuật toán lồi.
+
+## Bản đồ kiến thức nền: Cấu trúc tối ưu hóa của MLE
+
+- **Hàm hợp lý ($$L(\theta \mid x)$$):** Giữ cố định dữ liệu đã quan sát $$x$$ và coi xác suất (hoặc mật độ) là một hàm số theo tham số $$\theta$$ cần tối ưu.
+- **Biến đổi Log-Likelihood ($$\ell(\theta) = \log L(\theta)$$):** Vì hàm $$\log$$ tăng nghiêm ngặt, $$\arg\max_\theta L(\theta) = \arg\max_\theta \ell(\theta)$$. Phép biến đổi này vừa tránh tràn số dưới (underflow) khi nhân hàng nghìn xác suất nhỏ, vừa biến tích thành tổng dễ lấy đạo hàm.
+- **Điều kiện bậc nhất (Score = 0) và bậc hai (Thông tin Fisher):** Giải $$\nabla_\theta \ell(\theta) = 0$$ tìm ứng viên tối ưu; kiểm tra ma trận Hessian $$\nabla^2_\theta \ell(\theta) \prec 0$$ xác nhận điểm cực đại (thậm chí cực đại toàn cục nếu $$\ell(\theta)$$ lõm).
+- **Mở rộng sang MAP và điều chuẩn:** Nhân thêm phân phối tiên nghiệm $$p(\theta)$$ trước khi lấy log sẽ cộng thêm số hạng $$-\log p(\theta)$$ vào hàm mất mát — biến MLE thành tối ưu hóa có điều chuẩn (như Ridge khi tiên nghiệm là Gauss).
+
+### Khung giải thích (nên đọc chậm): Tính tay MLE cho bài toán tung đồng xu 10 lần ra 7 mặt ngửa
+
+Giả sử tung một đồng xu độc lập $$n = 10$$ lần và quan sát được $$k = 7$$ mặt ngửa, $$3$$ mặt sấp. Ta tìm tham số $$p \in (0, 1)$$ hợp lý nhất:
+
+1. **Viết hàm hợp lý và log-hợp lý:**
+   $$L(p) = p^7 (1 - p)^3 \implies \ell(p) = \ln L(p) = 7\ln p + 3\ln(1 - p).$$
+2. **Tìm điểm dừng (đạo hàm bậc nhất bằng 0):**
+   $$\ell'(p) = \frac{7}{p} - \frac{3}{1 - p} = 0 \implies 7(1 - p) = 3p \implies 7 = 10p \implies \hat p = 0.7.$$
+3. **Kiểm tra tính lõm bằng đạo hàm bậc hai:**
+   $$\ell''(p) = -\frac{7}{p^2} - \frac{3}{(1 - p)^2} < 0 \quad \forall p \in (0, 1).$$
+   Tại $$\hat p = 0.7$$, ta có $$\ell''(0.7) = -\frac{7}{0.49} - \frac{3}{0.09} \approx -14.29 - 33.33 = -47.62 < 0$$.
+4. **Kết luận tối ưu hóa:** Vì $$\ell''(p) < 0$$ trên toàn khoảng $$(0, 1)$$, hàm $$\ell(p)$$ **lõm chặt**, nên $$\hat p = 0.7$$ không chỉ là cực đại địa phương mà chắc chắn là **cực đại toàn cục duy nhất** của bài toán MLE!
+
+---
+
 ## Likelihood và ước lượng hợp lý tối đa
 
 Trong xác suất thống kê, **hàm hợp lý (likelihood)** đo mức độ phù hợp của một mô hình hay một bộ tham số với dữ liệu đã quan sát. Khi giữ cố định dữ liệu và xem biểu thức xác suất như một hàm theo tham số, ta thu được hàm hợp lý; lưu ý rằng đây không phải là một phân phối xác suất theo tham số.
@@ -224,7 +250,8 @@ $$\hat{	heta}_{MLE} = rg\max_{	heta} \log L(	heta \mid x)$$
 Giả sử ta có $$n$$ quan sát độc lập và cùng phân phối $$x_1, x_2, \ldots, x_n$$ từ phân phối chuẩn $$N(\mu, \sigma^2)$$.
 
 **Hàm hợp lý:**
-$$L(\mu, \sigma^2 \mid x_1, \ldots, x_n) = \prod_{i=1}^{n} rac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-rac{(x_i - \mu)^2}{2\sigma^2}ight)$$
+$$L(\mu, \sigma^2 \mid x_1, \ldots, x_n) = \prod_{i=1}^{n} rac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-rac{(x_i - \mu)^2}{2\sigma^2}
+ight)$$
 
 **Log-likelihood:**
 $$\ell(\mu, \sigma^2) = -rac{n}{2}\log(2\pi) - rac{n}{2}\log(\sigma^2) - rac{1}{2\sigma^2}\sum_{i=1}^{n}(x_i - \mu)^2$$
@@ -496,7 +523,8 @@ Trong hồi quy logistic, xác suất của biến nhị phân $$y \in \{0, 1\}$
 $$P(y = 1 \mid x) = rac{1}{1 + e^{-(eta_0 + eta_1 x)}}$$
 
 **Log-likelihood** (với $$p_i = P(y_i = 1 \mid x_i)$$):
-$$\ell(eta_0, eta_1) = \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1-y_i) \log(1-p_i) ight]$$
+$$\ell(eta_0, eta_1) = \sum_{i=1}^{n} \left[ y_i \log(p_i) + (1-y_i) \log(1-p_i) 
+ight]$$
 
 Đây là bài toán cực đại hóa hàm lõm (tương đương cực tiểu hóa hàm lồi là âm log-likelihood), có thể giải hiệu quả bằng gradient descent hoặc phương pháp Newton.
 

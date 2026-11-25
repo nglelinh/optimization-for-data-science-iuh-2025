@@ -10,6 +10,34 @@ categories:
 lesson_type: required
 ---
 
+Đứng giữa sườn đồi, bạn có vô số hướng để bước đi: hướng nào giúp hạ độ cao nhanh nhất, hướng nào giữ nguyên độ cao, và nếu bị một hàng rào ràng buộc chặn hướng dốc nhất thì ta vẫn có thể đi xuống theo một hướng xiên khác không? Câu trả lời trọn vẹn nằm ở mối quan hệ cực kỳ thanh lịch giữa **vector gradient** và **đạo hàm theo hướng**: một phép tích vô hướng duy nhất $$D_u f(x) = \nabla f(x)^T u$$.
+
+Đây là công thức nền tảng đứng sau mọi phương pháp hạ bậc nhất (first-order methods), từ Gradient Descent cổ điển cho đến Conditional Gradient (Frank–Wolfe).
+
+## Bản đồ kiến thức nền: Hình học của hướng đi và độ dốc
+
+- **Đạo hàm theo hướng ($$D_u f(x)$$):** Đo tốc độ thay đổi tức thời của $$f$$ khi ta di chuyển từ $$x$$ dọc theo vector đơn vị $$u$$ ($$\|u\|_2 = 1$$). Với hàm khả vi, $$D_u f(x) = \nabla f(x)^T u = \|\nabla f(x)\|_2 \cos\theta$$.
+- **Bất đẳng thức Cauchy–Schwarz và hướng dốc nhất:** Vì $$-1 \le \cos\theta \le 1$$, giá trị lớn nhất của $$D_u f(x)$$ là $$+\|\nabla f(x)\|_2$$ khi $$u$$ cùng hướng $$\nabla f(x)$$, và giá trị nhỏ nhất là $$-\|\nabla f(x)\|_2$$ khi $$u$$ ngược hướng $$\nabla f(x)$$.
+- **Hướng giảm (Descent Direction):** Bất kỳ vector $$d$$ nào thỏa mãn $$\nabla f(x)^T d < 0$$ (tạo góc tù với gradient) đều bảo đảm $$f(x + \alpha d) < f(x)$$ với bước $$\alpha > 0$$ đủ nhỏ — nền tảng của mọi thuật toán tìm kiếm đường thẳng (line search).
+- **Tính trực giao với đường mức:** Khi $$u$$ tiếp tuyến với đường mức $$f(x) = c$$, hàm không đổi dọc theo $$u$$ nên $$\nabla f(x)^T u = 0$$, tức gradient luôn vuông góc với đường mức.
+
+### Khung giải thích (nên đọc chậm): So sánh tốc độ giảm dọc theo hai hướng khác nhau
+
+Xét hàm $$f(x, y) = x^2 + 2y^2$$ tại điểm $$p = (1, 1)^T$$ (giá trị $$f(1, 1) = 3$$):
+
+1. **Tính gradient tại $$p$$:**
+   $$\nabla f(x, y) = \begin{pmatrix}2x \\ 4y\end{pmatrix} \implies \nabla f(1, 1) = \begin{pmatrix}2 \\ 4\end{pmatrix}, \qquad \|\nabla f(1, 1)\|_2 = \sqrt{2^2 + 4^2} = \sqrt{20} = 2\sqrt{5} \approx 4.472.$$
+2. **Thử đi theo hướng đơn vị $$u = (3/5, 4/5)^T$$:**
+   $$D_u f(1, 1) = \nabla f(1, 1)^T u = 2\left(\frac{3}{5}\right) + 4\left(\frac{4}{5}\right) = \frac{6 + 16}{5} = \frac{22}{5} = 4.4 > 0.$$
+   Hàm tăng rất nhanh gần sát mức tối đa $$4.472$$ vì $$u$$ gần trùng hướng gradient.
+3. **Thử hướng giảm nhanh nhất $$u^* = -\frac{\nabla f(1,1)}{\|\nabla f(1,1)\|_2} = \left(-\frac{1}{\sqrt{5}}, -\frac{2}{\sqrt{5}}\right)^T$$:**
+   $$D_{u^*} f(1, 1) = 2\left(-\frac{1}{\sqrt{5}}\right) + 4\left(-\frac{2}{\sqrt{5}}\right) = -\frac{10}{\sqrt{5}} = -2\sqrt{5} \approx -4.472.$$
+4. **Thử hướng tiếp tuyến đường mức $$v = (-2/\sqrt{5}, 1/\sqrt{5})^T$$:**
+   $$D_v f(1, 1) = 2\left(-\frac{2}{\sqrt{5}}\right) + 4\left(\frac{1}{\sqrt{5}}\right) = 0.$$
+   Đi dọc theo $$v$$ giữ nguyên độ cao tức thời (tiếp tuyến với elip $$x^2 + 2y^2 = 3$$ tại $$(1,1)$$).
+
+---
+
 Bài học này trình bày vector gradient và đạo hàm theo hướng — hai khái niệm trung tâm trong tối ưu hóa giúp phân tích cách hàm số biến thiên theo từng hướng di chuyển.
 
 ---

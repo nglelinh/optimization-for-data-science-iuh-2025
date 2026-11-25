@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Nếu muốn chỉnh sửa ma trận đối xứng $$B$$ theo cách tiết kiệm nhất có thể để nó thỏa mãn phương trình secant $$B^+ s = y$$, lựa chọn tối giản nhất là cộng thêm một ma trận đối xứng **hạng 1** có dạng $$a u u^T$$. Điều kỳ diệu là chỉ riêng yêu cầu đối xứng và hạng 1 đã khóa chặt hoàn toàn công thức cập nhật — chỉ có **duy nhất một** công thức SR1! Dù có điểm yếu chí mạng là có thể làm mất tính xác định dương hoặc chia cho mẫu số gần bằng không, SR1 lại sở hữu một siêu năng lực đặc biệt: nó xấp xỉ rất sát cả những Hessian không xác định (indefinite) trong các phương pháp vùng tin cậy (trust-region).
+
+## Bản đồ kiến thức nền: Ba đặc tính toán học làm nên cá tính của SR1
+
+Trước khi đi vào phép suy diễn đại số của SR1, hãy nắm rõ ba điểm mạnh và giới hạn của công thức hạng-một này:
+
+- **Tính duy nhất của cập nhật đối xứng hạng 1:** Thay $$B^+ = B + auu^T$$ vào $$B^+ s = y$$ ép vector $$u$$ phải song song với vector sai lệch $$y - Bs$$. Khi mẫu số $$(y - Bs)^T s \ne 0$$, công thức $$B^+ = B + \frac{(y-Bs)(y-Bs)^T}{(y-Bs)^T s}$$ là nghiệm duy nhất.
+- **Tính bất biến qua phép nghịch đảo (Self-Duality):** Khi áp dụng công thức Sherman–Morrison để lấy nghịch đảo $$H^+ = (B^+)^{-1}$$, công thức cập nhật cho $$H$$ có hình dạng hoàn toàn y hệt công thức cho $$B$$ (chỉ đổi chỗ $$B \leftrightarrow H$$ và $$s \leftrightarrow y$$).
+- **Mất tính xác định dương và cơ chế bỏ qua bước (Skipping):** Ngay cả khi $$B \succ 0$$ và $$y^T s > 0$$, mẫu số $$(y - Bs)^T s$$ vẫn có thể âm (làm $$B^+$$ mất tính xác định dương) hoặc gần bằng $$0$$ (làm $$B^+$$ nổ lớn). Trong thực hành, ta bỏ qua cập nhật nếu $$|s^T(y - Bs)| < r \|s\| \|y - Bs\|$$ (thường $$r = 10^{-8}$$), và kết hợp SR1 với vùng tin cậy thay vì line search thuần túy.
+
+### Khung giải thích (nên đọc chậm): Tính tay một bước SR1 trên ma trận $$2 \times 2$$ và kiểm chứng secant
+
+Giả sử ta bắt đầu với xấp xỉ Hessian $$B_0 = I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$, và sau một bước tối ưu thu được $$s = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$, $$y = \begin{bmatrix} 3 \\ 1 \end{bmatrix}$$:
+
+1. **Tính vector sai lệch secant $$v = y - B_0 s$$:**
+   $$v = \begin{bmatrix} 3 \\ 1 \end{bmatrix} - \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}.$$
+2. **Tính mẫu số $$v^T s$$:**
+   $$v^T s = (2)(1) + (1)(0) = 2 \ne 0.$$
+   (Mẫu số dương và cách xa $$0$$ nên phép cập nhật hoàn toàn an toàn!).
+3. **Tính ma trận hiệu chỉnh hạng 1 và $$B_1$$:**
+   $$\frac{vv^T}{v^T s} = \frac{1}{2}\begin{bmatrix} 2 \\ 1 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 1 \\ 1 & 0.5 \end{bmatrix} \implies B_1 = I + \begin{bmatrix} 2 & 1 \\ 1 & 0.5 \end{bmatrix} = \begin{bmatrix} 3 & 1 \\ 1 & 1.5 \end{bmatrix}.$$
+4. **Kiểm chứng phương trình secant và tính xác định dương:**
+   - $$B_1 s = \begin{bmatrix} 3 & 1 \\ 1 & 1.5 \end{bmatrix}\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 3 \\ 1 \end{bmatrix} = y$$ — khớp chính xác!
+   - Định thức $$\det(B_1) = (3)(1.5) - 1^2 = 3.5 > 0$$ và vết $$= 4.5 > 0$$, nên trong ví dụ này $$B_1 \succ 0$$.
+5. **Thử đổi $$y = (0.5, 1)^T$$ để thấy rủi ro của SR1:** Khi đó $$v = (-0.5, 1)^T$$, $$v^T s = -0.5 < 0$$ dù $$y^T s = 0.5 > 0$$! Ta được $$B_1 = \begin{bmatrix} 0.5 & 1 \\ 1 & -1 \end{bmatrix}$$ có $$\det = -1.5 < 0$$ — **mất tính xác định dương**! Đây chính là động lực để Davidon, Fletcher và Powell nâng cấp lên cập nhật hạng 2 ở bài tiếp theo.
+
+---
+
 Cập nhật hạng-một đối xứng (Symmetric Rank-One — SR1) cộng thêm vào $$B$$ một ma trận đối xứng hạng 1 sao cho $$B^+$$ giữ được tính đối xứng và thỏa mãn phương trình secant. Biểu diễn ma trận đối xứng hạng 1 dưới dạng tích của $$a \in \left\{-1, 1\right\}$$ và vector $$u \in \mathbb{R}^n$$, công thức cập nhật có dạng:
 
 >$$B^+ = B + auu^T.$$

@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Từ phương trình đường tròn đơn giản đến tập nghiệm của một hệ hàng nghìn ràng buộc tài chính hay tập ma trận hiệp phương sai hợp lệ, thế giới các tập lồi phong phú hơn tưởng tượng rất nhiều. Biết đọc ngay cấu trúc hình học của **nửa không gian**, **hình cầu chuẩn**, **ellipsoid** và **đa diện (polyhedra)** sẽ giúp bạn nhận ra ngay một bài toán thuộc lớp LP, QP hay SOCP ngay từ lần đọc đầu tiên.
+
+Bài học này phân tích chi tiết công thức, trực giác hình học và chứng minh tính lồi của những tập lồi kinh điển nhất.
+
+## Bản đồ kiến thức nền: Bốn họ tập lồi chủ lực
+
+- **Siêu phẳng và Nửa không gian:** $$a^T x = b$$ và $$a^T x \le b$$ — là những khối cơ bản nhất; mọi tập lồi đóng đều có thể biểu diễn thành giao của (có thể vô hạn) các nửa không gian!
+- **Đa diện (Polyhedron) và Đơn hình (Simplex):** Giao hữu hạn của các nửa không gian và siêu phẳng $$\{x : Ax \preceq b,\ Cx = d\}$$. Tập nghiệm khả thi của mọi bài toán LP là một đa diện.
+- **Hình cầu Euclid và Hình cầu chuẩn (Norm Balls):** $$B(x_c, r) = \{x : \|x - x_c\| \le r\}$$ luôn lồi nhờ tính đồng nhất dương và bất đẳng thức tam giác của chuẩn.
+- **Ellipsoid:** $$\mathcal{E} = \{x : (x - x_c)^T P^{-1}(x - x_c) \le 1\}$$ với $$P \succ 0$$ — chính là ảnh biến dạng tuyến tính của hình cầu đơn vị, trong đó độ dài các bán trục bằng căn bậc hai các giá trị riêng $$\sqrt{\lambda_i(P)}$$.
+
+### Khung giải thích (nên đọc chậm): Đọc bán trục và kiểm tra điểm thuộc một Ellipsoid
+
+Xét ellipsoid trong $$\mathbb{R}^2$$ có tâm $$x_c = (1, 0)^T$$ và ma trận hình dạng $$P = \begin{pmatrix}9 & 0\\ 0 & 4\end{pmatrix} \succ 0$$:
+
+1. **Viết phương trình tường minh:** Ma trận nghịch đảo là $$P^{-1} = \begin{pmatrix}1/9 & 0\\ 0 & 1/4\end{pmatrix}$$, nên:
+   $$\mathcal{E} = \left\{(x_1, x_2) : \frac{(x_1 - 1)^2}{9} + \frac{x_2^2}{4} \le 1\right\}.$$
+2. **Đọc kích thước hình học từ giá trị riêng của $$P$$:**
+   - Bán trục theo phương $$x_1$$ dài $$\sqrt{9} = 3$$ (trải từ $$x_1 = -2$$ đến $$x_1 = 4$$).
+   - Bán trục theo phương $$x_2$$ dài $$\sqrt{4} = 2$$ (trải từ $$x_2 = -2$$ đến $$x_2 = 2$$).
+3. **Kiểm tra hai điểm cụ thể:**
+   - Điểm $$p = (3, 1)^T$$: $$\frac{(3 - 1)^2}{9} + \frac{1^2}{4} = \frac{4}{9} + \frac{1}{4} = \frac{25}{36} \approx 0.694 < 1 \implies$$ nằm **chặt bên trong** $$\mathcal{E}$$.
+   - Điểm $$q = (4, 1)^T$$: $$\frac{(4 - 1)^2}{9} + \frac{1^2}{4} = 1 + 0.25 = 1.25 > 1 \implies$$ nằm **ngoài** $$\mathcal{E}$$.
+
+---
+
 Tập lồi xuất hiện dưới nhiều dạng khác nhau, từ các tập đơn giản như điểm và đường thẳng cho đến siêu phẳng, nửa không gian, hình cầu, ellipsoid, đa diện và hình nón.
 
 ## Siêu phẳng

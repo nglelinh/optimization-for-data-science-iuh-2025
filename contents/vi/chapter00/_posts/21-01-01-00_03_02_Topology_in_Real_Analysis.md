@@ -10,6 +10,32 @@ categories:
 lesson_type: required
 ---
 
+Vì sao một bài toán tối ưu có thể "suýt" có nghiệm nhưng lại không bao giờ đạt được? Vì sao điều kiện Slater trong đối ngẫu Lagrange đòi hỏi tồn tại một điểm nằm **chặt bên trong** (strictly interior) miền khả thi chứ không chỉ nằm trên biên? Câu trả lời nằm ở **tôpô trong giải tích thực** — ngành học nghiên cứu về sự "gần nhau", lân cận, tập mở, tập đóng, điểm biên và tính compact.
+
+Nắm vững trực giác tôpô sẽ giúp bạn đọc các định lý về siêu phẳng phân tách, điều kiện KKT và hội tụ dãy điểm một cách nhẹ nhàng và chính xác.
+
+## Bản đồ kiến thức nền: Bốn khái niệm tôpô cốt lõi cho tối ưu hóa
+
+- **Không gian metric và hình cầu mở:** Quả cầu mở $$B(x, r) = \{y : \|y - x\| < r\}$$ định nghĩa "vùng đệm an toàn" quanh điểm $$x$$. Một điểm nằm trong phần trong ($$\operatorname{int} S$$) nếu có thể vẽ một quả cầu nhỏ quanh nó nằm trọn trong $$S$$.
+- **Tập đóng và bao đóng ($$\operatorname{cl} S$$):** Tập đóng chứa trọn mọi điểm giới hạn của các dãy hội tụ trong nó. Nhờ tính đóng, nếu thuật toán tạo ra dãy điểm khả thi $$x^{(k)} \to x^*$$, thì giới hạn $$x^*$$ chắc chắn vẫn là nghiệm khả thi!
+- **Biên của tập hợp ($$\partial S = \operatorname{cl} S \setminus \operatorname{int} S$$):** Nơi các ràng buộc bất đẳng thức trở thành đẳng thức chặt (active constraints). Trong quy hoạch tuyến tính, nghiệm tối ưu luôn nằm trên biên.
+- **Tính compact (Đóng + Bị chặn trong $$\mathbb{R}^n$$):** Theo định lý Bolzano–Weierstrass, mọi dãy trong tập compact đều có dãy con hội tụ về một điểm thuộc tập đó — chìa khóa bảo đảm tồn tại nghiệm tối ưu toàn cục.
+
+### Khung giải thích (nên đọc chậm): Chiếu điểm $$(3, 0)$$ lên hình tròn mở so với hình tròn đóng
+
+Xét tập mở $$S = \{(x_1, x_2) \in \mathbb{R}^2 : x_1^2 + x_2^2 < 4\}$$ (hình tròn mở tâm gốc tọa độ, bán kính $$2$$) và bài toán tìm điểm gần $$p = (3, 0)$$ nhất, tức cực tiểu hóa $$f(x) = \|x - p\|_2$$:
+
+1. **Xác định các thành phần tôpô của $$S$$:**
+   - Phần trong: $$\operatorname{int}(S) = S$$ (vì $$S$$ là tập mở).
+   - Bao đóng: $$\operatorname{cl}(S) = \{x \in \mathbb{R}^2 : \|x\|_2 \le 2\}$$ (tập compact: đóng và bị chặn).
+   - Biên: $$\partial S = \{x \in \mathbb{R}^2 : \|x\|_2 = 2\}$$ (đường tròn bán kính $$2$$).
+2. **Tối ưu trên tập mở $$S$$:** Xét dãy khả thi $$x^{(k)} = \left(2 - \frac{1}{k}, 0\right) \in S$$. Khoảng cách đến $$p = (3, 0)$$ là:
+   $$f(x^{(k)}) = 3 - \left(2 - \frac{1}{k}\right) = 1 + \frac{1}{k} \xrightarrow{k \to \infty} 1.$$
+   Cận dưới đúng là $$\inf_{x \in S} f(x) = 1$$, nhưng không có điểm nào *trong $$S$$* đạt khoảng cách $$1$$ vì điểm giới hạn $$(2, 0)$$ rơi ra ngoài $$S$$.
+3. **Tối ưu trên bao đóng compact $$\operatorname{cl}(S)$$:** Vì $$(2, 0) \in \partial S \subset \operatorname{cl}(S)$$, bài toán đạt cực tiểu duy nhất tại $$x^* = (2, 0)$$ với $$f(x^*) = 1$$.
+
+---
+
 Bài học này trình bày các khái niệm tôpô thiết yếu trong giải tích thực — nền tảng để hiểu cấu trúc vùng khả thi, tính liên tục và sự tồn tại nghiệm tối ưu trong các bài toán tối ưu hóa.
 
 ---

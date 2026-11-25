@@ -10,6 +10,33 @@ categories:
 lang: vi
 ---
 
+Trước khi bước vào các ứng dụng thực chiến của Chương 21, bài học này tổng hợp lại trọn vẹn chuỗi tiến hóa bốn bước từ Chương 20 trên cùng một trang giấy: **Phương pháp đối ngẫu** $$\to$$ **Hàm Lagrange tăng cường** $$\to$$ **ADMM chuẩn** $$\to$$ **ADMM dạng chuẩn hóa (scaled form)**. Đặt bốn công thức cạnh nhau giúp bạn nhìn rõ từng mắt xích: mỗi thuật toán ra đời chính để khắc phục đúng một điểm yếu chí mạng của thuật toán đứng ngay trước nó.
+
+## Bản đồ kiến thức nền: Chuỗi tiến hóa 4 thế hệ của phương pháp đối ngẫu
+
+Hãy đối chiếu nhanh bốn phương pháp để thấy rõ ranh giới sử dụng của từng thuật toán:
+
+- **Dual Ascent / Dual Decomposition:** Dễ phân rã song song khi hàm mục tiêu tách biến, nhưng đòi hỏi giả thiết mạnh (như $$f$$ lồi mạnh) để hàm đối ngẫu trơn và đảm bảo hội tụ.
+- **Augmented Lagrangian (Method of Multipliers):** Thêm phạt bậc hai $$\frac{\rho}{2}\|Ax - b\|_2^2$$ để hội tụ vững chắc dưới điều kiện nhẹ và tự động có bước học $$t = \rho$$, nhưng làm mất tính phân rã song song.
+- **ADMM dạng chuẩn (Unscaled ADMM):** Chia biến thành hai khối $$Ax + Bz = c$$ và cập nhật luân phiên $$x \to z \to u$$, khôi phục tính phân rã đồng thời giữ trọn độ bền hội tụ với mọi $$\rho > 0$$.
+- **ADMM dạng chuẩn hóa (Scaled ADMM):** Đặt $$w = u / \rho$$ để gộp số hạng tuyến tính và bình phương vào duy nhất $$\frac{\rho}{2}\|Ax + Bz - c + w\|_2^2$$, giúp công thức cực ngắn gọn và dễ lập trình.
+
+### Khung giải thích (nên đọc chậm): Đối chiếu bằng số 1 bước ADMM chuẩn và ADMM chuẩn hóa trên cùng bài toán
+
+Xét bài toán $$\min_{x, z} \frac{1}{2}x^2 + \frac{1}{2}(z - 2)^2$$ với ràng buộc $$x - z = 0$$ (nghiệm chính xác $$x^\star = z^\star = 1$$). Chọn $$\rho = 2$$, khởi tạo $$z^{(0)} = 0$$ và $$u^{(0)} = 0$$ (nên $$w^{(0)} = u^{(0)} / 2 = 0$$):
+
+1. **Chạy 1 bước ADMM dạng chuẩn (unscaled):**
+   - Bước $$x$$: $$x^{(1)} = \arg\min_x \left(\frac{1}{2}x^2 + 0 + \frac{2}{2}(x - 0)^2\right) = \arg\min_x \frac{3}{2}x^2 = 0$$.
+   - Bước $$z$$: $$z^{(1)} = \arg\min_z \left(\frac{1}{2}(z - 2)^2 + 0 + \frac{2}{2}(0 - z)^2\right) \implies (z - 2) + 2z = 0 \implies z^{(1)} = \frac{2}{3}$$.
+   - Bước đối ngẫu: $$u^{(1)} = 0 + 2\left(0 - \frac{2}{3}\right) = -\frac{4}{3}$$.
+2. **Chạy 1 bước ADMM dạng chuẩn hóa (scaled, $$w = u/\rho$$):**
+   - Bước $$x$$: $$x^{(1)} = \arg\min_x \left(\frac{1}{2}x^2 + \frac{2}{2}(x - 0 + 0)^2\right) = 0$$.
+   - Bước $$z$$: $$z^{(1)} = \arg\min_z \left(\frac{1}{2}(z - 2)^2 + \frac{2}{2}(0 - z + 0)^2\right) = \frac{2}{3}$$.
+   - Bước đối ngẫu: $$w^{(1)} = 0 + \left(0 - \frac{2}{3}\right) = -\frac{2}{3}$$.
+3. **Kiểm chứng tương đương tuyệt đối:** Ta có $$w^{(1)} = -\frac{2}{3} = \frac{-4/3}{2} = \frac{u^{(1)}}{\rho}$$ và cả $$x^{(1)}, z^{(1)}$$ trùng khớp hoàn toàn!
+
+---
+
 Ở Chương 20, chúng ta đã tìm hiểu các phương pháp đối ngẫu và ADMM. Trước khi đi vào các ứng dụng cụ thể của ADMM, hãy ôn lại phương pháp đối ngẫu, phương pháp Lagrangian tăng cường (augmented Lagrangian), ADMM và ADMM ở dạng chuẩn hóa (scaled form).
 
 ## Phương pháp đối ngẫu

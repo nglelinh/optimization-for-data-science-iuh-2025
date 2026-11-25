@@ -9,6 +9,29 @@ categories:
 lang: en
 ---
 
+Most approximate optimization methods force you to guess whether your penalty weight $$t$$ is large enough. The log barrier is different: it hands you an exact, ironclad formula—$$f(x^*(t)) - f^\star \le \frac{m}{t}$$—requiring zero knowledge of the optimal value $$f^\star$$, the dimension $$n$$, or the condition number of $$f$$. Want an answer guaranteed within $$\epsilon = 10^{-6}$$ on a problem with $$m = 50$$ inequalities? Just drive $$t$$ past $$5 \times 10^7$$!
+
+## Background Knowledge Map: Proving and Using the $$m/t$$ Suboptimality Bound
+
+- **Pillar 1 — Dual Feasibility of $$(u(t), v(t))$$:** Because $$x^*(t)$$ minimizes the convex Lagrangian $$L(x, u(t), v(t))$$ over all $$x$$ (by stationarity), evaluating $$g(u(t), v(t))$$ is immediate—no extra optimization required!
+- **Pillar 2 — Exact Evaluation of the Dual Function:** Plugging $$x^*(t)$$ into $$L$$ gives
+  $$g(u(t), v(t)) = f(x^*(t)) + \sum_{i=1}^m \underbrace{u_i(t)h_i(x^*(t))}_{-1/t} + v(t)^T \underbrace{(Ax^*(t) - b)}_{0} = f(x^*(t)) - \frac{m}{t}.$$
+- **Pillar 3 — Immediate Suboptimality Certificate:** By weak duality $$g(u(t), v(t)) \le f^\star$$, we get $$f(x^*(t)) - f^\star \le f(x^*(t)) - g(u(t), v(t)) = \frac{m}{t}$$.
+- **Pillar 4 — Direct Algorithmic Stopping Rule:** The outer loop of the barrier method simply checks $$\frac{m}{t} \le \epsilon$$—stopping with a mathematically certified $$\epsilon$$-optimal primal-dual pair.
+
+### Step-by-Step Worked Example (Read Slowly): Computing the Exact Dual Lower Bound and Gap
+
+Using the problem from Section 15-03-01—$$\min \frac{1}{2}x^2$$ subject to $$h_1(x) = 2 - x \le 0$$ ($$m = 1$$, true $$f^\star = \frac{1}{2}(2)^2 = 2$$)—we found at $$t = 1$$ that $$x^*(1) = 1 + \sqrt{2} \approx 2.4142$$ and $$u_1(1) = 1 + \sqrt{2} \approx 2.4142$$.
+
+1. **Compute the primal objective at $$x^*(1)$$:**
+   $$f(x^*(1)) = \frac{1}{2}(1 + \sqrt{2})^2 = \frac{1}{2}(3 + 2\sqrt{2}) = 1.5 + \sqrt{2} \approx 2.9142.$$
+2. **Compute the dual function $$g(u_1(1)) = L(x^*(1), u_1(1))$$:**
+   $$g(u_1(1)) = f(x^*(1)) + u_1(1)h_1(x^*(1)) = (1.5 + \sqrt{2}) + (-1) = 0.5 + \sqrt{2} \approx 1.9142.$$
+3. **Check the duality gap vs. true suboptimality:**
+   - Certified duality gap: $$f(x^*(1)) - g(u_1(1)) = 2.9142 - 1.9142 = 1.0 = \frac{m}{t}$$.
+   - True suboptimality: $$f(x^*(1)) - f^\star = 2.9142 - 2.0 = 0.9142 \le 1.0$$!
+4. **How large must $$t$$ be to guarantee $$\epsilon = 10^{-4}$$?** Simply $$t \ge \frac{m}{\epsilon} = \frac{1}{10^{-4}} = 10{,}000$$.
+
 What is the suboptimality gap between $$f(x^*(t))$$, the solution to the barrier problem obtained in the previous section, and $$f(x^*)$$, the solution to the original problem?
 
 Therefore, we can derive the following equation.

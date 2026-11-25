@@ -12,6 +12,29 @@ redirect_from:
   - /contents/en/chapter20/20_06_Practical_Exercises_Dual_Methods/
 ---
 
+Mastering dual methods means being able to move fluidly between three representations of the same constrained problem: the **primal Lagrangian**, the **dual ascent / decomposition update**, and the **scaled ADMM splitting**. Before working through the exercises below (adapted from Bertsekas and Boyd et al.), test your intuition on this quick warm-up comparing plain dual decomposition against Augmented Lagrangian on a 2-variable equality problem—seeing firsthand how $$\rho$$ stabilizes the dual trajectory.
+
+## Background Knowledge Map: Key Techniques Practiced in These Exercises
+
+- **Deriving Decomposed Subproblems:** Separate $$\sum_i f_i(x_i) + \nu^T(\sum_i A_i x_i - c)$$ into $$N$$ independent scalar or vector minimizations and compute the exact dual ascent residual.
+- **Constructing Augmented Lagrangians:** Add $$\frac{\rho}{2}\|Ax - b\|_2^2$$, solve the regularized primal step, and verify that updating $$\nu^{k+1} = \nu^k + \rho(Ax^{k+1} - b)$$ enforces dual feasibility automatically.
+- **Designing ADMM Splittings:** Introduce auxiliary variables $$z$$ so that the $$x$$-update is a clean linear solve (Cholesky cacheable!) and the $$z$$-update is a closed-form proximal operator (soft-thresholding or projection).
+- **Monitoring Stopping Criteria:** Track both primal residual $$\|r^{(k)}\|_2$$ and dual residual $$\|s^{(k)}\|_2$$ to diagnose whether $$\rho$$ is too large (tiny $$r$$, huge $$s$$) or too small (huge $$r$$, tiny $$s$$).
+
+### Step-by-Step Worked Example (Read Slowly): Diagnosing $$\rho$$ Imbalance from Residuals
+
+Suppose you run ADMM on $$\min_{x,z} \frac{1}{2}(x - 10)^2 + \frac{1}{2}z^2$$ s.t. $$x - z = 0$$ from $$z^0 = 0, w^0 = 0$$ (exact optimum $$x^\star = z^\star = 5$$). Compare one iteration with tiny $$\rho = 0.1$$ vs. balanced $$\rho = 1$$:
+
+1. **With $$\rho = 0.1$$ (under-penalized):**
+   - $$x^1 = \frac{10 + 0.1(0)}{1 + 0.1} = \frac{10}{1.1} \approx 9.091$$.
+   - $$z^1 = \frac{0.1(9.091)}{1 + 0.1} \approx 0.826$$.
+   - Primal residual: $$|r^1| = |9.091 - 0.826| = 8.265$$ (huge!); Dual residual: $$|s^1| = \rho |z^1 - z^0| = 0.1(0.826) = 0.083$$ (tiny!).
+   - Ratio $$|r^1| / |s^1| \approx 100$$—immediately signaling that $$\rho$$ is too small and should be increased!
+2. **With $$\rho = 1.0$$ (balanced):**
+   - $$x^1 = \frac{10}{2} = 5.0$$, $$z^1 = \frac{5}{2} = 2.5$$.
+   - Primal residual: $$|r^1| = 2.5$$; Dual residual: $$|s^1| = 1.0(2.5) = 2.5$$.
+   - Ratio $$|r^1| / |s^1| = 1.0$$—perfectly balanced, cutting the error in half every single step! Keep this residual-balance diagnostic in mind as you work through the exercises below.
+
 # Practical Exercises - Dual Methods
 
 The exercises are adapted from Bertsekas (1999) and Boyd et al. (2011).

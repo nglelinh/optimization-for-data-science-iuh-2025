@@ -12,6 +12,36 @@ redirect_from:
   - /contents/vi/chapter15/15_10_Practical_Exercises_Barrier_Method/
 ---
 
+Để thực sự làm chủ phương pháp chắn, không có cách nào hiệu quả hơn việc tự tay tính đạo hàm của hàm chắn logarit, giải tường minh đường trung tâm $$x^*(t)$$ cho một bài toán LP nhỏ, thiết lập điều kiện KKT nhiễu, và tự tay tính cận số vòng lặp hội tụ. Những phép tính tưởng chừng ngắn gọn đó sẽ giúp bạn nhìn thấy rõ ràng từng khớp nối giữa giải tích, đại số tuyến tính và lý thuyết đối ngẫu.
+
+Bộ bài tập thực hành dưới đây được biên soạn dựa trên các bài kinh điển của Boyd & Vandenberghe, Nocedal & Wright và Nesterov. Trước khi bắt tay giải, hãy xem qua bốn kỹ năng cốt lõi và một bài mẫu tính trọn vẹn từ hàm chắn đến kiểm tra KKT nhiễu.
+
+## Bản đồ kiến thức nền: Bốn kỹ năng tự luận trọng tâm của bài tập Chương 15
+
+- **Giải tích hàm chắn dạng ma trận:** Với $$h_i(x) = a_i^T x - b_i$$, tập thói quen viết gọn $$\nabla \phi(x) = A^T d$$ và $$\nabla^2 \phi(x) = A^T \operatorname{diag}(d^2) A$$ (với $$d_i = \frac{1}{b_i - a_i^T x}$$) để chứng minh nhanh tính lồi và tính tự hài hòa.
+- **Giải tường minh đường trung tâm 1D/2D:** Đặt $$\nabla (t f(x) + \phi(x)) = 0$$ (cộng thêm $$A^T w = 0$$ nếu có ràng buộc đẳng thức), giải theo $$t$$ và luôn chọn nhánh nghiệm nằm trong miền khả thi chặt $$h_i(x) < 0$$.
+- **Kiểm chứng cặp nguyên thủy – đối ngẫu trên đường trung tâm:** Từ $$x^*(t)$$, tính ngay $$u_i^*(t) = -\frac{1}{t h_i(x^*(t))}$$, kiểm tra $$u_i^* > 0$$, điều kiện dừng và xác nhận $$f(x^*(t)) - g(u^*(t)) = m/t$$.
+- **Thiết lập Pha I và phân tích độ phức tạp:** Luôn kiểm tra cách chọn $$s^{(0)} > \max_i h_i(x^{(0)})$$ và nhớ công thức số vòng ngoài $$\lceil \log(m/(\epsilon t^{(0)})) / \log \mu \rceil$$.
+
+### Khung giải thích (nên đọc chậm): Bài mẫu giải trọn vẹn đường trung tâm có ràng buộc đẳng thức
+
+**Bài toán mẫu:** Tìm đường trung tâm $$x^*(t)$$ cho bài toán cực tiểu hóa 2 biến có cả ràng buộc đẳng thức và bất đẳng thức:
+$$\min_{x \in \mathbb{R}^2} x_1 \qquad \text{với điều kiện } x_1 + x_2 = 1, \;\; x_1 \ge 0, \;\; x_2 \ge 0.$$
+
+1. **Khử biến bằng ràng buộc đẳng thức (để thấy rõ đường trung tâm 1 chiều):**
+   Vì $$x_2 = 1 - x_1$$ và $$x_1 > 0, x_2 > 0 \iff x_1 \in (0, 1)$$, bài toán chắn trở thành:
+   $$\min_{x_1 \in (0, 1)} t x_1 - \log(x_1) - \log(1 - x_1).$$
+2. **Giải điều kiện dừng:**
+   $$t - \frac{1}{x_1} + \frac{1}{1 - x_1} = 0 \iff t x_1(1 - x_1) - (1 - 2x_1) = 0 \iff t x_1^2 - (t + 2)x_1 + 1 = 0.$$
+   Chọn nghiệm nằm trong $$(0, 1)$$:
+   $$x_1^*(t) = \frac{t + 2 - \sqrt{t^2 + 4}}{2t}, \qquad x_2^*(t) = 1 - x_1^*(t).$$
+3. **Kiểm tra hai đầu mút và số liệu tại $$t = 2$$:**
+   - Khi $$t \to 0^+$$: $$x_1^*(t) \to \frac{1}{2}, x_2^*(t) \to \frac{1}{2}$$ (tâm giải tích của đơn hình chuẩn!).
+   - Tại $$t = 2$$: $$x_1^*(2) = \frac{4 - \sqrt{8}}{4} = 1 - \frac{\sqrt{2}}{2} \approx 0.2929$$, $$x_2^*(2) \approx 0.7071$$.
+   - Kiểm tra khoảng cách dưới tối ưu ($$m = 2, f^* = 0$$): $$f(x^*(2)) - f^* = 0.2929 \le \frac{m}{t} = \frac{2}{2} = 1.0$$!
+
+---
+
 # Bài Tập Thực Hành - Phương Pháp Chắn (Barrier Method)
 
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Nocedal & Wright (2006) và Nesterov (2004).

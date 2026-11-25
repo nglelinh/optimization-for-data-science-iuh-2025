@@ -10,6 +10,32 @@ lang: vi
 lesson_type: optional
 ---
 
+Khi một thuật toán tối ưu cổ điển bước sang thập niên thứ tám mà vẫn xuất hiện đều đặn trong các bài báo đầu ngành, bí mật không nằm ở sự phức tạp của công thức mà nằm ở **khả năng thay thế một bài toán phi tuyến khó bằng một phép tính tổ hợp cực nhanh**. Trong bối cảnh học máy giai đoạn 2022–2026, nơi các nhà nghiên cứu phải xử lý bài toán vận chuyển tối ưu không cân bằng (unbalanced OT) và tìm mặt nạ giải thích thưa cho mạng nơ-ron hàng tỷ tham số, Frank–Wolfe tiếp tục chứng tỏ giá trị đặc biệt.
+
+Bài đọc mở rộng này nhấn mạnh góc nhìn so sánh thuật toán trong thực tế: làm thế nào để nhận diện cấu trúc bài toán có LMO tuyến tính rẻ (như sắp xếp 1 chiều hay quy hoạch trên đa diện Birkhoff) và khi nào nên chọn Frank–Wolfe thay vì Sinkhorn hay gradient có chiếu.
+
+## Bản đồ kiến thức nền: Ba trụ cột thuật toán đằng sau các ứng dụng 2022–2026
+
+Để đánh giá đúng vị thế của Frank–Wolfe trong hệ sinh thái tối ưu hiện đại, hãy nắm ba trụ cột kỹ thuật sau:
+
+- **Đối ngẫu hóa và Tuyến tính hóa trong Vận chuyển tối ưu 1 chiều (1-D OT):** Trong không gian 1 chiều, khoảng cách Wasserstein giữa hai phân phối rời rạc kích thước $$n$$ không cần giải quy hoạch tuyến tính $$O(n^3)$$; chỉ cần **sắp xếp** các điểm hỗ trợ trong $$O(n \log n)$$ rồi ghép theo thứ tự tăng dần. Khi áp dụng Frank–Wolfe lên bài toán đối ngẫu của OT không cân bằng, mỗi lần gọi LMO lại tận dụng đúng phép sắp xếp siêu nhanh này.
+- **Đa diện Birkhoff và Quả cầu $$\ell_1$$ trong Giải thích mô hình (XAI):** Các bài toán giải thích mô hình thường ràng buộc trọng số gán điểm trên quả cầu $$\ell_1$$ (kiểm soát độ thưa) hoặc đa diện Birkhoff của các ma trận ngẫu nhiên kép (mô hình hóa hoán vị). LMO trên đa diện Birkhoff chính là bài toán ghép cặp cực tiểu (Hungarian algorithm), rẻ hơn nhiều so với phép chiếu Euclid.
+- **Tiêu chí lựa chọn bộ giải (Solver Selection Trade-offs):** So sánh trực diện giữa Frank–Wolfe (bảo toàn tính thưa, không cần chính quy hóa entropy, ít bộ nhớ) với Sinkhorn/PGD (tính toán ma trận đặc thân thiện GPU, hội tụ trơn nhưng làm mờ kế hoạch vận chuyển).
+
+### Khung giải thích (nên đọc chậm): Vì sao LMO của vận chuyển tối ưu 1 chiều chỉ tốn một bước sắp xếp?
+
+Để hiểu sức mạnh của công trình Séjourné và cộng sự (AISTATS 2022), hãy tự tay tính chi phí vận chuyển tối ưu 1 chiều giữa hai phân phối đều rời rạc trên 3 điểm: phân phối nguồn đặt khối lượng $$\frac{1}{3}$$ tại các vị trí $$a = (5,\; 0,\; 2)$$ và phân phối đích đặt khối lượng $$\frac{1}{3}$$ tại $$b = (3,\; 1,\; 4)$$, với hàm chi phí $$c(u, v) = |u - v|$$.
+
+1. **Nếu giải bằng quy hoạch tuyến tính thông thường:**
+   Ta phải thiết lập ma trận kế hoạch vận chuyển $$P \in \mathbb{R}^{3 \times 3}$$ gồm $$9$$ biến không âm thỏa mãn $$6$$ ràng buộc tổng hàng và tổng cột bằng $$\frac{1}{3}$$ — tổng cộng $$n^2$$ biến khi kích thước là $$n$$.
+2. **Dùng tính chất đơn điệu của OT 1 chiều (LMO tuyến tính hóa):**
+   Bất đẳng thức sắp xếp lại (rearrangement inequality) bảo đảm kế hoạch ghép tối ưu 1 chiều luôn ghép điểm nhỏ nhất với điểm nhỏ nhất, điểm giữa với điểm giữa, điểm lớn nhất với điểm lớn nhất:
+   - Sắp xếp nguồn: $$a_{(1)} = 0 \le a_{(2)} = 2 \le a_{(3)} = 5$$.
+   - Sắp xếp đích: $$b_{(1)} = 1 \le b_{(2)} = 3 \le b_{(3)} = 4$$.
+3. **Tính chi phí tối ưu trực tiếp:**
+   $$W_1(a, b) = \frac{1}{3}\bigl(|0 - 1| + |2 - 3| + |5 - 4|\bigr) = \frac{1}{3}(1 + 1 + 1) = 1.$$
+   Thử kiểm tra một cách ghép chéo khác, ví dụ ghép $$(0 \to 3, 2 \to 1, 5 \to 4)$$: chi phí là $$\frac{1}{3}(3 + 1 + 1) = \frac{5}{3} > 1$$.
+4. **Bài học cốt lõi:** Nhờ LMO rút gọn về đúng một thao tác sắp xếp tốn $$O(n \log n)$$ (và sau khi đã sắp xếp ban đầu thì mỗi bước chỉ tốn $$O(n)$$ tuyến tính), Frank–Wolfe giải được bài toán đối ngẫu của OT không cân bằng 1 chiều với hàng chục nghìn điểm mà không bao giờ cần dựng ma trận chi phí $$n \times n$$!
 
 Frank–Wolfe (gradient có điều kiện) là lựa chọn phù hợp khi tập khả thi $$\mathcal{C}$$ có **bộ giải cực tiểu tuyến tính (linear minimization oracle — LMO)** rẻ:
 

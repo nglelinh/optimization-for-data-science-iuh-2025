@@ -9,6 +9,33 @@ categories:
 lang: vi
 ---
 
+Mỗi tính chất đặc trưng của hàm lồi mở ra một "cửa ngõ" khác nhau để giải quyết bài toán tối ưu: **epigraph** cho phép biến hàm mục tiêu phi tuyến thành biến phụ tuyến tính $$t$$; **tập mức dưới** giải thích vì sao miền ràng buộc $$g_i(x) \le 0$$ luôn là tập lồi; **đặc trưng bậc nhất** chứng minh ngay rằng $$\nabla f(x^*) = 0$$ là đủ để kết luận cực tiểu toàn cục; còn **đặc trưng bậc hai** quy việc kiểm tra tính lồi về bài toán giá trị riêng của Hessian!
+
+Một cái bẫy kinh điển mà người học rất hay mắc phải là nhầm chiều mũi tên của tập mức dưới — hãy chú ý kỹ ví dụ phản chứng trong khung giải thích bên dưới.
+
+## Bản đồ kiến thức nền: Bốn trụ cột đặc trưng của hàm lồi
+
+- **Đặc trưng Epigraph:** $$f$$ lồi $$\iff \operatorname{epi} f = \{(x, t) : f(x) \le t\}$$ là tập lồi. Đây là cây cầu biến bài toán $$\min f(x)$$ thành $$\min_{x, t} t$$ với ràng buộc $$(x, t) \in \operatorname{epi} f$$.
+- **Tập mức dưới (Sublevel Set $$S_\alpha = \{x : f(x) \le \alpha\}$$):** Nếu $$f$$ lồi thì **mọi** $$S_\alpha$$ đều là tập lồi. **Cảnh báo:** Chiều ngược lại **SAI**! (Hàm có mọi tập mức dưới lồi chỉ mới là *hàm giả lồi*, chưa chắc lồi.)
+- **Đặc trưng bậc nhất ($$f$$ khả vi):** $$f$$ lồi $$\iff f(y) \ge f(x) + \nabla f(x)^T(y - x)\ \forall x, y \in \operatorname{dom} f$$. Hệ quả tức thì: nếu $$\nabla f(x^*) = 0$$ thì $$f(y) \ge f(x^*)\ \forall y$$!
+- **Đặc trưng bậc hai ($$f$$ khả vi cấp 2):** $$f$$ lồi $$\iff \operatorname{dom} f$$ lồi và $$\nabla^2 f(x) \succeq 0\ \forall x \in \operatorname{dom} f$$.
+
+### Khung giải thích (nên đọc chậm): Bẫy chiều ngược của tập mức dưới qua ví dụ $$g(x) = x^3$$
+
+So sánh hai hàm số: $$f(x) = -\ln x$$ (trên $$x > 0$$) và $$g(x) = x^3$$ (trên $$\mathbb{R}$$):
+
+1. **Hàm lồi $$f(x) = -\ln x$$ ($$x > 0$$):**
+   - Kiểm tra bậc hai: $$f'(x) = -1/x,\ f''(x) = 1/x^2 > 0 \implies f$$ **lồi chặt**.
+   - Tập mức dưới ứng với mức $$\alpha$$ bất kỳ: $$S_\alpha = \{x > 0 : -\ln x \le \alpha\} = \{x : x \ge e^{-\alpha}\} = [e^{-\alpha}, +\infty)$$ — là một khoảng (tập lồi!).
+2. **Hàm KHÔNG lồi nhưng mọi tập mức dưới ĐỀU lồi — $$g(x) = x^3$$:**
+   - Xét tập mức dưới với mọi $$\alpha \in \mathbb{R}$$:
+     $$S_\alpha = \{x \in \mathbb{R} : x^3 \le \alpha\} = (-\infty,\ \sqrt[3]{\alpha}].$$
+     Với *mọi* $$\alpha$$, $$S_\alpha$$ luôn là một nửa đường thẳng — hoàn toàn là **tập lồi**!
+   - Nhưng kiểm tra bậc hai: $$g''(x) = 6x$$. Tại $$x = -1$$, $$g''(-1) = -6 < 0$$ (lõm chặt trên miền âm!).
+   Vậy chỉ thấy các tập mức dưới lồi là **chưa đủ** để kết luận hàm lồi!
+
+---
+
 ## Đặc trưng epigraph
 
 Như đã nêu ở [bài 01-02]({% multilang_post_url contents/chapter01/21-01-28-01_02_convex_optimization_problem %}), hàm $$f$$ lồi khi và chỉ khi epigraph (tập trên đồ thị) của nó là một tập lồi:

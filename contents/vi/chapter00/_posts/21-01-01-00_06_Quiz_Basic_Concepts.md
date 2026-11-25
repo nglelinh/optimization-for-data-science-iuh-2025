@@ -12,6 +12,33 @@ redirect_from:
   - /contents/vi/chapter00/00_05_Quiz_Basic_Concepts/
 ---
 
+Đọc hiểu lý thuyết trên giấy và tự tin giải đúng dưới áp lực chọn đáp án là hai nấc thang hoàn toàn khác nhau. Rất nhiều lỗi sai kinh điển khi bước sang Chương 01–03 — như nhầm lẫn giữa tập đóng với tập compact, quên kiểm tra định thức Hessian, hay nhầm giữa xác suất có điều kiện với hàm hợp lý — đều bắt nguồn từ những "điểm mù" nhỏ trong phần nền tảng.
+
+Trước khi làm bộ câu hỏi trắc nghiệm bên dưới, hãy dành vài phút quét lại bốn trụ cột cốt lõi và thử tự tay kiểm tra bài toán chẩn đoán nhanh dưới đây.
+
+## Bản đồ kiến thức nền: Bốn vùng kiểm tra trọng tâm của Chương 00
+
+- **Kiểm tra Giải tích:** Phân biệt được liên tục – liên tục đều – Lipschitz; tính nhanh gradient, đạo hàm theo hướng $$D_u f = \nabla f^T u$$ và khai triển Taylor bậc 1–2.
+- **Kiểm tra Đại số tuyến tính:** Nắm chắc độc lập tuyến tính, chuẩn vector, hạng ma trận, cách tính giá trị riêng qua vết/định thức và tiêu chuẩn ma trận xác định dương.
+- **Kiểm tra Tập hợp & Tôpô:** Nhận diện đúng tập mở, tập đóng, biên, tập compact và điều kiện áp dụng định lý Weierstrass cho sự tồn tại nghiệm tối ưu.
+- **Kiểm tra Xác suất & Thống kê:** Sử dụng thành thạo quy tắc Bayes, phân biệt mật độ các phân phối chuẩn/Laplace/Bernoulli và thiết lập bài toán MLE qua log-likelihood.
+
+### Khung giải thích (nên đọc chậm): Bài toán chẩn đoán tổng hợp cả 4 trụ cột trong 4 bước
+
+Xét bài toán tối ưu có ràng buộc:
+$$\min_{x_1, x_2} f(x_1, x_2) = \frac{1}{2}(x_1^2 + 4x_2^2) - 2x_1 - 8x_2 \quad \text{thỏa mãn} \quad x_1 + x_2 \le 4,\ x_1 \ge 0,\ x_2 \ge 0.$$
+
+1. **Giải tích (tìm điểm dừng):**
+   $$\nabla f(x) = \begin{pmatrix}x_1 - 2\\ 4x_2 - 8\end{pmatrix} = \begin{pmatrix}0\\ 0\end{pmatrix} \implies x^* = (2, 2)^T.$$
+2. **Đại số tuyến tính (kiểm tra độ cong qua giá trị riêng):**
+   $$\nabla^2 f(x) = \begin{pmatrix}1 & 0\\ 0 & 4\end{pmatrix}.$$
+   Hai giá trị riêng là $$\lambda_1 = 1 > 0$$ và $$\lambda_2 = 4 > 0$$, nên Hessian xác định dương ($$H \succ 0$$), hàm lồi mạnh và $$x^* = (2, 2)^T$$ là cực tiểu toàn cục không ràng buộc duy nhất.
+3. **Tập hợp & Tôpô (kiểm tra tính khả thi):**
+   Miền ràng buộc là tam giác đóng và bị chặn (compact) có các đỉnh $$(0,0), (4,0), (0,4)$$. Kiểm tra $$x^* = (2, 2)^T$$: $$2 \ge 0,\ 2 \ge 0$$ và $$2 + 2 = 4 \le 4$$ — điểm $$x^*$$ nằm ngay trên **biên** khả thi!
+4. **Kết luận:** Vì điểm cực tiểu toàn cục không ràng buộc đã nằm trong miền khả thi, nó lập tức là nghiệm tối ưu của bài toán có ràng buộc với giá trị $$f(2, 2) = \frac{1}{2}(4 + 16) - 4 - 16 = -10$$.
+
+---
+
 Bài tập trắc nghiệm này giúp bạn kiểm tra mức độ nắm vững các khái niệm nền tảng về giải tích, đại số tuyến tính, tập hợp và xác suất phục vụ cho tối ưu hóa.
 
 ---
@@ -53,8 +80,10 @@ abla^2 f(\mathbf{x}_0) (\mathbf{x} - \mathbf{x}_0)$$
 
 **Chuẩn vector:**
 - Chuẩn $$L_2$$ (Euclid): $$\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}$$
-- Chuẩn $$L_1$$ (Manhattan): $$\|\mathbf{x}\|_1 = \sum_{i=1}^n \lvert x_i vert$$
-- Chuẩn $$L_\infty$$ (cực đại): $$\|\mathbf{x}\|_\infty = \max_i \lvert x_i vert$$
+- Chuẩn $$L_1$$ (Manhattan): $$\|\mathbf{x}\|_1 = \sum_{i=1}^n \lvert x_i 
+vert$$
+- Chuẩn $$L_\infty$$ (cực đại): $$\|\mathbf{x}\|_\infty = \max_i \lvert x_i 
+vert$$
 
 **Ma trận:**
 - Phép nhân ma trận: $$(AB)_{ij} = \sum_{k} A_{ik} B_{kj}$$
@@ -75,7 +104,9 @@ eq \mathbf{0}$$
 
 **Tính liên tục:**
 - Hàm liên tục tại $$x_0$$: $$\lim_{x 	o x_0} f(x) = f(x_0)$$
-- Liên tục đều: $$orall \epsilon > 0, \exists \delta > 0$$ sao cho $$\lvert x-y vert < \delta \Rightarrow \lvert f(x)-f(y) vert < \epsilon$$
+- Liên tục đều: $$orall \epsilon > 0, \exists \delta > 0$$ sao cho $$\lvert x-y 
+vert < \delta \Rightarrow \lvert f(x)-f(y) 
+vert < \epsilon$$
 
 ### 🎲 **Xác suất cơ bản**
 

@@ -10,6 +10,35 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu có ai đó hỏi: *"Các bài toán chuẩn LP, QP, SOCP, SDP từ thế kỷ trước ngày nay còn vai trò gì trong kỷ nguyên AI tạo sinh và tài chính định lượng tốc độ cao không?"* — bài học này sẽ mang đến câu trả lời sắc nét nhất. Không những không lỗi thời, hệ phân loại bài toán nón của Chương 05 đang âm thầm vận hành những hệ thống công nghệ tối tân nhất hiện nay!
+
+Từ **Clarabel** — bộ giải điểm trong viết bằng Rust thế hệ mới trở thành động cơ mặc định của CVXPY, đến tối ưu danh mục đầu tư thực tế có tính chi phí giao dịch, cho tới việc dùng **nới lỏng SDP để cấp chứng chỉ an toàn toán học cho mạng nơ-ron sâu** chống lại tấn công đối kháng — tất cả đều xây thẳng lên khung xương Chương 05.
+
+## Bản đồ kiến thức nền: Bốn mũi nhọn ứng dụng hiện đại của bài toán chuẩn
+
+Để đọc các nghiên cứu thực tế trong bài một cách có hệ thống, hãy kết nối chúng về đúng bốn trụ cột của Chương 05:
+
+- **Bộ giải điểm trong thế hệ mới (Clarabel & Homogeneous Self-Dual Embedding):** Thay vì chỉ giải riêng lẻ LP hay QP, Clarabel giải đồng thời cả **hàm mục tiêu bậc hai** trên **tích của nhiều nón** (không âm, bậc hai, nửa xác định, mũ, lũy thừa) và tự động phát hiện bài toán vô nghiệm hay không bị chặn.
+- **Tối ưu danh mục đầu tư thực tế (QP + Chi phí giao dịch & Ràng buộc đòn bẩy):** Mô hình Markowitz hiện đại mở rộng QP cổ điển bằng thành phần không trơn $$\ell_1$$ (phí giao dịch tuyến tính $$\kappa \|w - w_0\|_1$$) và ràng buộc SOCP (phí tác động thị trường $$\|w - w_0\|_2^{3/2}$$).
+- **Kiểm chứng mạng nơ-ron bằng SDP (Semidefinite Verification):** Phép kích hoạt ReLU $$y = \max(0, z)$$ thỏa ba ràng buộc: $$y \ge 0,\; y \ge z$$ và **đẳng thức bậc hai** $$y(y - z) = 0$$! Gom chúng thành ma trận gram nửa xác định dương tạo ra nới lỏng SDP giúp chứng minh toán học rằng nhiễu đầu vào nhỏ không bao giờ làm mạng nhận diện nhầm biển báo giao thông!
+- **Khôi phục thưa & Nén cảm biến (Sparse Recovery via QP/Lasso):** Từ chụp cộng hưởng từ MRI nhanh hơn gấp nhiều lần đến ước lượng tín hiệu radar, bài toán khôi phục vector thưa vẫn dựa trên nền tảng QP chuẩn của Lasso ($$\frac{1}{2}\|Ax - b\|_2^2 + \lambda \|x\|_1$$).
+
+### Khung giải thích (nên đọc chậm): Tự tay lập ràng buộc SDP cho một nơ-ron ReLU
+
+Xét một nơ-ron ReLU duy nhất $$y = \max(0, z)$$ với đầu vào bị chặn trong đoạn nhiễu $$z \in [-1, 2]$$. Ta muốn chứng minh mối liên hệ đại số giữa $$z$$ và $$y$$ để đưa vào nới lỏng SDP:
+
+1. **Bước 1 — Ba điều kiện đại số chính xác của ReLU:**
+   Với mọi $$z \in \mathbb{R}$$, $$y = \max(0, z) \iff y \ge 0,\; y \ge z,\; y(y - z) = 0$$.
+   Kiểm tra: nếu $$z = 2 \implies y = 2$$ thỏa $$2(2-2)=0$$; nếu $$z = -1 \implies y = 0$$ thỏa $$0(0-(-1))=0$$.
+2. **Bước 2 — Biểu diễn qua ma trận đối xứng $$P = \begin{pmatrix} 1 \\ z \\ y \end{pmatrix} \begin{pmatrix} 1 & z & y \end{pmatrix} = \begin{pmatrix} 1 & z & y \\ z & Z & W \\ y & W & Y \end{pmatrix} \succeq 0$$:**
+   Trong đó $$Z = z^2,\; W = zy,\; Y = y^2$$.
+   - Đẳng thức phi lồi $$y(y - z) = 0$$ trở thành **đẳng thức tuyến tính** trên ma trận: $$Y - W = 0$$!
+   - Điều kiện $$z \in [-1, 2]$$ tương đương $$(z + 1)(z - 2) \le 0 \iff Z - z - 2 \le 0$$ — cũng là **bất đẳng thức tuyến tính**!
+3. **Bước 3 — Bỏ ràng buộc $$\operatorname{rank}(P) = 1$$:**
+   Ta thu được một bài **SDP lồi hoàn toàn** chặn cực chặt mọi đầu ra có thể của nơ-ron ReLU trên miền nhiễu $$[-1, 2]$$! Đây chính là viên gạch cốt lõi của phương pháp kiểm chứng mạng nơ-ron SDP (Fazlyab et al., 2020).
+
+---
+
 Chương 05 phân loại các bài toán tối ưu hóa lồi theo cấu trúc hàm mục tiêu và các loại nón trong ràng buộc: LP, QP, QCQP, SOCP, SDP và quy hoạch hình học. Hệ phân loại này cũng chính là giao diện nền tảng của các ngôn ngữ mô hình hóa tối ưu hiện đại. Bài học này điểm qua ba ứng dụng thực tiễn tiêu biểu trong giai đoạn 2022–2026 — bộ giải điểm trong thế hệ mới tích hợp sẵn trong CVXPY, bài toán QP tối ưu hóa danh mục đầu tư có thể kiểm thử trên dữ liệu lịch sử, và kỹ thuật nới lỏng SDP để kiểm chứng độ bền vững của mạng nơ-ron — kèm theo nhận xét về vai trò của dạng QP chuẩn trong bài toán Lasso và khôi phục thưa.
 
 Phần thực hành DCP/CVXPY đã được trình bày ở bài [05-07]({% multilang_post_url contents/chapter05/2026-09-15-05_07_Modeling_with_DCP_CVXPY %}); bài này bổ sung góc nhìn về lý do các lớp nón chuẩn đó quan trọng trong thực tế.

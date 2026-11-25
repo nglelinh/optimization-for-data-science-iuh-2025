@@ -10,6 +10,28 @@ lang: en
 lesson_type: required
 ---
 
+Here is one of the most powerful geometric miracles in mathematics: if two convex sets do not overlap, you can *always* slide a flat sheet of paper (a hyperplane) cleanly between them. That single fact—the Separating Hyperplane Theorem—is the geometric engine behind Support Vector Machines, Farkas' Lemma, and Strong Lagrange Duality. Its sibling, the Supporting Hyperplane Theorem, guarantees that every boundary point of a convex set admits a tangent flat that keeps the entire set on one side.
+
+## Background Knowledge Map: Separation and Support Geometry
+
+- **Separating Hyperplane Theorem:** For any two disjoint nonempty convex sets $$C, D$$, there exist $$a \neq 0$$ and $$b$$ such that $$a^T x \le b \;\forall x \in C$$ and $$a^T x \ge b \;\forall x \in D$$.
+- **Strict Separation:** When $$C$$ and $$D$$ are closed and disjoint and at least one is compact (bounded), we get a strict margin: $$a^T x < b < a^T y$$—constructed directly from the minimum-distance segment between $$C$$ and $$D$$.
+- **Supporting Hyperplane Theorem:** At every boundary point $$x_0 \in \partial C$$ of a convex set $$C$$, there exists $$a \neq 0$$ such that $$a^T x \le a^T x_0$$ for all $$x \in C$$ (the geometric origin of subgradients!).
+- **Duality Link:** Proving a convex optimization problem has no feasible solution below value $$p^*$$ amounts to separating the epigraph from a target point—yielding the dual multipliers directly as the separating normal $$a$$.
+
+### Step-by-Step Worked Example (Read Slowly): Constructing a Strict Separating & Supporting Hyperplane
+
+Let $$C = \{x \in \mathbb{R}^2 : \|x\|_2 \le 1\}$$ (closed, compact unit disk) and $$x_0 = (3, 4)^T \notin C$$.
+
+1. **Find the closest point $$p \in C$$ to $$x_0$$:** Since $$\|x_0\|_2 = \sqrt{3^2 + 4^2} = 5$$, the projection onto the unit disk is
+   $$p = \frac{x_0}{\|x_0\|_2} = \begin{pmatrix} 3/5 \\ 4/5 \end{pmatrix}.$$
+2. **Choose the unit separating normal $$u = \frac{x_0 - p}{\|x_0 - p\|_2} = (3/5, 4/5)^T$$:**
+   - For every $$x \in C$$, Cauchy–Schwarz gives $$u^T x \le \|u\|_2 \|x\|_2 \le 1 \cdot 1 = 1$$ (with equality at $$x = p$$).
+   - At $$x_0 = (3, 4)^T$$, $$u^T x_0 = \frac{3}{5}(3) + \frac{4}{5}(4) = \frac{25}{5} = 5$$.
+3. **Read off both hyperplanes immediately:**
+   - **Strict separating hyperplane** (midpoint $$b = \frac{1 + 5}{2} = 3$$): $$\frac{3}{5}x_1 + \frac{4}{5}x_2 = 3$$ strictly separates $$C$$ ($$u^T x \le 1 < 3$$) from $$x_0$$ ($$u^T x_0 = 5 > 3$$).
+   - **Supporting hyperplane to $$C$$ at $$p$$:** $$\frac{3}{5}x_1 + \frac{4}{5}x_2 = 1$$ touches $$C$$ at $$p = (3/5, 4/5)^T$$ while keeping all of $$C$$ in the halfspace $$u^T x \le 1$$.
+
 This section introduces two theorems that characterize convex sets: the **separating hyperplane theorem** and the **supporting hyperplane theorem**.
 
 ## Separating hyperplane theorem

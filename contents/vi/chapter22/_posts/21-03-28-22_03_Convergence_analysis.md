@@ -9,6 +9,39 @@ categories:
 lang: vi
 ---
 
+Một thuật toán tối ưu đẹp đến đâu cũng phải trả lời một câu hỏi lạnh lùng: *nó hội tụ nhanh cỡ nào, và điều gì quyết định tốc độ ấy?* Ở các phương pháp gradient trước đây, tốc độ hội tụ thường phụ thuộc vào hằng số Lipschitz $$L$$ của gradient đo theo chuẩn Euclid. Nhưng Frank–Wolfe lại có một đặc tính hết sức bất ngờ: nếu bạn kéo giãn hay xoay hệ tọa độ bằng một phép biến đổi tuyến tính khả nghịch, toàn bộ quỹ đạo điểm lặp của Frank–Wolfe **không hề thay đổi**.
+
+Vì thuật toán bất biến dưới phép biến đổi affine, công cụ đo độ cong để phân tích hội tụ của nó cũng phải bất biến affine! Đó là lý do Martin Jaggi (2011) đưa ra **hằng số độ cong $$M$$** dựa trên độ phân kỳ Bregman, giúp rút gọn toàn bộ chứng minh hội tụ tốc độ $$O(1/k)$$ thành một bất đẳng thức duy nhất cực kỳ trong sáng.
+
+## Bản đồ kiến thức nền: Ba trụ cột của chứng minh hội tụ Frank–Wolfe
+
+Trước khi theo dõi từng dòng biến đổi quy nạp trong bài, hãy nắm chắc ba khái niệm làm xương sống cho chứng minh:
+
+- **Độ phân kỳ Bregman và Hằng số độ cong $$M$$:** Đại lượng $$D_f(y, x) = f(y) - f(x) - \nabla f(x)^T(y - x)$$ đo khoảng cách từ hàm $$f$$ tới mặt phẳng tiếp tuyến của nó tại $$x$$. Hằng số $$M$$ chuẩn hóa đại lượng này theo $$\gamma^2/2$$ trên mọi đoạn thẳng nằm trong $$C$$, nên nó vừa đo "độ cong" của $$f$$, vừa đo "đường kính" của tập $$C$$ — và hoàn toàn không phụ thuộc vào việc ta chọn chuẩn nào.
+- **Bất đẳng thức giảm theo khoảng cách đối ngẫu:** Ở mỗi bước, mức giảm hàm mục tiêu được điều khiển bởi hai lực đối lập: lực kéo xuống $$-\gamma_k g(x^{(k-1)})$$ tỉ lệ thuận với khoảng cách đối ngẫu, và sai số độ cong $$+\frac{\gamma_k^2}{2} M$$. Khi $$\gamma_k$$ nhỏ dần theo quy luật $$2/(k+1)$$, số hạng bậc nhất luôn thắng thế số hạng bậc hai.
+- **Tính bất biến affine (Affine Invariance) và Độ bền với LMO xấp xỉ:** Không chỉ bất biến khi đổi hệ tọa độ (điểm yếu của Projected Gradient Descent khi bài toán bị kéo lệch điều kiện), khung phân tích bằng $$M$$ còn cho phép LMO giải *gần đúng* với sai số $$\delta$$ mà vẫn giữ nguyên bậc hội tụ $$O(1/k)$$.
+
+### Khung giải thích (nên đọc chậm): Tính tay hằng số độ cong $$M$$ và kiểm chứng bất đẳng thức cơ bản
+
+Hãy kiểm chứng trực tiếp từng đại lượng trong định lý hội tụ trên một bài toán 1 chiều cực kỳ trong sáng: cực tiểu hóa $$f(x) = \frac{1}{2}x^2$$ trên đoạn $$C = [-1, 1]$$ (nghiệm tối ưu $$x^\star = 0, f^\star = 0$$).
+
+1. **Tính chính xác hằng số độ cong $$M$$:**
+   Với $$x, s \in [-1, 1]$$ và $$y = x + \gamma(s - x)$$, ta tính độ phân kỳ Bregman:
+   $$f(y) - f(x) - f'(x)(y - x) = \frac{1}{2}(x + \gamma(s-x))^2 - \frac{1}{2}x^2 - x \cdot \gamma(s-x) = \frac{1}{2}\gamma^2 (s - x)^2.$$
+   Nhân với $$\frac{2}{\gamma^2}$$, ta thu được biểu thức đơn giản $$(s - x)^2$$. Giá trị lớn nhất trên $$[-1, 1]$$ đạt tại $$s = 1, x = -1$$, cho ra chính xác $$M = (1 - (-1))^2 = 4$$.
+2. **Chạy bước $$k = 1$$ từ $$x^{(0)} = 1$$ với $$\gamma_1 = \frac{2}{1+1} = 1$$:**
+   Ta có $$f(x^{(0)}) = 0.5$$, $$f'(1) = 1$$, LMO chọn $$s^{(0)} = -1$$, khoảng cách đối ngẫu $$g(x^{(0)}) = 1 \cdot (1 - (-1)) = 2$$.
+   Điểm mới $$x^{(1)} = (1 - 1)(1) + 1(-1) = -1$$, với $$f(x^{(1)}) = 0.5$$.
+   Kiểm tra bất đẳng thức cơ bản:
+   $$f(x^{(0)}) - \gamma_1 g(x^{(0)}) + \frac{\gamma_1^2}{2} M = 0.5 - 1 \cdot 2 + \frac{1}{2} \cdot 4 = 0.5 = f(x^{(1)}).$$
+   Dấu bằng xảy ra tuyệt đối!
+3. **Chạy bước $$k = 2$$ với $$\gamma_2 = \frac{2}{2+1} = \frac{2}{3}$$:**
+   Tại $$x^{(1)} = -1$$, ta có $$f'(-1) = -1$$, LMO chọn $$s^{(1)} = 1$$, khoảng cách đối ngẫu $$g(x^{(1)}) = (-1)(-1 - 1) = 2$$.
+   Điểm mới: $$x^{(2)} = \left(1 - \frac{2}{3}\right)(-1) + \frac{2}{3}(1) = \frac{1}{3}$$, nên $$f(x^{(2)}) = \frac{1}{18} \approx 0.0556$$.
+   Kiểm tra bất đẳng thức cơ bản và cận định lý:
+   - Vế phải bất đẳng thức cơ bản: $$0.5 - \frac{2}{3}(2) + \frac{(2/3)^2}{2}(4) = 0.5 - \frac{4}{3} + \frac{8}{9} = \frac{1}{18} = f(x^{(2)})$$.
+   - Cận lý thuyết từ định lý: $$f(x^{(2)}) - f^\star = \frac{1}{18} \le \frac{2M}{2 + 2} = \frac{8}{4} = 2$$ — hoàn toàn nhất quán!
+
 ## Phân tích hội tụ
 
 Để phân tích tốc độ hội tụ của thuật toán Frank-Wolfe, trước hết ta định nghĩa hằng số độ cong (curvature constant) của hàm $$f$$ trên tập $$C$$ [Jaggi (2011)]:

@@ -12,6 +12,26 @@ redirect_from:
   - /contents/en/chapter22/22_06_modern_applications/
 ---
 
+Why would a 1956 algorithm still sit inside 2026 machine learning libraries alongside PyTorch and JAX? Because modern ML repeatedly runs into structured feasible sets—marginal polytopes of sequence labellings, optimal transport couplings, and sparse explanation masks—where projecting onto the constraint set is intractable, yet maximizing a linear score over it is an exact dynamic program or sorting operation. Modern Frank–Wolfe variants (Block-Coordinate FW, Blended Pairwise Conditional Gradients, and stochastic FW) turn those fast combinatorial oracles directly into scalable solvers.
+
+## Background Knowledge Map: Why Projection-Free Optimization Thrives in Modern ML
+
+- **Block-Coordinate Frank–Wolfe (BCFW):** In structural SVMs, the dual constraint set is a Cartesian product of $$n$$ exponential-size marginal polytopes (one per training sequence). BCFW updates a single randomly chosen block per step, reducing $$n$$ expensive Viterbi calls per iteration to just **one**, while keeping $$O(1/k)$$ convergence.
+- **Combinatorial Oracles as Linear Minimizers:** Many classic computer science algorithms—Viterbi decoding, Hungarian matching, minimum spanning trees, and 1D quantile sorting—are exact LMOs for convex hulls of combinatorial structures, plugging directly into Frank–Wolfe without relaxation.
+- **Structured Sparsity in Model Interpretability:** Constraining saliency masks or sparse neural perturbations to $$k$$-sparse polytopes or $$\ell_1$$ balls naturally yields compact explanations where the iteration count $$k$$ directly caps the number of active atoms.
+- **Modern Acceleration (BPCG & Lazy Oracles):** Blended Pairwise Conditional Gradients (BPCG) and lazified LMOs reuse cached atoms to avoid calling the expensive linear oracle on most steps, delivering order-of-magnitude wall-clock speedups over classical FW.
+
+### Step-by-Step Worked Example (Read Slowly): One Block-Coordinate Frank–Wolfe (BCFW) Step
+
+Suppose a structured prediction dual problem has $$n = 2$$ decoupled simplex blocks $$x = (x^{(1)}, x^{(2)}) \in \Delta_2 \times \Delta_2$$, with objective $$f(x^{(1)}, x^{(2)}) = \frac{1}{2}(x_1^{(1)} - 0.7)^2 + \frac{1}{2}(x_1^{(2)} - 0.2)^2$$. Start at $$x_0^{(1)} = (0, 1)^\top$$, $$x_0^{(2)} = (1, 0)^\top$$.
+
+1. **Sample one block uniformly:** Suppose iteration $$k = 1$$ samples block $$i = 1$$ (leaving block 2 untouched—saving 50% of oracle calls here, or $$99.9\%$$ when $$n = 1000$$).
+2. **Compute the block partial gradient:**
+   $$\nabla_1 f(x_0) = \bigl(x_1^{(1)} - 0.7,\ 0\bigr)^\top = (-0.7,\ 0)^\top.$$
+3. **Call the block LMO on $$\Delta_2$$:** Minimize $$\langle (-0.7, 0), s \rangle$$ over $$s \in \Delta_2$$, which picks $$s^{(1)} = (1, 0)^\top$$.
+4. **Update only block 1 with exact line search:** Along $$d^{(1)} = s^{(1)} - x_0^{(1)} = (1, -1)^\top$$, we minimize $$\frac{1}{2}((0 + \gamma) - 0.7)^2$$, giving $$\gamma = 0.7$$.
+   $$x_1^{(1)} = (1 - 0.7)(0, 1)^\top + 0.7(1, 0)^\top = (0.7, 0.3)^\top, \qquad x_1^{(2)} = (1, 0)^\top.$$
+5. **Observe the computational win:** Block 1 hit its exact optimum in a single local LMO call without ever touching block 2’s gradient or oracle.
 
 Frank–Wolfe (conditional gradient) is the algorithm you reach for when the feasible set $$\mathcal{C}$$ has a cheap **linear minimization oracle**
 

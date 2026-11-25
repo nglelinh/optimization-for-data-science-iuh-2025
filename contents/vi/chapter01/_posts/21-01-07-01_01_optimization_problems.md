@@ -10,6 +10,36 @@ lang: vi
 lesson_type: required
 ---
 
+Trước khi máy tính có thể giải bất kỳ bài toán thực tế nào — từ phân bổ vốn đầu tư, thiết kế ăng-ten, đến lập lịch giao hàng — người kỹ sư phải làm công việc quan trọng nhất: **dịch một câu chuyện đời thực thành ngôn ngữ chuẩn của bài toán tối ưu toán học**. Chọn sai biến quyết định hoặc viết thiếu một ràng buộc biên có thể biến một bài toán dễ giải thành bài toán vô nghiệm hoặc cho ra kết quả phi thực tế.
+
+Bài học này đặt ra bộ khung chuẩn mực gồm biến tối ưu, hàm mục tiêu, ràng buộc bất đẳng thức, ràng buộc đẳng thức và phân biệt rõ giá trị tối ưu $$p^*$$ với nghiệm tối ưu $$x^*$$.
+
+## Bản đồ kiến thức nền: Giải phẫu một bài toán tối ưu chuẩn
+
+- **Biến quyết định ($$x \in \mathbb{R}^n$$):** Các đại lượng ta thực sự có quyền điều chỉnh (khác với các tham số cố định cho trước của bài toán).
+- **Hàm mục tiêu ($$f_0(x)$$):** Thước đo chi phí cần tối thiểu hóa. Nếu bài toán gốc yêu cầu *tối đa hóa* lợi nhuận $$u(x)$$, ta chỉ cần đổi dấu thành *tối thiểu hóa* $$-u(x)$$.
+- **Miền khả thi (Feasible Set):** Tập tất cả các điểm $$x$$ thỏa mãn đồng thời mọi ràng buộc $$g_i(x) \le 0$$ và $$h_j(x) = 0$$. Nếu miền này rỗng, bài toán *vô nghiệm* (infeasible, $$p^* = +\infty$$).
+- **Giá trị tối ưu ($$p^*$$) và tập nghiệm tối ưu ($$X_{\text{opt}}$$):** Một bài toán có thể có nghiệm duy nhất, vô số nghiệm cùng đạt $$p^*$$, hoặc không bị chặn dưới ($$p^* = -\infty$$).
+
+### Khung giải thích (nên đọc chậm): Chuẩn hóa và giải tay một bài toán phân bổ chi phí 2 biến
+
+Một xưởng cần sản xuất ít nhất $$5$$ tấn hỗn hợp từ hai nguyên liệu $$x_1, x_2$$ (tấn) với chi phí lần lượt $$3$$ triệu/tấn và $$2$$ triệu/tấn, sao cho dùng tối thiểu $$1$$ tấn loại 1 và $$2$$ tấn loại 2.
+
+1. **Viết lại về dạng chuẩn ($$\min$$ và ràng buộc $$\le 0$$):**
+   $$\min_{x_1, x_2} f_0(x) = 3x_1 + 2x_2$$
+   với ba ràng buộc bất đẳng thức:
+   $$g_1(x) = 5 - x_1 - x_2 \le 0, \qquad g_2(x) = 1 - x_1 \le 0, \qquad g_3(x) = 2 - x_2 \le 0.$$
+2. **Xác định các đỉnh của miền khả thi:** Miền khả thi là vùng không bị chặn phía trên bên phải nhưng bị chặn dưới bởi hai góc nhọn:
+   - Đỉnh $$A$$ (giao $$x_1 = 1$$ và $$x_1 + x_2 = 5$$): $$A = (1, 4)$$.
+   - Đỉnh $$B$$ (giao $$x_2 = 2$$ và $$x_1 + x_2 = 5$$): $$B = (3, 2)$$.
+3. **Tính hàm mục tiêu tại các ứng viên:**
+   - Tại $$A = (1, 4)$$: $$f_0(1, 4) = 3(1) + 2(4) = 11$$.
+   - Tại $$B = (3, 2)$$: $$f_0(3, 2) = 3(3) + 2(2) = 13$$.
+   Vì hệ số chi phí đều dương, tăng $$x_1$$ hoặc $$x_2$$ chỉ làm chi phí tăng thêm.
+4. **Kết luận:** Nghiệm tối ưu duy nhất là $$x^* = (1, 4)^T$$ với giá trị tối ưu $$p^* = 11$$ triệu đồng; tại $$x^*$$, hai ràng buộc $$g_1(x^*) = 0$$ và $$g_2(x^*) = 0$$ là **ràng buộc chặt** (active), còn $$g_3(x^*) = 2 - 4 = -2 < 0$$ là ràng buộc lỏng.
+
+---
+
 Bài toán tối ưu hóa là bài toán tìm nghiệm tốt nhất (nghiệm tối ưu) — hoặc một nghiệm đủ gần tối ưu — trong tập hợp các phương án khả dĩ.
 
 **Trong khoa học dữ liệu và học máy**, tối ưu hóa hiện diện ở hầu hết mọi tác vụ:

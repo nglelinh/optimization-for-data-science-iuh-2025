@@ -10,6 +10,27 @@ lang: en
 lesson_type: optional
 ---
 
+Once Lesson 29-02 exposed client drift under non-IID data, the 2020–2026 federated learning community set out to fix FedAvg without sacrificing its simplicity. Three algorithmic pillars emerged—and together they transformed federated learning into a clinical workhorse for cross-silo healthcare, where hospitals collaborate on cancer imaging and genomics without ever moving protected patient records off-premise: **FedProx** (a proximal leash), **SCAFFOLD** (SVRG-style control variates for client drift), and **FedOpt / FedAdam** (adaptive server-side optimization).
+
+## Background Knowledge Map: Taming Non-IID Heterogeneity (FedProx, SCAFFOLD, FedAdam)
+
+- **FedProx (Proximal Leash):** Adds $$\frac{\mu}{2}\|w - w_t\|_2^2$$ to each client’s local objective, penalizing local iterates from wandering too far from the global broadcast $$w_t$$—simple, stateless, and tolerant of variable local work across heterogeneous devices.
+- **SCAFFOLD (Control Variates for Client Drift):** Borrows Chapter 26’s SVRG trick directly into federated learning! Each client maintains a local control variate $$c_i$$ and receives the global average $$c = \frac{1}{P}\sum_j c_j$$, correcting every local gradient to $$\nabla F_i(w) - c_i + c$$—eliminating client drift completely!
+- **FedOpt / FedAdam (Server-Side Adaptivity):** Treats the averaged client weight delta $$\Delta_t = \frac{1}{|\mathcal{S}_t|}\sum_{i \in \mathcal{S}_t}(w_{t+1}^{(i)} - w_t)$$ as a *pseudo-gradient* on the server and feeds $$-\Delta_t$$ into Adam or Yogi—stabilizing training on non-IID vision and language tasks without extra client memory.
+- **Cross-Silo Healthcare & Privacy Governance:** In multi-hospital radiology and EHR consortiums (10–100 reliable institutions), cross-silo FL pairs FedProx/FedAdam with secure aggregation and differential privacy to satisfy HIPAA/GDPR while pooling statistical power across rare diseases.
+
+### Step-by-Step Worked Example (Read Slowly): How SCAFFOLD Cancels Non-IID Client Drift in One Step
+
+Return to our 2-client non-IID problem $$F_1(w) = 2(w - 1)^2$$ and $$F_2(w) = \frac{1}{2}(w + 1)^2$$ (global optimum $$w^\star = 0.6$$). Suppose we are at $$w_t = 0.6$$, and the control variates have tracked the local gradients at $$w_t$$:
+$$c_1 = F_1'(0.6) = -1.6, \qquad c_2 = F_2'(0.6) = +1.6, \qquad c = \frac{c_1 + c_2}{2} = 0.$$
+
+1. **Compute Client 1’s SCAFFOLD-corrected local gradient at $$w = 0.6$$:**
+   $$g_1^{\text{SCAFFOLD}} = F_1'(0.6) - c_1 + c = (-1.6) - (-1.6) + 0 = 0!$$
+2. **Compute Client 2’s SCAFFOLD-corrected local gradient at $$w = 0.6$$:**
+   $$g_2^{\text{SCAFFOLD}} = F_2'(0.6) - c_2 + c = (+1.6) - (+1.6) + 0 = 0!$$
+3. **Compare with FedProx ($$\mu = 4$$) at $$w_t = 0.6$$:**
+   - Under FedProx, Client 1 minimizes $$2(w - 1)^2 + \frac{4}{2}(w - 0.6)^2 \implies 4(w - 1) + 4(w - 0.6) = 0 \implies w_1^{(1)} = 0.8$$ (reduced drift from $$1.0$$ down to $$0.8$$, though not zero).
+   - Under SCAFFOLD, *every* local step at $$w^\star = 0.6$$ has **exact zero gradient**—proving how control variates cancel client drift completely just like SVRG cancels minibatch noise!
 
 Lessons 29-01 to 29-03 already own data-parallel SGD, **FedAvg**, and the ADMM contrast. This optional note is the 2020–2026 *application* layer: what to do when clients are non-IID (FedProx, SCAFFOLD), how adaptive server steps enter (FedOpt), and where the methods actually run (cross-silo healthcare). It does not re-derive the FedAvg three-step loop.
 

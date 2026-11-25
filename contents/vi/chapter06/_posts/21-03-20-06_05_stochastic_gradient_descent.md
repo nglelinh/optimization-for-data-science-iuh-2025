@@ -10,6 +10,37 @@ lang: vi
 lesson_type: required
 ---
 
+Giả sử bạn đang huấn luyện một mô hình nhận diện ảnh trên 10 triệu bức ảnh. Nếu dùng Batch Gradient Descent chuẩn, chỉ để nhích trọng số đi **đúng một bước duy nhất**, máy tính phải đọc và tính đạo hàm trên cả 10 triệu bức ảnh — có khi mất hàng giờ đồng hồ! Trong khi đó, ngay sau khi mới xem qua 64 bức ảnh ngẫu nhiên, hướng dốc trung bình đã chỉ gần đúng về phía đáy thung lũng rồi!
+
+Đó chính là triết lý làm nên sức mạnh của **Stochastic Gradient Descent (SGD)** — động cơ cốt lõi đằng sau toàn bộ kỷ nguyên dữ liệu lớn và Học sâu. Thay vì tính gradient chính xác trên toàn bộ $$N$$ mẫu, SGD dùng một **ước lượng không chệch (unbiased estimator)** từ 1 mẫu hoặc một mini-batch nhỏ $$B$$ mẫu — chấp nhận một chút "nhiễu" ở mỗi bước để đổi lấy tốc độ cập nhật nhanh hơn hàng chục nghìn lần!
+
+## Bản đồ kiến thức nền: Toán học của Nhiễu và Hội tụ trong SGD
+
+Bốn trụ cột sau giải thích cơ chế hoạt động và cách điều khiển SGD hiệu quả:
+
+- **Ước lượng Gradient không chệch (Unbiased Gradient Estimator):** Với hàm mục tiêu dạng tổng hữu hạn $$f(x) = \frac{1}{N}\sum_{i=1}^N f_i(x)$$, nếu chọn ngẫu nhiên đều chỉ số $$i_k \in \{1, \dots, N\}$$, thì kỳ vọng của gradient ngẫu nhiên đúng bằng gradient thật:
+  $$\mathbb{E}[\nabla f_{i_k}(x)] = \frac{1}{N}\sum_{i=1}^N \nabla f_i(x) = \nabla f(x).$$
+- **Sự đánh đổi Phương sai – Chi phí (Mini-Batch SGD):** Dùng mini-batch cỡ $$B$$ giảm phương sai nhiễu đi $$B$$ lần ($$\operatorname{Var}(\bar{g}_B) = \sigma^2 / B$$) trong khi tận dụng tối đa khả năng tính toán song song của GPU!
+- **Tại sao SGD bước cố định không hội tụ về đúng $$x^\star$$?** Ngay cả khi bạn đang đứng chính xác tại $$x^\star$$ (nơi $$\nabla f(x^\star) = 0$$), từng thành phần riêng lẻ $$\nabla f_i(x^\star)$$ thường vẫn **khác 0**! Vì vậy SGD bước cố định chỉ hội tụ vào một "quả cầu nhiễu" bán kính tỷ lệ với $$t \sigma^2$$ quanh $$x^\star$$.
+- **Điều kiện Robbins–Monro để hội tụ chính xác:** Để triệt tiêu nhiễu mà vẫn đủ sức đi tới đích, kích thước bước $$t_k$$ phải giảm dần sao cho $$\sum_{k=1}^\infty t_k = \infty$$ và $$\sum_{k=1}^\infty t_k^2 < \infty$$ (ví dụ $$t_k = \frac{c}{k}$$ hoặc $$t_k = \frac{c}{\sqrt{k}}$$).
+
+### Khung giải thích (nên đọc chậm): So sánh trực tiếp 1 bước Batch GD vs. 2 bước SGD trên 2 mẫu dữ liệu
+
+Xét hàm mục tiêu tổng hữu hạn $$f(x) = \frac{1}{2}\big[f_1(x) + f_2(x)\big]$$ với:
+$$f_1(x) = \frac{1}{2}(x - 2)^2, \qquad f_2(x) = \frac{1}{2}(x - 6)^2.$$
+Dễ thấy $$f(x)$$ đạt cực tiểu toàn cục tại trung bình $$x^\star = 4$$ (với $$f_1'(4) = +2,\; f_2'(4) = -2,\; f'(4) = 0$$). Bắt đầu từ $$x_0 = 0$$ với bước $$t = 0.5$$:
+
+1. **Batch GD (dùng cả 2 mẫu cho 1 bước):**
+   $$f'(0) = \frac{1}{2}[(0 - 2) + (0 - 6)] = -4 \implies x_1^{\text{GD}} = 0 - 0.5(-4) = 2.$$
+2. **SGD (tốn cùng tổng số lượt duyệt 2 mẫu: mẫu 1 trước, mẫu 2 sau):**
+   - Dùng mẫu 1 tại $$x_0 = 0$$: $$f_1'(0) = -2 \implies x_{0.5} = 0 - 0.5(-2) = 1$$.
+   - Dùng mẫu 2 tại $$x_{0.5} = 1$$: $$f_2'(1) = 1 - 6 = -5 \implies x_1^{\text{SGD}} = 1 - 0.5(-5) = 3.5$$!
+   Chỉ sau đúng 1 lượt duyệt dữ liệu (1 epoch), SGD đã nhảy lên $$3.5$$ (rất sát $$x^\star = 4$$!), trong khi Batch GD mới ở $$2$$!
+3. **Quan sát "quả cầu nhiễu" tại chính nghiệm đúng $$x = 4$$:**
+   Nếu SGD bước cố định $$t = 0.5$$ đang ở đúng $$x = 4$$ và bốc trúng mẫu 1, nó sẽ bị đẩy lùi về $$4 - 0.5(2) = 3$$! Chỉ khi ta giảm bước $$t_k \to 0$$, dao động quanh $$x^\star = 4$$ mới tắt hẳn!
+
+---
+
 <script src="../../../public/js/script.js"></script>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 

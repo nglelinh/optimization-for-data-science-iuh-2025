@@ -10,6 +10,27 @@ lang: en
 lesson_type: optional
 ---
 
+Pathwise coordinate descent did not freeze in 2010 with `glmnet`. Over the past decade, it has evolved into the standard computational backbone for generalized linear models, safe feature-screening rules that provably discard millions of irrelevant predictors before ever touching them, nonconvex sparse penalties in `skglm`, and dual linear SVMs in `LIBLINEAR`. Whenever a modern statistical package computes a full regularization path in a fraction of a second, you are watching Chapter 23’s coordinate-wise mechanics running under the hood.
+
+## Background Knowledge Map: Modern Extensions of Coordinate Descent
+
+- **IRLS + Coordinate Descent for All GLMs:** `glmnet` (2023) wraps coordinate descent inside Iteratively Reweighted Least Squares: an outer loop forms a quadratic approximation (working weights and response), and the inner loop solves the weighted Lasso via active-set CD.
+- **Gap-Safe Screening Rules:** Using the duality gap $$G(\beta, \theta)$$ between a primal iterate $$\beta$$ and a feasible dual vector $$\theta$$, gap-safe rules prove that any feature $$j$$ inside a safe sphere around $$\theta$$ must have $$\beta_j^\star = 0$$—eliminating it permanently from all remaining iterations with **zero** loss of exactness.
+- **Working Sets Beyond $$\ell_1$$ (`skglm`):** Modern solvers extend active-set CD to nonconvex and structured penalties (MCP, SCAD, Group Lasso, Sparse-Group Lasso) by maintaining small dynamic working sets and prioritizing features with largest KKT violation.
+- **Dual Coordinate Descent for Linear SVMs:** In `LIBLINEAR`, minimizing the dual SVM objective subject to box constraints $$0 \le \alpha_i \le C$$ updates one dual multiplier $$\alpha_i$$ at a time via a clipped 1D Newton step, scaling effortlessly to millions of sparse text features.
+
+### Step-by-Step Worked Example (Read Slowly): Gap-Safe Feature Screening in Action
+
+Suppose we are solving Lasso $$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$ with $$\lambda = 2$$, unit-norm columns $$\|X_j\|_2 = 1$$, current primal-dual gap $$G(\beta, \theta) = 0.08$$, and feasible dual point $$\theta = r / \max(\lambda, \|X^\top r\|_\infty)$$.
+
+1. **Compute the safe sphere radius:** The classic Gap-Safe sphere (Fercoq, Gramfort, Salmon 2015) certifies that the optimal dual variable $$\theta^\star$$ lies within Euclidean radius
+   $$R = \sqrt{\frac{2 G(\beta, \theta)}{\lambda^2}} = \sqrt{\frac{2(0.08)}{2^2}} = \sqrt{0.04} = 0.2$$
+   of the current dual vector $$\theta$$.
+2. **Apply Cauchy–Schwarz to test feature $$j$$:** By KKT optimality, if $$|X_j^\top \theta^\star| < 1$$, then necessarily $$\beta_j^\star = 0$$. Using the triangle inequality and Cauchy–Schwarz,
+   $$|X_j^\top \theta^\star| \le |X_j^\top \theta| + \|X_j\|_2 \cdot \|\theta^\star - \theta\|_2 \le |X_j^\top \theta| + (1)(0.2).$$
+3. **Screen two candidate features:**
+   - **Feature A** has $$|X_A^\top \theta| = 0.65$$: upper bound is $$0.65 + 0.20 = 0.85 < 1$$. **Safely screened out!** We can delete column $$A$$ immediately with mathematical certainty that $$\beta_A^\star = 0$$.
+   - **Feature B** has $$|X_B^\top \theta| = 0.90$$: upper bound is $$0.90 + 0.20 = 1.10 \ge 1$$. Keep feature $$B$$ in the active pool until $$G$$ shrinks further.
 
 Pathwise coordinate descent is the reason the Lasso is a *default button* in applied statistics rather than a research prototype. Friedman, Hastie, and Tibshirani’s **glmnet** (JSS 2010) still ships in R; scikit-learn’s `lasso_path` / `enet_path` are the same idea in Cython. This optional note updates that story to 2023–2026: glmnet for *every* GLM family, screening and working sets at a million features, and the dual CD solver that still trains linear SVMs in production.
 

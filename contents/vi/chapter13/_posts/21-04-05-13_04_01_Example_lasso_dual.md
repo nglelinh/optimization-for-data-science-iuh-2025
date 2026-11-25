@@ -9,6 +9,38 @@ categories:
 lang: vi
 ---
 
+Nếu bạn áp dụng máy móc công thức hàm Lagrange cho bài toán Lasso $$\min_\beta \frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$, bạn sẽ lập tức gặp một bất ngờ dở khóc dở cười: vì bài toán gốc **không có ràng buộc nào cả**, hàm đối ngẫu chỉ là một hằng số bằng đúng $$f^\star$$ — hoàn toàn vô dụng!
+
+Bí quyết của các chuyên gia tối ưu nằm ở một bước "tách biến nghệ thuật": đặt biến phụ $$z = X\beta$$ để tách rời phần bình phương sai số khỏi phần phạt $$\ell_1$$. Chỉ cần một phương trình ràng buộc nhân tạo đó thôi, bài toán đối ngẫu của Lasso lập tức hiện ra với vẻ đẹp hình học kinh ngạc: **tìm hình chiếu Euclid của vectơ dữ liệu $$y$$ lên một khối đa diện lồi $$\{u : \|X^T u\|_\infty \le \lambda\}$$**. Từ đây, ta không chỉ hiểu sâu cấu trúc hình học của Lasso mà còn mở ra các kỹ thuật sàng lọc biến (safe screening) loại bỏ hàng nghìn đặc trưng thừa ngay trước khi giải.
+
+## Bản đồ kiến thức nền: Từ Lasso nguyên thủy sang bài toán chiếu hình học đối ngẫu
+
+- **Kỹ thuật đưa biến phụ (Variable Splitting):** Khi bài toán không ràng buộc gồm tổng hai hàm có cấu trúc khác nhau, đặt $$z = X\beta$$ tạo ra ràng buộc đẳng thức để tách phép lấy cực tiểu thành hai bài toán con dễ giải đóng.
+- **Liên hợp của hàm bình phương và chuẩn $$\ell_1$$:** Phần $$\frac{1}{2}\|y - z\|_2^2$$ sinh ra dạng bậc hai $$\frac{1}{2}\|y - u\|_2^2$$ trên biến đối ngẫu $$u$$, còn phần $$\lambda \|\beta\|_1$$ biến thành điều kiện ràng buộc hộp $$\|X^T u\|_\infty \le \lambda$$ (chính là quả cầu chuẩn đối ngẫu $$\ell_\infty$$!).
+- **Quan hệ nguyên thủy – đối ngẫu (KKT):** Tại nghiệm tối ưu, phần dư $$r^\star = y - X\beta^\star$$ trùng đúng với nghiệm đối ngẫu $$u^\star$$ (hoặc tỷ lệ trực tiếp tùy quy ước dấu), cho thấy mọi đặc trưng không được chọn ($$\beta_j^\star = 0$$) đều có tương quan chặt $$\vert X_j^T u^\star \vert < \lambda$$.
+
+### Khung giải thích (nên đọc chậm): Tính tay đối ngẫu Lasso trên một ví dụ 2 đặc trưng
+
+Xét bài toán Lasso với $$n = 2, p = 2$$, ma trận thiết kế đơn giản $$X = I_2$$ (hai cột trực chuẩn), dữ liệu $$y = (3, 0.5)^T$$ và tham số phạt $$\lambda = 1$$:
+
+$$\min_{\beta \in \mathbb{R}^2} \frac{1}{2}\bigl((3 - \beta_1)^2 + (0.5 - \beta_2)^2\bigr) + (\vert \beta_1 \vert + \vert \beta_2 \vert).$$
+
+1. **Giải bài toán đối ngẫu (chiếu $$y$$ lên khối hộp $$\|X^T u\|_\infty \le 1$$):**
+   Vì $$X = I_2$$, bài toán đối ngẫu tương đương với:
+   $$\min_{u \in \mathbb{R}^2} \frac{1}{2}\|y - u\|_2^2 \qquad \text{với } \vert u_1 \vert \le 1, \;\; \vert u_2 \vert \le 1.$$
+   Chiếu từng tọa độ của $$y = (3, 0.5)^T$$ lên đoạn $$[-1, 1]$$ ta nhận ngay:
+   $$u_1^\star = \operatorname{clip}(3, -1, 1) = 1, \qquad u_2^\star = \operatorname{clip}(0.5, -1, 1) = 0.5.$$
+2. **Khôi phục nghiệm nguyên thủy Lasso từ $$u^\star$$:**
+   Từ điều kiện $$X\beta^\star = y - u^\star$$ (khi $$X = I_2$$), ta có ngay nghiệm thưa:
+   $$\beta_1^\star = 3 - 1 = 2, \qquad \beta_2^\star = 0.5 - 0.5 = 0.$$
+   (Khớp hoàn toàn với công thức ngưỡng mềm *soft-thresholding*!)
+3. **Kiểm tra đối ngẫu mạnh:**
+   - Giá trị nguyên thủy: $$f(\beta^\star) = \frac{1}{2}\bigl((3-2)^2 + (0.5-0)^2\bigr) + (\vert 2\vert + 0) = \frac{1}{2}(1 + 0.25) + 2 = 2.625$$.
+   - Giá trị đối ngẫu: $$\frac{1}{2}\|y\|_2^2 - \frac{1}{2}\|y - u^\star\|_2^2 = \frac{1}{2}(9.25) - \frac{1}{2}(4 + 0) = 4.625 - 2 = 2.625$$.
+   Khoảng cách đối ngẫu bằng đúng $$0$$!
+
+---
+
 Xét bài toán lasso với $$y \in \mathbb{R}^n$$ và $$X \in \mathbb{R}^{n\times p}$$:
 
 > $$ \min_\beta \frac{1}{2} \| y-X\beta \|^2_2 + \lambda\| \beta \|_1$$

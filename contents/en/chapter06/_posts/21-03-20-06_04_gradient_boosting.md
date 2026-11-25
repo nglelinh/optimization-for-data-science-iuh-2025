@@ -9,6 +9,32 @@ categories:
 lang: en
 ---
 
+Up to now, gradient descent has updated a finite vector of numbers $$x \in \mathbb{R}^n$$. Now make a dazzling conceptual leap due to Jerome Friedman (2001): what if the object you are optimizing is not a vector of weights, but an entire *prediction function* $$F(x)$$? Take gradient descent in function space—fitting each new decision tree to the negative gradient of the loss—and you have **Gradient Boosting** (XGBoost, LightGBM, CatBoost), the reigning champion of tabular machine learning.
+
+## Background Knowledge Map: Gradient Descent in Function Space
+
+1. **Functional Gradient Descent**: Given data $$\{(x_i, y_i)\}_{i=1}^N$$ and differentiable loss $$\mathcal{L}(F) = \sum_{i=1}^N L(y_i, F(x_i))$$, treat the vector of predictions $$\mathbf{f} = (F(x_1), \dots, F(x_N))^T \in \mathbb{R}^N$$ as the optimization variable. The negative functional gradient at sample $$i$$ is the *pseudo-residual*
+   $$r_{im} = -\left[\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right]_{F = F_{m-1}}.$$
+2. **Projecting onto Weak Learners (Trees)**: An arbitrary vector $$r_m \in \mathbb{R}^N$$ cannot predict on unseen test points. Gradient boosting projects $$r_m$$ onto the space of shallow regression trees by fitting a tree $$h_m(x)$$ to the targets $$\{(x_i, r_{im})\}$$, then updating $$F_m(x) = F_{m-1}(x) + \eta h_m(x)$$.
+3. **Special Case — Squared Error = Residual Fitting**: For $$L(y, \hat{y}) = \frac{1}{2}(y - \hat{y})^2$$, the negative gradient is simply $$r_i = y_i - F_{m-1}(x_i)$$, the ordinary residual! Changing $$L$$ to logistic loss or Huber loss immediately yields classification or robust regression with the exact same algorithm.
+4. **Boosting vs. Bagging (Bias vs. Variance)**: Random Forests (Bagging) average *independent* deep trees in parallel to cut variance; Gradient Boosting adds *sequential* shallow trees along negative gradients to systematically eliminate bias (while learning rate $$\eta \ll 1$$ prevents overfitting).
+
+### Step-by-Step Worked Example (Read Slowly): One Boosting Round for Squared-Error Regression
+
+Given four data points with targets $$y = (10, 12, 20, 22)$$ at features $$x = (1, 2, 5, 6)$$, run Round 0 and Round 1 of Gradient Boosting with squared loss $$L(y, \hat{y}) = \frac{1}{2}(y - \hat{y})^2$$, learning rate $$\eta = 0.5$$, and decision stumps (depth-1 trees).
+
+1. **Initialize $$F_0(x)$$ with the constant minimizing total squared loss**:
+   $$F_0(x) = \bar{y} = \frac{10 + 12 + 20 + 22}{4} = 16.$$
+   Initial squared loss: $$\frac{1}{2}\bigl((-6)^2 + (-4)^2 + 4^2 + 6^2\bigr) = \frac{1}{2}(36 + 16 + 16 + 36) = 52.$$
+2. **Compute pseudo-residuals (negative gradients) $$r_{i1} = y_i - F_0(x_i)$$**:
+   $$r_1 = (-6,\; -4,\; +4,\; +6).$$
+3. **Fit a depth-1 regression stump $$h_1(x)$$ to $$r_1$$**:
+   - Split at $$x \le 3.5$$: left leaf averages $$\{-6, -4\} \to -5$$; right leaf averages $$\{+4, +6\} \to +5$$.
+   - Thus $$h_1(x) = -5$$ if $$x \le 3.5$$, else $$+5$$.
+4. **Update the ensemble with shrinkage $$\eta = 0.5$$**:
+   $$F_1(x) = F_0(x) + 0.5 h_1(x) = \begin{cases} 16 - 2.5 = 13.5 & \text{if } x \le 3.5, \\ 16 + 2.5 = 18.5 & \text{if } x > 3.5. \end{cases}$$
+   New residuals: $$(-3.5, -1.5, +1.5, +3.5)$$; new loss: $$\frac{1}{2}(12.25 + 2.25 + 2.25 + 12.25) = 14.5$$ — cutting the loss by **72%** in one stump!
+
 # Gradient boosting
 
 **Gradient boosting** is a method that uses gradient descent to sequentially create trees while compensating for the errors of previous trees when trying to predict results with an ensemble model composed of multiple trees. **Gradient Boosting** can be used for both regression and classification.

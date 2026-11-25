@@ -12,6 +12,32 @@ redirect_from:
   - /contents/vi/chapter16/16_04_Quiz_Duality_Revisited/
 ---
 
+Chương 16 tổng hợp những khái niệm sắc nét nhất của toàn bộ lý thuyết đối ngẫu — từ biểu diễn minimax, điều kiện Slater tinh chỉnh, đối chiếu KKT với đường trung tâm LP, đến đối ngẫu Fenchel cho quy hoạch nón. Cũng chính vì tính cô đọng cao nên các câu hỏi trắc nghiệm chương này thường kiểm tra rất kỹ **các điều kiện biên**: khi nào không cần khả thi chặt? Dấu trừ trong đối ngẫu Fenchel nằm ở đâu? Liên hợp của hàm chỉ thị nón $$K$$ là $$I_{K^*}$$ hay $$I_{-K^*}$$?
+
+Hãy dành hai phút rà lại bản đồ bốn điểm phân biệt dễ nhầm trước khi bước vào bộ câu hỏi trắc nghiệm.
+
+## Bản đồ kiến thức nền: Bốn điểm phân biệt sắc bén cho trắc nghiệm Chương 16
+
+- **Slater gốc vs. Slater tinh chỉnh:** Slater gốc đòi mọi bất đẳng thức $$h_i(x) < 0$$; Slater tinh chỉnh **miễn** dấu chặt cho các ràng buộc tuyến tính/affine (chỉ cần $$\le 0$$), nên LP khả thi bị chặn luôn có đối ngẫu mạnh.
+- **Điều kiện bù yếu KKT vs. Đường trung tâm:** Trong LP dạng chuẩn, KKT đòi $$x_i s_i = 0$$ (nằm trên biên), còn đường trung tâm đòi $$x_i s_i = \mu = 1/t > 0$$ (nằm trong miền trong, tổng khoảng cách đối ngẫu $$x^T s = n\mu$$).
+- **Quy ước dấu trong Đối ngẫu Fenchel:** Với $$\min_x f(x) + g(Ax)$$, đối ngẫu Fenchel là $$\max_u -f^*(-A^T u) - g^*(u)$$ (hoặc $$\max_y -f^*(A^T y) - g^*(-y)$$). Luôn kiểm tra tính đối xứng: hai đối số của $$f^*$$ và $$g^*$$ phải ngược dấu nhau qua $$A^T$$!
+- **Liên hợp của hàm chỉ thị nón:** Với nón $$K$$, $$I_K^*(z) = \sup_{x \in K} z^T x$$ bằng $$0$$ khi $$z^T x \le 0 \;\forall x \in K$$ (tức $$-z \in K^*$$) và $$+\infty$$ ngược lại — do đó $$I_K^*(z) = I_{-K^*}(z) = I_{K^*}(-z)$$!
+
+### Khung giải thích (nên đọc chậm): Giải mẫu câu hỏi bẫy về dấu trừ trong liên hợp của hàm chỉ thị nón $$I_K^*(z)$$
+
+**Câu hỏi mẫu:** Cho nón không âm 1 chiều $$K = \mathbb{R}_+ = [0, +\infty)$$ (tự đối ngẫu: $$K^* = [0, +\infty)$$). Tính $$I_K^*(z)$$ tại $$z = 2$$ và $$z = -2$$ để tránh nhầm giữa $$I_{K^*}(z)$$ và $$I_{-K^*}(z)$$.
+
+1. **Áp dụng định nghĩa hàm liên hợp:**
+   $$I_K^*(z) = \sup_{x \ge 0} \bigl(z \cdot x - 0\bigr) = \sup_{x \ge 0} (zx).$$
+2. **Thử $$z = 2 \in K^*$$:**
+   Khi cho $$x \to +\infty$$, tích $$2x \to +\infty \implies I_K^*(2) = +\infty$$!
+   (Nếu ai nhầm $$I_K^* = I_{K^*}$$ thì sẽ tưởng bằng $$0$$ — sai hoàn toàn!)
+3. **Thử $$z = -2 \in -K^*$$:**
+   Với mọi $$x \ge 0$$, tích $$-2x \le 0$$, và đạt cực đại bằng $$0$$ tại $$x = 0 \implies I_K^*(-2) = 0$$!
+4. **Kết luận chắc chắn:** $$I_K^*(z) = 0 \iff z \in -K^* \iff -z \in K^*$$. Một phép thử 5 giây với số $$2$$ và $$-2$$ đủ để không bao giờ nhầm dấu trong các bài đối ngẫu nón!
+
+---
+
 ## 📚 Ôn tập lý thuyết
 
 Trước khi làm bài tập, hãy ôn lại các khái niệm chính trong chương này:

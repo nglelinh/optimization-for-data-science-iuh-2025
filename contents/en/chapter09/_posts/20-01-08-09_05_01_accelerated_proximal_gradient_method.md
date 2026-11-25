@@ -9,6 +9,33 @@ categories:
 lang: en
 ---
 
+Extending Nesterov's smooth acceleration to composite nonsmooth problems $$f(x) = g(x) + h(x)$$ was one of the landmark breakthroughs of 2000s optimization—independently refined by Nesterov (2007) and popularized by Beck and Teboulle (2009) as **FISTA**. With only two lines of extra arithmetic—an extrapolated point $$v$$ and a scalar momentum sequence—you keep the exact same per-iteration cost as proximal gradient descent while upgrading the convergence rate from $$O(1/\varepsilon)$$ to the optimal $$O(1/\sqrt{\varepsilon})$$.
+
+## Background Knowledge Map: Mechanics of Accelerated Proximal Gradient
+
+- **Pillar 1 — Two-Sequence State ($$x^{(k)}$$ and $$v^{(k)}$$):** The algorithm maintains the main proximal iterates $$x^{(k)}$$ and an auxiliary extrapolated sequence $$v^{(k)} = x^{(k-1)} + \frac{k-2}{k+1}(x^{(k-1)} - x^{(k-2)})$$. Notice that $$v^{(k)}$$ may leave the sparse support or feasible set; the subsequent proximal map $$\operatorname{prox}_{t_k h}$$ immediately snaps $$x^{(k)}$$ back.
+- **Pillar 2 — Same Oracle Cost as Plain Proximal Gradient:** Each iteration still performs exactly one smooth gradient evaluation $$\nabla g(v^{(k)})$$ and one proximal evaluation $$\operatorname{prox}_{t_k h}$$. There are no Hessians, no inner loops, and only one extra vector stored in memory.
+- **Pillar 3 — Nesterov's Historical Arc (1983–2007):** Nesterov first accelerated smooth unconstrained problems (1983), then refined estimate sequences (1988), bridged to nonsmooth problems via smoothing (2005), and finally unified composite optimization $$g + h$$ (2007)—achieving $$O(1/\sqrt{\varepsilon})$$ whenever $$h$$ is prox-friendly.
+- **Pillar 4 — Backtracking Compatibility:** Just like plain proximal gradient, accelerated proximal gradient supports backtracking line search on $$g$$ at the extrapolated point $$v^{(k)}$$ whenever $$L$$ is unknown, preserving the $$O(1/k^2)$$ rate.
+
+### Step-by-Step Worked Example (Read Slowly): Two Steps of Accelerated Proximal Gradient on a 1D Lasso
+
+Minimize $$f(x) = \frac{1}{2}(x - 5)^2 + |x|$$ (so $$\nabla g(x) = x - 5$$, $$L = 1$$, exact optimum $$x^\star = S_1(5) = 4$$) using conservative step size $$t = 0.5$$, starting from $$x^{(0)} = x^{(-1)} = 0$$, with momentum $$\beta_k = \frac{k-1}{k+2}$$ for $$k = 1, 2$$.
+
+1. **Iteration $$k = 1$$ ($$\beta_1 = 0$$):**
+   - Extrapolate: $$v^{(1)} = x^{(0)} + 0 = 0$$.
+   - Smooth step: $$u^{(1)} = 0 - 0.5(0 - 5) = 2.5$$.
+   - Soft-threshold with $$\lambda t = 1 \cdot 0.5 = 0.5$$:
+     $$x^{(1)} = S_{0.5}(2.5) = 2.0.$$
+2. **Iteration $$k = 2$$ ($$\beta_2 = 1/4 = 0.25$$):**
+   - Extrapolate: $$v^{(2)} = x^{(1)} + 0.25(x^{(1)} - x^{(0)}) = 2.0 + 0.25(2.0 - 0) = 2.5$$.
+   - Smooth step at $$v^{(2)}$$: $$u^{(2)} = 2.5 - 0.5(2.5 - 5) = 2.5 + 1.25 = 3.75$$.
+   - Soft-threshold with $$\lambda t = 0.5$$:
+     $$x^{(2)} = S_{0.5}(3.75) = 3.25.$$
+3. **Compare with plain ISTA ($$\beta_k \equiv 0$$) at $$k = 2$$:**
+   - Plain ISTA gives $$u^{(2)}_{\text{ISTA}} = 2.0 - 0.5(2.0 - 5) = 3.5 \implies x^{(2)}_{\text{ISTA}} = S_{0.5}(3.5) = 3.0$$.
+   - Accelerated proximal gradient is already at $$3.25$$ (distance $$0.75$$ from $$x^\star = 4$$) vs. $$3.0$$ (distance $$1.0$$) after just two steps!
+
 # Accelerated proximal gradient method
 
 If proximal gradient descent is accelerated, it can achieve the optimal convergence rate of $$O(1/\sqrt{\epsilon})$$. Nesterov proposed four methods, three of which are acceleration methods:

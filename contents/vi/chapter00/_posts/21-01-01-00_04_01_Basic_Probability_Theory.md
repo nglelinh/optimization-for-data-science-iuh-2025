@@ -10,6 +10,32 @@ lang: vi
 lesson_type: required
 ---
 
+Mọi quyết định dưới sự bất định — từ lọc thư rác, chẩn đoán y khoa bằng AI cho đến kiểm soát rủi ro tài chính — đều bắt đầu bằng việc định lượng niềm tin một cách nhất quán. Năm 1933, Andrey Kolmogorov đặt toàn bộ lý thuyết xác suất lên chỉ ba tiên đề giản dị về độ đo, biến trực giác "cơ hội" thành một hệ thống toán học sắc bén không thể tranh cãi.
+
+Bài học này hệ thống hóa không gian mẫu, tiên đề Kolmogorov, xác suất có điều kiện, định lý Bayes và kỳ vọng–phương sai, tạo nền tảng để bạn xây dựng các hàm mục tiêu xác suất.
+
+## Bản đồ kiến thức nền: Kiến trúc cơ bản của xác suất
+
+- **Không gian mẫu và Tiên đề Kolmogorov:** Gắn mỗi biến cố $$A \subset \Omega$$ với một số $$P(A) \in [0, 1]$$ thỏa $$P(\Omega) = 1$$ và tính cộng tính trên các biến cố xung khắc. Đây là điều kiện ràng buộc cho mọi vector phân phối xác suất thuộc đơn hình xác suất (probability simplex).
+- **Xác suất có điều kiện và Định lý Bayes:** Cập nhật niềm tin khi có thêm bằng chứng mới: $$P(A\mid B) = \frac{P(B\mid A)P(A)}{P(B)}$$. Đây là nền tảng của suy luận Bayes và tối ưu hóa hậu nghiệm cực đại (MAP).
+- **Tính độc lập và tích xác suất:** Khi các mẫu dữ liệu $$x_1, \dots, x_n$$ độc lập, xác suất đồng thời tách thành tích $$\prod P(x_i)$$; lấy logarit lập tức biến tích thành **tổng** $$\sum \log P(x_i)$$ — dạng hàm cực kỳ thuận lợi cho tính đạo hàm và tối ưu hóa.
+- **Kỳ vọng, phương sai và hiệp phương sai:** Tóm tắt trung tâm và độ phân tán của biến ngẫu nhiên; đặc biệt ma trận hiệp phương sai $$\Sigma$$ luôn đối xứng bán xác định dương ($$\Sigma \succeq 0$$), là đầu vào trực tiếp của bài toán tối ưu danh mục Markowitz.
+
+### Khung giải thích (nên đọc chậm): Định lý Bayes trong hệ thống cảnh báo lỗi hiếm
+
+Giả sử một dây chuyền sản xuất có tỷ lệ sản phẩm lỗi là $$2\%$$ ($$P(D) = 0.02$$). Một cảm biến kiểm tra tự động có độ nhạy $$95\%$$ ($$P(+\mid D) = 0.95$$) và tỷ lệ báo động giả $$5\%$$ ($$P(+\mid \neg D) = 0.05$$). Khi cảm biến bật đèn đỏ ($$+$$), xác suất sản phẩm thực sự bị lỗi là bao nhiêu?
+
+1. **Tính xác suất rơi vào từng nhánh báo động đỏ:**
+   - Lỗi thật và báo đúng: $$P(D \cap +) = P(D)P(+\mid D) = 0.02 \times 0.95 = 0.019$$.
+   - Không lỗi nhưng báo giả: $$P(\neg D \cap +) = P(\neg D)P(+\mid \neg D) = 0.98 \times 0.05 = 0.049$$.
+2. **Tính xác suất toàn phần có báo động đỏ:**
+   $$P(+) = 0.019 + 0.049 = 0.068.$$
+3. **Áp dụng định lý Bayes:**
+   $$P(D \mid +) = \frac{0.019}{0.068} = \frac{19}{68} \approx 0.2794 \text{ (khoảng } 27.94\%\text{)}.$$
+4. **Bài học tối ưu hóa quyết định:** Dù cảm biến chính xác tới $$95\%$$, hơn $$72\%$$ cảnh báo đỏ vẫn là báo giả do tỷ lệ nền $$P(D)$$ nhỏ! Khi thiết kế ngưỡng phân loại tối ưu, ta buộc phải cân đối cả xác suất tiên nghiệm lẫn chi phí sai lầm loại I và loại II.
+
+---
+
 ## Lý thuyết xác suất cơ bản
 
 Lý thuyết xác suất cung cấp khung toán học chặt chẽ để phân tích tính bất định — nền tảng của nhiều bài toán tối ưu hóa trong học máy và khoa học dữ liệu.
@@ -80,7 +106,8 @@ $$P(\Omega) = 1$$
 
 #### Tiên đề 3: Tính cộng đếm được
 Với mọi dãy biến cố đôi một xung khắc $$A_1, A_2, \ldots$$:
-$$P\left(igcup_{i=1}^{\infty} A_iight) = \sum_{i=1}^{\infty} P(A_i)$$
+$$P\left(igcup_{i=1}^{\infty} A_i
+ight) = \sum_{i=1}^{\infty} P(A_i)$$
 
 ### 3. Tính chất và quy tắc cơ bản
 
@@ -160,7 +187,8 @@ $$P(A|B) = P(A) \quad 	ext{và} \quad P(B|A) = P(B)$$
 ### 6. Biến ngẫu nhiên
 
 **Biến ngẫu nhiên** X là một hàm ánh xạ mỗi kết quả trong không gian mẫu thành một số thực:
-$$X: \Omega ightarrow \mathbb{R}$$
+$$X: \Omega 
+ightarrow \mathbb{R}$$
 
 #### Các loại biến ngẫu nhiên
 

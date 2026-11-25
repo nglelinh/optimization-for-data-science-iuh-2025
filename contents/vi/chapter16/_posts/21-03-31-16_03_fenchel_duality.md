@@ -8,6 +8,41 @@ categories:
 - chapter16
 lang: vi
 ---
+
+Đối ngẫu Lagrange rất mạnh khi bài toán được viết tường minh dưới dạng hàm mục tiêu kèm các bất đẳng thức vô hướng $$h_i(x) \le 0$$. Nhưng khi bài toán là tổng hai hàm lồi không trơn ghép qua một toán tử tuyến tính $$\min_x f(x) + g(Ax)$$ — hoặc đặc biệt hơn, là **Quy hoạch nón (Conic Programming)** với ràng buộc $$x \in K$$ (nón bậc hai, nón ma trận nửa xác định dương) — thì **Đối ngẫu Fenchel** lại tỏa sáng với vẻ đẹp đối xứng và sức tổng quát vượt trội.
+
+Chỉ bằng đúng hai hàm liên hợp $$f^*$$ và $$g^*$$, định lý đối ngẫu Fenchel biến bài toán nguyên thủy $$\min_x f(x) + g(Ax)$$ thành bài toán đối ngẫu $$\max_y -f^*(A^T y) - g^*(-y)$$ (tùy quy ước dấu). Không cần phân tách từng ràng buộc bất đẳng thức, toàn bộ cấu trúc hình học của nón $$K$$ tự động chuyển thành nón đối ngẫu $$K^*$$ chỉ sau một bước tính liên hợp của hàm chỉ thị!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của Đối ngẫu Fenchel và Quy hoạch nón
+
+- **Cặp bài toán Đối ngẫu Fenchel:**
+  - Nguyên thủy: $$\min_x f(x) + g(Ax)$$.
+  - Đối ngẫu: $$\max_u -f^*(-A^T u) - g^*(u)$$ (hoặc đổi biến $$y = -u$$ thành $$\max_y -f^*(A^T y) - g^*(-y)$$).
+- **Điều kiện đối ngẫu mạnh Fenchel–Rockafellar:** Khi $$f, g$$ lồi và tồn tại điểm $$x \in \operatorname{dom} f$$ sao cho $$Ax \in \operatorname{int}(\operatorname{dom} g)$$ (hoặc điều kiện tương đối trong cho tập affine), khoảng cách đối ngẫu Fenchel bằng $$0$$.
+- **Hai hàm liên hợp chìa khóa cho Quy hoạch nón:**
+  - Liên hợp của hàm chỉ thị không gian affine $$I_{\{Ax = b\}}(x)$$ liên kết trực tiếp với nhân tử $$y$$ qua $$A^T y$$.
+  - Liên hợp của hàm chỉ thị nón $$I_K(x)$$ chính là hàm chỉ thị của **nón cực** $$-K^*$$ (tức $$I_K^*(z) = I_{K^*}(-z)$$).
+- **Sức mạnh thống nhất LP – SOCP – SDP:** Quy hoạch nón chuẩn $$\min \{c^T x \mid Ax = b, x \in K\}$$ tự động sinh ra đối ngẫu $$\max \{b^T y \mid c - A^T y \in K^*\}$$ — chỉ cần thay $$K = \mathbb{R}_+^n, \mathcal{Q}_n, \mathbb{S}_+^n$$ là có ngay đối ngẫu của LP, SOCP và SDP!
+
+### Khung giải thích (nên đọc chậm): Áp dụng Đối ngẫu Fenchel suy ra đối ngẫu của một bài toán Quy hoạch Nón Bậc Hai (SOCP) nhỏ
+
+Xét bài toán quy hoạch nón bậc hai trên $$\mathbb{R}^3$$ với biến $$x = (x_1, x_2, x_3)^T$$ thuộc nón bậc hai $$K = \{(x_1, x_2, x_3) : \sqrt{x_1^2 + x_2^2} \le x_3\}$$ (nhớ $$K$$ tự đối ngẫu: $$K^* = K$$):
+
+$$\min_{x \in \mathbb{R}^3} x_1 + 2x_3 \qquad \text{với } x_3 = 1, \;\; x \in K.$$
+(Tức $$c = (1, 0, 2)^T$$, $$A = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}$$, $$b = 1$$).
+
+1. **Giải nhanh trực tiếp bài toán nguyên thủy để kiểm chứng:**
+   Vì $$x_3 = 1$$ và $$\sqrt{x_1^2 + x_2^2} \le 1$$, giá trị nhỏ nhất của $$x_1 + 2(1)$$ đạt tại $$x_1^\star = -1, x_2^\star = 0, x_3^\star = 1$$, cho $$p^\star = -1 + 2 = 1$$.
+2. **Suy dẫn bài toán đối ngẫu bằng công thức đối ngẫu nón Fenchel:**
+   $$\max_{y \in \mathbb{R}} b^T y \qquad \text{với } s = c - A^T y \in K^* = K.$$
+   Ta tính $$s = \begin{bmatrix} 1 \\ 0 \\ 2 \end{bmatrix} - \begin{bmatrix} 0 \\ 0 \\ y \end{bmatrix} = \begin{bmatrix} 1 \\ 0 \\ 2 - y \end{bmatrix}$$.
+3. **Áp dụng điều kiện $$s \in K$$ (nón bậc hai):**
+   $$\sqrt{1^2 + 0^2} \le 2 - y \iff 1 \le 2 - y \iff y \le 1.$$
+   Vậy bài toán đối ngẫu là $$\max_{y \le 1} y$$, đạt cực đại tại $$y^\star = 1$$ với $$d^\star = 1 = p^\star$$!
+   Kiểm tra thêm tính trực giao nón (bù yếu nón): $$x^{\star T} s^\star = (-1)(1) + 0(0) + (1)(1) = 0$$ — khớp hoàn hảo!
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

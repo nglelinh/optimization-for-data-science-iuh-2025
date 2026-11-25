@@ -9,6 +9,31 @@ categories:
 lang: en
 ---
 
+Think of a convex function $$f(x)$$ as the cost of producing $$x$$ units of a good, and suppose the market pays a unit price $$y$$ per unit sold. Your profit is $$y^T x - f(x)$$. The maximum profit you can earn at price $$y$$—namely $$f^*(y) = \max_x (y^T x - f(x))$$—is the **Fenchel conjugate** of $$f$$. Remarkably, knowing the optimal profit curve $$f^*(y)$$ for every price $$y$$ lets you reconstruct the original convex cost curve $$f(x)$$ without losing a single bit of information.
+
+## Background Knowledge Map: The Fenchel Conjugate Engine
+
+- **Pillar 1 — Pointwise Supremum Guarantees Convexity:** Because $$y \mapsto y^T x - f(x)$$ is affine in $$y$$ for every fixed $$x$$, $$f^*(y)$$ is *always* convex—even if the original function $$f$$ is nonconvex.
+- **Pillar 2 — Fenchel–Young Inequality & Tightness:** For every $$x, y$$, $$f(x) + f^*(y) \ge x^T y$$. Equality holds if and only if $$y \in \partial f(x)$$, linking slopes directly to primal-dual optimality.
+- **Pillar 3 — Biconjugate Duality ($$f^{**} = f$$):** For any closed, proper convex function, conjugating twice recovers $$f$$ exactly, giving the dual representation of a convex function as the envelope of all its supporting hyperplanes.
+- **Pillar 4 — Core Dictionary of Conjugates:** Quadratics map to inverse-Hessian quadratics ($$\frac{1}{2}x^T Q x \leftrightarrow \frac{1}{2}y^T Q^{-1} y$$), set indicators $$I_C$$ map to support functions $$I_C^*$$, and norms $$\|\cdot\|$$ map to dual-norm unit-ball indicators $$I_{\{\|\cdot\|_*\le 1\}}$$.
+
+### Step-by-Step Worked Example (Read Slowly): Computing a Conjugate and Verifying Fenchel's Inequality
+
+Consider the scalar exponential cost $$f(x) = e^x$$ on $$\mathbb{R}$$.
+
+1. **Set up the conjugate definition:**
+   $$f^*(y) = \sup_{x \in \mathbb{R}} \left(yx - e^x\right).$$
+2. **Analyze the three regimes of $$y$$:**
+   - **If $$y < 0$$:** Letting $$x \to -\infty$$ makes $$yx \to +\infty$$ while $$e^x \to 0$$, so $$f^*(y) = +\infty$$.
+   - **If $$y = 0$$:** $$\sup_x (-e^x) = 0$$ (approached as $$x \to -\infty$$), so $$f^*(0) = 0$$.
+   - **If $$y > 0$$:** Differentiate $$g(x) = yx - e^x$$: $$g'(x) = y - e^x = 0 \implies x^\star = \ln y$$ (a global max since $$g''(x) = -e^x < 0$$). Substituting back:
+     $$f^*(y) = y \ln y - y.$$
+3. **Check Fenchel's inequality numerically:** Pick $$x = 1$$ and $$y = e^2 \approx 7.389$$.
+   - $$f(1) + f^*(e^2) = e + (e^2 \cdot 2 - e^2) = e + e^2 \approx 2.718 + 7.389 = 10.107$$.
+   - $$xy = 1 \cdot e^2 \approx 7.389 \le 10.107$$ (strict inequality because $$y = e^2 \ne f'(1) = e$$).
+4. **Verify equality at $$y = f'(x)$$:** At $$x = 1$$ and $$y = e$$, $$f(1) + f^*(e) = e + (e \ln e - e) = e = 1 \cdot e = xy$$.
+
 For a given function $$f : \mathbb{R}^n → \mathbb{R}$$, the conjugate $$f^{∗} : \mathbb{R}^n → \mathbb{R}$$ is defined as follows:
 
 > $$f^{∗}(y) = \max_x y^Tx−f(x)$$

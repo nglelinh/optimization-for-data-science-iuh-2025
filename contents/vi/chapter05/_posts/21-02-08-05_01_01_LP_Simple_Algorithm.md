@@ -10,6 +10,42 @@ lang: vi
 lesson_type: required
 ---
 
+Một khối đa diện LP với 50 biến và 100 ràng buộc có thể sở hữu số đỉnh lớn hơn $$\binom{100}{50} \approx 10^{29}$$ — liệt kê hết các đỉnh là bất khả thi ngay cả với siêu máy tính nhanh nhất thế giới. Vậy mà **thuật toán Simplex** do George Dantzig phát minh năm 1947 lại thường tìm ra đỉnh tối ưu chỉ sau vài trăm bước nhảy!
+
+Bí quyết nằm ở đâu? Thay vì thử mù quáng mọi đỉnh, Simplex hành xử như một người leo núi thông minh trên khung cạnh của đa diện: đứng tại một đỉnh (nghiệm cơ sở khả thi), thuật toán nhìn dọc theo các cạnh xuất phát từ đỉnh đó, chọn một cạnh làm giảm hàm mục tiêu (chi phí rút gọn âm), rồi trượt thẳng sang đỉnh kề tốt hơn. Khi mọi cạnh xuất phát đều làm tăng hàm mục tiêu, ta biết chắc mình đã đứng ở đỉnh tối ưu toàn cục!
+
+## Bản đồ kiến thức nền: Động cơ đại số bên trong thuật toán Simplex
+
+Để không bao giờ bị lạc trong các bảng tính (tableau) của Simplex, hãy nắm vững bốn trụ cột:
+
+- **Nghiệm cơ sở khả thi (Basic Feasible Solution - BFS):** Với hệ $$Ax = b$$ ($$m$$ phương trình, $$n$$ biến, $$m < n$$), mỗi đỉnh của đa diện tương ứng với việc chọn $$m$$ biến **cơ sở** $$x_B$$ (tương ứng ma trận con khả nghịch $$B$$) và đặt $$n - m$$ biến **phi cơ sở** $$x_N = 0$$, sao cho $$x_B = B^{-1} b \ge 0$$.
+- **Chi phí rút gọn (Reduced Cost):** Khi tăng một biến phi cơ sở $$x_j$$ từ $$0$$ lên $$\theta > 0$$, tốc độ thay đổi ròng của hàm mục tiêu là $$\bar{c}_j = c_j - c_B^T B^{-1} A_j$$. Nếu mọi $$\bar{c}_j \ge 0$$, không hướng nào cải thiện được nữa — ta dừng và kết luận tối ưu!
+- **Phép xoay trục & Quy tắc tỉ số nhỏ nhất (Pivot & Minimum Ratio Test):** Khi chọn biến vào $$x_j$$ có $$\bar{c}_j < 0$$, ta tăng $$x_j$$ tối đa đến mức nào để các biến cơ sở $$x_B = B^{-1}b - \theta (B^{-1}A_j)$$ không bị âm? Đúng bằng $$\theta^\star = \min_{i : d_i > 0} \frac{(B^{-1}b)_i}{d_i}$$ với $$d = B^{-1}A_j$$. Biến cơ sở chạm $$0$$ đầu tiên sẽ rời cơ sở!
+- **Độ phức tạp thực tế vs. Trường hợp xấu nhất:** Dù về lý thuyết Klee–Minty chứng minh Simplex có thể tốn số bước hàm mũ trong trường hợp bệnh lý, trong thực tế Simplex chạy gần như tuyến tính $$O(m)$$ bước xoay và vẫn là bộ giải chuẩn cho các bài LP lớn cần khởi động ấm (warm-start).
+
+### Khung giải thích (nên đọc chậm): Chạy tay trọn vẹn 2 bước xoay Simplex trên một bài LP
+
+Xét bài toán dạng chuẩn:
+$$\min \; -3x_1 - 2x_2 \quad \text{s.t.} \quad \begin{cases} x_1 + x_2 + s_1 = 4 \\ 2x_1 + x_2 + s_2 = 6 \end{cases}, \qquad x_1, x_2, s_1, s_2 \ge 0.$$
+
+1. **Khởi tạo tại đỉnh gốc:** Cơ sở $$B = \{s_1, s_2\}$$, phi cơ sở $$N = \{x_1, x_2\}$$. Nghiệm: $$x_1=0, x_2=0, s_1=4, s_2=6$$, giá trị $$f = 0$$.
+   - Chi phí rút gọn: $$\bar{c}_{x_1} = -3 < 0$$, $$\bar{c}_{x_2} = -2 < 0$$. Chọn biến vào là $$x_1$$ (âm nhất).
+2. **Bước xoay 1 (đưa $$x_1$$ vào cơ sở):**
+   Giữ $$x_2 = 0$$, ta có $$s_1 = 4 - x_1 \ge 0 \implies x_1 \le 4$$ và $$s_2 = 6 - 2x_1 \ge 0 \implies x_1 \le 3$$.
+   Tỉ số nhỏ nhất là $$\min(4/1,\; 6/2) = 3$$, nên $$s_2$$ rời cơ sở!
+   Từ phương trình 2: $$x_1 = 3 - 0.5x_2 - 0.5s_2$$. Thế vào phương trình 1 và hàm mục tiêu:
+   $$s_1 = 1 - 0.5x_2 + 0.5s_2, \qquad f = -9 - 0.5x_2 + 1.5s_2.$$
+   Đỉnh hiện tại: $$(x_1, x_2, s_1, s_2) = (3, 0, 1, 0)$$, $$f = -9$$.
+3. **Bước xoay 2 (đưa $$x_2$$ vào cơ sở):**
+   Nhìn vào $$f = -9 - 0.5x_2 + 1.5s_2$$: chi phí rút gọn $$\bar{c}_{x_2} = -0.5 < 0$$, nên chọn $$x_2$$ vào cơ sở!
+   Giữ $$s_2 = 0$$: $$s_1 = 1 - 0.5x_2 \ge 0 \implies x_2 \le 2$$; $$x_1 = 3 - 0.5x_2 \ge 0 \implies x_2 \le 6$$.
+   Tỉ số nhỏ nhất là $$2$$, nên $$s_1$$ rời cơ sở! Từ $$s_1 = 1 - 0.5x_2 + 0.5s_2 \implies x_2 = 2 - 2s_1 + s_2$$.
+   Thế vào $$x_1$$ và $$f$$:
+   $$x_1 = 2 + s_1 - s_2, \qquad f = -10 + s_1 + s_2.$$
+4. **Kiểm tra điều kiện dừng:** Mọi chi phí rút gọn của biến phi cơ sở ($$+1$$ cho $$s_1$$, $$+1$$ cho $$s_2$$) đều $$\ge 0$$! Dừng ngay: nghiệm tối ưu là $$x_1^\star = 2, x_2^\star = 2$$ và $$f^\star = -10$$.
+
+---
+
 Bài toán [quy hoạch tuyến tính]({% multilang_post_url contents/chapter05/21-02-08-05_01_Linear_Programming_(LP) %}) ở tiết trước có tập khả thi là một tập đa diện. Một tính chất hình học đặc trưng của LP là: **nếu tồn tại nghiệm tối ưu hữu hạn (và tập khả thi không chứa đường thẳng), thì có ít nhất một điểm tối ưu nằm tại một đỉnh**. Thuật toán đơn hình (Simplex) di chuyển từ đỉnh này sang đỉnh kề sao cho giá trị hàm mục tiêu được cải thiện, cho đến khi không còn đỉnh lân cận nào tốt hơn.
 
 Minh họa bảng đơn hình tương tác: [demo simplex](https://github.com/nglelinh/interactive_math/blob/main/linear-programming/simplex_optimization_demo.html) trong `nglelinh/interactive_math`.

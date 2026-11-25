@@ -10,6 +10,28 @@ categories:
 lesson_type: required
 ---
 
+When an interior-point method marches toward an optimal solution sitting on the boundary of a feasible polytope, it deliberately stays inside the *interior* so that its logarithmic barrier stays finite, converging to a *boundary* point only in the limit. Understanding open balls, interiors, closures, boundaries, and compactness explains exactly why Slater's condition requires a strictly feasible interior point and why Weierstrass's theorem guarantees an optimizer exists.
+
+## Background Knowledge Map: Topological Concepts That Govern Convergence
+
+- **Metric & Open Balls ($$B(x, r)$$):** Formalize "closeness" in $$\mathbb{R}^n$$; a point is in the interior of $$S$$ if you can wiggle it by some radius $$r > 0$$ in *every* direction without leaving $$S$$.
+- **Open vs. Closed Sets:** Closed sets contain all limits of convergent sequences inside them—critical so that the limit of an algorithm's iterates $$x_k \to x^*$$ remains feasible.
+- **Closure ($$\text{cl}(S)$$) & Boundary ($$\partial S$$):** Active constraints at an optimum $$x^*$$ almost always place $$x^*$$ on the boundary $$\partial S = \text{cl}(S) \setminus \text{int}(S)$$.
+- **Compactness (Heine–Borel in $$\mathbb{R}^n$$):** Closed and bounded sets trap every sequence so it has a convergent subsequence inside the set, guaranteeing global minima for continuous objectives.
+
+### Step-by-Step Worked Example (Read Slowly): Interior, Closure, Boundary, and Compactness of a Half-Disk
+
+Analyze the planar set $$S = \{(x, y) \in \mathbb{R}^2 : x^2 + y^2 < 4,\; y \ge 0\}$$.
+
+1. **Test an interior point $$p = (0, 1)$$:** Distance from $$p$$ to the line $$y = 0$$ is $$1$$, and distance to the circle $$x^2 + y^2 = 4$$ (radius 2) is $$2 - 1 = 1$$. Therefore the open ball $$B(p, 0.5)$$ lies completely inside $$S$$, proving $$p \in \text{int}(S)$$.
+2. **Identify interior, closure, and boundary:**
+   - $$\text{int}(S) = \{(x, y) : x^2 + y^2 < 4,\; y > 0\}$$ (open upper half-disk).
+   - $$\text{cl}(S) = \{(x, y) : x^2 + y^2 \le 4,\; y \ge 0\}$$ (adds the upper semicircular arc).
+   - $$\partial S = \{(x, y) : x^2 + y^2 = 4, y \ge 0\} \cup \{(x, 0) : -2 \le x \le 2\}$$.
+3. **Check openness, closedness, and compactness:**
+   - $$S$$ is **neither open nor closed**: $$(0, 0) \in S$$ is not interior (so not open), and the sequence $$(0, 2 - 1/n) \in S$$ converges to $$(0, 2) \notin S$$ (so not closed).
+   - Although $$S$$ is bounded (contained in $$B(0, 2)$$), it is **not compact** because it is not closed. Its closure $$\text{cl}(S)$$ is both closed and bounded, hence **compact**.
+
 This lesson covers essential topological concepts from real analysis that are crucial for understanding the structure of feasible regions, continuity, and the existence of optimal solutions in optimization problems.
 
 ---

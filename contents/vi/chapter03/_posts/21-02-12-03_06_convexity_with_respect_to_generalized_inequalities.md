@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Khi tối ưu hóa một hệ thống truyền thông, danh mục đầu tư đa mục tiêu hay thiết kế ma trận hiệp phương sai trong Quy hoạch bán xác định (SDP), hàm mục tiêu không còn trả về một số thực đơn lẻ mà trả về một **vector** hoặc một **ma trận đối xứng**! Làm sao định nghĩa "hàm giá trị ma trận $$f(X) = X^2$$ là hàm lồi"? Ta chỉ cần ghép Chương 02 (bất đẳng thức tổng quát $$\preceq_K$$) với Chương 03 (bất đẳng thức Jensen) để thu được khái niệm **tính lồi theo hình nón $$K$$** ($$K$$-convexity)!
+
+Bài học này tổng quát hóa tính đơn điệu, tính lồi, đặc trưng đối ngẫu và quy tắc hợp thành cho các hàm giá trị vector và ma trận.
+
+## Bản đồ kiến thức nền: Bốn mảnh ghép của Tính lồi theo $$K$$
+
+- **Tính đơn điệu theo $$K$$ ($$K$$-monotonicity):** Với hai hình nón thích hợp $$K_1, K_2$$, hàm $$f$$ gọi là không giảm nếu $$x \preceq_{K_1} y \implies f(x) \preceq_{K_2} f(y)$$. Ví dụ kinh điển: trên $$\mathbb{S}_+^n$$, $$f(X) = X^{-1}$$ là hàm **giảm** theo thứ tự Loewner ($$0 \prec X \preceq Y \implies Y^{-1} \preceq X^{-1}$$).
+- **Tính lồi theo $$K$$ ($$K$$-convexity):** $$f(\theta x + (1-\theta)y) \preceq_K \theta f(x) + (1-\theta)f(y)$$ với mọi $$\theta \in [0, 1]$$.
+- **Đặc trưng đối ngẫu cực kỳ thanh lịch:** $$f$$ là $$K$$-lồi khi và chỉ khi với **mọi** $$w \succeq_{K^*} 0$$, hàm vô hướng $$w^T f(x)$$ là hàm lồi thông thường! Quy tắc này biến việc kiểm tra tính lồi trên ma trận thành kiểm tra hàm số thực quen thuộc.
+- **Điều kiện bậc nhất và hợp thành:** Mở rộng trực tiếp tiếp tuyến $$f(y) \succeq_K f(x) + Df(x)(y - x)$$ và quy tắc hợp thành $$h(g(x))$$ cho hàm nhiều chiều.
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng tính lồi ma trận ($$\mathbb{S}_+^2$$-lồi) của $$f(X) = X^2$$
+
+Xét hàm giá trị ma trận $$f(X) = X^2$$ trên không gian ma trận đối xứng $$\mathbb{S}^2$$ với hình nón $$K = \mathbb{S}_+^2$$. Lấy hai ma trận:
+$$A = \begin{pmatrix}2 & 0\\ 0 & 0\end{pmatrix}, \qquad B = \begin{pmatrix}0 & 0\\ 0 & 2\end{pmatrix}, \qquad \theta = 0.5.$$
+
+1. **Tính giá trị tại trung điểm $$M = \frac{A + B}{2}$$:**
+   $$M = \begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix} \implies f(M) = M^2 = \begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix}.$$
+2. **Tính trung bình hai đầu mút:**
+   $$\frac{f(A) + f(B)}{2} = \frac{1}{2}\begin{pmatrix}4 & 0\\ 0 & 0\end{pmatrix} + \frac{1}{2}\begin{pmatrix}0 & 0\\ 0 & 4\end{pmatrix} = \begin{pmatrix}2 & 0\\ 0 & 2\end{pmatrix}.$$
+3. **Kiểm tra hiệu theo hình nón $$\mathbb{S}_+^2$$:**
+   $$\frac{f(A) + f(B)}{2} - f(M) = \begin{pmatrix}2 & 0\\ 0 & 2\end{pmatrix} - \begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix} = \begin{pmatrix}1 & 0\\ 0 & 1\end{pmatrix} \succeq 0.$$
+   Vậy $$f\left(\frac{A+B}{2}\right) \preceq_{\mathbb{S}_+^2} \frac{f(A)+f(B)}{2}$$! (Thậm chí chứng minh tổng quát rất đẹp: với mọi $$z \in \mathbb{R}^n$$, $$z^T X^2 z = \|Xz\|_2^2$$ là hàm lồi theo $$X$$, suy ra ngay theo đặc trưng đối ngẫu rằng $$X^2$$ là $$\mathbb{S}_+^n$$-lồi — nhưng chú ý $$X^3$$ lại *không* lồi trên ma trận!)
+
+---
+
 Phần này mở rộng khái niệm tính đơn điệu và tính lồi từ các hàm giá trị thực thông thường sang các hàm giá trị vector thông qua bất đẳng thức tổng quát.
 
 Trong các không gian nhiều chiều, ta dùng hình nón thích hợp để định nghĩa bất đẳng thức tổng quát, mở rộng quan hệ thứ tự quen thuộc trên $$\mathbb{R}$$ (xem bài [02-01-04]({% multilang_post_url contents/chapter02/21-02-08-02_01_04_Convex_cone %})).

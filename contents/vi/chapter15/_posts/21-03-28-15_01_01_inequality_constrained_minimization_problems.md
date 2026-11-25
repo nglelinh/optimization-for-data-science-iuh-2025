@@ -9,6 +9,32 @@ categories:
 lang: vi
 ---
 
+Trước thế kỷ 20 cuối những năm 1980, nếu cần giải một bài toán quy hoạch tuyến tính có ràng buộc bất đẳng thức, hầu như mọi kỹ sư đều nghĩ ngay đến **thuật toán Đơn hình (Simplex)** — thuật toán "bò men theo từng cạnh và đỉnh" ở vỏ ngoài của khối đa diện khả thi. Simplex chạy rất nhanh trên nhiều bài toán thực tế, nhưng trong trường hợp xấu nhất (khối lập phương Klee–Minty), nó phải đi qua số đỉnh tăng theo hàm mũ!
+
+**Phương pháp điểm trong (Interior-Point Method)** tạo ra một cuộc cách mạng tư duy ngược hoàn toàn: thay vì men theo các góc nhọn ở vỏ ngoài, nó **đâm xuyên qua phần ruột (miền trong)** của tập khả thi! Để làm được điều đó, bài học này bắt đầu bằng việc phát biểu chuẩn bài toán tối ưu lồi có cả ràng buộc đẳng thức lẫn bất đẳng thức và chuyển hóa nó sang bài toán chỉ có ràng buộc đẳng thức thông qua hàm chỉ thị.
+
+## Bản đồ kiến thức nền: Bối cảnh bài toán chuẩn và điều kiện cần của phương pháp điểm trong
+
+- **Dạng chuẩn bài toán tối ưu lồi trơn:** $$\min_x f(x)$$ thỏa $$Ax = b$$ và $$h_i(x) \le 0$$ ($$i = 1, \dots, m$$), trong đó $$f, h_1, \dots, h_m$$ lồi và khả vi hai lần liên tục.
+- **Điều kiện khả thi chặt (Slater's Condition):** Phải tồn tại ít nhất một điểm $$x$$ nằm hoàn toàn bên trong miền ràng buộc bất đẳng thức ($$h_i(x) < 0$$ với mọi $$i$$ và $$Ax = b$$). Điều này vừa đảm bảo miền trong khác rỗng cho phương pháp điểm trong, vừa đảm bảo **đối ngẫu mạnh** và tồn tại nghiệm KKT!
+- **Hàm chỉ thị $$I_-(u)$$ như bước đệm khái niệm:** Viết lại ràng buộc $$h_i(x) \le 0$$ bằng cách cộng $$\sum I_-(h_i(x))$$ vào $$f(x)$$ xóa sạch ràng buộc bất đẳng thức về mặt hình thức, mở đường cho bước thay $$I_-$$ bằng hàm chắn trơn ở bài tiếp theo.
+
+### Khung giải thích (nên đọc chậm): Phân biệt miền khả thi, biên và miền trong chặt trên một đa giác nhỏ
+
+Xét bài toán trên $$\mathbb{R}^2$$ với 3 ràng buộc bất đẳng thức:
+$$h_1(x) = -x_1 \le 0, \qquad h_2(x) = -x_2 \le 0, \qquad h_3(x) = x_1 + x_2 - 2 \le 0.$$
+
+1. **Kiểm tra điểm $$x_A = (0, 0)^T$$:**
+   $$h_1(x_A) = 0, \quad h_2(x_A) = 0, \quad h_3(x_A) = -2 < 0.$$
+   Điểm $$x_A$$ là **khả thi** (nằm trên góc biên tam giác), nên hàm chỉ thị $$\sum I_-(h_i(x_A)) = 0$$, nhưng **không khả thi chặt** (vì $$h_1 = h_2 = 0$$, nên $$\log(-h_1)$$ không xác định!).
+2. **Kiểm tra điểm $$x_B = (0.5, 0.5)^T$$:**
+   $$h_1(x_B) = -0.5 < 0, \quad h_2(x_B) = -0.5 < 0, \quad h_3(x_B) = -1 < 0.$$
+   Điểm $$x_B$$ là **khả thi chặt** (nằm hoàn toàn trong ruột tam giác), chứng minh điều kiện Slater thỏa mãn và có thể dùng làm điểm xuất phát cho phương pháp điểm trong!
+3. **Kiểm tra điểm $$x_C = (1.5, 1)^T$$:**
+   $$h_3(x_C) = 0.5 > 0 \implies I_-(h_3(x_C)) = +\infty$$ — vi phạm ràng buộc, bị hàm chỉ thị loại bỏ ngay lập tức.
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

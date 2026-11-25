@@ -10,6 +10,38 @@ lang: vi
 lesson_type: required
 ---
 
+Nhìn lại hai thái cực của tối ưu tổng hữu hạn $$F(w) = \frac{1}{n}\sum_{i=1}^n f_i(w)$$ khi $$F$$ lồi mạnh: **Full-Batch GD** hội tụ tuyến tính thần tốc ($$O(\log(1/\epsilon))$$ bước), nhưng mỗi bước tốn $$O(n)$$ phép tính; còn **SGD** mỗi bước chỉ tốn $$O(1)$$, nhưng lại bị kẹt ở tốc độ chậm $$O(1/\epsilon)$$ vì nhiễu gradient không chịu tắt khi tới gần nghiệm $$w^\star$$.
+
+Suốt nhiều năm, người ta tưởng phải chấp nhận một trong hai cái giá ấy — cho đến khi cuộc cách mạng **giảm phương sai (Variance Reduction)** bùng nổ năm 2013–2014 với **SVRG** (Johnson & Zhang) và **SAGA** (Defazio, Bach & Lacoste-Julien). Bằng một thủ thuật thống kê kinh điển gọi là **biến kiểm soát (control variate)**, họ đạt được điều tưởng chừng bất khả thi: **chi phí mỗi bước chỉ $$O(1)$$ như SGD, nhưng tốc độ hội tụ lại tuyến tính nhanh như Full-Batch GD**!
+
+## Bản đồ kiến thức nền: Ba trụ cột của SVRG và SAGA
+
+Để nhìn xuyên qua các ký hiệu chỉ số trong bài và nắm ngay "phép màu" triệt tiêu phương sai, hãy nhớ ba trụ cột sau:
+
+- **Nguyên lý Biến kiểm soát (Control Variate):** Cho biến ngẫu nhiên $$X = \nabla f_I(w)$$ cần ước lượng kỳ vọng $$\nabla F(w)$$. Nếu có một biến $$Y = \nabla f_I(\tilde{w})$$ tương quan mạnh với $$X$$ mà ta *biết chính xác kỳ vọng* $$\mathbb{E}[Y] = \nabla F(\tilde{w})$$, thì ước lượng hiệu chỉnh $$v = X - Y + \mathbb{E}[Y]$$ vẫn **không chệch**, nhưng phương sai của nó giảm từ $$\operatorname{Var}(X)$$ xuống $$\operatorname{Var}(X - Y) \le L^2 \|w - \tilde{w}\|^2$$ — tự động về $$0$$ khi $$w, \tilde{w} \to w^\star$$!
+- **SVRG (Lưu điểm mốc theo từng vòng ngoài — ít bộ nhớ):** Cứ mỗi $$m$$ bước trong, SVRG dừng lại tính một lần gradient toàn lô $$\tilde{\mu} = \nabla F(\tilde{w})$$ tại điểm mốc $$\tilde{w}$$, rồi dùng nó để hiệu chỉnh $$m$$ bước ngẫu nhiên tiếp theo. Ưu điểm: không cần lưu bảng gradient (bộ nhớ $$O(d)$$).
+- **SAGA (Lưu bảng gradient — không cần vòng ngoài):** Giữ một bảng chứa gradient gần nhất của từng mẫu $$1, \dots, n$$ và cập nhật 1 dòng mỗi bước. Ưu điểm: không cần tính full-batch định kỳ; nhược điểm: tốn bộ nhớ $$O(nd)$$ (hoặc $$O(n)$$ cho mô hình tuyến tính), và cả SVRG/SAGA đều phát huy mạnh nhất cho bài toán lồi tổng hữu hạn hơn là mạng sâu có data augmentation.
+
+### Khung giải thích (nên đọc chậm): Tính tay để thấy phương sai SVRG triệt tiêu hoàn toàn tại đích
+
+Xét hàm tổng hữu hạn gồm $$n = 2$$ thành phần:
+
+$$
+f_1(w) = \frac{1}{2}(w - 2)^2, \qquad f_2(w) = \frac{1}{2}(w + 2)^2, \qquad F(w) = \frac{f_1(w) + f_2(w)}{2} = \frac{1}{2}w^2 + 2.
+$$
+
+Nghiệm tối ưu toàn cục là $$w^\star = 0$$ ($$\nabla F(0) = 0$$). Giả sử ta đang đứng đúng tại đích $$w = 0$$:
+
+1. **SGD thông thường tại $$w = 0$$:**
+   - Nếu bốc mẫu $$I = 1$$: $$\nabla f_1(0) = 0 - 2 = -2$$.
+   - Nếu bốc mẫu $$I = 2$$: $$\nabla f_2(0) = 0 + 2 = +2$$.
+   Kỳ vọng bằng $$0$$, nhưng **phương sai bằng $$4$$**! Dù đã đứng ngay tại nghiệm tối ưu $$w^\star = 0$$, SGD vẫn bị đá văng khỏi đích ở mọi bước trừ khi ép $$\eta \to 0$$!
+2. **Ước lượng SVRG tại $$w = 0$$ với điểm mốc $$\tilde{w} = 0.1$$:**
+   Tại mốc $$\tilde{w} = 0.1$$, ta đã tính sẵn $$\nabla F(0.1) = 0.1$$, còn $$\nabla f_1(0.1) = 0.1 - 2 = -1.9$$ và $$\nabla f_2(0.1) = 0.1 + 2 = +2.1$$.
+   Bây giờ tính vector cập nhật SVRG $$v = \nabla f_I(w) - \nabla f_I(\tilde{w}) + \nabla F(\tilde{w})$$:
+   - Nếu bốc mẫu $$I = 1$$: $$v = (-2) - (-1.9) + 0.1 = -0.1 + 0.1 = 0$$!
+   - Nếu bốc mẫu $$I = 2$$: $$v = (+2) - (+2.1) + 0.1 = -0.1 + 0.1 = 0$$!
+3. **Điều kỳ diệu:** Cả hai nhánh ngẫu nhiên đều cho kết quả chính xác **bằng 0** (phương sai triệt tiêu hoàn toàn!) vì thành phần lệch cố định $$-2$$ và $$+2$$ của từng mẫu đã bị trừ sạch bởi $$\nabla f_I(w) - \nabla f_I(\tilde{w})$$! Do đó SVRG dùng được bước học cố định $$\eta$$ lớn mà vẫn hội tụ tuyến tính về đúng $$w^\star$$.
 
 Giới hạn $$O(1/\sqrt{T})$$ của SGD trên bài toán tổng hữu hạn lồi Lipschitz không phải là giới hạn bất khả kháng của lớp bài toán này. Đó là hệ quả của việc sử dụng gradient *không chệch nhưng vẫn còn nhiễu* với phương sai không triệt tiêu ngay cả khi $$w$$ đã tới sát điểm cực tiểu. Các phương pháp **giảm phương sai (variance reduction)** tái sử dụng các gradient đã tính trước đó (tại một điểm mốc hoặc trong một bảng lưu trữ) để làm cho nhiễu ước lượng tiến về 0 khi $$w \to w^\star$$. Bài này trình bày hai thuật toán nền tảng là SVRG và SAGA: đủ chi tiết đại số để hiểu *vì sao* phương sai triệt tiêu, đủ rõ ràng để tự cài đặt, và xác định ranh giới thực tế về phạm vi áp dụng của chúng.
 

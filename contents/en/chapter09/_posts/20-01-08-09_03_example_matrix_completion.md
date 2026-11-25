@@ -9,6 +9,34 @@ categories:
 lang: en
 ---
 
+In 2006, Netflix offered a one-million-dollar prize to anyone who could improve movie rating predictions by 10%. Mathematically, the user-by-movie rating table is a giant matrix with 99% of its entries missing—and predicting the blanks requires assuming the true preference matrix has **low rank** (most viewers' tastes are combinations of a few latent genres). Minimizing rank directly is NP-hard, so optimization theorists replace rank with its tightest convex envelope: the **nuclear (trace) norm** $$\|B\|_* = \sum_i \sigma_i(B)$$. Proximal gradient descent then solves matrix completion with extraordinary elegance by soft-thresholding singular values at every step!
+
+## Background Knowledge Map: Low-Rank Matrix Completion via Proximal Gradient
+
+- **Pillar 1 — Observed-Entry Projection $$P_\Omega$$:** Given observed index set $$\Omega$$, $$[P_\Omega(B)]_{ij} = B_{ij}$$ if $$(i, j) \in \Omega$$ and $$0$$ otherwise. The smooth data-fidelity term $$g(B) = \frac{1}{2}\|P_\Omega(Y) - P_\Omega(B)\|_F^2$$ has Lipschitz gradient $$\nabla g(B) = -(P_\Omega(Y) - P_\Omega(B))$$ with constant $$L = 1$$!
+- **Pillar 2 — Trace (Nuclear) Norm as Matrix $$\ell_1$$:** Just as $$\|x\|_1$$ is the convex relaxation of vector sparsity $$\|x\|_0$$, the trace norm $$\|B\|_* = \sum_{i=1}^r \sigma_i(B)$$ is the convex relaxation of $$\operatorname{rank}(B)$$, promoting low-rank solutions by driving small singular values to exact zero.
+- **Pillar 3 — Singular Value Thresholding (SVT) Proximal Operator:** The proximal mapping of $$h(B) = \lambda \|B\|_*$$ is $$\operatorname{prox}_{t h}(Z) = U \operatorname{diag}((\sigma_i - \lambda t)_+) V^\top$$, where $$Z = U \Sigma V^\top$$ is the SVD of $$Z$$. It leaves singular vectors untouched and soft-thresholds each singular value by $$\lambda t$$.
+- **Pillar 4 — Soft-Impute Algorithm:** Because $$L = 1$$, choosing step size $$t = 1$$ simplifies the gradient proposal to $$B^{(k-1)} + P_\Omega(Y - B^{(k-1)}) = P_\Omega(Y) + P_{\Omega^\perp}(B^{(k-1)})$$—literally filling missing entries with the current estimate and applying SVT!
+
+### Step-by-Step Worked Example (Read Slowly): One Soft-Impute (Proximal Gradient) Step on a $$2 \times 2$$ Matrix
+
+Suppose we observe three entries of a $$2 \times 2$$ matrix $$Y$$: $$Y_{11} = 4,\; Y_{12} = 0,\; Y_{21} = 0$$, while $$Y_{22}$$ is missing ($$\Omega = \{(1,1), (1,2), (2,1)\}$$). We solve $$\min_B \frac{1}{2}\|P_\Omega(Y - B)\|_F^2 + \lambda \|B\|_*$$ with $$\lambda = 1.5$$, step size $$t = 1$$, starting from $$B^{(0)} = \begin{pmatrix}0 & 0 \\ 0 & 2\end{pmatrix}$$.
+
+1. **Form the gradient-step matrix $$Z^{(0)} = P_\Omega(Y) + P_{\Omega^\perp}(B^{(0)})$$:**
+   - On observed entries $$\Omega$$, insert $$Y$$: $$(4, 0, 0)$$.
+   - On missing entry $$(2, 2)$$, keep $$B^{(0)}_{22} = 2$$.
+   $$Z^{(0)} = \begin{pmatrix}4 & 0 \\ 0 & 2\end{pmatrix}.$$
+2. **Compute the SVD of $$Z^{(0)}$$:**
+   Since $$Z^{(0)}$$ is already diagonal and nonnegative, $$U = V = I_2$$ with singular values $$\sigma_1 = 4$$ and $$\sigma_2 = 2$$.
+3. **Apply Singular Value Soft-Thresholding with threshold $$\lambda t = 1.5 \cdot 1 = 1.5$$:**
+   - $$\tilde{\sigma}_1 = \max(4 - 1.5,\; 0) = 2.5$$.
+   - $$\tilde{\sigma}_2 = \max(2 - 1.5,\; 0) = 0.5$$.
+   $$B^{(1)} = \begin{pmatrix}2.5 & 0 \\ 0 & 0.5\end{pmatrix}.$$
+4. **Watch the rank drop on Iteration 2:**
+   - $$Z^{(1)} = \begin{pmatrix}4 & 0 \\ 0 & 0.5\end{pmatrix}$$ (singular values $$4$$ and $$0.5$$).
+   - Threshold by $$1.5$$: $$\tilde{\sigma}_1 = 2.5$$, $$\tilde{\sigma}_2 = \max(0.5 - 1.5, 0) = 0$$!
+   - Thus $$B^{(2)} = \begin{pmatrix}2.5 & 0 \\ 0 & 0\end{pmatrix}$$—an exact **rank-1** fixed point reached in just two steps!
+
 # Example: matrix completion
 
 In various applications, measured data is often represented as a matrix. In these cases, most entries in the matrix may be empty, with only a few entries containing observed data, leading to a sparse matrix. The challenge of filling in the missing entries in such a matrix is referred to as the **Matrix completion** problem.

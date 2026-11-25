@@ -9,6 +9,30 @@ categories:
 lang: en
 ---
 
+From reconstructing CT scans that must simultaneously match X-ray measurements and physical density bounds, to finding a portfolio that satisfies both risk caps and regulatory sector limits, engineers constantly face the **convex feasibility problem**: find a single point $$x$$ lying inside the intersection $$C_1 \cap C_2 \cap \dots \cap C_m$$ of several closed convex sets. Remarkably, by rewriting feasibility as minimizing the maximum Euclidean distance to all sets—an objective whose optimal value is known to be $$f^\star = 0$$—Polyak's subgradient method morphs automatically into the classic **alternating projections** algorithm!
+
+## Background Knowledge Map: Convex Feasibility as Nonsmooth Optimization
+
+- **Pillar 1 — Distance-to-Set Function:** For a nonempty closed convex set $$C_i$$, $$d_{C_i}(x) = \min_{y \in C_i} \|x - y\|_2$$ is convex and $$1$$-Lipschitz. Outside $$C_i$$, it is differentiable with unit-length gradient $$\nabla d_{C_i}(x) = \frac{x - P_{C_i}(x)}{\|x - P_{C_i}(x)\|_2}$$, pointing directly away from the unique Euclidean projection $$P_{C_i}(x)$$.
+- **Pillar 2 — Pointwise Maximum Formulation:** Defining $$f(x) = \max_{1 \le i \le m} d_{C_i}(x)$$ converts feasibility into $$\min_x f(x)$$. Whenever the intersection is nonempty, $$f^\star = 0$$ is known exactly, unlocking Polyak's step size with zero tuning.
+- **Pillar 3 — Active-Set Subgradient Selection:** By Danskin's / pointwise-maximum subdifferential rule, choosing the farthest set $$j \in \arg\max_i d_{C_i}(x^{(k)})$$ yields a valid unit-norm subgradient $$g^{(k)} = \frac{x^{(k)} - P_{C_j}(x^{(k)})}{\|x^{(k)} - P_{C_j}(x^{(k)})\|_2}$$ with $$\|g^{(k)}\|_2 = 1$$.
+- **Pillar 4 — Equivalence to Farthest-Set Projection:** Plugging $$f(x^{(k)}) = d_{C_j}(x^{(k)})$$, $$f^\star = 0$$, and $$\|g^{(k)}\|_2 = 1$$ into Polyak's update gives $$x^{(k+1)} = x^{(k)} - d_{C_j}(x^{(k)}) \frac{x^{(k)} - P_{C_j}(x^{(k)})}{d_{C_j}(x^{(k)})} = P_{C_j}(x^{(k)})$$: every Polyak subgradient step is literally an exact Euclidean projection onto the most violated constraint set.
+
+### Step-by-Step Worked Example (Read Slowly): Finding a Point in the Intersection of a Half-Space and a Disk
+
+Let $$C_1 = \{ (x_1, x_2) \in \mathbb{R}^2 : x_1^2 + x_2^2 \le 1 \}$$ (the unit disk) and $$C_2 = \{ (x_1, x_2) \in \mathbb{R}^2 : x_1 \ge 0.5 \}$$ (a right half-space). Start at $$x^{(0)} = (-3, 0)$$.
+
+1. **Iteration 1 at $$x^{(0)} = (-3, 0)$$:**
+   - Distance to $$C_1$$: $$P_{C_1}(-3, 0) = (-1, 0)$$, so $$d_{C_1}(x^{(0)}) = \|(-3, 0) - (-1, 0)\|_2 = 2.0$$.
+   - Distance to $$C_2$$: $$P_{C_2}(-3, 0) = (0.5, 0)$$, so $$d_{C_2}(x^{(0)}) = \|(-3, 0) - (0.5, 0)\|_2 = 3.5$$.
+   - Farthest set is $$C_2$$ ($$f(x^{(0)}) = 3.5$$). The unit subgradient is $$g^{(0)} = \frac{(-3, 0) - (0.5, 0)}{3.5} = (-1, 0)$$.
+   - Polyak step size: $$t_1 = \frac{f(x^{(0)}) - 0}{\|g^{(0)}\|_2^2} = \frac{3.5}{1^2} = 3.5$$.
+   - Update: $$x^{(1)} = (-3, 0) - 3.5(-1, 0) = (0.5, 0) = P_{C_2}(x^{(0)})$$.
+2. **Verify feasibility at $$x^{(1)} = (0.5, 0)$$:**
+   - Check $$C_1$$: $$0.5^2 + 0^2 = 0.25 \le 1$$ (inside $$C_1$$, $$d_{C_1} = 0$$).
+   - Check $$C_2$$: $$0.5 \ge 0.5$$ (inside $$C_2$$, $$d_{C_2} = 0$$).
+   - Thus $$f(x^{(1)}) = 0 = f^\star$$ and $$x^{(1)} \in C_1 \cap C_2$$ in one step! When the sets meet at an angle (e.g., two slanted half-spaces), the exact same rule zig-zags cleanly into $$C_1 \cap C_2$$ while shrinking $$\|x^{(k)} - x^\star\|_2$$ monotonically at every projection.
+
 Suppose we want to find a point in the intersection of several closed convex sets.
 
 First, let $$f_i(x)$$ be the distance from a point $$x$$ to the set $$C_i$$, and let $$f(x)$$ be the maximum of the distances from $$x$$ to all the sets $$C_i, i=1,...,m$$:

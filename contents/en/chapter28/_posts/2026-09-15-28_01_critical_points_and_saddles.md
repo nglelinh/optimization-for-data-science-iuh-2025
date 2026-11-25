@@ -10,6 +10,27 @@ lang: en
 lesson_type: required
 ---
 
+When gradient descent slows to a crawl and $$\|\nabla F(w)\|_2 \approx 0$$, you might assume you have arrived at a valley floor. In high dimensions, that assumption is almost always wrong: you are far more likely perched on a mountain pass—a **saddle point** where the terrain slopes upward along some eigenvectors of the Hessian and downward along others. Classifying critical points cleanly through the Hessian spectrum is the first step toward designing optimizers that refuse to stall on high-dimensional passes.
+
+## Background Knowledge Map: Hessian Spectrum and Critical-Point Taxonomy
+
+- **Second-Order Taylor Model:** Near any critical point $$w$$ where $$\nabla F(w) = 0$$, the landscape looks locally quadratic: $$F(w + \Delta) \approx F(w) + \frac{1}{2}\Delta^\top H \Delta$$, where $$H = \nabla^2 F(w)$$ is symmetric with real eigenvalues $$\lambda_1 \le \dots \le \lambda_d$$.
+- **Strict Saddles vs. Degenerate Saddles:** A critical point is a *strict saddle* if $$\lambda_{\min}(H) < 0$$—meaning there is a clear quadratic escape direction along the corresponding eigenvector. If $$\lambda_{\min}(H) = 0$$ (degenerate/monkey saddle), second derivatives are inconclusive and higher-order derivatives dictate geometry.
+- **Second-Order Necessary & Sufficient Conditions:** Every local minimum satisfies $$\nabla F(w) = 0$$ and $$H \succeq 0$$ (necessary); conversely, $$\nabla F(w) = 0$$ and $$H \succ 0$$ guarantees a strict local minimum (sufficient).
+- **The Saddle-to-Minimum Ratio in High Dimensions:** In random Gaussian landscapes (Dauphin et al. 2014), the fraction of critical points that are local minima shrinks like $$2^{-d}$$; nearly every high-loss critical point is a strict saddle with negative curvature waiting to be exploited.
+
+### Step-by-Step Worked Example (Read Slowly): Classifying All Critical Points of a 2D Nonconvex Surface
+
+Consider $$F(x, y) = x^3 - 3x + y^2$$.
+
+1. **Compute the gradient and set $$\nabla F(x, y) = 0$$:**
+   $$\nabla F(x, y) = \begin{pmatrix} 3x^2 - 3 \\ 2y \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies (x, y) \in \{(1, 0),\ (-1, 0)\}.$$
+2. **Compute the Hessian matrix $$H(x, y) = \nabla^2 F(x, y)$$:**
+   $$H(x, y) = \begin{pmatrix} 6x & 0 \\ 0 & 2 \end{pmatrix}.$$
+3. **Classify both critical points via eigenvalues:**
+   - At $$(1, 0)$$: $$H(1, 0) = \operatorname{diag}(6, 2) \succ 0$$ (eigenvalues $$6 > 0, 2 > 0$$) $$\implies$$ **strict local minimum** with $$F(1, 0) = -2$$.
+   - At $$(-1, 0)$$: $$H(-1, 0) = \operatorname{diag}(-6, 2)$$ (eigenvalues $$-6 < 0, +2 > 0$$) $$\implies$$ **strict saddle point** with $$F(-1, 0) = +2$$!
+4. **Identify the escape direction at $$(-1, 0)$$:** Along eigenvector $$v = (1, 0)^\top$$ (negative eigenvalue $$-6$$), stepping by $$\Delta = (\delta, 0)^\top$$ gives $$F(-1 + \delta, 0) = 2 - 3\delta^2 + \delta^3 < 2$$ for small $$\delta \ne 0$$—proving the saddle drops quadratically along $$x$$ while rising quadratically along $$y$$.
 
 Let $$F:\mathbb{R}^d\to\mathbb{R}$$ be twice continuously differentiable. A point $$w$$ is **critical** if $$\nabla F(w)=0$$. The Hessian $$H=\nabla^2 F(w)$$ then classifies the critical point *when it is nondegenerate* (no zero eigenvalue):
 

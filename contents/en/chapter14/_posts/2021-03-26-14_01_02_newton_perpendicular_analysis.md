@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+Every calculus student learns that $$-\nabla f(x)$$ points strictly perpendicular to the level curve $$f(x) = c$$. So it is natural to assume that Newton's method—being an "upgraded" gradient descent—also crosses level curves at $$90^\circ$$. In fact, it almost **never** does! On elongated elliptical valleys, the perpendicular direction misses the minimum completely, whereas Newton's method deliberately tilts *away* from the normal so it can aim directly at the valley floor.
+
+## Background Knowledge Map: Level-Curve Geometry of Newton vs. Gradient Descent
+
+- **Pillar 1 — Steepest Descent Is Euclidean-Orthogonal:** In the standard Euclidean inner product, $$-\nabla f(x)$$ is orthogonal to the tangent space of the level set $$\{y : f(y) = f(x)\}$$.
+- **Pillar 2 — Newton Is Steepest Descent in the Hessian Metric:** Defining the local inner product $$\langle u, v \rangle_H = u^T H v$$ (where $$H = \nabla^2 f(x)$$), the Newton step $$-H^{-1}\nabla f(x)$$ is orthogonal to the level curve *in the $$H$$-metric*, not the Euclidean metric.
+- **Pillar 3 — When Does Newton Move Perpendicularly?:** The angle between $$-\nabla f(x)$$ and $$-H^{-1}\nabla f(x)$$ is $$0^\circ$$ if and only if $$\nabla f(x)$$ is an eigenvector of $$\nabla^2 f(x)$$ (which happens everywhere only for isotropic $$H = cI$$, or along principal axes of an ellipse).
+- **Pillar 4 — Descent Guarantee Despite Large Angles:** Even when the Euclidean angle between $$\Delta x_{\text{nt}}$$ and $$-\nabla f(x)$$ approaches $$89^\circ$$ on extreme canyons, $$\nabla f(x)^T \Delta x_{\text{nt}} = -\nabla f(x)^T H^{-1}\nabla f(x) < 0$$ guarantees the angle is strictly acute ($$< 90^\circ$$).
+
+### Step-by-Step Worked Example (Read Slowly): Measuring the Exact Angle Between Newton and the Level-Curve Normal
+
+Consider the elliptical bowl $$f(x_1, x_2) = \frac{1}{2}(x_1^2 + 9x_2^2)$$ at $$x = (3, 1)^T$$.
+
+1. **Compute the steepest-descent direction (perpendicular to the level curve):**
+   $$d_{\text{GD}} = -\nabla f(3, 1) = -\begin{bmatrix} 3 \\ 9 \end{bmatrix} = \begin{bmatrix} -3 \\ -9 \end{bmatrix}, \qquad \|d_{\text{GD}}\|_2 = \sqrt{9 + 81} = \sqrt{90} \approx 9.487.$$
+2. **Compute the Newton direction:** With $$H = \operatorname{diag}(1, 9)$$,
+   $$d_{\text{NT}} = -H^{-1}\nabla f(3, 1) = -\begin{bmatrix} 1 & 0 \\ 0 & 1/9 \end{bmatrix}\begin{bmatrix} 3 \\ 9 \end{bmatrix} = \begin{bmatrix} -3 \\ -1 \end{bmatrix}, \qquad \|d_{\text{NT}}\|_2 = \sqrt{10} \approx 3.162.$$
+   Notice $$x + d_{\text{NT}} = (0, 0)^T$$ hits the exact minimum!
+3. **Compute the Euclidean angle $$\theta$$ between $$d_{\text{GD}}$$ and $$d_{\text{NT}}$$:**
+   $$\cos\theta = \frac{d_{\text{GD}}^T d_{\text{NT}}}{\|d_{\text{GD}}\|_2 \|d_{\text{NT}}\|_2} = \frac{(-3)(-3) + (-9)(-1)}{\sqrt{90}\cdot\sqrt{10}} = \frac{9 + 9}{30} = \frac{18}{30} = 0.6.$$
+   Therefore $$\theta = \arccos(0.6) \approx 53.13^\circ$$! Newton tilts $$53.13^\circ$$ away from the perpendicular normal so it can shoot straight to the origin.
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center",

@@ -11,6 +11,33 @@ redirect_from:
   - /contents/vi/chapter11/11_09_Dual_of_Dual_General_Case/
 ---
 
+Ở Chương 10, ta đã tận hưởng cảm giác đối xứng hoàn hảo của Quy hoạch tuyến tính: lấy đối ngẫu hai lần luôn quay về chính xác bài toán gốc. Bước sang Chương 11 với các hàm phi tuyến tổng quát, một câu hỏi vừa sâu sắc vừa tinh tế xuất hiện: **trong tối ưu lồi tổng quát, "đối ngẫu của đối ngẫu" có còn là bài toán gốc nữa không?**
+
+Câu trả lời là một kiệt tác của giải tích lồi hiện đại (Định lý Fenchel–Moreau): **CÓ**, miễn là bài toán gốc lồi, các hàm đóng (nửa liên tục dưới) và thỏa điều kiện chuẩn hóa (như Slater)! Còn nếu bài toán gốc *không lồi* thì sao? Khi đó, phép lấy đối ngẫu hai lần không quay về bài toán gốc gồ ghề ban đầu nữa, mà trả về **bản bao lồi đóng chặt nhất nằm dưới bài toán gốc (convex relaxation / biconjugate $$f^{**}$$)**! Khám phá này giải thích lý do vì sao trong tối ưu tổ hợp và học máy không lồi, việc lấy đối ngẫu kép là cách tự động tạo ra bản nới lỏng lồi tốt nhất!
+
+## Bản đồ kiến thức nền: Bốn trụ cột của tính đối ngẫu kép tổng quát
+
+- **Định lý Fenchel–Moreau (Liên hợp kép $$f^{**} = f$$):** Nếu $$f$$ là hàm lồi, chính quy (proper) và đóng (lower semicontinuous), thì hàm liên hợp của hàm liên hợp bằng chính nó: $$(f^*)^*(x) = f(x)$$. Nếu $$f$$ không lồi, $$f^{**}$$ là hàm lồi đóng lớn nhất nằm dưới $$f$$ (bao lồi đóng — closed convex envelope).
+- **Chuyển bài toán đối ngẫu $$\max_{u \ge 0} g(u)$$ về dạng $$\min$$ để lấy đối ngẫu lần 2:** Viết lại thành $$\min_{u} (-g(u))$$ với ràng buộc $$-u \le 0$$, rồi đưa thêm nhân tử Lagrange mới $$\tilde{x}$$ (chính là biến gốc hồi sinh!) để lập Lagrangian bậc hai.
+- **Vai trò của điều kiện Slater trong đối ngẫu kép:** Để không xuất hiện khe hở khi đảo thứ tự $$\min_x \max_u$$ và $$\max_u \min_x$$ (định lý điểm yên ngựa Sion / minimax), điều kiện Slater bảo đảm giá trị tối ưu và tập nghiệm được bảo toàn trọn vẹn khi quay về bài toán gốc.
+- **Ý nghĩa cho bài toán không lồi (Convexification):** Khi áp dụng quy trình Primal $$\to$$ Dual $$\to$$ Bi-dual lên một bài toán không lồi, ta tự động nhận được bản nới lỏng lồi chặt nhất của nó (ví dụ nới lỏng chuẩn hạt nhân cho bài toán hạng thấp hay SDP relaxation cho Max-Cut!).
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng tay $$f^{**}(x) = f(x)$$ cho hàm mũ phi tuyến $$f(x) = e^x$$
+
+Hàm $$f(x) = e^x$$ là hàm lồi, trơn, đóng trên toàn $$\mathbb{R}$$. Hãy tự tay thực hiện phép biến đổi liên hợp Fenchel hai lần liên tiếp!
+
+1. **Lần 1 — Tính hàm liên hợp $$f^*(y) = \sup_{x \in \mathbb{R}} (yx - e^x)$$:**
+   - Nếu $$y < 0$$: cho $$x \to -\infty$$ thì $$yx \to +\infty$$ và $$e^x \to 0$$, nên $$f^*(y) = +\infty$$.
+   - Nếu $$y = 0$$: $$\sup_x (-e^x) = 0$$ (khi $$x \to -\infty$$).
+   - Nếu $$y > 0$$: cho đạo hàm theo $$x$$ bằng $$0$$: $$y - e^x = 0 \implies x = \ln y$$. Thay lại:
+     $$f^*(y) = y\ln y - y \quad (\text{hàm entropy âm!}).$$
+2. **Lần 2 — Tính hàm liên hợp kép $$f^{**}(x) = \sup_{y > 0} \big(xy - (y\ln y - y)\big)$$:**
+   Lấy đạo hàm theo $$y > 0$$ và cho bằng $$0$$:
+   $$\frac{d}{dy}\big(xy - y\ln y + y\big) = x - (\ln y + 1) + 1 = x - \ln y = 0 \implies y^* = e^x > 0.$$
+   Thay $$y^* = e^x$$ trở lại biểu thức:
+   $$f^{**}(x) = x e^x - e^x \ln(e^x) + e^x = x e^x - x e^x + e^x = e^x = f(x)!$$
+   Ta quay trở về **đúng từng ký tự của hàm gốc $$e^x$$** — minh họa sống động nhất cho định lý Fenchel–Moreau và tính đối ngẫu kép trong tối ưu lồi!
+
 Trong Chương 10, chúng ta đã chứng minh rằng đối với quy hoạch tuyến tính (LP), đối ngẫu của bài toán đối ngẫu luôn quay trở về đúng bài toán gốc. Bài học này làm rõ câu hỏi mở rộng: tính chất đó có còn đúng trong tối ưu lồi tổng quát hay không và cần thêm những điều kiện nào.
 
 ---

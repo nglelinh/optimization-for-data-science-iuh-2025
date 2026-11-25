@@ -12,6 +12,33 @@ redirect_from:
   - /contents/en/chapter17/17_07_Practical_Exercises_Primal_Dual_Interior_Point/
 ---
 
+Theory tells you that primal-dual interior-point methods converge in $$O(\sqrt{n}\log(1/\epsilon))$$ iterations; actually computing the KKT Jacobian, solving the normal equations, and tracking $$\theta_{\max}$$ by hand reveals *why* every single safeguard in a production solver exists. Before diving into the graded exercises below, warm up with a concrete comparison of the **affine-scaling ($$\sigma = 0$$)** direction against the **centered ($$\sigma > 0$$)** direction—the exact split that powers Mehrotra's predictor-corrector algorithm.
+
+## Background Knowledge Map: From Paper Equations to Working Solvers
+
+- **Exact Central-Path Algebra:** Setting up $$X S \mathbf{1} = \mu \mathbf{1}$$ alongside primal-dual feasibility lets you trace the closed-form central path for low-dimensional LPs and SDPs.
+- **Affine-Scaling vs. Centering Directions:** Setting $$\sigma = 0$$ aims straight for $$XS\mathbf{1} = 0$$ (maximum gap reduction, high risk of hitting the boundary early), while $$\sigma > 0$$ pulls iterates back toward the central path so larger steps become possible.
+- **Fraction-to-the-Boundary Ratio Test:** Computing $$\alpha_p = \min_{\Delta x_i < 0}(-x_i / \Delta x_i)$$ and $$\alpha_d = \min_{\Delta s_i < 0}(-s_i / \Delta s_i)$$ prevents negative slacks or multipliers and determines how much of the Newton step can be taken.
+- **Implementation & Verification:** Coding a small primal-dual solver in Python/NumPy lets you observe quadratic local convergence on LPs and verify $$\|r_p\|, \|r_d\|, \mu \to 0$$ numerically.
+
+### Step-by-Step Worked Example (Read Slowly): Affine-Scaling vs. Centered Step on a 2-Variable LP
+
+Consider $$\min 3x_1 + x_2$$ subject to $$x_1 + 2x_2 = 4$$ and $$x_1, x_2 \ge 0$$ (exact optimum $$x^\star = (0, 2), y^\star = 0.5, s^\star = (2.5, 0)$$). Start at the feasible interior point $$x = (2, 1)^T, y = 0, s = (3, 1)^T$$ (verify: $$x_1 + 2x_2 = 4$$ and $$A^T y + s = (3, 1)^T = c$$).
+
+1. **Compute the scaling matrix and duality measure:**
+   $$\mu = \frac{x^T s}{2} = \frac{2(3) + 1(1)}{2} = 3.5, \qquad D^2 = S^{-1} X = \operatorname{diag}\!\left(\frac{2}{3}, 1\right).$$
+   With $$A = [1, 2]$$, the normal-equations scalar is:
+   $$A D^2 A^T = 1^2\!\left(\frac{2}{3}\right) + 2^2(1) = \frac{14}{3}.$$
+2. **Compute the pure affine-scaling step ($$\sigma = 0$$):**
+   The right-hand side is $$A x = 4$$, so $$\Delta y^{\text{aff}} = \frac{4}{14/3} = \frac{6}{7}$$.
+   Then $$\Delta s^{\text{aff}} = -A^T \Delta y^{\text{aff}} = \left(-\frac{6}{7}, -\frac{12}{7}\right)^T$$.
+   Notice $$s_2 + \Delta s_2^{\text{aff}} = 1 - \frac{12}{7} = -\frac{5}{7} < 0$$! The dual boundary ratio test caps the step at $$\alpha_d^{\max} = \frac{1}{12/7} = \frac{7}{12} \approx 0.583$$.
+3. **Now add centering ($$\sigma = 0.5 \implies \sigma \mu = 1.75$$):**
+   The right-hand side shrinks to $$A(x - 1.75 S^{-1}\mathbf{1}) = \left(2 - \frac{1.75}{3}\right) + 2(1 - 1.75) = \frac{17}{12} - \frac{3}{2} = -\frac{1}{12}$$.
+   Thus $$\Delta y^{\text{cent}} = \frac{-1/12}{14/3} = -\frac{1}{56}$$, giving $$\Delta s^{\text{cent}} = \left(+\frac{1}{56}, +\frac{2}{56}\right)^T$$!
+4. **Compare the two steps:**
+   The aggressive $$\sigma = 0$$ step pushes hard toward the optimum but hits the $$s_2 = 0$$ wall at $$\theta = 0.583$$; adding centering dramatically pulls $$s_2$$ away from the wall so subsequent iterations can take nearly full unit steps. You are now ready to tackle the exercises below!
+
 # Practical Exercises - Primal-Dual Interior Point Methods
 
 The exercises are adapted from Wright (1997) and Nesterov & Nemirovskii (1994).

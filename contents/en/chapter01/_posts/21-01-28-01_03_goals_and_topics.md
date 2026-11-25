@@ -10,6 +10,32 @@ lang: en
 lesson_type: required
 ---
 
+Knowing the definition of convexity is only the first mile; the real superpower of this course is *recognizing* hidden convexity in applied problems and matching each problem structure to the right algorithm. A naive general-purpose solver might take 10,000 iterations on an image-denoising problem that a tailored ADMM or proximal splitting method solves to high accuracy in 20 iterations.
+
+## Background Knowledge Map: The Three Pillars of Mastering Convex Optimization
+
+- **Recognition & Reformulation (Modeling):** Spotting when a seemingly nonconvex problem (such as fractional programming or $$\ell_1$$-regularized regression) can be transformed into an equivalent LP, QP, SOCP, or SDP.
+- **Duality & Optimality Theory:** Using Lagrange duality and KKT conditions to derive analytical optimality certificates, sensitivity analyses, and stopping criteria (duality gaps).
+- **Algorithm–Structure Matching:** Selecting among first-order methods (gradient, proximal, coordinate descent), operator splitting (ADMM), and second-order interior-point methods based on dimension $$n$$, smoothness, and desired accuracy.
+- **Practical Trade-Offs:** Balancing per-iteration cost (cheap matrix-vector products vs. expensive linear solves) against iteration count and wall-clock time.
+
+### Step-by-Step Worked Example (Read Slowly): 1D Total Variation (TV) Denoising by Hand
+
+Consider a 3-pixel noisy signal $$y = (0, 0, 3)^T$$ with regularization weight $$\lambda = 1$$:
+$$\min_{x \in \mathbb{R}^3} \; F(x) = \frac{1}{2}\left[(x_1 - 0)^2 + (x_2 - 0)^2 + (x_3 - 3)^2\right] + |x_2 - x_1| + |x_3 - x_2|.$$
+
+1. **Test two extremes to build intuition:**
+   - No smoothing ($$x = y = (0, 0, 3)^T$$): $$F(y) = 0 + 0 + 3 = 3.0$$.
+   - Total flattening ($$x = (1, 1, 1)^T$$): $$F(1,1,1) = \frac{1}{2}(1 + 1 + 4) + 0 = 3.0$$.
+2. **Solve for a piecewise-constant jump $$x_1 = x_2 = a < b = x_3$$:**
+   With $$x_1 = x_2 = a$$ and $$x_3 = b > a$$, the TV penalty simplifies to $$b - a$$, so
+   $$F(a, a, b) = a^2 + \frac{1}{2}(b - 3)^2 + (b - a).$$
+3. **Set partial derivatives to zero:**
+   $$\frac{\partial F}{\partial a} = 2a - 1 = 0 \implies a^* = 0.5, \qquad \frac{\partial F}{\partial b} = (b - 3) + 1 = 0 \implies b^* = 2.0.$$
+4. **Verify strict improvement:** At $$x^* = (0.5, 0.5, 2.0)^T$$, $$a^* < b^*$$ holds and
+   $$F(x^*) = \frac{1}{2}(0.25 + 0.25 + 1.0) + (0 + 1.5) = 0.75 + 1.5 = 2.25 < 3.0.$$
+   Notice how TV denoising pulls the outlier down from $$3$$ to $$2$$ while preserving a crisp jump edge instead of blurring the signal linearly.
+
 ## Goals
 The goal of this course is to develop the following abilities:
 

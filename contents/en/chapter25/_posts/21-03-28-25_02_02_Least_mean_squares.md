@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+A single corrupted sensor reading with a massive leverage value can drag Ordinary Least Squares arbitrarily far from the truth—and even $$\ell_1$$ (LAD) regression breaks down under high-leverage outliers. In 1984, Peter Rousseeuw proposed **Least Median of Squares (LMS)** (and more generally **Least Quantile of Squares, LQS**): instead of minimizing the sum of squared residuals, minimize the *median* (or $$q$$-th smallest) squared residual! This achieves the maximum possible $$50\%$$ breakdown point, yet for thirty years it was solved only by random subsampling heuristics. Expressing the $$q$$-th order statistic via binary indicator variables turns LQS into an exact Mixed Integer Program.
+
+## Background Knowledge Map: Order Statistics, Robustness, and MIP for LQS
+
+- **Breakdown Point & Leverage Immunity:** OLS has breakdown point $$0\%$$ (one bad point ruins the fit). Minimizing the $$q$$-th smallest squared residual $$r_{(q)}^2$$ with $$q = \lfloor n/2 \rfloor + 1$$ completely ignores up to $$n - q$$ arbitrarily extreme outliers—even in both $$X$$ and $$y$$.
+- **Modeling Order Statistics with Binary Variables:** Saying that the $$q$$-th smallest absolute residual is at most $$\gamma$$ is equivalent to requiring *at least* $$q$$ observations to satisfy $$|y_i - x_i^\top \beta| \le \gamma$$—leaving the remaining $$n - q$$ observations unconstrained via big-$$M$$ switches $$z_i \in \{0, 1\}$$!
+- **Exact MILP Formulation:** Minimize $$\gamma$$ subject to $$|y_i - x_i^\top \beta| \le \gamma + M(1 - z_i)$$ for $$i = 1, \dots, n$$ and $$\sum_{i=1}^n z_i = q$$, $$z_i \in \{0, 1\}$$. Notice that the objective $$\gamma$$ and every constraint are **purely linear**!
+- **First-Order Warm Starts via Difference-of-Convex / Alternating Minimization:** Fixing $$\beta$$ immediately gives the optimal $$z$$ (pick the $$q$$ smallest residuals), and fixing $$z$$ solves a Chebyshev ($$\ell_\infty$$) fit on those $$q$$ inliers—providing fast primal incumbents for the MILP.
+
+### Step-by-Step Worked Example (Read Slowly): Why LMS Defeats OLS on a 4-Point Dataset with 1 Outlier
+
+Fit a constant model $$y \approx \beta \in \mathbb{R}$$ to four measurements $$y = (1,\ 2,\ 3,\ 100)^\top$$ (3 clean points near $$2$$, plus 1 gross outlier at $$100$$). Take $$q = 3$$ (minimize the 3rd smallest absolute residual, ignoring the single worst outlier).
+
+1. **Ordinary Least Squares (OLS):**
+   $$\hat{\beta}_{\text{OLS}} = \frac{1 + 2 + 3 + 100}{4} = 26.5.$$
+   The single outlier drags OLS completely away from the clean cluster $$\{1, 2, 3\}$$!
+2. **Exact LQS / LMS MILP formulation ($$q = 3$$):** Minimize $$\gamma$$ subject to $$|y_i - \beta| \le \gamma + M(1 - z_i)$$ and $$z_1 + z_2 + z_3 + z_4 = 3$$.
+   - Choose the 3 tightest inliers $$z = (1, 1, 1, 0)$$ (ignoring $$y_4 = 100$$).
+   - We need $$|1 - \beta| \le \gamma$$, $$|2 - \beta| \le \gamma$$, $$|3 - \beta| \le \gamma$$.
+   - The minimax center of $$\{1, 2, 3\}$$ is $$\hat{\beta}_{\text{LQS}} = \frac{1 + 3}{2} = 2$$, achieving $$\gamma^\star = 1$$!
+3. **Check the outlier constraint:** For $$i = 4$$, $$z_4 = 0$$ activates $$M$$, so $$|100 - 2| = 98 \le 1 + M$$ holds cleanly for $$M = 100$$. The outlier has **zero** influence on $$\hat{\beta}_{\text{LQS}} = 2$$!
+
 So far, we have solved regression problems by minimizing the $$l_2$$ norm or $$l_1$$ norm of residuals. Is there a more robust method than these methods?
 
 When performing regression to minimize the median of residuals, we can achieve more robust regression. This is called **Least Median of Squares**, and it is robust enough that the estimator does not get corrupted even if about 50% of the data is corrupted. However, this problem is also an NP-Hard problem!

@@ -12,6 +12,25 @@ redirect_from:
   - /contents/en/chapter04/04_09_Quiz_Convex_Optimization_Basics/
 ---
 
+Reading a theorem and nodding along feels effortless; spotting a subtle non-affine equality constraint or a hidden violation of convexity under exam pressure is where real mastery shows up. This quiz checkpoints your command of Chapter 04's entire toolkit—from recognizing standard-form convex programs and testing first-order optimality to executing variable transformations, slack reformulations, and convex relaxations.
+
+## Background Knowledge Map: What This Chapter 04 Assessment Tests
+
+1. **Formulation & Convexity Diagnostics**: Quickly verifying whether an objective $$f$$ and inequality constraints $$g_i$$ are convex and whether all equality constraints $$h_j$$ are strictly affine, as well as distinguishing implicit domains $$D$$ from feasible sets $$C$$.
+2. **Solution-Set Geometry & Uniqueness**: Predicting when $$X_{\mathrm{opt}}$$ is empty, a single point (strict convexity), or a convex face with infinitely many solutions, and applying the local-implies-global theorem.
+3. **First-Order Optimality Verification**: Checking $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$ across unconstrained spaces, affine subspaces, and nonnegative orthants without getting tripped up by boundary constraints.
+4. **Equivalent Rewrites & Relaxations**: Identifying which transformations (monotone maps, bijections, partial minimization, affine slacks) preserve exact optimality and which widen the feasible set to provide a lower bound.
+
+### Step-by-Step Worked Example (Read Slowly): Warm-Up Diagnostic Before Starting the Quiz
+
+**Warm-Up Question**: Is the following problem a convex optimization problem in standard form? If not, can it be equivalently rewritten as one?
+$$\min_{x \in \mathbb{R}^2} \quad e^{x_1^2 + x_2^2} \quad \text{subject to} \quad x_1^2 + x_2^2 \le 4, \quad x_1 x_2 = 1.$$
+
+1. **Check the objective**: $$q(x) = x_1^2 + x_2^2$$ is convex, and $$h(u) = e^u$$ is convex and nondecreasing, so $$f(x) = e^{x_1^2 + x_2^2}$$ is convex. (Even simpler, applying $$\ln(\cdot)$$ gives the equivalent objective $$x_1^2 + x_2^2$$.)
+2. **Check the inequality constraint**: $$g_1(x) = x_1^2 + x_2^2 - 4$$ has Hessian $$2I \succeq 0$$, so $$g_1$$ is convex.
+3. **Check the equality constraint**: $$h_1(x) = x_1 x_2 - 1 = 0$$ is **not affine**! Test two feasible points: $$x = (1, 1)$$ and $$y = (-1, -1)$$ both satisfy $$x_1 x_2 = 1$$ and $$x_1^2 + x_2^2 = 2 \le 4$$, yet their midpoint $$(0, 0)$$ has $$0 \cdot 0 = 0 \neq 1$$.
+4. **Conclusion**: The problem is **not** convex in standard form, and because the feasible set is disconnected (two branches of a hyperbola inside a disk), no smooth bijection on $$\mathbb{R}^2$$ can make the full feasible set convex—though restricting to $$x_1, x_2 > 0$$ and substituting $$x_i = e^{z_i}$$ makes the positive branch convex ($$z_1 + z_2 = 0$$, $$e^{2z_1} + e^{2z_2} \le 4$$). Keep an eye out for exactly these structural traps in the questions below!
+
 This multiple-choice quiz tests your understanding of the basic concepts of convex optimization, including terminology, optimality conditions and transformation techniques.
 
 ---

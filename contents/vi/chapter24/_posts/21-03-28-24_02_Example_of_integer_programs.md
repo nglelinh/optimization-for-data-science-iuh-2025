@@ -9,6 +9,33 @@ categories:
 lang: vi
 ---
 
+Sức mạnh thật sự của quy hoạch nguyên hỗn hợp không nằm ở sự cầu kỳ của công thức, mà ở khả năng **dịch những bài toán tưởng như chẳng liên quan gì đến nhau về cùng một ngôn ngữ toán học chung**. Dù bạn đang xếp hành lý vào chiếc ba-lô, ghép cặp nhân viên với công việc, chọn nơi đặt kho hàng, phân cụm dữ liệu bằng K-medoids hay chọn tập đặc trưng tốt nhất cho hồi quy, tất cả đều quy về cùng một bộ khung MIP.
+
+Bài học này giống như một cuốn từ điển mẫu (modeling cookbook): đọc kỹ sáu bài toán kinh điển dưới đây sẽ giúp bạn nhận ra ngay các "mẫu câu" ràng buộc quen thuộc khi đối mặt với một bài toán thực tế hoàn toàn mới.
+
+## Bản đồ kiến thức nền: Bốn khuôn mẫu mô hình hóa MIP cốt lõi
+
+Sáu ví dụ trong bài thực chất xoay quanh bốn khuôn mẫu tư duy mô hình hóa quan trọng nhất của vận trù học và thống kê:
+
+- **Khuôn mẫu Chọn lọc có ngân sách (Knapsack & Best Subset):** Dùng $$\sum_j x_j \le k$$ hoặc $$\sum_j a_j x_j \le b$$ để giới hạn số lượng hoặc tổng tài nguyên, kết hợp liên kết $$|\beta_j| \le M z_j$$ khi muốn gắn biến nhị phân với biến liên tục.
+- **Khuôn mẫu Ghép cặp 1–1 (Assignment):** Ma trận biến $$x_{ij} \in \{0, 1\}$$ có tổng mỗi hàng và tổng mỗi cột bằng $$1$$. Điểm đặc biệt kỳ diệu là ma trận ràng buộc của bài toán phân công có tính *hoàn toàn đơn mô-đun (totally unimodular)*, nên nghiệm nới lỏng LP luôn tự động là số nguyên!
+- **Khuôn mẫu Liên kết Mở–Phục vụ (Facility Location & K-medoids):** Tách quyết định "mở địa điểm/chọn tâm cụm $$j$$" (biến $$y_j$$) khỏi quyết định "gán khách hàng/điểm dữ liệu $$i$$ vào $$j$$" (biến $$x_{ij}$$) qua ràng buộc liên kết $$x_{ij} \le y_j$$ (dạng chặt, tốt hơn nhiều so với dạng gộp $$\sum_i x_{ij} \le n y_j$$).
+- **Khuôn mẫu Chọn phân vị/ngoại lai (Least Median of Squares):** Dùng biến nhị phân $$z_i$$ để "tắt" phần dư của một tỷ lệ điểm dữ liệu (các điểm ngoại lai) thông qua big-$$M$$, biến hàm mục tiêu trung vị phi lồi thành một MILP giải được chính xác.
+
+### Khung giải thích (nên đọc chậm): Tính tay bài toán cái túi 0–1 — khi thuật toán tham lam thất bại
+
+Xét bài toán cái túi 0–1 với sức chứa tối đa $$b = 6$$ kg và 3 món đồ:
+- Món 1: giá trị $$c_1 = 10$$, khối lượng $$a_1 = 3$$ (tỷ số $$c_1/a_1 \approx 3.33$$).
+- Món 2: giá trị $$c_2 = 10$$, khối lượng $$a_2 = 3$$ (tỷ số $$c_2/a_2 \approx 3.33$$).
+- Món 3: giá trị $$c_3 = 14$$, khối lượng $$a_3 = 4$$ (tỷ số $$c_3/a_3 = 3.50$$ — cao nhất!).
+
+1. **Cách giải tham lam (Greedy theo tỷ số giá trị/khối lượng):**
+   Tham lam chọn món có tỷ số cao nhất trước là Món 3 ($$x_3 = 1$$, nặng $$4$$ kg, giá trị $$14$$). Dung tích còn lại là $$6 - 4 = 2$$ kg — không nhét vừa Món 1 hay Món 2! Tổng giá trị tham lam dừng ở **$$14$$**.
+2. **Giải bài toán nới lỏng LP (cho phép cắt nhỏ món đồ, $$x_j \in [0, 1]$$):**
+   Chọn trọn Món 3 ($$x_3 = 1$$, dùng $$4$$ kg) cộng thêm $$\frac{2}{3}$$ Món 1 ($$x_1 = \frac{2}{3}$$, dùng $$2$$ kg). Tổng giá trị LP là $$14 + \frac{2}{3}(10) = 20.67$$ — đây là **cận trên** cho mọi nghiệm nguyên.
+3. **Nghiệm tối ưu quy hoạch nguyên 0–1:**
+   Bỏ qua món "hấp dẫn nhất" là Món 3, ta chọn cả Món 1 và Món 2: $$x^\star = (1, 1, 0)$$. Tổng khối lượng $$3 + 3 = 6 \le 6$$, tổng giá trị đạt **$$20$$** — vượt xa tham lam ($$14$$) và rất sát cận trên LP ($$20.67$$)!
+
 Mục này giới thiệu một số bài toán kinh điển có thể mô hình hóa bằng quy hoạch nguyên và quy hoạch nguyên hỗn hợp.
 
 ## Bài toán cái túi (Knapsack)

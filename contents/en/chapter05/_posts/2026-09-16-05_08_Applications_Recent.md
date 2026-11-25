@@ -10,6 +10,29 @@ lang: en
 lesson_type: optional
 ---
 
+Canonical forms are not museum pieces—they are the live production APIs running inside quantitative trading desks, aerospace flight computers, and AI safety verifiers. Between 2022 and 2026, a new generation of Rust-based conic interior-point solvers (like Clarabel), realistic transaction-cost portfolio QPs, and semidefinite relaxations for certifying neural-network robustness have pushed Chapter 05's taxonomy straight to the frontier of applied computing.
+
+## Background Knowledge Map: Production Conic Optimization (2022–2026)
+
+1. **Unified Interior-Point Engines (`Clarabel`)**: Earlier solvers fragmented by class—OSQP for QPs, ECOS for SOCPs, SCS for large cone problems. Clarabel solves LP, QP, SOCP, SDP, exponential, and power cones in a single homogeneous self-dual interior-point engine without splitting quadratic objectives into extra cones.
+2. **Shippable Portfolio QPs**: Real portfolio optimization extends textbook Markowitz with turnover penalties $$\gamma \|w - w_{\mathrm{prev}}\|_1$$ (linearized via epigraph slacks), leverage caps, sector limits, and factor covariance models $$\Sigma = B \Sigma_f B^T + D$$ that keep KKT linear systems sparse and fast.
+3. **SDP Certification of Neural Networks**: Verifying that no $$\ell_\infty$$ perturbation $$\|\delta\|_\infty \le \epsilon$$ flips a ReLU classifier's decision is NP-hard in general. Encoding the ReLU relation $$y = \max(0, z)$$ as quadratic inequalities $$y \ge 0, y \ge z, y(y - z) = 0$$ and lifting to an SDP yields a tight, sound robustness certificate.
+4. **Sparsity and Structure Exploitation**: Across all three applications, problem size is only half the story—chordal sparsity in SDPs and low-rank-plus-diagonal factor models in QPs turn $$O(n^3)$$ bottlenecks into near-linear runtimes.
+
+### Step-by-Step Worked Example (Read Slowly): Factor-Model Speedup and ReLU Quadratic Encoding
+
+Verify two core mathematical tricks used in modern production QPs and SDPs:
+
+1. **Part A — Factor-Model Variance Simplification (QP)**: Suppose a portfolio has $$n = 2$$ assets with factor loading $$B = (1, 2)^T$$, single-factor variance $$\sigma_f^2 = 0.04$$, and idiosyncratic diagonal variance $$D = \operatorname{diag}(0.01, 0.01)$$.
+   - The full covariance is $$\Sigma = B \sigma_f^2 B^T + D = 0.04\begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} + \begin{bmatrix} 0.01 & 0 \\ 0 & 0.01 \end{bmatrix} = \begin{bmatrix} 0.05 & 0.08 \\ 0.08 & 0.17 \end{bmatrix}$$.
+   - Introducing the factor exposure scalar $$y = B^T w = w_1 + 2w_2$$ decouples the quadratic risk into a purely diagonal form:
+     $$w^T \Sigma w = 0.04 y^2 + 0.01 w_1^2 + 0.01 w_2^2.$$
+   - Check at $$w = (0.6, 0.4)$$: $$y = 0.6 + 0.8 = 1.4$$, so $$0.04(1.96) + 0.01(0.36 + 0.16) = 0.0784 + 0.0052 = 0.0836$$. Directly: $$0.36(0.05) + 2(0.24)(0.08) + 0.16(0.17) = 0.018 + 0.0384 + 0.0272 = 0.0836$$—exact match, and for $$n = 5{,}000$$ assets with $$k = 20$$ factors, this shrinks the KKT matrix from dense $$5000 \times 5000$$ to sparse!
+2. **Part B — Quadratic Encoding of a ReLU Neuron (SDP Verification)**: Check that $$y = \max(0, z)$$ satisfies the three exact conditions $$y \ge 0$$, $$y \ge z$$, and $$y(y - z) = 0$$:
+   - If $$z = 3$$: $$y = 3$$ gives $$3 \ge 0$$, $$3 \ge 3$$, and $$3(3 - 3) = 0$$.
+   - If $$z = -2$$: $$y = 0$$ gives $$0 \ge 0$$, $$0 \ge -2$$, and $$0(0 - (-2)) = 0$$.
+   - Relaxing the rank-1 outer product $$[1, z, y]^T[1, z, y]$$ to a $$3 \times 3$$ PSD matrix $$P \succeq 0$$ converts $$y(y - z) = 0$$ into the linear trace constraint $$P_{yy} - P_{yz} = 0$$ inside an SDP.
+
 Chapter 05 classified convex programs by the *shape* of the objective and the cones in the constraints: LP, QP, QCQP, SOCP, SDP, and geometric programs. That taxonomy is also the API of a modeling language. This lesson looks at three places where those canonical forms are the 2022–2026 production objects — a modern interior-point solver shipped with CVXPY, portfolio QPs you can backtest, and SDP relaxations that certify neural nets — plus a reminder that Lasso and sparse recovery are still QPs (or QPs in extended form) you should model, not hand-code.
 
 You already have a DCP/CVXPY lab in [05-07]({% multilang_post_url contents/chapter05/2026-09-15-05_07_Modeling_with_DCP_CVXPY %}). Treat this lesson as the *why these cones* companion.

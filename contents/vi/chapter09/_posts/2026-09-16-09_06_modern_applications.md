@@ -10,6 +10,33 @@ lang: vi
 lesson_type: optional
 ---
 
+Nếu bạn từng chụp cộng hưởng từ (MRI) trong bệnh viện, có lẽ bạn nhớ cảm giác nằm bất động suốt 30–45 phút trong đường hầm máy quét. Một trong những đột phá kỹ thuật lớn nhất của y sinh học thập kỷ vừa qua là rút ngắn thời gian chụp MRI xuống chỉ còn vài phút bằng cách thu thập ít dữ liệu tần số hơn (undersampled k-space) rồi tái tạo lại bức ảnh sắc nét bằng thuật toán tối ưu. Đứng ngay trung tâm của cuộc cách mạng ấy chính là **FISTA** và thế hệ con cháu hiện đại của nó giai đoạn 2022–2026: **Plug-and-Play FISTA (PnP-FISTA)** và **Algorithm Unrolling (FISTA-Net)**!
+
+Ý tưởng nối liền tối ưu lồi cổ điển với học sâu thật sự khiến người ta phải trầm trồ: trong công thức $$x^{(k)} = \operatorname{prox}_{t h}(v^{(k)} - t\nabla g(v^{(k)}))$$, toán tử $$\operatorname{prox}_{t h}$$ đóng vai trò chính xác như một **bộ khử nhiễu ảnh** (MAP denoiser dưới phân phối tiên nghiệm $$e^{-h(x)}$$). Thay vì viết tay một hàm phạt $$h(x)$$ đơn giản như chuẩn $$\ell_1$$ trên wavelet, các nhà nghiên cứu "cắm" hẳn một mạng nơ-ron khử nhiễu đã huấn luyện sẵn vào vị trí của $$\operatorname{prox}$$ — giữ nguyên phần vật lý đo đạc $$\nabla g$$ chính xác 100%, đồng thời tận dụng sức mạnh biểu diễn của học sâu!
+
+## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại của Proximal GD và FISTA
+
+- **Tái tạo ảnh y sinh (MRI / CT) với Plug-and-Play (PnP-FISTA):** Giữ nguyên phần nhất quán dữ liệu vật lý $$g(x) = \frac{1}{2}\|\mathcal{A}x - y\|_2^2$$ (phép biến đổi Fourier / Radon), và thay toán tử $$\operatorname{prox}_{t h}$$ bằng bộ khử nhiễu hiện đại (như BM3D hoặc mạng DRUNet) để tái tạo ảnh vượt trội về độ sắc nét.
+- **Trải phẳng thuật toán (Algorithm Unrolling — LISTA / FISTA-Net):** Biến $$K$$ vòng lặp hữu hạn (ví dụ $$K = 10$$) của FISTA thành đúng $$K$$ tầng của một mạng nơ-ron sâu, trong đó bước học $$\eta_k$$, ngưỡng $$\lambda_k$$ và ma trận lọc được học trực tiếp từ dữ liệu bằng lan truyền ngược — kết hợp tốc độ suy luận tức thì của mạng sâu với tính diễn giải vật lý của tối ưu lồi.
+- **Thư viện thống kê và học máy sản xuất (glmnet, scikit-learn, CVXPY):** Elastic Net ($$\lambda_1\|x\|_1 + \frac{\lambda_2}{2}\|x\|_2^2$$), hồi quy logistic thưa và hoàn thiện ma trận trong các thư viện chuẩn công nghiệp đều dựa trên khung proximal / coordinate descent kế thừa trực tiếp từ Chương 09.
+- **Điều kiện hội tụ của PnP (Non-expansiveness & Firmly Non-expansive Denoisers):** Để vòng lặp PnP-FISTA không bị phân kỳ khi thay prox chuẩn bằng mạng nơ-ron, các nghiên cứu 2022–2026 ràng buộc hằng số Lipschitz của mạng khử nhiễu (như chuẩn hóa phổ — spectral normalization) nhằm bảo toàn tính không giãn giống hệt toán tử gần kề cổ điển.
+
+### Khung giải thích (nên đọc chậm): Tính tay 1 tầng FISTA-Net / PnP cho tín hiệu 1D bị nhiễu
+
+Giả sử ta đo một tín hiệu gốc 2 chiều $$x_{\text{true}} = (3, 0)^T$$ qua phép đo đơn giản $$A = I_2$$ bị nhiễu Gaussian thành $$y = (2.8, 0.3)^T$$.
+
+1. **Nhịp nhất quán dữ liệu (Data Fidelity — giữ nguyên vật lý đo đạc):**
+   Từ ước lượng ban đầu $$x^{(0)} = (0, 0)^T$$ với bước $$\eta = 1.0$$:
+   $$v^{(1)} = x^{(0)} - \eta A^T(A x^{(0)} - y) = (2.8, 0.3)^T.$$
+   Điểm $$v^{(1)}$$ khớp hoàn hảo với phép đo $$y$$, nhưng vẫn mang theo nhiễu $$0.3$$ ở tọa độ thứ 2 vốn phải bằng $$0$$.
+2. **Nhịp khử nhiễu (Proximal / Plug-and-Play Denoiser):**
+   - Với **FISTA cổ điển** ($$h(x) = \lambda\|x\|_1$$, $$\lambda = 0.5$$):
+     $$x^{(1)}_{\text{FISTA}} = S_{0.5}(2.8, 0.3) = (2.3, 0.0)^T.$$
+     Nhiễu ở tọa độ 2 bị xóa sạch, nhưng tín hiệu mạnh $$2.8$$ cũng bị co thiên lệch xuống $$2.3$$ (sai số $$0.7$$ so với $$3.0$$).
+   - Với **FISTA-Net / PnP** (dùng bộ khử nhiễu học được $$D_\theta$$ biết rằng biên độ lớn $$> 1$$ là tín hiệu thật nên gần như không co, chỉ lọc nhiễu biên độ nhỏ):
+     $$x^{(1)}_{\text{PnP}} = D_\theta(2.8, 0.3) \approx (2.8, 0.0)^T.$$
+   Vừa khử sạch nhiễu $$0.3 \to 0$$, vừa tránh thiên lệch co ngót của chuẩn $$\ell_1$$, trong khi vẫn tuân thủ khung lặp proximal của Chương 09!
+
 # Ứng dụng hiện đại của proximal GD và tăng tốc
 
 Chương 09 nghiên cứu bài toán tối ưu tổng hợp $$\min_x g(x)+h(x)$$ với $$g$$ trơn và $$h$$ có toán tử gần kề dễ tính, cùng vòng lặp gradient gần kề và kỹ thuật tăng tốc Nesterov / FISTA. Bài đọc tùy chọn này chỉ ra cách khuôn mẫu đó được ứng dụng trong tái tạo ảnh y sinh, mô hình tuyến tính tổng quát thưa, và các mạng nơ-ron *trải phẳng thuật toán (algorithm unrolling)* giai đoạn 2022–2026.

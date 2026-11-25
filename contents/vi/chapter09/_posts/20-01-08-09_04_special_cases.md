@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Trong toán học, dấu hiệu của một khái niệm thực sự sâu sắc là nó có khả năng "thống nhất nhiều vùng đất tưởng chừng rời rạc dưới cùng một mái nhà". Phương pháp gradient gần kề chính là một khái niệm như vậy. Khi ta lần lượt bật tắt hai thành phần $$g(x)$$ và $$h(x)$$ trong bài toán tổng hợp $$\min_x g(x) + h(x)$$, hàng loạt thuật toán kinh điển mà bạn đã học trước đây bỗng đồng loạt hiện ra như những lát cắt đặc biệt của cùng một công thức duy nhất!
+
+Đặt $$h = 0$$, ta thu lại ngay **Gradient Descent**. Đặt $$h = I_C$$ (hàm chỉ thị của tập lồi đóng $$C$$), toán tử prox biến thành phép chiếu Euclid $$P_C$$ và ta thu lại **Projected Gradient Descent**. Còn nếu đặt $$g = 0$$, ta khám phá ra một thuật toán cực kỳ mạnh mẽ của lý thuyết tối ưu hiện đại: **Thuật toán tối ưu gần kề (Proximal Point / Proximal Minimization Algorithm)** — thuật toán hội tụ cho *mọi* kích thước bước $$t > 0$$ lớn tùy ý!
+
+## Bản đồ kiến thức nền: Bốn nhánh kết nối của phương pháp gradient tổng quát
+
+- **$$h(x) = 0 \implies$$ Gradient Descent cổ điển:** Khi không có phần không trơn, $$\operatorname{prox}_{t \cdot 0}(v) = \arg\min_z \frac{1}{2t}\|z - v\|_2^2 = v$$ (ánh xạ đồng nhất), nên $$x^{(k)} = x^{(k-1)} - t_k \nabla g(x^{(k-1)})$$.
+- **$$h(x) = I_C(x) \implies$$ Projected Gradient Descent:** Hàm chỉ thị bằng $$0$$ trên $$C$$ và $$+\infty$$ ngoài $$C$$ biến bài toán con prox thành $$\arg\min_{z \in C} \|z - v\|_2^2 = P_C(v)$$. Mọi định lý hội tụ $$O(1/k)$$ của Chương 09 lập tức áp dụng miễn phí cho bài toán trơn có ràng buộc lồi!
+- **$$g(x) = 0 \implies$$ Thuật toán tối ưu gần kề (Proximal Point Algorithm):** Công thức $$x^{(k)} = \operatorname{prox}_{t_k h}(x^{(k-1)})$$ không cần $$h$$ khả vi và không hề bị giới hạn bởi $$t \le 1/L$$; bước $$t_k$$ càng lớn, mỗi vòng lặp càng tiến gần nghiệm tối ưu toàn cục (nhưng bài toán con càng khó giải).
+- **Toán tử gần kề xấp xỉ (Inexact Proximal Methods):** Khi $$\operatorname{prox}_{t h}$$ không có công thức đóng, ta có thể giải gần đúng bài toán con bằng một vòng lặp trong (inner solver). Để vẫn giữ tốc độ hội tụ $$O(1/k)$$, sai số giải bài toán con ở bước $$k$$ phải giảm đủ nhanh (cỡ $$\varepsilon_k \sim O(1/k^2)$$ hoặc khả tổng).
+
+### Khung giải thích (nên đọc chậm): Tính tay so sánh Gradient Descent và Proximal Minimization trên $$f(x) = \frac{1}{2}x^2$$
+
+Xét hàm đơn giản $$f(x) = \frac{1}{2}x^2$$ (nghiệm $$x^* = 0$$, độ cong $$L = 1$$), khởi tạo tại $$x^{(0)} = 4$$, thử một kích thước bước **rất lớn** $$t = 3$$ (vượt xa ngưỡng $$2/L = 2$$ của Gradient Descent!).
+
+1. **Coi $$g(x) = \frac{1}{2}x^2, h(x) = 0$$ (Gradient Descent tường minh):**
+   $$x^{(1)} = x^{(0)} - t \nabla g(x^{(0)}) = 4 - 3(4) = -8.$$
+   $$x^{(2)} = -8 - 3(-8) = +16.$$
+   Dãy bùng nổ ra vô cực vì bước $$t = 3$$ vượt ngưỡng ổn định $$2/L = 2$$!
+2. **Coi $$g(x) = 0, h(x) = \frac{1}{2}x^2$$ (Proximal Minimization / bước ẩn):**
+   Giải bài toán con $$\min_z \left\{\frac{1}{2t}(z - x)^2 + \frac{1}{2}z^2\right\}$$ bằng cách cho đạo hàm bằng $$0$$:
+   $$\frac{z - x}{t} + z = 0 \implies z = \frac{x}{1 + t}.$$
+   Với $$t = 3$$ và $$x^{(0)} = 4$$:
+   - $$x^{(1)} = \frac{4}{1 + 3} = 1.0$$
+   - $$x^{(2)} = \frac{1.0}{4} = 0.25$$
+   - $$x^{(3)} = \frac{0.25}{4} = 0.0625$$!
+   Càng chọn $$t$$ lớn (ví dụ $$t = 99$$), $$x^{(1)} = \frac{4}{100} = 0.04$$ tiến thẳng về $$0$$ gần như tức thì — đây chính là khác biệt bản chất giữa sơ đồ *tường minh* (explicit) và sơ đồ *ẩn* (implicit) trong giải tích số!
+
 # Các trường hợp đặc biệt
 
 Phương pháp gradient gần kề còn được gọi là phương pháp gradient descent tổng hợp (composite gradient descent) hoặc gradient descent tổng quát (generalized gradient descent).

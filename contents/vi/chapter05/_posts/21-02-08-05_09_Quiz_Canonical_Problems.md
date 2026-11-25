@@ -12,6 +12,35 @@ redirect_from:
   - /contents/vi/chapter05/05_07_Quiz_Canonical_Problems/
 ---
 
+Giữa vô vàn ký hiệu $$P \succeq 0$$, $$\|Ax + b\|_2 \le c^T x + d$$, $$F_0 + \sum x_i F_i \succeq 0$$ hay đơn thức dương $$c x_1^{a_1} x_2^{a_2}$$, ranh giới giữa LP, QP, QCQP, SOCP, SDP và GP rất dễ bị nhòa đi nếu bạn chỉ đọc lướt. Bài tập trắc nghiệm này giúp bạn rèn phản xạ "chẩn đoán nhanh" trong vài giây: nhìn thấy một bài toán mới là nhận ra ngay nó thuộc tầng nào, có lồi hay không, và liệu có chuyển đổi được về tầng chuẩn thấp hơn hay không.
+
+## Bản đồ kiến thức nền: Bảng phân biệt nhanh 6 lớp bài toán chuẩn
+
+Trước khi làm bài trắc nghiệm, hãy dùng bốn quy tắc vàng sau làm la bàn kiểm chứng:
+
+- **Quy tắc phân cấp nghiêm ngặt:** $$\text{LP} \subset \text{QP} \subset \text{QCQP} \subset \text{SOCP} \subset \text{SDP} \subset \text{CP}$$. Mọi bài LP đều là QP (với $$Q = 0$$), mọi QP đều là SOCP, nhưng chiều ngược lại thì **không** đúng!
+- **Quy tắc kiểm tra tính lồi ở từng lớp:**
+  - **LP:** Luôn lồi.
+  - **QP / QCQP:** Lồi khi và chỉ khi mọi ma trận bậc hai $$P_i \succeq 0$$.
+  - **GP:** Dạng gốc phi lồi, nhưng luôn chuyển được về lồi nhờ đổi biến logarit (điều kiện: bất đẳng thức là *posynomial*, đẳng thức là *monomial*, biến dương).
+- **Quy tắc nghiệm đóng vs. Thuật toán lặp:** Bình phương tối thiểu tuyến tính không ràng buộc có nghiệm đóng $$x^\star = (A^T A)^{-1} A^T b$$; còn LP, QP có ràng buộc bất đẳng thức, SOCP, SDP và Hồi quy Logistic nói chung **không có nghiệm đóng** và phải giải lặp.
+- **Quy tắc nhận diện nón ẩn:** Ràng buộc chuẩn $$\ell_1$$ hoặc $$\ell_\infty$$ ($$\|Ax - b\|_1 \le t$$) quy về **LP**; ràng buộc chuẩn $$\ell_2$$ ($$\|Ax - b\|_2 \le t$$) quy về **SOCP**; ràng buộc trị riêng lớn nhất ($$\lambda_{\max}(A(x)) \le t$$) quy về **SDP**.
+
+### Khung giải thích (nên đọc chậm): Chẩn đoán nhanh tầng thấp nhất cho 3 bài toán "đánh lừa thị giác"
+
+1. **Bài A:** $$\min_{x \in \mathbb{R}^n} \; \|Ax - b\|_\infty$$.
+   - Nhìn thấy chuẩn, nhiều người vội chọn SOCP. **Cẩn thận!**
+   - Chuẩn vô cùng là $$\max_i |a_i^T x - b_i| \le t \iff -t \le a_i^T x - b_i \le t \; \forall i$$ — toàn bộ là bất đẳng thức tuyến tính!
+   - **Tầng thấp nhất đúng:** **LP**!
+2. **Bài B:** $$\min_{x \in \mathbb{R}^n} \; x_1^2 + x_2^2 \text{ s.t. } x_1 + x_2 = 1$$.
+   - Hàm mục tiêu bậc hai với $$P = 2I \succ 0$$, ràng buộc tuyến tính.
+   - **Tầng thấp nhất đúng:** **QP** (cũng là bài toán bình phương tối thiểu có ràng buộc đẳng thức!).
+3. **Bài C:** $$\min_{x \in \mathbb{R}^2} \; x_1 + x_2 \text{ s.t. } x_1^2 + x_2^2 \le 1,\; x_1 \ge 0$$.
+   - Hàm mục tiêu tuyến tính, nhưng ràng buộc có hình tròn $$x_1^2 + x_2^2 \le 1$$ (tương đương $$\|x\|_2 \le 1$$).
+   - **Tầng thấp nhất đúng:** **QCQP** (hoặc **SOCP** — không thể đưa về LP hay QP vì tập khả thi cong tròn!).
+
+---
+
 Bài tập trắc nghiệm này kiểm tra hiểu biết của bạn về các bài toán tối ưu kinh điển, bao gồm quy hoạch tuyến tính, quy hoạch bậc hai, bình phương tối thiểu và hồi quy tuyến tính.
 
 ---

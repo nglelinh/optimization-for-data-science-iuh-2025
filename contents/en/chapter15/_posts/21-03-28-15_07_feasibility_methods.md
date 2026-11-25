@@ -9,6 +9,29 @@ owner: "Minjoo Lee"
 lang: en
 ---
 
+Every barrier method lesson so far quietly started with the phrase: *"Choose a strictly feasible point $$x^{(0)}$$ satisfying $$h_i(x^{(0)}) < 0$$ and $$Ax^{(0)} = b$$."* In a 500-dimensional problem with 2,000 intersecting inequalities, finding even *one* strictly feasible point can be just as hard as solving the optimization problem itself! **Phase I feasibility methods** solve this chicken-and-egg puzzle by introducing an auxiliary slack variable $$s$$ that relaxes all constraints just enough to make finding a starting point trivial—and then shrinks $$s$$ until $$s < 0$$!
+
+## Background Knowledge Map: Phase I — Finding a Strictly Feasible Starting Point
+
+- **Pillar 1 — Basic Phase I (Maximum Infeasibility):** Solve $$\min_{x,s} s$$ subject to $$h_i(x) \le s$$ and $$Ax = b$$. Any $$x_0$$ satisfying $$Ax_0 = b$$ paired with $$s_0 = \max_i h_i(x_0) + 1$$ is *immediately strictly feasible* for Phase I!
+- **Pillar 2 — Early Termination at $$s < 0$$:** You do *not* need to solve Phase I to optimality—the very instant an iterate achieves $$s < 0$$, we have $$h_i(x) \le s < 0$$ for all $$i$$, so $$x$$ is strictly feasible for the original Phase II problem!
+- **Pillar 3 — Exact Infeasibility Detection:** If the optimal Phase I value satisfies $$s^\star > 0$$, the original problem is provably infeasible; if $$s^\star = 0$$, no strictly feasible point exists (Slater's condition fails).
+- **Pillar 4 — Sum-of-Infeasibilities Variant ($$\min \mathbf{1}^T s$$ s.t. $$h_i(x) \le s_i, s_i \ge 0$$):** Assigning an individual slack $$s_i$$ to each constraint diagnoses *which exact constraints* conflict when a model is infeasible.
+
+### Step-by-Step Worked Example (Read Slowly): Running Phase I on Two Inequality Constraints
+
+We need a strictly feasible point for $$h_1(x) = x - 5 \le 0$$ and $$h_2(x) = -x + 1 \le 0$$ (i.e., $$1 < x < 5$$), starting from an *infeasible* initial guess $$x_0 = 0$$.
+
+1. **Evaluate initial constraint violations at $$x_0 = 0$$:**
+   - $$h_1(0) = -5$$ (satisfied), $$h_2(0) = +1$$ (violated!).
+   - Maximum violation: $$\max(-5, 1) = 1$$.
+2. **Construct a strictly feasible Phase I starting point $$(x_0, s_0)$$:**
+   - Pick $$s_0 = \max_i h_i(x_0) + 1 = 1 + 1 = 2$$.
+   - Check Phase I strict feasibility: $$h_1(0) - s_0 = -7 < 0$$ and $$h_2(0) - s_0 = -1 < 0$$! We can now launch the barrier method on Phase I.
+3. **Solve the Phase I problem $$\min_{x, s} s$$ s.t. $$x - 5 \le s$$, $$1 - x \le s$$:**
+   - Adding the two inequalities gives $$-4 \le 2s \implies s \ge -2$$, achieved at $$x^\star = 3, s^\star = -2$$.
+   - Even better: as soon as Phase I passes $$(x, s) = (2, -0.5)$$ with $$s = -0.5 < 0$$, we stop immediately—$$x = 2$$ satisfies $$h_1(2) = -3 < 0$$ and $$h_2(2) = -1 < 0$$ and is ready for Phase II!
+
 So far, we have implicitly assumed that the first centering step ($$t = t^{(0)}$$) starts from a strictly feasible point to compute $$x^{(0)} = x^*$$.
 
 This means that $$x$$ is a strictly feasible point satisfying the following conditions:

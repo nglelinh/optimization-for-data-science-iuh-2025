@@ -9,6 +9,33 @@ categories:
 lang: en
 ---
 
+You have already seen Lasso solved by subgradients, ISTA/FISTA, coordinate descent, and interior-point methods—so why does **ADMM for Lasso and Group Lasso** deserve its own spotlight? Because splitting $$\beta = \alpha$$ cleanly separates the *coupled design matrix* $$X$$ (handled by a single pre-cached ridge linear solve) from the *nonsmooth sparsity penalty* (handled by elementwise soft-thresholding for Lasso or blockwise vector shrinkage for Group Lasso)—making the exact same 10-line template work for overlapping groups, sparse group Lasso, and distributed datasets!
+
+## Background Knowledge Map: ADMM Architecture for Lasso & Group Lasso
+
+- **Ridge + Soft-Thresholding Split (Lasso):** Splitting $$\min \frac{1}{2}\|y - X\beta\|_2^2 + \lambda\|\alpha\|_1$$ s.t. $$\beta = \alpha$$ turns the $$\beta$$-update into a smooth ridge regression $$(X^T X + \rho I)\beta = X^T y + \rho(\alpha - w)$$ and the $$\alpha$$-update into exact scalar soft-thresholding $$S_{\lambda/\rho}(\beta + w)$$.
+- **Woodbury Matrix Identity for $$p \gg n$$:** When features outnumber samples ($$p \gg n$$), factoring the $$p \times p$$ matrix $$X^T X + \rho I$$ is slow; the Woodbury identity $$(X^T X + \rho I)^{-1} = \frac{1}{\rho}I - \frac{1}{\rho^2}X^T(I + \frac{1}{\rho} X X^T)^{-1} X$$ shrinks the Cholesky factor down to $$n \times n$$!
+- **Block Soft-Thresholding for Group Lasso:** Replacing $$\lambda\|\alpha\|_1$$ with $$\lambda \sum_{g=1}^G \|\alpha_g\|_2$$ leaves the $$\beta$$-update *completely unchanged* and simply swaps scalar soft-thresholding for Euclidean block shrinkage $$\alpha_g = \left(1 - \frac{\lambda/\rho}{\|\beta_g + w_g\|_2}\right)_+ (\beta_g + w_g)$$.
+- **Drop-In Regularizer Swapping:** Because $$X$$ only appears in the $$\beta$$-update, switching between Lasso, Group Lasso, Elastic Net, or Sparse Group Lasso requires changing *only one line of code* (the $$\alpha$$-prox)!
+
+### Step-by-Step Worked Example (Read Slowly): One ADMM Iteration on a 2-Feature Group Lasso
+
+Consider a 1-group Group Lasso in $$\mathbb{R}^2$$ with $$X = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$$, $$y = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$$, and group penalty $$\lambda\|\alpha\|_2$$ with $$\lambda = 2$$:
+$$\min_{\beta, \alpha} \; \frac{1}{2}\|y - X\beta\|_2^2 + 2\|\alpha\|_2 \quad \text{subject to} \quad \beta = \alpha.$$
+Run one scaled ADMM iteration with $$\rho = 1$$ starting from $$\alpha^0 = (0, 0)^T, \; w^0 = (0, 0)^T$$.
+
+1. **$$\beta$$-update (Ridge linear solve):**
+   Here $$X^T X + \rho I = \operatorname{diag}(4 + 1, \; 1 + 1) = \operatorname{diag}(5, 2)$$ and $$X^T y = (8, 3)^T$$.
+   $$\beta^1 = \begin{bmatrix} 5 & 0 \\ 0 & 2 \end{bmatrix}^{-1}\!\left(\begin{bmatrix} 8 \\ 3 \end{bmatrix} + 1\begin{bmatrix} 0 \\ 0 \end{bmatrix}\right) = \begin{bmatrix} 1.6 \\ 1.5 \end{bmatrix}.$$
+2. **$$\alpha$$-update (Block soft-thresholding with threshold $$\lambda / \rho = 2$$):**
+   Compute the vector $$v = \beta^1 + w^0 = (1.6, 1.5)^T$$ and its Euclidean norm:
+   $$\|v\|_2 = \sqrt{1.6^2 + 1.5^2} = \sqrt{2.56 + 2.25} = \sqrt{4.81} \approx 2.1932.$$
+   Apply block shrinkage:
+   $$\alpha^1 = \left(1 - \frac{2}{2.1932}\right)_+ \begin{bmatrix} 1.6 \\ 1.5 \end{bmatrix} \approx 0.0881 \begin{bmatrix} 1.6 \\ 1.5 \end{bmatrix} \approx \begin{bmatrix} 0.141 \\ 0.132 \end{bmatrix}.$$
+3. **Dual update:**
+   $$w^1 = w^0 + \beta^1 - \alpha^1 \approx (1.459, \; 1.368)^T.$$
+   Notice how *both* coordinates of the group survived together (or would have been zeroed out together had $$\|v\|_2 \le 2$$)—while the $$\beta$$-solve stayed a pure linear system!
+
 ## Lasso regression
 Let's solve the Lasso regression problem using ADMM.
 

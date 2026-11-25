@@ -12,6 +12,38 @@ redirect_from:
   - /contents/vi/chapter22/22_05_Practical_Exercises_Conditional_Gradient/
 ---
 
+Đọc định lý hội tụ giúp ta hiểu *vì sao* Frank–Wolfe đúng, nhưng chỉ khi tự tay viết LMO, tự tính bước tìm kiếm đường thẳng và đối chiếu sai số trên từng bài tập cụ thể, ta mới thật sự làm chủ thuật toán. Năm bài tập thực hành dưới đây được thiết kế như một phòng thí nghiệm thu nhỏ: từ quả cầu $$\ell_1$$ cơ bản, sang chuẩn vết của ma trận, đến tìm kiếm đường thẳng chính xác và biến thể bước rời xa.
+
+Trước khi mở từng phần lời giải chi tiết bên dưới, hãy tự đặt bút thử giải trước — đặc biệt chú ý cách chọn đúng dấu của đỉnh LMO và cách biểu diễn tập hoạt động trong Away-Step, bởi đây là hai vị trí người học hay nhầm dấu nhất khi cài đặt thực tế.
+
+## Bản đồ kiến thức nền: Bốn kỹ năng thực hành cốt lõi trong bộ bài tập
+
+Bộ bài tập này kiểm tra và rèn luyện đồng thời bốn kỹ năng tính toán thiết yếu của Chương 22:
+
+- **Thiết kế LMO dạng đóng (Closed-Form LMO):** Nhận diện nhanh đỉnh cực tiểu của $$\langle \nabla f(x), s \rangle$$ trên các miền phổ biến: quả cầu $$\ell_1$$ (chọn một tọa độ lớn nhất), đơn hình (chọn tọa độ nhỏ nhất), và quả cầu chuẩn vết (chọn cặp vector kỳ dị hàng đầu $$u_1 v_1^T$$).
+- **Tính toán độ phức tạp mỗi vòng lặp:** So sánh định lượng giữa chi phí $$O(mn)$$ của một cặp vector kỳ dị hàng đầu (power iteration) trong Frank–Wolfe với chi phí $$O(mn\min(m,n))$$ của phân tích SVD đầy đủ trong phép chiếu chuẩn vết.
+- **Tối ưu 1 chiều cho Exact Line Search:** Với hàm mục tiêu bậc hai $$f(x) = \frac{1}{2}\|Ax - b\|_2^2$$, bài toán tìm bước $$\gamma_k \in [0, 1]$$ có nghiệm dạng đóng gọn gàng mà không cần vòng lặp backtracking, chỉ cần cắt ngưỡng (*clip*) về đoạn $$[0, 1]$$.
+- **Quản lý tập hoạt động trong Away-Step:** Biết cách lưu bộ trọng số $$\{\alpha_v\}$$, tính giới hạn bước tối đa $$\gamma_{\max} = \alpha_{v_k} / (1 - \alpha_{v_k})$$, và cập nhật lại trọng số sau cả bước tiến (FW step) lẫn bước lùi (away step).
+
+### Khung giải thích (nên đọc chậm): Mẫu tính tay kết hợp LMO và Exact Line Search trên quả cầu $$\ell_1$$
+
+Để khởi động trước khi làm Bài tập 1 và Bài tập 3, hãy giải hoàn chỉnh 1 bước cho $$f(x) = \frac{1}{2}(x_1 - 0.3)^2 + \frac{1}{2}(x_2 - 0.4)^2$$ trên $$C = \{x \in \mathbb{R}^2 : |x_1| + |x_2| \le 1\}$$, xuất phát từ $$x^{(0)} = (1, 0)$$.
+
+1. **Tính gradient tại $$x^{(0)} = (1, 0)$$:**
+   $$\nabla f(x^{(0)}) = (1 - 0.3,\; 0 - 0.4) = (0.7,\; -0.4)$$.
+2. **Xác định đỉnh LMO $$s^{(0)}$$ (cẩn thận dấu!):**
+   So sánh trị tuyệt đối các thành phần gradient: $$|0.7| = 0.7 > |-0.4| = 0.4$$, nên tọa độ lớn nhất là $$i = 1$$ với dấu dương.
+   Ta cần *cực tiểu hóa* $$0.7 s_1 - 0.4 s_2$$, nên chọn dấu **ngược lại** dấu gradient: $$s^{(0)} = (-1, 0)$$.
+3. **Tính hướng di chuyển và khoảng cách đối ngẫu:**
+   Hướng di chuyển $$d^{(0)} = s^{(0)} - x^{(0)} = (-2, 0)$$.
+   Khoảng cách đối ngẫu $$g(x^{(0)}) = \langle -\nabla f(x^{(0)}), d^{(0)} \rangle = (-0.7)(-2) + (0.4)(0) = 1.4 > 0$$.
+4. **Tính bước Exact Line Search trên đoạn $$[0, 1]$$:**
+   Vì $$f(x) = \frac{1}{2}\|x - c\|_2^2$$ có Hessian bằng $$I$$, nghiệm không ràng buộc là:
+   $$\gamma^\star = \frac{\langle -\nabla f(x^{(0)}), d^{(0)} \rangle}{\|d^{(0)}\|_2^2} = \frac{1.4}{(-2)^2 + 0^2} = \frac{1.4}{4} = 0.35.$$
+   Vì $$0.35 \in [0, 1]$$, ta giữ nguyên $$\gamma_1 = 0.35$$ và thu được:
+   $$x^{(1)} = (1, 0) + 0.35(-2, 0) = (0.3,\; 0).$$
+   Kiểm tra giá trị hàm: $$f(x^{(0)}) = \frac{1}{2}(0.49 + 0.16) = 0.325$$ giảm ngay xuống $$f(x^{(1)}) = \frac{1}{2}(0 + 0.16) = 0.08$$! Ở bước tiếp theo, gradient tại $$(0.3, 0)$$ là $$(0, -0.4)$$, LMO sẽ tự động chuyển sang đỉnh $$(0, 1)$$ để kéo $$x_2$$ lên $$0.4$$.
+
 # Bài Tập Thực Hành - Phương pháp Gradient có điều kiện (Frank-Wolfe)
 
 Các bài tập dưới đây được tham khảo từ Jaggi (2013) và Lacoste-Julien & Jaggi (2015).

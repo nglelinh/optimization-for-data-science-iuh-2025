@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+Why do logistic regression, ridge regression, and Poisson count models all yield convex optimization problems? The secret lies in the functional form of common probability distributions: Bernoulli, Gaussian, Exponential, and Poisson densities belong to the exponential family, whose negative log-likelihoods are naturally convex functions of their canonical parameters. Recognizing a distribution's algebraic signature immediately tells you what optimization geometry you are about to face.
+
+## Background Knowledge Map: Distributions Through an Optimization Lens
+
+- **Discrete Families (Bernoulli, Binomial, Poisson):** Model binary classification, trial counts, and rare event arrivals; their log-likelihoods generate cross-entropy and generalized linear model (GLM) losses.
+- **Continuous Families (Gaussian, Exponential, Uniform):** Gaussian densities yield quadratic ($$\ell_2$$) objectives; Exponential densities model waiting times and yield strictly concave log-likelihoods in rate $$\lambda$$.
+- **Multivariate Normal ($$\mathcal{N}(\mu, \Sigma)$$):** Links statistics directly to positive definite matrices ($$\Sigma \succ 0$$), Mahalanobis ellipsoids, and precision-matrix estimation in graphical models.
+- **Log-Concavity Connection:** Most standard densities have concave log-densities, ensuring that maximum likelihood estimation over convex parameter constraints has no spurious local optima.
+
+### Step-by-Step Worked Example (Read Slowly): Concave Log-Likelihood of an Exponential Distribution
+
+Suppose four independent server failure inter-arrival times are observed: $$x = (1, 3, 2, 6)$$ hours, modeled by $$\text{Exponential}(\lambda)$$ with density $$p(x \mid \lambda) = \lambda e^{-\lambda x}$$ for $$\lambda > 0$$.
+
+1. **Write the joint likelihood and log-likelihood:**
+   $$L(\lambda) = \prod_{i=1}^4 \lambda e^{-\lambda x_i} = \lambda^4 e^{-\lambda(1 + 3 + 2 + 6)} = \lambda^4 e^{-12\lambda},$$
+   $$\ell(\lambda) = \ln L(\lambda) = 4\ln\lambda - 12\lambda.$$
+2. **Solve the first-order optimality condition:**
+   $$\ell'(\lambda) = \frac{4}{\lambda} - 12 = 0 \implies \hat{\lambda} = \frac{4}{12} = \frac{1}{3} \text{ failures/hour}.$$
+3. **Certify global optimality via the second derivative:**
+   $$\ell''(\lambda) = -\frac{4}{\lambda^2} < 0 \quad \text{for all } \lambda > 0.$$
+   Because $$\ell(\lambda)$$ is strictly concave on $$(0, \infty)$$, $$\hat{\lambda} = 1/3$$ (the reciprocal of the sample mean $$\bar{x} = 3$$) is the unique global maximizer.
+
 ## Common Probability Distributions
 
 Understanding key probability distributions is essential for optimization problems in machine learning and statistics. These distributions frequently appear as assumptions in models, priors in Bayesian methods, and error models in regression.

@@ -9,6 +9,28 @@ categories:
 lang: en
 ---
 
+Look at the familiar bell curve of a Gaussian probability density: it bends downward near the peak and upward in the tails, so it is *neither* convex nor concave. Yet take its natural logarithm and the bell curve turns into a clean downward-opening parabola $$-\frac{1}{2}x^2 + c$$! That property—**log-concavity**—is the hidden reason maximum likelihood estimation, Bayesian MAP inference, and Gaussian chance constraints yield tractable convex optimization problems.
+
+## Background Knowledge Map: Log-Concave and Log-Convex Structure
+
+- **Definitions ($$f > 0$$):** $$f$$ is *log-concave* if $$\log f$$ is concave (equivalently $$f(\theta x + (1-\theta)y) \ge f(x)^\theta f(y)^{1-\theta}$$); $$f$$ is *log-convex* if $$\log f$$ is convex.
+- **Second-Order Check:** Twice-differentiable $$f > 0$$ is log-concave iff $$f(x)\nabla^2 f(x) \preceq \nabla f(x)\nabla f(x)^T$$ (in 1D, $$f'' f \le (f')^2$$).
+- **Closure Under Products & Marginals:** Products of log-concave functions stay log-concave (independent likelihoods!), and by Prékopa's theorem, *integrating out* variables (marginal densities and Gaussian CDFs $$\Phi(x)$$) preserves log-concavity!
+- **Log-Convexity Strength:** Every log-convex function is automatically convex (since $$e^u$$ is convex and increasing), and sums of log-convex functions remain log-convex (powering geometric programming).
+
+### Step-by-Step Worked Example (Read Slowly): Why the Gaussian Density Is Log-Concave Yet Nonconcave
+
+Examine the standard normal density $$f(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}$$ on $$\mathbb{R}$$.
+
+1. **Check ordinary concavity via $$f''(x)$$:**
+   $$f'(x) = -x f(x), \qquad f''(x) = (x^2 - 1)f(x).$$
+   - For $$|x| < 1$$, $$f''(x) < 0$$ (concave near the peak).
+   - For $$|x| > 1$$, $$f''(x) > 0$$ (convex in the tails!).
+   Thus $$f(x)$$ is **neither convex nor concave** globally.
+2. **Take the logarithm and differentiate twice:**
+   $$\log f(x) = -\frac{1}{2}\ln(2\pi) - \frac{1}{2}x^2 \implies (\log f(x))' = -x \implies (\log f(x))'' = -1 < 0 \text{ everywhere}.$$
+3. **Optimization takeaway:** Maximizing a product of independent Gaussian densities is nonconcave in raw probability space, but taking $$\log$$ immediately yields a strictly concave quadratic!
+
 This section introduces log-concave and log-convex functions, which are important in probability, statistics, and optimization.
 
 ## Definition

@@ -12,6 +12,34 @@ redirect_from:
   - /contents/vi/chapter13/13_09_modern_applications/
 ---
 
+Nhiều người học xong lý thuyết đối ngẫu ở bậc đại học vẫn tự hỏi: những công thức như chuẩn đối ngẫu $$\|y\|_*$$, hàm liên hợp $$f^*$$ hay nón đối ngẫu $$K^*$$ liệu có chỉ nằm trên bảng đen hay thực sự đang chạy bên trong các hệ thống AI hiện đại? Câu trả lời của giai đoạn 2022–2026 là một lời khẳng định vang dội: chúng chính là động cơ toán học đứng sau **phòng thủ tấn công đối kháng (adversarial robustness)**, **sàng lọc đặc trưng siêu tốc**, các **bộ giải nón thế hệ mới** và **kiểm chứng an toàn mạng nơ-ron**.
+
+Khi một kẻ tấn công nhiễu từng pixel ảnh trong quả cầu $$\ell_\infty$$ bán kính $$\epsilon$$, hướng tấn công nguy hiểm nhất không còn là gradient thuần túy mà là vectơ đạt cực đại trong định nghĩa **chuẩn đối ngẫu $$\ell_1$$**. Bài đọc chuyên sâu này nối thẳng các khái niệm vừa học trong Chương 13 với những bài toán mũi nhọn nhất của khoa học máy tính ngày nay.
+
+## Bản đồ kiến thức nền: Bốn mũi nhọn ứng dụng của đối ngẫu trong AI hiện đại
+
+- **Chuẩn đối ngẫu và tấn công đối kháng $$\ell_p$$:** Xấp xỉ bậc nhất mức tăng hàm mất mát dưới nhiễu $$\|\delta\|_p \le \epsilon$$ là $$\max_{\|\delta\|_p \le \epsilon} \nabla \ell(x)^T \delta = \epsilon \|\nabla \ell(x)\|_q$$ — biến chuẩn đối ngẫu thành công cụ định lượng trực tiếp độ nhạy của mạng nơ-ron.
+- **Đối ngẫu Lasso và sàng lọc an toàn (Safe Screening):** Nghiệm đối ngẫu $$u$$ cho phép kiểm tra điều kiện $$\vert X_j^T u \vert < \lambda$$ để loại bỏ chắc chắn các đặc trưng có $$\beta_j^\star = 0$$ ngay giữa quá trình lặp, tăng tốc huấn luyện trên dữ liệu hàng triệu chiều.
+- **Hàm liên hợp và phân rã Moreau:** Đồng nhất thức $$\operatorname{prox}_{f}(v) + \operatorname{prox}_{f^*}(v) = v$$ cho phép tính toán tử gần kề của một hàm khó thông qua phép chiếu đơn giản lên tập liên hợp.
+- **Nón đối ngẫu và kiểm chứng mạng nơ-ron:** Các bộ kiểm chứng như $$\alpha,\beta$$-CROWN dùng biến đối ngẫu không âm (hoặc thuộc nón đối ngẫu) để tạo ra chứng chỉ toán học khẳng định mạng không bao giờ phân loại sai trong vùng nhiễu cho trước.
+
+### Khung giải thích (nên đọc chậm): Tính tay nhiễu đối kháng tối ưu $$\ell_\infty$$ và $$\ell_2$$ bằng chuẩn đối ngẫu
+
+Giả sử tại một ảnh đầu vào $$x \in \mathbb{R}^3$$, gradient của hàm mất mát theo đầu vào là $$g = \nabla_x \ell(x) = (0.8, -0.6, 0.2)^T$$, và kẻ tấn công được phép cộng nhiễu $$\delta$$ với ngân sách $$\epsilon = 0.1$$.
+
+1. **Tấn công dưới ràng buộc $$\|\delta\|_\infty \le 0.1$$ (kiểu FGSM):**
+   Ta cần $$\max_{\|\delta\|_\infty \le 0.1} g^T \delta = 0.1 \|g\|_1$$.
+   - Nhiễu tối ưu lấy dấu của từng thành phần gradient: $$\delta^\star_{\ell_\infty} = 0.1 \cdot \operatorname{sign}(g) = (0.1, -0.1, 0.1)^T$$.
+   - Mức tăng hàm mất mát bậc nhất: $$g^T \delta^\star_{\ell_\infty} = 0.1(\vert 0.8\vert + \vert -0.6\vert + \vert 0.2\vert) = 0.1 \times 1.6 = 0.16$$.
+2. **Tấn công dưới ràng buộc $$\|\delta\|_2 \le 0.1$$:**
+   Ta cần $$\max_{\|\delta\|_2 \le 0.1} g^T \delta = 0.1 \|g\|_2$$.
+   - Tính chuẩn Euclid: $$\|g\|_2 = \sqrt{0.64 + 0.36 + 0.04} = \sqrt{1.04} \approx 1.0198$$.
+   - Nhiễu tối ưu cùng hướng với $$g$$: $$\delta^\star_{\ell_2} = 0.1 \frac{g}{\|g\|_2} \approx (0.0784, -0.0588, 0.0196)^T$$.
+   - Mức tăng hàm mất mát bậc nhất: $$0.1 \times 1.0198 \approx 0.1020$$.
+3. **Ý nghĩa thiết kế:** Cùng một ngân sách $$\epsilon = 0.1$$, quả cầu $$\ell_\infty$$ rộng hơn quả cầu $$\ell_2$$ nên cho phép mức tăng mất mát lớn hơn ($$0.16 > 0.102$$), và muốn phòng thủ theo chuẩn $$\ell_\infty$$ thì ta cần ép **chuẩn đối ngẫu $$\ell_1$$ của gradient** nhỏ xuống!
+
+---
+
 # Cách dùng hiện đại của liên hợp, chuẩn đối ngẫu và nón đối ngẫu
 
 Chương 13 tập trung vào các ứng dụng của lý thuyết đối ngẫu: giải bài toán nguyên thủy thông qua đối ngẫu, chuẩn đối ngẫu, hàm liên hợp, đối ngẫu Lasso và nón đối ngẫu. Bài đọc tùy chọn này gắn các ứng dụng trong khoa học máy tính giai đoạn 2022–2026 vào đúng các cặp tương ứng đó, mà không trình bày lại định nghĩa của $$f^*$$ hay $$\|y\|_*$$.

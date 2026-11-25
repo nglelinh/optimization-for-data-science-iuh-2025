@@ -12,6 +12,35 @@ redirect_from:
   - /contents/vi/chapter13/13_08_Practical_Exercises_Duality_Applications/
 ---
 
+Lý thuyết đối ngẫu chỉ thực sự thấm vào tư duy khi bạn tự tay đặt bút tính một hàm liên hợp, chứng minh một chuẩn đối ngẫu bằng bất đẳng thức Hölder, hay tự tay lập bài toán đối ngẫu cho Lasso và quy hoạch nón. Nhiều khái niệm tưởng chừng trừu tượng trên slide — như vì sao liên hợp của tổng hai hàm lại liên quan đến phép chập infimal, hay vì sao chuẩn đối ngẫu của chuẩn $$\ell_1$$ lại là $$\ell_\infty$$ — sẽ trở nên trong suốt ngay khi bạn hoàn thành vài bài tập tự luận cốt lõi.
+
+Tuyển tập bài tập thực hành này chắt lọc những bài toán kinh điển từ Boyd & Vandenberghe, Rockafellar và Ben-Tal & Nemirovski. Trước khi bắt tay giải từng phần, hãy xem qua bản đồ chiến lược và một bài mẫu trình bày chuẩn để quen nhịp chứng minh.
+
+## Bản đồ kiến thức nền: Bốn kỹ năng chứng minh trọng tâm trong bài tập Chương 13
+
+- **Chứng minh chuẩn đối ngẫu bằng hai chiều bất đẳng thức:** Để chứng minh $$\|y\|_* = M(y)$$, luôn đi theo hai bước chuẩn: (1) dùng bất đẳng thức (Hölder, Cauchy–Schwarz, hoặc bất đẳng thức tam giác) để chỉ ra $$y^T x \le M(y)$$ với mọi $$\|x\| \le 1$$; (2) chỉ ra một vectơ cụ thể $$x_0$$ có $$\|x_0\| \le 1$$ đạt đúng dấu bằng $$y^T x_0 = M(y)$$.
+- **Tính hàm liên hợp theo từng miền giá trị của $$y$$:** Khi tính $$f^*(y) = \sup_x (y^T x - f(x))$$, luôn kiểm tra trước xem biểu thức có bị không bị chặn trên ($$+\infty$$) ở vùng $$y$$ nào không, sau đó mới giải phương trình đạo hàm $$\nabla f(x) = y$$ trên miền hữu hạn.
+- **Lập đối ngẫu có hệ thống qua tách biến:** Với bài toán dạng $$\min_x f(x) + g(Ax)$$, đặt $$z = Ax$$ giúp chuẩn hóa quy trình lập đối ngẫu thành 3 dòng đại số không bao giờ nhầm dấu.
+- **Kiểm tra chéo bằng ví dụ số nhỏ:** Sau khi tìm xong công thức tổng quát (cho chuẩn đối ngẫu, hàm liên hợp hay đối ngẫu Lasso), luôn thử thay một bộ số nguyên đơn giản vào cả hai vế để phát hiện tức thì lỗi sai dấu hay thiếu hệ số $$1/2$$.
+
+### Khung giải thích (nên đọc chậm): Bài mẫu chứng minh hàm liên hợp của hàm mũ âm logarit
+
+**Bài toán mẫu:** Tính hàm liên hợp $$f^*(y)$$ của hàm $$f(x) = -\log x$$ với miền xác định $$\operatorname{dom} f = \{x \in \mathbb{R} : x > 0\}$$.
+
+1. **Thiết lập bài toán cực đại hóa:**
+   $$f^*(y) = \sup_{x > 0} \bigl(yx + \log x\bigr).$$
+2. **Xét trường hợp $$y \ge 0$$:**
+   Khi $$y \ge 0$$ và $$x \to +\infty$$, cả $$yx \ge 0$$ lẫn $$\log x \to +\infty$$ nên $$yx + \log x \to +\infty$$. Do đó $$f^*(y) = +\infty$$ với mọi $$y \ge 0$$.
+3. **Xét trường hợp $$y < 0$$:**
+   Đặt $$h(x) = yx + \log x$$ trên $$(0, +\infty)$$. Đạo hàm bậc nhất và bậc hai:
+   $$h'(x) = y + \frac{1}{x} = 0 \iff x^\star = -\frac{1}{y} > 0, \qquad h''(x) = -\frac{1}{x^2} < 0.$$
+   Vì $$h$$ lõm chặt trên $$(0, +\infty)$$, điểm $$x^\star = -1/y$$ là cực đại toàn cục duy nhất.
+4. **Thay $$x^\star = -1/y$$ để thu công thức đóng và kiểm tra số:**
+   $$f^*(y) = y\left(-\frac{1}{y}\right) + \log\left(-\frac{1}{y}\right) = -1 - \log(-y), \qquad \text{với } y < 0.$$
+   *Kiểm tra nhanh tại $$x = 2, y = -0.5$$ (đúng tại $$y = f'(x) = -1/x$$):* $$f(2) = -\log 2$$, $$f^*(-0.5) = -1 - \log(0.5) = -1 + \log 2$$. Tổng $$f(2) + f^*(-0.5) = -1 = (-0.5) \cdot 2 = yx$$ — khớp hoàn hảo dấu bằng Fenchel–Young!
+
+---
+
 # Bài tập thực hành - Ứng dụng tính đối ngẫu
 
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Rockafellar (1970) và Ben-Tal & Nemirovski (2001).

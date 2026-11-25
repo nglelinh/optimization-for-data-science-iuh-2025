@@ -9,6 +9,37 @@ categories:
 lang: vi
 ---
 
+Hãy tưởng tượng bạn đang đứng trong một căn phòng đa giác lồi và muốn tìm điểm thấp nhất của một mặt sàn cong mềm mại. Phương pháp Projected Gradient Descent (PGD) bảo bạn cứ bước thẳng xuống dốc; nếu lỡ đâm xuyên ra ngoài tường, hãy tìm điểm gần nhất trên tường để kéo mình quay lại. Nghe rất hợp lý — cho đến khi căn phòng là một quả cầu chuẩn vết của ma trận $$10{,}000 \times 10{,}000$$, nơi việc "tìm điểm gần nhất trên tường" tốn hàng giờ tính toán mỗi bước.
+
+Phương pháp **gradient có điều kiện (Frank–Wolfe)** đảo ngược hoàn toàn tư duy đó: thay vì bước ra ngoài rồi chiếu vào trong, ta đứng nguyên trong phòng, nhìn theo hướng dốc xuống mạnh nhất, chọn **góc tường** nằm xa nhất theo hướng đó, rồi bước một đoạn thẳng về phía góc tường ấy. Không bao giờ ra khỏi miền khả thi, không bao giờ cần phép chiếu, và mỗi bước chỉ thêm đúng một "nguyên tử" cấu trúc vào nghiệm.
+
+## Bản đồ kiến thức nền: Bốn mảnh ghép cốt lõi của bài học
+
+Bài học này đặt nền móng cho toàn bộ Chương 22 thông qua bốn trụ cột liên kết chặt chẽ:
+
+- **Chuẩn đối ngẫu (Dual Norm) và Bộ giải LMO:** Với ràng buộc dạng chuẩn $$\|x\| \le t$$, bài toán tuyến tính $$\min_{\|s\| \le t} \nabla f(x)^T s$$ có liên hệ trực tiếp với chuẩn đối ngẫu $$\|\nabla f(x)\|_* = \max_{\|s\| \le 1} \nabla f(x)^T s$$. Vì chuẩn đối ngẫu của $$\ell_1$$ là $$\ell_\infty$$ và của chuẩn vết là chuẩn phổ, LMO rút gọn thành thao tác cực rẻ: tìm phần tử lớn nhất hoặc cặp vector kỳ dị hàng đầu.
+- **Tính thưa và Hạng thấp tự nhiên (Implicit Sparsity & Low-Rank):** Vì $$x^{(k)}$$ là tổ hợp lồi của điểm khởi tạo và các đỉnh $$s^{(0)}, \dots, s^{(k-1)}$$, sau $$k$$ bước, nghiệm của Frank–Wolfe trên quả cầu $$\ell_1$$ có nhiều nhất $$k$$ tọa độ khác $$0$$ (nếu khởi tạo từ $$0$$), và trên quả cầu chuẩn vết có hạng không vượt quá $$k$$.
+- **Tương đương giữa dạng ràng buộc và dạng Lagrange:** Trong thống kê và học máy, bài toán $$\min_{\|x\| \le t} f(x)$$ (dạng ràng buộc dùng cho Frank–Wolfe) và $$\min_x f(x) + \lambda \|x\|$$ (dạng phạt Lagrange dùng cho Proximal Gradient) sinh ra cùng một họ nghiệm tối ưu khi tham số $$t$$ và $$\lambda$$ biến thiên tương ứng.
+- **Khoảng cách đối ngẫu (Duality Gap):** Đại lượng $$g(x) = \max_{s \in C} \nabla f(x)^T (x - s)$$ luôn lớn hơn hoặc bằng $$f(x) - f^\star$$ nhờ tính lồi bậc nhất của $$f$$. Nó vừa là chứng chỉ dừng chính xác, vừa là đại lượng trung tâm trong chứng minh hội tụ ở bài sau.
+
+### Khung giải thích (nên đọc chậm): Tính tay Frank–Wolfe trên quả cầu $$\ell_1$$ và kiểm tra khoảng cách đối ngẫu
+
+Xét bài toán cực tiểu hóa $$f(x_1, x_2) = \frac{1}{2}(x_1 - 2)^2 + \frac{1}{2}(x_2 - 0.5)^2$$ trên quả cầu $$\ell_1$$ đơn vị $$C = \{(x_1, x_2) : |x_1| + |x_2| \le 1\}$$, khởi tạo từ $$x^{(0)} = (0, 0)$$.
+
+1. **Tính gradient tại $$x^{(0)} = (0, 0)$$:**
+   $$\nabla f(0, 0) = (-2,\; -0.5)$$. Giá trị hàm mục tiêu ban đầu là $$f(0, 0) = \frac{1}{2}(4 + 0.25) = 2.125$$.
+2. **Giải LMO trên quả cầu $$\ell_1$$:**
+   Ta cần cực tiểu hóa $$-2s_1 - 0.5s_2$$ với $$|s_1| + |s_2| \le 1$$. Quy tắc chuẩn $$\ell_1$$ chỉ ra ngay: tìm tọa độ có trị tuyệt đối gradient lớn nhất (ở đây $$|-2| = 2 > |-0.5|$$, tức tọa độ $$i = 1$$) và gán dấu ngược lại: $$s^{(0)} = (1, 0)$$.
+3. **Tính khoảng cách đối ngẫu tại $$x^{(0)}$$:**
+   $$g(x^{(0)}) = \nabla f(x^{(0)})^T (x^{(0)} - s^{(0)}) = (-2)(0 - 1) + (-0.5)(0 - 0) = 2$$.
+   Điều này đảm bảo ngay lập tức rằng $$f(x^{(0)}) - f^\star \le 2$$, tức $$f^\star \ge 2.125 - 2 = 0.125$$.
+4. **Cập nhật bước $$k = 1$$ với $$\gamma_1 = \frac{2}{1 + 1} = 1$$:**
+   $$x^{(1)} = (1 - 1)(0, 0) + 1 \cdot (1, 0) = (1, 0)$$, thu được $$f(x^{(1)}) = \frac{1}{2}(1 - 2)^2 + \frac{1}{2}(0 - 0.5)^2 = 0.625$$.
+5. **Kiểm tra điều kiện dừng tại $$x^{(1)} = (1, 0)$$:**
+   Ta có $$\nabla f(1, 0) = (-1,\; -0.5)$$. Tọa độ có trị tuyệt đối gradient lớn nhất vẫn là $$i = 1$$ ($$|-1| = 1 > |-0.5|$$), nên LMO lại trả về $$s^{(1)} = (1, 0)$$. Khoảng cách đối ngẫu lúc này là:
+   $$g(x^{(1)}) = \nabla f(x^{(1)})^T (x^{(1)} - s^{(1)}) = 0.$$
+   Vì $$0 \le f(x^{(1)}) - f^\star \le g(x^{(1)}) = 0$$, ta khẳng định chắc chắn $$x^\star = (1, 0)$$ là nghiệm tối ưu toàn cục — đồng thời thấy rõ tính thưa (chỉ có 1 tọa độ khác 0) được bảo toàn tuyệt đối!
+
 ## Gradient descent có chiếu (Projected Gradient Descent)
 
 Xét bài toán tối ưu có ràng buộc sau:

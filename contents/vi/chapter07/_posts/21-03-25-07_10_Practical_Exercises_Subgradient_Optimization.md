@@ -12,6 +12,39 @@ redirect_from:
   - /contents/vi/chapter07/07_09_Practical_Exercises_Subgradient_Optimization/
 ---
 
+Khi lý thuyết Subgradient chuyển hóa thành thuật toán lặp $$x^{(k+1)} = x^{(k)} - t_k g^{(k)}$$ (với $$g^{(k)} \in \partial f(x^{(k)})$$), ta bước vào một lãnh địa có luật chơi khác hẳn Gradient Descent ở Chương 06: không thể dùng Backtracking Line Search (vì $$-g^{(k)}$$ chưa chắc là hướng giảm!), không thể dùng bước cố định để hội tụ chính xác về $$f^\star$$, và tốc độ hội tụ chậm hơn đáng kể — chỉ đạt $$O(1/\sqrt{k})$$ thay vì $$O(1/k)$$!
+
+Bộ bài tập thực hành này giúp bạn trực tiếp chạm tay vào cả hai mặt của Chương 07: tính chuẩn xác subgradient của các hàm không trơn phổ biến (chuẩn $$\ell_1, \ell_2, \ell_\infty$$, hàm cực đại, hinge loss) và tự tay phân tích, cài đặt **Phương pháp Subgradient** với các lịch bước giảm dần chuẩn xác!
+
+## Bản đồ kiến thức nền: Bốn quy tắc thực chiến cho Phương pháp Subgradient
+
+Khi giải các bài tập thực hành tính subgradient và chạy thuật toán Subgradient Method, hãy nắm chắc bốn nguyên tắc sau:
+
+- **Tính chất Lipschitz của hàm (không phải gradient!) $$|f(x) - f(y)| \le G\|x - y\|_2$$:** Điều kiện tương đương là mọi subgradient đều bị chặn chuẩn $$\|g\|_2 \le G \; \forall g \in \partial f(x)$$. (Ví dụ với $$f(x) = \|x\|_1$$ trên $$\mathbb{R}^n$$, $$\|g\|_2 \le \sqrt{n} \implies G = \sqrt{n}$$.)
+- **Theo dõi $$f_{\text{best}}^{(k)} = \min_{i=0,\dots,k} f(x^{(i)})$$:** Vì phương pháp Subgradient **không giảm đơn điệu** ($$f(x^{(k+1)})$$ có thể lớn hơn $$f(x^{(k)})$$), ta luôn phải lưu kỷ lục tốt nhất trong suốt quá trình chạy!
+- **Lựa chọn kích thước bước $$t_k$$:**
+  - **Bước cố định $$t_k = t$$:** Chỉ hội tụ vào lân cận $$f^\star + \frac{G^2 t}{2}$$.
+  - **Bước giảm dần không cộng dồn bình phương** ($$\sum t_k = \infty,\; \sum t_k^2 < \infty$$, ví dụ $$t_k = \frac{c}{k}$$ hoặc $$\frac{c}{\sqrt{k}}$$): Đảm bảo $$f_{\text{best}}^{(k)} \to f^\star$$, với tốc độ tối ưu $$O\left(\frac{GR}{\sqrt{k}}\right)$$ khi chọn $$t_k = \frac{R}{G\sqrt{k}}$$ (trong đó $$R = \|x^{(0)} - x^\star\|_2$$)!
+  - **Bước Polyak (khi biết trước $$f^\star$$):** $$t_k = \frac{f(x^{(k)}) - f^\star}{\|g^{(k)}\|_2^2}$$ — cực kỳ hiệu quả cho bài toán tìm điểm giao các tập lồi (nơi ta biết trước $$f^\star = 0$$)!
+- **Độ phức tạp $$O(1/\epsilon^2)$$:** Để đạt độ chính xác $$\epsilon$$, phương pháp Subgradient cần cỡ $$\frac{G^2 R^2}{\epsilon^2}$$ vòng lặp (ví dụ $$\epsilon = 10^{-3}$$ cần tới ~$$10^6$$ bước — đó là động lực để sang các chương sau ta học Phương pháp Proximal!).
+
+### Khung giải thích (nên đọc chậm): Chạy tay 3 bước Phương pháp Subgradient với bước Polyak và bước $$1/\sqrt{k}$$
+
+Xét hàm không trơn $$f(x) = |x - 2|$$ ($$G = 1,\; x^\star = 2,\; f^\star = 0$$), xuất phát từ $$x^{(0)} = 0$$ ($$R = 2$$):
+
+1. **Dùng lịch bước chuẩn $$t_k = \frac{R}{G\sqrt{k+1}} = \frac{2}{\sqrt{k+1}}$$:**
+   - **Bước $$k = 0$$:** $$x^{(0)} = 0 \implies g^{(0)} = -1$$, $$t_0 = 2$$.
+     $$x^{(1)} = 0 - 2(-1) = 2 \implies f(2) = 0$$ (may mắn chạm đúng đích!).
+   - Thử xuất phát từ $$x^{(0)} = -1$$ ($$R = 3$$, dùng lịch $$t_k = \frac{1}{\sqrt{k+1}}$$):
+     - $$k = 0$$: $$x^{(0)} = -1,\; g^{(0)} = -1,\; t_0 = 1 \implies x^{(1)} = 0,\; f = 2$$.
+     - $$k = 1$$: $$x^{(1)} = 0,\; g^{(1)} = -1,\; t_1 \approx 0.707 \implies x^{(2)} \approx 0.707,\; f \approx 1.293$$.
+     - $$k = 2$$: $$x^{(2)} \approx 0.707,\; g^{(2)} = -1,\; t_2 \approx 0.577 \implies x^{(3)} \approx 1.284,\; f \approx 0.716$$.
+2. **Dùng bước Polyak $$t_k = \frac{f(x^{(k)}) - f^\star}{\|g^{(k)}\|_2^2}$$ từ $$x^{(0)} = -1$$ (biết $$f^\star = 0$$):**
+   - $$k = 0$$: $$f(-1) = 3,\; g^{(0)} = -1 \implies t_0 = \frac{3 - 0}{(-1)^2} = 3$$.
+   - Cập nhật: $$x^{(1)} = -1 - 3(-1) = 2 \implies f(2) = 0$$ — chạm đúng cực tiểu toàn cục sau **đúng 1 bước**!
+
+---
+
 # Bài Tập Thực Hành - Tối ưu Subgradient (Subgradient Optimization)
 
 Các bài tập được tham khảo từ Boyd & Vandenberghe (2004) và Shor (1985).

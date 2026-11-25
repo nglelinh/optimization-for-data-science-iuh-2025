@@ -9,6 +9,34 @@ categories:
 lang: vi
 ---
 
+Nếu bạn thả một viên bi nặng lăn xuống một hẻm núi hình lòng máng hẹp và dài, viên bi sẽ trượt đi như thế nào? Gradient descent (và proximal gradient tiêu chuẩn) hành xử giống như một người đi bộ mất trí nhớ hoàn toàn: sau mỗi bước, họ dừng hẳn lại, quên sạch hướng mình vừa đi, rồi lại đo dốc cục bộ và đi vuông góc với đường đồng mức — kết quả là họ cứ zíc-zắc qua lại giữa hai thành hẻm núi, tiến dọc theo đáy hẻm chậm như rùa!
+
+**Tăng tốc Nesterov (Nesterov Acceleration)** trả lại "trí nhớ quán tính" cho viên bi ấy — nhưng theo một cách tinh tế hơn cả vật lý cổ điển. Thay vì chỉ cộng quán tính sau khi tính gradient (như phương pháp Heavy Ball của Polyak), Nesterov để viên bi **nhìn trước một bước theo đà quán tính** rồi mới đo gradient và áp dụng toán tử gần kề tại điểm nhìn trước đó. Chỉ một thay đổi nhỏ về thứ tự phép tính ấy đã làm chấn động ngành tối ưu năm 1983, nâng tốc độ từ $$O(1/k)$$ lên đúng giới hạn lý thuyết $$O(1/k^2)$$!
+
+## Bản đồ kiến thức nền: Bốn trực giác cốt lõi về tăng tốc bậc nhất
+
+- **Bệnh zíc-zắc trên hàm có số điều kiện lớn (Ill-conditioned Landscapes):** Khi độ cong theo một hướng lớn gấp $$\kappa$$ lần hướng kia, bước $$t \le 1/L$$ bị khống chế bởi hướng dốc nhất, khiến bước tiến dọc theo thung lũng phẳng cực kỳ nhỏ bé. Quán tính triệt tiêu các thành phần dao động ngược dấu qua hai bước liên tiếp và cộng hưởng các thành phần cùng hướng dọc đáy thung lũng.
+- **Sự khác biệt giữa Polyak Heavy Ball và Nesterov Look-ahead:**
+  - *Heavy Ball:* tính gradient tại $$x^{(k)}$$, rồi cộng đà $$\beta(x^{(k)} - x^{(k-1)})$$.
+  - *Nesterov:* ngoại suy trước $$y^{(k)} = x^{(k)} + \beta_k(x^{(k)} - x^{(k-1)})$$, rồi mới tính $$\nabla g(y^{(k)})$$ và $$\operatorname{prox}_{t h}$$. Nhờ "phanh sớm" nếu bước quán tính vượt quá đáy, Nesterov đảm bảo hội tụ toàn cục $$O(1/k^2)$$ cho mọi hàm lồi trơn.
+- **Nesterov lý thuyết vs. "Nesterov trong PyTorch":** Trong lý thuyết tối ưu lồi, hệ số quán tính tăng dần theo lịch $$\beta_k = \frac{k-1}{k+2} \to 1$$ để khớp tốc độ $$O(1/k^2)$$; trong khi ở học sâu (`torch.optim.SGD(..., momentum=0.9, nesterov=True)`), hệ số $$\beta$$ thường giữ cố định (như $$0.9$$) để cân bằng giữa tốc độ và nhiễu mini-batch.
+- **Tác dụng phụ: gợn sóng Nesterov (Nesterov Ripples):** Vì có quán tính, quỹ đạo tăng tốc có thể trượt lố qua đáy rồi quay lại, nên giá trị hàm $$f(x^{(k)})$$ không còn giảm đơn điệu như ISTA — mở ra nhu cầu kỹ thuật khởi động lại (adaptive restart).
+
+### Khung giải thích (nên đọc chậm): Thấy tận mắt cơ chế "nhìn trước để phanh sớm" của Nesterov
+
+Xét hàm bậc hai 1D $$g(x) = \frac{1}{2}x^2$$ ($$L = 1$$, nghiệm $$x^* = 0$$) với bước $$t = 0.5$$ và đà $$\beta = 0.5$$. Giả sử ta đang có $$x^{(0)} = 4$$ và $$x^{(1)} = 1$$ (đà chuyển động $$x^{(1)} - x^{(0)} = -3$$ đang lao mạnh về trái qua $$0$$).
+
+1. **Cách 1 — Không quán tính (GD thường):**
+   $$x^{(2)} = 1 - 0.5(1) = 0.5$$ (an toàn nhưng chậm).
+2. **Cách 2 — Polyak Heavy Ball (đo dốc ở chỗ cũ rồi mới cộng đà):**
+   $$x^{(2)}_{\text{HB}} = x^{(1)} - 0.5\nabla g(x^{(1)}) + 0.5(x^{(1)} - x^{(0)}) = 1 - 0.5(1) + 0.5(-3) = -1.0.$$
+   Viên bi lao lố sang tận $$-1.0$$ (sai số giữ nguyên $$|x| = 1$$)!
+3. **Cách 3 — Nesterov Look-ahead (nhìn trước rồi mới đo dốc):**
+   - Điểm nhìn trước: $$y^{(1)} = 1 + 0.5(-3) = -0.5$$ (thấy ngay rằng mình sắp vượt qua đáy $$0$$ sang phía âm!).
+   - Đo gradient tại $$y^{(1)} = -0.5$$: $$\nabla g(-0.5) = -0.5$$ (lực phanh kéo ngược về phải!).
+   - Cập nhật: $$x^{(2)}_{\text{Nest}} = y^{(1)} - 0.5(-0.5) = -0.5 + 0.25 = -0.25$$!
+   Sai số rơi ngay từ $$1.0$$ xuống $$0.25$$ (tốt gấp **4 lần** Heavy Ball và gấp **2 lần** GD thường)! Đó chính là bí mật của hai chữ *look-ahead*.
+
 # Tăng tốc
 
 Phương pháp gradient gần kề trên bài toán tổng hợp $$\min_x g(x)+h(x)$$ đã đạt tốc độ hội tụ $$O(1/k)$$ khi $$\nabla g$$ liên tục Lipschitz (bài 09-02). **Tăng tốc (acceleration)** là kỹ thuật bổ sung thành phần động lượng giúp nâng tốc độ hội tụ lên mức tối ưu bậc nhất $$O(1/k^2)$$ cho lớp hàm lồi trơn $$g$$ mà không cần tính ma trận Hessian. Bài học này trình bày góc nhìn trực quan theo phong cách Distill trước khi đi vào phần biến đổi đại số của FISTA. Thuật toán và chứng minh tốc độ $$O(1/k^2)$$ nằm ở [09-05-01]({% multilang_post_url contents/chapter09/20-01-08-09_05_01_accelerated_proximal_gradient_method %}) và [09-05-02]({% multilang_post_url contents/chapter09/20-01-08-09_05_02_convergence_analysis %}); biến thể ngẫu nhiên với hệ số $$\beta$$ cố định dùng trong huấn luyện mạng nơ-ron nằm ở [26-02]({% multilang_post_url contents/chapter26/2026-09-15-26_02_momentum_and_nesterov %}).

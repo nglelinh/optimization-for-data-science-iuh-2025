@@ -12,6 +12,27 @@ redirect_from:
   - /contents/en/chapter06/06_10_Practical_Exercises_Optimization_Algorithms/
 ---
 
+Reading convergence proofs builds intuition, but actually computing Hessian eigenvalues, running backtracking trials by hand, diagnosing SGD variance, and comparing momentum against vanilla gradient descent is what turns theory into engineering fluency. These practical exercises challenge you to execute, analyze, and tune every major first-order algorithm from Chapter 06.
+
+## Background Knowledge Map: Algorithmic Analysis Toolkit for These Exercises
+
+1. **Exact Quadratic Diagnostics**: For $$f(x) = \frac{1}{2}x^T Q x + c^T x$$, immediately extract $$L = \lambda_{\max}(Q)$$, $$m = \lambda_{\min}(Q)$$, $$\kappa = L/m$$, stability limit $$2/L$$, and optimal fixed step $$t^\star = \frac{2}{L + m}$$.
+2. **Step-by-Step Line Search Verification**: Always write the Armijo RHS $$f(x_k) - \alpha t \|\nabla f(x_k)\|_2^2$$ explicitly as a function of $$t$$ before testing $$t = 1, \beta, \beta^2, \dots$$ so each trial is a single clean comparison.
+3. **SGD & Momentum Tuning Checks**: Track both bias (mean iterate) and variance (spread across random draws) for SGD, and verify that momentum $$\beta \in [0, 1)$$ stays below the stability ceiling $$\beta < 1$$ with $$t < \frac{2(1 + \beta)}{L}$$.
+4. **Regularization Path Analysis**: When comparing Ridge vs. Lasso, check the optimality condition at $$w = 0$$ (whether $$|g_j(0)| \le \lambda$$) to predict which features drop out to exact zero.
+
+### Step-by-Step Worked Example (Read Slowly): Warm-Up Convergence Rate Calculation
+
+Before starting Exercise 1, analyze $$f(x) = \frac{1}{2}x^T Q x$$ with $$Q = \operatorname{diag}(2, 8)$$ from $$x^{(0)} = (1, 1)$$:
+
+1. **Extract spectral parameters**: $$m = 2$$, $$L = 8$$, $$\kappa = L/m = 4$$.
+2. **Compute the optimal fixed step size and contraction factor**:
+   $$t^\star = \frac{2}{L + m} = \frac{2}{10} = 0.20, \qquad \rho = \frac{\kappa - 1}{\kappa + 1} = \frac{3}{5} = 0.60.$$
+3. **Verify the exact iterate formula**:
+   $$x^{(k)} = \bigl((1 - 0.2 \cdot 2)^k,\; (1 - 0.2 \cdot 8)^k\bigr) = \bigl(0.6^k,\; (-0.6)^k\bigr).$$
+4. **Find the exact iteration $$k$$ where $$\|x^{(k)}\|_2 \le 0.01\|x^{(0)}\|_2$$**:
+   Since $$\|x^{(k)}\|_2 = 0.6^k \|x^{(0)}\|_2$$, we need $$0.6^k \le 0.01 \implies k \ge \frac{\ln(0.01)}{\ln(0.6)} = \frac{-4.6052}{-0.5108} \approx 9.02 \implies k = 10$$ iterations!
+
 # Practical Exercises - Optimization Algorithms
 
 The exercises are adapted from Boyd & Vandenberghe (2004) and Nocedal & Wright (2006).

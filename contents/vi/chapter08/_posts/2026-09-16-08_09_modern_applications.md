@@ -12,6 +12,35 @@ redirect_from:
   - /contents/vi/chapter08/08_11_modern_applications/
 ---
 
+Đừng tưởng rằng một thuật toán ra đời từ thập niên 1960 như phương pháp subgradient đã bị bỏ lại trong ngăn tủ lịch sử trước làn sóng học sâu hiện đại. Trái lại, mỗi khi một mạng nơ-ron dùng hàm kích hoạt ReLU ($$\max(0, z)$$), mỗi khi một nhóm nghiên cứu an toàn AI tạo nhiễu đối kháng bằng PGD trong quả cầu $$\ell_\infty$$ để kiểm thử độ bền vững của mô hình, hay khi một nền tảng tài chính ép ràng buộc công bằng nhân khẩu học — chính vòng lặp subgradient (và biến thể có chiếu, ngẫu nhiên của nó) đang âm thầm chạy bên dưới.
+
+Bài đọc mở rộng này bắc cây cầu từ lý thuyết Chương 08 sang thực tiễn giai đoạn 2022–2026. Bạn sẽ thấy rằng dù tên gọi trong các thư viện phần mềm có thể khác đi (như `PyTorch autograd` tại điểm gãy ReLU hay `PGD-20` trên bảng xếp hạng RobustBench), cốt lõi toán học vẫn không thay đổi: chọn một phần tử trong dưới vi phân, bước theo hướng đối diện, rồi chiếu về miền hợp lệ.
+
+## Bản đồ kiến thức nền: Bốn nhánh ứng dụng hiện đại của phương pháp subgradient
+
+- **Tối ưu không trơn trong học sâu (ReLU & Clarke Subdifferential):** Hàm ReLU không khả vi tại $$0$$, khiến hàm mất mát của mạng nơ-ron trở nên không trơn (và không lồi). Các framework tự động tính vi phân chọn một giá trị cố định (thường là $$0$$) tại điểm gãy, vận hành như một phương pháp subgradient ngẫu nhiên trên tập dưới vi phân tổng quát Clarke.
+- **Huấn luyện đối kháng (Adversarial Training) bằng PGD có chiếu:** Để tìm nhiễu độc hại $$\delta$$ tối đa hóa mất mát trong quả cầu $$\|\delta\|_\infty \le \epsilon$$, thuật toán Projected Gradient Ascent thực hiện đúng bước cập nhật theo dấu gradient rồi chiếu bằng hàm cắt ngưỡng `clip(delta, -eps, eps)`.
+- **Tối ưu có ràng buộc công bằng (Fairness-Constrained Learning):** Các ràng buộc công bằng như chênh lệch tỷ lệ dương tính giả giữa hai nhóm không vượt quá $$\tau$$ được đưa vào hàm Lagrangian và giải bằng trò chơi minimax dùng bước subgradient trên nhân tử Lagrange.
+- **Độ bền vững với ngoại lai (Robust Loss — Hinge & Huber):** Các hàm mất mát ít nhạy cảm với điểm nhiễu ngoại lai thường có góc gãy tuyến tính; phương pháp subgradient cho phép tối ưu trực tiếp mà không cần ép về bình phương tối thiểu nhạy nhiễu.
+
+### Khung giải thích (nên đọc chậm): Tính tay 2 bước tấn công PGD có chiếu lên quả cầu $$\ell_\infty$$
+
+Xét một bộ phân loại tuyến tính 2 chiều đơn giản có hàm mất mát đối với nhiễu $$\delta = (\delta_1, \delta_2)$$ là:
+$$L(\delta) = 2\delta_1 - 3\delta_2 + 1,$$
+ta muốn **tối đa hóa** $$L(\delta)$$ (tương đương cực tiểu hóa $$-L(\delta)$$) trong quả cầu $$\ell_\infty$$ bán kính $$\epsilon = 0.2$$ (tức $$|\delta_1| \le 0.2, |\delta_2| \le 0.2$$). Bắt đầu từ $$\delta^{(0)} = (0, 0)$$ với bước $$\alpha = 0.15$$ và chuẩn hóa hướng theo dấu ($$\ell_\infty$$-PGD).
+
+1. **Bước 1:**
+   - Gradient hướng tăng mất mát: $$\nabla L(\delta^{(0)}) = (2, -3)$$.
+   - Lấy dấu từng tọa độ (hướng tối ưu theo chuẩn $$\ell_\infty$$): $$s^{(0)} = \operatorname{sign}(2, -3) = (+1, -1)$$.
+   - Bước tự do: $$\tilde{\delta}^{(1)} = (0, 0) + 0.15(1, -1) = (0.15, -0.15)$$.
+   - Chiếu lên hộp $$[-0.2, 0.2]^2$$: cả hai tọa độ đều nằm trong $$[-0.2, 0.2]$$ nên $$\delta^{(1)} = (0.15, -0.15)$$. Mất mát tăng từ $$1.0$$ lên $$2(0.15) - 3(-0.15) + 1 = 1.75$$.
+2. **Bước 2:**
+   - Bước tự do tiếp theo: $$\tilde{\delta}^{(2)} = (0.15, -0.15) + 0.15(1, -1) = (0.30, -0.30)$$ — văng ra ngoài quả cầu bán kính $$0.2$$!
+   - Chiếu cắt ngưỡng lên $$[-0.2, 0.2]^2$$:
+     $$\delta^{(2)} = \operatorname{clip}\big((0.30, -0.30), -0.2, 0.2\big) = (0.20, -0.20).$$
+   - Mất mát đạt cực đại trong hộp: $$L(0.20, -0.20) = 2(0.2) - 3(-0.2) + 1 = 2.0$$.
+Đây chính xác là cơ chế bên trong mỗi vòng lặp PGD đang chạy trong các hệ thống kiểm định độ bền vững AI hiện đại!
+
 # Ứng dụng hiện đại của phương pháp subgradient
 
 Chương 08 phân tích vòng lặp $$x^{k+1}=x^k-\alpha_k g^k$$ với $$g^k\in\partial f(x^k)$$, cùng hai biến thể quan trọng là bản có chiếu và bản ngẫu nhiên. Bài đọc tùy chọn này liên hệ ba khuôn mẫu thuật toán đó với các quy trình thực tế đã được chuẩn hóa trong giai đoạn 2022–2026. Chúng ta không chứng minh lại tốc độ hội tụ $$O(1/\varepsilon^2)$$, mà làm rõ vì sao các bước cập nhật subgradient (có chiếu hoặc ngẫu nhiên) vẫn được sử dụng rộng rãi trong thực hành.

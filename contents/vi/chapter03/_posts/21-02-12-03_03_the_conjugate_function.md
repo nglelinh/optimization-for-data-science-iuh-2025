@@ -10,6 +10,34 @@ lang: vi
 lesson_type: required
 ---
 
+Trong vật lý cơ học, phép biến đổi Legendre đổi góc nhìn từ vị trí–vận tốc sang vị trí–động lượng để chuyển phương trình Lagrange thành phương trình Hamilton đầy đối xứng. Trong tối ưu hóa lồi, Werner Fenchel mở rộng ý tưởng đó cho *mọi* hàm số (kể cả không trơn, không lồi!) thành **hàm liên hợp Fenchel** $$f^*(y) = \sup_{x \in \operatorname{dom} f}(y^T x - f(x))$$: thay vì mô tả một đường cong bằng tập các điểm $$(x, f(x))$$, ta mô tả nó bằng tập hợp tất cả các **siêu phẳng tiếp tuyến có độ dốc $$y$$**!
+
+Hàm liên hợp là chiếc chìa khóa mở thẳng cánh cửa sang lý thuyết đối ngẫu Fenchel–Rockafellar và đối ngẫu Lagrange trong các chương tiếp theo.
+
+## Bản đồ kiến thức nền: Bốn tính chất kỳ diệu của Hàm liên hợp $$f^*$$
+
+- **Ý nghĩa hình học (Độ chênh lớn nhất theo độ dốc $$y$$):** $$f^*(y)$$ đo khoảng cách thẳng đứng lớn nhất giữa đường thẳng đi qua gốc có độ dốc $$y$$ (là $$y^T x$$) và đồ thị $$f(x)$$; nói cách khác, $$-f^*(y)$$ chính là tung độ gốc của tiếp tuyến có độ dốc $$y$$ nằm sát ngay dưới đồ thị $$f$$.
+- **$$f^*$$ LUÔN là hàm lồi:** Vì $$f^*(y) = \sup_x (y^T x - f(x))$$ là cận trên đúng theo $$x$$ của một họ các hàm **affine** theo $$y$$, nên dù $$f$$ ban đầu có không lồi đến đâu, $$f^*$$ vẫn luôn là hàm lồi đóng!
+- **Bất đẳng thức Fenchel–Young:** Từ định nghĩa suy ra ngay $$f(x) + f^*(y) \ge y^T x$$ với mọi $$x, y$$; dấu bằng xảy ra đúng khi $$y \in \partial f(x)$$ (với hàm trơn là $$y = \nabla f(x)$$).
+- **Liên hợp kép (Biconjugate $$f^{**}$$):** Nếu $$f$$ là hàm lồi đóng, thì $$f^{**} = f$$ — biến đổi hai lần đưa ta trở về chính xác hàm ban đầu không mất một chút thông tin nào!
+
+### Khung giải thích (nên đọc chậm): Tính tay hàm liên hợp $$f^*(y)$$ của $$f(x) = 2x^2$$ và kiểm chứng Fenchel–Young
+
+Xét hàm bậc hai lồi chặt $$f(x) = 2x^2$$ trên $$\mathbb{R}$$:
+
+1. **Thiết lập bài toán cực đại hóa theo $$x$$ (giữ $$y$$ cố định):**
+   $$f^*(y) = \sup_{x \in \mathbb{R}} \left(yx - 2x^2\right).$$
+2. **Tìm điểm đạt cực đại:** Hàm $$\phi(x) = yx - 2x^2$$ là parabol úp xuống (lõm chặt). Cho đạo hàm theo $$x$$ bằng $$0$$:
+   $$\phi'(x) = y - 4x = 0 \implies x^*(y) = \frac{y}{4}.$$
+3. **Thay ngược $$x^*$$ để thu được công thức đóng của $$f^*(y)$$:**
+   $$f^*(y) = y\left(\frac{y}{4}\right) - 2\left(\frac{y}{4}\right)^2 = \frac{y^2}{4} - \frac{y^2}{8} = \frac{y^2}{8}.$$
+   (Tổng quát: liên hợp của $$\frac{1}{2}a x^2$$ là $$\frac{1}{2a} y^2$$ — độ cong $$a$$ bị nghịch đảo thành $$1/a$$!)
+4. **Kiểm chứng bất đẳng thức Fenchel–Young $$f(x) + f^*(y) \ge xy$$:**
+   - Tại $$x = 3,\ y = 4$$: $$f(3) + f^*(4) = 18 + 2 = 20 > 3 \cdot 4 = 12$$ (dấu chặt).
+   - Tại $$x = 1,\ y = f'(1) = 4$$: $$f(1) + f^*(4) = 2 + 2 = 4 = 1 \cdot 4$$ (**đạt dấu bằng**!).
+
+---
+
 Phần này giới thiệu hàm liên hợp (còn gọi là liên hợp lồi hoặc liên hợp Fenchel) — một khái niệm cốt lõi trong giải tích lồi và lý thuyết đối ngẫu, dùng để biến đổi và phân tích các bài toán tối ưu.
 
 ## Định nghĩa và nền tảng toán học

@@ -12,6 +12,34 @@ redirect_from:
   - /contents/vi/chapter17/17_07_Practical_Exercises_Primal_Dual_Interior_Point/
 ---
 
+Cách nhanh nhất để thực sự làm chủ phương pháp điểm trong gốc–đối ngẫu là tự tay lắp ráp hệ phương trình đường trung tâm, giải thử hệ Newton trên giấy với bài toán 2 biến, rồi tự viết vài chục dòng mã quan sát ba phần dư $$r_{\text{prim}}, r_{\text{dual}}, \eta$$ rơi tự do về không qua từng vòng lặp. Bộ bài tập thực hành này dẫn bạn đi từ việc giải tay đường trung tâm của LP cho đến phân tích bước Newton và cài đặt thuật toán hoàn chỉnh.
+
+## Bản đồ kiến thức nền: Quy trình 4 bước giải mọi bài tập thực hành PD-IPM
+
+Khi tiếp cận các bài tập tính tay và lập trình bên dưới, hãy luôn đi theo bốn bước kiểm soát chặt chẽ sau để tránh sai dấu:
+
+- **Chuẩn hóa dấu ràng buộc:** Luôn viết rõ ràng ràng buộc bất đẳng thức dưới dạng $$h_i(x) \le 0$$ (ví dụ $$x_i \ge 0 \iff -x_i \le 0$$) hoặc dùng ký hiệu LP chuẩn $$x \ge 0, s \ge 0$$; sai một dấu trừ ở $$\nabla h(x)$$ sẽ làm hỏng toàn bộ hệ KKT.
+- **Lập đủ ba khối phần dư:** Viết tường minh $$r_{\text{dual}}$$, $$r_{\text{cent}}$$ và $$r_{\text{prim}}$$ trước khi lấy đạo hàm lập ma trận Jacobi. Kiểm tra kích thước của từng khối ma trận để chắc chắn hệ tuyến tính vuông.
+- **Giữ chặt tính điểm trong khi cập nhật:** Trước mỗi phép cập nhật $$(x, u, v) + \theta(\Delta x, \Delta u, \Delta v)$$, luôn kiểm tra tỷ lệ chạm biên $$\theta_{\max}$$ cho cả biến gốc $$h(x) < 0$$ và biến đối ngẫu $$u > 0$$.
+- **Kiểm chứng chéo kết quả:** Ở mỗi điểm tính được, kiểm tra lại tích $$x_i s_i \approx \tau$$ và đối chiếu giá trị hàm mục tiêu gốc $$f(x)$$ với giá trị đối ngẫu $$g(u, v)$$ để phát hiện lỗi tính toán ngay lập tức.
+
+### Khung giải thích (nên đọc chậm): Khởi động bằng một phép kiểm tra 1 bước trên bài toán bậc hai có ràng buộc không âm
+
+Trước khi bắt đầu Bài tập 1, hãy thử kiểm tra nhanh một vòng lặp trên bài toán tối ưu 2 biến:
+
+$$\min_{x_1, x_2} \; \frac{1}{2}(x_1 - 2)^2 + \frac{1}{2}(x_2 + 1)^2 \qquad \text{với điều kiện} \qquad x_1 \ge 0, \; x_2 \ge 0.$$
+
+Nghiệm chính xác là $$x^\star = (2, 0)$$, nhân tử $$u^\star = (0, 1)$$ (ràng buộc $$x_2 \ge 0$$ hoạt động, $$x_1 \ge 0$$ không hoạt động). Xét điểm đường trung tâm ứng với $$\tau = 0.25$$:
+
+1. **Hệ KKT bị nhiễu:** Với $$h_1(x) = -x_1, h_2(x) = -x_2$$, ta có:
+   $$x_1 - 2 - u_1 = 0, \quad x_2 + 1 - u_2 = 0, \quad x_1 u_1 = 0.25, \quad x_2 u_2 = 0.25.$$
+2. **Giải tách từng biến:**
+   - Với $$x_1 > 0$$: $$x_1(x_1 - 2) = 0.25 \implies x_1^2 - 2x_1 - 0.25 = 0 \implies x_1(0.25) = 1 + \sqrt{1.25} \approx 2.1180$$, $$u_1(0.25) \approx 0.1180$$.
+   - Với $$x_2 > 0$$: $$x_2(x_2 + 1) = 0.25 \implies x_2^2 + x_2 - 0.25 = 0 \implies x_2(0.25) = \frac{-1 + \sqrt{2}}{2} \approx 0.2071$$, $$u_2(0.25) \approx 1.2071$$.
+3. **Kiểm tra khoảng cách đối ngẫu:** $$\eta = x_1 u_1 + x_2 u_2 = 0.25 + 0.25 = 0.50 = 2\tau$$. Quan sát thấy khi $$\tau \to 0$$, $$x_1(\tau) \to 2, u_1(\tau) \to 0$$ (không hoạt động) còn $$x_2(\tau) \to 0, u_2(\tau) \to 1$$ (hoạt động) — chính xác hành vi bạn sẽ gặp xuyên suốt các bài tập bên dưới!
+
+---
+
 # Bài Tập Thực Hành - Phương pháp điểm trong gốc-đối ngẫu
 
 Các bài tập được tham khảo từ Wright (1997) và Nesterov & Nemirovskii (1994).

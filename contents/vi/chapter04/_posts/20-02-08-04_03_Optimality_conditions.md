@@ -10,6 +10,38 @@ lang: vi
 lesson_type: required
 ---
 
+Trong giải tích năm nhất đại học, câu thần chú đầu tiên ai cũng thuộc lòng để tìm cực tiểu là: *"lấy đạo hàm và cho bằng không"*. Nhưng ngay khi bước ra thế giới thực — nơi bạn không thể đầu tư số tiền âm, không thể sản xuất vượt công suất nhà máy, hay không thể đặt xác suất lớn hơn 1 — câu thần chú ấy lập tức thất bại: điểm tối ưu thường nằm ép sát vào biên tập khả thi, nơi gradient hoàn toàn khác không!
+
+Vậy làm sao ta biết chắc một điểm nằm trên biên thực sự là đáy sâu nhất? Câu trả lời của tối ưu hóa lồi mang vẻ đẹp hình học đáng kinh ngạc: **tại điểm tối ưu $$x^\star$$, hướng giảm nhanh nhất $$-\nabla f(x^\star)$$ phải chỉ thẳng ra ngoài tập khả thi**, sao cho mọi bước đi hợp lệ $$y - x^\star$$ vào bên trong tập khả thi đều tạo góc tù (hoặc vuông) với $$-\nabla f(x^\star)$$, tức $$\nabla f(x^\star)^T (y - x^\star) \ge 0$$.
+
+## Bản đồ kiến thức nền: Từ đạo hàm cổ điển đến điều kiện tối ưu có ràng buộc
+
+Bài học này nối liền giải tích nhiều biến với hình học lồi qua bốn trụ cột:
+
+- **Điều kiện tối ưu bậc nhất (First-Order Optimality / Variational Inequality):** Với hàm lồi khả vi $$f$$ trên tập khả thi lồi $$C$$, bất đẳng thức $$\nabla f(x^\star)^T (y - x^\star) \ge 0 \; \forall y \in C$$ là điều kiện **vừa cần vừa đủ** cho tối ưu toàn cục. Khi $$x^\star$$ nằm ở phần trong của $$C$$, nó tự động thu gọn về $$\nabla f(x^\star) = 0$$.
+- **Nón pháp tuyến (Normal Cone):** Viết lại bất đẳng thức trên dưới dạng $$(-\nabla f(x^\star))^T (y - x^\star) \le 0$$ cho thấy $$-\nabla f(x^\star)$$ thuộc nón pháp tuyến $$N_C(x^\star)$$ — tập mọi vector "chống lại" mọi hướng đi vào $$C$$.
+- **Không gian tiếp tuyến & Điều kiện bậc hai (Second-Order Conditions):** Đối với bài toán tổng quát (kể cả chưa chắc lồi), thông tin đạo hàm bậc nhất chỉ cho biết độ dốc, còn ma trận Hessian $$\nabla^2 f(x^\star)$$ đo độ cong. Trên không gian các hướng khả thi, Hessian nửa xác định dương là điều kiện cần, và xác định dương chặt là điều kiện đủ cho cực tiểu địa phương chặt.
+- **Liên hệ với Nhân tử Lagrange & KKT:** Khi tập $$C$$ được mô tả bằng các bất đẳng thức và đẳng thức cụ thể, điều kiện $$-\nabla f(x^\star) \in N_C(x^\star)$$ sẽ bung ra thành hệ phương trình KKT nổi tiếng mà ta sẽ học sâu hơn ở các chương đối ngẫu.
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng điều kiện tối ưu bậc nhất trên ba trường hợp điển hình
+
+Xét hàm mục tiêu lồi $$f(x_1, x_2) = \frac{1}{2}(x_1 - 2)^2 + \frac{1}{2}(x_2 + 1)^2$$, có gradient $$\nabla f(x) = (x_1 - 2,\; x_2 + 1)^T$$, cực tiểu hóa trên góc phần tư không âm $$C = \{x \in \mathbb{R}^2 : x_1 \ge 0,\; x_2 \ge 0\}$$.
+
+1. **Ứng viên 1 (sai): $$x^{(1)} = (1, 0)$$.**
+   - Gradient: $$\nabla f(1, 0) = (-1, 1)^T$$.
+   - Chọn điểm khả thi $$y = (2, 0) \in C$$. Khi đó $$y - x^{(1)} = (1, 0)^T$$ và
+     $$\nabla f(x^{(1)})^T (y - x^{(1)}) = (-1)(1) + (1)(0) = -1 < 0.$$
+   - Kết luận: Vi phạm điều kiện tối ưu! Đi theo hướng $$(1,0)$$ làm giảm $$f$$ (thực tế $$f(2,0)=0.5 < f(1,0)=1$$).
+
+2. **Ứng viên 2 (đúng): $$x^\star = (2, 0)$$.**
+   - Gradient: $$\nabla f(2, 0) = (0, 1)^T \neq 0$$! Dù gradient khác không, hãy kiểm tra với **mọi** $$y = (y_1, y_2) \in C$$ (tức $$y_1 \ge 0, y_2 \ge 0$$):
+     $$\nabla f(x^\star)^T (y - x^\star) = 0 \cdot (y_1 - 2) + 1 \cdot (y_2 - 0) = y_2 \ge 0.$$
+   - Kết luận: Thỏa mãn với mọi $$y \in C$$! Vì $$f$$ lồi và $$C$$ lồi, $$x^\star = (2, 0)$$ chắc chắn là nghiệm tối ưu toàn cục, với $$f^\star = 0.5$$.
+
+3. **Kiểm tra điều kiện bậc hai:** Ma trận Hessian $$\nabla^2 f(x^\star) = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \succ 0$$ xác định dương chặt trên mọi hướng khác không, khẳng định thêm rằng $$x^\star = (2, 0)$$ là cực tiểu chặt duy nhất.
+
+---
+
 ## Điều kiện tối ưu bậc nhất
 
 Để ôn lại các tính chất của hàm lồi, xem [Chương 3: Các Tính chất Chính của Hàm Lồi]({% multilang_post_url contents/chapter03/21-02-12-03_01_03_key_properties_of_convex_functions %}).

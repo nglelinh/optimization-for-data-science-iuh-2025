@@ -10,6 +10,40 @@ lang: vi
 lesson_type: required
 ---
 
+Trước năm 2005, nếu muốn dùng bộ giải điểm trong để giải một bài toán tối ưu hóa lồi mới, nghiên cứu sinh phải dành hàng tuần biến đổi tay các hàm $$\log$$, chuẩn $$\ell_1$$, tổng bình phương thành hàng trăm ma trận thưa $$G, h, A, b$$ của Quy hoạch Nón — chỉ cần nhầm một dấu trừ là bộ giải báo vô nghiệm hoặc ra kết quả vô nghĩa!
+
+Mọi thứ thay đổi hoàn toàn khi Michael Grant và Stephen Boyd phát minh ra **Quy hoạch Lồi có Kỷ luật (Disciplined Convex Programming - DCP)** và sau đó cộng đồng xây dựng thư viện mã nguồn mở **CVXPY**. Với DCP, bạn viết bài toán gần như y hệt công thức toán trên bảng trắng; bộ kiểm tra tự động xác minh tính lồi theo cây cú pháp rồi tự động biên dịch xuống đúng nón LP/QP/SOCP/SDP và gọi bộ giải cho bạn chỉ trong vài dòng Python!
+
+## Bản đồ kiến thức nền: Bộ quy tắc ngữ pháp của DCP và CVXPY
+
+Để không bao giờ bị CVXPY báo lỗi `DCPError` mà không hiểu tại sao, hãy nắm chắc ba trụ cột:
+
+- **Thư viện hàm nguyên tử (Atoms) có sẵn độ cong và tính đơn điệu:** Mỗi hàm cơ bản trong CVXPY (như `sum_squares`, `norm1`, `log`, `quad_over_lin`) đều gắn nhãn sẵn: *độ cong* (affine, convex, concave) và *tính đơn điệu* (tăng, giảm, không đơn điệu) trên từng đối số.
+- **Quy tắc hợp thành DCP (DCP Composition Rule):** Để khẳng định $$h(g(x))$$ là **lồi** mà không cần tính Hessian, DCP kiểm tra điều kiện đủ:
+  - $$h$$ lồi và **tăng**, còn $$g$$ **lồi**; HOẶC
+  - $$h$$ lồi và **giảm**, còn $$g$$ **lõm**; HOẶC
+  - $$g$$ là hàm **affine**.
+  (Lưu ý quan trọng: DCP là điều kiện *đủ*, không phải *cần*! Một biểu thức thực sự lồi như `sqrt(1 + x^2)` vẫn bị DCP từ chối nếu viết ngây thơ, và phải viết lại bằng atom `norm2([1, x])`!)
+- **Tự động chuẩn hóa về dạng nón (Canonicalization):** Sau khi vượt qua kiểm tra DCP, CVXPY tự động sinh biến phụ epigraph để biến biểu thức cấp cao (như Lasso hay SVM) thành ma trận chuẩn cho bộ giải Clarabel, OSQP, ECOS hay SCS.
+
+### Khung giải thích (nên đọc chậm): Bắt lỗi một biểu thức "lồi thật nhưng vi phạm DCP" và cách sửa chuẩn
+
+Giả sử bạn muốn cực tiểu hóa hàm $$f(x) = \sqrt{x^2 + 4}$$ trên $$x \in \mathbb{R}$$ trong CVXPY.
+
+1. **Bước 1 — Kiểm tra toán học thật:** Đạo hàm $$f'(x) = \frac{x}{\sqrt{x^2+4}}$$, đạo hàm bậc hai $$f''(x) = \frac{4}{(x^2+4)^{3/2}} > 0$$ với mọi $$x$$. Vậy $$f(x)$$ **chắc chắn là hàm lồi chặt**!
+2. **Bước 2 — Vì sao viết `cp.sqrt(cp.square(x) + 4)` lại bị lỗi `DCPError`?**
+   - Biểu thức trong `g(x) = x^2 + 4` là hàm **lồi** (convex).
+   - Hàm ngoài `h(u) = sqrt(u)` là hàm **lõm** (concave) và tăng.
+   - Hợp thành *lõm(lồi)* có độ cong **không xác định** theo bảng quy tắc DCP! CVXPY từ chối ngay để bảo đảm an toàn tuyệt đối.
+3. **Bước 3 — Viết lại đúng chuẩn DCP:**
+   Nhận ra $$\sqrt{x^2 + 4} = \left\| \begin{pmatrix} x \\ 2 \end{pmatrix} \right\|_2$$ — tức là chuẩn Euclidean của một vector **affine** theo $$x$$!
+   Trong CVXPY, ta viết `cp.norm2(cp.hstack([x, 2]))`.
+   - Đối số bên trong `[x, 2]` là **affine**.
+   - Hàm ngoài `norm2` là **lồi**.
+   - Theo quy tắc DCP, *lồi(affine)* luôn **lồi**! CVXPY lập tức chấp nhận và biên dịch thành đúng 1 ràng buộc SOCP, trả về nghiệm $$x^\star = 0,\; f^\star = 2$$.
+
+---
+
 Quy hoạch lồi có kỷ luật (Disciplined Convex Programming - DCP) là quy tắc mô hình hóa nền tảng của [CVXPY](https://www.cvxpy.org/): người dùng lắp ghép các hàm nguyên tử (atoms) đã được thư viện xác định trước tính lồi hoặc lõm theo các quy tắc *bảo toàn tính lồi*. Khi bộ chuẩn hóa/chuyển đổi (canonicalizer) chấp nhận mô hình, bài toán sẽ được tự động đưa về một bài toán quy hoạch nón chuẩn (đúng theo hệ phân loại của chương này) và chuyển cho các bộ giải số như OSQP, SCS, Clarabel hoặc ECOS.
 
 Đây là nguyên tắc thực hành quen thuộc của khóa học Stanford EE364a: **mô hình hóa trước, chọn thuật toán sau**. Đối với các bài toán chuẩn như Lasso, SVM hay QP tối ưu hóa danh mục đầu tư, ta nên mô hình hóa trực tiếp bằng công cụ chuyên dụng thay vì tự cài đặt hạ gradient chiếu (trừ khi mục tiêu là học sâu về thuật toán).

@@ -8,6 +8,33 @@ categories:
 - chapter14
 lang: en
 ---
+
+Why does the formula $$x^+ = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$ look like a matrix-scaled gradient? Because it isn't a heuristic rescaling at all—it is the exact minimizer of the best quadratic bowl tangent to $$f$$ at your current position $$x$$. Seeing both Gradient Descent and Newton's method as "minimize a local quadratic surrogate" unifies first-order and second-order optimization into one crystal-clear geometric picture.
+
+## Background Knowledge Map: Surrogate Minimization Geometry
+
+- **Pillar 1 — Second-Order Taylor Surrogate:** Near $$x$$, $$f_{\text{approx}}(y) = f(x) + \nabla f(x)^T(y-x) + \frac{1}{2}(y-x)^T \nabla^2 f(x)(y-x)$$ matches $$f$$'s value, slope, and curvature at $$x$$.
+- **Pillar 2 — Exact Minimization of the Surrogate:** Setting $$\nabla_y f_{\text{approx}}(y) = \nabla f(x) + \nabla^2 f(x)(y-x) = 0$$ immediately yields the Newton update $$y = x - (\nabla^2 f(x))^{-1}\nabla f(x)$$.
+- **Pillar 3 — Gradient Descent as a Spherical Surrogate:** Replacing $$\nabla^2 f(x)$$ with $$\frac{1}{t}I$$ approximates the terrain by a perfectly round paraboloid, whose minimizer is $$y = x - t\nabla f(x)$$.
+- **Pillar 4 — Curvature-Matching Advantage:** When $$f$$'s level sets are elongated ellipses rather than circles, the true quadratic surrogate captures the eccentricity and aims straight at the center of the ellipse.
+
+### Step-by-Step Worked Example (Read Slowly): Building and Minimizing the Local Quadratic Surrogate
+
+Let $$f(x) = x^4 - 4x + 5$$ at $$x = 2$$. We construct both the Newton surrogate and a Gradient Descent surrogate (with $$t = \frac{1}{50}$$).
+
+1. **Evaluate derivatives at $$x = 2$$:**
+   - $$f(2) = 16 - 8 + 5 = 13$$,
+   - $$f'(2) = 4(2)^3 - 4 = 28$$,
+   - $$f''(2) = 12(2)^2 = 48$$.
+2. **Write the exact local quadratic surrogate:**
+   $$f_{\text{approx}}(y) = 13 + 28(y - 2) + \frac{1}{2}(48)(y - 2)^2 = 13 + 28(y - 2) + 24(y - 2)^2.$$
+3. **Minimize $$f_{\text{approx}}(y)$$:** Set $$f'_{\text{approx}}(y) = 28 + 48(y - 2) = 0$:
+   $$y_{\text{NT}} = 2 - \frac{28}{48} = 2 - \frac{7}{12} = \frac{17}{12} \approx 1.4167.$$
+   (Note: the true minimum of $$f$$ is at $$x^\star = 1$$, so one Newton step cuts the distance to $$x^\star$$ by more than half, from $$1.0$$ to $$0.4167$$.)
+4. **Compare with the GD surrogate ($$\frac{1}{t} = 50$$):**
+   $$y_{\text{GD}} = 2 - \frac{28}{50} = 1.44.$$
+   Here $$\frac{1}{t} = 50$$ happened to be close to $$f''(2) = 48$$; had we picked a conservative $$t = 0.005$$ ($$\frac{1}{t} = 200$$), GD would only reach $$2 - 0.14 = 1.86$$.
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
 });

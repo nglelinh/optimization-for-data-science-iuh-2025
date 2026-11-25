@@ -12,6 +12,30 @@ redirect_from:
   - /contents/en/chapter08/08_09_Quiz_Subgradient_Method/
 ---
 
+Before you test your instincts on the multiple-choice quiz below, pause and think like an optimization theorist debugging a failing training loop. Most misconceptions about subgradient methods stem from unconsciously importing smooth-calculus habits—assuming $$-g$$ must go downhill, forgetting that subgradients do not vanish at $$x^\star$$, or confusing the $$O(1/\varepsilon^2)$$ nonsmooth rate with smooth $$O(1/\varepsilon)$$. Use the conceptual map and warm-up calculation below to sharpen your intuition before diving into the questions.
+
+## Background Knowledge Map: Core Diagnostic Pillars for Chapter 08 Mastery
+
+- **Pillar 1 — Non-Descent vs. Distance Contraction:** Memorize the geometric contrast: $$f(x^{(k)})$$ can increase on any single step, so convergence is tracked via $$f_{\text{best}}^{(k)}$$, while the Lyapunov proof tracks Euclidean distance $$\|x^{(k)} - x^\star\|_2^2$$.
+- **Pillar 2 — Step-Size Regimes at a Glance:** Fixed step $$t$$ leaves an error floor $$G^2 t / 2$$; diminishing steps ($$\sum t_k = \infty, \sum t_k^2 < \infty$$) converge exactly; Polyak's step $$t_k = \frac{f(x^{(k-1)}) - f^\star}{\|g^{(k-1)}\|_2^2}$$ requires knowing $$f^\star$$ and needs no tuning.
+- **Pillar 3 — Projection & Feasibility Unification:** Projected subgradient preserves the exact $$O(1/\varepsilon^2)$$ rate because Euclidean projection $$P_C$$ is nonexpansive; minimizing $$\max_i d_{C_i}(x)$$ with Polyak's step size reproduces alternating projections onto the farthest set.
+- **Pillar 4 — Stochastic vs. Cyclic vs. Batch Trade-offs:** Batch costs $$O(m)$$ per step with zero variance; cyclic suffers $$O(m^3 G^2/\varepsilon^2)$$ worst-case updates due to coherent intra-cycle drift; randomized saves a factor of $$m$$ to reach $$O(m^2 G^2/\varepsilon^2)$$ updates.
+
+### Step-by-Step Worked Example (Read Slowly): A Quick 4-Check Sanity Audit Before Starting the Quiz
+
+Suppose a convex function $$f: \mathbb{R}^n \to \mathbb{R}$$ is $$G$$-Lipschitz with $$G = 3$$, initial distance $$R = 6$$, and known optimal value $$f^\star = 2$$. At $$x^{(0)}$$, we observe $$f(x^{(0)}) = 11$$ and a subgradient $$g^{(0)}$$ with $$\|g^{(0)}\|_2 = 3$$.
+
+1. **Check 1 — Optimal fixed step size for $$k = 100$$ iterations:**
+   $$t^\star = \frac{R}{G\sqrt{k}} = \frac{6}{3\sqrt{100}} = \frac{6}{30} = 0.2.$$
+   Guaranteed best-iterate gap after 100 steps: $$\frac{RG}{\sqrt{k}} = \frac{6 \cdot 3}{10} = 1.8$$.
+2. **Check 2 — Steady-state error floor if we keep $$t = 0.2$$ forever:**
+   $$\frac{G^2 t}{2} = \frac{9 \cdot 0.2}{2} = 0.9.$$
+3. **Check 3 — Polyak step size at $$x^{(0)}$$:**
+   $$t_1^{\text{Polyak}} = \frac{f(x^{(0)}) - f^\star}{\|g^{(0)}\|_2^2} = \frac{11 - 2}{3^2} = \frac{9}{9} = 1.0.$$
+4. **Check 4 — Guaranteed squared-distance reduction from that single Polyak step:**
+   $$\|x^{(1)} - x^\star\|_2^2 \le \|x^{(0)} - x^\star\|_2^2 - \frac{(11 - 2)^2}{3^2} = 36 - 9 = 27.$$
+   If every one of those four numbers feels natural and transparent, you are ready to ace the quiz below!
+
 ## 📚 Theory Review
 
 Before starting the exercises, review the key concepts of this chapter:

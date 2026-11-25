@@ -9,6 +9,39 @@ categories:
 lang: vi
 ---
 
+Nếu bạn từng chạy Frank–Wolfe tiêu chuẩn trên một đa diện và vẽ quỹ đạo điểm lặp, bạn sẽ sớm bắt gặp một cảnh tượng vừa thú vị vừa sốt ruột: khi nghiệm tối ưu $$x^\star$$ nằm trên một cạnh biên thay vì ở đỉnh, thuật toán bắt đầu **đi zíc-zắc** qua lại giữa hai đỉnh hai bên, bước ngày càng ngắn lại và mãi không chịu chạm đích. Đây chính là lý do định lý cổ điển của Wolfe (1970) chứng minh tốc độ $$O(1/k)$$ là chặn dưới chặt — không thể cải thiện chỉ bằng cách chọn kích thước bước khéo hơn.
+
+Để phá vỡ bức tường $$O(1/k)$$ và đạt hội tụ tuyến tính (nhanh theo hàm mũ $$O(e^{-\rho k})$$) cho các hàm lồi mạnh trên đa diện, cộng đồng tối ưu đã sáng tạo ra một ý tưởng cực kỳ trực giác: bên cạnh việc *bước về phía một đỉnh tốt*, hãy cho phép thuật toán **lùi ra xa khỏi một đỉnh xấu** đang còn dư âm trong tập hoạt động!
+
+## Bản đồ kiến thức nền: Bốn trụ cột nâng cấp Frank–Wolfe
+
+Bài học này mở rộng thuật toán Frank–Wolfe cơ bản sang các biến thể thực chiến thông qua bốn ý tưởng nền tảng:
+
+- **Tìm kiếm đường thẳng và Hiệu chỉnh toàn phần (Line Search & Fully Corrective):** Thay bước cố định $$2/(k+1)$$ bằng tối ưu 1 chiều theo $$\gamma \in [0, 1]$$, hoặc cực tiểu hóa lại toàn bộ $$f$$ trên bao lồi của tập đỉnh đã gặp. Cách này giảm hàm mục tiêu rất mạnh ở các vòng đầu, nhưng đánh đổi bằng chi phí giải bài toán con lớn hơn.
+- **Biểu diễn tập hoạt động và Bước rời xa (Active Set & Away Steps):** Mọi điểm lặp đều là tổ hợp lồi $$x^{(k)} = \sum_{v \in \mathcal{S}_k} \alpha_v v$$ của một tập hữu hạn các đỉnh hoạt động $$\mathcal{S}_k$$. Bước rời xa tìm đỉnh $$v \in \mathcal{S}_k$$ kém nhất (tích vô hướng với gradient lớn nhất) rồi giảm trọng số $$\alpha_v$$ — thậm chí xóa hẳn $$v$$ khỏi $$\mathcal{S}_k$$ (gọi là *drop step*).
+- **Hình học đa diện và Độ rộng kim tự tháp (Pyramidal Width):** Định lý Lacoste-Julien & Jaggi (2013) chứng minh Away-Step Frank–Wolfe hội tụ tuyến tính nhờ hằng số hình học của đa diện (độ rộng kim tự tháp), đảm bảo hướng di chuyển luôn tạo một góc đủ nhọn với hướng giảm gradient âm dù nghiệm nằm sát mặt biên.
+- **Bám theo đường nghiệm (Path Following):** Khi giải họ bài toán ràng buộc với tham số $$t$$ tăng dần (ví dụ chuỗi nghiệm Lasso), nghiệm của bài toán trước là điểm khởi tạo nóng (warm start) tuyệt vời cho bài toán tiếp theo, giúp giảm mạnh tổng số lần gọi LMO.
+
+### Khung giải thích (nên đọc chậm): Một bước Away-Step triệt tiêu đỉnh xấu ngay lập tức
+
+Hãy xem tại sao Away-Step lại "nhảy thẳng tới đích" ở nơi Frank–Wolfe tiêu chuẩn phải đi zíc-zắc. Xét tam giác $$C = \operatorname{conv}\{v_1=(0,0),\; v_2=(1,0),\; v_3=(0,1)\}$$ và hàm mục tiêu lồi mạnh $$f(x_1, x_2) = \frac{1}{2}(x_1 - 0.5)^2 + \frac{1}{2}x_2^2$$, có nghiệm tối ưu nằm trên cạnh đáy tại $$x^\star = (0.5, 0)$$.
+
+Giả sử ta đang ở điểm $$x = 0.4 v_1 + 0.4 v_2 + 0.2 v_3 = (0.4,\; 0.2)$$ với tập hoạt động $$\mathcal{S} = \{v_1, v_2, v_3\}$$ và gradient $$\nabla f(x) = (-0.1,\; 0.2)$$.
+
+1. **Tính hướng Frank–Wolfe tiêu chuẩn ($$d_{\text{FW}}$$):**
+   Tính $$\langle \nabla f(x), v \rangle$$ tại ba đỉnh: tại $$v_1$$ bằng $$0$$, tại $$v_2$$ bằng $$-0.1$$, tại $$v_3$$ bằng $$+0.2$$.
+   Đỉnh cực tiểu là $$s_{\text{FW}} = v_2 = (1, 0)$$, nên $$d_{\text{FW}} = v_2 - x = (0.6,\; -0.2)$$.
+   Mức giảm tuyến tính: $$\langle -\nabla f(x), d_{\text{FW}} \rangle = (0.1)(0.6) + (-0.2)(-0.2) = 0.10$$.
+2. **Tính hướng rời xa ($$d_{\text{away}}$$):**
+   Trong tập hoạt động $$\mathcal{S}$$, đỉnh có tích vô hướng lớn nhất (tệ nhất) là $$v_{\text{away}} = v_3 = (0, 1)$$ (giá trị $$+0.2$$).
+   Hướng rời xa là $$d_{\text{away}} = x - v_3 = (0.4,\; -0.8)$$.
+   Mức giảm tuyến tính: $$\langle -\nabla f(x), d_{\text{away}} \rangle = (0.1)(0.4) + (-0.2)(-0.8) = -0.04 + 0.16 = 0.12$$.
+3. **So sánh và thực hiện Drop Step:**
+   Vì $$0.12 > 0.10$$, thuật toán chọn hướng rời xa $$d_{\text{away}}$$! Để giữ các trọng số tổ hợp lồi không âm, bước tối đa cho phép là $$\gamma_{\max} = \frac{\alpha_3}{1 - \alpha_3} = \frac{0.2}{0.8} = 0.25$$.
+   Cập nhật với $$\gamma = 0.25$$:
+   $$x^+ = (0.4,\; 0.2) + 0.25(0.4,\; -0.8) = (0.5,\; 0.0) = x^\star!$$
+   Đỉnh gây nhiễu $$v_3$$ bị loại sạch khỏi tập hoạt động ($$\alpha_3^+ = 0$$), và thuật toán chạm đúng nghiệm tối ưu chỉ trong một nước đi — thay vì phải kéo dài hàng chục bước zíc-zắc về phía $$v_1$$ và $$v_2$$!
+
 ## Một số biến thể
 
 Dưới đây là một số biến thể phổ biến của phương pháp gradient có điều kiện:

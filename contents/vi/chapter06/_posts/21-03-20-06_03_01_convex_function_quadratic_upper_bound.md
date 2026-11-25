@@ -9,6 +9,41 @@ categories:
 lang: vi
 ---
 
+Khi học Chương 03, ta đã quá quen với **cận dưới tuyến tính** của hàm lồi: đồ thị của $$f$$ luôn nằm phía trên mọi mặt phẳng tiếp tuyến của nó, $$f(y) \ge f(x) + \nabla f(x)^T(y - x)$$. Nhưng một mình cận dưới không đủ để đảm bảo thuật toán Gradient Descent không bị "vượt rào" khi bước đi — ta cần thêm một **chiếc trần bảo vệ phía trên** khống chế tốc độ uốn cong của hàm!
+
+Chiếc trần ấy chính là **Cận trên bậc hai (Quadratic Upper Bound)** xuất phát từ điều kiện gradient liên tục Lipschitz với hằng số $$L$$. Nó khẳng định rằng tại mọi điểm $$x$$, nếu bạn úp một chiếc bát parabol có độ cong $$L$$ tiếp xúc với $$f$$ tại $$x$$, thì toàn bộ đồ thị của $$f$$ sẽ nằm gọn bên dưới chiếc bát ấy!
+
+## Bản đồ kiến thức nền: Sức mạnh của tính $$L$$-trơn ($$L$$-Smoothness)
+
+Ba trụ cột sau tóm tắt những đặc trưng tương đương quan trọng nhất của cận trên bậc hai:
+
+- **Định nghĩa Gradient $$L$$-Lipschitz:** $$\|\nabla f(y) - \nabla f(x)\|_2 \le L \|y - x\|_2 \; \forall x, y$$. Trực giác: độ dốc của hàm không bao giờ thay đổi đột ngột quá $$L$$ đơn vị trên mỗi đơn vị khoảng cách!
+- **Cận trên bậc hai (Bổ đề Descent):** Từ điều kiện $$L$$-Lipschitz suy ra ngay
+  $$f(y) \le f(x) + \nabla f(x)^T(y - x) + \frac{L}{2}\|y - x\|_2^2 \quad \forall x, y.$$
+  Nếu $$f$$ khả vi bậc hai, điều này tương đương chính xác với $$\nabla^2 f(x) \preceq L I$$ — tức mọi trị riêng của ma trận Hessian không bao giờ vượt quá $$L$$!
+- **Hệ quả trực tiếp cho bước GD $$y = x - t\nabla f(x)$$:** Thay $$y - x = -t\nabla f(x)$$ vào cận trên bậc hai cho ngay:
+  $$f(x^+) \le f(x) - t\left(1 - \frac{Lt}{2}\right)\|\nabla f(x)\|_2^2.$$
+  Chọn $$t = 1/L$$ làm cực đại hệ số $$t(1 - Lt/2)$$ và cho mức giảm bảo đảm tối thiểu $$\frac{1}{2L}\|\nabla f(x)\|_2^2$$!
+
+### Khung giải thích (nên đọc chậm): Tính hằng số $$L$$ và kiểm chứng cận trên bậc hai cho Hồi quy Logistic 1 biến
+
+Xét hàm mất mát logistic $$f(x) = \log(1 + e^x)$$ trên $$\mathbb{R}$$ (tương ứng 1 mẫu dữ liệu có $$a = 1, y = 0$$):
+
+1. **Bước 1 — Tìm hằng số $$L$$ từ đạo hàm bậc hai:**
+   - $$f'(x) = \frac{e^x}{1 + e^x} = \sigma(x)$$.
+   - $$f''(x) = \sigma(x)(1 - \sigma(x))$$.
+   Vì $$\sigma(x) \in (0, 1)$$, tích $$p(1 - p)$$ đạt cực đại bằng $$\frac{1}{4} = 0.25$$ tại $$p = 0.5$$ (tức $$x = 0$$).
+   Vậy $$0 < f''(x) \le 0.25$$ với mọi $$x \in \mathbb{R} \implies L = 0.25$$!
+2. **Bước 2 — Kiểm chứng cận trên bậc hai tại $$x = 0$$ và $$y = 2$$:**
+   - Giá trị thật: $$f(2) = \log(1 + e^2) \approx \log(8.3891) \approx 2.1269$$.
+   - Cận dưới tuyến tính tại $$x = 0$$ (với $$f(0) = \log 2 \approx 0.6931,\; f'(0) = 0.5$$):
+     $$f(0) + f'(0)(2 - 0) = 0.6931 + 1 = 1.6931.$$
+   - Cận trên bậc hai với $$L = 0.25$$:
+     $$f(0) + f'(0)(2 - 0) + \frac{0.25}{2}(2 - 0)^2 = 1.6931 + 0.5 = 2.1931.$$
+3. **Bước 3 — Kiểm tra kẹp 2 phía:** $$1.6931 \le 2.1269 \le 2.1931$$ — cực kỳ chặt! Và bước cố định an toàn bảo đảm hội tụ là $$t = 1/L = 4$$!
+
+---
+
 ## Giới thiệu
 
 **Cận trên bậc hai** là một tính chất nền tảng của các hàm lồi trơn, đóng vai trò công cụ cốt lõi trong việc phân tích và thiết kế thuật toán tối ưu hóa. Tính chất này khẳng định rằng mọi hàm lồi có gradient liên tục Lipschitz đều có thể được chặn trên bởi một hàm bậc hai, tạo cơ sở trực tiếp cho việc phân tích hội tụ của các phương pháp dựa trên gradient.

@@ -12,6 +12,34 @@ redirect_from:
   - /contents/vi/chapter11/11_08_Practical_Exercises_General_Duality/
 ---
 
+Nếu muốn thực sự làm chủ đối ngẫu Lagrange — để gặp bất kỳ bài toán quy hoạch bậc hai, bài toán có hàm logarit, hay bài toán ràng buộc chuẩn nào cũng tự tin viết ra ngay hàm đối ngẫu và kiểm tra điều kiện Slater — không có con đường nào hiệu quả hơn là tự tay giải các bài tập kinh điển từ Boyd & Vandenberghe, Rockafellar và Bertsekas trong bài thực hành này!
+
+Điểm thú vị nhất trong quá trình tự giải bài tập đối ngẫu là xử lý những **trường hợp biên (edge cases)** khi tính $$\inf_x L(x, u, v)$$: một biến mất bậc hai khiến biểu thức trở thành tuyến tính, hay miền xác định của $$\log(x)$$ đòi hỏi $$x > 0$$. Khung tính tay dưới đây chạy thử đúng tình huống kinh điển đó trên quy hoạch bậc hai 1 biến (gần với Bài tập 4) để bạn làm nóng tay trước khi vào bài!
+
+## Bản đồ kiến thức nền: Bốn bước chuẩn mực để giải mọi bài tập đối ngẫu Lagrange
+
+- **Bước 1 — Đưa về dạng chuẩn và xác định miền $$\mathcal{D}$$:** Viết mọi bất đẳng thức về dạng $$h_i(x) \le 0$$, đẳng thức về $$l_j(x) = 0$$, và ghi rõ miền xác định ẩn (ví dụ $$x > 0$$ cho $$\log x$$).
+- **Bước 2 — Lập $$L(x, u, v)$$ và tìm $$\inf_x L(x, u, v)$$ cẩn thận theo từng miền tham số:** Giải $$\nabla_x L = 0$$ khi $$L$$ lồi và bức (coercive); luôn kiểm tra các giá trị $$(u, v)$$ làm cho $$\inf_x L = -\infty$$ để ghi rõ ràng buộc miền hữu dụng của bài toán đối ngẫu!
+- **Bước 3 — Kiểm tra tính lồi và điều kiện Slater:** Xác nhận $$f, h_i$$ lồi và $$l_j$$ affine, sau đó chỉ ra tường minh một điểm $$\tilde{x}$$ thỏa $$h_i(\tilde{x}) < 0$$ (với $$h_i$$ phi tuyến) và $$l_j(\tilde{x}) = 0$$ để chốt đối ngẫu mạnh.
+- **Bước 4 — Khôi phục nghiệm gốc $$x^*$$ từ nghiệm đối ngẫu $$(u^*, v^*)$$:** Khi $$L(x, u^*, v^*)$$ có cực tiểu duy nhất theo $$x$$ (chẳng hạn lồi chặt), điểm $$x^* = \arg\min_x L(x, u^*, v^*)$$ chính là nghiệm tối ưu gốc!
+
+### Khung giải thích (nên đọc chậm): Giải tay trọn vẹn QP 1 biến với hai trường hợp $$q > 0$$ và $$q = 0$$
+
+Xét bài toán $$\min_{x \in \mathbb{R}} \frac{1}{2}q x^2 + c x$$ với ràng buộc $$-x \le 0$$ (tức $$x \ge 0$$), trong đó $$q \ge 0$$.
+
+1. **Lập hàm Lagrangian (nhân tử $$u \ge 0$$):**
+   $$L(x, u) = \frac{1}{2}q x^2 + (c - u)x.$$
+2. **Trường hợp $$q > 0$$ (parabol lồi chặt):**
+   - Đạo hàm theo $$x$$ bằng $$0$$: $$qx + (c - u) = 0 \implies x(u) = -\frac{c - u}{q} = \frac{u - c}{q}$$.
+   - Hàm đối ngẫu: $$g(u) = -\frac{(u - c)^2}{2q}$$ (xác định với mọi $$u \ge 0$$).
+   - Cực đại hóa $$g(u)$$ trên $$u \ge 0$$:
+     - Nếu $$c \ge 0$$: đỉnh parabol tại $$u^* = c \ge 0$$, cho $$g^* = 0$$ và $$x^* = (c - c)/q = 0$$.
+     - Nếu $$c < 0$$: cực đại trên $$u \ge 0$$ đạt tại biên $$u^* = 0$$, cho $$g^* = -\frac{c^2}{2q}$$ và $$x^* = -c/q > 0$$!
+3. **Trường hợp suy biến $$q = 0$$ (quay về LP!):**
+   - $$L(x, u) = (c - u)x$$.
+   - Infimum theo $$x \in \mathbb{R}$$ chỉ hữu hạn khi $$c - u = 0 \implies u = c$$!
+   - Vì ta đòi $$u \ge 0$$, bài toán đối ngẫu chỉ khả thi khi $$c \ge 0$$ (cho $$g^* = 0$$), còn khi $$c < 0$$ thì đối ngẫu vô nghiệm (khớp hoàn toàn với việc bài toán gốc $$\min_{x \ge 0} cx = -\infty$$ không bị chặn dưới!).
+
 # Bài Tập Thực Hành - Tính Đối Ngẫu Tổng Quát
 
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Rockafellar (1970) và Bertsekas (1999).

@@ -12,6 +12,27 @@ redirect_from:
   - /contents/en/chapter21/21_08_modern_applications/
 ---
 
+When Boyd et al. published their landmark 2011 ADMM survey, the flagship applications were Lasso, SVMs, and distributed MapReduce clusters. Fifteen years later, the exact same consensus template $$\min \sum_i f_i(x_i) \text{ s.t. } x_i = z$$ is thriving inside three unexpectedly modern domains: **FedADMM** for heterogeneous federated deep learning, **Plug-and-Play (PnP) ADMM** for computational imaging with deep neural denoisers, and **distributed optimal power flow (OPF)** for renewable smart grids.
+
+## Background Knowledge Map: Where Consensus ADMM Lives Today (2022–2026)
+
+- **FedADMM in Heterogeneous Federated Learning:** Replaces naive weight averaging (FedAvg) with primal-dual consensus across edge devices; dual variables $$w_i$$ cancel non-IID client drift while allowing inexact local SGD updates.
+- **Plug-and-Play (PnP) ADMM in Computational Imaging:** Replaces the explicit regularizer proximal map $$\operatorname{prox}_{g/\rho}(v)$$ inside ADMM with a pre-trained deep denoiser $$D_\sigma(v)$$ (e.g., DRUNet or diffusion denoisers) for MRI, CT, and astronomical deblurring—with provable fixed-point convergence when $$D_\sigma$$ is firmly non-expansive.
+- **Distributed Optimal Power Flow (OPF) & Microgrids:** Splits a national electrical grid into regional balancing areas coupled only by tie-line voltage/power consensus constraints $$x_i = z$$, allowing real-time online dispatch without sharing proprietary generator bids.
+- **Adaptive Penalty & Inexact Subproblems:** Across all three modern deployments, strict exact inner solves are replaced by a few warm-started gradient steps paired with adaptive $$\rho$$ schedules to keep primal and dual residuals balanced.
+
+### Step-by-Step Worked Example (Read Slowly): One Iteration of Plug-and-Play (PnP) ADMM for Image Denoising
+
+Consider an inverse imaging problem $$\min_x \frac{1}{2}\|A x - y\|_2^2 + g(x)$$ in 2D with diagonal blur $$A = \operatorname{diag}(1, 0.5)$$, noisy observation $$y = (2.0, 1.0)^T$$, and a linear shrinkage denoiser $$D_\sigma(v) = 0.8 v$$ standing in for $$\operatorname{prox}_{g/\rho}(v)$$ (representing a learned neural denoiser with Lipschitz constant $$0.8 < 1$$). Run 1 iteration of PnP-ADMM with $$\rho = 1$$ from $$z^0 = (0, 0)^T, \; w^0 = (0, 0)^T$$.
+
+1. **Data-fidelity $$x$$-update (exact physics / measurement consistency):**
+   $$x^1 = (A^T A + \rho I)^{-1}\!\big(A^T y + \rho(z^0 - w^0)\big) = \begin{bmatrix} 1 + 1 & 0 \\ 0 & 0.25 + 1 \end{bmatrix}^{-1}\begin{bmatrix} 2.0 \\ 0.5 \end{bmatrix} = \begin{bmatrix} 1.0 \\ 0.4 \end{bmatrix}.$$
+2. **Learned-prior $$z$$-update (plug in the denoiser $$D_\sigma$$ instead of a hand-crafted prox!):**
+   $$z^1 = D_\sigma(x^1 + w^0) = 0.8 \begin{bmatrix} 1.0 \\ 0.4 \end{bmatrix} = \begin{bmatrix} 0.80 \\ 0.32 \end{bmatrix}.$$
+3. **Dual residual accumulation:**
+   $$w^1 = w^0 + x^1 - z^1 = \begin{bmatrix} 0.20 \\ 0.08 \end{bmatrix}.$$
+4. **Why PnP-ADMM is so powerful:**
+   The data-fidelity step enforces the exact physical forward model $$Ax \approx y$$ (e.g., MRI Fourier measurements), while the neural denoiser $$D_\sigma$$ injects rich natural-image priors—without ever needing to differentiate through the neural network!
 
 The earlier lessons in this chapter treat ADMM as a *structured convex* splitting method: two (or more) easy proximal pieces, a dual ascent, and residuals you can monitor. That story did not retire in 2011. Between 2022 and 2026 the same consensus / augmented-Lagrangian pattern shows up in federated deep learning, computational imaging with learned denoisers, and online power-system dispatch. This optional note is a map of those deployments, not a second derivation of scaled ADMM.
 

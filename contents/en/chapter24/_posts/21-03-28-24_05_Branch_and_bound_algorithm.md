@@ -9,6 +9,25 @@ categories:
 lang: en
 ---
 
+Branch and Bound is the undisputed workhorse of exact discrete optimization—the algorithmic spine of Gurobi, CPLEX, HiGHS, and SCIP. Its idea is deceptively simple: divide and conquer with a sharp pair of scissors. Whenever a relaxation returns a fractional variable $$x_j = 2.4$$, split the universe into two mutually exclusive subproblems ($$x_j \le 2$$ and $$x_j \ge 3$$). The magic lies in **fathoming (pruning)**: the moment a subproblem’s relaxation bound is worse than an already-known integer incumbent, you can discard that entire branch—and potentially billions of descendant solutions—in one stroke.
+
+## Background Knowledge Map: The Three Pillars of Branch and Bound
+
+- **Branching (Partitioning the Feasible Set):** Picking a fractional variable $$x_j \notin \mathbb{Z}$$ and adding $$x_j \le \lfloor x_j \rfloor$$ to the left child and $$x_j \ge \lceil x_j \rceil$$ to the right child eliminates the current fractional point without losing *any* integer feasible solution.
+- **The Three Fathoming (Pruning) Rules:** A tree node can be permanently closed without further branching if its relaxation is: (1) **infeasible**, (2) **worse than the incumbent** ($$z_{\text{LP}} \ge U$$ for minimization, or $$\le L$$ for maximization), or (3) **already integer-feasible** (which also updates the incumbent!).
+- **Node Selection Strategy (BFS vs. DFS vs. Best-First):** Depth-first search finds feasible incumbents quickly using low memory; best-first search always expands the node with the tightest relaxation bound, minimizing total nodes explored to prove optimality.
+- **Variable Selection (Strong Branching & Pseudocosts):** Choosing *which* fractional variable to branch on can shrink the search tree by $$100\times$$; strong branching tests candidate splits beforehand to pick the variable that lifts child bounds the most.
+
+### Step-by-Step Worked Example (Read Slowly): Complete Branch-and-Bound Tree by Hand
+
+Maximize $$z = 5 x_1 + 4 x_2$$ subject to $$x_1 + x_2 \le 5$$, $$10 x_1 + 6 x_2 \le 45$$, and $$x_1, x_2 \in \mathbb{Z}_{\ge 0}$$.
+
+1. **Root Node (Node 0):** Solve the LP relaxation. Intersecting $$x_1 + x_2 = 5$$ and $$10 x_1 + 6 x_2 = 45$$ gives $$4 x_1 = 15 \implies x_1 = 3.75,\ x_2 = 1.25$$, with $$z_{\text{LP}} = 5(3.75) + 4(1.25) = 23.75$$. Since $$z$$ must be an integer, global upper bound is $$23$$. Incumbent $$L = -\infty$$.
+2. **Branch on $$x_1 = 3.75$$ into Node 1 ($$x_1 \le 3$$) and Node 2 ($$x_1 \ge 4$$):**
+   - **Node 1 ($$x_1 \le 3$$):** At $$x_1 = 3$$, $$x_1 + x_2 \le 5 \implies x_2 \le 2$$ (and $$30 + 12 = 42 \le 45$$ is slack). LP optimum is $$(3, 2)$$ with $$z = 5(3) + 4(2) = 23$$! Because $$(3, 2)$$ is **integer-feasible**, update incumbent $$L = 23$$ and **fathom Node 1 by integrality**.
+   - **Node 2 ($$x_1 \ge 4$$):** At $$x_1 = 4$$, $$10(4) + 6 x_2 \le 45 \implies x_2 \le 5/6 \approx 0.833$$. LP optimum is $$(4, 5/6)$$ with $$z_{\text{LP}} = 5(4) + 4(5/6) = 23.333$$. Since $$z$$ must be integer, any integer solution in Node 2 has $$z \le \lfloor 23.333 \rfloor = 23 \le L = 23$$!
+3. **Fathom Node 2 by bound and terminate:** No integer point in Node 2 can strictly beat our incumbent $$L = 23$$. All active nodes are closed: $$x^\star = (3, 2)$$ with $$z^\star = 23$$ is **provably optimal** in just 3 nodes!
+
 Let's find out the method of solving Integer programs through Branch and bound algorithm and Convex relaxation.
 
 ## Definition and properties

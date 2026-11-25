@@ -12,6 +12,35 @@ redirect_from:
   - /contents/vi/chapter12/12_08_Practical_Exercises_KKT_Conditions/
 ---
 
+Không có cách nào luyện phản xạ KKT sắc bén hơn việc tự tay giải trọn vẹn những bài toán kinh điển từ Boyd & Vandenberghe, Nocedal & Wright và Bertsekas: từ kiểm chứng KKT trên bài toán cơ bản, xây dựng mô hình phân bổ danh mục đầu tư Markowitz Mean–Variance, cho đến tự giải Hard-Margin SVM và bài toán phạt $$\ell_1$$.
+
+Khi giải bài tập thực hành có 1–2 ràng buộc bất đẳng thức, chiến lược hiệu quả nhất gọi là **phân nhánh tập ràng buộc hoạt động (Active-Set Case Splitting)**: giả sử một nhóm ràng buộc đang lỏng ($$u_i = 0$$) hoặc đang chặt ($$h_i(x) = 0$$), giải hệ phương trình dừng còn lại, rồi kiểm tra ngược xem nghiệm tìm ra có thỏa tính khả thi gốc ($$h_i \le 0$$) và đối ngẫu ($$u_i \ge 0$$) hay không. Khung tính tay dưới đây chạy mẫu trọn vẹn chiến lược này trên một bài toán phân bổ danh mục 2 tài sản nhỏ để bạn tự tin bước vào bộ bài tập!
+
+## Bản đồ kiến thức nền: Bốn bước thực hành giải bài tập KKT bằng tay và code
+
+- **Bước 1 — Xác nhận tính lồi và dạng chuẩn:** Kiểm tra ma trận Hessian $$\nabla^2 f \succeq 0$$, viết tất cả bất đẳng thức về $$h_i(x) \le 0$$ để không bao giờ nhầm dấu trong hàm Lagrangian.
+- **Bước 2 — Thiết lập đầy đủ 4 nhóm phương trình KKT:** Ghi rõ từng biến nhân tử $$u_i \ge 0$$ (cho bất đẳng thức) và $$v_j \in \mathbb{R}$$ (cho đẳng thức).
+- **Bước 3 — Phân nhánh tập hoạt động (Active Set):** Với mỗi bất đẳng thức $$h_i \le 0$$, điều kiện bù $$u_i h_i(x) = 0$$ tách thành hai nhánh: nhánh lỏng ($$u_i = 0$$, kiểm tra $$h_i(x) \le 0$$) và nhánh chặt ($$h_i(x) = 0$$, kiểm tra $$u_i \ge 0$$). Nhánh nào thỏa đủ 4 điều kiện KKT là dừng ngay (vì bài toán lồi)!
+- **Bước 4 — Đối chiếu bằng code (CVXPY / SciPy):** Sau khi giải tay, kiểm chứng lại cả nghiệm gốc $$x^*$$ lẫn nhân tử đối ngẫu `constraint.dual_value` trong CVXPY để chắc chắn từng chữ số thập phân!
+
+### Khung giải thích (nên đọc chậm): Giải tay bài toán phân bổ vốn 2 tài sản bằng phân nhánh KKT
+
+Cực tiểu hóa rủi ro danh mục 2 tài sản với tổng tỷ trọng bằng 1 và không bán khống:
+$$\min_{w_1, w_2} \; \frac{1}{2}(2w_1^2 + 6w_2^2) - 2w_1 \quad \text{s.t.} \quad w_1 + w_2 = 1, \quad w_1 \ge 0, \; w_2 \ge 0.$$
+
+1. **Lập hệ KKT ($$v \in \mathbb{R}$$ cho $$w_1 + w_2 = 1$$; $$u_1, u_2 \ge 0$$ cho $$-w_1 \le 0, -w_2 \le 0$$):**
+   - Dừng: $$2w_1 - 2 + v - u_1 = 0$$ và $$6w_2 + v - u_2 = 0$$.
+   - Bù: $$u_1 w_1 = 0, \; u_2 w_2 = 0$$.
+2. **Thử nhánh 1 — Cả hai tỷ trọng đều dương ($$w_1 > 0, w_2 > 0 \implies u_1 = u_2 = 0$$):**
+   - Từ dừng: $$2w_1 - 2 + v = 0$$ và $$6w_2 + v = 0 \implies 2w_1 - 2 = 6w_2$$.
+   - Thay $$w_2 = 1 - w_1$$ vào: $$2w_1 - 2 = 6(1 - w_1) \implies 8w_1 = 8 \implies w_1 = 1, \; w_2 = 0$$!
+   - Tính $$v$$ từ hàng 2: $$v = -6(0) = 0$$; kiểm tra hàng 1: $$2(1) - 2 + 0 = 0$$!
+3. **Kiểm chứng tất cả điều kiện KKT tại $$w^* = (1, 0), v^* = 0, u_1^* = 0, u_2^* = 0$$:**
+   - Khả thi gốc: $$1 + 0 = 1$$, $$w_1^* = 1 \ge 0, w_2^* = 0 \ge 0$$ (thỏa!).
+   - Khả thi đối ngẫu: $$u_1^* = 0 \ge 0, u_2^* = 0 \ge 0$$ (thỏa!).
+   - Bù: $$0(1) = 0, 0(0) = 0$$ (thỏa!).
+   Vì bài toán lồi chặt ($$P = \text{diag}(2, 6) \succ 0$$), đây là **nghiệm tối ưu toàn cục duy nhất**: dồn 100% vốn vào tài sản 1!
+
 # Bài tập thực hành - Điều kiện KKT (Karush–Kuhn–Tucker)
 
 Các bài tập dưới đây được tham khảo từ Boyd & Vandenberghe (2004), Nocedal & Wright (2006) và Bertsekas (1999).

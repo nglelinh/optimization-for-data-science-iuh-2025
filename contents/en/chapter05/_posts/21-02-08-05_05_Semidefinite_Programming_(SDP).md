@@ -9,6 +9,32 @@ categories:
 lang: en
 ---
 
+In Linear Programming, variables satisfy scalar inequalities $$x_i \ge 0$$. Now lift that single idea from numbers to symmetric matrices: instead of requiring scalars to be nonnegative, require an entire symmetric matrix $$X$$ to have all nonnegative eigenvalues ($$X \succeq 0$$). That leap produces Semidefinite Programming (SDP)—a convex powerhouse capable of certifying robot stability, bounding NP-hard graph cuts (Goemans–Williamson Max-Cut), and verifying neural-network robustness.
+
+## Background Knowledge Map: Optimizing Over the Positive Semidefinite Cone
+
+1. **Linear Matrix Inequalities (LMIs)**: An SDP minimizes a linear objective $$c^T x$$ subject to $$F(x) = F_0 + \sum_{i=1}^n x_i F_i \preceq 0$$ (where each $$F_i \in \mathbb{S}^k$$ is symmetric) and $$Ax = b$$. Equivalently, in standard conic form: $$\min \langle C, X \rangle$$ subject to $$\langle A_i, X \rangle = b_i$$ and $$X \succeq 0$$, where $$\langle C, X \rangle = \operatorname{tr}(C^T X)$$.
+2. **The Schur Complement Bridge**: A convex quadratic constraint or second-order cone constraint $$\|u\|_2 \le t$$ embeds seamlessly into an SDP via the Schur complement:
+   $$\|u\|_2 \le t \iff \begin{bmatrix} t I & u \\ u^T & t \end{bmatrix} \succeq 0.$$
+   Thus every LP, QP, QCQP, and SOCP is a special case of an SDP.
+3. **Eigenvalue Optimization**: Minimizing the largest eigenvalue $$\lambda_{\max}(A(x))$$ of an affine symmetric matrix family is an exact SDP: minimize $$t$$ subject to $$A(x) \preceq tI$$.
+4. **SDP Relaxations of Combinatorial Problems**: By lifting $$x \in \{-1, +1\}^n$$ to the rank-1 matrix $$X = xx^T$$ (which satisfies $$X \succeq 0$$ and $$X_{ii} = 1$$) and dropping the nonconvex constraint $$\operatorname{rank}(X) = 1$$, we obtain tight polynomial-time convex relaxations for Max-Cut, sensor localization, and phase retrieval.
+
+### Step-by-Step Worked Example (Read Slowly): Minimizing the Largest Eigenvalue via an LMI
+
+Find $$x \in \mathbb{R}$$ that minimizes the largest eigenvalue $$\lambda_{\max}(A(x))$$ of the $$2 \times 2$$ matrix
+$$A(x) = \begin{bmatrix} 1 + x & 2 \\ 2 & 5 - x \end{bmatrix}.$$
+
+1. **Formulate as an SDP**: Introduce scalar $$t \in \mathbb{R}$$ and enforce $$A(x) \preceq tI$$, i.e., $$tI - A(x) \succeq 0$$:
+   $$\min_{x, t} \; t \quad \text{subject to} \quad M(x, t) = \begin{bmatrix} t - 1 - x & -2 \\ -2 & t - 5 + x \end{bmatrix} \succeq 0.$$
+2. **Apply Sylvester's criterion for $$2 \times 2$$ positive semidefiniteness**: $$M(x, t) \succeq 0$$ holds iff the diagonal entries and determinant are nonnegative:
+   - $$t - 1 - x \ge 0$$ and $$t - 5 + x \ge 0$$,
+   - $$\det M(x, t) = (t - 1 - x)(t - 5 + x) - 4 \ge 0$$.
+3. **Rewrite the determinant cleanly**: Notice that the sum of the two diagonal entries is $$(t - 1 - x) + (t - 5 + x) = 2(t - 3)$$, independent of $$x$$! Let $$u = x - 2$$ so the two diagonal entries are $$(t - 3) - u$$ and $$(t - 3) + u$$. Then
+   $$\det M(x, t) = (t - 3)^2 - u^2 - 4 \ge 0 \iff (t - 3)^2 \ge 4 + u^2.$$
+4. **Find the exact minimum**: To make $$t \ge 3$$ as small as possible, set $$u = 0 \implies x^\star = 2$$, which gives $$(t - 3)^2 \ge 4 \implies t^\star = 5$$.
+   Verify directly: at $$x^\star = 2$$, $$A(2) = \begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix}$$, whose eigenvalues are $$3 + 2 = 5$$ and $$3 - 2 = 1$$. For any $$x \neq 2$$, the eigenvalues spread wider and $$\lambda_{\max}(A(x)) = 3 + \sqrt{(x - 2)^2 + 4} > 5$$.
+
 If the inequality constraint in a general LP is replaced by a linear matrix inequality (LMI), the problem is called a *Semidefinite Program* (SDP).
 
 ### Semidefinite Program

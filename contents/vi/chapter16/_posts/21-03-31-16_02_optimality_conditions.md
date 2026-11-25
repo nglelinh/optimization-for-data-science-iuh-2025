@@ -8,6 +8,43 @@ categories:
 - chapter16
 lang: vi
 ---
+
+Nếu đặt hệ điều kiện tối ưu **KKT** của bài toán gốc và hệ phương trình **Đường trung tâm (Central Path)** của bài toán chắn cạnh nhau trên hai cột, bạn sẽ ngỡ ngàng nhận ra chúng giống nhau gần như từng ký tự! Khác biệt duy nhất nằm ở đúng một phương trình: điều kiện bù yếu $$u_i h_i(x) = 0$$ được dịch chuyển mượt mà thành $$-u_i h_i(x) = \frac{1}{t}$$ (hay trong LP dạng chuẩn là $$x_i s_i = \mu$$ với $$\mu = 1/t$$).
+
+Cú đặt cạnh nhau có chủ đích ở mục 16-02 chính là bản thiết kế kỹ thuật cho toàn bộ Chương 17: phương pháp điểm trong nguyên thủy – đối ngẫu sẽ **không** lập bài toán chắn thuần nguyên thủy nữa, mà trực tiếp áp dụng **phương pháp Newton để giải hệ phương trình đường trung tâm** $$F_\mu(x, y, s) = 0$$ trong khi giảm dần $$\mu \to 0$$!
+
+## Bản đồ kiến thức nền: Bốn mảnh ghép so sánh KKT và Đường trung tâm
+
+- **Hệ điều kiện KKT cho bài toán tổng quát:** Gồm 4 khối: (1) Điều kiện dừng, (2) Khả thi nguyên thủy, (3) Khả thi đối ngẫu, và (4) Bù yếu $$u_i h_i(x) = 0$$. Khi đối ngẫu mạnh thỏa mãn, KKT vừa là điều kiện **cần** vừa là điều kiện **đủ** cho tối ưu toàn cục.
+- **Hệ phương trình đường trung tâm:** Giữ nguyên (1), siết chặt (2) và (3) thành khả thi chặt ($$h_i(x) < 0, u_i > 0$$), và thay (4) bằng $$-u_i h_i(x) = 1/t$$.
+- **Dạng đặc biệt cực đẹp của Quy hoạch tuyến tính (LP dạng chuẩn):**
+  - **KKT của LP:** $$Ax = b, \; x \ge 0$$; $$A^T y + s = c, \; s \ge 0$$; và $$X S \mathbf{1} = 0$$ (tức $$x_i s_i = 0 \;\forall i$$).
+  - **Đường trung tâm của LP:** Chỉ thay đúng phương trình cuối thành $$X S \mathbf{1} = \mu \mathbf{1}$$ (tức $$x_i s_i = \mu > 0$$ với $$\mu = 1/t$$)!
+- **Khoảng cách đối ngẫu trực tiếp trong LP:** Với mọi cặp $$(x, y, s)$$ khả thi nguyên thủy – đối ngẫu, ta có $$c^T x - b^T y = (A^T y + s)^T x - (Ax)^T y = s^T x = \sum_{i=1}^n x_i s_i$$! Trên đường trung tâm, tổng này bằng đúng $$n\mu = n/t$$!
+
+### Khung giải thích (nên đọc chậm): Giải hệ phương trình đường trung tâm của LP dạng chuẩn bằng tay
+
+Quay lại bài toán LP 2 biến ở bài trước: $$\min 3x_1 + 5x_2$$ thỏa $$x_1 + 2x_2 = 4, \; x_1, x_2 \ge 0$$ (có nghiệm KKT gốc $$x^\star = (0, 2), \; y^\star = 2.5, \; s^\star = (0.5, 0)$$). Hãy giải hệ đường trung tâm với tham số nhiễu $$\mu = 0.5$$ (tức $$t = 2$$):
+
+1. **Viết đầy đủ 5 phương trình của đường trung tâm LP ($$x > 0, s > 0$$):**
+   - Khả thi nguyên thủy: $$x_1 + 2x_2 = 4$$.
+   - Khả thi đối ngẫu: $$y + s_1 = 3$$ và $$2y + s_2 = 5$$.
+   - Bù yếu nhiễu: $$x_1 s_1 = 0.5$$ và $$x_2 s_2 = 0.5$$.
+2. **Giải rút gọn theo 1 biến $$y$$:**
+   Từ $$s_1 = 3 - y > 0$$ và $$s_2 = 5 - 2y > 0$$ (nên $$y < 2.5$$), ta suy ra:
+   $$x_1 = \frac{0.5}{3 - y}, \qquad x_2 = \frac{0.5}{5 - 2y}.$$
+   Thay vào $$x_1 + 2x_2 = 4$$:
+   $$\frac{0.5}{3 - y} + \frac{1}{5 - 2y} = 4.$$
+   Thử kiểm tra nhanh giá trị $$y \approx 2.345$$:
+   - $$s_1 = 3 - 2.345 = 0.655 \implies x_1 = \frac{0.5}{0.655} \approx 0.763$$.
+   - $$s_2 = 5 - 4.690 = 0.310 \implies x_2 = \frac{0.5}{0.310} \approx 1.613$$.
+   - Kiểm tra $$x_1 + 2x_2 = 0.763 + 3.226 = 3.989 \approx 4$$ (nghiệm chính xác là $$y(\mu) \approx 2.346, \; x(\mu) \approx (0.765, 1.618), \; s(\mu) \approx (0.654, 0.309)$$).
+3. **Kiểm chứng khoảng cách đối ngẫu $$c^T x - b^T y = x^T s = n\mu$$:**
+   - $$c^T x \approx 3(0.765) + 5(1.618) = 10.385$$; $$b^T y \approx 4(2.346) = 9.384$$.
+   - Hiệu $$c^T x - b^T y \approx 1.00 = 2 \times 0.5 = n\mu$$! Khớp chính xác lý thuyết!
+
+---
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     displayAlign: "center"

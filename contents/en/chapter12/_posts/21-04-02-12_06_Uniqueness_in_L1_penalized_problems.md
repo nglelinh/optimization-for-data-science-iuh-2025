@@ -9,6 +9,30 @@ categories:
 lang: en
 ---
 
+When the number of features $$p$$ dramatically exceeds the number of observations $$n$$ (the high-dimensional regime $$p \gg n$$), the least-squares matrix $$X^\top X$$ is rank-deficient, so the Lasso objective $$\frac{1}{2}\|y - X\beta\|_2^2 + \lambda \|\beta\|_1$$ is **not strictly convex**! Does that mean Lasso has infinitely many different optimal coefficient vectors $$\hat{\beta}$$? Surprisingly, Ryan Tibshirani (2013) proved using the KKT conditions that even when $$p \gg n$$, the Lasso solution is **almost surely unique** whenever the predictors are drawn from a continuous distribution—and its fitted values $$X\hat{\beta}$$ are *always* unique!
+
+## Background Knowledge Map: KKT Anatomy of Lasso Uniqueness
+
+- **Pillar 1 — Universal Uniqueness of Fitted Values $$X\hat{\beta}$$:** Because $$\frac{1}{2}\|y - u\|_2^2$$ is *strictly* convex in the prediction vector $$u = X\beta$$, every optimal Lasso solution $$\hat{\beta}$$ must produce the **exact same** fitted vector $$X\hat{\beta}$$ and the **exact same** $$\ell_1$$ norm $$\|\hat{\beta}\|_1$$!
+- **Pillar 2 — Equicorrelation Set $$\mathcal{E}$$ from KKT Stationarity:** The Lasso KKT condition $$X^\top(y - X\hat{\beta}) = \lambda s$$ (with $$s \in \partial \|\hat{\beta}\|_1$$) forces every active variable $$j$$ to satisfy $$|X_j^\top(y - X\hat{\beta})| = \lambda$$. Because $$X\hat{\beta}$$ is unique, the equicorrelation set $$\mathcal{E} = \{ j : |X_j^\top(y - X\hat{\beta})| = \lambda \}$$ and signs $$s_\mathcal{E}$$ are **identical** across *all* Lasso solutions!
+- **Pillar 3 — Null-Space Uniqueness Criterion:** Every Lasso solution must vanish outside $$\mathcal{E}$$ ($$\hat{\beta}_{-\mathcal{E}} = 0$$). Therefore, if the submatrix $$X_\mathcal{E}$$ has full column rank ($$\ker(X_\mathcal{E}) = \{0\}$$), the Lasso solution $$\hat{\beta}$$ is **strictly unique**—even if the full matrix $$X$$ has $$p = 10^6 \gg n = 100$$!
+- **Pillar 4 — General Position Condition:** Whenever the signed columns $$\{\pm X_j\}$$ lie in *general position* (no $$k+1$$ points lie in a $$(k-1)$$-dimensional affine subspace for $$k \le \min(n, p)$$, which holds with probability 1 for continuous features), $$X_\mathcal{E}$$ automatically has full column rank and Lasso is unique for every $$y$$ and $$\lambda > 0$$.
+
+### Step-by-Step Worked Example (Read Slowly): Seeing Non-Uniqueness vs. Uniqueness When $$p > n$$
+
+Consider $$n = 1$$ observation $$y = 4$$ with $$p = 2$$ predictors and $$\lambda = 1$$: $$\min_{\beta \in \mathbb{R}^2} \frac{1}{2}(4 - x_1 \beta_1 - x_2 \beta_2)^2 + |\beta_1| + |\beta_2|$$.
+
+1. **Case A — Duplicate predictors (NOT in general position): $$X = [1,\; 1]$$:**
+   - Setting $$u = \beta_1 + \beta_2$$, the KKT condition $$X^\top(4 - u) = 1 \cdot s$$ forces $$4 - u = 1 \implies u^\star = X\hat{\beta} = 3$$ (unique fitted value!).
+   - Equicorrelation set: $$\mathcal{E} = \{1, 2\}$$, so $$X_\mathcal{E} = [1, 1]$$ is **rank-deficient** (rank 1 < 2 columns)!
+   - Consequently, *every* nonnegative pair $$\hat{\beta} = (t, 3 - t)^\top$$ for $$t \in [0, 3]$$ achieves the exact same optimal objective $$\frac{1}{2}(1)^2 + 3 = 3.5$$—infinitely many Lasso solutions!
+2. **Case B — Slightly perturbed predictors (in general position): $$X = [1,\; 0.9]$$:**
+   - Try $$\hat{\beta}_1 = 3, \hat{\beta}_2 = 0$$ (so $$X\hat{\beta} = 3$$, residual $$y - X\hat{\beta} = 1$$).
+   - Check KKT correlations:
+     - Feature 1: $$X_1^\top(1) = 1.0 = \lambda$$ (active, $$s_1 = +1$$).
+     - Feature 2: $$|X_2^\top(1)| = 0.9 < 1.0 = \lambda$$ (strictly inactive!).
+   - Now $$\mathcal{E} = \{1\}$$, so $$X_\mathcal{E} = [1]$$ has **full column rank 1**! Even though $$p = 2 > n = 1$$, $$\hat{\beta}^\star = (3, 0)^\top$$ is the **unique** global Lasso minimizer!
+
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
 displayAlign: "center"

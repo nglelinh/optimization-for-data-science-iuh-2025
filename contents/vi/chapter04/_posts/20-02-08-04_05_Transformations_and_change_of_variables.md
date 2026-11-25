@@ -8,6 +8,40 @@ categories:
 - chapter04
 lang: vi
 ---
+
+Trong nhiều bài toán thiết kế mạch điện, quy hoạch mạng truyền thông hay định giá kinh tế, các công thức hiện ra toàn tích lũy thừa như $$x_1^{0.5} x_2^{-1.2} + 3 x_1 x_2 \le 1$$. Nhìn bằng mắt thường, tập khả thi cong queo và hàm mục tiêu hoàn toàn **phi lồi** — ai cũng muốn bỏ cuộc và gọi thuật toán tìm kiếm cục bộ. Thế nhưng chỉ cần đặt $$y_i = \log x_i$$ và lấy logarit hai vế, toàn bộ bức tranh cong queo ấy bỗng "duỗi thẳng" thành một bài toán tối ưu hóa lồi hoàn hảo!
+
+Bài học này trao cho bạn hai chiếc kính biến hình quyền lực nhất trong tối ưu hóa: **biến đổi đơn điệu hàm mục tiêu** (Định lý 1) và **đổi biến song ánh** (Định lý 2). Nắm vững chúng giúp bạn nhận ra rất nhiều bài toán "giả phi lồi" thực chất là bài toán lồi đang cải trang.
+
+## Bản đồ kiến thức nền: Nghệ thuật phát hiện "tính lồi ẩn"
+
+Bốn nguyên tắc dưới đây quyết định khi nào một phép biến đổi giữ nguyên hoàn toàn tập nghiệm tối ưu:
+
+- **Biến đổi đơn điệu tăng của hàm mục tiêu (Monotone Transformation):** Nếu $$h: \mathbb{R} \to \mathbb{R}$$ là hàm tăng ngặt, thì cực tiểu hóa $$f(x)$$ hoàn toàn tương đương với cực tiểu hóa $$h(f(x))$$. Ví dụ kinh điển: thay vì cực tiểu hóa chuẩn Euclidean $$\|Ax - b\|_2$$ (không trơn tại $$0$$), ta cực tiểu hóa $$\|Ax - b\|_2^2$$ (hàm bậc hai trơn đẹp) vì $$h(t) = t^2$$ tăng ngặt trên $$[0, \infty)$$.
+- **Đổi biến khả nghịch (Change of Variables):** Thay $$x = \phi(z)$$ với $$\phi$$ là song ánh giữa miền mới và miền cũ biến bài toán theo $$x$$ thành bài toán theo $$z$$. Nghiệm cũ khôi phục ngay lập tức qua $$x^\star = \phi(z^\star)$$.
+- **Phép biến đổi Logarit trong Quy hoạch Hình học (Log-Transform / GP):** Đặt $$x_i = e^{y_i}$$ biến mọi tích lũy thừa dương $$c x_1^{a_1} \cdots x_n^{a_n}$$ thành hàm mũ $$e^{a^T y + \log c}$$, rồi lấy $$\log$$ đưa về hàm **log-sum-exp** vốn luôn lồi!
+- **Cẩn trọng với tính lồi của ràng buộc:** Biến đổi đơn điệu $$h$$ giữ nguyên *tập nghiệm*, nhưng không tự động biến bài toán thành *lồi* — bạn phải chọn $$h$$ hoặc $$\phi$$ sao cho hàm mục tiêu mới và các hàm ràng buộc mới thực sự lồi.
+
+### Khung giải thích (nên đọc chậm): "Giải mã" một bài toán phi lồi bằng phép đổi biến logarit
+
+Xét bài toán tối ưu trên $$x_1 > 0,\; x_2 > 0$$:
+$$\min_{x_1, x_2 > 0} \; f(x_1, x_2) = \frac{1}{x_1 x_2} \quad \text{thỏa mãn} \quad x_1 + 2x_2 \le 4.$$
+
+1. **Nhận diện vẻ ngoài phi lồi:** Đặt $$x_1 = e^{y_1}$$, $$x_2 = e^{y_2}$$ với $$y_1, y_2 \in \mathbb{R}$$.
+2. **Chuyển hàm mục tiêu:**
+   $$f(e^{y_1}, e^{y_2}) = e^{-y_1 - y_2}.$$
+   Lấy $$\log$$ (hàm tăng ngặt trên $$(0, \infty)$$) cho hàm mục tiêu mới cực kỳ đơn giản:
+   $$\tilde{f}(y_1, y_2) = \log(e^{-y_1 - y_2}) = -y_1 - y_2 \quad (\text{hàm tuyến tính!}).$$
+3. **Chuyển ràng buộc:** $$x_1 + 2x_2 \le 4 \iff e^{y_1} + 2e^{y_2} \le 4$$. Lấy $$\log$$ hai vế:
+   $$\log(e^{y_1} + 2e^{y_2}) - \log 4 \le 0.$$
+   Hàm $$\log(e^{y_1} + e^{y_2 + \log 2})$$ là hàm log-sum-exp, nên **luôn lồi**!
+4. **Giải trực tiếp trên bài toán lồi mới:**
+   Muốn cực tiểu hóa $$-y_1 - y_2$$ (tức cực đại hóa $$y_1 + y_2$$) dưới ràng buộc $$e^{y_1} + 2e^{y_2} \le 4$$, bất đẳng thức AM-GM cho $$e^{y_1} + 2e^{y_2} \ge 2\sqrt{2 e^{y_1 + y_2}}$$, dấu bằng xảy ra khi $$e^{y_1} = 2e^{y_2} = 2$$.
+   Suy ra $$y_1^\star = \log 2$$, $$y_2^\star = 0$$.
+5. **Khôi phục nghiệm gốc:** $$x_1^\star = e^{\log 2} = 2$$, $$x_2^\star = e^0 = 1$$. Kiểm tra ràng buộc gốc: $$2 + 2(1) = 4 \le 4$$, giá trị tối ưu gốc là $$f^\star = \frac{1}{2 \cdot 1} = 0.5$$.
+
+---
+
 Phần này trình bày các kỹ thuật biến đổi hàm và đổi biến trong tối ưu hóa, giúp đơn giản hóa hoặc viết lại bài toán về dạng tương đương thuận lợi hơn.
 
 Bằng cách biến đổi hàm mục tiêu hoặc các hàm ràng buộc mà vẫn giữ nguyên tập nghiệm tương ứng, đôi khi ta có thể phát hiện "tính lồi ẩn" của những bài toán ban đầu trông có vẻ không lồi.

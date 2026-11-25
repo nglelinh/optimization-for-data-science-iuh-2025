@@ -10,6 +10,32 @@ categories:
 lesson_type: required
 ---
 
+Đừng chỉ nhìn một ma trận như một bảng số hình chữ nhật; trong tối ưu hóa, mỗi ma trận $$A \in \mathbb{R}^{m \times n}$$ là một **cỗ máy biến hình không gian**: nó kéo giãn, xoay, chiếu hoặc ép phẳng các tập lồi trong $$\mathbb{R}^n$$ thành những hình dạng mới trong $$\mathbb{R}^m$$. Hiểu ma trận như một phép biến đổi tuyến tính giúp bạn hiểu ngay vì sao ảnh affine của một hình cầu là một ellipsoid, hay vì sao hệ ràng buộc $$Ax = b$$ mô tả một không gian con dịch chuyển.
+
+Bài học này kết nối các phép toán đại số trên ma trận với ý nghĩa hình học và cấu trúc nghiệm của hệ phương trình tuyến tính.
+
+## Bản đồ kiến thức nền: Bốn góc nhìn về một ma trận $$A$$
+
+- **Phép biến đổi tuyến tính:** Ánh xạ $$T(x) = Ax$$ bảo toàn tổ hợp tuyến tính: $$A(\alpha x + \beta y) = \alpha Ax + \beta Ay$$. Cột thứ $$j$$ của $$A$$ chính là ảnh của vector cơ sở chuẩn $$e_j$$.
+- **Bốn không gian con cơ bản:** Không gian cột $$\mathcal{R}(A)$$ (các đầu ra đạt được), không gian hạch $$\mathcal{N}(A)$$ (các hướng bị triệt tiêu về $$0$$), cùng $$\mathcal{R}(A^T)$$ và $$\mathcal{N}(A^T)$$. Khi giải hệ $$Ax = b$$, tập nghiệm có dạng $$x_p + \mathcal{N}(A)$$.
+- **Hạng (Rank), Định thức và Ma trận nghịch đảo:** Với ma trận vuông $$n\times n$$, $$\det(A) \ne 0 \iff \operatorname{rank}(A) = n \iff A$$ khả nghịch. Định thức $$|\det(A)|$$ đo đúng hệ số phóng đại thể tích của phép biến đổi.
+- **Ma trận đối xứng và chuyển vị ($$A^T$$):** Xuất hiện dày đặc trong dạng toàn phương $$x^T Q x$$, phương trình chuẩn $$A^T A x = A^T b$$ và biểu diễn đối ngẫu của các phép biến đổi tuyến tính.
+
+### Khung giải thích (nên đọc chậm): Giải mã phép biến đổi $$A = \begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$ và hệ $$Ax = b$$
+
+Xét ma trận đối xứng $$A = \begin{pmatrix}2 & 1\\ 1 & 2\end{pmatrix}$$ và vector vế phải $$b = \begin{pmatrix}4\\ 5\end{pmatrix}$$:
+
+1. **Kiểm tra khả nghịch và hệ số thể tích:**
+   $$\det(A) = 2\cdot 2 - 1\cdot 1 = 3 \ne 0.$$
+   Phép biến đổi $$x \mapsto Ax$$ làm diện tích mọi hình trong $$\mathbb{R}^2$$ tăng đúng $$3$$ lần và không làm sụp chiều nào ($$\operatorname{rank}(A) = 2$$, $$\mathcal{N}(A) = \{0\}$$).
+2. **Tìm ma trận nghịch đảo:**
+   $$A^{-1} = \frac{1}{3}\begin{pmatrix}2 & -1\\ -1 & 2\end{pmatrix}.$$
+3. **Giải duy nhất hệ $$Ax = b$$:**
+   $$x = A^{-1}b = \frac{1}{3}\begin{pmatrix}2\cdot 4 - 1\cdot 5\\ -1\cdot 4 + 2\cdot 5\end{pmatrix} = \frac{1}{3}\begin{pmatrix}3\\ 6\end{pmatrix} = \begin{pmatrix}1\\ 2\end{pmatrix}.$$
+4. **Kiểm tra ngược:** $$A\begin{pmatrix}1\\ 2\end{pmatrix} = 1\begin{pmatrix}2\\ 1\end{pmatrix} + 2\begin{pmatrix}1\\ 2\end{pmatrix} = \begin{pmatrix}4\\ 5\end{pmatrix} = b$$. Vector $$b$$ chính là tổ hợp tuyến tính duy nhất của hai cột của $$A$$ với trọng số $$1$$ và $$2$$.
+
+---
+
 Bài học này trình bày về ma trận, các phép toán trên ma trận và phép biến đổi tuyến tính — những công cụ cơ bản để biểu diễn và giải các bài toán tối ưu hóa.
 
 ---

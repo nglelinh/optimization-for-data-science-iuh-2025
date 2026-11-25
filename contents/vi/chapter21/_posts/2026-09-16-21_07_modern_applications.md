@@ -12,6 +12,28 @@ redirect_from:
   - /contents/vi/chapter21/21_08_modern_applications/
 ---
 
+Một trong những ý tưởng táo bạo và giàu sức sống nhất của thập kỷ qua trong xử lý ảnh tính toán là **Plug-and-Play ADMM (PnP-ADMM)**: trong thuật toán ADMM tách biến $$\min f(x) + g(z) \text{ s.t. } x = z$$, bước cập nhật $$z^{(k)} = \operatorname{prox}_{g, 1/\rho}(x^{(k)} + w^{(k-1)})$$ thực chất chính là một **bộ khử nhiễu Gaussian** với phương sai nhiễu $$\sigma^2 = 1/\rho$$! Vậy tại sao phải giới hạn mình ở những hàm điều chuẩn $$g(z)$$ viết tay bằng công thức toán học (như Total Variation) khi ta có thể "cắm thẳng" (plug-and-play) một mạng nơ-ron khử nhiễu học sâu hiện đại (như DnCNN hay Diffusion denoiser) vào đúng vị trí của $$\operatorname{prox}_g$$? Bài 21-07 mở ra cánh cửa ứng dụng ADMM giai đoạn 2022–2026 trong tạo ảnh tính toán, học liên kết và điều độ năng lượng.
+
+## Bản đồ kiến thức nền: Ba trụ cột ứng dụng ADMM hiện đại (2022–2026)
+
+Để thấy vì sao khuôn mẫu tách biến đơn giản từ năm 1975 vẫn là xương sống của nhiều hệ thống AI và kỹ thuật hiện đại, hãy điểm qua ba hướng triển khai nổi bật:
+
+- **Plug-and-Play ADMM (PnP-ADMM) trong tạo ảnh tính toán:** Tách bài toán tái tạo ảnh y tế (MRI, CT) hoặc kính thiên văn thành hai bước rõ rệt: bước vật lý $$x^{(k)}$$ đảm bảo khớp đúng dữ liệu đo lường $$Ax \approx y$$, còn bước tiên nghiệm $$z^{(k)} = D_\sigma(x^{(k)} + w^{(k-1)})$$ thay toán tử proximal bằng một bộ khử nhiễu học sâu có tính không giãn (non-expansive) để bảo toàn hội tụ điểm bất động!
+- **Học liên kết không đồng nhất (Federated ADMM):** Kết hợp đồng thuận phân tán của bài 21-05 với các bước cập nhật SGD cục bộ trên thiết bị biên, dùng biến đối ngẫu để triệt tiêu độ lệch phân phối dữ liệu giữa các máy khách.
+- **Điều độ lưới điện trực tuyến (Online Distributed OPF):** Các vùng lưới điện tối ưu lịch phát điện cục bộ riêng tư và chỉ trao đổi công suất trên đường dây liên kết thông qua ADMM đồng thuận ở chu kỳ vài giây đến vài phút.
+
+### Khung giải thích (nên đọc chậm): Chạy tay 1 vòng PnP-ADMM khử mờ tín hiệu 2 điểm bằng bộ khử nhiễu thay cho $$\operatorname{prox}_g$$
+
+Giả sử ta đo được tín hiệu bị làm mờ 1 chiều $$y = 0.5 x_1 + 0.5 x_2 = 5$$ (chỉ có 1 phương trình cho 2 ẩn số $$(x_1, x_2)$$ nên bài toán ngược bị thiếu dữ kiện!). Ta chạy 1 vòng PnP-ADMM với $$\rho = 1$$, khởi tạo $$z^{(0)} = (0, 0)^T, w^{(0)} = (0, 0)^T$$, và dùng một bộ khử nhiễu $$D_\sigma$$ có tính làm mượt kéo hai điểm kề nhau lại gần trung bình của chúng (ví dụ $$D_\sigma(a, b) = (0.75a + 0.25b, \; 0.25a + 0.75b)$$):
+
+1. **Bước 1 — Khớp vật lý (giải bài toán con trơn $$x^{(1)}$$):**
+   $$x^{(1)} = \arg\min_{x_1, x_2} \left\{ \frac{1}{2}(0.5 x_1 + 0.5 x_2 - 5)^2 + \frac{1}{2}(x_1^2 + x_2^2) \right\}.$$
+   Vì đối xứng theo $$x_1, x_2$$, đặt $$x_1 = x_2 = c$$: đạo hàm $$(c - 5)(0.5) + c = 0 \implies 1.5c = 2.5 \implies x^{(1)} = \left(\frac{5}{3}, \; \frac{5}{3}\right)^T \approx (1.67, 1.67)^T$$.
+2. **Bước 2 — Cắm bộ khử nhiễu học sâu $$z^{(1)} = D_\sigma(x^{(1)} + w^{(0)})$$:**
+   Thay vì tính $$\operatorname{prox}_g$$ từ một hàm $$g$$ tường minh, ta đưa thẳng $$v = (1.67, 1.67)^T$$ vào mạng khử nhiễu $$D_\sigma$$ (giả sử với nhiễu thực tế trên ảnh, $$v = (2.2, 1.1)^T \implies z^{(1)} = (1.925, 1.375)^T$$ đã mượt hơn hẳn).
+3. **Bước 3 — Cập nhật biến đối ngẫu:** $$w^{(1)} = w^{(0)} + x^{(1)} - z^{(1)}$$, đẩy sai lệch vào vòng kế tiếp để tín hiệu cuối cùng vừa khớp sát phép đo vật lý $$y = 5$$, vừa mang đầy đủ đặc trưng tự nhiên mà mạng khử nhiễu đã học!
+
+---
 
 Các bài trước trong chương này xem ADMM như một phương pháp tách bài toán *lồi có cấu trúc*: gồm hai (hoặc nhiều) khối proximal dễ tính, một bước cập nhật đối ngẫu, cùng các phần dư có thể theo dõi trực tiếp. Tuy nhiên, phạm vi ứng dụng của ADMM không dừng lại ở năm 2011. Giai đoạn 2022–2026, cùng khuôn mẫu đồng thuận và Lagrangian tăng cường này tiếp tục xuất hiện trong học sâu liên kết, tạo ảnh tính toán với bộ khử nhiễu học được, và điều độ hệ thống điện trực tuyến. Bài đọc tùy chọn này phác họa các hướng triển khai đó thay vì suy diễn lại ADMM dạng chuẩn hóa.
 

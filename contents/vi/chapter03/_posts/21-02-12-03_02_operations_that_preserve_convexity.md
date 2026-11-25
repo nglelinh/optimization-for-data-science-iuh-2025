@@ -10,6 +10,35 @@ lang: vi
 lesson_type: required
 ---
 
+Khi bạn viết một bài toán tối ưu trong thư viện như CVX hay CVXPY, phần mềm không hề ngồi tính ma trận Hessian khổng lồ cho hàm mục tiêu của bạn! Thay vào đó, nó chạy một hệ thống quy tắc đại số gọi là **Quy hoạch lồi kỷ luật (Disciplined Convex Programming — DCP)** dựa hoàn toàn vào nội dung bài học này: bắt đầu từ các hàm lồi nguyên tử và áp dụng tuần tự các **phép toán bảo toàn tính lồi** (tổng trọng số dương, hợp thành affine, cực đại từng điểm, cực tiểu hóa từng phần, phối cảnh).
+
+Làm chủ bộ quy tắc này giúp bạn chứng minh tính lồi của những hàm cực kỳ cồng kềnh chỉ trong vài giây mà không cần đụng đến đạo hàm cấp hai.
+
+## Bản đồ kiến thức nền: Bốn nhóm phép toán bảo toàn tính lồi
+
+- **Tổng trọng số không âm và hợp thành affine:** Nếu $$f_i$$ lồi và $$w_i \ge 0$$ thì $$\sum w_i f_i$$ lồi; nếu $$f$$ lồi thì $$g(x) = f(Ax + b)$$ luôn lồi (nhờ đó $$\|Ax - b\|_1$$ hay $$\log\sum e^{a_i^T x + b_i}$$ lập tức lồi!).
+- **Cực đại từng điểm (Pointwise Maximum / Supremum):** Nếu $$f_\alpha(x)$$ lồi theo $$x$$ với mọi chỉ số $$\alpha \in \mathcal{A}$$ (kể cả vô hạn!), thì $$f(x) = \sup_{\alpha \in \mathcal{A}} f_\alpha(x)$$ luôn lồi — vì epigraph của nó chính là giao của các epigraph lồi!
+- **Quy tắc hợp thành vô hướng $$h(g(x))$$:** $$h(g(x))$$ lồi khi **($$h$$ lồi, không giảm và $$g$$ lồi)** hoặc **($$h$$ lồi, không tăng và $$g$$ lõm)**. Ví dụ: $$e^{g(x)}$$ lồi nếu $$g$$ lồi; $$1/g(x)$$ lồi nếu $$g > 0$$ lõm.
+- **Cực tiểu hóa từng phần và Phối cảnh:** Nếu $$f(x, y)$$ lồi đồng thời theo $$(x, y)$$ thì $$g(x) = \inf_{y \in C} f(x, y)$$ lồi; hàm phối cảnh $$g(x, t) = t f(x/t)$$ ($$t > 0$$) cũng luôn bảo toàn tính lồi!
+
+### Khung giải thích (nên đọc chậm): Kiểm chứng tính lồi của hàm cực đại từng điểm 3 nhánh
+
+Xét hàm không trơn (có góc nhọn nên không thể dùng Hessian):
+$$f(x) = \max\left(2x - 1,\ x^2 - 2x + 2,\ e^{-x}\right), \qquad x \in \mathbb{R}.$$
+
+1. **Chứng minh lồi trong 1 dòng bằng quy tắc bảo toàn:**
+   - Nhánh 1: $$f_1(x) = 2x - 1$$ (affine $$\Rightarrow$$ lồi).
+   - Nhánh 2: $$f_2(x) = x^2 - 2x + 2 = (x - 1)^2 + 1$$ ($$f_2'' = 2 > 0 \Rightarrow$$ lồi).
+   - Nhánh 3: $$f_3(x) = e^{-x}$$ ($$f_3'' = e^{-x} > 0 \Rightarrow$$ lồi).
+   Vì $$f$$ là **cực đại từng điểm** của 3 hàm lồi, $$f$$ chắc chắn là **hàm lồi** trên toàn $$\mathbb{R}$$!
+2. **Kiểm tra số trực tiếp tại $$x = 0,\ 1,\ 2$$:**
+   - $$f(0) = \max(-1,\ 2,\ 1) = 2$$ (nhánh 2 thắng).
+   - $$f(1) = \max(1,\ 1,\ e^{-1} \approx 0.368) = 1$$ (nhánh 1 và 2 gặp nhau tạo góc nhọn, chính là đáy cực tiểu toàn cục!).
+   - $$f(2) = \max(3,\ 2,\ e^{-2} \approx 0.135) = 3$$ (nhánh 1 thắng).
+   Kiểm chứng bất đẳng thức Jensen tại trung điểm $$x = 1$$ của $$0$$ và $$2$$: $$f(1) = 1 \le \frac{f(0) + f(2)}{2} = \frac{2 + 3}{2} = 2.5$$.
+
+---
+
 Phần này trình bày các phép toán bảo toàn tính lồi của hàm số:
 
 - Tổng trọng số không âm

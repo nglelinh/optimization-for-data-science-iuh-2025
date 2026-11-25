@@ -12,6 +12,29 @@ redirect_from:
   - /contents/en/chapter07/07_10_modern_applications/
 ---
 
+Open PyTorch, define a ReLU neural network, and call `.backward()`—even though $$\mathrm{ReLU}(z) = \max(0, z)$$ has a sharp kink at $$z = 0$$ where no classical derivative exists! Far from being a dusty 1960s footnote, the subdifferential $$\partial f(x)$$ and its nonconvex Clarke/conservative extensions are the quiet mathematical bedrock behind modern deep-learning autograd, sparse/low-rank recovery, and nonsmooth fairness losses.
+
+## Background Knowledge Map: Where Subgradients Power 2022–2026 ML Systems
+
+1. **Nonsmooth Automatic Differentiation & Conservative Fields**: PyTorch and JAX evaluate a chosen branch slope at ReLU/max-pool kinks (e.g., setting $$\mathrm{ReLU}'(0) = 0$$). Bolte and Pauwels (2020–2024) formalized *conservative set-valued fields*—showing when backpropagation through nonsmooth compositions still yields valid generalized gradients and guarantees convergence of SGD.
+2. **Clarke Subdifferential for Nonconvex Nonsmooth Losses**: When a function $$f$$ is locally Lipschitz but *nonconvex* (like a deep ReLU network), the convex subgradient inequality breaks. Taking the convex hull of limit points of gradients $$\nabla f(x_k)$$ from nearby smooth points produces the **Clarke subdifferential** $$\partial^C f(x)$$, which coincides with $$\partial f(x)$$ whenever $$f$$ is convex.
+3. **Sparsity, Low-Rank Matrices & Structured Norms**: Subdifferentials of the $$\ell_1$$ norm, group-Lasso $$\sum_g \|w_g\|_2$$, and nuclear norm $$\|W\|_*$$ (sum of singular values) govern exact recovery guarantees in compressed sensing, matrix completion, and LoRA-style low-rank adaptation.
+4. **Robustness & Minimax Adversarial Training**: Training against worst-case perturbations $$\min_w \max_{\|\delta\| \le \epsilon} L(w, x + \delta)$$ creates a pointwise maximum over $$\delta$$—Danskin's theorem (the infinite-index max rule of subgradient calculus) says the gradient at the worst-case adversarial example $$\delta^\star$$ is a valid subgradient of the robust loss!
+
+### Step-by-Step Worked Example (Read Slowly): Why Chain-Rule Autograd Can Differ from the Exact Clarke Subdifferential
+
+Consider the 1D composition $$h(x) = \mathrm{ReLU}(x) - \mathrm{ReLU}(x) = 0$$ for all $$x \in \mathbb{R}$$, where $$\mathrm{ReLU}(z) = \max(0, z)$$.
+
+1. **Exact mathematical derivative**: Since $$h(x) \equiv 0$$ identically, its true derivative and Clarke subdifferential at $$x = 0$$ is strictly $$\{0\}$$.
+2. **What naive subgradient sum rule / autograd computes at $$x = 0$$**:
+   - $$\partial \mathrm{ReLU}(0) = [0, 1]$$.
+   - Treating the two terms independently gives $$\partial \mathrm{ReLU}(0) - \partial \mathrm{ReLU}(0) = [0, 1] - [0, 1] = [-1, 1] \supsetneq \{0\}$$!
+   - If a custom autograd rule chose slope $$1$$ for the first ReLU and $$0$$ for the second, it could return a *spurious* value $$1 \neq 0$$.
+3. **Contrast with a standard convex hinge loss $$L(w) = \max(0, 1 - w)$$ at the kink $$w = 1$$**:
+   - Smooth branches: $$0$$ (slope $$0$$) and $$1 - w$$ (slope $$-1$$).
+   - Exact subdifferential: $$\partial L(1) = [-1, 0]$$.
+   - PyTorch's deterministic choice $$g = 0$$ (or $$g = -1$$) both belong to $$[-1, 0]$$, so every autograd output on a single convex hinge is a genuine subgradient!
+
 # Modern applications of the subgradient
 
 This optional lesson does **not** redo the calculus of Chapter 07. It shows where the same objects — a vector $$g$$ satisfying $$f(y)\ge f(x)+g^\top(y-x)$$, the set $$\partial f(x)$$, and the stationarity test $$0\in\partial f(x^\star)$$ — appear in CS and data-science work from about 2022 to 2026. After reading it you should be able to name a nonsmooth loss or regularizer in a deployed pipeline, write the inclusion that characterises a minimiser, and point to a paper rather than a slogan.
