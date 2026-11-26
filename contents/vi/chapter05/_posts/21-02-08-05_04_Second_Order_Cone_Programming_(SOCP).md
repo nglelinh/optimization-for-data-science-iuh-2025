@@ -60,7 +60,7 @@ Hình dưới đây minh họa nón chuẩn ứng với chuẩn $$\ell_2$$ ($$\|
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl  }}/img/chapter_img/chapter05/05_04_Norm_Cone.png" alt="[Fig1] Nón Chuẩn [1]" width="70%">
+  <img src="{{ site.baseurl  }}/img/chapter_img/chapter05/05_04_norm_cone.png" alt="[Fig1] Nón Chuẩn [1]" width="70%">
   <figcaption style="text-align: center;">[Hình 1] Nón chuẩn [1]</figcaption>
 </p>
 </figure>

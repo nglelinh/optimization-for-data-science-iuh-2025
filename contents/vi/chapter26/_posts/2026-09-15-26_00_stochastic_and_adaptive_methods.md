@@ -16,6 +16,8 @@ Chương 26 đánh dấu bước ngoặt từ tối ưu cổ điển sang **tố
 
 ## Kiến thức cần nhớ: Bốn trụ cột của tối ưu ngẫu nhiên hiện đại
 
+![Tối ưu hóa Ngẫu nhiên & Thích nghi Quy mô lớn]({{ site.baseurl }}/img/chapter_img/zero_fill/ch26_stochastic_adaptive_opt.svg)
+
 Toàn bộ Chương 26 được xây dựng trên bốn trụ cột kỹ thuật bổ trợ cho nhau:
 
 - **Ước lượng ngẫu nhiên và Đánh đổi Phương sai – Tốc độ (SGD & Minibatch):** Thay tổng $$n$$ thành phần bằng trung bình trên $$B$$ mẫu ngẫu nhiên giữ nguyên tính không chệch ($$\mathbb{E}[g_k] = \nabla F(w_k)$$) nhưng tạo ra sàn nhiễu tỉ lệ với $$\sigma^2 / B$$, dẫn tới tốc độ $$O(1/\sqrt{T})$$ thay vì $$O(1/T)$$.

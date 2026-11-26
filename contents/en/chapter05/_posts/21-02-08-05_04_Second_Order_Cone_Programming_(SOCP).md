@@ -56,7 +56,7 @@ The figure below shows the norm cone for the $$l_2$$ norm $$\| \cdot \|_2$$, als
 
 <figure class="image" style="align: center;">
 <p align="center">
-  <img src="{{ site.baseurl  }}/img/chapter_img/chapter05/05_04_Norm_Cone.png" alt="[Fig1] Norm Cone [1]" width="70%">
+  <img src="{{ site.baseurl  }}/img/chapter_img/chapter05/05_04_norm_cone.png" alt="[Fig1] Norm Cone [1]" width="70%">
   <figcaption style="text-align: center;">[Fig1] Norm Cone [1]</figcaption>
 </p>
 </figure>

@@ -16,6 +16,8 @@ Chương 29 khép lại toàn bộ hành trình tối ưu hóa bằng hai mô h�
 
 ## Kiến thức cần nhớ: Bốn trụ cột của Tối ưu phân tán và Học liên kết
 
+![Tối ưu hóa Phân tán và Học Liên kết (FedAvg)]({{ site.baseurl }}/img/chapter_img/zero_fill/ch29_federated_averaging.svg)
+
 Bốn bài học của Chương 29 kết nối trực tiếp toán học tối ưu với kiến trúc hệ thống phân tán qua bốn trụ cột:
 
 - **Song song dữ liệu đồng bộ (Data-Parallel SGD & All-Reduce):** Trong trung tâm dữ liệu có mạng tốc độ cao (NVLink/InfiniBand), mọi GPU đồng bộ gradient ở *mỗi bước* để tái tạo chính xác toán học của minibatch lớn $$PB$$ mà giảm thời gian chạy thực tế gần tuyến tính theo số GPU.

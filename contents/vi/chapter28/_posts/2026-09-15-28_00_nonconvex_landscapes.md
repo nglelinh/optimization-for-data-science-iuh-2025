@@ -16,6 +16,8 @@ Thế nhưng một nghịch lý tuyệt đẹp của khoa học máy tính thế
 
 ## Kiến thức cần nhớ: Bốn trụ cột của địa hình không lồi trong học sâu
 
+![Địa hình Không lồi: Điểm yên ngựa & Điều kiện PL]({{ site.baseurl }}/img/chapter_img/zero_fill/ch28_nonconvex_saddles_pl.svg)
+
 Để đọc hiểu các bài 28-01 đến 28-05 một cách hệ thống, hãy nắm bốn trụ cột hình học sau:
 
 - **Phân loại điểm tới hạn theo phổ Hessian:** Trong không gian $$d$$ chiều lớn, xác suất cả $$d$$ trị riêng của Hessian cùng dương tại một điểm tới hạn là cực nhỏ; vì vậy, kẻ cản đường phổ biến nhất không phải cực tiểu địa phương kém mà là **điểm yên ngựa chặt (strict saddle)** và các vùng cao nguyên phẳng.

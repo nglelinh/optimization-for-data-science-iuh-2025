@@ -78,7 +78,7 @@ Hàm liên hợp được sử dụng để:
 
 <figure class="image" style="align: center;">
 <p align="center">
- <img src="{{ site.baseurl }}/img/chapter_img/chapter03/conjugate_function_2.png" alt="" width="70%" height="70%">
+ <img src="{{ site.baseurl }}/img/chapter_img/chapter03/conjugate_function_2.svg" alt="" width="70%" height="70%">
  <figcaption style="text-align: center;">[Hình 2] Giải thích trực quan hàm liên hợp [2]</figcaption>
 </p>
 </figure>

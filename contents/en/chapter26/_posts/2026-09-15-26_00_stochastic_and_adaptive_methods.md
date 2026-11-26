@@ -14,6 +14,8 @@ Imagine training a modern language model on a trillion tokens using classical fu
 
 ## Key ideas: The Modern Stochastic & Adaptive Optimization Stack
 
+![Tối ưu hóa Ngẫu nhiên & Thích nghi Quy mô lớn]({{ site.baseurl }}/img/chapter_img/zero_fill/ch26_stochastic_adaptive_opt.svg)
+
 - **Finite-Sum Structure & Minibatch Noise:** Empirical risk $$F(w) = \frac{1}{n}\sum_{i=1}^n f_i(w)$$ turns exact gradients into $$O(n)$$ bottlenecks. Minibatching replaces exactness with an unbiased stochastic gradient whose variance scales as $$\sigma^2 / B$$, trading asymptotic precision for massive throughput.
 - **Inertia & Acceleration (Momentum / Nesterov):** Exponentially averaging past gradients damps oscillations across high-curvature ravines while amplifying consistent motion along flat valleys, reducing condition-number dependence from $$\kappa$$ to $$\sqrt{\kappa}$$ on quadratics.
 - **Diagonal Adaptive Preconditioning (AdaGrad → AdamW):** Rescaling each coordinate by the inverse square root of accumulated squared gradients equalizes learning speeds across sparse tokens and dense hidden layers, while decoupling weight decay (AdamW) prevents adaptive rescaling from distorting regularization.

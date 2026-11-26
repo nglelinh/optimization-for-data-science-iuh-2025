@@ -55,3 +55,7 @@ Có hai cách triển khai phổ biến trong các thư viện:
 Hiểu cách quản lý đồ thị giải thích trực tiếp vì sao lệnh `y.backward()` trong PyTorch yêu cầu đồ thị còn tồn tại trong bộ nhớ: mặc định sau một lần gọi `backward()`, băng tính toán sẽ được giải phóng trừ khi truyền tham số `retain_graph=True`.
 
 **Bài tập.** Vẽ đồ thị tính toán cho hàm mất mát $$\ell=\|W_2\,\phi(W_1 x)-y\|_2^2$$ của một mạng một lớp ẩn và đếm số phép nhân ma trận ở lượt thuận. Chi phí này sẽ xuất hiện tương ứng ở lượt chiều nghịch.
+
+## Góc nhìn Charu Aggarwal: Đồ thị Tính toán là Ngôn ngữ Chung của Tối ưu hóa Học sâu
+
+Trong *Linear Algebra and Optimization for Machine Learning*, Charu Aggarwal nhấn mạnh rằng mạng nơ-ron nhiều lớp thực chất là sự hợp thành của hàng triệu phép toán đại số tuyến tính (nhân ma trận, tích vô hướng, hàm kích hoạt) biểu diễn trên một **Đồ thị Có hướng Không chu trình (DAG)**. Nhờ quy tắc dây chuyền đa biến (*multivariable chain rule*) lan truyền ngược từ nút mất mát $$L$$ về từng trọng số, mọi kiến trúc từ hồi quy logistic, SVM đến Transformer đều quy về cùng một quy trình tính gradient $$O(1)$$ lượt truyền xuôi–ngược.

@@ -15,6 +15,8 @@ Bài học này phân biệt rạch ròi chuỗi bao hàm quan trọng bậc nh�
 
 ## Kiến thức cần nhớ: Bốn cấp độ của độ cong lồi
 
+![Định nghĩa hình học hàm lồi qua dây cung]({{ site.baseurl }}/img/chapter_img/chapter03/convex_function01.png)
+
 - **Hàm lồi (Convex):** Miền xác định $$\operatorname{dom} f$$ lồi và $$f(\theta x + (1-\theta)y) \le \theta f(x) + (1-\theta)f(y)$$. Bảo đảm cực tiểu địa phương = cực tiểu toàn cục, nhưng cực tiểu có thể không duy nhất.
 - **Hàm lồi chặt (Strictly Convex):** Bất đẳng thức chặt $$<$$ với mọi $$x \ne y,\ \theta \in (0, 1)$$. Bảo đảm nếu cực tiểu tồn tại thì nó là **duy nhất**, nhưng độ cong vẫn có thể tiến về $$0$$ ở vô cực.
 - **Hàm $$m$$-lồi mạnh ($$m$$-Strongly Convex):** $$f(x) - \frac{m}{2}\|x\|_2^2$$ vẫn còn lồi (với $$m > 0$$), tương đương $$\nabla^2 f(x) \succeq m I$$. Đồ thị bị chặn dưới toàn cục bởi một chiếc bát parabol có độ cong tối thiểu $$m$$, bảo đảm tốc độ hội tụ hình học (tuyến tính) cho Gradient Descent!

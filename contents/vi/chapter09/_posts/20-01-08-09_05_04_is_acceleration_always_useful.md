@@ -48,3 +48,9 @@ Mặc dù các phương pháp tăng tốc như FISTA đạt tốc độ hội t�
 - Nên dùng tăng tốc khi phần trơn của bài toán có điều kiện xấu, vì đó là lúc tăng tốc có lợi nhất.
 - Khi bài toán có điều kiện tốt, phương pháp gradient gần kề thường là đủ.
 - Theo dõi giá trị hàm mục tiêu. Nếu dao động lớn, dùng cơ chế khởi động lại (restart, đặt lại $$t_k = 1$$ khi hàm mục tiêu tăng) thay vì bỏ hẳn tăng tốc.
+
+## Kỹ thuật Làm trơn Nesterov (Smoothing) và Khoảng cách Dư (Excessive Gap)
+
+Trong giáo trình *Lectures on Convex Optimization* (Chương 6), Yurii Nesterov chỉ ra cách phá vỡ cận dưới $$O(1/\varepsilon^2)$$ của bài toán lồi **không trơn** có cấu trúc minimax $$f(x) = \max_{u \in Q_2} \langle Ax, u \rangle - \phi(u)$$:
+- Bằng cách thêm thành phần điều chuẩn lồi mạnh $$\mu d_2(u)$$ vào hàm mục tiêu đối ngẫu, ta thu được hàm xấp xỉ trơn $$f_\mu(x)$$ với hằng số Lipschitz $$L_\mu = \|A\|^2 / \mu$$.
+- Áp dụng **Phương pháp Gradient Nhanh (FGM)** lên $$f_\mu(x)$$ đạt tốc độ hội tụ **$$O(1/\varepsilon)$$** thay vì $$O(1/\varepsilon^2)$$ của dưới-gradient cổ điển — và kỹ thuật **Khoảng cách Dư (Excessive Gap)** còn tự động giảm $$\mu_k \to 0$$ theo từng vòng lặp mà không cần biết trước độ chính xác $$\varepsilon$$.

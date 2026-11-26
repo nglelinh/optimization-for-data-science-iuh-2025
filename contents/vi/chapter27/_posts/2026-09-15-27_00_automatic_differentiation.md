@@ -16,6 +16,8 @@ Hiểu sai phổ biến nhất của người mới là tưởng AD giống vi p
 
 ## Kiến thức cần nhớ: Ba trụ cột phân biệt AD với các phương pháp tính đạo hàm khác
 
+![Vi phân Tự động: Chế độ Xuôi vs. Chế độ Ngược]({{ site.baseurl }}/img/chapter_img/zero_fill/ch27_autodiff_forward_reverse.svg)
+
 Trước khi đi vào đồ thị tính toán và hai chế độ thuận/nghịch, hãy đặt AD lên bàn cân cùng hai phương pháp truyền thống:
 
 - **Vi phân ký hiệu (Symbolic Differentiation):** Biến đổi trực tiếp biểu thức toán học thành công thức đạo hàm tường minh. Nhược điểm chí mạng là hiện tượng **bùng nổ biểu thức (expression swell)** và hoàn toàn bó tay trước các câu lệnh lập trình như vòng lặp `for`, nhánh `if-else`.

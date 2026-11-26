@@ -14,6 +14,8 @@ Every optimizer in Chapter 26 assumes a magic oracle hands you $$\nabla F(w)$$ o
 
 ## Key ideas: The Four Pillars of Automatic Differentiation
 
+![Vi phân Tự động: Chế độ Xuôi vs. Chế độ Ngược]({{ site.baseurl }}/img/chapter_img/zero_fill/ch27_autodiff_forward_reverse.svg)
+
 - **Not Symbolic, Not Finite Differences:** Finite differences approximate derivatives via $$\frac{f(x+h)-f(x)}{h}$$ (truncation + cancellation error, $$O(d)$$ evaluations). Symbolic differentiation manipulates closed-form formulas (expression swell). AD differentiates *numerical execution traces* at machine precision.
 - **Computational Graphs (DAGs):** Every differentiable program unrolls into a Directed Acyclic Graph of elementary primitives ($$+, \times, \exp, \text{matmul}$$) whose local derivatives are known analytically.
 - **Forward Mode (JVP) vs. Reverse Mode (VJP):** Forward mode propagates input tangents $$\dot{v} = J_v \dot{x}$$ in one pass (ideal when inputs $$n \ll m$$ outputs). Reverse mode propagates output adjoints $$\bar{v} = J_v^\top \bar{y}$$ backward from the loss (ideal when $$n \gg m = 1$$, i.e., deep learning!).

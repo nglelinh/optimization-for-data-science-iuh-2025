@@ -15,6 +15,10 @@ Trong hầu hết các bài toán tối ưu phi tuyến thực tế (như hồi 
 
 ## Kiến thức cần nhớ: Cơ chế "Đường thẳng Armijo" trong Backtracking
 
+![Cận dưới tuyến tính và điều kiện Armijo]({{ site.baseurl }}/img/chapter_img/chapter06/06_02_02_f_geq_app.png)
+
+![Cận trên bậc hai cho bước nhảy hợp lệ]({{ site.baseurl }}/img/chapter_img/chapter06/06_02_02_f_leq_app.png)
+
 Ba trụ cột sau làm rõ ý nghĩa hình học và cách chọn tham số của Backtracking Line Search:
 
 - **Điều kiện giảm đủ Armijo (Sufficient Decrease Condition):** Với $$\alpha \in (0, 0.5]$$ (thường chọn $$\alpha = 0.01 \text{ đến } 0.3$$), ta chấp nhận bước $$t$$ khi:

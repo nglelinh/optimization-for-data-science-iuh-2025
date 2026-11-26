@@ -26,3 +26,5 @@ Fifth wave (23/11, extended in place to about 2:50–3:30, silent, same 5 stages
 r_admm Admm admm-lasso | r_bfgs QN bfgs-vs-gd | r_dd Dec dual-decomposition | r_cut Cut gomory-cut | r_kkt Kkt kkt-normals |
 r_pd Pdip primal-dual-ipm | r_newton Newton newton-parabola | r_bnb Bnb branch-bound | r_gd GD gd-step-sizes
 now add derivations, worked hand-computed rounds and extra contrasts (numbers checked by numpy asserts at import). Narration drafts with measured times: `vo_scripts_batch3.py`.
+| `opt_convex_vs_nonconvex.py` | `ConvexVsNonconvex` | `convex-vs-nonconvex_vi.mp4` | `01_02_convex_optimization_problem` |
+| `opt_convex_sets.py` | `ConvexSetsHulls` | `convex-sets-hulls_vi.mp4` | `02_01_03_Convex-set` |

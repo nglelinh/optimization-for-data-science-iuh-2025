@@ -16,6 +16,8 @@ Vậy làm sao ta biết chắc một điểm nằm trên biên thực sự là 
 
 ## Kiến thức cần nhớ: Từ đạo hàm cổ điển đến điều kiện tối ưu có ràng buộc
 
+![Tóm tắt điều kiện tối ưu bậc hai]({{ site.baseurl }}/img/chapter_img/chapter04/second-order-summary.png)
+
 Bài học này nối liền giải tích nhiều biến với hình học lồi qua bốn trụ cột:
 
 - **Điều kiện tối ưu bậc nhất (First-Order Optimality / Variational Inequality):** Với hàm lồi khả vi $$f$$ trên tập khả thi lồi $$C$$, bất đẳng thức $$\nabla f(x^\star)^T (y - x^\star) \ge 0 \; \forall y \in C$$ là điều kiện **vừa cần vừa đủ** cho tối ưu toàn cục. Khi $$x^\star$$ nằm ở phần trong của $$C$$, nó tự động thu gọn về $$\nabla f(x^\star) = 0$$.

@@ -435,7 +435,7 @@ $$\max_{\lambda} g(\lambda) \quad \text{s.t. } \lambda \geq 0$$
 **Hình 1:** *Hàm Lagrangian và hàm đối ngẫu. Đường cong đen biểu thị hàm mục tiêu gốc, các đường cong xanh dương và xanh lá biểu thị hàm Lagrangian khi thêm nhiễu động. Có thể thấy giá trị $$\inf_{x \in \mathcal{D}} L(x, \lambda)$$ (điểm cực tiểu của các đường cong xanh dương và xanh lá) luôn nhỏ hơn hoặc bằng giá trị tối ưu gốc $$p^*$$.*
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/lagrangian_function_example.png" alt="Lagrangian Function Example" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/lagrangian_function_example.svg" alt="Lagrangian Function Example" style="max-width: 100%; height: auto;">
     <p><em>Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -766,7 +766,7 @@ Thật vậy, hàm đối ngẫu $$g(\lambda)$$ luôn là hàm **lõm (concave)*
 **Hình 2:** *Supremum theo từng điểm của tập các hàm affine là hàm lồi*
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/pointwise_supremum_convex.png" alt="Pointwise Supremum of Affine Functions" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/pointwise_supremum_convex.svg" alt="Pointwise Supremum of Affine Functions" style="max-width: 100%; height: auto;">
     <p><em>Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -1145,7 +1145,7 @@ $$f^*(λ) = \sup_x (λ^T x - f(x))$$
 **Hình 3:** *Minh họa hình học hàm liên hợp. Đường cong xanh lá biểu thị $$f(x)$$, đường thẳng đen biểu thị $$\lambda^T x$$, và độ chênh lệch có dấu theo phương thẳng đứng là $$\lambda^T x - f(x)$$. Hàm liên hợp $$f^*(\lambda)$$ chính là giá trị lớn nhất của khoảng cách có dấu này.*
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/conjugate_function_geometric.png" alt="Conjugate Function Geometric Interpretation" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/conjugate_function_geometric.svg" alt="Conjugate Function Geometric Interpretation" style="max-width: 100%; height: auto;">
     <p><em>Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -1166,7 +1166,7 @@ g(λ) &= \inf_x (f(x) + λ^T(Ax - b)) \quad \text{với } λ \succeq 0 \\
 Trong biểu thức trên, khi xét riêng số hạng $$-f^*(-\lambda^T A)$$, việc cực đại hóa $$g(\lambda)$$ gắn trực tiếp với việc cực tiểu hóa hàm liên hợp $$f^*(-\lambda^T A)$$ cộng thêm số hạng tuyến tính $$\lambda^T b$$.
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/conjugate_minimum_example.png" alt="Minimum of Conjugate Function" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/conjugate_minimum_example.svg" alt="Minimum of Conjugate Function" style="max-width: 100%; height: auto;">
     <p><em>Hình 4: Minimum của hàm liên hợp - Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -1671,7 +1671,7 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
 ## 🎓 Kết luận
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/lagrange_duality_framework.png" alt="Lagrange Duality Framework Overview" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/lagrange_duality_framework.svg" alt="Lagrange Duality Framework Overview" style="max-width: 100%; height: auto;">
     <p><em>Hình 5: Tổng quan về Framework Lagrange Duality - Nguồn: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 

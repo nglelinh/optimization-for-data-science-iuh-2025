@@ -18,6 +18,8 @@ Góc nhìn minimax này không chỉ biến chứng minh tính đối ngẫu y�
 
 ## Kiến thức cần nhớ: Bốn điểm nâng cấp khi nhìn lại Đối ngẫu Lagrange
 
+![Cầu nối Đối ngẫu Lagrange và Điều kiện KKT]({{ site.baseurl }}/img/chapter_img/zero_fill/ch16_kkt_duality_bridge.svg)
+
 - **Biểu diễn Minimax của bài toán nguyên thủy:** $$\sup_{u \ge 0, v} L(x, u, v)$$ bằng đúng $$f(x)$$ khi $$x$$ khả thi và bằng $$+\infty$$ khi $$x$$ vi phạm bất kỳ ràng buộc nào — nên bài toán nguyên thủy tương đương tuyệt đối với $$\inf_x \sup_{u \ge 0, v} L(x, u, v)$$.
 - **Đối ngẫu yếu chỉ là bất đẳng thức Max-Min:** Với mọi hàm $$L$$ bất kỳ (không cần lồi!), ta luôn có $$\sup_{u \ge 0, v} \inf_x L(x, u, v) \le \inf_x \sup_{u \ge 0, v} L(x, u, v)$$, suy ra ngay $$d^\star \le p^\star$$.
 - **Điều kiện Slater tinh chỉnh (Refined Slater):** Chỉ cần tồn tại $$x \in \operatorname{relint}(\mathcal{D})$$ thỏa $$Ax = b$$, các ràng buộc **phi tuyến** thỏa chặt $$h_i(x) < 0$$, còn các ràng buộc **affine/tuyến tính** chỉ cần thỏa thường $$h_j(x) \le 0$$! Hệ quả cực mạnh: mọi bài toán LP khả thi và bị chặn đều tự động thỏa đối ngẫu mạnh!

@@ -125,6 +125,14 @@ Về mặt hình học, đoạn thẳng nối hai điểm bất kỳ trên đồ
 Vì sao trong lý thuyết tối ưu ta tập trung vào hàm lồi mà ít trình bày riêng về hàm lõm?
 - Hàm lõm chỉ là phiên bản đổi dấu của hàm lồi. Mọi bài toán cực đại hóa hàm lõm $$f$$ đều có thể chuyển ngay thành bài toán cực tiểu hóa hàm lồi $$-f$$.
 
+### Video ngắn: Lồi vs. Không lồi & Kiến trúc Bài toán Lồi
+
+<div class="reel-video" style="text-align:center;margin:1.5rem 0;">
+<video controls playsinline preload="metadata" style="width:100%;max-width:360px;height:auto;aspect-ratio:9/16;border-radius:8px;background:#10121a;" src="{{ site.baseurl }}/public/videos/reels/convex-vs-nonconvex_vi.mp4"></video>
+</div>
+
+Video dài khoảng 29 giây (có thuyết minh tiếng Việt): ranh giới thực sự trong tối ưu hóa theo Boyd–Vandenberghe và cấu trúc chuẩn tắc của bài toán lồi.
+
 ## Tính chất cốt lõi của bài toán tối ưu hóa lồi
 
 Một tính chất nổi bật khiến bài toán tối ưu hóa lồi dễ giải hơn nhiều so với bài toán không lồi là:

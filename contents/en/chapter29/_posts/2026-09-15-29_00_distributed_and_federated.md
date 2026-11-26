@@ -14,6 +14,8 @@ Modern optimization rarely happens on a single machine anymore—either the data
 
 ## Key ideas: Distributed & Federated Optimization Landscape
 
+![Tối ưu hóa Phân tán và Học Liên kết (FedAvg)]({{ site.baseurl }}/img/chapter_img/zero_fill/ch29_federated_averaging.svg)
+
 - **The Communication Bottleneck:** On a cluster or across mobile devices, transmitting a $$d$$-dimensional gradient or model update over a network often takes $$10\times$$–$$1000\times$$ longer than computing a local gradient—making *communication rounds*, not FLOPs, the dominant resource.
 - **Synchronous Data-Parallel SGD:** Partitions a giant minibatch across $$P$$ workers, averages gradients via AllReduce, and produces an update mathematically *identical* to single-machine large-batch SGD—limited mainly by stragglers and the critical batch size.
 - **Federated Learning & Local Steps (FedAvg):** Keeps raw data strictly on-device, lets each sampled client run $$E$$ local SGD steps before sending weight deltas to a central server, trading communication frequency for **client drift** when client distributions are non-IID.

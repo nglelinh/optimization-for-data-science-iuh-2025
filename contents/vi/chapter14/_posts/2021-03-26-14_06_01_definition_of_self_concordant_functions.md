@@ -76,3 +76,9 @@ Bước cuối sử dụng bất đẳng thức:
 >(u^{3/2}+v^{3/2})^{2/3} \leq u+v, \qquad u, v \geq 0.
 >\end{align}
 >$$
+
+## Góc nhìn Nesterov: Tự tương hợp và Phương pháp Newton Điều chỉnh Bậc ba (Cubic Newton)
+
+Trong *Lectures on Convex Optimization* (Chương 4), Nesterov phân tích hạn chế của định lý hội tụ Newton cổ điển (phụ thuộc vào các hằng số $$m, L$$ chưa biết và không bất biến afin). Bên cạnh khung **tự tương hợp (self-concordance)** dùng cho phương pháp điểm trong, Nesterov đề xuất **Điều chỉnh Bậc ba (Cubic Regularization of Newton's Method)**:
+$$x_{k+1} = \arg\min_{y \in \mathbb{R}^n} \left\{ f(x_k) + \langle \nabla f(x_k), y - x_k \rangle + \frac{1}{2} \langle \nabla^2 f(x_k)(y - x_k), y - x_k \rangle + \frac{M}{6} \|y - x_k\|_2^3 \right\}.$$
+Phiên bản gia tốc (*Accelerated Cubic Newton*) đạt tốc độ toàn cục **$$O(1/k^3)$$** cho hàm lồi có Hessian Lipschitz liên tục, nhanh hơn hẳn ngưỡng $$O(1/k^2)$$ của phương pháp bậc nhất.

@@ -432,7 +432,7 @@ The unconstrained maximizer of $$g$$ is $$\lambda = -2$$ (with $$g(-2) = 1$$), b
 **Figure 1:** *The Lagrangian function and the dual function. The black curve is the original problem; the blue and green curves are the original problem with perturbation. We can see that the values of $$\inf_{x \in \mathcal{D}} L(x, \lambda)$$ (the saddle points on the blue and green curves) are always less than or equal to the optimal solution $$p^*$$.*
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/lagrangian_function_example.png" alt="Lagrangian Function Example" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/lagrangian_function_example.svg" alt="Lagrangian Function Example" style="max-width: 100%; height: auto;">
     <p><em>Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -765,7 +765,7 @@ From equation (3), we know that $$-g(\lambda)$$ is a pointwise supremum of a set
 **Figure 2:** *The pointwise supremum of a set of affine functions is a convex function*
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/pointwise_supremum_convex.png" alt="Pointwise Supremum of Affine Functions" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/pointwise_supremum_convex.svg" alt="Pointwise Supremum of Affine Functions" style="max-width: 100%; height: auto;">
     <p><em>Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -1144,7 +1144,7 @@ $$f^*(λ) = \sup_x (λ^T x - f(x))$$
 **Figure 3:** *The conjugate function. The green curve is $$f(x)$$, the black line is $$λ^T x$$, and the (signed) vectors between $$λ^T x$$ and $$f(x)$$ are $$λ^T x - f(x)$$. So the conjugate function $$f^*(λ)$$ is about the largest distance between the line $$λ^T x$$ and $$f(x)$$.*
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/conjugate_function_geometric.png" alt="Conjugate Function Geometric Interpretation" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/conjugate_function_geometric.svg" alt="Conjugate Function Geometric Interpretation" style="max-width: 100%; height: auto;">
     <p><em>Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -1165,7 +1165,7 @@ $$\begin{align}
 Intuitively, since $$-λ^T b$$ is a linear term, the extreme values are affected only by the domain, so if we focus on the term $$-f^*(-A^T λ)$$, solving $$\max_λ g(λ)$$ means solving $$\min f^*(-A^T λ)$$.
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/conjugate_minimum_example.png" alt="Minimum of Conjugate Function" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/conjugate_minimum_example.svg" alt="Minimum of Conjugate Function" style="max-width: 100%; height: auto;">
     <p><em>Figure 4: The minimum of the conjugate function - Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 
@@ -1670,7 +1670,7 @@ $$\min x^2 \quad \text{s.t. } x \leq 1$$
 ## 🎓 Conclusion
 
 <div style="text-align: center; margin: 20px 0;">
-    <img src="/img/chapter_img/lagrange_duality_framework.png" alt="Lagrange Duality Framework Overview" style="max-width: 100%; height: auto;">
+    <img src="{{ site.baseurl }}/img/chapter_img/chapter11/lagrange_duality_framework.svg" alt="Lagrange Duality Framework Overview" style="max-width: 100%; height: auto;">
     <p><em>Figure 5: Overview of the Lagrange Duality Framework - Source: <a href="https://masszhou.github.io/2016/09/10/Lagrange-Duality/">Zhiliang Zhou's Blog</a></em></p>
 </div>
 

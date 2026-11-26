@@ -15,6 +15,12 @@ Bài học này trang bị bộ quy tắc lắp ghép tập lồi sẽ giúp b�
 
 ## Kiến thức cần nhớ: Bốn phép toán vàng bảo toàn tính lồi
 
+![Mô hình hộp tối (Pinhole Camera)]({{ site.baseurl }}/img/chapter_img/chapter02/02.03_03_pine_hole.png)
+
+![Phép chiếu phối cảnh qua lỗ kim]({{ site.baseurl }}/img/chapter_img/chapter02/02.03_04_pine_hole_camera_model.png)
+
+![Hàm phân thức tuyến tính bảo toàn tính lồi]({{ site.baseurl }}/img/chapter_img/chapter02/02.03_05_linear_fractional_function.png)
+
 - **Phép giao (Intersection):** Giao của một họ **bất kỳ** (hữu hạn hoặc vô hạn!) các tập lồi luôn là tập lồi. Đây là cách chứng minh nhanh nhất rằng đa diện (giao hữu hạn nửa không gian) và hình nón $$\mathbb{S}_+^n$$ (giao vô hạn nửa không gian $$z^T X z \ge 0$$) đều lồi.
 - **Ánh xạ affine ($$f(x) = Ax + b$$) và ảnh ngược affine:** Tịnh tiến, co giãn, xoay, phép chiếu trực giao và tổng Minkowski $$S_1 + S_2$$ của các tập lồi đều bảo toàn tính lồi. Đặc biệt, ảnh ngược của một tập lồi qua $$Ax + b$$ cũng luôn lồi.
 - **Hàm phối cảnh (Perspective Function):** $$P(z, t) = z / t$$ trên $$t > 0$$ — tương ứng hình học với máy ảnh lỗ kim chiếu không gian 3D lên màn ảnh 2D. Cả ảnh xuôi lẫn ảnh ngược của tập lồi qua $$P$$ đều lồi!

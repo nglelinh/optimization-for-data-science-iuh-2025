@@ -14,6 +14,8 @@ For twenty-five chapters, convexity was our mathematical safety rail: every loca
 
 ## Key ideas: Navigating Nonconvex Loss Landscapes
 
+![Địa hình Không lồi: Điểm yên ngựa & Điều kiện PL]({{ site.baseurl }}/img/chapter_img/zero_fill/ch28_nonconvex_saddles_pl.svg)
+
 - **First-Order vs. Second-Order Stationarity:** Without convexity, $$\nabla F(w) = 0$$ only certifies a *critical point* (minimum, maximum, or saddle). Avoiding strict saddles requires second-order stationarity: $$\nabla F(w) = 0$$ and $$\nabla^2 F(w) \succeq 0$$.
 - **High-Dimensional Saddle Dominance:** In $$d$$ dimensions, a critical point is a local minimum only if all $$d$$ Hessian eigenvalues are positive—an event whose probability vanishes exponentially as $$d$$ grows. Thus the primary obstacle in deep learning is escaping **saddle points**, not bad local minima.
 - **Overparameterization & Connected Solution Manifolds:** When $$d \gg n$$, global minima are no longer isolated points; they form high-dimensional connected valleys (mode connectivity), making it easy for gradient trajectories from almost any random initialization to reach a zero-loss basin.
